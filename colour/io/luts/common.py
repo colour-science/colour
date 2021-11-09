@@ -17,7 +17,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['path_to_title']
+__all__ = [
+    'path_to_title',
+]
 
 
 def path_to_title(path):

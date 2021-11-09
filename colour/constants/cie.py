@@ -13,8 +13,10 @@ References
     ISBN:978-0-471-39918-6
 """
 
-from colour.utilities.documentation import (DocstringFloat,
-                                            is_documentation_building)
+from colour.utilities.documentation import (
+    DocstringFloat,
+    is_documentation_building,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -23,7 +25,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CONSTANT_K_M', 'CONSTANT_KP_M']
+__all__ = [
+    'CONSTANT_K_M',
+    'CONSTANT_KP_M',
+]
 
 CONSTANT_K_M = 683
 if is_documentation_building():  # pragma: no cover

@@ -27,8 +27,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_BLACKMAGIC_FILM_GENERATION_5', 'oetf_BlackmagicFilmGeneration5',
-    'oetf_inverse_BlackmagicFilmGeneration5'
+    'CONSTANTS_BLACKMAGIC_FILM_GENERATION_5',
+    'oetf_BlackmagicFilmGeneration5',
+    'oetf_inverse_BlackmagicFilmGeneration5',
 ]
 
 CONSTANTS_BLACKMAGIC_FILM_GENERATION_5 = Structure(

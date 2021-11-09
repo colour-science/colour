@@ -26,8 +26,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANT_C1', 'CONSTANT_C2', 'CONSTANT_N', 'planck_law',
-    'blackbody_spectral_radiance', 'sd_blackbody'
+    'CONSTANT_C1',
+    'CONSTANT_C2',
+    'CONSTANT_N',
+    'planck_law',
+    'blackbody_spectral_radiance',
+    'sd_blackbody',
 ]
 
 # 2 * math.pi * CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED ** 2

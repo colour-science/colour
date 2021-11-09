@@ -8,10 +8,16 @@ import unittest
 from itertools import permutations
 
 from colour.algebra import (
-    normalise_vector, euclidean_distance, manhattan_distance,
-    extend_line_segment, intersect_line_segments,
-    ellipse_coefficients_general_form, ellipse_coefficients_canonical_form,
-    point_at_angle_on_ellipse, ellipse_fitting_Halir1998)
+    normalise_vector,
+    euclidean_distance,
+    manhattan_distance,
+    extend_line_segment,
+    intersect_line_segments,
+    ellipse_coefficients_general_form,
+    ellipse_coefficients_canonical_form,
+    point_at_angle_on_ellipse,
+    ellipse_fitting_Halir1998,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -22,11 +28,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestNormaliseVector', 'TestEuclideanDistance', 'TestManhattanDistance',
-    'TestExtendLineSegment', 'TestIntersectLineSegments',
+    'TestNormaliseVector',
+    'TestEuclideanDistance',
+    'TestManhattanDistance',
+    'TestExtendLineSegment',
+    'TestIntersectLineSegments',
     'TestEllipseCoefficientsCanonicalForm',
-    'TestEllipseCoefficientsGeneralForm', 'TestPointAtAngleOnEllipse',
-    'TestEllipseFittingHalir1998'
+    'TestEllipseCoefficientsGeneralForm',
+    'TestPointAtAngleOnEllipse',
+    'TestEllipseFittingHalir1998',
 ]
 
 

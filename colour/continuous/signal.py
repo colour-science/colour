@@ -9,16 +9,35 @@ Defines the class implementing support for continuous signal:
 """
 
 import numpy as np
-from operator import (add, mul, pow, sub, truediv, iadd, imul, ipow, isub,
-                      itruediv)
+from operator import (
+    add,
+    mul,
+    pow,
+    sub,
+    truediv,
+    iadd,
+    imul,
+    ipow,
+    isub,
+    itruediv,
+)
 from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
-from colour.utilities import (as_array, attest, fill_nan, full,
-                              is_pandas_installed, required, runtime_warning,
-                              tsplit, tstack, validate_method)
+from colour.utilities import (
+    as_array,
+    attest,
+    fill_nan,
+    full,
+    is_pandas_installed,
+    required,
+    runtime_warning,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -27,7 +46,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['Signal']
+__all__ = [
+    'Signal',
+]
 
 
 class Signal(AbstractContinuousFunction):

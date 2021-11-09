@@ -12,11 +12,20 @@ import unittest
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import handle_spectral_arguments, sd_to_XYZ
 from colour.difference import JND_CIE1976, delta_E_CIE1976
-from colour.models import (RGB_COLOURSPACE_sRGB, RGB_to_XYZ, XYZ_to_Lab,
-                           XYZ_to_xy)
+from colour.models import (
+    RGB_COLOURSPACE_sRGB,
+    RGB_to_XYZ,
+    XYZ_to_Lab,
+    XYZ_to_xy,
+)
 from colour.recovery.jakob2019 import (
-    XYZ_to_sd_Jakob2019, sd_Jakob2019, error_function,
-    dimensionalise_coefficients, SPECTRAL_SHAPE_JAKOB2019, LUT3D_Jakob2019)
+    XYZ_to_sd_Jakob2019,
+    sd_Jakob2019,
+    error_function,
+    dimensionalise_coefficients,
+    SPECTRAL_SHAPE_JAKOB2019,
+    LUT3D_Jakob2019,
+)
 from colour.utilities import domain_range_scale, full, ones, zeros
 
 __author__ = 'Colour Developers'
@@ -27,7 +36,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestLUT3D_Jakob2019'
+    'TestErrorFunction',
+    'TestXYZ_to_sd_Jakob2019',
+    'TestLUT3D_Jakob2019',
 ]
 
 

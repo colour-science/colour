@@ -35,12 +35,32 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MixinDataclassArray', 'as_array', 'as_int_array', 'as_float_array',
-    'as_numeric', 'as_int', 'as_float', 'set_float_precision',
-    'set_int_precision', 'closest_indexes', 'closest', 'interval',
-    'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal', 'orient',
-    'centroid', 'fill_nan', 'has_only_nan', 'ndarray_write', 'zeros', 'ones',
-    'full', 'index_along_last_axis'
+    'MixinDataclassArray',
+    'as_array',
+    'as_int_array',
+    'as_float_array',
+    'as_numeric',
+    'as_int',
+    'as_float',
+    'set_float_precision',
+    'set_int_precision',
+    'closest_indexes',
+    'closest',
+    'interval',
+    'is_uniform',
+    'in_array',
+    'tstack',
+    'tsplit',
+    'row_as_diagonal',
+    'orient',
+    'centroid',
+    'fill_nan',
+    'has_only_nan',
+    'ndarray_write',
+    'zeros',
+    'ones',
+    'full',
+    'index_along_last_axis',
 ]
 
 

@@ -21,7 +21,10 @@ References
 
 import numpy as np
 
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
+from colour.colorimetry import (
+    SPECTRAL_SHAPE_DEFAULT,
+    SpectralDistribution,
+)
 from colour.constants import CONSTANT_AVOGADRO
 from colour.utilities import as_float_array, filter_kwargs
 
@@ -33,15 +36,27 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANT_STANDARD_AIR_TEMPERATURE', 'CONSTANT_STANDARD_CO2_CONCENTRATION',
-    'CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL', 'CONSTANT_DEFAULT_LATITUDE',
-    'CONSTANT_DEFAULT_ALTITUDE', 'air_refraction_index_Penndorf1957',
-    'air_refraction_index_Edlen1966', 'air_refraction_index_Peck1972',
-    'air_refraction_index_Bodhaine1999', 'N2_depolarisation',
-    'O2_depolarisation', 'F_air_Penndorf1957', 'F_air_Young1981',
-    'F_air_Bates1984', 'F_air_Bodhaine1999', 'molecular_density',
-    'mean_molecular_weights', 'gravity_List1968', 'scattering_cross_section',
-    'rayleigh_optical_depth', 'rayleigh_scattering'
+    'CONSTANT_STANDARD_AIR_TEMPERATURE',
+    'CONSTANT_STANDARD_CO2_CONCENTRATION',
+    'CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL',
+    'CONSTANT_DEFAULT_LATITUDE',
+    'CONSTANT_DEFAULT_ALTITUDE',
+    'air_refraction_index_Penndorf1957',
+    'air_refraction_index_Edlen1966',
+    'air_refraction_index_Peck1972',
+    'air_refraction_index_Bodhaine1999',
+    'N2_depolarisation',
+    'O2_depolarisation',
+    'F_air_Penndorf1957',
+    'F_air_Young1981',
+    'F_air_Bates1984',
+    'F_air_Bodhaine1999',
+    'molecular_density',
+    'mean_molecular_weights',
+    'gravity_List1968',
+    'scattering_cross_section',
+    'rayleigh_optical_depth',
+    'rayleigh_scattering',
 ]
 
 CONSTANT_STANDARD_AIR_TEMPERATURE = 288.15

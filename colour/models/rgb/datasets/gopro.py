@@ -28,8 +28,12 @@ aces_ocio/colorspaces/gopro.py
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_decoding_Protune,
-                               log_encoding_Protune, normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_decoding_Protune,
+    log_encoding_Protune,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -39,9 +43,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_PROTUNE_NATIVE', 'WHITEPOINT_NAME_PROTUNE_NATIVE',
-    'CCS_WHITEPOINT_PROTUNE_NATIVE', 'MATRIX_PROTUNE_NATIVE_TO_XYZ',
-    'MATRIX_XYZ_TO_PROTUNE_NATIVE', 'RGB_COLOURSPACE_PROTUNE_NATIVE'
+    'PRIMARIES_PROTUNE_NATIVE',
+    'WHITEPOINT_NAME_PROTUNE_NATIVE',
+    'CCS_WHITEPOINT_PROTUNE_NATIVE',
+    'MATRIX_PROTUNE_NATIVE_TO_XYZ',
+    'MATRIX_XYZ_TO_PROTUNE_NATIVE',
+    'RGB_COLOURSPACE_PROTUNE_NATIVE',
 ]
 
 PRIMARIES_PROTUNE_NATIVE = np.array([

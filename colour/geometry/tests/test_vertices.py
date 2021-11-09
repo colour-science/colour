@@ -7,9 +7,12 @@ import numpy as np
 import unittest
 
 from colour.geometry import (
-    PLANE_TO_AXIS_MAPPING, primitive_vertices_quad_mpl,
-    primitive_vertices_grid_mpl, primitive_vertices_cube_mpl,
-    primitive_vertices_sphere)
+    PLANE_TO_AXIS_MAPPING,
+    primitive_vertices_quad_mpl,
+    primitive_vertices_grid_mpl,
+    primitive_vertices_cube_mpl,
+    primitive_vertices_sphere,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -19,8 +22,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestPrimitiveVerticesQuadMpl', 'TestPrimitiveVerticesGridMpl',
-    'TestPrimitiveVerticesCubeMpl', 'TestPrimitiveVerticesSphere'
+    'TestPrimitiveVerticesQuadMpl',
+    'TestPrimitiveVerticesGridMpl',
+    'TestPrimitiveVerticesCubeMpl',
+    'TestPrimitiveVerticesSphere',
 ]
 
 

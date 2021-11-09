@@ -10,11 +10,16 @@ from itertools import permutations
 from numpy.linalg import LinAlgError
 
 from colour.characterisation.correction import (
-    matrix_augmented_Cheung2004, polynomial_expansion_Finlayson2015,
-    polynomial_expansion_Vandermonde, matrix_colour_correction_Cheung2004,
+    matrix_augmented_Cheung2004,
+    polynomial_expansion_Finlayson2015,
+    polynomial_expansion_Vandermonde,
+    matrix_colour_correction_Cheung2004,
     matrix_colour_correction_Finlayson2015,
-    matrix_colour_correction_Vandermonde, colour_correction_Cheung2004,
-    colour_correction_Finlayson2015, colour_correction_Vandermonde)
+    matrix_colour_correction_Vandermonde,
+    colour_correction_Cheung2004,
+    colour_correction_Finlayson2015,
+    colour_correction_Vandermonde,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -25,13 +30,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_TEST', 'MATRIX_REFERENCE', 'TestMatrixAugmentedCheung2004',
+    'MATRIX_TEST',
+    'MATRIX_REFERENCE',
+    'TestMatrixAugmentedCheung2004',
     'TestPolynomialExpansionFinlayson2015',
     'TestPolynomialExpansionVandermonde',
     'TestMatrixColourCorrectionCheung2004',
     'TestMatrixColourCorrectionFinlayson2015',
-    'TestMatrixColourCorrectionVandermonde', 'TestColourCorrectionCheung2004',
-    'TestColourCorrectionFinlayson2015', 'TestColourCorrectionVandermonde'
+    'TestMatrixColourCorrectionVandermonde',
+    'TestColourCorrectionCheung2004',
+    'TestColourCorrectionFinlayson2015',
+    'TestColourCorrectionVandermonde',
 ]
 
 MATRIX_TEST = np.array([

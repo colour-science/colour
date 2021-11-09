@@ -19,8 +19,12 @@ SMPTE%20normes%20et%20confs/s240m.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
-                               oetf_SMPTE240M, eotf_SMPTE240M)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    normalised_primary_matrix,
+    oetf_SMPTE240M,
+    eotf_SMPTE240M,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -30,9 +34,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_SMPTE_240M', 'WHITEPOINT_NAME_SMPTE_240M',
-    'CCS_WHITEPOINT_SMPTE_240M', 'MATRIX_SMPTE_240M_TO_XYZ',
-    'MATRIX_XYZ_TO_SMPTE_240M', 'RGB_COLOURSPACE_SMPTE_240M'
+    'PRIMARIES_SMPTE_240M',
+    'WHITEPOINT_NAME_SMPTE_240M',
+    'CCS_WHITEPOINT_SMPTE_240M',
+    'MATRIX_SMPTE_240M_TO_XYZ',
+    'MATRIX_XYZ_TO_SMPTE_240M',
+    'RGB_COLOURSPACE_SMPTE_240M',
 ]
 
 PRIMARIES_SMPTE_240M = np.array([

@@ -22,8 +22,12 @@ R-REC-BT.601-7-201103-I!!PDF-E.pdf
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (as_float, domain_range_scale, from_range_1,
-                              to_domain_1)
+from colour.utilities import (
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -32,7 +36,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['oetf_BT601', 'oetf_inverse_BT601']
+__all__ = [
+    'oetf_BT601',
+    'oetf_inverse_BT601',
+]
 
 
 def oetf_BT601(L):

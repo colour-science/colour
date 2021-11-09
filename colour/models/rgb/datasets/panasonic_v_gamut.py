@@ -17,8 +17,11 @@ References
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_encoding_VLog,
-                               log_decoding_VLog)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_VLog,
+    log_decoding_VLog,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,8 +31,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_V_GAMUT', 'WHITEPOINT_NAME_V_GAMUT', 'CCS_WHITEPOINT_V_GAMUT',
-    'MATRIX_V_GAMUT_TO_XYZ', 'MATRIX_XYZ_TO_V_GAMUT', 'RGB_COLOURSPACE_V_GAMUT'
+    'PRIMARIES_V_GAMUT',
+    'WHITEPOINT_NAME_V_GAMUT',
+    'CCS_WHITEPOINT_V_GAMUT',
+    'MATRIX_V_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_V_GAMUT',
+    'RGB_COLOURSPACE_V_GAMUT',
 ]
 
 PRIMARIES_V_GAMUT = np.array([

@@ -24,8 +24,14 @@ from scipy.optimize import fmin
 
 from colour.algebra import spow, vector_dot
 from colour.models import XYZ_to_xyY
-from colour.utilities import (as_float_array, domain_range_scale,
-                              from_range_100, to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    from_range_100,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -34,7 +40,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_OSA_UCS', 'OSA_UCS_to_XYZ']
+__all__ = [
+    'XYZ_to_OSA_UCS',
+    'OSA_UCS_to_XYZ',
+]
 
 MATRIX_XYZ_TO_RGB_OSA_UCS = np.array([
     [0.799, 0.4194, -0.1648],

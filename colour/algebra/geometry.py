@@ -39,8 +39,14 @@ extend-a-line-segment-a-specific-distance
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, ones,
-                              tsplit, tstack, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    ones,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -50,11 +56,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'normalise_vector', 'euclidean_distance', 'manhattan_distance',
-    'extend_line_segment', 'LineSegmentsIntersections_Specification',
-    'intersect_line_segments', 'ellipse_coefficients_general_form',
-    'ellipse_coefficients_canonical_form', 'point_at_angle_on_ellipse',
-    'ellipse_fitting_Halir1998', 'ELLIPSE_FITTING_METHODS', 'ellipse_fitting'
+    'normalise_vector',
+    'euclidean_distance',
+    'manhattan_distance',
+    'extend_line_segment',
+    'LineSegmentsIntersections_Specification',
+    'intersect_line_segments',
+    'ellipse_coefficients_general_form',
+    'ellipse_coefficients_canonical_form',
+    'point_at_angle_on_ellipse',
+    'ellipse_fitting_Halir1998',
+    'ELLIPSE_FITTING_METHODS',
+    'ellipse_fitting',
 ]
 
 

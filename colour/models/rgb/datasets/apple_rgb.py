@@ -17,8 +17,11 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, gamma_function,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,9 +31,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_APPLE_RGB', 'WHITEPOINT_NAME_APPLE_RGB',
-    'CCS_WHITEPOINT_APPLE_RGB', 'MATRIX_APPLE_RGB_TO_XYZ',
-    'MATRIX_XYZ_TO_APPLE_RGB', 'RGB_COLOURSPACE_APPLE_RGB'
+    'PRIMARIES_APPLE_RGB',
+    'WHITEPOINT_NAME_APPLE_RGB',
+    'CCS_WHITEPOINT_APPLE_RGB',
+    'MATRIX_APPLE_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_APPLE_RGB',
+    'RGB_COLOURSPACE_APPLE_RGB',
 ]
 
 PRIMARIES_APPLE_RGB = np.array([

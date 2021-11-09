@@ -50,10 +50,19 @@ import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models.rgb.transfer_functions import (
-    CV_range, eotf_inverse_BT2020, eotf_BT2020)
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              domain_range_scale, from_range_1, to_domain_1,
-                              tsplit, tstack)
+    CV_range,
+    eotf_inverse_BT2020,
+    eotf_BT2020,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -63,8 +72,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'WEIGHTS_YCBCR', 'ranges_YCbCr', 'matrix_YCbCr', 'offset_YCbCr',
-    'RGB_to_YCbCr', 'YCbCr_to_RGB', 'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
+    'WEIGHTS_YCBCR',
+    'ranges_YCbCr',
+    'matrix_YCbCr',
+    'offset_YCbCr',
+    'RGB_to_YCbCr',
+    'YCbCr_to_RGB',
+    'RGB_to_YcCbcCrc',
+    'YcCbcCrc_to_RGB',
 ]
 
 WEIGHTS_YCBCR = CaseInsensitiveMapping({

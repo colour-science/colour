@@ -17,8 +17,11 @@ References
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import (CCS_ILLUMINANTS, lightness_CIE1976,
-                                luminance_CIE1976)
+from colour.colorimetry import (
+    CCS_ILLUMINANTS,
+    lightness_CIE1976,
+    luminance_CIE1976,
+)
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
 
@@ -30,9 +33,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_ECI_RGB_V2', 'WHITEPOINT_NAME_ECI_RGB_V',
-    'CCS_WHITEPOINT_ECI_RGB_V2', 'MATRIX_ECI_RGB_V2_TO_XYZ',
-    'MATRIX_XYZ_TO_ECI_RGB_V2', 'RGB_COLOURSPACE_ECI_RGB_V2'
+    'PRIMARIES_ECI_RGB_V2',
+    'WHITEPOINT_NAME_ECI_RGB_V',
+    'CCS_WHITEPOINT_ECI_RGB_V2',
+    'MATRIX_ECI_RGB_V2_TO_XYZ',
+    'MATRIX_XYZ_TO_ECI_RGB_V2',
+    'RGB_COLOURSPACE_ECI_RGB_V2',
 ]
 
 PRIMARIES_ECI_RGB_V2 = np.array([

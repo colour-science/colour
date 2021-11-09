@@ -56,19 +56,35 @@ from scipy.optimize import minimize
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance, vector_dot
 from colour.colorimetry import (
-    SDS_ILLUMINANTS, SpectralShape, handle_spectral_arguments, reshape_msds,
-    reshape_sd, sds_and_msds_to_msds, sd_CIE_illuminant_D_series, sd_blackbody,
-    sd_to_XYZ)
+    SDS_ILLUMINANTS,
+    SpectralShape,
+    handle_spectral_arguments,
+    reshape_msds,
+    reshape_sd,
+    sds_and_msds_to_msds,
+    sd_CIE_illuminant_D_series,
+    sd_blackbody,
+    sd_to_XYZ,
+)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.characterisation import MSDS_ACES_RICD
 from colour.io import read_sds_from_csv_file
 from colour.models import XYZ_to_Jzazbz, XYZ_to_Lab, XYZ_to_xy, xy_to_XYZ
-from colour.models.rgb import (RGB_COLOURSPACE_ACES2065_1, RGB_to_XYZ,
-                               XYZ_to_RGB, normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_COLOURSPACE_ACES2065_1,
+    RGB_to_XYZ,
+    XYZ_to_RGB,
+    normalised_primary_matrix,
+)
 from colour.temperature import CCT_to_xy_CIE_D
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              from_range_1, runtime_warning, suppress_warnings,
-                              tsplit)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    from_range_1,
+    runtime_warning,
+    suppress_warnings,
+    tsplit,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -78,14 +94,23 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'FLARE_PERCENTAGE', 'S_FLARE_FACTOR',
-    'sd_to_aces_relative_exposure_values', 'sd_to_ACES2065_1',
-    'SPECTRAL_SHAPE_RAWTOACES', 'RESOURCES_DIRECTORY_RAWTOACES',
-    'read_training_data_rawtoaces_v1', 'generate_illuminants_rawtoaces_v1',
-    'white_balance_multipliers', 'best_illuminant', 'normalise_illuminant',
-    'training_data_sds_to_RGB', 'training_data_sds_to_XYZ',
-    'optimisation_factory_rawtoaces_v1', 'optimisation_factory_Jzazbz',
-    'matrix_idt', 'camera_RGB_to_ACES2065_1'
+    'FLARE_PERCENTAGE',
+    'S_FLARE_FACTOR',
+    'sd_to_aces_relative_exposure_values',
+    'sd_to_ACES2065_1',
+    'SPECTRAL_SHAPE_RAWTOACES',
+    'RESOURCES_DIRECTORY_RAWTOACES',
+    'read_training_data_rawtoaces_v1',
+    'generate_illuminants_rawtoaces_v1',
+    'white_balance_multipliers',
+    'best_illuminant',
+    'normalise_illuminant',
+    'training_data_sds_to_RGB',
+    'training_data_sds_to_XYZ',
+    'optimisation_factory_rawtoaces_v1',
+    'optimisation_factory_Jzazbz',
+    'matrix_idt',
+    'camera_RGB_to_ACES2065_1',
 ]
 
 FLARE_PERCENTAGE = 0.00500

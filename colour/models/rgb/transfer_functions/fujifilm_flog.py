@@ -27,7 +27,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CONSTANTS_FLOG', 'log_encoding_FLog', 'log_decoding_FLog']
+__all__ = [
+    'CONSTANTS_FLOG',
+    'log_encoding_FLog',
+    'log_decoding_FLog',
+]
 
 CONSTANTS_FLOG = Structure(
     cut1=0.00089,

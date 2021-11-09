@@ -21,8 +21,11 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, gamma_function,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -32,12 +35,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_BT470_525', 'CCS_WHITEPOINT_BT470_525',
-    'WHITEPOINT_NAME_BT470_525', 'MATRIX_BT470_525_TO_XYZ',
-    'MATRIX_XYZ_TO_BT470_525', 'RGB_COLOURSPACE_BT470_525',
-    'PRIMARIES_BT470_625', 'CCS_WHITEPOINT_BT470_625',
-    'WHITEPOINT_NAME_BT470_625', 'MATRIX_BT470_625_TO_XYZ',
-    'MATRIX_XYZ_TO_BT470_625', 'RGB_COLOURSPACE_BT470_625'
+    'PRIMARIES_BT470_525',
+    'CCS_WHITEPOINT_BT470_525',
+    'WHITEPOINT_NAME_BT470_525',
+    'MATRIX_BT470_525_TO_XYZ',
+    'MATRIX_XYZ_TO_BT470_525',
+    'RGB_COLOURSPACE_BT470_525',
+    'PRIMARIES_BT470_625',
+    'CCS_WHITEPOINT_BT470_625',
+    'WHITEPOINT_NAME_BT470_625',
+    'MATRIX_BT470_625_TO_XYZ',
+    'MATRIX_XYZ_TO_BT470_625',
+    'RGB_COLOURSPACE_BT470_625',
 ]
 
 PRIMARIES_BT470_525 = np.array([

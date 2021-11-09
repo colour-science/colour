@@ -6,8 +6,11 @@ Defines the unit tests for the :mod:`colour.geometry.section` module.
 import numpy as np
 import unittest
 
-from colour.geometry.section import (edges_to_chord, close_chord,
-                                     unique_vertices)
+from colour.geometry.section import (
+    edges_to_chord,
+    close_chord,
+    unique_vertices,
+)
 from colour.geometry import primitive_cube, hull_section
 from colour.utilities import is_trimesh_installed
 
@@ -19,8 +22,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestEdgesToChord', 'TestCloseChord', 'TestUniqueVertices',
-    'TestHullSection'
+    'TestEdgesToChord',
+    'TestCloseChord',
+    'TestUniqueVertices',
+    'TestHullSection',
 ]
 
 

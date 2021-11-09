@@ -24,4 +24,6 @@ MSDS_CAMERA_SENSITIVITIES : LazyCaseInsensitiveMapping
     **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**
 """
 
-__all__ = ['MSDS_CAMERA_SENSITIVITIES']
+__all__ = [
+    'MSDS_CAMERA_SENSITIVITIES',
+]

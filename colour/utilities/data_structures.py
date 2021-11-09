@@ -40,8 +40,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'attest', 'Structure', 'Lookup', 'CaseInsensitiveMapping',
-    'LazyCaseInsensitiveMapping', 'Node'
+    'attest',
+    'Structure',
+    'Lookup',
+    'CaseInsensitiveMapping',
+    'LazyCaseInsensitiveMapping',
+    'Node',
 ]
 
 

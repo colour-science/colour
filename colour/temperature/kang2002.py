@@ -32,7 +32,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['xy_to_CCT_Kang2002', 'CCT_to_xy_Kang2002']
+__all__ = [
+    'xy_to_CCT_Kang2002',
+    'CCT_to_xy_Kang2002',
+]
 
 
 def xy_to_CCT_Kang2002(xy, optimisation_kwargs=None):

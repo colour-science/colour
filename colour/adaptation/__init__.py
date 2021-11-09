@@ -25,18 +25,27 @@ References
     Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              get_domain_range_scale, as_float_array)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    get_domain_range_scale,
+    as_float_array,
+)
 
 from .datasets import *  # noqa
 from . import datasets
-from .vonkries import (matrix_chromatic_adaptation_VonKries,
-                       chromatic_adaptation_VonKries)
+from .vonkries import (
+    matrix_chromatic_adaptation_VonKries,
+    chromatic_adaptation_VonKries,
+)
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
 from .cmccat2000 import (
-    InductionFactors_CMCCAT2000, VIEWING_CONDITIONS_CMCCAT2000,
+    InductionFactors_CMCCAT2000,
+    VIEWING_CONDITIONS_CMCCAT2000,
     chromatic_adaptation_forward_CMCCAT2000,
-    chromatic_adaptation_inverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
+    chromatic_adaptation_inverse_CMCCAT2000,
+    chromatic_adaptation_CMCCAT2000,
+)
 from .cie1994 import chromatic_adaptation_CIE1994
 from .zhai2018 import chromatic_adaptation_Zhai2018
 from colour.utilities import validate_method
@@ -44,17 +53,25 @@ from colour.utilities import validate_method
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
-    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
+    'matrix_chromatic_adaptation_VonKries',
+    'chromatic_adaptation_VonKries',
 ]
-__all__ += ['chromatic_adaptation_Fairchild1990']
 __all__ += [
-    'InductionFactors_CMCCAT2000', 'VIEWING_CONDITIONS_CMCCAT2000',
+    'chromatic_adaptation_Fairchild1990',
+]
+__all__ += [
+    'InductionFactors_CMCCAT2000',
+    'VIEWING_CONDITIONS_CMCCAT2000',
     'chromatic_adaptation_forward_CMCCAT2000',
     'chromatic_adaptation_inverse_CMCCAT2000',
-    'chromatic_adaptation_CMCCAT2000'
+    'chromatic_adaptation_CMCCAT2000',
 ]
-__all__ += ['chromatic_adaptation_CIE1994']
-__all__ += ['chromatic_adaptation_Zhai2018']
+__all__ += [
+    'chromatic_adaptation_CIE1994',
+]
+__all__ += [
+    'chromatic_adaptation_Zhai2018',
+]
 
 CHROMATIC_ADAPTATION_METHODS = CaseInsensitiveMapping({
     'CIE 1994': chromatic_adaptation_CIE1994,
@@ -285,4 +302,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     return XYZ_c
 
 
-__all__ += ['CHROMATIC_ADAPTATION_METHODS', 'chromatic_adaptation']
+__all__ += [
+    'CHROMATIC_ADAPTATION_METHODS',
+    'chromatic_adaptation',
+]

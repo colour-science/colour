@@ -18,8 +18,11 @@ product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, linear_function,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    linear_function,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,9 +32,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_CINEMA_GAMUT', 'WHITEPOINT_NAME_CINEMA_GAMUT',
-    'CCS_WHITEPOINT_CINEMA_GAMUT', 'MATRIX_CINEMA_GAMUT_TO_XYZ',
-    'MATRIX_XYZ_TO_CINEMA_GAMUT', 'RGB_COLOURSPACE_CINEMA_GAMUT'
+    'PRIMARIES_CINEMA_GAMUT',
+    'WHITEPOINT_NAME_CINEMA_GAMUT',
+    'CCS_WHITEPOINT_CINEMA_GAMUT',
+    'MATRIX_CINEMA_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_CINEMA_GAMUT',
+    'RGB_COLOURSPACE_CINEMA_GAMUT',
 ]
 
 PRIMARIES_CINEMA_GAMUT = np.array([

@@ -11,7 +11,9 @@ from itertools import permutations
 from colour.appearance.hke import (
     HelmholtzKohlrausch_effect_object_Nayatani1997,
     HelmholtzKohlrausch_effect_luminous_Nayatani1997,
-    coefficient_K_Br_Nayatani1997, coefficient_q_Nayatani1997)
+    coefficient_K_Br_Nayatani1997,
+    coefficient_q_Nayatani1997,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Ilia Sibiryakov'
@@ -24,7 +26,8 @@ __status__ = 'Production'
 __all__ = [
     'TestHelmholtzKohlrauschEffectObjectNayatani1997',
     'TestHelmholtzKohlrauschEffectLuminousNayatani1997',
-    'TestCoefficient_K_Br_Nayatani1997', 'TestCoefficient_q_Nayatani1997'
+    'TestCoefficient_K_Br_Nayatani1997',
+    'TestCoefficient_q_Nayatani1997',
 ]
 
 

@@ -28,7 +28,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['metric_mse', 'metric_psnr']
+__all__ = [
+    'metric_mse',
+    'metric_psnr',
+]
 
 
 def metric_mse(a, b, axis=None):

@@ -7,8 +7,14 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models.rgb.cylindrical import (RGB_to_HSV, HSV_to_RGB, RGB_to_HSL,
-                                           HSL_to_RGB, RGB_to_HCL, HCL_to_RGB)
+from colour.models.rgb.cylindrical import (
+    RGB_to_HSV,
+    HSV_to_RGB,
+    RGB_to_HSL,
+    HSL_to_RGB,
+    RGB_to_HCL,
+    HCL_to_RGB,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -19,8 +25,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestRGB_to_HSV', 'TestHSV_to_RGB', 'TestRGB_to_HSL', 'TestHSL_to_RGB',
-    'TestRGB_to_HCL', 'TestHCL_to_RGB'
+    'TestRGB_to_HSV',
+    'TestHSV_to_RGB',
+    'TestRGB_to_HSL',
+    'TestHSL_to_RGB',
+    'TestRGB_to_HCL',
+    'TestHCL_to_RGB',
 ]
 
 

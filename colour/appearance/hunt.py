@@ -24,10 +24,18 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from colour.algebra import spow, vector_dot
-from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_degrees, ones,
-                              to_domain_100, tsplit, tstack, usage_warning,
-                              zeros)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float_array,
+    from_range_degrees,
+    ones,
+    to_domain_100,
+    tsplit,
+    tstack,
+    usage_warning,
+    zeros,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -37,17 +45,34 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'InductionFactors_Hunt', 'VIEWING_CONDITIONS_HUNT',
-    'HUE_DATA_FOR_HUE_QUADRATURE', 'MATRIX_XYZ_TO_HPE', 'MATRIX_HPE_TO_XYZ',
-    'CAM_ReferenceSpecification_Hunt', 'CAM_Specification_Hunt', 'XYZ_to_Hunt',
-    'luminance_level_adaptation_factor', 'illuminant_scotopic_luminance',
-    'XYZ_to_rgb', 'f_n', 'chromatic_adaptation',
-    'adjusted_reference_white_signals', 'achromatic_post_adaptation_signal',
-    'colour_difference_signals', 'hue_angle', 'eccentricity_factor',
-    'low_luminance_tritanopia_factor', 'yellowness_blueness_response',
-    'redness_greenness_response', 'overall_chromatic_response',
-    'saturation_correlate', 'achromatic_signal', 'brightness_correlate',
-    'lightness_correlate', 'chroma_correlate', 'colourfulness_correlate'
+    'InductionFactors_Hunt',
+    'VIEWING_CONDITIONS_HUNT',
+    'HUE_DATA_FOR_HUE_QUADRATURE',
+    'MATRIX_XYZ_TO_HPE',
+    'MATRIX_HPE_TO_XYZ',
+    'CAM_ReferenceSpecification_Hunt',
+    'CAM_Specification_Hunt',
+    'XYZ_to_Hunt',
+    'luminance_level_adaptation_factor',
+    'illuminant_scotopic_luminance',
+    'XYZ_to_rgb',
+    'f_n',
+    'chromatic_adaptation',
+    'adjusted_reference_white_signals',
+    'achromatic_post_adaptation_signal',
+    'colour_difference_signals',
+    'hue_angle',
+    'eccentricity_factor',
+    'low_luminance_tritanopia_factor',
+    'yellowness_blueness_response',
+    'redness_greenness_response',
+    'overall_chromatic_response',
+    'saturation_correlate',
+    'achromatic_signal',
+    'brightness_correlate',
+    'lightness_correlate',
+    'chroma_correlate',
+    'colourfulness_correlate',
 ]
 
 

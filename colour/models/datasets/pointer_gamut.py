@@ -23,8 +23,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CCS_ILLUMINANT_POINTER_GAMUT', 'DATA_POINTER_GAMUT_VOLUME',
-    'CCS_POINTER_GAMUT_BOUNDARY'
+    'CCS_ILLUMINANT_POINTER_GAMUT',
+    'DATA_POINTER_GAMUT_VOLUME',
+    'CCS_POINTER_GAMUT_BOUNDARY',
 ]
 
 CCS_ILLUMINANT_POINTER_GAMUT = (

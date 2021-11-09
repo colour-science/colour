@@ -29,8 +29,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_DAVINCI_INTERMEDIATE', 'oetf_DaVinciIntermediate',
-    'oetf_inverse_DaVinciIntermediate'
+    'CONSTANTS_DAVINCI_INTERMEDIATE',
+    'oetf_DaVinciIntermediate',
+    'oetf_inverse_DaVinciIntermediate',
 ]
 
 CONSTANTS_DAVINCI_INTERMEDIATE = Structure(

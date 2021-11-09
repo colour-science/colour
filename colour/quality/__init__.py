@@ -2,31 +2,45 @@
 
 from .datasets import *  # noqa
 from . import datasets
-from .cfi2017 import (ColourRendering_Specification_CIE2017,
-                      colour_fidelity_index_CIE2017)
+from .cfi2017 import (
+    ColourRendering_Specification_CIE2017,
+    colour_fidelity_index_CIE2017,
+)
 from .cri import ColourRendering_Specification_CRI, colour_rendering_index
-from .cqs import (COLOUR_QUALITY_SCALE_METHODS,
-                  ColourRendering_Specification_CQS, colour_quality_scale)
+from .cqs import (
+    COLOUR_QUALITY_SCALE_METHODS,
+    ColourRendering_Specification_CQS,
+    colour_quality_scale,
+)
 from .ssi import spectral_similarity_index
-from .tm3018 import (ColourQuality_Specification_ANSIIESTM3018,
-                     colour_fidelity_index_ANSIIESTM3018)
+from .tm3018 import (
+    ColourQuality_Specification_ANSIIESTM3018,
+    colour_fidelity_index_ANSIIESTM3018,
+)
 from colour.utilities import CaseInsensitiveMapping, validate_method
 
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
-    'ColourRendering_Specification_CIE2017', 'colour_fidelity_index_CIE2017'
+    'ColourRendering_Specification_CIE2017',
+    'colour_fidelity_index_CIE2017',
 ]
 __all__ += [
     'ColourQuality_Specification_ANSIIESTM3018',
-    'colour_fidelity_index_ANSIIESTM3018'
+    'colour_fidelity_index_ANSIIESTM3018',
 ]
-__all__ += ['ColourRendering_Specification_CRI', 'colour_rendering_index']
 __all__ += [
-    'ColourRendering_Specification_CQS', 'COLOUR_QUALITY_SCALE_METHODS',
-    'colour_quality_scale'
+    'ColourRendering_Specification_CRI',
+    'colour_rendering_index',
 ]
-__all__ += ['spectral_similarity_index']
+__all__ += [
+    'ColourRendering_Specification_CQS',
+    'COLOUR_QUALITY_SCALE_METHODS',
+    'colour_quality_scale',
+]
+__all__ += [
+    'spectral_similarity_index',
+]
 
 COLOUR_FIDELITY_INDEX_METHODS = CaseInsensitiveMapping({
     'CIE 2017': colour_fidelity_index_CIE2017,
@@ -84,4 +98,7 @@ ColourQuality_Specification_ANSIIESTM3018
     return function(sd_test, additional_data)
 
 
-__all__ += ['COLOUR_FIDELITY_INDEX_METHODS', 'colour_fidelity_index']
+__all__ += [
+    'COLOUR_FIDELITY_INDEX_METHODS',
+    'colour_fidelity_index',
+]

@@ -15,7 +15,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestSpectralSimilarityIndex']
+__all__ = [
+    'TestSpectralSimilarityIndex',
+]
 
 DATA_HMI = {
     300: 0.000000000000000,

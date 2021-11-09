@@ -9,10 +9,18 @@ import unittest
 from itertools import permutations
 
 from colour.appearance import (
-    VIEWING_CONDITIONS_CIECAM02, InductionFactors_CIECAM02,
-    CAM_Specification_CIECAM02, XYZ_to_CIECAM02, CIECAM02_to_XYZ)
-from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors, tsplit)
+    VIEWING_CONDITIONS_CIECAM02,
+    InductionFactors_CIECAM02,
+    CAM_Specification_CIECAM02,
+    XYZ_to_CIECAM02,
+    CIECAM02_to_XYZ,
+)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    ignore_numpy_errors,
+    tsplit,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -21,7 +29,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_CIECAM02', 'TestCIECAM02_to_XYZ']
+__all__ = [
+    'TestXYZ_to_CIECAM02',
+    'TestCIECAM02_to_XYZ',
+]
 
 
 class TestXYZ_to_CIECAM02(unittest.TestCase):

@@ -38,17 +38,34 @@ from typing import Union
 
 from colour.algebra import matrix_dot, spow, vector_dot
 from colour.adaptation import CAT_CAT02
-from colour.appearance.hunt import (MATRIX_HPE_TO_XYZ, MATRIX_XYZ_TO_HPE,
-                                    luminance_level_adaptation_factor)
+from colour.appearance.hunt import (
+    MATRIX_HPE_TO_XYZ,
+    MATRIX_XYZ_TO_HPE,
+    luminance_level_adaptation_factor,
+)
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
 from colour.models import xy_to_XYZ
 from colour.utilities import (
-    CaseInsensitiveMapping, MixinDataclassArray, as_float_array, as_int_array,
-    as_float, from_range_degrees, from_range_100, has_only_nan, ones,
-    to_domain_100, to_domain_degrees, tsplit, tstack, zeros)
-from colour.utilities.documentation import (DocstringDict,
-                                            is_documentation_building)
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float_array,
+    as_int_array,
+    as_float,
+    from_range_degrees,
+    from_range_100,
+    has_only_nan,
+    ones,
+    to_domain_100,
+    to_domain_degrees,
+    tsplit,
+    tstack,
+    zeros,
+)
+from colour.utilities.documentation import (
+    DocstringDict,
+    is_documentation_building,
+)
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -57,23 +74,40 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CAT_INVERSE_CAT02', 'InductionFactors_CIECAM02',
-    'VIEWING_CONDITIONS_CIECAM02', 'HUE_DATA_FOR_HUE_QUADRATURE',
-    'CAM_KWARGS_CIECAM02_sRGB', 'CAM_Specification_CIECAM02',
-    'XYZ_to_CIECAM02', 'CIECAM02_to_XYZ', 'chromatic_induction_factors',
-    'base_exponential_non_linearity', 'viewing_condition_dependent_parameters',
-    'degree_of_adaptation', 'full_chromatic_adaptation_forward',
-    'full_chromatic_adaptation_inverse', 'RGB_to_rgb', 'rgb_to_RGB',
+    'CAT_INVERSE_CAT02',
+    'InductionFactors_CIECAM02',
+    'VIEWING_CONDITIONS_CIECAM02',
+    'HUE_DATA_FOR_HUE_QUADRATURE',
+    'CAM_KWARGS_CIECAM02_sRGB',
+    'CAM_Specification_CIECAM02',
+    'XYZ_to_CIECAM02',
+    'CIECAM02_to_XYZ',
+    'chromatic_induction_factors',
+    'base_exponential_non_linearity',
+    'viewing_condition_dependent_parameters',
+    'degree_of_adaptation',
+    'full_chromatic_adaptation_forward',
+    'full_chromatic_adaptation_inverse',
+    'RGB_to_rgb',
+    'rgb_to_RGB',
     'post_adaptation_non_linear_response_compression_forward',
     'post_adaptation_non_linear_response_compression_inverse',
-    'opponent_colour_dimensions_forward', 'opponent_colour_dimensions_inverse',
-    'hue_angle', 'hue_quadrature', 'eccentricity_factor',
-    'achromatic_response_forward', 'achromatic_response_inverse',
-    'lightness_correlate', 'brightness_correlate',
+    'opponent_colour_dimensions_forward',
+    'opponent_colour_dimensions_inverse',
+    'hue_angle',
+    'hue_quadrature',
+    'eccentricity_factor',
+    'achromatic_response_forward',
+    'achromatic_response_inverse',
+    'lightness_correlate',
+    'brightness_correlate',
     'temporary_magnitude_quantity_forward',
-    'temporary_magnitude_quantity_inverse', 'chroma_correlate',
-    'colourfulness_correlate', 'saturation_correlate', 'P',
-    'matrix_post_adaptation_non_linear_response_compression'
+    'temporary_magnitude_quantity_inverse',
+    'chroma_correlate',
+    'colourfulness_correlate',
+    'saturation_correlate',
+    'P',
+    'matrix_post_adaptation_non_linear_response_compression',
 ]
 
 CAT_INVERSE_CAT02 = np.linalg.inv(CAT_CAT02)

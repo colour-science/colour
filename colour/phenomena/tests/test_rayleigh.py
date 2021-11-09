@@ -8,13 +8,25 @@ import unittest
 from itertools import permutations
 
 from colour.phenomena.rayleigh import (
-    air_refraction_index_Penndorf1957, air_refraction_index_Edlen1966,
-    air_refraction_index_Peck1972, air_refraction_index_Bodhaine1999,
-    N2_depolarisation, O2_depolarisation, F_air_Penndorf1957, F_air_Young1981,
-    F_air_Bates1984, F_air_Bodhaine1999, molecular_density,
-    mean_molecular_weights, gravity_List1968)
-from colour.phenomena import (scattering_cross_section, rayleigh_optical_depth,
-                              sd_rayleigh_scattering)
+    air_refraction_index_Penndorf1957,
+    air_refraction_index_Edlen1966,
+    air_refraction_index_Peck1972,
+    air_refraction_index_Bodhaine1999,
+    N2_depolarisation,
+    O2_depolarisation,
+    F_air_Penndorf1957,
+    F_air_Young1981,
+    F_air_Bates1984,
+    F_air_Bodhaine1999,
+    molecular_density,
+    mean_molecular_weights,
+    gravity_List1968,
+)
+from colour.phenomena import (
+    scattering_cross_section,
+    rayleigh_optical_depth,
+    sd_rayleigh_scattering,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -25,14 +37,23 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_SD_RAYLEIGH_SCATTERING', 'TestAirRefractionIndexPenndorf1957',
-    'TestAirRefractionIndexEdlen1966', 'TestAirRefractionIndexPeck1972',
-    'TestAirRefractionIndexBodhaine1999', 'TestN2Depolarisation',
-    'TestO2Depolarisation', 'TestF_airPenndorf1957', 'TestF_airYoung1981',
-    'TestF_airBates1984', 'TestF_airBodhaine1999', 'TestMolecularDensity',
-    'TestMeanMolecularWeights', 'TestGravityList1968',
-    'TestScatteringCrossSection', 'TestRayleighOpticalDepth',
-    'TestSdRayleighScattering'
+    'DATA_SD_RAYLEIGH_SCATTERING',
+    'TestAirRefractionIndexPenndorf1957',
+    'TestAirRefractionIndexEdlen1966',
+    'TestAirRefractionIndexPeck1972',
+    'TestAirRefractionIndexBodhaine1999',
+    'TestN2Depolarisation',
+    'TestO2Depolarisation',
+    'TestF_airPenndorf1957',
+    'TestF_airYoung1981',
+    'TestF_airBates1984',
+    'TestF_airBodhaine1999',
+    'TestMolecularDensity',
+    'TestMeanMolecularWeights',
+    'TestGravityList1968',
+    'TestScatteringCrossSection',
+    'TestRayleighOpticalDepth',
+    'TestSdRayleighScattering',
 ]
 
 DATA_SD_RAYLEIGH_SCATTERING = (

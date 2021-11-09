@@ -32,8 +32,12 @@ References
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import (as_float, domain_range_scale, from_range_1,
-                              to_domain_1)
+from colour.utilities import (
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -43,9 +47,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
-    'log_decoding_CanonLog2', 'log_encoding_CanonLog3',
-    'log_decoding_CanonLog3'
+    'log_encoding_CanonLog',
+    'log_decoding_CanonLog',
+    'log_encoding_CanonLog2',
+    'log_decoding_CanonLog2',
+    'log_encoding_CanonLog3',
+    'log_decoding_CanonLog3',
 ]
 
 

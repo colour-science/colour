@@ -16,8 +16,11 @@ References
 import numpy as np
 from functools import partial
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, gamma_function,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -27,9 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_EKTA_SPACE_PS_5', 'WHITEPOINT_NAME_EKTA_SPACE_PS_5_V',
-    'CCS_WHITEPOINT_EKTA_SPACE_PS_5', 'MATRIX_EKTA_SPACE_PS_5_TO_XYZ',
-    'MATRIX_XYZ_TO_EKTA_SPACE_PS_5', 'RGB_COLOURSPACE_EKTA_SPACE_PS_5'
+    'PRIMARIES_EKTA_SPACE_PS_5',
+    'WHITEPOINT_NAME_EKTA_SPACE_PS_5_V',
+    'CCS_WHITEPOINT_EKTA_SPACE_PS_5',
+    'MATRIX_EKTA_SPACE_PS_5_TO_XYZ',
+    'MATRIX_XYZ_TO_EKTA_SPACE_PS_5',
+    'RGB_COLOURSPACE_EKTA_SPACE_PS_5',
 ]
 
 PRIMARIES_EKTA_SPACE_PS_5 = np.array([

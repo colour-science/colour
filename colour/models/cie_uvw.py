@@ -17,8 +17,15 @@ References
 
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models import (UCS_to_uv, UCS_uv_to_xy, XYZ_to_UCS, XYZ_to_xyY,
-                           xy_to_UCS_uv, xyY_to_XYZ, xyY_to_xy)
+from colour.models import (
+    UCS_to_uv,
+    UCS_uv_to_xy,
+    XYZ_to_UCS,
+    XYZ_to_xyY,
+    xy_to_UCS_uv,
+    xyY_to_XYZ,
+    xyY_to_xy,
+)
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -28,7 +35,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_UVW', 'UVW_to_XYZ']
+__all__ = [
+    'XYZ_to_UVW',
+    'UVW_to_XYZ',
+]
 
 
 def XYZ_to_UVW(XYZ,

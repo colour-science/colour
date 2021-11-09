@@ -24,8 +24,13 @@ References
 
 import numpy as np
 
-from colour.utilities import (as_float_array, from_range_1, to_domain_1,
-                              tsplit, tstack)
+from colour.utilities import (
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -34,7 +39,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_CMY', 'CMY_to_RGB', 'CMY_to_CMYK', 'CMYK_to_CMY']
+__all__ = [
+    'RGB_to_CMY',
+    'CMY_to_RGB',
+    'CMY_to_CMYK',
+    'CMYK_to_CMY',
+]
 
 
 def RGB_to_CMY(RGB):

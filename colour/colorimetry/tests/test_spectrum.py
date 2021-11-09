@@ -11,8 +11,14 @@ from distutils.version import LooseVersion
 from colour.algebra import CubicSplineInterpolator
 from colour.colorimetry.spectrum import SPECTRAL_SHAPE_DEFAULT
 from colour.colorimetry.spectrum import (
-    SpectralShape, SpectralDistribution, MultiSpectralDistributions,
-    reshape_sd, reshape_msds, sds_and_msds_to_sds, sds_and_msds_to_msds)
+    SpectralShape,
+    SpectralDistribution,
+    MultiSpectralDistributions,
+    reshape_sd,
+    reshape_msds,
+    sds_and_msds_to_sds,
+    sds_and_msds_to_msds,
+)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -23,12 +29,21 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_SAMPLE', 'DATA_SAMPLE_NON_UNIFORM', 'DATA_SAMPLE_INTERPOLATED',
-    'DATA_SAMPLE_INTERPOLATED_NON_UNIFORM', 'DATA_SAMPLE_NORMALISED',
-    'DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931', 'DATA_CMFS',
-    'DATA_SAMPLE_ABRIDGED', 'DATA_MULTI_SAMPLE_ABRIDGED', 'TestSpectralShape',
-    'TestSpectralDistribution', 'TestMultiSpectralDistributions',
-    'TestReshapeSd', 'TestSdsAndMdsToSds', 'TestSdsAndMsdsToMsds'
+    'DATA_SAMPLE',
+    'DATA_SAMPLE_NON_UNIFORM',
+    'DATA_SAMPLE_INTERPOLATED',
+    'DATA_SAMPLE_INTERPOLATED_NON_UNIFORM',
+    'DATA_SAMPLE_NORMALISED',
+    'DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'DATA_CMFS',
+    'DATA_SAMPLE_ABRIDGED',
+    'DATA_MULTI_SAMPLE_ABRIDGED',
+    'TestSpectralShape',
+    'TestSpectralDistribution',
+    'TestMultiSpectralDistributions',
+    'TestReshapeSd',
+    'TestSdsAndMdsToSds',
+    'TestSdsAndMsdsToMsds',
 ]
 
 DATA_SAMPLE = {

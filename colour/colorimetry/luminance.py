@@ -67,11 +67,21 @@ import numpy as np
 from colour.algebra import spow
 from colour.biochemistry import (
     substrate_concentration_MichaelisMenten_Michaelis1913,
-    substrate_concentration_MichaelisMenten_Abebe2017)
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
-                              as_numeric, filter_kwargs, from_range_1,
-                              from_range_100, get_domain_range_scale,
-                              to_domain_10, to_domain_100, validate_method)
+    substrate_concentration_MichaelisMenten_Abebe2017,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    as_float,
+    as_numeric,
+    filter_kwargs,
+    from_range_1,
+    from_range_100,
+    get_domain_range_scale,
+    to_domain_10,
+    to_domain_100,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -81,10 +91,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'luminance_Newhall1943', 'luminance_ASTMD1535',
-    'intermediate_luminance_function_CIE1976', 'luminance_CIE1976',
-    'luminance_Fairchild2010', 'luminance_Fairchild2011',
-    'luminance_Abebe2017', 'LUMINANCE_METHODS', 'luminance'
+    'luminance_Newhall1943',
+    'luminance_ASTMD1535',
+    'intermediate_luminance_function_CIE1976',
+    'luminance_CIE1976',
+    'luminance_Fairchild2010',
+    'luminance_Fairchild2011',
+    'luminance_Abebe2017',
+    'LUMINANCE_METHODS',
+    'luminance',
 ]
 
 

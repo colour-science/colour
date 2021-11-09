@@ -27,8 +27,12 @@ References
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, tsplit,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    tsplit,
+    validate_method,
+)
 
 __author__ = 'Ilia Sibiryakov'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -41,7 +45,8 @@ __all__ = [
     'HKE_NAYATANI1997_METHODS',
     'HelmholtzKohlrausch_effect_object_Nayatani1997',
     'HelmholtzKohlrausch_effect_luminous_Nayatani1997',
-    'coefficient_q_Nayatani1997', 'coefficient_K_Br_Nayatani1997'
+    'coefficient_q_Nayatani1997',
+    'coefficient_K_Br_Nayatani1997',
 ]
 
 HKE_NAYATANI1997_METHODS = CaseInsensitiveMapping({

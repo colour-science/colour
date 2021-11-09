@@ -38,8 +38,13 @@ ACESutil.Log2_to_Lin_param.ctl
 
 import numpy as np
 
-from colour.utilities import (as_float, as_float_array, from_range_1,
-                              to_domain_1, validate_method)
+from colour.utilities import (
+    as_float,
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -49,8 +54,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'logarithmic_function_basic', 'logarithmic_function_quasilog',
-    'logarithmic_function_camera', 'log_encoding_Log2', 'log_decoding_Log2'
+    'logarithmic_function_basic',
+    'logarithmic_function_quasilog',
+    'logarithmic_function_camera',
+    'log_encoding_Log2',
+    'log_decoding_Log2',
 ]
 
 FLT_MIN = 1.175494e-38

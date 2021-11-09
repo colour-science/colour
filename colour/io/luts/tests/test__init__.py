@@ -18,7 +18,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['LUTS_DIRECTORY', 'TestReadLUT', 'TestWriteLUT']
+__all__ = [
+    'LUTS_DIRECTORY',
+    'TestReadLUT',
+    'TestWriteLUT',
+]
 
 LUTS_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 

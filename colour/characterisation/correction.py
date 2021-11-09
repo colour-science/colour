@@ -60,9 +60,17 @@ References
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_int,
-                              closest, filter_kwargs, ones, tsplit, tstack,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    as_int,
+    closest,
+    filter_kwargs,
+    ones,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -72,14 +80,21 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'matrix_augmented_Cheung2004', 'polynomial_expansion_Finlayson2015',
-    'polynomial_expansion_Vandermonde', 'POLYNOMIAL_EXPANSION_METHODS',
-    'polynomial_expansion', 'matrix_colour_correction_Cheung2004',
+    'matrix_augmented_Cheung2004',
+    'polynomial_expansion_Finlayson2015',
+    'polynomial_expansion_Vandermonde',
+    'POLYNOMIAL_EXPANSION_METHODS',
+    'polynomial_expansion',
+    'matrix_colour_correction_Cheung2004',
     'matrix_colour_correction_Finlayson2015',
-    'matrix_colour_correction_Vandermonde', 'MATRIX_COLOUR_CORRECTION_METHODS',
-    'matrix_colour_correction', 'colour_correction_Cheung2004',
-    'colour_correction_Finlayson2015', 'colour_correction_Vandermonde',
-    'COLOUR_CORRECTION_METHODS', 'colour_correction'
+    'matrix_colour_correction_Vandermonde',
+    'MATRIX_COLOUR_CORRECTION_METHODS',
+    'matrix_colour_correction',
+    'colour_correction_Cheung2004',
+    'colour_correction_Finlayson2015',
+    'colour_correction_Vandermonde',
+    'COLOUR_CORRECTION_METHODS',
+    'colour_correction',
 ]
 
 

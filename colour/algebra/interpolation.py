@@ -66,8 +66,18 @@ from functools import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
-    CaseInsensitiveMapping, as_float_array, as_float, attest, closest_indexes,
-    interval, is_integer, is_numeric, runtime_warning, tsplit, validate_method)
+    CaseInsensitiveMapping,
+    as_float_array,
+    as_float,
+    attest,
+    closest_indexes,
+    interval,
+    is_integer,
+    is_numeric,
+    runtime_warning,
+    tsplit,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -77,14 +87,24 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'kernel_nearest_neighbour', 'kernel_linear', 'kernel_sinc',
-    'kernel_lanczos', 'kernel_cardinal_spline', 'KernelInterpolator',
-    'NearestNeighbourInterpolator', 'LinearInterpolator',
-    'SpragueInterpolator', 'CubicSplineInterpolator', 'PchipInterpolator',
-    'NullInterpolator', 'lagrange_coefficients',
-    'vertices_and_relative_coordinates', 'table_interpolation_trilinear',
-    'table_interpolation_tetrahedral', 'TABLE_INTERPOLATION_METHODS',
-    'table_interpolation'
+    'kernel_nearest_neighbour',
+    'kernel_linear',
+    'kernel_sinc',
+    'kernel_lanczos',
+    'kernel_cardinal_spline',
+    'KernelInterpolator',
+    'NearestNeighbourInterpolator',
+    'LinearInterpolator',
+    'SpragueInterpolator',
+    'CubicSplineInterpolator',
+    'PchipInterpolator',
+    'NullInterpolator',
+    'lagrange_coefficients',
+    'vertices_and_relative_coordinates',
+    'table_interpolation_trilinear',
+    'table_interpolation_tetrahedral',
+    'TABLE_INTERPOLATION_METHODS',
+    'table_interpolation',
 ]
 
 

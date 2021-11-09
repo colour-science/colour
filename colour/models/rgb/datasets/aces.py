@@ -56,9 +56,16 @@ import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (
-    RGB_Colourspace, linear_function, normalised_primary_matrix,
-    log_encoding_ACEScc, log_decoding_ACEScc, log_encoding_ACEScct,
-    log_decoding_ACEScct, log_encoding_ACESproxy, log_decoding_ACESproxy)
+    RGB_Colourspace,
+    linear_function,
+    normalised_primary_matrix,
+    log_encoding_ACEScc,
+    log_decoding_ACEScc,
+    log_encoding_ACEScct,
+    log_decoding_ACEScct,
+    log_encoding_ACESproxy,
+    log_decoding_ACESproxy,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -68,11 +75,19 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'AP0', 'AP1', 'WHITEPOINT_NAME_ACES', 'CCS_WHITEPOINT_ACES',
-    'MATRIX_AP0_TO_XYZ', 'MATRIX_XYZ_TO_AP0', 'MATRIX_AP1_TO_XYZ',
-    'MATRIX_XYZ_TO_AP1', 'RGB_COLOURSPACE_ACES2065_1',
-    'RGB_COLOURSPACE_ACESCG', 'RGB_COLOURSPACE_ACESCC',
-    'RGB_COLOURSPACE_ACESCCT', 'RGB_COLOURSPACE_ACESPROXY'
+    'AP0',
+    'AP1',
+    'WHITEPOINT_NAME_ACES',
+    'CCS_WHITEPOINT_ACES',
+    'MATRIX_AP0_TO_XYZ',
+    'MATRIX_XYZ_TO_AP0',
+    'MATRIX_AP1_TO_XYZ',
+    'MATRIX_XYZ_TO_AP1',
+    'RGB_COLOURSPACE_ACES2065_1',
+    'RGB_COLOURSPACE_ACESCG',
+    'RGB_COLOURSPACE_ACESCC',
+    'RGB_COLOURSPACE_ACESCCT',
+    'RGB_COLOURSPACE_ACESPROXY',
 ]
 
 AP0 = np.array([

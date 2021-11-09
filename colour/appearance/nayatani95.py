@@ -24,13 +24,21 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from colour.algebra import spow, vector_dot
-from colour.adaptation.cie1994 import (MATRIX_XYZ_TO_RGB_CIE1994, beta_1,
-                                       exponential_factors,
-                                       intermediate_values)
+from colour.adaptation.cie1994 import (
+    MATRIX_XYZ_TO_RGB_CIE1994,
+    beta_1,
+    exponential_factors,
+    intermediate_values,
+)
 from colour.models import XYZ_to_xy
-from colour.utilities import (MixinDataclassArray, as_float_array,
-                              from_range_degrees, to_domain_100, tsplit,
-                              tstack)
+from colour.utilities import (
+    MixinDataclassArray,
+    as_float_array,
+    from_range_degrees,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -40,16 +48,28 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_XYZ_TO_RGB_NAYATANI95', 'CAM_ReferenceSpecification_Nayatani95',
-    'CAM_Specification_Nayatani95', 'XYZ_to_Nayatani95',
-    'illuminance_to_luminance', 'XYZ_to_RGB_Nayatani95', 'scaling_coefficient',
-    'achromatic_response', 'tritanopic_response', 'protanopic_response',
-    'brightness_correlate', 'ideal_white_brightness_correlate',
+    'MATRIX_XYZ_TO_RGB_NAYATANI95',
+    'CAM_ReferenceSpecification_Nayatani95',
+    'CAM_Specification_Nayatani95',
+    'XYZ_to_Nayatani95',
+    'illuminance_to_luminance',
+    'XYZ_to_RGB_Nayatani95',
+    'scaling_coefficient',
+    'achromatic_response',
+    'tritanopic_response',
+    'protanopic_response',
+    'brightness_correlate',
+    'ideal_white_brightness_correlate',
     'achromatic_lightness_correlate',
-    'normalised_achromatic_lightness_correlate', 'hue_angle',
-    'saturation_components', 'saturation_correlate', 'chroma_components',
-    'chroma_correlate', 'colourfulness_components', 'colourfulness_correlate',
-    'chromatic_strength_function'
+    'normalised_achromatic_lightness_correlate',
+    'hue_angle',
+    'saturation_components',
+    'saturation_correlate',
+    'chroma_components',
+    'chroma_correlate',
+    'colourfulness_components',
+    'colourfulness_correlate',
+    'chromatic_strength_function',
 ]
 
 MATRIX_XYZ_TO_RGB_NAYATANI95 = MATRIX_XYZ_TO_RGB_CIE1994

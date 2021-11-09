@@ -16,9 +16,12 @@ References
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_encoding_FilmLightTLog,
-                               log_decoding_FilmLightTLog,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_FilmLightTLog,
+    log_decoding_FilmLightTLog,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,9 +31,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_FILMLIGHT_E_GAMUT', 'WHITEPOINT_NAME_FILMLIGHT_E_GAMUT',
-    'CCS_WHITEPOINT_FILMLIGHT_E_GAMUT', 'MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ',
-    'MATRIX_XYZ_TO_FILMLIGHT_E_GAMUT', 'RGB_COLOURSPACE_FILMLIGHT_E_GAMUT'
+    'PRIMARIES_FILMLIGHT_E_GAMUT',
+    'WHITEPOINT_NAME_FILMLIGHT_E_GAMUT',
+    'CCS_WHITEPOINT_FILMLIGHT_E_GAMUT',
+    'MATRIX_FILMLIGHT_E_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_FILMLIGHT_E_GAMUT',
+    'RGB_COLOURSPACE_FILMLIGHT_E_GAMUT',
 ]
 
 PRIMARIES_FILMLIGHT_E_GAMUT = np.array([

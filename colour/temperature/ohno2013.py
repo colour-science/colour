@@ -23,8 +23,11 @@ References
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (handle_spectral_arguments, sd_blackbody,
-                                sd_to_XYZ)
+from colour.colorimetry import (
+    handle_spectral_arguments,
+    sd_blackbody,
+    sd_to_XYZ,
+)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import as_float_array, runtime_warning, tsplit
 
@@ -36,10 +39,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PLANCKIAN_TABLE_TUVD', 'CCT_MINIMAL', 'CCT_MAXIMAL', 'CCT_SAMPLES',
-    'CCT_CALCULATION_ITERATIONS', 'planckian_table',
-    'planckian_table_minimal_distance_index', 'uv_to_CCT_Ohno2013',
-    'CCT_to_uv_Ohno2013'
+    'PLANCKIAN_TABLE_TUVD',
+    'CCT_MINIMAL',
+    'CCT_MAXIMAL',
+    'CCT_SAMPLES',
+    'CCT_CALCULATION_ITERATIONS',
+    'planckian_table',
+    'planckian_table_minimal_distance_index',
+    'uv_to_CCT_Ohno2013',
+    'CCT_to_uv_Ohno2013',
 ]
 
 PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi',

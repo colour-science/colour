@@ -24,8 +24,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SPECTRAL_SHAPE_OTSU2018', 'BASIS_FUNCTIONS_OTSU2018',
-    'CLUSTER_MEANS_OTSU2018', 'SELECTOR_ARRAY_OTSU2018'
+    'SPECTRAL_SHAPE_OTSU2018',
+    'BASIS_FUNCTIONS_OTSU2018',
+    'CLUSTER_MEANS_OTSU2018',
+    'SELECTOR_ARRAY_OTSU2018',
 ]
 
 SPECTRAL_SHAPE_OTSU2018 = SpectralShape(380, 730, 10)

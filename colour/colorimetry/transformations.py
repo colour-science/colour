@@ -34,8 +34,12 @@ References
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.colorimetry import (MSDS_CMFS_LMS, MSDS_CMFS_RGB,
-                                SDS_LEFS_PHOTOPIC, reshape_sd)
+from colour.colorimetry import (
+    MSDS_CMFS_LMS,
+    MSDS_CMFS_RGB,
+    SDS_LEFS_PHOTOPIC,
+    reshape_sd,
+)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -50,7 +54,7 @@ __all__ = [
     'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
     'RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
     'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-    'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs'
+    'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
 ]
 
 

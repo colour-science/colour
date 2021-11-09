@@ -39,7 +39,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DATA_CAMERA_SENSITIVITIES_DSLR', 'MSDS_CAMERA_SENSITIVITIES_DSLR']
+__all__ = [
+    'DATA_CAMERA_SENSITIVITIES_DSLR',
+    'MSDS_CAMERA_SENSITIVITIES_DSLR',
+]
 
 DATA_CAMERA_SENSITIVITIES_DSLR = {
     'Nikon 5100 (NPL)': {

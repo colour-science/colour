@@ -13,8 +13,12 @@ import numpy as np
 
 from colour.algebra import normalise_maximum
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
-from colour.utilities import (as_float_array, from_range_1, to_domain_1,
-                              usage_warning)
+from colour.utilities import (
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+    usage_warning,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -23,7 +27,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_HEX', 'HEX_to_RGB']
+__all__ = [
+    'RGB_to_HEX',
+    'HEX_to_RGB',
+]
 
 
 def RGB_to_HEX(RGB):

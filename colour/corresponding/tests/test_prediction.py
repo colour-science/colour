@@ -8,12 +8,15 @@ import numpy as np
 import unittest
 
 from colour.corresponding.prediction import (
-    CorrespondingColourDataset, convert_experiment_results_Breneman1987)
+    CorrespondingColourDataset,
+    convert_experiment_results_Breneman1987,
+)
 from colour.corresponding import (
     corresponding_chromaticities_prediction_VonKries,
     corresponding_chromaticities_prediction_CIE1994,
     corresponding_chromaticities_prediction_CMCCAT2000,
-    corresponding_chromaticities_prediction_Fairchild1990)
+    corresponding_chromaticities_prediction_Fairchild1990,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -23,13 +26,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATASET_CORRESPONDING_COLOUR_1', 'DATA_PREDICTION_FAIRCHILD1990',
-    'DATA_PREDICTION_CIE1994', 'DATA_PREDICTION_CMCCAT2000',
+    'DATASET_CORRESPONDING_COLOUR_1',
+    'DATA_PREDICTION_FAIRCHILD1990',
+    'DATA_PREDICTION_CIE1994',
+    'DATA_PREDICTION_CMCCAT2000',
     'DATA_PREDICTION_VONKRIES',
     'TestCorrespondingChromaticitiesPredictionFairchild1990',
     'TestCorrespondingChromaticitiesPredictionCIE1994',
     'TestCorrespondingChromaticitiesPredictionCMCCAT2000',
-    'TestCorrespondingChromaticitiesPredictionVonKries'
+    'TestCorrespondingChromaticitiesPredictionVonKries',
 ]
 
 DATASET_CORRESPONDING_COLOUR_1 = CorrespondingColourDataset(

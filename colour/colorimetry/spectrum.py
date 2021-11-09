@@ -29,14 +29,30 @@ References
 import numpy as np
 from collections.abc import Mapping
 
-from colour.algebra import (Extrapolator, CubicSplineInterpolator,
-                            SpragueInterpolator)
+from colour.algebra import (
+    Extrapolator,
+    CubicSplineInterpolator,
+    SpragueInterpolator,
+)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
 from colour.utilities import (
-    CACHE_REGISTRY, as_float, as_int, attest, copy_definition, filter_kwargs,
-    first_item, is_iterable, is_numeric, is_string, is_uniform, interval,
-    runtime_warning, tstack, validate_method)
+    CACHE_REGISTRY,
+    as_float,
+    as_int,
+    attest,
+    copy_definition,
+    filter_kwargs,
+    first_item,
+    is_iterable,
+    is_numeric,
+    is_string,
+    is_uniform,
+    interval,
+    runtime_warning,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -46,9 +62,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SpectralShape', 'SPECTRAL_SHAPE_DEFAULT', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'reshape_sd', 'reshape_msds',
-    'sds_and_msds_to_sds', 'sds_and_msds_to_msds'
+    'SpectralShape',
+    'SPECTRAL_SHAPE_DEFAULT',
+    'SpectralDistribution',
+    'MultiSpectralDistributions',
+    'reshape_sd',
+    'reshape_msds',
+    'sds_and_msds_to_sds',
+    'sds_and_msds_to_msds',
 ]
 
 _CACHE_SHAPE_RANGE = CACHE_REGISTRY.register_cache(

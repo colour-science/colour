@@ -17,8 +17,12 @@ documentation/coregraphics/cgcolorspace/1408916-displayp3
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    eotf_inverse_sRGB,
+    eotf_sRGB,
+    normalised_primary_matrix,
+)
 from colour.models.rgb.datasets import RGB_COLOURSPACE_DCI_P3
 
 __author__ = 'Colour Developers'
@@ -29,9 +33,12 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_DISPLAY_P3', 'WHITEPOINT_NAME_DISPLAY_P3',
-    'CCS_WHITEPOINT_DISPLAY_P3', 'MATRIX_DISPLAY_P3_TO_XYZ',
-    'MATRIX_XYZ_TO_DISPLAY_P3', 'RGB_COLOURSPACE_DISPLAY_P3'
+    'PRIMARIES_DISPLAY_P3',
+    'WHITEPOINT_NAME_DISPLAY_P3',
+    'CCS_WHITEPOINT_DISPLAY_P3',
+    'MATRIX_DISPLAY_P3_TO_XYZ',
+    'MATRIX_XYZ_TO_DISPLAY_P3',
+    'RGB_COLOURSPACE_DISPLAY_P3',
 ]
 
 PRIMARIES_DISPLAY_P3 = RGB_COLOURSPACE_DCI_P3.primaries

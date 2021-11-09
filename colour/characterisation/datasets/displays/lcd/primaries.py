@@ -42,7 +42,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DATA_DISPLAY_PRIMARIES_LCD', 'MSDS_DISPLAY_PRIMARIES_LCD']
+__all__ = [
+    'DATA_DISPLAY_PRIMARIES_LCD',
+    'MSDS_DISPLAY_PRIMARIES_LCD',
+]
 
 DATA_DISPLAY_PRIMARIES_LCD = {
     'Apple Studio Display': {

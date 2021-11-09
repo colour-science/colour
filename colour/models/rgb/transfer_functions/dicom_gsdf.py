@@ -26,8 +26,13 @@ References
 
 import numpy as np
 
-from colour.utilities import (Structure, as_float, as_int, from_range_1,
-                              to_domain_1)
+from colour.utilities import (
+    Structure,
+    as_float,
+    as_int,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -36,7 +41,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CONSTANTS_DICOMGSDF', 'eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
+__all__ = [
+    'CONSTANTS_DICOMGSDF',
+    'eotf_inverse_DICOMGSDF',
+    'eotf_DICOMGSDF',
+]
 
 CONSTANTS_DICOMGSDF = Structure(
     a=-1.3011877,

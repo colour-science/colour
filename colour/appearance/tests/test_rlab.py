@@ -8,10 +8,16 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.appearance import (D_FACTOR_RLAB, VIEWING_CONDITIONS_RLAB,
-                               XYZ_to_RLAB)
-from colour.utilities import (as_float_array, domain_range_scale,
-                              ignore_numpy_errors)
+from colour.appearance import (
+    D_FACTOR_RLAB,
+    VIEWING_CONDITIONS_RLAB,
+    XYZ_to_RLAB,
+)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    ignore_numpy_errors,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -20,7 +26,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_RLAB']
+__all__ = [
+    'TestXYZ_to_RLAB',
+]
 
 
 class TestXYZ_to_RLAB(unittest.TestCase):

@@ -30,9 +30,14 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from colour.algebra import spow, vector_dot
-from colour.utilities import (MixinDataclassArray, as_float_array,
-                              from_range_degrees, to_domain_100, tsplit,
-                              tstack)
+from colour.utilities import (
+    MixinDataclassArray,
+    as_float_array,
+    from_range_degrees,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -42,9 +47,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CAM_ReferenceSpecification_ATD95', 'CAM_Specification_ATD95',
-    'XYZ_to_ATD95', 'luminance_to_retinal_illuminance', 'XYZ_to_LMS_ATD95',
-    'opponent_colour_dimensions', 'final_response'
+    'CAM_ReferenceSpecification_ATD95',
+    'CAM_Specification_ATD95',
+    'XYZ_to_ATD95',
+    'luminance_to_retinal_illuminance',
+    'XYZ_to_LMS_ATD95',
+    'opponent_colour_dimensions',
+    'final_response',
 ]
 
 

@@ -21,8 +21,12 @@ SMPTE%20normes%20et%20confs/s240m.pdf
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (as_float, domain_range_scale, from_range_1,
-                              to_domain_1)
+from colour.utilities import (
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -31,7 +35,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['oetf_SMPTE240M', 'eotf_SMPTE240M']
+__all__ = [
+    'oetf_SMPTE240M',
+    'eotf_SMPTE240M',
+]
 
 
 def oetf_SMPTE240M(L_c):

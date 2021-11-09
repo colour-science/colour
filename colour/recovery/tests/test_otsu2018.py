@@ -10,14 +10,27 @@ import tempfile
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import (handle_spectral_arguments, reshape_msds,
-                                reshape_sd, sd_to_XYZ, sds_and_msds_to_msds)
+from colour.colorimetry import (
+    handle_spectral_arguments,
+    reshape_msds,
+    reshape_sd,
+    sd_to_XYZ,
+    sds_and_msds_to_msds,
+)
 from colour.difference import delta_E_CIE1976
 from colour.models import XYZ_to_Lab, XYZ_to_xy
-from colour.recovery import (XYZ_to_sd_Otsu2018, SPECTRAL_SHAPE_OTSU2018,
-                             Dataset_Otsu2018, Tree_Otsu2018)
+from colour.recovery import (
+    XYZ_to_sd_Otsu2018,
+    SPECTRAL_SHAPE_OTSU2018,
+    Dataset_Otsu2018,
+    Tree_Otsu2018,
+)
 from colour.recovery.otsu2018 import (
-    DATASET_REFERENCE_OTSU2018, Data_Otsu2018, Node_Otsu2018, PartitionAxis)
+    DATASET_REFERENCE_OTSU2018,
+    Data_Otsu2018,
+    Node_Otsu2018,
+    PartitionAxis,
+)
 from colour.utilities import domain_range_scale, metric_mse
 
 __author__ = 'Colour Developers'
@@ -28,8 +41,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestDataset_Otsu2018', 'TestXYZ_to_sd_Otsu2018', 'TestData_Otsu2018',
-    'TestNode_Otsu2018', 'TestTree_Otsu2018'
+    'TestDataset_Otsu2018',
+    'TestXYZ_to_sd_Otsu2018',
+    'TestData_Otsu2018',
+    'TestNode_Otsu2018',
+    'TestTree_Otsu2018',
 ]
 
 

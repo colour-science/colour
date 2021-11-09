@@ -20,9 +20,15 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
-from colour.colorimetry import (MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT,
-                                sd_CIE_illuminant_D_series, reshape_msds,
-                                reshape_sd, sd_blackbody, sd_to_XYZ)
+from colour.colorimetry import (
+    MSDS_CMFS,
+    SPECTRAL_SHAPE_DEFAULT,
+    sd_CIE_illuminant_D_series,
+    reshape_msds,
+    reshape_sd,
+    sd_blackbody,
+    sd_to_XYZ,
+)
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
@@ -36,9 +42,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TCS_ColorimetryData', 'TCS_ColourQualityScaleData',
-    'ColourRendering_Specification_CRI', 'colour_rendering_index',
-    'tcs_colorimetry_data', 'colour_rendering_indexes'
+    'TCS_ColorimetryData',
+    'TCS_ColourQualityScaleData',
+    'ColourRendering_Specification_CRI',
+    'colour_rendering_index',
+    'tcs_colorimetry_data',
+    'colour_rendering_indexes',
 ]
 
 

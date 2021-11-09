@@ -30,7 +30,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['index_stress_Garcia2007', 'INDEX_STRESS_METHODS', 'index_stress']
+__all__ = [
+    'index_stress_Garcia2007',
+    'INDEX_STRESS_METHODS',
+    'index_stress',
+]
 
 
 def index_stress_Garcia2007(d_E, d_V):

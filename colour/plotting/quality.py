@@ -16,11 +16,19 @@ from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.colorimetry import sds_and_msds_to_sds
-from colour.plotting import (CONSTANTS_COLOUR_STYLE,
-                             XYZ_to_plotting_colourspace, artist,
-                             label_rectangles, override_style, render)
-from colour.quality import (COLOUR_QUALITY_SCALE_METHODS, colour_quality_scale,
-                            colour_rendering_index)
+from colour.plotting import (
+    CONSTANTS_COLOUR_STYLE,
+    XYZ_to_plotting_colourspace,
+    artist,
+    label_rectangles,
+    override_style,
+    render,
+)
+from colour.quality import (
+    COLOUR_QUALITY_SCALE_METHODS,
+    colour_quality_scale,
+    colour_rendering_index,
+)
 from colour.quality.cri import TCS_ColorimetryData
 from colour.utilities import validate_method
 
@@ -32,10 +40,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_colour_quality_bars', 'plot_single_sd_colour_rendering_index_bars',
+    'plot_colour_quality_bars',
+    'plot_single_sd_colour_rendering_index_bars',
     'plot_multi_sds_colour_rendering_indexes_bars',
     'plot_single_sd_colour_quality_scale_bars',
-    'plot_multi_sds_colour_quality_scales_bars'
+    'plot_multi_sds_colour_quality_scales_bars',
 ]
 
 

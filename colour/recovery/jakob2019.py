@@ -25,13 +25,24 @@ from scipy.interpolate import RegularGridInterpolator
 
 from colour.algebra import smoothstep_function, spow
 from colour.colorimetry import (
-    SpectralDistribution, SpectralShape, handle_spectral_arguments,
-    intermediate_lightness_function_CIE1976, sd_to_XYZ_integration)
+    SpectralDistribution,
+    SpectralShape,
+    handle_spectral_arguments,
+    intermediate_lightness_function_CIE1976,
+    sd_to_XYZ_integration,
+)
 from colour.difference import JND_CIE1976
 from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
-from colour.utilities import (as_float_array, domain_range_scale, full,
-                              index_along_last_axis, is_tqdm_installed,
-                              message_box, to_domain_1, zeros)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    full,
+    index_along_last_axis,
+    is_tqdm_installed,
+    message_box,
+    to_domain_1,
+    zeros,
+)
 
 if is_tqdm_installed():
     from tqdm import tqdm
@@ -48,9 +59,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SPECTRAL_SHAPE_JAKOB2019', 'StopMinimizationEarly', 'sd_Jakob2019',
-    'error_function', 'dimensionalise_coefficients', 'lightness_scale',
-    'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019', 'LUT3D_Jakob2019'
+    'SPECTRAL_SHAPE_JAKOB2019',
+    'StopMinimizationEarly',
+    'sd_Jakob2019',
+    'error_function',
+    'dimensionalise_coefficients',
+    'lightness_scale',
+    'find_coefficients_Jakob2019',
+    'XYZ_to_sd_Jakob2019',
+    'LUT3D_Jakob2019',
 ]
 
 SPECTRAL_SHAPE_JAKOB2019 = SpectralShape(360, 780, 5)

@@ -8,9 +8,14 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.algebra import (cartesian_to_spherical, spherical_to_cartesian,
-                            cartesian_to_polar, polar_to_cartesian,
-                            cartesian_to_cylindrical, cylindrical_to_cartesian)
+from colour.algebra import (
+    cartesian_to_spherical,
+    spherical_to_cartesian,
+    cartesian_to_polar,
+    polar_to_cartesian,
+    cartesian_to_cylindrical,
+    cylindrical_to_cartesian,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,9 +26,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestCartesianToSpherical', 'TestSphericalToCartesian',
-    'TestCartesianToPolar', 'TestPolarToCartesian',
-    'TestCartesianToCylindrical', 'TestCylindricalToCartesian'
+    'TestCartesianToSpherical',
+    'TestSphericalToCartesian',
+    'TestCartesianToPolar',
+    'TestPolarToCartesian',
+    'TestCartesianToCylindrical',
+    'TestCylindricalToCartesian',
 ]
 
 

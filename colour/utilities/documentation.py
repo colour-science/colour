@@ -16,8 +16,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DocstringDict', 'DocstringFloat', 'DocstringInt', 'DocstringText',
-    'DocstringTuple', 'is_documentation_building'
+    'DocstringDict',
+    'DocstringFloat',
+    'DocstringInt',
+    'DocstringText',
+    'DocstringTuple',
+    'is_documentation_building',
 ]
 
 

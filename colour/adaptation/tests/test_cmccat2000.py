@@ -10,7 +10,8 @@ from itertools import permutations
 
 from colour.adaptation.cmccat2000 import (
     chromatic_adaptation_forward_CMCCAT2000,
-    chromatic_adaptation_inverse_CMCCAT2000)
+    chromatic_adaptation_inverse_CMCCAT2000,
+)
 
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -23,7 +24,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestChromaticAdaptationForwardCMCCAT2000',
-    'TestChromaticAdaptationInverseCMCCAT2000'
+    'TestChromaticAdaptationInverseCMCCAT2000',
 ]
 
 

@@ -7,8 +7,12 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (
-    SDS_ILLUMINANTS, SpectralShape, sd_CIE_standard_illuminant_A,
-    sd_CIE_illuminant_D_series, daylight_locus_function)
+    SDS_ILLUMINANTS,
+    SpectralShape,
+    sd_CIE_standard_illuminant_A,
+    sd_CIE_illuminant_D_series,
+    daylight_locus_function,
+)
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
 
@@ -20,8 +24,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_A', 'TestSdCIEStandardIlluminantA', 'TestSdCIEIlluminantDSeries',
-    'TestDaylightLocusFunction'
+    'DATA_A',
+    'TestSdCIEStandardIlluminantA',
+    'TestSdCIEIlluminantDSeries',
+    'TestDaylightLocusFunction',
 ]
 
 DATA_A = np.array([

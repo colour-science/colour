@@ -19,7 +19,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['plot_cvd_simulation_Machado2009']
+__all__ = [
+    'plot_cvd_simulation_Machado2009',
+]
 
 
 @override_style()

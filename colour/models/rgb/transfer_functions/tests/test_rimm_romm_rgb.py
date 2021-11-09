@@ -8,8 +8,13 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    cctf_encoding_ROMMRGB, cctf_decoding_ROMMRGB, cctf_encoding_RIMMRGB,
-    cctf_decoding_RIMMRGB, log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
+    cctf_encoding_ROMMRGB,
+    cctf_decoding_ROMMRGB,
+    cctf_encoding_RIMMRGB,
+    cctf_decoding_RIMMRGB,
+    log_encoding_ERIMMRGB,
+    log_decoding_ERIMMRGB,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -20,9 +25,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestCctfEncoding_ROMMRGB', 'TestCctfDecoding_ROMMRGB',
-    'TestCctfEncoding_RIMMRGB', 'TestCctfDecoding_RIMMRGB',
-    'TestLog_encoding_ERIMMRGB', 'TestLog_decoding_ERIMMRGB'
+    'TestCctfEncoding_ROMMRGB',
+    'TestCctfDecoding_ROMMRGB',
+    'TestCctfEncoding_RIMMRGB',
+    'TestCctfDecoding_RIMMRGB',
+    'TestLog_encoding_ERIMMRGB',
+    'TestLog_decoding_ERIMMRGB',
 ]
 
 

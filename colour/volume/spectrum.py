@@ -23,8 +23,11 @@ References
 
 import numpy as np
 
-from colour.colorimetry import (SpectralShape, handle_spectral_arguments,
-                                msds_to_XYZ)
+from colour.colorimetry import (
+    SpectralShape,
+    handle_spectral_arguments,
+    msds_to_XYZ,
+)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.volume import is_within_mesh_volume
 from colour.utilities import CACHE_REGISTRY, zeros, validate_method
@@ -37,8 +40,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SPECTRAL_SHAPE_OUTER_SURFACE_XYZ', 'generate_pulse_waves',
-    'XYZ_outer_surface', 'solid_RoschMacAdam', 'is_within_visible_spectrum'
+    'SPECTRAL_SHAPE_OUTER_SURFACE_XYZ',
+    'generate_pulse_waves',
+    'XYZ_outer_surface',
+    'solid_RoschMacAdam',
+    'is_within_visible_spectrum',
 ]
 
 SPECTRAL_SHAPE_OUTER_SURFACE_XYZ = SpectralShape(360, 780, 5)

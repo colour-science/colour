@@ -15,7 +15,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES', 'TestSpectralUniformity']
+__all__ = [
+    'DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES',
+    'TestSpectralUniformity',
+]
 
 DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES = np.array([
     9.55142857e-06, 1.14821429e-05, 1.87842857e-05, 2.87114286e-05,

@@ -21,7 +21,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['edges_to_chord', 'unique_vertices', 'close_chord', 'hull_section']
+__all__ = [
+    'edges_to_chord',
+    'unique_vertices',
+    'close_chord',
+    'hull_section',
+]
 
 
 def edges_to_chord(edges, index=0):

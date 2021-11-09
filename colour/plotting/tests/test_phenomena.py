@@ -6,8 +6,10 @@ Defines the unit tests for the :mod:`colour.plotting.phenomena` module.
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
-from colour.plotting import (plot_single_sd_rayleigh_scattering,
-                             plot_the_blue_sky)
+from colour.plotting import (
+    plot_single_sd_rayleigh_scattering,
+    plot_the_blue_sky,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -16,7 +18,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestPlotSingleSdRayleighScattering', 'TestPlotTheBlueSky']
+__all__ = [
+    'TestPlotSingleSdRayleighScattering',
+    'TestPlotTheBlueSky',
+]
 
 
 class TestPlotSingleSdRayleighScattering(unittest.TestCase):

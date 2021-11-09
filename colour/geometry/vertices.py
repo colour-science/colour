@@ -17,9 +17,17 @@ import numpy as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import PLANE_TO_AXIS_MAPPING
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, full, ones, tsplit, tstack, zeros,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    filter_kwargs,
+    full,
+    ones,
+    tsplit,
+    tstack,
+    zeros,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,9 +37,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'primitive_vertices_quad_mpl', 'primitive_vertices_grid_mpl',
-    'primitive_vertices_cube_mpl', 'primitive_vertices_sphere',
-    'PRIMITIVE_VERTICES_METHODS', 'primitive_vertices'
+    'primitive_vertices_quad_mpl',
+    'primitive_vertices_grid_mpl',
+    'primitive_vertices_cube_mpl',
+    'primitive_vertices_sphere',
+    'PRIMITIVE_VERTICES_METHODS',
+    'primitive_vertices',
 ]
 
 

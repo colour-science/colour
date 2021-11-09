@@ -6,8 +6,10 @@ Defines the unit tests for the :mod:`colour.quality.cqs` module.
 import numpy as np
 import unittest
 
-from colour.quality import (ColourRendering_Specification_CQS,
-                            colour_quality_scale)
+from colour.quality import (
+    ColourRendering_Specification_CQS,
+    colour_quality_scale,
+)
 from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.quality.cqs import VS_ColorimetryData, VS_ColourQualityScaleData
 
@@ -18,7 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestColourQualityScale']
+__all__ = [
+    'TestColourQualityScale',
+]
 
 
 class TestColourQualityScale(unittest.TestCase):

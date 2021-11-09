@@ -29,8 +29,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_CIE_RGB', 'WHITEPOINT_NAME_CIE_RGB', 'CCS_WHITEPOINT_CIE_RGB',
-    'MATRIX_CIE_RGB_TO_XYZ', 'MATRIX_XYZ_TO_CIE_RGB', 'RGB_COLOURSPACE_CIE_RGB'
+    'PRIMARIES_CIE_RGB',
+    'WHITEPOINT_NAME_CIE_RGB',
+    'CCS_WHITEPOINT_CIE_RGB',
+    'MATRIX_CIE_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_CIE_RGB',
+    'RGB_COLOURSPACE_CIE_RGB',
 ]
 
 PRIMARIES_CIE_RGB = np.array([

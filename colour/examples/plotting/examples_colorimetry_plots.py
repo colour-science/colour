@@ -7,11 +7,20 @@ from pprint import pprint
 
 import colour
 from colour.plotting import (
-    SD_ASTMG173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
-    colour_style, plot_multi_cmfs, plot_multi_illuminant_sds,
-    plot_multi_lightness_functions, plot_multi_sds, plot_single_cmfs,
-    plot_single_illuminant_sd, plot_single_lightness_function, plot_single_sd,
-    plot_visible_spectrum)
+    SD_ASTMG173_ETR,
+    plot_blackbody_colours,
+    plot_blackbody_spectral_radiance,
+    colour_style,
+    plot_multi_cmfs,
+    plot_multi_illuminant_sds,
+    plot_multi_lightness_functions,
+    plot_multi_sds,
+    plot_single_cmfs,
+    plot_single_illuminant_sd,
+    plot_single_lightness_function,
+    plot_single_sd,
+    plot_visible_spectrum,
+)
 from colour.utilities import message_box
 
 message_box('Colorimetry Plots')

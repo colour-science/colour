@@ -32,15 +32,37 @@ from matplotlib.patches import Polygon
 
 from colour.algebra import LinearInterpolator, normalise_maximum
 from colour.colorimetry import (
-    CCS_ILLUMINANTS, SDS_ILLUMINANTS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ, sds_and_msds_to_sds,
-    wavelength_to_XYZ)
+    CCS_ILLUMINANTS,
+    SDS_ILLUMINANTS,
+    LIGHTNESS_METHODS,
+    LUMINANCE_METHODS,
+    SpectralShape,
+    sd_blackbody,
+    sd_ones,
+    sd_to_XYZ,
+    sds_and_msds_to_sds,
+    wavelength_to_XYZ,
+)
 from colour.plotting import (
-    ColourSwatch, CONSTANTS_COLOUR_STYLE, XYZ_to_plotting_colourspace, artist,
-    filter_passthrough, filter_cmfs, filter_illuminants, override_style,
-    render, plot_single_colour_swatch, plot_multi_functions,
-    update_settings_collection)
-from colour.utilities import (domain_range_scale, first_item, ones, tstack)
+    ColourSwatch,
+    CONSTANTS_COLOUR_STYLE,
+    XYZ_to_plotting_colourspace,
+    artist,
+    filter_passthrough,
+    filter_cmfs,
+    filter_illuminants,
+    override_style,
+    render,
+    plot_single_colour_swatch,
+    plot_multi_functions,
+    update_settings_collection,
+)
+from colour.utilities import (
+    domain_range_scale,
+    first_item,
+    ones,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -50,12 +72,19 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_single_sd', 'plot_multi_sds', 'plot_single_cmfs', 'plot_multi_cmfs',
-    'plot_single_illuminant_sd', 'plot_multi_illuminant_sds',
-    'plot_visible_spectrum', 'plot_single_lightness_function',
-    'plot_multi_lightness_functions', 'plot_single_luminance_function',
-    'plot_multi_luminance_functions', 'plot_blackbody_spectral_radiance',
-    'plot_blackbody_colours'
+    'plot_single_sd',
+    'plot_multi_sds',
+    'plot_single_cmfs',
+    'plot_multi_cmfs',
+    'plot_single_illuminant_sd',
+    'plot_multi_illuminant_sds',
+    'plot_visible_spectrum',
+    'plot_single_lightness_function',
+    'plot_multi_lightness_functions',
+    'plot_single_luminance_function',
+    'plot_multi_luminance_functions',
+    'plot_blackbody_spectral_radiance',
+    'plot_blackbody_colours',
 ]
 
 

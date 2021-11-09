@@ -13,8 +13,14 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 from colour.algebra import vector_dot
-from colour.utilities import (as_float_array, attest, is_iterable, is_string,
-                              ones, zeros)
+from colour.utilities import (
+    as_float_array,
+    attest,
+    is_iterable,
+    is_string,
+    ones,
+    zeros,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -23,7 +29,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['AbstractLUTSequenceOperator', 'LUTOperatorMatrix']
+__all__ = [
+    'AbstractLUTSequenceOperator',
+    'LUTOperatorMatrix',
+]
 
 
 class AbstractLUTSequenceOperator(ABC):

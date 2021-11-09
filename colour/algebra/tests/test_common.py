@@ -6,10 +6,19 @@ Defines the unit tests for the :mod:`colour.algebra.common` module.
 import numpy as np
 import unittest
 
-from colour.algebra import (is_spow_enabled, set_spow_enable, spow_enable,
-                            spow, smoothstep_function, normalise_maximum,
-                            vector_dot, matrix_dot, linear_conversion,
-                            linstep_function, is_identity)
+from colour.algebra import (
+    is_spow_enabled,
+    set_spow_enable,
+    spow_enable,
+    spow,
+    smoothstep_function,
+    normalise_maximum,
+    vector_dot,
+    matrix_dot,
+    linear_conversion,
+    linstep_function,
+    is_identity,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -19,10 +28,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestIsSpowEnabled', 'TestSetSpowEnabled', 'TestSpowEnable', 'TestSpow',
-    'TestSmoothstepFunction', 'TestNormaliseMaximum', 'TestVectorDot',
-    'TestMatrixDot', 'TestLinearConversion', 'TestLinstepFunction',
-    'TestIsIdentity'
+    'TestIsSpowEnabled',
+    'TestSetSpowEnabled',
+    'TestSpowEnable',
+    'TestSpow',
+    'TestSmoothstepFunction',
+    'TestNormaliseMaximum',
+    'TestVectorDot',
+    'TestMatrixDot',
+    'TestLinearConversion',
+    'TestLinstepFunction',
+    'TestIsIdentity',
 ]
 
 

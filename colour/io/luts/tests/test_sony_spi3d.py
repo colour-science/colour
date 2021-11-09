@@ -9,8 +9,12 @@ import shutil
 import tempfile
 import unittest
 
-from colour.io import (LUT3D, LUTSequence, read_LUT_SonySPI3D,
-                       write_LUT_SonySPI3D)
+from colour.io import (
+    LUT3D,
+    LUTSequence,
+    read_LUT_SonySPI3D,
+    write_LUT_SonySPI3D,
+)
 from colour.utilities import as_int_array
 
 __author__ = 'Colour Developers'
@@ -20,7 +24,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['LUTS_DIRECTORY', 'TestReadLUTSonySPI3D', 'TestWriteLUTSonySPI3D']
+__all__ = [
+    'LUTS_DIRECTORY',
+    'TestReadLUTSonySPI3D',
+    'TestWriteLUTSonySPI3D',
+]
 
 LUTS_DIRECTORY = os.path.join(
     os.path.dirname(__file__), 'resources', 'sony_spi3d')

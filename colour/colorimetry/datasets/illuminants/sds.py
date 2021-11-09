@@ -71,8 +71,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_ILLUMINANTS_CIE', 'SDS_ILLUMINANTS_CIE', 'DATA_ILLUMINANTS_ISO',
-    'SDS_ILLUMINANTS_ISO', 'SDS_ILLUMINANTS'
+    'DATA_ILLUMINANTS_CIE',
+    'SDS_ILLUMINANTS_CIE',
+    'DATA_ILLUMINANTS_ISO',
+    'SDS_ILLUMINANTS_ISO',
+    'SDS_ILLUMINANTS',
 ]
 
 DATA_ILLUMINANTS_CIE = {

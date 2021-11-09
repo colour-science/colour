@@ -27,8 +27,14 @@ import numpy as np
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
-from colour.utilities import (CaseInsensitiveMapping, from_range_100, tsplit,
-                              tstack, to_domain_100, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    from_range_100,
+    tsplit,
+    tstack,
+    to_domain_100,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -37,7 +43,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DIN99_METHODS', 'Lab_to_DIN99', 'DIN99_to_Lab']
+__all__ = [
+    'DIN99_METHODS',
+    'Lab_to_DIN99',
+    'DIN99_to_Lab',
+]
 
 DIN99_METHODS = CaseInsensitiveMapping({
     'ASTMD2244-07':

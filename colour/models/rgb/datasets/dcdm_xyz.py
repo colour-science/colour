@@ -18,8 +18,12 @@ DCI_DCinema_System_Spec_v1_1.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, eotf_DCDM,
-                               normalised_primary_matrix, eotf_inverse_DCDM)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    eotf_DCDM,
+    normalised_primary_matrix,
+    eotf_inverse_DCDM,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,9 +33,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_DCDM_XYZ', 'WHITEPOINT_NAME_DCDM_XYZ',
-    'CCS_WHITEPOINT_DCDM_XYZ', 'MATRIX_DCDM_XYZ_TO_XYZ',
-    'MATRIX_XYZ_TO_DCDM_XYZ', 'RGB_COLOURSPACE_DCDM_XYZ'
+    'PRIMARIES_DCDM_XYZ',
+    'WHITEPOINT_NAME_DCDM_XYZ',
+    'CCS_WHITEPOINT_DCDM_XYZ',
+    'MATRIX_DCDM_XYZ_TO_XYZ',
+    'MATRIX_XYZ_TO_DCDM_XYZ',
+    'RGB_COLOURSPACE_DCDM_XYZ',
 ]
 
 PRIMARIES_DCDM_XYZ = np.array([

@@ -6,8 +6,12 @@ Pointer's Gamut Volume Computations
 Defines the objects related to *Pointer's Gamut* volume computations.
 """
 
-from colour.models import (Lab_to_XYZ, LCHab_to_Lab, DATA_POINTER_GAMUT_VOLUME,
-                           CCS_ILLUMINANT_POINTER_GAMUT)
+from colour.models import (
+    Lab_to_XYZ,
+    LCHab_to_Lab,
+    DATA_POINTER_GAMUT_VOLUME,
+    CCS_ILLUMINANT_POINTER_GAMUT,
+)
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
@@ -17,7 +21,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['is_within_pointer_gamut']
+__all__ = [
+    'is_within_pointer_gamut',
+]
 
 
 def is_within_pointer_gamut(XYZ, tolerance=None):

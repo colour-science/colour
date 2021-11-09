@@ -15,8 +15,11 @@ References
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
-                           RGB_COLOURSPACE_sRGB)
+from colour.models import (
+    XYZ_to_RGB,
+    normalised_primary_matrix,
+    RGB_COLOURSPACE_sRGB,
+)
 from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
 
@@ -28,9 +31,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_SMITS1999', 'CCS_WHITEPOINT_SMITS1999',
-    'MATRIX_XYZ_TO_RGB_SMITS1999', 'XYZ_to_RGB_Smits1999',
-    'RGB_to_sd_Smits1999'
+    'PRIMARIES_SMITS1999',
+    'CCS_WHITEPOINT_SMITS1999',
+    'MATRIX_XYZ_TO_RGB_SMITS1999',
+    'XYZ_to_RGB_Smits1999',
+    'RGB_to_sd_Smits1999',
 ]
 
 PRIMARIES_SMITS1999 = RGB_COLOURSPACE_sRGB.primaries

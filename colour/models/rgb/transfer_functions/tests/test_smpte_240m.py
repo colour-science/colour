@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestOetf_SMPTE240M', 'TestEotf_SMPTE240M']
+__all__ = [
+    'TestOetf_SMPTE240M',
+    'TestEotf_SMPTE240M',
+]
 
 
 class TestOetf_SMPTE240M(unittest.TestCase):

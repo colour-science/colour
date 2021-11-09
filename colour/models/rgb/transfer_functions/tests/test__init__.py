@@ -8,9 +8,19 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    CCTF_DECODINGS, CCTF_ENCODINGS, EOTFS, EOTF_INVERSES, LOG_DECODINGS,
-    LOG_ENCODINGS, OETFS, OETF_INVERSES, OOTFS, OOTF_INVERSES, cctf_encoding,
-    cctf_decoding)
+    CCTF_DECODINGS,
+    CCTF_ENCODINGS,
+    EOTFS,
+    EOTF_INVERSES,
+    LOG_DECODINGS,
+    LOG_ENCODINGS,
+    OETFS,
+    OETF_INVERSES,
+    OOTFS,
+    OOTF_INVERSES,
+    cctf_encoding,
+    cctf_decoding,
+)
 from colour.utilities import ColourUsageWarning, as_int
 
 __author__ = 'Colour Developers'
@@ -20,7 +30,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
-__all__ = ['TestCctfEncoding', 'TestCctfDecoding', 'TestTransferFunctions']
+__all__ = [
+    'TestCctfEncoding',
+    'TestCctfDecoding',
+    'TestTransferFunctions',
+]
 
 
 class TestCctfEncoding(unittest.TestCase):

@@ -56,13 +56,30 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.models.rgb.transfer_functions import (
-    eotf_BT1886, eotf_ST2084, eotf_inverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
-    eotf_inverse_ST2084, oetf_inverse_ARIBSTDB67, oetf_inverse_BT709)
+    eotf_BT1886,
+    eotf_ST2084,
+    eotf_inverse_BT1886,
+    oetf_ARIBSTDB67,
+    oetf_BT709,
+    eotf_inverse_ST2084,
+    oetf_inverse_ARIBSTDB67,
+    oetf_inverse_BT709,
+)
 from colour.models.rgb.transfer_functions.arib_std_b67 import (
-    CONSTANTS_ARIBSTDB67)
+    CONSTANTS_ARIBSTDB67, )
 from colour.utilities import (
-    CaseInsensitiveMapping, Structure, as_float_array, as_float, filter_kwargs,
-    from_range_1, to_domain_1, tsplit, tstack, usage_warning, validate_method)
+    CaseInsensitiveMapping,
+    Structure,
+    as_float_array,
+    as_float,
+    filter_kwargs,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+    usage_warning,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -72,17 +89,34 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'oetf_PQ_BT2100', 'oetf_inverse_PQ_BT2100', 'eotf_PQ_BT2100',
-    'eotf_inverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_inverse_PQ_BT2100',
-    'WEIGHTS_BT2100_HLG', 'CONSTANTS_BT2100_HLG', 'gamma_function_HLG_BT2100',
-    'oetf_HLG_BT2100', 'oetf_inverse_HLG_BT2100',
-    'black_level_lift_HLG_BT2100', 'eotf_HLG_BT2100_1', 'eotf_HLG_BT2100_2',
-    'BT2100_HLG_EOTF_METHODS', 'eotf_HLG_BT2100', 'eotf_inverse_HLG_BT2100_1',
-    'eotf_inverse_HLG_BT2100_2', 'BT2100_HLG_EOTF_INVERSE_METHODS',
-    'eotf_inverse_HLG_BT2100', 'ootf_HLG_BT2100_1', 'ootf_HLG_BT2100_2',
-    'BT2100_HLG_OOTF_METHODS', 'ootf_HLG_BT2100', 'ootf_inverse_HLG_BT2100_1',
-    'ootf_inverse_HLG_BT2100_2', 'BT2100_HLG_OOTF_INVERSE_METHODS',
-    'ootf_inverse_HLG_BT2100'
+    'oetf_PQ_BT2100',
+    'oetf_inverse_PQ_BT2100',
+    'eotf_PQ_BT2100',
+    'eotf_inverse_PQ_BT2100',
+    'ootf_PQ_BT2100',
+    'ootf_inverse_PQ_BT2100',
+    'WEIGHTS_BT2100_HLG',
+    'CONSTANTS_BT2100_HLG',
+    'gamma_function_HLG_BT2100',
+    'oetf_HLG_BT2100',
+    'oetf_inverse_HLG_BT2100',
+    'black_level_lift_HLG_BT2100',
+    'eotf_HLG_BT2100_1',
+    'eotf_HLG_BT2100_2',
+    'BT2100_HLG_EOTF_METHODS',
+    'eotf_HLG_BT2100',
+    'eotf_inverse_HLG_BT2100_1',
+    'eotf_inverse_HLG_BT2100_2',
+    'BT2100_HLG_EOTF_INVERSE_METHODS',
+    'eotf_inverse_HLG_BT2100',
+    'ootf_HLG_BT2100_1',
+    'ootf_HLG_BT2100_2',
+    'BT2100_HLG_OOTF_METHODS',
+    'ootf_HLG_BT2100',
+    'ootf_inverse_HLG_BT2100_1',
+    'ootf_inverse_HLG_BT2100_2',
+    'BT2100_HLG_OOTF_INVERSE_METHODS',
+    'ootf_inverse_HLG_BT2100',
 ]
 
 

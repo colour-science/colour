@@ -19,8 +19,12 @@ import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import matrix_dot, vector_dot
-from colour.utilities import (from_range_1, row_as_diagonal, to_domain_1,
-                              validate_method)
+from colour.utilities import (
+    from_range_1,
+    row_as_diagonal,
+    to_domain_1,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -30,7 +34,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
+    'matrix_chromatic_adaptation_VonKries',
+    'chromatic_adaptation_VonKries',
 ]
 
 

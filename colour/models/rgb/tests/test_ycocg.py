@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
-__all__ = ['TestRGB_to_YCoCg', 'TestYCoCg_to_RGB']
+__all__ = [
+    'TestRGB_to_YCoCg',
+    'TestYCoCg_to_RGB',
+]
 
 
 class TestRGB_to_YCoCg(unittest.TestCase):

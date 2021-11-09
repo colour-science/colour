@@ -18,7 +18,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
+__all__ = [
+    'CV_range',
+    'legal_to_full',
+    'full_to_legal',
+]
 
 
 def CV_range(bit_depth=10, is_legal=False, is_int=False):

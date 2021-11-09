@@ -29,7 +29,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['NLOG_CONSTANTS', 'log_encoding_NLog', 'log_decoding_NLog']
+__all__ = [
+    'NLOG_CONSTANTS',
+    'log_encoding_NLog',
+    'log_decoding_NLog',
+]
 
 NLOG_CONSTANTS = Structure(
     cut1=0.328,

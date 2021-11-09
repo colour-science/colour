@@ -26,7 +26,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['SpectralDistribution_UPRTek', 'SpectralDistribution_Sekonic']
+__all__ = [
+    'SpectralDistribution_UPRTek',
+    'SpectralDistribution_Sekonic',
+]
 
 
 class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):

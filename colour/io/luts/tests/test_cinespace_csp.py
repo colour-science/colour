@@ -20,7 +20,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['LUTS_DIRECTORY', 'TestReadLUTCinespace', 'TestWriteLUTCinespace']
+__all__ = [
+    'LUTS_DIRECTORY',
+    'TestReadLUTCinespace',
+    'TestWriteLUTCinespace',
+]
 
 LUTS_DIRECTORY = os.path.join(
     os.path.dirname(__file__), 'resources', 'cinespace')

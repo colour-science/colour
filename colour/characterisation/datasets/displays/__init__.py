@@ -29,4 +29,6 @@ MSDS_DISPLAY_PRIMARIES : LazyCaseInsensitiveMapping
     **{Apple Studio Display, Typical CRT Brainard 1997}**
 """
 
-__all__ = ['MSDS_DISPLAY_PRIMARIES']
+__all__ = [
+    'MSDS_DISPLAY_PRIMARIES',
+]

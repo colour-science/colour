@@ -6,17 +6,26 @@ Defines the unit tests for the :mod:`colour.plotting.diagrams` module.
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
-from colour.colorimetry import (MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape,
-                                reshape_msds)
-from colour.plotting import (plot_chromaticity_diagram_CIE1931,
-                             plot_chromaticity_diagram_CIE1960UCS,
-                             plot_chromaticity_diagram_CIE1976UCS,
-                             plot_sds_in_chromaticity_diagram_CIE1931,
-                             plot_sds_in_chromaticity_diagram_CIE1960UCS,
-                             plot_sds_in_chromaticity_diagram_CIE1976UCS)
+from colour.colorimetry import (
+    MSDS_CMFS,
+    SDS_ILLUMINANTS,
+    SpectralShape,
+    reshape_msds,
+)
+from colour.plotting import (
+    plot_chromaticity_diagram_CIE1931,
+    plot_chromaticity_diagram_CIE1960UCS,
+    plot_chromaticity_diagram_CIE1976UCS,
+    plot_sds_in_chromaticity_diagram_CIE1931,
+    plot_sds_in_chromaticity_diagram_CIE1960UCS,
+    plot_sds_in_chromaticity_diagram_CIE1976UCS,
+)
 from colour.plotting.diagrams import (
-    plot_spectral_locus, plot_chromaticity_diagram_colours,
-    plot_chromaticity_diagram, plot_sds_in_chromaticity_diagram)
+    plot_spectral_locus,
+    plot_chromaticity_diagram_colours,
+    plot_chromaticity_diagram,
+    plot_sds_in_chromaticity_diagram,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -26,14 +35,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestPlotSpectralLocus', 'TestPlotChromaticityDiagramColours',
-    'TestPlotChromaticityDiagram', 'TestPlotChromaticityDiagramCIE1931',
+    'TestPlotSpectralLocus',
+    'TestPlotChromaticityDiagramColours',
+    'TestPlotChromaticityDiagram',
+    'TestPlotChromaticityDiagramCIE1931',
     'TestPlotChromaticityDiagramCIE1960UCS',
     'TestPlotChromaticityDiagramCIE1976UCS',
     'TestPlotSdsInChromaticityDiagram',
     'TestPlotSdsInChromaticityDiagramCIE1931',
     'TestPlotSdsInChromaticityDiagramCIE1960UCS',
-    'TestPlotSdsInChromaticityDiagramCIE1976UCS'
+    'TestPlotSdsInChromaticityDiagramCIE1976UCS',
 ]
 
 

@@ -6,8 +6,10 @@ Defines the unit tests for the :mod:`colour.quality.cri` module.
 import numpy as np
 import unittest
 
-from colour.quality import (ColourRendering_Specification_CRI,
-                            colour_rendering_index)
+from colour.quality import (
+    ColourRendering_Specification_CRI,
+    colour_rendering_index,
+)
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 from colour.quality.cri import TCS_ColorimetryData, TCS_ColourQualityScaleData
 
@@ -18,7 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestColourRenderingIndex']
+__all__ = [
+    'TestColourRenderingIndex',
+]
 
 DATA_SAMPLE = {
     380: 0.00588346,

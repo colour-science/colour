@@ -19,7 +19,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestExponent_hdr_CIELab', 'TestXYZ_to_hdr_CIELab', 'TestHdr_CIELab_to_XYZ'
+    'TestExponent_hdr_CIELab',
+    'TestXYZ_to_hdr_CIELab',
+    'TestHdr_CIELab_to_XYZ',
 ]
 
 

@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestXy_to_CCT_CIE_D', 'TestCCT_to_xy_CIE_D']
+__all__ = [
+    'TestXy_to_CCT_CIE_D',
+    'TestCCT_to_xy_CIE_D',
+]
 
 
 class TestXy_to_CCT_CIE_D(unittest.TestCase):

@@ -25,7 +25,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
+__all__ = [
+    'log_encoding_FilmLightTLog',
+    'log_decoding_FilmLightTLog',
+]
 
 
 def log_encoding_FilmLightTLog(x, w=128.0, g=16.0, o=0.075):

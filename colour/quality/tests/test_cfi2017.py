@@ -11,11 +11,18 @@ Notes
 import numpy as np
 import unittest
 
-from colour.colorimetry import (SDS_ILLUMINANTS, SpectralShape,
-                                SpectralDistribution, reshape_sd, sd_blackbody)
-from colour.quality.cfi2017 import (CCT_reference_illuminant,
-                                    sd_reference_illuminant,
-                                    colour_fidelity_index_CIE2017)
+from colour.colorimetry import (
+    SDS_ILLUMINANTS,
+    SpectralShape,
+    SpectralDistribution,
+    reshape_sd,
+    sd_blackbody,
+)
+from colour.quality.cfi2017 import (
+    CCT_reference_illuminant,
+    sd_reference_illuminant,
+    colour_fidelity_index_CIE2017,
+)
 from colour.utilities import ColourUsageWarning
 
 __author__ = 'Colour Developers'
@@ -26,9 +33,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_SD_SAMPLE_5NM', 'SD_SAMPLE_5NM', 'DATA_SD_SAMPLE_1NM',
-    'SD_SAMPLE_1NM', 'TestColourFidelityIndexCIE2017',
-    'TestCctReferenceIlluminant', 'TestSdReferenceIlluminant'
+    'DATA_SD_SAMPLE_5NM',
+    'SD_SAMPLE_5NM',
+    'DATA_SD_SAMPLE_1NM',
+    'SD_SAMPLE_1NM',
+    'TestColourFidelityIndexCIE2017',
+    'TestCctReferenceIlluminant',
+    'TestSdReferenceIlluminant',
 ]
 
 DATA_SD_SAMPLE_5NM = {

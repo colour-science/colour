@@ -18,12 +18,27 @@ from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
 from colour.plotting import ColourSwatch
 from colour.plotting import (
-    colour_style, override_style, XYZ_to_plotting_colourspace, colour_cycle,
-    artist, camera, render, label_rectangles, uniform_axes3d,
-    filter_passthrough, filter_RGB_colourspaces, filter_cmfs,
-    filter_illuminants, filter_colour_checkers, update_settings_collection,
-    plot_single_colour_swatch, plot_multi_colour_swatches,
-    plot_single_function, plot_multi_functions, plot_image)
+    colour_style,
+    override_style,
+    XYZ_to_plotting_colourspace,
+    colour_cycle,
+    artist,
+    camera,
+    render,
+    label_rectangles,
+    uniform_axes3d,
+    filter_passthrough,
+    filter_RGB_colourspaces,
+    filter_cmfs,
+    filter_illuminants,
+    filter_colour_checkers,
+    update_settings_collection,
+    plot_single_colour_swatch,
+    plot_multi_colour_swatches,
+    plot_single_function,
+    plot_multi_functions,
+    plot_image,
+)
 from colour.utilities import attest
 
 __author__ = 'Colour Developers'
@@ -34,13 +49,26 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestColourStyle', 'TestOverrideStyle', 'TestXyzToPlottingColourspace',
-    'TestColourCycle', 'TestArtist', 'TestCamera', 'TestRender',
-    'TestLabelRectangles', 'TestUniformAxes3d', 'TestFilterPassthrough',
-    'TestFilterRgbColourspaces', 'TestFilterCmfs', 'TestFilterIlluminants',
-    'TestFilterColourCheckers', 'TestUpdateSettingsCollection',
-    'TestPlotSingleColourSwatch', 'TestPlotMultiColourSwatches',
-    'TestPlotSingleFunction', 'TestPlotMultiFunctions', 'TestPlotImage'
+    'TestColourStyle',
+    'TestOverrideStyle',
+    'TestXyzToPlottingColourspace',
+    'TestColourCycle',
+    'TestArtist',
+    'TestCamera',
+    'TestRender',
+    'TestLabelRectangles',
+    'TestUniformAxes3d',
+    'TestFilterPassthrough',
+    'TestFilterRgbColourspaces',
+    'TestFilterCmfs',
+    'TestFilterIlluminants',
+    'TestFilterColourCheckers',
+    'TestUpdateSettingsCollection',
+    'TestPlotSingleColourSwatch',
+    'TestPlotMultiColourSwatches',
+    'TestPlotSingleFunction',
+    'TestPlotMultiFunctions',
+    'TestPlotImage',
 ]
 
 

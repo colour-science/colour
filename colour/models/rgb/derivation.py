@@ -38,8 +38,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'xy_to_z', 'normalised_primary_matrix', 'chromatically_adapted_primaries',
-    'primaries_whitepoint', 'RGB_luminance_equation', 'RGB_luminance'
+    'xy_to_z',
+    'normalised_primary_matrix',
+    'chromatically_adapted_primaries',
+    'primaries_whitepoint',
+    'RGB_luminance_equation',
+    'RGB_luminance',
 ]
 
 

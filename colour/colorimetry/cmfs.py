@@ -25,8 +25,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'LMS_ConeFundamentals', 'RGB_ColourMatchingFunctions',
-    'XYZ_ColourMatchingFunctions'
+    'LMS_ConeFundamentals',
+    'RGB_ColourMatchingFunctions',
+    'XYZ_ColourMatchingFunctions',
 ]
 
 

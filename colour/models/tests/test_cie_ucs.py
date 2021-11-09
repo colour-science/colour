@@ -7,8 +7,14 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models import (XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, uv_to_UCS,
-                           UCS_uv_to_xy, xy_to_UCS_uv)
+from colour.models import (
+    XYZ_to_UCS,
+    UCS_to_XYZ,
+    UCS_to_uv,
+    uv_to_UCS,
+    UCS_uv_to_xy,
+    xy_to_UCS_uv,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -19,8 +25,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestXYZ_to_UCS', 'TestUCS_to_XYZ', 'TestUCS_to_uv', 'Testuv_to_UCS',
-    'TestUCS_uv_to_xy', 'TestXy_to_UCS_uv'
+    'TestXYZ_to_UCS',
+    'TestUCS_to_XYZ',
+    'TestUCS_to_uv',
+    'Testuv_to_UCS',
+    'TestUCS_uv_to_xy',
+    'TestXy_to_UCS_uv',
 ]
 
 

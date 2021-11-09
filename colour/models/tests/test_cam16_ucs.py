@@ -6,8 +6,11 @@ Defines the unit tests for the :mod:`colour.models.cam16_ucs` module.
 import unittest
 
 from colour.models.tests.test_cam02_ucs import (
-    TestJMh_CIECAM02_to_UCS_Luo2006, TestUCS_Luo2006_to_JMh_CIECAM02,
-    TestXYZ_to_UCS_Luo2006, TestUCS_Luo2006_to_XYZ)
+    TestJMh_CIECAM02_to_UCS_Luo2006,
+    TestUCS_Luo2006_to_JMh_CIECAM02,
+    TestXYZ_to_UCS_Luo2006,
+    TestUCS_Luo2006_to_XYZ,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -17,8 +20,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestJMh_CAM16_to_UCS_Li2017', 'TestUCS_Li2017_to_JMh_CAM16',
-    'TestXYZ_to_UCS_Li2017', 'TestUCS_Li2017_to_XYZ'
+    'TestJMh_CAM16_to_UCS_Li2017',
+    'TestUCS_Li2017_to_JMh_CAM16',
+    'TestXYZ_to_UCS_Li2017',
+    'TestUCS_Li2017_to_XYZ',
 ]
 
 

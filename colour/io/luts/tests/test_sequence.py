@@ -7,8 +7,13 @@ import numpy as np
 import textwrap
 import unittest
 
-from colour.io.luts import (AbstractLUTSequenceOperator, LUT1D, LUT3x1D, LUT3D,
-                            LUTSequence)
+from colour.io.luts import (
+    AbstractLUTSequenceOperator,
+    LUT1D,
+    LUT3x1D,
+    LUT3D,
+    LUTSequence,
+)
 from colour.models import gamma_function
 from colour.utilities import tstack
 
@@ -19,7 +24,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestLUTSequence']
+__all__ = [
+    'TestLUTSequence',
+]
 
 
 class TestLUTSequence(unittest.TestCase):

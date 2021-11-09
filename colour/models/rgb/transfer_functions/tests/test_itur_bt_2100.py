@@ -8,15 +8,27 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    oetf_PQ_BT2100, oetf_inverse_PQ_BT2100, eotf_PQ_BT2100,
-    eotf_inverse_PQ_BT2100, ootf_PQ_BT2100, ootf_inverse_PQ_BT2100,
-    oetf_HLG_BT2100, oetf_inverse_HLG_BT2100)
+    oetf_PQ_BT2100,
+    oetf_inverse_PQ_BT2100,
+    eotf_PQ_BT2100,
+    eotf_inverse_PQ_BT2100,
+    ootf_PQ_BT2100,
+    ootf_inverse_PQ_BT2100,
+    oetf_HLG_BT2100,
+    oetf_inverse_HLG_BT2100,
+)
 from colour.models.rgb.transfer_functions.itur_bt_2100 import (
-    eotf_HLG_BT2100_1, eotf_HLG_BT2100_2, eotf_inverse_HLG_BT2100_1,
-    eotf_inverse_HLG_BT2100_2, ootf_HLG_BT2100_1, ootf_HLG_BT2100_2,
-    ootf_inverse_HLG_BT2100_1, ootf_inverse_HLG_BT2100_2)
+    eotf_HLG_BT2100_1,
+    eotf_HLG_BT2100_2,
+    eotf_inverse_HLG_BT2100_1,
+    eotf_inverse_HLG_BT2100_2,
+    ootf_HLG_BT2100_1,
+    ootf_HLG_BT2100_2,
+    ootf_inverse_HLG_BT2100_1,
+    ootf_inverse_HLG_BT2100_2,
+)
 from colour.models.rgb.transfer_functions.itur_bt_2100 import (
-    gamma_function_HLG_BT2100)
+    gamma_function_HLG_BT2100, )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -27,14 +39,23 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestOetf_PQ_BT2100', 'TestOetf_inverse_PQ_BT2100', 'TestEotf_PQ_BT2100',
-    'TestEotf_inverse_PQ_BT2100', 'TestOotf_PQ_BT2100',
-    'TestOotf_inverse_PQ_BT2100', 'TestGamma_function_HLG_BT2100',
-    'TestOetf_HLG_BT2100', 'TestOetf_inverse_HLG_BT2100',
-    'TestEotf_HLG_BT2100_1', 'TestEotf_HLG_BT2100_2',
-    'TestEotf_inverse_HLG_BT2100_1', 'TestEotf_inverse_HLG_BT2100_2',
-    'TestOotf_HLG_BT2100_1', 'TestOotf_HLG_BT2100_2',
-    'TestOotf_inverse_HLG_BT2100_1', 'TestOotf_inverse_HLG_BT2100_2'
+    'TestOetf_PQ_BT2100',
+    'TestOetf_inverse_PQ_BT2100',
+    'TestEotf_PQ_BT2100',
+    'TestEotf_inverse_PQ_BT2100',
+    'TestOotf_PQ_BT2100',
+    'TestOotf_inverse_PQ_BT2100',
+    'TestGamma_function_HLG_BT2100',
+    'TestOetf_HLG_BT2100',
+    'TestOetf_inverse_HLG_BT2100',
+    'TestEotf_HLG_BT2100_1',
+    'TestEotf_HLG_BT2100_2',
+    'TestEotf_inverse_HLG_BT2100_1',
+    'TestEotf_inverse_HLG_BT2100_2',
+    'TestOotf_HLG_BT2100_1',
+    'TestOotf_HLG_BT2100_2',
+    'TestOotf_inverse_HLG_BT2100_1',
+    'TestOotf_inverse_HLG_BT2100_2',
 ]
 
 

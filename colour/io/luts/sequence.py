@@ -23,7 +23,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['LUTSequence']
+__all__ = [
+    'LUTSequence',
+]
 
 
 class LUTSequence(MutableSequence):

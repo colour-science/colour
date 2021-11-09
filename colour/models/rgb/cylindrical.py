@@ -42,8 +42,13 @@ References
 
 import numpy as np
 
-from colour.utilities import (as_float_array, from_range_1, to_domain_1,
-                              tsplit, tstack)
+from colour.utilities import (
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -53,8 +58,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB', 'RGB_to_HCL',
-    'HCL_to_RGB'
+    'RGB_to_HSV',
+    'HSV_to_RGB',
+    'RGB_to_HSL',
+    'HSL_to_RGB',
+    'RGB_to_HCL',
+    'HCL_to_RGB',
 ]
 
 

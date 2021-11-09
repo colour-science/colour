@@ -18,8 +18,10 @@ import numpy as np
 
 from collections import namedtuple
 
-from colour.utilities.documentation import (DocstringDict,
-                                            is_documentation_building)
+from colour.utilities.documentation import (
+    DocstringDict,
+    is_documentation_building,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,14 +31,22 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'BrenemanExperimentResult', 'PrimariesChromaticityCoordinates',
-    'BRENEMAN_EXPERIMENT_1_RESULTS', 'BRENEMAN_EXPERIMENT_2_RESULTS',
-    'BRENEMAN_EXPERIMENT_3_RESULTS', 'BRENEMAN_EXPERIMENT_4_RESULTS',
-    'BRENEMAN_EXPERIMENT_5_RESULTS', 'BRENEMAN_EXPERIMENT_6_RESULTS',
-    'BRENEMAN_EXPERIMENT_7_RESULTS', 'BRENEMAN_EXPERIMENT_10_RESULTS',
-    'BRENEMAN_EXPERIMENT_8_RESULTS', 'BRENEMAN_EXPERIMENT_9_RESULTS',
-    'BRENEMAN_EXPERIMENT_11_RESULTS', 'BRENEMAN_EXPERIMENT_12_RESULTS',
-    'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES', 'BRENEMAN_EXPERIMENTS'
+    'BrenemanExperimentResult',
+    'PrimariesChromaticityCoordinates',
+    'BRENEMAN_EXPERIMENT_1_RESULTS',
+    'BRENEMAN_EXPERIMENT_2_RESULTS',
+    'BRENEMAN_EXPERIMENT_3_RESULTS',
+    'BRENEMAN_EXPERIMENT_4_RESULTS',
+    'BRENEMAN_EXPERIMENT_5_RESULTS',
+    'BRENEMAN_EXPERIMENT_6_RESULTS',
+    'BRENEMAN_EXPERIMENT_7_RESULTS',
+    'BRENEMAN_EXPERIMENT_10_RESULTS',
+    'BRENEMAN_EXPERIMENT_8_RESULTS',
+    'BRENEMAN_EXPERIMENT_9_RESULTS',
+    'BRENEMAN_EXPERIMENT_11_RESULTS',
+    'BRENEMAN_EXPERIMENT_12_RESULTS',
+    'BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES',
+    'BRENEMAN_EXPERIMENTS',
 ]
 
 

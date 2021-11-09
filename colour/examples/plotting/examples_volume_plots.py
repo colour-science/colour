@@ -5,8 +5,11 @@ Showcases colour models volume and gamut plotting examples.
 
 import numpy as np
 
-from colour.plotting import (plot_RGB_colourspaces_gamuts, plot_RGB_scatter,
-                             colour_style)
+from colour.plotting import (
+    plot_RGB_colourspaces_gamuts,
+    plot_RGB_scatter,
+    colour_style,
+)
 from colour.utilities import message_box
 
 message_box('Colour Models Volume and Gamut Plots')

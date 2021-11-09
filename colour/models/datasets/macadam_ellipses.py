@@ -26,7 +26,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DATA_MACADAM_1942_ELLIPSES']
+__all__ = [
+    'DATA_MACADAM_1942_ELLIPSES',
+]
 
 DATA_MACADAM_1942_ELLIPSES = np.array([
     [0.160, 0.057, 0.85, 0.35, 62.5, 0.94, 0.30, 62.3],

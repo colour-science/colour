@@ -9,8 +9,12 @@ import unittest
 import shutil
 import tempfile
 
-from colour.io import (LUT1D, LUTSequence, read_LUT_IridasCube,
-                       write_LUT_IridasCube)
+from colour.io import (
+    LUT1D,
+    LUTSequence,
+    read_LUT_IridasCube,
+    write_LUT_IridasCube,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -19,7 +23,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['LUTS_DIRECTORY', 'TestReadLUTIridasCube', 'TestWriteLUTIridasCube']
+__all__ = [
+    'LUTS_DIRECTORY',
+    'TestReadLUTIridasCube',
+    'TestWriteLUTIridasCube',
+]
 
 LUTS_DIRECTORY = os.path.join(
     os.path.dirname(__file__), 'resources', 'iridas_cube')

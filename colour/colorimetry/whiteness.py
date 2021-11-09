@@ -43,9 +43,16 @@ References
 c/09_color_calculations_en.pdf
 """
 
-from colour.utilities import (CaseInsensitiveMapping, get_domain_range_scale,
-                              filter_kwargs, from_range_100, to_domain_100,
-                              tsplit, tstack, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    get_domain_range_scale,
+    filter_kwargs,
+    from_range_100,
+    to_domain_100,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -55,9 +62,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'whiteness_Berger1959', 'whiteness_Taube1960', 'whiteness_Stensby1968',
-    'whiteness_ASTME313', 'whiteness_Ganz1979', 'whiteness_CIE2004',
-    'WHITENESS_METHODS', 'whiteness'
+    'whiteness_Berger1959',
+    'whiteness_Taube1960',
+    'whiteness_Stensby1968',
+    'whiteness_ASTME313',
+    'whiteness_Ganz1979',
+    'whiteness_CIE2004',
+    'WHITENESS_METHODS',
+    'whiteness',
 ]
 
 

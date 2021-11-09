@@ -21,11 +21,20 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ObjectRenamed', 'ObjectRemoved', 'ObjectFutureRename',
-    'ObjectFutureRemove', 'ObjectFutureAccessChange',
-    'ObjectFutureAccessRemove', 'ModuleAPI', 'ArgumentRenamed',
-    'ArgumentRemoved', 'ArgumentFutureRename', 'ArgumentFutureRemove',
-    'get_attribute', 'build_API_changes', 'handle_arguments_deprecation'
+    'ObjectRenamed',
+    'ObjectRemoved',
+    'ObjectFutureRename',
+    'ObjectFutureRemove',
+    'ObjectFutureAccessChange',
+    'ObjectFutureAccessRemove',
+    'ModuleAPI',
+    'ArgumentRenamed',
+    'ArgumentRemoved',
+    'ArgumentFutureRename',
+    'ArgumentFutureRemove',
+    'get_attribute',
+    'build_API_changes',
+    'handle_arguments_deprecation',
 ]
 
 

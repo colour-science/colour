@@ -20,9 +20,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RESOURCES_DIRECTORY', 'FLUORESCENT_FILE_HEADER',
-    'FLUORESCENT_FILE_SPECTRAL_DESCRIPTION', 'FLUORESCENT_FILE_SPECTRAL_DATA',
-    'TestIES_TM2714_Header', 'TestIES_TM2714_Sd'
+    'RESOURCES_DIRECTORY',
+    'FLUORESCENT_FILE_HEADER',
+    'FLUORESCENT_FILE_SPECTRAL_DESCRIPTION',
+    'FLUORESCENT_FILE_SPECTRAL_DATA',
+    'TestIES_TM2714_Header',
+    'TestIES_TM2714_Sd',
 ]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')

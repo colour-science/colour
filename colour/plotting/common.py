@@ -38,9 +38,16 @@ from matplotlib.colors import LinearSegmentedColormap
 from colour.characterisation import CCS_COLOURCHECKERS
 from colour.colorimetry import MSDS_CMFS, SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
-from colour.utilities import (CaseInsensitiveMapping, Structure,
-                              as_float_array, attest, is_sibling, is_string,
-                              filter_mapping, runtime_warning)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    Structure,
+    as_float_array,
+    attest,
+    is_sibling,
+    is_string,
+    filter_mapping,
+    runtime_warning,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -50,14 +57,29 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_COLOUR_STYLE', 'CONSTANTS_ARROW_STYLE', 'colour_style',
-    'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
-    'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
-    'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
-    'update_settings_collection', 'plot_single_colour_swatch',
-    'plot_multi_colour_swatches', 'plot_single_function',
-    'plot_multi_functions', 'plot_image'
+    'CONSTANTS_COLOUR_STYLE',
+    'CONSTANTS_ARROW_STYLE',
+    'colour_style',
+    'override_style',
+    'XYZ_to_plotting_colourspace',
+    'ColourSwatch',
+    'colour_cycle',
+    'artist',
+    'camera',
+    'render',
+    'label_rectangles',
+    'uniform_axes3d',
+    'filter_passthrough',
+    'filter_RGB_colourspaces',
+    'filter_cmfs',
+    'filter_illuminants',
+    'filter_colour_checkers',
+    'update_settings_collection',
+    'plot_single_colour_swatch',
+    'plot_multi_colour_swatches',
+    'plot_single_function',
+    'plot_multi_functions',
+    'plot_image',
 ]
 
 CONSTANTS_COLOUR_STYLE = Structure(

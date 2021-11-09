@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from colour.utilities.deprecation import (ModuleAPI, ObjectRenamed,
-                                          ObjectRemoved)
+from colour.utilities.deprecation import (
+    ModuleAPI,
+    ObjectRenamed,
+    ObjectRemoved,
+)
 
 
 class deprecated(ModuleAPI):

@@ -5,8 +5,10 @@ examples.
 """
 
 from colour.plotting import (
-    colour_style, plot_planckian_locus_in_chromaticity_diagram_CIE1931,
-    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS)
+    colour_style,
+    plot_planckian_locus_in_chromaticity_diagram_CIE1931,
+    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
+)
 from colour.utilities import message_box
 
 message_box('Colour Temperature and Correlated Colour Temperature Plots')

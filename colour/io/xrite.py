@@ -21,7 +21,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['XRITE_FILE_ENCODING', 'read_sds_from_xrite_file']
+__all__ = [
+    'XRITE_FILE_ENCODING',
+    'read_sds_from_xrite_file',
+]
 
 XRITE_FILE_ENCODING = 'utf-8'
 

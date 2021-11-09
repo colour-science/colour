@@ -25,9 +25,15 @@ from typing import Union
 
 from colour.algebra import matrix_dot, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_degrees,
-                              row_as_diagonal, to_domain_100, tsplit)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float_array,
+    from_range_degrees,
+    row_as_diagonal,
+    to_domain_100,
+    tsplit,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -37,8 +43,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_R', 'VIEWING_CONDITIONS_RLAB', 'D_FACTOR_RLAB',
-    'CAM_ReferenceSpecification_RLAB', 'CAM_Specification_RLAB', 'XYZ_to_RLAB'
+    'MATRIX_R',
+    'VIEWING_CONDITIONS_RLAB',
+    'D_FACTOR_RLAB',
+    'CAM_ReferenceSpecification_RLAB',
+    'CAM_Specification_RLAB',
+    'XYZ_to_RLAB',
 ]
 
 MATRIX_R = np.array([

@@ -6,8 +6,10 @@ Defines the unit tests for the :mod:`colour.colorimetry.lefs` module.
 import numpy as np
 import unittest
 
-from colour.colorimetry import (mesopic_weighting_function,
-                                sd_mesopic_luminous_efficiency_function)
+from colour.colorimetry import (
+    mesopic_weighting_function,
+    sd_mesopic_luminous_efficiency_function,
+)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -18,8 +20,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_MESOPIC_LEF', 'TestMesopicWeightingFunction',
-    'TestSdMesopicLuminousEfficiencyFunction'
+    'DATA_MESOPIC_LEF',
+    'TestMesopicWeightingFunction',
+    'TestSdMesopicLuminousEfficiencyFunction',
 ]
 
 DATA_MESOPIC_LEF = (

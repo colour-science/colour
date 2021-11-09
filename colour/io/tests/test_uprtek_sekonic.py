@@ -9,8 +9,10 @@ import os
 import unittest
 
 from colour.colorimetry import SpectralDistribution
-from colour.io import (SpectralDistribution_UPRTek,
-                       SpectralDistribution_Sekonic)
+from colour.io import (
+    SpectralDistribution_UPRTek,
+    SpectralDistribution_Sekonic,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -19,8 +21,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 __all__ = [
-    'RESOURCES_DIRECTORY', 'AbstractSpectralDistributionTest',
-    'TestSpectralDistributionUprTek', 'TestSpectralDistributionSekonic'
+    'RESOURCES_DIRECTORY',
+    'AbstractSpectralDistributionTest',
+    'TestSpectralDistributionUprTek',
+    'TestSpectralDistributionSekonic',
 ]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')

@@ -21,8 +21,13 @@ References
 import numpy as np
 
 from colour.models.rgb.transfer_functions import gamma_function
-from colour.utilities import (Structure, as_float, domain_range_scale,
-                              from_range_1, to_domain_1)
+from colour.utilities import (
+    Structure,
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -32,7 +37,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_ARIBSTDB67', 'oetf_ARIBSTDB67', 'oetf_inverse_ARIBSTDB67'
+    'CONSTANTS_ARIBSTDB67',
+    'oetf_ARIBSTDB67',
+    'oetf_inverse_ARIBSTDB67',
 ]
 
 CONSTANTS_ARIBSTDB67 = Structure(a=0.17883277, b=0.28466892, c=0.55991073)

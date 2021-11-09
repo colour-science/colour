@@ -55,8 +55,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_LEFS_PHOTOPIC', 'SDS_LEFS_PHOTOPIC', 'DATA_LEFS_SCOTOPIC',
-    'SDS_LEFS_SCOTOPIC', 'SDS_LEFS', 'DATA_MESOPIC_X'
+    'DATA_LEFS_PHOTOPIC',
+    'SDS_LEFS_PHOTOPIC',
+    'DATA_LEFS_SCOTOPIC',
+    'SDS_LEFS_SCOTOPIC',
+    'SDS_LEFS',
+    'DATA_MESOPIC_X',
 ]
 
 DATA_LEFS_PHOTOPIC = {

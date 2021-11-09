@@ -14,8 +14,11 @@ References
 
 import os
 
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    validate_method,
+)
 
 from .lut import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
 from .operator import AbstractLUTSequenceOperator, LUTOperatorMatrix
@@ -27,15 +30,43 @@ from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from .sony_spimtx import read_LUT_SonySPImtx, write_LUT_SonySPImtx
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 
-__all__ = ['LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT']
-__all__ += ['AbstractLUTSequenceOperator', 'LUTOperatorMatrix']
-__all__ += ['LUTSequence']
-__all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
-__all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']
-__all__ += ['read_LUT_SonySPI1D', 'write_LUT_SonySPI1D']
-__all__ += ['read_LUT_SonySPI3D', 'write_LUT_SonySPI3D']
-__all__ += ['read_LUT_SonySPImtx', 'write_LUT_SonySPImtx']
-__all__ += ['read_LUT_Cinespace', 'write_LUT_Cinespace']
+__all__ = [
+    'LUT1D',
+    'LUT3x1D',
+    'LUT3D',
+    'LUT_to_LUT',
+]
+__all__ += [
+    'AbstractLUTSequenceOperator',
+    'LUTOperatorMatrix',
+]
+__all__ += [
+    'LUTSequence',
+]
+__all__ += [
+    'read_LUT_IridasCube',
+    'write_LUT_IridasCube',
+]
+__all__ += [
+    'read_LUT_ResolveCube',
+    'write_LUT_ResolveCube',
+]
+__all__ += [
+    'read_LUT_SonySPI1D',
+    'write_LUT_SonySPI1D',
+]
+__all__ += [
+    'read_LUT_SonySPI3D',
+    'write_LUT_SonySPI3D',
+]
+__all__ += [
+    'read_LUT_SonySPImtx',
+    'write_LUT_SonySPImtx',
+]
+__all__ += [
+    'read_LUT_Cinespace',
+    'write_LUT_Cinespace',
+]
 
 EXTENSION_TO_LUT_FORMAT_MAPPING = CaseInsensitiveMapping({
     '.cube': 'Iridas Cube',
@@ -275,4 +306,9 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     return function(LUT, path, decimals, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['LUT_READ_METHODS', 'read_LUT', 'LUT_WRITE_METHODS', 'write_LUT']
+__all__ += [
+    'LUT_READ_METHODS',
+    'read_LUT',
+    'LUT_WRITE_METHODS',
+    'write_LUT',
+]

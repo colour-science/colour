@@ -8,8 +8,11 @@ import unittest
 import re
 import textwrap
 
-from colour.algebra import (CubicSplineInterpolator, Extrapolator,
-                            KernelInterpolator)
+from colour.algebra import (
+    CubicSplineInterpolator,
+    Extrapolator,
+    KernelInterpolator,
+)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal
 from colour.utilities import ColourRuntimeWarning, attest, is_pandas_installed
@@ -21,7 +24,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestSignal']
+__all__ = [
+    'TestSignal',
+]
 
 
 class TestSignal(unittest.TestCase):

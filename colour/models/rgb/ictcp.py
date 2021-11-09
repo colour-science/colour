@@ -32,9 +32,17 @@ from colour.algebra import vector_dot
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
-    eotf_ST2084, eotf_inverse_ST2084, oetf_HLG_BT2100, oetf_inverse_HLG_BT2100)
-from colour.utilities import (domain_range_scale, from_range_1, to_domain_1,
-                              validate_method)
+    eotf_ST2084,
+    eotf_inverse_ST2084,
+    oetf_HLG_BT2100,
+    oetf_inverse_HLG_BT2100,
+)
+from colour.utilities import (
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -44,11 +52,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_ICTCP_RGB_TO_LMS', 'MATRIX_ICTCP_LMS_TO_RGB',
-    'MATRIX_ICTCP_LMS_P_TO_ICTCP', 'MATRIX_ICTCP_ICTCP_TO_LMS_P',
+    'MATRIX_ICTCP_RGB_TO_LMS',
+    'MATRIX_ICTCP_LMS_TO_RGB',
+    'MATRIX_ICTCP_LMS_P_TO_ICTCP',
+    'MATRIX_ICTCP_ICTCP_TO_LMS_P',
     'MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2',
-    'MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2', 'RGB_to_ICtCp', 'ICtCp_to_RGB',
-    'XYZ_to_ICtCp', 'ICtCp_to_XYZ'
+    'MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2',
+    'RGB_to_ICtCp',
+    'ICtCp_to_RGB',
+    'XYZ_to_ICtCp',
+    'ICtCp_to_XYZ',
 ]
 
 MATRIX_ICTCP_RGB_TO_LMS = np.array([

@@ -27,7 +27,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['luminous_flux', 'luminous_efficiency', 'luminous_efficacy']
+__all__ = [
+    'luminous_flux',
+    'luminous_efficiency',
+    'luminous_efficacy',
+]
 
 
 def luminous_flux(sd, lef=None, K_m=CONSTANT_K_M):

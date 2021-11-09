@@ -11,11 +11,33 @@ from typing import Union
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
-    MixinDataclassArray, as_array, as_int_array, as_float_array, as_numeric,
-    as_int, as_float, set_float_precision, set_int_precision, closest_indexes,
-    closest, interval, is_uniform, in_array, tstack, tsplit, row_as_diagonal,
-    orient, centroid, fill_nan, has_only_nan, ndarray_write, zeros, ones, full,
-    index_along_last_axis)
+    MixinDataclassArray,
+    as_array,
+    as_int_array,
+    as_float_array,
+    as_numeric,
+    as_int,
+    as_float,
+    set_float_precision,
+    set_int_precision,
+    closest_indexes,
+    closest,
+    interval,
+    is_uniform,
+    in_array,
+    tstack,
+    tsplit,
+    row_as_diagonal,
+    orient,
+    centroid,
+    fill_nan,
+    has_only_nan,
+    ndarray_write,
+    zeros,
+    ones,
+    full,
+    index_along_last_axis,
+)
 from colour.utilities import is_networkx_installed
 
 __author__ = 'Colour Developers'
@@ -26,13 +48,32 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestMixinDataclassArray', 'TestAsArray', 'TestAsIntArray',
-    'TestAsFloatArray', 'TestAsNumeric', 'TestAsInt', 'TestAsFloat',
-    'TestSetFloatPrecision', 'TestSetIntPrecision', 'TestClosestIndexes',
-    'TestClosest', 'TestInterval', 'TestIsUniform', 'TestInArray',
-    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestOrient',
-    'TestCentroid', 'TestFillNan', 'TestHasNanOnly', 'TestNdarrayWrite',
-    'TestZeros', 'TestOnes', 'TestFull', 'TestIndexAlongLastAxis'
+    'TestMixinDataclassArray',
+    'TestAsArray',
+    'TestAsIntArray',
+    'TestAsFloatArray',
+    'TestAsNumeric',
+    'TestAsInt',
+    'TestAsFloat',
+    'TestSetFloatPrecision',
+    'TestSetIntPrecision',
+    'TestClosestIndexes',
+    'TestClosest',
+    'TestInterval',
+    'TestIsUniform',
+    'TestInArray',
+    'TestTstack',
+    'TestTsplit',
+    'TestRowAsDiagonal',
+    'TestOrient',
+    'TestCentroid',
+    'TestFillNan',
+    'TestHasNanOnly',
+    'TestNdarrayWrite',
+    'TestZeros',
+    'TestOnes',
+    'TestFull',
+    'TestIndexAlongLastAxis',
 ]
 
 
@@ -341,10 +382,15 @@ class TestSetFloatPrecision(unittest.TestCase):
             return
 
         from colour.appearance import (
-            CAM_Specification_CAM16, CAM_Specification_CIECAM02,
-            CAM_Specification_Kim2009, CAM_Specification_ZCAM)
-        from colour.graph.conversion import (CONVERSION_SPECIFICATIONS_DATA,
-                                             convert)
+            CAM_Specification_CAM16,
+            CAM_Specification_CIECAM02,
+            CAM_Specification_Kim2009,
+            CAM_Specification_ZCAM,
+        )
+        from colour.graph.conversion import (
+            CONVERSION_SPECIFICATIONS_DATA,
+            convert,
+        )
 
         dtype = np.float32
         set_float_precision(dtype)

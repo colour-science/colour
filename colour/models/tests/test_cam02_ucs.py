@@ -7,16 +7,32 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.appearance import (CAM_KWARGS_CIECAM02_sRGB,
-                               VIEWING_CONDITIONS_CIECAM02, XYZ_to_CIECAM02)
+from colour.appearance import (
+    CAM_KWARGS_CIECAM02_sRGB,
+    VIEWING_CONDITIONS_CIECAM02,
+    XYZ_to_CIECAM02,
+)
 from colour.models.cam02_ucs import (
-    COEFFICIENTS_UCS_LUO2006, JMh_CIECAM02_to_UCS_Luo2006,
-    UCS_Luo2006_to_JMh_CIECAM02, XYZ_to_UCS_Luo2006, UCS_Luo2006_to_XYZ)
-from colour.models import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
-                           JMh_CIECAM02_to_CAM02SCD, CAM02SCD_to_JMh_CIECAM02,
-                           JMh_CIECAM02_to_CAM02UCS, CAM02UCS_to_JMh_CIECAM02,
-                           XYZ_to_CAM02LCD, CAM02LCD_to_XYZ, XYZ_to_CAM02SCD,
-                           CAM02SCD_to_XYZ, XYZ_to_CAM02UCS, CAM02UCS_to_XYZ)
+    COEFFICIENTS_UCS_LUO2006,
+    JMh_CIECAM02_to_UCS_Luo2006,
+    UCS_Luo2006_to_JMh_CIECAM02,
+    XYZ_to_UCS_Luo2006,
+    UCS_Luo2006_to_XYZ,
+)
+from colour.models import (
+    JMh_CIECAM02_to_CAM02LCD,
+    CAM02LCD_to_JMh_CIECAM02,
+    JMh_CIECAM02_to_CAM02SCD,
+    CAM02SCD_to_JMh_CIECAM02,
+    JMh_CIECAM02_to_CAM02UCS,
+    CAM02UCS_to_JMh_CIECAM02,
+    XYZ_to_CAM02LCD,
+    CAM02LCD_to_XYZ,
+    XYZ_to_CAM02SCD,
+    CAM02SCD_to_XYZ,
+    XYZ_to_CAM02UCS,
+    CAM02UCS_to_XYZ,
+)
 from colour.utilities import attest, domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -27,8 +43,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestJMh_CIECAM02_to_UCS_Luo2006', 'TestUCS_Luo2006_to_JMh_CIECAM02',
-    'TestXYZ_to_UCS_Luo2006', 'TestUCS_Luo2006_to_XYZ'
+    'TestJMh_CIECAM02_to_UCS_Luo2006',
+    'TestUCS_Luo2006_to_JMh_CIECAM02',
+    'TestXYZ_to_UCS_Luo2006',
+    'TestUCS_Luo2006_to_XYZ',
 ]
 
 

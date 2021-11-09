@@ -18,9 +18,13 @@ References
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import (SpectralDistribution, SpectralShape,
-                                handle_spectral_arguments, sd_ones,
-                                sd_to_XYZ_integration)
+from colour.colorimetry import (
+    SpectralDistribution,
+    SpectralShape,
+    handle_spectral_arguments,
+    sd_ones,
+    sd_to_XYZ_integration,
+)
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = 'Colour Developers'
@@ -30,7 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['SPECTRAL_SHAPE_MENG2015', 'XYZ_to_sd_Meng2015']
+__all__ = [
+    'SPECTRAL_SHAPE_MENG2015',
+    'XYZ_to_sd_Meng2015',
+]
 
 SPECTRAL_SHAPE_MENG2015 = SpectralShape(360, 780, 5)
 """

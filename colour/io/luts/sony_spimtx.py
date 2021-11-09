@@ -22,7 +22,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['read_LUT_SonySPImtx', 'write_LUT_SonySPImtx']
+__all__ = [
+    'read_LUT_SonySPImtx',
+    'write_LUT_SonySPImtx',
+]
 
 
 def read_LUT_SonySPImtx(path):

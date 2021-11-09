@@ -19,8 +19,13 @@ References
 import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
-from colour.utilities import (attest, tsplit, tstack, as_float_array,
-                              as_int_array)
+from colour.utilities import (
+    attest,
+    tsplit,
+    tstack,
+    as_float_array,
+    as_int_array,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,7 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['read_LUT_Cinespace', 'write_LUT_Cinespace']
+__all__ = [
+    'read_LUT_Cinespace',
+    'write_LUT_Cinespace',
+]
 
 
 def read_LUT_Cinespace(path):

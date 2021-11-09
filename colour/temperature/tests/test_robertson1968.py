@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['Testuv_to_CCT_Robertson1968', 'TestCCT_to_uv_Robertson1968']
+__all__ = [
+    'Testuv_to_CCT_Robertson1968',
+    'TestCCT_to_uv_Robertson1968',
+]
 
 TEMPERATURE_DUV_TO_UV = {
     (2000, -0.0500): np.array([0.309448284638118, 0.309263824757947]),

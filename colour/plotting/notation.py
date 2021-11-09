@@ -12,8 +12,11 @@ Defines the colour notation systems plotting objects:
 import numpy as np
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import (filter_passthrough, plot_multi_functions,
-                             override_style)
+from colour.plotting import (
+    filter_passthrough,
+    plot_multi_functions,
+    override_style,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -23,7 +26,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_single_munsell_value_function', 'plot_multi_munsell_value_functions'
+    'plot_single_munsell_value_function',
+    'plot_multi_munsell_value_functions',
 ]
 
 

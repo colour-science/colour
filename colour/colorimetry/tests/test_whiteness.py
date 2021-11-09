@@ -7,9 +7,14 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (whiteness_Berger1959, whiteness_Taube1960,
-                                whiteness_Stensby1968, whiteness_ASTME313,
-                                whiteness_Ganz1979, whiteness_CIE2004)
+from colour.colorimetry import (
+    whiteness_Berger1959,
+    whiteness_Taube1960,
+    whiteness_Stensby1968,
+    whiteness_ASTME313,
+    whiteness_Ganz1979,
+    whiteness_CIE2004,
+)
 from colour.colorimetry.whiteness import whiteness
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -21,9 +26,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestWhitenessBerger1959', 'TestWhitenessTaube1960',
-    'TestWhitenessStensby1968', 'TestWhitenessASTM313',
-    'TestWhitenessGanz1979', 'TestWhitenessCIE2004', 'TestWhiteness'
+    'TestWhitenessBerger1959',
+    'TestWhitenessTaube1960',
+    'TestWhitenessStensby1968',
+    'TestWhitenessASTM313',
+    'TestWhitenessGanz1979',
+    'TestWhitenessCIE2004',
+    'TestWhiteness',
 ]
 
 

@@ -16,7 +16,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['is_within_mesh_volume']
+__all__ = [
+    'is_within_mesh_volume',
+]
 
 
 def is_within_mesh_volume(points, mesh, tolerance=None):

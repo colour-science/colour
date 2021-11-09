@@ -20,8 +20,12 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, oetf_BT709, oetf_inverse_BT709,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    oetf_BT709,
+    oetf_inverse_BT709,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -31,8 +35,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_BT709', 'CCS_WHITEPOINT_BT709', 'WHITEPOINT_NAME_BT709',
-    'MATRIX_BT709_TO_XYZ', 'MATRIX_XYZ_TO_BT709', 'RGB_COLOURSPACE_BT709'
+    'PRIMARIES_BT709',
+    'CCS_WHITEPOINT_BT709',
+    'WHITEPOINT_NAME_BT709',
+    'MATRIX_BT709_TO_XYZ',
+    'MATRIX_XYZ_TO_BT709',
+    'RGB_COLOURSPACE_BT709',
 ]
 
 PRIMARIES_BT709 = np.array([

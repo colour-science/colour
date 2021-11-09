@@ -18,8 +18,12 @@ import numpy as np
 
 from colour.algebra import vector_dot
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import (as_float, from_range_100, to_domain_100,
-                              validate_method)
+from colour.utilities import (
+    as_float,
+    from_range_100,
+    to_domain_100,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,7 +32,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['chromatic_adaptation_Zhai2018']
+__all__ = [
+    'chromatic_adaptation_Zhai2018',
+]
 
 
 def chromatic_adaptation_Zhai2018(XYZ_b,

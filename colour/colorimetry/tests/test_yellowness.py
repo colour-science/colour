@@ -8,7 +8,10 @@ import unittest
 from itertools import permutations
 
 from colour.colorimetry import (
-    yellowness_ASTMD1925, yellowness_ASTME313_alternative, yellowness_ASTME313)
+    yellowness_ASTMD1925,
+    yellowness_ASTME313_alternative,
+    yellowness_ASTME313,
+)
 from colour.colorimetry.yellowness import YELLOWNESS_COEFFICIENTS_ASTME313
 from colour.colorimetry.yellowness import yellowness
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -21,8 +24,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestYellownessASTMD1925', 'TestYellownessASTM313Alternative',
-    'TestYellownessASTM313', 'TestYellowness'
+    'TestYellownessASTMD1925',
+    'TestYellownessASTM313Alternative',
+    'TestYellownessASTM313',
+    'TestYellowness',
 ]
 
 

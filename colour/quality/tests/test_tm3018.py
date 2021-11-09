@@ -13,8 +13,10 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import SDS_ILLUMINANTS
-from colour.quality.tm3018 import (averages_area,
-                                   colour_fidelity_index_ANSIIESTM3018)
+from colour.quality.tm3018 import (
+    averages_area,
+    colour_fidelity_index_ANSIIESTM3018,
+)
 from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
@@ -24,7 +26,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestColourFidelityIndexANSIIESTM3018', 'TestAveragesArea']
+__all__ = [
+    'TestColourFidelityIndexANSIIESTM3018',
+    'TestAveragesArea',
+]
 
 
 class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):

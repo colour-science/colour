@@ -25,8 +25,15 @@ References
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.utilities import (as_float_array, from_range_1, full, to_domain_1,
-                              tsplit, tstack, zeros)
+from colour.utilities import (
+    as_float_array,
+    from_range_1,
+    full,
+    to_domain_1,
+    tsplit,
+    tstack,
+    zeros,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -36,8 +43,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_to_xyY', 'xyY_to_XYZ', 'xy_to_xyY', 'xyY_to_xy', 'XYZ_to_xy',
-    'xy_to_XYZ'
+    'XYZ_to_xyY',
+    'xyY_to_XYZ',
+    'xy_to_xyY',
+    'xyY_to_xy',
+    'XYZ_to_xy',
+    'xy_to_XYZ',
 ]
 
 

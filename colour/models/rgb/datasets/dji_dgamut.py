@@ -18,8 +18,11 @@ D-Log_D-Gamut_Whitepaper.pdf
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_encoding_DJIDLog,
-                               log_decoding_DJIDLog)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_DJIDLog,
+    log_decoding_DJIDLog,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,9 +32,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_DJI_D_GAMUT', 'WHITEPOINT_NAME_DJI_D_GAMUT',
-    'CCS_WHITEPOINT_DJI_D_GAMUT', 'MATRIX_DJI_D_GAMUT_TO_XYZ',
-    'MATRIX_XYZ_TO_DJI_D_GAMUT', 'RGB_COLOURSPACE_DJI_D_GAMUT'
+    'PRIMARIES_DJI_D_GAMUT',
+    'WHITEPOINT_NAME_DJI_D_GAMUT',
+    'CCS_WHITEPOINT_DJI_D_GAMUT',
+    'MATRIX_DJI_D_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_DJI_D_GAMUT',
+    'RGB_COLOURSPACE_DJI_D_GAMUT',
 ]
 
 PRIMARIES_DJI_D_GAMUT = np.array([

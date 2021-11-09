@@ -32,9 +32,15 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from colour.algebra import polar_to_cartesian, spow, vector_dot
-from colour.utilities import (CaseInsensitiveMapping, MixinDataclassArray,
-                              as_float_array, from_range_degrees,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float_array,
+    from_range_degrees,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -44,12 +50,22 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'InductionFactors_LLAB', 'VIEWING_CONDITIONS_LLAB',
-    'MATRIX_XYZ_TO_RGB_LLAB', 'MATRIX_RGB_TO_XYZ_LLAB',
-    'CAM_ReferenceSpecification_LLAB', 'CAM_Specification_LLAB', 'XYZ_to_LLAB',
-    'XYZ_to_RGB_LLAB', 'chromatic_adaptation', 'f',
-    'opponent_colour_dimensions', 'hue_angle', 'chroma_correlate',
-    'colourfulness_correlate', 'saturation_correlate', 'final_opponent_signals'
+    'InductionFactors_LLAB',
+    'VIEWING_CONDITIONS_LLAB',
+    'MATRIX_XYZ_TO_RGB_LLAB',
+    'MATRIX_RGB_TO_XYZ_LLAB',
+    'CAM_ReferenceSpecification_LLAB',
+    'CAM_Specification_LLAB',
+    'XYZ_to_LLAB',
+    'XYZ_to_RGB_LLAB',
+    'chromatic_adaptation',
+    'f',
+    'opponent_colour_dimensions',
+    'hue_angle',
+    'chroma_correlate',
+    'colourfulness_correlate',
+    'saturation_correlate',
+    'final_opponent_signals',
 ]
 
 

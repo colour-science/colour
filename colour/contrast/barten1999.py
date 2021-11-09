@@ -36,9 +36,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'optical_MTF_Barten1999', 'pupil_diameter_Barten1999', 'sigma_Barten1999',
-    'retinal_illuminance_Barten1999', 'maximum_angular_size_Barten1999',
-    'contrast_sensitivity_function_Barten1999'
+    'optical_MTF_Barten1999',
+    'pupil_diameter_Barten1999',
+    'sigma_Barten1999',
+    'retinal_illuminance_Barten1999',
+    'maximum_angular_size_Barten1999',
+    'contrast_sensitivity_function_Barten1999',
 ]
 
 

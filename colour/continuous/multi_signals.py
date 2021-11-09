@@ -13,9 +13,17 @@ from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
-from colour.utilities import (as_float_array, attest, first_item, is_iterable,
-                              is_pandas_installed, required, tsplit, tstack,
-                              validate_method)
+from colour.utilities import (
+    as_float_array,
+    attest,
+    first_item,
+    is_iterable,
+    is_pandas_installed,
+    required,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -24,7 +32,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['MultiSignals']
+__all__ = [
+    'MultiSignals',
+]
 
 
 class MultiSignals(AbstractContinuousFunction):

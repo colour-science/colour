@@ -17,18 +17,28 @@ References
     https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf
 """
 
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    validate_method,
+)
 
-from .barten1999 import (optical_MTF_Barten1999, pupil_diameter_Barten1999,
-                         sigma_Barten1999, retinal_illuminance_Barten1999,
-                         maximum_angular_size_Barten1999,
-                         contrast_sensitivity_function_Barten1999)
+from .barten1999 import (
+    optical_MTF_Barten1999,
+    pupil_diameter_Barten1999,
+    sigma_Barten1999,
+    retinal_illuminance_Barten1999,
+    maximum_angular_size_Barten1999,
+    contrast_sensitivity_function_Barten1999,
+)
 
 __all__ = [
-    'optical_MTF_Barten1999', 'pupil_diameter_Barten1999', 'sigma_Barten1999',
-    'retinal_illuminance_Barten1999', 'maximum_angular_size_Barten1999',
-    'contrast_sensitivity_function_Barten1999'
+    'optical_MTF_Barten1999',
+    'pupil_diameter_Barten1999',
+    'sigma_Barten1999',
+    'retinal_illuminance_Barten1999',
+    'maximum_angular_size_Barten1999',
+    'contrast_sensitivity_function_Barten1999',
 ]
 
 CONTRAST_SENSITIVITY_METHODS = CaseInsensitiveMapping({
@@ -139,4 +149,7 @@ def contrast_sensitivity_function(method='Barten 1999', **kwargs):
     return S
 
 
-__all__ += ['CONTRAST_SENSITIVITY_METHODS', 'contrast_sensitivity_function']
+__all__ += [
+    'CONTRAST_SENSITIVITY_METHODS',
+    'contrast_sensitivity_function',
+]

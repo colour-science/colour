@@ -16,8 +16,11 @@ References
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, log_encoding_ALEXALogC,
-                               log_decoding_ALEXALogC)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_ALEXALogC,
+    log_decoding_ALEXALogC,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -27,9 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_ALEXA_WIDE_GAMUT', 'WHITEPOINT_NAME_ALEXA_WIDE_GAMUT',
-    'CCS_WHITEPOINT_ALEXA_WIDE_GAMUT', 'MATRIX_ALEXA_WIDE_GAMUT_TO_XYZ',
-    'MATRIX_XYZ_TO_ALEXA_WIDE_GAMUT', 'RGB_COLOURSPACE_ALEXA_WIDE_GAMUT'
+    'PRIMARIES_ALEXA_WIDE_GAMUT',
+    'WHITEPOINT_NAME_ALEXA_WIDE_GAMUT',
+    'CCS_WHITEPOINT_ALEXA_WIDE_GAMUT',
+    'MATRIX_ALEXA_WIDE_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_ALEXA_WIDE_GAMUT',
+    'RGB_COLOURSPACE_ALEXA_WIDE_GAMUT',
 ]
 
 PRIMARIES_ALEXA_WIDE_GAMUT = np.array([

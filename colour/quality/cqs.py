@@ -27,17 +27,36 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
-    CCS_ILLUMINANTS, MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT, reshape_msds,
-    reshape_sd, sd_CIE_illuminant_D_series, sd_blackbody, sd_to_XYZ)
+    CCS_ILLUMINANTS,
+    MSDS_CMFS,
+    SPECTRAL_SHAPE_DEFAULT,
+    reshape_msds,
+    reshape_sd,
+    sd_CIE_illuminant_D_series,
+    sd_blackbody,
+    sd_to_XYZ,
+)
 from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
-from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
-                           XYZ_to_xy, xy_to_XYZ)
+from colour.models import (
+    Lab_to_LCHab,
+    UCS_to_uv,
+    XYZ_to_Lab,
+    XYZ_to_UCS,
+    XYZ_to_xy,
+    xy_to_XYZ,
+)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.utilities import (as_float_array, domain_range_scale, tsplit,
-                              validate_method)
-from colour.utilities.documentation import (DocstringTuple,
-                                            is_documentation_building)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    tsplit,
+    validate_method,
+)
+from colour.utilities.documentation import (
+    DocstringTuple,
+    is_documentation_building,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -47,10 +66,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'GAMUT_AREA_D65', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
-    'ColourRendering_Specification_CQS', 'COLOUR_QUALITY_SCALE_METHODS',
-    'colour_quality_scale', 'gamut_area', 'vs_colorimetry_data', 'CCT_factor',
-    'scale_conversion', 'delta_E_RMS', 'colour_quality_scales'
+    'GAMUT_AREA_D65',
+    'VS_ColorimetryData',
+    'VS_ColourQualityScaleData',
+    'ColourRendering_Specification_CQS',
+    'COLOUR_QUALITY_SCALE_METHODS',
+    'colour_quality_scale',
+    'gamut_area',
+    'vs_colorimetry_data',
+    'CCT_factor',
+    'scale_conversion',
+    'delta_E_RMS',
+    'colour_quality_scales',
 ]
 
 GAMUT_AREA_D65 = 8210

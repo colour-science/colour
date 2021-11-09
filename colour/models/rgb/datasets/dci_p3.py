@@ -29,8 +29,11 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, gamma_function,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -40,10 +43,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_DCI_P3', 'PRIMARIES_DCI_P3_P', 'WHITEPOINT_NAME_DCI_P3',
-    'CCS_WHITEPOINT_DCI_P3', 'MATRIX_DCI_P3_TO_XYZ', 'MATRIX_XYZ_TO_DCI_P3',
-    'MATRIX_DCI_P3_P_TO_XYZ', 'MATRIX_XYZ_TO_DCI_P3_P',
-    'RGB_COLOURSPACE_DCI_P3', 'RGB_COLOURSPACE_DCI_P3_P'
+    'PRIMARIES_DCI_P3',
+    'PRIMARIES_DCI_P3_P',
+    'WHITEPOINT_NAME_DCI_P3',
+    'CCS_WHITEPOINT_DCI_P3',
+    'MATRIX_DCI_P3_TO_XYZ',
+    'MATRIX_XYZ_TO_DCI_P3',
+    'MATRIX_DCI_P3_P_TO_XYZ',
+    'MATRIX_XYZ_TO_DCI_P3_P',
+    'RGB_COLOURSPACE_DCI_P3',
+    'RGB_COLOURSPACE_DCI_P3_P',
 ]
 
 PRIMARIES_DCI_P3 = np.array([

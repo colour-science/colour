@@ -20,8 +20,15 @@ import numpy as np
 
 from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
-from colour.utilities import (as_float_array, from_range_100, ones,
-                              row_as_diagonal, to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    as_float_array,
+    from_range_100,
+    ones,
+    row_as_diagonal,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -31,9 +38,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_XYZ_TO_RGB_FAIRCHILD1990', 'MATRIX_RGB_TO_XYZ_FAIRCHILD1990',
-    'chromatic_adaptation_Fairchild1990', 'XYZ_to_RGB_Fairchild1990',
-    'RGB_to_XYZ_Fairchild1990', 'degrees_of_adaptation'
+    'MATRIX_XYZ_TO_RGB_FAIRCHILD1990',
+    'MATRIX_RGB_TO_XYZ_FAIRCHILD1990',
+    'chromatic_adaptation_Fairchild1990',
+    'XYZ_to_RGB_Fairchild1990',
+    'RGB_to_XYZ_Fairchild1990',
+    'degrees_of_adaptation',
 ]
 
 MATRIX_XYZ_TO_RGB_FAIRCHILD1990 = CAT_VON_KRIES

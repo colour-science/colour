@@ -117,20 +117,45 @@ MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
 import numpy as np
 import re
 
-from colour.algebra import (Extrapolator, LinearInterpolator,
-                            cartesian_to_cylindrical, euclidean_distance,
-                            polar_to_cartesian, spow)
+from colour.algebra import (
+    Extrapolator,
+    LinearInterpolator,
+    cartesian_to_cylindrical,
+    euclidean_distance,
+    polar_to_cartesian,
+    spow,
+)
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
-from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
-                              INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
+from colour.constants import (
+    DEFAULT_FLOAT_DTYPE,
+    DEFAULT_INT_DTYPE,
+    INTEGER_THRESHOLD,
+    FLOATING_POINT_NUMBER_PATTERN,
+)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
-    CaseInsensitiveMapping, Lookup, as_float_array, as_float, as_int,
-    as_numeric, attest, domain_range_scale, from_range_1, from_range_10,
-    get_domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
-    is_integer, is_numeric, tsplit, usage_warning, validate_method)
+    CaseInsensitiveMapping,
+    Lookup,
+    as_float_array,
+    as_float,
+    as_int,
+    as_numeric,
+    attest,
+    domain_range_scale,
+    from_range_1,
+    from_range_10,
+    get_domain_range_scale,
+    to_domain_1,
+    to_domain_10,
+    to_domain_100,
+    is_integer,
+    is_numeric,
+    tsplit,
+    usage_warning,
+    validate_method,
+)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -144,25 +169,44 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MUNSELL_GRAY_PATTERN', 'MUNSELL_COLOUR_PATTERN', 'MUNSELL_GRAY_FORMAT',
-    'MUNSELL_COLOUR_FORMAT', 'MUNSELL_GRAY_EXTENDED_FORMAT',
-    'MUNSELL_COLOUR_EXTENDED_FORMAT', 'MUNSELL_HUE_LETTER_CODES',
-    'ILLUMINANT_NAME_MUNSELL', 'CCS_ILLUMINANT_MUNSELL',
-    'munsell_value_Priest1920', 'munsell_value_Munsell1933',
-    'munsell_value_Moon1943', 'munsell_value_Saunderson1944',
-    'munsell_value_Ladd1955', 'munsell_value_McCamy1987',
-    'munsell_value_ASTMD1535', 'MUNSELL_VALUE_METHODS', 'munsell_value',
-    'munsell_specification_to_xyY', 'munsell_colour_to_xyY',
-    'xyY_to_munsell_specification', 'xyY_to_munsell_colour',
-    'parse_munsell_colour', 'is_grey_munsell_colour',
+    'MUNSELL_GRAY_PATTERN',
+    'MUNSELL_COLOUR_PATTERN',
+    'MUNSELL_GRAY_FORMAT',
+    'MUNSELL_COLOUR_FORMAT',
+    'MUNSELL_GRAY_EXTENDED_FORMAT',
+    'MUNSELL_COLOUR_EXTENDED_FORMAT',
+    'MUNSELL_HUE_LETTER_CODES',
+    'ILLUMINANT_NAME_MUNSELL',
+    'CCS_ILLUMINANT_MUNSELL',
+    'munsell_value_Priest1920',
+    'munsell_value_Munsell1933',
+    'munsell_value_Moon1943',
+    'munsell_value_Saunderson1944',
+    'munsell_value_Ladd1955',
+    'munsell_value_McCamy1987',
+    'munsell_value_ASTMD1535',
+    'MUNSELL_VALUE_METHODS',
+    'munsell_value',
+    'munsell_specification_to_xyY',
+    'munsell_colour_to_xyY',
+    'xyY_to_munsell_specification',
+    'xyY_to_munsell_colour',
+    'parse_munsell_colour',
+    'is_grey_munsell_colour',
     'normalize_munsell_specification',
     'munsell_colour_to_munsell_specification',
-    'munsell_specification_to_munsell_colour', 'xyY_from_renotation',
-    'is_specification_in_renotation', 'bounding_hues_from_renotation',
-    'hue_to_hue_angle', 'hue_angle_to_hue', 'hue_to_ASTM_hue',
-    'interpolation_method_from_renotation_ovoid', 'xy_from_renotation_ovoid',
-    'LCHab_to_munsell_specification', 'maximum_chroma_from_renotation',
-    'munsell_specification_to_xy'
+    'munsell_specification_to_munsell_colour',
+    'xyY_from_renotation',
+    'is_specification_in_renotation',
+    'bounding_hues_from_renotation',
+    'hue_to_hue_angle',
+    'hue_angle_to_hue',
+    'hue_to_ASTM_hue',
+    'interpolation_method_from_renotation_ovoid',
+    'xy_from_renotation_ovoid',
+    'LCHab_to_munsell_specification',
+    'maximum_chroma_from_renotation',
+    'munsell_specification_to_xy',
 ]
 
 MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)

@@ -24,8 +24,11 @@ References
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, linear_function,
-                               normalised_primary_matrix)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    linear_function,
+    normalised_primary_matrix,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -35,9 +38,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_SHARP_RGB', 'WHITEPOINT_NAME_SHARP_RGB',
-    'CCS_WHITEPOINT_SHARP_RGB', 'MATRIX_SHARP_RGB_TO_XYZ',
-    'MATRIX_XYZ_TO_SHARP_RGB', 'RGB_COLOURSPACE_SHARP_RGB'
+    'PRIMARIES_SHARP_RGB',
+    'WHITEPOINT_NAME_SHARP_RGB',
+    'CCS_WHITEPOINT_SHARP_RGB',
+    'MATRIX_SHARP_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_SHARP_RGB',
+    'RGB_COLOURSPACE_SHARP_RGB',
 ]
 
 PRIMARIES_SHARP_RGB = np.array([

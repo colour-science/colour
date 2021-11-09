@@ -26,16 +26,30 @@ import numpy as np
 
 from colour.algebra import vector_dot
 from colour.colorimetry import (
-    lightness_Fairchild2010, lightness_Fairchild2011, luminance_Fairchild2010,
-    luminance_Fairchild2011)
-from colour.models.ipt import (MATRIX_IPT_XYZ_TO_LMS, MATRIX_IPT_LMS_TO_XYZ,
-                               MATRIX_IPT_LMS_P_TO_IPT,
-                               MATRIX_IPT_IPT_TO_LMS_P)
-from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
-                              from_range_100, to_domain_1, to_domain_100,
-                              validate_method)
-from colour.utilities.documentation import (DocstringTuple,
-                                            is_documentation_building)
+    lightness_Fairchild2010,
+    lightness_Fairchild2011,
+    luminance_Fairchild2010,
+    luminance_Fairchild2011,
+)
+from colour.models.ipt import (
+    MATRIX_IPT_XYZ_TO_LMS,
+    MATRIX_IPT_LMS_TO_XYZ,
+    MATRIX_IPT_LMS_P_TO_IPT,
+    MATRIX_IPT_IPT_TO_LMS_P,
+)
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    from_range_1,
+    from_range_100,
+    to_domain_1,
+    to_domain_100,
+    validate_method,
+)
+from colour.utilities.documentation import (
+    DocstringTuple,
+    is_documentation_building,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -45,7 +59,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'HDR_IPT_METHODS', 'exponent_hdr_IPT', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ'
+    'HDR_IPT_METHODS',
+    'exponent_hdr_IPT',
+    'XYZ_to_hdr_IPT',
+    'hdr_IPT_to_XYZ',
 ]
 
 HDR_IPT_METHODS = ('Fairchild 2010', 'Fairchild 2011')

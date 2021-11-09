@@ -37,11 +37,18 @@ nuke-default/make.py
 
 import numpy as np
 
-from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
-                                                  log_decoding_Cineon)
+from colour.models.rgb.transfer_functions import (
+    log_encoding_Cineon,
+    log_decoding_Cineon,
+)
 
-from colour.utilities import (CaseInsensitiveMapping, from_range_1,
-                              to_domain_1, as_numeric, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    from_range_1,
+    to_domain_1,
+    as_numeric,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -51,13 +58,22 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'log_encoding_REDLog', 'log_decoding_REDLog', 'log_encoding_REDLogFilm',
-    'log_decoding_REDLogFilm', 'log_encoding_Log3G10_v1',
-    'log_decoding_Log3G10_v1', 'log_encoding_Log3G10_v2',
-    'log_decoding_Log3G10_v2', 'log_encoding_Log3G10_v3',
-    'log_decoding_Log3G10_v3', 'LOG3G10_ENCODING_METHODS',
-    'log_encoding_Log3G10', 'LOG3G10_DECODING_METHODS', 'log_decoding_Log3G10',
-    'log_encoding_Log3G12', 'log_decoding_Log3G12'
+    'log_encoding_REDLog',
+    'log_decoding_REDLog',
+    'log_encoding_REDLogFilm',
+    'log_decoding_REDLogFilm',
+    'log_encoding_Log3G10_v1',
+    'log_decoding_Log3G10_v1',
+    'log_encoding_Log3G10_v2',
+    'log_decoding_Log3G10_v2',
+    'log_encoding_Log3G10_v3',
+    'log_decoding_Log3G10_v3',
+    'LOG3G10_ENCODING_METHODS',
+    'log_encoding_Log3G10',
+    'LOG3G10_DECODING_METHODS',
+    'log_decoding_Log3G10',
+    'log_encoding_Log3G12',
+    'log_decoding_Log3G12',
 ]
 
 

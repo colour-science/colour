@@ -38,7 +38,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DATA_DISPLAY_PRIMARIES_CRT', 'MSDS_DISPLAY_PRIMARIES_CRT']
+__all__ = [
+    'DATA_DISPLAY_PRIMARIES_CRT',
+    'MSDS_DISPLAY_PRIMARIES_CRT',
+]
 
 DATA_DISPLAY_PRIMARIES_CRT = {
     'Typical CRT Brainard 1997': {

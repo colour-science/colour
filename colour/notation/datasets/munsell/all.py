@@ -41,7 +41,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['MUNSELL_COLOURS_ALL']
+__all__ = [
+    'MUNSELL_COLOURS_ALL',
+]
 
 # yapf: disable
 MUNSELL_COLOURS_ALL = (

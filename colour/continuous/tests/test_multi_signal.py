@@ -9,12 +9,20 @@ import unittest
 import re
 import textwrap
 
-from colour.algebra import (CubicSplineInterpolator, Extrapolator,
-                            KernelInterpolator)
+from colour.algebra import (
+    CubicSplineInterpolator,
+    Extrapolator,
+    KernelInterpolator,
+)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import MultiSignals, Signal
-from colour.utilities import (ColourRuntimeWarning, attest,
-                              is_pandas_installed, tsplit, tstack)
+from colour.utilities import (
+    ColourRuntimeWarning,
+    attest,
+    is_pandas_installed,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -23,7 +31,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestMultiSignals']
+__all__ = [
+    'TestMultiSignals',
+]
 
 
 class TestMultiSignals(unittest.TestCase):

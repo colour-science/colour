@@ -32,7 +32,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
+__all__ = [
+    'uv_to_CCT_Krystek1985',
+    'CCT_to_uv_Krystek1985',
+]
 
 
 def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None):

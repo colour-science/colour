@@ -26,7 +26,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
+__all__ = [
+    'log_encoding_FilmicPro6',
+    'log_decoding_FilmicPro6',
+]
 
 
 def log_encoding_FilmicPro6(t):

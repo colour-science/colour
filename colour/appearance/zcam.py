@@ -31,15 +31,30 @@ from dataclasses import astuple, dataclass, field
 from typing import Union
 
 from colour.adaptation import chromatic_adaptation_Zhai2018
-from colour.appearance.ciecam02 import (VIEWING_CONDITIONS_CIECAM02,
-                                        degree_of_adaptation, hue_angle)
+from colour.appearance.ciecam02 import (
+    VIEWING_CONDITIONS_CIECAM02,
+    degree_of_adaptation,
+    hue_angle,
+)
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
-    CaseInsensitiveMapping, MixinDataclassArray, as_float, as_float_array,
-    as_int_array, domain_range_scale, from_range_1, from_range_degrees,
-    has_only_nan, ones, to_domain_1, to_domain_degrees, tsplit, tstack)
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float,
+    as_float_array,
+    as_int_array,
+    domain_range_scale,
+    from_range_1,
+    from_range_degrees,
+    has_only_nan,
+    ones,
+    to_domain_1,
+    to_domain_degrees,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -49,8 +64,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'InductionFactors_ZCAM', 'VIEWING_CONDITIONS_ZCAM',
-    'CAM_Specification_ZCAM', 'XYZ_to_ZCAM', 'ZCAM_to_XYZ'
+    'InductionFactors_ZCAM',
+    'VIEWING_CONDITIONS_ZCAM',
+    'CAM_Specification_ZCAM',
+    'XYZ_to_ZCAM',
+    'ZCAM_to_XYZ',
 ]
 
 

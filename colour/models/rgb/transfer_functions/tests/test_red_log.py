@@ -8,11 +8,21 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    log_encoding_REDLog, log_decoding_REDLog, log_encoding_REDLogFilm,
-    log_decoding_REDLogFilm, log_encoding_Log3G12, log_decoding_Log3G12)
+    log_encoding_REDLog,
+    log_decoding_REDLog,
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm,
+    log_encoding_Log3G12,
+    log_decoding_Log3G12,
+)
 from colour.models.rgb.transfer_functions.red_log import (
-    log_encoding_Log3G10_v1, log_decoding_Log3G10_v1, log_encoding_Log3G10_v2,
-    log_decoding_Log3G10_v2, log_encoding_Log3G10_v3, log_decoding_Log3G10_v3)
+    log_encoding_Log3G10_v1,
+    log_decoding_Log3G10_v1,
+    log_encoding_Log3G10_v2,
+    log_decoding_Log3G10_v2,
+    log_encoding_Log3G10_v3,
+    log_decoding_Log3G10_v3,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -23,12 +33,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'TestLogEncoding_REDLog', 'TestLogDecoding_REDLog',
-    'TestLogEncoding_REDLogFilm', 'TestLogDecoding_REDLogFilm',
-    'TestLogEncoding_Log3G10_v1', 'TestLogDecoding_Log3G10_v1',
-    'TestLogEncoding_Log3G10_v2', 'TestLogDecoding_Log3G10_v2',
-    'TestLogEncoding_Log3G10_v3', 'TestLogDecoding_Log3G10_v3',
-    'TestLogEncoding_Log3G12', 'TestLogDecoding_Log3G12'
+    'TestLogEncoding_REDLog',
+    'TestLogDecoding_REDLog',
+    'TestLogEncoding_REDLogFilm',
+    'TestLogDecoding_REDLogFilm',
+    'TestLogEncoding_Log3G10_v1',
+    'TestLogDecoding_Log3G10_v1',
+    'TestLogEncoding_Log3G10_v2',
+    'TestLogDecoding_Log3G10_v2',
+    'TestLogEncoding_Log3G10_v3',
+    'TestLogDecoding_Log3G10_v3',
+    'TestLogEncoding_Log3G12',
+    'TestLogDecoding_Log3G12',
 ]
 
 

@@ -7,7 +7,10 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.notation.hexadecimal import (RGB_to_HEX, HEX_to_RGB)
+from colour.notation.hexadecimal import (
+    RGB_to_HEX,
+    HEX_to_RGB,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -17,7 +20,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_to_HEX', 'TestHEX_to_RGB']
+__all__ = [
+    'TestRGB_to_HEX',
+    'TestHEX_to_RGB',
+]
 
 
 class TestRGB_to_HEX(unittest.TestCase):

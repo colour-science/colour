@@ -19,8 +19,12 @@ References
 
 import numpy as np
 
-from colour.utilities import (as_float, as_float_array, suppress_warnings,
-                              validate_method)
+from colour.utilities import (
+    as_float,
+    as_float_array,
+    suppress_warnings,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,7 +33,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['exponent_function_basic', 'exponent_function_monitor_curve']
+__all__ = [
+    'exponent_function_basic',
+    'exponent_function_monitor_curve',
+]
 
 
 def exponent_function_basic(x, exponent=1, style='basicFwd'):

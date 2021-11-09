@@ -32,7 +32,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Hunter_Lab', 'Hunter_Lab_to_XYZ'
+    'XYZ_to_K_ab_HunterLab1966',
+    'XYZ_to_Hunter_Lab',
+    'Hunter_Lab_to_XYZ',
 ]
 
 

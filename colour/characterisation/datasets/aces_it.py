@@ -34,7 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DATA_ACES_RICD', 'MSDS_ACES_RICD']
+__all__ = [
+    'DATA_ACES_RICD',
+    'MSDS_ACES_RICD',
+]
 
 DATA_ACES_RICD = {
     360.0: (1.20e-06, 0.0000000, 5.70e-06),

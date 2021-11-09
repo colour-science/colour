@@ -9,9 +9,16 @@ Defines the image related input / output utilities objects.
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array, attest,
-                              is_openimageio_installed, filter_kwargs,
-                              required, usage_warning, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    attest,
+    is_openimageio_installed,
+    filter_kwargs,
+    required,
+    usage_warning,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -21,10 +28,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'BitDepth_Specification', 'ImageAttribute_Specification',
-    'convert_bit_depth', 'read_image_OpenImageIO', 'read_image_Imageio',
-    'READ_IMAGE_METHODS', 'read_image', 'write_image_OpenImageIO',
-    'write_image_Imageio', 'WRITE_IMAGE_METHODS', 'write_image'
+    'BitDepth_Specification',
+    'ImageAttribute_Specification',
+    'convert_bit_depth',
+    'read_image_OpenImageIO',
+    'read_image_Imageio',
+    'READ_IMAGE_METHODS',
+    'read_image',
+    'write_image_OpenImageIO',
+    'write_image_Imageio',
+    'WRITE_IMAGE_METHODS',
+    'write_image',
 ]
 
 BitDepth_Specification = namedtuple(

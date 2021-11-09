@@ -4,11 +4,13 @@ Showcases colour quality plotting examples.
 """
 
 import colour
-from colour.plotting import (colour_style,
-                             plot_multi_sds_colour_quality_scales_bars,
-                             plot_multi_sds_colour_rendering_indexes_bars,
-                             plot_single_sd_colour_quality_scale_bars,
-                             plot_single_sd_colour_rendering_index_bars)
+from colour.plotting import (
+    colour_style,
+    plot_multi_sds_colour_quality_scales_bars,
+    plot_multi_sds_colour_rendering_indexes_bars,
+    plot_single_sd_colour_quality_scale_bars,
+    plot_single_sd_colour_rendering_index_bars,
+)
 from colour.utilities import message_box
 
 message_box('Colour Quality Plots')

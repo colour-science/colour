@@ -26,8 +26,12 @@ References
     https://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics
 """
 
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    filter_kwargs,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -39,11 +43,12 @@ __status__ = 'Production'
 __all__ = [
     'reaction_rate_MichaelisMenten_Michaelis1913',
     'reaction_rate_MichaelisMenten_Abebe2017',
-    'REACTION_RATE_MICHAELISMENTEN_METHODS', 'reaction_rate_MichaelisMenten',
+    'REACTION_RATE_MICHAELISMENTEN_METHODS',
+    'reaction_rate_MichaelisMenten',
     'substrate_concentration_MichaelisMenten_Michaelis1913',
     'substrate_concentration_MichaelisMenten_Abebe2017',
     'SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS',
-    'substrate_concentration_MichaelisMenten'
+    'substrate_concentration_MichaelisMenten',
 ]
 
 

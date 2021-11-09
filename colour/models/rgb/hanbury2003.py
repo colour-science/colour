@@ -19,7 +19,13 @@ References
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.utilities import (from_range_1, to_domain_1, tstack, tsplit, zeros)
+from colour.utilities import (
+    from_range_1,
+    to_domain_1,
+    tstack,
+    tsplit,
+    zeros,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,7 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_IHLS', 'IHLS_to_RGB']
+__all__ = [
+    'RGB_to_IHLS',
+    'IHLS_to_RGB',
+]
 
 MATRIX_RGB_TO_YC_1_C_2 = np.array([
     [0.2126, 0.7152, 0.0722],

@@ -26,8 +26,12 @@ large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import (as_float, domain_range_scale, from_range_1,
-                              to_domain_1)
+from colour.utilities import (
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -37,8 +41,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'log_encoding_SLog', 'log_decoding_SLog', 'log_encoding_SLog2',
-    'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
+    'log_encoding_SLog',
+    'log_decoding_SLog',
+    'log_encoding_SLog2',
+    'log_decoding_SLog2',
+    'log_encoding_SLog3',
+    'log_decoding_SLog3',
 ]
 
 

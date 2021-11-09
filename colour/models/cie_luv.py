@@ -29,11 +29,22 @@ References
     http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 """
 
-from colour.colorimetry import (CCS_ILLUMINANTS, lightness_CIE1976,
-                                luminance_CIE1976)
+from colour.colorimetry import (
+    CCS_ILLUMINANTS,
+    lightness_CIE1976,
+    luminance_CIE1976,
+)
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
-from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
-                              full, to_domain_1, to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    domain_range_scale,
+    from_range_1,
+    from_range_100,
+    full,
+    to_domain_1,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -43,8 +54,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_to_Luv', 'Luv_to_XYZ', 'Luv_to_uv', 'uv_to_Luv', 'Luv_uv_to_xy',
-    'xy_to_Luv_uv', 'Luv_to_LCHuv', 'LCHuv_to_Luv'
+    'XYZ_to_Luv',
+    'Luv_to_XYZ',
+    'Luv_to_uv',
+    'uv_to_Luv',
+    'Luv_uv_to_xy',
+    'xy_to_Luv_uv',
+    'Luv_to_LCHuv',
+    'LCHuv_to_Luv',
 ]
 
 

@@ -7,8 +7,11 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.difference import (delta_E_CAM02LCD, delta_E_CAM02SCD,
-                               delta_E_CAM02UCS)
+from colour.difference import (
+    delta_E_CAM02LCD,
+    delta_E_CAM02SCD,
+    delta_E_CAM02UCS,
+)
 from colour.difference.cam02_ucs import delta_E_Luo2006
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 from colour.utilities import ignore_numpy_errors
@@ -20,7 +23,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestDelta_E_Luo2006']
+__all__ = [
+    'TestDelta_E_Luo2006',
+]
 
 
 class TestDelta_E_Luo2006(unittest.TestCase):

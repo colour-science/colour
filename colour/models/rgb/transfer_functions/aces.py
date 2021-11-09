@@ -50,8 +50,13 @@ References
 
 import numpy as np
 
-from colour.utilities import (Structure, as_float, as_int, from_range_1,
-                              to_domain_1)
+from colour.utilities import (
+    Structure,
+    as_float,
+    as_int,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -61,10 +66,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_ACES_PROXY_10', 'CONSTANTS_ACES_PROXY_12',
-    'CONSTANTS_ACES_PROXY', 'CONSTANTS_ACES_CCT', 'log_encoding_ACESproxy',
-    'log_decoding_ACESproxy', 'log_encoding_ACEScc', 'log_decoding_ACEScc',
-    'log_encoding_ACEScct', 'log_decoding_ACEScct'
+    'CONSTANTS_ACES_PROXY_10',
+    'CONSTANTS_ACES_PROXY_12',
+    'CONSTANTS_ACES_PROXY',
+    'CONSTANTS_ACES_CCT',
+    'log_encoding_ACESproxy',
+    'log_decoding_ACESproxy',
+    'log_encoding_ACEScc',
+    'log_decoding_ACEScc',
+    'log_encoding_ACEScct',
+    'log_decoding_ACEScct',
 ]
 
 CONSTANTS_ACES_PROXY_10 = Structure(

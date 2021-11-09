@@ -22,8 +22,13 @@ import matplotlib.pyplot as plt
 from colour.colorimetry import sd_to_XYZ
 from colour.io import read_image
 from colour.utilities import as_float_array
-from colour.plotting import (CONSTANTS_COLOUR_STYLE, artist, override_style,
-                             plot_image, render)
+from colour.plotting import (
+    CONSTANTS_COLOUR_STYLE,
+    artist,
+    override_style,
+    plot_image,
+    render,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -33,10 +38,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RESOURCES_DIRECTORY_ANSIIESTM3018', 'plot_spectra_ANSIIESTM3018',
-    'plot_colour_vector_graphic', 'plot_16_bin_bars',
-    'plot_local_chroma_shifts', 'plot_local_hue_shifts',
-    'plot_local_colour_fidelities', 'plot_colour_fidelity_indexes'
+    'RESOURCES_DIRECTORY_ANSIIESTM3018',
+    'plot_spectra_ANSIIESTM3018',
+    'plot_colour_vector_graphic',
+    'plot_16_bin_bars',
+    'plot_local_chroma_shifts',
+    'plot_local_hue_shifts',
+    'plot_local_colour_fidelities',
+    'plot_colour_fidelity_indexes',
 ]
 
 RESOURCES_DIRECTORY_ANSIIESTM3018 = os.path.join(

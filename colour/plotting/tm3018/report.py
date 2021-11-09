@@ -19,11 +19,17 @@ from colour.colorimetry import sd_to_XYZ
 from colour.io import SpectralDistribution_IESTM2714
 from colour.models import XYZ_to_xy, XYZ_to_Luv, Luv_to_uv
 from colour.plotting.tm3018.components import (
-    plot_spectra_ANSIIESTM3018, plot_colour_vector_graphic,
-    plot_local_chroma_shifts, plot_local_hue_shifts,
-    plot_local_colour_fidelities, plot_colour_fidelity_indexes)
-from colour.quality import (colour_fidelity_index_ANSIIESTM3018,
-                            colour_rendering_index)
+    plot_spectra_ANSIIESTM3018,
+    plot_colour_vector_graphic,
+    plot_local_chroma_shifts,
+    plot_local_hue_shifts,
+    plot_local_colour_fidelities,
+    plot_colour_fidelity_indexes,
+)
+from colour.quality import (
+    colour_fidelity_index_ANSIIESTM3018,
+    colour_rendering_index,
+)
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
 from colour.utilities import describe_environment, validate_method
 
@@ -35,17 +41,22 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANT_REPORT_SIZE_FULL', 'CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL',
-    'CONSTANT_REPORT_PADDING_FULL', 'CONSTANT_REPORT_SIZE_INTERMEDIATE',
+    'CONSTANT_REPORT_SIZE_FULL',
+    'CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL',
+    'CONSTANT_REPORT_PADDING_FULL',
+    'CONSTANT_REPORT_SIZE_INTERMEDIATE',
     'CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE',
-    'CONSTANT_REPORT_PADDING_INTERMEDIATE', 'CONSTANT_REPORT_SIZE_SIMPLE',
+    'CONSTANT_REPORT_PADDING_INTERMEDIATE',
+    'CONSTANT_REPORT_SIZE_SIMPLE',
     'CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE',
-    'CONSTANT_REPORT_PADDING_SIMPLE', 'CONSTANTS_REPORT_STYLE',
-    'REPORT_HEADER_CONTENT', 'REPORT_FOOTER_CONTENT',
+    'CONSTANT_REPORT_PADDING_SIMPLE',
+    'CONSTANTS_REPORT_STYLE',
+    'REPORT_HEADER_CONTENT',
+    'REPORT_FOOTER_CONTENT',
     'plot_single_sd_colour_rendition_report_full',
     'plot_single_sd_colour_rendition_report_intermediate',
     'plot_single_sd_colour_rendition_report_simple',
-    'plot_single_sd_colour_rendition_report'
+    'plot_single_sd_colour_rendition_report',
 ]
 
 # Full Report Size Constants

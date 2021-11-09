@@ -34,7 +34,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DATA_FILTERS_ISO', 'SDS_FILTERS_ISO', 'SDS_FILTERS']
+__all__ = [
+    'DATA_FILTERS_ISO',
+    'SDS_FILTERS_ISO',
+    'SDS_FILTERS',
+]
 
 DATA_FILTERS_ISO = {
     'ISO 7589 Diffuser': {

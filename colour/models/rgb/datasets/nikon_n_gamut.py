@@ -15,11 +15,18 @@ References
 N-Log_Specification_(En)01.pdf
 """
 
-from colour.models.rgb import (RGB_Colourspace, log_encoding_NLog,
-                               log_decoding_NLog)
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_NLog,
+    log_decoding_NLog,
+)
 from colour.models.rgb.datasets.itur_bt_2020 import (
-    PRIMARIES_BT2020, WHITEPOINT_NAME_BT2020, CCS_WHITEPOINT_BT2020,
-    MATRIX_BT2020_TO_XYZ, MATRIX_XYZ_TO_BT2020)
+    PRIMARIES_BT2020,
+    WHITEPOINT_NAME_BT2020,
+    CCS_WHITEPOINT_BT2020,
+    MATRIX_BT2020_TO_XYZ,
+    MATRIX_XYZ_TO_BT2020,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -29,8 +36,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_N_GAMUT', 'WHITEPOINT_NAME_N_GAMUT', 'CCS_WHITEPOINT_N_GAMUT',
-    'MATRIX_N_GAMUT_TO_XYZ', 'MATRIX_XYZ_TO_N_GAMUT', 'RGB_COLOURSPACE_N_GAMUT'
+    'PRIMARIES_N_GAMUT',
+    'WHITEPOINT_NAME_N_GAMUT',
+    'CCS_WHITEPOINT_N_GAMUT',
+    'MATRIX_N_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_N_GAMUT',
+    'RGB_COLOURSPACE_N_GAMUT',
 ]
 
 PRIMARIES_N_GAMUT = PRIMARIES_BT2020

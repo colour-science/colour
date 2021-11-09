@@ -11,7 +11,8 @@ from colour.plotting.tm3018.report import (
     plot_single_sd_colour_rendition_report_full,
     plot_single_sd_colour_rendition_report_intermediate,
     plot_single_sd_colour_rendition_report_simple,
-    plot_single_sd_colour_rendition_report)
+    plot_single_sd_colour_rendition_report,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -24,7 +25,7 @@ __all__ = [
     'TestPlotSingleSdColourRenditionReportFull',
     'TestPlotSingleSdColourRenditionReportIntermediate',
     'TestPlotSingleSdColourRenditionReportSimple',
-    'TestPlotSingleSdColourRenditionReport'
+    'TestPlotSingleSdColourRenditionReport',
 ]
 
 

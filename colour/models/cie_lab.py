@@ -17,12 +17,20 @@ References
     ISBN:978-3-901906-33-6
 """
 
-from colour.colorimetry import (CCS_ILLUMINANTS,
-                                intermediate_lightness_function_CIE1976,
-                                intermediate_luminance_function_CIE1976)
+from colour.colorimetry import (
+    CCS_ILLUMINANTS,
+    intermediate_lightness_function_CIE1976,
+    intermediate_luminance_function_CIE1976,
+)
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
-from colour.utilities import (from_range_1, from_range_100, to_domain_1,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    from_range_1,
+    from_range_100,
+    to_domain_1,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -31,7 +39,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_Lab', 'Lab_to_XYZ', 'Lab_to_LCHab', 'LCHab_to_Lab']
+__all__ = [
+    'XYZ_to_Lab',
+    'Lab_to_XYZ',
+    'Lab_to_LCHab',
+    'LCHab_to_Lab',
+]
 
 
 def XYZ_to_Lab(XYZ,

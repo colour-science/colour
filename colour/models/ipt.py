@@ -21,8 +21,12 @@ References
 import numpy as np
 
 from colour.algebra import spow, vector_dot
-from colour.utilities import (from_range_1, from_range_degrees, to_domain_1,
-                              tsplit)
+from colour.utilities import (
+    from_range_1,
+    from_range_degrees,
+    to_domain_1,
+    tsplit,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -32,9 +36,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_IPT_XYZ_TO_LMS', 'MATRIX_IPT_LMS_TO_XYZ',
-    'MATRIX_IPT_LMS_P_TO_IPT', 'MATRIX_IPT_IPT_TO_LMS_P', 'XYZ_to_IPT',
-    'IPT_to_XYZ', 'IPT_hue_angle'
+    'MATRIX_IPT_XYZ_TO_LMS',
+    'MATRIX_IPT_LMS_TO_XYZ',
+    'MATRIX_IPT_LMS_P_TO_IPT',
+    'MATRIX_IPT_IPT_TO_LMS_P',
+    'XYZ_to_IPT',
+    'IPT_to_XYZ',
+    'IPT_hue_angle',
 ]
 
 MATRIX_IPT_XYZ_TO_LMS = np.array([

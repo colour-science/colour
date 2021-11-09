@@ -16,10 +16,15 @@ References
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.models.rgb.transfer_functions import (eotf_ST2084,
-                                                  eotf_inverse_ST2084)
-from colour.utilities.common import (domain_range_scale, from_range_1,
-                                     to_domain_1)
+from colour.models.rgb.transfer_functions import (
+    eotf_ST2084,
+    eotf_inverse_ST2084,
+)
+from colour.utilities.common import (
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -29,9 +34,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_ICACB_XYZ_TO_LMS', 'MATRIX_ICACB_XYZ_TO_LMS_2',
-    'MATRIX_ICACB_LMS_TO_XYZ', 'MATRIX_ICACB_LMS_TO_XYZ_2', 'XYZ_to_ICaCb',
-    'ICaCb_to_XYZ'
+    'MATRIX_ICACB_XYZ_TO_LMS',
+    'MATRIX_ICACB_XYZ_TO_LMS_2',
+    'MATRIX_ICACB_LMS_TO_XYZ',
+    'MATRIX_ICACB_LMS_TO_XYZ_2',
+    'XYZ_to_ICaCb',
+    'ICaCb_to_XYZ',
 ]
 
 MATRIX_ICACB_XYZ_TO_LMS = np.array([

@@ -20,14 +20,35 @@ from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_maximum, normalise_vector
 from colour.colorimetry import SDS_ILLUMINANTS, sd_to_XYZ, sds_and_msds_to_sds
-from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
-                           XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
-from colour.plotting import (CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE,
-                             XYZ_to_plotting_colourspace, artist, filter_cmfs,
-                             filter_illuminants, override_style, render,
-                             update_settings_collection)
-from colour.utilities import (domain_range_scale, first_item, is_string,
-                              tstack, suppress_warnings, validate_method)
+from colour.models import (
+    Luv_to_uv,
+    Luv_uv_to_xy,
+    UCS_to_uv,
+    UCS_uv_to_xy,
+    XYZ_to_Luv,
+    XYZ_to_UCS,
+    XYZ_to_xy,
+    xy_to_XYZ,
+)
+from colour.plotting import (
+    CONSTANTS_COLOUR_STYLE,
+    CONSTANTS_ARROW_STYLE,
+    XYZ_to_plotting_colourspace,
+    artist,
+    filter_cmfs,
+    filter_illuminants,
+    override_style,
+    render,
+    update_settings_collection,
+)
+from colour.utilities import (
+    domain_range_scale,
+    first_item,
+    is_string,
+    tstack,
+    suppress_warnings,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -37,13 +58,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_spectral_locus', 'plot_chromaticity_diagram_colours',
-    'plot_chromaticity_diagram', 'plot_chromaticity_diagram_CIE1931',
+    'plot_spectral_locus',
+    'plot_chromaticity_diagram_colours',
+    'plot_chromaticity_diagram',
+    'plot_chromaticity_diagram_CIE1931',
     'plot_chromaticity_diagram_CIE1960UCS',
-    'plot_chromaticity_diagram_CIE1976UCS', 'plot_sds_in_chromaticity_diagram',
+    'plot_chromaticity_diagram_CIE1976UCS',
+    'plot_sds_in_chromaticity_diagram',
     'plot_sds_in_chromaticity_diagram_CIE1931',
     'plot_sds_in_chromaticity_diagram_CIE1960UCS',
-    'plot_sds_in_chromaticity_diagram_CIE1976UCS'
+    'plot_sds_in_chromaticity_diagram_CIE1976UCS',
 ]
 
 

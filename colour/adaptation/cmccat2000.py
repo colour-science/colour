@@ -26,8 +26,13 @@ from collections import namedtuple
 
 from colour.adaptation import CAT_CMCCAT2000
 from colour.algebra import vector_dot
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              from_range_100, to_domain_100, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    from_range_100,
+    to_domain_100,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -37,10 +42,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CAT_INVERSE_CMCCAT2000', 'InductionFactors_CMCCAT2000',
-    'VIEWING_CONDITIONS_CMCCAT2000', 'chromatic_adaptation_forward_CMCCAT2000',
+    'CAT_INVERSE_CMCCAT2000',
+    'InductionFactors_CMCCAT2000',
+    'VIEWING_CONDITIONS_CMCCAT2000',
+    'chromatic_adaptation_forward_CMCCAT2000',
     'chromatic_adaptation_inverse_CMCCAT2000',
-    'chromatic_adaptation_CMCCAT2000'
+    'chromatic_adaptation_CMCCAT2000',
 ]
 
 CAT_INVERSE_CMCCAT2000 = np.linalg.inv(CAT_CMCCAT2000)

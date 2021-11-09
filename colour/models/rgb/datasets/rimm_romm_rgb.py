@@ -23,10 +23,16 @@ import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.models.rgb import (
-    RGB_Colourspace, cctf_encoding_ROMMRGB, cctf_decoding_ROMMRGB,
-    cctf_encoding_RIMMRGB, cctf_decoding_RIMMRGB, log_encoding_ERIMMRGB,
-    log_decoding_ERIMMRGB, cctf_encoding_ProPhotoRGB,
-    cctf_decoding_ProPhotoRGB)
+    RGB_Colourspace,
+    cctf_encoding_ROMMRGB,
+    cctf_decoding_ROMMRGB,
+    cctf_encoding_RIMMRGB,
+    cctf_decoding_RIMMRGB,
+    log_encoding_ERIMMRGB,
+    log_decoding_ERIMMRGB,
+    cctf_encoding_ProPhotoRGB,
+    cctf_decoding_ProPhotoRGB,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -36,18 +42,30 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_ROMM_RGB', 'WHITEPOINT_NAME_ROMM_RGB',
-    'CCS_WHITEPOINT_ROMM_RGB', 'MATRIX_ROMM_RGB_TO_XYZ',
-    'MATRIX_XYZ_TO_ROMM_RGB', 'RGB_COLOURSPACE_ROMM_RGB', 'PRIMARIES_RIMM_RGB',
-    'WHITEPOINT_NAME_RIMM_RGB', 'CCS_WHITEPOINT_RIMM_RGB',
-    'MATRIX_RIMM_RGB_TO_XYZ', 'MATRIX_XYZ_TO_RIMM_RGB',
-    'RGB_COLOURSPACE_RIMM_RGB', 'PRIMARIES_ERIMM_RGB',
-    'WHITEPOINT_NAME_ERIMM_RGB', 'CCS_WHITEPOINT_ERIMM_RGB',
-    'MATRIX_ERIMM_RGB_TO_XYZ', 'MATRIX_XYZ_TO_ERIMM_RGB',
-    'RGB_COLOURSPACE_ERIMM_RGB', 'PRIMARIES_PROPHOTO_RGB',
-    'WHITEPOINT_NAME_PROPHOTO_RGB', 'CCS_WHITEPOINT_PROPHOTO_RGB',
-    'MATRIX_PROPHOTO_RGB_TO_XYZ', 'MATRIX_XYZ_TO_PROPHOTO_RGB',
-    'RGB_COLOURSPACE_PROPHOTO_RGB'
+    'PRIMARIES_ROMM_RGB',
+    'WHITEPOINT_NAME_ROMM_RGB',
+    'CCS_WHITEPOINT_ROMM_RGB',
+    'MATRIX_ROMM_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_ROMM_RGB',
+    'RGB_COLOURSPACE_ROMM_RGB',
+    'PRIMARIES_RIMM_RGB',
+    'WHITEPOINT_NAME_RIMM_RGB',
+    'CCS_WHITEPOINT_RIMM_RGB',
+    'MATRIX_RIMM_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_RIMM_RGB',
+    'RGB_COLOURSPACE_RIMM_RGB',
+    'PRIMARIES_ERIMM_RGB',
+    'WHITEPOINT_NAME_ERIMM_RGB',
+    'CCS_WHITEPOINT_ERIMM_RGB',
+    'MATRIX_ERIMM_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_ERIMM_RGB',
+    'RGB_COLOURSPACE_ERIMM_RGB',
+    'PRIMARIES_PROPHOTO_RGB',
+    'WHITEPOINT_NAME_PROPHOTO_RGB',
+    'CCS_WHITEPOINT_PROPHOTO_RGB',
+    'MATRIX_PROPHOTO_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_PROPHOTO_RGB',
+    'RGB_COLOURSPACE_PROPHOTO_RGB',
 ]
 
 PRIMARIES_ROMM_RGB = np.array([

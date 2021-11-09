@@ -28,8 +28,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_1_XYZ_TO_LMS', 'MATRIX_1_LMS_TO_XYZ', 'MATRIX_2_LMS_TO_LAB',
-    'MATRIX_2_LAB_TO_LMS', 'XYZ_to_Oklab', 'Oklab_to_XYZ'
+    'MATRIX_1_XYZ_TO_LMS',
+    'MATRIX_1_LMS_TO_XYZ',
+    'MATRIX_2_LMS_TO_LAB',
+    'MATRIX_2_LAB_TO_LMS',
+    'XYZ_to_Oklab',
+    'Oklab_to_XYZ',
 ]
 
 MATRIX_1_XYZ_TO_LMS = np.array([

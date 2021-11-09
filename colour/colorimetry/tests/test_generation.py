@@ -7,9 +7,17 @@ import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    sd_constant, sd_zeros, sd_ones, msds_constant, msds_zeros, msds_ones,
-    sd_gaussian_normal, sd_gaussian_fwhm, sd_single_led_Ohno2005,
-    sd_multi_leds_Ohno2005)
+    sd_constant,
+    sd_zeros,
+    sd_ones,
+    msds_constant,
+    msds_zeros,
+    msds_ones,
+    sd_gaussian_normal,
+    sd_gaussian_fwhm,
+    sd_single_led_Ohno2005,
+    sd_multi_leds_Ohno2005,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -19,9 +27,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestSdConstant', 'TestSdZeros', 'TestSdOnes', 'TestMsdsConstant',
-    'TestMsdsZeros', 'TestMsdsOnes', 'TestSdGaussianNormal',
-    'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005', 'TestSdMultiLedsOhno2005'
+    'TestSdConstant',
+    'TestSdZeros',
+    'TestSdOnes',
+    'TestMsdsConstant',
+    'TestMsdsZeros',
+    'TestMsdsOnes',
+    'TestSdGaussianNormal',
+    'TestSdGaussianFwhm',
+    'TestSdSingleLedOhno2005',
+    'TestSdMultiLedsOhno2005',
 ]
 
 

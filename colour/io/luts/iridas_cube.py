@@ -29,7 +29,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['read_LUT_IridasCube', 'write_LUT_IridasCube']
+__all__ = [
+    'read_LUT_IridasCube',
+    'write_LUT_IridasCube',
+]
 
 
 def read_LUT_IridasCube(path):

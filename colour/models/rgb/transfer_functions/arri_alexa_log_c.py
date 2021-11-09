@@ -16,8 +16,13 @@ References
 
 import numpy as np
 
-from colour.utilities import (CaseInsensitiveMapping, as_float, from_range_1,
-                              to_domain_1, validate_method)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float,
+    from_range_1,
+    to_domain_1,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -27,8 +32,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_ALEXA_LOG_C_CURVE_BCL', 'DATA_ALEXA_LOG_C_CURVE_CONVERSION',
-    'log_encoding_ALEXALogC', 'log_decoding_ALEXALogC'
+    'DATA_ALEXA_LOG_C_CURVE_BCL',
+    'DATA_ALEXA_LOG_C_CURVE_CONVERSION',
+    'log_encoding_ALEXALogC',
+    'log_decoding_ALEXALogC',
 ]
 
 DATA_ALEXA_LOG_C_CURVE_BCL = CaseInsensitiveMapping({

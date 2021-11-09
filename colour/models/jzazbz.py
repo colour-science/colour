@@ -25,13 +25,24 @@ References
 import numpy as np
 
 from colour.algebra import vector_dot
-from colour.models.rgb.transfer_functions import (eotf_inverse_ST2084,
-                                                  eotf_ST2084)
+from colour.models.rgb.transfer_functions import (
+    eotf_inverse_ST2084,
+    eotf_ST2084,
+)
 from colour.models.rgb.transfer_functions.st_2084 import CONSTANTS_ST2084
-from colour.utilities import (Structure, domain_range_scale, from_range_1,
-                              to_domain_1, tsplit, tstack, validate_method)
-from colour.utilities.documentation import (DocstringTuple,
-                                            is_documentation_building)
+from colour.utilities import (
+    Structure,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+    validate_method,
+)
+from colour.utilities.documentation import (
+    DocstringTuple,
+    is_documentation_building,
+)
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -40,13 +51,19 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_JZAZBZ_SAFDAR2017', 'CONSTANTS_JZAZBZ_SAFDAR2021',
-    'MATRIX_JZAZBZ_XYZ_TO_LMS', 'MATRIX_JZAZBZ_LMS_TO_XYZ',
+    'CONSTANTS_JZAZBZ_SAFDAR2017',
+    'CONSTANTS_JZAZBZ_SAFDAR2021',
+    'MATRIX_JZAZBZ_XYZ_TO_LMS',
+    'MATRIX_JZAZBZ_LMS_TO_XYZ',
     'MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017',
     'MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017',
     'MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021',
-    'MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021', 'IZAZBZ_METHODS',
-    'XYZ_to_Izazbz', 'Izazbz_to_XYZ', 'XYZ_to_Jzazbz', 'Jzazbz_to_XYZ'
+    'MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021',
+    'IZAZBZ_METHODS',
+    'XYZ_to_Izazbz',
+    'Izazbz_to_XYZ',
+    'XYZ_to_Jzazbz',
+    'Jzazbz_to_XYZ',
 ]
 
 CONSTANTS_JZAZBZ_SAFDAR2017 = Structure(

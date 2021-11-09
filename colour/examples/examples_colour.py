@@ -7,8 +7,13 @@ import numpy as np
 import warnings
 
 import colour
-from colour.utilities import (filter_warnings, message_box, warning,
-                              runtime_warning, usage_warning)
+from colour.utilities import (
+    filter_warnings,
+    message_box,
+    warning,
+    runtime_warning,
+    usage_warning,
+)
 
 message_box('Automatic Colour Conversion Graph')
 

@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['RESOURCES_DIRECTORY', 'TestProcessImageOpenColorIO']
+__all__ = [
+    'RESOURCES_DIRECTORY',
+    'TestProcessImageOpenColorIO',
+]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 

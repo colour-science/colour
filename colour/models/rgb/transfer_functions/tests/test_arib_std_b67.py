@@ -7,8 +7,10 @@ Defines the unit tests for the
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import (oetf_ARIBSTDB67,
-                                                  oetf_inverse_ARIBSTDB67)
+from colour.models.rgb.transfer_functions import (
+    oetf_ARIBSTDB67,
+    oetf_inverse_ARIBSTDB67,
+)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -18,7 +20,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestOetf_ARIBSTDB67', 'TestOetf_inverse_ARIBSTDB67']
+__all__ = [
+    'TestOetf_ARIBSTDB67',
+    'TestOetf_inverse_ARIBSTDB67',
+]
 
 
 class TestOetf_ARIBSTDB67(unittest.TestCase):

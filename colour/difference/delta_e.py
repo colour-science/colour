@@ -37,8 +37,10 @@ import numpy as np
 
 from colour.algebra import euclidean_distance
 from colour.utilities import to_domain_100, tsplit
-from colour.utilities.documentation import (DocstringFloat,
-                                            is_documentation_building)
+from colour.utilities.documentation import (
+    DocstringFloat,
+    is_documentation_building,
+)
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -47,8 +49,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'JND_CIE1976', 'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000',
-    'delta_E_CMC'
+    'JND_CIE1976',
+    'delta_E_CIE1976',
+    'delta_E_CIE1994',
+    'delta_E_CIE2000',
+    'delta_E_CMC',
 ]
 
 JND_CIE1976 = 2.3

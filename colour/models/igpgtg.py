@@ -28,9 +28,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_IGPGTG_XYZ_TO_LMS', 'MATRIX_IGPGTG_LMS_TO_XYZ',
-    'MATRIX_IGPGTG_LMS_P_TO_IGPGTG', 'MATRIX_IGPGTG_IGPGTG_TO_LMS_P',
-    'XYZ_to_IgPgTg', 'IgPgTg_to_XYZ'
+    'MATRIX_IGPGTG_XYZ_TO_LMS',
+    'MATRIX_IGPGTG_LMS_TO_XYZ',
+    'MATRIX_IGPGTG_LMS_P_TO_IGPGTG',
+    'MATRIX_IGPGTG_IGPGTG_TO_LMS_P',
+    'XYZ_to_IgPgTg',
+    'IgPgTg_to_XYZ',
 ]
 
 MATRIX_IGPGTG_XYZ_TO_LMS = np.array([

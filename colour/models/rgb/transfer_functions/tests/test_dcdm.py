@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestEotf_inverse_DCDM', 'TestEotf_DCDM']
+__all__ = [
+    'TestEotf_inverse_DCDM',
+    'TestEotf_DCDM',
+]
 
 
 class TestEotf_inverse_DCDM(unittest.TestCase):

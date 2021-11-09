@@ -15,12 +15,24 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 import numpy as np
 
 from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS
-from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
+from colour.models import (
+    UCS_uv_to_xy,
+    XYZ_to_UCS,
+    UCS_to_uv,
+    xy_to_XYZ,
+)
 from colour.temperature import CCT_to_uv
 from colour.plotting import (
-    CONSTANTS_COLOUR_STYLE, CONSTANTS_ARROW_STYLE, artist,
-    plot_chromaticity_diagram_CIE1931, plot_chromaticity_diagram_CIE1960UCS,
-    filter_passthrough, override_style, render, update_settings_collection)
+    CONSTANTS_COLOUR_STYLE,
+    CONSTANTS_ARROW_STYLE,
+    artist,
+    plot_chromaticity_diagram_CIE1931,
+    plot_chromaticity_diagram_CIE1960UCS,
+    filter_passthrough,
+    override_style,
+    render,
+    update_settings_collection,
+)
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import tstack, zeros, validate_method
 
@@ -32,11 +44,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_planckian_locus', 'plot_planckian_locus_CIE1931',
+    'plot_planckian_locus',
+    'plot_planckian_locus_CIE1931',
     'plot_planckian_locus_CIE1960UCS',
     'plot_planckian_locus_in_chromaticity_diagram',
     'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
-    'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS'
+    'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS',
 ]
 
 
