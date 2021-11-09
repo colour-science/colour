@@ -636,6 +636,14 @@ API_CHANGES = {
             'colour.IGPGTG_to_RGB',
             'colour.IgPgTg_to_RGB',
         ],
+        [
+            'colour.XYZ_to_JzAzBz',
+            'colour.XYZ_to_Jzazbz',
+        ],
+        [
+            'colour.JzAzBz_to_XYZ',
+            'colour.Jzazbz_to_XYZ',
+        ],
     ]
 }
 """
