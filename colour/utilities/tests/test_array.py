@@ -26,13 +26,32 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestMixinDataclassArray', 'TestAsArray', 'TestAsIntArray',
-    'TestAsFloatArray', 'TestAsNumeric', 'TestAsInt', 'TestAsFloat',
-    'TestSetFloatPrecision', 'TestSetIntPrecision', 'TestClosestIndexes',
-    'TestClosest', 'TestInterval', 'TestIsUniform', 'TestInArray',
-    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestOrient',
-    'TestCentroid', 'TestFillNan', 'TestHasNanOnly', 'TestNdarrayWrite',
-    'TestZeros', 'TestOnes', 'TestFull', 'TestIndexAlongLastAxis'
+    'TestMixinDataclassArray',
+    'TestAsArray',
+    'TestAsIntArray',
+    'TestAsFloatArray',
+    'TestAsNumeric',
+    'TestAsInt',
+    'TestAsFloat',
+    'TestSetFloatPrecision',
+    'TestSetIntPrecision',
+    'TestClosestIndexes',
+    'TestClosest',
+    'TestInterval',
+    'TestIsUniform',
+    'TestInArray',
+    'TestTstack',
+    'TestTsplit',
+    'TestRowAsDiagonal',
+    'TestOrient',
+    'TestCentroid',
+    'TestFillNan',
+    'TestHasNanOnly',
+    'TestNdarrayWrite',
+    'TestZeros',
+    'TestOnes',
+    'TestFull',
+    'TestIndexAlongLastAxis',
 ]
 
 

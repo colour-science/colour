@@ -37,7 +37,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['eotf_inverse_sRGB', 'eotf_sRGB']
+__all__ = [
+    'eotf_inverse_sRGB',
+    'eotf_sRGB',
+]
 
 
 def eotf_inverse_sRGB(L):

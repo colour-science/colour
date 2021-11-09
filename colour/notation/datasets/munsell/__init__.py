@@ -5,9 +5,15 @@ from .experimental import MUNSELL_COLOURS_1929
 from .real import MUNSELL_COLOURS_REAL
 from colour.utilities import CaseInsensitiveMapping
 
-__all__ = ['MUNSELL_COLOURS_ALL']
-__all__ += ['MUNSELL_COLOURS_1929']
-__all__ += ['MUNSELL_COLOURS_REAL']
+__all__ = [
+    'MUNSELL_COLOURS_ALL',
+]
+__all__ += [
+    'MUNSELL_COLOURS_1929',
+]
+__all__ += [
+    'MUNSELL_COLOURS_REAL',
+]
 
 MUNSELL_COLOURS = CaseInsensitiveMapping({
     'Munsell Colours All': MUNSELL_COLOURS_ALL,
@@ -29,4 +35,6 @@ MUNSELL_COLOURS['all'] = MUNSELL_COLOURS['Munsell Colours All']
 MUNSELL_COLOURS['1929'] = MUNSELL_COLOURS['Munsell Colours 1929']
 MUNSELL_COLOURS['real'] = MUNSELL_COLOURS['Munsell Colours Real']
 
-__all__ += ['MUNSELL_COLOURS']
+__all__ += [
+    'MUNSELL_COLOURS',
+]

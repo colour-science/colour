@@ -20,7 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_RLAB']
+__all__ = [
+    'TestXYZ_to_RLAB',
+]
 
 
 class TestXYZ_to_RLAB(unittest.TestCase):

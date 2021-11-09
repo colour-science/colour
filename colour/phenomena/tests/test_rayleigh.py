@@ -25,14 +25,23 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_SD_RAYLEIGH_SCATTERING', 'TestAirRefractionIndexPenndorf1957',
-    'TestAirRefractionIndexEdlen1966', 'TestAirRefractionIndexPeck1972',
-    'TestAirRefractionIndexBodhaine1999', 'TestN2Depolarisation',
-    'TestO2Depolarisation', 'TestF_airPenndorf1957', 'TestF_airYoung1981',
-    'TestF_airBates1984', 'TestF_airBodhaine1999', 'TestMolecularDensity',
-    'TestMeanMolecularWeights', 'TestGravityList1968',
-    'TestScatteringCrossSection', 'TestRayleighOpticalDepth',
-    'TestSdRayleighScattering'
+    'DATA_SD_RAYLEIGH_SCATTERING',
+    'TestAirRefractionIndexPenndorf1957',
+    'TestAirRefractionIndexEdlen1966',
+    'TestAirRefractionIndexPeck1972',
+    'TestAirRefractionIndexBodhaine1999',
+    'TestN2Depolarisation',
+    'TestO2Depolarisation',
+    'TestF_airPenndorf1957',
+    'TestF_airYoung1981',
+    'TestF_airBates1984',
+    'TestF_airBodhaine1999',
+    'TestMolecularDensity',
+    'TestMeanMolecularWeights',
+    'TestGravityList1968',
+    'TestScatteringCrossSection',
+    'TestRayleighOpticalDepth',
+    'TestSdRayleighScattering',
 ]
 
 DATA_SD_RAYLEIGH_SCATTERING = (

@@ -23,13 +23,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATASET_CORRESPONDING_COLOUR_1', 'DATA_PREDICTION_FAIRCHILD1990',
-    'DATA_PREDICTION_CIE1994', 'DATA_PREDICTION_CMCCAT2000',
+    'DATASET_CORRESPONDING_COLOUR_1',
+    'DATA_PREDICTION_FAIRCHILD1990',
+    'DATA_PREDICTION_CIE1994',
+    'DATA_PREDICTION_CMCCAT2000',
     'DATA_PREDICTION_VONKRIES',
     'TestCorrespondingChromaticitiesPredictionFairchild1990',
     'TestCorrespondingChromaticitiesPredictionCIE1994',
     'TestCorrespondingChromaticitiesPredictionCMCCAT2000',
-    'TestCorrespondingChromaticitiesPredictionVonKries'
+    'TestCorrespondingChromaticitiesPredictionVonKries',
 ]
 
 DATASET_CORRESPONDING_COLOUR_1 = CorrespondingColourDataset(

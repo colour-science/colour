@@ -35,18 +35,31 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SD_SAMPLE', 'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B',
-    'TWF_A_CIE_1964_10_10', 'TWF_A_CIE_1964_10_20', 'TWF_D65_CIE_1931_2_20',
-    'TWF_D65_CIE_1931_2_20_K1', 'TWF_D65_CIE_1931_2_20_A', 'DATA_TWO',
-    'MSDS_TWO', 'TVS_D65_INTEGRATION_MSDS', 'TVS_D65_ARRAY_INTEGRATION',
-    'TVS_D65_ARRAY_K1_INTEGRATION', 'TVS_D65_ASTME308_MSDS',
-    'TVS_D65_ASTME308_K1_MSDS', 'TestHandleSpectralArguments',
+    'SD_SAMPLE',
+    'LAGRANGE_COEFFICIENTS_A',
+    'LAGRANGE_COEFFICIENTS_B',
+    'TWF_A_CIE_1964_10_10',
+    'TWF_A_CIE_1964_10_20',
+    'TWF_D65_CIE_1931_2_20',
+    'TWF_D65_CIE_1931_2_20_K1',
+    'TWF_D65_CIE_1931_2_20_A',
+    'DATA_TWO',
+    'MSDS_TWO',
+    'TVS_D65_INTEGRATION_MSDS',
+    'TVS_D65_ARRAY_INTEGRATION',
+    'TVS_D65_ARRAY_K1_INTEGRATION',
+    'TVS_D65_ASTME308_MSDS',
+    'TVS_D65_ASTME308_K1_MSDS',
+    'TestHandleSpectralArguments',
     'TestLagrangeCoefficientsASTME2022',
     'TestTristimulusWeightingFactorsASTME2022',
     'TestAdjustTristimulusWeightingFactorsASTME308',
-    'TestSd_to_XYZ_integration', 'TestSd_to_XYZ_ASTME308', 'TestSd_to_XYZ',
-    'TestMsds_to_XYZ_integration', 'TestMsds_to_XYZ_ASTME308',
-    'TestWavelength_to_XYZ'
+    'TestSd_to_XYZ_integration',
+    'TestSd_to_XYZ_ASTME308',
+    'TestSd_to_XYZ',
+    'TestMsds_to_XYZ_integration',
+    'TestMsds_to_XYZ_ASTME308',
+    'TestWavelength_to_XYZ',
 ]
 
 SD_SAMPLE = SpectralDistribution({

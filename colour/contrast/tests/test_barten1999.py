@@ -21,10 +21,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestOpticalMTFBarten1999', 'TestPupilDiameterBarten1999',
-    'TestSigmaBarten1999', 'TestRetinalIlluminanceBarten1999',
+    'TestOpticalMTFBarten1999',
+    'TestPupilDiameterBarten1999',
+    'TestSigmaBarten1999',
+    'TestRetinalIlluminanceBarten1999',
     'TestMaximumAngularSizeBarten1999',
-    'TestContrastSensitivityFunctionBarten1999'
+    'TestContrastSensitivityFunctionBarten1999',
 ]
 
 

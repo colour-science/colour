@@ -55,9 +55,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'whiteness_Berger1959', 'whiteness_Taube1960', 'whiteness_Stensby1968',
-    'whiteness_ASTME313', 'whiteness_Ganz1979', 'whiteness_CIE2004',
-    'WHITENESS_METHODS', 'whiteness'
+    'whiteness_Berger1959',
+    'whiteness_Taube1960',
+    'whiteness_Stensby1968',
+    'whiteness_ASTME313',
+    'whiteness_Ganz1979',
+    'whiteness_CIE2004',
+    'WHITENESS_METHODS',
+    'whiteness',
 ]
 
 

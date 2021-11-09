@@ -21,9 +21,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestCartesianToSpherical', 'TestSphericalToCartesian',
-    'TestCartesianToPolar', 'TestPolarToCartesian',
-    'TestCartesianToCylindrical', 'TestCylindricalToCartesian'
+    'TestCartesianToSpherical',
+    'TestSphericalToCartesian',
+    'TestCartesianToPolar',
+    'TestPolarToCartesian',
+    'TestCartesianToCylindrical',
+    'TestCylindricalToCartesian',
 ]
 
 

@@ -23,7 +23,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestChromaticAdaptationForwardCMCCAT2000',
-    'TestChromaticAdaptationInverseCMCCAT2000'
+    'TestChromaticAdaptationInverseCMCCAT2000',
 ]
 
 

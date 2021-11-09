@@ -19,7 +19,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestOetf_DaVinciIntermediate', 'TestOetf_inverse_DaVinciIntermediate'
+    'TestOetf_DaVinciIntermediate',
+    'TestOetf_inverse_DaVinciIntermediate',
 ]
 
 

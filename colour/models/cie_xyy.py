@@ -36,8 +36,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_to_xyY', 'xyY_to_XYZ', 'xy_to_xyY', 'xyY_to_xy', 'XYZ_to_xy',
-    'xy_to_XYZ'
+    'XYZ_to_xyY',
+    'xyY_to_XYZ',
+    'xy_to_xyY',
+    'xyY_to_xy',
+    'XYZ_to_xy',
+    'xy_to_XYZ',
 ]
 
 

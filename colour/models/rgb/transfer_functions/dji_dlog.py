@@ -27,7 +27,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
+__all__ = [
+    'log_encoding_DJIDLog',
+    'log_decoding_DJIDLog',
+]
 
 
 def log_encoding_DJIDLog(x):

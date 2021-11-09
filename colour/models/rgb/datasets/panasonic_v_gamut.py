@@ -28,8 +28,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_V_GAMUT', 'WHITEPOINT_NAME_V_GAMUT', 'CCS_WHITEPOINT_V_GAMUT',
-    'MATRIX_V_GAMUT_TO_XYZ', 'MATRIX_XYZ_TO_V_GAMUT', 'RGB_COLOURSPACE_V_GAMUT'
+    'PRIMARIES_V_GAMUT',
+    'WHITEPOINT_NAME_V_GAMUT',
+    'CCS_WHITEPOINT_V_GAMUT',
+    'MATRIX_V_GAMUT_TO_XYZ',
+    'MATRIX_XYZ_TO_V_GAMUT',
+    'RGB_COLOURSPACE_V_GAMUT',
 ]
 
 PRIMARIES_V_GAMUT = np.array([

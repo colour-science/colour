@@ -19,7 +19,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'LUTS_DIRECTORY', 'TestReadLUTResolveCube', 'TestWriteLUTResolveCube'
+    'LUTS_DIRECTORY',
+    'TestReadLUTResolveCube',
+    'TestWriteLUTResolveCube',
 ]
 
 LUTS_DIRECTORY = os.path.join(

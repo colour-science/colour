@@ -25,7 +25,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_Prismatic', 'Prismatic_to_RGB']
+__all__ = [
+    'RGB_to_Prismatic',
+    'Prismatic_to_RGB',
+]
 
 
 def RGB_to_Prismatic(RGB):

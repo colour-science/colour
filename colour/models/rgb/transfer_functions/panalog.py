@@ -27,7 +27,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_Panalog', 'log_decoding_Panalog']
+__all__ = [
+    'log_encoding_Panalog',
+    'log_decoding_Panalog',
+]
 
 
 def log_encoding_Panalog(x, black_offset=10 ** ((64 - 681) / 444)):

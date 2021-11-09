@@ -23,8 +23,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_P3_D65', 'WHITEPOINT_NAME_P3_D65', 'CCS_WHITEPOINT_P3_D65',
-    'MATRIX_P3_D65_TO_XYZ', 'MATRIX_XYZ_TO_P3_D65', 'RGB_COLOURSPACE_P3_D65'
+    'PRIMARIES_P3_D65',
+    'WHITEPOINT_NAME_P3_D65',
+    'CCS_WHITEPOINT_P3_D65',
+    'MATRIX_P3_D65_TO_XYZ',
+    'MATRIX_XYZ_TO_P3_D65',
+    'RGB_COLOURSPACE_P3_D65',
 ]
 
 PRIMARIES_P3_D65 = np.array([

@@ -21,8 +21,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'FLOATING_POINT_NUMBER_PATTERN', 'INTEGER_THRESHOLD', 'EPSILON',
-    'DEFAULT_FLOAT_DTYPE', 'DEFAULT_INT_DTYPE'
+    'FLOATING_POINT_NUMBER_PATTERN',
+    'INTEGER_THRESHOLD',
+    'EPSILON',
+    'DEFAULT_FLOAT_DTYPE',
+    'DEFAULT_INT_DTYPE',
 ]
 
 FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?'

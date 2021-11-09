@@ -18,7 +18,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestChromaticAdaptationCIE1994']
+__all__ = [
+    'TestChromaticAdaptationCIE1994',
+]
 
 
 class TestChromaticAdaptationCIE1994(unittest.TestCase):

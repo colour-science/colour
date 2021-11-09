@@ -25,7 +25,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['read_LUT_SonySPI3D', 'write_LUT_SonySPI3D']
+__all__ = [
+    'read_LUT_SonySPI3D',
+    'write_LUT_SonySPI3D',
+]
 
 
 def read_LUT_SonySPI3D(path):

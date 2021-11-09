@@ -44,17 +44,25 @@ from colour.utilities import validate_method
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
-    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
+    'matrix_chromatic_adaptation_VonKries',
+    'chromatic_adaptation_VonKries',
 ]
-__all__ += ['chromatic_adaptation_Fairchild1990']
 __all__ += [
-    'InductionFactors_CMCCAT2000', 'VIEWING_CONDITIONS_CMCCAT2000',
+    'chromatic_adaptation_Fairchild1990',
+]
+__all__ += [
+    'InductionFactors_CMCCAT2000',
+    'VIEWING_CONDITIONS_CMCCAT2000',
     'chromatic_adaptation_forward_CMCCAT2000',
     'chromatic_adaptation_inverse_CMCCAT2000',
-    'chromatic_adaptation_CMCCAT2000'
+    'chromatic_adaptation_CMCCAT2000',
 ]
-__all__ += ['chromatic_adaptation_CIE1994']
-__all__ += ['chromatic_adaptation_Zhai2018']
+__all__ += [
+    'chromatic_adaptation_CIE1994',
+]
+__all__ += [
+    'chromatic_adaptation_Zhai2018',
+]
 
 CHROMATIC_ADAPTATION_METHODS = CaseInsensitiveMapping({
     'CIE 1994': chromatic_adaptation_CIE1994,
@@ -285,4 +293,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     return XYZ_c
 
 
-__all__ += ['CHROMATIC_ADAPTATION_METHODS', 'chromatic_adaptation']
+__all__ += [
+    'CHROMATIC_ADAPTATION_METHODS',
+    'chromatic_adaptation',
+]

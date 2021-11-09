@@ -71,12 +71,20 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Conversion_Specification', 'sd_to_XYZ', 'CIECAM02_to_JMh_CIECAM02',
-    'JMh_CIECAM02_to_CIECAM02', 'CAM16_to_JMh_CAM16', 'JMh_CAM16_to_CAM16',
-    'XYZ_to_luminance', 'RGB_luminance_to_RGB',
-    'CONVERSION_SPECIFICATIONS_DATA', 'CONVERSION_GRAPH_NODE_LABELS',
-    'CONVERSION_SPECIFICATIONS', 'CONVERSION_GRAPH',
-    'describe_conversion_path', 'convert'
+    'Conversion_Specification',
+    'sd_to_XYZ',
+    'CIECAM02_to_JMh_CIECAM02',
+    'JMh_CIECAM02_to_CIECAM02',
+    'CAM16_to_JMh_CAM16',
+    'JMh_CAM16_to_CAM16',
+    'XYZ_to_luminance',
+    'RGB_luminance_to_RGB',
+    'CONVERSION_SPECIFICATIONS_DATA',
+    'CONVERSION_GRAPH_NODE_LABELS',
+    'CONVERSION_SPECIFICATIONS',
+    'CONVERSION_GRAPH',
+    'describe_conversion_path',
+    'convert',
 ]
 
 

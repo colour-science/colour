@@ -21,10 +21,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestLuminanceNewhall1943', 'TestLuminanceASTMD1535',
-    'TestIntermediateLuminanceFunctionCIE1976', 'TestLuminanceCIE1976',
-    'TestLuminanceFairchild2010', 'TestLuminanceFairchild2011',
-    'TestLuminanceAbebe2017', 'TestLuminance'
+    'TestLuminanceNewhall1943',
+    'TestLuminanceASTMD1535',
+    'TestIntermediateLuminanceFunctionCIE1976',
+    'TestLuminanceCIE1976',
+    'TestLuminanceFairchild2010',
+    'TestLuminanceFairchild2011',
+    'TestLuminanceAbebe2017',
+    'TestLuminance',
 ]
 
 

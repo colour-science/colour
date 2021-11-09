@@ -15,7 +15,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestPowerFunctionHuang2015']
+__all__ = [
+    'TestPowerFunctionHuang2015',
+]
 
 
 class TestPowerFunctionHuang2015(unittest.TestCase):

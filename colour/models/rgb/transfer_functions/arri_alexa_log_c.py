@@ -27,8 +27,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_ALEXA_LOG_C_CURVE_BCL', 'DATA_ALEXA_LOG_C_CURVE_CONVERSION',
-    'log_encoding_ALEXALogC', 'log_decoding_ALEXALogC'
+    'DATA_ALEXA_LOG_C_CURVE_BCL',
+    'DATA_ALEXA_LOG_C_CURVE_CONVERSION',
+    'log_encoding_ALEXALogC',
+    'log_decoding_ALEXALogC',
 ]
 
 DATA_ALEXA_LOG_C_CURVE_BCL = CaseInsensitiveMapping({

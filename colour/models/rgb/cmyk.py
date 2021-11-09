@@ -34,7 +34,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_CMY', 'CMY_to_RGB', 'CMY_to_CMYK', 'CMYK_to_CMY']
+__all__ = [
+    'RGB_to_CMY',
+    'CMY_to_RGB',
+    'CMY_to_CMYK',
+    'CMYK_to_CMY',
+]
 
 
 def RGB_to_CMY(RGB):

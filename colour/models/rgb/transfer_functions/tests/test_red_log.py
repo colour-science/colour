@@ -23,12 +23,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'TestLogEncoding_REDLog', 'TestLogDecoding_REDLog',
-    'TestLogEncoding_REDLogFilm', 'TestLogDecoding_REDLogFilm',
-    'TestLogEncoding_Log3G10_v1', 'TestLogDecoding_Log3G10_v1',
-    'TestLogEncoding_Log3G10_v2', 'TestLogDecoding_Log3G10_v2',
-    'TestLogEncoding_Log3G10_v3', 'TestLogDecoding_Log3G10_v3',
-    'TestLogEncoding_Log3G12', 'TestLogDecoding_Log3G12'
+    'TestLogEncoding_REDLog',
+    'TestLogDecoding_REDLog',
+    'TestLogEncoding_REDLogFilm',
+    'TestLogDecoding_REDLogFilm',
+    'TestLogEncoding_Log3G10_v1',
+    'TestLogDecoding_Log3G10_v1',
+    'TestLogEncoding_Log3G10_v2',
+    'TestLogDecoding_Log3G10_v2',
+    'TestLogEncoding_Log3G10_v3',
+    'TestLogDecoding_Log3G10_v3',
+    'TestLogEncoding_Log3G12',
+    'TestLogDecoding_Log3G12',
 ]
 
 

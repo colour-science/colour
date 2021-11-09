@@ -37,8 +37,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'log_encoding_SLog', 'log_decoding_SLog', 'log_encoding_SLog2',
-    'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
+    'log_encoding_SLog',
+    'log_decoding_SLog',
+    'log_encoding_SLog2',
+    'log_decoding_SLog2',
+    'log_encoding_SLog3',
+    'log_decoding_SLog3',
 ]
 
 

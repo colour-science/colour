@@ -24,7 +24,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['plot_single_colour_checker', 'plot_multi_colour_checkers']
+__all__ = [
+    'plot_single_colour_checker',
+    'plot_multi_colour_checkers',
+]
 
 
 @override_style(

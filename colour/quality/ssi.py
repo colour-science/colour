@@ -28,7 +28,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['SPECTRAL_SHAPE_SSI', 'spectral_similarity_index']
+__all__ = [
+    'SPECTRAL_SHAPE_SSI',
+    'spectral_similarity_index',
+]
 
 SPECTRAL_SHAPE_SSI = SpectralShape(375, 675, 1)
 """

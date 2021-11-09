@@ -49,8 +49,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'logarithmic_function_basic', 'logarithmic_function_quasilog',
-    'logarithmic_function_camera', 'log_encoding_Log2', 'log_decoding_Log2'
+    'logarithmic_function_basic',
+    'logarithmic_function_quasilog',
+    'logarithmic_function_camera',
+    'log_encoding_Log2',
+    'log_decoding_Log2',
 ]
 
 FLT_MIN = 1.175494e-38

@@ -35,8 +35,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_sRGB', 'WHITEPOINT_NAME_sRGB', 'CCS_WHITEPOINT_sRGB',
-    'MATRIX_sRGB_TO_XYZ', 'MATRIX_XYZ_TO_sRGB', 'RGB_COLOURSPACE_sRGB'
+    'PRIMARIES_sRGB',
+    'WHITEPOINT_NAME_sRGB',
+    'CCS_WHITEPOINT_sRGB',
+    'MATRIX_sRGB_TO_XYZ',
+    'MATRIX_XYZ_TO_sRGB',
+    'RGB_COLOURSPACE_sRGB',
 ]
 
 PRIMARIES_sRGB = np.array([

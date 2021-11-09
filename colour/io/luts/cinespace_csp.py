@@ -29,7 +29,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['read_LUT_Cinespace', 'write_LUT_Cinespace']
+__all__ = [
+    'read_LUT_Cinespace',
+    'write_LUT_Cinespace',
+]
 
 
 def read_LUT_Cinespace(path):

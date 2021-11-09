@@ -37,10 +37,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CAT_INVERSE_CMCCAT2000', 'InductionFactors_CMCCAT2000',
-    'VIEWING_CONDITIONS_CMCCAT2000', 'chromatic_adaptation_forward_CMCCAT2000',
+    'CAT_INVERSE_CMCCAT2000',
+    'InductionFactors_CMCCAT2000',
+    'VIEWING_CONDITIONS_CMCCAT2000',
+    'chromatic_adaptation_forward_CMCCAT2000',
     'chromatic_adaptation_inverse_CMCCAT2000',
-    'chromatic_adaptation_CMCCAT2000'
+    'chromatic_adaptation_CMCCAT2000',
 ]
 
 CAT_INVERSE_CMCCAT2000 = np.linalg.inv(CAT_CMCCAT2000)

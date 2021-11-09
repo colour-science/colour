@@ -23,7 +23,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CONSTANT_K_M', 'CONSTANT_KP_M']
+__all__ = [
+    'CONSTANT_K_M',
+    'CONSTANT_KP_M',
+]
 
 CONSTANT_K_M = 683
 if is_documentation_building():  # pragma: no cover

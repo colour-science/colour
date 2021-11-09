@@ -34,7 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_OSA_UCS', 'OSA_UCS_to_XYZ']
+__all__ = [
+    'XYZ_to_OSA_UCS',
+    'OSA_UCS_to_XYZ',
+]
 
 MATRIX_XYZ_TO_RGB_OSA_UCS = np.array([
     [0.799, 0.4194, -0.1648],

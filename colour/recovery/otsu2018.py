@@ -45,8 +45,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Dataset_Otsu2018', 'DATASET_REFERENCE_OTSU2018', 'XYZ_to_sd_Otsu2018',
-    'PartitionAxis', 'Data_Otsu2018', 'Node_Otsu2018', 'Tree_Otsu2018'
+    'Dataset_Otsu2018',
+    'DATASET_REFERENCE_OTSU2018',
+    'XYZ_to_sd_Otsu2018',
+    'PartitionAxis',
+    'Data_Otsu2018',
+    'Node_Otsu2018',
+    'Tree_Otsu2018',
 ]
 
 

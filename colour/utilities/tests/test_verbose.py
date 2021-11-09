@@ -19,7 +19,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestShowWarning', 'TestSuppressWarnings', 'TestDescribeEnvironment'
+    'TestShowWarning',
+    'TestSuppressWarnings',
+    'TestDescribeEnvironment',
 ]
 
 

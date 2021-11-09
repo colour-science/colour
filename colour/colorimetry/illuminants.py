@@ -41,8 +41,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series',
-    'daylight_locus_function'
+    'sd_CIE_standard_illuminant_A',
+    'sd_CIE_illuminant_D_series',
+    'daylight_locus_function',
 ]
 
 

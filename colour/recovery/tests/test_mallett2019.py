@@ -25,8 +25,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestMixinMallett2019', 'TestSpectralPrimaryDecompositionMallett2019',
-    'TestRGB_to_sd_Mallett2019'
+    'TestMixinMallett2019',
+    'TestSpectralPrimaryDecompositionMallett2019',
+    'TestRGB_to_sd_Mallett2019',
 ]
 
 

@@ -32,9 +32,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'VERSION_IESTM2714', 'NAMESPACE_IESTM2714',
-    'Element_Specification_IESTM2714', 'Header_IESTM2714',
-    'SpectralDistribution_IESTM2714'
+    'VERSION_IESTM2714',
+    'NAMESPACE_IESTM2714',
+    'Element_Specification_IESTM2714',
+    'Header_IESTM2714',
+    'SpectralDistribution_IESTM2714',
 ]
 
 VERSION_IESTM2714 = '1.0'

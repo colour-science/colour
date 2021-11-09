@@ -21,8 +21,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestYellownessASTMD1925', 'TestYellownessASTM313Alternative',
-    'TestYellownessASTM313', 'TestYellowness'
+    'TestYellownessASTMD1925',
+    'TestYellownessASTM313Alternative',
+    'TestYellownessASTM313',
+    'TestYellowness',
 ]
 
 

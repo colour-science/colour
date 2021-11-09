@@ -29,8 +29,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'INDEXES_TO_NAMES_TCS', 'APPROXIMATE_MUNSELL_NOTATIONS_TCS', 'DATA_TCS',
-    'SDS_TCS'
+    'INDEXES_TO_NAMES_TCS',
+    'APPROXIMATE_MUNSELL_NOTATIONS_TCS',
+    'DATA_TCS',
+    'SDS_TCS',
 ]
 
 INDEXES_TO_NAMES_TCS = {

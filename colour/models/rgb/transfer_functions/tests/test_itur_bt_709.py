@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestOetf_BT709', 'TestOetf_inverse_BT709']
+__all__ = [
+    'TestOetf_BT709',
+    'TestOetf_inverse_BT709',
+]
 
 
 class TestOetf_BT709(unittest.TestCase):

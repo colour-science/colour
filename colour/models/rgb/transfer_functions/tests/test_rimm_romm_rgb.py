@@ -20,9 +20,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestCctfEncoding_ROMMRGB', 'TestCctfDecoding_ROMMRGB',
-    'TestCctfEncoding_RIMMRGB', 'TestCctfDecoding_RIMMRGB',
-    'TestLog_encoding_ERIMMRGB', 'TestLog_decoding_ERIMMRGB'
+    'TestCctfEncoding_ROMMRGB',
+    'TestCctfDecoding_ROMMRGB',
+    'TestCctfEncoding_RIMMRGB',
+    'TestCctfDecoding_RIMMRGB',
+    'TestLog_encoding_ERIMMRGB',
+    'TestLog_decoding_ERIMMRGB',
 ]
 
 

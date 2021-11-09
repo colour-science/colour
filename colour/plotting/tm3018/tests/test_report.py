@@ -24,7 +24,7 @@ __all__ = [
     'TestPlotSingleSdColourRenditionReportFull',
     'TestPlotSingleSdColourRenditionReportIntermediate',
     'TestPlotSingleSdColourRenditionReportSimple',
-    'TestPlotSingleSdColourRenditionReport'
+    'TestPlotSingleSdColourRenditionReport',
 ]
 
 

@@ -21,7 +21,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['gamma_function']
+__all__ = [
+    'gamma_function',
+]
 
 
 def gamma_function(a, exponent=1, negative_number_handling='Indeterminate'):

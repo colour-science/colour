@@ -55,14 +55,21 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SPECTRAL_SHAPE_ASTME308', 'handle_spectral_arguments',
+    'SPECTRAL_SHAPE_ASTME308',
+    'handle_spectral_arguments',
     'lagrange_coefficients_ASTME2022',
     'tristimulus_weighting_factors_ASTME2022',
-    'adjust_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_integration',
-    'sd_to_XYZ_tristimulus_weighting_factors_ASTME308', 'sd_to_XYZ_ASTME308',
-    'SD_TO_XYZ_METHODS', 'sd_to_XYZ', 'msds_to_XYZ_integration',
-    'msds_to_XYZ_ASTME308', 'MSDS_TO_XYZ_METHODS', 'msds_to_XYZ',
-    'wavelength_to_XYZ'
+    'adjust_tristimulus_weighting_factors_ASTME308',
+    'sd_to_XYZ_integration',
+    'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
+    'sd_to_XYZ_ASTME308',
+    'SD_TO_XYZ_METHODS',
+    'sd_to_XYZ',
+    'msds_to_XYZ_integration',
+    'msds_to_XYZ_ASTME308',
+    'MSDS_TO_XYZ_METHODS',
+    'msds_to_XYZ',
+    'wavelength_to_XYZ',
 ]
 
 SPECTRAL_SHAPE_ASTME308 = SPECTRAL_SHAPE_DEFAULT

@@ -28,7 +28,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_IHLS', 'IHLS_to_RGB']
+__all__ = [
+    'RGB_to_IHLS',
+    'IHLS_to_RGB',
+]
 
 MATRIX_RGB_TO_YC_1_C_2 = np.array([
     [0.2126, 0.7152, 0.0722],

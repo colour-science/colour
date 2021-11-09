@@ -28,8 +28,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestDataset_Otsu2018', 'TestXYZ_to_sd_Otsu2018', 'TestData_Otsu2018',
-    'TestNode_Otsu2018', 'TestTree_Otsu2018'
+    'TestDataset_Otsu2018',
+    'TestXYZ_to_sd_Otsu2018',
+    'TestData_Otsu2018',
+    'TestNode_Otsu2018',
+    'TestTree_Otsu2018',
 ]
 
 

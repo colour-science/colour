@@ -32,10 +32,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_colour_quality_bars', 'plot_single_sd_colour_rendering_index_bars',
+    'plot_colour_quality_bars',
+    'plot_single_sd_colour_rendering_index_bars',
     'plot_multi_sds_colour_rendering_indexes_bars',
     'plot_single_sd_colour_quality_scale_bars',
-    'plot_multi_sds_colour_quality_scales_bars'
+    'plot_multi_sds_colour_quality_scales_bars',
 ]
 
 

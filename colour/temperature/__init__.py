@@ -11,13 +11,34 @@ from .mccamy1992 import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
 from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
 from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
 
-__all__ = ['xy_to_CCT_CIE_D', 'CCT_to_xy_CIE_D']
-__all__ += ['xy_to_CCT_Hernandez1999', 'CCT_to_xy_Hernandez1999']
-__all__ += ['xy_to_CCT_Kang2002', 'CCT_to_xy_Kang2002']
-__all__ += ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
-__all__ += ['xy_to_CCT_McCamy1992', 'CCT_to_xy_McCamy1992']
-__all__ += ['uv_to_CCT_Ohno2013', 'CCT_to_uv_Ohno2013']
-__all__ += ['uv_to_CCT_Robertson1968', 'CCT_to_uv_Robertson1968']
+__all__ = [
+    'xy_to_CCT_CIE_D',
+    'CCT_to_xy_CIE_D',
+]
+__all__ += [
+    'xy_to_CCT_Hernandez1999',
+    'CCT_to_xy_Hernandez1999',
+]
+__all__ += [
+    'xy_to_CCT_Kang2002',
+    'CCT_to_xy_Kang2002',
+]
+__all__ += [
+    'uv_to_CCT_Krystek1985',
+    'CCT_to_uv_Krystek1985',
+]
+__all__ += [
+    'xy_to_CCT_McCamy1992',
+    'CCT_to_xy_McCamy1992',
+]
+__all__ += [
+    'uv_to_CCT_Ohno2013',
+    'CCT_to_uv_Ohno2013',
+]
+__all__ += [
+    'uv_to_CCT_Robertson1968',
+    'CCT_to_uv_Robertson1968',
+]
 
 UV_TO_CCT_METHODS = CaseInsensitiveMapping({
     'Krystek 1985': uv_to_CCT_Krystek1985,
@@ -198,8 +219,14 @@ def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
     return function(CCT_D_uv, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['UV_TO_CCT_METHODS', 'uv_to_CCT']
-__all__ += ['CCT_TO_UV_METHODS', 'CCT_to_uv']
+__all__ += [
+    'UV_TO_CCT_METHODS',
+    'uv_to_CCT',
+]
+__all__ += [
+    'CCT_TO_UV_METHODS',
+    'CCT_to_uv',
+]
 
 XY_TO_CCT_METHODS = CaseInsensitiveMapping({
     'CIE Illuminant D Series': xy_to_CCT_CIE_D,
@@ -357,5 +384,11 @@ def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
     return CCT_TO_XY_METHODS[method](CCT)
 
 
-__all__ += ['XY_TO_CCT_METHODS', 'xy_to_CCT']
-__all__ += ['CCT_TO_XY_METHODS', 'CCT_to_xy']
+__all__ += [
+    'XY_TO_CCT_METHODS',
+    'xy_to_CCT',
+]
+__all__ += [
+    'CCT_TO_XY_METHODS',
+    'CCT_to_xy',
+]

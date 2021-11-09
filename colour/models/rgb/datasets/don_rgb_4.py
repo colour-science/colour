@@ -28,9 +28,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_DON_RGB_4', 'WHITEPOINT_NAME_DON_RGB_4',
-    'CCS_WHITEPOINT_DON_RGB_4', 'MATRIX_DON_RGB_4_TO_XYZ',
-    'MATRIX_XYZ_TO_DON_RGB_4', 'RGB_COLOURSPACE_DON_RGB_4'
+    'PRIMARIES_DON_RGB_4',
+    'WHITEPOINT_NAME_DON_RGB_4',
+    'CCS_WHITEPOINT_DON_RGB_4',
+    'MATRIX_DON_RGB_4_TO_XYZ',
+    'MATRIX_XYZ_TO_DON_RGB_4',
+    'RGB_COLOURSPACE_DON_RGB_4',
 ]
 
 PRIMARIES_DON_RGB_4 = np.array([

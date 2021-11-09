@@ -37,7 +37,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['DIN99_METHODS', 'Lab_to_DIN99', 'DIN99_to_Lab']
+__all__ = [
+    'DIN99_METHODS',
+    'Lab_to_DIN99',
+    'DIN99_to_Lab',
+]
 
 DIN99_METHODS = CaseInsensitiveMapping({
     'ASTMD2244-07':

@@ -37,8 +37,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SPECTRAL_SHAPE_OUTER_SURFACE_XYZ', 'generate_pulse_waves',
-    'XYZ_outer_surface', 'solid_RoschMacAdam', 'is_within_visible_spectrum'
+    'SPECTRAL_SHAPE_OUTER_SURFACE_XYZ',
+    'generate_pulse_waves',
+    'XYZ_outer_surface',
+    'solid_RoschMacAdam',
+    'is_within_visible_spectrum',
 ]
 
 SPECTRAL_SHAPE_OUTER_SURFACE_XYZ = SpectralShape(360, 780, 5)

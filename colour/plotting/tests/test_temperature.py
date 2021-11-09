@@ -22,11 +22,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestPlotPlanckianLocus', 'TestPlotPlanckianLocusCIE1931',
+    'TestPlotPlanckianLocus',
+    'TestPlotPlanckianLocusCIE1931',
     'TestPlotPlanckianLocusCIE1960UCS',
     'TestPlotPlanckianLocusInChromaticityDiagram',
     'TestPlotPlanckianLocusInChromaticityDiagramCIE1931',
-    'TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS'
+    'TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS',
 ]
 
 

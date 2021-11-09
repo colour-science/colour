@@ -48,11 +48,22 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'sd_constant', 'sd_zeros', 'sd_ones', 'msds_constant', 'msds_zeros',
-    'msds_ones', 'sd_gaussian_normal', 'sd_gaussian_fwhm',
-    'SD_GAUSSIAN_METHODS', 'sd_gaussian', 'sd_single_led_Ohno2005',
-    'SD_SINGLE_LED_METHODS', 'sd_single_led', 'sd_multi_leds_Ohno2005',
-    'SD_MULTI_LEDS_METHODS', 'sd_multi_leds'
+    'sd_constant',
+    'sd_zeros',
+    'sd_ones',
+    'msds_constant',
+    'msds_zeros',
+    'msds_ones',
+    'sd_gaussian_normal',
+    'sd_gaussian_fwhm',
+    'SD_GAUSSIAN_METHODS',
+    'sd_gaussian',
+    'sd_single_led_Ohno2005',
+    'SD_SINGLE_LED_METHODS',
+    'sd_single_led',
+    'sd_multi_leds_Ohno2005',
+    'SD_MULTI_LEDS_METHODS',
+    'sd_multi_leds',
 ]
 
 

@@ -44,8 +44,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RGB_Colourspace', 'XYZ_to_RGB', 'RGB_to_XYZ', 'matrix_RGB_to_RGB',
-    'RGB_to_RGB'
+    'RGB_Colourspace',
+    'XYZ_to_RGB',
+    'RGB_to_XYZ',
+    'matrix_RGB_to_RGB',
+    'RGB_to_RGB',
 ]
 
 

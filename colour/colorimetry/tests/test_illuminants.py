@@ -20,8 +20,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_A', 'TestSdCIEStandardIlluminantA', 'TestSdCIEIlluminantDSeries',
-    'TestDaylightLocusFunction'
+    'DATA_A',
+    'TestSdCIEStandardIlluminantA',
+    'TestSdCIEIlluminantDSeries',
+    'TestDaylightLocusFunction',
 ]
 
 DATA_A = np.array([

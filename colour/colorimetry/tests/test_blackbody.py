@@ -18,7 +18,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_PLANCK_LAW', 'DATA_BLACKBODY', 'TestPlanckLaw', 'TestSdBlackbody'
+    'DATA_PLANCK_LAW',
+    'DATA_BLACKBODY',
+    'TestPlanckLaw',
+    'TestSdBlackbody',
 ]
 
 DATA_PLANCK_LAW = {

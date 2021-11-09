@@ -20,9 +20,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestLogEncoding_ACESproxy', 'TestLogDecoding_ACESproxy',
-    'TestLogEncoding_ACEScc', 'TestLogDecoding_ACEScc',
-    'TestLogDecoding_ACEScct'
+    'TestLogEncoding_ACESproxy',
+    'TestLogDecoding_ACESproxy',
+    'TestLogEncoding_ACEScc',
+    'TestLogDecoding_ACEScc',
+    'TestLogDecoding_ACEScct',
 ]
 
 

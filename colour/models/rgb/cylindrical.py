@@ -53,8 +53,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB', 'RGB_to_HCL',
-    'HCL_to_RGB'
+    'RGB_to_HSV',
+    'HSV_to_RGB',
+    'RGB_to_HSL',
+    'HSL_to_RGB',
+    'RGB_to_HCL',
+    'HCL_to_RGB',
 ]
 
 

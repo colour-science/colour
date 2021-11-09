@@ -32,7 +32,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestCommonColourspaceModelAxisReorder', 'TestPlotPointerGamut',
+    'TestCommonColourspaceModelAxisReorder',
+    'TestPlotPointerGamut',
     'TestPlotRGBColourspacesInChromaticityDiagram',
     'TestPlotRGBColourspacesInChromaticityDiagramCIE1931',
     'TestPlotRGBColourspacesInChromaticityDiagramCIE1960UCS',
@@ -45,7 +46,9 @@ __all__ = [
     'TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1931',
     'TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1960UCS',
     'TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1976UCS',
-    'TestPlotSingleCctf', 'TestPlotMultiCctfs', 'TestPlotConstantHueLoci'
+    'TestPlotSingleCctf',
+    'TestPlotMultiCctfs',
+    'TestPlotConstantHueLoci',
 ]
 
 

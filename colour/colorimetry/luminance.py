@@ -81,10 +81,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'luminance_Newhall1943', 'luminance_ASTMD1535',
-    'intermediate_luminance_function_CIE1976', 'luminance_CIE1976',
-    'luminance_Fairchild2010', 'luminance_Fairchild2011',
-    'luminance_Abebe2017', 'LUMINANCE_METHODS', 'luminance'
+    'luminance_Newhall1943',
+    'luminance_ASTMD1535',
+    'intermediate_luminance_function_CIE1976',
+    'luminance_CIE1976',
+    'luminance_Fairchild2010',
+    'luminance_Fairchild2011',
+    'luminance_Abebe2017',
+    'LUMINANCE_METHODS',
+    'luminance',
 ]
 
 

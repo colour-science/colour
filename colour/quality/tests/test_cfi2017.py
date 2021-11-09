@@ -26,9 +26,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_SD_SAMPLE_5NM', 'SD_SAMPLE_5NM', 'DATA_SD_SAMPLE_1NM',
-    'SD_SAMPLE_1NM', 'TestColourFidelityIndexCIE2017',
-    'TestCctReferenceIlluminant', 'TestSdReferenceIlluminant'
+    'DATA_SD_SAMPLE_5NM',
+    'SD_SAMPLE_5NM',
+    'DATA_SD_SAMPLE_1NM',
+    'SD_SAMPLE_1NM',
+    'TestColourFidelityIndexCIE2017',
+    'TestCctReferenceIlluminant',
+    'TestSdReferenceIlluminant',
 ]
 
 DATA_SD_SAMPLE_5NM = {

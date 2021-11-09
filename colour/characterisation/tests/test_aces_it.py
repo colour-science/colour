@@ -29,14 +29,20 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MSDS_CANON_EOS_5DMARK_II', 'SD_AMPAS_ISO7589_STUDIO_TUNGSTEN',
+    'MSDS_CANON_EOS_5DMARK_II',
+    'SD_AMPAS_ISO7589_STUDIO_TUNGSTEN',
     'TestSpectralToAcesRelativeExposureValues',
-    'TestReadTrainingDataRawtoacesV1', 'TestGenerateIlluminantsRawtoacesV1',
-    'TestWhiteBalanceMultipliers', 'TestBestIlluminant',
-    'TestNormaliseIlluminant', 'TestTrainingDataSdsToRGB',
-    'TestTrainingDataSdsToXYZ', 'TestOptimizationFactoryRawtoacesV1',
-    'TestOptimizationFactoryJzazbz', 'TestMatrixIdt',
-    'TestCamera_RGB_to_ACES2065_1'
+    'TestReadTrainingDataRawtoacesV1',
+    'TestGenerateIlluminantsRawtoacesV1',
+    'TestWhiteBalanceMultipliers',
+    'TestBestIlluminant',
+    'TestNormaliseIlluminant',
+    'TestTrainingDataSdsToRGB',
+    'TestTrainingDataSdsToXYZ',
+    'TestOptimizationFactoryRawtoacesV1',
+    'TestOptimizationFactoryJzazbz',
+    'TestMatrixIdt',
+    'TestCamera_RGB_to_ACES2065_1',
 ]
 
 MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(

@@ -49,8 +49,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'InductionFactors_ZCAM', 'VIEWING_CONDITIONS_ZCAM',
-    'CAM_Specification_ZCAM', 'XYZ_to_ZCAM', 'ZCAM_to_XYZ'
+    'InductionFactors_ZCAM',
+    'VIEWING_CONDITIONS_ZCAM',
+    'CAM_Specification_ZCAM',
+    'XYZ_to_ZCAM',
+    'ZCAM_to_XYZ',
 ]
 
 

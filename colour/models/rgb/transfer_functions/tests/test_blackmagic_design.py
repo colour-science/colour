@@ -20,7 +20,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestOetf_BlackmagicFilmGeneration5',
-    'TestOetf_inverse_BlackmagicFilmGeneration5'
+    'TestOetf_inverse_BlackmagicFilmGeneration5',
 ]
 
 

@@ -31,7 +31,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['plot_single_sd_rayleigh_scattering', 'plot_the_blue_sky']
+__all__ = [
+    'plot_single_sd_rayleigh_scattering',
+    'plot_the_blue_sky',
+]
 
 
 @override_style()

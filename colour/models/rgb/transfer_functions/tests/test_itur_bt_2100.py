@@ -27,14 +27,23 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestOetf_PQ_BT2100', 'TestOetf_inverse_PQ_BT2100', 'TestEotf_PQ_BT2100',
-    'TestEotf_inverse_PQ_BT2100', 'TestOotf_PQ_BT2100',
-    'TestOotf_inverse_PQ_BT2100', 'TestGamma_function_HLG_BT2100',
-    'TestOetf_HLG_BT2100', 'TestOetf_inverse_HLG_BT2100',
-    'TestEotf_HLG_BT2100_1', 'TestEotf_HLG_BT2100_2',
-    'TestEotf_inverse_HLG_BT2100_1', 'TestEotf_inverse_HLG_BT2100_2',
-    'TestOotf_HLG_BT2100_1', 'TestOotf_HLG_BT2100_2',
-    'TestOotf_inverse_HLG_BT2100_1', 'TestOotf_inverse_HLG_BT2100_2'
+    'TestOetf_PQ_BT2100',
+    'TestOetf_inverse_PQ_BT2100',
+    'TestEotf_PQ_BT2100',
+    'TestEotf_inverse_PQ_BT2100',
+    'TestOotf_PQ_BT2100',
+    'TestOotf_inverse_PQ_BT2100',
+    'TestGamma_function_HLG_BT2100',
+    'TestOetf_HLG_BT2100',
+    'TestOetf_inverse_HLG_BT2100',
+    'TestEotf_HLG_BT2100_1',
+    'TestEotf_HLG_BT2100_2',
+    'TestEotf_inverse_HLG_BT2100_1',
+    'TestEotf_inverse_HLG_BT2100_2',
+    'TestOotf_HLG_BT2100_1',
+    'TestOotf_HLG_BT2100_2',
+    'TestOotf_inverse_HLG_BT2100_1',
+    'TestOotf_inverse_HLG_BT2100_2',
 ]
 
 

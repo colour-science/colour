@@ -21,12 +21,20 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestObjectRenamed', 'TestObjectRemoved', 'TestObjectFutureRename',
-    'TestObjectFutureRemove', 'TestObjectFutureAccessChange',
-    'TestObjectFutureAccessRemove', 'TestArgumentRenamed',
-    'TestArgumentRemoved', 'TestArgumentFutureRename',
-    'TestArgumentFutureRemove', 'TestModuleAPI', 'TestGetAttribute',
-    'TestBuildAPIChanges', 'TestHandleArgumentsDeprecation'
+    'TestObjectRenamed',
+    'TestObjectRemoved',
+    'TestObjectFutureRename',
+    'TestObjectFutureRemove',
+    'TestObjectFutureAccessChange',
+    'TestObjectFutureAccessRemove',
+    'TestArgumentRenamed',
+    'TestArgumentRemoved',
+    'TestArgumentFutureRename',
+    'TestArgumentFutureRemove',
+    'TestModuleAPI',
+    'TestGetAttribute',
+    'TestBuildAPIChanges',
+    'TestHandleArgumentsDeprecation',
 ]
 
 

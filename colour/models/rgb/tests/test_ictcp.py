@@ -19,8 +19,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestRGB_to_ICtCp', 'TestICtCp_to_RGB', 'TestXYZ_to_ICtCp',
-    'TestICtCp_to_XYZ'
+    'TestRGB_to_ICtCp',
+    'TestICtCp_to_RGB',
+    'TestXYZ_to_ICtCp',
+    'TestICtCp_to_XYZ',
 ]
 
 

@@ -30,7 +30,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['eotf_inverse_BT1886', 'eotf_BT1886']
+__all__ = [
+    'eotf_inverse_BT1886',
+    'eotf_BT1886',
+]
 
 
 def eotf_inverse_BT1886(L, L_B=0, L_W=1):

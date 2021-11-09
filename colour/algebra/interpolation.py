@@ -77,14 +77,24 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'kernel_nearest_neighbour', 'kernel_linear', 'kernel_sinc',
-    'kernel_lanczos', 'kernel_cardinal_spline', 'KernelInterpolator',
-    'NearestNeighbourInterpolator', 'LinearInterpolator',
-    'SpragueInterpolator', 'CubicSplineInterpolator', 'PchipInterpolator',
-    'NullInterpolator', 'lagrange_coefficients',
-    'vertices_and_relative_coordinates', 'table_interpolation_trilinear',
-    'table_interpolation_tetrahedral', 'TABLE_INTERPOLATION_METHODS',
-    'table_interpolation'
+    'kernel_nearest_neighbour',
+    'kernel_linear',
+    'kernel_sinc',
+    'kernel_lanczos',
+    'kernel_cardinal_spline',
+    'KernelInterpolator',
+    'NearestNeighbourInterpolator',
+    'LinearInterpolator',
+    'SpragueInterpolator',
+    'CubicSplineInterpolator',
+    'PchipInterpolator',
+    'NullInterpolator',
+    'lagrange_coefficients',
+    'vertices_and_relative_coordinates',
+    'table_interpolation_trilinear',
+    'table_interpolation_tetrahedral',
+    'TABLE_INTERPOLATION_METHODS',
+    'table_interpolation',
 ]
 
 

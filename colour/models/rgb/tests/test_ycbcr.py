@@ -20,8 +20,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'TestMatrixYCbCr', 'TestOffsetYCbCr', 'TestRGB_to_YCbCr',
-    'TestYCbCr_to_RGB', 'TestRGB_to_YcCbcCrc', 'TestYcCbcCrc_to_RGB'
+    'TestMatrixYCbCr',
+    'TestOffsetYCbCr',
+    'TestRGB_to_YCbCr',
+    'TestYCbCr_to_RGB',
+    'TestRGB_to_YcCbcCrc',
+    'TestYcCbcCrc_to_RGB',
 ]
 
 

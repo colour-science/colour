@@ -22,9 +22,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestClosestSpectralLocusWavelength', 'TestDominantWavelength',
-    'TestComplementaryWavelength', 'TestExcitationPurity',
-    'TestColorimetricPurity'
+    'TestClosestSpectralLocusWavelength',
+    'TestDominantWavelength',
+    'TestComplementaryWavelength',
+    'TestExcitationPurity',
+    'TestColorimetricPurity',
 ]
 
 

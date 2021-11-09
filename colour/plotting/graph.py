@@ -20,7 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['plot_automatic_colour_conversion_graph']
+__all__ = [
+    'plot_automatic_colour_conversion_graph',
+]
 
 
 @required('NetworkX')

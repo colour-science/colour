@@ -30,7 +30,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['SPECTRAL_SHAPE_MENG2015', 'XYZ_to_sd_Meng2015']
+__all__ = [
+    'SPECTRAL_SHAPE_MENG2015',
+    'XYZ_to_sd_Meng2015',
+]
 
 SPECTRAL_SHAPE_MENG2015 = SpectralShape(360, 780, 5)
 """

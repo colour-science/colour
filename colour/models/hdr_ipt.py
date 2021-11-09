@@ -45,7 +45,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'HDR_IPT_METHODS', 'exponent_hdr_IPT', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ'
+    'HDR_IPT_METHODS',
+    'exponent_hdr_IPT',
+    'XYZ_to_hdr_IPT',
+    'hdr_IPT_to_XYZ',
 ]
 
 HDR_IPT_METHODS = ('Fairchild 2010', 'Fairchild 2011')

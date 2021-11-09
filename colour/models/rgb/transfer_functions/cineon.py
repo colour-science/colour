@@ -27,7 +27,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_Cineon', 'log_decoding_Cineon']
+__all__ = [
+    'log_encoding_Cineon',
+    'log_decoding_Cineon',
+]
 
 
 def log_encoding_Cineon(x, black_offset=10 ** ((95 - 685) / 300)):

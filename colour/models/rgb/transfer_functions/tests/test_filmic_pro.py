@@ -18,7 +18,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestLogEncoding_FilmicPro6', 'TestLogDecoding_FilmicPro6']
+__all__ = [
+    'TestLogEncoding_FilmicPro6',
+    'TestLogDecoding_FilmicPro6',
+]
 
 
 class TestLogEncoding_FilmicPro6(unittest.TestCase):

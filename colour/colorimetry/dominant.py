@@ -39,8 +39,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'closest_spectral_locus_wavelength', 'dominant_wavelength',
-    'complementary_wavelength', 'excitation_purity', 'colorimetric_purity'
+    'closest_spectral_locus_wavelength',
+    'dominant_wavelength',
+    'complementary_wavelength',
+    'excitation_purity',
+    'colorimetric_purity',
 ]
 
 

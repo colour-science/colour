@@ -61,10 +61,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_ACES_PROXY_10', 'CONSTANTS_ACES_PROXY_12',
-    'CONSTANTS_ACES_PROXY', 'CONSTANTS_ACES_CCT', 'log_encoding_ACESproxy',
-    'log_decoding_ACESproxy', 'log_encoding_ACEScc', 'log_decoding_ACEScc',
-    'log_encoding_ACEScct', 'log_decoding_ACEScct'
+    'CONSTANTS_ACES_PROXY_10',
+    'CONSTANTS_ACES_PROXY_12',
+    'CONSTANTS_ACES_PROXY',
+    'CONSTANTS_ACES_CCT',
+    'log_encoding_ACESproxy',
+    'log_decoding_ACESproxy',
+    'log_encoding_ACEScc',
+    'log_decoding_ACEScc',
+    'log_encoding_ACEScct',
+    'log_decoding_ACEScct',
 ]
 
 CONSTANTS_ACES_PROXY_10 = Structure(

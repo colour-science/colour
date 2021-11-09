@@ -33,8 +33,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_BT2020', 'CONSTANTS_BT2020_PRECISE', 'eotf_inverse_BT2020',
-    'eotf_BT2020'
+    'CONSTANTS_BT2020',
+    'CONSTANTS_BT2020_PRECISE',
+    'eotf_inverse_BT2020',
+    'eotf_BT2020',
 ]
 
 CONSTANTS_BT2020 = Structure(

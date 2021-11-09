@@ -25,7 +25,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['least_square_mapping_MoorePenrose']
+__all__ = [
+    'least_square_mapping_MoorePenrose',
+]
 
 
 def least_square_mapping_MoorePenrose(y, x):

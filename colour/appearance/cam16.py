@@ -50,9 +50,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_16', 'MATRIX_INVERSE_16', 'InductionFactors_CAM16',
-    'VIEWING_CONDITIONS_CAM16', 'CAM_Specification_CAM16', 'XYZ_to_CAM16',
-    'CAM16_to_XYZ'
+    'MATRIX_16',
+    'MATRIX_INVERSE_16',
+    'InductionFactors_CAM16',
+    'VIEWING_CONDITIONS_CAM16',
+    'CAM_Specification_CAM16',
+    'XYZ_to_CAM16',
+    'CAM16_to_XYZ',
 ]
 
 MATRIX_16 = CAT_CAT16

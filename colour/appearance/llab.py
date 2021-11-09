@@ -44,12 +44,22 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'InductionFactors_LLAB', 'VIEWING_CONDITIONS_LLAB',
-    'MATRIX_XYZ_TO_RGB_LLAB', 'MATRIX_RGB_TO_XYZ_LLAB',
-    'CAM_ReferenceSpecification_LLAB', 'CAM_Specification_LLAB', 'XYZ_to_LLAB',
-    'XYZ_to_RGB_LLAB', 'chromatic_adaptation', 'f',
-    'opponent_colour_dimensions', 'hue_angle', 'chroma_correlate',
-    'colourfulness_correlate', 'saturation_correlate', 'final_opponent_signals'
+    'InductionFactors_LLAB',
+    'VIEWING_CONDITIONS_LLAB',
+    'MATRIX_XYZ_TO_RGB_LLAB',
+    'MATRIX_RGB_TO_XYZ_LLAB',
+    'CAM_ReferenceSpecification_LLAB',
+    'CAM_Specification_LLAB',
+    'XYZ_to_LLAB',
+    'XYZ_to_RGB_LLAB',
+    'chromatic_adaptation',
+    'f',
+    'opponent_colour_dimensions',
+    'hue_angle',
+    'chroma_correlate',
+    'colourfulness_correlate',
+    'saturation_correlate',
+    'final_opponent_signals',
 ]
 
 

@@ -23,8 +23,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RESOURCES_DIRECTORY', 'RANDOM_TRIPLETS', 'TestAbstractLUT',
-    'AbstractLUTTest', 'TestLUT1D', 'TestLUT3x1D', 'TestLUT3D'
+    'RESOURCES_DIRECTORY',
+    'RANDOM_TRIPLETS',
+    'TestAbstractLUT',
+    'AbstractLUTTest',
+    'TestLUT1D',
+    'TestLUT3x1D',
+    'TestLUT3D',
 ]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')

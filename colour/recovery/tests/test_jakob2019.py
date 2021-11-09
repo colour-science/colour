@@ -27,7 +27,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestErrorFunction', 'TestXYZ_to_sd_Jakob2019', 'TestLUT3D_Jakob2019'
+    'TestErrorFunction',
+    'TestXYZ_to_sd_Jakob2019',
+    'TestLUT3D_Jakob2019',
 ]
 
 

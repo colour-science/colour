@@ -31,7 +31,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['oetf_SMPTE240M', 'eotf_SMPTE240M']
+__all__ = [
+    'oetf_SMPTE240M',
+    'eotf_SMPTE240M',
+]
 
 
 def oetf_SMPTE240M(L_c):

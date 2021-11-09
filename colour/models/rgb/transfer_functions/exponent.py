@@ -29,7 +29,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['exponent_function_basic', 'exponent_function_monitor_curve']
+__all__ = [
+    'exponent_function_basic',
+    'exponent_function_monitor_curve',
+]
 
 
 def exponent_function_basic(x, exponent=1, style='basicFwd'):

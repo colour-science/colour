@@ -50,14 +50,29 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_COLOUR_STYLE', 'CONSTANTS_ARROW_STYLE', 'colour_style',
-    'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
-    'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
-    'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
-    'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
-    'update_settings_collection', 'plot_single_colour_swatch',
-    'plot_multi_colour_swatches', 'plot_single_function',
-    'plot_multi_functions', 'plot_image'
+    'CONSTANTS_COLOUR_STYLE',
+    'CONSTANTS_ARROW_STYLE',
+    'colour_style',
+    'override_style',
+    'XYZ_to_plotting_colourspace',
+    'ColourSwatch',
+    'colour_cycle',
+    'artist',
+    'camera',
+    'render',
+    'label_rectangles',
+    'uniform_axes3d',
+    'filter_passthrough',
+    'filter_RGB_colourspaces',
+    'filter_cmfs',
+    'filter_illuminants',
+    'filter_colour_checkers',
+    'update_settings_collection',
+    'plot_single_colour_swatch',
+    'plot_multi_colour_swatches',
+    'plot_single_function',
+    'plot_multi_functions',
+    'plot_image',
 ]
 
 CONSTANTS_COLOUR_STYLE = Structure(

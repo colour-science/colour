@@ -63,8 +63,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
 __all__ = [
-    'WEIGHTS_YCBCR', 'ranges_YCbCr', 'matrix_YCbCr', 'offset_YCbCr',
-    'RGB_to_YCbCr', 'YCbCr_to_RGB', 'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
+    'WEIGHTS_YCBCR',
+    'ranges_YCbCr',
+    'matrix_YCbCr',
+    'offset_YCbCr',
+    'RGB_to_YCbCr',
+    'YCbCr_to_RGB',
+    'RGB_to_YcCbcCrc',
+    'YcCbcCrc_to_RGB',
 ]
 
 WEIGHTS_YCBCR = CaseInsensitiveMapping({

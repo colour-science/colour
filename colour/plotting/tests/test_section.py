@@ -22,8 +22,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestPlotHullSectionColours', 'TestPlotHullSectionContour',
-    'TestPlotVisibleSpectrumSection', 'TestPlotRGBColourspaceSection'
+    'TestPlotHullSectionColours',
+    'TestPlotHullSectionContour',
+    'TestPlotVisibleSpectrumSection',
+    'TestPlotRGBColourspaceSection',
 ]
 
 

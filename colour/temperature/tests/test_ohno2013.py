@@ -21,8 +21,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestPlanckianTable', 'TestPlanckianTableMinimalDistanceIndex',
-    'Testuv_to_CCT_Ohno2013', 'TestCCT_to_uv_Ohno2013'
+    'TestPlanckianTable',
+    'TestPlanckianTableMinimalDistanceIndex',
+    'Testuv_to_CCT_Ohno2013',
+    'TestCCT_to_uv_Ohno2013',
 ]
 
 PLANCKIAN_TABLE = np.array([

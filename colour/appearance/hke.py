@@ -41,7 +41,8 @@ __all__ = [
     'HKE_NAYATANI1997_METHODS',
     'HelmholtzKohlrausch_effect_object_Nayatani1997',
     'HelmholtzKohlrausch_effect_luminous_Nayatani1997',
-    'coefficient_q_Nayatani1997', 'coefficient_K_Br_Nayatani1997'
+    'coefficient_q_Nayatani1997',
+    'coefficient_K_Br_Nayatani1997',
 ]
 
 HKE_NAYATANI1997_METHODS = CaseInsensitiveMapping({

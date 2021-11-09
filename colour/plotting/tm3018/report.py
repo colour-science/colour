@@ -35,17 +35,22 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANT_REPORT_SIZE_FULL', 'CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL',
-    'CONSTANT_REPORT_PADDING_FULL', 'CONSTANT_REPORT_SIZE_INTERMEDIATE',
+    'CONSTANT_REPORT_SIZE_FULL',
+    'CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL',
+    'CONSTANT_REPORT_PADDING_FULL',
+    'CONSTANT_REPORT_SIZE_INTERMEDIATE',
     'CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE',
-    'CONSTANT_REPORT_PADDING_INTERMEDIATE', 'CONSTANT_REPORT_SIZE_SIMPLE',
+    'CONSTANT_REPORT_PADDING_INTERMEDIATE',
+    'CONSTANT_REPORT_SIZE_SIMPLE',
     'CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE',
-    'CONSTANT_REPORT_PADDING_SIMPLE', 'CONSTANTS_REPORT_STYLE',
-    'REPORT_HEADER_CONTENT', 'REPORT_FOOTER_CONTENT',
+    'CONSTANT_REPORT_PADDING_SIMPLE',
+    'CONSTANTS_REPORT_STYLE',
+    'REPORT_HEADER_CONTENT',
+    'REPORT_FOOTER_CONTENT',
     'plot_single_sd_colour_rendition_report_full',
     'plot_single_sd_colour_rendition_report_intermediate',
     'plot_single_sd_colour_rendition_report_simple',
-    'plot_single_sd_colour_rendition_report'
+    'plot_single_sd_colour_rendition_report',
 ]
 
 # Full Report Size Constants

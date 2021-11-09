@@ -65,73 +65,188 @@ from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
 from .srgb import eotf_inverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
-__all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
-__all__ += ['gamma_function']
-__all__ += [
-    'log_encoding_ACESproxy', 'log_decoding_ACESproxy', 'log_encoding_ACEScc',
-    'log_decoding_ACEScc', 'log_encoding_ACEScct', 'log_decoding_ACEScct'
-]
-__all__ += ['oetf_ARIBSTDB67', 'oetf_inverse_ARIBSTDB67']
-__all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
-__all__ += [
-    'oetf_BlackmagicFilmGeneration5', 'oetf_inverse_BlackmagicFilmGeneration5'
+__all__ = [
+    'CV_range',
+    'legal_to_full',
+    'full_to_legal',
 ]
 __all__ += [
-    'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
-    'log_decoding_CanonLog2', 'log_encoding_CanonLog3',
-    'log_decoding_CanonLog3'
-]
-__all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
-__all__ += ['oetf_DaVinciIntermediate', 'oetf_inverse_DaVinciIntermediate']
-__all__ += ['eotf_inverse_DCDM', 'eotf_DCDM']
-__all__ += ['eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
-__all__ += ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
-__all__ += ['exponent_function_basic', 'exponent_function_monitor_curve']
-__all__ += ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
-__all__ += ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
-__all__ += ['log_encoding_Protune', 'log_decoding_Protune']
-__all__ += ['oetf_BT601', 'oetf_inverse_BT601']
-__all__ += ['oetf_BT709', 'oetf_inverse_BT709']
-__all__ += ['eotf_inverse_BT1886', 'eotf_BT1886']
-__all__ += ['eotf_inverse_BT2020', 'eotf_BT2020']
-__all__ += ['eotf_inverse_ST2084', 'eotf_ST2084']
-__all__ += [
-    'oetf_PQ_BT2100', 'oetf_inverse_PQ_BT2100', 'eotf_PQ_BT2100',
-    'eotf_inverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_inverse_PQ_BT2100',
-    'oetf_HLG_BT2100', 'oetf_inverse_HLG_BT2100', 'BT2100_HLG_EOTF_METHODS',
-    'eotf_HLG_BT2100', 'BT2100_HLG_EOTF_INVERSE_METHODS',
-    'eotf_inverse_HLG_BT2100', 'BT2100_HLG_OOTF_METHODS', 'ootf_HLG_BT2100',
-    'BT2100_HLG_OOTF_INVERSE_METHODS', 'ootf_inverse_HLG_BT2100'
-]
-__all__ += ['linear_function']
-__all__ += [
-    'logarithmic_function_basic', 'logarithmic_function_quasilog',
-    'logarithmic_function_camera', 'log_encoding_Log2', 'log_decoding_Log2'
-]
-__all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
-__all__ += ['log_encoding_VLog', 'log_decoding_VLog']
-__all__ += ['log_encoding_FLog', 'log_decoding_FLog']
-__all__ += ['log_encoding_NLog', 'log_decoding_NLog']
-__all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
-__all__ += [
-    'log_encoding_REDLog', 'log_decoding_REDLog', 'log_encoding_REDLogFilm',
-    'log_decoding_REDLogFilm', 'LOG3G10_ENCODING_METHODS',
-    'LOG3G10_DECODING_METHODS', 'log_encoding_Log3G10', 'log_decoding_Log3G10',
-    'log_encoding_Log3G12', 'log_decoding_Log3G12'
+    'gamma_function',
 ]
 __all__ += [
-    'cctf_encoding_ROMMRGB', 'cctf_decoding_ROMMRGB',
-    'cctf_encoding_ProPhotoRGB', 'cctf_decoding_ProPhotoRGB',
-    'cctf_encoding_RIMMRGB', 'cctf_decoding_RIMMRGB', 'log_encoding_ERIMMRGB',
-    'log_decoding_ERIMMRGB'
+    'log_encoding_ACESproxy',
+    'log_decoding_ACESproxy',
+    'log_encoding_ACEScc',
+    'log_decoding_ACEScc',
+    'log_encoding_ACEScct',
+    'log_decoding_ACEScct',
 ]
-__all__ += ['oetf_SMPTE240M', 'eotf_SMPTE240M']
 __all__ += [
-    'log_encoding_SLog', 'log_decoding_SLog', 'log_encoding_SLog2',
-    'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
+    'oetf_ARIBSTDB67',
+    'oetf_inverse_ARIBSTDB67',
 ]
-__all__ += ['eotf_inverse_sRGB', 'eotf_sRGB']
-__all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
+__all__ += [
+    'log_encoding_ALEXALogC',
+    'log_decoding_ALEXALogC',
+]
+__all__ += [
+    'oetf_BlackmagicFilmGeneration5',
+    'oetf_inverse_BlackmagicFilmGeneration5',
+]
+__all__ += [
+    'log_encoding_CanonLog',
+    'log_decoding_CanonLog',
+    'log_encoding_CanonLog2',
+    'log_decoding_CanonLog2',
+    'log_encoding_CanonLog3',
+    'log_decoding_CanonLog3',
+]
+__all__ += [
+    'log_encoding_Cineon',
+    'log_decoding_Cineon',
+]
+__all__ += [
+    'oetf_DaVinciIntermediate',
+    'oetf_inverse_DaVinciIntermediate',
+]
+__all__ += [
+    'eotf_inverse_DCDM',
+    'eotf_DCDM',
+]
+__all__ += [
+    'eotf_inverse_DICOMGSDF',
+    'eotf_DICOMGSDF',
+]
+__all__ += [
+    'log_encoding_DJIDLog',
+    'log_decoding_DJIDLog',
+]
+__all__ += [
+    'exponent_function_basic',
+    'exponent_function_monitor_curve',
+]
+__all__ += [
+    'log_encoding_FilmicPro6',
+    'log_decoding_FilmicPro6',
+]
+__all__ += [
+    'log_encoding_FilmLightTLog',
+    'log_decoding_FilmLightTLog',
+]
+__all__ += [
+    'log_encoding_Protune',
+    'log_decoding_Protune',
+]
+__all__ += [
+    'oetf_BT601',
+    'oetf_inverse_BT601',
+]
+__all__ += [
+    'oetf_BT709',
+    'oetf_inverse_BT709',
+]
+__all__ += [
+    'eotf_inverse_BT1886',
+    'eotf_BT1886',
+]
+__all__ += [
+    'eotf_inverse_BT2020',
+    'eotf_BT2020',
+]
+__all__ += [
+    'eotf_inverse_ST2084',
+    'eotf_ST2084',
+]
+__all__ += [
+    'oetf_PQ_BT2100',
+    'oetf_inverse_PQ_BT2100',
+    'eotf_PQ_BT2100',
+    'eotf_inverse_PQ_BT2100',
+    'ootf_PQ_BT2100',
+    'ootf_inverse_PQ_BT2100',
+    'oetf_HLG_BT2100',
+    'oetf_inverse_HLG_BT2100',
+    'BT2100_HLG_EOTF_METHODS',
+    'eotf_HLG_BT2100',
+    'BT2100_HLG_EOTF_INVERSE_METHODS',
+    'eotf_inverse_HLG_BT2100',
+    'BT2100_HLG_OOTF_METHODS',
+    'ootf_HLG_BT2100',
+    'BT2100_HLG_OOTF_INVERSE_METHODS',
+    'ootf_inverse_HLG_BT2100',
+]
+__all__ += [
+    'linear_function',
+]
+__all__ += [
+    'logarithmic_function_basic',
+    'logarithmic_function_quasilog',
+    'logarithmic_function_camera',
+    'log_encoding_Log2',
+    'log_decoding_Log2',
+]
+__all__ += [
+    'log_encoding_Panalog',
+    'log_decoding_Panalog',
+]
+__all__ += [
+    'log_encoding_VLog',
+    'log_decoding_VLog',
+]
+__all__ += [
+    'log_encoding_FLog',
+    'log_decoding_FLog',
+]
+__all__ += [
+    'log_encoding_NLog',
+    'log_decoding_NLog',
+]
+__all__ += [
+    'log_encoding_PivotedLog',
+    'log_decoding_PivotedLog',
+]
+__all__ += [
+    'log_encoding_REDLog',
+    'log_decoding_REDLog',
+    'log_encoding_REDLogFilm',
+    'log_decoding_REDLogFilm',
+    'LOG3G10_ENCODING_METHODS',
+    'LOG3G10_DECODING_METHODS',
+    'log_encoding_Log3G10',
+    'log_decoding_Log3G10',
+    'log_encoding_Log3G12',
+    'log_decoding_Log3G12',
+]
+__all__ += [
+    'cctf_encoding_ROMMRGB',
+    'cctf_decoding_ROMMRGB',
+    'cctf_encoding_ProPhotoRGB',
+    'cctf_decoding_ProPhotoRGB',
+    'cctf_encoding_RIMMRGB',
+    'cctf_decoding_RIMMRGB',
+    'log_encoding_ERIMMRGB',
+    'log_decoding_ERIMMRGB',
+]
+__all__ += [
+    'oetf_SMPTE240M',
+    'eotf_SMPTE240M',
+]
+__all__ += [
+    'log_encoding_SLog',
+    'log_decoding_SLog',
+    'log_encoding_SLog2',
+    'log_decoding_SLog2',
+    'log_encoding_SLog3',
+    'log_decoding_SLog3',
+]
+__all__ += [
+    'eotf_inverse_sRGB',
+    'eotf_sRGB',
+]
+__all__ += [
+    'log_encoding_ViperLog',
+    'log_decoding_ViperLog',
+]
 
 LOG_ENCODINGS = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
@@ -433,8 +548,14 @@ def log_decoding(value, function='Cineon', **kwargs):
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['LOG_ENCODINGS', 'LOG_DECODINGS']
-__all__ += ['log_encoding', 'log_decoding']
+__all__ += [
+    'LOG_ENCODINGS',
+    'LOG_DECODINGS',
+]
+__all__ += [
+    'log_encoding',
+    'log_decoding',
+]
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
@@ -749,8 +870,18 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['OETFS', 'OETF_INVERSES', 'EOTFS', 'EOTF_INVERSES']
-__all__ += ['oetf', 'oetf_inverse', 'eotf', 'eotf_inverse']
+__all__ += [
+    'OETFS',
+    'OETF_INVERSES',
+    'EOTFS',
+    'EOTF_INVERSES',
+]
+__all__ += [
+    'oetf',
+    'oetf_inverse',
+    'eotf',
+    'eotf_inverse',
+]
 
 CCTF_ENCODINGS = CaseInsensitiveMapping({
     'Gamma 2.2': partial(gamma_function, exponent=1 / 2.2),
@@ -944,8 +1075,14 @@ def cctf_decoding(value, function='sRGB', **kwargs):
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['CCTF_ENCODINGS', 'CCTF_DECODINGS']
-__all__ += ['cctf_encoding', 'cctf_decoding']
+__all__ += [
+    'CCTF_ENCODINGS',
+    'CCTF_DECODINGS',
+]
+__all__ += [
+    'cctf_encoding',
+    'cctf_decoding',
+]
 
 OOTFS = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_HLG_BT2100,
@@ -1055,5 +1192,11 @@ def ootf_inverse(value, function='ITU-R BT.2100 PQ', **kwargs):
     return function(value, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['OOTFS', 'OOTF_INVERSES']
-__all__ += ['ootf', 'ootf_inverse']
+__all__ += [
+    'OOTFS',
+    'OOTF_INVERSES',
+]
+__all__ += [
+    'ootf',
+    'ootf_inverse',
+]

@@ -42,14 +42,24 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Coefficients_UCS_Luo2006', 'COEFFICIENTS_UCS_LUO2006',
-    'JMh_CIECAM02_to_UCS_Luo2006', 'UCS_Luo2006_to_JMh_CIECAM02',
-    'JMh_CIECAM02_to_CAM02LCD', 'CAM02LCD_to_JMh_CIECAM02',
-    'JMh_CIECAM02_to_CAM02SCD', 'CAM02SCD_to_JMh_CIECAM02',
-    'JMh_CIECAM02_to_CAM02UCS', 'CAM02UCS_to_JMh_CIECAM02',
-    'XYZ_to_UCS_Luo2006', 'UCS_Luo2006_to_XYZ', 'XYZ_to_CAM02LCD',
-    'CAM02LCD_to_XYZ', 'XYZ_to_CAM02SCD', 'CAM02SCD_to_XYZ', 'XYZ_to_CAM02UCS',
-    'CAM02UCS_to_XYZ'
+    'Coefficients_UCS_Luo2006',
+    'COEFFICIENTS_UCS_LUO2006',
+    'JMh_CIECAM02_to_UCS_Luo2006',
+    'UCS_Luo2006_to_JMh_CIECAM02',
+    'JMh_CIECAM02_to_CAM02LCD',
+    'CAM02LCD_to_JMh_CIECAM02',
+    'JMh_CIECAM02_to_CAM02SCD',
+    'CAM02SCD_to_JMh_CIECAM02',
+    'JMh_CIECAM02_to_CAM02UCS',
+    'CAM02UCS_to_JMh_CIECAM02',
+    'XYZ_to_UCS_Luo2006',
+    'UCS_Luo2006_to_XYZ',
+    'XYZ_to_CAM02LCD',
+    'CAM02LCD_to_XYZ',
+    'XYZ_to_CAM02SCD',
+    'CAM02SCD_to_XYZ',
+    'XYZ_to_CAM02UCS',
+    'CAM02UCS_to_XYZ',
 ]
 
 

@@ -21,8 +21,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestGeneratePulseWaves', 'TestXYZOuterSurface',
-    'TestIsWithinVisibleSpectrum'
+    'TestGeneratePulseWaves',
+    'TestXYZOuterSurface',
+    'TestIsWithinVisibleSpectrum',
 ]
 
 

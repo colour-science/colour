@@ -31,7 +31,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['power_function_Huang2015']
+__all__ = [
+    'power_function_Huang2015',
+]
 
 COEFFICIENTS_HUANG2015 = CaseInsensitiveMapping({
     'CIE 1976': np.array([1.26, 0.55]),

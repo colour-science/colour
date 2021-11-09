@@ -34,7 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['xy_to_CCT_Hernandez1999', 'CCT_to_xy_Hernandez1999']
+__all__ = [
+    'xy_to_CCT_Hernandez1999',
+    'CCT_to_xy_Hernandez1999',
+]
 
 
 def xy_to_CCT_Hernandez1999(xy):

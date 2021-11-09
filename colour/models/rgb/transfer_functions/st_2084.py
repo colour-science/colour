@@ -33,7 +33,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CONSTANTS_ST2084', 'eotf_inverse_ST2084', 'eotf_ST2084']
+__all__ = [
+    'CONSTANTS_ST2084',
+    'eotf_inverse_ST2084',
+    'eotf_ST2084',
+]
 
 CONSTANTS_ST2084 = Structure(
     m_1=2610 / 4096 * (1 / 4),

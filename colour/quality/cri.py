@@ -36,9 +36,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TCS_ColorimetryData', 'TCS_ColourQualityScaleData',
-    'ColourRendering_Specification_CRI', 'colour_rendering_index',
-    'tcs_colorimetry_data', 'colour_rendering_indexes'
+    'TCS_ColorimetryData',
+    'TCS_ColourQualityScaleData',
+    'ColourRendering_Specification_CRI',
+    'colour_rendering_index',
+    'tcs_colorimetry_data',
+    'colour_rendering_indexes',
 ]
 
 

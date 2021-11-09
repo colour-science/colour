@@ -24,7 +24,8 @@ __status__ = 'Production'
 __all__ = [
     'TestHelmholtzKohlrauschEffectObjectNayatani1997',
     'TestHelmholtzKohlrauschEffectLuminousNayatani1997',
-    'TestCoefficient_K_Br_Nayatani1997', 'TestCoefficient_q_Nayatani1997'
+    'TestCoefficient_K_Br_Nayatani1997',
+    'TestCoefficient_q_Nayatani1997',
 ]
 
 

@@ -28,8 +28,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_MAX_RGB', 'WHITEPOINT_NAME_MAX_RGB', 'CCS_WHITEPOINT_MAX_RGB',
-    'MATRIX_MAX_RGB_TO_XYZ', 'MATRIX_XYZ_TO_MAX_RGB', 'RGB_COLOURSPACE_MAX_RGB'
+    'PRIMARIES_MAX_RGB',
+    'WHITEPOINT_NAME_MAX_RGB',
+    'CCS_WHITEPOINT_MAX_RGB',
+    'MATRIX_MAX_RGB_TO_XYZ',
+    'MATRIX_XYZ_TO_MAX_RGB',
+    'RGB_COLOURSPACE_MAX_RGB',
 ]
 
 PRIMARIES_MAX_RGB = np.array([

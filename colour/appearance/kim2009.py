@@ -44,9 +44,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'InductionFactors_Kim2009', 'VIEWING_CONDITIONS_KIM2009',
-    'MediaParameters_Kim2009', 'MEDIA_PARAMETERS_KIM2009',
-    'CAM_Specification_Kim2009', 'XYZ_to_Kim2009', 'Kim2009_to_XYZ'
+    'InductionFactors_Kim2009',
+    'VIEWING_CONDITIONS_KIM2009',
+    'MediaParameters_Kim2009',
+    'MEDIA_PARAMETERS_KIM2009',
+    'CAM_Specification_Kim2009',
+    'XYZ_to_Kim2009',
+    'Kim2009_to_XYZ',
 ]
 
 

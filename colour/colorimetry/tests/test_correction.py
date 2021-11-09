@@ -17,8 +17,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_NON_BANDPASS_CORRECTED', 'DATA_BANDPASS_CORRECTED',
-    'TestBandpassCorrectionStearns1988'
+    'DATA_NON_BANDPASS_CORRECTED',
+    'DATA_BANDPASS_CORRECTED',
+    'TestBandpassCorrectionStearns1988',
 ]
 
 DATA_NON_BANDPASS_CORRECTED = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200,

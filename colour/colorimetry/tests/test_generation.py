@@ -19,9 +19,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestSdConstant', 'TestSdZeros', 'TestSdOnes', 'TestMsdsConstant',
-    'TestMsdsZeros', 'TestMsdsOnes', 'TestSdGaussianNormal',
-    'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005', 'TestSdMultiLedsOhno2005'
+    'TestSdConstant',
+    'TestSdZeros',
+    'TestSdOnes',
+    'TestMsdsConstant',
+    'TestMsdsZeros',
+    'TestMsdsOnes',
+    'TestSdGaussianNormal',
+    'TestSdGaussianFwhm',
+    'TestSdSingleLedOhno2005',
+    'TestSdMultiLedsOhno2005',
 ]
 
 

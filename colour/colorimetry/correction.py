@@ -37,8 +37,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'bandpass_correction_Stearns1988', 'BANDPASS_CORRECTION_METHODS',
-    'bandpass_correction'
+    'bandpass_correction_Stearns1988',
+    'BANDPASS_CORRECTION_METHODS',
+    'bandpass_correction',
 ]
 
 CONSTANT_ALPHA_STEARNS = 0.083

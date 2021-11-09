@@ -20,9 +20,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestLogarithmFunction_Basic', 'TestLogarithmFunction_Quasilog',
-    'TestLogarithmFunction_Camera', 'TestLogEncoding_Log2',
-    'TestLogDecoding_Log2'
+    'TestLogarithmFunction_Basic',
+    'TestLogarithmFunction_Quasilog',
+    'TestLogarithmFunction_Camera',
+    'TestLogEncoding_Log2',
+    'TestLogDecoding_Log2',
 ]
 
 

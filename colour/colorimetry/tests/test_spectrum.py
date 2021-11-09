@@ -23,12 +23,21 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_SAMPLE', 'DATA_SAMPLE_NON_UNIFORM', 'DATA_SAMPLE_INTERPOLATED',
-    'DATA_SAMPLE_INTERPOLATED_NON_UNIFORM', 'DATA_SAMPLE_NORMALISED',
-    'DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931', 'DATA_CMFS',
-    'DATA_SAMPLE_ABRIDGED', 'DATA_MULTI_SAMPLE_ABRIDGED', 'TestSpectralShape',
-    'TestSpectralDistribution', 'TestMultiSpectralDistributions',
-    'TestReshapeSd', 'TestSdsAndMdsToSds', 'TestSdsAndMsdsToMsds'
+    'DATA_SAMPLE',
+    'DATA_SAMPLE_NON_UNIFORM',
+    'DATA_SAMPLE_INTERPOLATED',
+    'DATA_SAMPLE_INTERPOLATED_NON_UNIFORM',
+    'DATA_SAMPLE_NORMALISED',
+    'DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931',
+    'DATA_CMFS',
+    'DATA_SAMPLE_ABRIDGED',
+    'DATA_MULTI_SAMPLE_ABRIDGED',
+    'TestSpectralShape',
+    'TestSpectralDistribution',
+    'TestMultiSpectralDistributions',
+    'TestReshapeSd',
+    'TestSdsAndMdsToSds',
+    'TestSdsAndMsdsToMsds',
 ]
 
 DATA_SAMPLE = {

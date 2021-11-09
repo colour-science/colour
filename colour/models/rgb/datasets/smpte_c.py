@@ -30,8 +30,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_SMPTE_C', 'WHITEPOINT_NAME_SMPTE_C', 'CCS_WHITEPOINT_SMPTE_C',
-    'MATRIX_SMPTE_C_TO_XYZ', 'MATRIX_XYZ_TO_SMPTE_C', 'RGB_COLOURSPACE_SMPTE_C'
+    'PRIMARIES_SMPTE_C',
+    'WHITEPOINT_NAME_SMPTE_C',
+    'CCS_WHITEPOINT_SMPTE_C',
+    'MATRIX_SMPTE_C_TO_XYZ',
+    'MATRIX_XYZ_TO_SMPTE_C',
+    'RGB_COLOURSPACE_SMPTE_C',
 ]
 
 PRIMARIES_SMPTE_C = np.array([

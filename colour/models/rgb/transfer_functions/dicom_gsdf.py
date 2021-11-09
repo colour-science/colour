@@ -36,7 +36,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CONSTANTS_DICOMGSDF', 'eotf_inverse_DICOMGSDF', 'eotf_DICOMGSDF']
+__all__ = [
+    'CONSTANTS_DICOMGSDF',
+    'eotf_inverse_DICOMGSDF',
+    'eotf_DICOMGSDF',
+]
 
 CONSTANTS_DICOMGSDF = Structure(
     a=-1.3011877,

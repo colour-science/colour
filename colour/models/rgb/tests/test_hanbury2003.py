@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_to_IHLS', 'TestIHLS_to_RGB']
+__all__ = [
+    'TestRGB_to_IHLS',
+    'TestIHLS_to_RGB',
+]
 
 
 class TestRGB_to_IHLS(unittest.TestCase):

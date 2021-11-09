@@ -20,7 +20,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Development'
 
-__all__ = ['TestCctfEncoding', 'TestCctfDecoding', 'TestTransferFunctions']
+__all__ = [
+    'TestCctfEncoding',
+    'TestCctfDecoding',
+    'TestTransferFunctions',
+]
 
 
 class TestCctfEncoding(unittest.TestCase):

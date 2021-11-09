@@ -18,7 +18,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_to_sd_Smits1999']
+__all__ = [
+    'TestRGB_to_sd_Smits1999',
+]
 
 
 class TestRGB_to_sd_Smits1999(unittest.TestCase):

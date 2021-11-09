@@ -77,8 +77,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_CMFS_LMS', 'MSDS_CMFS_LMS', 'DATA_CMFS_RGB', 'MSDS_CMFS_RGB',
-    'DATA_CMFS_STANDARD_OBSERVER', 'MSDS_CMFS_STANDARD_OBSERVER', 'MSDS_CMFS'
+    'DATA_CMFS_LMS',
+    'MSDS_CMFS_LMS',
+    'DATA_CMFS_RGB',
+    'MSDS_CMFS_RGB',
+    'DATA_CMFS_STANDARD_OBSERVER',
+    'MSDS_CMFS_STANDARD_OBSERVER',
+    'MSDS_CMFS',
 ]
 
 # *S-cone* spectral sensitivity data wasn't measurable after 615 nm and has

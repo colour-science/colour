@@ -21,9 +21,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestPlotSpectraANSIIESTM3018', 'TestPlotColourVectorGraphic',
-    'TestPlot16BinBars', 'TestPlotLocalChromaShifts', 'TestPlotLocalHueShifts',
-    'TestPlotLocalColourFidelities', 'TestPlotColourFidelityIndexes'
+    'TestPlotSpectraANSIIESTM3018',
+    'TestPlotColourVectorGraphic',
+    'TestPlot16BinBars',
+    'TestPlotLocalChromaShifts',
+    'TestPlotLocalHueShifts',
+    'TestPlotLocalColourFidelities',
+    'TestPlotColourFidelityIndexes',
 ]
 
 SPECIFICATION_ANSIIESTM3018 = colour_fidelity_index_ANSIIESTM3018(

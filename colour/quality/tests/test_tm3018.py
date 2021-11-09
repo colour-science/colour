@@ -24,7 +24,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestColourFidelityIndexANSIIESTM3018', 'TestAveragesArea']
+__all__ = [
+    'TestColourFidelityIndexANSIIESTM3018',
+    'TestAveragesArea',
+]
 
 
 class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):

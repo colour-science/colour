@@ -47,8 +47,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'JND_CIE1976', 'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000',
-    'delta_E_CMC'
+    'JND_CIE1976',
+    'delta_E_CIE1976',
+    'delta_E_CIE1994',
+    'delta_E_CIE2000',
+    'delta_E_CMC',
 ]
 
 JND_CIE1976 = 2.3

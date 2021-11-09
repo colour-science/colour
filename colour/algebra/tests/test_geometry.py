@@ -22,11 +22,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestNormaliseVector', 'TestEuclideanDistance', 'TestManhattanDistance',
-    'TestExtendLineSegment', 'TestIntersectLineSegments',
+    'TestNormaliseVector',
+    'TestEuclideanDistance',
+    'TestManhattanDistance',
+    'TestExtendLineSegment',
+    'TestIntersectLineSegments',
     'TestEllipseCoefficientsCanonicalForm',
-    'TestEllipseCoefficientsGeneralForm', 'TestPointAtAngleOnEllipse',
-    'TestEllipseFittingHalir1998'
+    'TestEllipseCoefficientsGeneralForm',
+    'TestPointAtAngleOnEllipse',
+    'TestEllipseFittingHalir1998',
 ]
 
 

@@ -34,13 +34,26 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestColourStyle', 'TestOverrideStyle', 'TestXyzToPlottingColourspace',
-    'TestColourCycle', 'TestArtist', 'TestCamera', 'TestRender',
-    'TestLabelRectangles', 'TestUniformAxes3d', 'TestFilterPassthrough',
-    'TestFilterRgbColourspaces', 'TestFilterCmfs', 'TestFilterIlluminants',
-    'TestFilterColourCheckers', 'TestUpdateSettingsCollection',
-    'TestPlotSingleColourSwatch', 'TestPlotMultiColourSwatches',
-    'TestPlotSingleFunction', 'TestPlotMultiFunctions', 'TestPlotImage'
+    'TestColourStyle',
+    'TestOverrideStyle',
+    'TestXyzToPlottingColourspace',
+    'TestColourCycle',
+    'TestArtist',
+    'TestCamera',
+    'TestRender',
+    'TestLabelRectangles',
+    'TestUniformAxes3d',
+    'TestFilterPassthrough',
+    'TestFilterRgbColourspaces',
+    'TestFilterCmfs',
+    'TestFilterIlluminants',
+    'TestFilterColourCheckers',
+    'TestUpdateSettingsCollection',
+    'TestPlotSingleColourSwatch',
+    'TestPlotMultiColourSwatches',
+    'TestPlotSingleFunction',
+    'TestPlotMultiFunctions',
+    'TestPlotImage',
 ]
 
 

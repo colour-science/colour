@@ -20,9 +20,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestXYZ_to_Luv', 'TestLuv_to_XYZ', 'TestLuv_to_uv', 'Testuv_to_Luv',
-    'TestLuv_uv_to_xy', 'TestXy_to_Luv_uv', 'TestLuv_to_LCHuv',
-    'TestLCHuv_to_Luv'
+    'TestXYZ_to_Luv',
+    'TestLuv_to_XYZ',
+    'TestLuv_to_uv',
+    'Testuv_to_Luv',
+    'TestLuv_uv_to_xy',
+    'TestXy_to_Luv_uv',
+    'TestLuv_to_LCHuv',
+    'TestLCHuv_to_Luv',
 ]
 
 

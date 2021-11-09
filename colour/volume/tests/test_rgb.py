@@ -40,10 +40,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestRGB_colourspaceLimits', 'TestRGB_colourspaceVolumeMonteCarlo',
+    'TestRGB_colourspaceLimits',
+    'TestRGB_colourspaceVolumeMonteCarlo',
     'TestRGB_colourspace_volume_coverage_MonteCarlo',
     'TestRGB_colourspacePointerGamutCoverageMonteCarlo',
-    'TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo'
+    'TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo',
 ]
 
 

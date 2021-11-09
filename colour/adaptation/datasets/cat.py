@@ -84,10 +84,19 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CAT_XYZ_SCALING', 'CAT_VON_KRIES', 'CAT_BRADFORD', 'CAT_SHARP',
-    'CAT_FAIRCHILD', 'CAT_CMCCAT97', 'CAT_CMCCAT2000', 'CAT_CAT02',
-    'CAT_CAT02_BRILL2008', 'CAT_CAT16', 'CAT_BIANCO2010', 'CAT_PC_BIANCO2010',
-    'CHROMATIC_ADAPTATION_TRANSFORMS'
+    'CAT_XYZ_SCALING',
+    'CAT_VON_KRIES',
+    'CAT_BRADFORD',
+    'CAT_SHARP',
+    'CAT_FAIRCHILD',
+    'CAT_CMCCAT97',
+    'CAT_CMCCAT2000',
+    'CAT_CAT02',
+    'CAT_CAT02_BRILL2008',
+    'CAT_CAT16',
+    'CAT_BIANCO2010',
+    'CAT_PC_BIANCO2010',
+    'CHROMATIC_ADAPTATION_TRANSFORMS',
 ]
 
 CAT_XYZ_SCALING = np.array(np.identity(3)).reshape([3, 3])

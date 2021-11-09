@@ -38,9 +38,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'AXIS_TO_PLANE_MAPPING', 'plot_hull_section_colours',
-    'plot_hull_section_contour', 'plot_visible_spectrum_section',
-    'plot_RGB_colourspace_section'
+    'AXIS_TO_PLANE_MAPPING',
+    'plot_hull_section_colours',
+    'plot_hull_section_contour',
+    'plot_visible_spectrum_section',
+    'plot_RGB_colourspace_section',
 ]
 
 AXIS_TO_PLANE_MAPPING = CaseInsensitiveMapping({

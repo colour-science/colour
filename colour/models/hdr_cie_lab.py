@@ -42,8 +42,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'HDR_CIELAB_METHODS', 'exponent_hdr_CIELab', 'XYZ_to_hdr_CIELab',
-    'hdr_CIELab_to_XYZ'
+    'HDR_CIELAB_METHODS',
+    'exponent_hdr_CIELab',
+    'XYZ_to_hdr_CIELab',
+    'hdr_CIELab_to_XYZ',
 ]
 
 HDR_CIELAB_METHODS = ('Fairchild 2010', 'Fairchild 2011')

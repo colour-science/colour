@@ -30,7 +30,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
+    'matrix_chromatic_adaptation_VonKries',
+    'chromatic_adaptation_VonKries',
 ]
 
 

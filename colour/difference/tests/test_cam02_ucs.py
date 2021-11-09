@@ -20,7 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestDelta_E_Luo2006']
+__all__ = [
+    'TestDelta_E_Luo2006',
+]
 
 
 class TestDelta_E_Luo2006(unittest.TestCase):

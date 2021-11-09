@@ -19,8 +19,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestPrimitiveVerticesQuadMpl', 'TestPrimitiveVerticesGridMpl',
-    'TestPrimitiveVerticesCubeMpl', 'TestPrimitiveVerticesSphere'
+    'TestPrimitiveVerticesQuadMpl',
+    'TestPrimitiveVerticesGridMpl',
+    'TestPrimitiveVerticesCubeMpl',
+    'TestPrimitiveVerticesSphere',
 ]
 
 

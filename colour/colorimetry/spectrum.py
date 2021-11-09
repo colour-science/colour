@@ -46,9 +46,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SpectralShape', 'SPECTRAL_SHAPE_DEFAULT', 'SpectralDistribution',
-    'MultiSpectralDistributions', 'reshape_sd', 'reshape_msds',
-    'sds_and_msds_to_sds', 'sds_and_msds_to_msds'
+    'SpectralShape',
+    'SPECTRAL_SHAPE_DEFAULT',
+    'SpectralDistribution',
+    'MultiSpectralDistributions',
+    'reshape_sd',
+    'reshape_msds',
+    'sds_and_msds_to_sds',
+    'sds_and_msds_to_msds',
 ]
 
 _CACHE_SHAPE_RANGE = CACHE_REGISTRY.register_cache(

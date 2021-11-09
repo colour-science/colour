@@ -43,9 +43,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'yellowness_ASTMD1925', 'yellowness_ASTME313_alternative',
-    'YELLOWNESS_COEFFICIENTS_ASTME313', 'yellowness_ASTME313',
-    'YELLOWNESS_METHODS', 'yellowness'
+    'yellowness_ASTMD1925',
+    'yellowness_ASTME313_alternative',
+    'YELLOWNESS_COEFFICIENTS_ASTME313',
+    'yellowness_ASTME313',
+    'YELLOWNESS_METHODS',
+    'yellowness',
 ]
 
 

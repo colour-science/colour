@@ -25,7 +25,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'mesopic_weighting_function', 'sd_mesopic_luminous_efficiency_function'
+    'mesopic_weighting_function',
+    'sd_mesopic_luminous_efficiency_function',
 ]
 
 

@@ -23,14 +23,32 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestCacheRegistry', 'TestAttest', 'TestBatch', 'TestMultiprocessingPool',
-    'TestIsIterable', 'TestIsString', 'TestIsNumeric', 'TestIsInteger',
-    'TestIsSibling', 'TestFilterKwargs', 'TestFilterMapping', 'TestFirstItem',
-    'TestGetDomainRangeScale', 'TestSetDomainRangeScale',
-    'TestDomainRangeScale', 'TestToDomain1', 'TestToDomain10',
-    'TestToDomain100', 'TestToDomainDegrees', 'TestToDomainInt',
-    'TestFromRange1', 'TestFromRange10', 'TestFromRange100',
-    'TestFromRangeDegrees', 'TestFromRangeInt', 'TestValidateMethod'
+    'TestCacheRegistry',
+    'TestAttest',
+    'TestBatch',
+    'TestMultiprocessingPool',
+    'TestIsIterable',
+    'TestIsString',
+    'TestIsNumeric',
+    'TestIsInteger',
+    'TestIsSibling',
+    'TestFilterKwargs',
+    'TestFilterMapping',
+    'TestFirstItem',
+    'TestGetDomainRangeScale',
+    'TestSetDomainRangeScale',
+    'TestDomainRangeScale',
+    'TestToDomain1',
+    'TestToDomain10',
+    'TestToDomain100',
+    'TestToDomainDegrees',
+    'TestToDomainInt',
+    'TestFromRange1',
+    'TestFromRange10',
+    'TestFromRange100',
+    'TestFromRangeDegrees',
+    'TestFromRangeInt',
+    'TestValidateMethod',
 ]
 
 

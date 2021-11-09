@@ -21,9 +21,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestLogEncoding_CanonLog', 'TestLogDecoding_CanonLog',
-    'TestLogEncoding_CanonLog2', 'TestLogDecoding_CanonLog2',
-    'TestLogEncoding_CanonLog3', 'TestLogDecoding_CanonLog3'
+    'TestLogEncoding_CanonLog',
+    'TestLogDecoding_CanonLog',
+    'TestLogEncoding_CanonLog2',
+    'TestLogDecoding_CanonLog2',
+    'TestLogEncoding_CanonLog3',
+    'TestLogDecoding_CanonLog3',
 ]
 
 

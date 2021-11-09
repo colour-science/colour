@@ -27,8 +27,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestJMh_CIECAM02_to_UCS_Luo2006', 'TestUCS_Luo2006_to_JMh_CIECAM02',
-    'TestXYZ_to_UCS_Luo2006', 'TestUCS_Luo2006_to_XYZ'
+    'TestJMh_CIECAM02_to_UCS_Luo2006',
+    'TestUCS_Luo2006_to_JMh_CIECAM02',
+    'TestXYZ_to_UCS_Luo2006',
+    'TestUCS_Luo2006_to_XYZ',
 ]
 
 

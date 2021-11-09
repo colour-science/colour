@@ -42,9 +42,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_LMS_TO_WSYBRG', 'matrix_RGB_to_WSYBRG',
+    'MATRIX_LMS_TO_WSYBRG',
+    'matrix_RGB_to_WSYBRG',
     'msds_cmfs_anomalous_trichromacy_Machado2009',
-    'matrix_anomalous_trichromacy_Machado2009', 'matrix_cvd_Machado2009'
+    'matrix_anomalous_trichromacy_Machado2009',
+    'matrix_cvd_Machado2009',
 ]
 
 MATRIX_LMS_TO_WSYBRG = np.array([

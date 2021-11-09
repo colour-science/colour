@@ -42,9 +42,13 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CAM_ReferenceSpecification_ATD95', 'CAM_Specification_ATD95',
-    'XYZ_to_ATD95', 'luminance_to_retinal_illuminance', 'XYZ_to_LMS_ATD95',
-    'opponent_colour_dimensions', 'final_response'
+    'CAM_ReferenceSpecification_ATD95',
+    'CAM_Specification_ATD95',
+    'XYZ_to_ATD95',
+    'luminance_to_retinal_illuminance',
+    'XYZ_to_LMS_ATD95',
+    'opponent_colour_dimensions',
+    'final_response',
 ]
 
 

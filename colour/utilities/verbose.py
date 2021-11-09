@@ -27,12 +27,22 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'ColourWarning', 'ColourUsageWarning', 'ColourRuntimeWarning',
-    'message_box', 'show_warning', 'warning', 'runtime_warning',
-    'usage_warning', 'filter_warnings', 'suppress_warnings',
-    'numpy_print_options', 'ANCILLARY_COLOUR_SCIENCE_PACKAGES',
-    'ANCILLARY_RUNTIME_PACKAGES', 'ANCILLARY_DEVELOPMENT_PACKAGES',
-    'ANCILLARY_EXTRAS_PACKAGES', 'describe_environment'
+    'ColourWarning',
+    'ColourUsageWarning',
+    'ColourRuntimeWarning',
+    'message_box',
+    'show_warning',
+    'warning',
+    'runtime_warning',
+    'usage_warning',
+    'filter_warnings',
+    'suppress_warnings',
+    'numpy_print_options',
+    'ANCILLARY_COLOUR_SCIENCE_PACKAGES',
+    'ANCILLARY_RUNTIME_PACKAGES',
+    'ANCILLARY_DEVELOPMENT_PACKAGES',
+    'ANCILLARY_EXTRAS_PACKAGES',
+    'describe_environment',
 ]
 
 

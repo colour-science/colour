@@ -30,7 +30,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['AbstractLUT', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT']
+__all__ = [
+    'AbstractLUT',
+    'LUT1D',
+    'LUT3x1D',
+    'LUT3D',
+    'LUT_to_LUT',
+]
 
 
 class AbstractLUT(ABC):

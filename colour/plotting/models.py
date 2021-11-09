@@ -80,8 +80,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOURSPACE_MODELS_AXIS_ORDER', 'colourspace_model_axis_reorder',
-    'plot_pointer_gamut', 'plot_RGB_colourspaces_in_chromaticity_diagram',
+    'COLOURSPACE_MODELS_AXIS_ORDER',
+    'colourspace_model_axis_reorder',
+    'plot_pointer_gamut',
+    'plot_RGB_colourspaces_in_chromaticity_diagram',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
@@ -94,7 +96,9 @@ __all__ = [
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS',
-    'plot_single_cctf', 'plot_multi_cctfs', 'plot_constant_hue_loci'
+    'plot_single_cctf',
+    'plot_multi_cctfs',
+    'plot_constant_hue_loci',
 ]
 
 COLOURSPACE_MODELS_AXIS_ORDER = CaseInsensitiveMapping({

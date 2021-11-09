@@ -17,7 +17,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RESOURCES_DIRECTORY', 'COLOURCHECKER_XRITE_1', 'TestReadSdsFromXRiteFile'
+    'RESOURCES_DIRECTORY',
+    'COLOURCHECKER_XRITE_1',
+    'TestReadSdsFromXRiteFile',
 ]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')

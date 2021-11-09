@@ -26,7 +26,7 @@ __all__ = [
     'TestReactionRateMichaelisMentenMichaelis1913',
     'TestSubstrateConcentrationMichaelisMentenMichaelis1913',
     'TestReactionRateMichaelisMentenAbebe2017',
-    'TestSubstrateConcentrationMichaelisMentenAbebe2017'
+    'TestSubstrateConcentrationMichaelisMentenAbebe2017',
 ]
 
 

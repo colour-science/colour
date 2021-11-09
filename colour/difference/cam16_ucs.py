@@ -33,8 +33,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'delta_E_Li2017', 'delta_E_CAM16LCD', 'delta_E_CAM16SCD',
-    'delta_E_CAM16UCS'
+    'delta_E_Li2017',
+    'delta_E_CAM16LCD',
+    'delta_E_CAM16SCD',
+    'delta_E_CAM16UCS',
 ]
 
 delta_E_Li2017 = copy_definition(delta_E_Luo2006, 'delta_E_Li2017')

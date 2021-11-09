@@ -20,7 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['is_within_macadam_limits']
+__all__ = [
+    'is_within_macadam_limits',
+]
 
 _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ = CACHE_REGISTRY.register_cache(
     '{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ'.format(__name__))

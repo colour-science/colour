@@ -19,10 +19,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestIsSpowEnabled', 'TestSetSpowEnabled', 'TestSpowEnable', 'TestSpow',
-    'TestSmoothstepFunction', 'TestNormaliseMaximum', 'TestVectorDot',
-    'TestMatrixDot', 'TestLinearConversion', 'TestLinstepFunction',
-    'TestIsIdentity'
+    'TestIsSpowEnabled',
+    'TestSetSpowEnabled',
+    'TestSpowEnable',
+    'TestSpow',
+    'TestSmoothstepFunction',
+    'TestNormaliseMaximum',
+    'TestVectorDot',
+    'TestMatrixDot',
+    'TestLinearConversion',
+    'TestLinstepFunction',
+    'TestIsIdentity',
 ]
 
 

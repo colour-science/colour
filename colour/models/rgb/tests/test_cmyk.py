@@ -19,7 +19,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestRGB_to_CMY', 'TestCMY_to_RGB', 'TestCMY_to_CMYK', 'TestCMYK_to_CMY'
+    'TestRGB_to_CMY',
+    'TestCMY_to_RGB',
+    'TestCMY_to_CMYK',
+    'TestCMYK_to_CMY',
 ]
 
 

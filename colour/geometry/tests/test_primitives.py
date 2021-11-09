@@ -16,7 +16,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestPrimitiveGrid', 'TestPrimitiveCube']
+__all__ = [
+    'TestPrimitiveGrid',
+    'TestPrimitiveCube',
+]
 
 
 class TestPrimitiveGrid(unittest.TestCase):

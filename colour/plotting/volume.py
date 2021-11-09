@@ -33,8 +33,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'nadir_grid', 'RGB_identity_cube', 'plot_RGB_colourspaces_gamuts',
-    'plot_RGB_scatter'
+    'nadir_grid',
+    'RGB_identity_cube',
+    'plot_RGB_colourspaces_gamuts',
+    'plot_RGB_scatter',
 ]
 
 

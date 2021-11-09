@@ -50,12 +50,19 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_single_sd', 'plot_multi_sds', 'plot_single_cmfs', 'plot_multi_cmfs',
-    'plot_single_illuminant_sd', 'plot_multi_illuminant_sds',
-    'plot_visible_spectrum', 'plot_single_lightness_function',
-    'plot_multi_lightness_functions', 'plot_single_luminance_function',
-    'plot_multi_luminance_functions', 'plot_blackbody_spectral_radiance',
-    'plot_blackbody_colours'
+    'plot_single_sd',
+    'plot_multi_sds',
+    'plot_single_cmfs',
+    'plot_multi_cmfs',
+    'plot_single_illuminant_sd',
+    'plot_multi_illuminant_sds',
+    'plot_visible_spectrum',
+    'plot_single_lightness_function',
+    'plot_multi_lightness_functions',
+    'plot_single_luminance_function',
+    'plot_multi_luminance_functions',
+    'plot_blackbody_spectral_radiance',
+    'plot_blackbody_colours',
 ]
 
 

@@ -28,8 +28,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestDelta_E_CIE1976', 'TestDelta_E_CIE1994', 'TestDelta_E_CIE2000',
-    'TestDelta_E_CMC'
+    'TestDelta_E_CIE1976',
+    'TestDelta_E_CIE1994',
+    'TestDelta_E_CIE2000',
+    'TestDelta_E_CMC',
 ]
 
 

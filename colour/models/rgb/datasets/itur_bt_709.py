@@ -31,8 +31,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_BT709', 'CCS_WHITEPOINT_BT709', 'WHITEPOINT_NAME_BT709',
-    'MATRIX_BT709_TO_XYZ', 'MATRIX_XYZ_TO_BT709', 'RGB_COLOURSPACE_BT709'
+    'PRIMARIES_BT709',
+    'CCS_WHITEPOINT_BT709',
+    'WHITEPOINT_NAME_BT709',
+    'MATRIX_BT709_TO_XYZ',
+    'MATRIX_XYZ_TO_BT709',
+    'RGB_COLOURSPACE_BT709',
 ]
 
 PRIMARIES_BT709 = np.array([

@@ -30,8 +30,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'delta_E_Luo2006', 'delta_E_CAM02LCD', 'delta_E_CAM02SCD',
-    'delta_E_CAM02UCS'
+    'delta_E_Luo2006',
+    'delta_E_CAM02LCD',
+    'delta_E_CAM02SCD',
+    'delta_E_CAM02UCS',
 ]
 
 

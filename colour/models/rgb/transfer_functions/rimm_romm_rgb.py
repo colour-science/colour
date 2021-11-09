@@ -38,10 +38,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'cctf_encoding_ROMMRGB', 'cctf_decoding_ROMMRGB',
-    'cctf_encoding_ProPhotoRGB', 'cctf_decoding_ProPhotoRGB',
-    'cctf_encoding_RIMMRGB', 'cctf_decoding_RIMMRGB', 'log_encoding_ERIMMRGB',
-    'log_decoding_ERIMMRGB'
+    'cctf_encoding_ROMMRGB',
+    'cctf_decoding_ROMMRGB',
+    'cctf_encoding_ProPhotoRGB',
+    'cctf_decoding_ProPhotoRGB',
+    'cctf_encoding_RIMMRGB',
+    'cctf_decoding_RIMMRGB',
+    'log_encoding_ERIMMRGB',
+    'log_decoding_ERIMMRGB',
 ]
 
 

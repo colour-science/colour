@@ -29,9 +29,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'primitive_vertices_quad_mpl', 'primitive_vertices_grid_mpl',
-    'primitive_vertices_cube_mpl', 'primitive_vertices_sphere',
-    'PRIMITIVE_VERTICES_METHODS', 'primitive_vertices'
+    'primitive_vertices_quad_mpl',
+    'primitive_vertices_grid_mpl',
+    'primitive_vertices_cube_mpl',
+    'primitive_vertices_sphere',
+    'PRIMITIVE_VERTICES_METHODS',
+    'primitive_vertices',
 ]
 
 

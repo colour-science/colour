@@ -17,7 +17,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestUv_to_CCT_Krystek1985']
+__all__ = [
+    'TestUv_to_CCT_Krystek1985',
+]
 
 
 class TestUv_to_CCT_Krystek1985(unittest.TestCase):

@@ -23,12 +23,19 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestPlotSingleSd', 'TestPlotMultiSds', 'TestPlotSingleCmfs',
-    'TestPlotMultiCmfs', 'TestPlotSingleIlluminantSd',
-    'TestPlotMultiIlluminantSds', 'TestPlotVisibleSpectrum',
-    'TestPlotSingleLightnessFunction', 'TestPlotMultiLightnessFunctions',
-    'TestPlotSingleLuminanceFunction', 'TestPlotMultiLuminanceFunctions',
-    'TestPlotBlackbodySpectralRadiance', 'TestPlotBlackbodyColours'
+    'TestPlotSingleSd',
+    'TestPlotMultiSds',
+    'TestPlotSingleCmfs',
+    'TestPlotMultiCmfs',
+    'TestPlotSingleIlluminantSd',
+    'TestPlotMultiIlluminantSds',
+    'TestPlotVisibleSpectrum',
+    'TestPlotSingleLightnessFunction',
+    'TestPlotMultiLightnessFunctions',
+    'TestPlotSingleLuminanceFunction',
+    'TestPlotMultiLuminanceFunctions',
+    'TestPlotBlackbodySpectralRadiance',
+    'TestPlotBlackbodyColours',
 ]
 
 

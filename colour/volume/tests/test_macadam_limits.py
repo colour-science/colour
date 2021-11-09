@@ -17,7 +17,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestIsWithinMacadamLimits']
+__all__ = [
+    'TestIsWithinMacadamLimits',
+]
 
 
 class TestIsWithinMacadamLimits(unittest.TestCase):

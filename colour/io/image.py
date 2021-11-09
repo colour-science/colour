@@ -21,10 +21,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'BitDepth_Specification', 'ImageAttribute_Specification',
-    'convert_bit_depth', 'read_image_OpenImageIO', 'read_image_Imageio',
-    'READ_IMAGE_METHODS', 'read_image', 'write_image_OpenImageIO',
-    'write_image_Imageio', 'WRITE_IMAGE_METHODS', 'write_image'
+    'BitDepth_Specification',
+    'ImageAttribute_Specification',
+    'convert_bit_depth',
+    'read_image_OpenImageIO',
+    'read_image_Imageio',
+    'READ_IMAGE_METHODS',
+    'read_image',
+    'write_image_OpenImageIO',
+    'write_image_Imageio',
+    'WRITE_IMAGE_METHODS',
+    'write_image',
 ]
 
 BitDepth_Specification = namedtuple(

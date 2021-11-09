@@ -25,7 +25,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['CVD_MATRICES_MACHADO2010']
+__all__ = [
+    'CVD_MATRICES_MACHADO2010',
+]
 
 CVD_MATRICES_MACHADO2010 = CaseInsensitiveMapping({
     'Protanomaly': {

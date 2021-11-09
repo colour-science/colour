@@ -50,7 +50,7 @@ __all__ = [
     'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
     'RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
     'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-    'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs'
+    'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
 ]
 
 

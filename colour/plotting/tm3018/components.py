@@ -33,10 +33,14 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RESOURCES_DIRECTORY_ANSIIESTM3018', 'plot_spectra_ANSIIESTM3018',
-    'plot_colour_vector_graphic', 'plot_16_bin_bars',
-    'plot_local_chroma_shifts', 'plot_local_hue_shifts',
-    'plot_local_colour_fidelities', 'plot_colour_fidelity_indexes'
+    'RESOURCES_DIRECTORY_ANSIIESTM3018',
+    'plot_spectra_ANSIIESTM3018',
+    'plot_colour_vector_graphic',
+    'plot_16_bin_bars',
+    'plot_local_chroma_shifts',
+    'plot_local_hue_shifts',
+    'plot_local_colour_fidelities',
+    'plot_colour_fidelity_indexes',
 ]
 
 RESOURCES_DIRECTORY_ANSIIESTM3018 = os.path.join(

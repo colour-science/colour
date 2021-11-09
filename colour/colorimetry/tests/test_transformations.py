@@ -27,7 +27,7 @@ __all__ = [
     'TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
     'TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
     'TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-    'TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs'
+    'TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
 ]
 
 

@@ -17,7 +17,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestEotf_inverse_sRGB', 'TestEotf_sRGB']
+__all__ = [
+    'TestEotf_inverse_sRGB',
+    'TestEotf_sRGB',
+]
 
 
 class TestEotf_inverse_sRGB(unittest.TestCase):

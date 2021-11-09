@@ -48,9 +48,15 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'SPECTRAL_SHAPE_JAKOB2019', 'StopMinimizationEarly', 'sd_Jakob2019',
-    'error_function', 'dimensionalise_coefficients', 'lightness_scale',
-    'find_coefficients_Jakob2019', 'XYZ_to_sd_Jakob2019', 'LUT3D_Jakob2019'
+    'SPECTRAL_SHAPE_JAKOB2019',
+    'StopMinimizationEarly',
+    'sd_Jakob2019',
+    'error_function',
+    'dimensionalise_coefficients',
+    'lightness_scale',
+    'find_coefficients_Jakob2019',
+    'XYZ_to_sd_Jakob2019',
+    'LUT3D_Jakob2019',
 ]
 
 SPECTRAL_SHAPE_JAKOB2019 = SpectralShape(360, 780, 5)

@@ -47,10 +47,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'GAMUT_AREA_D65', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
-    'ColourRendering_Specification_CQS', 'COLOUR_QUALITY_SCALE_METHODS',
-    'colour_quality_scale', 'gamut_area', 'vs_colorimetry_data', 'CCT_factor',
-    'scale_conversion', 'delta_E_RMS', 'colour_quality_scales'
+    'GAMUT_AREA_D65',
+    'VS_ColorimetryData',
+    'VS_ColourQualityScaleData',
+    'ColourRendering_Specification_CQS',
+    'COLOUR_QUALITY_SCALE_METHODS',
+    'colour_quality_scale',
+    'gamut_area',
+    'vs_colorimetry_data',
+    'CCT_factor',
+    'scale_conversion',
+    'delta_E_RMS',
+    'colour_quality_scales',
 ]
 
 GAMUT_AREA_D65 = 8210

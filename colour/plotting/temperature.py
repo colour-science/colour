@@ -32,11 +32,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_planckian_locus', 'plot_planckian_locus_CIE1931',
+    'plot_planckian_locus',
+    'plot_planckian_locus_CIE1931',
     'plot_planckian_locus_CIE1960UCS',
     'plot_planckian_locus_in_chromaticity_diagram',
     'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
-    'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS'
+    'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS',
 ]
 
 

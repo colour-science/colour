@@ -16,7 +16,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_sRGB', 'sRGB_to_XYZ']
+__all__ = [
+    'XYZ_to_sRGB',
+    'sRGB_to_XYZ',
+]
 
 
 def XYZ_to_sRGB(XYZ,

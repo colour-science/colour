@@ -23,7 +23,8 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_single_munsell_value_function', 'plot_multi_munsell_value_functions'
+    'plot_single_munsell_value_function',
+    'plot_multi_munsell_value_functions',
 ]
 
 

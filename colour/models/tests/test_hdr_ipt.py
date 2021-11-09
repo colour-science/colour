@@ -18,7 +18,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestExponent_hdr_IPT', 'TestXYZ_to_hdr_IPT', 'TestHdr_IPT_to_XYZ']
+__all__ = [
+    'TestExponent_hdr_IPT',
+    'TestXYZ_to_hdr_IPT',
+    'TestHdr_IPT_to_XYZ',
+]
 
 
 class TestExponent_hdr_IPT(unittest.TestCase):

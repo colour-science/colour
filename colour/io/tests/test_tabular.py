@@ -20,9 +20,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'RESOURCES_DIRECTORY', 'COLOURCHECKER_N_OHTA_1',
-    'TestReadSpectralDataFromCsvFile', 'TestReadSdsFromCsvFile',
-    'TestWriteSdsToCsvFile'
+    'RESOURCES_DIRECTORY',
+    'COLOURCHECKER_N_OHTA_1',
+    'TestReadSpectralDataFromCsvFile',
+    'TestReadSdsFromCsvFile',
+    'TestWriteSdsToCsvFile',
 ]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')

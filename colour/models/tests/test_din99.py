@@ -19,8 +19,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'TestLab_to_DIN99', 'TestDIN99_to_Lab', 'TestXYZ_to_DIN99',
-    'TestDIN99_to_XYZ'
+    'TestLab_to_DIN99',
+    'TestDIN99_to_Lab',
+    'TestXYZ_to_DIN99',
+    'TestDIN99_to_XYZ',
 ]
 
 

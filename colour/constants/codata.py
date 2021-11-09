@@ -18,8 +18,10 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANT_AVOGADRO', 'CONSTANT_BOLTZMANN', 'CONSTANT_LIGHT_SPEED',
-    'CONSTANT_PLANCK'
+    'CONSTANT_AVOGADRO',
+    'CONSTANT_BOLTZMANN',
+    'CONSTANT_LIGHT_SPEED',
+    'CONSTANT_PLANCK',
 ]
 
 CONSTANT_AVOGADRO = 6.02214179e23

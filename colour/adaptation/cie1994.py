@@ -30,10 +30,18 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_XYZ_TO_RGB_CIE1994', 'MATRIX_RGB_TO_XYZ_CIE1994',
-    'chromatic_adaptation_CIE1994', 'XYZ_to_RGB_CIE1994', 'RGB_to_XYZ_CIE1994',
-    'intermediate_values', 'effective_adapting_responses', 'beta_1', 'beta_2',
-    'exponential_factors', 'K_coefficient', 'corresponding_colour'
+    'MATRIX_XYZ_TO_RGB_CIE1994',
+    'MATRIX_RGB_TO_XYZ_CIE1994',
+    'chromatic_adaptation_CIE1994',
+    'XYZ_to_RGB_CIE1994',
+    'RGB_to_XYZ_CIE1994',
+    'intermediate_values',
+    'effective_adapting_responses',
+    'beta_1',
+    'beta_2',
+    'exponential_factors',
+    'K_coefficient',
+    'corresponding_colour',
 ]
 
 MATRIX_XYZ_TO_RGB_CIE1994 = CAT_VON_KRIES

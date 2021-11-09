@@ -25,13 +25,17 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_TEST', 'MATRIX_REFERENCE', 'TestMatrixAugmentedCheung2004',
+    'MATRIX_TEST',
+    'MATRIX_REFERENCE',
+    'TestMatrixAugmentedCheung2004',
     'TestPolynomialExpansionFinlayson2015',
     'TestPolynomialExpansionVandermonde',
     'TestMatrixColourCorrectionCheung2004',
     'TestMatrixColourCorrectionFinlayson2015',
-    'TestMatrixColourCorrectionVandermonde', 'TestColourCorrectionCheung2004',
-    'TestColourCorrectionFinlayson2015', 'TestColourCorrectionVandermonde'
+    'TestMatrixColourCorrectionVandermonde',
+    'TestColourCorrectionCheung2004',
+    'TestColourCorrectionFinlayson2015',
+    'TestColourCorrectionVandermonde',
 ]
 
 MATRIX_TEST = np.array([

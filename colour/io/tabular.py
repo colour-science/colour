@@ -27,8 +27,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'read_spectral_data_from_csv_file', 'read_sds_from_csv_file',
-    'write_sds_to_csv_file'
+    'read_spectral_data_from_csv_file',
+    'read_sds_from_csv_file',
+    'write_sds_to_csv_file',
 ]
 
 

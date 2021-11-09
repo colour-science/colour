@@ -22,7 +22,8 @@ __status__ = 'Production'
 
 __all__ = [
     'TestMsdsCmfsAnomalousTrichromacyMachado2009',
-    'TestMatrixAnomalousTrichromacyMachado2009', 'TestMatrixCvdMachado2009'
+    'TestMatrixAnomalousTrichromacyMachado2009',
+    'TestMatrixCvdMachado2009',
 ]
 
 

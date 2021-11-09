@@ -31,9 +31,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_XYZ_TO_RGB_FAIRCHILD1990', 'MATRIX_RGB_TO_XYZ_FAIRCHILD1990',
-    'chromatic_adaptation_Fairchild1990', 'XYZ_to_RGB_Fairchild1990',
-    'RGB_to_XYZ_Fairchild1990', 'degrees_of_adaptation'
+    'MATRIX_XYZ_TO_RGB_FAIRCHILD1990',
+    'MATRIX_RGB_TO_XYZ_FAIRCHILD1990',
+    'chromatic_adaptation_Fairchild1990',
+    'XYZ_to_RGB_Fairchild1990',
+    'RGB_to_XYZ_Fairchild1990',
+    'degrees_of_adaptation',
 ]
 
 MATRIX_XYZ_TO_RGB_FAIRCHILD1990 = CAT_VON_KRIES

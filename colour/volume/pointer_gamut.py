@@ -17,7 +17,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['is_within_pointer_gamut']
+__all__ = [
+    'is_within_pointer_gamut',
+]
 
 
 def is_within_pointer_gamut(XYZ, tolerance=None):

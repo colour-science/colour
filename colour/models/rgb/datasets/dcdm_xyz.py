@@ -29,9 +29,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_DCDM_XYZ', 'WHITEPOINT_NAME_DCDM_XYZ',
-    'CCS_WHITEPOINT_DCDM_XYZ', 'MATRIX_DCDM_XYZ_TO_XYZ',
-    'MATRIX_XYZ_TO_DCDM_XYZ', 'RGB_COLOURSPACE_DCDM_XYZ'
+    'PRIMARIES_DCDM_XYZ',
+    'WHITEPOINT_NAME_DCDM_XYZ',
+    'CCS_WHITEPOINT_DCDM_XYZ',
+    'MATRIX_DCDM_XYZ_TO_XYZ',
+    'MATRIX_XYZ_TO_DCDM_XYZ',
+    'RGB_COLOURSPACE_DCDM_XYZ',
 ]
 
 PRIMARIES_DCDM_XYZ = np.array([

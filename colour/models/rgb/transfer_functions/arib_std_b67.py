@@ -32,7 +32,9 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'CONSTANTS_ARIBSTDB67', 'oetf_ARIBSTDB67', 'oetf_inverse_ARIBSTDB67'
+    'CONSTANTS_ARIBSTDB67',
+    'oetf_ARIBSTDB67',
+    'oetf_inverse_ARIBSTDB67',
 ]
 
 CONSTANTS_ARIBSTDB67 = Structure(a=0.17883277, b=0.28466892, c=0.55991073)

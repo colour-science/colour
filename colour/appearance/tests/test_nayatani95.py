@@ -19,7 +19,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_Nayatani95']
+__all__ = [
+    'TestXYZ_to_Nayatani95',
+]
 
 
 class TestXYZ_to_Nayatani95(unittest.TestCase):

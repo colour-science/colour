@@ -44,11 +44,16 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_ICTCP_RGB_TO_LMS', 'MATRIX_ICTCP_LMS_TO_RGB',
-    'MATRIX_ICTCP_LMS_P_TO_ICTCP', 'MATRIX_ICTCP_ICTCP_TO_LMS_P',
+    'MATRIX_ICTCP_RGB_TO_LMS',
+    'MATRIX_ICTCP_LMS_TO_RGB',
+    'MATRIX_ICTCP_LMS_P_TO_ICTCP',
+    'MATRIX_ICTCP_ICTCP_TO_LMS_P',
     'MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2',
-    'MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2', 'RGB_to_ICtCp', 'ICtCp_to_RGB',
-    'XYZ_to_ICtCp', 'ICtCp_to_XYZ'
+    'MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2',
+    'RGB_to_ICtCp',
+    'ICtCp_to_RGB',
+    'XYZ_to_ICtCp',
+    'ICtCp_to_XYZ',
 ]
 
 MATRIX_ICTCP_RGB_TO_LMS = np.array([

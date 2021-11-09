@@ -33,9 +33,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Jab_to_JCh', 'JCh_to_Jab', 'COLOURSPACE_MODELS',
+    'Jab_to_JCh',
+    'JCh_to_Jab',
+    'COLOURSPACE_MODELS',
     'COLOURSPACE_MODELS_AXIS_LABELS',
-    'COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE'
+    'COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE',
 ]
 
 

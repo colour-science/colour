@@ -37,8 +37,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_R', 'VIEWING_CONDITIONS_RLAB', 'D_FACTOR_RLAB',
-    'CAM_ReferenceSpecification_RLAB', 'CAM_Specification_RLAB', 'XYZ_to_RLAB'
+    'MATRIX_R',
+    'VIEWING_CONDITIONS_RLAB',
+    'D_FACTOR_RLAB',
+    'CAM_ReferenceSpecification_RLAB',
+    'CAM_Specification_RLAB',
+    'XYZ_to_RLAB',
 ]
 
 MATRIX_R = np.array([

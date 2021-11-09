@@ -28,9 +28,11 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PRIMARIES_SMITS1999', 'CCS_WHITEPOINT_SMITS1999',
-    'MATRIX_XYZ_TO_RGB_SMITS1999', 'XYZ_to_RGB_Smits1999',
-    'RGB_to_sd_Smits1999'
+    'PRIMARIES_SMITS1999',
+    'CCS_WHITEPOINT_SMITS1999',
+    'MATRIX_XYZ_TO_RGB_SMITS1999',
+    'XYZ_to_RGB_Smits1999',
+    'RGB_to_sd_Smits1999',
 ]
 
 PRIMARIES_SMITS1999 = RGB_COLOURSPACE_sRGB.primaries

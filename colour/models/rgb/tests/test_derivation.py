@@ -22,9 +22,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'Testxy_to_z', 'TestNormalisedPrimaryMatrix',
-    'TestChromaticallyAdaptedPrimaries', 'TestPrimariesWhitepoint',
-    'TestRGBLuminanceEquation', 'TestRGBLuminance'
+    'Testxy_to_z',
+    'TestNormalisedPrimaryMatrix',
+    'TestChromaticallyAdaptedPrimaries',
+    'TestPrimariesWhitepoint',
+    'TestRGBLuminanceEquation',
+    'TestRGBLuminance',
 ]
 
 

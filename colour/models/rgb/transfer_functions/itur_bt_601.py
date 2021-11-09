@@ -32,7 +32,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['oetf_BT601', 'oetf_inverse_BT601']
+__all__ = [
+    'oetf_BT601',
+    'oetf_inverse_BT601',
+]
 
 
 def oetf_BT601(L):

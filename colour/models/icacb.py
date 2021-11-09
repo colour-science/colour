@@ -29,9 +29,12 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'MATRIX_ICACB_XYZ_TO_LMS', 'MATRIX_ICACB_XYZ_TO_LMS_2',
-    'MATRIX_ICACB_LMS_TO_XYZ', 'MATRIX_ICACB_LMS_TO_XYZ_2', 'XYZ_to_ICaCb',
-    'ICaCb_to_XYZ'
+    'MATRIX_ICACB_XYZ_TO_LMS',
+    'MATRIX_ICACB_XYZ_TO_LMS_2',
+    'MATRIX_ICACB_LMS_TO_XYZ',
+    'MATRIX_ICACB_LMS_TO_XYZ_2',
+    'XYZ_to_ICaCb',
+    'ICaCb_to_XYZ',
 ]
 
 MATRIX_ICACB_XYZ_TO_LMS = np.array([

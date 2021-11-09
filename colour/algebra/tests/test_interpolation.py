@@ -33,17 +33,28 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'DATA_POINTS_A', 'DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES',
+    'DATA_POINTS_A',
+    'DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES',
     'DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES',
     'DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES',
-    'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B', 'LUT_TABLE',
-    'TestKernelNearestNeighbour', 'TestKernelLinear', 'TestKernelSinc',
-    'TestKernelLanczos', 'TestKernelCardinalSpline', 'TestKernelInterpolator',
-    'TestLinearInterpolator', 'TestSpragueInterpolator',
-    'TestCubicSplineInterpolator', 'TestPchipInterpolator',
-    'TestNullInterpolator', 'TestLagrangeCoefficients',
-    'TestVerticesAndRelativeCoordinates', 'TestTableInterpolationTrilinear',
-    'TestTableInterpolationTetrahedral'
+    'LAGRANGE_COEFFICIENTS_A',
+    'LAGRANGE_COEFFICIENTS_B',
+    'LUT_TABLE',
+    'TestKernelNearestNeighbour',
+    'TestKernelLinear',
+    'TestKernelSinc',
+    'TestKernelLanczos',
+    'TestKernelCardinalSpline',
+    'TestKernelInterpolator',
+    'TestLinearInterpolator',
+    'TestSpragueInterpolator',
+    'TestCubicSplineInterpolator',
+    'TestPchipInterpolator',
+    'TestNullInterpolator',
+    'TestLagrangeCoefficients',
+    'TestVerticesAndRelativeCoordinates',
+    'TestTableInterpolationTrilinear',
+    'TestTableInterpolationTetrahedral',
 ]
 
 DATA_POINTS_A = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200, 4.3300, 4.2900,
