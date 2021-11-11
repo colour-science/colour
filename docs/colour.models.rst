@@ -313,8 +313,8 @@ OSA UCS Colourspace
     :toctree: generated/
 
     IZAZBZ_METHODS
-    XYZ_to_IzAzBz
-    IzAzBz_to_XYZ
+    XYZ_to_Izazbz
+    Izazbz_to_XYZ
 
 RGB Colourspace and Transformations
 -----------------------------------
