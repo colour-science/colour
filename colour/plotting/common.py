@@ -1409,6 +1409,11 @@ def plot_multi_functions(functions,
         update_settings_collection(plot_settings_collection, plot_kwargs,
                                    len(functions))
 
+    # TODO: Remove when "Matplotlib" minimum version can be set to 3.5.0.
+    matplotlib_3_5 = tuple(
+        [int(token)
+         for token in matplotlib.__version__.split('.')[:2]]) >= (3, 5)
+
     if log_x is not None and log_y is not None:
         attest(log_x >= 2 and log_y >= 2,
                'Log base must be equal or greater than 2.')
@@ -1420,11 +1425,17 @@ def plot_multi_functions(functions,
     elif log_x is not None:
         attest(log_x >= 2, 'Log base must be equal or greater than 2.')
 
-        plotting_function = partial(axes.semilogx, basex=log_x)
+        if matplotlib_3_5:  # pragma: no cover
+            plotting_function = partial(axes.semilogx, base=log_x)
+        else:  # pragma: no cover
+            plotting_function = partial(axes.semilogx, basex=log_x)
     elif log_y is not None:
         attest(log_y >= 2, 'Log base must be equal or greater than 2.')
 
-        plotting_function = partial(axes.semilogy, basey=log_y)
+        if matplotlib_3_5:  # pragma: no cover
+            plotting_function = partial(axes.semilogy, base=log_y)
+        else:  # pragma: no cover
+            plotting_function = partial(axes.semilogy, basey=log_y)
     else:
         plotting_function = axes.plot
 
