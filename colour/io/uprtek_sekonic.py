@@ -50,7 +50,6 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     -------
     -   :meth:`~colour.SpectralDistribution_UPRTek.__init__`
     -   :meth:`~colour.SpectralDistribution_UPRTek.read`
-    -   :meth:`~colour.SpectralDistribution_UPRTek.write`
 
     Examples
     --------
@@ -135,12 +134,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     @property
     def metadata(self):
         """
-        Getter and setter property for the metadata.
-
-        Parameters
-        ----------
-        value : dict
-            Value to set the metadata with.
+        Getter property for the metadata.
 
         Returns
         -------
@@ -282,7 +276,6 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     -------
     -   :meth:`~colour.SpectralDistribution_Sekonic.__init__`
     -   :meth:`~colour.SpectralDistribution_Sekonic.read`
-    -   :meth:`~colour.SpectralDistribution_Sekonic.write`
 
     Examples
     --------
