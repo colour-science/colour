@@ -121,6 +121,21 @@ IES TM-27-14 Data
 
     SpectralDistribution_IESTM2714
 
+
+UPRTek and Sekonic Spectral Data
+--------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+    :template: class.rst
+
+    SpectralDistribution_UPRTek
+    SpectralDistribution_Sekonic
+
 X-Rite Data
 -----------
 
