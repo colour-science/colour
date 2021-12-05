@@ -1037,7 +1037,7 @@ verbose={'mode': 'Long'})
         representation. To encode such *RGB* values as *output-referred*
         (*display-referred*) imagery, i.e. encode the *RGB* values using an
         encoding colour component transfer function (Encoding CCTF) /
-        opto-electronic transfer function (OETF / OECF), the
+        opto-electronic transfer function (OETF), the
         **Output-Referred RGB** representation must be used::
 
              convert(RGB, 'Scene-Referred RGB', 'Output-Referred RGB')
