@@ -527,7 +527,7 @@ def Kim2009_to_XYZ(specification,
         [1.0000, -0.1568, -4.4904],
     ])
     LMS_p = vector_dot(M, tstack([A, a, b]))
-    LMS = ((-(L_A ** n_c) * LMS_p) / (LMS_p - 1)) ** (1 / n_c)
+    LMS = spow((-spow(L_A, n_c) * LMS_p) / (LMS_p - 1), 1 / n_c)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_c = rgb_to_RGB(LMS)
