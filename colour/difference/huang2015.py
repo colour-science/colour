@@ -20,8 +20,11 @@ References
     42(6), 703-718. doi:10.1002/col.22131
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import CaseInsensitiveMapping, tsplit, validate_method
 
 __author__ = 'Colour Developers'
@@ -35,7 +38,7 @@ __all__ = [
     'power_function_Huang2015',
 ]
 
-COEFFICIENTS_HUANG2015 = CaseInsensitiveMapping({
+COEFFICIENTS_HUANG2015: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'CIE 1976': np.array([1.26, 0.55]),
     'CIE 1994': np.array([1.41, 0.70]),
     'CIE 2000': np.array([1.43, 0.70]),
@@ -56,10 +59,6 @@ References
 ----------
 :cite:`Huang2015`, :cite:`Li2017`
 
-COEFFICIENTS_HUANG2015 : CaseInsensitiveMapping
-    **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
-    'CAM16-UCS', 'DIN99d', 'OSA', 'OSA-GP-Euclidean', 'ULAB'}**
-
 Notes
 -----
 -   :cite:`Li2017` does not give the coefficients for the *CAM16-LCD* and
@@ -77,7 +76,12 @@ COEFFICIENTS_HUANG2015['cie1994'] = COEFFICIENTS_HUANG2015['CIE 1994']
 COEFFICIENTS_HUANG2015['cie2000'] = COEFFICIENTS_HUANG2015['CIE 2000']
 
 
-def power_function_Huang2015(d_E, coefficients='CIE 2000'):
+def power_function_Huang2015(
+        d_E: FloatingOrArrayLike,
+        coefficients: Union[Literal[
+            'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD',
+            'CAM02-SCD', 'CAM16-UCS', 'DIN99d', 'OSA', 'OSA-GP-Euclidean',
+            'ULAB'], str] = 'CIE 2000') -> FloatingOrNDArray:
     """
     Improves the performance of the :math:`\\Delta E` value for given
     coefficients using
@@ -86,16 +90,14 @@ def power_function_Huang2015(d_E, coefficients='CIE 2000'):
 
     Parameters
     ----------
-    d_E : array_like
+    d_E
         Computed colour difference array :math:`\\Delta E`.
-    coefficients : str, optional
-        **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
-        'CAM16-UCS', 'DIN99d', 'OSA', 'OSA-GP-Euclidean', 'ULAB'}**,
+    coefficients
         Coefficients for the power-function.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Improved math:`\\Delta E` value.
 
     References
