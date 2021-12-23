@@ -341,7 +341,7 @@ def XYZ_to_ZCAM(XYZ,
         reference white and :math:`Y_b` is the background luminance factor).
     Y_b : numeric or array_like
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
+        :math:`Y_b = 100 * L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
         viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
@@ -366,7 +366,7 @@ def XYZ_to_ZCAM(XYZ,
     -   *Safdar, Hardeberg and Luo (2021)* does not specify how the chromatic
         adaptation to *CIE Standard Illuminant D65* in *Step 0* should be
         performed. A one-step *Von Kries* chromatic adaptation transform is not
-        symetrical or transitive when a degree of adptation is involved.
+        symmetrical or transitive when a degree of adaptation is involved.
         *Safdar, Hardeberg and Luo (2018)* uses *Zhai and Luo (2018)* two-steps
         chromatic adaptation transform, thus it seems sensible to adopt this
         transform for the *ZCAM* colour appearance model until more information
