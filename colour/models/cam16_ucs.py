@@ -350,7 +350,7 @@ XYZ_to_CAM16LCD.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02LCD))
 
 CAM16LCD_to_XYZ = partial(
-    XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 CAM16LCD_to_XYZ.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(CAM02LCD_to_XYZ))
 
@@ -360,7 +360,7 @@ XYZ_to_CAM16SCD.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02SCD))
 
 CAM16SCD_to_XYZ = partial(
-    XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
+    UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
 CAM16SCD_to_XYZ.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(CAM02SCD_to_XYZ))
 
@@ -370,6 +370,6 @@ XYZ_to_CAM16UCS.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02UCS))
 
 CAM16UCS_to_XYZ = partial(
-    XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
+    UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
 CAM16UCS_to_XYZ.__doc__ = (
     _UCS_Luo2006_callable_to_UCS_Li2017_docstring(CAM02UCS_to_XYZ))
