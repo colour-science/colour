@@ -89,28 +89,28 @@ message_box('N-Dimensional Arrays Support')
 
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 illuminant = np.array([0.31270, 0.32900])
-message_box('Using 1d "array_like" parameter:\n' '\n{0}'.format(XYZ))
+message_box('Using 1d "ArrayLike" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
 
 XYZ = np.tile(XYZ, (6, 1))
 illuminant = np.tile(illuminant, (6, 1))
-message_box('Using 2d "array_like" parameter:\n' '\n{0}'.format(XYZ))
+message_box('Using 2d "ArrayLike" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
 
 XYZ = np.reshape(XYZ, (2, 3, 3))
 illuminant = np.reshape(illuminant, (2, 3, 2))
-message_box('Using 3d "array_like" parameter:\n' '\n{0}'.format(XYZ))
+message_box('Using 3d "ArrayLike" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
 
 XYZ = np.reshape(XYZ, (3, 2, 1, 3))
 illuminant = np.reshape(illuminant, (3, 2, 1, 2))
-message_box('Using 4d "array_like" parameter:\n' '\n{0}'.format(XYZ))
+message_box('Using 4d "ArrayLike" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
@@ -131,9 +131,9 @@ print(colour.CCT_to_xy(CCT))
 
 print('\n')
 
-message_box(('Definitions mixing "array_like" and "numeric" parameters '
+message_box(('Definitions mixing "ArrayLike" and "numeric" parameters '
              'expect the "numeric" parameters to have a dimension less than '
-             'the "array_like" parameters.'))
+             'the "ArrayLike" parameters.'))
 XYZ_1 = np.array([28.00, 21.26, 5.27])
 xy_o1 = np.array([0.4476, 0.4074])
 xy_o2 = np.array([0.3127, 0.3290])
