@@ -24,8 +24,16 @@ References
     https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import (
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Optional,
+)
 from colour.utilities import as_float_array, as_float
 
 __author__ = 'Colour Developers'
@@ -45,23 +53,25 @@ __all__ = [
 ]
 
 
-def optical_MTF_Barten1999(u, sigma=0.01):
+def optical_MTF_Barten1999(u: FloatingOrArrayLike,
+                           sigma: FloatingOrArrayLike = 0.01
+                           ) -> FloatingOrNDArray:
     """
     Returns the optical modulation transfer function (MTF) :math:`M_{opt}` of
     the eye using *Barten (1999)* method.
 
     Parameters
     ----------
-    u : numeric or array_like
+    u
         Spatial frequency :math:`u`, the cycles per degree.
-    sigma : numeric or array_like, optional
+    sigma
         Standard deviation :math:`\\sigma` of the line-spread function
         resulting from the convolution of the different elements of the
         convolution process.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Optical modulation transfer function (MTF) :math:`M_{opt}` of the eye.
 
     References
@@ -81,19 +91,27 @@ def optical_MTF_Barten1999(u, sigma=0.01):
     return as_float(np.exp(-2 * np.pi ** 2 * sigma ** 2 * u ** 2))
 
 
-def pupil_diameter_Barten1999(L, X_0=60, Y_0=None):
+def pupil_diameter_Barten1999(
+        L: FloatingOrArrayLike,
+        X_0: FloatingOrArrayLike = 60,
+        Y_0: Optional[FloatingOrArrayLike] = None) -> FloatingOrNDArray:
     """
     Returns the pupil diameter for given luminance and object or stimulus
     angular size using *Barten (1999)* method.
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         Average luminance :math:`L` in :math:`cd/m^2`.
-    X_0 : numeric or array_like, optional
+    X_0
         Angular size of the object :math:`X_0` in degrees in the x direction.
-    Y_0 : numeric or array_like, optional
+    Y_0
         Angular size of the object :math:`X_0` in degrees in the y direction.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Pupil diameter.
 
     References
     ----------
@@ -113,7 +131,9 @@ def pupil_diameter_Barten1999(L, X_0=60, Y_0=None):
     return as_float(5 - 3 * np.tanh(0.4 * np.log(L * X_0 * Y_0 / 40 ** 2)))
 
 
-def sigma_Barten1999(sigma_0=0.5 / 60, C_ab=0.08 / 60, d=2.1):
+def sigma_Barten1999(sigma_0: FloatingOrArrayLike = 0.5 / 60,
+                     C_ab: FloatingOrArrayLike = 0.08 / 60,
+                     d: FloatingOrArrayLike = 2.1) -> FloatingOrNDArray:
     """
     Returns the standard deviation :math:`\\sigma` of the line-spread function
     resulting from the convolution of the different elements of the convolution
@@ -127,17 +147,17 @@ def sigma_Barten1999(sigma_0=0.5 / 60, C_ab=0.08 / 60, d=2.1):
 
     Parameters
     ----------
-    sigma_0 : numeric or array_like, optional
+    sigma_0
         Constant :math:`\\sigma_{0}` in degrees.
-    C_ab : numeric or array_like, optional
+    C_ab
         Spherical aberration of the eye :math:`C_{ab}` in
         :math:`degrees\\div mm`.
-    d : numeric or array_like, optional
+    d
         Pupil diameter :math:`d` in millimeters.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Standard deviation :math:`\\sigma` of the line-spread function
         resulting from the convolution of the different elements of the
         convolution process.
@@ -169,7 +189,9 @@ def sigma_Barten1999(sigma_0=0.5 / 60, C_ab=0.08 / 60, d=2.1):
 
 
 def retinal_illuminance_Barten1999(
-        L, d=2.1, apply_stiles_crawford_effect_correction=True):
+        L: FloatingOrArrayLike,
+        d: FloatingOrArrayLike = 2.1,
+        apply_stiles_crawford_effect_correction: Boolean = True):
     """
     Returns the retinal illuminance :math:`E` in Trolands for given average
     luminance :math:`L` and pupil diameter :math:`d` using *Barten (1999)*
@@ -177,16 +199,16 @@ def retinal_illuminance_Barten1999(
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         Average luminance :math:`L` in :math:`cd/m^2`.
-    d : numeric or array_like, optional
+    d
         Pupil diameter :math:`d` in millimeters.
-    apply_stiles_crawford_effect_correction : bool, optional
+    apply_stiles_crawford_effect_correction
         Whether to apply the correction for *Stiles-Crawford* effect.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Retinal illuminance :math:`E` in Trolands.
 
     Notes
@@ -217,30 +239,34 @@ def retinal_illuminance_Barten1999(
     if apply_stiles_crawford_effect_correction:
         E *= (1 - (d / 9.7) ** 2 + (d / 12.4) ** 4)
 
-    return E
+    return as_float(E)
 
 
-def maximum_angular_size_Barten1999(u, X_0=60, X_max=12, N_max=15):
+def maximum_angular_size_Barten1999(
+        u: FloatingOrArrayLike,
+        X_0: FloatingOrArrayLike = 60,
+        X_max: FloatingOrArrayLike = 12,
+        N_max: FloatingOrArrayLike = 15) -> FloatingOrNDArray:
     """
     Returns the maximum angular size :math:`X` of the object considered using
     *Barten (1999)* method.
 
     Parameters
     ----------
-    u : numeric
+    u
         Spatial frequency :math:`u`, the cycles per degree.
-    X_0 : numeric or array_like, optional
+    X_0
         Angular size :math:`X_0` in degrees of the object in the x direction.
-    X_max : numeric or array_like, optional
+    X_max
         Maximum angular size :math:`X_{max}` in degrees of the integration
         area in the x direction.
-    N_max : numeric or array_like, optional
+    N_max
         Maximum number of cycles :math:`N_{max}` over which the eye can
         integrate the information.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Maximum angular size :math:`X` of the object considered.
 
     References
@@ -259,25 +285,26 @@ def maximum_angular_size_Barten1999(u, X_0=60, X_max=12, N_max=15):
     X_max = as_float_array(X_max)
     N_max = as_float_array(N_max)
 
-    return (1 / X_0 ** 2 + 1 / X_max ** 2 + u ** 2 / N_max ** 2) ** -0.5
+    return as_float((1 / X_0 ** 2 + 1 / X_max ** 2 + u ** 2 / N_max ** 2)
+                    ** -0.5)
 
 
-def contrast_sensitivity_function_Barten1999(u,
-                                             sigma=sigma_Barten1999(
-                                                 0.5 / 60, 0.08 / 60, 2.1),
-                                             k=3.0,
-                                             T=0.1,
-                                             X_0=60,
-                                             Y_0=None,
-                                             X_max=12,
-                                             Y_max=None,
-                                             N_max=15,
-                                             n=0.03,
-                                             p=1.2274 * 10 ** 6,
-                                             E=retinal_illuminance_Barten1999(
-                                                 20, 2.1),
-                                             phi_0=3 * 10 ** -8,
-                                             u_0=7):
+def contrast_sensitivity_function_Barten1999(
+        u: FloatingOrArrayLike,
+        sigma: FloatingOrArrayLike = sigma_Barten1999(0.5 / 60, 0.08 / 60,
+                                                      2.1),
+        k: FloatingOrArrayLike = 3.0,
+        T: FloatingOrArrayLike = 0.1,
+        X_0: FloatingOrArrayLike = 60,
+        Y_0: Optional[FloatingOrArrayLike] = None,
+        X_max: FloatingOrArrayLike = 12,
+        Y_max: Optional[FloatingOrArrayLike] = None,
+        N_max: FloatingOrArrayLike = 15,
+        n: FloatingOrArrayLike = 0.03,
+        p: FloatingOrArrayLike = 1.2274 * 10 ** 6,
+        E: FloatingOrArrayLike = retinal_illuminance_Barten1999(20, 2.1),
+        phi_0: FloatingOrArrayLike = 3 * 10 ** -8,
+        u_0: FloatingOrArrayLike = 7) -> FloatingOrNDArray:
     """
     Returns the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by *Barten (1999)*.
@@ -293,47 +320,47 @@ def contrast_sensitivity_function_Barten1999(u,
 
     Parameters
     ----------
-    u : numeric
+    u
         Spatial frequency :math:`u`, the cycles per degree.
-    sigma : numeric or array_like, optional
+    sigma
         Standard deviation :math:`\\sigma` of the line-spread function
         resulting from the convolution of the different elements of the
         convolution process.
-    k : numeric or array_like, optional
+    k
         Signal-to-noise (SNR) ratio :math:`k`.
-    T : numeric or array_like, optional
+    T
         Integration time :math:`T` in seconds of the eye.
-    X_0 : numeric or array_like, optional
+    X_0
         Angular size :math:`X_0` in degrees of the object in the x direction.
-    Y_0 : numeric or array_like, optional
+    Y_0
         Angular size :math:`Y_0` in degrees of the object in the y direction.
-    X_max : numeric or array_like, optional
+    X_max
         Maximum angular size :math:`X_{max}` in degrees of the integration
         area in the x direction.
-    Y_max : numeric or array_like, optional
+    Y_max
         Maximum angular size :math:`Y_{max}` in degrees of the integration
         area in the y direction.
-    N_max : numeric or array_like, optional
+    N_max
         Maximum number of cycles :math:`N_{max}` over which the eye can
         integrate the information.
-    n : numeric or array_like, optional
+    n
         Quantum efficiency of the eye :math:`n`.
-    p : numeric or array_like, optional
+    p
         Photon conversion factor :math:`p` in
         :math:`photons\\div seconds\\div degrees^2\\div Trolands` that
         depends on the light source.
-    E : numeric or array_like, optional
+    E
         Retinal illuminance :math:`E` in Trolands.
-    phi_0 : numeric or array_like, optional
+    phi_0
         Spectral density :math:`\\phi_0` in :math:`seconds degrees^2` of the
         neural noise.
-    u_0 : numeric or array_like, optional
+    u_0
         Spatial frequency :math:`u_0` in :math:`cycles\\div degrees` above
         which the lateral inhibition ceases.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Contrast sensitivity :math:`S`.
 
     Warnings
