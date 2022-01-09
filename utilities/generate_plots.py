@@ -5,6 +5,8 @@ Generate Plots
 ==============
 """
 
+from __future__ import annotations
+
 import matplotlib
 
 matplotlib.use('AGG')
@@ -90,13 +92,13 @@ __all__ = [
 ]
 
 
-def generate_documentation_plots(output_directory):
+def generate_documentation_plots(output_directory: str):
     """
     Generates documentation plots.
 
     Parameters
     ----------
-    output_directory : unicode
+    output_directory
         Output directory.
     """
 
