@@ -18,8 +18,15 @@ import numpy as np
 
 from colour.algebra import vector_dot
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
+from colour.hints import (
+    ArrayLike,
+    FloatingOrArrayLike,
+    Literal,
+    NDArray,
+    Union,
+)
 from colour.utilities import (
-    as_float,
+    as_float_array,
     from_range_100,
     to_domain_100,
     validate_method,
@@ -37,13 +44,15 @@ __all__ = [
 ]
 
 
-def chromatic_adaptation_Zhai2018(XYZ_b,
-                                  XYZ_wb,
-                                  XYZ_wd,
-                                  D_b=1,
-                                  D_d=1,
-                                  XYZ_wo=np.array([100, 100, 100]),
-                                  chromatic_adaptation_transform='CAT02'):
+def chromatic_adaptation_Zhai2018(
+        XYZ_b: ArrayLike,
+        XYZ_wb: ArrayLike,
+        XYZ_wd: ArrayLike,
+        D_b: FloatingOrArrayLike = 1,
+        D_d: FloatingOrArrayLike = 1,
+        XYZ_wo: ArrayLike = np.array([1, 1, 1]),
+        chromatic_adaptation_transform: Union[Literal['CAT02', 'CAT16'],
+                                              str] = 'CAT02') -> NDArray:
     """
     Adapts given sample colour :math:`XYZ_{\\beta}` tristimulus values from
     input viewing conditions under :math:`\\beta` illuminant to output viewing
@@ -69,30 +78,54 @@ def chromatic_adaptation_Zhai2018(XYZ_b,
 
     Parameters
     ----------
-    XYZ_b : array_like
+    XYZ_b
         Sample colour :math:`XYZ_{\\beta}` under input illuminant
         :math:`\\beta`.
-    XYZ_wb : array_like
+    XYZ_wb
         Input illuminant :math:`\\beta`.
-    XYZ_wd : array_like
+    XYZ_wd
         Output illuminant :math:`\\delta`.
-    D_b : numeric, optional
+    D_b
         Degree of adaptation :math:`D_{\\beta}` of input illuminant
         :math:`\\beta`.
-    D_d : numeric, optional
+    D_d
         Degree of adaptation :math:`D_{\\delta}` of output illuminant
         :math:`\\delta`.
-    XYZ_wo : array_like, optional
+    XYZ_wo
         Baseline illuminant (:math:`BI`) :math:`o`.
-    chromatic_adaptation_transform : str, optional
-        **{'CAT02', 'CAT16'}**,
+    chromatic_adaptation_transform
         Chromatic adaptation transform.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Sample corresponding colour :math:`XYZ_{\\delta}` tristimulus values
         under output illuminant :math:`D_{\\delta}`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_b``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wb`` | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wd`` | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wo`` | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_d``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Zhai2018`
 
     Examples
     --------
@@ -115,8 +148,8 @@ def chromatic_adaptation_Zhai2018(XYZ_b,
     XYZ_wb = to_domain_100(XYZ_wb)
     XYZ_wd = to_domain_100(XYZ_wd)
     XYZ_wo = to_domain_100(XYZ_wo)
-    D_b = as_float(D_b)
-    D_d = as_float(D_d)
+    D_b = as_float_array(D_b)
+    D_d = as_float_array(D_d)
 
     Y_wb = XYZ_wb[..., 1][..., np.newaxis]
     Y_wd = XYZ_wd[..., 1][..., np.newaxis]
