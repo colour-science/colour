@@ -21,14 +21,30 @@ References
     doi:10.1364/JOSAA.24.001501
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
     SpectralShape,
     handle_spectral_arguments,
     msds_to_XYZ,
 )
 from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    Dict,
+    Floating,
+    Integer,
+    Literal,
+    NDArray,
+    Optional,
+    Union,
+)
 from colour.volume import is_within_mesh_volume
 from colour.utilities import CACHE_REGISTRY, zeros, validate_method
 
@@ -47,22 +63,23 @@ __all__ = [
     'is_within_visible_spectrum',
 ]
 
-SPECTRAL_SHAPE_OUTER_SURFACE_XYZ = SpectralShape(360, 780, 5)
+SPECTRAL_SHAPE_OUTER_SURFACE_XYZ: SpectralShape = SpectralShape(360, 780, 5)
 """
 Default spectral shape according to *ASTM E308-15* practise shape but using an
 interval of 5.
-
-SPECTRAL_SHAPE_OUTER_SURFACE_XYZ : SpectralShape
 """
 
-_CACHE_OUTER_SURFACE_XYZ = CACHE_REGISTRY.register_cache(
+_CACHE_OUTER_SURFACE_XYZ: Dict = CACHE_REGISTRY.register_cache(
     '{0}._CACHE_OUTER_SURFACE_XYZ'.format(__name__))
 
-_CACHE_OUTER_SURFACE_XYZ_POINTS = CACHE_REGISTRY.register_cache(
+_CACHE_OUTER_SURFACE_XYZ_POINTS: Dict = CACHE_REGISTRY.register_cache(
     '{0}._CACHE_OUTER_SURFACE_XYZ_POINTS'.format(__name__))
 
 
-def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
+def generate_pulse_waves(
+        bins: Integer,
+        pulse_order: Union[Literal['Bins', 'Pulse Wave Width'], str] = 'Bins',
+        filter_jagged_pulses: Boolean = False) -> NDArray:
     """
     Generates the pulse waves of given number of bins necessary to totally
     stimulate the colour matching functions and produce the *Rösch-MacAdam*
@@ -96,15 +113,14 @@ def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
 
     Parameters
     ----------
-    bins : int
+    bins
         Number of bins of the pulse waves.
-    pulse_order : str, optional
-        **{'Bins', 'Pulse Wave Width'}**,
+    pulse_order
         Method for ordering the pulse waves. *Bins* is the default order, with
         *Pulse Wave Width* ordering, instead of iterating over the pulse wave
         widths first, iteration occurs over the bins, producing blocks of pulse
         waves with increasing width.
-    filter_jagged_pulses : bool, optional
+    filter_jagged_pulses
         Whether to filter jagged pulses. When ``pulse_order`` is set to
         *Pulse Wave Width*, the pulses are ordered by increasing width. Because
         of the discrete nature of the underlying signal, the resulting pulses
@@ -124,7 +140,7 @@ def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Pulse waves.
 
     References
@@ -221,11 +237,12 @@ def generate_pulse_waves(bins, pulse_order='Bins', filter_jagged_pulses=False):
     ])
 
 
-def XYZ_outer_surface(cmfs=None,
-                      illuminant=None,
-                      point_order='Bins',
-                      filter_jagged_points=False,
-                      **kwargs):
+def XYZ_outer_surface(
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        illuminant: Optional[SpectralDistribution] = None,
+        point_order: Union[Literal['Bins', 'Pulse Wave Width'], str] = 'Bins',
+        filter_jagged_points: Boolean = False,
+        **kwargs: Any):
     """
     Generates the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
     outer surface, for given colour matching functions using multi-spectral
@@ -233,19 +250,18 @@ def XYZ_outer_surface(cmfs=None,
 
     Parameters
     ----------
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    illuminant : SpectralDistribution, optional
+    illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
-    point_order : str, optional
-        **{'Bins', 'Pulse Wave Width'}**,
+    point_order
         Method for ordering the underlying pulse waves used to generate the
         *Rösch-MacAdam* colour solid. *Bins* is the default order, with
         *Pulse Wave Width* ordering, instead of iterating over the pulse wave
         widths first, iteration occurs over the bins, producing blocks of pulse
         waves with increasing width.
-    filter_jagged_points : bool, optional
+    filter_jagged_points
         Whether to filter the underlying jagged pulses. When ``point_order`` is
         set to *Pulse Wave Width*, the pulses are ordered by increasing width.
         Because of the discrete nature of the underlying signal, the resulting
@@ -265,13 +281,13 @@ def XYZ_outer_surface(cmfs=None,
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.msds_to_XYZ`},
-        Please refer to the documentation of the previously listed definition.
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Rösch-MacAdam* colour solid, *CIE XYZ* outer surface tristimulus
         values.
 
@@ -325,8 +341,8 @@ def XYZ_outer_surface(cmfs=None,
         cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
         SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
 
-    settings = {'method': 'Integration', 'shape': cmfs.shape}
-    settings.update(kwargs)
+    settings = dict(kwargs)
+    settings.update({'shape': cmfs.shape})
 
     key = (hash(cmfs), hash(illuminant), point_order, filter_jagged_points,
            str(settings))
@@ -335,7 +351,9 @@ def XYZ_outer_surface(cmfs=None,
     if XYZ is None:
         pulse_waves = generate_pulse_waves(
             len(cmfs.wavelengths), point_order, filter_jagged_points)
-        XYZ = msds_to_XYZ(pulse_waves, cmfs, illuminant, **settings) / 100
+        XYZ = msds_to_XYZ(
+            pulse_waves, cmfs, illuminant, method='Integration', **
+            settings) / 100
 
         _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
 
@@ -345,37 +363,38 @@ def XYZ_outer_surface(cmfs=None,
 solid_RoschMacAdam = XYZ_outer_surface
 
 
-def is_within_visible_spectrum(XYZ,
-                               cmfs=None,
-                               illuminant=None,
-                               tolerance=None,
-                               **kwargs):
+def is_within_visible_spectrum(
+        XYZ: ArrayLike,
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        illuminant: Optional[SpectralDistribution] = None,
+        tolerance: Optional[Floating] = None,
+        **kwargs: Any) -> NDArray:
     """
-    Returns if given *CIE XYZ* tristimulus values are within the visible
+    Returns whether given *CIE XYZ* tristimulus values are within the visible
     spectrum volume, i.e. *Rösch-MacAdam* colour solid, for given colour
     matching functions and illuminant.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    illuminant : SpectralDistribution, optional
+    illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
-    tolerance : numeric, optional
+    tolerance
         Tolerance allowed in the inside-triangle check.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.msds_to_XYZ`},
-        Please refer to the documentation of the previously listed definition.
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    bool
+    :class:`numpy.ndarray`
         Are *CIE XYZ* tristimulus values within the visible spectrum volume,
         i.e. *Rösch-MacAdam* colour solid.
 
