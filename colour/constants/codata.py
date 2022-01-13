@@ -26,38 +26,30 @@ __all__ = [
     'CONSTANT_PLANCK',
 ]
 
-CONSTANT_AVOGADRO = 6.02214179e23
+CONSTANT_AVOGADRO: float = 6.02214179e23
 if is_documentation_building():  # pragma: no cover
     CONSTANT_AVOGADRO = DocstringFloat(CONSTANT_AVOGADRO)
     CONSTANT_AVOGADRO.__doc__ = """
 Avogadro constant.
-
-CONSTANT_AVOGADRO : numeric
 """
 
-CONSTANT_BOLTZMANN = 1.38065e-23
+CONSTANT_BOLTZMANN: float = 1.38065e-23
 if is_documentation_building():  # pragma: no cover
     CONSTANT_BOLTZMANN = DocstringFloat(CONSTANT_BOLTZMANN)
     CONSTANT_BOLTZMANN.__doc__ = """
 Boltzmann constant.
-
-CONSTANT_BOLTZMANN : numeric
 """
 
-CONSTANT_LIGHT_SPEED = 299792458
+CONSTANT_LIGHT_SPEED: float = 299792458
 if is_documentation_building():  # pragma: no cover
     CONSTANT_LIGHT_SPEED = DocstringFloat(CONSTANT_LIGHT_SPEED)
     CONSTANT_LIGHT_SPEED.__doc__ = """
 Speed of light in vacuum.
-
-CONSTANT_LIGHT_SPEED : numeric
 """
 
-CONSTANT_PLANCK = 6.62607e-34
+CONSTANT_PLANCK: float = 6.62607e-34
 if is_documentation_building():  # pragma: no cover
     CONSTANT_PLANCK = DocstringFloat(CONSTANT_PLANCK)
     CONSTANT_PLANCK.__doc__ = """
 Planck constant.
-
-CONSTANT_PLANCK : numeric
 """
