@@ -20,16 +20,25 @@ References
     CCT and Duv. LEUKOS, 10(1), 47-55. doi:10.1080/15502724.2014.839020
 """
 
+from __future__ import annotations
+
 import numpy as np
-from collections import namedtuple
+from dataclasses import dataclass
 
 from colour.colorimetry import (
+    MultiSpectralDistributions,
     handle_spectral_arguments,
     sd_blackbody,
     sd_to_XYZ,
 )
+from colour.hints import ArrayLike, Floating, Integer, List, NDArray, Optional
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import as_float_array, runtime_warning, tsplit
+from colour.utilities import (
+    as_float_array,
+    as_int_scalar,
+    runtime_warning,
+    tsplit,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -39,7 +48,7 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'PLANCKIAN_TABLE_TUVD',
+    'Tuvd_PlanckianTable',
     'CCT_MINIMAL',
     'CCT_MAXIMAL',
     'CCT_SAMPLES',
@@ -50,16 +59,24 @@ __all__ = [
     'CCT_to_uv_Ohno2013',
 ]
 
-PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi',
-                                  ('Ti', 'ui', 'vi', 'di'))
 
-CCT_MINIMAL = 1000
-CCT_MAXIMAL = 100000
-CCT_SAMPLES = 10
-CCT_CALCULATION_ITERATIONS = 6
+@dataclass
+class Tuvd_PlanckianTable:
+    Ti: Floating
+    ui: Floating
+    vi: Floating
+    di: Floating
 
 
-def planckian_table(uv, cmfs, start, end, count):
+CCT_MINIMAL: Floating = 1000
+CCT_MAXIMAL: Floating = 100000
+CCT_SAMPLES: Integer = 10
+CCT_CALCULATION_ITERATIONS: Integer = 6
+
+
+def planckian_table(uv: ArrayLike, cmfs: MultiSpectralDistributions,
+                    start: Floating, end: Floating,
+                    count: Integer) -> List[Tuvd_PlanckianTable]:
     """
     Returns a planckian table from given *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
@@ -67,20 +84,20 @@ def planckian_table(uv, cmfs, start, end, count):
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *uv* chromaticity coordinates.
-    cmfs : XYZ_ColourMatchingFunctions
+    cmfs
         Standard observer colour matching functions.
-    start : numeric
+    start
         Temperature range start in kelvins.
-    end : numeric
+    end
         Temperature range end in kelvins.
-    count : int
+    count
         Temperatures count in the planckian table.
 
     Returns
     -------
-    list
+    :class:`list`
         Planckian table.
 
     Examples
@@ -94,31 +111,29 @@ def planckian_table(uv, cmfs, start, end, count):
     >>> uv = np.array([0.1978, 0.3122])
     >>> pprint(planckian_table(uv, cmfs, 1000, 1010, 10))
     ... # doctest: +ELLIPSIS
-    [PlanckianTable_Tuvdi(Ti=1000.0, \
-ui=0.4479628..., vi=0.3546296..., di=0.2537355...),
-     PlanckianTable_Tuvdi(Ti=1001.1111111..., \
-ui=0.4477030..., vi=0.3546521..., di=0.2534831...),
-     PlanckianTable_Tuvdi(Ti=1002.2222222..., \
-ui=0.4474434..., vi=0.3546746..., di=0.2532310...),
-     PlanckianTable_Tuvdi(Ti=1003.3333333..., \
-ui=0.4471842..., vi=0.3546970..., di=0.2529792...),
-     PlanckianTable_Tuvdi(Ti=1004.4444444..., \
-ui=0.4469252..., vi=0.3547194..., di=0.2527277...),
-     PlanckianTable_Tuvdi(Ti=1005.5555555..., \
-ui=0.4466666..., vi=0.3547417..., di=0.2524765...),
-     PlanckianTable_Tuvdi(Ti=1006.6666666..., \
-ui=0.4464083..., vi=0.3547640..., di=0.2522256...),
-     PlanckianTable_Tuvdi(Ti=1007.7777777..., \
-ui=0.4461502..., vi=0.3547862..., di=0.2519751...),
-     PlanckianTable_Tuvdi(Ti=1008.8888888..., \
-ui=0.4458925..., vi=0.3548084..., di=0.2517248...),
-     PlanckianTable_Tuvdi(Ti=1010.0, \
-ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
+    [Tuvd_PlanckianTable(Ti=1000.0, ui=0.4479628..., \
+vi=0.3546296..., di=0.2537355...),
+     Tuvd_PlanckianTable(Ti=1001.1111111..., ui=0.4477030..., \
+vi=0.3546521..., di=0.2534831...),
+     Tuvd_PlanckianTable(Ti=1002.2222222..., ui=0.4474434..., \
+vi=0.3546746..., di=0.2532310...),
+     Tuvd_PlanckianTable(Ti=1003.3333333..., ui=0.4471842..., \
+vi=0.3546970..., di=0.2529792...),
+     Tuvd_PlanckianTable(Ti=1004.4444444..., ui=0.4469252..., \
+vi=0.3547194..., di=0.2527277...),
+     Tuvd_PlanckianTable(Ti=1005.5555555..., ui=0.4466666..., \
+vi=0.3547417..., di=0.2524765...),
+     Tuvd_PlanckianTable(Ti=1006.6666666..., ui=0.4464083..., \
+vi=0.3547640..., di=0.2522256...),
+     Tuvd_PlanckianTable(Ti=1007.7777777..., ui=0.4461502..., \
+vi=0.3547862..., di=0.2519751...),
+     Tuvd_PlanckianTable(Ti=1008.8888888..., ui=0.4458925..., \
+vi=0.3548084..., di=0.2517248...),
+     Tuvd_PlanckianTable(Ti=1010.0, ui=0.4456351..., \
+vi=0.3548306..., di=0.2514749...)]
     """
 
-    ux, vx = uv
-
-    cmfs, _illuminant = handle_spectral_arguments(cmfs)
+    ux, vx = tsplit(uv)
 
     table = []
     for Ti in np.linspace(start, end, count):
@@ -128,24 +143,25 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
         di = np.hypot(ux - ui, vx - vi)
-        table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
+        table.append(Tuvd_PlanckianTable(Ti, ui, vi, di))
 
     return table
 
 
-def planckian_table_minimal_distance_index(planckian_table_):
+def planckian_table_minimal_distance_index(
+        planckian_table_: List[Tuvd_PlanckianTable]) -> Integer:
     """
     Returns the shortest distance index in given planckian table using
     *Ohno (2013)* method.
 
     Parameters
     ----------
-    planckian_table_ : list
+    planckian_table_
         Planckian table.
 
     Returns
     -------
-    int
+    :class:`numpy.integer`
         Shortest distance index.
 
     Examples
@@ -162,50 +178,53 @@ def planckian_table_minimal_distance_index(planckian_table_):
     9
     """
 
-    distances = [x.di for x in planckian_table_]
-    return distances.index(min(distances))
+    return as_int_scalar(
+        np.argmin(as_float_array([x.di for x in planckian_table_])))
 
 
-def _uv_to_CCT_Ohno2013(uv,
-                        cmfs=None,
-                        start=CCT_MINIMAL,
-                        end=CCT_MAXIMAL,
-                        count=CCT_SAMPLES,
-                        iterations=CCT_CALCULATION_ITERATIONS):
+def _uv_to_CCT_Ohno2013(
+        uv: ArrayLike,
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        start: Floating = CCT_MINIMAL,
+        end: Floating = CCT_MAXIMAL,
+        count: Integer = CCT_SAMPLES,
+        iterations: Integer = CCT_CALCULATION_ITERATIONS) -> NDArray:
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
 
-    ``iterations`` defines the computations precision: The higher its value,
-    the more planckian tables are generated through cascade expansion in order
-    to converge to the exact solution.
+    The ``iterations`` parameter defines the calculations' precision: The
+    higher its value, the more planckian tables will be generated through
+    cascade expansion in order to converge to the exact solution.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    start : numeric, optional
+    start
         Temperature range start in kelvins.
-    end : numeric, optional
+    end
         Temperature range end in kelvins.
-    count : int, optional
+    count
         Temperatures count in the planckian tables.
-    iterations : int, optional
+    iterations
         Number of planckian tables to generate.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     """
 
-    # Ensuring that we do at least one iteration to initialise variables.
-    iterations = max(iterations, 1)
+    cmfs, _illuminant = handle_spectral_arguments(cmfs)
+
+    # Ensuring that we do at least one iteration to initialise the variables.
+    iterations = max(int(iterations), 1)
 
     # Planckian table creation through cascade expansion.
     for _i in range(iterations):
@@ -225,7 +244,7 @@ def _uv_to_CCT_Ohno2013(uv,
         start = table[index - 1].Ti
         end = table[index + 1].Ti
 
-    _ux, vx = uv
+    _ux, vx = tsplit(uv)
 
     Tuvdip, Tuvdi, Tuvdin = (table[index - 1], table[index], table[index + 1])
     Tip, uip, vip, dip = Tuvdip.Ti, Tuvdip.ui, Tuvdip.vi, Tuvdip.di
@@ -258,41 +277,42 @@ def _uv_to_CCT_Ohno2013(uv,
     return np.array([T, D_uv])
 
 
-def uv_to_CCT_Ohno2013(uv,
-                       cmfs=None,
-                       start=CCT_MINIMAL,
-                       end=CCT_MAXIMAL,
-                       count=CCT_SAMPLES,
-                       iterations=CCT_CALCULATION_ITERATIONS):
+def uv_to_CCT_Ohno2013(
+        uv: ArrayLike,
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        start: Floating = CCT_MINIMAL,
+        end: Floating = CCT_MAXIMAL,
+        count: Integer = CCT_SAMPLES,
+        iterations: Integer = CCT_CALCULATION_ITERATIONS) -> NDArray:
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
 
-    The iterations parameter defines the calculations precision: The higher its
-    value, the more planckian tables will be generated through cascade
-    expansion in order to converge to the exact solution.
+    The ``iterations`` parameter defines the calculations' precision: The
+    higher its value, the more planckian tables will be generated through
+    cascade expansion in order to converge to the exact solution.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *CIE UCS* colourspace *uv* chromaticity coordinates.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    start : numeric, optional
+    start
         Temperature range start in kelvins.
-    end : numeric, optional
+    end
         Temperature range end in kelvins.
-    count : int, optional
+    count
         Temperatures count in the planckian tables.
-    iterations : int, optional
+    iterations
         Number of planckian tables to generate.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     References
@@ -322,7 +342,9 @@ def uv_to_CCT_Ohno2013(uv,
     return as_float_array(CCT_D_uv).reshape(uv.shape)
 
 
-def _CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
+def _CCT_to_uv_Ohno2013(CCT_D_uv: ArrayLike,
+                        cmfs: Optional[MultiSpectralDistributions] = None
+                        ) -> NDArray:
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -330,15 +352,15 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
 
     Parameters
     ----------
-    CCT_D_uv : ndarray
+    CCT_D_uv
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     """
 
@@ -372,7 +394,9 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
         return np.array([u, v])
 
 
-def CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
+def CCT_to_uv_Ohno2013(CCT_D_uv: ArrayLike,
+                       cmfs: Optional[MultiSpectralDistributions] = None
+                       ) -> NDArray:
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -380,15 +404,15 @@ def CCT_to_uv_Ohno2013(CCT_D_uv, cmfs=None):
 
     Parameters
     ----------
-    CCT_D_uv : ndarray
+    CCT_D_uv
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
     References

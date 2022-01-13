@@ -19,10 +19,20 @@ References
     28, 2014, from http://en.wikipedia.org/wiki/Color_temperature#Approximation
 """
 
+from __future__ import annotations
+
 import numpy as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import (
+    ArrayLike,
+    Dict,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+)
 from colour.utilities import as_float_array, as_float, tsplit, usage_warning
 
 __author__ = 'Colour Developers'
@@ -38,19 +48,19 @@ __all__ = [
 ]
 
 
-def xy_to_CCT_McCamy1992(xy):
+def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *McCamy (1992)* method.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     References
@@ -70,24 +80,26 @@ def xy_to_CCT_McCamy1992(xy):
     n = (x - 0.3320) / (y - 0.1858)
     CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
 
-    return CCT
+    return as_float(CCT)
 
 
-def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None):
+def CCT_to_xy_McCamy1992(CCT: FloatingOrArrayLike,
+                         optimisation_kwargs: Optional[Dict] = None
+                         ) -> NDArray:
     """
     Returns the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *McCamy (1992)* method.
 
     Parameters
     ----------
-    CCT : numeric or array_like
+    CCT
         Correlated colour temperature :math:`T_{cp}`.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xy* chromaticity coordinates.
 
     Warnings
@@ -121,14 +133,15 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None):
     shape = list(CCT.shape)
     CCT = np.atleast_1d(CCT.reshape([-1, 1]))
 
-    def objective_function(xy, CCT):
+    def objective_function(xy: ArrayLike, CCT: FloatingOrArrayLike):
         """
         Objective function.
         """
 
-        objective = np.linalg.norm(xy_to_CCT_McCamy1992(xy) - CCT)
+        objective = np.linalg.norm(
+            xy_to_CCT_McCamy1992(xy) - as_float_array(CCT))
 
-        return objective
+        return as_float(objective)
 
     optimisation_settings = {
         'method': 'Nelder-Mead',
@@ -139,12 +152,12 @@ def CCT_to_xy_McCamy1992(CCT, optimisation_kwargs=None):
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    CCT = as_float_array([
+    xy = as_float_array([
         minimize(
             objective_function,
             x0=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
             args=(CCT_i, ),
-            **optimisation_settings).x for CCT_i in CCT
+            **optimisation_settings).x for CCT_i in as_float_array(CCT)
     ])
 
-    return as_float(CCT.reshape(shape + [2]))
+    return xy.reshape(shape + [2])
