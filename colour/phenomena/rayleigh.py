@@ -19,13 +19,17 @@ References
     September 23, 2014, from http://en.wikipedia.org/wiki/Rayleigh_scattering
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     SpectralDistribution,
+    SpectralShape,
 )
 from colour.constants import CONSTANT_AVOGADRO
+from colour.hints import Callable, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, as_float_array, filter_kwargs
 
 __author__ = 'Colour Developers'
@@ -59,43 +63,34 @@ __all__ = [
     'rayleigh_scattering',
 ]
 
-CONSTANT_STANDARD_AIR_TEMPERATURE = 288.15
+CONSTANT_STANDARD_AIR_TEMPERATURE: float = 288.15
 """
 *Standard air* temperature :math:`T[K]` in kelvin degrees (:math:`15\\circ C`).
-
-CONSTANT_STANDARD_AIR_TEMPERATURE : numeric
 """
 
-CONSTANT_STANDARD_CO2_CONCENTRATION = 300
+CONSTANT_STANDARD_CO2_CONCENTRATION: float = 300
 """
 *Standard air* :math:`CO_2` concentration in parts per million (ppm).
-
-CONSTANT_STANDARD_CO2_CONCENTRATION : numeric
 """
 
-CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL = 101325
+CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL: float = 101325
 """
 *Standard air* average pressure :math:`Hg` at mean sea-level in pascal (Pa).
-
-CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL : numeric
 """
 
-CONSTANT_DEFAULT_LATITUDE = 0
+CONSTANT_DEFAULT_LATITUDE: float = 0
 """
 Default latitude in degrees (equator).
-
-CONSTANT_DEFAULT_LATITUDE : numeric
 """
 
-CONSTANT_DEFAULT_ALTITUDE = 0
+CONSTANT_DEFAULT_ALTITUDE: float = 0
 """
 Default altitude in meters (sea level).
-
-CONSTANT_DEFAULT_ALTITUDE : numeric
 """
 
 
-def air_refraction_index_Penndorf1957(wavelength):
+def air_refraction_index_Penndorf1957(
+        wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in  micrometers (:math:`\\mu m`) using *Penndorf (1957)*
@@ -103,12 +98,12 @@ def air_refraction_index_Penndorf1957(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -126,7 +121,8 @@ def air_refraction_index_Penndorf1957(wavelength):
     return n
 
 
-def air_refraction_index_Edlen1966(wavelength):
+def air_refraction_index_Edlen1966(
+        wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using *Edlen (1966)*
@@ -134,12 +130,12 @@ def air_refraction_index_Edlen1966(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -157,7 +153,8 @@ def air_refraction_index_Edlen1966(wavelength):
     return n
 
 
-def air_refraction_index_Peck1972(wavelength):
+def air_refraction_index_Peck1972(
+        wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
@@ -165,12 +162,12 @@ def air_refraction_index_Peck1972(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -190,7 +187,10 @@ def air_refraction_index_Peck1972(wavelength):
 
 
 def air_refraction_index_Bodhaine1999(
-        wavelength, CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION):
+        wavelength: FloatingOrArrayLike,
+        CO2_concentration:
+        FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION
+) -> FloatingOrNDArray:
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
@@ -198,14 +198,14 @@ def air_refraction_index_Bodhaine1999(
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
-    CO2_concentration : numeric or array_like
+    CO2_concentration
         :math:`CO_2` concentration in parts per million (ppm).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Air refraction index :math:`n_s`.
 
     Examples
@@ -220,22 +220,22 @@ def air_refraction_index_Bodhaine1999(
     n = ((1 + 0.54 * ((CO2_c * 1e-6) - 300e-6)) *
          (air_refraction_index_Peck1972(wl) - 1) + 1)
 
-    return n
+    return as_float(n)
 
 
-def N2_depolarisation(wavelength):
+def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the depolarisation of nitrogen :math:`N_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Nitrogen :math:`N_2` depolarisation.
 
     Examples
@@ -251,19 +251,19 @@ def N2_depolarisation(wavelength):
     return N2
 
 
-def O2_depolarisation(wavelength):
+def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the depolarisation of oxygen :math:`O_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Oxygen :math:`O_2` depolarisation.
 
     Examples
@@ -280,19 +280,19 @@ def O2_depolarisation(wavelength):
     return O2
 
 
-def F_air_Penndorf1957(wavelength):
+def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Penndorf (1957)* method.
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Air depolarisation.
 
     Notes
@@ -312,19 +312,19 @@ def F_air_Penndorf1957(wavelength):
     return as_float(np.resize(np.array([1.0608]), wl.shape))
 
 
-def F_air_Young1981(wavelength):
+def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Young (1981)* method.
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Air depolarisation.
 
     Notes
@@ -344,7 +344,7 @@ def F_air_Young1981(wavelength):
     return as_float(np.resize(np.array([1.0480]), wl.shape))
 
 
-def F_air_Bates1984(wavelength):
+def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
@@ -352,12 +352,12 @@ def F_air_Bates1984(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Air depolarisation.
 
     Examples
@@ -377,8 +377,11 @@ def F_air_Bates1984(wavelength):
     return F_air
 
 
-def F_air_Bodhaine1999(wavelength,
-                       CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION):
+def F_air_Bodhaine1999(
+        wavelength: FloatingOrArrayLike,
+        CO2_concentration:
+        FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION
+) -> FloatingOrNDArray:
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
@@ -387,14 +390,14 @@ def F_air_Bodhaine1999(wavelength,
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
-    CO2_concentration : numeric or array_like, optional
+    CO2_concentration
         :math:`CO_2` concentration in parts per million (ppm).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Air depolarisation.
 
     Examples
@@ -413,22 +416,24 @@ def F_air_Bodhaine1999(wavelength,
     return F_air
 
 
-def molecular_density(temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
-                      avogadro_constant=CONSTANT_AVOGADRO):
+def molecular_density(
+        temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+        avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO
+) -> FloatingOrNDArray:
     """
     Returns the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
     as function of air temperature :math:`T[K]` in kelvin degrees.
 
     Parameters
     ----------
-    temperature : numeric or array_like, optional
+    temperature
         Air temperature :math:`T[K]` in kelvin degrees.
-    avogadro_constant : numeric or array_like, optional
+    avogadro_constant
         *Avogadro*'s number (molecules :math:`mol^{-1}`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Molecular density :math:`N_s` (molecules :math:`cm^{-3}`).
 
     Notes
@@ -447,6 +452,7 @@ def molecular_density(temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
     """
 
     T = as_float_array(temperature)
+    avogadro_constant = as_float_array(avogadro_constant)
 
     N_s = (avogadro_constant / 22.4141) * (273.15 / T) * (1 / 1000)
 
@@ -454,19 +460,21 @@ def molecular_density(temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
 
 
 def mean_molecular_weights(
-        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION):
+        CO2_concentration:
+        FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION
+) -> FloatingOrNDArray:
     """
     Returns the mean molecular weights :math:`m_a` for dry air as function of
     :math:`CO_2` concentration in parts per million (ppm).
 
     Parameters
     ----------
-    CO2_concentration : numeric or array_like, optional
+    CO2_concentration
         :math:`CO_2` concentration in parts per million (ppm).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Mean molecular weights :math:`m_a` for dry air.
 
     Examples
@@ -475,14 +483,17 @@ def mean_molecular_weights(
     28.9640166...
     """
 
+    CO2_concentration = as_float_array(CO2_concentration)
+
     CO2_c = CO2_concentration * 1.0e-6
 
     m_a = 15.0556 * CO2_c + 28.9595
     return m_a
 
 
-def gravity_List1968(latitude=CONSTANT_DEFAULT_LATITUDE,
-                     altitude=CONSTANT_DEFAULT_ALTITUDE):
+def gravity_List1968(latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
+                     altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE
+                     ) -> FloatingOrNDArray:
     """
     Returns the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
@@ -490,14 +501,14 @@ def gravity_List1968(latitude=CONSTANT_DEFAULT_LATITUDE,
 
     Parameters
     ----------
-    latitude : numeric or array_like, optional
+    latitude
         Latitude of the site in degrees.
-    altitude : numeric or array_like, optional
+    altitude
         Altitude of the site in meters.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Gravity :math:`g` in :math:`cm/s_2` (gal).
 
     Examples
@@ -529,12 +540,13 @@ def gravity_List1968(latitude=CONSTANT_DEFAULT_LATITUDE,
 
 
 def scattering_cross_section(
-        wavelength,
-        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
-        temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
-        avogadro_constant=CONSTANT_AVOGADRO,
-        n_s=air_refraction_index_Bodhaine1999,
-        F_air=F_air_Bodhaine1999):
+        wavelength: FloatingOrArrayLike,
+        CO2_concentration:
+        FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+        temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+        avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+        n_s_function: Callable = air_refraction_index_Bodhaine1999,
+        F_air_function: Callable = F_air_Bodhaine1999) -> FloatingOrNDArray:
     """
     Returns the scattering cross section per molecule :math:`\\sigma` of dry
     air as function of wavelength :math:`\\lambda` in centimeters (cm) using
@@ -543,23 +555,23 @@ def scattering_cross_section(
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in centimeters (cm).
-    CO2_concentration : numeric or array_like, optional
+    CO2_concentration
         :math:`CO_2` concentration in parts per million (ppm).
-    temperature : numeric or array_like, optional
+    temperature
         Air temperature :math:`T[K]` in kelvin degrees.
-    avogadro_constant : numeric or array_like, optional
+    avogadro_constant
         *Avogadro*'s number (molecules :math:`mol^{-1}`).
-    n_s : object
+    n_s_function
         Air refraction index :math:`n_s` computation method.
-    F_air : object
+    F_air_function
         :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
         *King Factor* computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Scattering cross section per molecule :math:`\\sigma` of dry air.
 
     Warnings
@@ -584,12 +596,12 @@ def scattering_cross_section(
 
     wl_micrometers = wl * 10e3
 
-    n_s = n_s(wl_micrometers)
-    # n_s = n_s(**filter_kwargs(
-    #     n_s, wavelength=wl_micrometers, CO2_concentration=CO2_c))
     N_s = molecular_density(temperature, avogadro_constant)
-    F_air = F_air(**filter_kwargs(
-        F_air, wavelength=wl_micrometers, CO2_concentration=CO2_c))
+    n_s = n_s_function(wl_micrometers)
+    # n_s = n_s_function(**filter_kwargs(
+    #     n_s_function, wavelength=wl_micrometers, CO2_concentration=CO2_c))
+    F_air = F_air_function(**filter_kwargs(
+        F_air_function, wavelength=wl_micrometers, CO2_concentration=CO2_c))
 
     sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 / (wl ** 4 * N_s ** 2 *
                                                       (n_s ** 2 + 2) ** 2))
@@ -599,44 +611,46 @@ def scattering_cross_section(
 
 
 def rayleigh_optical_depth(
-        wavelength,
-        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
-        temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
-        pressure=CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-        latitude=CONSTANT_DEFAULT_LATITUDE,
-        altitude=CONSTANT_DEFAULT_ALTITUDE,
-        avogadro_constant=CONSTANT_AVOGADRO,
-        n_s=air_refraction_index_Bodhaine1999,
-        F_air=F_air_Bodhaine1999):
+        wavelength: FloatingOrArrayLike,
+        CO2_concentration:
+        FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+        temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+        pressure:
+        FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+        latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
+        altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+        avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+        n_s_function: Callable = air_refraction_index_Bodhaine1999,
+        F_air_function: Callable = F_air_Bodhaine1999) -> FloatingOrNDArray:
     """
     Returns the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
     wavelength :math:`\\lambda` in centimeters (cm).
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in centimeters (cm).
-    CO2_concentration : numeric or array_like, optional
+    CO2_concentration
         :math:`CO_2` concentration in parts per million (ppm).
-    temperature : numeric or array_like, optional
+    temperature
         Air temperature :math:`T[K]` in kelvin degrees.
-    pressure : numeric or array_like
+    pressure
         Surface pressure :math:`P` of the measurement site.
-    latitude : numeric or array_like, optional
+    latitude
         Latitude of the site in degrees.
-    altitude : numeric or array_like, optional
+    altitude
         Altitude of the site in meters.
-    avogadro_constant : numeric or array_like, optional
+    avogadro_constant
         *Avogadro*'s number (molecules :math:`mol^{-1}`).
-    n_s : object
+    n_s_function
         Air refraction index :math:`n_s` computation method.
-    F_air : object
+    F_air_function
         :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
         *King Factor* computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Rayleigh* optical depth :math:`T_r(\\lambda)`.
 
     Warnings
@@ -657,64 +671,68 @@ def rayleigh_optical_depth(
 
     wavelength = as_float_array(wavelength)
     CO2_c = as_float_array(CO2_concentration)
+    pressure = as_float_array(pressure)
     latitude = as_float_array(latitude)
     altitude = as_float_array(altitude)
     # Conversion from pascal to dyne/cm2.
     P = as_float_array(pressure * 10)
 
     sigma = scattering_cross_section(wavelength, CO2_c, temperature,
-                                     avogadro_constant, n_s, F_air)
+                                     avogadro_constant, n_s_function,
+                                     F_air_function)
 
     m_a = mean_molecular_weights(CO2_c)
     g = gravity_List1968(latitude, altitude)
 
     T_R = sigma * (P * avogadro_constant) / (m_a * g)
 
-    return T_R
+    return as_float(T_R)
 
 
 rayleigh_scattering = rayleigh_optical_depth
 
 
 def sd_rayleigh_scattering(
-        shape=SPECTRAL_SHAPE_DEFAULT,
-        CO2_concentration=CONSTANT_STANDARD_CO2_CONCENTRATION,
-        temperature=CONSTANT_STANDARD_AIR_TEMPERATURE,
-        pressure=CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-        latitude=CONSTANT_DEFAULT_LATITUDE,
-        altitude=CONSTANT_DEFAULT_ALTITUDE,
-        avogadro_constant=CONSTANT_AVOGADRO,
-        n_s=air_refraction_index_Bodhaine1999,
-        F_air=F_air_Bodhaine1999):
+        shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+        CO2_concentration:
+        FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+        temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+        pressure:
+        FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+        latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
+        altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+        avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
+        n_s_function: Callable = air_refraction_index_Bodhaine1999,
+        F_air_function: Callable = F_air_Bodhaine1999) -> SpectralDistribution:
     """
     Returns the *Rayleigh* spectral distribution for given spectral shape.
 
     Parameters
     ----------
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the *Rayleigh* scattering spectral
         distribution.
-    CO2_concentration : numeric or array_like, optional
+    CO2_concentration
         :math:`CO_2` concentration in parts per million (ppm).
-    temperature : numeric or array_like, optional
+    temperature
         Air temperature :math:`T[K]` in kelvin degrees.
-    pressure : numeric or array_like
+    pressure
         Surface pressure :math:`P` of the measurement site.
-    latitude : numeric or array_like, optional
+    latitude
         Latitude of the site in degrees.
-    altitude : numeric or array_like, optional
+    altitude
         Altitude of the site in meters.
-    avogadro_constant : numeric or array_like, optional
+    avogadro_constant
         *Avogadro*'s number (molecules :math:`mol^{-1}`).
-    n_s : object
+    n_s_function
         Air refraction index :math:`n_s` computation method.
-    F_air : object
+    F_air_function
         :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
         *King Factor* computation method.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         *Rayleigh* optical depth spectral distribution.
 
     References
@@ -1155,13 +1173,12 @@ def sd_rayleigh_scattering(
 
     wavelengths = shape.range()
     return SpectralDistribution(
-        data=dict(
-            zip(
-                wavelengths,
-                rayleigh_optical_depth(wavelengths * 10e-8, CO2_concentration,
-                                       temperature, pressure, latitude,
-                                       altitude, avogadro_constant, n_s,
-                                       F_air))),
-        name=('Rayleigh Scattering - {0} ppm, {1} K, {2} Pa, {3} Degrees, '
-              '{4} m').format(CO2_concentration, temperature, pressure,
-                              latitude, altitude))
+        rayleigh_optical_depth(wavelengths * 10e-8, CO2_concentration,
+                               temperature, pressure, latitude, altitude,
+                               avogadro_constant, n_s_function,
+                               F_air_function),
+        wavelengths,
+        name=('Rayleigh Scattering - '
+              '{0!r} ppm, {1!r} K, {2!r} Pa, {3!r} Degrees, {4!r} m').format(
+                  CO2_concentration, temperature, pressure, latitude,
+                  altitude))
