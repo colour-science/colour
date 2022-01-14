@@ -34,6 +34,8 @@ References
     83-86). ISBN:978-0-470-66569-5
 """
 
+from __future__ import annotations
+
 import numpy as np
 from collections import namedtuple
 
@@ -47,6 +49,7 @@ from colour.corresponding import (
     BRENEMAN_EXPERIMENTS,
     BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
 )
+from colour.hints import Any, Literal, Union, Tuple
 from colour.models import (
     Luv_to_uv,
     Luv_uv_to_xy,
@@ -59,10 +62,10 @@ from colour.utilities import (
     CaseInsensitiveMapping,
     attest,
     as_float,
+    as_float_scalar,
     domain_range_scale,
     filter_kwargs,
     full,
-    is_numeric,
 )
 
 __author__ = 'Colour Developers'
@@ -94,28 +97,28 @@ class CorrespondingColourDataset(
 
     Parameters
     ----------
-    name : str
+    name
         Corresponding colour dataset name.
-    XYZ_r : array_like
+    XYZ_r
         *CIE XYZ* tristimulus values of the reference illuminant.
-    XYZ_t : array_like
+    XYZ_t
         *CIE XYZ* tristimulus values of the test illuminant.
-    XYZ_cr : array_like
+    XYZ_cr
         Corresponding *CIE XYZ* tristimulus values under the reference
         illuminant.
-    XYZ_ct : array_like
+    XYZ_ct
         Corresponding *CIE XYZ* tristimulus values under the test illuminant.
-    Y_r : numeric
+    Y_r
         Reference white luminance :math:`Y_r` in :math:`cd/m^2`.
-    Y_t : numeric
+    Y_t
         Test white luminance :math:`Y_t` in :math:`cd/m^2`.
-    B_r : numeric
+    B_r
          Luminance factor :math:`B_r` of reference achromatic background as
          percentage.
-    B_t : numeric
+    B_t
          Luminance factor :math:`B_t` of test achromatic background as
          percentage.
-    metadata : dict
+    metadata
         Dataset metadata.
 
     Notes
@@ -137,31 +140,32 @@ class CorrespondingChromaticitiesPrediction(
 
     Parameters
     ----------
-    name : str
+    name
         Test colour name.
-    uv_t : array_like, (2,)
+    uv_t
         Chromaticity coordinates :math:`uv_t^p` of test colour.
-    uv_m : array_like, (2,)
+    uv_m
         Chromaticity coordinates :math:`uv_m^p` of matching colour.
-    uv_p : array_like, (2,)
+    uv_p
         Chromaticity coordinates :math:`uv_p^p` of predicted colour.
     """
 
 
-def convert_experiment_results_Breneman1987(experiment):
+def convert_experiment_results_Breneman1987(
+        experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
+) -> CorrespondingColourDataset:
     """
     Converts *Breneman (1987)* experiment results to a
     :class:`colour.CorrespondingColourDataset` class instance.
 
     Parameters
     ----------
-    experiment : integer
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+    experiment
         *Breneman (1987)* experiment number.
 
     Returns
     -------
-    CorrespondingColourDataset
+    :class:`colour.CorrespondingColourDataset`
         :class:`colour.CorrespondingColourDataset` class instance.
 
     Examples
@@ -231,9 +235,10 @@ def convert_experiment_results_Breneman1987(experiment):
     B_r = B_t = 0.3
 
     XYZ_t, XYZ_r = xy_to_XYZ(
-        np.hstack(
-            [Luv_uv_to_xy(illuminant_chromaticities[1:3]),
-             full([2, 1], Y_r)])) / Y_r
+        np.hstack([
+            Luv_uv_to_xy(illuminant_chromaticities[1:3]),
+            full((2, 1), as_float_scalar(Y_r))
+        ])) / Y_r
 
     xyY_cr, xyY_ct = [], []
     for i, experiment_result in enumerate(experiment_results):
@@ -253,21 +258,23 @@ def convert_experiment_results_Breneman1987(experiment):
                                       Y_r, Y_t, B_r, B_t, {})
 
 
-def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
+def corresponding_chromaticities_prediction_Fairchild1990(
+        experiment: Union[Literal[1, 2, 3, 4, 6, 8, 9, 11, 12],
+                          CorrespondingColourDataset] = 1
+) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Returns the corresponding chromaticities prediction for *Fairchild (1990)*
     chromatic adaptation model.
 
     Parameters
     ----------
-    experiment : integer or CorrespondingColourDataset, optional
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+    experiment
         *Breneman (1987)* experiment number or
         :class:`colour.CorrespondingColourDataset` class instance.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Corresponding chromaticities prediction.
 
     References
@@ -294,8 +301,10 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
      (array([ 0.244,  0.349]), array([ 0.2418905...,  0.3413401...]))]
     """
 
-    experiment_results = (convert_experiment_results_Breneman1987(experiment)
-                          if is_numeric(experiment) else experiment)
+    experiment_results = (experiment
+                          if isinstance(experiment,
+                                        CorrespondingColourDataset) else
+                          convert_experiment_results_Breneman1987(experiment))
 
     with domain_range_scale('1'):
         XYZ_t, XYZ_r = experiment_results.XYZ_t, experiment_results.XYZ_r
@@ -317,19 +326,23 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
         ])
 
 
-def corresponding_chromaticities_prediction_CIE1994(experiment=1):
+def corresponding_chromaticities_prediction_CIE1994(
+        experiment: Union[Literal[1, 2, 3, 4, 6, 8, 9, 11, 12],
+                          CorrespondingColourDataset] = 1
+) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Returns the corresponding chromaticities prediction for *CIE 1994*
     chromatic adaptation model.
 
     Parameters
     ----------
-    experiment : integer or CorrespondingColourDataset, optional
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+    experiment
         *Breneman (1987)* experiment number or
-        :class:`colour.CorrespondingColourDataset` class instance. Returns
+        :class:`colour.CorrespondingColourDataset` class instance.
+
+    Returns
     -------
-    tuple
+    :class:`tuple`
         Corresponding chromaticities prediction.
 
     References
@@ -356,8 +369,10 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
      (array([ 0.244,  0.349]), array([ 0.2560012...,  0.4546263...]))]
     """
 
-    experiment_results = (convert_experiment_results_Breneman1987(experiment)
-                          if is_numeric(experiment) else experiment)
+    experiment_results = (experiment
+                          if isinstance(experiment,
+                                        CorrespondingColourDataset) else
+                          convert_experiment_results_Breneman1987(experiment))
 
     with domain_range_scale('1'):
         XYZ_t, XYZ_r = experiment_results.XYZ_t, experiment_results.XYZ_r
@@ -381,21 +396,23 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
         ])
 
 
-def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
+def corresponding_chromaticities_prediction_CMCCAT2000(
+        experiment: Union[Literal[1, 2, 3, 4, 6, 8, 9, 11, 12],
+                          CorrespondingColourDataset] = 1
+) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Returns the corresponding chromaticities prediction for *CMCCAT2000*
     chromatic adaptation model.
 
     Parameters
     ----------
-    experiment : integer or CorrespondingColourDataset, optional
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+    experiment
         *Breneman (1987)* experiment number or
         :class:`colour.CorrespondingColourDataset` class instance.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Corresponding chromaticities prediction.
 
     References
@@ -422,8 +439,10 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
      (array([ 0.244,  0.349]), array([ 0.2287638...,  0.3499324...]))]
     """
 
-    experiment_results = (convert_experiment_results_Breneman1987(experiment)
-                          if is_numeric(experiment) else experiment)
+    experiment_results = (experiment
+                          if isinstance(experiment,
+                                        CorrespondingColourDataset) else
+                          convert_experiment_results_Breneman1987(experiment))
 
     with domain_range_scale('1'):
         XYZ_w, XYZ_wr = experiment_results.XYZ_t, experiment_results.XYZ_r
@@ -447,27 +466,29 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
         ])
 
 
-def corresponding_chromaticities_prediction_VonKries(experiment=1,
-                                                     transform='CAT02'):
+def corresponding_chromaticities_prediction_VonKries(
+        experiment: Union[Literal[1, 2, 3, 4, 6, 8, 9, 11, 12],
+                          CorrespondingColourDataset] = 1,
+        transform: Union[Literal[
+            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
+            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
+            'Von Kries', 'XYZ Scaling'], str] = 'CAT02'
+) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Returns the corresponding chromaticities prediction for *Von Kries*
     chromatic adaptation model using given transform.
 
     Parameters
     ----------
-    experiment : integer or CorrespondingColourDataset, optional
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+    experiment
         *Breneman (1987)* experiment number or
         :class:`colour.CorrespondingColourDataset` class instance.
-    transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    transform
         Chromatic adaptation transform.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Corresponding chromaticities prediction.
 
     References
@@ -494,8 +515,10 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
      (array([ 0.244,  0.349]), array([ 0.2259805...,  0.3465291...]))]
     """
 
-    experiment_results = (convert_experiment_results_Breneman1987(experiment)
-                          if is_numeric(experiment) else experiment)
+    experiment_results = (experiment
+                          if isinstance(experiment,
+                                        CorrespondingColourDataset) else
+                          convert_experiment_results_Breneman1987(experiment))
 
     with domain_range_scale('1'):
         XYZ_w, XYZ_wr = experiment_results.XYZ_t, experiment_results.XYZ_r
@@ -530,9 +553,6 @@ References
 :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
 :cite:`Westland2012k`
 
-CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : CaseInsensitiveMapping
-    **{'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}**
-
 Aliases:
 
 -   'vonkries': 'Von Kries'
@@ -541,36 +561,34 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS['vonkries'] = (
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS['Von Kries'])
 
 
-def corresponding_chromaticities_prediction(experiment=1,
-                                            model='Von Kries',
-                                            **kwargs):
+def corresponding_chromaticities_prediction(
+        experiment: Union[Literal[1, 2, 3, 4, 6, 8, 9, 11, 12],
+                          CorrespondingColourDataset] = 1,
+        model: Union[Literal['CIE 1994', 'CMCCAT2000', 'Fairchild 1990',
+                             'Von Kries'], str] = 'Von Kries',
+        **kwargs: Any) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
     Returns the corresponding chromaticities prediction for given chromatic
     adaptation model.
 
     Parameters
     ----------
-    experiment : integer or CorrespondingColourDataset, optional
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+    experiment
         *Breneman (1987)* experiment number or
         :class:`colour.CorrespondingColourDataset` class instance.
-    model : str, optional
-        **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
+    model
         Chromatic adaptation model.
 
     Other Parameters
     ----------------
-    transform : str, optional
+    transform
         {:func:`colour.corresponding.\
 corresponding_chromaticities_prediction_VonKries`},
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010'}**,
         Chromatic adaptation transform.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Corresponding chromaticities prediction.
 
     References
