@@ -57,9 +57,20 @@ References
     May 2, 2018, from https://en.wikipedia.org/wiki/Vandermonde_matrix
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
+from colour.hints import (
+    ArrayLike,
+    Any,
+    Boolean,
+    Integer,
+    Literal,
+    NDArray,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
@@ -98,22 +109,24 @@ __all__ = [
 ]
 
 
-def matrix_augmented_Cheung2004(RGB, terms=3):
+def matrix_augmented_Cheung2004(
+        RGB: ArrayLike,
+        terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3
+) -> NDArray:
     """
     Performs polynomial expansion of given *RGB* colourspace array using
     *Cheung et al. (2004)* method.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array to expand.
-    terms : int, optional
-        Number of terms of the expanded polynomial, must be one of
-        *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
+    terms
+        Number of terms of the expanded polynomial.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Expanded *RGB* colourspace array.
 
     Notes
@@ -131,6 +144,8 @@ def matrix_augmented_Cheung2004(RGB, terms=3):
     >>> matrix_augmented_Cheung2004(RGB, terms=5)  # doctest: +ELLIPSIS
     array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.0010136...,  1...])
     """
+
+    RGB = as_float_array(RGB)
 
     R, G, B = tsplit(RGB)
     tail = ones(R.shape)
@@ -329,25 +344,26 @@ def matrix_augmented_Cheung2004(RGB, terms=3):
         ])
 
 
-def polynomial_expansion_Finlayson2015(RGB,
-                                       degree=1,
-                                       root_polynomial_expansion=True):
+def polynomial_expansion_Finlayson2015(
+        RGB: ArrayLike,
+        degree: Literal[1, 2, 3, 4] = 1,
+        root_polynomial_expansion: Boolean = True) -> NDArray:
     """
     Performs polynomial expansion of given *RGB* colourspace array using
     *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array to expand.
-    degree : int, optional
+    degree
         Expanded polynomial degree.
-    root_polynomial_expansion : bool
+    root_polynomial_expansion
         Whether to use the root-polynomials set for the expansion.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Expanded *RGB* colourspace array.
 
     References
@@ -362,6 +378,8 @@ def polynomial_expansion_Finlayson2015(RGB,
 0.0767121...,
             0.1051335...])
     """
+
+    RGB = as_float_array(RGB)
 
     R, G, B = tsplit(RGB)
 
@@ -503,21 +521,22 @@ def polynomial_expansion_Finlayson2015(RGB,
             ])
 
 
-def polynomial_expansion_Vandermonde(a, degree=1):
+def polynomial_expansion_Vandermonde(a: ArrayLike,
+                                     degree: Integer = 1) -> NDArray:
     """
     Performs polynomial expansion of given :math:`a` array using *Vandermonde*
     method.
 
     Parameters
     ----------
-    a : array_like
+    a
         :math:`a` array to expand.
-    degree : int, optional
+    degree
         Expanded polynomial degree.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Expanded :math:`a` array.
 
     References
@@ -533,13 +552,13 @@ def polynomial_expansion_Vandermonde(a, degree=1):
 
     a = as_float_array(a)
 
-    a_e = np.transpose(np.vander(np.ravel(a), degree + 1))
-    a_e = np.hstack(a_e.reshape(a_e.shape[0], -1, 3))
+    a_e = np.transpose(np.vander(np.ravel(a), int(degree) + 1))
+    a_e = np.hstack(list(a_e.reshape(a_e.shape[0], -1, 3)))
 
     return np.squeeze(a_e[:, 0:a_e.shape[-1] - a.shape[-1] + 1])
 
 
-POLYNOMIAL_EXPANSION_METHODS = CaseInsensitiveMapping({
+POLYNOMIAL_EXPANSION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Cheung 2004': matrix_augmented_Cheung2004,
     'Finlayson 2015': polynomial_expansion_Finlayson2015,
     'Vandermonde': polynomial_expansion_Vandermonde,
@@ -551,43 +570,42 @@ References
 ----------
 :cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
 :cite:`Wikipedia2003e`
-
-POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
-    **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
 """
 
 
-def polynomial_expansion(a, method='Cheung 2004', **kwargs):
+def polynomial_expansion(
+        a: ArrayLike,
+        method: Union[Literal['Cheung 2004', 'Finlayson 2015', 'Vandermonde'],
+                      str] = 'Cheung 2004',
+        **kwargs: Any) -> NDArray:
     """
     Performs polynomial expansion of given :math:`a` array.
 
     Parameters
     ----------
-    a : array_like, (3, n)
+    a
         :math:`a` array to expand.
-    method : str, optional
-        **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    degree : int
+    degree
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`,
         :func:`colour.characterisation.polynomial_expansion_Vandermonde`},
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms : int
+    terms
         {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial, must be one of
-        *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
-    root_polynomial_expansion : bool
+        Number of terms of the expanded polynomial.
+    root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
 
     Returns
     -------
-    ndarray, (3, n)
+    :class:`numpy.ndarray`
         Expanded :math:`a` array.
 
     References
@@ -611,24 +629,27 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
     return function(a, **filter_kwargs(function, **kwargs))
 
 
-def matrix_colour_correction_Cheung2004(M_T, M_R, terms=3):
+def matrix_colour_correction_Cheung2004(
+        M_T: ArrayLike,
+        M_R: ArrayLike,
+        terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3
+) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
     Parameters
     ----------
-    M_T : array_like, (3, n)
+    M_T
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (3, n)
+    M_R
         Reference array the array :math:`M_T` will be colour fitted against.
-    terms : int, optional
-        Number of terms of the expanded polynomial, must be one of
-        *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
+    terms
+        Number of terms of the expanded polynomial.
 
     Returns
     -------
-    ndarray, (3, n)
+    :class:`numpy.ndarray`
         Colour correction matrix.
 
     References
@@ -650,28 +671,29 @@ def matrix_colour_correction_Cheung2004(M_T, M_R, terms=3):
         matrix_augmented_Cheung2004(M_T, terms), M_R)
 
 
-def matrix_colour_correction_Finlayson2015(M_T,
-                                           M_R,
-                                           degree=1,
-                                           root_polynomial_expansion=True):
+def matrix_colour_correction_Finlayson2015(
+        M_T: ArrayLike,
+        M_R: ArrayLike,
+        degree: Literal[1, 2, 3, 4] = 1,
+        root_polynomial_expansion: Boolean = True) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
-    M_T : array_like, (n, 3)
+    M_T
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (n, 3)
+    M_R
         Reference array the array :math:`M_T` will be colour fitted against.
-    degree : int, optional
+    degree
         Expanded polynomial degree.
-    root_polynomial_expansion : bool
+    root_polynomial_expansion
         Whether to use the root-polynomials set for the expansion.
 
     Returns
     -------
-    ndarray, (n, 3)
+    :class:`numpy.ndarray`
         Colour correction matrix.
 
     References
@@ -694,23 +716,25 @@ def matrix_colour_correction_Finlayson2015(M_T,
                                            root_polynomial_expansion), M_R)
 
 
-def matrix_colour_correction_Vandermonde(M_T, M_R, degree=1):
+def matrix_colour_correction_Vandermonde(M_T: ArrayLike,
+                                         M_R: ArrayLike,
+                                         degree: Integer = 1) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
 
     Parameters
     ----------
-    M_T : array_like, (n, 3)
+    M_T
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (n, 3)
+    M_R
         Reference array the array :math:`M_T` will be colour fitted against.
-    degree : int, optional
+    degree
         Expanded polynomial degree.
 
     Returns
     -------
-    ndarray, (n, 3)
+    :class:`numpy.ndarray`
         Colour correction matrix.
 
     References
@@ -732,11 +756,12 @@ def matrix_colour_correction_Vandermonde(M_T, M_R, degree=1):
         polynomial_expansion_Vandermonde(M_T, degree), M_R)
 
 
-MATRIX_COLOUR_CORRECTION_METHODS = CaseInsensitiveMapping({
-    'Cheung 2004': matrix_colour_correction_Cheung2004,
-    'Finlayson 2015': matrix_colour_correction_Finlayson2015,
-    'Vandermonde': matrix_colour_correction_Vandermonde,
-})
+MATRIX_COLOUR_CORRECTION_METHODS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping({
+        'Cheung 2004': matrix_colour_correction_Cheung2004,
+        'Finlayson 2015': matrix_colour_correction_Finlayson2015,
+        'Vandermonde': matrix_colour_correction_Vandermonde,
+    }))
 MATRIX_COLOUR_CORRECTION_METHODS.__doc__ = """
 Supported colour correction matrix methods.
 
@@ -744,13 +769,15 @@ References
 ----------
 :cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
 :cite:`Wikipedia2003e`
-
-POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
-    **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
 """
 
 
-def matrix_colour_correction(M_T, M_R, method='Cheung 2004', **kwargs):
+def matrix_colour_correction(
+        M_T: ArrayLike,
+        M_R: ArrayLike,
+        method: Union[Literal['Cheung 2004', 'Finlayson 2015', 'Vandermonde'],
+                      str] = 'Cheung 2004',
+        **kwargs: Any) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
@@ -762,33 +789,31 @@ def matrix_colour_correction(M_T, M_R, method='Cheung 2004', **kwargs):
 
     Parameters
     ----------
-    M_T : array_like, (n, 3)
+    M_T
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (n, 3)
+    M_R
         Reference array the array :math:`M_T` will be colour fitted against.
-    method : str, optional
-        **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    degree : int
+    degree
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`,
         :func:`colour.characterisation.polynomial_expansion_Vandermonde`},
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms : int
+    terms
         {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial, must be one of
-        *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
-    root_polynomial_expansion : bool
+        Number of terms of the expanded polynomial.
+    root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
 
     Returns
     -------
-    ndarray, (n, 3)
+    :class:`numpy.ndarray`
         Colour correction matrix.
 
     References
@@ -863,7 +888,12 @@ def matrix_colour_correction(M_T, M_R, method='Cheung 2004', **kwargs):
     return function(M_T, M_R, **filter_kwargs(function, **kwargs))
 
 
-def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
+def colour_correction_Cheung2004(
+        RGB: ArrayLike,
+        M_T: ArrayLike,
+        M_R: ArrayLike,
+        terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3
+) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -871,19 +901,18 @@ def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
 
     Parameters
     ----------
-    RGB : array_like, (n, 3)
+    RGB
         *RGB* colourspace array to colour correct.
-    M_T : array_like, (n, 3)
+    M_T
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (n, 3)
+    M_R
         Reference array the array :math:`M_T` will be colour fitted against.
-    terms : int, optional
-        Number of terms of the expanded polynomial, must be one of
-        *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
+    terms
+        Number of terms of the expanded polynomial.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Colour corrected *RGB* colourspace array.
 
     References
@@ -912,11 +941,12 @@ def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
-def colour_correction_Finlayson2015(RGB,
-                                    M_T,
-                                    M_R,
-                                    degree=1,
-                                    root_polynomial_expansion=True):
+def colour_correction_Finlayson2015(
+        RGB: ArrayLike,
+        M_T: ArrayLike,
+        M_R: ArrayLike,
+        degree: Literal[1, 2, 3, 4] = 1,
+        root_polynomial_expansion: Boolean = True) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -924,20 +954,20 @@ def colour_correction_Finlayson2015(RGB,
 
     Parameters
     ----------
-    RGB : array_like, (n, 3)
+    RGB
         *RGB* colourspace array to colour correct.
-    M_T : array_like, (n, 3)
+    M_T
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (n, 3)
+    M_R
         Reference array the array :math:`M_T` will be colour fitted against.
-    degree : int, optional
+    degree
         Expanded polynomial degree.
-    root_polynomial_expansion : bool
+    root_polynomial_expansion
         Whether to use the root-polynomials set for the expansion.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Colour corrected *RGB* colourspace array.
 
     References
@@ -968,7 +998,10 @@ def colour_correction_Finlayson2015(RGB,
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
-def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
+def colour_correction_Vandermonde(RGB: ArrayLike,
+                                  M_T: ArrayLike,
+                                  M_R: ArrayLike,
+                                  degree: Integer = 1) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -976,18 +1009,18 @@ def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
 
     Parameters
     ----------
-    RGB : array_like, (n, 3)
+    RGB
         *RGB* colourspace array to colour correct.
-    M_T : array_like, (n, 3)
+    M_T
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (n, 3)
+    M_R
         Reference array the array :math:`M_T` will be colour fitted against.
-    degree : int, optional
+    degree
         Expanded polynomial degree.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Colour corrected *RGB* colourspace array.
 
     References
@@ -1028,13 +1061,16 @@ References
 ----------
 :cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
 :cite:`Wikipedia2003e`
-
-COLOUR_CORRECTION_METHODS : CaseInsensitiveMapping
-    **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
 """
 
 
-def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
+def colour_correction(
+        RGB: ArrayLike,
+        M_T: ArrayLike,
+        M_R: ArrayLike,
+        method: Union[Literal['Cheung 2004', 'Finlayson 2015', 'Vandermonde'],
+                      str] = 'Cheung 2004',
+        **kwargs: Any) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -1042,35 +1078,33 @@ def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
 
     Parameters
     ----------
-    RGB : array_like, (n, 3)
+    RGB
         *RGB* colourspace array to colour correct.
-    M_T : array_like, (n, 3)
+    M_T
         Test array :math:`M_T` to fit onto array :math:`M_R`.
-    M_R : array_like, (n, 3)
+    M_R
         Reference array the array :math:`M_T` will be colour fitted against.
-    method : str, optional
-        **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    degree : int
+    degree
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`,
         :func:`colour.characterisation.polynomial_expansion_Vandermonde`},
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms : int
+    terms
         {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial, must be one of
-        *[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22]*.
-    root_polynomial_expansion : bool
+        Number of terms of the expanded polynomial.
+    root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Colour corrected *RGB* colourspace array.
 
     References

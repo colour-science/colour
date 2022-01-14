@@ -4,6 +4,8 @@ Defines the unit tests for the :mod:`colour.characterisation.correction`
 module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 from itertools import permutations
@@ -20,6 +22,7 @@ from colour.characterisation.correction import (
     colour_correction_Finlayson2015,
     colour_correction_Vandermonde,
 )
+from colour.hints import NDArray
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -43,7 +46,7 @@ __all__ = [
     'TestColourCorrectionVandermonde',
 ]
 
-MATRIX_TEST = np.array([
+MATRIX_TEST: NDArray = np.array([
     [0.17224810, 0.09170660, 0.06416938],
     [0.49189645, 0.27802050, 0.21923399],
     [0.10999751, 0.18658946, 0.29938611],
@@ -70,7 +73,7 @@ MATRIX_TEST = np.array([
     [0.03405071, 0.03295077, 0.03702047],
 ])
 
-MATRIX_REFERENCE = np.array([
+MATRIX_REFERENCE: NDArray = np.array([
     [0.15579559, 0.09715755, 0.07514556],
     [0.39113140, 0.25943419, 0.21266708],
     [0.12824821, 0.18463570, 0.31508023],

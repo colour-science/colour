@@ -27,9 +27,12 @@ References
     doi:10.1364/JOSAA.32.000381
 """
 
+from __future__ import annotations
+
 from functools import partial
 
 from colour.characterisation import RGB_CameraSensitivities
+from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -44,7 +47,7 @@ __all__ = [
     'MSDS_CAMERA_SENSITIVITIES_DSLR',
 ]
 
-DATA_CAMERA_SENSITIVITIES_DSLR = {
+DATA_CAMERA_SENSITIVITIES_DSLR: Dict = {
     'Nikon 5100 (NPL)': {
         380.0: (
             0.00156384299336578000,
@@ -510,7 +513,4 @@ Multi-spectral distributions of *DSLR* camera sensitivities.
 References
 ----------
 :cite:`Darrodi2015a`
-
-MSDS_CAMERA_SENSITIVITIES_DSLR : LazyCaseInsensitiveMapping
-    **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**
 """
