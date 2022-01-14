@@ -21,7 +21,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.models import Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
-from colour.utilities import as_float_array, multiprocessing_pool
+from colour.utilities import multiprocessing_pool
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -123,7 +123,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     random_state = (random_state
                     if random_state is not None else np.random.RandomState())
 
-    Lab = as_float_array(list(random_generator(samples, limits, random_state)))
+    Lab = random_generator(DEFAULT_INT_DTYPE(samples), limits, random_state)
     RGB = XYZ_to_RGB(
         Lab_to_XYZ(Lab, illuminant_Lab),
         illuminant_Lab,
@@ -304,9 +304,8 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     random_state = (random_state
                     if random_state is not None else np.random.RandomState())
 
-    # TODO: Investigate for generator yielding directly a ndarray.
-    XYZ = as_float_array(
-        list(random_generator(samples, random_state=random_state)))
+    XYZ = random_generator(
+        DEFAULT_INT_DTYPE(samples), random_state=random_state)
     XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
     RGB = XYZ_to_RGB(XYZ_vs, colourspace.whitepoint, colourspace.whitepoint,
