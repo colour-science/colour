@@ -14,8 +14,11 @@ References
     Shaw, Nick.
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
@@ -31,24 +34,27 @@ __all__ = [
 ]
 
 
-def log_encoding_FilmLightTLog(x, w=128.0, g=16.0, o=0.075):
+def log_encoding_FilmLightTLog(x: FloatingOrArrayLike,
+                               w: Floating = 128.0,
+                               g: Floating = 16.0,
+                               o: Floating = 0.075) -> FloatingOrNDArray:
     """
     Defines the *FilmLight T-Log* log encoding curve.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear reflection data :math`x`.
-    w : numeric, optional
+    w
         Value of :math:`x` for :math:`t = 1.0`.
-    g : numeric, optional
+    g
         Gradient at :math:`x = 0.0`.
-    o : numeric, optional
+    o
         Value of :math:`t` for :math:`x = 0.0`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *FilmLight T-Log* encoded data :math:`t`.
 
     References
@@ -121,24 +127,27 @@ def log_encoding_FilmLightTLog(x, w=128.0, g=16.0, o=0.075):
     return as_float(from_range_1(t))
 
 
-def log_decoding_FilmLightTLog(t, w=128.0, g=16.0, o=0.075):
+def log_decoding_FilmLightTLog(t: FloatingOrArrayLike,
+                               w: Floating = 128.0,
+                               g: Floating = 16.0,
+                               o: Floating = 0.075) -> FloatingOrNDArray:
     """
     Defines the *FilmLight T-Log* log decoding curve.
 
     Parameters
     ----------
-    t : numeric or array_like
+    t
         Non-linear data :math:`t`.
-    w : numeric, optional
+    w
         Value of :math:`x` for :math:`t = 1.0`.
-    g : numeric, optional
+    g
         Gradient at :math:`x = 0.0`.
-    o : numeric, optional
+    o
         Value of :math:`t` for :math:`x = 0.0`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear reflection data :math`x`.
 
     References

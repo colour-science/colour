@@ -6,10 +6,21 @@ Common Transfer Functions Utilities
 Defines various transfer functions common utilities.
 """
 
+from __future__ import annotations
+
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.utilities import as_float_array
+from colour.hints import (
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+    IntegerOrArrayLike,
+    IntegerOrNDArray,
+    NDArray,
+    Union,
+)
+from colour.utilities import as_float, as_int, as_float_array, as_int_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -25,23 +36,25 @@ __all__ = [
 ]
 
 
-def CV_range(bit_depth=10, is_legal=False, is_int=False):
+def CV_range(bit_depth: Integer = 10,
+             is_legal: Boolean = False,
+             is_int: Boolean = False) -> NDArray:
     """
     Returns the code value :math:`CV` range for given bit depth, range legality
     and representation.
 
     Parameters
     ----------
-    bit_depth : int, optional
+    bit_depth
         Bit depth of the code value :math:`CV` range.
-    is_legal : bool, optional
+    is_legal
         Whether the code value :math:`CV` range is legal.
-    is_int : bool, optional
+    is_int
         Whether the code value :math:`CV` range represents integer code values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Code value :math:`CV` range.
 
     Examples
@@ -61,12 +74,16 @@ def CV_range(bit_depth=10, is_legal=False, is_int=False):
         ranges = np.array([0, 2 ** bit_depth - 1])
 
     if not is_int:
-        ranges = ranges.astype(DEFAULT_FLOAT_DTYPE) / (2 ** bit_depth - 1)
+        ranges = as_float_array(ranges) / (2 ** bit_depth - 1)
 
     return ranges
 
 
-def legal_to_full(CV, bit_depth=10, in_int=False, out_int=False):
+def legal_to_full(CV: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+                  bit_depth: Integer = 10,
+                  in_int: Boolean = False,
+                  out_int: Boolean = False
+                  ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Converts given code value :math:`CV` or float equivalent of a code value at
     a given bit depth from legal range (studio swing) to full range
@@ -74,21 +91,21 @@ def legal_to_full(CV, bit_depth=10, in_int=False, out_int=False):
 
     Parameters
     ----------
-    CV : array_like
+    CV
         Legal range code value :math:`CV` or float equivalent of a code value
         at a given bit depth.
-    bit_depth : int, optional
+    bit_depth
         Bit depth used for conversion.
-    in_int : bool, optional
+    in_int
         Whether to treat the input value as integer code value or float
         equivalent of a code value at a given bit depth.
-    out_int : bool, optional
+    out_int
         Whether to return value as integer code value or float equivalent of a
         code value at a given bit depth.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
         Full range code value :math:`CV` or float equivalent of a code value
         at a given bit depth.
 
@@ -116,16 +133,23 @@ def legal_to_full(CV, bit_depth=10, in_int=False, out_int=False):
 
     MV = 2 ** bit_depth - 1
 
-    CV = np.round(CV).astype(DEFAULT_INT_DTYPE) if in_int else CV * MV
+    CV_full = as_int_array(np.round(CV)) if in_int else CV * MV
 
     B, W = CV_range(bit_depth, True, True)
 
-    CV = (CV - B) / (W - B)
+    CV_full = (CV_full - B) / (W - B)
 
-    return np.round(CV * MV).astype(DEFAULT_INT_DTYPE) if out_int else CV
+    if out_int:
+        return as_int(np.round(CV_full * MV))
+    else:
+        return as_float(CV_full)
 
 
-def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
+def full_to_legal(CV: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+                  bit_depth: Integer = 10,
+                  in_int: Boolean = False,
+                  out_int: Boolean = False
+                  ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Converts given code value :math:`CV` or float equivalent of a code value at
     a given bit depth from full range (full swing) to legal range
@@ -133,21 +157,21 @@ def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
 
     Parameters
     ----------
-    CV : array_like
+    CV
         Full range code value :math:`CV` or float equivalent of a code value at
         a given bit depth.
-    bit_depth : int, optional
+    bit_depth
         Bit depth used for conversion.
-    in_int : bool, optional
+    in_int
         Whether to treat the input value as integer code value or float
         equivalent of a code value at a given bit depth.
-    out_int : bool, optional
+    out_int
         Whether to return value as integer code value or float equivalent of a
         code value at a given bit depth.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
         Legal range code value :math:`CV` or float equivalent of a code value
         at a given bit depth.
 
@@ -175,10 +199,13 @@ def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
 
     MV = 2 ** bit_depth - 1
 
-    CV = np.round(CV / MV).astype(DEFAULT_INT_DTYPE) if in_int else CV
+    CV_legal = as_int_array(np.round(CV / MV)) if in_int else CV
 
     B, W = CV_range(bit_depth, True, True)
 
-    CV = (W - B) * CV + B
+    CV_legal = (W - B) * CV_legal + B
 
-    return np.round(CV).astype(DEFAULT_INT_DTYPE) if out_int else CV / MV
+    if out_int:
+        return as_int(np.round(CV_legal))
+    else:
+        return as_float(CV_legal / MV)

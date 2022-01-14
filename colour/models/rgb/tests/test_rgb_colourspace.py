@@ -299,8 +299,7 @@ use_derived_transformation_matrices` method.
         np.testing.assert_array_equal(self._colourspace.matrix_XYZ_to_RGB,
                                       np.identity(3))
 
-        self.assertTrue(
-            self._colourspace.use_derived_transformation_matrices())
+        self._colourspace.use_derived_transformation_matrices()
 
         np.testing.assert_almost_equal(
             self._colourspace.matrix_RGB_to_XYZ,

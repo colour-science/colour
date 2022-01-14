@@ -11,9 +11,12 @@ References
     http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import CCS_LIGHT_SOURCES
+from colour.hints import NDArray
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,7 +31,7 @@ __all__ = [
     'CCS_POINTER_GAMUT_BOUNDARY',
 ]
 
-CCS_ILLUMINANT_POINTER_GAMUT = (
+CCS_ILLUMINANT_POINTER_GAMUT: NDArray = (
     CCS_LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer']['SC'])
 """
 *Pointer's Gamut* illuminant, i.e. *SC*.
@@ -36,11 +39,9 @@ CCS_ILLUMINANT_POINTER_GAMUT = (
 References
 ----------
 :cite:`Pointer1980a`
-
-CCS_ILLUMINANT_POINTER_GAMUT : ndarray
 """
 
-DATA_POINTER_GAMUT_VOLUME = np.array([
+DATA_POINTER_GAMUT_VOLUME: NDArray = np.array([
     [15, 10, 0],
     [15, 15, 10],
     [15, 14, 20],
@@ -624,11 +625,9 @@ DATA_POINTER_GAMUT_VOLUME = np.array([
 References
 ----------
 :cite:`Pointer1980a`
-
-DATA_POINTER_GAMUT_VOLUME : ndarray
 """
 
-CCS_POINTER_GAMUT_BOUNDARY = np.array([
+CCS_POINTER_GAMUT_BOUNDARY: NDArray = np.array([
     [0.659, 0.316],
     [0.634, 0.351],
     [0.594, 0.391],
@@ -668,6 +667,4 @@ CCS_POINTER_GAMUT_BOUNDARY = np.array([
 References
 ----------
 :cite:`Pointer1980a`
-
-CCS_POINTER_GAMUT_BOUNDARY : ndarray
 """

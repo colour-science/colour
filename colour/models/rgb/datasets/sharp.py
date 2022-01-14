@@ -21,9 +21,12 @@ References
     and Shaw, N.
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     linear_function,
@@ -46,7 +49,7 @@ __all__ = [
     'RGB_COLOURSPACE_SHARP_RGB',
 ]
 
-PRIMARIES_SHARP_RGB = np.array([
+PRIMARIES_SHARP_RGB: NDArray = np.array([
     [0.6898, 0.3206],
     [0.0736, 0.9003],
     [0.1166, 0.0374],
@@ -74,41 +77,31 @@ Private discussion with Ward (2016) confirmed he used the following primaries
 and whitepoint:
 
     [0.6898, 0.3206, 0.0736, 0.9003, 0.1166, 0.0374, 1 / 3, 1 / 3]
-
-PRIMARIES_SHARP_RGB : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_SHARP_RGB = 'E'
+WHITEPOINT_NAME_SHARP_RGB: str = 'E'
 """
 *Sharp RGB* colourspace whitepoint name.
-
-WHITEPOINT_NAME_SHARP_RGB : str
 """
 
-CCS_WHITEPOINT_SHARP_RGB = (CCS_ILLUMINANTS[
+CCS_WHITEPOINT_SHARP_RGB: NDArray = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_SHARP_RGB])
 """
 *Sharp RGB* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_SHARP_RGB : ndarray
 """
 
-MATRIX_SHARP_RGB_TO_XYZ = normalised_primary_matrix(PRIMARIES_SHARP_RGB,
-                                                    CCS_WHITEPOINT_SHARP_RGB)
+MATRIX_SHARP_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
+    PRIMARIES_SHARP_RGB, CCS_WHITEPOINT_SHARP_RGB)
 """
 *Sharp RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_SHARP_RGB_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_SHARP_RGB = np.linalg.inv(MATRIX_SHARP_RGB_TO_XYZ)
+MATRIX_XYZ_TO_SHARP_RGB: NDArray = np.linalg.inv(MATRIX_SHARP_RGB_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Sharp RGB* colourspace matrix.
-
-MATRIX_XYZ_TO_SHARP_RGB : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_SHARP_RGB = RGB_Colourspace(
+RGB_COLOURSPACE_SHARP_RGB: RGB_Colourspace = RGB_Colourspace(
     'Sharp RGB',
     PRIMARIES_SHARP_RGB,
     CCS_WHITEPOINT_SHARP_RGB,
@@ -124,6 +117,4 @@ RGB_COLOURSPACE_SHARP_RGB.__doc__ = """
 References
 ----------
 :cite:`Susstrunk2000`, :cite:`Ward2002`, :cite:`Ward2016`
-
-RGB_COLOURSPACE_SHARP_RGB : RGB_Colourspace
 """

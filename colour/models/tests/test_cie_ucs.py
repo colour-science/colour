@@ -302,13 +302,14 @@ class Testuv_to_UCS(unittest.TestCase):
         """
 
         uv = np.array([0.37720213, 0.33413508])
-        UCS = uv_to_UCS(uv)
+        V = 1
+        UCS = uv_to_UCS(uv, V)
 
         d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    uv_to_UCS(uv), UCS * factor, decimal=7)
+                    uv_to_UCS(uv, V * factor), UCS * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_uv_to_UCS(self):

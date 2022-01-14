@@ -52,9 +52,12 @@ References
     http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     linear_function,
@@ -90,18 +93,16 @@ __all__ = [
     'RGB_COLOURSPACE_ACESPROXY',
 ]
 
-AP0 = np.array([
+AP0: NDArray = np.array([
     [0.73470, 0.26530],
     [0.00000, 1.00000],
     [0.00010, -0.07700],
 ])
 """
 *ACES Primaries 0* or *AP0* primaries.
-
-AP0 : ndarray, (3, 2)
 """
 
-AP1 = np.array([
+AP1: NDArray = np.array([
     [0.71300, 0.29300],
     [0.16500, 0.83000],
     [0.12800, 0.04400],
@@ -109,61 +110,49 @@ AP1 = np.array([
 """
 *ACES Primaries 1* or *AP1* primaries (known as *ITU-R BT.2020+* primaries
 prior to *ACES* 1.0 release).
-
-AP1 : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_ACES = 'ACES'
+WHITEPOINT_NAME_ACES: str = 'ACES'
 """
 *ACES2065-1* colourspace whitepoint name.
-
-WHITEPOINT_NAME_ACES : str
 """
 
-CCS_WHITEPOINT_ACES = (CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    WHITEPOINT_NAME_ACES])
+CCS_WHITEPOINT_ACES: NDArray = (CCS_ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_ACES])
 """
 *ACES2065-1* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_ACES : ndarray
 """
 
-MATRIX_AP0_TO_XYZ = np.array([
+MATRIX_AP0_TO_XYZ: NDArray = np.array([
     [0.9525523959, 0.0000000000, 0.0000936786],
     [0.3439664498, 0.7281660966, -0.0721325464],
     [0.0000000000, 0.0000000000, 1.0088251844],
 ])
 """
 *ACES Primaries 0* to *CIE XYZ* tristimulus values matrix defined as per [2].
-MATRIX_AP0_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_AP0 = np.array([
+MATRIX_XYZ_TO_AP0: NDArray = np.array([
     [1.0498110175, 0.0000000000, -0.0000974845],
     [-0.4959030231, 1.3733130458, 0.0982400361],
     [0.0000000000, 0.0000000000, 0.9912520182],
 ])
 """
 *CIE XYZ* tristimulus values to *ACES Primaries 0* matrix.
-
-MATRIX_XYZ_TO_AP0 : array_like, (3, 3)
 """
 
-MATRIX_AP1_TO_XYZ = normalised_primary_matrix(AP1, CCS_WHITEPOINT_ACES)
+MATRIX_AP1_TO_XYZ: NDArray = normalised_primary_matrix(AP1,
+                                                       CCS_WHITEPOINT_ACES)
 """
 *ACES Primaries 1* to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_AP1_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_AP1 = np.linalg.inv(MATRIX_AP1_TO_XYZ)
+MATRIX_XYZ_TO_AP1: NDArray = np.linalg.inv(MATRIX_AP1_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *ACES Primaries 1* matrix.
-
-MATRIX_XYZ_TO_AP1 : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_ACES2065_1 = RGB_Colourspace(
+RGB_COLOURSPACE_ACES2065_1: RGB_Colourspace = RGB_Colourspace(
     'ACES2065-1',
     AP0,
     CCS_WHITEPOINT_ACES,
@@ -182,11 +171,9 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
-
-RGB_COLOURSPACE_ACES2065_1 : RGB_Colourspace
 """
 
-RGB_COLOURSPACE_ACESCG = RGB_Colourspace(
+RGB_COLOURSPACE_ACESCG: RGB_Colourspace = RGB_Colourspace(
     'ACEScg',
     AP1,
     CCS_WHITEPOINT_ACES,
@@ -206,11 +193,9 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2015b`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
-
-RGB_COLOURSPACE_ACESCG : RGB_Colourspace
 """
 
-RGB_COLOURSPACE_ACESCC = RGB_Colourspace(
+RGB_COLOURSPACE_ACESCC: RGB_Colourspace = RGB_Colourspace(
     'ACEScc',
     AP1,
     CCS_WHITEPOINT_ACES,
@@ -230,11 +215,9 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014t`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
-
-RGB_COLOURSPACE_ACESCC : RGB_Colourspace
 """
 
-RGB_COLOURSPACE_ACESCCT = RGB_Colourspace(
+RGB_COLOURSPACE_ACESCCT: RGB_Colourspace = RGB_Colourspace(
     'ACEScct',
     AP1,
     CCS_WHITEPOINT_ACES,
@@ -255,11 +238,9 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
-
-RGB_COLOURSPACE_ACESCCT : RGB_Colourspace
 """
 
-RGB_COLOURSPACE_ACESPROXY = RGB_Colourspace(
+RGB_COLOURSPACE_ACESPROXY: RGB_Colourspace = RGB_Colourspace(
     'ACESproxy',
     AP1,
     CCS_WHITEPOINT_ACES,
@@ -281,6 +262,4 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014s`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
-
-RGB_COLOURSPACE_ACESPROXY : RGB_Colourspace
 """

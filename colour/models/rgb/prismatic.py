@@ -14,8 +14,11 @@ References
     space for rgb computations (pp. 2-7).
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -31,19 +34,19 @@ __all__ = [
 ]
 
 
-def RGB_to_Prismatic(RGB):
+def RGB_to_Prismatic(RGB: ArrayLike) -> NDArray:
     """
     Converts from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
     colourspace array.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array.
 
     Notes
@@ -93,19 +96,19 @@ def RGB_to_Prismatic(RGB):
     return from_range_1(Lrgb)
 
 
-def Prismatic_to_RGB(Lrgb):
+def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArray:
     """
     Converts from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
     *RGB* colourspace.
 
     Parameters
     ----------
-    Lrgb : array_like
+    Lrgb
         *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes

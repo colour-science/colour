@@ -16,8 +16,11 @@ References
 D-Log_D-Gamut_Whitepaper.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
@@ -33,18 +36,18 @@ __all__ = [
 ]
 
 
-def log_encoding_DJIDLog(x):
+def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *DJI D-Log* log encoding curve.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear reflection data :math`x`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *DJI D-Log* encoded data :math:`y`.
 
     References
@@ -80,18 +83,18 @@ def log_encoding_DJIDLog(x):
     return as_float(from_range_1(y))
 
 
-def log_decoding_DJIDLog(y):
+def log_decoding_DJIDLog(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *DJI D-Log* log decoding curve.
 
     Parameters
     ----------
-    y : numeric or array_like
-        Non-linear data :math:`t`.
+    y
+        *DJI D-Log* encoded data :math:`y`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear reflection data :math`x`.
 
     References

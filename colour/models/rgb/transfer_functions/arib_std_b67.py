@@ -4,7 +4,7 @@ ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================
 
 Defines the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
-(OETF / OECF) and its inverse:
+(OETF) and its inverse:
 
 -   :func:`colour.models.oetf_ARIBSTDB67`
 -   :func:`colour.models.oetf_inverse_ARIBSTDB67`
@@ -18,12 +18,16 @@ References
     https://www.arib.or.jp/english/std_tr/broadcasting/desc/std-b67.html
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import (
     Structure,
     as_float,
+    as_float_array,
     domain_range_scale,
     from_range_1,
     to_domain_1,
@@ -42,33 +46,35 @@ __all__ = [
     'oetf_inverse_ARIBSTDB67',
 ]
 
-CONSTANTS_ARIBSTDB67 = Structure(a=0.17883277, b=0.28466892, c=0.55991073)
+CONSTANTS_ARIBSTDB67: Structure = Structure(
+    a=0.17883277, b=0.28466892, c=0.55991073)
 """
 *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
-
-CONSTANTS_ARIBSTDB67 : Structure
 """
 
 
-def oetf_ARIBSTDB67(E, r=0.5, constants=CONSTANTS_ARIBSTDB67):
+def oetf_ARIBSTDB67(
+        E: FloatingOrArrayLike,
+        r: FloatingOrArrayLike = 0.5,
+        constants: Structure = CONSTANTS_ARIBSTDB67) -> FloatingOrNDArray:
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
-    function (OETF / OECF).
+    function (OETF).
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         Voltage normalised by the reference white level and proportional to
         the implicit light intensity that would be detected with a reference
         camera color channel R, G, B.
-    r : numeric, optional
+    r
         Video level corresponding to reference white level.
-    constants : Structure, optional
+    constants
         *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Resulting non-linear signal :math:`E'`.
 
     Notes
@@ -101,6 +107,7 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=CONSTANTS_ARIBSTDB67):
     """
 
     E = to_domain_1(E)
+    r = as_float_array(r)
 
     a = constants.a
     b = constants.b
@@ -112,23 +119,26 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=CONSTANTS_ARIBSTDB67):
     return as_float(from_range_1(E_p))
 
 
-def oetf_inverse_ARIBSTDB67(E_p, r=0.5, constants=CONSTANTS_ARIBSTDB67):
+def oetf_inverse_ARIBSTDB67(
+        E_p: FloatingOrArrayLike,
+        r: FloatingOrArrayLike = 0.5,
+        constants: Structure = CONSTANTS_ARIBSTDB67) -> FloatingOrNDArray:
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
-    function (OETF / OECF).
+    function (OETF).
 
     Parameters
     ----------
-    E_p : numeric or array_like
+    E_p
         Non-linear signal :math:`E'`.
-    r : numeric, optional
+    r
         Video level corresponding to reference white level.
-    constants : Structure, optional
+    constants
         *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Voltage :math:`E` normalised by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera color channel R, G, B.

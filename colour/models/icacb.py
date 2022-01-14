@@ -13,9 +13,13 @@ References
 -   :cite:`Frohlich2017` : Fröhlich, J. (2017). Encoding high dynamic range
     and wide color gamut imagery. doi:10.18419/OPUS-9664
 """
+
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import vector_dot
+from colour.hints import ArrayLike, NDArray
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
     eotf_inverse_ST2084,
@@ -35,60 +39,54 @@ __status__ = 'Production'
 
 __all__ = [
     'MATRIX_ICACB_XYZ_TO_LMS',
-    'MATRIX_ICACB_XYZ_TO_LMS_2',
     'MATRIX_ICACB_LMS_TO_XYZ',
+    'MATRIX_ICACB_XYZ_TO_LMS_2',
     'MATRIX_ICACB_LMS_TO_XYZ_2',
     'XYZ_to_ICaCb',
     'ICaCb_to_XYZ',
 ]
 
-MATRIX_ICACB_XYZ_TO_LMS = np.array([
+MATRIX_ICACB_XYZ_TO_LMS: NDArray = np.array([
     [0.37613, 0.70431, -0.05675],
     [-0.21649, 1.14744, 0.05356],
     [0.02567, 0.16713, 0.74235],
 ])
 """
 *CIE XYZ* tristimulus values to normalised cone responses matrix.
-
-MATRIX_ICACB_XYZ_TO_LMS : array_like, (3, 3)
 """
 
-MATRIX_ICACB_XYZ_TO_LMS_2 = np.array([
+MATRIX_ICACB_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS)
+"""
+Normalised cone responses to *CIE XYZ* tristimulus values matrix.
+"""
+
+MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array([
     [0.4949, 0.5037, 0.0015],
     [4.2854, -4.5462, 0.2609],
     [0.3605, 1.1499, -1.5105],
 ])
 """
-MATRIX_ICACB_XYZ_TO_LMS_2 : array_like, (3, 3)
+Normalised non-linear cone responses to :math:`IC_AC_B` colourspace matrix.
 """
 
-MATRIX_ICACB_LMS_TO_XYZ = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS)
+MATRIX_ICACB_LMS_TO_XYZ_2: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_2)
 """
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_ICACB_LMS_TO_XYZ : array_like, (3, 3)
-"""
-
-MATRIX_ICACB_LMS_TO_XYZ_2 = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_2)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_ICACB_LMS_TO_XYZ : array_like, (3, 3)
+:math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix.
 """
 
 
-def XYZ_to_ICaCb(XYZ):
+def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         :math:`IC_AC_B` colourspace array.
 
     Notes
@@ -133,18 +131,18 @@ def XYZ_to_ICaCb(XYZ):
     return from_range_1(vector_dot(MATRIX_ICACB_XYZ_TO_LMS_2, LMS_prime))
 
 
-def ICaCb_to_XYZ(ICaCb):
+def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
     """
     Converts from :math:`IC_AC_B` tristimulus values to *CIE XYZ* colourspace.
 
     Parameters
     ----------
-    ICaCb : array_like
+    ICaCb
         :math:`IC_AC_B` tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* colourspace array.
 
     Notes

@@ -17,11 +17,14 @@ References
     ISBN:978-3-901906-33-6
 """
 
+from __future__ import annotations
+
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     intermediate_lightness_function_CIE1976,
     intermediate_luminance_function_CIE1976,
 )
+from colour.hints import ArrayLike, NDArray
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
 from colour.utilities import (
     from_range_1,
@@ -47,24 +50,24 @@ __all__ = [
 ]
 
 
-def XYZ_to_Lab(XYZ,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_Lab(XYZ: ArrayLike,
+               illuminant: ArrayLike = CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*a\\*b\\** colourspace array.
 
     Notes
@@ -101,7 +104,6 @@ def XYZ_to_Lab(XYZ,
     """
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
-
     X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
     f_X_X_n = intermediate_lightness_function_CIE1976(X, X_n)
@@ -117,24 +119,24 @@ def XYZ_to_Lab(XYZ,
     return from_range_100(Lab)
 
 
-def Lab_to_XYZ(Lab,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def Lab_to_XYZ(Lab: ArrayLike,
+               illuminant: ArrayLike = CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']) -> NDArray:
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
     ----------
-    Lab : array_like
+    Lab
         *CIE L\\*a\\*b\\** colourspace array.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
@@ -187,19 +189,19 @@ def Lab_to_XYZ(Lab,
     return from_range_1(XYZ)
 
 
-def Lab_to_LCHab(Lab):
+def Lab_to_LCHab(Lab: ArrayLike) -> NDArray:
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *CIE L\\*C\\*Hab*
     colourspace.
 
     Parameters
     ----------
-    Lab : array_like
+    Lab
         *CIE L\\*a\\*b\\** colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*C\\*Hab* colourspace array.
 
     Notes
@@ -240,19 +242,19 @@ def Lab_to_LCHab(Lab):
     return Jab_to_JCh(Lab)
 
 
-def LCHab_to_Lab(LCHab):
+def LCHab_to_Lab(LCHab: ArrayLike) -> NDArray:
     """
     Converts from *CIE L\\*C\\*Hab* colourspace to *CIE L\\*a\\*b\\**
     colourspace.
 
     Parameters
     ----------
-    LCHab : array_like
+    LCHab
         *CIE L\\*C\\*Hab* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*a\\*b\\** colourspace array.
 
     Notes

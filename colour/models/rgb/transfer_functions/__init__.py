@@ -2,6 +2,15 @@
 
 from functools import partial
 
+from colour.hints import (
+    Any,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    IntegerOrArrayLike,
+    IntegerOrNDArray,
+    Literal,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
@@ -301,7 +310,7 @@ __all__ += [
     'log_decoding_ViperLog',
 ]
 
-LOG_ENCODINGS = CaseInsensitiveMapping({
+LOG_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
     'ACEScct': log_encoding_ACEScct,
     'ACESproxy': log_encoding_ACESproxy,
@@ -318,8 +327,8 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
     'Log3G10': log_encoding_Log3G10,
     'Log3G12': log_encoding_Log3G12,
     'N-Log': log_encoding_NLog,
-    'Panalog': log_encoding_Panalog,
     'PLog': log_encoding_PivotedLog,
+    'Panalog': log_encoding_Panalog,
     'Protune': log_encoding_Protune,
     'REDLog': log_encoding_REDLog,
     'REDLogFilm': log_encoding_REDLogFilm,
@@ -332,101 +341,65 @@ LOG_ENCODINGS = CaseInsensitiveMapping({
 })
 LOG_ENCODINGS.__doc__ = """
 Supported *log* encoding functions.
-
-LOG_ENCODINGS : CaseInsensitiveMapping
-    **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog', 'PLog',
-    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-    'V-Log', 'ViperLog'}**
 """
 
 
-def log_encoding(value, function='Cineon', **kwargs):
+def log_encoding(
+        value: FloatingOrArrayLike,
+        function: Union[Literal[
+            'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
+            'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
+            'F-Log', 'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log',
+            'PLog', 'Panalog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log',
+            'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'], str] = 'Cineon',
+        **kwargs: Any) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Encodes linear-light values to :math:`R'G'B'` video component signal
-    value using given *log* function.
+    Encodes *scene-referred* exposure values to :math:`R'G'B'` video component
+    signal value using given *log* encoding function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
-    function : str, optional
-        **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog',
-        'PLog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
-        'T-Log', 'V-Log', 'ViperLog'}**,
-        Computation function.
+    value
+        *Scene-referred* exposure values.
+    function
+        *Log* encoding function.
 
     Other Parameters
     ----------------
-    EI : int,  optional
-        {:func:`colour.models.log_encoding_ALEXALogC`},
-        Ei.
-    E_clip : numeric, optional
-        {:func:`colour.models.log_encoding_ERIMMRGB`},
-        Maximum exposure limit.
-    E_min : numeric, optional
-        {:func:`colour.models.log_encoding_ERIMMRGB`},
-        Minimum exposure limit.
-    I_max : numeric, optional
-        {:func:`colour.models.log_encoding_ERIMMRGB`},
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per-channel.
-    bit_depth : str, optional
-        {:func:`colour.models.log_encoding_ACESproxy`,
+    kwargs
+        {:func:`colour.models.log_encoding_ACEScc`,
+        :func:`colour.models.log_encoding_ACEScct`,
+        :func:`colour.models.log_encoding_ACESproxy`,
+        :func:`colour.models.log_encoding_ALEXALogC`,
+        :func:`colour.models.log_encoding_CanonLog2`,
+        :func:`colour.models.log_encoding_CanonLog3`,
+        :func:`colour.models.log_encoding_CanonLog`,
+        :func:`colour.models.log_encoding_Cineon`,
+        :func:`colour.models.log_encoding_DJIDLog`,
+        :func:`colour.models.log_encoding_ERIMMRGB`,
+        :func:`colour.models.log_encoding_FLog`,
+        :func:`colour.models.log_encoding_FilmicPro6`,
+        :func:`colour.models.log_encoding_Log2`,
+        :func:`colour.models.log_encoding_Log3G10`,
+        :func:`colour.models.log_encoding_Log3G12`,
         :func:`colour.models.log_encoding_NLog`,
-        :func:`colour.models.log_encoding_SLog`,
-        :func:`colour.models.log_encoding_SLog2`},
-        **{8, 10, 12}**,
-        Bit depth used for conversion, *ACESproxy* uses **{10, 12}**.
-    black_offset : numeric or array_like
-        {:func:`colour.models.log_encoding_Cineon`,
+        :func:`colour.models.log_encoding_PivotedLog`,
         :func:`colour.models.log_encoding_Panalog`,
+        :func:`colour.models.log_encoding_Protune`,
         :func:`colour.models.log_encoding_REDLog`,
-        :func:`colour.models.log_encoding_REDLogFilm`},
-        Black offset.
-    density_per_code_value : numeric or array_like
-        {:func:`colour.models.log_encoding_PivotedLog`},
-        Density per code value.
-    firmware : str, optional
-        {:func:`colour.models.log_encoding_ALEXALogC`},
-        **{'SUP 3.x', 'SUP 2.x'}**,
-        Alexa firmware version.
-    in_reflection : bool, optional
-        {:func:`colour.models.log_encoding_NLog`,
+        :func:`colour.models.log_encoding_REDLogFilm`,
         :func:`colour.models.log_encoding_SLog`,
-        :func:`colour.models.log_encoding_SLog2`},
-        Whether the light level :math:`x` to a camera is reflection.
-    linear_reference : numeric or array_like
-        {:func:`colour.models.log_encoding_PivotedLog`},
-        Linear reference.
-    log_reference : numeric or array_like
-        {:func:`colour.models.log_encoding_PivotedLog`},
-        Log reference.
-    method : str, optional
-        {:func:`colour.models.log_encoding_Log3G10`},
-        Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
-    out_normalised_code_value : bool, optional
-        {:func:`colour.models.log_encoding_SLog`,
-        :func:`colour.models.log_encoding_NLog`,
         :func:`colour.models.log_encoding_SLog2`,
-        :func:`colour.models.log_encoding_SLog3`},
-        Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
-        data :math:`y` is encoded as normalised code values.
-    negative_gamma : numeric or array_like
-        {:func:`colour.models.log_encoding_PivotedLog`},
-        Negative gamma.
-    method : str, optional
-        {:func:`colour.models.log_encoding_ALEXALogC`},
-        **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
-        Conversion method.
+        :func:`colour.models.log_encoding_SLog3`,
+        :func:`colour.models.log_encoding_FilmLightTLog`,
+        :func:`colour.models.log_encoding_VLog`,
+        :func:`colour.models.log_encoding_ViperLog`},
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    numeric or ndarray
-        *Log* value.
+    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
+        *Log* values.
 
     Examples
     --------
@@ -443,14 +416,14 @@ def log_encoding(value, function='Cineon', **kwargs):
 
     function = validate_method(
         function, LOG_ENCODINGS,
-        '"{0}" function is invalid, it must be one of {1}!')
+        '"{0}" "log" encoding function is invalid, it must be one of {1}!')
 
-    function = LOG_ENCODINGS[function]
+    callable_ = LOG_ENCODINGS[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-LOG_DECODINGS = CaseInsensitiveMapping({
+LOG_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'ACEScc': log_decoding_ACEScc,
     'ACEScct': log_decoding_ACEScct,
     'ACESproxy': log_decoding_ACESproxy,
@@ -467,8 +440,8 @@ LOG_DECODINGS = CaseInsensitiveMapping({
     'Log3G10': log_decoding_Log3G10,
     'Log3G12': log_decoding_Log3G12,
     'N-Log': log_decoding_NLog,
-    'Panalog': log_decoding_Panalog,
     'PLog': log_decoding_PivotedLog,
+    'Panalog': log_decoding_Panalog,
     'Protune': log_decoding_Protune,
     'REDLog': log_decoding_REDLog,
     'REDLogFilm': log_decoding_REDLogFilm,
@@ -481,101 +454,65 @@ LOG_DECODINGS = CaseInsensitiveMapping({
 })
 LOG_DECODINGS.__doc__ = """
 Supported *log* decoding functions.
-
-LOG_DECODINGS : CaseInsensitiveMapping
-    **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-    'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'Panalog', 'PLog',
-    'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
-    'V-Log', 'ViperLog'}**
 """
 
 
-def log_decoding(value, function='Cineon', **kwargs):
+def log_decoding(
+        value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+        function: Union[Literal[
+            'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
+            'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
+            'F-Log', 'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log',
+            'PLog', 'Panalog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log',
+            'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'], str] = 'Cineon',
+        **kwargs: Any) -> FloatingOrNDArray:
     """
-    Decodes :math:`R'G'B'` video component signal value to linear-light values
-    using given *log* function.
+    Decodes :math:`R'G'B'` video component signal value to *scene-referred*
+    exposure values using given *log* decoding function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
-    function : str, optional
-        **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log',
-        'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', Panalog',
-        'PLog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
-        'T-Log', 'V-Log', 'ViperLog'}**,
-        Computation function.
+    value
+        *Log* values.
+    function
+        *Log* decoding function.
 
     Other Parameters
     ----------------
-    EI : int,  optional
-        {:func:`colour.models.log_decoding_ALEXALogC`},
-        Ei.
-    E_clip : numeric, optional
-        {:func:`colour.models.log_decoding_ERIMMRGB`},
-        Maximum exposure limit.
-    E_min : numeric, optional
-        {:func:`colour.models.log_decoding_ERIMMRGB`},
-        Minimum exposure limit.
-    I_max : numeric, optional
-        {:func:`colour.models.log_decoding_ERIMMRGB`},
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
-        12-bit and 16-bit per-channel.
-    bit_depth : int, optional
-        {:func:`colour.models.log_decoding_ACESproxy`,
+    kwargs
+        {:func:`colour.models.log_decoding_ACEScc`,
+        :func:`colour.models.log_decoding_ACEScct`,
+        :func:`colour.models.log_decoding_ACESproxy`,
+        :func:`colour.models.log_decoding_ALEXALogC`,
+        :func:`colour.models.log_decoding_CanonLog2`,
+        :func:`colour.models.log_decoding_CanonLog3`,
+        :func:`colour.models.log_decoding_CanonLog`,
+        :func:`colour.models.log_decoding_Cineon`,
+        :func:`colour.models.log_decoding_DJIDLog`,
+        :func:`colour.models.log_decoding_ERIMMRGB`,
+        :func:`colour.models.log_decoding_FLog`,
+        :func:`colour.models.log_decoding_FilmicPro6`,
+        :func:`colour.models.log_decoding_Log2`,
+        :func:`colour.models.log_decoding_Log3G10`,
+        :func:`colour.models.log_decoding_Log3G12`,
         :func:`colour.models.log_decoding_NLog`,
-        :func:`colour.models.log_decoding_SLog`,
-        :func:`colour.models.log_decoding_SLog2`},
-        **{8, 10, 12}**,
-        Bit depth used for conversion, *ACESproxy* uses **{10, 12}**.
-    black_offset : numeric or array_like
-        {:func:`colour.models.log_decoding_Cineon`,
+        :func:`colour.models.log_decoding_PivotedLog`,
         :func:`colour.models.log_decoding_Panalog`,
+        :func:`colour.models.log_decoding_Protune`,
         :func:`colour.models.log_decoding_REDLog`,
-        :func:`colour.models.log_decoding_REDLogFilm`},
-        Black offset.
-    density_per_code_value : numeric or array_like
-        {:func:`colour.models.log_decoding_PivotedLog`},
-        Density per code value.
-    firmware : str, optional
-        {:func:`colour.models.log_decoding_ALEXALogC`},
-        **{'SUP 3.x', 'SUP 2.x'}**,
-        Alexa firmware version.
-    in_normalised_code_value : bool, optional
-        {:func:`colour.models.log_decoding_SLog`,
-        :func:`colour.models.log_decoding_NLog`,
-        :func:`colour.models.log_decoding_SLog2`,
-        :func:`colour.models.log_decoding_SLog3`},
-        Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
-        data :math:`y` is encoded as normalised code values.
-    linear_reference : numeric or array_like
-        {:func:`colour.models.log_decoding_PivotedLog`},
-        Linear reference.
-    log_reference : numeric or array_like
-        {:func:`colour.models.log_decoding_PivotedLog`},
-        Log reference.
-    method : str, optional
-        {:func:`colour.models.log_decoding_Log3G10`},
-        Whether to use the *Log3G10* *v1* or *v2* log encoding curve.
-    negative_gamma : numeric or array_like
-        {:func:`colour.models.log_decoding_PivotedLog`},
-        Negative gamma.
-    out_reflection : bool, optional
-        {:func:`colour.models.log_decoding_NLog`,
+        :func:`colour.models.log_decoding_REDLogFilm`,
         :func:`colour.models.log_decoding_SLog`,
-        :func:`colour.models.log_decoding_SLog2`},
-        Whether the light level :math:`x` to a camera is reflection.
-    method : str, optional
-        {:func:`colour.models.log_decoding_ALEXALogC`},
-        **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
-        Conversion method.
+        :func:`colour.models.log_decoding_SLog2`,
+        :func:`colour.models.log_decoding_SLog3`,
+        :func:`colour.models.log_decoding_FilmLightTLog`,
+        :func:`colour.models.log_decoding_VLog`,
+        :func:`colour.models.log_decoding_ViperLog`},
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    numeric or ndarray
-        *Log* value.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Scene-referred* exposure values.
 
     Examples
     --------
@@ -594,11 +531,11 @@ def log_decoding(value, function='Cineon', **kwargs):
 
     function = validate_method(
         function, LOG_DECODINGS,
-        '"{0}" function is invalid, it must be one of {1}!')
+        '"{0}" "log" decoding function is invalid, it must be one of {1}!')
 
-    function = LOG_DECODINGS[function]
+    callable_ = LOG_DECODINGS[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
 __all__ += [
@@ -610,7 +547,7 @@ __all__ += [
     'log_decoding',
 ]
 
-OETFS = CaseInsensitiveMapping({
+OETFS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
     'Blackmagic Film Generation 5': oetf_BlackmagicFilmGeneration5,
     'DaVinci Intermediate': oetf_DaVinciIntermediate,
@@ -622,43 +559,44 @@ OETFS = CaseInsensitiveMapping({
 })
 OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
-
-OETFS : CaseInsensitiveMapping
-    **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
-    'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-    'ITU-R BT.601', 'SMPTE 240M'}**
 """
 
 
-def oetf(value, function='ITU-R BT.709', **kwargs):
+def oetf(value: FloatingOrArrayLike,
+         function: Union[Literal[
+             'ARIB STD-B67', 'Blackmagic Film Generation 5',
+             'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+             'ITU-R BT.601', 'ITU-R BT.709', 'SMPTE 240M'],
+                         str] = 'ITU-R BT.709',
+         **kwargs: Any) -> FloatingOrNDArray:
     """
     Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given opto-electronic transfer function
-    (OETF / OECF).
+    (OETF).
 
     Parameters
     ----------
-    value : numeric or array_like
+    value
         Value.
-    function : str, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
-        'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-        'ITU-R BT.601', 'SMPTE 240M'}**,
-        Opto-electronic transfer function (OETF / OECF).
+    function
+        Opto-electronic transfer function (OETF).
 
     Other Parameters
     ----------------
-    contants : Structure, optional
-        {:func:`colour.models.oetf_BlackmagicFilmGeneration5`,
-        :func:`colour.models.oetf_DaVinciIntermediate`},
-        Colour component transfer function constants.
-    r : numeric, optional
-        {:func:`colour.models.oetf_ARIBSTDB67`},
-        Video level corresponding to reference white level.
+    kwargs
+        {:func:`colour.models.oetf_ARIBSTDB67`,
+        :func:`colour.models.oetf_BlackmagicFilmGeneration5`,
+        :func:`colour.models.oetf_DaVinciIntermediate`,
+        :func:`colour.models.oetf_HLG_BT2100`,
+        :func:`colour.models.oetf_PQ_BT2100`,
+        :func:`colour.models.oetf_BT601`,
+        :func:`colour.models.oetf_BT709`,
+        :func:`colour.models.oetf_SMPTE240M`},
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`R'G'B'` video component signal value.
 
     Examples
@@ -670,14 +608,14 @@ def oetf(value, function='ITU-R BT.709', **kwargs):
     """
 
     function = validate_method(
-        function, OETFS, '"{0}" function is invalid, it must be one of {1}!')
+        function, OETFS, '"{0}" "OETF" is invalid, it must be one of {1}!')
 
-    function = OETFS[function]
+    callable_ = OETFS[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-OETF_INVERSES = CaseInsensitiveMapping({
+OETF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_inverse_ARIBSTDB67,
     'Blackmagic Film Generation 5': oetf_inverse_BlackmagicFilmGeneration5,
     'DaVinci Intermediate': oetf_inverse_DaVinciIntermediate,
@@ -688,43 +626,44 @@ OETF_INVERSES = CaseInsensitiveMapping({
 })
 OETF_INVERSES.__doc__ = """
 Supported inverse opto-electrical transfer functions (OETFs / OECFs).
-
-OETF_INVERSES : CaseInsensitiveMapping
-    **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
-    'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-    'ITU-R BT.601', 'SMPTE 240M'}**
 """
 
 
-def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
+def oetf_inverse(
+        value: FloatingOrArrayLike,
+        function: Union[Literal['ARIB STD-B67', 'Blackmagic Film Generation 5',
+                                'DaVinci Intermediate', 'ITU-R BT.2100 HLG',
+                                'ITU-R BT.2100 PQ', 'ITU-R BT.601',
+                                'ITU-R BT.709'], str] = 'ITU-R BT.709',
+        **kwargs: Any) -> FloatingOrNDArray:
     """
     Decodes :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given inverse opto-electronic transfer function
-    (OETF / OECF).
+    (OETF).
 
     Parameters
     ----------
-    value : numeric or array_like
+    value
         Value.
-    function : str, optional
-        **{'ITU-R BT.709', 'ARIB STD-B67', 'Blackmagic Film Generation 5',
-        'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-        'ITU-R BT.601', 'SMPTE 240M'}**,
-        Inverse opto-electronic transfer function (OETF / OECF).
+    function
+        Inverse opto-electronic transfer function (OETF).
 
     Other Parameters
     ----------------
-    contants : Structure, optional
-        {:func:`colour.models.oetf_BlackmagicFilmGeneration5`,
-        :func:`colour.models.oetf_DaVinciIntermediate`},
-        Colour component transfer function constants.
-    r : numeric, optional
-        {:func:`colour.models.oetf_inverse_ARIBSTDB67`},
-        Video level corresponding to reference white level.
+    kwargs
+        {:func:`colour.models.oetf_inverse_ARIBSTDB67`,
+        :func:`colour.models.oetf_inverse_BlackmagicFilmGeneration5`,
+        :func:`colour.models.oetf_inverse_DaVinciIntermediate`,
+        :func:`colour.models.oetf_inverse_HLG_BT2100`,
+        :func:`colour.models.oetf_inverse_PQ_BT2100`,
+        :func:`colour.models.oetf_inverse_BT601`,
+        :func:`colour.models.oetf_inverse_BT709`},
+        See the documentation of the previously listed definitions.
+
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Tristimulus values at the display.
 
     Examples
@@ -738,14 +677,14 @@ def oetf_inverse(value, function='ITU-R BT.709', **kwargs):
 
     function = validate_method(
         function, OETF_INVERSES,
-        '"{0}" function is invalid, it must be one of {1}!')
+        '"{0}" inverse "OETF" is invalid, it must be one of {1}!')
 
-    function = OETF_INVERSES[function]
+    callable_ = OETF_INVERSES[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-EOTFS = CaseInsensitiveMapping({
+EOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'DCDM': eotf_DCDM,
     'DICOM GSDF': eotf_DICOMGSDF,
     'ITU-R BT.1886': eotf_BT1886,
@@ -758,61 +697,43 @@ EOTFS = CaseInsensitiveMapping({
 })
 EOTFS.__doc__ = """
 Supported electro-optical transfer functions (EOTFs / EOCFs).
-
-EOTFS : CaseInsensitiveMapping
-    **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
-    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'SMPTE 240M', 'ST 2084', 'sRGB'}**
 """
 
 
-def eotf(value, function='ITU-R BT.1886', **kwargs):
+def eotf(value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+         function: Union[
+             Literal['DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
+                     'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'SMPTE 240M',
+                     'ST 2084', 'sRGB'], str] = 'ITU-R BT.1886',
+         **kwargs: Any) -> FloatingOrNDArray:
     """
     Decodes :math:`R'G'B'` video component signal value to tristimulus values
-    at the display using given electro-optical transfer function (EOTF / EOCF).
+    at the display using given electro-optical transfer function (EOTF).
 
     Parameters
     ----------
-    value : numeric or array_like
+    value
         Value.
-    function : str, optional
-        **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
-        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'SMPTE 240M', 'ST 2084',
-        'sRGB'}**,
-        Electro-optical transfer function (EOTF / EOCF).
+    function
+        Electro-optical transfer function (EOTF).
 
     Other Parameters
     ----------------
-    L_B : numeric, optional
-        {:func:`colour.models.eotf_BT1886`,
-        :func:`colour.models.eotf_HLG_BT2100`},
-        Screen luminance for black.
-    L_W : numeric, optional
-        {:func:`colour.models.eotf_BT1886`,
-        :func:`colour.models.eotf_HLG_BT2100`},
-        Screen luminance for white.
-    L_p : numeric, optional
-        {:func:`colour.models.eotf_ST2084`},
-        Display peak luminance :math:`cd/m^2`.
-    gamma : numeric, optional
-        {:func:`colour.models.eotf_HLG_BT2100`},
-        System gamma value, 1.2 at the nominal display peak luminance of
-        :math:`1000 cd/m^2`.
-    is_12_bits_system : bool, optional
-        {:func:`colour.models.eotf_BT2020`},
-        *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
-        12-bit.
-    method : str, optional
-        {:func:`colour.models.eotf_HLG_BT2100`},
-        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
-    out_int : bool, optional
+    kwargs
         {:func:`colour.models.eotf_DCDM`,
-        :func:`colour.models.eotf_DICOMGSDF`},
-        Whether to return value as integer code value or float equivalent of a
-        code value at a given bit depth.
+        :func:`colour.models.eotf_DICOMGSDF`,
+        :func:`colour.models.eotf_BT1886`,
+        :func:`colour.models.eotf_BT2020`,
+        :func:`colour.models.eotf_HLG_BT2100`,
+        :func:`colour.models.eotf_PQ_BT2100`,
+        :func:`colour.models.eotf_SMPTE240M`,
+        :func:`colour.models.eotf_ST2084`,
+        :func:`colour.models.eotf_sRGB`},
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Tristimulus values at the display.
 
     Examples
@@ -828,14 +749,14 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
     """
 
     function = validate_method(
-        function, EOTFS, '"{0}" function is invalid, it must be one of {1}!')
+        function, EOTFS, '"{0}" "EOTF" is invalid, it must be one of {1}!')
 
-    function = EOTFS[function]
+    callable_ = EOTFS[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-EOTF_INVERSES = CaseInsensitiveMapping({
+EOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'DCDM': eotf_inverse_DCDM,
     'DICOM GSDF': eotf_inverse_DICOMGSDF,
     'ITU-R BT.1886': eotf_inverse_BT1886,
@@ -847,62 +768,43 @@ EOTF_INVERSES = CaseInsensitiveMapping({
 })
 EOTF_INVERSES.__doc__ = """
 Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
-
-EOTF_INVERSES : CaseInsensitiveMapping
-    **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
-    'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**
 """
 
 
-def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
+def eotf_inverse(value: FloatingOrArrayLike,
+                 function: Union[Literal['DCDM', 'DICOM GSDF', 'ITU-R BT.1886',
+                                         'ITU-R BT.2020', 'ITU-R BT.2100 HLG',
+                                         'ITU-R BT.2100 PQ', 'ST 2084',
+                                         'sRGB'], str] = 'ITU-R BT.1886',
+                 **kwargs) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given inverse electro-optical transfer
-    function (EOTF / EOCF).
+    function (EOTF).
 
     Parameters
     ----------
-    value : numeric or array_like
+    value
         Value.
-    function : str, optional
-        **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
-        'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ST 2084', 'sRGB'}**,
-        Inverse electro-optical transfer function (EOTF / EOCF).
+    function
+        Inverse electro-optical transfer function (EOTF).
 
     Other Parameters
     ----------------
-    L_B : numeric, optional
-        {:func:`colour.models.eotf_inverse_BT1886`,
-        :func:`colour.models.eotf_inverse_HLG_BT2100`},
-        Screen luminance for black.
-    L_W : numeric, optional
-        {:func:`colour.models.eotf_inverse_BT1886`,
-        :func:`colour.models.eotf_inverse_HLG_BT2100`},
-        Screen luminance for white.
-    gamma : numeric, optional
-        {:func:`colour.models.eotf_HLG_BT2100`},
-        System gamma value, 1.2 at the nominal display peak luminance of
-        :math:`1000 cd/m^2`.
-    is_12_bits_system : bool, optional
-        {:func:`colour.models.eotf_inverse_BT2020`},
-        *ITU-R BT.2020* *alpha* and *beta* constants are used
-        if system is not
-        12-bit.
-    L_p : numeric, optional
-        {:func:`colour.models.eotf_inverse_ST2084`},
-        Display peak luminance :math:`cd/m^2`.
-    method : str, optional
-        {:func:`colour.models.eotf_inverse_HLG_BT2100`},
-        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
-    out_int : bool, optional
+    kwargs
         {:func:`colour.models.eotf_inverse_DCDM`,
-        :func:`colour.models.eotf_inverse_DICOMGSDF`},
-        Whether to return value as integer code value or float equivalent of a
-        code value at a given bit depth.
+        :func:`colour.models.eotf_inverse_DICOMGSDF`,
+        :func:`colour.models.eotf_inverse_BT1886`,
+        :func:`colour.models.eotf_inverse_BT2020`,
+        :func:`colour.models.eotf_inverse_HLG_BT2100`,
+        :func:`colour.models.eotf_inverse_PQ_BT2100`,
+        :func:`colour.models.eotf_inverse_ST2084`,
+        :func:`colour.models.eotf_inverse_sRGB`},
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
         :math:`R'G'B'` video component signal value.
 
     Examples
@@ -916,11 +818,11 @@ def eotf_inverse(value, function='ITU-R BT.1886', **kwargs):
 
     function = validate_method(
         function, EOTF_INVERSES,
-        '"{0}" function is invalid, it must be one of {1}!')
+        '"{0}" inverse "EOTF" is invalid, it must be one of {1}!')
 
-    function = EOTF_INVERSES[function]
+    callable_ = EOTF_INVERSES[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
 __all__ += [
@@ -936,7 +838,7 @@ __all__ += [
     'eotf_inverse',
 ]
 
-CCTF_ENCODINGS = CaseInsensitiveMapping({
+CCTF_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Gamma 2.2': partial(gamma_function, exponent=1 / 2.2),
     'Gamma 2.4': partial(gamma_function, exponent=1 / 2.4),
     'Gamma 2.6': partial(gamma_function, exponent=1 / 2.6),
@@ -959,45 +861,55 @@ functions (1 / 2.2, 1 / 2.4, 1 / 2.6).
 Warnings
 --------
 For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
-(EOTFs / EOCFs) are exposed by this attribute, please refer to the
+(EOTFs / EOCFs) are exposed by this attribute, See the
 :attr:`colour.OETFS` attribute for the opto-electronic transfer functions
-(OETF / OECF).
-
-CCTF_ENCODINGS : CaseInsensitiveMapping
-    {:attr:`colour.LOG_ENCODINGS`, :attr:`colour.OETFS`,
-    :attr:`colour.EOTF_INVERSES`}
+(OETF).
 """
 
 
-def cctf_encoding(value, function='sRGB', **kwargs):
+def cctf_encoding(
+        value: FloatingOrArrayLike,
+        function: Union[Literal[
+            'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'ARIB STD-B67',
+            'Blackmagic Film Generation 5', 'Canon Log 2', 'Canon Log 3',
+            'Canon Log', 'Cineon', 'D-Log', 'DCDM', 'DICOM GSDF',
+            'DaVinci Intermediate', 'ERIMM RGB', 'F-Log', 'Filmic Pro 6',
+            'Gamma 2.2', 'Gamma 2.4', 'Gamma 2.6', 'ITU-R BT.1886',
+            'ITU-R BT.2020', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+            'ITU-R BT.601', 'ITU-R BT.709', 'Log2', 'Log3G10', 'Log3G12',
+            'N-Log', 'PLog', 'Panalog', 'ProPhoto RGB', 'Protune', 'REDLog',
+            'REDLogFilm', 'RIMM RGB', 'ROMM RGB', 'S-Log', 'S-Log2', 'S-Log3',
+            'SMPTE 240M', 'ST 2084', 'T-Log', 'V-Log', 'ViperLog', 'sRGB'],
+                        str] = 'sRGB',
+        **kwargs: Any) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Encodes linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
     given encoding colour component transfer function (Encoding CCTF).
 
     Parameters
     ----------
-    value : numeric or array_like
+    value
         Linear :math:`RGB` values.
-    function : str, optional
+    function
         {:attr:`colour.CCTF_ENCODINGS`},
-        Computation function.
+        Encoding colour component transfer function.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for the relevant encoding CCTF of the
+    kwargs
+        Keywords arguments for the relevant encoding *CCTF* of the
         :attr:`colour.CCTF_ENCODINGS` attribute collection.
 
     Warnings
     --------
     For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
-    (EOTFs / EOCFs) are exposed by this definition, please refer to the
+    (EOTFs / EOCFs) are exposed by this definition, See the
     :func:`colour.oetf` definition for the opto-electronic transfer functions
-    (OETF / OECF).
+    (OETF).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear :math:`R'G'B'` values.
 
     Examples
@@ -1015,21 +927,21 @@ def cctf_encoding(value, function='sRGB', **kwargs):
 
     function = validate_method(
         function, CCTF_ENCODINGS,
-        '"{0}" function is invalid, it must be one of {1}!')
+        '"{0}" encoding "CCTF" is invalid, it must be one of {1}!')
 
     if 'itu-r bt.2100' in function:
         usage_warning(
             'With the "ITU-R BT.2100" method, only the inverse '
             'electro-optical transfer functions (EOTFs / EOCFs) are exposed '
-            'by this definition, please refer to the "colour.oetf" definition '
-            'for the opto-electronic transfer functions (OETF / OECF).')
+            'by this definition, See the "colour.oetf" definition '
+            'for the opto-electronic transfer functions (OETF).')
 
-    function = CCTF_ENCODINGS[function]
+    callable_ = CCTF_ENCODINGS[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-CCTF_DECODINGS = CaseInsensitiveMapping({
+CCTF_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Gamma 2.2': partial(gamma_function, exponent=2.2),
     'Gamma 2.4': partial(gamma_function, exponent=2.4),
     'Gamma 2.6': partial(gamma_function, exponent=2.6),
@@ -1052,50 +964,60 @@ functions (2.2, 2.4, 2.6).
 Warnings
 --------
 For *ITU-R BT.2100*, only the electro-optical transfer functions
-(EOTFs / EOCFs) are exposed by this attribute, please refer to the
+(EOTFs / EOCFs) are exposed by this attribute, See the
 :attr:`colour.OETF_INVERSES` attribute for the inverse opto-electronic
-transfer functions (OETF / OECF).
+transfer functions (OETF).
 
 Notes
 -----
 -   The order by which this attribute is defined and updated is critically
     important to ensure that *ITU-R BT.2100* definitions are reciprocal.
-
-CCTF_DECODINGS : CaseInsensitiveMapping
-    {:attr:`colour.LOG_DECODINGS`, :attr:`colour.EOTFS`,
-    :attr:`colour.OETF_INVERSES`}
 """
 
 
-def cctf_decoding(value, function='sRGB', **kwargs):
+def cctf_decoding(
+        value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+        function: Union[Literal[
+            'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'ARIB STD-B67',
+            'Blackmagic Film Generation 5', 'Canon Log 2', 'Canon Log 3',
+            'Canon Log', 'Cineon', 'D-Log', 'DCDM', 'DICOM GSDF',
+            'DaVinci Intermediate', 'ERIMM RGB', 'F-Log', 'Filmic Pro 6',
+            'Gamma 2.2', 'Gamma 2.4', 'Gamma 2.6', 'ITU-R BT.1886',
+            'ITU-R BT.2020', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
+            'ITU-R BT.601', 'ITU-R BT.709', 'Log2', 'Log3G10', 'Log3G12',
+            'N-Log', 'PLog', 'Panalog', 'ProPhoto RGB', 'Protune', 'REDLog',
+            'REDLogFilm', 'RIMM RGB', 'ROMM RGB', 'S-Log', 'S-Log2', 'S-Log3',
+            'SMPTE 240M', 'ST 2084', 'T-Log', 'V-Log', 'ViperLog', 'sRGB'],
+                        str] = 'sRGB',
+        **kwargs: Any) -> FloatingOrNDArray:
     """
     Decodes non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
     given decoding colour component transfer function (Decoding CCTF).
 
     Parameters
     ----------
-    value : numeric or array_like
+    value
         Non-linear :math:`R'G'B'` values.
-    function : str, optional
+    function
         {:attr:`colour.CCTF_DECODINGS`},
-        Computation function.
+        Decoding colour component transfer function.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for the relevant decoding CCTF of the
+    kwargs
+        Keywords arguments for the relevant decoding *CCTF* of the
         :attr:`colour.CCTF_DECODINGS` attribute collection.
 
     Warnings
     --------
     For *ITU-R BT.2100*, only the electro-optical transfer functions
-    (EOTFs / EOCFs) are exposed by this definition, please refer to the
+    (EOTFs / EOCFs) are exposed by this definition, See the
     :func:`colour.oetf_inverse` definition for the inverse opto-electronic
-    transfer functions (OETF / OECF).
+    transfer functions (OETF).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear :math:`RGB` values.
 
     Examples
@@ -1113,19 +1035,18 @@ def cctf_decoding(value, function='sRGB', **kwargs):
 
     function = validate_method(
         function, CCTF_DECODINGS,
-        '"{0}" function is invalid, it must be one of {1}!')
+        '"{0}" decoding "CCTF" is invalid, it must be one of {1}!')
 
     if 'itu-r bt.2100' in function:
         usage_warning(
             'With the "ITU-R BT.2100" method, only the electro-optical '
             'transfer functions (EOTFs / EOCFs) are exposed by this '
-            'definition, please refer to the "colour.oetf_inverse" definition '
-            'for the inverse opto-electronic transfer functions (OETF / OECF).'
-        )
+            'definition, See the "colour.oetf_inverse" definition '
+            'for the inverse opto-electronic transfer functions (OETF).')
 
-    function = CCTF_DECODINGS[function]
+    callable_ = CCTF_DECODINGS[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
 __all__ += [
@@ -1137,34 +1058,40 @@ __all__ += [
     'cctf_decoding',
 ]
 
-OOTFS = CaseInsensitiveMapping({
+OOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_HLG_BT2100,
     'ITU-R BT.2100 PQ': ootf_PQ_BT2100,
 })
 OOTFS.__doc__ = """
 Supported opto-optical transfer functions (OOTFs / OOCFs).
-
-OOTFS : CaseInsensitiveMapping
-    **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
 """
 
 
-def ootf(value, function='ITU-R BT.2100 PQ', **kwargs):
+def ootf(value: FloatingOrArrayLike,
+         function: Union[Literal['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'],
+                         str] = 'ITU-R BT.2100 PQ',
+         **kwargs: Any) -> FloatingOrNDArray:
     """
     Maps relative scene linear light to display linear light using given
     opto-optical transfer function (OOTF / OOCF).
 
     Parameters
     ----------
-    value : numeric or array_like
+    value
         Value.
-    function : str, optional
-        **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
+    function
         Opto-optical transfer function (OOTF / OOCF).
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.models.ootf_HLG_BT2100`,
+        :func:`colour.models.ootf_PQ_BT2100`},
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Luminance of a displayed linear component.
 
     Examples
@@ -1176,55 +1103,48 @@ def ootf(value, function='ITU-R BT.2100 PQ', **kwargs):
     """
 
     function = validate_method(
-        function, OOTFS, '"{0}" function is invalid, it must be one of {1}!')
+        function, OOTFS, '"{0}" "OOTF" is invalid, it must be one of {1}!')
 
-    function = OOTFS[function]
+    callable_ = OOTFS[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-OOTF_INVERSES = CaseInsensitiveMapping({
+OOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_inverse_HLG_BT2100,
     'ITU-R BT.2100 PQ': ootf_inverse_PQ_BT2100,
 })
 OOTF_INVERSES.__doc__ = """
 Supported inverse opto-optical transfer functions (OOTFs / OOCFs).
-
-OOTF_INVERSES : CaseInsensitiveMapping
-    **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
 """
 
 
-def ootf_inverse(value, function='ITU-R BT.2100 PQ', **kwargs):
+def ootf_inverse(
+        value: FloatingOrArrayLike,
+        function: Union[Literal['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'],
+                        str] = 'ITU-R BT.2100 PQ',
+        **kwargs: Any) -> FloatingOrNDArray:
     """
     Maps relative display linear light to scene linear light using given
     inverse opto-optical transfer function (OOTF / OOCF).
 
     Parameters
     ----------
-    value : numeric or array_like
+    value
         Value.
-    function : str, optional
-        **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
+    function
         Inverse opto-optical transfer function (OOTF / OOCF).
 
     Other Parameters
     ----------------
-    L_B : numeric, optional
-        {:func:`colour.models.ootf_inverse_HLG_BT2100`},
-        :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
-        {:func:`colour.models.ootf_inverse_HLG_BT2100`},
-        :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
-        for achromatic pixels.
-    gamma : numeric, optional
-        {:func:`colour.models.ootf_inverse_HLG_BT2100`},
-        System gamma value, 1.2 at the nominal display peak luminance of
-        :math:`1000 cd/m^2`.
+    kwargs
+        {:func:`colour.models.ootf_inverse_HLG_BT2100`,
+        :func:`colour.models.ootf_inverse_PQ_BT2100`},
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Luminance of scene linear light.
 
     Examples
@@ -1238,11 +1158,11 @@ def ootf_inverse(value, function='ITU-R BT.2100 PQ', **kwargs):
 
     function = validate_method(
         function, OOTF_INVERSES,
-        '"{0}" function is invalid, it must be one of {1}!')
+        '"{0}" inverse "OOTF" is invalid, it must be one of {1}!')
 
-    function = OOTF_INVERSES[function]
+    callable_ = OOTF_INVERSES[function]
 
-    return function(value, **filter_kwargs(function, **kwargs))
+    return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
 __all__ += [

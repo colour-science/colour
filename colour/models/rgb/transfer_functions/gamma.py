@@ -9,9 +9,17 @@ related objects:
 - :func:`colour.gamma_function`
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import (
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    Union,
+)
 from colour.utilities import as_float_array, as_float, validate_method
 
 __author__ = 'Colour Developers'
@@ -26,18 +34,21 @@ __all__ = [
 ]
 
 
-def gamma_function(a, exponent=1, negative_number_handling='Indeterminate'):
+def gamma_function(a: FloatingOrArrayLike,
+                   exponent: FloatingOrArrayLike = 1,
+                   negative_number_handling: Union[
+                       Literal['Clamp', 'Indeterminate', 'Mirror', 'Preserve'],
+                       str] = 'Indeterminate') -> FloatingOrNDArray:
     """
     Defines a typical gamma encoding / decoding function.
 
     Parameters
     ----------
-    a : numeric or array_like
+    a
         Array to encode / decode.
-    exponent : numeric or array_like, optional
+    exponent
         Encoding / decoding exponent.
-    negative_number_handling : str, optional
-        **{'Indeterminate', 'Mirror', 'Preserve', 'Clamp'}**,
+    negative_number_handling
         Defines the behaviour for ``a`` negative numbers and / or the
         definition return value:
 
@@ -53,13 +64,8 @@ def gamma_function(a, exponent=1, negative_number_handling='Indeterminate'):
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Encoded / decoded array.
-
-    Raises
-    ------
-    ValueError
-        If the negative number handling method is not defined.
 
     Examples
     --------
@@ -90,5 +96,5 @@ def gamma_function(a, exponent=1, negative_number_handling='Indeterminate'):
         return spow(a, exponent)
     elif negative_number_handling == 'preserve':
         return as_float(np.where(a <= 0, a, a ** exponent))
-    elif negative_number_handling == 'clamp':
+    else:  # negative_number_handling == 'clamp':
         return as_float(np.where(a <= 0, 0, a ** exponent))

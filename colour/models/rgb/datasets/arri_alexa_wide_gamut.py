@@ -13,9 +13,12 @@ References
     https://drive.google.com/open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_ALEXALogC,
@@ -38,55 +41,45 @@ __all__ = [
     'RGB_COLOURSPACE_ALEXA_WIDE_GAMUT',
 ]
 
-PRIMARIES_ALEXA_WIDE_GAMUT = np.array([
+PRIMARIES_ALEXA_WIDE_GAMUT: NDArray = np.array([
     [0.6840, 0.3130],
     [0.2210, 0.8480],
     [0.0861, -0.1020],
 ])
 """
 *ARRI ALEXA Wide Gamut* colourspace primaries.
-
-PRIMARIES_ALEXA_WIDE_GAMUT : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_ALEXA_WIDE_GAMUT = 'D65'
+WHITEPOINT_NAME_ALEXA_WIDE_GAMUT: str = 'D65'
 """
 *ARRI ALEXA Wide Gamut* colourspace whitepoint name.
-
-CCS_WHITEPOINT_ALEXA_WIDE_GAMUT : str
 """
 
-CCS_WHITEPOINT_ALEXA_WIDE_GAMUT = (CCS_ILLUMINANTS[
+CCS_WHITEPOINT_ALEXA_WIDE_GAMUT: NDArray = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_ALEXA_WIDE_GAMUT])
 """
 *ARRI ALEXA Wide Gamut* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_ALEXA_WIDE_GAMUT : ndarray
 """
 
-MATRIX_ALEXA_WIDE_GAMUT_TO_XYZ = np.array([
+MATRIX_ALEXA_WIDE_GAMUT_TO_XYZ: NDArray = np.array([
     [0.638008, 0.214704, 0.097744],
     [0.291954, 0.823841, -0.115795],
     [0.002798, -0.067034, 1.153294],
 ])
 """
 *ARRI ALEXA Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_ALEXA_WIDE_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_ALEXA_WIDE_GAMUT = np.array([
+MATRIX_XYZ_TO_ALEXA_WIDE_GAMUT: NDArray = np.array([
     [1.789066, -0.482534, -0.200076],
     [-0.639849, 1.396400, 0.194432],
     [-0.041532, 0.082335, 0.878868],
 ])
 """
 *CIE XYZ* tristimulus values to *ARRI ALEXA Wide Gamut* colourspace matrix.
-
-MATRIX_XYZ_TO_ALEXA_WIDE_GAMUT : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_ALEXA_WIDE_GAMUT = RGB_Colourspace(
+RGB_COLOURSPACE_ALEXA_WIDE_GAMUT: RGB_Colourspace = RGB_Colourspace(
     'ALEXA Wide Gamut',
     PRIMARIES_ALEXA_WIDE_GAMUT,
     CCS_WHITEPOINT_ALEXA_WIDE_GAMUT,
@@ -102,6 +95,4 @@ RGB_COLOURSPACE_ALEXA_WIDE_GAMUT.__doc__ = """
 References
 ----------
 :cite:`ARRI2012a`
-
-RGB_COLOURSPACE_ALEXA_WIDE_GAMUT : RGB_Colourspace
 """

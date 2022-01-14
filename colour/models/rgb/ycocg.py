@@ -16,9 +16,12 @@ References
 Malvar_Sullivan_YCoCg-R_JVT-I014r3-2.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import vector_dot
+from colour.hints import ArrayLike, NDArray
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -34,42 +37,38 @@ __all__ = [
     'YCoCg_to_RGB',
 ]
 
-MATRIX_RGB_TO_YCOCG = np.array([
+MATRIX_RGB_TO_YCOCG: NDArray = np.array([
     [1 / 4, 1 / 2, 1 / 4],
     [1 / 2, 0, -1 / 2],
     [-1 / 4, 1 / 2, -1 / 4],
 ])
 """
 *R'G'B'* colourspace to *YCoCg* colour encoding matrix.
-
-MATRIX_RGB_TO_YCOCG : array_like, (3, 3)
 """
 
-MATRIX_YCOCG_TO_RGB = np.array([
+MATRIX_YCOCG_TO_RGB: NDArray = np.array([
     [1, 1, -1],
     [1, 0, 1],
     [1, -1, -1],
 ])
 """
 *YCoCg* colour encoding to *R'G'B'* colourspace matrix.
-
-MATRIX_YCOCG_TO_RGB : array_like, (3, 3)
 """
 
 
-def RGB_to_YCoCg(RGB):
+def RGB_to_YCoCg(RGB: ArrayLike) -> NDArray:
     """
     Converts an array of *R'G'B'* values to the corresponding *YCoCg* colour
     encoding values array.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         Input *R'G'B'* array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *YCoCg* colour encoding array.
 
     References
@@ -87,19 +86,19 @@ def RGB_to_YCoCg(RGB):
     return vector_dot(MATRIX_RGB_TO_YCOCG, RGB)
 
 
-def YCoCg_to_RGB(YCoCg):
+def YCoCg_to_RGB(YCoCg: ArrayLike) -> NDArray:
     """
     Converts an array of *YCoCg* colour encoding values to the corresponding
     *R'G'B'* values array.
 
     Parameters
     ----------
-    YCoCg : array_like
+    YCoCg
         *YCoCg* colour encoding array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Output *R'G'B'* array.
 
     References

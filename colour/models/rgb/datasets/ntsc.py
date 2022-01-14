@@ -21,6 +21,9 @@ R-REC-BT.470-6-199811-S!!PDF-E.pdf
     Picture and Television Engineers. doi:10.5594/S9781614821649
 """
 
+from __future__ import annotations
+
+from colour.hints import NDArray
 from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.datasets.itur_bt_470 import (
     PRIMARIES_BT470_525,
@@ -61,42 +64,32 @@ __all__ = [
     'RGB_COLOURSPACE_NTSC1987',
 ]
 
-PRIMARIES_NTSC1953 = PRIMARIES_BT470_525
+PRIMARIES_NTSC1953: NDArray = PRIMARIES_BT470_525
 """
 *NTSC (1953)* colourspace primaries.
-
-PRIMARIES_NTSC1953 : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_NTSC1953 = WHITEPOINT_NAME_BT470_525
+WHITEPOINT_NAME_NTSC1953: str = WHITEPOINT_NAME_BT470_525
 """
 *NTSC (1953)* colourspace whitepoint name.
-
-WHITEPOINT_NAME_NTSC1953 : str
 """
 
-CCS_WHITEPOINT_NTSC1953 = CCS_WHITEPOINT_BT470_525
+CCS_WHITEPOINT_NTSC1953: NDArray = CCS_WHITEPOINT_BT470_525
 """
 *NTSC (1953)* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_NTSC1953 : ndarray
 """
 
-MATRIX_NTSC1953_TO_XYZ = MATRIX_BT470_525_TO_XYZ
+MATRIX_NTSC1953_TO_XYZ: NDArray = MATRIX_BT470_525_TO_XYZ
 """
 *NTSC (1953)* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_NTSC1953_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_NTSC1953 = MATRIX_XYZ_TO_BT470_525
+MATRIX_XYZ_TO_NTSC1953: NDArray = MATRIX_XYZ_TO_BT470_525
 """
 *CIE XYZ* tristimulus values to *NTSC (1953)* colourspace matrix.
-
-MATRIX_XYZ_TO_NTSC1953 : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_NTSC1953 = RGB_Colourspace(
+RGB_COLOURSPACE_NTSC1953: RGB_Colourspace = RGB_Colourspace(
     'NTSC (1953)',
     PRIMARIES_NTSC1953,
     CCS_WHITEPOINT_NTSC1953,
@@ -112,46 +105,34 @@ RGB_COLOURSPACE_NTSC1953.__doc__ = """
 References
 ----------
 :cite:`InternationalTelecommunicationUnion1998a`
-
-RGB_COLOURSPACE_NTSC1953 : RGB_Colourspace
 """
 
-PRIMARIES_NTSC1987 = PRIMARIES_SMPTE_C
+PRIMARIES_NTSC1987: NDArray = PRIMARIES_SMPTE_C
 """
 *NTSC (1987)* colourspace primaries.
-
-PRIMARIES_NTSC1987 : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_NTSC1987 = WHITEPOINT_NAME_SMPTE_C
+WHITEPOINT_NAME_NTSC1987: str = WHITEPOINT_NAME_SMPTE_C
 """
 *NTSC (1987)* colourspace whitepoint name.
-
-WHITEPOINT_NAME_NTSC1987 : str
 """
 
-CCS_WHITEPOINT_NTSC1987 = CCS_WHITEPOINT_SMPTE_C
+CCS_WHITEPOINT_NTSC1987: NDArray = CCS_WHITEPOINT_SMPTE_C
 """
 *NTSC (1987)* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_NTSC1987 : ndarray
 """
 
-MATRIX_NTSC1987_TO_XYZ = MATRIX_SMPTE_C_TO_XYZ
+MATRIX_NTSC1987_TO_XYZ: NDArray = MATRIX_SMPTE_C_TO_XYZ
 """
 *NTSC (1987)* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_NTSC1987_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_NTSC1987 = MATRIX_XYZ_TO_SMPTE_C
+MATRIX_XYZ_TO_NTSC1987: NDArray = MATRIX_XYZ_TO_SMPTE_C
 """
 *CIE XYZ* tristimulus values to *NTSC (1987)* colourspace matrix.
-
-MATRIX_XYZ_TO_NTSC1987 : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_NTSC1987 = RGB_Colourspace(
+RGB_COLOURSPACE_NTSC1987: RGB_Colourspace = RGB_Colourspace(
     'NTSC (1987)',
     PRIMARIES_NTSC1987,
     CCS_WHITEPOINT_NTSC1987,
@@ -167,6 +148,4 @@ RGB_COLOURSPACE_NTSC1987.__doc__ = """
 References
 ----------
 :cite:`SocietyofMotionPictureandTelevisionEngineers2004a`
-
-RGB_COLOURSPACE_NTSC1987 : RGB_Colourspace
 """

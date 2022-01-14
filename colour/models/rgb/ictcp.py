@@ -26,10 +26,13 @@ R-REC-BT.2100-2-201807-I!!PDF-E.pdf
     Distribution. ZTE Communications, 14(1), 32-38.
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import vector_dot
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import ArrayLike, Floating, Literal, NDArray, Union
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
@@ -64,26 +67,22 @@ __all__ = [
     'ICtCp_to_XYZ',
 ]
 
-MATRIX_ICTCP_RGB_TO_LMS = np.array([
+MATRIX_ICTCP_RGB_TO_LMS: NDArray = np.array([
     [1688, 2146, 262],
     [683, 2951, 462],
     [99, 309, 3688],
 ]) / 4096
 """
 *ITU-R BT.2020* colourspace to normalised cone responses matrix.
-
-MATRIX_ICTCP_RGB_TO_LMS : array_like, (3, 3)
 """
 
-MATRIX_ICTCP_LMS_TO_RGB = np.linalg.inv(MATRIX_ICTCP_RGB_TO_LMS)
+MATRIX_ICTCP_LMS_TO_RGB: NDArray = np.linalg.inv(MATRIX_ICTCP_RGB_TO_LMS)
 """
 :math:`IC_TC_P` colourspace normalised cone responses to *ITU-R BT.2020*
 colourspace matrix.
-
-MATRIX_ICTCP_LMS_TO_RGB : array_like, (3, 3)
 """
 
-MATRIX_ICTCP_LMS_P_TO_ICTCP = np.array([
+MATRIX_ICTCP_LMS_P_TO_ICTCP: NDArray = np.array([
     [2048, 2048, 0],
     [6610, -13613, 7003],
     [17933, -17390, -543],
@@ -91,19 +90,16 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP = np.array([
 """
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
 :math:`IC_TC_P` colour encoding matrix.
-
-MATRIX_ICTCP_LMS_P_TO_ICTCP : array_like, (3, 3)
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P = np.linalg.inv(MATRIX_ICTCP_LMS_P_TO_ICTCP)
+MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(
+    MATRIX_ICTCP_LMS_P_TO_ICTCP)
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
 normalised cone responses matrix.
-
-MATRIX_ICTCP_ICTCP_TO_LMS_P : array_like, (3, 3)
 """
 
-MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2 = np.array([
+MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2: NDArray = np.array([
     [2048, 2048, 0],
     [3625, -7465, 3840],
     [9500, -9212, -288],
@@ -111,57 +107,56 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2 = np.array([
 """
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
 :math:`IC_TC_P` colour encoding matrix as given in *ITU-R BT.2100-2*.
-
-MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2 : array_like, (3, 3)
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2 = np.linalg.inv(
+MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2: NDArray = np.linalg.inv(
     MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2)
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
 normalised cone responses matrix as given in *ITU-R BT.2100-2*.
-
-MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2 : array_like, (3, 3)
 """
 
 
-def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
+def RGB_to_ICtCp(
+        RGB: ArrayLike,
+        method: Union[Literal['Dolby 2016', 'ITU-R BT.2100-1 HLG',
+                              'ITU-R BT.2100-1 PQ', 'ITU-R BT.2100-2 HLG',
+                              'ITU-R BT.2100-2 PQ'], str] = 'Dolby 2016',
+        L_p: Floating = 10000) -> NDArray:
     """
     Converts from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *ITU-R BT.2020* colourspace array.
-    method : str, optional
-        **{'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
-        'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
+    method
         Computation method. *Recommendation ITU-R BT.2100* defines multiple
         variants of the :math:`IC_TC_P` colour encoding:
 
         -   *ITU-R BT.2100-1*
 
             -   *SMPTE ST 2084:2014* inverse electro-optical transfer
-                function (EOTF / EOCF) and the :math:`IC_TC_P` matrix from
+                function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF / OECF) and the :math:`IC_TC_P` matrix
+                transfer function (OETF) and the :math:`IC_TC_P` matrix
                 from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
             -   *SMPTE ST 2084:2014* inverse electro-optical transfer
-                function (EOTF / EOCF) and the :math:`IC_TC_P` matrix from
+                function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF / OECF) and a custom :math:`IC_TC_P`
+                transfer function (OETF) and a custom :math:`IC_TC_P`
                 matrix from :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
-    L_p : numeric, optional
+    L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
         non-linear encoding. This parameter should stay at its default
         :math:`10000 cd/m^2` value for practical applications. It is exposed so
@@ -169,7 +164,7 @@ def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         :math:`IC_TC_P` colour encoding array.
 
     Warnings
@@ -185,7 +180,7 @@ def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
         scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF / EOCF) is
+        inverse electro-optical transfer function (EOTF) is
         [0.0001, 10000].
 
     +------------+-----------------------+------------------+
@@ -239,43 +234,46 @@ def RGB_to_ICtCp(RGB, method='Dolby 2016', L_p=10000):
     return from_range_1(ICtCp)
 
 
-def ICtCp_to_RGB(ICtCp, method='Dolby 2016', L_p=10000):
+def ICtCp_to_RGB(
+        ICtCp: ArrayLike,
+        method: Union[Literal['Dolby 2016', 'ITU-R BT.2100-1 HLG',
+                              'ITU-R BT.2100-1 PQ', 'ITU-R BT.2100-2 HLG',
+                              'ITU-R BT.2100-2 PQ'], str] = 'Dolby 2016',
+        L_p: Floating = 10000) -> NDArray:
     """
     Converts from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
     colourspace.
 
     Parameters
     ----------
-    ICtCp : array_like
+    ICtCp
         :math:`IC_TC_P` colour encoding array.
-    method : str, optional
-        **{'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
-        'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
+    method
         Computation method. *Recommendation ITU-R BT.2100* defines multiple
         variants of the :math:`IC_TC_P` colour encoding:
 
         -   *ITU-R BT.2100-1*
 
             -   *SMPTE ST 2084:2014* inverse electro-optical transfer
-                function (EOTF / EOCF) and the :math:`IC_TC_P` matrix from
+                function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF / OECF) and the :math:`IC_TC_P` matrix
+                transfer function (OETF) and the :math:`IC_TC_P` matrix
                 from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
             -   *SMPTE ST 2084:2014* inverse electro-optical transfer
-                function (EOTF / EOCF) and the :math:`IC_TC_P` matrix from
+                function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF / OECF) and a custom :math:`IC_TC_P`
+                transfer function (OETF) and a custom :math:`IC_TC_P`
                 matrix from :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
-    L_p : numeric, optional
+    L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
         non-linear encoding. This parameter should stay at its default
         :math:`10000 cd/m^2` value for practical applications. It is exposed so
@@ -283,7 +281,7 @@ def ICtCp_to_RGB(ICtCp, method='Dolby 2016', L_p=10000):
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *ITU-R BT.2020* colourspace array.
 
     Warnings
@@ -353,55 +351,56 @@ def ICtCp_to_RGB(ICtCp, method='Dolby 2016', L_p=10000):
     return from_range_1(RGB)
 
 
-def XYZ_to_ICtCp(XYZ,
-                 illuminant=CCS_ILLUMINANTS[
-                     'CIE 1931 2 Degree Standard Observer']['D65'],
-                 chromatic_adaptation_transform='CAT02',
-                 method='Dolby 2016',
-                 L_p=10000):
+def XYZ_to_ICtCp(
+        XYZ: ArrayLike,
+        illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65'],
+        chromatic_adaptation_transform: Union[Literal[
+            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
+            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
+            'Von Kries', 'XYZ Scaling'], str] = 'CAT02',
+        method: Union[Literal['Dolby 2016', 'ITU-R BT.2100-1 HLG',
+                              'ITU-R BT.2100-1 PQ', 'ITU-R BT.2100-2 HLG',
+                              'ITU-R BT.2100-2 PQ'], str] = 'Dolby 2016',
+        L_p: Floating = 10000) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
+    illuminant
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    chromatic_adaptation_transform
         *Chromatic adaptation* transform.
-    method : str, optional
-        **{'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
-        'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
+    method
         Computation method. *Recommendation ITU-R BT.2100* defines multiple
         variants of the :math:`IC_TC_P` colour encoding:
 
         -   *ITU-R BT.2100-1*
 
             -   *SMPTE ST 2084:2014* inverse electro-optical transfer
-                function (EOTF / EOCF) and the :math:`IC_TC_P` matrix from
+                function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF / OECF) and the :math:`IC_TC_P` matrix
+                transfer function (OETF) and the :math:`IC_TC_P` matrix
                 from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
             -   *SMPTE ST 2084:2014* inverse electro-optical transfer
-                function (EOTF / EOCF) and the :math:`IC_TC_P` matrix from
+                function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF / OECF) and a custom :math:`IC_TC_P`
+                transfer function (OETF) and a custom :math:`IC_TC_P`
                 matrix from :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
-    L_p : numeric, optional
+    L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
         non-linear encoding. This parameter should stay at its default
         :math:`10000 cd/m^2` value for practical applications. It is exposed so
@@ -409,7 +408,7 @@ def XYZ_to_ICtCp(XYZ,
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         :math:`IC_TC_P` colour encoding array.
 
     Warnings
@@ -426,7 +425,7 @@ def XYZ_to_ICtCp(XYZ,
         for the *Dolby 2016* method.
         and *1* scales are only indicative that the data is not affected by
         scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF / EOCF) is
+        inverse electro-optical transfer function (EOTF) is
         [0.0001, 10000].
 
     +------------+-----------------------+------------------+
@@ -471,55 +470,56 @@ def XYZ_to_ICtCp(XYZ,
     return RGB_to_ICtCp(RGB, method, L_p)
 
 
-def ICtCp_to_XYZ(ICtCp,
-                 illuminant=CCS_ILLUMINANTS[
-                     'CIE 1931 2 Degree Standard Observer']['D65'],
-                 chromatic_adaptation_transform='CAT02',
-                 method='Dolby 2016',
-                 L_p=10000):
+def ICtCp_to_XYZ(
+        ICtCp: ArrayLike,
+        illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D65'],
+        chromatic_adaptation_transform: Union[Literal[
+            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
+            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
+            'Von Kries', 'XYZ Scaling'], str] = 'CAT02',
+        method: Union[Literal['Dolby 2016', 'ITU-R BT.2100-1 HLG',
+                              'ITU-R BT.2100-1 PQ', 'ITU-R BT.2100-2 HLG',
+                              'ITU-R BT.2100-2 PQ'], str] = 'Dolby 2016',
+        L_p: Floating = 10000) -> NDArray:
     """
     Converts from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
     values.
 
     Parameters
     ----------
-    ICtCp : array_like
+    ICtCp
         :math:`IC_TC_P` colour encoding array.
-    illuminant : array_like, optional
+    illuminant
         Source illuminant chromaticity coordinates.
-    chromatic_adaptation_transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    chromatic_adaptation_transform
         *Chromatic adaptation* transform.
-    method : str, optional
-        **{'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
-        'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'}**,
+    method
         Computation method. *Recommendation ITU-R BT.2100* defines multiple
         variants of the :math:`IC_TC_P` colour encoding:
 
         -   *ITU-R BT.2100-1*
 
             -   *SMPTE ST 2084:2014* inverse electro-optical transfer
-                function (EOTF / EOCF) and the :math:`IC_TC_P` matrix from
+                function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF / OECF) and the :math:`IC_TC_P` matrix
+                transfer function (OETF) and the :math:`IC_TC_P` matrix
                 from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
             -   *SMPTE ST 2084:2014* inverse electro-optical transfer
-                function (EOTF / EOCF) and the :math:`IC_TC_P` matrix from
+                function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF / OECF) and a custom :math:`IC_TC_P`
+                transfer function (OETF) and a custom :math:`IC_TC_P`
                 matrix from :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
-    L_p : numeric, optional
+    L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
         non-linear encoding. This parameter should stay at its default
         :math:`10000 cd/m^2` value for practical applications. It is exposed so
@@ -527,7 +527,7 @@ def ICtCp_to_XYZ(ICtCp,
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Warnings

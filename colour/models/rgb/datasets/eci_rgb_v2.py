@@ -14,6 +14,8 @@ References
     http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 
+from __future__ import annotations
+
 import numpy as np
 from functools import partial
 
@@ -21,6 +23,12 @@ from colour.colorimetry import (
     CCS_ILLUMINANTS,
     lightness_CIE1976,
     luminance_CIE1976,
+)
+from colour.hints import (
+    Callable,
+    NDArray,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
 )
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
@@ -41,49 +49,40 @@ __all__ = [
     'RGB_COLOURSPACE_ECI_RGB_V2',
 ]
 
-PRIMARIES_ECI_RGB_V2 = np.array([
+PRIMARIES_ECI_RGB_V2: NDArray = np.array([
     [0.670103092783505, 0.329896907216495],
     [0.209905660377358, 0.709905660377358],
     [0.140061791967044, 0.080329557157570],
 ])
 """
 *ECI RGB v2* colourspace primaries.
-
-PRIMARIES_ECI_RGB_V2 : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_ECI_RGB_V = 'D50'
+WHITEPOINT_NAME_ECI_RGB_V: str = 'D50'
 """
 *ECI RGB v2* colourspace whitepoint name.
-
-WHITEPOINT_NAME_ECI_RGB_V : str
 """
 
-CCS_WHITEPOINT_ECI_RGB_V2 = (CCS_ILLUMINANTS[
+CCS_WHITEPOINT_ECI_RGB_V2: NDArray = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_ECI_RGB_V])
 """
 *ECI RGB v2* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_ECI_RGB_V2 : ndarray
 """
 
-MATRIX_ECI_RGB_V2_TO_XYZ = normalised_primary_matrix(
+MATRIX_ECI_RGB_V2_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_ECI_RGB_V2, CCS_WHITEPOINT_ECI_RGB_V2)
 """
 *ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_ECI_RGB_V2_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_ECI_RGB_V2 = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
+MATRIX_XYZ_TO_ECI_RGB_V2: NDArray = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix.
-
-MATRIX_XYZ_TO_ECI_RGB_V2 : array_like, (3, 3)
 """
 
 
-def _scale_domain_0_100_range_0_1(a, callable_):
+def _scale_domain_0_100_range_0_1(a: FloatingOrArrayLike,
+                                  callable_: Callable) -> FloatingOrNDArray:
     """
     Scales the input domain of given *luminance* :math:`Y` or *Lightness*
     :math:`L^*` array to [0, 100], call the given callable, and
@@ -91,9 +90,9 @@ def _scale_domain_0_100_range_0_1(a, callable_):
 
     Parameters
     ----------
-    a : numeric or array_like
+    a
         *Luminance* :math:`Y` or *Lightness* :math:`L^*` array.
-    callable_ : callable
+    callable_
         *Luminance* :math:`Y` or *Lightness* :math:`L^*` computation
         definition, i.e., :func:`colour.colorimetry.lightness_CIE1976` or
         :func:`colour.colorimetry.luminance_CIE1976`. Reference white
@@ -101,7 +100,7 @@ def _scale_domain_0_100_range_0_1(a, callable_):
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Scaled *luminance* :math:`Y` or *Lightness* :math:`L^*` array.
     """
 
@@ -110,7 +109,7 @@ def _scale_domain_0_100_range_0_1(a, callable_):
     return callable_(a * 100, Y_n=100) / 100
 
 
-RGB_COLOURSPACE_ECI_RGB_V2 = RGB_Colourspace(
+RGB_COLOURSPACE_ECI_RGB_V2: RGB_Colourspace = RGB_Colourspace(
     'ECI RGB v2',
     PRIMARIES_ECI_RGB_V2,
     CCS_WHITEPOINT_ECI_RGB_V2,
@@ -126,6 +125,4 @@ RGB_COLOURSPACE_ECI_RGB_V2.__doc__ = """
 References
 ----------
 :cite:`EuropeanColorInitiative2002a`
-
-RGB_COLOURSPACE_ECI_RGB_V2 : RGB_Colourspace
 """

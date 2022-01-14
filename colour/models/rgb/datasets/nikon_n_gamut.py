@@ -15,6 +15,9 @@ References
 N-Log_Specification_(En)01.pdf
 """
 
+from __future__ import annotations
+
+from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     log_encoding_NLog,
@@ -44,7 +47,7 @@ __all__ = [
     'RGB_COLOURSPACE_N_GAMUT',
 ]
 
-PRIMARIES_N_GAMUT = PRIMARIES_BT2020
+PRIMARIES_N_GAMUT: NDArray = PRIMARIES_BT2020
 """
 *Nikon N-Gamut* colourspace primaries.
 
@@ -52,39 +55,29 @@ Notes
 -----
 The *Nikon N-Gamut* colourspace gamut is same as the "ITU-R BT.2020" wide
 colour gamut.
-
-PRIMARIES_N_GAMUT : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_N_GAMUT = WHITEPOINT_NAME_BT2020
+WHITEPOINT_NAME_N_GAMUT: str = WHITEPOINT_NAME_BT2020
 """
 *Nikon N-Gamut* colourspace whitepoint name.
-
-WHITEPOINT_NAME_N_GAMUT : str
 """
 
-CCS_WHITEPOINT_N_GAMUT = CCS_WHITEPOINT_BT2020
+CCS_WHITEPOINT_N_GAMUT: NDArray = CCS_WHITEPOINT_BT2020
 """
 *Nikon N-Gamut* colourspace whitepoint.
-
-CCS_WHITEPOINT_N_GAMUT : ndarray
 """
 
-MATRIX_N_GAMUT_TO_XYZ = MATRIX_BT2020_TO_XYZ
+MATRIX_N_GAMUT_TO_XYZ: NDArray = MATRIX_BT2020_TO_XYZ
 """
 *Nikon N-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_N_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_N_GAMUT = MATRIX_XYZ_TO_BT2020
+MATRIX_XYZ_TO_N_GAMUT: NDArray = MATRIX_XYZ_TO_BT2020
 """
 *CIE XYZ* tristimulus values to *Nikon N-Gamut* colourspace matrix.
-
-MATRIX_XYZ_TO_N_GAMUT : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_N_GAMUT = RGB_Colourspace(
+RGB_COLOURSPACE_N_GAMUT: RGB_Colourspace = RGB_Colourspace(
     'N-Gamut',
     PRIMARIES_N_GAMUT,
     CCS_WHITEPOINT_N_GAMUT,
@@ -100,6 +93,4 @@ RGB_COLOURSPACE_N_GAMUT.__doc__ = """
 References
 ----------
 :cite:`Nikon2018`
-
-RGB_COLOURSPACE_N_GAMUT : RGB_Colourspace
 """

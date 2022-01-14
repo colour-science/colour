@@ -22,10 +22,13 @@ References
     Color Research & Application, 27(4), 282-290. doi:10.1002/col.10066
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import ArrayLike, Floating, Literal, NDArray, Union
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CaseInsensitiveMapping,
@@ -47,9 +50,11 @@ __all__ = [
     'DIN99_METHODS',
     'Lab_to_DIN99',
     'DIN99_to_Lab',
+    'XYZ_to_DIN99',
+    'DIN99_to_XYZ',
 ]
 
-DIN99_METHODS = CaseInsensitiveMapping({
+DIN99_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'ASTMD2244-07':
         np.array([105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]),
     'DIN99':
@@ -61,9 +66,22 @@ DIN99_METHODS = CaseInsensitiveMapping({
     'DIN99d':
         np.array([325.22, 0.0036, 50.0, 1.14, 22.5, 0.06, 50.0, 1]),
 })
+"""
+*DIN99* colourspace methods, i.e. the coefficients for the *DIN99b*, *DIN99c*,
+and *DIN99d* refined formulas according to *Cui et al. (2002)*.
+
+References
+----------
+:cite:`ASTMInternational2007`, :cite:`Cui2002`
+"""
 
 
-def Lab_to_DIN99(Lab, k_E=1, k_CH=1, method='DIN99'):
+def Lab_to_DIN99(
+        Lab: ArrayLike,
+        k_E: Floating = 1,
+        k_CH: Floating = 1,
+        method: Union[Literal['ASTMD2244-07', 'DIN99', 'DIN99b', 'DIN99c',
+                              'DIN99d'], str] = 'DIN99') -> NDArray:
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
@@ -71,22 +89,21 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1, method='DIN99'):
 
     Parameters
     ----------
-    Lab : array_like
+    Lab
         *CIE L\\*a\\*b\\** colourspace array.
-    k_E : numeric, optional
+    k_E
         Parametric factor :math:`K_E` used to compensate for texture and other
         specimen presentation effects.
-    k_CH : numeric, optional
+    k_CH
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
-    method : str, optional
-        **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
+    method
         Computation method to choose between the :cite:`ASTMInternational2007`
         formula and the refined formulas according to *Cui et al. (2002)*.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *DIN99* colourspace array.
 
     Notes
@@ -149,7 +166,12 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1, method='DIN99'):
     return from_range_100(Lab_99)
 
 
-def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1, method='DIN99'):
+def DIN99_to_Lab(
+        Lab_99: ArrayLike,
+        k_E: Floating = 1,
+        k_CH: Floating = 1,
+        method: Union[Literal['ASTMD2244-07', 'DIN99', 'DIN99b', 'DIN99c',
+                              'DIN99d'], str] = 'DIN99') -> NDArray:
     """
     Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to
@@ -157,22 +179,21 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1, method='DIN99'):
 
     Parameters
     ----------
-    Lab_99 : array_like
+    Lab_99
         *DIN99* colourspace array.
-    k_E : numeric, optional
+    k_E
         Parametric factor :math:`K_E` used to compensate for texture and other
         specimen presentation effects.
-    k_CH : numeric, optional
+    k_CH
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
-    method : str, optional
-        **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
+    method
         Computation method to choose between the :cite:`ASTMInternational2007`
         formula and the refined formulas according to *Cui et al. (2002)*.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*a\\*b\\** colourspace array.
 
     Notes
@@ -235,12 +256,14 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1, method='DIN99'):
     return from_range_100(Lab)
 
 
-def XYZ_to_DIN99(XYZ,
-                 illuminant=CCS_ILLUMINANTS[
-                     'CIE 1931 2 Degree Standard Observer']['D65'],
-                 k_E=1,
-                 k_CH=1,
-                 method='DIN99'):
+def XYZ_to_DIN99(
+        XYZ: ArrayLike,
+        illuminant: ArrayLike = CCS_ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D65'],
+        k_E: Floating = 1,
+        k_CH: Floating = 1,
+        method: Union[Literal['ASTMD2244-07', 'DIN99', 'DIN99b', 'DIN99c',
+                              'DIN99d'], str] = 'DIN99') -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
@@ -248,25 +271,24 @@ def XYZ_to_DIN99(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
-    k_E : numeric, optional
+    k_E
         Parametric factor :math:`K_E` used to compensate for texture and other
         specimen presentation effects.
-    k_CH : numeric, optional
+    k_CH
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
-    method : str, optional
-        **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
+    method
         Computation method to choose between the :cite:`ASTMInternational2007`
         formula and the refined formulas according to *Cui et al. (2002)*.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *DIN99* colourspace array.
 
     Notes
@@ -307,12 +329,14 @@ def XYZ_to_DIN99(XYZ,
     return Lab_to_DIN99(Lab, k_E, k_CH, method)
 
 
-def DIN99_to_XYZ(Lab_99,
-                 illuminant=CCS_ILLUMINANTS[
-                     'CIE 1931 2 Degree Standard Observer']['D65'],
-                 k_E=1,
-                 k_CH=1,
-                 method='DIN99'):
+def DIN99_to_XYZ(
+        Lab_99: ArrayLike,
+        illuminant: ArrayLike = CCS_ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D65'],
+        k_E: Floating = 1,
+        k_CH: Floating = 1,
+        method: Union[Literal['ASTMD2244-07', 'DIN99', 'DIN99b', 'DIN99c',
+                              'DIN99d'], str] = 'DIN99') -> NDArray:
     """
     Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to *CIE XYZ*
@@ -320,25 +344,24 @@ def DIN99_to_XYZ(Lab_99,
 
     Parameters
     ----------
-    Lab_99 : array_like
+    Lab_99
         *DIN99* colourspace array.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
-    k_E : numeric, optional
+    k_E
         Parametric factor :math:`K_E` used to compensate for texture and other
         specimen presentation effects.
-    k_CH : numeric, optional
+    k_CH
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
-    method : str, optional
-        **{'DIN99', 'ASTMD2244-07', 'DIN99b', 'DIN99c', 'DIN99d'}**,
+    method
         Computation method to choose between the :cite:`ASTMInternational2007`
         formula and the refined formulas according to *Cui et al. (2002)*.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes

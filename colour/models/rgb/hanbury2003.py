@@ -16,9 +16,12 @@ References
     ISBN:978-3-540-45103-7
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import vector_dot
+from colour.hints import ArrayLike, NDArray
 from colour.utilities import (
     from_range_1,
     to_domain_1,
@@ -39,37 +42,33 @@ __all__ = [
     'IHLS_to_RGB',
 ]
 
-MATRIX_RGB_TO_YC_1_C_2 = np.array([
+MATRIX_RGB_TO_YC_1_C_2: NDArray = np.array([
     [0.2126, 0.7152, 0.0722],
     [1, -0.5, -0.5],
     [0, -np.sqrt(3) / 2, np.sqrt(3) / 2],
 ])
 """
 *RGB* colourspace to *YC_1C_2* colourspace matrix.
-
-MATRIX_RGB_TO_YC_1_C_2 : array_like, (3, 3)
 """
 
-MATRIX_YC_1_C_2_TO_RGB = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
+MATRIX_YC_1_C_2_TO_RGB: NDArray = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
 """
 *YC_1C_2* colourspace to *RGB* colourspace matrix.
-
-MATRIX_YC_1_C_2_TO_RGB : array_like, (3, 3)
 """
 
 
-def RGB_to_IHLS(RGB):
+def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
     """
     Converts from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
 
     Parameters
     ----------
-    RGB : array-like
+    RGB
        *RGB* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *HYS* colourspace array.
 
     Notes
@@ -116,18 +115,18 @@ def RGB_to_IHLS(RGB):
     return from_range_1(HYS)
 
 
-def IHLS_to_RGB(HYS):
+def IHLS_to_RGB(HYS: ArrayLike) -> NDArray:
     """
     Converts from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
 
     Parameters
     ----------
-    HYS : array-like
+    HYS
         *IHLS* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes

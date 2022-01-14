@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines the unit tests for the :mod:`colour.models.icacb` module.
+Defines the unit tests for the :mod:`colour.models.hunter_rdab` module.
 """
 
 from itertools import permutations
@@ -9,6 +9,18 @@ import unittest
 
 from colour.models import XYZ_to_ICaCb, ICaCb_to_XYZ
 from colour.utilities import ignore_numpy_errors, domain_range_scale
+
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-developers@colour-science.org'
+__status__ = 'Production'
+
+__all__ = [
+    'TestXYZ_to_ICaCb',
+    'TestICaCb_to_XYZ',
+]
 
 
 class TestXYZ_to_ICaCb(unittest.TestCase):
