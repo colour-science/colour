@@ -19,14 +19,16 @@ References
     42(6), 703-718. doi:10.1002/col.22131
 """
 
+from __future__ import annotations
+
 import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
-from typing import Union
 
 from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_CAT16
 from colour.appearance.ciecam02 import (
+    InductionFactors_CIECAM02,
     VIEWING_CONDITIONS_CIECAM02,
     P,
     achromatic_response_forward,
@@ -47,6 +49,15 @@ from colour.appearance.ciecam02 import (
     saturation_correlate,
     temporary_magnitude_quantity_inverse,
     viewing_condition_dependent_parameters,
+)
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+    Union,
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
@@ -79,18 +90,14 @@ __all__ = [
     'CAM16_to_XYZ',
 ]
 
-MATRIX_16 = CAT_CAT16
+MATRIX_16: NDArray = CAT_CAT16
 """
 Adaptation matrix :math:`M_{16}`.
-
-MATRIX_16 : array_like, (3, 3)
 """
 
-MATRIX_INVERSE_16 = np.linalg.inv(MATRIX_16)
+MATRIX_INVERSE_16: NDArray = np.linalg.inv(MATRIX_16)
 """
 Inverse adaptation matrix :math:`M^{-1}_{16}`.
-
-MATRIX_INVERSE_16 : array_like, (3, 3)
 """
 
 
@@ -101,11 +108,11 @@ class InductionFactors_CAM16(
 
     Parameters
     ----------
-    F : numeric or array_like
+    F
         Maximum degree of adaptation :math:`F`.
-    c : numeric or array_like
+    c
         Exponential non-linearity :math:`c`.
-    N_c : numeric or array_like
+    N_c
         Chromatic induction factor :math:`N_c`.
 
     Notes
@@ -119,16 +126,14 @@ class InductionFactors_CAM16(
     """
 
 
-VIEWING_CONDITIONS_CAM16 = CaseInsensitiveMapping(VIEWING_CONDITIONS_CIECAM02)
+VIEWING_CONDITIONS_CAM16: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    VIEWING_CONDITIONS_CIECAM02)
 VIEWING_CONDITIONS_CAM16.__doc__ = """
 Reference *CAM16* colour appearance model viewing conditions.
 
 References
 ----------
 :cite:`Li2017`
-
-VIEWING_CONDITIONS_CAM16 : CaseInsensitiveMapping
-    **{'Average', 'Dim', 'Dark'}**
 """
 
 
@@ -139,21 +144,21 @@ class CAM_Specification_CAM16(MixinDataclassArray):
 
     Parameters
     ----------
-    J : numeric or array_like
+    J
         Correlate of *Lightness* :math:`J`.
-    C : numeric or array_like
+    C
         Correlate of *chroma* :math:`C`.
-    h : numeric or array_like
+    h
         *Hue* angle :math:`h` in degrees.
-    s : numeric or array_like
+    s
         Correlate of *saturation* :math:`s`.
-    Q : numeric or array_like
+    Q
         Correlate of *brightness* :math:`Q`.
-    M : numeric or array_like
+    M
         Correlate of *colourfulness* :math:`M`.
-    H : numeric or array_like
+    H
         *Hue* :math:`h` quadrature :math:`H`.
-    HC : numeric or array_like
+    HC
         *Hue* :math:`h` composition :math:`H^C`.
 
     References
@@ -161,58 +166,53 @@ class CAM_Specification_CAM16(MixinDataclassArray):
     :cite:`Li2017`
     """
 
-    J: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    C: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    h: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    s: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    Q: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    M: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    H: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    HC: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
+    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
-def XYZ_to_CAM16(XYZ,
-                 XYZ_w,
-                 L_A,
-                 Y_b,
-                 surround=VIEWING_CONDITIONS_CAM16['Average'],
-                 discount_illuminant=False):
+def XYZ_to_CAM16(
+        XYZ: ArrayLike,
+        XYZ_w: ArrayLike,
+        L_A: FloatingOrArrayLike,
+        Y_b: FloatingOrArrayLike,
+        surround: Union[InductionFactors_CIECAM02,
+                        InductionFactors_CAM16] = VIEWING_CONDITIONS_CAM16[
+                            'Average'],
+        discount_illuminant: Boolean = False) -> CAM_Specification_CAM16:
     """
     Computes the *CAM16* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of test sample / stimulus.
-    XYZ_w : array_like
+    XYZ_w
         *CIE XYZ* tristimulus values of reference white.
-    L_A : numeric or array_like
+    L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
-    Y_b : numeric or array_like
+    Y_b
         Luminous factor of background :math:`Y_b` such as
         :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
         viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
         approximate an :math:`L^*` of 50 is used.
-    surround : InductionFactors_CAM16, optional
+    surround
         Surround viewing conditions induction factors.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    CAM_Specification_CAM16
+    :class:`colour.CAM_Specification_CAM16`
         *CAM16* colour appearance model specification.
 
     Notes
@@ -349,12 +349,15 @@ H=275.5949861..., HC=None)
     )
 
 
-def CAM16_to_XYZ(specification,
-                 XYZ_w,
-                 L_A,
-                 Y_b,
-                 surround=VIEWING_CONDITIONS_CAM16['Average'],
-                 discount_illuminant=False):
+def CAM16_to_XYZ(
+        specification: CAM_Specification_CAM16,
+        XYZ_w: ArrayLike,
+        L_A: FloatingOrArrayLike,
+        Y_b: FloatingOrArrayLike,
+        surround: Union[InductionFactors_CIECAM02,
+                        InductionFactors_CAM16] = VIEWING_CONDITIONS_CAM16[
+                            'Average'],
+        discount_illuminant: Boolean = False) -> NDArray:
     """
     Converts from *CAM16* specification to *CIE XYZ* tristimulus values.
 
@@ -365,26 +368,26 @@ def CAM16_to_XYZ(specification,
         *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
         specified, e.g. :math:`JCh` or :math:`JMh`.
-    XYZ_w : array_like
+    XYZ_w
         *CIE XYZ* tristimulus values of reference white.
-    L_A : numeric or array_like
+    L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
-    Y_b : numeric or array_like
+    Y_b
         Luminous factor of background :math:`Y_b` such as
         :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
         viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
         approximate an :math:`L^*` of 50 is used.
-    surround : InductionFactors_CAM16, optional
+    surround
         Surround viewing conditions.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Discount the illuminant.
 
     Returns
     -------
-    XYZ : ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Raises

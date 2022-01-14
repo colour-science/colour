@@ -20,10 +20,11 @@ References
     Graphics, 28(3), 27:1--27:9. doi:10.1145/1531326.1531333
 """
 
+from __future__ import annotations
+
 import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
-from typing import Union
 
 from colour.adaptation import CAT_CAT02
 from colour.appearance.ciecam02 import (
@@ -37,6 +38,15 @@ from colour.appearance.ciecam02 import (
     rgb_to_RGB,
 )
 from colour.algebra import vector_dot, spow
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    Floating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     MixinDataclassArray,
@@ -77,11 +87,11 @@ class InductionFactors_Kim2009(
 
     Parameters
     ----------
-    F : numeric or array_like
+    F
         Maximum degree of adaptation :math:`F`.
-    c : numeric or array_like
+    c
         Exponential non-linearity :math:`c`.
-    N_c : numeric or array_like
+    N_c
         Chromatic induction factor :math:`N_c`.
 
     Notes
@@ -100,7 +110,7 @@ class InductionFactors_Kim2009(
     """
 
 
-VIEWING_CONDITIONS_KIM2009 = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(
     VIEWING_CONDITIONS_CIECAM02)
 VIEWING_CONDITIONS_KIM2009.__doc__ = """
 Reference *Kim, Weyrich and Kautz (2009)* colour appearance model viewing
@@ -109,9 +119,6 @@ conditions.
 References
 ----------
 :cite:`Kim2009`
-
-VIEWING_CONDITIONS_KIM2009 : CaseInsensitiveMapping
-    **{'Average', 'Dim', 'Dark'}**
 """
 
 
@@ -121,7 +128,7 @@ class MediaParameters_Kim2009(namedtuple('MediaParameters_Kim2009', ('E', ))):
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         Lightness prediction modulating parameter :math:`E`.
 
     References
@@ -138,7 +145,7 @@ class MediaParameters_Kim2009(namedtuple('MediaParameters_Kim2009', ('E', ))):
         return super(MediaParameters_Kim2009, cls).__new__(cls, E)
 
 
-MEDIA_PARAMETERS_KIM2009 = CaseInsensitiveMapping({
+MEDIA_PARAMETERS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'High-luminance LCD Display': MediaParameters_Kim2009(1),
     'Transparent Advertising Media': MediaParameters_Kim2009(1.2175),
     'CRT Displays': MediaParameters_Kim2009(1.4572),
@@ -151,10 +158,6 @@ parameters.
 References
 ----------
 :cite:`Kim2009`
-
-MEDIA_PARAMETERS_KIM2009 : CaseInsensitiveMapping
-    **{'High-luminance LCD Display', 'Transparent Advertising Media',
-    'CRT Displays', 'Reflective Paper'}**
 
 Aliases:
 
@@ -180,21 +183,21 @@ class CAM_Specification_Kim2009(MixinDataclassArray):
 
     Parameters
     ----------
-    J : numeric or array_like
+    J
         Correlate of *Lightness* :math:`J`.
-    C : numeric or array_like
+    C
         Correlate of *chroma* :math:`C`.
-    h : numeric or array_like
+    h
         *Hue* angle :math:`h` in degrees.
-    s : numeric or array_like
+    s
         Correlate of *saturation* :math:`s`.
-    Q : numeric or array_like
+    Q
         Correlate of *brightness* :math:`Q`.
-    M : numeric or array_like
+    M
         Correlate of *colourfulness* :math:`M`.
-    H : numeric or array_like
+    H
         *Hue* :math:`h` quadrature :math:`H`.
-    HC : numeric or array_like
+    HC
         *Hue* :math:`h` composition :math:`H^C`.
 
     References
@@ -202,56 +205,51 @@ class CAM_Specification_Kim2009(MixinDataclassArray):
     :cite:`Kim2009`
     """
 
-    J: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    C: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    h: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    s: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    Q: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    M: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    H: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    HC: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
+    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
-def XYZ_to_Kim2009(XYZ,
-                   XYZ_w,
-                   L_A,
-                   media=MEDIA_PARAMETERS_KIM2009['CRT Displays'],
-                   surround=VIEWING_CONDITIONS_KIM2009['Average'],
-                   discount_illuminant=False,
-                   n_c=0.57):
+def XYZ_to_Kim2009(
+        XYZ: ArrayLike,
+        XYZ_w: ArrayLike,
+        L_A: FloatingOrArrayLike,
+        media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009[
+            'CRT Displays'],
+        surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009[
+            'Average'],
+        discount_illuminant: Boolean = False,
+        n_c: Floating = 0.57) -> CAM_Specification_Kim2009:
     """
     Computes the *Kim, Weyrich and Kautz (2009)* colour appearance model
     correlates from given *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of test sample / stimulus.
-    XYZ_w : array_like
+    XYZ_w
         *CIE XYZ* tristimulus values of reference white.
-    L_A : numeric or array_like
+    L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
-    media : MediaParameters_Kim2009, optional
+    media
         Media parameters.
-    surround : InductionFactors_Kim2009, optional
+    surround
         Surround viewing conditions induction factors.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Truth value indicating if the illuminant should be discounted.
-    n_c : numeric, optional
+    n_c
         Cone response sigmoidal curve modulating factor :math:`n_c`.
 
     Returns
     -------
-    CAM_Specification_Kim2009
+    :class:`colour.CAM_Specification_Kim2009`
        *Kim, Weyrich and Kautz (2009)* colour appearance model specification.
 
     Notes
@@ -381,41 +379,44 @@ H=278.0602824..., HC=None)
     )
 
 
-def Kim2009_to_XYZ(specification,
-                   XYZ_w,
-                   L_A,
-                   media=MEDIA_PARAMETERS_KIM2009['CRT Displays'],
-                   surround=VIEWING_CONDITIONS_KIM2009['Average'],
-                   discount_illuminant=False,
-                   n_c=0.57):
+def Kim2009_to_XYZ(
+        specification: CAM_Specification_Kim2009,
+        XYZ_w: ArrayLike,
+        L_A: FloatingOrArrayLike,
+        media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009[
+            'CRT Displays'],
+        surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009[
+            'Average'],
+        discount_illuminant: Boolean = False,
+        n_c: Floating = 0.57) -> NDArray:
     """
-    Converts from  *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
+    Converts from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
     tristimulus values.
 
     Parameters
     ----------
-    specification : CAM_Specification_Kim2009
+    specification
          *Kim, Weyrich and Kautz (2009)* colour appearance model specification.
          Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
          correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
          degrees must be specified, e.g. :math:`JCh` or :math:`JMh`.
-    XYZ_w : array_like
+    XYZ_w
         *CIE XYZ* tristimulus values of reference white.
-    L_A : numeric or array_like
+    L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
-    media : MediaParameters_Kim2009, optional
+    media
         Media parameters.
-    surround : InductionFactors_Kim2009, optional
+    surroundl
         Surround viewing conditions induction factors.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Discount the illuminant.
-    n_c : numeric, optional
+    n_c
         Cone response sigmoidal curve modulating factor :math:`n_c`.
 
     Returns
     -------
-    XYZ : ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Raises

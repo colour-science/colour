@@ -25,10 +25,11 @@ References
     Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
+from __future__ import annotations
+
 import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
-from typing import Union
 
 from colour.adaptation import chromatic_adaptation_Zhai2018
 from colour.appearance.ciecam02 import (
@@ -38,6 +39,15 @@ from colour.appearance.ciecam02 import (
 )
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    Dict,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+)
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping,
@@ -79,13 +89,13 @@ class InductionFactors_ZCAM(
 
     Parameters
     ----------
-    F_s : numeric or array_like
+    F_s
         Surround impact :math:`F_s`.
-    F : numeric or array_like
+    F
         Maximum degree of adaptation :math:`F`.
-    c : numeric or array_like
+    c
         Exponential non-linearity :math:`c`.
-    N_c : numeric or array_like
+    N_c
         Chromatic induction factor :math:`N_c`.
 
     Notes
@@ -99,7 +109,7 @@ class InductionFactors_ZCAM(
     """
 
 
-VIEWING_CONDITIONS_ZCAM = CaseInsensitiveMapping({
+VIEWING_CONDITIONS_ZCAM: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Average':
         InductionFactors_ZCAM(0.69, *VIEWING_CONDITIONS_CIECAM02['Average']),
     'Dim':
@@ -113,12 +123,9 @@ Reference *ZCAM* colour appearance model viewing conditions.
 References
 ----------
 :cite:`Safdar2021`
-
-VIEWING_CONDITIONS_ZCAM : CaseInsensitiveMapping
-    **{'Average', 'Dim', 'Dark'}**
 """
 
-HUE_DATA_FOR_HUE_QUADRATURE = {
+HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
     'h_i': np.array([33.44, 89.29, 146.30, 238.36, 393.44]),
     'e_i': np.array([0.68, 0.64, 1.52, 0.77, 0.68]),
     'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])
@@ -135,27 +142,27 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArray):
 
     Parameters
     ----------
-    J_z : numeric or array_like
+    J_z
         Correlate of *Lightness* :math:`J_z`.
-    C_z : numeric or array_like
+    C_z
         Correlate of *chroma* :math:`C_z`.
-    h_z : numeric or array_like
+    h_z
         *Hue* angle :math:`h_z` in degrees.
-    S_z : numeric or array_like
+    S_z
         Correlate of *saturation* :math:`S_z`.
-    Q_z : numeric or array_like
+    Q_z
         Correlate of *brightness* :math:`Q_z`.
-    M_z : numeric or array_like
+    M_z
         Correlate of *colourfulness* :math:`M_z`.
-    H : numeric or array_like
+    H
         *Hue* :math:`h` quadrature :math:`H`.
-    H_z : numeric or array_like
+    H_z
         *Hue* :math:`h` composition :math:`H_z`.
-    V_z : numeric or array_like
+    V_z
         Correlate of *vividness* :math:`V_z`.
-    K_z : numeric or array_like
+    K_z
         Correlate of *blackness* :math:`K_z`.
-    W_z : numeric or array_like
+    W_z
         Correlate of *whiteness* :math:`W_z`.
 
     References
@@ -163,28 +170,17 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArray):
     :cite:`Safdar2021`
     """
 
-    J_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    C_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    h_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    S_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    Q_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    M_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    H: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    H_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    V_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    K_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    W_z: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
+    J_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    C_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    S_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    Q_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    M_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    H_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    V_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    K_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    W_z: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
 @dataclass
@@ -194,7 +190,7 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
 
     Parameters
     ----------
-    J : numeric or array_like
+    J
         *Lightness* :math:`J` is the "brightness of an area (:math:`Q`) judged
         relative to the brightness of a similarly illuminated area that appears
         to be white or highly transmitting (:math:`Q_w`)", i.e.,
@@ -204,20 +200,20 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
         higher luminance than that of the reference white, so the lightness
         could be over 100. Subscripts :math:`s` and :math:`w` are used to
         annotate the sample and the reference white, respectively.
-    C : numeric or array_like
+    C
         *Chroma* :math:`C` is "colourfulness of an area (:math:`M`) judged as
         a proportion of the brightness of a similarly illuminated area that
         appears white or highly transmitting (:math:`Q_w`)", i.e.,
         :math:`C = (M/Q_w)`. It is an open-end scale with origin as a colour
-         in the neutral axis. It can be estimated as the magnitude of the
-         chromatic difference between the test colour and a neutral colour
-         having the lightness same as the test colour.
-    h : numeric or array_like
+        in the neutral axis. It can be estimated as the magnitude of the
+        chromatic difference between the test colour and a neutral colour
+        having the lightness same as the test colour.
+    h
         *Hue* angle :math:`h` is a scale ranged from :math:`0^{\\circ}` to
-        :math:`360^{\\circ} with the hues following rainbow sequence. The same
+        :math:`360^{\\circ}` with the hues following rainbow sequence. The same
         distance between pairs of hues in a constant lightness and chroma shows
         the same perceived colour difference.
-    s : numeric or array_like
+    s
         *Saturation* :math:`s` is the "colourfulness (:math:`M`) of an area
         judged in proportion to its brightness (:math:`Q`)", i.e.,
         :math:`s = (M/Q)`. It can also be defined as the chroma of an area
@@ -228,7 +224,7 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
         will appear to be bright and colourful, and those under shadow will
         appear darker and less colourful. However, the two areas have the same
         saturation.
-    Q : numeric or array_like
+    Q
         *Brightness* :math:`Q` is an "attribute of a visual perception
         according to which an area appears to emit, or reflect, more or less
         light". It is an open-end scale with origin as pure black or complete
@@ -236,7 +232,7 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
         condition i.e., an increase of brightness of an object when the
         illuminance of light is increased. This is a visual phenomenon known as
         Stevens effect.
-    M : numeric or array_like
+    M
         *Colourfulness* :math:`M` is an "attribute of a visual perception
         according to which the perceived colour of an area appears to be more
         or less chromatic". It is an open-end scale with origin as a neutral
@@ -244,7 +240,7 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
         the illumination condition i.e., an increase of colourfulness of an
         object when the illuminance of light is increased. This is a visual
         phenomenon known as Hunt effect.
-    H : numeric or array_like
+    H
         *Hue* :math:`h` quadrature :math:`H_C` is an "attribute of a visual
         perception according to which an area appears to be similar to one of
         the colours: red, yellow, green, and blue, or to a combination of
@@ -253,18 +249,18 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
         range from unitary red to, yellow, green, blue, and back to red,
         respectively. For example, a cyan colour consists of 50% green and
         50% blue, corresponding to a hue quadrature of 250.
-    HC : numeric or array_like
+    HC
         *Hue* :math:`h` composition :math:`H^C` used to define the hue
         appearance of a sample. Note that hue circles formed by the equal hue
         angle and equal hue composition appear to be quite different.
-    V : numeric or array_like
+    V
         *Vividness* :math:`V` is an "attribute of colour used to indicate the
         degree of departure of the  colour (of stimulus) from a neutral black
         colour", i.e., :math:`V = \\sqrt{J^2 + C^2}`. It is an open-end scale
         with origin at pure black. This reflects the visual phenomena of an
         object illuminated by a light to increase both the lightness and the
         chroma.
-    K : numeric or array_like
+    K
         *Blackness* :math:`K` is a visual attribute according to which an area
         appears to contain more or less black content. It is a scale in the
         Natural Colour System (NCS) and can also be defined in resemblance to a
@@ -274,7 +270,7 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
         be illustrated by mixing a black to a colour pigment. The more black
         pigment is added, the higher blackness will be. A blacker colour will
         have less lightness and/or chroma than a less black colour.
-    W : numeric or array_like
+    W
         *Whiteness* :math:`W` is a visual attribute according to which an area
         appears to contain more or less white content. It is a scale of the NCS
         and can also be defined in resemblance to a pure white. It is an
@@ -290,70 +286,60 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
     :cite:`Safdar2021`
     """
 
-    J: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    C: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    h: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    s: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    Q: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    M: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    H: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    HC: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    V: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    K: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    W: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
+    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    V: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    K: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    W: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
-TVS_D65 = xy_to_XYZ(
+TVS_D65: NDArray = xy_to_XYZ(
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'])
 
 
-def XYZ_to_ZCAM(XYZ,
-                XYZ_w,
-                L_A,
-                Y_b,
-                surround=VIEWING_CONDITIONS_ZCAM['Average'],
-                discount_illuminant=False):
+def XYZ_to_ZCAM(
+        XYZ: ArrayLike,
+        XYZ_w: ArrayLike,
+        L_A: FloatingOrArrayLike,
+        Y_b: FloatingOrArrayLike,
+        surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM['Average'],
+        discount_illuminant: Boolean = False) -> CAM_Specification_ZCAM:
     """
     Computes the *ZCAM* colour appearance model correlates from given *CIE XYZ*
     tristimulus values.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         Absolute *CIE XYZ* tristimulus values of test sample / stimulus.
-    XYZ_w : array_like
+    XYZ_w
         Absolute *CIE XYZ* tristimulus values of the white under reference
         illuminant.
-    L_A : numeric or array_like
+    L_A
         Test adapting field *luminance* :math:`L_A` in :math:`cd/m^2` such as
         :math:`L_A = L_w * Y_b / 100` (where :math:`L_w` is luminance of the
         reference white and :math:`Y_b` is the background luminance factor).
-    Y_b : numeric or array_like
+    Y_b
         Luminous factor of background :math:`Y_b` such as
         :math:`Y_b = 100 * L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
         viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
         approximate an :math:`L^*` of 50 is used.
-    surround : InductionFactors_ZCAM, optional
+    surround
         Surround viewing conditions induction factors.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    CAM_Specification_ZCAM
+    :class:`colour.CAM_Specification_ZCAM`
        *ZCAM* colour appearance model specification.
 
     Warnings
@@ -514,44 +500,45 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     )
 
 
-def ZCAM_to_XYZ(specification,
-                XYZ_w,
-                L_A,
-                Y_b,
-                surround=VIEWING_CONDITIONS_ZCAM['Average'],
-                discount_illuminant=False):
+def ZCAM_to_XYZ(
+        specification: CAM_Specification_ZCAM,
+        XYZ_w: ArrayLike,
+        L_A: FloatingOrArrayLike,
+        Y_b: FloatingOrArrayLike,
+        surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM['Average'],
+        discount_illuminant: Boolean = False) -> NDArray:
     """
     Converts from *ZCAM* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    specification : CAM_Specification_ZCAM
+    specification
          *ZCAM* colour appearance model specification.
          Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
          correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
          degrees must be specified, e.g. :math:`JCh` or :math:`JMh`.
-    XYZ_w : array_like
+    XYZ_w
         Absolute *CIE XYZ* tristimulus values of the white under reference
         illuminant.
-    L_A : numeric or array_like
+    L_A
         Test adapting field *luminance* :math:`L_A` in :math:`cd/m^2` such as
         :math:`L_A = L_w * Y_b / 100` (where :math:`L_w` is luminance of the
         reference white and :math:`Y_b` is the background luminance factor).
-    Y_b : numeric or array_like
+    Y_b
         Luminous factor of background :math:`Y_b` such as
         :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
         viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
         approximate an :math:`L^*` of 50 is used.
-    surround : InductionFactors_ZCAM, optional
+    surround
         Surround viewing conditions induction factors.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    XYZ : ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Raises
@@ -718,18 +705,18 @@ def ZCAM_to_XYZ(specification,
     return from_range_1(XYZ)
 
 
-def hue_quadrature(h):
+def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the hue quadrature from given hue :math:`h` angle in degrees.
 
     Parameters
     ----------
-    h : numeric or array_like
+    h
         Hue :math:`h` angle in degrees.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Hue quadrature.
 
     Examples
