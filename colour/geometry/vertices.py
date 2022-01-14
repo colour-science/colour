@@ -13,10 +13,24 @@ Defines various geometry primitive vertices generation methods:
 -   :func:`colour.primitive_vertices`
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import PLANE_TO_AXIS_MAPPING
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    Floating,
+    Integer,
+    List,
+    Literal,
+    NDArray,
+    Optional,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
@@ -46,33 +60,34 @@ __all__ = [
 ]
 
 
-def primitive_vertices_quad_mpl(width=1,
-                                height=1,
-                                depth=0,
-                                origin=np.array([0, 0]),
-                                axis='+z'):
+def primitive_vertices_quad_mpl(
+        width: Floating = 1,
+        height: Floating = 1,
+        depth: Floating = 0,
+        origin: ArrayLike = np.array([0, 0]),
+        axis: Union[Literal['+z', '+x', '+y', 'yz', 'xz', 'xy'], str] = '+z'
+) -> NDArray:
     """
     Returns the vertices of a quad primitive for use with *Matplotlib*
     :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection` class.
 
     Parameters
     ----------
-    width: numeric, optional
+    width
         Quad width.
-    height: numeric, optional
+    height
         Quad height.
-    depth: numeric, optional
+    depth
         Quad depth.
-    origin: array_like, optional
+    origin
         Quad origin on the construction plane.
-    axis : array_like, optional
-        **{'+z', '+x', '+y', 'yz', 'xz', 'xy'}**,
+    axis
         Axis the quad will be normal to, or plane the quad will be co-planar
         with.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Quad primitive vertices.
 
     Examples
@@ -91,25 +106,39 @@ def primitive_vertices_quad_mpl(width=1,
     u, v = tsplit(origin)
 
     if axis == '+z':
-        vertices = ((u, v, depth), (u + width, v, depth),
-                    (u + width, v + height, depth), (u, v + height, depth))
+        vertices = [
+            (u, v, depth),
+            (u + width, v, depth),
+            (u + width, v + height, depth),
+            (u, v + height, depth),
+        ]
     elif axis == '+y':
-        vertices = ((u, depth, v), (u + width, depth, v),
-                    (u + width, depth, v + height), (u, depth, v + height))
+        vertices = [
+            (u, depth, v),
+            (u + width, depth, v),
+            (u + width, depth, v + height),
+            (u, depth, v + height),
+        ]
     elif axis == '+x':
-        vertices = ((depth, u, v), (depth, u + width, v),
-                    (depth, u + width, v + height), (depth, u, v + height))
+        vertices = [
+            (depth, u, v),
+            (depth, u + width, v),
+            (depth, u + width, v + height),
+            (depth, u, v + height),
+        ]
 
     return as_float_array(vertices)
 
 
-def primitive_vertices_grid_mpl(width=1,
-                                height=1,
-                                depth=0,
-                                width_segments=1,
-                                height_segments=1,
-                                origin=np.array([0, 0]),
-                                axis='+z'):
+def primitive_vertices_grid_mpl(
+        width: Floating = 1,
+        height: Floating = 1,
+        depth: Floating = 0,
+        width_segments: Integer = 1,
+        height_segments: Integer = 1,
+        origin: ArrayLike = np.array([0, 0]),
+        axis: Union[Literal['+z', '+x', '+y', 'yz', 'xz', 'xy'], str] = '+z'
+) -> NDArray:
     """
     Returns the vertices of a grid primitive made of quad primitives for use
     with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
@@ -117,26 +146,25 @@ def primitive_vertices_grid_mpl(width=1,
 
     Parameters
     ----------
-    width: numeric, optional
+    width
         Grid width.
-    height: numeric, optional
+    height
         Grid height.
-    depth: numeric, optional
+    depth
         Grid depth.
-    width_segments: int, optional
+    width_segments:
         Grid width segments, quad primitive counts along the width.
-    height_segments: int, optional
+    height_segments:
         Grid height segments, quad primitive counts along the height.
-    origin: array_like, optional
+    origin
         Grid origin on the construction plane.
-    axis : array_like, optional
-        **{'+z', '+x', '+y', 'yz', 'xz', 'xy'}**,
+    axis
         Axis the grid will be normal to, or plane the grid will be co-planar
         with.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Grid primitive vertices.
 
     Examples
@@ -177,14 +205,17 @@ def primitive_vertices_grid_mpl(width=1,
     return as_float_array(quads)
 
 
-def primitive_vertices_cube_mpl(width=1,
-                                height=1,
-                                depth=1,
-                                width_segments=1,
-                                height_segments=1,
-                                depth_segments=1,
-                                origin=np.array([0, 0, 0]),
-                                planes=None):
+def primitive_vertices_cube_mpl(
+        width: Floating = 1,
+        height: Floating = 1,
+        depth: Floating = 1,
+        width_segments: Integer = 1,
+        height_segments: Integer = 1,
+        depth_segments: Integer = 1,
+        origin: ArrayLike = np.array([0, 0, 0]),
+        planes: Optional[Literal['-x', '+x', '-y', '+y', '-z', '+z', 'xy',
+                                 'xz', 'yz', 'yx', 'zx', 'zy']] = None
+) -> NDArray:
     """
     Returns the vertices of a cube primitive made of grid primitives for use
     with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
@@ -192,28 +223,26 @@ def primitive_vertices_cube_mpl(width=1,
 
     Parameters
     ----------
-    width : float, optional
+    width
         Cube width.
-    height : float, optional
+    height
         Cube height.
-    depth : float, optional
+    depth
         Cube depth.
-    width_segments : int, optional
+    width_segments
         Cube segments count along the width.
-    height_segments : float, optional
+    height_segments
         Cube segments count along the height.
-    depth_segments : float, optional
+    depth_segments
         Cube segments count along the depth.
-    origin : array_like, optional
+    origin
         Cube origin.
-    planes : array_like, optional
-        **{'-x', '+x', '-y', '+y', '-z', '+z',
-        'xy', 'xz', 'yz', 'yx', 'zx', 'zy'}**,
+    planes
         Grid primitives to include in the cube construction.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Cube primitive vertices.
 
     Examples
@@ -250,7 +279,7 @@ def primitive_vertices_cube_mpl(width=1,
             [ 1.,  0.,  1.]]])
     """
 
-    planes = (sorted(list(
+    axis = (sorted(list(
         PLANE_TO_AXIS_MAPPING.values())) if planes is None else [
             PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes
         ])
@@ -259,30 +288,30 @@ def primitive_vertices_cube_mpl(width=1,
 
     w_s, h_s, d_s = width_segments, height_segments, depth_segments
 
-    grids = []
-    if '-z' in planes:
+    grids: List = []
+    if '-z' in axis:
         grids.extend(
             primitive_vertices_grid_mpl(width, depth, v, w_s, d_s, (u, w),
                                         '+z'))
-    if '+z' in planes:
+    if '+z' in axis:
         grids.extend(
             primitive_vertices_grid_mpl(width, depth, v + height, w_s, d_s,
                                         (u, w), '+z'))
 
-    if '-y' in planes:
+    if '-y' in axis:
         grids.extend(
             primitive_vertices_grid_mpl(width, height, w, w_s, h_s, (u, v),
                                         '+y'))
-    if '+y' in planes:
+    if '+y' in axis:
         grids.extend(
             primitive_vertices_grid_mpl(width, height, w + depth, w_s, h_s,
                                         (u, v), '+y'))
 
-    if '-x' in planes:
+    if '-x' in axis:
         grids.extend(
             primitive_vertices_grid_mpl(depth, height, u, d_s, h_s, (w, v),
                                         '+x'))
-    if '+x' in planes:
+    if '+x' in axis:
         grids.extend(
             primitive_vertices_grid_mpl(depth, height, u + width, d_s, h_s,
                                         (w, v), '+x'))
@@ -290,36 +319,37 @@ def primitive_vertices_cube_mpl(width=1,
     return as_float_array(grids)
 
 
-def primitive_vertices_sphere(radius=0.5,
-                              segments=8,
-                              intermediate=False,
-                              origin=np.array([0, 0, 0]),
-                              axis='+z'):
+def primitive_vertices_sphere(
+        radius: Floating = 0.5,
+        segments: Integer = 8,
+        intermediate: Boolean = False,
+        origin: ArrayLike = np.array([0, 0, 0]),
+        axis: Union[Literal['+z', '+x', '+y', 'yz', 'xz', 'xy'], str] = '+z'
+) -> NDArray:
     """
     Returns the vertices of a latitude-longitude sphere primitive.
 
     Parameters
     ----------
-    radius: numeric, optional
+    radius
         Sphere radius.
-    segments: numeric, optional
+    segments
         Latitude-longitude segments, if the ``intermediate`` argument is
         *True*, then the sphere will have one less segment along its longitude.
-    intermediate: bool, optional
+    intermediate
         Whether to generate the sphere vertices at the center of the faces
         outlined by the segments of a regular sphere generated without
         the ``intermediate`` argument set to *True*. The resulting sphere is
         inscribed on the regular sphere faces but possesses the same poles.
-    origin: array_like, optional
+    origin
         Sphere origin on the construction plane.
-    axis : array_like, optional
-        **{'+z', '+x', '+y', 'yz', 'xz', 'xy'}**,
+    axis
         Axis (or normal of the plane) the poles of the sphere will be aligned
         with.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Sphere primitive vertices.
 
     Notes
@@ -360,24 +390,25 @@ def primitive_vertices_sphere(radius=0.5,
 
     if not intermediate:
         theta = np.tile(
-            np.radians(np.linspace(0, 180, segments + 1)), (segments + 1, 1))
+            np.radians(np.linspace(0, 180, segments + 1)),
+            (int(segments) + 1, 1))
         phi = np.transpose(
             np.tile(
                 np.radians(np.linspace(-180, 180, segments + 1)),
-                (segments + 1, 1)))
+                (int(segments) + 1, 1)))
     else:
         theta = np.tile(
             np.radians(np.linspace(0, 180, segments * 2 + 1)[1::2][1:-1]),
-            (segments + 1, 1))
+            (int(segments) + 1, 1))
         theta = np.hstack([
-            zeros([segments + 1, 1]),
+            zeros((segments + 1, 1)),
             theta,
-            full([segments + 1, 1], np.pi),
+            full((segments + 1, 1), np.pi),
         ])
         phi = np.transpose(
             np.tile(
                 np.radians(np.linspace(-180, 180, segments + 1)) + np.radians(
-                    360 / segments / 2), (segments, 1)))
+                    360 / segments / 2), (int(segments), 1)))
 
     rho = ones(phi.shape) * radius
     rho_theta_phi = tstack([rho, theta, phi])
@@ -399,7 +430,7 @@ def primitive_vertices_sphere(radius=0.5,
     return vertices
 
 
-PRIMITIVE_VERTICES_METHODS = CaseInsensitiveMapping({
+PRIMITIVE_VERTICES_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Quad MPL': primitive_vertices_quad_mpl,
     'Grid MPL': primitive_vertices_grid_mpl,
     'Cube MPL': primitive_vertices_cube_mpl,
@@ -407,65 +438,63 @@ PRIMITIVE_VERTICES_METHODS = CaseInsensitiveMapping({
 })
 PRIMITIVE_VERTICES_METHODS.__doc__ = """
 Supported geometry primitive vertices generation methods.
-
-PRIMITIVE_VERTICES_METHODS : CaseInsensitiveMapping
-    **{'Cube MPL', 'Quad MPL', 'Grid MPL', 'Sphere'}**
 """
 
 
-def primitive_vertices(method='Cube MPL', **kwargs):
+def primitive_vertices(method: Union[Literal[
+        'Cube MPL', 'Quad MPL', 'Grid MPL', 'Sphere'], str] = 'Cube MPL',
+                       **kwargs: Any) -> NDArray:
     """
     Returns the vertices of a geometry primitive using given method.
 
     Parameters
     ----------
-    method : str, optional
-        **{'Cube MPL', 'Quad MPL', 'Grid MPL', 'Sphere'}**,
+    method
         Vertices generation method.
 
     Other Parameters
     ----------------
-    origin : str, optional
+    origin
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`,
         :func:`colour.geometry.primitive_vertices_sphere`},
         Primitive origin on the construction plane.
-    axis : array_like, optional
+    axis
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_sphere`},
         **{'+z', '+x', '+y', 'yz', 'xz', 'xy'}**,
         Axis the primitive will be normal to, or plane the primitive will be
         co-planar with.
-    planes : array_like, optional
+    planes
         {:func:`colour.geometry.primitive_vertices_cube_mpl`},
         **{'-x', '+x', '-y', '+y', '-z', '+z',
         'xy', 'xz', 'yz', 'yx', 'zx', 'zy'}**,
         Included grid primitives in the cube construction.
-    width : numeric, optional
+    width
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
         Primitive width.
-    height : numeric, optional
+    height
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
         Primitive height.
-    depth : numeric, optional
+    depth
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
         Primitive depth.
-    radius: numeric, optional
+    radius
         {:func:`colour.geometry.primitive_vertices_sphere`},
         Sphere radius.
-    segments : int, optional,
+    segments
         {:func:`colour.geometry.primitive_vertices_sphere`},
         Latitude-longitude segments, if the ``intermediate`` argument is
         *True*, then the sphere will have one less segment along its longitude.
-    intermediate: bool, optional
+    intermediate
         {:func:`colour.geometry.primitive_vertices_sphere`},
         Whether to generate the sphere vertices at the center of the faces
         outlined by the segments of a regular sphere generated without
@@ -486,7 +515,7 @@ def primitive_vertices(method='Cube MPL', **kwargs):
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Primitive vertices.
 
     Examples
