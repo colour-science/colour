@@ -33,7 +33,11 @@ References
     http://www.cis.rit.edu/research/mcsl2/online/munsell.php
 """
 
+from __future__ import annotations
+
 import numpy as np
+
+from colour.hints import Tuple
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -47,7 +51,7 @@ __all__ = [
 ]
 
 # yapf: disable
-MUNSELL_COLOURS_1929 = (
+MUNSELL_COLOURS_1929: Tuple = (
     (('10RP', 2.0, 2.0), np.array([0.3532, 0.2957, 3.1260])),
     (('10RP', 2.0, 4.0), np.array([0.3850, 0.2778, 3.1260])),
     (('10RP', 2.0, 6.0), np.array([0.4139, 0.2608, 3.1260])),
@@ -1006,12 +1010,15 @@ MUNSELL_COLOURS_1929 = (
     (('7.5RP', 8.0, 6.0), np.array([0.3521, 0.3042, 59.1000])))
 # yapf: enable
 """
-*1929* published *Munsell* colours.
+*1929* published *Munsell* colours as a *tuple* as follows::
+
+    (
+        (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])),
+        ...,
+        (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])),
+    )
 
 References
 ----------
 :cite:`MunsellColorSciencec`
-
-MUNSELL_COLOURS_1929 : tuple
-(('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])))
 """

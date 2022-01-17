@@ -23,8 +23,6 @@ MUNSELL_COLOURS = CaseInsensitiveMapping({
 MUNSELL_COLOURS.__doc__ = """
 Aggregated *Munsell* colours.
 
-MUNSELL_COLOURS : CaseInsensitiveMapping
-
 Aliases:
 
 -   'all': 'Munsell Colours All'
