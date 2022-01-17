@@ -9,6 +9,8 @@ Defines the automatic colour conversion graph objects:
 -   :func:`colour.convert`
 """
 
+from __future__ import annotations
+
 import inspect
 import numpy as np
 import textwrap
@@ -20,7 +22,9 @@ from pprint import pformat
 import colour
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
+    MultiSpectralDistributions,
     SDS_ILLUMINANTS,
+    SpectralDistribution,
     TVS_ILLUMINANTS_HUNTERLAB,
 )
 from colour.colorimetry import (
@@ -36,6 +40,22 @@ from colour.colorimetry import (
     whiteness,
     yellowness,
     wavelength_to_XYZ,
+)
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Callable,
+    Dict,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+    List,
+    Literal,
+    NDArray,
+    Number,
+    Optional,
+    Union,
+    cast,
 )
 from colour.recovery import XYZ_to_sd
 from colour.models import RGB_COLOURSPACE_sRGB
@@ -78,6 +98,7 @@ from colour.models import (
     OSA_UCS_to_XYZ,
     Oklab_to_XYZ,
     Prismatic_to_RGB,
+    RGB_Colourspace,
     RGB_luminance,
     RGB_to_CMY,
     RGB_to_HCL,
@@ -159,9 +180,11 @@ from colour.appearance import (
 from colour.appearance.ciecam02 import CAM_KWARGS_CIECAM02_sRGB
 from colour.temperature import CCT_to_uv, uv_to_CCT
 from colour.utilities import (
+    as_float_array,
     domain_range_scale,
     filter_kwargs,
     message_box,
+    optional,
     required,
     tsplit,
     tstack,
@@ -203,27 +226,30 @@ class Conversion_Specification(
 
     Parameters
     ----------
-    source : str
+    source
         Source node in the graph.
-    target : array_like
+    target
         Target node in the graph.
-    conversion_function : callable
+    conversion_function
         Callable converting from the ``source`` node to the ``target`` node.
     """
 
-    def __new__(cls, source=None, target=None, conversion_function=None):
+    def __new__(cls, source: str, target: str, conversion_function: Callable):
         return super(Conversion_Specification, cls).__new__(
             cls, source.lower(), target.lower(), conversion_function)
 
 
-def sd_to_XYZ(sd,
-              cmfs=None,
-              illuminant=None,
-              k=None,
-              method='ASTM E308',
-              **kwargs):
-    if illuminant is None:
-        illuminant = SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT]
+def sd_to_XYZ(
+        sd: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        illuminant: Optional[SpectralDistribution] = None,
+        k: Optional[Number] = None,
+        method: Union[Literal['ASTM E308', 'Integration'], str] = 'ASTM E308',
+        **kwargs: Any) -> NDArray:
+
+    illuminant = cast(
+        SpectralDistribution,
+        optional(illuminant, SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT]))
 
     return colour.sd_to_XYZ(sd, cmfs, illuminant, k, method, **kwargs)
 
@@ -239,19 +265,20 @@ if colour.sd_to_XYZ.__doc__ is not None:
     )
 
 
-def CIECAM02_to_JMh_CIECAM02(CAM_Specification_CIECAM02):
+def CIECAM02_to_JMh_CIECAM02(
+        specification: CAM_Specification_CIECAM02) -> NDArray:
     """
     Converts from *CIECAM02* specification to *CIECAM02* :math:`JMh`
     correlates.
 
     Parameters
     ----------
-    CAM_Specification_CIECAM02 : CAM_Specification_CIECAM02
+    specification
         *CIECAM02* colour appearance model specification.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIECAM02* :math:`JMh` correlates.
 
     Examples
@@ -263,26 +290,22 @@ def CIECAM02_to_JMh_CIECAM02(CAM_Specification_CIECAM02):
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
 
-    return tstack([
-        CAM_Specification_CIECAM02.J,
-        CAM_Specification_CIECAM02.M,
-        CAM_Specification_CIECAM02.h,
-    ])
+    return tstack([specification.J, specification.M, specification.h])
 
 
-def JMh_CIECAM02_to_CIECAM02(JMh):
+def JMh_CIECAM02_to_CIECAM02(JMh: ArrayLike) -> CAM_Specification_CIECAM02:
     """
     Converts from *CIECAM02* :math:`JMh` correlates to *CIECAM02*
     specification.
 
     Parameters
     ----------
-    JMh : array_like
+    JMh
          *CIECAM02* :math:`JMh` correlates.
 
     Returns
     -------
-    CAM_Specification_CIECAM02
+    :class:`colour.CAM_Specification_CIECAM02`
         *CIECAM02* colour appearance model specification.
 
     Examples
@@ -299,18 +322,18 @@ s=None, Q=None, M=0.1088421..., H=None, HC=None)
     return CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
 
-def CAM16_to_JMh_CAM16(CAM_Specification_CAM16):
+def CAM16_to_JMh_CAM16(specification) -> NDArray:
     """
     Converts from *CAM16* specification to *CAM16* :math:`JMh` correlates.
 
     Parameters
     ----------
-    CAM_Specification_CAM16 : CAM_Specification_CAM16
+    specification
         *CAM16* colour appearance model specification.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CAM16* :math:`JMh` correlates.
 
     Examples
@@ -322,25 +345,21 @@ def CAM16_to_JMh_CAM16(CAM_Specification_CAM16):
     array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
     """
 
-    return tstack([
-        CAM_Specification_CAM16.J,
-        CAM_Specification_CAM16.M,
-        CAM_Specification_CAM16.h,
-    ])
+    return tstack([specification.J, specification.M, specification.h])
 
 
-def JMh_CAM16_to_CAM16(JMh):
+def JMh_CAM16_to_CAM16(JMh: ArrayLike) -> CAM_Specification_CAM16:
     """
     Converts from *CAM6* :math:`JMh` correlates to *CAM6* specification.
 
     Parameters
     ----------
-    JMh : array_like
+    JMh
          *CAM6* :math:`JMh` correlates.
 
     Returns
     -------
-    CAM6_Specification
+    :class:`colour.CAM6_Specification`
         *CAM6* colour appearance model specification.
 
     Examples
@@ -357,18 +376,18 @@ Q=None, M=0.1074367..., H=None, HC=None)
     return CAM_Specification_CAM16(J=J, M=M, h=h)
 
 
-def XYZ_to_luminance(XYZ):
+def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *luminance* :math:`Y`.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Examples
@@ -384,18 +403,18 @@ def XYZ_to_luminance(XYZ):
     return Y
 
 
-def RGB_luminance_to_RGB(Y):
+def RGB_luminance_to_RGB(Y: FloatingOrArrayLike) -> NDArray:
     """
     Converts from *luminance* :math:`Y` to *RGB*.
 
     Parameters
     ----------
-    Y : array_like
+    Y
         *Luminance* :math:`Y`.
 
     Returns
     -------
-    array_like
+    :class:`numpy.ndarray`
         *RGB*.
 
     Examples
@@ -404,41 +423,35 @@ def RGB_luminance_to_RGB(Y):
     array([ 0.1230145...,  0.1230145...,  0.1230145...])
     """
 
+    Y = as_float_array(Y)
+
     return tstack([Y, Y, Y])
 
 
-_ILLUMINANT_DEFAULT = 'D65'
+_ILLUMINANT_DEFAULT: str = 'D65'
 """
 Default automatic colour conversion graph illuminant name.
-
-_ILLUMINANT_DEFAULT : str
 """
 
-_CCS_ILLUMINANT_DEFAULT = CCS_ILLUMINANTS[
+_CCS_ILLUMINANT_DEFAULT: NDArray = CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][_ILLUMINANT_DEFAULT]
 """
 Default automatic colour conversion graph illuminant *CIE xy* chromaticity
 coordinates.
-
-_CCS_ILLUMINANT_DEFAULT : ndarray
 """
 
-_TVS_ILLUMINANT_DEFAULT = xy_to_XYZ(_CCS_ILLUMINANT_DEFAULT)
+_TVS_ILLUMINANT_DEFAULT: NDArray = xy_to_XYZ(_CCS_ILLUMINANT_DEFAULT)
 """
 Default automatic colour conversion graph illuminant *CIE XYZ* tristimulus
 values.
-
-_TVS_ILLUMINANT_DEFAULT : ndarray
 """
 
-_RGB_COLOURSPACE_DEFAULT = RGB_COLOURSPACE_sRGB
+_RGB_COLOURSPACE_DEFAULT: RGB_Colourspace = RGB_COLOURSPACE_sRGB
 """
 Default automatic colour conversion graph *RGB* colourspace.
-
-_RGB_COLOURSPACE_DEFAULT : RGB_COLOURSPACE_RGB
 """
 
-_CAM_KWARGS_CIECAM02_sRGB = CAM_KWARGS_CIECAM02_sRGB.copy()
+_CAM_KWARGS_CIECAM02_sRGB: Dict = CAM_KWARGS_CIECAM02_sRGB.copy()
 """
 Default parameter values for the *CIECAM02* colour appearance model usage in
 the context of *sRGB*.
@@ -447,13 +460,11 @@ Warnings
 --------
 The *CIE XYZ* tristimulus values of reference white :math:`XYZ_w` is adjusted
 for the domain-range scale **'1'**.
-
-CAM_KWARGS_CIECAM02_sRGB : dict
 """
 
 _CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] = _CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] / 100
 
-CONVERSION_SPECIFICATIONS_DATA = [
+CONVERSION_SPECIFICATIONS_DATA: List = [
     # Colorimetry
     ('Spectral Distribution', 'CIE XYZ', sd_to_XYZ),
     ('CIE XYZ', 'Spectral Distribution', XYZ_to_sd),
@@ -678,29 +689,23 @@ CONVERSION_SPECIFICATIONS_DATA = [
 """
 Automatic colour conversion graph specifications data describing two nodes and
 the edge in the graph.
-
-CONVERSION_SPECIFICATIONS_DATA : list
 """
 
-CONVERSION_SPECIFICATIONS = [
+CONVERSION_SPECIFICATIONS: List = [
     Conversion_Specification(*specification)
     for specification in CONVERSION_SPECIFICATIONS_DATA
 ]
 """
 Automatic colour conversion graph specifications describing two nodes and
 the edge in the graph.
-
-CONVERSION_SPECIFICATIONS : list
 """
 
-CONVERSION_GRAPH_NODE_LABELS = {
+CONVERSION_GRAPH_NODE_LABELS: Dict = {
     specification[0].lower(): specification[0]
     for specification in CONVERSION_SPECIFICATIONS_DATA
 }
 """
 Automatic colour conversion graph node labels.
-
-CONVERSION_GRAPH_NODE_LABELS : dict
 """
 
 CONVERSION_GRAPH_NODE_LABELS.update({
@@ -710,13 +715,13 @@ CONVERSION_GRAPH_NODE_LABELS.update({
 
 
 @required('NetworkX')
-def _build_graph():
+def _build_graph() -> 'networkx.DiGraph':  # type: ignore[name-defined]  # noqa
     """
     Builds the automatic colour conversion graph.
 
     Returns
     -------
-    DiGraph
+    :class:`networkx.DiGraph`
          Automatic colour conversion graph.
     """
 
@@ -733,30 +738,29 @@ def _build_graph():
     return graph
 
 
-CONVERSION_GRAPH = None
+CONVERSION_GRAPH: (  # type: ignore[name-defined]
+    Optional['networkx.DiGraph']) = None  # noqa
 """
 Automatic colour conversion graph.
-
-CONVERSION_GRAPH : DiGraph
 """
 
 
 @required('NetworkX')
-def _conversion_path(source, target):
+def _conversion_path(source: str, target: str) -> List[Callable]:
     """
     Returns the conversion path from the source node to the target node in the
     automatic colour conversion graph.
 
     Parameters
     ----------
-    source : str
+    source
         Source node.
-    target : str
+    target
         Target node.
 
     Returns
     -------
-    list
+    :class:`list`
         Conversion path from the source node to the target node, i.e. a list of
         conversion function callables.
 
@@ -785,19 +789,19 @@ def _conversion_path(source, target):
     ]
 
 
-def _lower_order_function(callable_):
+def _lower_order_function(callable_: Callable) -> Callable:
     """
     Returns the lower order function associated with given callable, i.e.
     the function wrapped by a partial object.
 
     Parameters
     ----------
-    callable_ : callable
+    callable_
         Callable to return the lower order function.
 
     Returns
     -------
-    callable
+    Callable
         Lower order function or given callable if no lower order function
         exists.
     """
@@ -805,42 +809,42 @@ def _lower_order_function(callable_):
     return callable_.func if isinstance(callable_, partial) else callable_
 
 
-def describe_conversion_path(source,
-                             target,
-                             mode='Short',
-                             width=79,
-                             padding=3,
-                             print_callable=print,
-                             **kwargs):
+def describe_conversion_path(
+        source: str,
+        target: str,
+        mode: Union[Literal['Short', 'Long', 'Extended'], str] = 'Short',
+        width: Integer = 79,
+        padding: Integer = 3,
+        print_callable: Callable = print,
+        **kwargs: Any):
     """
     Describes the conversion path from source colour representation to target
     colour representation using the automatic colour conversion graph.
 
     Parameters
     ----------
-    source : str
+    source
         Source colour representation, i.e. the source node in the automatic
         colour conversion graph.
-    target : str
+    target
         Target colour representation, i.e. the target node in the automatic
         colour conversion graph.
-    mode : str, optional
-        **{'Short', 'Long', 'Extended'}**,
+    mode
         Verbose mode: *Short* describes the conversion path, *Long* provides
         details about the arguments, definitions signatures and output values,
         *Extended* appends the definitions documentation.
-    width : int, optional
+    width
         Message box width.
-    padding : str, optional
+    padding
         Padding on each sides of the message.
-    print_callable : callable, optional
+    print_callable
         Callable used to print the message box.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.convert`},
-        Please refer to the documentation of the previously listed definition.
+        See the documentation of the previously listed definition.
 
     Examples
     --------
@@ -857,7 +861,7 @@ def describe_conversion_path(source,
     try:  # pragma: no cover
         signature_inspection = inspect.signature
     except AttributeError:  # pragma: no cover
-        signature_inspection = inspect.getargspec
+        signature_inspection = inspect.getargspec  # type: ignore[assignment]
 
     source, target = source.lower(), target.lower()
     mode = validate_method(mode, ['Short', 'Long', 'Extended'],
@@ -915,7 +919,7 @@ def describe_conversion_path(source,
             message_box(message, width, padding, print_callable)
 
 
-def convert(a, source, target, **kwargs):
+def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
     """
     Converts given object :math:`a` from source colour representation to target
     colour representation using the automatic colour conversion graph.
@@ -942,23 +946,22 @@ def convert(a, source, target, **kwargs):
 
     Parameters
     ----------
-    a : array_like or numeric or SpectralDistribution
+    a
         Object :math:`a` to convert. If :math:`a` represents a reflectance,
         transmittance or absorptance value, the expectation is that it is
         viewed under *CIE Standard Illuminant D Series* *D65*. The illuminant
-        can be changed on a per definition basis along the conversion path.
-    source : str
+        can be changed on a per-definition basis along the conversion path.
+    source
         Source colour representation, i.e. the source node in the automatic
         colour conversion graph.
-    target : str
+    target
         Target colour representation, i.e. the target node in the automatic
         colour conversion graph.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
-        {'\\*'},
-        Please refer to the documentation of the supported conversion
+    kwargs
+        See the documentation of the supported conversion
         definitions.
 
         Arguments for the conversion definitions are passed as keyword
@@ -1023,7 +1026,7 @@ verbose={'mode': 'Long'})
 
     Returns
     -------
-    ndarray or numeric or SpectralDistribution
+    Any
         Converted object :math:`a`.
 
     Warnings
@@ -1052,7 +1055,7 @@ verbose={'mode': 'Long'})
 
         -   The default illuminant for the computation is
             *CIE Standard Illuminant D Series* *D65*. It can be changed on a
-            per definition basis along the conversion path.
+            per-definition basis along the conversion path.
         -   The default *RGB* colourspace primaries and whitepoint are that of
             the *BT.709*/*sRGB* colourspace. They can be changed on a per
             definition basis along the conversion path.
