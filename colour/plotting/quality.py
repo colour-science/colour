@@ -29,7 +29,6 @@ from colour.quality import (
     colour_quality_scale,
     colour_rendering_index,
 )
-from colour.quality.cri import TCS_ColorimetryData
 from colour.utilities import validate_method
 
 __author__ = 'Colour Developers'
@@ -299,9 +298,8 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
     # colorimetry data tristimulus values domain.
     for specification in specifications:
         colorimetry_data = specification.colorimetry_data
-        for i, c_d in enumerate(colorimetry_data[0]):
-            colorimetry_data[0][i] = TCS_ColorimetryData(
-                c_d.name, c_d.XYZ / 100, c_d.uv, c_d.UVW)
+        for i in range(len(colorimetry_data[0])):
+            colorimetry_data[0][i].XYZ /= 100
 
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
