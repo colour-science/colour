@@ -80,7 +80,7 @@ eotf_inverse_DICOMGSDF` definition domain and range scale support.
         L = 130.0662
         J = eotf_inverse_DICOMGSDF(L)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -151,7 +151,7 @@ eotf_DICOMGSDF` definition domain and range scale support.
         J = 0.500486263438448
         L = eotf_DICOMGSDF(J)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

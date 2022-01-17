@@ -115,11 +115,8 @@ class TestXYZ_to_xyY(unittest.TestCase):
         XYZ = np.tile(XYZ, (6, 1)).reshape(2, 3, 3)
         xyY = np.tile(xyY, (6, 1)).reshape(2, 3, 3)
 
-        d_r = (('reference', 1, 1), (1, 1, 1), (
-            100,
-            100,
-            np.array([1, 1, 100]),
-        ))
+        d_r = (('reference', 1, 1), ('1', 1, 1), ('100', 100,
+                                                  np.array([1, 1, 100])))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -212,11 +209,8 @@ class TestxyY_to_XYZ(unittest.TestCase):
         xyY = np.tile(xyY, (6, 1)).reshape(2, 3, 3)
         XYZ = np.tile(XYZ, (6, 1)).reshape(2, 3, 3)
 
-        d_r = (('reference', 1, 1), (1, 1, 1), (
-            100,
-            np.array([1, 1, 100]),
-            100,
-        ))
+        d_r = (('reference', 1, 1), ('1', 1, 1), ('100', np.array([1, 1, 100]),
+                                                  100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -294,7 +288,11 @@ class TestxyY_to_xy(unittest.TestCase):
         xyY = np.tile(xyY, (6, 1)).reshape(2, 3, 3)
         xy = np.tile(xy, (6, 1)).reshape(2, 3, 2)
 
-        d_r = (('reference', 1, 1), (1, 1, 1), (100, np.array([1, 1, 100]), 1))
+        d_r = (
+            ('reference', 1, 1),
+            ('1', 1, 1),
+            ('100', np.array([1, 1, 100]), 1),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -377,11 +375,15 @@ class Testxy_to_xyY(unittest.TestCase):
         xy = np.tile(xy, (6, 1)).reshape(2, 3, 3)
         xyY = np.tile(xyY, (6, 1)).reshape(2, 3, 3)
 
-        d_r = (('reference', 1, 1), (1, 1, 1), (
-            100,
-            np.array([1, 1, 100]),
-            np.array([1, 1, 100]),
-        ))
+        d_r = (
+            ('reference', 1, 1),
+            (1, 1, 1),
+            (
+                100,
+                np.array([1, 1, 100]),
+                np.array([1, 1, 100]),
+            ),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -467,7 +469,7 @@ class TestXYZ_to_xy(unittest.TestCase):
         XYZ = np.tile(XYZ, (6, 1)).reshape(2, 3, 3)
         xy = np.tile(xy, (6, 1)).reshape(2, 3, 2)
 
-        d_r = (('reference', 1), (1, 1), (100, 1))
+        d_r = (('reference', 1), ('1', 1), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -546,11 +548,11 @@ class Testxy_to_XYZ(unittest.TestCase):
         xy = np.tile(xy, (6, 1)).reshape(2, 3, 3)
         XYZ = np.tile(XYZ, (6, 1)).reshape(2, 3, 3)
 
-        d_r = (('reference', 1, 1), (1, 1, 1), (
-            100,
-            np.array([1, 1, 100]),
-            100,
-        ))
+        d_r = (
+            ('reference', 1, 1),
+            ('1', 1, 1),
+            ('100', np.array([1, 1, 100]), 100),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

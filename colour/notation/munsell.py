@@ -138,10 +138,9 @@ from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
     CaseInsensitiveMapping,
     Lookup,
-    as_float_array,
     as_float,
+    as_float_array,
     as_int,
-    as_numeric,
     attest,
     domain_range_scale,
     from_range_1,
@@ -375,7 +374,7 @@ def munsell_value_Priest1920(Y):
 
     V = 10 * np.sqrt(Y / 100)
 
-    return from_range_10(V)
+    return as_float(from_range_10(V))
 
 
 def munsell_value_Munsell1933(Y):
@@ -422,7 +421,7 @@ def munsell_value_Munsell1933(Y):
 
     V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
-    return from_range_10(V)
+    return as_float(from_range_10(V))
 
 
 def munsell_value_Moon1943(Y):
@@ -470,7 +469,7 @@ def munsell_value_Moon1943(Y):
 
     V = 1.4 * spow(Y, 0.426)
 
-    return from_range_10(V)
+    return as_float(from_range_10(V))
 
 
 def munsell_value_Saunderson1944(Y):
@@ -517,7 +516,7 @@ def munsell_value_Saunderson1944(Y):
 
     V = 2.357 * spow(Y, 0.343) - 1.52
 
-    return from_range_10(V)
+    return as_float(from_range_10(V))
 
 
 def munsell_value_Ladd1955(Y):
@@ -564,7 +563,7 @@ def munsell_value_Ladd1955(Y):
 
     V = 2.468 * spow(Y, 1 / 3) - 1.636
 
-    return from_range_10(V)
+    return as_float(from_range_10(V))
 
 
 def munsell_value_McCamy1987(Y):
@@ -604,7 +603,7 @@ def munsell_value_McCamy1987(Y):
     Examples
     --------
     >>> munsell_value_McCamy1987(12.23634268)  # doctest: +ELLIPSIS
-    array(4.0814348...)
+    4.0814348...
     """
 
     Y = to_domain_100(Y)
@@ -619,7 +618,7 @@ def munsell_value_McCamy1987(Y):
         (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53)),
     )
 
-    return from_range_10(V)
+    return as_float(from_range_10(V))
 
 
 def munsell_value_ASTMD1535(Y):
@@ -669,7 +668,7 @@ def munsell_value_ASTMD1535(Y):
 
     V = _munsell_value_ASTMD1535_interpolator()(Y)
 
-    return from_range_10(V)
+    return as_float(from_range_10(V))
 
 
 MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
@@ -753,7 +752,7 @@ def munsell_value(Y, method='ASTM D1535'):
     >>> munsell_value(12.23634268, method='Ladd 1955') # doctest: +ELLIPSIS
     4.0511633...
     >>> munsell_value(12.23634268, method='McCamy 1987') # doctest: +ELLIPSIS
-    array(4.0814348...)
+    4.0814348...
     """
 
     method = validate_method(method, MUNSELL_VALUE_METHODS)
@@ -991,7 +990,7 @@ def _xyY_to_munsell_specification(xyY):
         value = munsell_value_ASTMD1535(Y * 100)
 
     if is_integer(value):
-        value = round(value)
+        value = np.around(value)
 
     with domain_range_scale('ignore'):
         x_center, y_center, Y_center = _munsell_specification_to_xyY(value)
@@ -1406,7 +1405,7 @@ def is_grey_munsell_colour(specification):
 
     specification = specification[~np.isnan(specification)]
 
-    return is_numeric(as_numeric(specification))
+    return is_numeric(as_float(specification))
 
 
 def normalize_munsell_specification(specification):
@@ -1436,7 +1435,7 @@ def normalize_munsell_specification(specification):
     if is_grey_munsell_colour(specification):
         specification = as_float_array(specification)
 
-        value = as_numeric(specification[~np.isnan(specification)])
+        value = as_float(specification[~np.isnan(specification)])
 
         return as_float_array([np.nan, value, np.nan, np.nan])
     else:

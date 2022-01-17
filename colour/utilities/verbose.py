@@ -6,6 +6,8 @@ Verbose
 Defines the verbose related objects.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
 import sys
@@ -17,7 +19,21 @@ from itertools import chain
 from textwrap import TextWrapper
 from warnings import filterwarnings, formatwarning, warn
 
-from colour.utilities import is_string
+from colour.utilities import is_string, optional
+from colour.hints import (
+    Any,
+    Boolean,
+    Callable,
+    Dict,
+    Integer,
+    LiteralWarning,
+    Generator,
+    Optional,
+    TextIO,
+    Type,
+    Union,
+    cast,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -67,29 +83,28 @@ class ColourRuntimeWarning(Warning):
     """
 
 
-def message_box(message, width=79, padding=3, print_callable=print):
+def message_box(message: str,
+                width: Integer = 79,
+                padding: Integer = 3,
+                print_callable: Callable = print):
     """
     Prints a message inside a box.
 
     Parameters
     ----------
-    message : str
+    message
         Message to print.
-    width : int, optional
+    width
         Message box width.
-    padding : str, optional
+    padding
         Padding on each sides of the message.
-    print_callable : callable, optional
+    print_callable
         Callable used to print the message box.
-
-    Returns
-    -------
-    bool
-        Definition success.
 
     Examples
     --------
-    >>> message = ('Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+    >>> message = (
+    ...     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
     ...     'sed do eiusmod tempor incididunt ut labore et dolore magna '
     ...     'aliqua.')
     >>> message_box(message, width=75)
@@ -99,7 +114,6 @@ def message_box(message, width=79, padding=3, print_callable=print):
     *   eiusmod tempor incididunt ut labore et dolore magna aliqua.           *
     *                                                                         *
     ===========================================================================
-    True
     >>> message_box(message, width=60)
     ============================================================
     *                                                          *
@@ -108,7 +122,6 @@ def message_box(message, width=79, padding=3, print_callable=print):
     *   dolore magna aliqua.                                   *
     *                                                          *
     ============================================================
-    True
     >>> message_box(message, width=75, padding=16)
     ===========================================================================
     *                                                                         *
@@ -118,7 +131,6 @@ def message_box(message, width=79, padding=3, print_callable=print):
     *                aliqua.                                                  *
     *                                                                         *
     ===========================================================================
-    True
     """
 
     ideal_width = width - padding * 2 - 2
@@ -138,23 +150,19 @@ def message_box(message, width=79, padding=3, print_callable=print):
         width=ideal_width, break_long_words=False, replace_whitespace=False)
 
     lines = [wrapper.wrap(line) for line in message.split("\n")]
-    lines = [' ' if len(line) == 0 else line for line in lines]
-    for line in chain(*lines):
+    for line in chain(*[' ' if len(line) == 0 else line for line in lines]):
         print_callable(inner(line.expandtabs()))
 
     print_callable(inner(''))
     print_callable('=' * width)
 
-    return True
 
-
-def show_warning(message,
-                 category,
-                 path,
-                 line,
-                 file_=None,
-                 code=None,
-                 frame_range=(1, None)):
+def show_warning(message: Union[Warning, str],
+                 category: Type[Warning],
+                 filename: str,
+                 lineno: Integer,
+                 file: Optional[TextIO] = None,
+                 line: Optional[str] = None) -> None:
     """
     Alternative :func:`warnings.showwarning` definition that allows traceback
     printing.
@@ -165,21 +173,19 @@ def show_warning(message,
 
     Parameters
     ----------
-    message : str
+    message
         Warning message.
-    category : Warning
+    category
         :class:`Warning` sub-class.
-    path : str
+    filename
         File path to read the line at ``lineno`` from if ``line`` is None.
-    line : int
+    lineno
         Line number to read the line at in ``filename`` if ``line`` is None.
-    file_ : file, optional
+    file
         :class:`file` object to write the warning to, defaults to
         :attr:`sys.stderr` attribute.
-    code : str, optional
+    line
         Source code to be included in the warning message.
-    frame_range : array_like, optional
-        Traceback frame range, i.e first frame and numbers of frame above it.
 
     Notes
     -----
@@ -190,10 +196,11 @@ def show_warning(message,
         complete traceback from the point where the warning occurred.
     """
 
-    if file_ is None:
-        file_ = sys.stderr
-        if file_ is None:
-            return
+    frame_range = (1, None)
+
+    file = optional(file, sys.stderr)
+    if file is None:
+        return
 
     try:
         # Generating a traceback to print useful warning origin.
@@ -202,14 +209,16 @@ def show_warning(message,
         try:
             raise ZeroDivisionError
         except ZeroDivisionError:
-            frame = sys.exc_info()[2].tb_frame.f_back
-            while frame_in:
+            exception_traceback = sys.exc_info()[2]
+            frame = (exception_traceback.tb_frame.f_back
+                     if exception_traceback is not None else None)
+            while frame_in and frame is not None:
                 frame = frame.f_back
                 frame_in -= 1
 
-        traceback.print_stack(frame, frame_out, file_)
+        traceback.print_stack(frame, frame_out, file)
 
-        file_.write(formatwarning(message, category, path, line, code))
+        file.write(formatwarning(message, category, filename, lineno, line))
     except (IOError, UnicodeError):
         pass
 
@@ -219,21 +228,16 @@ if os.environ.get(  # pragma: no cover
     warnings.showwarning = show_warning  # pragma: no cover
 
 
-def warning(*args, **kwargs):
+def warning(*args: Any, **kwargs: Any):
     """
     Issues a warning.
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments.
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
-
-    Returns
-    -------
-    bool
-        Definition success.
 
     Examples
     --------
@@ -244,24 +248,17 @@ def warning(*args, **kwargs):
 
     warn(*args, **kwargs)
 
-    return True
 
-
-def runtime_warning(*args, **kwargs):
+def runtime_warning(*args: Any, **kwargs: Any):
     """
     Issues a runtime warning.
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments.
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
-
-    Returns
-    -------
-    bool
-        Definition success.
 
     Examples
     --------
@@ -272,24 +269,17 @@ def runtime_warning(*args, **kwargs):
 
     warning(*args, **kwargs)
 
-    return True
 
-
-def usage_warning(*args, **kwargs):
+def usage_warning(*args: Any, **kwargs: Any):
     """
-    Issues an usage warning.
+    Issues a usage warning.
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments.
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
-
-    Returns
-    -------
-    bool
-        Definition success.
 
     Examples
     --------
@@ -300,13 +290,12 @@ def usage_warning(*args, **kwargs):
 
     warning(*args, **kwargs)
 
-    return True
 
-
-def filter_warnings(colour_runtime_warnings=None,
-                    colour_usage_warnings=None,
-                    colour_warnings=None,
-                    python_warnings=None):
+def filter_warnings(
+        colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
+        colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
+        colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
+        python_warnings: Optional[Union[bool, LiteralWarning]] = None):
     """
     Filters *Colour* and also optionally overall Python warnings.
 
@@ -325,16 +314,16 @@ def filter_warnings(colour_runtime_warnings=None,
 
     Parameters
     ----------
-    colour_runtime_warnings : bool or str, optional
+    colour_runtime_warnings
         Whether to filter *Colour* runtime warnings according to the action
         value.
-    colour_usage_warnings : bool or str, optional
+    colour_usage_warnings
         Whether to filter *Colour* usage warnings according to the action
         value.
-    colour_warnings : bool or str, optional
+    colour_warnings
         Whether to filter *Colour* warnings, this also filters *Colour* usage
         and runtime warnings according to the action value.
-    python_warnings : bool or str, optional
+    python_warnings
         Whether to filter *Python* warnings  according to the action value.
 
     Examples
@@ -378,7 +367,7 @@ def filter_warnings(colour_runtime_warnings=None,
             continue
 
         if is_string(action):
-            action = action
+            action = cast(LiteralWarning, str(action))
         else:
             action = 'ignore' if action else 'default'
 
@@ -390,10 +379,12 @@ filter_warnings(colour_runtime_warnings=True)
 
 
 @contextmanager
-def suppress_warnings(colour_runtime_warnings=None,
-                      colour_usage_warnings=None,
-                      colour_warnings=None,
-                      python_warnings=None):
+def suppress_warnings(
+        colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
+        colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
+        colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
+        python_warnings: Optional[Union[bool, LiteralWarning]] = None
+) -> Generator:
     """
     A context manager filtering *Colour* and also optionally overall Python
     warnings.
@@ -413,16 +404,16 @@ def suppress_warnings(colour_runtime_warnings=None,
 
     Parameters
     ----------
-    colour_runtime_warnings : bool or str, optional
+    colour_runtime_warnings
         Whether to filter *Colour* runtime warnings according to the action
         value.
-    colour_usage_warnings : bool or str, optional
+    colour_usage_warnings
         Whether to filter *Colour* usage warnings according to the action
         value.
-    colour_warnings : bool or str, optional
+    colour_warnings
         Whether to filter *Colour* warnings, this also filters *Colour* usage
         and runtime warnings according to the action value.
-    python_warnings : bool or str, optional
+    python_warnings
         Whether to filter *Python* warnings  according to the action value.
     """
 
@@ -443,15 +434,15 @@ def suppress_warnings(colour_runtime_warnings=None,
 
 
 @contextmanager
-def numpy_print_options(*args, **kwargs):
+def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     """
     A context manager implementing context changes to *Numpy* print behaviour.
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments.
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
 
     Examples
@@ -471,70 +462,70 @@ def numpy_print_options(*args, **kwargs):
         np.set_printoptions(**options)
 
 
-ANCILLARY_COLOUR_SCIENCE_PACKAGES = {}
+ANCILLARY_COLOUR_SCIENCE_PACKAGES: Dict[str, str] = {}
 """
 Ancillary *colour-science.org* packages to describe.
 
-ANCILLARY_COLOUR_SCIENCE_PACKAGES : dict
+ANCILLARY_COLOUR_SCIENCE_PACKAGES
 """
 
-ANCILLARY_RUNTIME_PACKAGES = {}
+ANCILLARY_RUNTIME_PACKAGES: Dict[str, str] = {}
 """
 Ancillary runtime packages to describe.
 
-ANCILLARY_RUNTIME_PACKAGES : dict
+ANCILLARY_RUNTIME_PACKAGES
 """
 
-ANCILLARY_DEVELOPMENT_PACKAGES = {}
+ANCILLARY_DEVELOPMENT_PACKAGES: Dict[str, str] = {}
 """
 Ancillary development packages to describe.
 
-ANCILLARY_DEVELOPMENT_PACKAGES : dict
+ANCILLARY_DEVELOPMENT_PACKAGES
 """
 
-ANCILLARY_EXTRAS_PACKAGES = {}
+ANCILLARY_EXTRAS_PACKAGES: Dict[str, str] = {}
 """
 Ancillary extras packages to describe.
 
-ANCILLARY_EXTRAS_PACKAGES : dict
+ANCILLARY_EXTRAS_PACKAGES
 """
 
 
-def describe_environment(runtime_packages=True,
-                         development_packages=False,
-                         extras_packages=False,
-                         print_environment=True,
-                         **kwargs):
+def describe_environment(runtime_packages: Boolean = True,
+                         development_packages: Boolean = False,
+                         extras_packages: Boolean = False,
+                         print_environment: Boolean = True,
+                         **kwargs: Any) -> defaultdict:
     """
     Describes *Colour* running environment, i.e. interpreter, runtime and
     development packages.
 
     Parameters
     ----------
-    runtime_packages : bool, optional
+    runtime_packages
         Whether to return the runtime packages versions.
-    development_packages : bool, optional
+    development_packages
         Whether to return the development packages versions.
-    extras_packages : bool, optional
+    extras_packages
         Whether to return the extras packages versions.
-    print_environment : bool, optional
+    print_environment
         Whether to print the environment.
 
     Other Parameters
     ----------------
-    padding : str, optional
+    padding
         {:func:`colour.utilities.message_box`},
         Padding on each sides of the message.
-    print_callable : callable, optional
+    print_callable
         {:func:`colour.utilities.message_box`},
         Callable used to print the message box.
-    width : int, optional
+    width
         {:func:`colour.utilities.message_box`},
         Message box width.
 
     Returns
     -------
-    defaultdict
+    :class:`collections.defaultdict`
         Environment.
 
     Examples
@@ -607,7 +598,7 @@ def describe_environment(runtime_packages=True,
     ===========================================================================
     """
 
-    environment = defaultdict(dict)
+    environment: defaultdict = defaultdict(dict)
 
     environment['Interpreter']['python'] = sys.version
 
@@ -621,11 +612,11 @@ def describe_environment(runtime_packages=True,
     # NOTE: A few clauses are not reached and a few packages are not available
     # during continuous integration and are thus ignored for coverage.
     try:  # pragma: no cover
-        version = subprocess.check_output(  # nosec
+        output = subprocess.check_output(  # nosec
             ['git', 'describe'],
             cwd=colour.__path__[0],
             stderr=subprocess.STDOUT).strip()
-        version = version.decode('utf-8')
+        version = output.decode('utf-8')
     except Exception:  # pragma: no cover
         version = colour.__version__
 

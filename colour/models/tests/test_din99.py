@@ -106,7 +106,7 @@ class TestLab_to_DIN99(unittest.TestCase):
         Lab_99_c = Lab_to_DIN99(Lab, method='DIN99c')
         Lab_99_d = Lab_to_DIN99(Lab, method='DIN99d')
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -215,7 +215,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
         Lab_c = DIN99_to_Lab(Lab_99, method='DIN99c')
         Lab_d = DIN99_to_Lab(Lab_99, method='DIN99d')
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -307,7 +307,7 @@ class TestXYZ_to_DIN99(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         Lab_99 = XYZ_to_DIN99(XYZ)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -384,7 +384,7 @@ class TestDIN99_to_XYZ(unittest.TestCase):
         Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
         XYZ = DIN99_to_XYZ(Lab_99)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        d_r = (('reference', 1, 1), ('1', 0.01, 1), ('100', 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

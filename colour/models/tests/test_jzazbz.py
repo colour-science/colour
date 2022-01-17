@@ -96,7 +96,7 @@ class TestXYZ_to_Izazbz(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         Izazbz = XYZ_to_Izazbz(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -193,7 +193,7 @@ class TestIzazbz_to_XYZ(unittest.TestCase):
         Izazbz = np.array([0.01207793, 0.00924302, 0.00526007])
         XYZ = Izazbz_to_XYZ(Izazbz)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
@@ -268,7 +268,7 @@ class TestXYZ_to_Jzazbz(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         Jzazbz = XYZ_to_Jzazbz(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -345,7 +345,7 @@ class TestJzazbz_to_XYZ(unittest.TestCase):
         Jzazbz = np.array([0.00535048, 0.00924302, 0.00526007])
         XYZ = Jzazbz_to_XYZ(Jzazbz)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(

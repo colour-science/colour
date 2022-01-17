@@ -105,7 +105,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
         illuminant = np.array([0.31270, 0.32900])
         UVW = XYZ_to_UVW(XYZ, illuminant)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -209,7 +209,7 @@ class TestUVW_to_XYZ(unittest.TestCase):
         illuminant = np.array([0.31270, 0.32900])
         XYZ = UVW_to_XYZ(UVW, illuminant)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

@@ -126,7 +126,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
         XYZ_c = chromatic_adaptation_forward_CMCCAT2000(
             XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -253,7 +253,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale
         XYZ = chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr,
                                                       L_A1, L_A2)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

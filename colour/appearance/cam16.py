@@ -51,6 +51,7 @@ from colour.appearance.ciecam02 import (
 from colour.utilities import (
     CaseInsensitiveMapping,
     MixinDataclassArray,
+    as_float,
     as_float_array,
     from_range_100,
     from_range_degrees,
@@ -337,9 +338,15 @@ H=275.5949861..., HC=None)
     s = saturation_correlate(M, Q)
 
     return CAM_Specification_CAM16(
-        from_range_100(J), from_range_100(C), from_range_degrees(h),
-        from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), None)
+        as_float(from_range_100(J)),
+        as_float(from_range_100(C)),
+        as_float(from_range_degrees(h)),
+        as_float(from_range_100(s)),
+        as_float(from_range_100(Q)),
+        as_float(from_range_100(M)),
+        as_float(from_range_degrees(H, 400)),
+        None,
+    )
 
 
 def CAM16_to_XYZ(specification,

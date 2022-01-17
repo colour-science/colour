@@ -58,6 +58,7 @@ from colour.models import (
 from colour.utilities import (
     CaseInsensitiveMapping,
     attest,
+    as_float,
     domain_range_scale,
     filter_kwargs,
     full,
@@ -195,8 +196,8 @@ def convert_experiment_results_Breneman1987(experiment):
            [ 119.7044335...,  135.        ,  282.6354679...],
            [ 359.9532224...,  405.        ,  381.0031185...],
            [ 181.8271461...,  135.        ,  204.0661252...]]),
-     array(1500),
-     array(1500),
+     1500.0,
+     1500.0,
      0.3,
      0.3,
      {})
@@ -225,7 +226,8 @@ def convert_experiment_results_Breneman1987(experiment):
 
     experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
     illuminant_chromaticities = experiment_results.pop(0)
-    Y_r = Y_t = BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y
+    Y_r = Y_t = as_float(
+        BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y)
     B_r = B_t = 0.3
 
     XYZ_t, XYZ_r = xy_to_XYZ(
@@ -295,7 +297,7 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
     experiment_results = (convert_experiment_results_Breneman1987(experiment)
                           if is_numeric(experiment) else experiment)
 
-    with domain_range_scale(1):
+    with domain_range_scale('1'):
         XYZ_t, XYZ_r = experiment_results.XYZ_t, experiment_results.XYZ_r
         xy_t, xy_r = XYZ_to_xy([XYZ_t, XYZ_r])
 
@@ -357,7 +359,7 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     experiment_results = (convert_experiment_results_Breneman1987(experiment)
                           if is_numeric(experiment) else experiment)
 
-    with domain_range_scale(1):
+    with domain_range_scale('1'):
         XYZ_t, XYZ_r = experiment_results.XYZ_t, experiment_results.XYZ_r
         xy_o1, xy_o2 = XYZ_to_xy([XYZ_t, XYZ_r])
 
@@ -423,7 +425,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     experiment_results = (convert_experiment_results_Breneman1987(experiment)
                           if is_numeric(experiment) else experiment)
 
-    with domain_range_scale(1):
+    with domain_range_scale('1'):
         XYZ_w, XYZ_wr = experiment_results.XYZ_t, experiment_results.XYZ_r
         xy_w, xy_wr = XYZ_to_xy([XYZ_w, XYZ_wr])
 
@@ -495,7 +497,7 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
     experiment_results = (convert_experiment_results_Breneman1987(experiment)
                           if is_numeric(experiment) else experiment)
 
-    with domain_range_scale(1):
+    with domain_range_scale('1'):
         XYZ_w, XYZ_wr = experiment_results.XYZ_t, experiment_results.XYZ_r
         xy_w, xy_wr = XYZ_to_xy([XYZ_w, XYZ_wr])
 

@@ -33,6 +33,7 @@ from colour.adaptation.cie1994 import (
 from colour.models import XYZ_to_xy
 from colour.utilities import (
     MixinDataclassArray,
+    as_float,
     as_float_array,
     from_range_degrees,
     to_domain_100,
@@ -335,8 +336,17 @@ H=None, HC=None, L_star_N=50.0039154...)
     # brightness_ideal_white))
     M = colourfulness_correlate(C, brightness_ideal_white)
 
-    return CAM_Specification_Nayatani95(L_star_P, C, from_range_degrees(theta),
-                                        S, B_r, M, None, None, L_star_N)
+    return CAM_Specification_Nayatani95(
+        L_star_P,
+        C,
+        as_float(from_range_degrees(theta)),
+        S,
+        B_r,
+        M,
+        None,
+        None,
+        L_star_N,
+    )
 
 
 def illuminance_to_luminance(E, Y_f):
@@ -413,13 +423,13 @@ def scaling_coefficient(x, y):
     >>> x = 20.000520600000002
     >>> y = 1.000042192
     >>> scaling_coefficient(x, y)
-    array(1.0)
+    1.0
     """
 
     x = as_float_array(x)
     y = as_float_array(y)
 
-    return np.where(x >= (20 * y), 1.758, 1)
+    return as_float(np.where(x >= (20 * y), 1.758, 1))
 
 
 def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):

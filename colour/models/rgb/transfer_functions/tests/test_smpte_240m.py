@@ -75,7 +75,7 @@ oetf_SMPTE240M` definition domain and range scale support.
         L_c = 0.18
         V_c = oetf_SMPTE240M(L_c)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -143,7 +143,7 @@ eotf_SMPTE240M` definition domain and range scale support.
         V_r = 0.402285796753870
         L_r = eotf_SMPTE240M(V_r)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

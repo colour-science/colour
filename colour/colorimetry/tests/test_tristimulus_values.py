@@ -686,7 +686,7 @@ sd_to_XYZ_integration` definition domain and range scale support.
         cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
         XYZ = sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS['A'])
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -772,7 +772,7 @@ range scale support.
         XYZ = sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
             SD_SAMPLE, cmfs, SDS_ILLUMINANTS['A'])
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -1149,7 +1149,7 @@ msds_to_XYZ_integration` definition domain and range scale support.
         """
 
         cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -1194,7 +1194,7 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
         """
 
         cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 # pylint: disable=E1102

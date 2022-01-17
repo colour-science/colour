@@ -1591,7 +1591,7 @@ def plot_multi_cctfs(cctfs, cctf_decoding=False, **kwargs):
     }
     settings.update(kwargs)
 
-    with domain_range_scale(1):
+    with domain_range_scale('1'):
         return plot_multi_functions(cctfs, **settings)
 
 

@@ -40,6 +40,7 @@ from colour.algebra import vector_dot, spow
 from colour.utilities import (
     CaseInsensitiveMapping,
     MixinDataclassArray,
+    as_float,
     as_float_array,
     from_range_100,
     from_range_degrees,
@@ -369,9 +370,15 @@ H=278.0602824..., HC=None)
     H = hue_quadrature(h)
 
     return CAM_Specification_Kim2009(
-        from_range_100(J), from_range_100(C), from_range_degrees(h),
-        from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), None)
+        as_float(from_range_100(J)),
+        as_float(from_range_100(C)),
+        as_float(from_range_degrees(h)),
+        as_float(from_range_100(s)),
+        as_float(from_range_100(Q)),
+        as_float(from_range_100(M)),
+        as_float(from_range_degrees(H, 400)),
+        None,
+    )
 
 
 def Kim2009_to_XYZ(specification,

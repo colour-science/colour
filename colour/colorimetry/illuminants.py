@@ -33,7 +33,7 @@ from colour.colorimetry import (
     SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
     SpectralDistribution,
 )
-from colour.utilities import as_float_array, as_numeric, tsplit
+from colour.utilities import as_float_array, as_float, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -329,4 +329,4 @@ def daylight_locus_function(x_D):
 
     y_D = -3.000 * x_D ** 2 + 2.870 * x_D - 0.275
 
-    return as_numeric(y_D)
+    return as_float(y_D)

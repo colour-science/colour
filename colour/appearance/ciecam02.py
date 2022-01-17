@@ -49,9 +49,9 @@ from colour.models import xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping,
     MixinDataclassArray,
+    as_float,
     as_float_array,
     as_int_array,
-    as_float,
     from_range_degrees,
     from_range_100,
     has_only_nan,
@@ -401,9 +401,15 @@ H=278.0607358..., HC=None)
     s = saturation_correlate(M, Q)
 
     return CAM_Specification_CIECAM02(
-        from_range_100(J), from_range_100(C), from_range_degrees(h),
-        from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), None)
+        as_float(from_range_100(J)),
+        as_float(from_range_100(C)),
+        as_float(from_range_degrees(h)),
+        as_float(from_range_100(s)),
+        as_float(from_range_100(Q)),
+        as_float(from_range_100(M)),
+        as_float(from_range_degrees(H, 400)),
+        None,
+    )
 
 
 def CIECAM02_to_XYZ(specification,

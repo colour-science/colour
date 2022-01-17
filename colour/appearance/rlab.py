@@ -28,6 +28,7 @@ from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 from colour.utilities import (
     CaseInsensitiveMapping,
     MixinDataclassArray,
+    as_float,
     as_float_array,
     from_range_degrees,
     row_as_diagonal,
@@ -308,5 +309,12 @@ b=-52.6142956...)
     # Computing the correlate of *saturation* :math:`s^R`.
     sR = CR / LR
 
-    return CAM_Specification_RLAB(LR, CR, from_range_degrees(hR), sR, None, aR,
-                                  bR)
+    return CAM_Specification_RLAB(
+        LR,
+        CR,
+        as_float(from_range_degrees(hR)),
+        sR,
+        None,
+        aR,
+        bR,
+    )

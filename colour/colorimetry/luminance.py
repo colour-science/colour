@@ -73,7 +73,6 @@ from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
     as_float,
-    as_numeric,
     filter_kwargs,
     from_range_1,
     from_range_100,
@@ -148,7 +147,7 @@ def luminance_Newhall1943(V):
     R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) -
            0.021009 * (V ** 4) + 0.0008404 * (V ** 5))
 
-    return from_range_100(R_Y)
+    return as_float(from_range_100(R_Y))
 
 
 def luminance_ASTMD1535(V):
@@ -196,7 +195,7 @@ def luminance_ASTMD1535(V):
     Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) -
          0.020484 * (V ** 4) + 0.00081939 * (V ** 5))
 
-    return from_range_100(Y)
+    return as_float(from_range_100(Y))
 
 
 def intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n=100):
@@ -249,14 +248,13 @@ def intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n=100):
     f_Y_Y_n = as_float_array(f_Y_Y_n)
     Y_n = as_float_array(Y_n)
 
-    Y = as_float(
-        np.where(
-            f_Y_Y_n > 24 / 116,
-            Y_n * f_Y_Y_n ** 3,
-            Y_n * (f_Y_Y_n - 16 / 116) * (108 / 841),
-        ))
+    Y = np.where(
+        f_Y_Y_n > 24 / 116,
+        Y_n * f_Y_Y_n ** 3,
+        Y_n * (f_Y_Y_n - 16 / 116) * (108 / 841),
+    )
 
-    return Y
+    return as_float(Y)
 
 
 def luminance_CIE1976(L_star, Y_n=100):
@@ -310,7 +308,7 @@ def luminance_CIE1976(L_star, Y_n=100):
 
     Y = intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n)
 
-    return from_range_100(Y)
+    return as_float(from_range_100(Y))
 
 
 def luminance_Fairchild2010(L_hdr, epsilon=1.836):
@@ -364,7 +362,7 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 L_hdr - 0.02, 100, 0.184 ** epsilon)) / epsilon)
 
-    return from_range_1(Y)
+    return as_float(from_range_1(Y))
 
 
 def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
@@ -429,7 +427,7 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 L_hdr - 0.02, maximum_perception, 2 ** epsilon)) / epsilon)
 
-    return from_range_1(Y)
+    return as_float(from_range_1(Y))
 
 
 def luminance_Abebe2017(L, Y_n=100, method='Michaelis-Menten'):
@@ -510,7 +508,7 @@ def luminance_Abebe2017(L, Y_n=100, method='Michaelis-Menten'):
         )
     Y = Y * Y_n
 
-    return as_numeric(Y)
+    return as_float(Y)
 
 
 LUMINANCE_METHODS = CaseInsensitiveMapping({
@@ -538,8 +536,8 @@ Aliases:
 -   'astm2008': 'ASTM D1535'
 -   'cie1976': 'CIE 1976'
 """
-LUMINANCE_METHODS['astm2008'] = (LUMINANCE_METHODS['ASTM D1535'])
-LUMINANCE_METHODS['cie1976'] = (LUMINANCE_METHODS['CIE 1976'])
+LUMINANCE_METHODS['astm2008'] = LUMINANCE_METHODS['ASTM D1535']
+LUMINANCE_METHODS['cie1976'] = LUMINANCE_METHODS['CIE 1976']
 
 
 def luminance(LV, method='CIE 1976', **kwargs):

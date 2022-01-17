@@ -23,7 +23,7 @@ References
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.utilities import as_float_array, as_numeric, tstack
+from colour.utilities import as_float_array, as_float, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -110,7 +110,7 @@ def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None):
             **optimisation_settings).x for uv_i in uv
     ])
 
-    return as_numeric(CCT.reshape(shape[:-1]))
+    return as_float(CCT.reshape(shape[:-1]))
 
 
 def CCT_to_uv_Krystek1985(CCT):

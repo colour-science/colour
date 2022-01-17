@@ -17,7 +17,7 @@ References
 import numpy as np
 
 from colour.algebra import Extrapolator, LinearInterpolator
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -86,7 +86,7 @@ def log_encoding_FilmicPro6(t):
 
     y = 0.371 * (np.sqrt(t) + 0.28257 * np.log(t) + 1.69542)
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
 _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE = None
@@ -166,4 +166,4 @@ def log_decoding_FilmicPro6(y):
 
     t = _log_decoding_FilmicPro6_interpolator()(y)
 
-    return from_range_1(t)
+    return as_float(from_range_1(t))

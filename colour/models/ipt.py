@@ -22,6 +22,7 @@ import numpy as np
 
 from colour.algebra import spow, vector_dot
 from colour.utilities import (
+    as_float,
     from_range_1,
     from_range_degrees,
     to_domain_1,
@@ -239,4 +240,4 @@ def IPT_hue_angle(IPT):
 
     hue = np.degrees(np.arctan2(T, P)) % 360
 
-    return from_range_degrees(hue)
+    return as_float(from_range_degrees(hue))

@@ -859,7 +859,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         Y = 12.23634268
         V = munsell_value_Priest1920(Y)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        d_r = (('reference', 1, 1), ('1', 0.01, 0.1), ('100', 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -938,7 +938,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         Y = 12.23634268
         V = munsell_value_Munsell1933(Y)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        d_r = (('reference', 1, 1), ('1', 0.01, 0.1), ('100', 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -1008,7 +1008,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         Y = 12.23634268
         V = munsell_value_Moon1943(Y)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        d_r = (('reference', 1, 1), ('1', 0.01, 0.1), ('100', 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -1087,7 +1087,7 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         Y = 12.23634268
         V = munsell_value_Saunderson1944(Y)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        d_r = (('reference', 1, 1), ('1', 0.01, 0.1), ('100', 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -1157,7 +1157,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         Y = 12.23634268
         V = munsell_value_Ladd1955(Y)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        d_r = (('reference', 1, 1), ('1', 0.01, 0.1), ('100', 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -1230,7 +1230,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         Y = 12.23634268
         V = munsell_value_McCamy1987(Y)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        d_r = (('reference', 1, 1), ('1', 0.01, 0.1), ('100', 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -1303,7 +1303,7 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
         Y = 12.23634268
         V = munsell_value_ASTMD1535(Y)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        d_r = (('reference', 1, 1), ('1', 0.01, 0.1), ('100', 1, 10))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -1398,8 +1398,8 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
 
         d_r = (
             ('reference', 1, 1),
-            (1, np.array([0.1, 0.1, 1 / 50, 0.1]), 1),
-            (100, np.array([10, 10, 2, 10]), np.array([1, 1, 100])),
+            ('1', np.array([0.1, 0.1, 1 / 50, 0.1]), 1),
+            ('100', np.array([10, 10, 2, 10]), np.array([1, 1, 100])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
@@ -1442,8 +1442,8 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
 
         d_r = (
             ('reference', 1),
-            (1, 1),
-            (100, np.array([1, 1, 100])),
+            ('1', 1),
+            ('100', np.array([1, 1, 100])),
         )
         for scale, factor in d_r:
             with domain_range_scale(scale):
@@ -1562,8 +1562,8 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
 
         d_r = (
             ('reference', 1, 1),
-            (1, 1, np.array([0.1, 0.1, 1 / 50, 0.1])),
-            (100, np.array([1, 1, 100]), np.array([10, 10, 2, 10])),
+            ('1', 1, np.array([0.1, 0.1, 1 / 50, 0.1])),
+            ('100', np.array([1, 1, 100]), np.array([10, 10, 2, 10])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
@@ -1607,8 +1607,8 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
 
         d_r = (
             ('reference', 1),
-            (1, 1),
-            (100, np.array([1, 1, 100])),
+            ('1', 1),
+            ('100', np.array([1, 1, 100])),
         )
         for scale, factor in d_r:
             with domain_range_scale(scale):

@@ -86,7 +86,7 @@ class TestXYZ_to_UCS(unittest.TestCase):
         XYZ = np.array([0.0704953400, 0.1008000000, 0.0955831300])
         UCS = XYZ_to_UCS(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -157,7 +157,7 @@ class TestUCS_to_XYZ(unittest.TestCase):
         UCS = np.array([0.0469968933, 0.1008000000, 0.1637438950])
         XYZ = UCS_to_XYZ(UCS)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -228,7 +228,7 @@ class TestUCS_to_uv(unittest.TestCase):
         UCS = np.array([0.0469968933, 0.1008000000, 0.1637438950])
         uv = UCS_to_uv(UCS)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -304,7 +304,7 @@ class Testuv_to_UCS(unittest.TestCase):
         uv = np.array([0.37720213, 0.33413508])
         UCS = uv_to_UCS(uv)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

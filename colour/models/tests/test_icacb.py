@@ -68,7 +68,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
         XYZ = np.array([0.07818780, 0.06157201, 0.28099326])
         ICaCb = XYZ_to_ICaCb(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -141,7 +141,7 @@ class TestICaCb_to_XYZ(unittest.TestCase):
         ICaCb = np.array([0.06875297, 0.05753352, 0.02081548])
         XYZ = ICaCb_to_XYZ(ICaCb)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

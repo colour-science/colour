@@ -27,6 +27,7 @@ from colour.algebra import spow, vector_dot
 from colour.utilities import (
     CaseInsensitiveMapping,
     MixinDataclassArray,
+    as_float,
     as_float_array,
     from_range_degrees,
     ones,
@@ -519,8 +520,16 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     # -------------------------------------------------------------------------
     M_94 = colourfulness_correlate(F_L, C_94)
 
-    return CAM_Specification_Hunt(J, C_94, from_range_degrees(h), s, Q, M_94,
-                                  None, None)
+    return CAM_Specification_Hunt(
+        J,
+        C_94,
+        as_float(from_range_degrees(h)),
+        s,
+        Q,
+        M_94,
+        None,
+        None,
+    )
 
 
 def luminance_level_adaptation_factor(L_A):
@@ -908,7 +917,7 @@ def eccentricity_factor(hue):
     Examples
     --------
     >>> eccentricity_factor(269.273759)  # doctest: +ELLIPSIS
-    array(1.1108365...)
+    1.1108365...
     """
 
     hue = as_float_array(hue)
@@ -920,7 +929,7 @@ def eccentricity_factor(hue):
     x = np.where(hue < 20.14, 0.856 - (hue / 20.14) * 0.056, x)
     x = np.where(hue > 237.53, 0.856 + 0.344 * (360 - hue) / (360 - 237.53), x)
 
-    return x
+    return as_float(x)
 
 
 def low_luminance_tritanopia_factor(L_A):

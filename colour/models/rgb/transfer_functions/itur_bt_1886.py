@@ -21,7 +21,7 @@ R-REC-BT.1886-0-201103-I!!PDF-E.pdf
 
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -92,7 +92,7 @@ def eotf_inverse_BT1886(L, L_B=0, L_W=1):
 
     V = (L / a) ** gamma_d - b
 
-    return from_range_1(V)
+    return as_float(from_range_1(V))
 
 
 def eotf_BT1886(V, L_B=0, L_W=1):
@@ -153,4 +153,4 @@ def eotf_BT1886(V, L_B=0, L_W=1):
     b = L_B ** gamma_d / n
     L = a * np.maximum(V + b, 0) ** gamma
 
-    return from_range_1(L)
+    return as_float(from_range_1(L))

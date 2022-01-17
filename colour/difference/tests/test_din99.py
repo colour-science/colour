@@ -111,7 +111,7 @@ class TestDelta_E_DIN99(unittest.TestCase):
         Lab_2 = np.array([60.46260000, -34.17510000, 39.43870000])
         delta_E = delta_E_DIN99(Lab_1, Lab_2)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

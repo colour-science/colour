@@ -234,7 +234,7 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
             XYZ_to_sd_Otsu2018(XYZ_i, self._cmfs, self._sd_D65), self._cmfs,
             self._sd_D65)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -555,8 +555,8 @@ class TestNode_Otsu2018(unittest.TestCase):
         """
 
         node_a = Node_Otsu2018(self._tree, None)
-        node_b = Node_Otsu2018(self._tree, self._data_a)
-        node_c = Node_Otsu2018(self._tree, self._data_a)
+        node_b = Node_Otsu2018(self._tree, data=self._data_a)
+        node_c = Node_Otsu2018(self._tree, data=self._data_a)
         node_a.split([node_b, node_c], PartitionAxis(12, 0))
 
         self.assertEqual(len(node_a.children), 2)

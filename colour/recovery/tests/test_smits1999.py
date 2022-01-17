@@ -102,7 +102,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
         RGB_i = XYZ_to_RGB_Smits1999(XYZ_i)
         XYZ_o = sd_to_XYZ_integration(RGB_to_sd_Smits1999(RGB_i))
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

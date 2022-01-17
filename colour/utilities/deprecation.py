@@ -6,12 +6,15 @@ Deprecation Utilities
 Defines various deprecation management related objects.
 """
 
+from __future__ import annotations
+
 import sys
 from importlib import import_module
 from collections import namedtuple
 from operator import attrgetter
 
-from colour.utilities import attest, usage_warning
+from colour.utilities import attest, optional, usage_warning
+from colour.hints import Any, Dict, List, ModuleType, Optional
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -44,19 +47,19 @@ class ObjectRenamed(namedtuple('ObjectRenamed', ('name', 'new_name'))):
 
     Parameters
     ----------
-    name : str
+    name
         Object name that changed.
-    new_name : str
+    new_name
         Object new name.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the class.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -70,17 +73,17 @@ class ObjectRemoved(namedtuple('ObjectRemoved', ('name', ))):
 
     Parameters
     ----------
-    name : str
+    name
         Object name that has been removed.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the class.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -95,19 +98,19 @@ class ObjectFutureRename(
 
     Parameters
     ----------
-    name : str
+    name
         Object name that will change in a future release.
-    new_name : str
+    new_name
         Object future release name.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the deprecation type.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -121,17 +124,17 @@ class ObjectFutureRemove(namedtuple('ObjectFutureRemove', ('name', ))):
 
     Parameters
     ----------
-    name : str
+    name
         Object name that will be removed in a future release.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the deprecation type.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -147,19 +150,19 @@ class ObjectFutureAccessChange(
 
     Parameters
     ----------
-    access : str
+    access
         Object access that will change in a future release.
-    new_access : str
+    new_access
         Object future release access.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the deprecation type.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -176,17 +179,17 @@ class ObjectFutureAccessRemove(
 
     Parameters
     ----------
-    name : str
+    name
         Object name whose access will removed in a future release.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the deprecation type.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -201,19 +204,19 @@ class ArgumentRenamed(namedtuple('ArgumentRenamed', ('name', 'new_name'))):
 
     Parameters
     ----------
-    name : str
+    name
         Argument name that changed.
-    new_name : str
+    new_name
         Argument new name.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the class.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -227,17 +230,17 @@ class ArgumentRemoved(namedtuple('ArgumentRemoved', ('name', ))):
 
     Parameters
     ----------
-    name : str
+    name
         Argument name that has been removed.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the class.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -253,19 +256,19 @@ class ArgumentFutureRename(
 
     Parameters
     ----------
-    name : str
+    name
         Argument name that will change in a future release.
-    new_name : str
+    new_name
         Argument future release name.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the deprecation type.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -279,17 +282,17 @@ class ArgumentFutureRemove(namedtuple('ArgumentFutureRemove', ('name', ))):
 
     Parameters
     ----------
-    name : str
+    name
         Argument name that will be removed in a future release.
     """
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the deprecation type.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -304,7 +307,7 @@ class ModuleAPI:
 
     Parameters
     ----------
-    module : module
+    module
         Module to customise attributes access.
 
     Methods
@@ -320,22 +323,22 @@ class ModuleAPI:
     ... # doctest: +SKIP
     """
 
-    def __init__(self, module, changes=None):
+    def __init__(self, module: ModuleType, changes: Optional[Dict] = None):
         self._module = module
-        self._changes = changes or {}
+        self._changes = optional(changes, {})
 
-    def __getattr__(self, attribute):
+    def __getattr__(self, attribute: str) -> Any:
         """
         Returns given attribute value while handling deprecation.
 
         Parameters
         ----------
-        attribute : str
+        attribute
             Attribute name.
 
         Returns
         -------
-        object
+        :class:`object`
             Attribute value.
 
         Raises
@@ -345,6 +348,7 @@ class ModuleAPI:
         """
 
         change = self._changes.get(attribute)
+
         if change is not None:
             if not isinstance(change, ObjectRemoved):
 
@@ -357,14 +361,14 @@ class ModuleAPI:
 
         return getattr(self._module, attribute)
 
-    def __dir__(self):
+    def __dir__(self) -> List:
         """
         Returns list of names in the module local scope filtered according to
         the changes.
 
         Returns
         -------
-        list
+        :class:`list`
             Filtered list of names in the module local scope.
         """
 
@@ -376,20 +380,20 @@ class ModuleAPI:
         return attributes
 
 
-def get_attribute(attribute):
+def get_attribute(attribute: str) -> Any:
     """
-    Returns given attribute.
+    Returns given attribute value.
 
     Parameters
     ----------
-    attribute : str
+    attribute
         Attribute to retrieve, ``attribute`` must have a namespace module, e.g.
         *colour.models.eotf_BT2020*.
 
     Returns
     -------
-    object
-        Retrieved attribute.
+    :class:`object`
+        Retrieved attribute value.
 
     Examples
     --------
@@ -401,9 +405,7 @@ def get_attribute(attribute):
 
     module_name, attribute = attribute.rsplit('.', 1)
 
-    module = sys.modules.get(module_name)
-    if module is None:
-        module = import_module(module_name)
+    module = optional(sys.modules.get(module_name), import_module(module_name))
 
     attest(
         module is not None,
@@ -413,18 +415,18 @@ def get_attribute(attribute):
     return attrgetter(attribute)(module)
 
 
-def build_API_changes(changes):
+def build_API_changes(changes: dict) -> Dict:
     """
     Builds the effective API changes for a desired API changes mapping.
 
     Parameters
     ----------
-    changes : dict
+    changes
         Dictionary of desired API changes.
 
     Returns
     -------
-    dict
+    :class:`dict`
         API changes
 
     Examples
@@ -461,38 +463,38 @@ new_access='module.sub_module.object_3_new_access'),
 name='module.object_6_access')}
     """
 
-    for change_type in (ObjectRenamed, ObjectFutureRename,
+    for rename_type in (ObjectRenamed, ObjectFutureRename,
                         ObjectFutureAccessChange, ArgumentRenamed,
                         ArgumentFutureRename):
-        for change in changes.pop(change_type.__name__, []):
-            changes[change[0].split('.')[-1]] = change_type(*change)  # noqa
+        for change in changes.pop(rename_type.__name__, []):
+            changes[change[0].split('.')[-1]] = rename_type(*change)  # noqa
 
-    for change_type in (ObjectRemoved, ObjectFutureRemove,
+    for remove_type in (ObjectRemoved, ObjectFutureRemove,
                         ObjectFutureAccessRemove, ArgumentRemoved,
                         ArgumentFutureRemove):
-        for change in changes.pop(change_type.__name__, []):
-            changes[change.split('.')[-1]] = change_type(change)  # noqa
+        for change in changes.pop(remove_type.__name__, []):
+            changes[change.split('.')[-1]] = remove_type(change)  # noqa
 
     return changes
 
 
-def handle_arguments_deprecation(changes, **kwargs):
+def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> Dict:
     """
     Handles arguments deprecation according to desired API changes mapping.
 
     Parameters
     ----------
-    changes : dict
+    changes
         Dictionary of desired API changes.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments to handle.
 
     Returns
     -------
-    dict
+    :class:`dict`
         Handled keywords arguments.
 
     Examples

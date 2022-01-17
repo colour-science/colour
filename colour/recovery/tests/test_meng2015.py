@@ -116,7 +116,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             XYZ_to_sd_Meng2015(XYZ_i, self._cmfs, self._sd_D65), self._cmfs,
             self._sd_D65)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

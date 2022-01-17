@@ -151,12 +151,13 @@ class TestXYZ_to_CAM16(unittest.TestCase):
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01,
+            ('1', 0.01,
              np.array([
                  1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400,
                  np.nan
              ])),
-            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan])),
+            ('100', 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400,
+                                 np.nan])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
@@ -294,12 +295,13 @@ class TestCAM16_to_XYZ(unittest.TestCase):
 
         d_r = (
             ('reference', 1, 1),
-            (1,
+            ('1',
              np.array([
                  1 / 100, 1 / 100, 1 / 360, 1 / 100, 1 / 100, 1 / 100, 1 / 400,
                  np.nan
              ]), 0.01),
-            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]), 1),
+            ('100', np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]),
+             1),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):

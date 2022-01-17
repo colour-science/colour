@@ -137,7 +137,7 @@ sd_to_aces_relative_exposure_values`  definition domain and range scale
         grey_reflector = sd_constant(0.18, shape)
         RGB = sd_to_aces_relative_exposure_values(grey_reflector)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

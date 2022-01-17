@@ -44,9 +44,9 @@ from colour.models.rgb.transfer_functions import (
 
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_float,
     from_range_1,
     to_domain_1,
-    as_numeric,
     validate_method,
 )
 
@@ -123,7 +123,7 @@ def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
 
     y = (1023 + 511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
 def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
@@ -172,7 +172,7 @@ def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
 
     x = ((10 ** ((1023 * y - 1023) / 511)) - black_offset) / (1 - black_offset)
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))
 
 
 def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
@@ -309,7 +309,7 @@ def log_encoding_Log3G10_v1(x):
 
     y = np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
 def log_decoding_Log3G10_v1(y):
@@ -356,7 +356,7 @@ def log_decoding_Log3G10_v1(y):
 
     x = (np.sign(y) * (10.0 ** (np.abs(y) / 0.222497) - 1) / 169.379333)
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))
 
 
 def log_encoding_Log3G10_v2(x):
@@ -404,7 +404,7 @@ def log_encoding_Log3G10_v2(x):
     y = (np.sign(x + 0.01) * 0.224282 *
          np.log10((np.abs(x + 0.01) * 155.975327) + 1))
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
 def log_decoding_Log3G10_v2(y):
@@ -451,7 +451,7 @@ def log_decoding_Log3G10_v2(y):
 
     x = (np.sign(y) * (10.0 ** (np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))
 
 
 def log_encoding_Log3G10_v3(x):
@@ -506,7 +506,7 @@ def log_encoding_Log3G10_v3(x):
     y = np.where(x < 0.0, x * g,
                  np.sign(x) * a * np.log10((np.abs(x) * b) + 1.0))
 
-    return as_numeric(from_range_1(y))
+    return as_float(from_range_1(y))
 
 
 def log_decoding_Log3G10_v3(y):
@@ -559,7 +559,7 @@ def log_decoding_Log3G10_v3(y):
     x = np.where(y < 0.0, (y / g) - c,
                  np.sign(y) * (10 ** (np.abs(y) / a) - 1.0) / b - c)
 
-    return as_numeric(from_range_1(x))
+    return as_float(from_range_1(x))
 
 
 LOG3G10_ENCODING_METHODS = CaseInsensitiveMapping({
@@ -772,7 +772,7 @@ def log_encoding_Log3G12(x):
 
     y = np.sign(x) * 0.184904 * np.log10((np.abs(x) * 347.189667) + 1)
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
 def log_decoding_Log3G12(y):
@@ -819,4 +819,4 @@ def log_decoding_Log3G12(y):
 
     x = np.sign(y) * (10.0 ** (np.abs(y) / 0.184904) - 1) / 347.189667
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))

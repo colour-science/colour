@@ -83,7 +83,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -189,7 +189,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = delta_E_CIE1994(Lab_1, Lab_2)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -300,7 +300,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = delta_E_CIE2000(Lab_1, Lab_2)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -506,7 +506,7 @@ class TestDelta_E_CMC(unittest.TestCase):
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = delta_E_CMC(Lab_1, Lab_2)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

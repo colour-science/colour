@@ -134,7 +134,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
         XYZ_wd = np.array([95.047, 100, 108.883])
         XYZ_d = chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

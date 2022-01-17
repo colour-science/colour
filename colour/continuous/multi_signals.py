@@ -24,6 +24,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
+from colour.utilities.documentation import is_documentation_building
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -676,6 +677,10 @@ or dict_like
                      extrapolator=Extrapolator,
                      extrapolator_kwargs={...)
         """
+
+        if is_documentation_building():  # pragma: no cover
+            return "{0}(name='{1}', ...)".format(self.__class__.__name__,
+                                                 self.name)
 
         try:
             representation = repr(

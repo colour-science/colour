@@ -26,7 +26,7 @@ from colour.colorimetry import (
     SpectralDistribution,
 )
 from colour.constants import CONSTANT_AVOGADRO
-from colour.utilities import as_float_array, filter_kwargs
+from colour.utilities import as_float, as_float_array, filter_kwargs
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -304,12 +304,12 @@ def F_air_Penndorf1957(wavelength):
     Examples
     --------
     >>> F_air_Penndorf1957(0.555)
-    array(1.0608)
+    1.0608
     """
 
     wl = as_float_array(wavelength)
 
-    return np.resize(np.array([1.0608]), wl.shape)
+    return as_float(np.resize(np.array([1.0608]), wl.shape))
 
 
 def F_air_Young1981(wavelength):
@@ -336,12 +336,12 @@ def F_air_Young1981(wavelength):
     Examples
     --------
     >>> F_air_Young1981(0.555)
-    array(1.048)
+    1.048
     """
 
     wl = as_float_array(wavelength)
 
-    return np.resize(np.array([1.0480]), wl.shape)
+    return as_float(np.resize(np.array([1.0480]), wl.shape))
 
 
 def F_air_Bates1984(wavelength):

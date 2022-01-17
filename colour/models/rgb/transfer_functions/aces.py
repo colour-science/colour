@@ -283,7 +283,7 @@ def log_decoding_ACESproxy(ACESproxy,
         2 ** (((ACESproxy - constants.mid_CV_offset) / constants.steps_per_stop
                - constants.mid_log_offset)))
 
-    return from_range_1(lin_AP1)
+    return as_float(from_range_1(lin_AP1))
 
 
 def log_encoding_ACEScc(lin_AP1):

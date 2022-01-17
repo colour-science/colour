@@ -75,7 +75,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         HYS = RGB_to_IHLS(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -147,7 +147,7 @@ class TestIHLS_to_RGB(unittest.TestCase):
         HYS = np.array([6.26236117, 0.12197943, 0.42539448])
         RGB = IHLS_to_RGB(HYS)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

@@ -25,7 +25,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import daylight_locus_function
-from colour.utilities import as_float_array, as_numeric, tstack, usage_warning
+from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -106,7 +106,7 @@ def xy_to_CCT_CIE_D(xy, optimisation_kwargs=None):
             **optimisation_settings).x for xy_i in xy
     ])
 
-    return as_numeric(CCT.reshape(shape[:-1]))
+    return as_float(CCT.reshape(shape[:-1]))
 
 
 def CCT_to_xy_CIE_D(CCT):

@@ -20,7 +20,7 @@ from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
     eotf_inverse_ST2084,
 )
-from colour.utilities.common import (
+from colour.utilities import (
     domain_range_scale,
     from_range_1,
     to_domain_1,

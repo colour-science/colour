@@ -35,6 +35,7 @@ from colour.algebra import polar_to_cartesian, spow, vector_dot
 from colour.utilities import (
     CaseInsensitiveMapping,
     MixinDataclassArray,
+    as_float,
     as_float_array,
     from_range_degrees,
     to_domain_100,
@@ -373,8 +374,16 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # -------------------------------------------------------------------------
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
-    return CAM_Specification_LLAB(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
-                                  None, A_L, B_L)
+    return CAM_Specification_LLAB(
+        L_L,
+        Ch_L,
+        as_float(from_range_degrees(h_L)),
+        s_L,
+        C_L,
+        None,
+        A_L,
+        B_L,
+    )
 
 
 def XYZ_to_RGB_LLAB(XYZ):
@@ -482,7 +491,7 @@ def f(x, F_S):
     --------
     >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
     >>> f(0.200009186234000, 3)  # doctest: +ELLIPSIS
-    array(0.5848125...)
+    0.5848125...
     """
 
     x = as_float_array(x)
@@ -494,7 +503,7 @@ def f(x, F_S):
         ((spow(0.008856, 1 / F_S) - (16 / 116)) / 0.008856) * x + (16 / 116),
     )
 
-    return x_m
+    return as_float(x_m)
 
 
 def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):

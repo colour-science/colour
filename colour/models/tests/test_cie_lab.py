@@ -107,7 +107,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
         illuminant = np.array([0.31270, 0.32900])
         Lab = XYZ_to_Lab(XYZ, illuminant)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -211,7 +211,7 @@ class TestLab_to_XYZ(unittest.TestCase):
         illuminant = np.array([0.31270, 0.32900])
         XYZ = Lab_to_XYZ(Lab, illuminant)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        d_r = (('reference', 1, 1), ('1', 0.01, 1), ('100', 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -285,8 +285,11 @@ class TestLab_to_LCHab(unittest.TestCase):
         Lab = np.array([41.52787529, 52.63858304, 26.92317922])
         LCHab = Lab_to_LCHab(Lab)
 
-        d_r = (('reference', 1, 1), (1, 0.01, np.array([0.01, 0.01, 1 / 360])),
-               (100, 1, np.array([1, 1, 1 / 3.6])))
+        d_r = (
+            ('reference', 1, 1),
+            ('1', 0.01, np.array([0.01, 0.01, 1 / 360])),
+            ('100', 1, np.array([1, 1, 1 / 3.6])),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -358,8 +361,11 @@ class TestLCHab_to_Lab(unittest.TestCase):
         LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
         Lab = LCHab_to_Lab(LCHab)
 
-        d_r = (('reference', 1, 1), (1, np.array([0.01, 0.01, 1 / 360]), 0.01),
-               (100, np.array([1, 1, 1 / 3.6]), 1))
+        d_r = (
+            ('reference', 1, 1),
+            ('1', np.array([0.01, 0.01, 1 / 360]), 0.01),
+            ('100', np.array([1, 1, 1 / 3.6]), 1),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

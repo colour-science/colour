@@ -785,7 +785,7 @@ def plot_multi_lightness_functions(functions, **kwargs):
     }
     settings.update(kwargs)
 
-    with domain_range_scale(1):
+    with domain_range_scale('1'):
         return plot_multi_functions(functions, **settings)
 
 
@@ -875,7 +875,7 @@ def plot_multi_luminance_functions(functions, **kwargs):
     }
     settings.update(kwargs)
 
-    with domain_range_scale(1):
+    with domain_range_scale('1'):
         return plot_multi_functions(functions, **settings)
 
 

@@ -105,7 +105,7 @@ log_encoding_CanonLog` definition domain and range scale support.
         x = 0.18
         clog = log_encoding_CanonLog(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -194,7 +194,7 @@ log_decoding_CanonLog` definition domain and range scale support.
         clog = 0.343389651726069
         x = log_decoding_CanonLog(clog)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -283,7 +283,7 @@ log_encoding_CanonLog2` definition domain and range scale support.
         x = 0.18
         clog2 = log_encoding_CanonLog2(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -372,7 +372,7 @@ log_decoding_CanonLog2` definition domain and range scale support.
         clog = 0.398254694983167
         x = log_decoding_CanonLog2(clog)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -461,7 +461,7 @@ log_encoding_CanonLog3` definition domain and range scale support.
         x = 0.18
         clog3 = log_encoding_CanonLog3(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -550,7 +550,7 @@ log_decoding_CanonLog3` definition domain and range scale support.
         clog = 0.343389369388687
         x = log_decoding_CanonLog3(clog)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

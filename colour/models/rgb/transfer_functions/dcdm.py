@@ -21,7 +21,7 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -98,7 +98,7 @@ def eotf_inverse_DCDM(XYZ, out_int=False):
     if out_int:
         return np.round(4095 * XYZ_p).astype(DEFAULT_INT_DTYPE)
     else:
-        return from_range_1(XYZ_p)
+        return as_float(from_range_1(XYZ_p))
 
 
 def eotf_DCDM(XYZ_p, in_int=False):
@@ -163,4 +163,4 @@ def eotf_DCDM(XYZ_p, in_int=False):
 
     XYZ = 52.37 * spow(XYZ_p, 2.6)
 
-    return from_range_1(XYZ)
+    return as_float(from_range_1(XYZ))

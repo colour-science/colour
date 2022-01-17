@@ -32,6 +32,7 @@ from typing import Union
 from colour.algebra import spow, vector_dot
 from colour.utilities import (
     MixinDataclassArray,
+    as_float,
     as_float_array,
     from_range_degrees,
     to_domain_100,
@@ -271,7 +272,16 @@ T_2=0.0205377..., D_2=0.0107584...)
     H = T_2 / D_2
 
     return CAM_Specification_ATD95(
-        from_range_degrees(H), C, Br, A_1, T_1, D_1, A_2, T_2, D_2)
+        as_float(from_range_degrees(H)),
+        C,
+        Br,
+        A_1,
+        T_1,
+        D_1,
+        A_2,
+        T_2,
+        D_2,
+    )
 
 
 def luminance_to_retinal_illuminance(XYZ, Y_c):

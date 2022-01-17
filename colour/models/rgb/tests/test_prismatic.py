@@ -70,7 +70,7 @@ class TestRGB_to_Prismatic(unittest.TestCase):
         RGB = np.array([0.25, 0.50, 0.75])
         Lrgb = RGB_to_Prismatic(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -138,7 +138,7 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
         RGB = Prismatic_to_RGB(Lrgb)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

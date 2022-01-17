@@ -18,7 +18,7 @@ nuke-default/make.py
 
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -77,7 +77,7 @@ def log_encoding_ViperLog(x):
 
     y = (1023 + 500 * np.log10(x)) / 1023
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
 def log_decoding_ViperLog(y):
@@ -124,4 +124,4 @@ def log_decoding_ViperLog(y):
 
     x = 10 ** ((1023 * y - 1023) / 500)
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))

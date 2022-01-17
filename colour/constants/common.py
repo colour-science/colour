@@ -14,6 +14,7 @@ from colour.utilities.documentation import (
     DocstringFloat,
     is_documentation_building,
 )
+from colour.hints import DTypeFloating, Union
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -44,7 +45,7 @@ if is_documentation_building():  # pragma: no cover
 Integer threshold value when checking if a floating point number is almost an
 integer.
 
-INTEGER_THRESHOLD : numeric
+INTEGER_THRESHOLD : :class:`numpy.floating`
 """
 
 EPSILON = np.finfo(np.float_).eps
@@ -52,21 +53,21 @@ EPSILON = np.finfo(np.float_).eps
 Default epsilon value for tolerance and singularities avoidance in various
 computations.
 
-EPSILON : numeric
+EPSILON : :class:`numpy.floating`
 """
 
-DEFAULT_FLOAT_DTYPE = np.sctypeDict.get(
-    os.environ.get('COLOUR_SCIENCE__FLOAT_PRECISION', 'float64'), 'float64')
+DEFAULT_FLOAT_DTYPE: DTypeFloating = (np.sctypeDict.get(
+    os.environ.get('COLOUR_SCIENCE__FLOAT_PRECISION', 'float64'), np.float64))
 """
 Default floating point number dtype.
 
-DEFAULT_FLOAT_DTYPE : type
+DEFAULT_FLOAT_DTYPE : :class:`numpy.dtype`
 """
 
-DEFAULT_INT_DTYPE = np.sctypeDict.get(
-    os.environ.get('COLOUR_SCIENCE__INT_PRECISION', 'int64'), 'int64')
+DEFAULT_INT_DTYPE: Union[np.int32, np.int64] = np.sctypeDict.get(
+    os.environ.get('COLOUR_SCIENCE__INT_PRECISION', 'int64'), np.int64)
 """
 Default integer number dtype.
 
-DEFAULT_INT_DTYPE : type
+DEFAULT_INT_DTYPE : :class:`numpy.dtype`
 """

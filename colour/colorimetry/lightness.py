@@ -72,7 +72,6 @@ from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
     as_float,
-    as_numeric,
     filter_kwargs,
     from_range_100,
     get_domain_range_scale,
@@ -146,7 +145,7 @@ def lightness_Glasser1958(Y):
 
     L = 25.29 * spow(Y, 1 / 3) - 18.38
 
-    return from_range_100(L)
+    return as_float(from_range_100(L))
 
 
 def lightness_Wyszecki1963(Y):
@@ -198,7 +197,7 @@ def lightness_Wyszecki1963(Y):
 
     W = 25 * spow(Y, 1 / 3) - 17
 
-    return from_range_100(W)
+    return as_float(from_range_100(W))
 
 
 def intermediate_lightness_function_CIE1976(Y, Y_n=100):
@@ -253,14 +252,13 @@ def intermediate_lightness_function_CIE1976(Y, Y_n=100):
 
     Y_Y_n = Y / Y_n
 
-    f_Y_Y_n = as_float(
-        np.where(
-            Y_Y_n > (24 / 116) ** 3,
-            spow(Y_Y_n, 1 / 3),
-            (841 / 108) * Y_Y_n + 16 / 116,
-        ))
+    f_Y_Y_n = np.where(
+        Y_Y_n > (24 / 116) ** 3,
+        spow(Y_Y_n, 1 / 3),
+        (841 / 108) * Y_Y_n + 16 / 116,
+    )
 
-    return f_Y_Y_n
+    return as_float(f_Y_Y_n)
 
 
 def lightness_CIE1976(Y, Y_n=100):
@@ -311,7 +309,7 @@ def lightness_CIE1976(Y, Y_n=100):
 
     L_star = 116 * intermediate_lightness_function_CIE1976(Y, Y_n) - 16
 
-    return from_range_100(L_star)
+    return as_float(from_range_100(L_star))
 
 
 def lightness_Fairchild2010(Y, epsilon=1.836):
@@ -364,7 +362,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
     L_hdr = reaction_rate_MichaelisMenten_Michaelis1913(
         spow(Y, epsilon), maximum_perception, 0.184 ** epsilon) + 0.02
 
-    return from_range_100(L_hdr)
+    return as_float(from_range_100(L_hdr))
 
 
 def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
@@ -427,7 +425,7 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
     L_hdr = reaction_rate_MichaelisMenten_Michaelis1913(
         spow(Y, epsilon), maximum_perception, 2 ** epsilon) + 0.02
 
-    return from_range_100(L_hdr)
+    return as_float(from_range_100(L_hdr))
 
 
 def lightness_Abebe2017(Y, Y_n=100, method='Michaelis-Menten'):
@@ -506,7 +504,7 @@ def lightness_Abebe2017(Y, Y_n=100, method='Michaelis-Menten'):
                 spow(Y_Y_n, 0.293), 1.680, 1.584, 0.096),
         )
 
-    return as_numeric(L)
+    return as_float(L)
 
 
 LIGHTNESS_METHODS = CaseInsensitiveMapping({

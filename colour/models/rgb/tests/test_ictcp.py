@@ -112,7 +112,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         ICtCp = RGB_to_ICtCp(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -214,7 +214,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
         ICtCp = np.array([0.07351364, 0.00475253, 0.09351596])
         RGB = ICtCp_to_RGB(ICtCp)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -331,7 +331,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         ICtCp = XYZ_to_ICtCp(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -448,7 +448,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
         ICtCp = np.array([0.06858097, -0.00283842, 0.06020983])
         XYZ = ICtCp_to_XYZ(ICtCp)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

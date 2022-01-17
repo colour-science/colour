@@ -18,7 +18,7 @@ nuke-default/make.py
 
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -79,7 +79,7 @@ def log_encoding_Cineon(x, black_offset=10 ** ((95 - 685) / 300)):
 
     y = ((685 + 300 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
 def log_decoding_Cineon(y, black_offset=10 ** ((95 - 685) / 300)):
@@ -128,4 +128,4 @@ def log_decoding_Cineon(y, black_offset=10 ** ((95 - 685) / 300)):
 
     x = ((10 ** ((1023 * y - 685) / 300) - black_offset) / (1 - black_offset))
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))

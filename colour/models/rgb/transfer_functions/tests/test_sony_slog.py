@@ -96,7 +96,7 @@ log_encoding_SLog` definition domain and range scale support.
         x = 0.18
         y = log_encoding_SLog(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -174,7 +174,7 @@ log_decoding_SLog` definition domain and range scale support.
         y = 0.384970815928670
         x = log_decoding_SLog(y)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -252,7 +252,7 @@ log_encoding_SLog2` definition domain and range scale support.
         x = 0.18
         y = log_encoding_SLog2(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -330,7 +330,7 @@ log_decoding_SLog2` definition domain and range scale support.
         y = 0.339532524633774
         x = log_decoding_SLog2(y)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -408,7 +408,7 @@ log_encoding_SLog3` definition domain and range scale support.
         x = 0.18
         y = log_encoding_SLog3(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -486,7 +486,7 @@ log_decoding_SLog3` definition domain and range scale support.
         y = 0.41055718475073
         x = log_decoding_SLog3(y)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

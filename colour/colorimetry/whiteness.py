@@ -45,6 +45,7 @@ c/09_color_calculations_en.pdf
 
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_float,
     get_domain_range_scale,
     filter_kwargs,
     from_range_100,
@@ -128,7 +129,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
 def whiteness_Taube1960(XYZ, XYZ_0):
@@ -186,7 +187,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     WI = 400 * (Z / Z_0) - 3 * Y
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
 def whiteness_Stensby1968(Lab):
@@ -242,7 +243,7 @@ def whiteness_Stensby1968(Lab):
 
     WI = L - 3 * b + 3 * a
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
 def whiteness_ASTME313(XYZ):
@@ -291,7 +292,7 @@ def whiteness_ASTME313(XYZ):
 
     WI = 3.388 * Z - 3 * Y
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
 def whiteness_Ganz1979(xy, Y):

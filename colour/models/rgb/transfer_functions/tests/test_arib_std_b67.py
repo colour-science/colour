@@ -80,7 +80,7 @@ oetf_ARIBSTDB67` definition domain and range scale support.
         E = 0.18
         E_p = oetf_ARIBSTDB67(E)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -153,7 +153,7 @@ oetf_inverse_ARIBSTDB67` definition domain and range scale support.
         E_p = 0.212132034355964
         E = oetf_inverse_ARIBSTDB67(E_p)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

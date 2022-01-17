@@ -90,7 +90,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition domain and range
         L = 0.18
         V = oetf_BlackmagicFilmGeneration5(L)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -182,7 +182,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition domain and
         V = 0.383561643835617
         L = oetf_inverse_BlackmagicFilmGeneration5(V)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

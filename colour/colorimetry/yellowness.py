@@ -33,6 +33,7 @@ c/09_color_calculations_en.pdf
 import numpy as np
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_float,
     filter_kwargs,
     from_range_100,
     to_domain_100,
@@ -111,7 +112,7 @@ def yellowness_ASTMD1925(XYZ):
 
     YI = (100 * (1.28 * X - 1.06 * Z)) / Y
 
-    return from_range_100(YI)
+    return as_float(from_range_100(YI))
 
 
 def yellowness_ASTME313_alternative(XYZ):
@@ -170,7 +171,7 @@ def yellowness_ASTME313_alternative(XYZ):
 
     WI = 100 * (1 - (0.847 * Z) / Y)
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
 YELLOWNESS_COEFFICIENTS_ASTME313 = CaseInsensitiveMapping({
@@ -264,7 +265,7 @@ def yellowness_ASTME313(XYZ,
 
     WI = 100 * (C_X * X - C_Z * Z) / Y
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
 YELLOWNESS_METHODS = CaseInsensitiveMapping({

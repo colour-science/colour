@@ -25,7 +25,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.utilities import as_float_array, as_numeric, tsplit, usage_warning
+from colour.utilities import as_float_array, as_float, tsplit, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -82,7 +82,7 @@ def xy_to_CCT_Hernandez1999(xy):
         CCT,
     )
 
-    return as_numeric(CCT)
+    return as_float(CCT)
 
 
 def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None):
@@ -160,4 +160,4 @@ def CCT_to_xy_Hernandez1999(CCT, optimisation_kwargs=None):
             **optimisation_settings).x for CCT_i in CCT
     ])
 
-    return as_numeric(CCT.reshape(shape + [2]))
+    return as_float(CCT.reshape(shape + [2]))
