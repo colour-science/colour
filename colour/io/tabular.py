@@ -10,6 +10,8 @@ Defines various input / output objects for *CSV* tabular data files:
 -   :func:`colour.write_sds_to_csv_file`
 """
 
+from __future__ import annotations
+
 import csv
 import numpy as np
 import os
@@ -17,6 +19,7 @@ import tempfile
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.hints import Any, Boolean, Dict, NDArray
 from colour.utilities import filter_kwargs
 
 __author__ = 'Colour Developers'
@@ -33,7 +36,8 @@ __all__ = [
 ]
 
 
-def read_spectral_data_from_csv_file(path, **kwargs):
+def read_spectral_data_from_csv_file(path: str,
+                                     **kwargs: Any) -> Dict[str, NDArray]:
     """
     Reads the spectral data from given *CSV* file in the following form::
 
@@ -55,17 +59,17 @@ def read_spectral_data_from_csv_file(path, **kwargs):
 
     Parameters
     ----------
-    path : str
+    path
         *CSV* file path.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments passed to :func:`np.recfromcsv` definition.
+    kwargs
+        Keywords arguments passed to :func:`numpy.recfromcsv` definition.
 
     Returns
     -------
-    dict
+    :class:`dict`
         *CSV* file content.
 
     Notes
@@ -140,25 +144,26 @@ def read_spectral_data_from_csv_file(path, **kwargs):
     return {name: data[name] for name in data.dtype.names}
 
 
-def read_sds_from_csv_file(path, **kwargs):
+def read_sds_from_csv_file(path: str,
+                           **kwargs: Any) -> Dict[str, SpectralDistribution]:
     """
-    Reads the spectral data from given *CSV* file and returns its content as an
-    *dict* of :class:`colour.SpectralDistribution` classes.
+    Reads the spectral data from given *CSV* file and returns its content as a
+    *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
     ----------
-    path : str
+    path
         *CSV* file path.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments passed to :func:`np.recfromcsv` definition.
+    kwargs
+        Keywords arguments passed to :func:`numpy.recfromcsv` definition.
 
     Returns
     -------
-    dict
-        :class:`colour.SpectralDistribution` classes of given *CSV* file.
+    :class:`dict`
+        *Dict* of :class:`colour.SpectralDistribution` class instances.
 
     Examples
     --------
@@ -273,33 +278,34 @@ def read_sds_from_csv_file(path, **kwargs):
     return sds
 
 
-def write_sds_to_csv_file(sds, path):
+def write_sds_to_csv_file(sds: Dict[str, SpectralDistribution],
+                          path: str) -> Boolean:
     """
     Writes the given spectral distributions to given *CSV* file.
 
     Parameters
     ----------
-    sds : dict
-        Spectral distributions to write.
-    path : str
+    sds
+        Spectral distributions to write to given *CSV* file.
+    path
         *CSV* file path.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Definition success.
 
     Raises
     ------
-    RuntimeError
+    ValueError
         If the given spectral distributions have different shapes.
     """
 
     if len(sds) != 1:
         shapes = [sd.shape for sd in sds.values()]
         if not all(shape == shapes[0] for shape in shapes):
-            raise RuntimeError(('Cannot write spectral distributions '
-                                'with different shapes to "CSV" file!'))
+            raise ValueError('Cannot write spectral distributions '
+                             'with different shapes to "CSV" file!')
 
     wavelengths = tuple(sds.values())[0].wavelengths
     with open(path, 'w') as csv_file:

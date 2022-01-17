@@ -3,12 +3,15 @@
 Defines unit tests for :mod:`colour.io.uprtek_sekonic` module.
 """
 
+from __future__ import annotations
+
 import json
 import numpy as np
 import os
 import unittest
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Any, Dict, Optional
 from colour.io import (
     SpectralDistribution_UPRTek,
     SpectralDistribution_Sekonic,
@@ -27,7 +30,7 @@ __all__ = [
     'TestSpectralDistributionSekonic',
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), 'resources')
 
 
 class AbstractSpectralDistributionTest(unittest.TestCase):
@@ -37,21 +40,21 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
     methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
         super(AbstractSpectralDistributionTest, self).__init__(*args)
 
-        self._sd_factory = None
-        self._path = None
-        self._spectral_data = None
+        self._sd_factory: Any = None
+        self._path: Optional[str] = None
+        self._spectral_data: Optional[Dict] = None
 
     def test_required_attributes(self):
         """
@@ -110,13 +113,13 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
     methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
@@ -590,13 +593,13 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
     methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 

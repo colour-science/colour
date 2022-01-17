@@ -8,8 +8,11 @@ Defines the object for *OpenColorIO* processing:
 -   :func:`colour.io.process_image_OpenColorIO`
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import Any, ArrayLike, NDArray
 from colour.utilities import as_float_array, required
 
 __author__ = 'Colour Developers'
@@ -25,29 +28,30 @@ __all__ = [
 
 
 @required('OpenColorIO')
-def process_image_OpenColorIO(a, *args, **kwargs):
+def process_image_OpenColorIO(a: ArrayLike, *args: Any,
+                              **kwargs: Any) -> NDArray:
     """
     Processes given image with *OpenColorIO*.
 
     Parameters
     ----------
-    a : array_like
+    a
         Image to process with *OpenColorIO*.
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments for `Config.getProcessor` method.
         See https://opencolorio.readthedocs.io/en/latest/api/config.html for
         more information.
-    config : str, optional
+    config
         *OpenColorIO* config to use for processing. If not defined, the
         *OpenColorIO* set defined by the ``$OCIO`` environment variable is
         used.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Processed image.
 
     Examples
@@ -95,7 +99,7 @@ def process_image_OpenColorIO(a, *args, **kwargs):
     config = (ocio.Config.CreateFromEnv()
               if config is None else ocio.Config.CreateFromFile(config))
 
-    a = np.atleast_3d(as_float_array(a, dtype=np.float32))
+    a = as_float_array(np.atleast_3d(a), dtype=np.float32)
     height, width, channels = a.shape
 
     processor = config.getProcessor(*args).getDefaultCPUProcessor()

@@ -16,6 +16,8 @@
 		<SpectralQuantity>relative</SpectralQuantity>
 		<BandwidthFWHM>2.0</BandwidthFWHM>
 		<BandwidthCorrected>true</BandwidthCorrected>
+		<ReflectionGeometry>other</ReflectionGeometry>
+		<TransmissionGeometry>other</TransmissionGeometry>
 		<SpectralData wavelength="400.0">0.034</SpectralData>
 		<SpectralData wavelength="403.1">0.037</SpectralData>
 		<SpectralData wavelength="405.5">0.069</SpectralData>

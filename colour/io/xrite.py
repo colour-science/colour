@@ -8,11 +8,13 @@ Defines the input object for *X-Rite* spectral data files:
 -   :func:`colour.read_sds_from_xrite_file`
 """
 
+from __future__ import annotations
+
 import codecs
 import re
 
 from colour.colorimetry import SpectralDistribution
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.hints import Dict
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -26,28 +28,27 @@ __all__ = [
     'read_sds_from_xrite_file',
 ]
 
-XRITE_FILE_ENCODING = 'utf-8'
+XRITE_FILE_ENCODING: str = 'utf-8'
 
 
-def read_sds_from_xrite_file(path):
+def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     """
-    Reads the spectral data from given *X-Rite* file and returns it as an
-    *dict* of :class:`colour.SpectralDistribution` classes.
+    Reads the spectral data from given *X-Rite* file and returns it as a
+    *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
     ----------
-    path : str
+    path
         Absolute *X-Rite* file path.
 
     Returns
     -------
-    dict
-        :class:`colour.SpectralDistribution` classes of given *X-Rite*
-        file.
+    :class:`dict`
+        *Dict* of :class:`colour.SpectralDistribution` class instances.
 
     Notes
     -----
-    -   This parser is minimalistic and absolutely not bullet proof.
+    -   This parser is minimalistic and absolutely not bullet-proof.
 
     Examples
     --------
@@ -76,17 +77,13 @@ def read_sds_from_xrite_file(path):
                 is_spectral_data = False
 
             if is_spectral_data_format:
-                wavelengths = [
-                    DEFAULT_FLOAT_DTYPE(x)
-                    for x in re.findall('nm(\\d+)', line)
-                ]
+                wavelengths = [x for x in re.findall('nm(\\d+)', line)]
                 index = len(wavelengths)
 
             if is_spectral_data:
                 tokens = line.split()
-                values = [DEFAULT_FLOAT_DTYPE(x) for x in tokens[-index:]]
-                xrite_sds[tokens[1]] = (SpectralDistribution(
-                    dict(zip(wavelengths, values)), name=tokens[1]))
+                xrite_sds[tokens[1]] = SpectralDistribution(
+                    tokens[-index:], wavelengths, name=tokens[1])
 
             if line == 'BEGIN_DATA_FORMAT':
                 is_spectral_data_format = True

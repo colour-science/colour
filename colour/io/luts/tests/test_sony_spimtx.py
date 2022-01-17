@@ -3,6 +3,8 @@
 Defines the unit tests for the :mod:`colour.io.luts.sony_spimtx` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
 import shutil
@@ -24,7 +26,7 @@ __all__ = [
     'TestWriteLUTSonySPImtx',
 ]
 
-LUTS_DIRECTORY = os.path.join(
+LUTS_DIRECTORY: str = os.path.join(
     os.path.dirname(__file__), 'resources', 'sony_spimtx')
 
 
