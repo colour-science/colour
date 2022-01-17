@@ -14,8 +14,11 @@ References
     http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
 """
 
+from __future__ import annotations
+
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -34,7 +37,7 @@ __all__ = [
 ]
 
 # yapf: disable
-DATA_ASTMG173_ETR = {
+DATA_ASTMG173_ETR: Dict = {
     280.0: 8.2000e-02,
     280.5: 9.9000e-02,
     281.0: 1.5000e-01,
@@ -2039,7 +2042,7 @@ DATA_ASTMG173_ETR = {
     4000.0: 8.6800e-03,
 }
 
-DATA_ASTMG173_GLOBAL_TILT = {
+DATA_ASTMG173_GLOBAL_TILT: Dict = {
     280.0: 4.7309e-23,
     280.5: 1.2307e-21,
     281.0: 5.6895e-21,
@@ -4044,7 +4047,7 @@ DATA_ASTMG173_GLOBAL_TILT = {
     4000.0: 7.1043e-03,
 }
 
-DATA_ASTMG173_DIRECT_CIRCUMSOLAR = {
+DATA_ASTMG173_DIRECT_CIRCUMSOLAR: Dict = {
     280.0: 2.5361e-26,
     280.5: 1.0917e-24,
     281.0: 6.1253e-24,
@@ -6050,7 +6053,7 @@ DATA_ASTMG173_DIRECT_CIRCUMSOLAR = {
 }
 # yapf: enable
 
-SD_ASTMG173_ETR = SpectralDistribution(
+SD_ASTMG173_ETR: SpectralDistribution = SpectralDistribution(
     DATA_ASTMG173_ETR, name='ASTM G-173 ETR', interpolator=LinearInterpolator)
 """
 Extraterrestrial Radiation (solar spectrum at top of atmosphere) at mean
@@ -6059,11 +6062,9 @@ Earth-Sun distance.
 References
 ----------
 :cite:`RenewableResourceDataCenter2003a`
-
-SD_ASTMG173_ETR : SpectralDistribution
 """
 
-SD_ASTMG173_GLOBAL_TILT = SpectralDistribution(
+SD_ASTMG173_GLOBAL_TILT: SpectralDistribution = SpectralDistribution(
     DATA_ASTMG173_GLOBAL_TILT,
     name='ASTM G-173 Global Tilt',
     interpolator=LinearInterpolator)
@@ -6074,11 +6075,9 @@ from ground on south facing surface tilted 37 degrees from horizontal.
 References
 ----------
 :cite:`RenewableResourceDataCenter2003a`
-
-SD_ASTMG173_GLOBAL_TILT : SpectralDistribution
 """
 
-SD_ASTMG173_DIRECT_CIRCUMSOLAR = SpectralDistribution(
+SD_ASTMG173_DIRECT_CIRCUMSOLAR: SpectralDistribution = SpectralDistribution(
     DATA_ASTMG173_DIRECT_CIRCUMSOLAR,
     name='ASTM G-173 Direct + Circumsolar',
     interpolator=LinearInterpolator)
@@ -6093,6 +6092,4 @@ radiation from the disk.
 References
 ----------
 :cite:`RenewableResourceDataCenter2003a`
-
-SD_ASTMG173_DIRECT_CIRCUMSOLAR : SpectralDistribution
 """

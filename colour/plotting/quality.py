@@ -11,11 +11,31 @@ Defines the colour quality plotting objects:
 -   :func:`colour.plotting.plot_multi_sds_colour_quality_scales_bars`
 """
 
+from __future__ import annotations
+
+import matplotlib.pyplot as plt
 import numpy as np
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.colorimetry import sds_and_msds_to_sds
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    sds_and_msds_to_sds,
+)
+from colour.hints import (
+    Any,
+    Boolean,
+    Dict,
+    Integer,
+    List,
+    Literal,
+    Optional,
+    Sequence,
+    Tuple,
+    Union,
+    cast,
+)
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,
@@ -26,10 +46,12 @@ from colour.plotting import (
 )
 from colour.quality import (
     COLOUR_QUALITY_SCALE_METHODS,
+    ColourRendering_Specification_CQS,
+    ColourRendering_Specification_CRI,
     colour_quality_scale,
     colour_rendering_index,
 )
-from colour.utilities import validate_method
+from colour.utilities import as_float_array, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -48,37 +70,38 @@ __all__ = [
 
 
 @override_style()
-def plot_colour_quality_bars(specifications,
-                             labels=True,
-                             hatching=None,
-                             hatching_repeat=2,
-                             **kwargs):
+def plot_colour_quality_bars(specifications: Sequence[Union[
+        ColourRendering_Specification_CQS, ColourRendering_Specification_CRI]],
+                             labels: Boolean = True,
+                             hatching: Optional[Boolean] = None,
+                             hatching_repeat: Integer = 2,
+                             **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the colour quality data of given illuminants or light sources colour
     quality specifications.
 
     Parameters
     ----------
-    specifications : array_like
+    specifications
         Array of illuminants or light sources colour quality specifications.
-    labels : bool, optional
+    labels
         Add labels above bars.
-    hatching : bool or None, optional
+    hatching
         Use hatching for the bars.
-    hatching_repeat : int, optional
+    hatching_repeat
         Hatching pattern repeat.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -98,7 +121,7 @@ def plot_colour_quality_bars(specifications,
         :alt: plot_colour_quality_bars
     """
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
@@ -109,6 +132,7 @@ def plot_colour_quality_bars(specifications,
     patterns = cycle(CONSTANTS_COLOUR_STYLE.hatch.patterns)
     if hatching is None:
         hatching = False if count_s == 1 else True
+
     for i, specification in enumerate(specifications):
         Q_a, Q_as, colorimetry_data = (specification.Q_a, specification.Q_as,
                                        specification.colorimetry_data)
@@ -119,11 +143,13 @@ def plot_colour_quality_bars(specifications,
             for x in colorimetry_data[0]
         ])
 
-        x = (i + np.arange(
+        x = as_float_array(i + np.arange(
             0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
             dtype=DEFAULT_FLOAT_DTYPE)) * bar_width
-        y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
-        y = np.array([Q_a] + list(y))
+        y = as_float_array([Q_a] + [
+            s[1].Q_a  # type: ignore[attr-defined]
+            for s in sorted(Q_as.items(), key=lambda s: s[0])
+        ])
 
         bars = axes.bar(
             x,
@@ -134,8 +160,10 @@ def plot_colour_quality_bars(specifications,
             label=specification.name)
 
         hatches = ([next(patterns) * hatching_repeat] * (count_Q_as + 1)
-                   if hatching else np.where(y < 0, next(patterns),
-                                             None).tolist())
+                   if hatching else list(
+                       np.where(y < 0, next(patterns),
+                                None)  # type: ignore[call-overload]
+                   ))
 
         for j, bar in enumerate(bars.patches):
             bar.set_hatch(hatches[j])
@@ -179,37 +207,39 @@ def plot_colour_quality_bars(specifications,
 
 
 @override_style()
-def plot_single_sd_colour_rendering_index_bars(sd, **kwargs):
+def plot_single_sd_colour_rendering_index_bars(
+        sd: SpectralDistribution,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Colour Rendering Index* (CRI) of given illuminant or light
     source spectral distribution.
 
     Parameters
     ----------
-    sd : SpectralDistribution
+    sd
         Illuminant or light source spectral distribution to plot the
         *Colour Rendering Index* (CRI).
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
-    labels : bool, optional
+        See the documentation of the previously listed definitions.
+    labels
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Add labels above bars.
-    hatching : bool or None, optional
+    hatching
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Use hatching for the bars.
-    hatching_repeat : int, optional
+    hatching_repeat
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Hatching pattern repeat.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -230,14 +260,18 @@ Plot_Single_SD_Colour_Rendering_Index_Bars.png
 
 
 @override_style()
-def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
+def plot_multi_sds_colour_rendering_indexes_bars(
+        sds: Union[Sequence[Union[SpectralDistribution,
+                                  MultiSpectralDistributions]],
+                   MultiSpectralDistributions],
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Colour Rendering Index* (CRI) of given illuminants or light
     sources spectral distributions.
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistributions
+    sds
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
@@ -246,24 +280,24 @@ def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
-    labels : bool, optional
+        See the documentation of the previously listed definitions.
+    labels
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Add labels above bars.
-    hatching : bool or None, optional
+    hatching
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Use hatching for the bars.
-    hatching_repeat : int, optional
+    hatching_repeat
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Hatching pattern repeat.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -282,14 +316,15 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
         :alt: plot_multi_sds_colour_rendering_indexes_bars
     """
 
-    sds = sds_and_msds_to_sds(sds)
+    sds_converted = sds_and_msds_to_sds(sds)
 
-    settings = dict(kwargs)
+    settings: Dict[str, Any] = dict(kwargs)
     settings.update({'standalone': False})
 
-    specifications = [
-        colour_rendering_index(sd, additional_data=True) for sd in sds
-    ]
+    specifications = cast(List[ColourRendering_Specification_CRI], [
+        colour_rendering_index(sd, additional_data=True)
+        for sd in sds_converted
+    ])
 
     # *colour rendering index* colorimetry data tristimulus values are
     # computed in [0, 100] domain however `plot_colour_quality_bars` expects
@@ -304,7 +339,7 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = 'Colour Rendering Index - {0}'.format(', '.join(
-        [sd.strict_name for sd in sds]))
+        [sd.strict_name for sd in sds_converted]))
 
     settings = {'axes': axes, 'title': title}
     settings.update(kwargs)
@@ -313,42 +348,43 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
 
 
 @override_style()
-def plot_single_sd_colour_quality_scale_bars(sd,
-                                             method='NIST CQS 9.0',
-                                             **kwargs):
+def plot_single_sd_colour_quality_scale_bars(
+        sd: SpectralDistribution,
+        method: Union[Literal['NIST CQS 7.4', 'NIST CQS 9.0'],
+                      str] = 'NIST CQS 9.0',
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
     spectral distribution.
 
     Parameters
     ----------
-    sd : SpectralDistribution
+    sd
         Illuminant or light source spectral distribution to plot the
         *Colour Quality Scale* (CQS).
-    method : str, optional
-        **{'NIST CQS 9.0', 'NIST CQS 7.4'}**,
+    method
         *Colour Quality Scale* (CQS) computation method.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
-    labels : bool, optional
+        See the documentation of the previously listed definitions.
+    labels
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Add labels above bars.
-    hatching : bool or None, optional
+    hatching
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Use hatching for the bars.
-    hatching_repeat : int, optional
+    hatching_repeat
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Hatching pattern repeat.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -371,45 +407,48 @@ Plot_Single_SD_Colour_Quality_Scale_Bars.png
 
 
 @override_style()
-def plot_multi_sds_colour_quality_scales_bars(sds,
-                                              method='NIST CQS 9.0',
-                                              **kwargs):
+def plot_multi_sds_colour_quality_scales_bars(
+        sds: Union[Sequence[Union[SpectralDistribution,
+                                  MultiSpectralDistributions]],
+                   MultiSpectralDistributions],
+        method: Union[Literal['NIST CQS 7.4', 'NIST CQS 9.0'],
+                      str] = 'NIST CQS 9.0',
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminants or light
     sources spectral distributions.
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistributions
+    sds
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
-    method : str, optional
-        **{'NIST CQS 9.0', 'NIST CQS 7.4'}**,
+    method
         *Colour Quality Scale* (CQS) computation method.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
-    labels : bool, optional
+        See the documentation of the previously listed definitions.
+    labels
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Add labels above bars.
-    hatching : bool or None, optional
+    hatching
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Use hatching for the bars.
-    hatching_repeat : int, optional
+    hatching_repeat
         {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Hatching pattern repeat.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -428,18 +467,21 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
         :alt: plot_multi_sds_colour_quality_scales_bars
     """
 
-    sds = sds_and_msds_to_sds(sds)
     method = validate_method(method, COLOUR_QUALITY_SCALE_METHODS)
 
-    settings = dict(kwargs)
+    sds_converted = sds_and_msds_to_sds(sds)
+
+    settings: Dict[str, Any] = dict(kwargs)
     settings.update({'standalone': False})
 
-    specifications = [colour_quality_scale(sd, True, method) for sd in sds]
+    specifications = cast(
+        List[ColourRendering_Specification_CQS],
+        [colour_quality_scale(sd, True, method) for sd in sds_converted])
 
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = 'Colour Quality Scale - {0}'.format(', '.join(
-        [sd.strict_name for sd in sds]))
+        [sd.strict_name for sd in sds_converted]))
 
     settings = {'axes': axes, 'title': title}
     settings.update(kwargs)

@@ -8,12 +8,15 @@ Defines the automatic colour conversion graph plotting objects:
 -   :func:`colour.plotting.plot_automatic_colour_conversion_graph`
 """
 
+from __future__ import annotations
+
 import colour
 from colour.graph import (
     CONVERSION_GRAPH_NODE_LABELS,
     describe_conversion_path,
 )
-from colour.utilities import required
+from colour.hints import Literal, Union
+from colour.utilities import required, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,7 +31,11 @@ __all__ = [
 
 
 @required('NetworkX')
-def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
+def plot_automatic_colour_conversion_graph(
+        filename: str,
+        prog: Union[Literal['circo', 'dot', 'fdp', 'neato', 'nop', 'twopi'],
+                    str] = 'fdp',
+        args: str = '') -> 'AGraph':  # type: ignore[name-defined]  # noqa
     """
     Plots *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org/>`__ and
@@ -36,17 +43,16 @@ def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
 
     Parameters
     ----------
-    filename : str
+    filename
         Filename to use to save the image.
-    prog : str, optional
-        {'neato', 'dot', 'twopi', 'circo', 'fdp', 'nop'},
+    prog
         *Graphviz* layout method.
-    args : str, optional
+    args
          Additional arguments for *Graphviz*.
 
     Returns
     -------
-    AGraph
+    :class:`AGraph`
         *Pyraphviz* graph.
 
     Notes
@@ -71,6 +77,10 @@ def plot_automatic_colour_conversion_graph(filename, prog='fdp', args=''):
     """
 
     import networkx as nx
+
+    prog = validate_method(prog,
+                           ['circo', 'dot', 'fdp', 'neato', 'nop', 'twopi'],
+                           '"{0}" program is invalid, it must be one of {1}!')
 
     # TODO: Investigate API to trigger the conversion graph build.
     describe_conversion_path('RGB', 'RGB', print_callable=lambda x: x)

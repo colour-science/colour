@@ -8,7 +8,15 @@ Defines the corresponding chromaticities prediction plotting objects:
 -   :func:`colour.plotting.plot_corresponding_chromaticities_prediction`
 """
 
-from colour.corresponding import corresponding_chromaticities_prediction
+from __future__ import annotations
+
+import matplotlib.pyplot as plt
+
+from colour.corresponding import (
+    CorrespondingColourDataset,
+    corresponding_chromaticities_prediction,
+)
+from colour.hints import Any, Dict, Literal, Tuple, Union
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,
@@ -31,36 +39,41 @@ __all__ = [
 
 
 @override_style()
-def plot_corresponding_chromaticities_prediction(experiment=1,
-                                                 model='Von Kries',
-                                                 transform='CAT02',
-                                                 **kwargs):
+def plot_corresponding_chromaticities_prediction(
+        experiment: Union[Literal[1, 2, 3, 4, 6, 8, 9, 11, 12],
+                          CorrespondingColourDataset] = 1,
+        model: Union[Literal['CIE 1994', 'CMCCAT2000', 'Fairchild 1990',
+                             'Von Kries'], str] = 'Von Kries',
+        chromatic_adaptation_transform: Union[Literal[
+            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
+            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
+            'Von Kries', 'XYZ Scaling'], str] = 'CAT02',
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given chromatic adaptation model corresponding chromaticities
     prediction.
 
     Parameters
     ----------
-    experiment : integer or CorrespondingColourDataset, optional
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+    experiment
         *Breneman (1987)* experiment number or
         :class:`colour.CorrespondingColourDataset` class instance.
-    model : str, optional
+    model
         Corresponding chromaticities prediction model name.
-    transform : str, optional
+    chromatic_adaptation_transform
         Transformation to use with *Von Kries* chromatic adaptation model.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -75,16 +88,16 @@ Plot_Corresponding_Chromaticities_Prediction.png
         :alt: plot_corresponding_chromaticities_prediction
     """
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    name = ('Experiment {0}'.format(experiment)
-            if is_numeric(experiment) else experiment.name)
+    name = ('Experiment {0}'.format(experiment) if is_numeric(experiment) else
+            experiment.name)  # type: ignore[union-attr]
     title = (('Corresponding Chromaticities Prediction - {0} ({1}) - {2} - '
               'CIE 1976 UCS Chromaticity Diagram').format(
-                  model, transform, name)
+                  model, chromatic_adaptation_transform, name)
              if model.lower() in ('von kries', 'vonkries') else
              ('Corresponding Chromaticities Prediction - {0} - {1} - '
               'CIE 1976 UCS Chromaticity Diagram').format(model, name))
@@ -96,7 +109,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     plot_chromaticity_diagram_CIE1976UCS(**settings)
 
     results = corresponding_chromaticities_prediction(
-        experiment, transform=transform)
+        experiment, transform=chromatic_adaptation_transform)
 
     for result in results:
         _name, uv_t, uv_m, uv_p = result

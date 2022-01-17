@@ -3,11 +3,17 @@
 Defines the unit tests for the :mod:`colour.plotting.tm3018.components` module.
 """
 
+from __future__ import annotations
+
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
 from colour.colorimetry import SDS_ILLUMINANTS
-from colour.quality import colour_fidelity_index_ANSIIESTM3018
+from colour.hints import cast
+from colour.quality import (
+    ColourQuality_Specification_ANSIIESTM3018,
+    colour_fidelity_index_ANSIIESTM3018,
+)
 from colour.plotting.tm3018.components import (
     plot_spectra_ANSIIESTM3018,
     plot_colour_vector_graphic,
@@ -35,8 +41,9 @@ __all__ = [
     'TestPlotColourFidelityIndexes',
 ]
 
-SPECIFICATION_ANSIIESTM3018 = colour_fidelity_index_ANSIIESTM3018(
-    SDS_ILLUMINANTS['FL2'], True)
+SPECIFICATION_ANSIIESTM3018: ColourQuality_Specification_ANSIIESTM3018 = (cast(
+    ColourQuality_Specification_ANSIIESTM3018,
+    colour_fidelity_index_ANSIIESTM3018(SDS_ILLUMINANTS['FL2'], True)))
 
 
 class TestPlotSpectraANSIIESTM3018(unittest.TestCase):
