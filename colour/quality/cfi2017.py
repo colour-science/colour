@@ -218,7 +218,7 @@ def load_TCS_CIE2017(shape):
 
     Examples
     --------
-    >>> sds_tcs = load_TCS_CIE2017(SpectralShape(interval=5))
+    >>> sds_tcs = load_TCS_CIE2017(SpectralShape(380, 780, 5))
     >>> len(sds_tcs.labels)
     99
     """

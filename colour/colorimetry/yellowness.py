@@ -16,7 +16,7 @@ Defines the *yellowness* index :math:`Y` computation objects:
     using the recommended *ASTM E313* method.
 -   :attr:`colour.YELLOWNESS_METHODS`: Supported *yellowness* computations
     methods.
--   :func:`colour.whiteness`: *Yellowness* :math:`YI` computation using given
+-   :func:`colour.yellownes`: *Yellowness* :math:`YI` computation using given
     method.
 
 References
@@ -30,7 +30,17 @@ References
 c/09_color_calculations_en.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
+
+from colour.hints import (
+    Any,
+    ArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_float,
@@ -58,26 +68,26 @@ __all__ = [
 ]
 
 
-def yellowness_ASTMD1925(XYZ):
+def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
     """
     Returns the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using *ASTM D1925* method.
 
     ASTM D1925 has been specifically developed for the definition of the
-    Yellowness of homogeneous, non-fluorescent, almost neutral-transparent,
+    yellowness of homogeneous, non-fluorescent, almost neutral-transparent,
     white-scattering or opaque plastics as they will be reviewed under daylight
     condition. It can be other materials as well, as long as they fit into this
     description.
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values of sample.
+    XYZ
+        *CIE XYZ* tristimulus values of the sample.
 
     Returns
     -------
-    numeric or ndarray
-        *Whiteness* :math:`YI`.
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Yellowness* :math:`YI`.
 
     Notes
     -----
@@ -115,7 +125,7 @@ def yellowness_ASTMD1925(XYZ):
     return as_float(from_range_100(YI))
 
 
-def yellowness_ASTME313_alternative(XYZ):
+def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
     """
     Returns the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using the alternative *ASTM E313* method.
@@ -130,13 +140,13 @@ def yellowness_ASTME313_alternative(XYZ):
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values of sample.
+    XYZ
+        *CIE XYZ* tristimulus values of the sample.
 
     Returns
     -------
-    numeric or ndarray
-        *Whiteness* :math:`YI`.
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Yellowness* :math:`YI`.
 
     Notes
     -----
@@ -174,18 +184,19 @@ def yellowness_ASTME313_alternative(XYZ):
     return as_float(from_range_100(WI))
 
 
-YELLOWNESS_COEFFICIENTS_ASTME313 = CaseInsensitiveMapping({
-    'CIE 1931 2 Degree Standard Observer':
-        CaseInsensitiveMapping({
-            'C': np.array([1.2769, 1.0592]),
-            'D65': np.array([1.2985, 1.1335]),
-        }),
-    'CIE 1964 10 Degree Standard Observer':
-        CaseInsensitiveMapping({
-            'C': np.array([1.2871, 1.0781]),
-            'D65': np.array([1.3013, 1.1498]),
-        })
-})
+YELLOWNESS_COEFFICIENTS_ASTME313: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping({
+        'CIE 1931 2 Degree Standard Observer':
+            CaseInsensitiveMapping({
+                'C': np.array([1.2769, 1.0592]),
+                'D65': np.array([1.2985, 1.1335]),
+            }),
+        'CIE 1964 10 Degree Standard Observer':
+            CaseInsensitiveMapping({
+                'C': np.array([1.2871, 1.0781]),
+                'D65': np.array([1.3013, 1.1498]),
+            })
+    }))
 YELLOWNESS_COEFFICIENTS_ASTME313.__doc__ = """
 Coefficients :math:`C_X` and :math:`C_Z` for the *ASTM E313* *yellowness* index
 :math:`YI` computation method.
@@ -193,10 +204,6 @@ Coefficients :math:`C_X` and :math:`C_Z` for the *ASTM E313* *yellowness* index
 References
 ----------
 :cite:`ASTMInternational2015`
-
-COEFFICIENTS_ASTME313 : CaseInsensitiveMapping
-    **{'CIE 1931 2 Degree Standard Observer',
-    'CIE 1964 10 Degree Standard Observer'}**
 
 Aliases:
 
@@ -209,9 +216,10 @@ YELLOWNESS_COEFFICIENTS_ASTME313['cie_10_1964'] = (
     YELLOWNESS_COEFFICIENTS_ASTME313['CIE 1964 10 Degree Standard Observer'])
 
 
-def yellowness_ASTME313(XYZ,
-                        C_XZ=YELLOWNESS_COEFFICIENTS_ASTME313[
-                            'CIE 1931 2 Degree Standard Observer']['D65']):
+def yellowness_ASTME313(XYZ: ArrayLike,
+                        C_XZ: ArrayLike = YELLOWNESS_COEFFICIENTS_ASTME313[
+                            'CIE 1931 2 Degree Standard Observer']['D65']
+                        ) -> FloatingOrNDArray:
     """
     Returns the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using *ASTM E313* method.
@@ -221,9 +229,9 @@ def yellowness_ASTME313(XYZ,
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values of sample.
-    C_XZ : array_like, optional
+    XYZ
+        *CIE XYZ* tristimulus values of the sample.
+    C_XZ
         Coefficients :math:`C_X` and :math:`C_Z` for the
         *CIE 1931 2 Degree Standard Observer* and
         *CIE 1964 10 Degree Standard Observer* and *CIE Illuminant C* and
@@ -231,8 +239,8 @@ def yellowness_ASTME313(XYZ,
 
     Returns
     -------
-    numeric or ndarray
-        *Whiteness* :math:`YI`.
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Yellowness* :math:`YI`.
 
     Notes
     -----
@@ -279,27 +287,27 @@ Supported *yellowness* computation methods.
 References
 ----------
 :cite:`ASTMInternational2015`, :cite:`X-Rite2012a`
-
-YELLOWNESS_METHODS : CaseInsensitiveMapping
-    **{'ASTM E313', 'ASTM D1925', 'ASTM E313 Alternative'}**
 """
 
 
-def yellowness(XYZ, method='ASTM E313', **kwargs):
+def yellowness(
+        XYZ: ArrayLike,
+        method: Union[Literal['ASTM D1925', 'ASTM E313',
+                              'ASTM E313 Alternative'], str] = 'ASTM E313',
+        **kwargs: Any) -> FloatingOrNDArray:
     """
     Returns the *yellowness* :math:`W` using given method.
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values of sample.
-    method : str, optional
-        **{'ASTM E313', 'ASTM D1925', 'ASTM E313 Alternative'}**,
+    XYZ
+        *CIE XYZ* tristimulus values of the sample.
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    C_XZ : array_like, optional
+    C_XZ
         {:func:`colour.colorimetry.yellowness_ASTME313`},
         Coefficients :math:`C_X` and :math:`C_Z` for the
         *CIE 1931 2 Degree Standard Observer* and
@@ -308,8 +316,8 @@ def yellowness(XYZ, method='ASTM E313', **kwargs):
 
     Returns
     -------
-    numeric or ndarray
-        *yellowness* :math:`Y`.
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Yellowness* :math:`Y`.
 
     Notes
     -----

@@ -25,6 +25,8 @@ References
     ISBN:978-0-471-39918-6
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import LinearInterpolator
@@ -32,6 +34,13 @@ from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
     SpectralDistribution,
+    SpectralShape,
+)
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
 )
 from colour.utilities import as_float_array, as_float, tsplit
 
@@ -49,7 +58,8 @@ __all__ = [
 ]
 
 
-def sd_CIE_standard_illuminant_A(shape=SPECTRAL_SHAPE_DEFAULT):
+def sd_CIE_standard_illuminant_A(
+        shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT) -> SpectralDistribution:
     """
     *CIE Standard Illuminant A* is intended to represent typical, domestic,
     tungsten-filament lighting.
@@ -61,13 +71,13 @@ def sd_CIE_standard_illuminant_A(shape=SPECTRAL_SHAPE_DEFAULT):
 
     Parameters
     ----------
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution of the
         *CIE Standard Illuminant A*.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         *CIE Standard Illuminant A*. spectral distribution.
 
     References
@@ -125,24 +135,24 @@ def sd_CIE_standard_illuminant_A(shape=SPECTRAL_SHAPE_DEFAULT):
         values, wavelengths, name='CIE Standard Illuminant A')
 
 
-def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
+def sd_CIE_illuminant_D_series(
+        xy: ArrayLike, M1_M2_rounding: Boolean = True) -> SpectralDistribution:
     """
     Returns the spectral distribution of given *CIE Illuminant D Series* using
     given *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates.
-    M1_M2_rounding : bool, optional
+    M1_M2_rounding
         Whether to round :math:`M1` and :math:`M2` variables to 3 decimal
         places in order to yield the internationally agreed values.
 
     Returns
     -------
-    SpectralDistribution
-        *CIE Illuminant D Series* spectral
-        distribution.
+    :class:`colour.SpectralDistribution`
+        *CIE Illuminant D Series* spectral distribution.
 
     Notes
     -----
@@ -278,6 +288,8 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
                          extrapolator_kwargs={...})
     """
 
+    xy = as_float_array(xy)
+
     x, y = tsplit(xy)
 
     M = 0.0241 + 0.2562 * x - 0.7341 * y
@@ -301,18 +313,18 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
         interpolator=LinearInterpolator)
 
 
-def daylight_locus_function(x_D):
+def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the daylight locus as *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
-    x_D : numeric or array_like
-        *x* chromaticity coordinates
+    x_D
+        Chromaticity coordinate :math:`x_D`.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Daylight locus as *CIE xy* chromaticity coordinates.
 
     References

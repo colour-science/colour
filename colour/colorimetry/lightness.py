@@ -61,6 +61,8 @@ References
     ISBN:978-0-471-39918-6
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
@@ -68,10 +70,17 @@ from colour.biochemistry import (
     reaction_rate_MichaelisMenten_Michaelis1913,
     reaction_rate_MichaelisMenten_Abebe2017,
 )
+from colour.hints import (
+    Any,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
-    as_float_array,
     as_float,
+    as_float_array,
     filter_kwargs,
     from_range_100,
     get_domain_range_scale,
@@ -101,19 +110,19 @@ __all__ = [
 ]
 
 
-def lightness_Glasser1958(Y):
+def lightness_Glasser1958(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
     *Glasser et al. (1958)* method.
 
     Parameters
     ----------
-    Y : numeric or array_like
-        *luminance* :math:`Y`.
+    Y
+        *Luminance* :math:`Y`.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Lightness* :math:`L`.
 
     Notes
@@ -148,7 +157,7 @@ def lightness_Glasser1958(Y):
     return as_float(from_range_100(L))
 
 
-def lightness_Wyszecki1963(Y):
+def lightness_Wyszecki1963(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
     *Wyszecki (1963)* method.
@@ -156,12 +165,12 @@ def lightness_Wyszecki1963(Y):
 
     Parameters
     ----------
-    Y : numeric or array_like
-        *luminance* :math:`Y`.
+    Y
+        *Luminance* :math:`Y`.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Lightness* :math:`W`.
 
     Notes
@@ -200,7 +209,9 @@ def lightness_Wyszecki1963(Y):
     return as_float(from_range_100(W))
 
 
-def intermediate_lightness_function_CIE1976(Y, Y_n=100):
+def intermediate_lightness_function_CIE1976(Y: FloatingOrArrayLike,
+                                            Y_n: FloatingOrArrayLike = 100
+                                            ) -> FloatingOrNDArray:
     """
     Returns the intermediate value :math:`f(Y/Yn)` in the *Lightness*
     :math:`L^*` computation for given *luminance* :math:`Y` using given
@@ -208,14 +219,14 @@ def intermediate_lightness_function_CIE1976(Y, Y_n=100):
 
     Parameters
     ----------
-    Y : numeric or array_like
-        *luminance* :math:`Y`.
-    Y_n : numeric or array_like, optional
+    Y
+        *Luminance* :math:`Y`.
+    Y_n
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Intermediate value :math:`f(Y/Yn)`.
 
     Notes
@@ -261,7 +272,8 @@ def intermediate_lightness_function_CIE1976(Y, Y_n=100):
     return as_float(f_Y_Y_n)
 
 
-def lightness_CIE1976(Y, Y_n=100):
+def lightness_CIE1976(Y: FloatingOrArrayLike,
+                      Y_n: FloatingOrArrayLike = 100) -> FloatingOrNDArray:
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
     given reference white *luminance* :math:`Y_n` as per *CIE 1976*
@@ -269,14 +281,14 @@ def lightness_CIE1976(Y, Y_n=100):
 
     Parameters
     ----------
-    Y : numeric or array_like
-        *luminance* :math:`Y`.
-    Y_n : numeric or array_like, optional
+    Y
+        *Luminance* :math:`Y`.
+    Y_n
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Lightness* :math:`L^*`.
 
     Notes
@@ -312,7 +324,9 @@ def lightness_CIE1976(Y, Y_n=100):
     return as_float(from_range_100(L_star))
 
 
-def lightness_Fairchild2010(Y, epsilon=1.836):
+def lightness_Fairchild2010(Y: FloatingOrArrayLike,
+                            epsilon: FloatingOrArrayLike = 1.836
+                            ) -> FloatingOrNDArray:
     """
     Computes *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
@@ -320,14 +334,14 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
 
     Parameters
     ----------
-    Y : array_like
-        *luminance* :math:`Y`.
-    epsilon : numeric or array_like, optional
+    Y
+        *Luminance* :math:`Y`.
+    epsilon
         :math:`\\epsilon` exponent.
 
     Returns
     -------
-    array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Lightness* :math:`L_{hdr}`.
 
     Notes
@@ -360,12 +374,16 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
     maximum_perception = 100
 
     L_hdr = reaction_rate_MichaelisMenten_Michaelis1913(
-        spow(Y, epsilon), maximum_perception, 0.184 ** epsilon) + 0.02
+        spow(Y, epsilon), maximum_perception, spow(0.184, epsilon)) + 0.02
 
     return as_float(from_range_100(L_hdr))
 
 
-def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
+def lightness_Fairchild2011(
+        Y: FloatingOrArrayLike,
+        epsilon: FloatingOrArrayLike = 0.474,
+        method: Union[Literal['hdr-CIELAB', 'hdr-IPT'], str] = 'hdr-CIELAB'
+) -> FloatingOrNDArray:
     """
     Computes *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
     *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
@@ -373,17 +391,16 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
 
     Parameters
     ----------
-    Y : array_like
-        *luminance* :math:`Y`.
-    epsilon : numeric or array_like, optional
+    Y
+        *Luminance* :math:`Y`.
+    epsilon
         :math:`\\epsilon` exponent.
-    method : str, optional
-        **{'hdr-CIELAB', 'hdr-IPT'}**,
+    method
         *Lightness* :math:`L_{hdr}` computation method.
 
     Returns
     -------
-    array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Lightness* :math:`L_{hdr}`.
 
     Notes
@@ -423,12 +440,16 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
         maximum_perception = 246
 
     L_hdr = reaction_rate_MichaelisMenten_Michaelis1913(
-        spow(Y, epsilon), maximum_perception, 2 ** epsilon) + 0.02
+        spow(Y, epsilon), maximum_perception, spow(2, epsilon)) + 0.02
 
     return as_float(from_range_100(L_hdr))
 
 
-def lightness_Abebe2017(Y, Y_n=100, method='Michaelis-Menten'):
+def lightness_Abebe2017(
+        Y: FloatingOrArrayLike,
+        Y_n: FloatingOrArrayLike = 100,
+        method: Union[Literal['Michaelis-Menten', 'Stevens'],
+                      str] = 'Michaelis-Menten') -> FloatingOrNDArray:
     """
     Computes *Lightness* :math:`L` of given *luminance* :math:`Y` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
@@ -436,17 +457,16 @@ def lightness_Abebe2017(Y, Y_n=100, method='Michaelis-Menten'):
 
     Parameters
     ----------
-    Y : array_like
-        *luminance* :math:`Y` in :math:`cd/m^2`.
-    Y_n : numeric or array_like, optional
+    Y
+        *Luminance* :math:`Y` in :math:`cd/m^2`.
+    Y_n
         Adapting luminance :math:`Y_n` in :math:`cd/m^2`.
-    method : str, optional
-        **{'Michaelis-Menten', 'Stevens'}**,
+    method
         *Lightness* :math:`L` computation method.
 
     Returns
     -------
-    array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Lightness* :math:`L`.
 
     Notes
@@ -507,7 +527,7 @@ def lightness_Abebe2017(Y, Y_n=100, method='Michaelis-Menten'):
     return as_float(L)
 
 
-LIGHTNESS_METHODS = CaseInsensitiveMapping({
+LIGHTNESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Glasser 1958': lightness_Glasser1958,
     'Wyszecki 1963': lightness_Wyszecki1963,
     'CIE 1976': lightness_CIE1976,
@@ -523,10 +543,6 @@ References
 :cite:`CIETC1-482004m`, :cite:`Fairchild2010`, :cite:`Fairchild2011`,
 :cite:`Glasser1958a`, :cite:`Wyszecki1963b`, :cite:`Wyszecki2000bd`
 
-LIGHTNESS_METHODS : CaseInsensitiveMapping
-    **{'Glasser 1958', 'Wyszecki 1963', 'CIE 1976', 'Fairchild 2010',
-    'Fairchild 2011', 'Abebe 2017'}**
-
 Aliases:
 
 -   'Lstar1976': 'CIE 1976'
@@ -534,34 +550,36 @@ Aliases:
 LIGHTNESS_METHODS['Lstar1976'] = LIGHTNESS_METHODS['CIE 1976']
 
 
-def lightness(Y, method='CIE 1976', **kwargs):
+def lightness(Y: FloatingOrArrayLike,
+              method: Union[Literal['Abebe 2017', 'CIE 1976', 'Glasser 1958',
+                                    'Fairchild 2010', 'Fairchild 2011',
+                                    'Wyszecki 1963'], str] = 'CIE 1976',
+              **kwargs: Any) -> FloatingOrNDArray:
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
     given method.
 
     Parameters
     ----------
-    Y : numeric or array_like
-        *luminance* :math:`Y`.
-    method : str, optional
-        **{'CIE 1976', 'Glasser 1958', 'Wyszecki 1963', 'Fairchild 2010',
-        'Fairchild 2011', 'Abebe 2017'}**,
+    Y
+        *Luminance* :math:`Y`.
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    Y_n : numeric or array_like, optional
+    Y_n
         {:func:`colour.colorimetry.lightness_Abebe2017`,
         :func:`colour.colorimetry.lightness_CIE1976`},
         White reference *luminance* :math:`Y_n`.
-    epsilon : numeric or array_like, optional
+    epsilon
         {:func:`colour.colorimetry.lightness_Fairchild2010`,
         :func:`colour.colorimetry.lightness_Fairchild2011`},
         :math:`\\epsilon` exponent.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Lightness* :math:`L`.
 
     Notes

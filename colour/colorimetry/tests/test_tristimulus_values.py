@@ -10,6 +10,8 @@ References
     System (pp. 1-47). doi:10.1520/E0308-15
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 
@@ -38,6 +40,7 @@ from colour.colorimetry import (
     msds_to_XYZ_ASTME308,
     wavelength_to_XYZ,
 )
+from colour.hints import NDArray
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -75,7 +78,7 @@ __all__ = [
     'TestWavelength_to_XYZ',
 ]
 
-SD_SAMPLE = SpectralDistribution({
+SD_SAMPLE: SpectralDistribution = SpectralDistribution({
     340: 0.0000,
     345: 0.0000,
     350: 0.0000,
@@ -177,7 +180,7 @@ SD_SAMPLE = SpectralDistribution({
     830: 0.0000
 })
 
-LAGRANGE_COEFFICIENTS_A = np.array([
+LAGRANGE_COEFFICIENTS_A: NDArray = np.array([
     [-0.0285, 0.9405, 0.1045, -0.0165],
     [-0.0480, 0.8640, 0.2160, -0.0320],
     [-0.0595, 0.7735, 0.3315, -0.0455],
@@ -189,7 +192,7 @@ LAGRANGE_COEFFICIENTS_A = np.array([
     [-0.0165, 0.1045, 0.9405, -0.0285],
 ])
 
-LAGRANGE_COEFFICIENTS_B = np.array([
+LAGRANGE_COEFFICIENTS_B: NDArray = np.array([
     [0.8550, 0.1900, -0.0450],
     [0.7200, 0.3600, -0.0800],
     [0.5950, 0.5100, -0.1050],
@@ -201,7 +204,7 @@ LAGRANGE_COEFFICIENTS_B = np.array([
     [0.0550, 0.9900, -0.0450],
 ])
 
-TWF_A_CIE_1964_10_10 = np.array([
+TWF_A_CIE_1964_10_10: NDArray = np.array([
     [-0.000, -0.000, -0.000],
     [-0.000, -0.000, -0.000],
     [-0.000, -0.000, -0.000],
@@ -252,7 +255,7 @@ TWF_A_CIE_1964_10_10 = np.array([
     [0.000, 0.000, 0.000],
 ])
 
-TWF_A_CIE_1964_10_20 = np.array([
+TWF_A_CIE_1964_10_20: NDArray = np.array([
     [-0.000, -0.000, -0.001],
     [-0.009, -0.001, -0.041],
     [0.060, 0.005, 0.257],
@@ -279,7 +282,7 @@ TWF_A_CIE_1964_10_20 = np.array([
     [0.000, 0.000, 0.000],
 ])
 
-TWF_D65_CIE_1931_2_20 = np.array([
+TWF_D65_CIE_1931_2_20: NDArray = np.array([
     [-0.001, -0.000, -0.005],
     [-0.008, -0.000, -0.039],
     [0.179, 0.002, 0.829],
@@ -306,7 +309,7 @@ TWF_D65_CIE_1931_2_20 = np.array([
     [0.000, 0.000, 0.000],
 ])
 
-TWF_D65_CIE_1931_2_20_K1 = np.array([
+TWF_D65_CIE_1931_2_20_K1: NDArray = np.array([
     [-0.10095678, -0.00265636, -0.48295051],
     [-0.83484763, -0.02190274, -4.11563004],
     [18.94315946, 0.22803520, 87.62930101],
@@ -333,7 +336,7 @@ TWF_D65_CIE_1931_2_20_K1 = np.array([
     [0.00223616, 0.00080752, 0.00000000],
 ])
 
-TWF_D65_CIE_1931_2_20_A = np.array([
+TWF_D65_CIE_1931_2_20_A: NDArray = np.array([
     [0.170, 0.002, 0.785],
     [2.542, 0.071, 12.203],
     [6.670, 0.453, 33.637],
@@ -352,7 +355,7 @@ TWF_D65_CIE_1931_2_20_A = np.array([
     [0.185, 0.067, 0.000],
 ])
 
-DATA_TWO = np.array([
+DATA_TWO: NDArray = np.array([
     [[0.01367208, 0.09127947, 0.01524376, 0.02810712, 0.19176012, 0.04299992],
      [0.01591516, 0.31454948, 0.08416876, 0.09071489, 0.71026170, 0.04374762],
      [0.00959792, 0.25822842, 0.41388571, 0.22275120, 0.00407416, 0.37439537],
@@ -367,11 +370,11 @@ DATA_TWO = np.array([
      [0.04727245, 0.32210270, 0.22679484, 0.31613642, 0.11242847, 0.00244144]],
 ])
 
-MSDS_TWO = MultiSpectralDistributions(
+MSDS_TWO: MultiSpectralDistributions = MultiSpectralDistributions(
     np.transpose(np.reshape(DATA_TWO, [-1, 6])),
     SpectralShape(400, 700, 60).range())
 
-TVS_D65_INTEGRATION_MSDS = np.array([
+TVS_D65_INTEGRATION_MSDS: NDArray = np.array([
     [7.50219602, 3.95048275, 8.40152163],
     [26.92629005, 15.07170066, 28.71020457],
     [16.70060700, 28.21421317, 25.64802044],
@@ -386,7 +389,7 @@ TVS_D65_INTEGRATION_MSDS = np.array([
     [23.91114755, 26.21471641, 30.67613685],
 ])
 
-TVS_D65_ARRAY_INTEGRATION = np.array([
+TVS_D65_ARRAY_INTEGRATION: NDArray = np.array([
     [
         [7.19510558, 3.86227393, 10.09950719],
         [25.57464912, 14.71934603, 34.84931928],
@@ -405,7 +408,7 @@ TVS_D65_ARRAY_INTEGRATION = np.array([
     ],
 ])
 
-TVS_D65_ARRAY_K1_INTEGRATION = np.array([
+TVS_D65_ARRAY_K1_INTEGRATION: NDArray = np.array([
     [
         [776.11755347, 416.61356647, 1089.40789347],
         [2758.67169575, 1587.73804035, 3759.10653835],
@@ -424,7 +427,7 @@ TVS_D65_ARRAY_K1_INTEGRATION = np.array([
     ],
 ])
 
-TVS_D65_ASTME308_MSDS = np.array([
+TVS_D65_ASTME308_MSDS: NDArray = np.array([
     [7.50450425, 3.95744742, 8.38735462],
     [26.94116124, 15.09801442, 28.66753115],
     [16.70212538, 28.20596151, 25.65809190],
@@ -439,7 +442,7 @@ TVS_D65_ASTME308_MSDS = np.array([
     [23.88899194, 26.21653407, 30.62958339],
 ])
 
-TVS_D65_ASTME308_K1_MSDS = np.array([
+TVS_D65_ASTME308_K1_MSDS: NDArray = np.array([
     [793.00584037, 418.18604067, 886.29721234],
     [2846.89001419, 1595.41699464, 3029.31664392],
     [1764.92444185, 2980.54228038, 2711.30724359],

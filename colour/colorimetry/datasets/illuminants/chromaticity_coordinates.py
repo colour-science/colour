@@ -78,6 +78,8 @@ DCI_DCinema_System_Spec_v1_1.pdf
 White_points_of_standard_illuminants
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping
@@ -101,8 +103,8 @@ __all__ = [
     'CCS_ILLUMINANTS',
 ]
 
-CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'A': np.array([0.44758, 0.40745]),
         'B': np.array([0.34842, 0.35161]),
         'C': np.array([0.31006, 0.31616]),
@@ -163,12 +165,10 @@ Chromaticity coordinates of the *CIE* illuminants for the
 References
 ----------
 :cite:`CIETC1-482004h`, :cite:`Wikipedia2006a`
-
-CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931 : CaseInsensitiveMapping
 """
 
-CCS_ILLUMINANTS_ACES_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_ILLUMINANTS_ACES_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'ACES': np.array([0.32168, 0.33767]),
     }))
 """
@@ -178,12 +178,10 @@ illuminants for the *CIE 1931 2 Degree Standard Observer*.
 References
 ----------
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-
-CCS_ILLUMINANTS_ICC_STANDARD_OBSERVER_2_DEGREE_CIE1931 : CaseInsensitiveMapping
 """
 
-CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'Blackmagic Wide Gamut': np.array([0.3127170, 0.3290312]),
     }))
 """
@@ -193,13 +191,10 @@ Chromaticity coordinates of the *Blackmagic Design* illuminants for the
 References
 ----------
 :cite:`BlackmagicDesign2021`
-
-CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931 : \
-CaseInsensitiveMapping
 """
 
-CCS_ILLUMINANTS_DCI_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_ILLUMINANTS_DCI_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'DCI-P3': np.array([0.31400, 0.35100]),
     }))
 """
@@ -209,12 +204,10 @@ Chromaticity coordinates of the  *DCI* illuminants for the
 References
 ----------
 :cite:`DigitalCinemaInitiatives2007b`
-
-CCS_ILLUMINANTS_DCI_STANDARD_OBSERVER_2_DEGREE_CIE1931 : CaseInsensitiveMapping
 """
 
-CCS_ILLUMINANTS_ICC_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_ILLUMINANTS_ICC_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'ICC D50': np.array([0.345702914918791, 0.358538596679933])
     }))
 """
@@ -224,12 +217,10 @@ Chromaticity coordinates of the *ICC* illuminants for the
 References
 ----------
 :cite:`InternationalColorConsortium2010`
-
-CCS_ILLUMINANTS_ICC_STANDARD_OBSERVER_2_DEGREE_CIE1931 : CaseInsensitiveMapping
 """
 
-CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'ISO 7589 Photographic Daylight':
             np.array([0.332039098470978, 0.347263885596614]),
         'ISO 7589 Sensitometric Daylight':
@@ -252,12 +243,10 @@ Chromaticity coordinates of the *ISO* illuminants for the
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_2_DEGREE_CIE1931 : CaseInsensitiveMapping
 """
 
-CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
-    CaseInsensitiveMapping({
+CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'A': np.array([0.45117, 0.40594]),
         'B': np.array([0.34980, 0.35270]),
         'C': np.array([0.31039, 0.31905]),
@@ -318,13 +307,10 @@ Chromaticity coordinates of the *CIE* illuminants for the
 References
 ----------
 :cite:`CIETC1-482004h`, :cite:`Wikipedia2006a`
-
-CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
-CaseInsensitiveMapping
 """
 
-CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
-    CaseInsensitiveMapping({
+CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'ISO 7589 Photographic Daylight':
             np.array([0.333716908394534, 0.348592494683065]),
         'ISO 7589 Sensitometric Daylight':
@@ -347,12 +333,9 @@ Chromaticity coordinates of the *ISO* illuminants for the
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
-CaseInsensitiveMapping
 """
 
-CCS_ILLUMINANTS = CaseInsensitiveMapping({
+CCS_ILLUMINANTS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
         CaseInsensitiveMapping(
             CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931),
@@ -405,10 +388,6 @@ References
 :cite:`InternationalOrganizationforStandardization2002`,
 :cite:`InternationalColorConsortium2010`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`, :cite:`Wikipedia2006a`
-
-CCS_ILLUMINANTS : CaseInsensitiveMapping
-    **{'CIE 1931 2 Degree Standard Observer',
-    'CIE 1964 10 Degree Standard Observer'}**
 
 Aliases:
 

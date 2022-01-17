@@ -12,6 +12,8 @@ References
     http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
 """
 
+from __future__ import annotations
+
 from colour.colorimetry import (
     SDS_LEFS_PHOTOPIC,
     SDS_LEFS_SCOTOPIC,
@@ -19,7 +21,16 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
-from colour.utilities import closest, validate_method
+from colour.hints import (
+    Floating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    Optional,
+    Union,
+    cast,
+)
+from colour.utilities import closest, optional, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -34,40 +45,40 @@ __all__ = [
 ]
 
 
-def mesopic_weighting_function(wavelength,
-                               Lp,
-                               source='Blue Heavy',
-                               method='MOVE',
-                               photopic_lef=None,
-                               scotopic_lef=None):
+def mesopic_weighting_function(
+        wavelength: FloatingOrArrayLike,
+        L_p: Floating,
+        source: Union[Literal['Blue Heavy', 'Red Heavy'], str] = 'Blue Heavy',
+        method: Union[Literal['MOVE', 'LRC'], str] = 'MOVE',
+        photopic_lef: Optional[SpectralDistribution] = None,
+        scotopic_lef: Optional[SpectralDistribution] = None
+) -> FloatingOrNDArray:
     """
-    Calculates the mesopic weighting function factor at given wavelength
-    :math:`\\lambda` using the photopic luminance :math:`L_p`.
+    Calculates the mesopic weighting function factor :math:`V_m` at given
+    wavelength :math:`\\lambda` using the photopic luminance :math:`L_p`.
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` to calculate the mesopic weighting function
         factor.
-    Lp : numeric
+    L_p
         Photopic luminance :math:`L_p`.
-    source : str, optional
-        **{'Blue Heavy', 'Red Heavy'}**,
+    source
         Light source colour temperature.
-    method : str, optional
-        **{'MOVE', 'LRC'}**,
+    method
         Method to calculate the weighting factor.
-    photopic_lef : SpectralDistribution, optional
+    photopic_lef
         :math:`V(\\lambda)` photopic luminous efficiency function, default to
         the *CIE 1924 Photopic Standard Observer*.
-    scotopic_lef : SpectralDistribution, optional
+    scotopic_lef
         :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function,
         default to the *CIE 1951 Scotopic Standard Observer*.
 
     Returns
     -------
-    numeric or ndarray
-        Mesopic weighting function factor.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Mesopic weighting function factor :math:`V_m`.
 
     References
     ----------
@@ -79,11 +90,15 @@ def mesopic_weighting_function(wavelength,
     0.7052200...
     """
 
-    if photopic_lef is None:
-        photopic_lef = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']
+    photopic_lef = cast(
+        SpectralDistribution,
+        optional(photopic_lef,
+                 SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']))
 
-    if scotopic_lef is None:
-        scotopic_lef = SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']
+    scotopic_lef = cast(
+        SpectralDistribution,
+        optional(scotopic_lef,
+                 SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']))
 
     source = validate_method(
         source, ['Blue Heavy', 'Red Heavy'],
@@ -93,43 +108,43 @@ def mesopic_weighting_function(wavelength,
 
     mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
     index = mesopic_x_luminance_values.index(
-        closest(mesopic_x_luminance_values, Lp))
+        closest(mesopic_x_luminance_values, L_p))
     x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 
-    Vm = (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
+    V_m = (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
 
-    return Vm
+    return V_m
 
 
-def sd_mesopic_luminous_efficiency_function(Lp,
-                                            source='Blue Heavy',
-                                            method='MOVE',
-                                            photopic_lef=None,
-                                            scotopic_lef=None):
+def sd_mesopic_luminous_efficiency_function(
+        L_p: Floating,
+        source: Union[Literal['Blue Heavy', 'Red Heavy'], str] = 'Blue Heavy',
+        method: Union[Literal['MOVE', 'LRC'], str] = 'MOVE',
+        photopic_lef: Optional[SpectralDistribution] = None,
+        scotopic_lef: Optional[SpectralDistribution] = None
+) -> SpectralDistribution:
     """
     Returns the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
     given photopic luminance :math:`L_p`.
 
     Parameters
     ----------
-    Lp : numeric
+    L_p
         Photopic luminance :math:`L_p`.
-    source : str, optional
-        **{'Blue Heavy', 'Red Heavy'}**,
+    source
         Light source colour temperature.
-    method : str, optional
-        **{'MOVE', 'LRC'}**,
+    method
         Method to calculate the weighting factor.
-    photopic_lef : SpectralDistribution, optional
+    photopic_lef
         :math:`V(\\lambda)` photopic luminous efficiency function, default to
         the *CIE 1924 Photopic Standard Observer*.
-    scotopic_lef : SpectralDistribution, optional
+    scotopic_lef
         :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function,
         default to the *CIE 1951 Scotopic Standard Observer*.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Mesopic luminous efficiency function :math:`V_m(\\lambda)`.
 
     References
@@ -548,28 +563,27 @@ def sd_mesopic_luminous_efficiency_function(Lp,
                          extrapolator_kwargs={...})
     """
 
-    if photopic_lef is None:
-        photopic_lef = SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']
+    photopic_lef = cast(
+        SpectralDistribution,
+        optional(photopic_lef,
+                 SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer']))
 
-    if scotopic_lef is None:
-        scotopic_lef = SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']
+    scotopic_lef = cast(
+        SpectralDistribution,
+        optional(scotopic_lef,
+                 SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']))
 
-    photopic_lef_shape = photopic_lef.shape
-    scotopic_lef_shape = scotopic_lef.shape
     shape = SpectralShape(
-        max(photopic_lef_shape.start, scotopic_lef_shape.start),
-        min(photopic_lef_shape.end, scotopic_lef_shape.end),
-        max(photopic_lef_shape.interval, scotopic_lef_shape.interval))
+        max([photopic_lef.shape.start, scotopic_lef.shape.start]),
+        min([photopic_lef.shape.end, scotopic_lef.shape.end]),
+        max([photopic_lef.shape.interval, scotopic_lef.shape.interval]))
 
     wavelengths = shape.range()
 
-    sd_data = dict(
-        zip(
-            wavelengths,
-            mesopic_weighting_function(wavelengths, Lp, source, method,
-                                       photopic_lef, scotopic_lef)))
-
     sd = SpectralDistribution(
-        sd_data, name='{0} Lp Mesopic Luminous Efficiency Function'.format(Lp))
+        mesopic_weighting_function(wavelengths, L_p, source, method,
+                                   photopic_lef, scotopic_lef),
+        wavelengths,
+        name='{0} Lp Mesopic Luminous Efficiency Function'.format(L_p))
 
     return sd.normalise()

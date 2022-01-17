@@ -189,7 +189,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS):
 
     cmfs = cmfs.copy()
     if cmfs.shape.interval != 1:
-        cmfs.interpolate(SpectralShape(interval=1))
+        cmfs.interpolate(SpectralShape(cmfs.shape.start, cmfs.shape.end, 1))
 
     cmfs.extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
 
@@ -282,7 +282,9 @@ def matrix_anomalous_trichromacy_Machado2009(cmfs, primaries, d_LMS):
 
     if cmfs.shape.interval != 1:
         # pylint: disable=E1102
-        cmfs = reshape_msds(cmfs, SpectralShape(interval=1), 'Interpolate')
+        cmfs = reshape_msds(cmfs,
+                            SpectralShape(cmfs.shape.start, cmfs.shape.end, 1),
+                            'Interpolate')
 
     M_n = matrix_RGB_to_WSYBRG(cmfs, primaries)
     cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)

@@ -1008,7 +1008,7 @@ dict_like, optional
         >>> sd.header.comments
         'Ambient temperature 25 degrees C.'
         >>> sd[400]  # doctest: +ELLIPSIS
-        0.0339999...
+        0.0340000...
         """
 
         formatter = './{{{0}}}{1}/{{{0}}}{2}'

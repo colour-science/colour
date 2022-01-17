@@ -22,6 +22,8 @@ References
 whitepaper_howtocalculateluminositywavelengthandpurity.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 import scipy.spatial.distance
 
@@ -30,7 +32,18 @@ from colour.algebra import (
     extend_line_segment,
     intersect_line_segments,
 )
-from colour.colorimetry import handle_spectral_arguments
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    handle_spectral_arguments,
+)
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+    Tuple,
+)
 from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 
@@ -50,7 +63,11 @@ __all__ = [
 ]
 
 
-def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
+def closest_spectral_locus_wavelength(xy: ArrayLike,
+                                      xy_n: ArrayLike,
+                                      xy_s: ArrayLike,
+                                      inverse: Boolean = False
+                                      ) -> Tuple[NDArray, NDArray]:
     """
     Returns the coordinates and closest spectral locus wavelength index to the
     point where the line defined by the given achromatic stimulus :math:`xy_n`
@@ -59,19 +76,19 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
 
     Parameters
     ----------
-    xy : array_like
+    xy
         Colour stimulus *CIE xy* chromaticity coordinates.
-    xy_n : array_like
+    xy_n
         Achromatic stimulus *CIE xy* chromaticity coordinates.
-    xy_s : array_like
+    xy_s
         Spectral locus *CIE xy* chromaticity coordinates.
-    inverse : bool, optional
+    inverse
         The intersection will be computed using the colour stimulus :math:`xy`
         to achromatic stimulus :math:`xy_n` inverse direction.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Closest wavelength index, intersection point *CIE xy* chromaticity
         coordinates.
 
@@ -122,38 +139,42 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse=False):
     return i_wl, xy_wl
 
 
-def dominant_wavelength(xy, xy_n, cmfs=None, inverse=False):
+def dominant_wavelength(
+        xy: ArrayLike,
+        xy_n: ArrayLike,
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        inverse: bool = False) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Returns the *dominant wavelength* :math:`\\lambda_d` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
     second intersection coordinates with the spectral locus.
 
     In the eventuality where the :math:`xy_wl` first intersection coordinates
-    are on the line of purples, the *complementary wavelength* will be
-    computed in lieu.
+    are on the line of purples, the *complementary wavelength* will be computed
+    in lieu.
 
-    The *complementary wavelength* is indicated by a negative sign
-    and the :math:`xy_{cw}` second intersection coordinates which are set by
-    default to the same value than :math:`xy_wl` first intersection coordinates
-    will be set to the *complementary dominant wavelength* intersection
-    coordinates with the spectral locus.
+    The *complementary wavelength* is indicated by a negative sign and the
+    :math:`xy_{cw}` second intersection coordinates which are set by default to
+    the same value than :math:`xy_wl` first intersection coordinates will be
+    set to the *complementary dominant wavelength* intersection coordinates
+    with the spectral locus.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         Colour stimulus *CIE xy* chromaticity coordinates.
-    xy_n : array_like
+    xy_n
         Achromatic stimulus *CIE xy* chromaticity coordinates.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    inverse : bool, optional
+    inverse
         Inverse the computation direction to retrieve the
         *complementary wavelength*.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         *Dominant wavelength*, first intersection point *CIE xy* chromaticity
         coordinates, second intersection point *CIE xy* chromaticity
         coordinates.
@@ -214,7 +235,10 @@ def dominant_wavelength(xy, xy_n, cmfs=None, inverse=False):
     return wl, np.squeeze(xy_wl), np.squeeze(xy_cwl)
 
 
-def complementary_wavelength(xy, xy_n, cmfs=None):
+def complementary_wavelength(xy: ArrayLike,
+                             xy_n: ArrayLike,
+                             cmfs: Optional[MultiSpectralDistributions] = None
+                             ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Returns the *complementary wavelength* :math:`\\lambda_c` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
@@ -232,17 +256,17 @@ def complementary_wavelength(xy, xy_n, cmfs=None):
 
     Parameters
     ----------
-    xy : array_like
+    xy
         Colour stimulus *CIE xy* chromaticity coordinates.
-    xy_n : array_like
+    xy_n
         Achromatic stimulus *CIE xy* chromaticity coordinates.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         *Complementary wavelength*, first intersection point *CIE xy*
         chromaticity coordinates, second intersection point *CIE xy*
         chromaticity coordinates.
@@ -278,24 +302,27 @@ def complementary_wavelength(xy, xy_n, cmfs=None):
     return dominant_wavelength(xy, xy_n, cmfs, True)
 
 
-def excitation_purity(xy, xy_n, cmfs=None):
+def excitation_purity(xy: ArrayLike,
+                      xy_n: ArrayLike,
+                      cmfs: Optional[MultiSpectralDistributions] = None
+                      ) -> FloatingOrNDArray:
     """
     Returns the *excitation purity* :math:`P_e` for given colour stimulus
     :math:`xy`.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         Colour stimulus *CIE xy* chromaticity coordinates.
-    xy_n : array_like
+    xy_n
         Achromatic stimulus *CIE xy* chromaticity coordinates.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
-    numeric or array_like
+    :class:`np.floating` or :class:`numpy.ndarray`
         *Excitation purity* :math:`P_e`.
 
     References
@@ -319,24 +346,27 @@ def excitation_purity(xy, xy_n, cmfs=None):
     return P_e
 
 
-def colorimetric_purity(xy, xy_n, cmfs=None):
+def colorimetric_purity(xy: ArrayLike,
+                        xy_n: ArrayLike,
+                        cmfs: Optional[MultiSpectralDistributions] = None
+                        ) -> FloatingOrNDArray:
     """
     Returns the *colorimetric purity* :math:`P_c` for given colour stimulus
     :math:`xy`.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         Colour stimulus *CIE xy* chromaticity coordinates.
-    xy_n : array_like
+    xy_n
         Achromatic stimulus *CIE xy* chromaticity coordinates.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
 
     Returns
     -------
-    numeric or array_like
+    :class:`np.floating` or :class:`numpy.ndarray`
         *Colorimetric purity* :math:`P_c`.
 
     References
