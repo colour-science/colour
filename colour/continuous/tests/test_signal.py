@@ -219,7 +219,7 @@ class TestSignal(unittest.TestCase):
         exception.
         """
 
-        self.assertRaises(RuntimeError, Signal().function, 0)
+        self.assertRaises(ValueError, Signal().function, 0)
 
     def test__init__(self):
         """

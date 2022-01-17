@@ -8,23 +8,56 @@ Defines the class implementing support for multi-continuous signals:
 -   :class:`colour.continuous.MultiSignals`
 """
 
+from __future__ import annotations
+
 import numpy as np
-from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
+from collections.abc import Iterator, Mapping, ValuesView
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    Callable,
+    Dict,
+    DTypeFloating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+    List,
+    Literal,
+    NDArray,
+    Number,
+    Optional,
+    Sequence,
+    Type,
+    TypeExtrapolator,
+    TypeInterpolator,
+    Union,
+    cast,
+)
 from colour.utilities import (
     as_float_array,
     attest,
     first_item,
     is_iterable,
     is_pandas_installed,
+    optional,
     required,
     tsplit,
     tstack,
     validate_method,
 )
 from colour.utilities.documentation import is_documentation_building
+
+if is_pandas_installed():
+    from pandas import DataFrame, Series
+else:  # pragma: no cover
+    from unittest import mock
+
+    DataFrame = mock.MagicMock()
+    Series = mock.MagicMock()
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -51,39 +84,37 @@ class MultiSignals(AbstractContinuousFunction):
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignals or array_like or \
-dict_like, optional
+    data
         Data to be stored in the multi-continuous signals.
-    domain : array_like, optional
+    domain
         Values to initialise the multiple :class:`colour.continuous.Signal`
         sub-class instances :attr:`colour.continuous.Signal.domain` attribute
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the :attr:`colour.continuous.Signal.domain`
         attribute.
-    labels : array_like, optional
+    labels
         Names to use for the :class:`colour.continuous.Signal` sub-class
         instances.
 
     Other Parameters
     ----------------
-    name : str, optional
+    name
         multi-continuous signals name.
-    dtype : type, optional
-        **{np.float16, np.float32, np.float64, np.float128}**,
+    dtype
         Floating point data type.
-    interpolator : object, optional
+    interpolator
         Interpolator class type to use as interpolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
-    interpolator_kwargs : dict_like, optional
+    interpolator_kwargs
         Arguments to use when instantiating the interpolating function
         of the :class:`colour.continuous.Signal` sub-class instances.
-    extrapolator : object, optional
+    extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
-    extrapolator_kwargs : dict_like, optional
+    extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.continuous.Signal` sub-class instances.
-    signal_type : type, optional
+    signal_type
         The :class:`colour.continuous.Signal` sub-class type used for
         instances.
 
@@ -216,7 +247,7 @@ dict_like, optional
      [  900.    90.]
      [ 1000.   100.]]
 
-    Instantiation with a *Pandas* `DataFrame`:
+    Instantiation with a *Pandas* :class:`pandas.DataFrame`:
 
     >>> if is_pandas_installed():
     ...     from pandas import DataFrame
@@ -266,142 +297,141 @@ dict_like, optional
            [ 0.8414709...,  1.0914709...,  1.3414709...]])
     """
 
-    def __init__(self, data=None, domain=None, labels=None, **kwargs):
+    def __init__(
+            self,
+            data: Optional[Union[ArrayLike, DataFrame, dict, 'MultiSignals',
+                                 Sequence, Series, Signal]] = None,
+            domain: Optional[ArrayLike] = None,
+            labels: Optional[Sequence] = None,
+            **kwargs: Any):
         super(MultiSignals, self).__init__(kwargs.get('name'))
 
-        self._signal_type = kwargs.get('signal_type', Signal)
+        self._signal_type: Type[Signal] = kwargs.get('signal_type', Signal)
 
-        self._signals = self.multi_signals_unpack_data(data, domain, labels,
-                                                       **kwargs)
+        self._signals: Dict = self.multi_signals_unpack_data(
+            data, domain, labels, **kwargs)
 
     @property
-    def dtype(self):
+    def dtype(self) -> Type[DTypeFloating]:
         """
         Getter and setter property for the continuous signal dtype.
 
         Parameters
         ----------
-        value : type
+        value
             Value to set the continuous signal dtype with.
 
         Returns
         -------
-        type
+        Type[DTypeFloating]
             Continuous signal dtype.
         """
 
-        if self._signals:
-            return first_item(self._signals.values()).dtype
+        return first_item(self._signals.values()).dtype
 
     @dtype.setter
-    def dtype(self, value):
+    def dtype(self, value: Type[DTypeFloating]):
         """
         Setter for **self.dtype** property.
         """
 
-        if value is not None:
-            for signal in self._signals.values():
-                signal.dtype = value
+        for signal in self._signals.values():
+            signal.dtype = value
 
     @property
-    def domain(self):
+    def domain(self) -> NDArray:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances independent domain :math:`x` variable.
+        sub-class instances independent domain variable :math:`x`.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the :class:`colour.continuous.Signal` sub-class
-            instances independent domain :math:`x` variable with.
+            instances independent domain variable :math:`x` with.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             :class:`colour.continuous.Signal` sub-class instances independent
-            domain :math:`x` variable.
+            domain variable :math:`x`.
         """
 
-        if self._signals:
-            return first_item(self._signals.values()).domain
+        return first_item(self._signals.values()).domain
 
     @domain.setter
-    def domain(self, value):
+    def domain(self, value: ArrayLike):
         """
         Setter for the **self.domain** property.
         """
 
-        if value is not None:
-            for signal in self._signals.values():
-                signal.domain = value
+        for signal in self._signals.values():
+            signal.domain = value
 
     @property
-    def range(self):
+    def range(self) -> NDArray:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances corresponding range :math:`y` variable.
+        sub-class instances corresponding range variable :math:`y`.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the :class:`colour.continuous.Signal` sub-class
-            instances corresponding range :math:`y` variable with.
+            instances corresponding range variable :math:`y` with.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             :class:`colour.continuous.Signal` sub-class instances corresponding
-            range :math:`y` variable.
+            range variable :math:`y`.
         """
 
-        if self._signals:
-            return tstack([signal.range for signal in self._signals.values()])
+        return tstack([signal.range for signal in self._signals.values()])
 
     @range.setter
-    def range(self, value):
+    def range(self, value: ArrayLike):
         """
         Setter for the **self.range** property.
         """
 
-        if value is not None:
-            value = as_float_array(value)
+        value = as_float_array(value)
 
-            if value.ndim in (0, 1):
-                for signal in self._signals.values():
-                    signal.range = value
-            else:
-                attest(
-                    value.shape[-1] == len(self._signals),
-                    'Corresponding "y" variable columns must have '
-                    'same count than underlying "Signal" components!')
+        if value.ndim in (0, 1):
+            for signal in self._signals.values():
+                signal.range = value
+        else:
+            attest(
+                value.shape[-1] == len(self._signals),
+                'Corresponding "y" variable columns must have '
+                'same count than underlying "Signal" components!')
 
-                for signal, y in zip(self._signals.values(), tsplit(value)):
-                    signal.range = y
+            for signal, y in zip(self._signals.values(), tsplit(value)):
+                signal.range = y
 
     @property
-    def interpolator(self):
+    def interpolator(self) -> Type[TypeInterpolator]:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances interpolator type.
 
         Parameters
         ----------
-        value : type
+        value
             Value to set the :class:`colour.continuous.Signal` sub-class
             instances interpolator type with.
 
         Returns
         -------
-        type
+        Type[TypeInterpolator]
             :class:`colour.continuous.Signal` sub-class instances interpolator
             type.
         """
 
-        if self._signals:
-            return first_item(self._signals.values()).interpolator
+        return first_item(self._signals.values()).interpolator
 
     @interpolator.setter
-    def interpolator(self, value):
+    def interpolator(self, value: Type[TypeInterpolator]):
         """
         Setter for the **self.interpolator** property.
         """
@@ -411,215 +441,205 @@ dict_like, optional
                 signal.interpolator = value
 
     @property
-    def interpolator_kwargs(self):
+    def interpolator_kwargs(self) -> Dict:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances interpolator instantiation time arguments.
 
         Parameters
         ----------
-        value : dict
+        value
             Value to set the :class:`colour.continuous.Signal` sub-class
             instances interpolator instantiation time arguments to.
 
         Returns
         -------
-        dict
+        :class:`dict`
             :class:`colour.continuous.Signal` sub-class instances interpolator
             instantiation time arguments.
         """
 
-        if self._signals:
-            return first_item(self._signals.values()).interpolator_kwargs
+        return first_item(self._signals.values()).interpolator_kwargs
 
     @interpolator_kwargs.setter
-    def interpolator_kwargs(self, value):
+    def interpolator_kwargs(self, value: dict):
         """
         Setter for the **self.interpolator_kwargs** property.
         """
 
-        if value is not None:
-            for signal in self._signals.values():
-                signal.interpolator_kwargs = value
+        for signal in self._signals.values():
+            signal.interpolator_kwargs = value
 
     @property
-    def extrapolator(self):
+    def extrapolator(self) -> Type[TypeExtrapolator]:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances extrapolator type.
 
         Parameters
         ----------
-        value : type
+        value
             Value to set the :class:`colour.continuous.Signal` sub-class
             instances extrapolator type with.
 
         Returns
         -------
-        type
+        Type[TypeExtrapolator]
             :class:`colour.continuous.Signal` sub-class instances extrapolator
             type.
         """
 
-        if self._signals:
-            return first_item(self._signals.values()).extrapolator
+        return first_item(self._signals.values()).extrapolator
 
     @extrapolator.setter
-    def extrapolator(self, value):
+    def extrapolator(self, value: Type[TypeExtrapolator]):
         """
         Setter for the **self.extrapolator** property.
         """
 
-        if value is not None:
-            for signal in self._signals.values():
-                signal.extrapolator = value
+        for signal in self._signals.values():
+            signal.extrapolator = value
 
     @property
-    def extrapolator_kwargs(self):
+    def extrapolator_kwargs(self) -> Dict:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances extrapolator instantiation time arguments.
 
         Parameters
         ----------
-        value : dict
+        value
             Value to set the :class:`colour.continuous.Signal` sub-class
             instances extrapolator instantiation time arguments to.
 
         Returns
         -------
-        dict
+        :class:`dict`
             :class:`colour.continuous.Signal` sub-class instances extrapolator
             instantiation time arguments.
         """
 
-        if self._signals:
-            return first_item(self._signals.values()).extrapolator_kwargs
+        return first_item(self._signals.values()).extrapolator_kwargs
 
     @extrapolator_kwargs.setter
-    def extrapolator_kwargs(self, value):
+    def extrapolator_kwargs(self, value: dict):
         """
         Setter for the **self.extrapolator_kwargs** property.
         """
 
-        if value is not None:
-            for signal in self._signals.values():
-                signal.extrapolator_kwargs = value
+        for signal in self._signals.values():
+            signal.extrapolator_kwargs = value
 
     @property
-    def function(self):
+    def function(self) -> Callable:
         """
         Getter property for the :class:`colour.continuous.Signal` sub-class
         instances callable.
 
         Returns
         -------
-        callable
+        Callable
             :class:`colour.continuous.Signal` sub-class instances callable.
         """
 
-        if self._signals:
-            return first_item(self._signals.values()).function
+        return first_item(self._signals.values()).function
 
     @property
-    def signals(self):
+    def signals(self) -> Dict:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances.
 
         Parameters
         ----------
-        value : Series or Dataframe or Signal or MultiSignals or array_like \
-or dict_like
+        value
             Attribute value.
 
         Returns
         -------
-        dict
+        :class:`dict`
             :class:`colour.continuous.Signal` sub-class instances.
         """
 
         return self._signals
 
     @signals.setter
-    def signals(self, value):
+    def signals(self, value: Optional[Union[ArrayLike, DataFrame, dict,
+                                            'MultiSignals', Signal, Series]]):
         """
         Setter for the **self.signals** property.
         """
 
-        if value is not None:
-            self._signals = self.multi_signals_unpack_data(
-                value, signal_type=self._signal_type)
+        self._signals = self.multi_signals_unpack_data(
+            value, signal_type=self._signal_type)
 
     @property
-    def labels(self):
+    def labels(self) -> List[str]:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
-        sub-class instances name.
+        sub-class instance names.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the :class:`colour.continuous.Signal` sub-class
-            instances name.
+            instance names.
 
         Returns
         -------
-        dict
-            :class:`colour.continuous.Signal` sub-class instance name.
+        :class:`list`
+            :class:`colour.continuous.Signal` sub-class instance names.
         """
 
-        if self._signals:
-            return list(self._signals.keys())
+        return [str(key) for key in self._signals.keys()]
 
     @labels.setter
-    def labels(self, value):
+    def labels(self, value: Sequence):
         """
         Setter for the **self.labels** property.
         """
 
-        if value is not None:
-            attest(
-                is_iterable(value),
-                '"{0}" attribute: "{1}" is not an "iterable" like object!'.
-                format('labels', value))
+        attest(
+            is_iterable(value),
+            '"{0}" attribute: "{1}" is not an "iterable" like object!'.format(
+                'labels', value))
 
-            attest(
-                len(set(value)) == len(value),
-                '"{0}" attribute: values must be unique!'.format('labels'))
+        attest(
+            len(set(value)) == len(value),
+            '"{0}" attribute: values must be unique!'.format('labels'))
 
-            attest(
-                len(value) == len(self.labels),
-                '"{0}" attribute: length must be "{1}"!'.format(
-                    'labels', len(self._signals)))
+        attest(
+            len(value) == len(self.labels),
+            '"{0}" attribute: length must be "{1}"!'.format(
+                'labels', len(self._signals)))
 
-            self._signals = {
-                value[i]: signal
-                for i, (_key, signal) in enumerate(self._signals.items())
-            }
+        self._signals = {
+            str(value[i]): signal
+            for i, signal in enumerate(self._signals.values())
+        }
 
     @property
-    def signal_type(self):
+    def signal_type(self) -> Type[Signal]:
         """
         Getter property for the :class:`colour.continuous.Signal` sub-class
         instances type.
 
         Returns
         -------
-        type
+        Type[Signal]
             :class:`colour.continuous.Signal` sub-class instances type.
         """
 
         return self._signal_type
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the multi-continuous
         signals.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
 
         Examples
@@ -645,14 +665,14 @@ or dict_like
         except TypeError:
             return super(MultiSignals, self).__str__()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Returns an evaluable string representation of the multi-continuous
         signals.
 
         Returns
         -------
-        str
+        :class:`str`
             Evaluable string representation.
 
         Examples
@@ -671,7 +691,7 @@ or dict_like
                       [   7.,   80.,   90.,  100.],
                       [   8.,   90.,  100.,  110.],
                       [   9.,  100.,  110.,  120.]],
-                     labels=[0, 1, 2],
+                     labels=['0', '1', '2'],
                      interpolator=KernelInterpolator,
                      interpolator_kwargs={},
                      extrapolator=Extrapolator,
@@ -711,13 +731,13 @@ or dict_like
         except TypeError:
             return super(MultiSignals, self).__repr__()
 
-    def __hash__(self):
+    def __hash__(self) -> Integer:
         """
         Returns the abstract continuous function hash.
 
         Returns
         -------
-        int
+        :class:`numpy.integer`
             Object hash.
         """
 
@@ -730,20 +750,21 @@ or dict_like
             repr(self.extrapolator_kwargs),
         ))
 
-    def __getitem__(self, x):
+    def __getitem__(self,
+                    x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
         """
-        Returns the corresponding range :math:`y` variable for independent
-        domain :math:`x` variable.
+        Returns the corresponding range variable :math:`y` for independent
+        domain variable :math:`x`.
 
         Parameters
         ----------
-        x : numeric, array_like or slice
-            Independent domain :math:`x` variable.
+        x
+            Independent domain variable :math:`x`.
 
         Returns
         -------
-        numeric or ndarray
-            math:`y` range value.
+        :class:`numpy.floating` or :class:`numpy.ndarray`
+            Variable :math:`y` range value.
 
         Examples
         --------
@@ -792,23 +813,21 @@ or dict_like
 
         x_r, x_c = (x[0], x[1]) if isinstance(x, tuple) else (x, slice(None))
 
-        if self._signals:
-            return tstack(
-                [signal[x_r] for signal in self._signals.values()])[..., x_c]
-        else:
-            raise RuntimeError('No underlying "Signal" defined!')
+        return tstack(
+            [signal[x_r] for signal in self._signals.values()])[..., x_c]
 
-    def __setitem__(self, x, y):
+    def __setitem__(self, x: Union[FloatingOrArrayLike, slice],
+                    y: FloatingOrArrayLike):
         """
-        Sets the corresponding range :math:`y` variable for independent domain
-        :math:`x` variable.
+        Sets the corresponding range variable :math:`y` for independent domain
+        variable :math:`x`.
 
         Parameters
         ----------
-        x : numeric, array_like or slice
-            Independent domain :math:`x` variable.
-        y : numeric or ndarray
-            Corresponding range :math:`y` variable.
+        x
+            Independent domain variable :math:`x`.
+        y
+            Corresponding range variable :math:`y`.
 
         Examples
         --------
@@ -925,20 +944,20 @@ or dict_like
         for signal, y in list(zip(self._signals.values(), tsplit(y)))[x_c]:
             signal[x_r] = y
 
-    def __contains__(self, x):
+    def __contains__(self, x: Union[FloatingOrArrayLike, slice]) -> bool:
         """
         Returns whether the multi-continuous signals contains given independent
-        domain :math:`x` variable.
+        domain variable :math:`x`.
 
         Parameters
         ----------
-        x : numeric, array_like or slice
-            Independent domain :math:`x` variable.
+        x
+            Independent domain variable :math:`x`.
 
         Returns
         -------
-        bool
-            Is :math:`x` domain value contained.
+        :class:`bool`
+            Whether :math:`x` domain value is contained.
 
         Examples
         --------
@@ -952,25 +971,22 @@ or dict_like
         False
         """
 
-        if self._signals:
-            return x in first_item(self._signals.values())
-        else:
-            raise RuntimeError('No underlying "Signal" defined!')
+        return x in first_item(self._signals.values())
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         """
         Returns whether the multi-continuous signals is equal to given other
         object.
 
         Parameters
         ----------
-        other : object
+        other
             Object to test whether it is equal to the multi-continuous signals.
 
         Returns
         -------
-        bool
-            Is given object equal to the multi-continuous signals.
+        :class:`bool`
+            Whether given object is equal to the multi-continuous signals.
 
         Examples
         --------
@@ -992,35 +1008,33 @@ or dict_like
         """
 
         if isinstance(other, MultiSignals):
-            if all([
-                    np.array_equal(self.domain, other.domain),
-                    np.array_equal(
-                        self.range,
-                        other.range), self.interpolator is other.interpolator,
-                    self.interpolator_kwargs == other.interpolator_kwargs,
-                    self.extrapolator is other.extrapolator,
-                    self.extrapolator_kwargs == other.extrapolator_kwargs,
-                    self.labels == other.labels
-            ]):
-                return True
+            return all([
+                np.array_equal(self.domain, other.domain),
+                np.array_equal(self.range, other.range),
+                self.interpolator is other.interpolator,
+                self.interpolator_kwargs == other.interpolator_kwargs,
+                self.extrapolator is other.extrapolator,
+                self.extrapolator_kwargs == other.extrapolator_kwargs,
+                self.labels == other.labels,
+            ])
+        else:
+            return False
 
-        return False
-
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         """
         Returns whether the multi-continuous signals is not equal to given
         other object.
 
         Parameters
         ----------
-        other : object
+        other
             Object to test whether it is not equal to the multi-continuous
             signals.
 
         Returns
         -------
-        bool
-            Is given object not equal to the multi-continuous signals.
+        :class:`bool`
+            Whether given object is not equal to the multi-continuous signals.
 
         Examples
         --------
@@ -1043,23 +1057,27 @@ or dict_like
 
         return not (self == other)
 
-    def arithmetical_operation(self, a, operation, in_place=False):
+    def arithmetical_operation(
+            self,
+            a: Union[FloatingOrArrayLike, AbstractContinuousFunction],
+            operation: Literal['+', '-', '*', '/', '**'],
+            in_place: Boolean = False) -> AbstractContinuousFunction:
         """
-        Performs given arithmetical operation with :math:`a` operand, the
+        Performs given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
 
         Parameters
         ----------
-        a : numeric or ndarray or Signal
-            Operand.
-        operation : object
+        a
+            Operand :math:`a`.
+        operation
             Operation to perform.
-        in_place : bool, optional
+        in_place
             Operation happens in place.
 
         Returns
         -------
-        MultiSignals
+        :class:`colour.continuous.MultiSignals`
             multi-continuous signals.
 
         Examples
@@ -1093,7 +1111,7 @@ or dict_like
          [   8.  100.  110.  120.]
          [   9.  110.  120.  130.]]
 
-        Adding an *array_like* variable:
+        Adding an `ArrayLike` variable:
 
         >>> a = np.linspace(10, 100, 10)
         >>> print(multi_signals_1.arithmetical_operation(a, '+', True))
@@ -1163,7 +1181,7 @@ or dict_like
                                           a.signals.values()):
                 signal_a.arithmetical_operation(signal_b, operation, True)
         else:
-            a = as_float_array(a)
+            a = as_float_array(a)  # type: ignore[arg-type]
 
             attest(
                 a.ndim in range(3),
@@ -1186,52 +1204,55 @@ or dict_like
         return multi_signals
 
     @staticmethod
-    def multi_signals_unpack_data(data=None,
-                                  domain=None,
-                                  labels=None,
-                                  dtype=None,
-                                  signal_type=Signal,
-                                  **kwargs):
+    def multi_signals_unpack_data(
+            data: Optional[Union[ArrayLike, DataFrame, dict, 'MultiSignals',
+                                 Sequence, Series, Signal]] = None,
+            domain: Optional[ArrayLike] = None,
+            labels: Optional[Sequence] = None,
+            dtype: Optional[Type[DTypeFloating]] = None,
+            signal_type: Type[Signal] = Signal,
+            **kwargs: Any):
         """
         Unpack given data for multi-continuous signals instantiation.
 
         Parameters
         ----------
-        data : Series or Dataframe or Signal or MultiSignals or array_like or \
-dict_like, optional
+        data
             Data to unpack for multi-continuous signals instantiation.
-        domain : array_like, optional
+        domain
             Values to initialise the multiple :class:`colour.continuous.Signal`
             sub-class instances :attr:`colour.continuous.Signal.domain`
             attribute with. If both ``data`` and ``domain`` arguments are
             defined, the latter will be used to initialise the
             :attr:`colour.continuous.Signal.domain` attribute.
-        dtype : type, optional
-            **{np.float16, np.float32, np.float64, np.float128}**,
+        labels
+            Names to use for the :class:`colour.continuous.Signal` sub-class
+            instances.
+        dtype
             Floating point data type.
-        signal_type : type, optional
+        signal_type
             A :class:`colour.continuous.Signal` sub-class type.
 
         Other Parameters
         ----------------
-        name : str, optional
+        name
             multi-continuous signals name.
-        interpolator : object, optional
+        interpolator
             Interpolator class type to use as interpolating function for the
             :class:`colour.continuous.Signal` sub-class instances.
-        interpolator_kwargs : dict_like, optional
+        interpolator_kwargs
             Arguments to use when instantiating the interpolating function
             of the :class:`colour.continuous.Signal` sub-class instances.
-        extrapolator : object, optional
+        extrapolator
             Extrapolator class type to use as extrapolating function for the
             :class:`colour.continuous.Signal` sub-class instances.
-        extrapolator_kwargs : dict_like, optional
+        extrapolator_kwargs
             Arguments to use when instantiating the extrapolating function
             of the :class:`colour.continuous.Signal` sub-class instances.
 
         Returns
         -------
-        dict
+        :class:`dict`
             Mapping of labeled :class:`colour.continuous.Signal` sub-class
             instances.
 
@@ -1242,8 +1263,8 @@ dict_like, optional
         >>> range_ = np.linspace(10, 100, 10)
         >>> signals = MultiSignals.multi_signals_unpack_data(range_)
         >>> list(signals.keys())
-        [0]
-        >>> print(signals[0])
+        ['0']
+        >>> print(signals['0'])
         [[   0.   10.]
          [   1.   20.]
          [   2.   30.]
@@ -1260,8 +1281,8 @@ dict_like, optional
         >>> domain = np.arange(100, 1100, 100)
         >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
         >>> list(signals.keys())
-        [0]
-        >>> print(signals[0])
+        ['0']
+        >>> print(signals['0'])
         [[  100.    10.]
          [  200.    20.]
          [  300.    30.]
@@ -1279,8 +1300,8 @@ dict_like, optional
         >>> range_ += np.array([0, 10, 20])
         >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
         >>> list(signals.keys())
-        [0, 1, 2]
-        >>> print(signals[2])
+        ['0', '1', '2']
+        >>> print(signals['2'])
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1297,8 +1318,8 @@ dict_like, optional
         >>> signals = MultiSignals.multi_signals_unpack_data(
         ...     dict(zip(domain, range_)))
         >>> list(signals.keys())
-        [0, 1, 2]
-        >>> print(signals[2])
+        ['0', '1', '2']
+        >>> print(signals['2'])
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1336,8 +1357,8 @@ dict_like, optional
         ...     dict(zip(domain, range_)))
         >>> signals = MultiSignals.multi_signals_unpack_data(signals)
         >>> list(signals.keys())
-        [0, 1, 2]
-        >>> print(signals[2])
+        ['0', '1', '2']
+        >>> print(signals['2'])
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1367,7 +1388,7 @@ dict_like, optional
          [  900.    90.]
          [ 1000.   100.]]
 
-        Unpacking using a *Pandas* `DataFrame`:
+        Unpacking using a *Pandas* :class:`pandas.DataFrame`:
 
         >>> if is_pandas_installed():
         ...     from pandas import DataFrame
@@ -1387,119 +1408,128 @@ dict_like, optional
          [ 1000.   120.]]
         """
 
-        if dtype is None:
-            dtype = DEFAULT_FLOAT_DTYPE
+        dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         settings = {}
         settings.update(kwargs)
-        settings.update({
-            'dtype': dtype,
-            'strict_name': None,
-        })
+        settings.update({'dtype': dtype})
 
-        # domain_u, range_u, signals = None, None, None
+        # domain_unpacked, range_unpacked, signals = (
+        #   np.array([]), np.array([]), {})
 
         signals = {}
 
-        domain = list(domain) if isinstance(domain, KeysView) else domain
-
-        # TODO: Implement support for Signal class passing.
-        if isinstance(data, MultiSignals):
+        if isinstance(data, Signal):
+            signals[data.name] = data
+        elif isinstance(data, MultiSignals):
             signals = data.signals
         elif (issubclass(type(data), Sequence) or
               isinstance(data,
                          (tuple, list, np.ndarray, Iterator, ValuesView))):
-
-            is_signal = all(
-                [True if isinstance(i, Signal) else False for i in data])
-
-            if is_signal:
-                for signal in data:
-                    signals[signal.name] = signal_type(
-                        signal.range, signal.domain, **settings)
-            else:
-                data = tsplit(
-                    list(data) if isinstance(data, (Iterator,
-                                                    ValuesView)) else data)
-                attest(
-                    data.ndim in (1, 2),
-                    'User "data" must be 1-dimensional or 2-dimensional!')
-
-                if data.ndim == 1:
-                    data = data[np.newaxis, :]
-
-                for i, range_u in enumerate(data):
-                    signals[i] = signal_type(range_u, domain, **settings)
-        elif issubclass(type(data), Mapping) or isinstance(data, dict):
+            data_sequence = list(data)  # type: ignore[arg-type]
 
             is_signal = all([
-                True if isinstance(i, Signal) else False
-                for i in data.values()
+                True if isinstance(i, Signal) else False for i in data_sequence
             ])
 
             if is_signal:
-                for label, signal in data.items():
+                for signal in data_sequence:
+                    signals[signal.name] = signal_type(
+                        signal.range, signal.domain, **settings)
+            else:
+                data_array = tsplit(data_sequence)
+                attest(
+                    data_array.ndim in (1, 2),
+                    'User "data" must be 1-dimensional or 2-dimensional!')
+
+                if data_array.ndim == 1:
+                    data_array = data_array[np.newaxis, :]
+
+                for i, range_unpacked in enumerate(data_array):
+                    signals[str(i)] = signal_type(range_unpacked, domain,
+                                                  **settings)
+        elif issubclass(type(data), Mapping) or isinstance(data, dict):
+            data_mapping = dict(data)  # type: ignore[arg-type]
+
+            is_signal = all([
+                True if isinstance(i, Signal) else False
+                for i in data_mapping.values()
+            ])
+
+            if is_signal:
+                for label, signal in data_mapping.items():
                     signals[label] = signal_type(signal.range, signal.domain,
                                                  **settings)
             else:
-                domain_u, range_u = zip(*sorted(data.items()))
-                for i, range_u in enumerate(tsplit(range_u)):
-                    signals[i] = signal_type(range_u, domain_u, **settings)
+                domain_unpacked, range_unpacked = zip(
+                    *sorted(data_mapping.items()))
+                for i, range_unpacked in enumerate(tsplit(range_unpacked)):
+                    signals[str(i)] = signal_type(range_unpacked,
+                                                  domain_unpacked, **settings)
         elif is_pandas_installed():
-            from pandas import DataFrame, Series
-
             if isinstance(data, Series):
-                signals[0] = signal_type(data, **settings)
+                signals['0'] = signal_type(data, **settings)
             elif isinstance(data, DataFrame):
-                domain_u = data.index.values
+                domain_unpacked = data.index.values
                 signals = {
-                    label: signal_type(data[label], domain_u, **settings)
+                    label: signal_type(data[label], domain_unpacked,
+                                       **settings)
                     for label in data
                 }
 
-                for label in data:
-                    signals[label].name = label
+        if domain is not None:
+            domain_array = as_float_array(
+                list(domain),  # type: ignore[arg-type]
+                dtype)
 
-        if domain is not None and signals is not None:
             for signal in signals.values():
                 attest(
-                    len(domain) == len(signal.domain),
-                    'User "domain" is not compatible with unpacked signals!')
+                    len(domain_array) == len(signal.domain),
+                    'User "domain" length is not compatible with unpacked '
+                    '"signals"!')
 
-                signal.domain = domain
+                signal.domain = domain_array
 
-        if labels is not None and signals is not None:
+        signals = {str(label): signal for label, signal in signals.items()}
+
+        if labels is not None:
             attest(
                 len(labels) == len(signals),
-                'User "labels" is not compatible with unpacked signals!')
+                'User "labels" length is not compatible with unpacked '
+                '"signals"!')
 
             signals = {
-                labels[i]: signal
-                for i, (_key, signal) in enumerate(signals.items())
+                str(labels[i]): signal
+                for i, signal in enumerate(signals.values())
             }
 
         for label in signals:
-            signals[label].name = str(label)
+            signals[label].name = label
+
+        if not signals:
+            signals = {'Undefined': Signal(name='Undefined')}
 
         return signals
 
-    def fill_nan(self, method='Interpolation', default=0):
+    def fill_nan(self,
+                 method: Union[Literal['Constant', 'Interpolation'],
+                               str] = 'Interpolation',
+                 default: Number = 0) -> AbstractContinuousFunction:
         """
-        Fill NaNs in independent domain :math:`x` variable and corresponding
-        range :math:`y` variable using given method.
+        Fill NaNs in independent domain variable :math:`x` and corresponding
+        range variable :math:`y` using given method.
 
         Parameters
         ----------
-        method : str, optional
-            **{'Interpolation', 'Constant'}**,
+        method
             *Interpolation* method linearly interpolates through the NaNs,
             *Constant* method replaces NaNs with ``default``.
-        default : numeric, optional
+        default
             Value to use with the *Constant* method.
 
         Returns
         -------
-        Signal
+        :class:`colour.continuous.MultiSignals`
             NaNs filled multi-continuous signals.
 
         >>> domain = np.arange(0, 10, 1)
@@ -1551,15 +1581,16 @@ dict_like, optional
         return self
 
     @required('Pandas')
-    def to_dataframe(self):
+    def to_dataframe(self) -> DataFrame:
         """
-        Converts the continuous signal to a *Pandas* :class:`DataFrame` class
-        instance.
+        Converts the continuous signal to a *Pandas* :class:`pandas.DataFrame`
+        class instance.
 
         Returns
         -------
-        DataFrame
-            Continuous signal as a *Pandas* :class:`DataFrame` class instance.
+        :class:`pandas.DataFrame`
+            Continuous signal as a *Pandas* :class:`pandas.DataFrame` class
+            instance.
 
         Examples
         --------
@@ -1581,8 +1612,6 @@ dict_like, optional
         8.0   90.0  100.0  110.0
         9.0  100.0  110.0  120.0
         """
-
-        from pandas import DataFrame
 
         return DataFrame(
             data=self.range, index=self.domain, columns=self.labels)
