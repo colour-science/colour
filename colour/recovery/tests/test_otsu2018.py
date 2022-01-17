@@ -137,12 +137,23 @@ class TestDataset_Otsu2018(unittest.TestCase):
         self.assertEqual(
             str(self._dataset), 'Dataset_Otsu2018(8 basis functions)')
 
+        self.assertEqual(str(Dataset_Otsu2018()), 'Dataset_Otsu2018()')
+
     def test_select(self):
         """
         Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method.
         """
 
         self.assertEqual(self._dataset.select(self._xy), 6)
+
+    def test_raise_exception_select(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method
+        raised exception.
+        """
+
+        self.assertRaises(ValueError,
+                          Dataset_Otsu2018().select, np.array([0, 0]))
 
     def test_cluster(self):
         """
@@ -152,6 +163,15 @@ class TestDataset_Otsu2018(unittest.TestCase):
         basis_functions, means = self._dataset.cluster(self._xy)
         self.assertTupleEqual(basis_functions.shape, (3, 36))
         self.assertTupleEqual(means.shape, (36, ))
+
+    def test_raise_exception_cluster(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method
+        raised exception.
+        """
+
+        self.assertRaises(ValueError,
+                          Dataset_Otsu2018().cluster, np.array([0, 0]))
 
     def test_read(self):
         """
@@ -180,6 +200,14 @@ class TestDataset_Otsu2018(unittest.TestCase):
         self.assertTupleEqual(dataset.basis_functions.shape, (8, 3, 36))
         self.assertTupleEqual(dataset.means.shape, (8, 36))
         self.assertTupleEqual(dataset.selector_array.shape, (7, 4))
+
+    def test_raise_exception_write(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method
+        raised exception.
+        """
+
+        self.assertRaises(ValueError, Dataset_Otsu2018().write, '')
 
 
 class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
@@ -222,6 +250,15 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
 
             delta_E = delta_E_CIE1976(Lab, recovered_Lab)
             self.assertLess(delta_E, 1e-12)
+
+    def test_raise_exception_XYZ_to_sd_Otsu2018(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
+        raised_exception.
+        """
+
+        self.assertRaises(ValueError, XYZ_to_sd_Otsu2018, np.array([0, 0, 0]),
+                          self._cmfs, self._sd_D65, Dataset_Otsu2018())
 
     def test_domain_range_scale_XYZ_to_sd_Otsu2018(self):
         """
@@ -365,6 +402,16 @@ class TestData_Otsu2018(unittest.TestCase):
         self.assertAlmostEqual(
             self._data.origin(4, 1), 0.255284008578559, places=7)
 
+    def test_raise_exception_origin(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.origin` method
+        raised exception.
+        """
+
+        self.assertRaises(ValueError,
+                          Data_Otsu2018(None, self._cmfs, self._sd_D65).origin,
+                          4, 1)
+
     def test_partition(self):
         """
         Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.partition` method.
@@ -373,6 +420,17 @@ class TestData_Otsu2018(unittest.TestCase):
         partition = self._data.partition(PartitionAxis(4, 1))
 
         self.assertEqual(len(partition), 2)
+
+    def test_raise_exception_partition(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.partition` method
+        raised exception.
+        """
+
+        self.assertRaises(
+            ValueError,
+            Data_Otsu2018(None, self._cmfs, self._sd_D65).partition,
+            PartitionAxis(4, 1))
 
     def test_PCA(self):
         """
@@ -462,6 +520,17 @@ class TestData_Otsu2018(unittest.TestCase):
             ]),
             decimal=7)
 
+    def test_raise_exception_reconstruct(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct` method
+        raised exception.
+        """
+
+        self.assertRaises(
+            ValueError,
+            Data_Otsu2018(None, self._cmfs, self._sd_D65).reconstruct,
+            np.array([0, 0, 0]))
+
     def test_reconstruction_error(self):
         """
         Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.\
@@ -472,6 +541,16 @@ reconstruction_error` method.
 
         self.assertAlmostEqual(
             data.reconstruction_error(), 2.753352549148681, places=7)
+
+    def test_raise_exception_reconstruction_error(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.\
+reconstruction_error` method raised exception.
+        """
+
+        self.assertRaises(
+            ValueError,
+            Data_Otsu2018(None, self._cmfs, self._sd_D65).reconstruction_error)
 
 
 class TestNode_Otsu2018(unittest.TestCase):
@@ -542,12 +621,20 @@ class TestNode_Otsu2018(unittest.TestCase):
         Tests :attr:`colour.recovery.otsu2018.Node_Otsu2018.row` property.
         """
 
-        self.assertListEqual(self._node_a.row, [
-            self._partition_axis.direction,
+        self.assertTupleEqual(self._node_a.row, (
             self._partition_axis.origin,
+            self._partition_axis.direction,
             self._node_b,
             self._node_c,
-        ])
+        ))
+
+    def test_raise_exception_row(self):
+        """
+        Tests :func:`colour.recovery.otsu2018.Node_Otsu2018.row` property
+        raised exception.
+        """
+
+        self.assertRaises(ValueError, lambda: Node_Otsu2018().row)
 
     def test_split(self):
         """

@@ -16,7 +16,7 @@ import numpy as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.hints import Boolean, List, Tuple, Union
+from colour.hints import Boolean, Integer, List, Tuple, Union
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
@@ -141,7 +141,7 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
 
 def write_LUT_SonySPI1D(LUT: Union[LUT1D, LUT3x1D, LUTSequence],
                         path: str,
-                        decimals: int = 7) -> Boolean:
+                        decimals: Integer = 7) -> Boolean:
     """
     Writes given *LUT* to given *Sony* *.spi1d* *LUT* file.
 

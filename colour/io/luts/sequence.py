@@ -17,6 +17,7 @@ from copy import deepcopy
 from colour.hints import (
     Any,
     ArrayLike,
+    Integer,
     List,
     NDArray,
     Sequence,
@@ -198,7 +199,7 @@ class LUTSequence(MutableSequence):
 
         del self._sequence[index]
 
-    def __len__(self) -> int:
+    def __len__(self) -> Integer:
         """
         Returns the *LUT* sequence items count.
 
@@ -301,7 +302,7 @@ class LUTSequence(MutableSequence):
 
         return not (self == other)
 
-    def insert(self, index: int, item: TypeLUTSequenceItem):
+    def insert(self, index: Integer, item: TypeLUTSequenceItem):
         """
         Inserts given *LUT* at given index into the *LUT* sequence.
 

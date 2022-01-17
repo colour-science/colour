@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import os
 
-from colour.hints import Any, Literal, Optional, Union, cast
+from colour.hints import Any, Integer, Literal, Optional, Union, cast
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
@@ -234,7 +234,7 @@ References
 def write_LUT(
         LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix],
         path: str,
-        decimals: int = 7,
+        decimals: Integer = 7,
         method: Optional[Union[
             Literal['Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
                     'Sony SPI3D', 'Sony SPImtx'], str]] = None,

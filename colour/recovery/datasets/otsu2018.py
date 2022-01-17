@@ -13,8 +13,12 @@ References
     Graphics Forum, 37(6), 370-381. doi:10.1111/cgf.13332
 """
 
+from __future__ import annotations
+
 import numpy as np
+
 from colour.colorimetry import SpectralShape
+from colour.hints import NDArray
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -30,18 +34,16 @@ __all__ = [
     'SELECTOR_ARRAY_OTSU2018',
 ]
 
-SPECTRAL_SHAPE_OTSU2018 = SpectralShape(380, 730, 10)
+SPECTRAL_SHAPE_OTSU2018: SpectralShape = SpectralShape(380, 730, 10)
 SPECTRAL_SHAPE_OTSU2018.__doc__ = """
 The spectral shape of *Otsu et al. (2018)* basis functions and means.
 
 References
 ----------
 :cite:`Otsu2018`
-
-SPECTRAL_SHAPE_OTSU2018 : SpectralShape
 """
 
-BASIS_FUNCTIONS_OTSU2018 = np.array([
+BASIS_FUNCTIONS_OTSU2018: NDArray = np.array([
     [
         [
             0.033359794,
@@ -980,11 +982,9 @@ attribute.
 References
 ----------
 :cite:`Otsu2018`
-
-BASIS_FUNCTIONS_OTSU2018 : ndarray
 """
 
-CLUSTER_MEANS_OTSU2018 = np.array([
+CLUSTER_MEANS_OTSU2018: NDArray = np.array([
     [
         0.10085069182389943000,
         0.14557836477987415000,
@@ -1299,22 +1299,18 @@ with :attr:`colour.recovery.SPECTRAL_SHAPE_OTSU2018` attribute.
 References
 ----------
 :cite:`Otsu2018`
-
-CLUSTER_MEANS_OTSU2018 : ndarray
 """
 
-SELECTOR_ARRAY_OTSU2018 = np.array([
-    [1, 0.333444973048471, -3, -1],
-    [0, 0.428556829741043, 1, -2],
-    [1, 0.368343583792887, 5, 7],
-    [0, 0.389059234962091, -5, -4],
-    [0, 0.464102042665547, 2, 6],
-    [0, 0.288243127874986, 0, -6],
-    [1, 0.247072787814766, 3, 4],
+SELECTOR_ARRAY_OTSU2018: NDArray = np.array([
+    [0.333444973048471, 1, -3, -1],
+    [0.428556829741043, 0, 1, -2],
+    [0.368343583792887, 1, 5, 7],
+    [0.389059234962091, 0, -5, -4],
+    [0.464102042665547, 0, 2, 6],
+    [0.288243127874986, 0, 0, -6],
+    [0.247072787814766, 1, 3, 4],
 ])
 """
 Array describing how to select the appropriate cluster for given *CIE xy*
 chromaticity coordinates.
-
-SELECTOR_ARRAY_OTSU2018 : ndarray
 """

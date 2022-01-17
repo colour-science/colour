@@ -19,11 +19,14 @@ References
     doi:10.1080/10867651.1999.10487511
 """
 
+from __future__ import annotations
+
 import sys
 
+from colour.colorimetry import SpectralDistribution
+from colour.hints import Any, ArrayLike, Literal, Union
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
-
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
@@ -71,7 +74,7 @@ __all__ += [
     'RGB_to_sd_Smits1999',
 ]
 
-XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
+XYZ_TO_SD_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Jakob 2019': XYZ_to_sd_Jakob2019,
     'Mallett 2019': RGB_to_sd_Mallett2019,
     'Meng 2015': XYZ_to_sd_Meng2015,
@@ -85,65 +88,64 @@ References
 ----------
 :cite:`Jakob2019`, :cite:`Mallett2019`, :cite:`Meng2015c`,
 :cite:`Smits1999a`
-
-XYZ_TO_SD_METHODS : CaseInsensitiveMapping
-    **{'Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999'}**
 """
 
 
-def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
+def XYZ_to_sd(
+        XYZ: ArrayLike,
+        method: Union[Literal['Jakob 2019', 'Mallett 2019', 'Meng 2015',
+                              'Otsu 2018', 'Smits 1999'], str] = 'Meng 2015',
+        **kwargs: Any) -> SpectralDistribution:
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus
     values using given method.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values to recover the spectral distribution
         from.
-    method : str, optional
-        **{'Meng 2015', 'Jakob 2019', 'Mallett 2019', 'Otsu 2018',
-        'Smits 1999'}**
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    additional_data : bool, optional
+    additional_data
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
         If *True*, ``error`` will be returned alongside ``sd``.
-    basis_functions : MultiSpectralDistributions
+    basis_functions
         {:func:`colour.recovery.RGB_to_sd_Mallett2019`},
         Basis functions for the method. The default is to use the built-in
         *sRGB* basis functions, i.e.
         :attr:`colour.recovery.MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019`.
-    clip : bool, optional
+    clip
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
         If *True*, the default, values below zero and above unity in the
         recovered spectral distributions will be clipped. This ensures that the
         returned reflectance is physical and conserves energy, but will cause
         noticeable colour differences in case of very saturated colours.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Standard observer colour matching functions.
-    colourspace : RGB_Colourspace, optional
+    colourspace
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
         *RGB* colourspace of the target colour. Note that no chromatic
         adaptation is performed between ``illuminant`` and the colourspace
         whitepoint.
-    dataset : Dataset_Otsu2018, optional
+    dataset
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
         Dataset to use for reconstruction. The default is to use the published
         data.
-    illuminant : SpectralDistribution, optional
+    illuminant
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
         :func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    interval : numeric, optional
+    interval
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
         :func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Parameters for :func:`scipy.optimize.minimize` and
@@ -151,7 +153,7 @@ def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Recovered spectral distribution.
 
     Notes
@@ -522,12 +524,10 @@ API_CHANGES = {
 }
 """
 Defines the *colour.recovery* sub-package API changes.
-
-API_CHANGES : dict
 """
 
 if not is_documentation_building():
-    sys.modules['colour.recovery'] = recovery(sys.modules['colour.recovery'],
-                                              build_API_changes(API_CHANGES))
+    sys.modules['colour.recovery'] = recovery(  # type: ignore[assignment]
+        sys.modules['colour.recovery'], build_API_changes(API_CHANGES))
 
     del ModuleAPI, is_documentation_building, build_API_changes, sys

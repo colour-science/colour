@@ -309,6 +309,16 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
                 self.fail('Delta E for RGB={0} in colourspace {1} is {2}!'
                           .format(RGB, self._RGB_colourspace.name, error))
 
+    def test_raise_exception_RGB_to_coefficients(self):
+        """
+        Tests :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.\
+RGB_to_coefficients` method raised exception.
+        """
+
+        LUT = LUT3D_Jakob2019()
+
+        self.assertRaises(RuntimeError, LUT.RGB_to_coefficients, np.array([]))
+
     def test_raise_exception_read(self):
         """
         Tests :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.read` method

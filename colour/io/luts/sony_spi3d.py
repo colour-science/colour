@@ -127,7 +127,7 @@ def read_LUT_SonySPI3D(path: str) -> LUT3D:
 
 def write_LUT_SonySPI3D(LUT: Union[LUT3D, LUTSequence],
                         path: str,
-                        decimals: int = 7) -> Boolean:
+                        decimals: Integer = 7) -> Boolean:
     """
     Writes given *LUT* to given *Sony* *.spi3d* *LUT* file.
 

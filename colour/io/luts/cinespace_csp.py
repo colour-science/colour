@@ -20,7 +20,15 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, Boolean, List, NDArray, Tuple, Union
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    Integer,
+    List,
+    NDArray,
+    Tuple,
+    Union,
+)
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.utilities import (
     attest,
@@ -230,7 +238,7 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
 def write_LUT_Cinespace(LUT: Union[LUT3x1D, LUT3D, LUTSequence],
                         path: str,
-                        decimals: int = 7) -> Boolean:
+                        decimals: Integer = 7) -> Boolean:
     """
     Writes given *LUT* to given  *Cinespace* *.csp* *LUT* file.
 

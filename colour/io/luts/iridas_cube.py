@@ -168,7 +168,7 @@ def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
 
 def write_LUT_IridasCube(LUT: Union[LUT3x1D, LUT3D, LUTSequence],
                          path: str,
-                         decimals: int = 7) -> Boolean:
+                         decimals: Integer = 7) -> Boolean:
     """
     Writes given *LUT* to given  *Iridas* *.cube* *LUT* file.
 
