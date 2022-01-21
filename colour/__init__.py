@@ -31,6 +31,7 @@ Sub-packages
 -   examples: Examples for the sub-packages.
 -   geometry: Geometry primitives generation.
 -   graph: Graph for automatic colour conversions.
+-   hints: Type hints for annotations.
 -   io: Input / output objects for reading and writing data.
 -   models: Colour models.
 -   notation: Colour notation systems.

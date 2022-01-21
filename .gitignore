@@ -3,6 +3,7 @@
 *.pyo
 .DS_Store
 .coverage
+.dmypy.json
 .idea
 __pycache__
 build

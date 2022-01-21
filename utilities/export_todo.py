@@ -15,7 +15,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['TODO_FILE_TEMPLATE', 'extract_todo_items', 'export_todo_items']
+__all__ = [
+    'TODO_FILE_TEMPLATE',
+    'extract_todo_items',
+    'export_todo_items',
+]
 
 TODO_FILE_TEMPLATE = """
 Colour - TODO

@@ -26,7 +26,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['MockObject', 'MockModule', 'mock_scipy_for_colour']
+__all__ = [
+    'MockObject',
+    'MockModule',
+    'mock_scipy_for_colour',
+]
 
 
 class MockObject:

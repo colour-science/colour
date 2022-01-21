@@ -85,7 +85,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['generate_documentation_plots']
+__all__ = [
+    'generate_documentation_plots',
+]
 
 
 def generate_documentation_plots(output_directory):

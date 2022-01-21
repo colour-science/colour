@@ -79,6 +79,11 @@ jobs:
       run: |
         poetry run python -W ignore -m nose -q -v --with-doctest --doctest-options=+ELLIPSIS --with-coverage --traverse-namespace --cover-package=$CI_PACKAGE $CI_PACKAGE
       shell: bash
+    - name: Static Type Checking
+      if: matrix.os == 'macOS-latest' && matrix.python-version == '3.9'
+      run: |
+        pip install -r requirements.txt
+        mypy --install-types --non-interactive --show-error-codes --warn-unused-ignores --warn-redundant-casts -p $CI_PACKAGE
     - name: Upload Coverage to coveralls.io
       if: matrix.os == 'ubuntu-20.04' && matrix.python-version == '3.8'
       run: |
