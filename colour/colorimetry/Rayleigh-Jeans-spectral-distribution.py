@@ -9,20 +9,25 @@ given temperature through classical arguments.
 
 References
 ----------
--   
+-  
+-
+-
+ 
 """
+
 import colour
 import numpy as np
 
 
 
-
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2022 - Colour Developers'
-__license__ = 'New BSD License - '
+__license__ = 'New BSD License - *--License here--*'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
+
+
 
 __all__ = [
     'rayleigh_jeans_law',
@@ -30,8 +35,30 @@ __all__ = [
 ]
 
 
-
 def rayleigh_jeans_law(wavelength, temperature):
+    """
+    
+    Returns
+    -------
+    Spectral radiance, the power emitted per unit emitting area, 
+    per steradian, per unit wavelength.
+    
+    
+    Parameters
+    ----------
+    where "c" is the speed of light; 
+    "k_B" is the Boltzmann constant;
+    and "T" is the temperature in kelvins.
+    
+    Notes
+    -----
+    -   The following form implementation is expressed in term of wavelength.
+    -   The SI unit of radiance is *watts per steradian per square metre*
+        (:math:`W/sr/m^2`).
+    
+    
+    """
+    
     λ = colour.utilities.as_float_array(wavelength)
     T = colour.utilities.as_float_array(temperature)
 
@@ -49,6 +76,34 @@ def rayleigh_jeans_law(wavelength, temperature):
 
 
 def sd_rayleigh_jeans(temperature,shape=colour.SPECTRAL_SHAPE_DEFAULT):
+    
+    """
+    Returns the spectral distribution of the Spectral radiance for given
+    temperature :math:`T[K]` with values in
+    *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`).
+
+    Parameters
+    ----------
+    temperature : numeric
+        Temperature :math:`T[K]` in kelvin degrees.
+    shape : SpectralShape, optional
+        Spectral shape used to create the spectral distribution of the
+        planckian radiator.
+    
+    Returns
+    -------
+    SpectralDistribution
+        Rayleigh-Jeans spectral distribution with values in
+        *watts per steradian per square metre per nanometer*
+        (:math:`W/sr/m^2/nm`).
+
+    Examples
+    --------
+    
+    
+    
+    --------
+    """
     
     wavelengths = shape.range()
     
