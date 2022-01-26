@@ -184,7 +184,7 @@ def formatting(ctx: Context,
 
 
 @task
-def tests(ctx: Context, nose: Boolean = True):
+def tests(ctx: Context):
     """
     Runs the unit tests with *Nose* or *Pytest*.
 
@@ -192,23 +192,13 @@ def tests(ctx: Context, nose: Boolean = True):
     ----------
     ctx
         Context.
-    nose
-        Whether to use *Nose* or *Pytest*.
     """
 
-    if nose:
-        message_box('Running "Nosetests"...')
-        ctx.run(
-            ("nosetests --with-doctest --with-coverage "
-             "--traverse-namespace --cover-package={0} {0}"
-             ).format(PYTHON_PACKAGE_NAME),
-            env={'MPLBACKEND': 'AGG'})
-    else:
-        message_box('Running "Pytest"...')
-        ctx.run(
-            'py.test --disable-warnings --doctest-modules '
-            '--ignore={0}/examples {0}'.format(PYTHON_PACKAGE_NAME),
-            env={'MPLBACKEND': 'AGG'})
+    message_box('Running "Pytest"...')
+    ctx.run(
+        'py.test --disable-warnings --doctest-modules '
+        '--ignore={0}/examples {0}'.format(PYTHON_PACKAGE_NAME),
+        env={'MPLBACKEND': 'AGG'})
 
 
 @task

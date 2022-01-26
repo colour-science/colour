@@ -56,13 +56,13 @@ jupyter = { version = "*", optional = true }  # Development dependency.
 matplotlib = { version = "*", optional = true }
 mypy = { version = "*", optional = true }  # Development dependency.
 networkx = { version = "*", optional = true }
-nose = { version = "*", optional = true }  # Development dependency.
 numpy = { version = "*", optional = true }
 opencolorio = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
 pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
+pytest-cov = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 scikit-learn = { version = "*", optional = true }
 sphinx = { version = "*", optional = true }  # Development dependency.
@@ -83,9 +83,9 @@ flake8 = "*"
 invoke = "*"
 jupyter = "*"
 mypy = "*"
-nose = "*"
 pre-commit = "*"
 pytest = "*"
+pytest-cov = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
 sphinx_rtd_theme = "*"
@@ -104,9 +104,9 @@ development = [
     "invoke",
     "jupyter",
     "mypy",
-    "nose",
     "pre-commit",
     "pytest",
+    "pytest-cov",
     "restructuredtext-lint",
     "sphinx",
     "sphinx_rtd_theme",

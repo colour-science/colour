@@ -102,7 +102,6 @@ def planckian_table(uv: ArrayLike, cmfs: MultiSpectralDistributions,
 
     Examples
     --------
-    >>> from pprint import pprint
     >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
     ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
@@ -110,7 +109,7 @@ def planckian_table(uv: ArrayLike, cmfs: MultiSpectralDistributions,
     ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> pprint(planckian_table(uv, cmfs, 1000, 1010, 10))
-    ... # doctest: +ELLIPSIS
+    ... # doctest: +SKIP
     [Tuvd_PlanckianTable(Ti=1000.0, ui=0.4479628..., \
 vi=0.3546296..., di=0.2537355...),
      Tuvd_PlanckianTable(Ti=1001.1111111..., ui=0.4477030..., \
