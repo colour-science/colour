@@ -75,7 +75,7 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         IgPgTg = XYZ_to_IgPgTg(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -147,7 +147,7 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
         IgPgTg = np.array([0.42421258, 0.18632491, 0.10689223])
         XYZ = IgPgTg_to_XYZ(IgPgTg)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

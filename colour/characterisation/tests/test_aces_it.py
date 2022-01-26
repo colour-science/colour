@@ -3,6 +3,8 @@
 Defines the unit tests for the :mod:`colour.characterisation.aces_it` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
 import unittest
@@ -27,7 +29,9 @@ from colour.characterisation import (
 from colour.characterisation.aces_it import RESOURCES_DIRECTORY_RAWTOACES
 from colour.colorimetry import (
     MSDS_CMFS,
+    MultiSpectralDistributions,
     SDS_ILLUMINANTS,
+    SpectralDistribution,
     SpectralShape,
     reshape_msds,
     sds_and_msds_to_msds,
@@ -61,14 +65,17 @@ __all__ = [
     'TestCamera_RGB_to_ACES2065_1',
 ]
 
-MSDS_CANON_EOS_5DMARK_II = sds_and_msds_to_msds(
+MSDS_CANON_EOS_5DMARK_II: MultiSpectralDistributions = sds_and_msds_to_msds(
+    list(
+        read_sds_from_csv_file(
+            os.path.join(
+                RESOURCES_DIRECTORY_RAWTOACES,
+                'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')).values()))
+
+SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = (
     read_sds_from_csv_file(
         os.path.join(RESOURCES_DIRECTORY_RAWTOACES,
-                     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')).values())
-
-SD_AMPAS_ISO7589_STUDIO_TUNGSTEN = read_sds_from_csv_file(
-    os.path.join(RESOURCES_DIRECTORY_RAWTOACES,
-                 'AMPAS_ISO_7589_Tungsten.csv'))['iso7589']
+                     'AMPAS_ISO_7589_Tungsten.csv'))['iso7589'])
 
 
 class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
@@ -137,7 +144,7 @@ sd_to_aces_relative_exposure_values`  definition domain and range scale
         grey_reflector = sd_constant(0.18, shape)
         RGB = sd_to_aces_relative_exposure_values(grey_reflector)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

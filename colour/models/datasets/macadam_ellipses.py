@@ -17,7 +17,11 @@ References
     Quantitative Data and Formulae (p. 309). Wiley. ISBN:978-0-471-39918-6
 """
 
+from __future__ import annotations
+
 import numpy as np
+
+from colour.hints import NDArray
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -30,7 +34,7 @@ __all__ = [
     'DATA_MACADAM_1942_ELLIPSES',
 ]
 
-DATA_MACADAM_1942_ELLIPSES = np.array([
+DATA_MACADAM_1942_ELLIPSES: NDArray = np.array([
     [0.160, 0.057, 0.85, 0.35, 62.5, 0.94, 0.30, 62.3],
     [0.187, 0.118, 2.20, 0.55, 77.0, 2.31, 0.44, 74.8],
     [0.253, 0.125, 2.50, 0.50, 55.5, 2.49, 0.49, 54.8],
@@ -79,6 +83,4 @@ former is fitted on his  observational data.
 References
 ----------
 :cite:`Wyszecki2000`, :cite:`Macadam1942`
-
-DATA_MACADAM_1942_ELLIPSES : ndarray
 """

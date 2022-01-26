@@ -945,7 +945,8 @@ message_box('Comparing theoretical and measured "Sun" spectral distributions.')
 sd_ASTMG173 = SD_ASTMG173_ETR.copy()
 
 sd_ASTMG173.interpolate(
-    colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)
+    colour.SpectralShape(sd_ASTMG173.shape.start, sd_ASTMG173.shape.end, 5),
+    interpolator=colour.LinearInterpolator)
 
 sd_blackbody = colour.sd_blackbody(5778, sd_ASTMG173.shape)
 sd_blackbody.name = 'The Sun - 5778K'

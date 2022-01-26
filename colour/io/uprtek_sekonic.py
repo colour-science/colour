@@ -10,6 +10,8 @@ Defines the input and output objects for *UPRTek* and *Sekonic*
 -   :class:`colour.SpectralDistribution_Sekonic`
 """
 
+from __future__ import annotations
+
 import csv
 import json
 import os
@@ -17,6 +19,7 @@ import re
 from collections import defaultdict
 
 from colour.io import SpectralDistribution_IESTM2714
+from colour.hints import Any, Dict, List, cast
 from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
@@ -39,7 +42,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
     Parameters
     ----------
-    path : str
+    path
         Path for *UPRTek* *Pseudo-XLS* file.
 
     Attributes
@@ -122,35 +125,35 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     ... # doctest: +SKIP
     """
 
-    def __init__(self, path, **kwargs):
+    def __init__(self, path: str, **kwargs: Any):
         super(SpectralDistribution_UPRTek, self).__init__(path, **kwargs)
 
-        self._delimiter = '\t'
-        self._spectral_section = '380'
-        self._spectral_data_pattern = '(\\d{3})nm'
+        self._delimiter: str = '\t'
+        self._spectral_section: str = '380'
+        self._spectral_data_pattern: str = '(\\d{3})nm'
 
-        self._metadata = {}
+        self._metadata: Dict = {}
 
     @property
-    def metadata(self):
+    def metadata(self) -> Dict:
         """
         Getter property for the metadata.
 
         Returns
         -------
-        str
+        :class:`dict`
             Metadata.
         """
 
         return self._metadata
 
-    def read(self):
+    def read(self) -> SpectralDistribution_UPRTek:
         """
         Reads and parses the spectral data from a given *UPRTek* *CSV* file.
 
         Returns
         -------
-        SpectralDistribution_UPRTek
+        :class:`colour.SpectralDistribution_UPRTek`
             *UPRTek* spectral distribution.
 
         Examples
@@ -204,7 +207,9 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
          [  7.80000000e+02   4.11766000e-01]]
         """
 
-        def as_array(a):
+        path = cast(str, self.path)
+
+        def as_array(a: Any) -> List:
             """
             Inputs list of numbers and converts each element to
             float data type.
@@ -213,7 +218,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
             return [float(e) for e in a]
 
         spectral_sections = defaultdict(list)
-        with open(self.path, encoding='utf-8') as csv_file:
+        with open(path, encoding='utf-8') as csv_file:
             content = csv.reader(csv_file, delimiter=self._delimiter)
 
             spectral_section = 0
@@ -221,12 +226,12 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                 if not ''.join(row).strip():
                     continue
 
-                key, value = row[0], row[1:]
-                value = value[0] if len(value) == 1 else value
+                attribute, tokens = row[0], row[1:]
+                value = tokens[0] if len(tokens) == 1 else tokens
 
-                search = re.match(self._spectral_data_pattern, key)
-                if search:
-                    wavelength = search.group(1)
+                match = re.match(self._spectral_data_pattern, attribute)
+                if match:
+                    wavelength = match.group(1)
 
                     if wavelength == self._spectral_section:
                         spectral_section += 1
@@ -236,12 +241,14 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                 else:
                     for method in (int, float, as_array):
                         try:
-                            self._metadata[key] = method(value)
+                            self._metadata[attribute] = (
+                                method(value)  # type: ignore[operator]
+                            )
                             break
                         except Exception:
-                            self._metadata[key] = value
+                            self._metadata[attribute] = value
 
-        self.name = os.path.splitext(os.path.basename(self.path))[0]
+        self.name = os.path.splitext(os.path.basename(path))[0]
         spectral_data = as_float_array(spectral_sections[sorted(
             spectral_sections.keys())[-1]])
 
@@ -253,7 +260,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         self.header.report_date = self._metadata.get('Time')
         self.header.measurement_equipment = self._metadata.get('Model Name')
         self.header.manufacturer = 'UPRTek'
-        self.spectral_quantity = 'Irradiance'
+        self.spectral_quantity = 'irradiance'
 
         return self
 
@@ -265,7 +272,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     Parameters
     ----------
-    path : str
+    path
         Path for *Sekonic* *CSV* file.
 
     Attributes
@@ -332,21 +339,21 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     ... # doctest: +SKIP
     """
 
-    def __init__(self, path, **kwargs):
+    def __init__(self, path: str, **kwargs: Any):
         super(SpectralDistribution_Sekonic, self).__init__(path, **kwargs)
 
-        self._delimiter = ','
-        self._spectral_section = '380'
-        self._spectral_data_pattern = 'Spectral Data (\\d{3})\\[nm\\]'
+        self._delimiter: str = ','
+        self._spectral_section: str = '380'
+        self._spectral_data_pattern: str = 'Spectral Data (\\d{3})\\[nm\\]'
 
-    def read(self):
+    def read(self) -> SpectralDistribution_Sekonic:
         """
         Reads and parses the spectral data from a given *Sekonic* *Pseudo-XLS*
         file.
 
         Returns
         -------
-        SpectralDistribution_Sekonic
+        :class:`colour.SpectralDistribution_Sekonic`
             *Sekonic* spectral distribution.
 
         Examples

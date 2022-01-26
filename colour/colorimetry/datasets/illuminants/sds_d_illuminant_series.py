@@ -18,9 +18,12 @@ References
     ISBN:978-0-471-39918-6
 """
 
+from __future__ import annotations
+
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -35,7 +38,7 @@ __all__ = [
     'SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
 ]
 
-DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = {
+DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: Dict = {
     'S0': {
         300: 0.04,
         305: 3.02,
@@ -365,30 +368,28 @@ DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = {
     }
 }
 
-SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = LazyCaseInsensitiveMapping({
-    'S0':
-        partial(
-            SpectralDistribution,
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S0'],
-            name='S0'),
-    'S1':
-        partial(
-            SpectralDistribution,
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S1'],
-            name='S1'),
-    'S2':
-        partial(
-            SpectralDistribution,
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S2'],
-            name='S2')
-})
+SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: (
+    LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping({
+        'S0':
+            partial(
+                SpectralDistribution,
+                DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S0'],
+                name='S0'),
+        'S1':
+            partial(
+                SpectralDistribution,
+                DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S1'],
+                name='S1'),
+        'S2':
+            partial(
+                SpectralDistribution,
+                DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S2'],
+                name='S2')
+    })
 SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.__doc__ = """
 *CIE Illuminant D Series* :math:`S_n(\\lambda)` spectral distributions.
 
 References
 ----------
 :cite:`Lindbloom2007a`, :cite:`Wyszecki2000z`
-
-SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES : LazyCaseInsensitiveMapping
-   **{'S0', 'S1', 'S1'}**
 """

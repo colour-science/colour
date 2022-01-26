@@ -18,6 +18,7 @@ Colour
     colour.difference
     colour.geometry
     colour.graph
+    colour.hints
     colour.io
     colour.models
     colour.notation

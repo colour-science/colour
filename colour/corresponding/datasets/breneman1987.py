@@ -58,18 +58,18 @@ class BrenemanExperimentResult(
 
     Parameters
     ----------
-    name : str
+    name
         Test colour name.
-    uv_t : numeric
+    uv_t
         Chromaticity coordinates :math:`uv_t^p` of test colour.
-    uv_m : array_like, (2,)
+    uv_m
         Chromaticity coordinates :math:`uv_m^p` of matching colour.
-    s_uv : array_like, (2,), optional
+    s_uv
         Interobserver variation (:math:`x10^3`) :math:`\\sigma_uv^p`.
-    d_uv_i : array_like, (2,), optional
+    d_uv_i
         Deviation of individual linear transformation (:math:`x10^3`)
         :math:`\\delta_uv_i^p`.
-    d_uv_g : array_like, (2,), optional
+    d_uv_g
         Deviation of individual linear transformation (:math:`x10^3`)
         :math:`\\delta_uv_g^p`.
     """
@@ -95,17 +95,17 @@ class PrimariesChromaticityCoordinates(
 
     Parameters
     ----------
-    experiment : integer
+    experiment
         Experiment.
-    illuminants : array_like, (2,)
+    illuminants
         Chromaticity coordinates :math:`uv_t^p` of test colour.
-    Y : numeric
+    Y
         White luminance :math:`Y` in :math:`cd/m^2`.
-    P_uvp : numeric
+    P_uvp
         Chromaticity coordinates :math:`uv^p` of primary :math:`P`.
-    D_uvp : numeric
+    D_uvp
         Chromaticity coordinates :math:`uv^p` of primary :math:`D`.
-    T_uvp : numeric
+    T_uvp
         Chromaticity coordinates :math:`uv^p` of primary :math:`T`.
     """
 
@@ -172,8 +172,6 @@ BRENEMAN_EXPERIMENT_1_RESULTS = (
 """
 *Breneman (1987)* experiment 1 results.
 
-BRENEMAN_EXPERIMENT_1_RESULTS : tuple
-
 Notes
 -----
 -   Illuminants : *A*, *D65*
@@ -225,8 +223,6 @@ BRENEMAN_EXPERIMENT_2_RESULTS = (
 # yapf: enable
 """
 *Breneman (1987)* experiment 2 results.
-
-BRENEMAN_EXPERIMENT_2_RESULTS : tuple
 
 Notes
 -----
@@ -280,8 +276,6 @@ BRENEMAN_EXPERIMENT_3_RESULTS = (
 """
 *Breneman (1987)* experiment 3 results.
 
-BRENEMAN_EXPERIMENT_3_RESULTS : tuple
-
 Notes
 -----
 -   Illuminants : *Projector*, *D55*
@@ -334,8 +328,6 @@ BRENEMAN_EXPERIMENT_4_RESULTS = (
 """
 *Breneman (1987)* experiment 4 results.
 
-BRENEMAN_EXPERIMENT_4_RESULTS : tuple
-
 Notes
 -----
 -   Illuminants : *A*, *D65*
@@ -384,8 +376,6 @@ BRENEMAN_EXPERIMENT_5_RESULTS = (
 # yapf: enable
 """
 *Breneman (1987)* experiment 5 results.
-
-BRENEMAN_EXPERIMENT_5_RESULTS : tuple
 
 Notes
 -----
@@ -438,8 +428,6 @@ BRENEMAN_EXPERIMENT_6_RESULTS = (
 """
 *Breneman (1987)* experiment 6 results.
 
-BRENEMAN_EXPERIMENT_6_RESULTS : tuple
-
 Notes
 -----
 -   Illuminants : *A*, *D55*
@@ -488,8 +476,6 @@ BRENEMAN_EXPERIMENT_7_RESULTS = (
 # yapf: enable
 """
 *Breneman (1987)* experiment 7 results.
-
-BRENEMAN_EXPERIMENT_7_RESULTS : tuple
 
 Notes
 -----
@@ -541,8 +527,6 @@ BRENEMAN_EXPERIMENT_8_RESULTS = (
 # yapf: enable
 """
 *Breneman (1987)* experiment 8 results.
-
-BRENEMAN_EXPERIMENT_8_RESULTS : tuple
 
 Notes
 -----
@@ -617,8 +601,6 @@ BRENEMAN_EXPERIMENT_9_RESULTS = (
 """
 *Breneman (1987)* experiment 9 results.
 
-BRENEMAN_EXPERIMENT_9_RESULTS : tuple
-
 Notes
 -----
 -   Illuminants : *A*, *D65*
@@ -669,8 +651,6 @@ BRENEMAN_EXPERIMENT_10_RESULTS = (
 # yapf: enable
 """
 *Breneman (1987)* experiment 10 results.
-
-BRENEMAN_EXPERIMENT_10_RESULTS : tuple
 
 Notes
 -----
@@ -723,8 +703,6 @@ BRENEMAN_EXPERIMENT_11_RESULTS = (
 """
 *Breneman (1987)* experiment 1 results.
 
-BRENEMAN_EXPERIMENT_11_RESULTS : tuple
-
 Notes
 -----
 -   Illuminants : *green*, *D65*
@@ -776,8 +754,6 @@ BRENEMAN_EXPERIMENT_12_RESULTS = (
 # yapf: enable
 """
 *Breneman (1987)* experiment 12 results.
-
-BRENEMAN_EXPERIMENT_12_RESULTS : tuple
 
 Notes
 -----
@@ -851,6 +827,4 @@ if is_documentation_building():  # pragma: no cover
 References
 ----------
 :cite:`Breneman1987b`
-
-BRENEMAN_EXPERIMENTS : dict
 """

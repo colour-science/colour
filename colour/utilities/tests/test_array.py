@@ -7,19 +7,33 @@ import numpy as np
 import unittest
 from dataclasses import dataclass, field, fields
 from copy import deepcopy
-from typing import Union
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.hints import NDArray, Type, Union
 from colour.utilities import (
     MixinDataclassArray,
     as_array,
-    as_int_array,
-    as_float_array,
-    as_numeric,
     as_int,
     as_float,
+    as_int_array,
+    as_float_array,
+    as_int_scalar,
+    as_float_scalar,
     set_float_precision,
     set_int_precision,
+    get_domain_range_scale,
+    set_domain_range_scale,
+    domain_range_scale,
+    to_domain_1,
+    to_domain_10,
+    to_domain_100,
+    to_domain_int,
+    to_domain_degrees,
+    from_range_1,
+    from_range_10,
+    from_range_100,
+    from_range_int,
+    from_range_degrees,
     closest_indexes,
     closest,
     interval,
@@ -50,13 +64,27 @@ __status__ = 'Production'
 __all__ = [
     'TestMixinDataclassArray',
     'TestAsArray',
-    'TestAsIntArray',
-    'TestAsFloatArray',
-    'TestAsNumeric',
     'TestAsInt',
     'TestAsFloat',
+    'TestAsIntArray',
+    'TestAsFloatArray',
+    'TestAsIntScalar',
+    'TestAsFloatScalar',
     'TestSetFloatPrecision',
     'TestSetIntPrecision',
+    'TestGetDomainRangeScale',
+    'TestSetDomainRangeScale',
+    'TestDomainRangeScale',
+    'TestToDomain1',
+    'TestToDomain10',
+    'TestToDomain100',
+    'TestToDomainDegrees',
+    'TestToDomainInt',
+    'TestFromRange1',
+    'TestFromRange10',
+    'TestFromRange100',
+    'TestFromRangeDegrees',
+    'TestFromRangeInt',
     'TestClosestIndexes',
     'TestClosest',
     'TestInterval',
@@ -99,9 +127,10 @@ class TestMixinDataclassArray(unittest.TestCase):
             c: Union[float, list, tuple, np.ndarray] = field(
                 default_factory=lambda: None)
 
-        self._data = Data(
+        self._factory: Type[Data] = Data
+        self._data: Data = Data(
             b=np.array([0.1, 0.2, 0.3]), c=np.array([0.4, 0.5, 0.6]))
-        self._array = np.array([
+        self._array: NDArray = np.array([
             [np.nan, 0.1, 0.4],
             [np.nan, 0.2, 0.5],
             [np.nan, 0.3, 0.6],
@@ -217,6 +246,23 @@ arithmetical_operation` method.
             data + data,
             decimal=7)
 
+        data = self._factory(1, 2, 3)
+
+        data += 1
+        self.assertEqual(data.a, 2)
+
+        data -= 1
+        self.assertEqual(data.a, 1)
+
+        data *= 2
+        self.assertEqual(data.a, 2)
+
+        data /= 2
+        self.assertEqual(data.a, 1)
+
+        data **= 0.5
+        self.assertEqual(data.a, 1)
+
 
 class TestAsArray(unittest.TestCase):
     """
@@ -241,6 +287,54 @@ class TestAsArray(unittest.TestCase):
         np.testing.assert_equal(
             as_array(dict(zip('abc', [1, 2, 3])).values()), np.array([1, 2,
                                                                       3]))
+
+
+class TestAsInt(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_int` definition unit tests
+    methods.
+    """
+
+    def test_as_int(self):
+        """
+        Tests :func:`colour.utilities.array.as_int` definition.
+        """
+
+        self.assertEqual(as_int(1), 1)
+
+        self.assertEqual(as_int(np.array([1])), 1)
+
+        np.testing.assert_almost_equal(
+            as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3]))
+
+        self.assertEqual(
+            as_int(np.array([1.0, 2.0, 3.0])).dtype, DEFAULT_INT_DTYPE)
+
+        self.assertIsInstance(as_int(1), DEFAULT_INT_DTYPE)
+
+
+class TestAsFloat(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_float` definition unit tests
+    methods.
+    """
+
+    def test_as_float(self):
+        """
+        Tests :func:`colour.utilities.array.as_float` definition.
+        """
+
+        self.assertEqual(as_float(1), 1.0)
+
+        self.assertEqual(as_float(np.array([1])), 1.0)
+
+        np.testing.assert_almost_equal(
+            as_float(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0]))
+
+        self.assertEqual(
+            as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE)
+
+        self.assertIsInstance(as_float(1), DEFAULT_FLOAT_DTYPE)
 
 
 class TestAsIntArray(unittest.TestCase):
@@ -276,79 +370,36 @@ class TestAsFloatArray(unittest.TestCase):
         self.assertEqual(as_float_array([1, 2, 3]).dtype, DEFAULT_FLOAT_DTYPE)
 
 
-class TestAsNumeric(unittest.TestCase):
+class TestAsIntScalar(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_numeric` definition unit tests
+    Defines :func:`colour.utilities.array.as_int_scalar` definition unit tests
     methods.
     """
 
-    def test_as_numeric(self):
+    def test_as_int_scalar(self):
         """
-        Tests :func:`colour.utilities.array.as_numeric` definition.
+        Tests :func:`colour.utilities.array.as_int_scalar` definition.
         """
 
-        self.assertEqual(as_numeric(1), 1.0)
+        self.assertEqual(as_int_scalar(1.0), 1)
 
-        self.assertEqual(as_numeric(np.array([1])), 1.0)
-
-        np.testing.assert_almost_equal(
-            as_numeric(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0]))
-
-        self.assertIsInstance(as_numeric(1), DEFAULT_FLOAT_DTYPE)
-
-        self.assertIsInstance(as_numeric(1, int), int)
-
-        self.assertListEqual(as_numeric(['John', 'Doe']), ['John', 'Doe'])
-
-        self.assertEqual(as_numeric('John Doe'), 'John Doe')
+        self.assertEqual(as_int_scalar(1.0).dtype, DEFAULT_INT_DTYPE)
 
 
-class TestAsInt(unittest.TestCase):
+class TestAsFloatScalar(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_int` definition unit tests
-    methods.
+    Defines :func:`colour.utilities.array.as_float_scalar` definition unit
+    tests methods.
     """
 
-    def test_as_int(self):
+    def test_as_float_scalar(self):
         """
-        Tests :func:`colour.utilities.array.as_int` definition.
-        """
-
-        self.assertEqual(as_int(1), 1)
-
-        self.assertEqual(as_int(np.array([1])), 1)
-
-        np.testing.assert_almost_equal(
-            as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3]))
-
-        self.assertEqual(
-            as_int(np.array([1.0, 2.0, 3.0])).dtype, DEFAULT_INT_DTYPE)
-
-        self.assertIsInstance(as_int(1), int)
-
-
-class TestAsFloat(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.as_float` definition unit tests
-    methods.
-    """
-
-    def test_as_float(self):
-        """
-        Tests :func:`colour.utilities.array.as_float` definition.
+        Tests :func:`colour.utilities.array.as_float_scalar` definition.
         """
 
-        self.assertEqual(as_float(1), 1.0)
+        self.assertEqual(as_float_scalar(1), 1.0)
 
-        self.assertEqual(as_float(np.array([1])), 1.0)
-
-        np.testing.assert_almost_equal(
-            as_float(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0]))
-
-        self.assertEqual(
-            as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE)
-
-        self.assertIsInstance(as_float(1), DEFAULT_FLOAT_DTYPE)
+        self.assertEqual(as_float_scalar(1).dtype, DEFAULT_FLOAT_DTYPE)
 
 
 class TestSetFloatPrecision(unittest.TestCase):
@@ -485,6 +536,393 @@ class TestSetIntPrecision(unittest.TestCase):
         """
 
         set_int_precision(np.int64)
+
+
+class TestGetDomainRangeScale(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.get_domain_range_scale` definition
+    unit tests methods.
+    """
+
+    def test_get_domain_range_scale(self):
+        """
+        Tests :func:`colour.utilities.common.get_domain_range_scale`
+        definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(get_domain_range_scale(), 'reference')
+
+        with domain_range_scale('1'):
+            self.assertEqual(get_domain_range_scale(), '1')
+
+        with domain_range_scale('100'):
+            self.assertEqual(get_domain_range_scale(), '100')
+
+
+class TestSetDomainRangeScale(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.set_domain_range_scale` definition
+    unit tests methods.
+    """
+
+    def test_set_domain_range_scale(self):
+        """
+        Tests :func:`colour.utilities.common.set_domain_range_scale`
+        definition.
+        """
+
+        with domain_range_scale('Reference'):
+            set_domain_range_scale('1')
+            self.assertEqual(get_domain_range_scale(), '1')
+
+        with domain_range_scale('Reference'):
+            set_domain_range_scale('100')
+            self.assertEqual(get_domain_range_scale(), '100')
+
+        with domain_range_scale('1'):
+            set_domain_range_scale('Reference')
+            self.assertEqual(get_domain_range_scale(), 'reference')
+
+        self.assertRaises(ValueError,
+                          lambda: set_domain_range_scale('Invalid'))
+
+
+class TestDomainRangeScale(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.domain_range_scale` definition
+    unit tests methods.
+    """
+
+    def test_domain_range_scale(self):
+        """
+        Tests :func:`colour.utilities.common.domain_range_scale`
+        definition.
+        """
+
+        self.assertEqual(get_domain_range_scale(), 'reference')
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(get_domain_range_scale(), 'reference')
+
+        self.assertEqual(get_domain_range_scale(), 'reference')
+
+        with domain_range_scale('1'):
+            self.assertEqual(get_domain_range_scale(), '1')
+
+        self.assertEqual(get_domain_range_scale(), 'reference')
+
+        with domain_range_scale('100'):
+            self.assertEqual(get_domain_range_scale(), '100')
+
+        self.assertEqual(get_domain_range_scale(), 'reference')
+
+        def fn_a(a):
+            """
+            Helper definition performing domain-range scale.
+            """
+
+            b = to_domain_10(a)
+
+            b *= 2
+
+            return from_range_100(b)
+
+        with domain_range_scale('Reference'):
+            with domain_range_scale('1'):
+                with domain_range_scale('100'):
+                    with domain_range_scale('Ignore'):
+                        self.assertEqual(get_domain_range_scale(), 'ignore')
+                        self.assertEqual(fn_a(4), 8)
+
+                    self.assertEqual(get_domain_range_scale(), '100')
+                    self.assertEqual(fn_a(40), 8)
+
+                self.assertEqual(get_domain_range_scale(), '1')
+                self.assertEqual(fn_a(0.4), 0.08)
+
+            self.assertEqual(get_domain_range_scale(), 'reference')
+            self.assertEqual(fn_a(4), 8)
+
+        self.assertEqual(get_domain_range_scale(), 'reference')
+
+        @domain_range_scale('1')
+        def fn_b(a):
+            """
+            Helper definition performing domain-range scale.
+            """
+
+            b = to_domain_10(a)
+
+            b *= 2
+
+            return from_range_100(b)
+
+        self.assertEqual(fn_b(10), 2.0)
+
+
+class TestToDomain1(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.to_domain_1` definition unit
+    tests methods.
+    """
+
+    def test_to_domain_1(self):
+        """
+        Tests :func:`colour.utilities.common.to_domain_1` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(to_domain_1(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(to_domain_1(1), 1)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_1(1), 0.01)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_1(1, np.pi), 1 / np.pi)
+
+        with domain_range_scale('100'):
+            self.assertEqual(
+                to_domain_1(1, dtype=np.float16).dtype, np.float16)
+
+
+class TestToDomain10(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.to_domain_10` definition unit
+    tests methods.
+    """
+
+    def test_to_domain_10(self):
+        """
+        Tests :func:`colour.utilities.common.to_domain_10` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(to_domain_10(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(to_domain_10(1), 10)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_10(1), 0.1)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_10(1, np.pi), 1 / np.pi)
+
+        with domain_range_scale('100'):
+            self.assertEqual(
+                to_domain_10(1, dtype=np.float16).dtype, np.float16)
+
+
+class TestToDomain100(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.to_domain_100` definition unit
+    tests methods.
+    """
+
+    def test_to_domain_100(self):
+        """
+        Tests :func:`colour.utilities.common.to_domain_100` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(to_domain_100(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(to_domain_100(1), 100)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_100(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(to_domain_100(1, np.pi), np.pi)
+
+        with domain_range_scale('100'):
+            self.assertEqual(
+                to_domain_100(1, dtype=np.float16).dtype, np.float16)
+
+
+class TestToDomainDegrees(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.to_domain_degrees` definition unit
+    tests methods.
+    """
+
+    def test_to_domain_degrees(self):
+        """
+        Tests :func:`colour.utilities.common.to_domain_degrees` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(to_domain_degrees(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(to_domain_degrees(1), 360)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_degrees(1), 3.6)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_degrees(1, np.pi), np.pi / 100)
+
+        with domain_range_scale('100'):
+            self.assertEqual(
+                to_domain_degrees(1, dtype=np.float16).dtype, np.float16)
+
+
+class TestToDomainInt(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.to_domain_int` definition unit
+    tests methods.
+    """
+
+    def test_to_domain_int(self):
+        """
+        Tests :func:`colour.utilities.common.to_domain_int` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(to_domain_int(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(to_domain_int(1), 255)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_int(1), 2.55)
+
+        with domain_range_scale('100'):
+            self.assertEqual(to_domain_int(1, 10), 10.23)
+
+        with domain_range_scale('100'):
+            self.assertEqual(
+                to_domain_int(1, dtype=np.float16).dtype, np.float16)
+
+
+class TestFromRange1(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.from_range_1` definition unit
+    tests methods.
+    """
+
+    def test_from_range_1(self):
+        """
+        Tests :func:`colour.utilities.common.from_range_1` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(from_range_1(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(from_range_1(1), 1)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_1(1), 100)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_1(1, np.pi), 1 * np.pi)
+
+
+class TestFromRange10(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.from_range_10` definition unit
+    tests methods.
+    """
+
+    def test_from_range_10(self):
+        """
+        Tests :func:`colour.utilities.common.from_range_10` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(from_range_10(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(from_range_10(1), 0.1)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_10(1), 10)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_10(1, np.pi), 1 * np.pi)
+
+
+class TestFromRange100(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.from_range_100` definition unit
+    tests methods.
+    """
+
+    def test_from_range_100(self):
+        """
+        Tests :func:`colour.utilities.common.from_range_100` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(from_range_100(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(from_range_100(1), 0.01)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_100(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(from_range_100(1, np.pi), 1 / np.pi)
+
+
+class TestFromRangeDegrees(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.from_range_degrees` definition unit
+    tests methods.
+    """
+
+    def test_from_range_degrees(self):
+        """
+        Tests :func:`colour.utilities.common.from_range_degrees` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(from_range_degrees(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(from_range_degrees(1), 1 / 360)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_degrees(1), 1 / 3.6)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_degrees(1, np.pi), 1 / (np.pi / 100))
+
+
+class TestFromRangeInt(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.from_range_int` definition unit
+    tests methods.
+    """
+
+    def test_from_range_int(self):
+        """
+        Tests :func:`colour.utilities.common.from_range_int` definition.
+        """
+
+        with domain_range_scale('Reference'):
+            self.assertEqual(from_range_int(1), 1)
+
+        with domain_range_scale('1'):
+            self.assertEqual(from_range_int(1), 1 / 255)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_int(1), 1 / 2.55)
+
+        with domain_range_scale('100'):
+            self.assertEqual(from_range_int(1, 10), 1 / (1023 / 100))
+
+        with domain_range_scale('100'):
+            self.assertEqual(
+                from_range_int(1, dtype=np.float16).dtype, np.float16)
 
 
 class TestClosestIndexes(unittest.TestCase):

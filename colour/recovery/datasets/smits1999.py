@@ -12,8 +12,11 @@ References
     doi:10.1080/10867651.1999.10487511
 """
 
+from __future__ import annotations
+
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -28,7 +31,7 @@ __all__ = [
     'SDS_SMITS1999',
 ]
 
-DATA_SMITS1999 = {
+DATA_SMITS1999: Dict = {
     'white': {
         380.0000: 1.0000,
         417.7778: 1.0000,
@@ -115,44 +118,28 @@ DATA_SMITS1999 = {
     }
 }
 
-SDS_SMITS1999 = CaseInsensitiveMapping({
+SDS_SMITS1999: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'white':
-        SpectralDistribution(
-            DATA_SMITS1999['white'],
-            name='white'),
+        SpectralDistribution(DATA_SMITS1999['white'], name='white'),
     'cyan':
-        SpectralDistribution(
-            DATA_SMITS1999['cyan'],
-            name='cyan'),
+        SpectralDistribution(DATA_SMITS1999['cyan'], name='cyan'),
     'magenta':
-        SpectralDistribution(
-            DATA_SMITS1999['magenta'],
-            name='magenta'),
+        SpectralDistribution(DATA_SMITS1999['magenta'], name='magenta'),
     'yellow':
-        SpectralDistribution(
-            DATA_SMITS1999['yellow'],
-            name='yellow'),
+        SpectralDistribution(DATA_SMITS1999['yellow'], name='yellow'),
     'red':
-        SpectralDistribution(
-            DATA_SMITS1999['red'],
-            name='red'),
+        SpectralDistribution(DATA_SMITS1999['red'], name='red'),
     'green':
-        SpectralDistribution(
-            DATA_SMITS1999['green'],
-            name='green'),
+        SpectralDistribution(DATA_SMITS1999['green'], name='green'),
     'blue':
-        SpectralDistribution(
-            DATA_SMITS1999['blue'],
-            name='blue')
-})  # yapf: disable
+        SpectralDistribution(DATA_SMITS1999['blue'], name='blue')
+})
 SDS_SMITS1999.__doc__ = """
 *Smits (1999)* spectral distributions.
 
 References
 ----------
 :cite:`Smits1999a`
-
-SDS_SMITS1999 : CaseInsensitiveMapping
 """
 
 # Using linear interpolation to preserve the shape of the basis spectral

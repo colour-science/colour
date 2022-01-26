@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import annotations
+
+from colour.colorimetry import SpectralDistribution
+from colour.hints import Floating, Literal, Union
+
 from .datasets import *  # noqa
 from . import datasets
 from .cfi2017 import (
@@ -52,31 +57,34 @@ Supported *Colour Fidelity Index* (CFI) computation methods.
 References
 ----------
 :cite:`CIETC1-902017`, :cite:`ANSI2018`
-
-COLOUR_FIDELITY_INDEX_METHODS : tuple
-    **{'CIE 2017', 'ANSI/IES TM-30-18'}**
 """
 
 
-def colour_fidelity_index(sd_test, additional_data=False, method='CIE 2017'):
+def colour_fidelity_index(
+        sd_test: SpectralDistribution,
+        additional_data=False,
+        method: Union[Literal['CIE 2017', 'ANSI/IES TM-30-18'],
+                      str] = 'CIE 2017'
+) -> Union[Floating, ColourRendering_Specification_CIE2017,
+           ColourQuality_Specification_ANSIIESTM3018]:
     """
-    Returns the *Colour Fidelity Index* (CFI) :math:`R_f` of given
-    spectral distribution using given method.
+    Returns the *Colour Fidelity Index* (CFI) :math:`R_f` of given spectral
+    distribution using given method.
 
     Parameters
     ----------
-    sd_test : SpectralDistribution
+    sd_test
         Test spectral distribution.
-    additional_data : bool, optional
+    additional_data
         Whether to output additional data.
-    method : str, optional
-        **{'CIE 2017', 'ANSI/IES TM-30-18'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ColourRendering_Specification_CIE2017 or \
-ColourQuality_Specification_ANSIIESTM3018
+    :class:`numpy.floating` or \
+:class:`colour.quality.ColourRendering_Specification_CIE2017` or \
+:class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *Colour Fidelity Index* (CFI) :math:`R_f`.
 
     References

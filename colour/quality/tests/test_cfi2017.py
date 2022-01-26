@@ -8,6 +8,8 @@ Notes
     by the CIE at this URL: http://files.cie.co.at/933_TC1-90.zip.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 
@@ -18,6 +20,7 @@ from colour.colorimetry import (
     reshape_sd,
     sd_blackbody,
 )
+from colour.hints import Dict
 from colour.quality.cfi2017 import (
     CCT_reference_illuminant,
     sd_reference_illuminant,
@@ -42,7 +45,7 @@ __all__ = [
     'TestSdReferenceIlluminant',
 ]
 
-DATA_SD_SAMPLE_5NM = {
+DATA_SD_SAMPLE_5NM: Dict = {
     380: 0.000,
     385: 0.000,
     390: 0.001,
@@ -126,9 +129,9 @@ DATA_SD_SAMPLE_5NM = {
     780: 0.027
 }
 
-SD_SAMPLE_5NM = SpectralDistribution(DATA_SD_SAMPLE_5NM)
+SD_SAMPLE_5NM: SpectralDistribution = SpectralDistribution(DATA_SD_SAMPLE_5NM)
 
-DATA_SD_SAMPLE_1NM = {
+DATA_SD_SAMPLE_1NM: Dict = {
     380: 0.000,
     381: 0.000,
     382: 0.000,
@@ -532,7 +535,7 @@ DATA_SD_SAMPLE_1NM = {
     780: 0.027
 }
 
-SD_SAMPLE_1NM = SpectralDistribution(DATA_SD_SAMPLE_1NM)
+SD_SAMPLE_1NM: SpectralDistribution = SpectralDistribution(DATA_SD_SAMPLE_1NM)
 
 
 class TestColourFidelityIndexCIE2017(unittest.TestCase):

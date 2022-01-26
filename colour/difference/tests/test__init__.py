@@ -39,7 +39,7 @@ class TestDelta_E(unittest.TestCase):
         m = ('CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'DIN99')
         v = [delta_E(Lab_1, Lab_2, method) for method in m]
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):

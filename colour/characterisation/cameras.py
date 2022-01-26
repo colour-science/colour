@@ -10,7 +10,24 @@ the :mod:`colour.characterisation.datasets.cameras` module:
     support for a camera *RGB* sensitivities.
 """
 
-from colour.colorimetry import MultiSpectralDistributions
+from __future__ import annotations
+
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    SpectralShape,
+)
+from colour.continuous import MultiSignals, Signal
+from colour.hints import ArrayLike, Any, Optional, Sequence, Union
+from colour.utilities import is_pandas_installed
+
+if is_pandas_installed():
+    from pandas import DataFrame, Series
+else:  # pragma: no cover
+    from unittest import mock
+
+    DataFrame = mock.MagicMock()
+    Series = mock.MagicMock()
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -30,41 +47,46 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
 
     Parameters
     ----------
-    data : Series or Dataframe or Signal or MultiSignals or \
-MultiSpectralDistributions or array_like or dict_like, optional
+    data
         Data to be stored in the multi-spectral distributions.
-    domain : array_like, optional
-        Values to initialise the multiple :class:`colour.SpectralDistribution`
+    domain
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
+        Values to initialise the multiple :class:`colour.SpectralDistribution`
         :attr:`colour.continuous.Signal.wavelengths` attribute.
-    labels : array_like, optional
+    labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.
 
     Other Parameters
     ----------------
-    name : str, optional
+    name
        Multi-spectral distributions name.
-    interpolator : object, optional
+    interpolator
         Interpolator class type to use as interpolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    interpolator_kwargs : dict_like, optional
-        Arguments to use when instantiating the interpolating function of the
-        :class:`colour.SpectralDistribution` class instances.
-    extrapolator : object, optional
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function
+        of the :class:`colour.SpectralDistribution` class instances.
+    extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
-    extrapolator_kwargs : dict_like, optional
+    extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
-    strict_labels : array_like, optional
+    strict_labels
         Multi-spectral distributions labels for figures, default to
-        :attr:`colour.characterisation.RGB_CameraSensitivities.labels`
-        attribute value.
+        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` attribute value.
     """
 
-    def __init__(self, data=None, domain=None, labels=None, **kwargs):
+    def __init__(
+            self,
+            data: Optional[Union[ArrayLike, DataFrame, dict, MultiSignals,
+                                 MultiSpectralDistributions, Sequence, Series,
+                                 Signal, SpectralDistribution]] = None,
+            domain: Optional[Union[ArrayLike, SpectralShape]] = None,
+            labels: Optional[Sequence] = None,
+            **kwargs: Any):
         super(RGB_CameraSensitivities, self).__init__(
             data, domain, labels=('red', 'green', 'blue'), **kwargs)

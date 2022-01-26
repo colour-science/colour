@@ -14,9 +14,16 @@ References
     Optics Express, 23(12), 15888. doi:10.1364/OE.23.015888
 """
 
+from __future__ import annotations
+
 import numpy as np
 
-from colour.colorimetry import sds_and_msds_to_msds
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    sds_and_msds_to_msds,
+)
+from colour.hints import Boolean, List, NDArray, Union
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -30,30 +37,36 @@ __all__ = [
 ]
 
 
-def spectral_uniformity(sds, use_second_order_derivatives=False):
+def spectral_uniformity(
+        sds: Union[List[Union[SpectralDistribution,
+                              MultiSpectralDistributions]],
+                   MultiSpectralDistributions],
+        use_second_order_derivatives: Boolean = False) -> NDArray:
     """
     Computes the *spectral uniformity* (or *spectral flatness*) of given
     spectral distributions.
 
     Spectral uniformity :math:`(r')^2` is computed as follows:
-    :math:`mean((r'_1)^2, (r'_2)^2, ..., (r'_n)^2)` where :math:`(r'_i)^2` is
-    the first-order derivative, squared, of the reflectance :math:`r_i` of a
-    test sample.
+
+    :math:`mean((r'_1)^2, (r'_2)^2, ..., (r'_n)^2)`
+
+    where :math:`(r'_i)^2` is the first-order derivative, squared, of the
+    reflectance :math:`r_i` of a test sample.
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistributions
+    sds
         Spectral distributions or multi-spectral distributions to
         compute the spectral uniformity of. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
-    use_second_order_derivatives : bool, optional
+    use_second_order_derivatives
         Whether to use the second-order derivatives in the computations.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Spectral uniformity.
 
     Warnings

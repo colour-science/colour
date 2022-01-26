@@ -87,7 +87,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
 
         Y = luminance_Newhall1943(4.08244375)
 
-        d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
+        d_r = (('reference', 1, 1), ('1', 0.1, 0.01), ('100', 10, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -156,7 +156,7 @@ class TestLuminanceASTMD1535(unittest.TestCase):
 
         Y = luminance_ASTMD1535(4.08244375)
 
-        d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
+        d_r = (('reference', 1, 1), ('1', 0.1, 0.01), ('100', 10, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -236,7 +236,7 @@ support.
 
         Y = intermediate_luminance_function_CIE1976(41.527875844653451, 100)
 
-        for scale in ('reference', 1, 100):
+        for scale in ('reference', '1', '100'):
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     intermediate_luminance_function_CIE1976(
@@ -324,7 +324,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
 
         Y = luminance_CIE1976(41.527875844653451, 100)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -416,7 +416,7 @@ class TestLuminanceFairchild2010(unittest.TestCase):
 
         Y = luminance_Fairchild2010(31.996390226262736)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        d_r = (('reference', 1, 1), ('1', 0.01, 1), ('100', 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -509,7 +509,7 @@ class TestLuminanceFairchild2011(unittest.TestCase):
 
         Y = luminance_Fairchild2011(26.459509817572265)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        d_r = (('reference', 1, 1), ('1', 0.01, 1), ('100', 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -594,7 +594,7 @@ class TestLuminanceAbebe2017(unittest.TestCase):
 
         L = luminance_Abebe2017(0.486955571109229)
 
-        d_r = (('reference', 1), (1, 1), (100, 1))
+        d_r = (('reference', 1), ('1', 1), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -630,7 +630,7 @@ class TestLuminance(unittest.TestCase):
              'Fairchild 2011', 'Abebe 2017')
         v = [luminance(41.527875844653451, method, Y_n=100) for method in m]
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):

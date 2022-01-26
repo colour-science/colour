@@ -75,7 +75,7 @@ eotf_inverse_BT1886` definition domain and range scale support.
         L = 0.18
         V = eotf_inverse_BT1886(L)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -140,7 +140,7 @@ eotf_BT1886` definition domain and range scale support.
         V = 0.016317514686316
         L = eotf_BT1886(V)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

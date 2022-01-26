@@ -16,8 +16,22 @@ from .cmfs import (
     RGB_ColourMatchingFunctions,
     XYZ_ColourMatchingFunctions,
 )
-from .datasets import *  # noqa
-from . import datasets
+from .datasets import (
+    CCS_ILLUMINANTS,
+    CCS_LIGHT_SOURCES,
+    MSDS_CMFS,
+    MSDS_CMFS_LMS,
+    MSDS_CMFS_RGB,
+    MSDS_CMFS_STANDARD_OBSERVER,
+    SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
+    SDS_ILLUMINANTS,
+    SDS_LEFS,
+    SDS_LEFS_PHOTOPIC,
+    SDS_LEFS_SCOTOPIC,
+    SDS_LIGHT_SOURCES,
+    TVS_ILLUMINANTS,
+    TVS_ILLUMINANTS_HUNTERLAB,
+)
 from .generation import sd_constant, sd_zeros, sd_ones
 from .generation import msds_constant, msds_zeros, msds_ones
 from .generation import SD_GAUSSIAN_METHODS
@@ -127,7 +141,22 @@ __all__ += [
     'RGB_ColourMatchingFunctions',
     'XYZ_ColourMatchingFunctions',
 ]
-__all__ += datasets.__all__
+__all__ += [
+    'CCS_ILLUMINANTS',
+    'MSDS_CMFS',
+    'MSDS_CMFS_LMS',
+    'MSDS_CMFS_RGB',
+    'MSDS_CMFS_STANDARD_OBSERVER',
+    'SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
+    'SDS_ILLUMINANTS',
+    'SDS_LEFS',
+    'SDS_LEFS_PHOTOPIC',
+    'SDS_LEFS_SCOTOPIC',
+    'TVS_ILLUMINANTS',
+    'TVS_ILLUMINANTS_HUNTERLAB',
+    'CCS_LIGHT_SOURCES',
+    'SDS_LIGHT_SOURCES',
+]
 __all__ += [
     'sd_constant',
     'sd_zeros',

@@ -3,7 +3,7 @@
 ITU-R BT.709-6
 ==============
 
-Defines the *ITU-R BT.709-6* opto-electrical transfer function (OETF / OECF)
+Defines the *ITU-R BT.709-6* opto-electrical transfer function (OETF)
 and its inverse:
 
 -   :func:`colour.models.oetf_BT709`
@@ -19,6 +19,9 @@ References
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
+from __future__ import annotations
+
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 
 __author__ = 'Colour Developers'
@@ -34,19 +37,19 @@ __all__ = [
 ]
 
 
-def oetf_BT709(L):
+def oetf_BT709(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.709-6* opto-electronic transfer function
-    (OETF / OECF).
+    (OETF).
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         *Luminance* :math:`L` of the image.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -77,19 +80,19 @@ def oetf_BT709(L):
     return oetf_BT601(L)
 
 
-def oetf_inverse_BT709(V):
+def oetf_inverse_BT709(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.709-6* inverse opto-electronic transfer
-    function (OETF / OECF).
+    function (OETF).
 
     Parameters
     ----------
-    V : numeric or array_like
+    V
         Electrical signal :math:`V`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L` of the image.
 
     Notes

@@ -43,6 +43,8 @@ usp=sharing
     http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping
@@ -68,8 +70,8 @@ __all__ = [
     'CCS_LIGHT_SOURCES',
 ]
 
-CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'Natural':
             np.array([0.381585730647787, 0.359224138274067]),
         'Philips TL-84':
@@ -107,8 +109,8 @@ CaseInsensitiveMapping
     'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}**
 """
 
-CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'Natural':
             np.array([0.384870991183035, 0.353869223366545]),
         'Philips TL-84':
@@ -136,8 +138,8 @@ CaseInsensitiveMapping
     'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}**
 """
 
-CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'Cool White FL':
             np.array([0.369256318971281, 0.372549878176631]),
         'Daylight FL':
@@ -174,8 +176,8 @@ CaseInsensitiveMapping
     'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}**
 """
 
-CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'Cool White FL':
             np.array([0.376715047518455, 0.364576802118673]),
         'Daylight FL':
@@ -208,8 +210,8 @@ CaseInsensitiveMapping
     'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}**
 """
 
-CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         '3-LED-1 (457/540/605)':
             np.array([0.417057686949170, 0.396262457986602]),
         '3-LED-2 (473/545/616)':
@@ -254,8 +256,8 @@ CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_2_DEGREE_CIE1931 :
     'Phosphor LED YAG'}**
 """
 
-CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         '3-LED-1 (457/540/605)':
             np.array([0.425099988926548, 0.389451349911075]),
         '3-LED-2 (473/545/616)':
@@ -301,8 +303,8 @@ CaseInsensitiveMapping
     'Phosphor LED YAG'}**
 """
 
-CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         '60 A/W (Soft White)':
             np.array([0.450730217519680, 0.408046128945005]),
         'C100S54 (HPS)':
@@ -366,8 +368,8 @@ CaseInsensitiveMapping
     'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}**
 """
 
-CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         '60 A/W (Soft White)':
             np.array([0.454365604973572, 0.406573684216774]),
         'C100S54 (HPS)':
@@ -431,8 +433,8 @@ CaseInsensitiveMapping
     'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}**
 """
 
-CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'Kinoton 75P': np.array([0.315252413629716, 0.332870794805328])
     }))
 """
@@ -448,8 +450,8 @@ CaseInsensitiveMapping
     **{'Kinoton 75P', }**
 """
 
-CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
-    CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'Kinoton 75P': np.array([0.317086642148234, 0.336222428041514])
     }))
 """
@@ -461,7 +463,7 @@ CaseInsensitiveMapping
     **{'Kinoton 75P', }**
 """
 
-CCS_LIGHT_SOURCES = CaseInsensitiveMapping({
+CCS_LIGHT_SOURCES: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
         CaseInsensitiveMapping(
             CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931),
@@ -471,10 +473,6 @@ CCS_LIGHT_SOURCES = CaseInsensitiveMapping({
 })
 CCS_LIGHT_SOURCES.__doc__ = """
 Chromaticity coordinates of the light sources.
-
-CCS_LIGHT_SOURCES : CaseInsensitiveMapping
-    **{'CIE 1931 2 Degree Standard Observer',
-    'CIE 1964 10 Degree Standard Observer'}**
 
 Aliases:
 

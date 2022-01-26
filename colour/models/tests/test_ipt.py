@@ -75,7 +75,7 @@ class TestXYZ_to_IPT(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         IPT = XYZ_to_IPT(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -146,7 +146,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
         IPT = np.array([0.38426191, 0.38487306, 0.18886838])
         XYZ = IPT_to_XYZ(IPT)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -217,7 +217,7 @@ class TestIPTHueAngle(unittest.TestCase):
         IPT = np.array([0.20654008, 0.12197225, 0.05136952])
         hue = IPT_hue_angle(IPT)
 
-        d_r = (('reference', 1, 1), (1, 1, 1 / 360), (100, 100, 1 / 3.6))
+        d_r = (('reference', 1, 1), ('1', 1, 1 / 360), ('100', 100, 1 / 3.6))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

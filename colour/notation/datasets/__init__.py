@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from .munsell import *  # noqa
-from . import munsell
+from .munsell import (
+    MUNSELL_COLOURS_ALL,
+    MUNSELL_COLOURS_1929,
+    MUNSELL_COLOURS_REAL,
+    MUNSELL_COLOURS,
+)
 
-__all__ = []
-__all__ += munsell.__all__
+__all__ = [
+    'MUNSELL_COLOURS_ALL',
+    'MUNSELL_COLOURS_1929',
+    'MUNSELL_COLOURS_REAL',
+    'MUNSELL_COLOURS',
+]

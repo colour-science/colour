@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from .datasets import *  # noqa
-from . import datasets
+from .datasets import (
+    MUNSELL_COLOURS_ALL,
+    MUNSELL_COLOURS_1929,
+    MUNSELL_COLOURS_REAL,
+    MUNSELL_COLOURS,
+)
 from .munsell import MUNSELL_VALUE_METHODS
 from .munsell import munsell_value
 from .munsell import (
@@ -16,8 +20,12 @@ from .munsell import (
 from .munsell import munsell_colour_to_xyY, xyY_to_munsell_colour
 from .hexadecimal import RGB_to_HEX, HEX_to_RGB
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = [
+    'MUNSELL_COLOURS_ALL',
+    'MUNSELL_COLOURS_1929',
+    'MUNSELL_COLOURS_REAL',
+    'MUNSELL_COLOURS',
+]
 __all__ += [
     'munsell_value',
 ]

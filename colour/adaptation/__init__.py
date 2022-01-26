@@ -25,6 +25,9 @@ References
     Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
+from __future__ import annotations
+
+from colour.hints import Any, ArrayLike, Literal, NDArray, Union
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
@@ -32,8 +35,21 @@ from colour.utilities import (
     as_float_array,
 )
 
-from .datasets import *  # noqa
-from . import datasets
+from .datasets import CHROMATIC_ADAPTATION_TRANSFORMS
+from .datasets import (
+    CAT_BIANCO2010,
+    CAT_BRADFORD,
+    CAT_CAT02,
+    CAT_CAT02_BRILL2008,
+    CAT_CAT16,
+    CAT_CMCCAT2000,
+    CAT_CMCCAT97,
+    CAT_FAIRCHILD,
+    CAT_PC_BIANCO2010,
+    CAT_SHARP,
+    CAT_VON_KRIES,
+    CAT_XYZ_SCALING,
+)
 from .vonkries import (
     matrix_chromatic_adaptation_VonKries,
     chromatic_adaptation_VonKries,
@@ -50,8 +66,21 @@ from .cie1994 import chromatic_adaptation_CIE1994
 from .zhai2018 import chromatic_adaptation_Zhai2018
 from colour.utilities import validate_method
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = ['CHROMATIC_ADAPTATION_TRANSFORMS']
+__all__ += [
+    'CAT_BIANCO2010',
+    'CAT_BRADFORD',
+    'CAT_CAT02',
+    'CAT_CAT02_BRILL2008',
+    'CAT_CAT16',
+    'CAT_CMCCAT2000',
+    'CAT_CMCCAT97',
+    'CAT_FAIRCHILD',
+    'CAT_PC_BIANCO2010',
+    'CAT_SHARP',
+    'CAT_VON_KRIES',
+    'CAT_XYZ_SCALING',
+]
 __all__ += [
     'matrix_chromatic_adaptation_VonKries',
     'chromatic_adaptation_VonKries',
@@ -73,13 +102,14 @@ __all__ += [
     'chromatic_adaptation_Zhai2018',
 ]
 
-CHROMATIC_ADAPTATION_METHODS = CaseInsensitiveMapping({
-    'CIE 1994': chromatic_adaptation_CIE1994,
-    'CMCCAT2000': chromatic_adaptation_CMCCAT2000,
-    'Fairchild 1990': chromatic_adaptation_Fairchild1990,
-    'Von Kries': chromatic_adaptation_VonKries,
-    'Zhai 2018': chromatic_adaptation_Zhai2018,
-})
+CHROMATIC_ADAPTATION_METHODS: CaseInsensitiveMapping = (CaseInsensitiveMapping(
+    {
+        'CIE 1994': chromatic_adaptation_CIE1994,
+        'CMCCAT2000': chromatic_adaptation_CMCCAT2000,
+        'Fairchild 1990': chromatic_adaptation_Fairchild1990,
+        'Von Kries': chromatic_adaptation_VonKries,
+        'Zhai 2018': chromatic_adaptation_Zhai2018,
+    }))
 CHROMATIC_ADAPTATION_METHODS.__doc__ = """
 Supported chromatic adaptation methods.
 
@@ -88,90 +118,86 @@ References
 :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
 :cite:`Fairchild2013t`, :cite:`Li2002a`, :cite:`Westland2012k`,
 :cite:`Zhai2018`
-
-CHROMATIC_ADAPTATION_METHODS : CaseInsensitiveMapping
-    **{'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018'}**
 """
 
 
-def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
+def chromatic_adaptation(
+        XYZ: ArrayLike,
+        XYZ_w: ArrayLike,
+        XYZ_wr: ArrayLike,
+        method: Union[Literal['CIE 1994', 'CMCCAT2000', 'Fairchild 1990',
+                              'Zhai 2018', 'Von Kries'], str] = 'Von Kries',
+        **kwargs: Any) -> NDArray:
     """
     Adapts given stimulus from test viewing conditions to reference viewing
     conditions.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of stimulus to adapt.
-    XYZ_w : array_like
+    XYZ_w
         Test viewing condition *CIE XYZ* tristimulus values of the whitepoint.
-    XYZ_wr : array_like
+    XYZ_wr
         Reference viewing condition *CIE XYZ* tristimulus values of the
         whitepoint.
-    method : str, optional
-        **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990',
-        'Zhai 2018'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    E_o1 : numeric
+    E_o1
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
-    E_o2 : numeric
+    E_o2
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Reference illuminance :math:`E_{o2}` in :math:`cd/m^2`.
-    Y_o : numeric
+    Y_o
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Luminance factor :math:`Y_o` of achromatic background normalised to
         domain [0.18, 1] in **'Reference'** domain-range scale.
-    n : numeric, optional
+    n
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Noise component in fundamental primary system.
-    L_A1 : numeric or array_like
+    L_A1
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric or array_like
+    L_A2
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
-    direction : str, optional
+    direction
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        **{'Forward', 'Inverse'}**,
         Chromatic adaptation direction.
-    surround : InductionFactors_CMCCAT2000, optional
+    surround
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Surround viewing conditions induction factors.
-    Y_n : numeric or array_like
+    Y_n
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
-    discount_illuminant : bool, optional
+    discount_illuminant
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
         Truth value indicating if the illuminant should be discounted.
-    transform : str, optional
+    transform
         {:func:`colour.adaptation.chromatic_adaptation_VonKries`},
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010'}**,
         Chromatic adaptation transform.
-    D_b : numeric, optional
+    D_b
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\beta` of input illuminant
         :math:`\\beta`.
-    D_d : numeric, optional
+    D_d
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\Delta` of output illuminant
         :math:`\\Delta`.
-    XYZ_wo : array_like, optional
+    XYZ_wo
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Baseline illuminant (:math:`BI`) :math:`o`.
-    chromatic_adaptation_transform : str, optional
+    chromatic_adaptation_transform
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
-        **{'CAT02', 'CAT16'}**,
         Chromatic adaptation transform.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
     Notes

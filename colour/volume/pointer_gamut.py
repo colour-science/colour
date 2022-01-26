@@ -6,6 +6,9 @@ Pointer's Gamut Volume Computations
 Defines the objects related to *Pointer's Gamut* volume computations.
 """
 
+from __future__ import annotations
+
+from colour.hints import ArrayLike, Floating, Optional
 from colour.models import (
     Lab_to_XYZ,
     LCHab_to_Lab,
@@ -26,22 +29,24 @@ __all__ = [
 ]
 
 
-def is_within_pointer_gamut(XYZ, tolerance=None):
+def is_within_pointer_gamut(XYZ: ArrayLike,
+                            tolerance: Optional[Floating] = None):
     """
-    Returns if given *CIE XYZ* tristimulus values are within Pointer's Gamut
-    volume.
+    Returns whether given *CIE XYZ* tristimulus values are within Pointer's
+    Gamut volume.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    tolerance : numeric, optional
+    tolerance
         Tolerance allowed in the inside-triangle check.
 
     Returns
     -------
-    bool
-        Is within Pointer's Gamut.
+    :class:`numpy.ndarray`
+        Wether given *CIE XYZ* tristimulus values are within Pointer's Gamut
+        volume.
 
     Notes
     -----

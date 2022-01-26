@@ -299,8 +299,7 @@ use_derived_transformation_matrices` method.
         np.testing.assert_array_equal(self._colourspace.matrix_XYZ_to_RGB,
                                       np.identity(3))
 
-        self.assertTrue(
-            self._colourspace.use_derived_transformation_matrices())
+        self._colourspace.use_derived_transformation_matrices()
 
         np.testing.assert_almost_equal(
             self._colourspace.matrix_RGB_to_XYZ,
@@ -493,7 +492,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         ])
         RGB = XYZ_to_RGB(XYZ, W_R, W_T, M)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -633,7 +632,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
         ])
         XYZ = RGB_to_XYZ(RGB, W_R, W_T, M)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -831,7 +830,7 @@ class TestRGB_to_RGB(unittest.TestCase):
         RGB_i = np.array([0.21931722, 0.06950287, 0.04694832])
         RGB_o = RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

@@ -22,8 +22,11 @@ References
     from http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import ArrayLike, NDArray
 from colour.utilities import (
     as_float_array,
     from_range_1,
@@ -47,18 +50,18 @@ __all__ = [
 ]
 
 
-def RGB_to_CMY(RGB):
+def RGB_to_CMY(RGB: ArrayLike) -> NDArray:
     """
     Converts from *RGB* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CMY* array.
 
     Notes
@@ -92,18 +95,18 @@ def RGB_to_CMY(RGB):
     return from_range_1(CMY)
 
 
-def CMY_to_RGB(CMY):
+def CMY_to_RGB(CMY: ArrayLike) -> NDArray:
     """
     Converts from *CMY* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
-    CMY : array_like
+    CMY
         *CMY* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes
@@ -137,18 +140,18 @@ def CMY_to_RGB(CMY):
     return from_range_1(RGB)
 
 
-def CMY_to_CMYK(CMY):
+def CMY_to_CMYK(CMY: ArrayLike) -> NDArray:
     """
     Converts from *CMY* colourspace to *CMYK* colourspace.
 
     Parameters
     ----------
-    CMY : array_like
+    CMY
         *CMY* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CMYK* array.
 
     Notes
@@ -196,18 +199,18 @@ def CMY_to_CMYK(CMY):
     return from_range_1(CMYK)
 
 
-def CMYK_to_CMY(CMYK):
+def CMYK_to_CMY(CMYK: ArrayLike) -> NDArray:
     """
     Converts from *CMYK* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
-    CMYK : array_like
+    CMYK
         *CMYK* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CMY* array.
 
     Notes

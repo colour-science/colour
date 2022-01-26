@@ -17,9 +17,12 @@ References
 DaVinci_Resolve_17_Wide_Gamut_Intermediate.pdf?_v=1607414410000
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     oetf_DaVinciIntermediate,
@@ -42,55 +45,45 @@ __all__ = [
     'RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT',
 ]
 
-PRIMARIES_DAVINCI_WIDE_GAMUT = np.array([
+PRIMARIES_DAVINCI_WIDE_GAMUT: NDArray = np.array([
     [0.8000, 0.3130],
     [0.1682, 0.9877],
     [0.0790, -0.1155],
 ])
 """
 *DaVinci Wide Gamut* colourspace primaries.
-
-PRIMARIES_DAVINCI_WIDE_GAMUT : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT = 'D65'
+WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT: str = 'D65'
 """
 *DaVinci Wide Gamut* colourspace whitepoint name.
-
-WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT : str
 """
 
-CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT = (CCS_ILLUMINANTS[
+CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT: NDArray = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT])
 """
 *DaVinci Wide Gamut* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT : ndarray
 """
 
-MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ = np.array([
+MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ: NDArray = np.array([
     [0.70062239, 0.14877482, 0.10105872],
     [0.27411851, 0.87363190, -0.14775041],
     [-0.09896291, -0.13789533, 1.32591599],
 ])
 """
 *DaVinci Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT = np.array([
+MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT: NDArray = np.array([
     [1.51667204, -0.28147805, -0.14696363],
     [-0.46491710, 1.25142378, 0.17488461],
     [0.06484905, 0.10913934, 0.76141462],
 ])
 """
 *CIE XYZ* tristimulus values to *DaVinci Wide Gamut* colourspace matrix.
-
-MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT = RGB_Colourspace(
+RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT: RGB_Colourspace = RGB_Colourspace(
     'DaVinci Wide Gamut',
     PRIMARIES_DAVINCI_WIDE_GAMUT,
     CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT,
@@ -108,6 +101,4 @@ RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT.__doc__ = """
 References
 ----------
 :cite:`BlackmagicDesign2020`, :cite:`BlackmagicDesign2020a`
-
-RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT : RGB_Colourspace
 """

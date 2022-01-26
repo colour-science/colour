@@ -72,7 +72,7 @@ eotf_inverse_sRGB` definition domain and range scale support.
         L = 0.18
         V = eotf_inverse_sRGB(L)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -136,7 +136,7 @@ eotf_sRGB` definition domain and range scale support.
         V = 0.461356129500442
         L = eotf_sRGB(V)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

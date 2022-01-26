@@ -16,6 +16,8 @@ References
     on Rendering - DL-Only and Industry Track, 7 pages. doi:10.2312/SR.20191216
 """
 
+from __future__ import annotations
+
 import numpy as np
 from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
@@ -25,6 +27,8 @@ from colour.colorimetry import (
     SpectralDistribution,
     handle_spectral_arguments,
 )
+from colour.models import RGB_Colourspace
+from colour.hints import ArrayLike, Callable, Dict, Optional, Tuple
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 
@@ -41,41 +45,43 @@ __all__ = [
 ]
 
 
-def spectral_primary_decomposition_Mallett2019(colourspace,
-                                               cmfs=None,
-                                               illuminant=None,
-                                               metric=np.linalg.norm,
-                                               metric_args=tuple(),
-                                               optimisation_kwargs=None):
+def spectral_primary_decomposition_Mallett2019(
+        colourspace: RGB_Colourspace,
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        illuminant: Optional[SpectralDistribution] = None,
+        metric: Callable = np.linalg.norm,
+        metric_args: Tuple = tuple(),
+        optimisation_kwargs: Optional[Dict] = None
+) -> MultiSpectralDistributions:
     """
     Performs the spectral primary decomposition as described in *Mallett and
     Yuksel (2019)* for given *RGB* colourspace.
 
     Parameters
     ----------
-    colourspace: RGB_Colourspace
+    colourspace
         *RGB* colourspace.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    illuminant : SpectralDistribution, optional
+    illuminant
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    metric : str, optional
+    metric
         Function to be minimised, i.e. the objective function.
 
             ``metric(basis, *metric_args) -> float``
 
         where ``basis`` is three reflectances concatenated together, each
         with a shape matching ``shape``.
-    metric_args : tuple, optional
+    metric_args
         Additional arguments passed to ``metric``.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
-    MultiSpectralDistributions
+    :class:`colour.MultiSpectralDistributions`
         Basis functions for given *RGB* colourspace.
 
     References
@@ -201,23 +207,26 @@ def spectral_primary_decomposition_Mallett2019(colourspace,
 
 
 def RGB_to_sd_Mallett2019(
-        RGB, basis_functions=MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019):
+        RGB: ArrayLike,
+        basis_functions:
+        MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
+) -> SpectralDistribution:
     """
     Recovers the spectral distribution of given *RGB* colourspace array using
     *Mallett and Yuksel (2019)* method.
 
     Parameters
     ----------
-    RGB : array_like, (3,)
+    RGB
         *RGB* colourspace array.
-    basis_functions : MultiSpectralDistributions
+    basis_functions
         Basis functions for the method. The default is to use the built-in
         *sRGB* basis functions, i.e.
         :attr:`colour.recovery.MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019`.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Recovered reflectance.
 
     References

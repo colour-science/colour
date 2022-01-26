@@ -9,8 +9,13 @@ Defines the characterisation plotting objects:
 -   :func:`colour.plotting.plot_multi_colour_checkers`
 """
 
-import numpy as np
+from __future__ import annotations
 
+import numpy as np
+import matplotlib.pyplot as plt
+
+from colour.hints import Any, Dict, Sequence, Tuple, Union
+from colour.characterisation import ColourChecker
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -45,29 +50,30 @@ __all__ = [
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def plot_single_colour_checker(
-        colour_checker='ColorChecker24 - After November 2014', **kwargs):
+def plot_single_colour_checker(colour_checker: Union[
+        ColourChecker, str] = 'ColorChecker24 - After November 2014',
+                               **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given colour checker.
 
     Parameters
     ----------
-    colour_checker : str or ColourChecker, optional
+    colour_checker
         Color checker to plot. ``colour_checker`` can be of any type or form
         supported by the
         :func:`colour.plotting.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_colour_swatches`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -91,28 +97,30 @@ def plot_single_colour_checker(
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def plot_multi_colour_checkers(colour_checkers, **kwargs):
+def plot_multi_colour_checkers(colour_checkers: Union[
+        ColourChecker, str, Sequence[Union[ColourChecker, str]]],
+                               **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots and compares given colour checkers.
 
     Parameters
     ----------
-    colour_checkers : str or ColourChecker or array_like
+    colour_checkers
         Color checker to plot, count must be less than or equal to 2.
         ``colour_checkers`` elements can be of any type or form supported by
         the :func:`colour.plotting.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_colour_swatches`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -126,25 +134,26 @@ def plot_multi_colour_checkers(colour_checkers, **kwargs):
         :alt: plot_multi_colour_checkers
     """
 
-    attest(
-        len(colour_checkers) <= 2,
-        'Only two colour checkers can be compared at a time!')
+    filtered_colour_checkers = list(
+        filter_colour_checkers(colour_checkers).values())
 
-    colour_checkers = filter_colour_checkers(colour_checkers).values()
+    attest(
+        len(filtered_colour_checkers) <= 2,
+        'Only two colour checkers can be compared at a time!')
 
     _figure, axes = artist(**kwargs)
 
-    compare_swatches = len(colour_checkers) == 2
+    compare_swatches = len(filtered_colour_checkers) == 2
 
     colour_swatches = []
     colour_checker_names = []
-    for colour_checker in colour_checkers:
+    for colour_checker in filtered_colour_checkers:
         colour_checker_names.append(colour_checker.name)
         for label, xyY in colour_checker.data.items():
             XYZ = xyY_to_XYZ(xyY)
             RGB = XYZ_to_plotting_colourspace(XYZ, colour_checker.illuminant)
             colour_swatches.append(
-                ColourSwatch(label.title(), np.clip(np.ravel(RGB), 0, 1)))
+                ColourSwatch(np.clip(np.ravel(RGB), 0, 1), label.title()))
 
     if compare_swatches:
         colour_swatches = [
@@ -159,7 +168,7 @@ def plot_multi_colour_checkers(colour_checkers, **kwargs):
     spacing = 0.25
     columns = 6
 
-    settings = {
+    settings: Dict[str, Any] = {
         'axes': axes,
         'width': width,
         'height': height,

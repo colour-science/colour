@@ -19,9 +19,17 @@ References
     1823. doi:10.1364/JOSAA.24.001823
 """
 
+from __future__ import annotations
+
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, validate_method
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float,
+    as_float_array,
+    validate_method,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -37,7 +45,8 @@ __all__ = [
 ]
 
 
-def index_stress_Garcia2007(d_E, d_V):
+def index_stress_Garcia2007(d_E: FloatingOrArrayLike,
+                            d_V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Computes the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
@@ -45,14 +54,14 @@ def index_stress_Garcia2007(d_E, d_V):
 
     Parameters
     ----------
-    d_E : array_like
+    d_E
         Computed colour difference array :math:`\\Delta E`.
-    d_V : array_like
+    d_V
         Computed colour difference array :math:`\\Delta V`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`STRESS` index.
 
     References
@@ -67,15 +76,18 @@ def index_stress_Garcia2007(d_E, d_V):
     0.1211709...
     """
 
+    d_E = as_float_array(d_E)
+    d_V = as_float_array(d_V)
+
     F_1 = np.sum(d_E ** 2) / np.sum(d_E * d_V)
 
     stress = np.sqrt(
         np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2))
 
-    return stress
+    return as_float(stress)
 
 
-INDEX_STRESS_METHODS = CaseInsensitiveMapping({
+INDEX_STRESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Garcia 2007': index_stress_Garcia2007,
 })
 INDEX_STRESS_METHODS.__doc__ = """
@@ -84,13 +96,13 @@ Supported :math:`STRESS` index computation methods.
 References
 ----------
 :cite:`Garcia2007`
-
-INDEX_STRESS_METHODS : CaseInsensitiveMapping
-    **{'Garcia 2007'}**
 """
 
 
-def index_stress(d_E, d_V, method='Garcia 2007'):
+def index_stress(d_E: FloatingOrArrayLike,
+                 d_V: FloatingOrArrayLike,
+                 method: Union[Literal['Garcia 2007'], str] = 'Garcia 2007'
+                 ) -> FloatingOrNDArray:
     """
     Computes the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
@@ -98,17 +110,16 @@ def index_stress(d_E, d_V, method='Garcia 2007'):
 
     Parameters
     ----------
-    d_E : array_like
+    d_E
         Computed colour difference array :math:`\\Delta E`.
-    d_V : array_like
+    d_V
         Computed colour difference array :math:`\\Delta V`.
-    method : str, optional
-        **{'Garcia 2007'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`STRESS` index.
 
     References

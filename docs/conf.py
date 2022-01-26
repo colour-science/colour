@@ -21,19 +21,6 @@ import colour as package  # noqa
 basename = re.sub('_(\\w)', lambda x: x.group(1).upper(),
                   package.__name__.title())
 
-autodoc_member_order = 'bysource'
-autodoc_mock_imports = [
-    'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.patches',
-    'matplotlib.path', 'matplotlib.pyplot', 'matplotlib.ticker',
-    'mpl_toolkits.mplot3d', 'mpl_toolkits.mplot3d.art3d', 'scipy',
-    'scipy.interpolate', 'scipy.ndimage', 'scipy.ndimage.filters',
-    'scipy.optimize', 'scipy.spatial', 'scipy.spatial.distance'
-]
-
-autosummary_generate = True
-
-napoleon_custom_sections = ['Attributes', 'Methods']
-
 if os.environ.get('READTHEDOCS') == 'True':
     utilities_directory = os.path.join(
         os.path.dirname(os.path.abspath('.')), 'utilities')
@@ -58,14 +45,71 @@ if os.environ.get('READTHEDOCS') == 'True':
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'sphinx.ext.coverage',
-    'sphinx.ext.ifconfig', 'sphinx.ext.inheritance_diagram',
-    'sphinx.ext.intersphinx', 'sphinx.ext.mathjax', 'sphinx.ext.napoleon',
-    'sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinxcontrib.bibtex'
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.coverage',
+    'sphinx.ext.ifconfig',
+    'sphinx.ext.inheritance_diagram',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
+    'sphinx.ext.viewcode',
+    'sphinxcontrib.bibtex',
 ]
+
+autodoc_member_order = 'bysource'
+autodoc_mock_imports = [
+    'matplotlib',
+    'matplotlib.cm',
+    'matplotlib.image',
+    'matplotlib.patches',
+    'matplotlib.path',
+    'matplotlib.pyplot',
+    'matplotlib.ticker',
+    'mpl_toolkits.mplot3d',
+    'mpl_toolkits.mplot3d.art3d',
+    'scipy',
+    'scipy.interpolate',
+    'scipy.ndimage',
+    'scipy.ndimage.filters',
+    'scipy.optimize',
+    'scipy.spatial',
+    'scipy.spatial.distance',
+]
+autodoc_typehints = 'both'
+autodoc_type_aliases = {
+    'ArrayLike': 'ArrayLike',
+    'Boolean': 'Boolean',
+    'BooleanOrArrayLike': 'BooleanOrArrayLike',
+    'BooleanOrNDArray': 'BooleanOrNDArray',
+    'DType': 'DType',
+    'DTypeBoolean': 'DTypeBoolean',
+    'DTypeComplex': 'DTypeComplex',
+    'DTypeFloating': 'DTypeFloating',
+    'DTypeInteger': 'DTypeInteger',
+    'DTypeNumber': 'DTypeNumber',
+    'Floating': 'Floating',
+    'FloatingOrArrayLike': 'FloatingOrArrayLike',
+    'FloatingOrNDArray': 'FloatingOrNDArray',
+    'Integer': 'Integer',
+    'IntegerOrArrayLike': 'IntegerOrArrayLike',
+    'IntegerOrNDArray': 'IntegerOrNDArray',
+    'NestedSequence': 'NestedSequence',
+    'Number': 'Number',
+    'NumberOrArrayLike': 'NumberOrArrayLike',
+    'NumberOrNDArray': 'NumberOrNDArray',
+    'StrOrArrayLike': 'StrOrArrayLike',
+    'StrOrNDArray': 'StrOrNDArray',
+}
+autodoc_preserve_defaults = True
+
+autosummary_generate = True
 
 bibtex_bibfiles = ['bibliography.bib']
 bibtex_encoding = 'utf8'
+
+napoleon_custom_sections = ['Attributes', 'Methods']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -380,7 +424,13 @@ epub_exclude_files = ['search.html']
 
 autoclass_content = 'both'
 
-intersphinx_mapping = {'python': ('https://docs.python.org/3.7', None)}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3.7', None),
+    'matplotlib': ('http://matplotlib.org/stable', None),
+    'numpy': ('http://docs.scipy.org/doc/numpy', None),
+    'pandas': ('http://pandas.pydata.org/pandas-docs/dev', None),
+    'scipy': ('http://docs.scipy.org/doc/scipy/reference', None)
+}
 
 
 def _autodoc_process_docstring(app, what, name, obj, options, lines):
@@ -395,43 +445,3 @@ def _autodoc_process_docstring(app, what, name, obj, options, lines):
 def setup(app):
     app.add_css_file('custom.css')
     app.connect('autodoc-process-docstring', _autodoc_process_docstring)
-
-
-def _continuous_signal_repr(self):
-    """
-    Returns an ellipsis string representation of the continuous signal for
-    documentation purposes.
-
-    Returns
-    -------
-    unicode
-        Ellipsis string representation.
-    """
-
-    return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
-
-
-package.colorimetry.SpectralDistribution.__repr__ = (_continuous_signal_repr)
-package.colorimetry.MultiSpectralDistributions.__repr__ = (
-    _continuous_signal_repr)
-
-
-def _case_insensitive_mapping_repr(self):
-    """
-    Returns an ellipsis string representation of the case-insensitive mutable
-    mapping for documentation purposes.
-
-    Returns
-    -------
-    unicode
-        Ellipsis string representation.
-    """
-
-    return "{0}({1})".format(
-        self.__class__.__name__,
-        repr(dict(zip(self.keys(), ['...'] * len(self)))).replace(
-            "'...'", '...'))
-
-
-package.utilities.CaseInsensitiveMapping.__repr__ = (
-    _case_insensitive_mapping_repr)

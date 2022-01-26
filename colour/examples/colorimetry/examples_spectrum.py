@@ -160,7 +160,7 @@ print(sd_clone[666])
 print('\n')
 
 message_box('Sample spectral distribution extrapolation.')
-sd_clone.extrapolate(colour.SpectralShape(340, 830))
+sd_clone.extrapolate(colour.SpectralShape(340, 830, 1))
 print(sd_clone[340], sd_clone[360])
 
 print('\n')

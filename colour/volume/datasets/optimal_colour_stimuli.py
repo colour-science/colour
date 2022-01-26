@@ -26,8 +26,11 @@ References
     Formulae (pp. 778-779). Wiley. ISBN:978-0-471-39918-6
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import NDArray
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -44,7 +47,7 @@ __all__ = [
     'OPTIMAL_COLOUR_STIMULI_ILLUMINANTS',
 ]
 
-OPTIMAL_COLOUR_STIMULI_A = np.array([
+OPTIMAL_COLOUR_STIMULI_A: NDArray = np.array([
     [0.1120, 0.1985, 10],
     [0.0859, 0.2957, 10],
     [0.0549, 0.4593, 10],
@@ -269,14 +272,12 @@ OPTIMAL_COLOUR_STIMULI_A = np.array([
 """
 *CIE Standard Illuminant A* *Optimal Colour Stimuli*.
 
-OPTIMAL_COLOUR_STIMULI_A : ndarray
-
 References
 ----------
 :cite:`Wyszecki2000bb`
 """
 
-OPTIMAL_COLOUR_STIMULI_C = np.array([
+OPTIMAL_COLOUR_STIMULI_C: NDArray = np.array([
     [0.1363, 0.0692, 10],
     [0.1308, 0.0792, 10],
     [0.0808, 0.2132, 10],
@@ -478,14 +479,12 @@ OPTIMAL_COLOUR_STIMULI_C = np.array([
 """
 *CIE Illuminant C* *Optimal Colour Stimuli*.
 
-OPTIMAL_COLOUR_STIMULI_C : ndarray
-
 References
 ----------
 :cite:`MacAdam1935a`
 """
 
-OPTIMAL_COLOUR_STIMULI_D65 = np.array([
+OPTIMAL_COLOUR_STIMULI_D65: NDArray = np.array([
     [0.1346, 0.0747, 10],
     [0.0990, 0.1607, 10],
     [0.0751, 0.2403, 10],
@@ -730,25 +729,21 @@ OPTIMAL_COLOUR_STIMULI_D65 = np.array([
 """
 *CIE Standard Illuminant D Series D65* *Optimal Colour Stimuli*.
 
-OPTIMAL_COLOUR_STIMULI_D65 : ndarray
-
 References
 ----------
 :cite:`Wyszecki2000bh`
 """
 
-OPTIMAL_COLOUR_STIMULI_ILLUMINANTS = CaseInsensitiveMapping({
-    'A': OPTIMAL_COLOUR_STIMULI_A,
-    'C': OPTIMAL_COLOUR_STIMULI_C,
-    'D65': OPTIMAL_COLOUR_STIMULI_D65
-})
+OPTIMAL_COLOUR_STIMULI_ILLUMINANTS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping({
+        'A': OPTIMAL_COLOUR_STIMULI_A,
+        'C': OPTIMAL_COLOUR_STIMULI_C,
+        'D65': OPTIMAL_COLOUR_STIMULI_D65
+    }))
 OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.__doc__ = """
 Illuminants *Optimal Colour Stimuli*.
 
 References
 ----------
 :cite:`Wikipedia2004a`
-
-OPTIMAL_COLOUR_STIMULI_ILLUMINANTS : CaseInsensitiveMapping
-    **{'A', 'C', 'D65'}**
 """

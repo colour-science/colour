@@ -78,7 +78,7 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
         Ljg = XYZ_to_OSA_UCS(XYZ)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -160,7 +160,7 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
         Ljg = np.array([-3.00499790, 2.99713697, -9.66784231])
         XYZ = OSA_UCS_to_XYZ(Ljg)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

@@ -73,7 +73,7 @@ oetf_BT709` definition domain and range scale support.
         L = 0.18
         V = oetf_BT709(L)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -141,7 +141,7 @@ oetf_inverse_BT709` definition domain and range scale support.
         V = 0.409007728864150
         L = oetf_inverse_BT709(V)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

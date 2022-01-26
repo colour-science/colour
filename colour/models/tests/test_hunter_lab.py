@@ -191,7 +191,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         K_ab = D65.K_ab
         Lab = XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -314,7 +314,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         K_ab = D65.K_ab
         XYZ = Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

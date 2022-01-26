@@ -64,7 +64,7 @@ class TestXYZ_to_sd(unittest.TestCase):
                 self._cmfs, self._sd_D65) for method in m
         ]
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for method, value in zip(m, v):
             for scale, factor_a, factor_b in d_r:
                 with domain_range_scale(scale):

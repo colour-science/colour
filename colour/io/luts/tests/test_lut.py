@@ -3,6 +3,8 @@
 Defines the unit tests for the :mod:`colour.io.luts.lut` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
 import textwrap
@@ -18,7 +20,18 @@ from colour.algebra import (
 )
 from colour.io.luts.lut import AbstractLUT
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
-from colour.utilities import tsplit, tstack
+from colour.hints import (
+    Any,
+    Callable,
+    Dict,
+    Integer,
+    NDArray,
+    Optional,
+    Type,
+    TypeInterpolator,
+    Union,
+)
+from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -37,9 +50,9 @@ __all__ = [
     'TestLUT3D',
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), 'resources')
 
-RANDOM_TRIPLETS = np.reshape(
+RANDOM_TRIPLETS: NDArray = np.reshape(
     random_triplet_generator(8, random_state=np.random.RandomState(4)),
     (4, 2, 3))
 
@@ -84,35 +97,47 @@ class AbstractLUTTest(unittest.TestCase):
     :class:`colour.io.luts.lut.LUT3D` classes common unit tests methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
         super(AbstractLUTTest, self).__init__(*args)
 
-        self._LUT_factory = None
+        self._LUT_factory: Any = None
 
-        self._domain_1 = None
-        self._domain_2 = None
-        self._domain_3 = None
-        self._table_1 = None
-        self._table_2 = None
-        self._table_3 = None
-        self._table_1_kwargs = None
-        self._table_2_kwargs = None
-        self._table_3_kwargs = None
-        self._dimensions = None
-        self._str = None
-        self._repr = None
-        self._applied_1 = None
-        self._applied_2 = None
-        self._applied_3 = None
+        self._size: Optional[Integer] = None
+        self._dimensions: Optional[Integer] = None
+        self._domain_1: Optional[NDArray] = None
+        self._domain_2: Optional[NDArray] = None
+        self._domain_3: Optional[NDArray] = None
+        self._table_1: Optional[NDArray] = None
+        self._table_2: Optional[NDArray] = None
+        self._table_3: Optional[NDArray] = None
+        self._table_1_kwargs: Optional[Dict] = None
+        self._table_2_kwargs: Optional[Dict] = None
+        self._table_3_kwargs: Optional[Dict] = None
+        self._interpolator_1: Optional[Union[Callable, Type[
+            TypeInterpolator]]] = None
+        self._interpolator_kwargs_1: Dict = {}
+        self._interpolator_2: Optional[Union[Callable, Type[
+            TypeInterpolator]]] = None
+        self._interpolator_kwargs_2: Dict = {}
+        self._invert_kwargs_1: Dict = {}
+        self._invert_kwargs_2: Dict = {}
+        self._str: Optional[str] = None
+        self._repr: Optional[str] = None
+        self._inverted_apply_1: Optional[NDArray] = None
+        self._inverted_apply_2: Optional[NDArray] = None
+        self._applied_1: Optional[NDArray] = None
+        self._applied_2: Optional[NDArray] = None
+        self._applied_3: Optional[NDArray] = None
+        self._applied_4: Optional[NDArray] = None
 
     def test_required_methods(self):
         """
@@ -164,7 +189,7 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT = self._LUT_factory()
 
-        np.testing.assert_array_equal(LUT.table, LUT.linear_table())
+        np.testing.assert_array_equal(LUT.table, LUT.linear_table(self._size))
 
         table_1 = self._table_1 * 0.8 + 0.1
         LUT.table = table_1
@@ -461,7 +486,7 @@ class AbstractLUTTest(unittest.TestCase):
         LUT_1 = self._LUT_factory()
 
         np.testing.assert_almost_equal(
-            LUT_1.linear_table(), self._table_1, decimal=7)
+            LUT_1.linear_table(self._size), self._table_1, decimal=7)
 
         np.testing.assert_almost_equal(
             spow(
@@ -545,9 +570,9 @@ class AbstractLUTTest(unittest.TestCase):
         np.testing.assert_almost_equal(
             LUT_4.apply(
                 RANDOM_TRIPLETS,
-                self._interpolator_1,
-                self._interpolator_kwargs_1,
-                'Inverse',
+                direction='Inverse',
+                interpolator=self._interpolator_1,
+                interpolator_kwargs=self._interpolator_kwargs_1,
                 **self._invert_kwargs_1,
             ),
             self._applied_4,
@@ -559,13 +584,13 @@ class TestLUT1D(AbstractLUTTest):
     Defines :class:`colour.io.luts.lut.LUT1D` class unit tests methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
@@ -573,16 +598,18 @@ class TestLUT1D(AbstractLUTTest):
 
         self._LUT_factory = LUT1D
 
+        self._size = 10
+        self._dimensions = 1
         self._domain_1 = np.array([0, 1])
         self._domain_2 = np.array([-0.1, 1.5])
         self._domain_3 = np.linspace(-0.1, 1.5, 10)
         self._table_1 = np.linspace(0, 1, 10)
         self._table_2 = self._table_1 ** (1 / 2.2)
-        self._table_3 = spow(np.linspace(-0.1, 1.5, 10), (1 / 2.6))
-        self._table_1_kwargs = {'size': 10, 'domain': self._domain_1}
-        self._table_2_kwargs = {'size': 10, 'domain': self._domain_2}
-        self._table_3_kwargs = {'size': 10, 'domain': self._domain_3}
-        self._dimensions = 1
+        self._table_3 = as_float_array(
+            spow(np.linspace(-0.1, 1.5, self._size), (1 / 2.6)))
+        self._table_1_kwargs = {'size': self._size, 'domain': self._domain_1}
+        self._table_2_kwargs = {'size': self._size, 'domain': self._domain_2}
+        self._table_3_kwargs = {'size': self._size, 'domain': self._domain_3}
         self._interpolator_1 = LinearInterpolator
         self._interpolator_kwargs_1 = {}
         self._interpolator_2 = CubicSplineInterpolator
@@ -650,13 +677,13 @@ class TestLUT3x1D(AbstractLUTTest):
     Defines :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
@@ -664,6 +691,8 @@ class TestLUT3x1D(AbstractLUTTest):
 
         self._LUT_factory = LUT3x1D
 
+        self._size = 10
+        self._dimensions = 2
         samples_1 = np.linspace(0, 1, 10)
         samples_2 = np.linspace(-0.1, 1.5, 15)
         samples_3 = np.linspace(-0.1, 3.0, 20)
@@ -676,19 +705,19 @@ class TestLUT3x1D(AbstractLUTTest):
         ])
         self._table_1 = tstack([samples_1, samples_1, samples_1])
         self._table_2 = self._table_1 ** (1 / 2.2)
-        self._table_3 = spow(
-            tstack([
-                np.hstack([samples_1, np.full(10, np.nan)]),
-                np.hstack([samples_2, np.full(5, np.nan)]),
-                samples_3,
-            ]), 1 / 2.6)
-        self._table_1_kwargs = {'size': 10, 'domain': self._domain_1}
-        self._table_2_kwargs = {'size': 10, 'domain': self._domain_2}
+        self._table_3 = as_float_array(
+            spow(
+                tstack([
+                    np.hstack([samples_1, np.full(10, np.nan)]),
+                    np.hstack([samples_2, np.full(5, np.nan)]),
+                    samples_3,
+                ]), 1 / 2.6))
+        self._table_1_kwargs = {'size': self._size, 'domain': self._domain_1}
+        self._table_2_kwargs = {'size': self._size, 'domain': self._domain_2}
         self._table_3_kwargs = {
             'size': np.array([10, 15, 20]),
             'domain': self._domain_3
         }
-        self._dimensions = 2
         self._interpolator_1 = LinearInterpolator
         self._interpolator_kwargs_1 = {}
         self._interpolator_2 = CubicSplineInterpolator
@@ -766,13 +795,13 @@ class TestLUT3D(AbstractLUTTest):
     Defines :class:`colour.io.luts.lut.LUT3D` class unit tests methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
@@ -780,6 +809,8 @@ class TestLUT3D(AbstractLUTTest):
 
         self._LUT_factory = LUT3D
 
+        self._size = 33
+        self._dimensions = 3
         samples_1 = np.linspace(0, 1, 10)
         samples_2 = np.linspace(-0.1, 1.5, 15)
         samples_3 = np.linspace(-0.1, 3.0, 20)
@@ -790,31 +821,33 @@ class TestLUT3D(AbstractLUTTest):
             np.hstack([samples_2, np.full(5, np.nan)]),
             samples_3,
         ])
-        self._table_1 = np.meshgrid(
-            *[
-                np.linspace(axes[0], axes[1], 33)
-                for axes in reversed(tsplit(self._domain_1))
-            ],
-            indexing='ij')
-        self._table_1 = np.flip(
-            np.transpose(self._table_1).reshape([33, 33, 33, 3]), -1)
+        self._table_1 = as_float_array(
+            np.flip(
+                np.transpose(
+                    np.meshgrid(
+                        *[
+                            np.linspace(axes[0], axes[1], 33)
+                            for axes in reversed(tsplit(self._domain_1))
+                        ],
+                        indexing='ij')).reshape([33, 33, 33, 3]), -1))
         self._table_2 = self._table_1 ** (1 / 2.2)
-        self._table_3 = np.meshgrid(
-            *[
-                axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
-                for axes in reversed(tsplit(self._domain_3))
-            ],
-            indexing='ij')
-        self._table_3 = spow(
-            np.flip(np.transpose(self._table_3).reshape([10, 15, 20, 3]), -1),
-            1 / 2.6)
-        self._table_1_kwargs = {'size': 33, 'domain': self._domain_1}
-        self._table_2_kwargs = {'size': 33, 'domain': self._domain_2}
+        self._table_3 = as_float_array(
+            spow(
+                np.flip(
+                    np.transpose(
+                        np.meshgrid(
+                            *[
+                                axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
+                                for axes in reversed(tsplit(self._domain_3))
+                            ],
+                            indexing='ij')).reshape([10, 15, 20, 3]), -1),
+                1 / 2.6))
+        self._table_1_kwargs = {'size': self._size, 'domain': self._domain_1}
+        self._table_2_kwargs = {'size': self._size, 'domain': self._domain_2}
         self._table_3_kwargs = {
             'size': np.array([10, 15, 20]),
             'domain': self._domain_3
         }
-        self._dimensions = 3
         self._interpolator_1 = table_interpolation_trilinear
         self._interpolator_kwargs_1 = {}
         self._interpolator_2 = table_interpolation_tetrahedral

@@ -22,9 +22,12 @@ References
     daylight, incandescent tungsten and printer.
 """
 
+from __future__ import annotations
+
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -40,7 +43,7 @@ __all__ = [
     'SDS_LENSES',
 ]
 
-DATA_LENSES_ISO = {
+DATA_LENSES_ISO: Dict = {
     'ISO Standard Lens': {
         350: 0.00,
         360: 0.07,
@@ -80,7 +83,7 @@ DATA_LENSES_ISO = {
     }
 }
 
-SDS_LENSES_ISO = LazyCaseInsensitiveMapping({
+SDS_LENSES_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping({
     'ISO Standard Lens':
         partial(
             SpectralDistribution,
@@ -93,17 +96,14 @@ Spectral distributions of *ISO* lenses.
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-SDS_LENSES_ISO : LazyCaseInsensitiveMapping
 """
 
-SDS_LENSES = LazyCaseInsensitiveMapping(SDS_LENSES_ISO)
+SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    SDS_LENSES_ISO)
 SDS_LENSES.__doc__ = """
 Spectral distributions of lenses.
 
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-SDS_LENSES : LazyCaseInsensitiveMapping
 """

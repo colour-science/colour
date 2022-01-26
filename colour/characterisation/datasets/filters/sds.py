@@ -22,9 +22,12 @@ References
     daylight, incandescent tungsten and printer.
 """
 
+from __future__ import annotations
+
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -40,7 +43,7 @@ __all__ = [
     'SDS_FILTERS',
 ]
 
-DATA_FILTERS_ISO = {
+DATA_FILTERS_ISO: Dict = {
     'ISO 7589 Diffuser': {
         350: 0.00,
         360: 0.00,
@@ -67,7 +70,7 @@ DATA_FILTERS_ISO = {
     }
 }
 
-SDS_FILTERS_ISO = LazyCaseInsensitiveMapping({
+SDS_FILTERS_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping({
     'ISO 7589 Diffuser':
         partial(
             SpectralDistribution,
@@ -80,17 +83,14 @@ Spectral distributions of *ISO* filters.
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-SDS_FILTERS_ISO : CaseInsensitiveMapping
 """
 
-SDS_FILTERS = LazyCaseInsensitiveMapping(SDS_FILTERS_ISO)
+SDS_FILTERS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    SDS_FILTERS_ISO)
 SDS_FILTERS.__doc__ = """
 Spectral distributions of filters.
 
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-SDS_FILTERS : LazyCaseInsensitiveMapping
 """

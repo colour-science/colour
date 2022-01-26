@@ -3,6 +3,8 @@
 Defines the unit tests for the :mod:`colour.io.ocio` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
 import unittest
@@ -22,7 +24,7 @@ __all__ = [
     'TestProcessImageOpenColorIO',
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), 'resources')
 
 
 class TestProcessImageOpenColorIO(unittest.TestCase):
@@ -56,7 +58,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
                 [[0.41358781, 0.41358781, 0.41358781],
                  [0.41358781, 0.41358781, 0.41358781]],
             ]),
-            decimal=7)
+            decimal=5)
 
         np.testing.assert_almost_equal(
             process_image_OpenColorIO(
@@ -76,7 +78,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
                 [[0.35595229, 0.35595256, 0.35595250],
                  [0.35595229, 0.35595256, 0.35595250]],
             ]),
-            decimal=7)
+            decimal=5)
 
 
 if __name__ == '__main__':

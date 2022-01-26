@@ -93,7 +93,7 @@ log_encoding_ACESproxy` definition domain and range scale support.
         lin_AP1 = 0.18
         ACESproxy = log_encoding_ACESproxy(lin_AP1)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -188,7 +188,7 @@ log_decoding_ACESproxy` definition domain and range scale support.
         ACESproxy = 426.0
         lin_AP1 = log_decoding_ACESproxy(ACESproxy)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -261,7 +261,7 @@ log_encoding_ACEScc` definition domain and range scale support.
         lin_AP1 = 0.18
         ACEScc = log_encoding_ACEScc(lin_AP1)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -334,7 +334,7 @@ log_decoding_ACEScc` definition domain and range scale support.
         ACEScc = 0.413588402492442
         lin_AP1 = log_decoding_ACEScc(ACEScc)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -407,7 +407,7 @@ log_encoding_ACEScct` definition domain and range scale support.
         lin_AP1 = 0.18
         ACEScct = log_encoding_ACEScct(lin_AP1)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -492,7 +492,7 @@ log_decoding_ACEScct` definition domain and range scale support.
         ACEScc = 0.413588402492442
         lin_AP1 = log_decoding_ACEScct(ACEScc)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

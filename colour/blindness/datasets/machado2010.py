@@ -29,7 +29,7 @@ __all__ = [
     'CVD_MATRICES_MACHADO2010',
 ]
 
-CVD_MATRICES_MACHADO2010 = CaseInsensitiveMapping({
+CVD_MATRICES_MACHADO2010: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Protanomaly': {
         0.0:
             np.array([
@@ -237,7 +237,4 @@ CVD_MATRICES_MACHADO2010 = CaseInsensitiveMapping({
 })
 CVD_MATRICES_MACHADO2010.__doc__ = """
 Machado (2010) Simulation matrices :math:`\\Phi_{CVD}`.
-
-CVD_MATRICES_MACHADO2010 : CaseInsensitiveMapping
-    {'Protanomaly', 'Deuteranomaly', 'Tritanomaly'}
 """

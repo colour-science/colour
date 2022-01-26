@@ -4,7 +4,7 @@ DICOM - Grayscale Standard Display Function
 ===========================================
 
 Defines the *DICOM - Grayscale Standard Display Function* electro-optical
-transfer function (EOTF / EOCF) and its inverse:
+transfer function (EOTF) and its inverse:
 
 -   :func:`colour.models.eotf_inverse_DICOMGSDF`
 -   :func:`colour.models.eotf_DICOMGSDF`
@@ -24,8 +24,18 @@ References
     Function. http://medical.nema.org/dicom/2004/04_14PU.PDF
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import (
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    IntegerOrArrayLike,
+    IntegerOrNDArray,
+    Union,
+)
 from colour.utilities import (
     Structure,
     as_float,
@@ -47,7 +57,7 @@ __all__ = [
     'eotf_DICOMGSDF',
 ]
 
-CONSTANTS_DICOMGSDF = Structure(
+CONSTANTS_DICOMGSDF: Structure = Structure(
     a=-1.3011877,
     b=-2.5840191e-2,
     c=8.0242636e-2,
@@ -69,27 +79,30 @@ CONSTANTS_DICOMGSDF = Structure(
     I=-0.017046845)  # noqa
 """
 *DICOM Grayscale Standard Display Function* constants.
-
-CONSTANTS_DICOMGSDF : Structure
 """
 
 
-def eotf_inverse_DICOMGSDF(L, out_int=False):
+def eotf_inverse_DICOMGSDF(L: FloatingOrArrayLike,
+                           out_int: Boolean = False,
+                           constants: Structure = CONSTANTS_DICOMGSDF
+                           ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Defines the *DICOM - Grayscale Standard Display Function* inverse
-    electro-optical transfer function (EOTF / EOCF).
+    electro-optical transfer function (EOTF).
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         *Luminance* :math:`L`.
-    out_int : bool, optional
+    out_int
         Whether to return value as integer code value or float equivalent of a
         code value at a given bit depth.
+    constants
+        *DICOM - Grayscale Standard Display Function* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
         Just-Noticeable Difference (JND) Index, :math:`j`.
 
     Notes
@@ -123,15 +136,15 @@ def eotf_inverse_DICOMGSDF(L, out_int=False):
 
     L_lg = np.log10(L)
 
-    A = CONSTANTS_DICOMGSDF.A
-    B = CONSTANTS_DICOMGSDF.B
-    C = CONSTANTS_DICOMGSDF.C
-    D = CONSTANTS_DICOMGSDF.D
-    E = CONSTANTS_DICOMGSDF.E
-    F = CONSTANTS_DICOMGSDF.F
-    G = CONSTANTS_DICOMGSDF.G
-    H = CONSTANTS_DICOMGSDF.H
-    I = CONSTANTS_DICOMGSDF.I  # noqa
+    A = constants.A
+    B = constants.B
+    C = constants.C
+    D = constants.D
+    E = constants.E
+    F = constants.F
+    G = constants.G
+    H = constants.H
+    I = constants.I  # noqa
 
     J = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)
@@ -142,22 +155,27 @@ def eotf_inverse_DICOMGSDF(L, out_int=False):
         return as_float(from_range_1(J / 1023))
 
 
-def eotf_DICOMGSDF(J, in_int=False):
+def eotf_DICOMGSDF(
+        J: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+        in_int: Boolean = False,
+        constants: Structure = CONSTANTS_DICOMGSDF) -> FloatingOrNDArray:
     """
     Defines the *DICOM - Grayscale Standard Display Function* electro-optical
-    transfer function (EOTF / EOCF).
+    transfer function (EOTF).
 
     Parameters
     ----------
-    J : numeric or array_like
+    J
         Just-Noticeable Difference (JND) Index, :math:`j`.
-    in_int : bool, optional
+    in_int
         Whether to treat the input value as integer code value or float
         equivalent of a code value at a given bit depth.
+    constants
+        *DICOM - Grayscale Standard Display Function* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L`.
 
     Notes
@@ -192,16 +210,16 @@ def eotf_DICOMGSDF(J, in_int=False):
     if not in_int:
         J = J * 1023
 
-    a = CONSTANTS_DICOMGSDF.a
-    b = CONSTANTS_DICOMGSDF.b
-    c = CONSTANTS_DICOMGSDF.c
-    d = CONSTANTS_DICOMGSDF.d
-    e = CONSTANTS_DICOMGSDF.e
-    f = CONSTANTS_DICOMGSDF.f
-    g = CONSTANTS_DICOMGSDF.g
-    h = CONSTANTS_DICOMGSDF.h
-    k = CONSTANTS_DICOMGSDF.k
-    m = CONSTANTS_DICOMGSDF.m
+    a = constants.a
+    b = constants.b
+    c = constants.c
+    d = constants.d
+    e = constants.e
+    f = constants.f
+    g = constants.g
+    h = constants.h
+    k = constants.k
+    m = constants.m
 
     J_ln = np.log(J)
     J_ln2 = J_ln ** 2

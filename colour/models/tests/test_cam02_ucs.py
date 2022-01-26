@@ -149,8 +149,11 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(
             JMh, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
-        d_r = (('reference', 1, 1), (1, np.array([0.01, 0.01, 1 / 360]), 0.01),
-               (100, np.array([1, 1, 1 / 3.6]), 1))
+        d_r = (
+            ('reference', 1, 1),
+            ('1', np.array([0.01, 0.01, 1 / 360]), 0.01),
+            ('100', np.array([1, 1, 1 / 3.6]), 1),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -267,8 +270,11 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         JMh = UCS_Luo2006_to_JMh_CIECAM02(
             Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
-        d_r = (('reference', 1, 1), (1, 0.01, np.array([0.01, 0.01, 1 / 360])),
-               (100, 1, np.array([1, 1, 1 / 3.6])))
+        d_r = (
+            ('reference', 1, 1),
+            ('1', 0.01, np.array([0.01, 0.01, 1 / 360])),
+            ('100', 1, np.array([1, 1, 1 / 3.6])),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -379,7 +385,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
         XYZ_w = CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] / 100
         Jpapbp = XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -490,7 +496,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
         XYZ = UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
         XYZ_w = CAM_KWARGS_CIECAM02_sRGB['XYZ_w'] / 100
 
-        d_r = (('reference', 1, 1, 1), (1, 0.01, 1, 1), (100, 1, 100, 100))
+        d_r = (('reference', 1, 1, 1), ('1', 0.01, 1, 1), ('100', 1, 100, 100))
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

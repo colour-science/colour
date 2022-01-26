@@ -203,7 +203,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         RGB = np.array([0.75, 0.5, 0.25])
         YCbCr = RGB_to_YCbCr(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -296,7 +296,7 @@ class TestYCbCr_to_RGB(unittest.TestCase):
         YCbCr = np.array([0.52230157, 0.36699593, 0.62183309])
         RGB = YCbCr_to_RGB(YCbCr)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -381,7 +381,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         YcCbcCrc = RGB_to_YcCbcCrc(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -468,7 +468,7 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         YcCbcCrc = np.array([0.69943807, 0.38814348, 0.61264549])
         RGB = YcCbcCrc_to_RGB(YcCbcCrc)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

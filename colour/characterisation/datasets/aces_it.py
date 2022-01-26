@@ -25,7 +25,10 @@ References
     http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
+from __future__ import annotations
+
 from colour.characterisation import RGB_CameraSensitivities
+from colour.hints import Dict
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -39,7 +42,7 @@ __all__ = [
     'MSDS_ACES_RICD',
 ]
 
-DATA_ACES_RICD = {
+DATA_ACES_RICD: Dict = {
     360.0: (1.20e-06, 0.0000000, 5.70e-06),
     361.0: (1.40e-06, 0.0000000, 6.40e-06),
     362.0: (1.50e-06, 0.0000000, 7.20e-06),
@@ -513,7 +516,8 @@ DATA_ACES_RICD = {
     830.0: (0.0000000, 0.0000000, 0.0000000)
 }
 
-MSDS_ACES_RICD = RGB_CameraSensitivities(DATA_ACES_RICD, name='ACES RICD')
+MSDS_ACES_RICD: RGB_CameraSensitivities = RGB_CameraSensitivities(
+    DATA_ACES_RICD, name='ACES RICD')
 """
 *ACES Reference Input Capture Device* spectral sensitivities.
 
@@ -522,6 +526,4 @@ References
 :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
 :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
 :cite:`TheAcademyofMotionPictureArtsandSciencese`
-
-MSDS_ACES_RICD : RGB_CameraSensitivities
 """

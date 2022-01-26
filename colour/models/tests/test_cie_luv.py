@@ -120,7 +120,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
         illuminant = np.array([0.31270, 0.32900])
         Luv = XYZ_to_Luv(XYZ, illuminant)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -224,7 +224,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
         illuminant = np.array([0.31270, 0.32900])
         XYZ = Luv_to_XYZ(Luv, illuminant)
 
-        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        d_r = (('reference', 1, 1), ('1', 0.01, 1), ('100', 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -328,7 +328,7 @@ class TestLuv_to_uv(unittest.TestCase):
         illuminant = np.array([0.31270, 0.32900])
         uv = Luv_to_uv(Luv, illuminant)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -436,7 +436,7 @@ class Testuv_to_Luv(unittest.TestCase):
         Y = 1
         Luv = uv_to_Luv(uv, illuminant, Y)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -624,8 +624,11 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         Luv = np.array([41.52787529, 96.83626054, 17.75210149])
         LCHuv = Luv_to_LCHuv(Luv)
 
-        d_r = (('reference', 1, 1), (1, 0.01, np.array([0.01, 0.01, 1 / 360])),
-               (100, 1, np.array([1, 1, 1 / 3.6])))
+        d_r = (
+            ('reference', 1, 1),
+            ('1', 0.01, np.array([0.01, 0.01, 1 / 360])),
+            ('100', 1, np.array([1, 1, 1 / 3.6])),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -697,8 +700,11 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
         Luv = LCHuv_to_Luv(LCHuv)
 
-        d_r = (('reference', 1, 1), (1, np.array([0.01, 0.01, 1 / 360]), 0.01),
-               (100, np.array([1, 1, 1 / 3.6]), 1))
+        d_r = (
+            ('reference', 1, 1),
+            ('1', np.array([0.01, 0.01, 1 / 360]), 0.01),
+            ('100', np.array([1, 1, 1 / 3.6]), 1),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

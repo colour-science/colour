@@ -44,10 +44,13 @@ References
 SupportID=5884#
 """
 
+from __future__ import annotations
+
 import numpy as np
 from collections import namedtuple
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import Dict, NDArray, Tuple
 from colour.models import Lab_to_XYZ, XYZ_to_xyY
 from colour.utilities import CaseInsensitiveMapping
 
@@ -74,7 +77,7 @@ __all__ = [
     'DATA_BABELCOLOR_AVERAGE',
     'CCS_ILLUMINANT_BABELCOLOR_AVERAGE',
     'CCS_BABELCOLOR_AVERAGE',
-    'DATA_COLORCHECKER24_BEFORE_NOV2014',
+    'DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB',
     'DATA_COLORCHECKER24_BEFORE_NOV2014',
     'CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014',
     'CCS_COLORCHECKER24_BEFORE_NOV2014',
@@ -93,16 +96,16 @@ class ColourChecker(
 
     Parameters
     ----------
-    name : str
+    name
         *Colour Checker* name.
-    data : dict_like
+    data
         Chromaticity coordinates in *CIE xyY* colourspace.
-    illuminant : array_like
+    illuminant
         *Colour Checker* illuminant chromaticity coordinates.
     """
 
 
-SAMPLE_LABELS_COLORCHECKER_CLASSIC = (
+SAMPLE_LABELS_COLORCHECKER_CLASSIC: Tuple = (
     'dark skin',
     'light skin',
     'blue sky',
@@ -130,11 +133,9 @@ SAMPLE_LABELS_COLORCHECKER_CLASSIC = (
 )
 """
 *ColorChecker Classic* illuminant.
-
-SAMPLE_LABELS_COLORCHECKER_CLASSIC : tuple
 """
 
-DATA_COLORCHECKER1976 = dict(
+DATA_COLORCHECKER1976: Dict = dict(
     zip(SAMPLE_LABELS_COLORCHECKER_CLASSIC, [
         np.array([0.4002, 0.3504, 0.1005]),
         np.array([0.3773, 0.3446, 0.3582]),
@@ -162,25 +163,21 @@ DATA_COLORCHECKER1976 = dict(
         np.array([0.3101, 0.3163, 0.0313]),
     ]))
 
-CCS_ILLUMINANT_COLORCHECKER1976 = (
+CCS_ILLUMINANT_COLORCHECKER1976: NDArray = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['C'])
 """
 *ColorChecker Classic 1976* illuminant.
-
-CCS_ILLUMINANT_COLORCHECKER1976 : ndarray
 """
 
-CCS_COLORCHECKER1976 = ColourChecker('ColorChecker 1976',
-                                     DATA_COLORCHECKER1976,
-                                     CCS_ILLUMINANT_COLORCHECKER1976)
+CCS_COLORCHECKER1976: ColourChecker = ColourChecker(
+    'ColorChecker 1976', DATA_COLORCHECKER1976,
+    CCS_ILLUMINANT_COLORCHECKER1976)
 """
 *ColorChecker Classic* developed by *McCamy et al.* (1976) at Macbeth, a
 Division of Kollmorgen.
-
-CCS_COLORCHECKER1976 : ColourChecker
 """
 
-DATA_COLORCHECKER2005 = dict(
+DATA_COLORCHECKER2005: Dict = dict(
     zip(SAMPLE_LABELS_COLORCHECKER_CLASSIC, [
         np.array([0.4316, 0.3777, 0.1008]),
         np.array([0.4197, 0.3744, 0.3495]),
@@ -208,23 +205,19 @@ DATA_COLORCHECKER2005 = dict(
         np.array([0.3406, 0.3537, 0.0311]),
     ]))
 
-CCS_ILLUMINANT_COLORCHECKER2005 = (
+CCS_ILLUMINANT_COLORCHECKER2005: NDArray = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker Classic 2005* illuminant.
-
-CCS_ILLUMINANT_COLORCHECKER2005 : ndarray
 """
 
-CCS_COLORCHECKER2005 = ColourChecker('ColorChecker 2005',
-                                     DATA_COLORCHECKER2005,
-                                     CCS_ILLUMINANT_COLORCHECKER2005)
+CCS_COLORCHECKER2005: ColourChecker = ColourChecker(
+    'ColorChecker 2005', DATA_COLORCHECKER2005,
+    CCS_ILLUMINANT_COLORCHECKER2005)
 """
 *ColorChecker Classic* data from *GretagMacbeth (2005)*.
-
-CCS_COLORCHECKER2005 : ColourChecker
 """
-DATA_BABELCOLOR_AVERAGE = dict(
+DATA_BABELCOLOR_AVERAGE: Dict = dict(
     zip(SAMPLE_LABELS_COLORCHECKER_CLASSIC, [
         np.array([0.4325, 0.3788, 0.1034]),
         np.array([0.4191, 0.3748, 0.3525]),
@@ -252,24 +245,20 @@ DATA_BABELCOLOR_AVERAGE = dict(
         np.array([0.3439, 0.3565, 0.0320]),
     ]))
 
-CCS_ILLUMINANT_BABELCOLOR_AVERAGE = (
+CCS_ILLUMINANT_BABELCOLOR_AVERAGE: NDArray = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *BabelColor Average* illuminant.
-
-CCS_ILLUMINANT_BABELCOLOR_AVERAGE : ndarray
 """
 
-CCS_BABELCOLOR_AVERAGE = ColourChecker('BabelColor Average',
-                                       DATA_BABELCOLOR_AVERAGE,
-                                       CCS_ILLUMINANT_BABELCOLOR_AVERAGE)
+CCS_BABELCOLOR_AVERAGE: ColourChecker = ColourChecker(
+    'BabelColor Average', DATA_BABELCOLOR_AVERAGE,
+    CCS_ILLUMINANT_BABELCOLOR_AVERAGE)
 """
 Average data derived from measurements of 30 *ColorChecker Classic* charts.
-
-CCS_BABELCOLOR_AVERAGE : ColourChecker
 """
 
-DATA_COLORCHECKER24_BEFORE_NOV2014 = dict(
+DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB: Dict = dict(
     zip(SAMPLE_LABELS_COLORCHECKER_CLASSIC, [
         np.array([37.986, 13.555, 14.059]),
         np.array([65.711, 18.13, 17.81]),
@@ -296,36 +285,23 @@ DATA_COLORCHECKER24_BEFORE_NOV2014 = dict(
         np.array([35.656, -0.421, -1.231]),
         np.array([20.461, -0.079, -0.973]),
     ]))
-"""
-*ColorChecker24 - Before November 2014* illuminant.
 
-Notes
------
--   *X-Rite* data is given as *CIE L\\*a\\*b\\** colourspace values under
-    *CIE Illuminant D Series D50* for the
-    *CIE 1931 2 Degree Standard Observer*.
-
-DATA_COLORCHECKER24_BEFORE_NOV2014 : ndarray
-"""
-
-DATA_COLORCHECKER24_BEFORE_NOV2014 = dict(
+DATA_COLORCHECKER24_BEFORE_NOV2014: Dict = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         XYZ_to_xyY(
             Lab_to_XYZ(
-                list(DATA_COLORCHECKER24_BEFORE_NOV2014.values()),
+                list(DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB.values()),
                 CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
                     'ICC D50']))))
 
-CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014 = (
+CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014: NDArray = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker24 - Before November 2014* illuminant.
-
-CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014 : ndarray
 """
 
-CCS_COLORCHECKER24_BEFORE_NOV2014 = ColourChecker(
+CCS_COLORCHECKER24_BEFORE_NOV2014: ColourChecker = ColourChecker(
     'ColorChecker24 - Before November 2014',
     DATA_COLORCHECKER24_BEFORE_NOV2014,
     CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014)
@@ -337,11 +313,9 @@ Notes
 -   The rounded *ColorChecker24 - Before November 2014* values should match the
     *ColorChecker Classic 2005* values. They are given for reference of the
     original *CIE L\\*a\\*b\\** colourspace values.
-
-CCS_COLORCHECKER24_BEFORE_NOV2014 : ColourChecker
 """
 
-DATA_COLORCHECKER24_AFTER_NOV2014 = dict([
+DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB: Dict = dict([
     ('dark skin', np.array([37.54, 14.37, 14.92])),
     ('light skin', np.array([64.66, 19.27, 17.5])),
     ('blue sky', np.array([49.32, -3.82, -22.54])),
@@ -367,46 +341,31 @@ DATA_COLORCHECKER24_AFTER_NOV2014 = dict([
     ('neutral 3.5 (1.05 D)', np.array([35.63, -0.46, -0.48])),
     ('black 2 (1.5 D)', np.array([20.64, 0.07, -0.46])),
 ])
-"""
-*ColorChecker24 - After November 2014* illuminant.
 
-Notes
------
--   *X-Rite* data is given as *CIE L\\*a\\*b\\** colourspace values under
-    *CIE Illuminant D Series D50* for the
-    *CIE 1931 2 Degree Standard Observer*.
-
-DATA_COLORCHECKER24_AFTER_NOV2014 : ndarray
-"""
-
-DATA_COLORCHECKER24_AFTER_NOV2014 = dict(
+DATA_COLORCHECKER24_AFTER_NOV2014: Dict = dict(
     zip(
-        DATA_COLORCHECKER24_AFTER_NOV2014.keys(),
+        SAMPLE_LABELS_COLORCHECKER_CLASSIC,
         XYZ_to_xyY(
             Lab_to_XYZ(
-                list(DATA_COLORCHECKER24_AFTER_NOV2014.values()),
+                list(DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB.values()),
                 CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
                     'ICC D50']))))
 
-CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014 = (
+CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014: NDArray = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ICC D50'])
 """
 *ColorChecker24 - After November 2014* illuminant.
-
-CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014 : ndarray
 """
 
-CCS_COLORCHECKER24_AFTER_NOV2014 = ColourChecker(
+CCS_COLORCHECKER24_AFTER_NOV2014: ColourChecker = ColourChecker(
     'ColorChecker24 - After November 2014', DATA_COLORCHECKER24_AFTER_NOV2014,
     CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014)
 """
 Reference *ColorChecker Classic* data from *X-Rite (2015)* and matching the
 *ColorChecker Classic* edition after November 2014.
-
-CCS_COLORCHECKER24_AFTER_NOV2014 : ColourChecker
 """
 
-CCS_COLOURCHECKERS = CaseInsensitiveMapping({
+CCS_COLOURCHECKERS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'ColorChecker 1976':
         CCS_COLORCHECKER1976,
     'ColorChecker 2005':
@@ -424,11 +383,6 @@ Chromaticity coordinates of the colour checkers.
 References
 ----------
 :cite:`BabelColor2012b`, :cite:`BabelColor2012c`, :cite:`X-Rite2016`
-
-CCS_COLOURCHECKERS : CaseInsensitiveMapping
-    **{'ColorChecker 1976', 'ColorChecker 2005', 'BabelColor Average',
-    'ColorChecker24 - Before November 2014',
-    'ColorChecker24 - After November 2014'}**
 
 Aliases:
 

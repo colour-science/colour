@@ -26,10 +26,13 @@ References
     Application, 31(4), 320-330. doi:10.1002/col.20227
 """
 
+from __future__ import annotations
+
 import numpy as np
 from collections import namedtuple
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
+from colour.hints import Any, ArrayLike, NDArray
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
@@ -74,12 +77,12 @@ __all__ = [
 class Coefficients_UCS_Luo2006(
         namedtuple('Coefficients_UCS_Luo2006', ('K_L', 'c_1', 'c_2'))):
     """
-    Defines the the class storing *Luo et al. (2006)* fitting coefficients for
+    Defines the class storing *Luo et al. (2006)* fitting coefficients for
     the *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces.
     """
 
 
-COEFFICIENTS_UCS_LUO2006 = CaseInsensitiveMapping({
+COEFFICIENTS_UCS_LUO2006: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'CAM02-LCD': Coefficients_UCS_Luo2006(0.77, 0.007, 0.0053),
     'CAM02-SCD': Coefficients_UCS_Luo2006(1.24, 0.007, 0.0363),
     'CAM02-UCS': Coefficients_UCS_Luo2006(1.00, 0.007, 0.0228)
@@ -87,13 +90,11 @@ COEFFICIENTS_UCS_LUO2006 = CaseInsensitiveMapping({
 """
 *Luo et al. (2006)* fitting coefficients for the *CAM02-LCD*, *CAM02-SCD*, and
 *CAM02-UCS* colourspaces.
-
-COEFFICIENTS_UCS_LUO2006 : CaseInsensitiveMapping
-    **{'CAM02-LCD', 'CAM02-SCD', 'CAM02-UCS'}**
 """
 
 
-def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
+def JMh_CIECAM02_to_UCS_Luo2006(JMh: ArrayLike,
+                                coefficients: ArrayLike) -> NDArray:
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to one of the
     *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
@@ -106,15 +107,15 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
 
     Parameters
     ----------
-    JMh : array_like
+    JMh
         *CIECAM02* correlates array :math:`JMh`.
-    coefficients : array_like
+    coefficients
         Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
 
@@ -176,7 +177,8 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     return from_range_100(Jpapbp)
 
 
-def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
+def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp: ArrayLike,
+                                coefficients: ArrayLike) -> NDArray:
     """
     Converts from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
     *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIECAM02* :math:`JMh`
@@ -184,16 +186,16 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
 
     Parameters
     ----------
-    Jpapbp : array_like
+    Jpapbp
         *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
-    coefficients : array_like
+    coefficients
         Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIECAM02* correlates array :math:`JMh`.
 
     Notes
@@ -246,19 +248,19 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     return JMh
 
 
-def JMh_CIECAM02_to_CAM02LCD(JMh):
+def JMh_CIECAM02_to_CAM02LCD(JMh: ArrayLike) -> NDArray:
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
     *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
-    JMh : array_like
+    JMh
         *CIECAM02* correlates array :math:`JMh`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Notes
@@ -310,19 +312,19 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
         JMh, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
 
-def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
+def CAM02LCD_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArray:
     """
     Converts from *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
-    Jpapbp : array_like
+    Jpapbp
         *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIECAM02* correlates array :math:`JMh`.
 
     Notes
@@ -364,19 +366,19 @@ def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
         Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
 
-def JMh_CIECAM02_to_CAM02SCD(JMh):
+def JMh_CIECAM02_to_CAM02SCD(JMh: ArrayLike) -> NDArray:
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
     *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
-    JMh : array_like
+    JMh
         *CIECAM02* correlates array :math:`JMh`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Notes
@@ -428,19 +430,19 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
         JMh, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
 
 
-def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
+def CAM02SCD_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArray:
     """
     Converts from *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
-    Jpapbp : array_like
+    Jpapbp
         *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIECAM02* correlates array :math:`JMh`.
 
     Notes
@@ -482,19 +484,19 @@ def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
         Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
 
 
-def JMh_CIECAM02_to_CAM02UCS(JMh):
+def JMh_CIECAM02_to_CAM02UCS(JMh: ArrayLike) -> NDArray:
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
     *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
-    JMh : array_like
+    JMh
         *CIECAM02* correlates array :math:`JMh`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Notes
@@ -546,19 +548,19 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
         JMh, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
 
 
-def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
+def CAM02UCS_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArray:
     """
     Converts from *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
-    Jpapbp : array_like
+    Jpapbp
         *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIECAM02* correlates array :math:`JMh`.
 
     Notes
@@ -600,7 +602,8 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
         Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
 
 
-def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
+def XYZ_to_UCS_Luo2006(XYZ: ArrayLike, coefficients: ArrayLike,
+                       **kwargs: Any) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to one of the
     *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
@@ -608,24 +611,24 @@ def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    coefficients : array_like
+    coefficients
         Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
-        Please refer to the documentation of the previously listed definition.
-        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
-        luminance about 20% of a white object in the scene.
+        See the documentation of the previously listed definition. The default
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
+        20% of a white object in the scene.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
 
@@ -680,7 +683,8 @@ def XYZ_to_UCS_Luo2006(XYZ, coefficients, **kwargs):
     return JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients)
 
 
-def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
+def UCS_Luo2006_to_XYZ(Jpapbp: ArrayLike, coefficients: ArrayLike,
+                       **kwargs: Any) -> NDArray:
     """
     Converts from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
     *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus
@@ -688,25 +692,25 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
 
     Parameters
     ----------
-    Jpapbp : array_like
+    Jpapbp
         *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
-    coefficients : array_like
+    coefficients
         Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
-        Please refer to the documentation of the previously listed definition.
-        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
-        luminance about 20% of a white object in the scene.
+        See the documentation of the previously listed definition. The default
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
+        20% of a white object in the scene.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Warnings
@@ -769,28 +773,28 @@ def UCS_Luo2006_to_XYZ(Jpapbp, coefficients, **kwargs):
     return XYZ
 
 
-def XYZ_to_CAM02LCD(XYZ, **kwargs):
+def XYZ_to_CAM02LCD(XYZ: ArrayLike, **kwargs: Any) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
     *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
-        Please refer to the documentation of the previously listed definition.
-        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
-        luminance about 20% of a white object in the scene.
+        See the documentation of the previously listed definition. The default
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
+        20% of a white object in the scene.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Warnings
@@ -833,28 +837,28 @@ def XYZ_to_CAM02LCD(XYZ, **kwargs):
         XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'], **kwargs)
 
 
-def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
+def CAM02LCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArray:
     """
     Converts from *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
     array to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    Jpapbp : array_like
+    Jpapbp
         *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
-        Please refer to the documentation of the previously listed definition.
-        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
-        luminance about 20% of a white object in the scene.
+        See the documentation of the previously listed definition. The default
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
+        20% of a white object in the scene.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Warnings
@@ -897,28 +901,28 @@ def CAM02LCD_to_XYZ(Jpapbp, **kwargs):
         Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'], **kwargs)
 
 
-def XYZ_to_CAM02SCD(XYZ, **kwargs):
+def XYZ_to_CAM02SCD(XYZ: ArrayLike, **kwargs: Any) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
     *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
-        Please refer to the documentation of the previously listed definition.
-        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
-        luminance about 20% of a white object in the scene.
+        See the documentation of the previously listed definition. The default
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
+        20% of a white object in the scene.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Warnings
@@ -961,28 +965,28 @@ def XYZ_to_CAM02SCD(XYZ, **kwargs):
         XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'], **kwargs)
 
 
-def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
+def CAM02SCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArray:
     """
     Converts from *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
     array to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    Jpapbp : array_like
+    Jpapbp
         *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
-        Please refer to the documentation of the previously listed definition.
-        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
-        luminance about 20% of a white object in the scene.
+        See the documentation of the previously listed definition. The default
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
+        20% of a white object in the scene.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Warnings
@@ -1025,28 +1029,28 @@ def CAM02SCD_to_XYZ(Jpapbp, **kwargs):
         Jpapbp, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'], **kwargs)
 
 
-def XYZ_to_CAM02UCS(XYZ, **kwargs):
+def XYZ_to_CAM02UCS(XYZ: ArrayLike, **kwargs: Any) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
     *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
-        Please refer to the documentation of the previously listed definition.
-        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
-        luminance about 20% of a white object in the scene.
+        See the documentation of the previously listed definition. The default
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
+        20% of a white object in the scene.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Warnings
@@ -1089,28 +1093,28 @@ def XYZ_to_CAM02UCS(XYZ, **kwargs):
         XYZ, coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'], **kwargs)
 
 
-def CAM02UCS_to_XYZ(Jpapbp, **kwargs):
+def CAM02UCS_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArray:
     """
     Converts from *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
     array to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    Jpapbp : array_like
+    Jpapbp
         *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
-        Please refer to the documentation of the previously listed definition.
-        The default viewing conditions are that of *IEC 61966-2-1:1999*, i.e.
-        *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`, adapting field
-        luminance about 20% of a white object in the scene.
+        See the documentation of the previously listed definition. The default
+        viewing conditions are that of *IEC 61966-2-1:1999*, i.e. *sRGB* 64 Lux
+        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
+        20% of a white object in the scene.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Warnings

@@ -44,9 +44,12 @@ References
     engineering.
 """
 
+from __future__ import annotations
+
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping, LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -68,7 +71,7 @@ __all__ = [
     'SDS_COLOURCHECKERS',
 ]
 
-DATA_BABELCOLOR_AVERAGE = dict([
+DATA_BABELCOLOR_AVERAGE: Dict = dict([
     ('dark skin', {
         380: 0.055,
         390: 0.058,
@@ -983,17 +986,16 @@ DATA_BABELCOLOR_AVERAGE = dict([
     }),
 ])
 
-SDS_BABELCOLOR_AVERAGE = LazyCaseInsensitiveMapping(
-    (key, partial(SpectralDistribution, value, name=key))
-    for key, value in DATA_BABELCOLOR_AVERAGE.items())
+SDS_BABELCOLOR_AVERAGE: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        (key, partial(SpectralDistribution, value, name=key))
+        for key, value in DATA_BABELCOLOR_AVERAGE.items()))
 """
 Average data derived from measurements of 30 *ColorChecker Classic* charts.
 
 References
 ----------
 :cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
-
-SDS_BABELCOLOR_AVERAGE : dict
 """
 
 DATA_COLORCHECKER_N_OHTA = dict([
@@ -2991,20 +2993,19 @@ DATA_COLORCHECKER_N_OHTA = dict([
     }),
 ])
 
-SDS_COLORCHECKER_N_OHTA = LazyCaseInsensitiveMapping(
-    (key, partial(SpectralDistribution, value, name=key))
-    for key, value in DATA_COLORCHECKER_N_OHTA.items())
+SDS_COLORCHECKER_N_OHTA: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        (key, partial(SpectralDistribution, value, name=key))
+        for key, value in DATA_COLORCHECKER_N_OHTA.items()))
 """
 *ColorChecker Classic* data Measured by *Ohta (1997)*.
 
 References
 ----------
 :cite:`Ohta1997a`, :cite:`MunsellColorScienceb`
-
-SDS_COLORCHECKER_N_OHTA : dict
 """
 
-SDS_COLOURCHECKERS = CaseInsensitiveMapping({
+SDS_COLOURCHECKERS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'BabelColor Average': SDS_BABELCOLOR_AVERAGE,
     'ColorChecker N Ohta': SDS_COLORCHECKER_N_OHTA,
 })
@@ -3016,9 +3017,6 @@ References
 :cite:`Ohta1997a`, :cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
 :cite:`MunsellColorScienceb`,
 :cite:`InternationalOrganizationforStandardization2012`
-
-SDS_COLOURCHECKERS : CaseInsensitiveMapping
-    **{'BabelColor Average', 'ColorChecker N Ohta', 'ISO 17321-1'}**
 
 Notes
 -----

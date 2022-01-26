@@ -90,7 +90,7 @@ log_encoding_VLog` definition domain and range scale support.
         L_in = 0.18
         V_out = log_encoding_VLog(L_in)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -172,7 +172,7 @@ log_decoding_VLog` definition domain and range scale support.
         V_out = 0.423311448760136
         L_in = log_decoding_VLog(V_out)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

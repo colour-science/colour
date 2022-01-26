@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import annotations
+
 import sys
+
+from colour.hints import Dict
 
 from .data_structures import (
     Lookup,
@@ -39,21 +43,9 @@ from .common import (
     filter_kwargs,
     filter_mapping,
     first_item,
-    get_domain_range_scale,
-    set_domain_range_scale,
-    domain_range_scale,
-    to_domain_1,
-    to_domain_10,
-    to_domain_100,
-    to_domain_degrees,
-    to_domain_int,
-    from_range_1,
-    from_range_10,
-    from_range_100,
-    from_range_degrees,
-    from_range_int,
     copy_definition,
     validate_method,
+    optional,
 )
 from .verbose import (
     ColourWarning,
@@ -76,13 +68,27 @@ from .verbose import (
 from .array import (
     MixinDataclassArray,
     as_array,
-    as_int_array,
-    as_float_array,
-    as_numeric,
     as_int,
     as_float,
+    as_int_array,
+    as_float_array,
+    as_int_scalar,
+    as_float_scalar,
     set_float_precision,
     set_int_precision,
+    get_domain_range_scale,
+    set_domain_range_scale,
+    domain_range_scale,
+    to_domain_1,
+    to_domain_10,
+    to_domain_100,
+    to_domain_degrees,
+    to_domain_int,
+    from_range_1,
+    from_range_10,
+    from_range_100,
+    from_range_degrees,
+    from_range_int,
     closest_indexes,
     closest,
     interval,
@@ -150,21 +156,9 @@ __all__ += [
     'filter_kwargs',
     'filter_mapping',
     'first_item',
-    'get_domain_range_scale',
-    'set_domain_range_scale',
-    'domain_range_scale',
-    'to_domain_1',
-    'to_domain_10',
-    'to_domain_100',
-    'to_domain_degrees',
-    'to_domain_int',
-    'from_range_1',
-    'from_range_10',
-    'from_range_100',
-    'from_range_degrees',
-    'from_range_int',
     'copy_definition',
     'validate_method',
+    'optional',
 ]
 __all__ += [
     'ColourWarning',
@@ -187,13 +181,27 @@ __all__ += [
 __all__ += [
     'MixinDataclassArray',
     'as_array',
-    'as_int_array',
-    'as_float_array',
-    'as_numeric',
     'as_int',
     'as_float',
+    'as_int_array',
+    'as_float_array',
+    'as_int_scalar',
+    'as_float_scalar',
     'set_float_precision',
     'set_int_precision',
+    'get_domain_range_scale',
+    'set_domain_range_scale',
+    'domain_range_scale',
+    'to_domain_1',
+    'to_domain_10',
+    'to_domain_100',
+    'to_domain_degrees',
+    'to_domain_int',
+    'from_range_1',
+    'from_range_10',
+    'from_range_100',
+    'from_range_degrees',
+    'from_range_int',
     'closest_indexes',
     'closest',
     'normalise_maximum',
@@ -232,7 +240,7 @@ class utilities(ModuleAPI):
 
 
 # v0.4.0
-API_CHANGES = {
+API_CHANGES: Dict = {
     'ObjectFutureAccessChange': [
         [
             'colour.utilities.linstep_function',
@@ -259,11 +267,11 @@ API_CHANGES = {
 """
 Defines the *colour.utilities* sub-package API changes.
 
-API_CHANGES : dict
+API_CHANGES
 """
 
 if not is_documentation_building():
-    sys.modules['colour.utilities'] = utilities(
+    sys.modules['colour.utilities'] = utilities(  # type: ignore[assignment]
         sys.modules['colour.utilities'], build_API_changes(API_CHANGES))
 
     del ModuleAPI, is_documentation_building, build_API_changes, sys

@@ -15,7 +15,10 @@ References
     doi:10.1520/D2244-16
 """
 
+from __future__ import annotations
+
 from colour.algebra import euclidean_distance
+from colour.hints import ArrayLike, Boolean, FloatingOrNDArray
 from colour.models import Lab_to_DIN99
 from colour.utilities import get_domain_range_scale
 
@@ -31,25 +34,27 @@ __all__ = [
 ]
 
 
-def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
+def delta_E_DIN99(Lab_1: ArrayLike,
+                  Lab_2: ArrayLike,
+                  textiles: Boolean = False) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{DIN99}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *DIN99* formula.
 
     Parameters
     ----------
-    Lab_1 : array_like
+    Lab_1
         *CIE L\\*a\\*b\\** colourspace array 1.
-    Lab_2 : array_like
+    Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
-    textiles : bool, optional
+    textiles
         Textiles application specific parametric factors,
         :math:`k_E=2,\\ k_{CH}=0.5` weights are used instead of
         :math:`k_E=1,\\ k_{CH}=1`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{DIN99}`.
 
     Notes

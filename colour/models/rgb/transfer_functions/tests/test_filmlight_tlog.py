@@ -80,7 +80,7 @@ log_encoding_FilmLightTLog` definition domain and range scale support.
         x = 0.18
         t = log_encoding_FilmLightTLog(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -153,7 +153,7 @@ log_decoding_FilmLightTLog` definition domain and range scale support.
         t = 0.396567801298332
         x = log_decoding_FilmLightTLog(t)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

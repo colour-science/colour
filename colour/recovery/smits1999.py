@@ -12,9 +12,12 @@ References
     doi:10.1080/10867651.1999.10487511
 """
 
+from __future__ import annotations
+
 import numpy as np
 
-from colour.colorimetry import CCS_ILLUMINANTS
+from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
+from colour.hints import ArrayLike, NDArray
 from colour.models import (
     XYZ_to_RGB,
     normalised_primary_matrix,
@@ -38,32 +41,26 @@ __all__ = [
     'RGB_to_sd_Smits1999',
 ]
 
-PRIMARIES_SMITS1999 = RGB_COLOURSPACE_sRGB.primaries
+PRIMARIES_SMITS1999: NDArray = RGB_COLOURSPACE_sRGB.primaries
 """
 Current *Smits (1999)* method implementation colourspace primaries.
-
-PRIMARIES_SMITS1999 : ndarray, (3, 2)
 """
 
-CCS_WHITEPOINT_SMITS1999 = (
+CCS_WHITEPOINT_SMITS1999: NDArray = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
 """
 Current *Smits (1999)* method implementation colourspace whitepoint.
-
-CCS_WHITEPOINT_SMITS1999 : ndarray
 """
 
-MATRIX_XYZ_TO_RGB_SMITS1999 = np.linalg.inv(
+MATRIX_XYZ_TO_RGB_SMITS1999: NDArray = np.linalg.inv(
     normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999))
 """
 Current *Smits (1999)* method implementation *RGB* colourspace to
 *CIE XYZ* tristimulus values matrix.
-
-MATRIX_XYZ_TO_RGB_SMITS1999 : array_like, (3, 3)
 """
 
 
-def XYZ_to_RGB_Smits1999(XYZ):
+def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArray:
     """
     Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
     colourspace in conditions required by the current *Smits (1999)* method
@@ -71,12 +68,12 @@ def XYZ_to_RGB_Smits1999(XYZ):
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colour array.
 
     Examples
@@ -94,19 +91,19 @@ def XYZ_to_RGB_Smits1999(XYZ):
     )
 
 
-def RGB_to_sd_Smits1999(RGB):
+def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     """
     Recovers the spectral distribution of given *RGB* colourspace array using
     *Smits (1999)* method.
 
     Parameters
     ----------
-    RGB : array_like, (3,)
+    RGB
         *RGB* colourspace array to recover the spectral distribution from.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Recovered spectral distribution.
 
     Notes
@@ -165,7 +162,7 @@ def RGB_to_sd_Smits1999(RGB):
 
     R, G, B = to_domain_1(RGB)
     sd = white_sd.copy() * 0
-    sd.name = 'Smits (1999) - {0}'.format(RGB)
+    sd.name = 'Smits (1999) - {0!r}'.format(RGB)
 
     if R <= G and R <= B:
         sd += white_sd * R

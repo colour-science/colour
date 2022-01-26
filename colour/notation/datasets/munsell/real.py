@@ -33,7 +33,11 @@ References
     http://www.cis.rit.edu/research/mcsl2/online/munsell.php
 """
 
+from __future__ import annotations
+
 import numpy as np
+
+from colour.hints import Tuple
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -47,7 +51,7 @@ __all__ = [
 ]
 
 # yapf: disable
-MUNSELL_COLOURS_REAL = (
+MUNSELL_COLOURS_REAL: Tuple = (
     (('10RP', 1.0, 2.0), np.array([0.3629, 0.2710, 1.2100])),
     (('10RP', 1.0, 4.0), np.array([0.3920, 0.2423, 1.2100])),
     (('10RP', 1.0, 6.0), np.array([0.4151, 0.2169, 1.2100])),
@@ -2784,12 +2788,16 @@ MUNSELL_COLOURS_REAL = (
     (('7.5RP', 9.0, 6.0), np.array([0.3512, 0.3052, 78.6600])))
 # yapf: enable
 """
-*Real*, within MacAdam limits, published *Munsell* colours.
+*Real*, within MacAdam limits, published *Munsell* colours as a *tuple* as
+follows::
+
+    (
+        (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])),
+        ...,
+        (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])),
+    )
 
 References
 ----------
 :cite:`MunsellColorSciencec`
-
-MUNSELL_COLOURS_REAL : tuple
-(('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])))
 """

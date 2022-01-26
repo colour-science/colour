@@ -49,10 +49,13 @@ usp=sharing
     http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
+from __future__ import annotations
+
 from functools import partial
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -76,7 +79,7 @@ __all__ = [
     'SDS_LIGHT_SOURCES',
 ]
 
-DATA_LIGHT_SOURCES_RIT = {
+DATA_LIGHT_SOURCES_RIT: Dict = {
     'Natural': {
         380: 1.88,
         385: 2.24,
@@ -743,7 +746,9 @@ DATA_LIGHT_SOURCES_RIT = {
     }
 }
 
-SDS_LIGHT_SOURCES_RIT = LazyCaseInsensitiveMapping((
+SDS_LIGHT_SOURCES_RIT: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping((
     key,
     partial(
         SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
@@ -761,13 +766,9 @@ light source names cannot be accurately verified.
 References
 ----------
 :cite:`Pointer1980a`
-
-DATA_LIGHT_SOURCES_RIT : LazyCaseInsensitiveMapping
-    **{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
-    'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}**
 """
 
-DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
+DATA_LIGHT_SOURCES_NIST_TRADITIONAL: Dict = {
     'Cool White FL': {
         380: 0.03353465,
         385: 0.04082136,
@@ -1600,7 +1601,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
     }
 }
 
-SDS_LIGHT_SOURCES_NIST_TRADITIONAL = LazyCaseInsensitiveMapping((
+SDS_LIGHT_SOURCES_NIST_TRADITIONAL: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping((
     key,
     partial(
         SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
@@ -1612,13 +1615,9 @@ Spectral distributions of the traditional light sources from the *NIST*
 References
 ----------
 :cite:`Ohno2008a`
-
-SDS_LIGHT_SOURCES_NIST_TRADITIONAL : LazyCaseInsensitiveMapping
-    **{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
-    'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}**
 """
 
-DATA_LIGHT_SOURCES_NIST_LED = {
+DATA_LIGHT_SOURCES_NIST_LED: Dict = {
     '3-LED-1 (457/540/605)': {
         380: 8.47479023841784e-08,
         385: 5.45760813791522e-07,
@@ -2866,7 +2865,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
     }
 }
 
-SDS_LIGHT_SOURCES_NIST_LED = LazyCaseInsensitiveMapping((
+SDS_LIGHT_SOURCES_NIST_LED: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping((
     key,
     partial(
         SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
@@ -2874,16 +2875,9 @@ SDS_LIGHT_SOURCES_NIST_LED = LazyCaseInsensitiveMapping((
 SDS_LIGHT_SOURCES_NIST_LED.__doc__ = """
 Spectral distributions of the LED light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet.
-
-SDS_LIGHT_SOURCES_NIST_LED : LazyCaseInsensitiveMapping
-    **{'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
-    '3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
-    '4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
-    'Luxeon WW 2880', 'PHOS-1', 'PHOS-2', 'PHOS-3', 'PHOS-4',
-    'Phosphor LED YAG'}**
 """
 
-DATA_LIGHT_SOURCES_NIST_PHILIPS = {
+DATA_LIGHT_SOURCES_NIST_PHILIPS: Dict = {
     '60 A/W (Soft White)': {
         380: 0.0221129274,
         385: 0.0257550191,
@@ -4712,7 +4706,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
     }
 }
 
-SDS_LIGHT_SOURCES_NIST_PHILIPS = LazyCaseInsensitiveMapping((
+SDS_LIGHT_SOURCES_NIST_PHILIPS: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping((
     key,
     partial(
         SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
@@ -4720,20 +4716,9 @@ SDS_LIGHT_SOURCES_NIST_PHILIPS = LazyCaseInsensitiveMapping((
 SDS_LIGHT_SOURCES_NIST_PHILIPS.__doc__ = """
 Spectral distributions of the Philips light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet.
-
-SDS_LIGHT_SOURCES_NIST_PHILIPS : LazyCaseInsensitiveMapping
-    **{'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
-    'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
-    'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
-    'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
-    'F34T12/LW/RS /EW', 'F34T12WW/RS /EW (Warm White FL)',
-    'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)',
-    'F40/CWX (Broadband FL)', 'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)',
-    'F40/N (Natural FL)', 'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)',
-    'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}**
 """
 
-DATA_LIGHT_SOURCES_COMMON = {
+DATA_LIGHT_SOURCES_COMMON: Dict = {
     'Kinoton 75P': {
         380: 0.0001099667,
         382: 0.0001415667,
@@ -4939,26 +4924,25 @@ DATA_LIGHT_SOURCES_COMMON = {
     }
 }
 
-SDS_LIGHT_SOURCES_COMMON = LazyCaseInsensitiveMapping({
-    'Kinoton 75P':
-        partial(
-            SpectralDistribution,
-            DATA_LIGHT_SOURCES_COMMON['Kinoton 75P'],
-            name='Kinoton 75P',
-            interpolator=LinearInterpolator)
-})
+SDS_LIGHT_SOURCES_COMMON: (
+    LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping({
+        'Kinoton 75P':
+            partial(
+                SpectralDistribution,
+                DATA_LIGHT_SOURCES_COMMON['Kinoton 75P'],
+                name='Kinoton 75P',
+                interpolator=LinearInterpolator)
+    })
 """
 Spectral distributions of the common light sources.
 
 References
 ----------
 :cite:`Houston2015a`
-
-SDS_LIGHT_SOURCES_COMMON : LazyCaseInsensitiveMapping
-    **{'Kinoton 75P', }**
 """
 
-SDS_LIGHT_SOURCES = LazyCaseInsensitiveMapping(SDS_LIGHT_SOURCES_RIT)
+SDS_LIGHT_SOURCES: (LazyCaseInsensitiveMapping
+                    ) = LazyCaseInsensitiveMapping(SDS_LIGHT_SOURCES_RIT)
 SDS_LIGHT_SOURCES.__doc__ = """
 Spectral distributions of the light sources.
 
@@ -4971,8 +4955,6 @@ Notes
 References
 ----------
 :cite:`Houston2015a`, :cite:`Ohno2008a`, :cite:`Pointer1980a`
-
-SDS_LIGHT_SOURCES : LazyCaseInsensitiveMapping
 """
 
 SDS_LIGHT_SOURCES.update(SDS_LIGHT_SOURCES_NIST_TRADITIONAL)

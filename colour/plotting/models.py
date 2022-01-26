@@ -41,13 +41,15 @@ References
     doi:10.5281/zenodo.3362520
 """
 
+from __future__ import annotations
+
+import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize
-from collections.abc import Mapping
-
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
 
+from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import EPSILON
 from colour.algebra import (
     point_at_angle_on_ellipse,
@@ -55,6 +57,21 @@ from colour.algebra import (
     ellipse_fitting,
 )
 from colour.graph import convert
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    Callable,
+    Dict,
+    List,
+    Literal,
+    NDArray,
+    Optional,
+    Sequence,
+    Tuple,
+    Union,
+    cast,
+)
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS,
     COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
@@ -67,6 +84,7 @@ from colour.models import (
     CCS_POINTER_GAMUT_BOUNDARY,
     DATA_POINTER_GAMUT_VOLUME,
     CCS_ILLUMINANT_POINTER_GAMUT,
+    RGB_Colourspace,
     RGB_to_RGB,
     RGB_to_XYZ,
     UCS_to_uv,
@@ -96,10 +114,12 @@ from colour.plotting import (
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_array,
     as_float_array,
     as_int_array,
     domain_range_scale,
     first_item,
+    optional,
     tsplit,
     validate_method,
 )
@@ -133,62 +153,67 @@ __all__ = [
     'plot_constant_hue_loci',
 ]
 
-COLOURSPACE_MODELS_AXIS_ORDER = CaseInsensitiveMapping({
-    'CAM02LCD': (1, 2, 0),
-    'CAM02SCD': (1, 2, 0),
-    'CAM02UCS': (1, 2, 0),
-    'CAM16LCD': (1, 2, 0),
-    'CAM16SCD': (1, 2, 0),
-    'CAM16UCS': (1, 2, 0),
-    'CIE XYZ': (0, 1, 2),
-    'CIE xyY': (0, 1, 2),
-    'CIE Lab': (1, 2, 0),
-    'CIE LCHab': (1, 2, 0),
-    'CIE Luv': (1, 2, 0),
-    'CIE LCHuv': (1, 2, 0),
-    'CIE UCS': (0, 1, 2),
-    'CIE UVW': (1, 2, 0),
-    'DIN99': (1, 2, 0),
-    'Hunter Lab': (1, 2, 0),
-    'Hunter Rdab': (1, 2, 0),
-    'ICaCb': (1, 2, 0),
-    'ICtCp': (1, 2, 0),
-    'IPT': (1, 2, 0),
-    'IgPgTg': (1, 2, 0),
-    'Jzazbz': (1, 2, 0),
-    'OSA UCS': (1, 2, 0),
-    'Oklab': (1, 2, 0),
-    'hdr-CIELAB': (1, 2, 0),
-    'hdr-IPT': (1, 2, 0),
-})
+COLOURSPACE_MODELS_AXIS_ORDER: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        'CAM02LCD': (1, 2, 0),
+        'CAM02SCD': (1, 2, 0),
+        'CAM02UCS': (1, 2, 0),
+        'CAM16LCD': (1, 2, 0),
+        'CAM16SCD': (1, 2, 0),
+        'CAM16UCS': (1, 2, 0),
+        'CIE XYZ': (0, 1, 2),
+        'CIE xyY': (0, 1, 2),
+        'CIE Lab': (1, 2, 0),
+        'CIE LCHab': (1, 2, 0),
+        'CIE Luv': (1, 2, 0),
+        'CIE LCHuv': (1, 2, 0),
+        'CIE UCS': (0, 1, 2),
+        'CIE UVW': (1, 2, 0),
+        'DIN99': (1, 2, 0),
+        'Hunter Lab': (1, 2, 0),
+        'Hunter Rdab': (1, 2, 0),
+        'ICaCb': (1, 2, 0),
+        'ICtCp': (1, 2, 0),
+        'IPT': (1, 2, 0),
+        'IgPgTg': (1, 2, 0),
+        'Jzazbz': (1, 2, 0),
+        'OSA UCS': (1, 2, 0),
+        'Oklab': (1, 2, 0),
+        'hdr-CIELAB': (1, 2, 0),
+        'hdr-IPT': (1, 2, 0),
+    })
 """
 Colourspace models axis order.
-
-COLOURSPACE_MODELS_AXIS_ORDER : CaseInsensitiveMapping
-    **{'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD', 'CAM16UCS',
-    'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv',
-    'CIE UCS', 'CIE UVW', 'DIN99', 'Hunter Lab', 'Hunter Rdab', 'ICaCb',
-    'ICtCp', 'IPT', 'IgPgTg', 'Jzazbz', 'OSA UCS', 'Oklab', 'hdr-CIELAB',
-    'hdr-IPT'}**
 """
 
 
-def colourspace_model_axis_reorder(a, model, direction='Forward'):
+def colourspace_model_axis_reorder(
+        a: ArrayLike,
+        model: Union[Literal[
+            'CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD',
+            'CAM16UCS', 'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab',
+            'CIE Luv', 'CIE LCHuv', 'CIE UCS', 'CIE UVW', 'DIN99',
+            'Hunter Lab', 'Hunter Rdab', 'ICaCb', 'ICtCp', 'IPT', 'IgPgTg',
+            'Jzazbz', 'OSA UCS', 'Oklab', 'hdr-CIELAB', 'hdr-IPT'], str],
+        direction: Union[Literal['Forward', 'Inverse'], str] = 'Forward'
+) -> NDArray:
     """
     Reorder the axes of given colourspace model :math:`a` array according to
     the most common volume plotting axes order.
 
     Parameters
     ----------
-    a : array_like
+    a
         Colourspace model :math:`a` array.
-    model : str
+    model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
+    direction
+        Reordering direction.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Reordered colourspace model :math:`a` array.
 
     Examples
@@ -225,25 +250,26 @@ def colourspace_model_axis_reorder(a, model, direction='Forward'):
 
 
 @override_style()
-def plot_pointer_gamut(method='CIE 1931', **kwargs):
+def plot_pointer_gamut(method: Union[Literal[
+        'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'], str] = 'CIE 1931',
+                       **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots *Pointer's Gamut* according to given method.
 
     Parameters
     ----------
-    method : str, optional
-        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+    method
         Plotting method.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -259,7 +285,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
     method = validate_method(method,
                              ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
@@ -346,60 +372,66 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram(
-        colourspaces,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        chromaticity_diagram_callable=plot_chromaticity_diagram,
-        method='CIE 1931',
-        show_whitepoints=True,
-        show_pointer_gamut=False,
-        chromatically_adapt=False,
-        plot_kwargs=None,
-        **kwargs):
+        colourspaces: Union[RGB_Colourspace, str, Sequence[Union[
+            RGB_Colourspace, str]]],
+        cmfs: Union[MultiSpectralDistributions, str, Sequence[
+            Union[MultiSpectralDistributions,
+                  str]]] = 'CIE 1931 2 Degree Standard Observer',
+        chromaticity_diagram_callable: Callable = (
+            plot_chromaticity_diagram  # type: ignore[has-type]
+        ),
+        method: Union[Literal['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'],
+                      str] = 'CIE 1931',
+        show_whitepoints: Boolean = True,
+        show_pointer_gamut: Boolean = False,
+        chromatically_adapt: Boolean = False,
+        plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspaces in the *Chromaticity Diagram* according
     to given method.
 
     Parameters
     ----------
-    colourspaces : str or RGB_Colourspace or array_like
+    colourspaces
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : str or XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
-    method : str, optional
-        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+    method
         *Chromaticity Diagram* method.
-    show_whitepoints : bool, optional
+    show_whitepoints
         Whether to display the *RGB* colourspaces whitepoints.
-    show_pointer_gamut : bool, optional
+    show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
-    chromatically_adapt : bool, optional
+    chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
-    plot_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.plot` definition, used to control
-        the style of the plotted *RGB* colourspaces. ``plot_kwargs`` can be
-        either a single dictionary applied to all the plotted *RGB*
-        colourspaces with same settings or a sequence of dictionaries with
-        different settings for each plotted *RGB* colourspace.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
+        used to control the style of the plotted *RGB* colourspaces.
+        ``plot_kwargs`` can be either a single dictionary applied to all the
+        plotted *RGB* colourspaces with the same settings or a sequence of
+        dictionaries with different settings for each plotted *RGB*
+        colourspace.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.plot_pointer_gamut`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -420,16 +452,19 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         :alt: plot_RGB_colourspaces_in_chromaticity_diagram
     """
 
-    colourspaces = filter_RGB_colourspaces(colourspaces).values()
     method = validate_method(method,
                              ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
 
-    settings = {'uniform': True}
+    colourspaces = cast(List[RGB_Colourspace],
+                        list(filter_RGB_colourspaces(colourspaces).values()))
+
+    settings: Dict[str, Any] = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    cmfs = first_item(filter_cmfs(cmfs).values())
+    cmfs = cast(MultiSpectralDistributions,
+                first_item(filter_cmfs(cmfs).values()))
 
     title = '{0}\n{1} - {2} Chromaticity Diagram'.format(
         ', '.join([colourspace.name for colourspace in colourspaces]),
@@ -558,55 +593,60 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-        colourspaces,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        chromaticity_diagram_callable_CIE1931=(
-            plot_chromaticity_diagram_CIE1931),
-        show_whitepoints=True,
-        show_pointer_gamut=False,
-        chromatically_adapt=False,
-        plot_kwargs=None,
-        **kwargs):
+        colourspaces: Union[RGB_Colourspace, str, Sequence[Union[
+            RGB_Colourspace, str]]],
+        cmfs: Union[MultiSpectralDistributions, str, Sequence[
+            Union[MultiSpectralDistributions,
+                  str]]] = 'CIE 1931 2 Degree Standard Observer',
+        chromaticity_diagram_callable_CIE1931: Callable = (
+            plot_chromaticity_diagram_CIE1931  # type: ignore[has-type]
+        ),
+        show_whitepoints: Boolean = True,
+        show_pointer_gamut: Boolean = False,
+        chromatically_adapt: Boolean = False,
+        plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
-    colourspaces : str or RGB_Colourspace or array_like
+    colourspaces
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : str or XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    chromaticity_diagram_callable_CIE1931 : callable, optional
+    chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
-    show_whitepoints : bool, optional
+    show_whitepoints
         Whether to display the *RGB* colourspaces whitepoints.
-    show_pointer_gamut : bool, optional
+    show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
-    chromatically_adapt : bool, optional
+    chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
-    plot_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.plot` definition, used to control
-        the style of the plotted *RGB* colourspaces. ``plot_kwargs`` can be
-        either a single dictionary applied to all the plotted *RGB*
-        colourspaces with same settings or a sequence of dictionaries with
-        different settings for each plotted *RGB* colourspace.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
+        used to control the style of the plotted *RGB* colourspaces.
+        ``plot_kwargs`` can be either a single dictionary applied to all the
+        plotted *RGB* colourspaces with the same settings or a sequence of
+        dictionaries with different settings for each plotted *RGB*
+        colourspace.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -638,56 +678,61 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
-        colourspaces,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        chromaticity_diagram_callable_CIE1960UCS=(
-            plot_chromaticity_diagram_CIE1960UCS),
-        show_whitepoints=True,
-        show_pointer_gamut=False,
-        chromatically_adapt=False,
-        plot_kwargs=None,
-        **kwargs):
+        colourspaces: Union[RGB_Colourspace, str, Sequence[Union[
+            RGB_Colourspace, str]]],
+        cmfs: Union[MultiSpectralDistributions, str, Sequence[
+            Union[MultiSpectralDistributions,
+                  str]]] = 'CIE 1931 2 Degree Standard Observer',
+        chromaticity_diagram_callable_CIE1960UCS: Callable = (
+            plot_chromaticity_diagram_CIE1960UCS  # type: ignore[has-type]
+        ),
+        show_whitepoints: Boolean = True,
+        show_pointer_gamut: Boolean = False,
+        chromatically_adapt: Boolean = False,
+        plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    colourspaces : str or RGB_Colourspace or array_like
+    colourspaces
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : str or XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    chromaticity_diagram_callable_CIE1960UCS : callable, optional
+    chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
-    show_whitepoints : bool, optional
+    show_whitepoints
         Whether to display the *RGB* colourspaces whitepoints.
-    show_pointer_gamut : bool, optional
+    show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
-    chromatically_adapt : bool, optional
+    chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
-    plot_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.plot` definition, used to control
-        the style of the plotted *RGB* colourspaces. ``plot_kwargs`` can be
-        either a single dictionary applied to all the plotted *RGB*
-        colourspaces with same settings or a sequence of dictionaries with
-        different settings for each plotted *RGB* colourspace.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
+        used to control the style of the plotted *RGB* colourspaces.
+        ``plot_kwargs`` can be either a single dictionary applied to all the
+        plotted *RGB* colourspaces with the same settings or a sequence of
+        dictionaries with different settings for each plotted *RGB*
+        colourspace.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -719,56 +764,61 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
-        colourspaces,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        chromaticity_diagram_callable_CIE1976UCS=(
-            plot_chromaticity_diagram_CIE1976UCS),
-        show_whitepoints=True,
-        show_pointer_gamut=False,
-        chromatically_adapt=False,
-        plot_kwargs=None,
-        **kwargs):
+        colourspaces: Union[RGB_Colourspace, str, Sequence[Union[
+            RGB_Colourspace, str]]],
+        cmfs: Union[MultiSpectralDistributions, str, Sequence[
+            Union[MultiSpectralDistributions,
+                  str]]] = 'CIE 1931 2 Degree Standard Observer',
+        chromaticity_diagram_callable_CIE1976UCS: Callable = (
+            plot_chromaticity_diagram_CIE1976UCS  # type: ignore[has-type]
+        ),
+        show_whitepoints: Boolean = True,
+        show_pointer_gamut: Boolean = False,
+        chromatically_adapt: Boolean = False,
+        plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    colourspaces : str or RGB_Colourspace or array_like
+    colourspaces
         *RGB* colourspaces to plot. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    cmfs : str or XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    chromaticity_diagram_callable_CIE1976UCS : callable, optional
+    chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
-    show_whitepoints : bool, optional
+    show_whitepoints
         Whether to display the *RGB* colourspaces whitepoints.
-    show_pointer_gamut : bool, optional
+    show_pointer_gamut
         Whether to display the *Pointer's Gamut*.
-    chromatically_adapt : bool, optional
+    chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
-    plot_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.plot` definition, used to control
-        the style of the plotted *RGB* colourspaces. ``plot_kwargs`` can be
-        either a single dictionary applied to all the plotted *RGB*
-        colourspaces with same settings or a sequence of dictionaries with
-        different settings for each plotted *RGB* colourspace.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
+        used to control the style of the plotted *RGB* colourspaces.
+        ``plot_kwargs`` can be either a single dictionary applied to all the
+        plotted *RGB* colourspaces with the same settings or a sequence of
+        dictionaries with different settings for each plotted *RGB*
+        colourspace.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -800,51 +850,51 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
 
 @override_style()
 def plot_RGB_chromaticities_in_chromaticity_diagram(
-        RGB,
-        colourspace='sRGB',
-        chromaticity_diagram_callable=(
+        RGB: ArrayLike,
+        colourspace: Union[RGB_Colourspace, str, Sequence[Union[
+            RGB_Colourspace, str]]] = 'sRGB',
+        chromaticity_diagram_callable: Callable = (
             plot_RGB_colourspaces_in_chromaticity_diagram),
-        method='CIE 1931',
-        scatter_kwargs=None,
-        **kwargs):
+        method: Union[Literal['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'],
+                      str] = 'CIE 1931',
+        scatter_kwargs: Optional[Dict] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspace array in the *Chromaticity Diagram* according
     to given method.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
-    colourspace : str or RGB_Colourspace, optional
+    colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
-    method : str, optional
-        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+    method
         *Chromaticity Diagram* method.
-    scatter_kwargs : dict, optional
-        Keyword arguments for the :func:`plt.scatter` definition. The following
-        special keyword arguments can also be used:
+    scatter_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
+        The following special keyword arguments can also be used:
 
-        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
-            will use the colours as given by the ``RGB`` argument.
-
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
+            as given by the ``RGB`` argument.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.diagrams.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -865,7 +915,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     method = validate_method(method,
                              ['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'])
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
@@ -882,7 +932,10 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     settings = dict(kwargs)
     settings.update({'axes': axes, 'standalone': False})
 
-    colourspace = first_item(filter_RGB_colourspaces(colourspace).values())
+    colourspace = cast(
+        RGB_Colourspace,
+        first_item(filter_RGB_colourspaces(colourspace).values()))
+
     settings['colourspaces'] = (
         ['^{0}$'.format(colourspace.name)] + settings.get('colourspaces', []))
 
@@ -921,45 +974,46 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
-        RGB,
-        colourspace='sRGB',
-        chromaticity_diagram_callable_CIE1931=(
+        RGB: ArrayLike,
+        colourspace: Union[RGB_Colourspace, str, Sequence[Union[
+            RGB_Colourspace, str]]] = 'sRGB',
+        chromaticity_diagram_callable_CIE1931: Callable = (
             plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931),
-        scatter_kwargs=None,
-        **kwargs):
+        scatter_kwargs: Optional[Dict] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
-    colourspace : str or RGB_Colourspace, optional
+    colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    chromaticity_diagram_callable_CIE1931 : callable, optional
+    chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
-    scatter_kwargs : dict, optional
-        Keyword arguments for the :func:`plt.scatter` definition. The following
-        special keyword arguments can also be used:
+    scatter_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
+        The following special keyword arguments can also be used:
 
-        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
-            will use the colours as given by the ``RGB`` argument.
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
+            as given by the ``RGB`` argument.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.diagrams.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -989,47 +1043,48 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
-        RGB,
-        colourspace='sRGB',
-        chromaticity_diagram_callable_CIE1960UCS=(
+        RGB: ArrayLike,
+        colourspace: Union[RGB_Colourspace, str, Sequence[Union[
+            RGB_Colourspace, str]]] = 'sRGB',
+        chromaticity_diagram_callable_CIE1960UCS: Callable = (
             plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS),
-        scatter_kwargs=None,
-        **kwargs):
+        scatter_kwargs: Optional[Dict] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspace array in the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
-    colourspace : str or RGB_Colourspace, optional
+    colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    chromaticity_diagram_callable_CIE1960UCS : callable, optional
+    chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
-    scatter_kwargs : dict, optional
-        Keyword arguments for the :func:`plt.scatter` definition. The following
-        special keyword arguments can also be used:
+    scatter_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
+        The following special keyword arguments can also be used:
 
-        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
-            will use the colours as given by the ``RGB`` argument.
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
+            as given by the ``RGB`` argument.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.diagrams.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1059,47 +1114,48 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
-        RGB,
-        colourspace='sRGB',
-        chromaticity_diagram_callable_CIE1976UCS=(
+        RGB: ArrayLike,
+        colourspace: Union[RGB_Colourspace, str, Sequence[Union[
+            RGB_Colourspace, str]]] = 'sRGB',
+        chromaticity_diagram_callable_CIE1976UCS: Callable = (
             plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS),
-        scatter_kwargs=None,
-        **kwargs):
+        scatter_kwargs: Optional[Dict] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspace array in the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
-    colourspace : str or RGB_Colourspace, optional
+    colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    chromaticity_diagram_callable_CIE1976UCS : callable, optional
+    chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
-    scatter_kwargs : dict, optional
-        Keyword arguments for the :func:`plt.scatter` definition. The following
-        special keyword arguments can also be used:
+    scatter_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
+        The following special keyword arguments can also be used:
 
-        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
-            will use the colours as given by the ``RGB`` argument.
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
+            as given by the ``RGB`` argument.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.diagrams.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1127,20 +1183,20 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
         **settings)
 
 
-def ellipses_MacAdam1942(method='CIE 1931'):
+def ellipses_MacAdam1942(method: Union[Literal[
+        'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'], str] = 'CIE 1931'):
     """
     Returns *MacAdam (1942) Ellipses (Observer PGN)* coefficients according to
     given method.
 
     Parameters
     ----------
-    method : str, optional
-        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+    method
         Computation method.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1201,25 +1257,27 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
 @override_style()
 def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
-        chromaticity_diagram_callable=plot_chromaticity_diagram,
-        method='CIE 1931',
-        chromaticity_diagram_clipping=False,
-        ellipse_kwargs=None,
-        **kwargs):
+        chromaticity_diagram_callable: Callable = (
+            plot_chromaticity_diagram  # type: ignore[has-type]
+        ),
+        method: Union[Literal['CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'],
+                      str] = 'CIE 1931',
+        chromaticity_diagram_clipping: Boolean = False,
+        ellipse_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
     *Chromaticity Diagram* according to given method.
 
     Parameters
     ----------
-    chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
-    method : str, optional
-        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+    method
         *Chromaticity Diagram* method.
-    chromaticity_diagram_clipping : bool, optional,
+    chromaticity_diagram_clipping
         Whether to clip the *Chromaticity Diagram* colours with the ellipses.
-    ellipse_kwargs : dict or array_like, optional
+    ellipse_kwargs
         Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
         be either a single dictionary applied to all the ellipses with same
         settings or a sequence of dictionaries with different settings for each
@@ -1227,15 +1285,15 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1250,7 +1308,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram
     """
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
@@ -1309,23 +1367,24 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
-        chromaticity_diagram_callable_CIE1931=(
-            plot_chromaticity_diagram_CIE1931),
-        chromaticity_diagram_clipping=False,
-        ellipse_kwargs=None,
-        **kwargs):
+        chromaticity_diagram_callable_CIE1931: Callable = (
+            plot_chromaticity_diagram_CIE1931  # type: ignore[has-type]
+        ),
+        chromaticity_diagram_clipping: Boolean = False,
+        ellipse_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
-    chromaticity_diagram_callable_CIE1931 : callable, optional
+    chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
-    chromaticity_diagram_clipping : bool, optional,
+    chromaticity_diagram_clipping
         Whether to clip the *CIE 1931 Chromaticity Diagram* colours with the
         ellipses.
-    ellipse_kwargs : dict or array_like, optional
+    ellipse_kwargs
         Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
         be either a single dictionary applied to all the ellipses with same
         settings or a sequence of dictionaries with different settings for each
@@ -1333,17 +1392,17 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1370,24 +1429,25 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1931.png
 
 @override_style()
 def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
-        chromaticity_diagram_callable_CIE1960UCS=(
-            plot_chromaticity_diagram_CIE1960UCS),
-        chromaticity_diagram_clipping=False,
-        ellipse_kwargs=None,
-        **kwargs):
+        chromaticity_diagram_callable_CIE1960UCS: Callable = (
+            plot_chromaticity_diagram_CIE1960UCS  # type: ignore[has-type]
+        ),
+        chromaticity_diagram_clipping: Boolean = False,
+        ellipse_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    chromaticity_diagram_callable_CIE1960UCS : callable, optional
+    chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
-    chromaticity_diagram_clipping : bool, optional,
+    chromaticity_diagram_clipping
         Whether to clip the *CIE 1960 UCS Chromaticity Diagram* colours with
         the ellipses.
-    ellipse_kwargs : dict or array_like, optional
+    ellipse_kwargs
         Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
         be either a single dictionary applied to all the ellipses with same
         settings or a sequence of dictionaries with different settings for each
@@ -1395,17 +1455,17 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1432,24 +1492,25 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1960UCS.png
 
 @override_style()
 def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
-        chromaticity_diagram_callable_CIE1976UCS=(
-            plot_chromaticity_diagram_CIE1976UCS),
-        chromaticity_diagram_clipping=False,
-        ellipse_kwargs=None,
-        **kwargs):
+        chromaticity_diagram_callable_CIE1976UCS: Callable = (
+            plot_chromaticity_diagram_CIE1976UCS  # type: ignore[has-type]
+        ),
+        chromaticity_diagram_clipping: Boolean = False,
+        ellipse_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    chromaticity_diagram_callable_CIE1976UCS : callable, optional
+    chromaticity_diagram_callable_CIE1976UCS
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
-    chromaticity_diagram_clipping : bool, optional,
+    chromaticity_diagram_clipping
         Whether to clip the *CIE 1976 UCS Chromaticity Diagram* colours with
         the ellipses.
-    ellipse_kwargs : dict or array_like, optional
+    ellipse_kwargs
         Parameters for the :class:`Ellipse` class, ``ellipse_kwargs`` can
         be either a single dictionary applied to all the ellipses with same
         settings or a sequence of dictionaries with different settings for each
@@ -1457,17 +1518,17 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram`},
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1493,30 +1554,32 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
 
 
 @override_style()
-def plot_single_cctf(cctf, cctf_decoding=False, **kwargs):
+def plot_single_cctf(cctf: Union[Callable, str],
+                     cctf_decoding: Boolean = False,
+                     **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given colourspace colour component transfer function.
 
     Parameters
     ----------
-    cctf : str or object
+    cctf
         Colour component transfer function to plot. ``function`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
-    cctf_decoding : bool
+    cctf_decoding
         Plot the decoding colour component transfer function instead.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1529,7 +1592,7 @@ def plot_single_cctf(cctf, cctf_decoding=False, **kwargs):
         :alt: plot_single_cctf
     """
 
-    settings = {
+    settings: Dict[str, Any] = {
         'title':
             '{0} - {1} CCTF'.format(
                 cctf, 'Decoding' if cctf_decoding else 'Encoding')
@@ -1540,30 +1603,33 @@ def plot_single_cctf(cctf, cctf_decoding=False, **kwargs):
 
 
 @override_style()
-def plot_multi_cctfs(cctfs, cctf_decoding=False, **kwargs):
+def plot_multi_cctfs(
+        cctfs: Union[Callable, str, Sequence[Union[Callable, str]]],
+        cctf_decoding: Boolean = False,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given colour component transfer functions.
 
     Parameters
     ----------
-    cctfs : str or object or array_like, optional
+    cctfs
         Colour component transfer function to plot. ``cctfs`` elements can be
         of any type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
-    cctf_decoding : bool
+    cctf_decoding
         Plot the decoding colour component transfer function instead.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1576,13 +1642,14 @@ def plot_multi_cctfs(cctfs, cctf_decoding=False, **kwargs):
         :alt: plot_multi_cctfs
     """
 
-    cctfs = filter_passthrough(
+    cctfs_filtered = filter_passthrough(
         CCTF_DECODINGS if cctf_decoding else CCTF_ENCODINGS, cctfs)
 
     mode = 'Decoding' if cctf_decoding else 'Encoding'
-    title = '{0} - {1} CCTFs'.format(', '.join([cctf for cctf in cctfs]), mode)
+    title = '{0} - {1} CCTFs'.format(
+        ', '.join([cctf for cctf in cctfs_filtered]), mode)
 
-    settings = {
+    settings: Dict[str, Any] = {
         'bounding_box': (0, 1, 0, 1),
         'legend': True,
         'title': title,
@@ -1591,16 +1658,22 @@ def plot_multi_cctfs(cctfs, cctf_decoding=False, **kwargs):
     }
     settings.update(kwargs)
 
-    with domain_range_scale(1):
-        return plot_multi_functions(cctfs, **settings)
+    with domain_range_scale('1'):
+        return plot_multi_functions(cctfs_filtered, **settings)
 
 
 @override_style()
-def plot_constant_hue_loci(data,
-                           model,
-                           scatter_kwargs=None,
-                           convert_kwargs=None,
-                           **kwargs):
+def plot_constant_hue_loci(
+        data: ArrayLike,
+        model: Union[
+            Literal['CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD', 'CAM16SCD',
+                    'CAM16UCS', 'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv',
+                    'CIE UCS', 'CIE UVW', 'DIN99', 'Hunter Lab', 'Hunter Rdab',
+                    'ICaCb', 'ICtCp', 'IPT', 'IgPgTg', 'Jzazbz', 'OSA UCS',
+                    'Oklab', 'hdr-CIELAB', 'hdr-IPT'], str],
+        scatter_kwargs: Optional[Dict] = None,
+        convert_kwargs: Optional[Dict] = None,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given constant hue loci colour matches data such as that from
     :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with
@@ -1608,17 +1681,17 @@ def plot_constant_hue_loci(data,
 
     Parameters
     ----------
-    data : array_like
-        Constant hue loci colour matches data expected to be an *array_like* as
+    data
+        Constant hue loci colour matches data expected to be an `ArrayLike` as
         follows::
 
             [
                 ('name', XYZ_r, XYZ_cr, (XYZ_ct, XYZ_ct, XYZ_ct, ...), \
-{metadata}),
+    {metadata}),
                 ('name', XYZ_r, XYZ_cr, (XYZ_ct, XYZ_ct, XYZ_ct, ...), \
-{metadata}),
+    {metadata}),
                 ('name', XYZ_r, XYZ_cr, (XYZ_ct, XYZ_ct, XYZ_ct, ...), \
-{metadata}),
+    {metadata}),
                 ...
             ]
 
@@ -1628,29 +1701,29 @@ def plot_constant_hue_loci(data,
         reference illuminant, ``XYZ_ct`` the *CIE XYZ* tristimulus values of
         the colour matches under the reference illuminant and ``metadata`` the
         dataset metadata.
-    model : str, optional
+    model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    scatter_kwargs : dict, optional
-        Keyword arguments for the :func:`plt.scatter` definition. The following
-        special keyword arguments can also be used:
+    scatter_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.scatter` definition.
+        The following special keyword arguments can also be used:
 
-        -   *c* : str or array_like, if ``c`` is set to *RGB*, the scatter
-            will use the colours as given by the ``RGB`` argument.
-    convert_kwargs : dict, optional
+        -   ``c`` : If ``c`` is set to *RGB*, the scatter will use the colours
+            as given by the ``RGB`` argument.
+    convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     References
@@ -1731,9 +1804,9 @@ def plot_constant_hue_loci(data,
     """
 
     # TODO: Filter appropriate colour models.
-    data = data.values() if isinstance(data, Mapping) else data
+    data = as_array(data)
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {'uniform': True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
@@ -1747,8 +1820,7 @@ def plot_constant_hue_loci(data,
     if scatter_kwargs is not None:
         scatter_settings.update(scatter_kwargs)
 
-    if convert_kwargs is None:
-        convert_kwargs = {}
+    convert_kwargs = optional(convert_kwargs, {})
 
     use_RGB_colours = str(scatter_settings['c']).upper() == 'RGB'
 

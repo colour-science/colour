@@ -31,6 +31,8 @@ References
     Formulae (pp. 138-139). Wiley. ISBN:978-0-471-39918-6
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import vector_dot
@@ -40,6 +42,7 @@ from colour.colorimetry import (
     SDS_LEFS_PHOTOPIC,
     reshape_sd,
 )
+from colour.hints import FloatingOrArrayLike, NDArray
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -58,19 +61,20 @@ __all__ = [
 ]
 
 
-def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
+def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
+        wavelength: FloatingOrArrayLike) -> NDArray:
     """
     Converts *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions
     into the *CIE 1931 2 Degree Standard Observer* colour matching functions.
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
 
     Notes
@@ -126,7 +130,8 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     return xyz_bar
 
 
-def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
+def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
+        wavelength: FloatingOrArrayLike) -> NDArray:
     """
     Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *CIE 1964 10 Degree Standard Observer* colour matching
@@ -134,12 +139,12 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
 
     Notes
@@ -174,7 +179,8 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     return xyz_bar
 
 
-def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
+def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
+        wavelength: FloatingOrArrayLike) -> NDArray:
     """
     Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals*
@@ -182,12 +188,12 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus
         values.
 
@@ -224,7 +230,8 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     return lms_bar
 
 
-def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
+def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
+        wavelength: FloatingOrArrayLike) -> NDArray:
     """
     Converts *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 2 Degree Standard Observer* colour matching
@@ -232,12 +239,12 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
 
     Notes
@@ -272,7 +279,8 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     return xyz_bar
 
 
-def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
+def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
+        wavelength: FloatingOrArrayLike) -> NDArray:
     """
     Converts *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 10 Degree Standard Observer* colour matching
@@ -280,12 +288,12 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
 
     Notes

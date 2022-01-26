@@ -3,10 +3,13 @@
 Defines the unit tests for the :mod:`colour.utilities.common` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 from functools import partial
 
+from colour.hints import Number
 from colour.utilities import (
     CacheRegistry,
     attest,
@@ -20,20 +23,8 @@ from colour.utilities import (
     filter_kwargs,
     filter_mapping,
     first_item,
-    get_domain_range_scale,
-    set_domain_range_scale,
-    domain_range_scale,
-    to_domain_1,
-    to_domain_10,
-    to_domain_100,
-    to_domain_int,
-    to_domain_degrees,
-    from_range_1,
-    from_range_10,
-    from_range_100,
-    from_range_int,
-    from_range_degrees,
     validate_method,
+    optional,
 )
 
 __author__ = 'Colour Developers'
@@ -56,20 +47,8 @@ __all__ = [
     'TestFilterKwargs',
     'TestFilterMapping',
     'TestFirstItem',
-    'TestGetDomainRangeScale',
-    'TestSetDomainRangeScale',
-    'TestDomainRangeScale',
-    'TestToDomain1',
-    'TestToDomain10',
-    'TestToDomain100',
-    'TestToDomainDegrees',
-    'TestToDomainInt',
-    'TestFromRange1',
-    'TestFromRange10',
-    'TestFromRange100',
-    'TestFromRangeDegrees',
-    'TestFromRangeInt',
     'TestValidateMethod',
+    'TestOptional',
 ]
 
 
@@ -210,7 +189,7 @@ class TestBatch(unittest.TestCase):
         """
 
         self.assertListEqual(
-            list(batch(tuple(range(10)))),
+            list(batch(tuple(range(10)), 3)),
             [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9,)])  # yapf: disable
 
         self.assertListEqual(
@@ -223,15 +202,15 @@ class TestBatch(unittest.TestCase):
              (5,), (6,), (7,), (8,), (9,)])  # yapf: disable
 
 
-def _add(a, b):
+def _add(a: Number, b: Number):
     """
     Function to map with a multiprocessing pool.
 
     Parameters
     ----------
-    a : numeric
+    a
         Variable :math:`a`.
-    b : numeric
+    b
         Variable :math:`b`.
 
     Returns
@@ -332,8 +311,6 @@ class TestIsNumeric(unittest.TestCase):
         self.assertTrue(is_numeric(1))
 
         self.assertTrue(is_numeric(1))
-
-        self.assertTrue(is_numeric(complex(1)))
 
         self.assertFalse(is_numeric((1, )))
 
@@ -518,393 +495,6 @@ class TestFirstItem(unittest.TestCase):
         self.assertEqual(first_item(dictionary.values()), 'a')
 
 
-class TestGetDomainRangeScale(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.get_domain_range_scale` definition
-    unit tests methods.
-    """
-
-    def test_get_domain_range_scale(self):
-        """
-        Tests :func:`colour.utilities.common.get_domain_range_scale`
-        definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(get_domain_range_scale(), 'reference')
-
-        with domain_range_scale('1'):
-            self.assertEqual(get_domain_range_scale(), '1')
-
-        with domain_range_scale('100'):
-            self.assertEqual(get_domain_range_scale(), '100')
-
-
-class TestSetDomainRangeScale(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.set_domain_range_scale` definition
-    unit tests methods.
-    """
-
-    def test_set_domain_range_scale(self):
-        """
-        Tests :func:`colour.utilities.common.set_domain_range_scale`
-        definition.
-        """
-
-        with domain_range_scale('Reference'):
-            set_domain_range_scale('1')
-            self.assertEqual(get_domain_range_scale(), '1')
-
-        with domain_range_scale('Reference'):
-            set_domain_range_scale('100')
-            self.assertEqual(get_domain_range_scale(), '100')
-
-        with domain_range_scale('1'):
-            set_domain_range_scale('Reference')
-            self.assertEqual(get_domain_range_scale(), 'reference')
-
-        self.assertRaises(AssertionError,
-                          lambda: set_domain_range_scale('Invalid'))
-
-
-class TestDomainRangeScale(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.domain_range_scale` definition
-    unit tests methods.
-    """
-
-    def test_domain_range_scale(self):
-        """
-        Tests :func:`colour.utilities.common.domain_range_scale`
-        definition.
-        """
-
-        self.assertEqual(get_domain_range_scale(), 'reference')
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(get_domain_range_scale(), 'reference')
-
-        self.assertEqual(get_domain_range_scale(), 'reference')
-
-        with domain_range_scale('1'):
-            self.assertEqual(get_domain_range_scale(), '1')
-
-        self.assertEqual(get_domain_range_scale(), 'reference')
-
-        with domain_range_scale('100'):
-            self.assertEqual(get_domain_range_scale(), '100')
-
-        self.assertEqual(get_domain_range_scale(), 'reference')
-
-        def fn_a(a):
-            """
-            Helper definition performing domain-range scale.
-            """
-
-            b = to_domain_10(a)
-
-            b *= 2
-
-            return from_range_100(b)
-
-        with domain_range_scale('Reference'):
-            with domain_range_scale('1'):
-                with domain_range_scale('100'):
-                    with domain_range_scale('Ignore'):
-                        self.assertEqual(get_domain_range_scale(), 'ignore')
-                        self.assertEqual(fn_a(4), 8)
-
-                    self.assertEqual(get_domain_range_scale(), '100')
-                    self.assertEqual(fn_a(40), 8)
-
-                self.assertEqual(get_domain_range_scale(), '1')
-                self.assertEqual(fn_a(0.4), 0.08)
-
-            self.assertEqual(get_domain_range_scale(), 'reference')
-            self.assertEqual(fn_a(4), 8)
-
-        self.assertEqual(get_domain_range_scale(), 'reference')
-
-        @domain_range_scale(1)
-        def fn_b(a):
-            """
-            Helper definition performing domain-range scale.
-            """
-
-            b = to_domain_10(a)
-
-            b *= 2
-
-            return from_range_100(b)
-
-        self.assertEqual(fn_b(10), 2.0)
-
-
-class TestToDomain1(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.to_domain_1` definition unit
-    tests methods.
-    """
-
-    def test_to_domain_1(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_1` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(to_domain_1(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(to_domain_1(1), 1)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_1(1), 0.01)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_1(1, np.pi), 1 / np.pi)
-
-        with domain_range_scale('100'):
-            self.assertEqual(
-                to_domain_1(1, dtype=np.float16).dtype, np.float16)
-
-
-class TestToDomain10(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.to_domain_10` definition unit
-    tests methods.
-    """
-
-    def test_to_domain_10(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_10` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(to_domain_10(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(to_domain_10(1), 10)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_10(1), 0.1)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_10(1, np.pi), 1 / np.pi)
-
-        with domain_range_scale('100'):
-            self.assertEqual(
-                to_domain_10(1, dtype=np.float16).dtype, np.float16)
-
-
-class TestToDomain100(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.to_domain_100` definition unit
-    tests methods.
-    """
-
-    def test_to_domain_100(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_100` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(to_domain_100(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(to_domain_100(1), 100)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_100(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(to_domain_100(1, np.pi), np.pi)
-
-        with domain_range_scale('100'):
-            self.assertEqual(
-                to_domain_100(1, dtype=np.float16).dtype, np.float16)
-
-
-class TestToDomainDegrees(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.to_domain_degrees` definition unit
-    tests methods.
-    """
-
-    def test_to_domain_degrees(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_degrees` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(to_domain_degrees(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(to_domain_degrees(1), 360)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_degrees(1), 3.6)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_degrees(1, np.pi), np.pi / 100)
-
-        with domain_range_scale('100'):
-            self.assertEqual(
-                to_domain_degrees(1, dtype=np.float16).dtype, np.float16)
-
-
-class TestToDomainInt(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.to_domain_int` definition unit
-    tests methods.
-    """
-
-    def test_to_domain_int(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_int` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(to_domain_int(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(to_domain_int(1), 255)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_int(1), 2.55)
-
-        with domain_range_scale('100'):
-            self.assertEqual(to_domain_int(1, 10), 10.23)
-
-        with domain_range_scale('100'):
-            self.assertEqual(
-                to_domain_int(1, dtype=np.float16).dtype, np.float16)
-
-
-class TestFromRange1(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.from_range_1` definition unit
-    tests methods.
-    """
-
-    def test_from_range_1(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_1` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(from_range_1(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(from_range_1(1), 1)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_1(1), 100)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_1(1, np.pi), 1 * np.pi)
-
-
-class TestFromRange10(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.from_range_10` definition unit
-    tests methods.
-    """
-
-    def test_from_range_10(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_10` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(from_range_10(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(from_range_10(1), 0.1)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_10(1), 10)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_10(1, np.pi), 1 * np.pi)
-
-
-class TestFromRange100(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.from_range_100` definition unit
-    tests methods.
-    """
-
-    def test_from_range_100(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_100` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(from_range_100(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(from_range_100(1), 0.01)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_100(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(from_range_100(1, np.pi), 1 / np.pi)
-
-
-class TestFromRangeDegrees(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.from_range_degrees` definition unit
-    tests methods.
-    """
-
-    def test_from_range_degrees(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_degrees` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(from_range_degrees(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(from_range_degrees(1), 1 / 360)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_degrees(1), 1 / 3.6)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_degrees(1, np.pi), 1 / (np.pi / 100))
-
-
-class TestFromRangeInt(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.from_range_int` definition unit
-    tests methods.
-    """
-
-    def test_from_range_int(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_int` definition.
-        """
-
-        with domain_range_scale('Reference'):
-            self.assertEqual(from_range_int(1), 1)
-
-        with domain_range_scale('1'):
-            self.assertEqual(from_range_int(1), 1 / 255)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_int(1), 1 / 2.55)
-
-        with domain_range_scale('100'):
-            self.assertEqual(from_range_int(1, 10), 1 / (1023 / 100))
-
-        with domain_range_scale('100'):
-            self.assertEqual(
-                from_range_int(1, dtype=np.float16).dtype, np.float16)
-
-
 class TestValidateMethod(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.validate_method` definition unit
@@ -927,6 +517,22 @@ class TestValidateMethod(unittest.TestCase):
 
         self.assertRaises(ValueError, validate_method, 'Invalid',
                           ['Valid', 'Yes', 'Ok'])
+
+
+class TestOptional(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.optional` definition unit
+    tests methods.
+    """
+
+    def test_optional(self):
+        """
+        Tests :func:`colour.utilities.common.optional` definition.
+        """
+
+        self.assertEqual(optional('Foo', 'Bar'), 'Foo')
+
+        self.assertEqual(optional(None, 'Bar'), 'Bar')
 
 
 if __name__ == '__main__':

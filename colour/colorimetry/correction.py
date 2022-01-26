@@ -25,8 +25,12 @@ References
     MATLAB (2nd ed., p. 38). ISBN:978-0-470-66569-5
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.colorimetry import SpectralDistribution
+from colour.hints import Floating, Literal, Union
 from colour.utilities import CaseInsensitiveMapping, validate_method
 
 __author__ = 'Colour Developers'
@@ -42,22 +46,23 @@ __all__ = [
     'bandpass_correction',
 ]
 
-CONSTANT_ALPHA_STEARNS = 0.083
+CONSTANT_ALPHA_STEARNS: Floating = 0.083
 
 
-def bandpass_correction_Stearns1988(sd):
+def bandpass_correction_Stearns1988(
+        sd: SpectralDistribution) -> SpectralDistribution:
     """
     Implements spectral bandpass dependence correction on given spectral
     distribution using *Stearns and Stearns (1988)* method.
 
     Parameters
     ----------
-    sd : SpectralDistribution
+    sd
         Spectral distribution.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Spectral bandpass dependence corrected spectral distribution.
 
     References
@@ -106,33 +111,32 @@ def bandpass_correction_Stearns1988(sd):
     return sd
 
 
-BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping({
+BANDPASS_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Stearns 1988': bandpass_correction_Stearns1988
 })
 BANDPASS_CORRECTION_METHODS.__doc__ = """
 Supported spectral bandpass dependence correction methods.
-
-BANDPASS_CORRECTION_METHODS : CaseInsensitiveMapping
-    **{'Stearns 1988', }**
 """
 
 
-def bandpass_correction(sd, method='Stearns 1988'):
+def bandpass_correction(
+        sd: SpectralDistribution,
+        method: Union[Literal['Stearns 1988'], str] = 'Stearns 1988',
+) -> SpectralDistribution:
     """
     Implements spectral bandpass dependence correction on given spectral
     distribution using given method.
 
     Parameters
     ----------
-    sd : SpectralDistribution
+    sd
         Spectral distribution.
-    method : str, optional
-        {'Stearns 1988', }
+    method
         Correction method.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Spectral bandpass dependence corrected spectral distribution.
 
     References

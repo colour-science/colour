@@ -83,7 +83,7 @@ class TestRGB_to_HEX(unittest.TestCase):
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         HEX = RGB_to_HEX(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 self.assertEqual(RGB_to_HEX(RGB * factor), HEX)
@@ -154,7 +154,7 @@ class TestHEX_to_RGB(unittest.TestCase):
         HEX = '#74070a'
         RGB = HEX_to_RGB(HEX)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

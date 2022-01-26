@@ -25,6 +25,8 @@ References
     T. and Shaw, N.
 """
 
+from __future__ import annotations
+
 import matplotlib.pyplot as plt
 import numpy as np
 from functools import reduce
@@ -36,6 +38,8 @@ from colour.colorimetry import (
     SDS_ILLUMINANTS,
     LIGHTNESS_METHODS,
     LUMINANCE_METHODS,
+    MultiSpectralDistributions,
+    SpectralDistribution,
     SpectralShape,
     sd_blackbody,
     sd_ones,
@@ -43,8 +47,20 @@ from colour.colorimetry import (
     sds_and_msds_to_sds,
     wavelength_to_XYZ,
 )
+from colour.hints import (
+    Any,
+    Boolean,
+    Callable,
+    Dict,
+    Floating,
+    List,
+    Optional,
+    Sequence,
+    Tuple,
+    Union,
+    cast,
+)
 from colour.plotting import (
-    ColourSwatch,
     CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,
     artist,
@@ -58,6 +74,7 @@ from colour.plotting import (
     update_settings_collection,
 )
 from colour.utilities import (
+    as_float_array,
     domain_range_scale,
     first_item,
     ones,
@@ -89,32 +106,33 @@ __all__ = [
 
 
 @override_style()
-def plot_single_sd(sd,
-                   cmfs='CIE 1931 2 Degree Standard Observer',
-                   out_of_gamut_clipping=True,
-                   modulate_colours_with_sd_amplitude=False,
-                   equalize_sd_amplitude=False,
-                   **kwargs):
+def plot_single_sd(sd: SpectralDistribution,
+                   cmfs: Union[MultiSpectralDistributions, str, Sequence[
+                       Union[MultiSpectralDistributions,
+                             str]]] = 'CIE 1931 2 Degree Standard Observer',
+                   out_of_gamut_clipping: Boolean = True,
+                   modulate_colours_with_sd_amplitude: Boolean = False,
+                   equalize_sd_amplitude: Boolean = False,
+                   **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution.
 
     Parameters
     ----------
-    sd : SpectralDistribution
+    sd
         Spectral distribution to plot.
-    cmfs : str or LMS_ConeFundamentals or \
-RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    out_of_gamut_clipping : bool, optional
+    out_of_gamut_clipping
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother.
-    modulate_colours_with_sd_amplitude : bool, optional
+    modulate_colours_with_sd_amplitude
         Whether to modulate the colours with the spectral distribution
         amplitude.
-    equalize_sd_amplitude : bool, optional
+    equalize_sd_amplitude
         Whether to equalize the spectral distribution amplitude.
         Equalization occurs after the colours modulation thus setting both
         arguments to *True* will generate a spectrum strip where each
@@ -123,13 +141,13 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     References
@@ -158,7 +176,8 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
 
     _figure, axes = artist(**kwargs)
 
-    cmfs = first_item(filter_cmfs(cmfs).values())
+    cmfs = cast(MultiSpectralDistributions,
+                first_item(filter_cmfs(cmfs).values()))
 
     sd = sd.copy()
     sd.interpolator = LinearInterpolator
@@ -166,7 +185,7 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         cmfs.wavelengths >= max(min(cmfs.wavelengths), min(sd.wavelengths)),
         cmfs.wavelengths <= min(max(cmfs.wavelengths), max(sd.wavelengths)),
     )]
-    values = sd[wavelengths]
+    values = as_float_array(sd[wavelengths])
 
     RGB = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
@@ -212,7 +231,7 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
 
     axes.plot(wavelengths, values, color=CONSTANTS_COLOUR_STYLE.colour.dark)
 
-    settings = {
+    settings: Dict[str, Any] = {
         'axes': axes,
         'bounding_box': (x_min, x_max, y_min, y_max),
         'title': '{0} - {1}'.format(sd.strict_name, cmfs.strict_name),
@@ -225,53 +244,57 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
 
 
 @override_style()
-def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
+def plot_multi_sds(sds: Union[Sequence[Union[SpectralDistribution,
+                                             MultiSpectralDistributions]],
+                              MultiSpectralDistributions],
+                   plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+                   **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distributions.
 
     Parameters
     ----------
-    sds : array_like or MultiSpectralDistributions
+    sds
         Spectral distributions or multi-spectral distributions to
         plot. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
         of :class:`colour.MultiSpectralDistributions` class instances or a
         list of :class:`colour.SpectralDistribution` class instances.
-    plot_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.plot` definition, used to control
-        the style of the plotted spectral distributions. ``plot_kwargs`` can be
-        either a single dictionary applied to all the plotted spectral
-        distributions with same settings or a sequence of dictionaries with
-        different settings for each plotted spectral distributions.
-        The following special keyword arguments can also be used:
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
+        used to control the style of the plotted spectral distributions.
+        `plot_kwargs`` can be either a single dictionary applied to all the
+        plotted spectral distributions with the same settings or a sequence of
+        dictionaries with different settings for each plotted spectral
+        distributions. The following special keyword arguments can also be
+        used:
 
-        -   *illuminant* : str or :class:`colour.SpectralDistribution`, the
-            illuminant used to compute the spectral distributions colours. The
-            default is the illuminant associated with the whitepoint of the
-            default plotting colourspace. ``illuminant`` can be of any type or
-            form supported by the :func:`colour.plotting.filter_cmfs`
-            definition.
-        -   *cmfs* : str, the standard observer colour matching functions
-            used for computing the spectral distributions colours. ``cmfs`` can
-            be of any type or form supported by the
+        -   ``illuminant`` : The illuminant used to compute the spectral
+            distributions colours. The default is the illuminant associated
+            with the whitepoint of the default plotting colourspace.
+            ``illuminant`` can be of any type or form supported by the
             :func:`colour.plotting.filter_cmfs` definition.
-        -   *normalise_sd_colours* : bool, whether to normalise the computed
+        -   ``cmfs`` : The standard observer colour matching functions used for
+            computing the spectral distributions colours. ``cmfs`` can be of
+            any type or form supported by the
+            :func:`colour.plotting.filter_cmfs` definition.
+        -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
-        -   *use_sd_colours* : bool, whether to use the computed spectral
+        -   ``use_sd_colours`` : Whether to use the computed spectral
             distributions colours under the plotting colourspace illuminant.
-            Alternatively, it is possible to use the :func:`plt.plot`
-            definition ``color`` argument with pre-computed values. The default
-            is *True*.
+            Alternatively, it is possible to use the
+            :func:`matplotlib.pyplot.plot` definition ``color`` argument with
+            pre-computed values. The default is *True*.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -312,7 +335,7 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
 
     _figure, axes = artist(**kwargs)
 
-    sds = sds_and_msds_to_sds(sds)
+    sds_converted = sds_and_msds_to_sds(sds)
 
     plot_settings_collection = [{
         'label':
@@ -327,19 +350,23 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
             False,
         'normalise_sd_colours':
             False,
-    } for sd in sds]
+    } for sd in sds_converted]
 
     if plot_kwargs is not None:
         update_settings_collection(plot_settings_collection, plot_kwargs,
-                                   len(sds))
+                                   len(sds_converted))
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for i, sd in enumerate(sds):
+    for i, sd in enumerate(sds_converted):
         plot_settings = plot_settings_collection[i]
 
-        cmfs = first_item(filter_cmfs(plot_settings.pop('cmfs')).values())
-        illuminant = first_item(
-            filter_illuminants(plot_settings.pop('illuminant')).values())
+        cmfs = cast(
+            MultiSpectralDistributions,
+            first_item(filter_cmfs(plot_settings.pop('cmfs')).values()))
+        illuminant = cast(
+            SpectralDistribution,
+            first_item(
+                filter_illuminants(plot_settings.pop('illuminant')).values()))
         normalise_sd_colours = plot_settings.pop('normalise_sd_colours')
         use_sd_colours = plot_settings.pop('use_sd_colours')
 
@@ -363,9 +390,13 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
 
         axes.plot(wavelengths, values, **plot_settings)
 
-    bounding_box = (min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                    max(y_limit_max) + max(y_limit_max) * 0.05)
-    settings = {
+    bounding_box = (
+        min(x_limit_min),
+        max(x_limit_max),
+        min(y_limit_min),
+        max(y_limit_max) + np.max(y_limit_max) * 0.05,
+    )
+    settings: Dict[str, Any] = {
         'axes': axes,
         'bounding_box': bounding_box,
         'legend': True,
@@ -378,28 +409,30 @@ def plot_multi_sds(sds, plot_kwargs=None, **kwargs):
 
 
 @override_style()
-def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+def plot_single_cmfs(cmfs: Union[MultiSpectralDistributions, str, Sequence[
+        Union[MultiSpectralDistributions,
+              str]]] = 'CIE 1931 2 Degree Standard Observer',
+                     **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given colour matching functions.
 
     Parameters
     ----------
-    cmfs : str or LMS_ConeFundamentals or \
-RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
+    cmfs
         Colour matching functions to plot. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_cmfs`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -413,8 +446,10 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         :alt: plot_single_cmfs
     """
 
-    cmfs = first_item(filter_cmfs(cmfs).values())
-    settings = {
+    cmfs = cast(MultiSpectralDistributions,
+                first_item(filter_cmfs(cmfs).values()))
+
+    settings: Dict[str, Any] = {
         'title': '{0} - Colour Matching Functions'.format(cmfs.strict_name)
     }
     settings.update(kwargs)
@@ -423,27 +458,28 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
 
 
 @override_style()
-def plot_multi_cmfs(cmfs, **kwargs):
+def plot_multi_cmfs(cmfs: Union[MultiSpectralDistributions, str, Sequence[
+        Union[MultiSpectralDistributions, str]]],
+                    **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given colour matching functions.
 
     Parameters
     ----------
-    cmfs : str or LMS_ConeFundamentals or \
-RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
+    cmfs
         Colour matching functions to plot. ``cmfs`` elements can be of any
         type or form supported by the :func:`colour.plotting.filter_cmfs`
         definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -460,7 +496,8 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
         :alt: plot_multi_cmfs
     """
 
-    cmfs = filter_cmfs(cmfs).values()
+    cmfs = cast(List[MultiSpectralDistributions],
+                list(filter_cmfs(cmfs).values()))
 
     _figure, axes = artist(**kwargs)
 
@@ -468,15 +505,16 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, cmfs_i in enumerate(cmfs):
-        for j, RGB in enumerate([(1, 0, 0), (0, 1, 0), (0, 0, 1)]):
+        for j, RGB in enumerate(
+                as_float_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])):
             RGB = [reduce(lambda y, _: y * 0.5, range(i), x) for x in RGB]
             values = cmfs_i.values[:, j]
 
             shape = cmfs_i.shape
             x_limit_min.append(shape.start)
             x_limit_max.append(shape.end)
-            y_limit_min.append(min(values))
-            y_limit_max.append(max(values))
+            y_limit_min.append(np.min(values))
+            y_limit_max.append(np.max(values))
 
             axes.plot(
                 cmfs_i.wavelengths,
@@ -485,13 +523,16 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
                 label='{0} - {1}'.format(cmfs_i.strict_labels[j],
                                          cmfs_i.strict_name))
 
-    bounding_box = (min(x_limit_min), max(x_limit_max),
-                    min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
-                    max(y_limit_max) + abs(max(y_limit_max)) * 0.05)
+    bounding_box = (
+        min(x_limit_min),
+        max(x_limit_max),
+        min(y_limit_min) - np.abs(np.min(y_limit_min)) * 0.05,
+        max(y_limit_max) + np.abs(np.max(y_limit_max)) * 0.05,
+    )
     title = '{0} - Colour Matching Functions'.format(', '.join(
         [cmfs_i.strict_name for cmfs_i in cmfs]))
 
-    settings = {
+    settings: Dict[str, Any] = {
         'axes': axes,
         'bounding_box': bounding_box,
         'legend': True,
@@ -505,30 +546,33 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
 
 
 @override_style()
-def plot_single_illuminant_sd(illuminant,
-                              cmfs='CIE 1931 2 Degree Standard Observer',
-                              **kwargs):
+def plot_single_illuminant_sd(
+        illuminant: Union[SpectralDistribution, str],
+        cmfs: Union[MultiSpectralDistributions, str, Sequence[
+            Union[MultiSpectralDistributions,
+                  str]]] = 'CIE 1931 2 Degree Standard Observer',
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given single illuminant spectral distribution.
 
     Parameters
     ----------
-    illuminant : str or SpectralDistribution, optional
+    illuminant
         Illuminant to plot. ``illuminant`` can be of any type or form supported
         by the :func:`colour.plotting.filter_illuminants` definition.
-    cmfs : str or XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_single_sd`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
-    out_of_gamut_clipping : bool, optional
+        See the documentation of the previously listed definitions.
+    out_of_gamut_clipping
         {:func:`colour.plotting.plot_single_sd`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
@@ -536,7 +580,7 @@ def plot_single_illuminant_sd(illuminant,
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     References
@@ -553,40 +597,44 @@ def plot_single_illuminant_sd(illuminant,
         :alt: plot_single_illuminant_sd
     """
 
-    cmfs = first_item(filter_cmfs(cmfs).values())
+    cmfs = cast(MultiSpectralDistributions,
+                first_item(filter_cmfs(cmfs).values()))
+
     title = 'Illuminant {0} - {1}'.format(illuminant, cmfs.strict_name)
 
     illuminant = first_item(filter_illuminants(illuminant).values())
 
-    settings = {'title': title, 'y_label': 'Relative Power'}
+    settings: Dict[str, Any] = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
 
     return plot_single_sd(illuminant, **settings)
 
 
 @override_style()
-def plot_multi_illuminant_sds(illuminants, **kwargs):
+def plot_multi_illuminant_sds(illuminants: Union[
+        SpectralDistribution, str, Sequence[Union[SpectralDistribution, str]]],
+                              **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given illuminants spectral distributions.
 
     Parameters
     ----------
-    illuminants : str or SpectralDistribution or array_like
+    illuminants
         Illuminants to plot. ``illuminants`` elements can be of any type or
         form supported by the :func:`colour.plotting.filter_illuminants`
         definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_sds`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -609,12 +657,13 @@ def plot_multi_illuminant_sds(illuminants, **kwargs):
         for i in range(len(kwargs['plot_kwargs'])):
             kwargs['plot_kwargs'][i]['illuminant'] = SD_E
 
-    illuminants = filter_illuminants(illuminants).values()
+    illuminants = cast(List[SpectralDistribution],
+                       list(filter_illuminants(illuminants).values()))
 
     title = '{0} - Illuminants Spectral Distributions'.format(', '.join(
         [illuminant.strict_name for illuminant in illuminants]))
 
-    settings = {'title': title, 'y_label': 'Relative Power'}
+    settings: Dict[str, Any] = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
 
     return plot_multi_sds(illuminants, **settings)
@@ -624,36 +673,38 @@ def plot_multi_illuminant_sds(illuminants, **kwargs):
     'ytick.left': False,
     'ytick.labelleft': False,
 })
-def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
-                          out_of_gamut_clipping=True,
-                          **kwargs):
+def plot_visible_spectrum(
+        cmfs: Union[MultiSpectralDistributions, str, Sequence[
+            Union[MultiSpectralDistributions,
+                  str]]] = 'CIE 1931 2 Degree Standard Observer',
+        out_of_gamut_clipping: Boolean = True,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the visible colours spectrum using given standard observer *CIE XYZ*
     colour matching functions.
 
     Parameters
     ----------
-    cmfs : str or LMS_ConeFundamentals or \
-RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    out_of_gamut_clipping : bool, optional
+    out_of_gamut_clipping
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_single_sd`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     References
@@ -670,11 +721,12 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
         :alt: plot_visible_spectrum
     """
 
-    cmfs = first_item(filter_cmfs(cmfs).values())
+    cmfs = cast(MultiSpectralDistributions,
+                first_item(filter_cmfs(cmfs).values()))
 
     bounding_box = (min(cmfs.wavelengths), max(cmfs.wavelengths), 0, 1)
 
-    settings = {'bounding_box': bounding_box, 'y_label': None}
+    settings: Dict[str, Any] = {'bounding_box': bounding_box, 'y_label': None}
     settings.update(kwargs)
     settings['standalone'] = False
 
@@ -699,27 +751,29 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions, optional
 
 
 @override_style()
-def plot_single_lightness_function(function, **kwargs):
+def plot_single_lightness_function(
+        function: Union[Callable, str],
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Lightness* function.
 
     Parameters
     ----------
-    function : str or object
+    function
         *Lightness* function to plot. ``function`` can be of any type or form
         supported by the :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -732,35 +786,39 @@ def plot_single_lightness_function(function, **kwargs):
         :alt: plot_single_lightness_function
     """
 
-    settings = {'title': '{0} - Lightness Function'.format(function)}
+    settings: Dict[str, Any] = {
+        'title': '{0} - Lightness Function'.format(function)
+    }
     settings.update(kwargs)
 
     return plot_multi_lightness_functions((function, ), **settings)
 
 
 @override_style()
-def plot_multi_lightness_functions(functions, **kwargs):
+def plot_multi_lightness_functions(
+        functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Lightness* functions.
 
     Parameters
     ----------
-    functions : str or object or array_like
+    functions
         *Lightness* functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -774,42 +832,48 @@ def plot_multi_lightness_functions(functions, **kwargs):
         :alt: plot_multi_lightness_functions
     """
 
-    functions = filter_passthrough(LIGHTNESS_METHODS, functions)
+    functions_filtered = filter_passthrough(LIGHTNESS_METHODS, functions)
 
-    settings = {
+    settings: Dict[str, Any] = {
         'bounding_box': (0, 1, 0, 1),
-        'legend': True,
-        'title': '{0} - Lightness Functions'.format(', '.join(functions)),
-        'x_label': 'Normalised Relative Luminance Y',
-        'y_label': 'Normalised Lightness',
+        'legend':
+            True,
+        'title':
+            '{0} - Lightness Functions'.format(', '.join(functions_filtered)),
+        'x_label':
+            'Normalised Relative Luminance Y',
+        'y_label':
+            'Normalised Lightness',
     }
     settings.update(kwargs)
 
-    with domain_range_scale(1):
-        return plot_multi_functions(functions, **settings)
+    with domain_range_scale('1'):
+        return plot_multi_functions(functions_filtered, **settings)
 
 
 @override_style()
-def plot_single_luminance_function(function, **kwargs):
+def plot_single_luminance_function(
+        function: Union[Callable, str],
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Luminance* function.
 
     Parameters
     ----------
-    function : str or object, optional
+    function
         *Luminance* function to plot.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -822,35 +886,39 @@ def plot_single_luminance_function(function, **kwargs):
         :alt: plot_single_luminance_function
     """
 
-    settings = {'title': '{0} - Luminance Function'.format(function)}
+    settings: Dict[str, Any] = {
+        'title': '{0} - Luminance Function'.format(function)
+    }
     settings.update(kwargs)
 
     return plot_multi_luminance_functions((function, ), **settings)
 
 
 @override_style()
-def plot_multi_luminance_functions(functions, **kwargs):
+def plot_multi_luminance_functions(
+        functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Luminance* functions.
 
     Parameters
     ----------
-    functions : str or object or array_like
+    functions
         *Luminance* functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -864,52 +932,58 @@ def plot_multi_luminance_functions(functions, **kwargs):
         :alt: plot_multi_luminance_functions
     """
 
-    functions = filter_passthrough(LUMINANCE_METHODS, functions)
+    functions_filtered = filter_passthrough(LUMINANCE_METHODS, functions)
 
-    settings = {
+    settings: Dict[str, Any] = {
         'bounding_box': (0, 1, 0, 1),
-        'legend': True,
-        'title': '{0} - Luminance Functions'.format(', '.join(functions)),
-        'x_label': 'Normalised Munsell Value / Lightness',
-        'y_label': 'Normalised Relative Luminance Y',
+        'legend':
+            True,
+        'title':
+            '{0} - Luminance Functions'.format(', '.join(functions_filtered)),
+        'x_label':
+            'Normalised Munsell Value / Lightness',
+        'y_label':
+            'Normalised Relative Luminance Y',
     }
     settings.update(kwargs)
 
-    with domain_range_scale(1):
-        return plot_multi_functions(functions, **settings)
+    with domain_range_scale('1'):
+        return plot_multi_functions(functions_filtered, **settings)
 
 
 @override_style()
 def plot_blackbody_spectral_radiance(
-        temperature=3500,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        blackbody='VY Canis Major',
-        **kwargs):
+        temperature: Floating = 3500,
+        cmfs: Union[MultiSpectralDistributions, str, Sequence[
+            Union[MultiSpectralDistributions,
+                  str]]] = 'CIE 1931 2 Degree Standard Observer',
+        blackbody: str = 'VY Canis Major',
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given blackbody spectral radiance.
 
     Parameters
     ----------
-    temperature : numeric, optional
+    temperature
         Blackbody temperature.
-    cmfs : str, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
-    blackbody : str, optional
+    blackbody
         Blackbody name.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_single_sd`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -927,12 +1001,13 @@ def plot_blackbody_spectral_radiance(
 
     figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
-    cmfs = first_item(filter_cmfs(cmfs).values())
+    cmfs = cast(MultiSpectralDistributions,
+                first_item(filter_cmfs(cmfs).values()))
 
     sd = sd_blackbody(temperature, cmfs.shape)
 
     axes = figure.add_subplot(211)
-    settings = {
+    settings: Dict[str, Any] = {
         'axes': axes,
         'title': '{0} - Spectral Radiance'.format(blackbody),
         'y_label': 'W / (sr m$^2$) / m',
@@ -961,8 +1036,7 @@ def plot_blackbody_spectral_radiance(
     settings.update(kwargs)
     settings['standalone'] = False
 
-    figure, axes = plot_single_colour_swatch(
-        ColourSwatch(name='', RGB=RGB), **settings)
+    figure, axes = plot_single_colour_swatch(RGB, **settings)
 
     settings = {'axes': axes, 'standalone': True}
     settings.update(kwargs)
@@ -975,30 +1049,32 @@ def plot_blackbody_spectral_radiance(
     'ytick.labelleft': False,
 })
 def plot_blackbody_colours(
-        shape=SpectralShape(150, 12500, 50),
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        **kwargs):
+        shape: SpectralShape = SpectralShape(150, 12500, 50),
+        cmfs: Union[MultiSpectralDistributions, str, Sequence[
+            Union[MultiSpectralDistributions,
+                  str]]] = 'CIE 1931 2 Degree Standard Observer',
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots blackbody colours.
 
     Parameters
     ----------
-    shape : SpectralShape, optional
+    shape
         Spectral shape to use as plot boundaries.
-    cmfs : str, optional
+    cmfs
         Standard observer colour matching functions used for computing the
         blackbody colours. ``cmfs`` can be of any type or form supported by the
         :func:`colour.plotting.filter_cmfs` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -1014,7 +1090,8 @@ def plot_blackbody_colours(
 
     _figure, axes = artist(**kwargs)
 
-    cmfs = first_item(filter_cmfs(cmfs).values())
+    cmfs = cast(MultiSpectralDistributions,
+                first_item(filter_cmfs(cmfs).values()))
 
     RGB = []
     temperatures = []
@@ -1039,7 +1116,7 @@ def plot_blackbody_colours(
         color=RGB,
         align='edge')
 
-    settings = {
+    settings: Dict[str, Any] = {
         'axes': axes,
         'bounding_box': (x_min, x_max, y_min, y_max),
         'title': 'Blackbody Colours',

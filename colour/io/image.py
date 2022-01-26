@@ -6,15 +6,34 @@ Image Input / Output Utilities
 Defines the image related input / output utilities objects.
 """
 
-import numpy as np
-from collections import namedtuple
+from __future__ import annotations
 
+import numpy as np
+from dataclasses import dataclass, field
+
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    DTypeNumber,
+    List,
+    Literal,
+    NDArray,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
+    as_int_array,
     attest,
     is_openimageio_installed,
     filter_kwargs,
+    optional,
     required,
     usage_warning,
     validate_method,
@@ -41,89 +60,97 @@ __all__ = [
     'write_image',
 ]
 
-BitDepth_Specification = namedtuple(
-    'BitDepth_Specification',
-    ('name', 'numpy', 'openimageio', 'domain', 'clip'))
 
-
-class ImageAttribute_Specification(
-        namedtuple('ImageAttribute_Specification',
-                   ('name', 'value', 'type_'))):
+@dataclass(frozen=True)
+class BitDepth_Specification:
     """
-    Defines the an image specification attribute.
+    Defines a bit depth specification.
 
     Parameters
     ----------
-    name : str
+    name
         Attribute name.
-    value : object
+    numpy
+        Object representing the *Numpy* bit depth.
+    openimageio
+        Object representing the *OpenImageIO* bit depth.
+    """
+
+    name: str
+    numpy: Type[DTypeNumber]
+    openimageio: Any
+
+
+@dataclass
+class ImageAttribute_Specification:
+    """
+    Defines an image specification attribute.
+
+    Parameters
+    ----------
+    name
+        Attribute name.
+    value
         Attribute value.
-    type_ : TypeDesc, optional
+    type_
         Attribute type as an *OpenImageIO* :class:`TypeDesc` class instance.
     """
 
-    def __new__(cls, name, value, type_=None):
-        """
-        Returns a new instance of the
-        :class:`colour.ImageAttribute_Specification` class.
-        """
-
-        return super(ImageAttribute_Specification, cls).__new__(
-            cls, name, value, type_)
+    name: str
+    value: Any
+    type_: Optional[  # type: ignore[name-defined]
+        'OpenImageIO.TypeDesc'] = field(default_factory=lambda: None)  # noqa
 
 
-# TODO: Overhaul by using "np.sctypeDict".
 if is_openimageio_installed():  # pragma: no cover
-    from OpenImageIO import UINT8, UINT16, HALF, FLOAT
+    from OpenImageIO import UINT8, UINT16, HALF, FLOAT, DOUBLE
 
-    BIT_DEPTH_MAPPING = CaseInsensitiveMapping({
-        'uint8':
-            BitDepth_Specification('uint8', np.uint8, UINT8, 255, True),
-        'uint16':
-            BitDepth_Specification('uint16', np.uint16, UINT16, 65535, True),
-        'float16':
-            BitDepth_Specification('float16', np.float16, HALF, 1, False),
-        'float32':
-            BitDepth_Specification('float32', np.float32, FLOAT, 1, False),
-        'float64':
-            BitDepth_Specification('float64', np.float64, FLOAT, 1, False),
+    BIT_DEPTH_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping({
+        'uint8': BitDepth_Specification('uint8', np.uint8, UINT8),
+        'uint16': BitDepth_Specification('uint16', np.uint16, UINT16),
+        'float16': BitDepth_Specification('float16', np.float16, HALF),
+        'float32': BitDepth_Specification('float32', np.float32, FLOAT),
+        'float64': BitDepth_Specification('float64', np.float64, DOUBLE),
     })
     if hasattr(np, 'float128'):  # pragma: no cover
         BIT_DEPTH_MAPPING['float128'] = BitDepth_Specification(
-            'float128', np.float128, FLOAT, 1, False)
+            'float128',
+            np.float128,  # type: ignore[arg-type]
+            DOUBLE)
 else:  # pragma: no cover
-    BIT_DEPTH_MAPPING = CaseInsensitiveMapping({
-        'uint8':
-            BitDepth_Specification('uint8', np.uint8, None, 255, True),
-        'uint16':
-            BitDepth_Specification('uint16', np.uint16, None, 65535, True),
-        'float16':
-            BitDepth_Specification('float16', np.float16, None, 1, False),
-        'float32':
-            BitDepth_Specification('float32', np.float32, None, 1, False),
-        'float64':
-            BitDepth_Specification('float64', np.float64, None, 1, False),
-    })
+    BIT_DEPTH_MAPPING: CaseInsensitiveMapping = (  # type: ignore[no-redef]
+        CaseInsensitiveMapping({
+            'uint8': BitDepth_Specification('uint8', np.uint8, None),
+            'uint16': BitDepth_Specification('uint16', np.uint16, None),
+            'float16': BitDepth_Specification('float16', np.float16, None),
+            'float32': BitDepth_Specification('float32', np.float32, None),
+            'float64': BitDepth_Specification('float64', np.float64, None),
+        }))
     if hasattr(np, 'float128'):  # pragma: no cover
         BIT_DEPTH_MAPPING['float128'] = BitDepth_Specification(
-            'float128', np.float128, None, 1, False)
+            'float128',
+            np.float128,  # type: ignore[arg-type]
+            None)
 
 
-def convert_bit_depth(a, bit_depth='float32'):
+def convert_bit_depth(
+        a: ArrayLike,
+        bit_depth: Literal['uint8', 'uint16', 'float16', 'float32', 'float64',
+                           'float128'] = 'float32') -> NDArray:
     """
     Converts given array to given bit depth, the current bit depth of the array
     is used to determine the appropriate conversion path.
 
     Parameters
     ----------
-    a : array_like
+    a
         Array to convert to given bit depth.
-    bit_depth : str
+    bit_depth
         Bit depth.
 
     Returns
     -------
-    ndarray
+    :class`numpy.ndarray`
         Converted array.
 
     Examples
@@ -159,53 +186,55 @@ def convert_bit_depth(a, bit_depth='float32'):
     target_dtype = BIT_DEPTH_MAPPING[bit_depth].numpy
 
     if source_dtype == 'uint8':
-        if bit_depth == 'uint8':
-            return a
-        elif bit_depth == 'uint16':
-            return (a * 257).astype(target_dtype)
+        if bit_depth == 'uint16':
+            a = (a * 257).astype(target_dtype)
         elif bit_depth in ('float16', 'float32', 'float64', 'float128'):
-            return (a / 255).astype(target_dtype)
+            a = (a / 255).astype(target_dtype)
     elif source_dtype == 'uint16':
         if bit_depth == 'uint8':
-            return (a / 257).astype(target_dtype)
-        elif bit_depth == 'uint16':
-            return a
+            a = (a / 257).astype(target_dtype)
         elif bit_depth in ('float16', 'float32', 'float64', 'float128'):
-            return (a / 65535).astype(target_dtype)
+            a = (a / 65535).astype(target_dtype)
     elif source_dtype in ('float16', 'float32', 'float64', 'float128'):
         if bit_depth == 'uint8':
-            return np.around(a * 255).astype(target_dtype)
+            a = np.around(a * 255).astype(target_dtype)
         elif bit_depth == 'uint16':
-            return np.around(a * 65535).astype(target_dtype)
+            a = np.around(a * 65535).astype(target_dtype)
         elif bit_depth in ('float16', 'float32', 'float64', 'float128'):
-            return a.astype(target_dtype)
+            a = a.astype(target_dtype)
+
+    return a  # type: ignore[return-value]
 
 
 @required('OpenImageIO')
-def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
+def read_image_OpenImageIO(
+        path: str,
+        bit_depth: Literal['uint8', 'uint16', 'float16', 'float32', 'float64',
+                           'float128'] = 'float32',
+        attributes: Boolean = False) -> Union[NDArray, Tuple[NDArray, List]]:
     """
     Reads the image at given path using *OpenImageIO*.
 
     Parameters
     ----------
-    path : str
+    path
         Image path.
-    bit_depth : str, optional
-        **{'float32', 'uint8', 'uint16', 'float16'}**,
+    bit_depth
         Returned image bit depth, the bit depth conversion behaviour is driven
         directly by *OpenImageIO*, this definition only converts to the
         relevant data type after reading.
-    attributes : bool, optional
+    attributes
         Whether to return the image attributes.
 
     Returns
     -------
-    ndarray or tuple
-        Image as a ndarray or tuple of image as ndarray and list of attributes
+    :class`numpy.ndarray` or :class:`tuple`
+        Image data or tuple of image data and list of
+        :class:`colour.io.ImageAttribute_Specification` class instances.
 
     Notes
     -----
-    -   For convenience, single channel images are squeezed to 2d arrays.
+    -   For convenience, single channel images are squeezed to 2D arrays.
 
     Examples
     --------
@@ -220,7 +249,7 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
 
     path = str(path)
 
-    bit_depth = BIT_DEPTH_MAPPING[bit_depth]
+    bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
 
     image = ImageInput.open(path)
     specification = image.spec()
@@ -228,10 +257,11 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
     shape = (specification.height, specification.width,
              specification.nchannels)
 
-    image_data = image.read_image(bit_depth.openimageio)
+    image_data = image.read_image(bit_depth_specification.openimageio)
     image.close()
     image = np.squeeze(
-        np.array(image_data, dtype=bit_depth.numpy).reshape(shape))
+        np.array(image_data,
+                 dtype=bit_depth_specification.numpy).reshape(shape))
 
     if attributes:
         extra_attributes = []
@@ -246,33 +276,36 @@ def read_image_OpenImageIO(path, bit_depth='float32', attributes=False):
         return image
 
 
-def read_image_Imageio(path, bit_depth='float32', **kwargs):
+def read_image_Imageio(
+        path: str,
+        bit_depth: Literal['uint8', 'uint16', 'float16', 'float32', 'float64',
+                           'float128'] = 'float32',
+        **kwargs: Any) -> NDArray:
     """
     Reads the image at given path using *Imageio*.
 
     Parameters
     ----------
-    path : str
+    path
         Image path.
-    bit_depth : str, optional
-        **{'float32', 'uint8', 'uint16', 'float16'}**,
+    bit_depth
         Returned image bit depth, the image data is converted with
         :func:`colour.io.convert_bit_depth` definition after reading the
         image.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
 
     Returns
     -------
-    ndarray
-        Image as a ndarray.
+    :class`numpy.ndarray`
+        Image data.
 
     Notes
     -----
-    -   For convenience, single channel images are squeezed to 2d arrays.
+    -   For convenience, single channel images are squeezed to 2D arrays.
 
     Examples
     --------
@@ -294,47 +327,47 @@ def read_image_Imageio(path, bit_depth='float32', **kwargs):
     return convert_bit_depth(image, bit_depth)
 
 
-READ_IMAGE_METHODS = CaseInsensitiveMapping({
+READ_IMAGE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Imageio': read_image_Imageio,
     'OpenImageIO': read_image_OpenImageIO,
 })
 READ_IMAGE_METHODS.__doc__ = """
-Supported read image methods.
-
-READ_IMAGE_METHODS : CaseInsensitiveMapping
-    **{'Imageio', 'OpenImageIO'}**
+Supported image read methods.
 """
 
 
-def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
+def read_image(
+        path: str,
+        bit_depth: Literal['uint8', 'uint16', 'float16', 'float32', 'float64',
+                           'float128'] = 'float32',
+        method: Union[Literal['Imageio', 'OpenImageIO'], str] = 'OpenImageIO',
+        **kwargs: Any) -> NDArray:
     """
     Reads the image at given path using given method.
 
     Parameters
     ----------
-    path : str
+    path
         Image path.
-    bit_depth : str, optional
-        **{'float32', 'uint8', 'uint16', 'float16'}**,
+    bit_depth
         Returned image bit depth, for the *Imageio* method, the image data is
         converted with :func:`colour.io.convert_bit_depth` definition after
         reading the image, for the *OpenImageIO* method, the bit depth
         conversion behaviour is driven directly by the library, this definition
         only converts to the relevant data type after reading.
-    method : str, optional
-        **{'OpenImageIO', 'Imageio'}**,
+    method
         Read method, i.e. the image library used for reading images.
 
     Other Parameters
     ----------------
-    attributes : bool, optional
+    attributes
         {:func:`colour.io.read_image_OpenImageIO`},
         Whether to return the image attributes.
 
     Returns
     -------
-    ndarray
-        Image as a ndarray.
+    :class`numpy.ndarray`
+        Image data.
 
     Notes
     -----
@@ -342,7 +375,7 @@ def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
         writing will be performed by *Imageio*.
     -   If the given method is *Imageio*, ``kwargs`` is passed directly to the
         wrapped definition.
-    -   For convenience, single channel images are squeezed to 2d arrays.
+    -   For convenience, single channel images are squeezed to 2D arrays.
 
     Examples
     --------
@@ -375,27 +408,31 @@ def read_image(path, bit_depth='float32', method='OpenImageIO', **kwargs):
 
 
 @required('OpenImageIO')
-def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
+def write_image_OpenImageIO(
+        image: ArrayLike,
+        path: str,
+        bit_depth: Literal['uint8', 'uint16', 'float16', 'float32', 'float64',
+                           'float128'] = 'float32',
+        attributes: Optional[Sequence] = None) -> Boolean:
     """
     Writes given image at given path using *OpenImageIO*.
 
     Parameters
     ----------
-    image : array_like
+    image
         Image data.
-    path : str
+    path
         Image path.
-    bit_depth : str, optional
-        **{'float32', 'uint8', 'uint16', 'float16'}**,
+    bit_depth
         Bit depth to write the image at, the bit depth conversion behaviour is
         ruled directly by *OpenImageIO*.
-    attributes : array_like, optional
+    attributes
         An array of :class:`colour.io.ImageAttribute_Specification` class
         instances used to set attributes of the image.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Definition success.
 
     Examples
@@ -433,20 +470,21 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
     """
 
-    from OpenImageIO import VERSION_MAJOR, ImageOutput, ImageSpec
-
-    path = str(path)
-
-    if attributes is None:
-        attributes = []
-
-    bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
-    bit_depth = bit_depth_specification.openimageio
+    from OpenImageIO import ImageOutput, ImageSpec
 
     image = as_float_array(image)
-    image = image * bit_depth_specification.domain
-    if bit_depth_specification.clip:
-        image = np.clip(image, 0, bit_depth_specification.domain)
+    path = str(path)
+
+    attributes = cast(List, optional(attributes, []))
+
+    bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
+
+    if bit_depth_specification.numpy in [np.uint8, np.uint16]:
+        mininum, maximum = np.iinfo(np.uint8).min, np.iinfo(np.uint8).max
+        image = np.clip(image * maximum, mininum, maximum)
+
+        image = as_int_array(image, bit_depth_specification.numpy)
+
     image = image.astype(bit_depth_specification.numpy)
 
     if image.ndim == 2:
@@ -455,7 +493,8 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
     else:
         height, width, channels = image.shape
 
-    specification = ImageSpec(width, height, channels, bit_depth)
+    specification = ImageSpec(width, height, channels,
+                              bit_depth_specification.openimageio)
     for attribute in attributes:
         name = str(attribute.name)
         value = (str(attribute.value)
@@ -468,44 +507,42 @@ def write_image_OpenImageIO(image, path, bit_depth='float32', attributes=None):
 
     image_output = ImageOutput.create(path)
 
-    if VERSION_MAJOR == 1:  # pragma: no cover
-        from OpenImageIO import ImageOutputOpenMode
-
-        image_output.open(path, specification, ImageOutputOpenMode.Create)
-        image_output.write_image(bit_depth, image.tostring())
-    else:
-        image_output.open(path, specification)
-        image_output.write_image(image)
+    image_output.open(path, specification)
+    image_output.write_image(image)
 
     image_output.close()
 
     return True
 
 
-def write_image_Imageio(image, path, bit_depth='float32', **kwargs):
+def write_image_Imageio(
+        image: ArrayLike,
+        path: str,
+        bit_depth: Literal['uint8', 'uint16', 'float16', 'float32', 'float64',
+                           'float128'] = 'float32',
+        **kwargs: Any) -> Boolean:
     """
     Writes given image at given path using *Imageio*.
 
     Parameters
     ----------
-    image : array_like
+    image
         Image data.
-    path : str
+    path
         Image path.
-    bit_depth : str, optional
-        **{'float32', 'uint8', 'uint16', 'float16'}**,
+    bit_depth
         Bit depth to write the image at, the image data is converted with
         :func:`colour.io.convert_bit_depth` definition prior to writing the
         image.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Definition success.
 
     Examples
@@ -528,51 +565,48 @@ def write_image_Imageio(image, path, bit_depth='float32', **kwargs):
     return imwrite(path, image, **kwargs)
 
 
-WRITE_IMAGE_METHODS = CaseInsensitiveMapping({
+WRITE_IMAGE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Imageio': write_image_Imageio,
     'OpenImageIO': write_image_OpenImageIO,
 })
 WRITE_IMAGE_METHODS.__doc__ = """
-Supported write image methods.
-
-WRITE_IMAGE_METHODS : CaseInsensitiveMapping
-    **{'Imageio', 'OpenImageIO'}**
+Supported image write methods.
 """
 
 
-def write_image(image,
-                path,
-                bit_depth='float32',
-                method='OpenImageIO',
-                **kwargs):
+def write_image(
+        image: ArrayLike,
+        path: str,
+        bit_depth: Literal['uint8', 'uint16', 'float16', 'float32', 'float64',
+                           'float128'] = 'float32',
+        method: Union[Literal['Imageio', 'OpenImageIO'], str] = 'OpenImageIO',
+        **kwargs: Any) -> Boolean:
     """
     Writes given image at given path using given method.
 
     Parameters
     ----------
-    image : array_like
+    image
         Image data.
-    path : str
+    path
         Image path.
-    bit_depth : str, optional
-        **{'float32', 'uint8', 'uint16', 'float16'}**,
+    bit_depth
         Bit depth to write the image at, for the *Imageio* method, the image
         data is converted with :func:`colour.io.convert_bit_depth` definition
         prior to writing the image.
-    method : str, optional
-        **{'OpenImageIO', 'Imageio'}**,
+    method
         Write method, i.e. the image library used for writing images.
 
     Other Parameters
     ----------------
-    attributes : array_like, optional
+    attributes
         {:func:`colour.io.write_image_OpenImageIO`},
         An array of :class:`colour.io.ImageAttribute_Specification` class
         instances used to set attributes of the image.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Definition success.
 
     Notes

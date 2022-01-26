@@ -3,6 +3,8 @@
 Defines the unit tests for the :mod:`colour.io.luts.sequence` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import textwrap
 import unittest
@@ -14,6 +16,7 @@ from colour.io.luts import (
     LUT3D,
     LUTSequence,
 )
+from colour.hints import FloatingOrNDArray
 from colour.models import gamma_function
 from colour.utilities import tstack
 
@@ -145,7 +148,7 @@ class TestLUTSequence(unittest.TestCase):
 
             Overview
 
-                LUT1D ---> LUT3D ---> LUT3x1D
+                LUT1D --> LUT3D --> LUT3x1D
 
             Operations
 
@@ -419,31 +422,36 @@ class TestLUTSequence(unittest.TestCase):
 
             Parameters
             ----------
-            gamma : numeric or array_like
+            gamma
                 Gamma value.
             """
 
-            def __init__(self, gamma=1.0):
+            def __init__(self, gamma: FloatingOrNDArray = 1.0):
                 self._gamma = gamma
 
-            def apply(self, RGB, *args):
+            def apply(self, RGB, **kwargs):
                 """
                 Applies the *LUT* sequence operator to given *RGB* colourspace
                 array.
 
                 Parameters
                 ----------
-                RGB : array_like
+                RGB
                     *RGB* colourspace array to apply the *LUT* sequence
                     operator onto.
 
                 Returns
                 -------
-                ndarray
+                :class:`numpy.ndarray`
                     Processed *RGB* colourspace array.
                 """
 
-                return gamma_function(RGB, self._gamma)
+                direction = kwargs.get('direction', 'Forward')
+
+                gamma = (self._gamma
+                         if direction == 'Forward' else 1 / self._gamma)
+
+                return gamma_function(RGB, gamma)
 
         LUT_sequence = self._LUT_sequence.copy()
         LUT_sequence.insert(1, GammaOperator(1 / 2.2))
@@ -451,12 +459,12 @@ class TestLUTSequence(unittest.TestCase):
         RGB = tstack([samples, samples, samples])
 
         np.testing.assert_almost_equal(
-            LUT_sequence.apply(RGB),
+            LUT_sequence.apply(RGB, GammaOperator={'direction': 'Inverse'}),
             np.array([
-                [0.48779047, 0.48779047, 0.48779047],
-                [0.61222338, 0.61222338, 0.61222338],
-                [0.68053686, 0.68053686, 0.68053686],
-                [0.72954547, 0.72954547, 0.72954547],
+                [0.03386629, 0.03386629, 0.03386629],
+                [0.27852298, 0.27852298, 0.27852298],
+                [0.46830881, 0.46830881, 0.46830881],
+                [0.65615595, 0.65615595, 0.65615595],
                 [0.75000000, 0.75000000, 0.75000000],
             ]))
 

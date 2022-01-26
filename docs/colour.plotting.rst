@@ -26,6 +26,19 @@ Common
     plot_multi_functions
     plot_image
 
+**Ancillary Objects**
+
+``colour.plotting.common``
+
+.. currentmodule:: colour.plotting.common
+
+.. autosummary::
+    :toctree: generated/
+
+    KwargsArtist
+    KwargsCamera
+    KwargsRender
+
 Colorimetry
 -----------
 

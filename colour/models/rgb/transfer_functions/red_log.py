@@ -35,18 +35,26 @@ References
 nuke-default/make.py
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import (
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    Union,
+)
 from colour.models.rgb.transfer_functions import (
     log_encoding_Cineon,
     log_decoding_Cineon,
 )
-
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_float,
+    as_float_array,
     from_range_1,
     to_domain_1,
-    as_numeric,
     validate_method,
 )
 
@@ -77,21 +85,23 @@ __all__ = [
 ]
 
 
-def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
+def log_encoding_REDLog(x: FloatingOrArrayLike,
+                        black_offset: FloatingOrArrayLike = 10
+                        ** ((0 - 1023) / 511)) -> FloatingOrNDArray:
     """
     Defines the *REDLog* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
-    black_offset : numeric or array_like
+    black_offset
         Black offset.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -120,27 +130,30 @@ def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
     """
 
     x = to_domain_1(x)
+    black_offset = as_float_array(black_offset)
 
     y = (1023 + 511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
-def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
+def log_decoding_REDLog(y: FloatingOrArrayLike,
+                        black_offset: FloatingOrArrayLike = 10
+                        ** ((0 - 1023) / 511)) -> FloatingOrNDArray:
     """
     Defines the *REDLog* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
-    black_offset : numeric or array_like
+    black_offset
         Black offset.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -169,27 +182,30 @@ def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
     """
 
     y = to_domain_1(y)
+    black_offset = as_float_array(black_offset)
 
     x = ((10 ** ((1023 * y - 1023) / 511)) - black_offset) / (1 - black_offset)
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))
 
 
-def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
+def log_encoding_REDLogFilm(x: FloatingOrArrayLike,
+                            black_offset: FloatingOrArrayLike = 10
+                            ** ((95 - 685) / 300)) -> FloatingOrNDArray:
     """
     Defines the *REDLogFilm* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
-    black_offset : numeric or array_like
+    black_offset
         Black offset.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -220,21 +236,23 @@ def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
     return log_encoding_Cineon(x, black_offset)
 
 
-def log_decoding_REDLogFilm(y, black_offset=10 ** ((95 - 685) / 300)):
+def log_decoding_REDLogFilm(y: FloatingOrArrayLike,
+                            black_offset: FloatingOrArrayLike = 10
+                            ** ((95 - 685) / 300)) -> FloatingOrNDArray:
     """
     Defines the *REDLogFilm* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
-    black_offset : numeric or array_like
+    black_offset
         Black offset.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -265,19 +283,19 @@ def log_decoding_REDLogFilm(y, black_offset=10 ** ((95 - 685) / 300)):
     return log_decoding_Cineon(y, black_offset)
 
 
-def log_encoding_Log3G10_v1(x):
+def log_encoding_Log3G10_v1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* *v1* log encoding curve / opto-electronic transfer
     function, the curve used in *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -309,22 +327,22 @@ def log_encoding_Log3G10_v1(x):
 
     y = np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v1(y):
+def log_decoding_Log3G10_v1(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* *v1* log decoding curve / electro-optical transfer
     function, the curve used in *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -356,22 +374,22 @@ def log_decoding_Log3G10_v1(y):
 
     x = (np.sign(y) * (10.0 ** (np.abs(y) / 0.222497) - 1) / 169.379333)
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))
 
 
-def log_encoding_Log3G10_v2(x):
+def log_encoding_Log3G10_v2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* *v2* log encoding curve / opto-electronic transfer
     function, the current curve in *REDCINE-X PRO*.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -404,22 +422,22 @@ def log_encoding_Log3G10_v2(x):
     y = (np.sign(x + 0.01) * 0.224282 *
          np.log10((np.abs(x + 0.01) * 155.975327) + 1))
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v2(y):
+def log_decoding_Log3G10_v2(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* *v2* log decoding curve / electro-optical transfer
     function, the current curve in *REDCINE-X PRO*.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -451,22 +469,22 @@ def log_decoding_Log3G10_v2(y):
 
     x = (np.sign(y) * (10.0 ** (np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))
 
 
-def log_encoding_Log3G10_v3(x):
+def log_encoding_Log3G10_v3(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* *v3* log encoding curve / opto-electronic transfer
-    function, the curve described in the RedLog3G10 Whitepaper.
+    function, the curve described in the *RedLog3G10* Whitepaper.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -506,22 +524,22 @@ def log_encoding_Log3G10_v3(x):
     y = np.where(x < 0.0, x * g,
                  np.sign(x) * a * np.log10((np.abs(x) * b) + 1.0))
 
-    return as_numeric(from_range_1(y))
+    return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v3(y):
+def log_decoding_Log3G10_v3(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* *v3* log decoding curve / electro-optical transfer
-    function, the curve described in the RedLog3G10 whitepaper.
+    function, the curve described in the *RedLog3G10* whitepaper.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -559,10 +577,10 @@ def log_decoding_Log3G10_v3(y):
     x = np.where(y < 0.0, (y / g) - c,
                  np.sign(y) * (10 ** (np.abs(y) / a) - 1.0) / b - c)
 
-    return as_numeric(from_range_1(x))
+    return as_float(from_range_1(x))
 
 
-LOG3G10_ENCODING_METHODS = CaseInsensitiveMapping({
+LOG3G10_ENCODING_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'v1': log_encoding_Log3G10_v1,
     'v2': log_encoding_Log3G10_v2,
     'v3': log_encoding_Log3G10_v3,
@@ -574,28 +592,26 @@ methods.
 References
 ----------
 :cite:`Nattress2016a`, :cite:`REDDigitalCinema2017`
-
-LOG3G10_ENCODING_METHODS : CaseInsensitiveMapping
-    **{'v1', 'v2', 'v3'}**
 """
 
 
-def log_encoding_Log3G10(x, method='v3'):
+def log_encoding_Log3G10(x: FloatingOrArrayLike,
+                         method: Union[Literal['v1', 'v2', 'v3'], str] = 'v3'
+                         ) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
-    method : str, optional
-        **{'v1', 'v2', 'v3'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -672,28 +688,25 @@ methods.
 References
 ----------
 :cite:`Nattress2016a`, :cite:`REDDigitalCinema2017`
-
-LOG3G10_DECODING_METHODS : CaseInsensitiveMapping
-    **{'v1', 'v2', 'v3'}**
 """
 
 
-def log_decoding_Log3G10(y, method='v3'):
+def log_decoding_Log3G10(y,
+                         method: Union[Literal['v1', 'v2', 'v3'], str] = 'v3'):
     """
     Defines the *Log3G10* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
-    method : str, optional
-        **{'v1', 'v2', 'v3'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -728,19 +741,19 @@ def log_decoding_Log3G10(y, method='v3'):
     return LOG3G10_DECODING_METHODS[method](y)
 
 
-def log_encoding_Log3G12(x):
+def log_encoding_Log3G12(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *Log3G12* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -772,22 +785,22 @@ def log_encoding_Log3G12(x):
 
     y = np.sign(x) * 0.184904 * np.log10((np.abs(x) * 347.189667) + 1)
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G12(y):
+def log_decoding_Log3G12(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *Log3G12* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -819,4 +832,4 @@ def log_decoding_Log3G12(y):
 
     x = np.sign(y) * (10.0 ** (np.abs(y) / 0.184904) - 1) / 347.189667
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))

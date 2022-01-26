@@ -21,7 +21,17 @@ References
     http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ
 """
 
-from colour.utilities import from_range_1, full, to_domain_1, tsplit, tstack
+from __future__ import annotations
+
+from colour.hints import ArrayLike, Floating, NDArray
+from colour.utilities import (
+    as_float_scalar,
+    from_range_1,
+    full,
+    to_domain_1,
+    tsplit,
+    tstack,
+)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -40,18 +50,18 @@ __all__ = [
 ]
 
 
-def XYZ_to_UCS(XYZ):
+def XYZ_to_UCS(XYZ: ArrayLike) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE 1960 UCS* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE 1960 UCS* colourspace array.
 
     Notes
@@ -88,18 +98,18 @@ def XYZ_to_UCS(XYZ):
     return from_range_1(UVW)
 
 
-def UCS_to_XYZ(UVW):
+def UCS_to_XYZ(UVW: ArrayLike) -> NDArray:
     """
     Converts from *CIE 1960 UCS* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    UVW : array_like
+    UVW
         *CIE 1960 UCS* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
@@ -136,19 +146,19 @@ def UCS_to_XYZ(UVW):
     return from_range_1(XYZ)
 
 
-def UCS_to_uv(UVW):
+def UCS_to_uv(UVW: ArrayLike) -> NDArray:
     """
     Returns the *uv* chromaticity coordinates from given *CIE 1960 UCS*
     colourspace array.
 
     Parameters
     ----------
-    UVW : array_like
+    UVW
         *CIE 1960 UCS* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *uv* chromaticity coordinates.
 
     Notes
@@ -181,23 +191,23 @@ def UCS_to_uv(UVW):
     return uv
 
 
-def uv_to_UCS(uv, V=1):
+def uv_to_UCS(uv: ArrayLike, V: Floating = 1) -> NDArray:
     """
     Returns the *CIE 1960 UCS* colourspace array from given *uv* chromaticity
     coordinates.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *uv* chromaticity coordinates.
-    V : numeric, optional
+    V
         Optional :math:`V` *luminance* value used to construct the
         *CIE 1960 UCS* colourspace array, the default :math:`V` *luminance* is
         set to 1.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE 1960 UCS* colourspace array.
 
     References
@@ -213,29 +223,26 @@ def uv_to_UCS(uv, V=1):
     """
 
     u, v = tsplit(uv)
-    V = full(u.shape, V)
+    V = as_float_scalar(to_domain_1(V))
 
-    U = V * u / v
-    W = -V * (u + v - 1) / v
-
-    UVW = tstack([U, V, W])
+    UVW = tstack([V * u / v, full(u.shape, V), -V * (u + v - 1) / v])
 
     return from_range_1(UVW)
 
 
-def UCS_uv_to_xy(uv):
+def UCS_uv_to_xy(uv: ArrayLike) -> NDArray:
     """
     Returns the *CIE xy* chromaticity coordinates from given *CIE 1960 UCS*
     colourspace *uv* chromaticity coordinates.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *CIE UCS uv* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xy* chromaticity coordinates.
 
     References
@@ -258,19 +265,19 @@ def UCS_uv_to_xy(uv):
     return xy
 
 
-def xy_to_UCS_uv(xy):
+def xy_to_UCS_uv(xy: ArrayLike) -> NDArray:
     """
     Returns the *CIE 1960 UCS* colourspace *uv* chromaticity coordinates from
     given *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE UCS uv* chromaticity coordinates.
 
     References

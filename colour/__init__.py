@@ -31,6 +31,7 @@ Sub-packages
 -   examples: Examples for the sub-packages.
 -   geometry: Geometry primitives generation.
 -   graph: Graph for automatic colour conversions.
+-   hints: Type hints for annotations.
 -   io: Input / output objects for reading and writing data.
 -   models: Colour models.
 -   notation: Colour notation systems.
@@ -49,12 +50,12 @@ import sys
 
 from .utilities.deprecation import ModuleAPI, build_API_changes
 from .utilities.documentation import is_documentation_building
-from .utilities.common import (
+
+from .utilities.array import (
     domain_range_scale,
     get_domain_range_scale,
     set_domain_range_scale,
 )
-
 from .adaptation import (
     CHROMATIC_ADAPTATION_METHODS,
     CHROMATIC_ADAPTATION_TRANSFORMS,
@@ -862,12 +863,13 @@ class colour(ModuleAPI):
         return super(colour, self).__getattr__(attribute)
 
 
-colour.__application_name__ = __application_name__
+colour.__application_name__ = (  # type: ignore[attr-defined]
+    __application_name__)
 
-colour.__major_version__ = __major_version__
-colour.__minor_version__ = __minor_version__
-colour.__change_version__ = __change_version__
-colour.__version__ = __version__
+colour.__major_version__ = __major_version__  # type: ignore[attr-defined]
+colour.__minor_version__ = __minor_version__  # type: ignore[attr-defined]
+colour.__change_version__ = __change_version__  # type: ignore[attr-defined]
+colour.__version__ = __version__  # type: ignore[attr-defined]
 
 # v0.4.0
 API_CHANGES = {
@@ -900,17 +902,18 @@ API_CHANGES = {
 }
 """
 Defines the *colour.models* sub-package API changes.
-
-API_CHANGES : dict
 """
 
 if not is_documentation_building():
-    sys.modules['colour'] = colour(sys.modules['colour'],
-                                   build_API_changes(API_CHANGES))
+    sys.modules['colour'] = colour(  # type: ignore[assignment]
+        sys.modules['colour'], build_API_changes(API_CHANGES))
 
     del ModuleAPI, is_documentation_building, build_API_changes, sys
 
-__disable_lazy_load__ = colour.__disable_lazy_load__ = True
+colour.__disable_lazy_load__ = True  # type: ignore[attr-defined]
+__disable_lazy_load__ = (
+    colour.__disable_lazy_load__  # type: ignore[attr-defined]
+)
 """
 Ensures that the lazy loaded datasets are not transformed during import.
 See :class:`colour.utilities.LazyCaseInsensitiveMapping` for more information.

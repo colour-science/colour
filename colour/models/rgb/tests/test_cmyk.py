@@ -82,7 +82,7 @@ class TestRGB_to_CMY(unittest.TestCase):
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         CMY = RGB_to_CMY(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -154,7 +154,7 @@ class TestCMY_to_RGB(unittest.TestCase):
         CMY = np.array([0.54379481, 0.96918929, 0.95908048])
         RGB = CMY_to_RGB(CMY)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -225,7 +225,7 @@ class TestCMY_to_CMYK(unittest.TestCase):
         CMY = np.array([0.54379481, 0.96918929, 0.95908048])
         CMYK = CMY_to_CMYK(CMY)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -300,7 +300,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
         CMYK = np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
         CMY = CMYK_to_CMY(CMYK)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
