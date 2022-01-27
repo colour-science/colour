@@ -37,21 +37,22 @@ from colour.hints import (
 )
 from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'xy_to_CCT_CIE_D',
-    'CCT_to_xy_CIE_D',
+    "xy_to_CCT_CIE_D",
+    "CCT_to_xy_CIE_D",
 ]
 
 
-def xy_to_CCT_CIE_D(xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
-                    ) -> FloatingOrNDArray:
+def xy_to_CCT_CIE_D(
+    xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
+) -> FloatingOrNDArray:
     """
     Returns the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
@@ -91,8 +92,9 @@ def xy_to_CCT_CIE_D(xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
     shape = xy.shape
     xy = np.atleast_1d(xy.reshape([-1, 2]))
 
-    def objective_function(CCT: FloatingOrArrayLike,
-                           xy: ArrayLike) -> FloatingOrNDArray:
+    def objective_function(
+        CCT: FloatingOrArrayLike, xy: ArrayLike
+    ) -> FloatingOrNDArray:
         """
         Objective function.
         """
@@ -102,21 +104,22 @@ def xy_to_CCT_CIE_D(xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
         return as_float(objective)
 
     optimisation_settings = {
-        'method': 'Nelder-Mead',
-        'options': {
-            'fatol': 1e-10,
+        "method": "Nelder-Mead",
+        "options": {
+            "fatol": 1e-10,
         },
     }
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    CCT = as_float_array([
-        minimize(
-            objective_function,
-            x0=6500,
-            args=(xy_i, ),
-            **optimisation_settings).x for xy_i in as_float_array(xy)
-    ])
+    CCT = as_float_array(
+        [
+            minimize(
+                objective_function, x0=6500, args=(xy_i,), **optimisation_settings
+            ).x
+            for xy_i in as_float_array(xy)
+        ]
+    )
 
     return as_float(CCT.reshape(shape[:-1]))
 
@@ -155,18 +158,26 @@ def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:
     CCT = as_float_array(CCT)
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 4000, CCT > 25000))]):
-        usage_warning(('Correlated colour temperature must be in domain '
-                       '[4000, 25000], unpredictable results may occur!'))
+        usage_warning(
+            (
+                "Correlated colour temperature must be in domain "
+                "[4000, 25000], unpredictable results may occur!"
+            )
+        )
 
     CCT_3 = CCT ** 3
     CCT_2 = CCT ** 2
 
     x = np.where(
         CCT <= 7000,
-        -4.607 * 10 ** 9 / CCT_3 + 2.9678 * 10 ** 6 / CCT_2 +
-        0.09911 * 10 ** 3 / CCT + 0.244063,
-        -2.0064 * 10 ** 9 / CCT_3 + 1.9018 * 10 ** 6 / CCT_2 +
-        0.24748 * 10 ** 3 / CCT + 0.23704,
+        -4.607 * 10 ** 9 / CCT_3
+        + 2.9678 * 10 ** 6 / CCT_2
+        + 0.09911 * 10 ** 3 / CCT
+        + 0.244063,
+        -2.0064 * 10 ** 9 / CCT_3
+        + 1.9018 * 10 ** 6 / CCT_2
+        + 0.24748 * 10 ** 3 / CCT
+        + 0.23704,
     )
 
     y = daylight_locus_function(x)

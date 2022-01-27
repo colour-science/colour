@@ -29,26 +29,40 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'matrix_chromatic_adaptation_VonKries',
-    'chromatic_adaptation_VonKries',
+    "matrix_chromatic_adaptation_VonKries",
+    "chromatic_adaptation_VonKries",
 ]
 
 
 def matrix_chromatic_adaptation_VonKries(
-        XYZ_w: ArrayLike,
-        XYZ_wr: ArrayLike,
-        transform: Union[Literal[
-            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
-            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
-            'Von Kries', 'XYZ Scaling'], str] = 'CAT02') -> NDArray:
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+) -> NDArray:
     """
     Computes the *chromatic adaptation* matrix from test viewing conditions
     to reference viewing conditions.
@@ -109,14 +123,15 @@ def matrix_chromatic_adaptation_VonKries(
     XYZ_wr = to_domain_1(XYZ_wr)
 
     transform = validate_method(
-        transform, CHROMATIC_ADAPTATION_TRANSFORMS,
-        '"{0}" chromatic adaptation transform is invalid, '
-        'it must be one of {1}!')
+        transform,
+        CHROMATIC_ADAPTATION_TRANSFORMS,
+        '"{0}" chromatic adaptation transform is invalid, ' "it must be one of {1}!",
+    )
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    RGB_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
-    RGB_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))
+    RGB_w = np.einsum("...i,...ij->...j", XYZ_w, np.transpose(M))
+    RGB_wr = np.einsum("...i,...ij->...j", XYZ_wr, np.transpose(M))
 
     D = RGB_wr / RGB_w
 
@@ -129,13 +144,27 @@ def matrix_chromatic_adaptation_VonKries(
 
 
 def chromatic_adaptation_VonKries(
-        XYZ: ArrayLike,
-        XYZ_w: ArrayLike,
-        XYZ_wr: ArrayLike,
-        transform: Union[Literal[
-            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
-            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
-            'Von Kries', 'XYZ Scaling'], str] = 'CAT02') -> NDArray:
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+) -> NDArray:
     """
     Adapts given stimulus from test viewing conditions to reference viewing
     conditions.

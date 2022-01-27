@@ -28,22 +28,23 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'log_encoding_Panalog',
-    'log_decoding_Panalog',
+    "log_encoding_Panalog",
+    "log_decoding_Panalog",
 ]
 
 
-def log_encoding_Panalog(x: FloatingOrArrayLike,
-                         black_offset: FloatingOrArrayLike = 10
-                         ** ((64 - 681) / 444)) -> FloatingOrNDArray:
+def log_encoding_Panalog(
+    x: FloatingOrArrayLike,
+    black_offset: FloatingOrArrayLike = 10 ** ((64 - 681) / 444),
+) -> FloatingOrNDArray:
     """
     Defines the *Panalog* log encoding curve / opto-electronic transfer
     function.
@@ -98,9 +99,10 @@ def log_encoding_Panalog(x: FloatingOrArrayLike,
     return as_float(from_range_1(y))
 
 
-def log_decoding_Panalog(y: FloatingOrArrayLike,
-                         black_offset: FloatingOrArrayLike = 10
-                         ** ((64 - 681) / 444)) -> FloatingOrNDArray:
+def log_decoding_Panalog(
+    y: FloatingOrArrayLike,
+    black_offset: FloatingOrArrayLike = 10 ** ((64 - 681) / 444),
+) -> FloatingOrNDArray:
     """
     Defines the *Panalog* log decoding curve / electro-optical transfer
     function.

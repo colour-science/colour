@@ -17,19 +17,19 @@ import os
 
 from types import FunctionType, MethodType, ModuleType
 
-__author__ = 'Sphinx Team, Colour Developers'
-__copyright__ = 'Copyright 2007-2019 - Sphinx Team'
-__copyright__ += ', '
-__copyright__ += 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Sphinx Team, Colour Developers"
+__copyright__ = "Copyright 2007-2019 - Sphinx Team"
+__copyright__ += ", "
+__copyright__ += "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MockObject',
-    'MockModule',
-    'mock_scipy_for_colour',
+    "MockObject",
+    "MockModule",
+    "mock_scipy_for_colour",
 ]
 
 
@@ -50,7 +50,7 @@ class MockObject:
     :cite:`SphinxTeam`
     """
 
-    __display_name__ = 'MockObject'
+    __display_name__ = "MockObject"
 
     def __new__(cls, *args, **kwargs):
         """
@@ -71,7 +71,8 @@ class MockObject:
                     args[0],
                     superclass.__display_name__,
                     superclass=superclass,
-                    attributes=args[2])
+                    attributes=args[2],
+                )
 
         return super(MockObject, cls).__new__(cls)
 
@@ -112,7 +113,7 @@ class MockObject:
         of a class definition, then method __mro_entries__ is searched on it.
         """
 
-        return (self.__class__, )
+        return (self.__class__,)
 
     def __getitem__(self, key):
         """
@@ -182,10 +183,10 @@ def _make_subclass(name, module, superclass=MockObject, attributes=None):
         Attributes to set the sub-class with.
     """
 
-    attrs = {'__module__': module, '__display_name__': module + '.' + name}
+    attrs = {"__module__": module, "__display_name__": module + "." + name}
     attrs.update(attributes or {})
 
-    return type(name, (superclass, ), attrs)
+    return type(name, (superclass,), attrs)
 
 
 class MockModule(ModuleType):
@@ -238,18 +239,32 @@ def mock_scipy_for_colour():
 
     import sys
 
-    for module in ('scipy', 'scipy.interpolate', 'scipy.linalg',
-                   'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.spatial',
-                   'scipy.spatial.distance', 'scipy.optimize'):
+    for module in (
+        "scipy",
+        "scipy.interpolate",
+        "scipy.linalg",
+        "scipy.ndimage",
+        "scipy.ndimage.filters",
+        "scipy.spatial",
+        "scipy.spatial.distance",
+        "scipy.optimize",
+    ):
         sys.modules[str(module)] = MockModule(str(module))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
-    for module in ('scipy', 'scipy.interpolate', 'scipy.linalg',
-                   'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.spatial',
-                   'scipy.spatial.distance', 'scipy.optimize'):
+    for module in (
+        "scipy",
+        "scipy.interpolate",
+        "scipy.linalg",
+        "scipy.ndimage",
+        "scipy.ndimage.filters",
+        "scipy.spatial",
+        "scipy.spatial.distance",
+        "scipy.optimize",
+    ):
         sys.modules[str(module)] = MockModule(str(module))
 
     import colour

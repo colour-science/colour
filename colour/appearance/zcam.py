@@ -66,24 +66,25 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'InductionFactors_ZCAM',
-    'VIEWING_CONDITIONS_ZCAM',
-    'CAM_Specification_ZCAM',
-    'XYZ_to_ZCAM',
-    'ZCAM_to_XYZ',
+    "InductionFactors_ZCAM",
+    "VIEWING_CONDITIONS_ZCAM",
+    "CAM_Specification_ZCAM",
+    "XYZ_to_ZCAM",
+    "ZCAM_to_XYZ",
 ]
 
 
 class InductionFactors_ZCAM(
-        namedtuple('InductionFactors_ZCAM', ('F_s', 'F', 'c', 'N_c'))):
+    namedtuple("InductionFactors_ZCAM", ("F_s", "F", "c", "N_c"))
+):
     """
     *ZCAM* colour appearance model induction factors.
 
@@ -109,14 +110,13 @@ class InductionFactors_ZCAM(
     """
 
 
-VIEWING_CONDITIONS_ZCAM: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Average':
-        InductionFactors_ZCAM(0.69, *VIEWING_CONDITIONS_CIECAM02['Average']),
-    'Dim':
-        InductionFactors_ZCAM(0.59, *VIEWING_CONDITIONS_CIECAM02['Dim']),
-    'Dark':
-        InductionFactors_ZCAM(0.525, *VIEWING_CONDITIONS_CIECAM02['Dark']),
-})
+VIEWING_CONDITIONS_ZCAM: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Average": InductionFactors_ZCAM(0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]),
+        "Dim": InductionFactors_ZCAM(0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"]),
+        "Dark": InductionFactors_ZCAM(0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"]),
+    }
+)
 VIEWING_CONDITIONS_ZCAM.__doc__ = """
 Reference *ZCAM* colour appearance model viewing conditions.
 
@@ -126,9 +126,9 @@ References
 """
 
 HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
-    'h_i': np.array([33.44, 89.29, 146.30, 238.36, 393.44]),
-    'e_i': np.array([0.68, 0.64, 1.52, 0.77, 0.68]),
-    'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])
+    "h_i": np.array([33.44, 89.29, 146.30, 238.36, 393.44]),
+    "e_i": np.array([0.68, 0.64, 1.52, 0.77, 0.68]),
+    "H_i": np.array([0.0, 100.0, 200.0, 300.0, 400.0]),
 }
 
 
@@ -300,16 +300,18 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
 
 
 TVS_D65: NDArray = xy_to_XYZ(
-    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'])
+    CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+)
 
 
 def XYZ_to_ZCAM(
-        XYZ: ArrayLike,
-        XYZ_w: ArrayLike,
-        L_A: FloatingOrArrayLike,
-        Y_b: FloatingOrArrayLike,
-        surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM['Average'],
-        discount_illuminant: Boolean = False) -> CAM_Specification_ZCAM:
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    Y_b: FloatingOrArrayLike,
+    surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
+    discount_illuminant: Boolean = False,
+) -> CAM_Specification_ZCAM:
     """
     Computes the *ZCAM* colour appearance model correlates from given *CIE XYZ*
     tristimulus values.
@@ -431,11 +433,15 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
     # Computing degree of adaptation :math:`D`.
-    D = (degree_of_adaptation(surround.F, L_A)
-         if not discount_illuminant else ones(L_A.shape))
+    D = (
+        degree_of_adaptation(surround.F, L_A)
+        if not discount_illuminant
+        else ones(L_A.shape)
+    )
 
     XYZ_D65 = chromatic_adaptation_Zhai2018(
-        XYZ, XYZ_w, TVS_D65, D, D, chromatic_adaptation_transform='CAT02')
+        XYZ, XYZ_w, TVS_D65, D, D, chromatic_adaptation_transform="CAT02"
+    )
 
     # Step 1 (Forward) - Computing factors related with viewing conditions and
     # independent of the test stimulus.
@@ -447,10 +453,9 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     # Step 2 (Forward) - Computing achromatic response (:math:`I_z` and
     # :math:`I_{z,w}`), redness-greenness (:math:`a_z` and :math:`a_{z,w}`),
     # and yellowness-blueness (:math:`b_z`, :math:`b_{z,w}`).
-    with domain_range_scale('ignore'):
-        I_z, a_z, b_z = tsplit(XYZ_to_Izazbz(XYZ_D65, method='Safdar 2021'))
-        I_z_w, a_z_w, b_z_w = tsplit(
-            XYZ_to_Izazbz(XYZ_w, method='Safdar 2021'))
+    with domain_range_scale("ignore"):
+        I_z, a_z, b_z = tsplit(XYZ_to_Izazbz(XYZ_D65, method="Safdar 2021"))
+        I_z_w, a_z_w, b_z_w = tsplit(XYZ_to_Izazbz(XYZ_w, method="Safdar 2021"))
 
     # Step 3 (Forward) - Computing hue angle :math:`h_z`
     h_z = hue_angle(a_z, b_z)
@@ -470,8 +475,11 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
 
     J_z = 100 * (Q_z / Q_z_w)
 
-    M_z = 100 * (a_z ** 2 + b_z ** 2) ** 0.37 * (
-        (spow(e_z, 0.068) * spow(F_L, 0.2)) / (F_b ** 0.1 * spow(I_z_w, 0.78)))
+    M_z = (
+        100
+        * (a_z ** 2 + b_z ** 2) ** 0.37
+        * ((spow(e_z, 0.068) * spow(F_L, 0.2)) / (F_b ** 0.1 * spow(I_z_w, 0.78)))
+    )
 
     C_z = 100 * (M_z / Q_z_w)
 
@@ -501,12 +509,13 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
 
 
 def ZCAM_to_XYZ(
-        specification: CAM_Specification_ZCAM,
-        XYZ_w: ArrayLike,
-        L_A: FloatingOrArrayLike,
-        Y_b: FloatingOrArrayLike,
-        surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM['Average'],
-        discount_illuminant: Boolean = False) -> NDArray:
+    specification: CAM_Specification_ZCAM,
+    XYZ_w: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    Y_b: FloatingOrArrayLike,
+    surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
+    discount_illuminant: Boolean = False,
+) -> NDArray:
     """
     Converts from *ZCAM* specification to *CIE XYZ* tristimulus values.
 
@@ -627,8 +636,7 @@ def ZCAM_to_XYZ(
     array([ 185.,  206.,  163.])
     """
 
-    J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = astuple(
-        specification)
+    J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = astuple(specification)
 
     J_z = to_domain_1(J_z)
     C_z = to_domain_1(C_z)
@@ -645,8 +653,11 @@ def ZCAM_to_XYZ(
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
     # Computing degree of adaptation :math:`D`.
-    D = (degree_of_adaptation(surround.F, L_A)
-         if not discount_illuminant else ones(L_A.shape))
+    D = (
+        degree_of_adaptation(surround.F, L_A)
+        if not discount_illuminant
+        else ones(L_A.shape)
+    )
 
     # Step 1 (Forward) - Computing factors related with viewing conditions and
     # independent of the test stimulus.
@@ -658,9 +669,8 @@ def ZCAM_to_XYZ(
     # Step 2 (Forward) - Computing achromatic response (:math:`I_{z,w}`),
     # redness-greenness (:math:`a_{z,w}`), and yellowness-blueness
     # (:math:`b_{z,w}`).
-    with domain_range_scale('ignore'):
-        I_z_w, A_z_w, B_z_w = tsplit(
-            XYZ_to_Izazbz(XYZ_w, method='Safdar 2021'))
+    with domain_range_scale("ignore"):
+        I_z_w, A_z_w, B_z_w = tsplit(XYZ_to_Izazbz(XYZ_w, method="Safdar 2021"))
 
     # Step 1 (Inverse) - Computing achromatic response (:math:`I_z`).
     Q_z_p = (1.6 * F_s) / F_b ** 0.12
@@ -676,8 +686,10 @@ def ZCAM_to_XYZ(
     if has_only_nan(M_z) and not has_only_nan(C_z):
         M_z = (C_z * Q_z_w) / 100
     elif has_only_nan(M_z):
-        raise ValueError('Either "C" or "M" correlate must be defined in '
-                         'the "CAM_Specification_ZCAM" argument!')
+        raise ValueError(
+            'Either "C" or "M" correlate must be defined in '
+            'the "CAM_Specification_ZCAM" argument!'
+        )
 
     # Step 3 (Inverse) - Computing hue angle :math:`h_z`
     # :math:`h_z` is currently required as an input.
@@ -690,17 +702,20 @@ def ZCAM_to_XYZ(
     # yellowness-blueness (:math:`b_z`).
     # C_z_p_e = 1.3514
     C_z_p_e = 50 / 37
-    C_z_p = spow((M_z * spow(I_z_w, 0.78) * F_b ** 0.1) /
-                 (100 * e_z ** 0.068 * spow(F_L, 0.2)), C_z_p_e)
+    C_z_p = spow(
+        (M_z * spow(I_z_w, 0.78) * F_b ** 0.1) / (100 * e_z ** 0.068 * spow(F_L, 0.2)),
+        C_z_p_e,
+    )
     a_z = C_z_p * np.cos(h_z_r)
     b_z = C_z_p * np.sin(h_z_r)
 
     # Step 5 (Inverse) - Computing tristimulus values :math:`XYZ_{D65}`.
-    with domain_range_scale('ignore'):
-        XYZ_D65 = Izazbz_to_XYZ(tstack([I_z, a_z, b_z]), method='Safdar 2021')
+    with domain_range_scale("ignore"):
+        XYZ_D65 = Izazbz_to_XYZ(tstack([I_z, a_z, b_z]), method="Safdar 2021")
 
     XYZ = chromatic_adaptation_Zhai2018(
-        XYZ_D65, TVS_D65, XYZ_w, D, D, chromatic_adaptation_transform='CAT02')
+        XYZ_D65, TVS_D65, XYZ_w, D, D, chromatic_adaptation_transform="CAT02"
+    )
 
     return from_range_1(XYZ)
 
@@ -727,15 +742,15 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     h = as_float_array(h)
 
-    h_i = HUE_DATA_FOR_HUE_QUADRATURE['h_i']
-    e_i = HUE_DATA_FOR_HUE_QUADRATURE['e_i']
-    H_i = HUE_DATA_FOR_HUE_QUADRATURE['H_i']
+    h_i = HUE_DATA_FOR_HUE_QUADRATURE["h_i"]
+    e_i = HUE_DATA_FOR_HUE_QUADRATURE["e_i"]
+    H_i = HUE_DATA_FOR_HUE_QUADRATURE["H_i"]
 
     # :math:`h_p` = :math:`h_z` + 360 if :math:`h_z` < :math:`h_1, i.e. h_i[0]
     h[h <= h_i[0]] += 360
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
     h[np.asarray(np.isnan(h))] = 0
-    i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)
+    i = as_int_array(np.searchsorted(h_i, h, side="left") - 1)
 
     h_ii = h_i[i]
     e_ii = e_i[i]
@@ -743,7 +758,6 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     h_ii1 = h_i[i + 1]
     e_ii1 = e_i[i + 1]
 
-    H = H_ii + ((100 * (h - h_ii) / e_ii) / (
-        (h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
+    H = H_ii + ((100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
 
     return as_float(H)

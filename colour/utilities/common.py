@@ -47,46 +47,46 @@ from colour.hints import (
 )
 from colour.utilities import CaseInsensitiveMapping, Lookup
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CacheRegistry',
-    'CACHE_REGISTRY',
-    'handle_numpy_errors',
-    'ignore_numpy_errors',
-    'raise_numpy_errors',
-    'print_numpy_errors',
-    'warn_numpy_errors',
-    'ignore_python_warnings',
-    'attest',
-    'batch',
-    'disable_multiprocessing',
-    'multiprocessing_pool',
-    'is_matplotlib_installed',
-    'is_networkx_installed',
-    'is_opencolorio_installed',
-    'is_openimageio_installed',
-    'is_pandas_installed',
-    'is_sklearn_installed',
-    'is_tqdm_installed',
-    'is_trimesh_installed',
-    'required',
-    'is_iterable',
-    'is_string',
-    'is_numeric',
-    'is_integer',
-    'is_sibling',
-    'filter_kwargs',
-    'filter_mapping',
-    'first_item',
-    'copy_definition',
-    'validate_method',
-    'optional',
+    "CacheRegistry",
+    "CACHE_REGISTRY",
+    "handle_numpy_errors",
+    "ignore_numpy_errors",
+    "raise_numpy_errors",
+    "print_numpy_errors",
+    "warn_numpy_errors",
+    "ignore_python_warnings",
+    "attest",
+    "batch",
+    "disable_multiprocessing",
+    "multiprocessing_pool",
+    "is_matplotlib_installed",
+    "is_networkx_installed",
+    "is_opencolorio_installed",
+    "is_openimageio_installed",
+    "is_pandas_installed",
+    "is_sklearn_installed",
+    "is_tqdm_installed",
+    "is_trimesh_installed",
+    "required",
+    "is_iterable",
+    "is_string",
+    "is_numeric",
+    "is_integer",
+    "is_sibling",
+    "filter_kwargs",
+    "filter_mapping",
+    "first_item",
+    "copy_definition",
+    "validate_method",
+    "optional",
 ]
 
 
@@ -153,10 +153,12 @@ class CacheRegistry:
             Formatted string representation.
         """
 
-        return pformat({
-            name: '{0} item(s)'.format(len(self._registry[name]))
-            for name in sorted(self._registry)
-        })
+        return pformat(
+            {
+                name: "{0} item(s)".format(len(self._registry[name]))
+                for name in sorted(self._registry)
+            }
+        )
 
     def register_cache(self, name: str) -> Dict:
         """
@@ -324,10 +326,10 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     return wrapper
 
 
-ignore_numpy_errors = handle_numpy_errors(all='ignore')
-raise_numpy_errors = handle_numpy_errors(all='raise')
-print_numpy_errors = handle_numpy_errors(all='print')
-warn_numpy_errors = handle_numpy_errors(all='warn')
+ignore_numpy_errors = handle_numpy_errors(all="ignore")
+raise_numpy_errors = handle_numpy_errors(all="raise")
+print_numpy_errors = handle_numpy_errors(all="print")
+warn_numpy_errors = handle_numpy_errors(all="warn")
 
 
 def ignore_python_warnings(function: Callable) -> Callable:
@@ -358,14 +360,14 @@ def ignore_python_warnings(function: Callable) -> Callable:
         """
 
         with warnings.catch_warnings():
-            warnings.simplefilter('ignore')
+            warnings.simplefilter("ignore")
 
             return function(*args, **kwargs)
 
     return wrapped
 
 
-def attest(condition: Boolean, message: str = ''):
+def attest(condition: Boolean, message: str = ""):
     """
     A replacement for `assert` that is not removed by optimised Python
     execution.
@@ -405,7 +407,7 @@ def batch(sequence: Sequence, k: Union[Integer, Literal[3]] = 3) -> Generator:
     """
 
     for i in range(0, len(sequence), k):
-        yield sequence[i:i + k]
+        yield sequence[i : i + k]
 
 
 _MULTIPROCESSING_ENABLED: Boolean = True
@@ -473,7 +475,8 @@ def _initializer(kwargs: Any):
     import colour.utilities.array  # pragma: no cover
 
     colour.utilities.array._DOMAIN_RANGE_SCALE = kwargs.get(
-        'scale', 'reference')  # pragma: no cover
+        "scale", "reference"
+    )  # pragma: no cover
 
 
 @contextmanager
@@ -535,8 +538,8 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
 
             pass
 
-    kwargs['initializer'] = _initializer
-    kwargs['initargs'] = ({'scale': get_domain_range_scale()}, )
+    kwargs["initializer"] = _initializer
+    kwargs["initargs"] = ({"scale": get_domain_range_scale()},)
 
     pool_factory: Callable
     if _MULTIPROCESSING_ENABLED:
@@ -580,10 +583,12 @@ def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"Matplotlib" related API features are not available: '
-                 '"{0}".\nSee the installation guide for more information: '
-                 'https://www.colour-science.org/installation-guide/'
-                 ).format(error))
+                (
+                    '"Matplotlib" related API features are not available: '
+                    '"{0}".\nSee the installation guide for more information: '
+                    "https://www.colour-science.org/installation-guide/"
+                ).format(error)
+            )
         return False
 
 
@@ -615,11 +620,13 @@ def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"NetworkX" related API features, e.g. the automatic colour '
-                 'conversion graph, are not available: "{0}".\nPlease refer '
-                 'to the installation guide for more information: '
-                 'https://www.colour-science.org/installation-guide/'
-                 ).format(error))
+                (
+                    '"NetworkX" related API features, e.g. the automatic colour '
+                    'conversion graph, are not available: "{0}".\nPlease refer '
+                    "to the installation guide for more information: "
+                    "https://www.colour-science.org/installation-guide/"
+                ).format(error)
+            )
         return False
 
 
@@ -651,10 +658,12 @@ def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"OpenColorIO" related API features are not available: '
-                 '"{0}".\nSee the installation guide for more information: '
-                 'https://www.colour-science.org/installation-guide/'
-                 ).format(error))
+                (
+                    '"OpenColorIO" related API features are not available: '
+                    '"{0}".\nSee the installation guide for more information: '
+                    "https://www.colour-science.org/installation-guide/"
+                ).format(error)
+            )
         return False
 
 
@@ -686,10 +695,12 @@ def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"OpenImageIO" related API features are not available: '
-                 '"{0}".\nSee the installation guide for more information: '
-                 'https://www.colour-science.org/installation-guide/'
-                 ).format(error))
+                (
+                    '"OpenImageIO" related API features are not available: '
+                    '"{0}".\nSee the installation guide for more information: '
+                    "https://www.colour-science.org/installation-guide/"
+                ).format(error)
+            )
         return False
 
 
@@ -721,10 +732,12 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"Pandas" related API features are not available: "{0}".\n'
-                 'See the installation guide for more information: '
-                 'https://www.colour-science.org/installation-guide/'
-                 ).format(error))
+                (
+                    '"Pandas" related API features are not available: "{0}".\n'
+                    "See the installation guide for more information: "
+                    "https://www.colour-science.org/installation-guide/"
+                ).format(error)
+            )
         return False
 
 
@@ -757,11 +770,13 @@ def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"Scikit-Learn" related API features are not available: '
-                 '"{0}".\n'
-                 'See the installation guide for more information: '
-                 'https://www.colour-science.org/installation-guide/'
-                 ).format(error))
+                (
+                    '"Scikit-Learn" related API features are not available: '
+                    '"{0}".\n'
+                    "See the installation guide for more information: "
+                    "https://www.colour-science.org/installation-guide/"
+                ).format(error)
+            )
         return False
 
 
@@ -793,10 +808,12 @@ def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"tqdm" related API features are not available: "{0}".\n'
-                 'See the installation guide for more information: '
-                 'https://www.colour-science.org/installation-guide/'
-                 ).format(error))
+                (
+                    '"tqdm" related API features are not available: "{0}".\n'
+                    "See the installation guide for more information: "
+                    "https://www.colour-science.org/installation-guide/"
+                ).format(error)
+            )
         return False
 
 
@@ -828,23 +845,27 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                ('"Trimesh" related API features are not available: '
-                 '"{0}".\nSee the installation guide for more information: '
-                 'https://www.colour-science.org/installation-guide/'
-                 ).format(error))
+                (
+                    '"Trimesh" related API features are not available: '
+                    '"{0}".\nSee the installation guide for more information: '
+                    "https://www.colour-science.org/installation-guide/"
+                ).format(error)
+            )
         return False
 
 
-_REQUIREMENTS_TO_CALLABLE: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Matplotlib': is_matplotlib_installed,
-    'NetworkX': is_networkx_installed,
-    'OpenColorIO': is_opencolorio_installed,
-    'OpenImageIO': is_openimageio_installed,
-    'Pandas': is_pandas_installed,
-    'Scikit-Learn': is_sklearn_installed,
-    'tqdm': is_tqdm_installed,
-    'trimesh': is_trimesh_installed,
-})
+_REQUIREMENTS_TO_CALLABLE: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Matplotlib": is_matplotlib_installed,
+        "NetworkX": is_networkx_installed,
+        "OpenColorIO": is_opencolorio_installed,
+        "OpenImageIO": is_openimageio_installed,
+        "Pandas": is_pandas_installed,
+        "Scikit-Learn": is_sklearn_installed,
+        "tqdm": is_tqdm_installed,
+        "trimesh": is_trimesh_installed,
+    }
+)
 """
 Mapping of requirements to their respective callables.
 
@@ -854,9 +875,18 @@ _REQUIREMENTS_TO_CALLABLE
 """
 
 
-def required(*requirements: Literal['Matplotlib', 'NetworkX', 'OpenColorIO',
-                                    'OpenImageIO', 'Pandas', 'Scikit-Learn',
-                                    'tqdm', 'trimesh']) -> Callable:
+def required(
+    *requirements: Literal[
+        "Matplotlib",
+        "NetworkX",
+        "OpenColorIO",
+        "OpenImageIO",
+        "Pandas",
+        "Scikit-Learn",
+        "tqdm",
+        "trimesh",
+    ]
+) -> Callable:
     """
     A decorator checking if various requirements are satisfied.
 
@@ -913,7 +943,7 @@ def is_iterable(a: Any) -> Boolean:
     False
     """
 
-    return is_string(a) or (True if getattr(a, '__iter__', False) else False)
+    return is_string(a) or (True if getattr(a, "__iter__", False) else False)
 
 
 def is_string(a: Any) -> Boolean:
@@ -964,13 +994,16 @@ def is_numeric(a: Any) -> Boolean:
     False
     """
 
-    return isinstance(a, (
-        int,
-        float,
-        complex,
-        np.integer,
-        np.floating,
-    ))
+    return isinstance(
+        a,
+        (
+            int,
+            float,
+            complex,
+            np.integer,
+            np.floating,
+        ),
+    )
 
 
 def is_integer(a: Any) -> Boolean:
@@ -1022,7 +1055,8 @@ def is_sibling(element: Any, mapping: Mapping) -> Boolean:
     """
 
     return isinstance(
-        element, tuple(set(type(element) for element in mapping.values())))
+        element, tuple(set(type(element) for element in mapping.values()))
+    )
 
 
 def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
@@ -1073,10 +1107,12 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     return kwargs
 
 
-def filter_mapping(mapping: Mapping,
-                   filterers: Union[str, Sequence[str]],
-                   anchors: Boolean = True,
-                   flags: Union[Integer, RegexFlag] = re.IGNORECASE) -> Dict:
+def filter_mapping(
+    mapping: Mapping,
+    filterers: Union[str, Sequence[str]],
+    anchors: Boolean = True,
+    flags: Union[Integer, RegexFlag] = re.IGNORECASE,
+) -> Dict:
     """
     Filters given mapping with given filterers.
 
@@ -1119,10 +1155,11 @@ def filter_mapping(mapping: Mapping,
     """
 
     def filter_mapping_with_filter(
-            mapping: Mapping,
-            filterer: str,
-            anchors: Boolean = True,
-            flags: Union[Integer, RegexFlag] = re.IGNORECASE) -> Dict:
+        mapping: Mapping,
+        filterer: str,
+        anchors: Boolean = True,
+        flags: Union[Integer, RegexFlag] = re.IGNORECASE,
+    ) -> Dict:
         """
         Filters given mapping with given filterer.
 
@@ -1145,20 +1182,18 @@ def filter_mapping(mapping: Mapping,
         """
 
         if anchors:
-            filterer = '^{0}$'.format(filterer)
-            filterer = filterer.replace('^^', '^').replace('$$', '$')
+            filterer = "^{0}$".format(filterer)
+            filterer = filterer.replace("^^", "^").replace("$$", "$")
 
         elements = [
-            mapping[element] for element in mapping
+            mapping[element]
+            for element in mapping
             if re.match(filterer, element, flags)
         ]
 
         lookup = Lookup(mapping)
 
-        return {
-            lookup.first_key_from_value(element): element
-            for element in elements
-        }
+        return {lookup.first_key_from_value(element): element for element in elements}
 
     filterers = [str(filterers)] if is_string(filterers) else filterers
 
@@ -1166,7 +1201,8 @@ def filter_mapping(mapping: Mapping,
 
     for filterer in filterers:
         filtered_mapping.update(
-            filter_mapping_with_filter(mapping, filterer, anchors, flags))
+            filter_mapping_with_filter(mapping, filterer, anchors, flags)
+        )
 
     return filtered_mapping
 
@@ -1199,8 +1235,7 @@ def first_item(a: Iterable) -> Any:
     return next(iter(a))
 
 
-def copy_definition(definition: Callable,
-                    name: Optional[str] = None) -> Callable:
+def copy_definition(definition: Callable, name: Optional[str] = None) -> Callable:
     """
     Copies a definition with same code, globals, defaults, closure, and
     name.
@@ -1231,9 +1266,9 @@ def copy_definition(definition: Callable,
 
 
 def validate_method(
-        method: str,
-        valid_methods: Union[Sequence, Mapping],
-        message: str = '"{0}" method is invalid, it must be one of {1}!'
+    method: str,
+    valid_methods: Union[Sequence, Mapping],
+    message: str = '"{0}" method is invalid, it must be one of {1}!',
 ) -> str:
     """
     Validates whether given method exists in the given valid methods and
@@ -1267,15 +1302,13 @@ def validate_method(
     valid_methods = [str(valid_method) for valid_method in valid_methods]
 
     method_lower = method.lower()
-    if method_lower not in [
-            valid_method.lower() for valid_method in valid_methods
-    ]:
+    if method_lower not in [valid_method.lower() for valid_method in valid_methods]:
         raise ValueError(message.format(method, valid_methods))
 
     return method_lower
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 def optional(value: Optional[T], default: T) -> T:

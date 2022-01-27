@@ -26,32 +26,34 @@ from colour.models.rgb import (
     oetf_inverse_BlackmagicFilmGeneration5,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_BLACKMAGIC_WIDE_GAMUT',
-    'WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT',
-    'CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT',
-    'MATRIX_BLACKMAGIC_WIDE_GAMUT_TO_XYZ',
-    'MATRIX_XYZ_TO_BLACKMAGIC_WIDE_GAMUT',
-    'RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT',
+    "PRIMARIES_BLACKMAGIC_WIDE_GAMUT",
+    "WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT",
+    "CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT",
+    "MATRIX_BLACKMAGIC_WIDE_GAMUT_TO_XYZ",
+    "MATRIX_XYZ_TO_BLACKMAGIC_WIDE_GAMUT",
+    "RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT",
 ]
 
-PRIMARIES_BLACKMAGIC_WIDE_GAMUT: NDArray = np.array([
-    [0.7177215, 0.3171181],
-    [0.2280410, 0.8615690],
-    [0.1005841, -0.0820452],
-])
+PRIMARIES_BLACKMAGIC_WIDE_GAMUT: NDArray = np.array(
+    [
+        [0.7177215, 0.3171181],
+        [0.2280410, 0.8615690],
+        [0.1005841, -0.0820452],
+    ]
+)
 """
 *Blackmagic Wide Gamut* colourspace primaries.
 """
 
-WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT: str = 'Blackmagic Wide Gamut'
+WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT: str = "Blackmagic Wide Gamut"
 """
 *Blackmagic Wide Gamut* colourspace whitepoint name.
 
@@ -61,33 +63,37 @@ Notes
     *D65* variant at 7 decimals: [0.3127170, 0.3290312]
 """
 
-CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT: NDArray = (
-    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT])
+CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT]
 """
 *Blackmagic Wide Gamut* colourspace whitepoint chromaticity coordinates.
 """
 
-MATRIX_BLACKMAGIC_WIDE_GAMUT_TO_XYZ: NDArray = np.array([
-    [0.606530, 0.220408, 0.123479],
-    [0.267989, 0.832731, -0.100720],
-    [-0.029442, -0.086611, 1.204861],
-])
+MATRIX_BLACKMAGIC_WIDE_GAMUT_TO_XYZ: NDArray = np.array(
+    [
+        [0.606530, 0.220408, 0.123479],
+        [0.267989, 0.832731, -0.100720],
+        [-0.029442, -0.086611, 1.204861],
+    ]
+)
 """
 *Blackmagic Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_BLACKMAGIC_WIDE_GAMUT: NDArray = np.array([
-    [1.866382, -0.518397, -0.234610],
-    [-0.600342, 1.378149, 0.176732],
-    [0.002452, 0.086400, 0.836943],
-])
+MATRIX_XYZ_TO_BLACKMAGIC_WIDE_GAMUT: NDArray = np.array(
+    [
+        [1.866382, -0.518397, -0.234610],
+        [-0.600342, 1.378149, 0.176732],
+        [0.002452, 0.086400, 0.836943],
+    ]
+)
 """
 *CIE XYZ* tristimulus values to *Blackmagic Wide Gamut* colourspace matrix.
 """
 
 RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT: RGB_Colourspace = RGB_Colourspace(
-    'Blackmagic Wide Gamut',
+    "Blackmagic Wide Gamut",
     PRIMARIES_BLACKMAGIC_WIDE_GAMUT,
     CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT,
     WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT,

@@ -25,16 +25,16 @@ from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
 from colour.utilities import as_float_array, as_int_scalar, attest, tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'read_LUT_ResolveCube',
-    'write_LUT_ResolveCube',
+    "read_LUT_ResolveCube",
+    "write_LUT_ResolveCube",
 ]
 
 
@@ -156,21 +156,21 @@ def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
             if len(line) == 0:
                 continue
 
-            if line.startswith('#'):
+            if line.startswith("#"):
                 comments.append(line[1:].strip())
                 continue
 
             tokens = line.split()
-            if tokens[0] == 'TITLE':
-                title = ' '.join(tokens[1:])[1:-1]
-            elif tokens[0] == 'LUT_1D_INPUT_RANGE':
+            if tokens[0] == "TITLE":
+                title = " ".join(tokens[1:])[1:-1]
+            elif tokens[0] == "LUT_1D_INPUT_RANGE":
                 domain_3x1D = tstack([tokens[1:], tokens[1:], tokens[1:]])
-            elif tokens[0] == 'LUT_3D_INPUT_RANGE':
+            elif tokens[0] == "LUT_3D_INPUT_RANGE":
                 domain_3D = tstack([tokens[1:], tokens[1:], tokens[1:]])
-            elif tokens[0] == 'LUT_1D_SIZE':
+            elif tokens[0] == "LUT_1D_SIZE":
                 has_3x1D = True
                 size_3x1D = as_int_scalar(tokens[1])
-            elif tokens[0] == 'LUT_3D_SIZE':
+            elif tokens[0] == "LUT_3D_SIZE":
                 has_3D = True
                 size_3D = as_int_scalar(tokens[1])
             else:
@@ -180,38 +180,43 @@ def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
     LUT: Union[LUT3x1D, LUT3D, LUTSequence]
     if has_3x1D and has_3D:
-        table_1D = table[:int(size_3x1D)]
+        table_1D = table[: int(size_3x1D)]
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table_3D = table[int(size_3x1D):].reshape(
-            (size_3D, size_3D, size_3D, 3), order='F')
+        table_3D = table[int(size_3x1D) :].reshape(
+            (size_3D, size_3D, size_3D, 3), order="F"
+        )
         LUT = LUTSequence(
             LUT3x1D(
                 table_1D,
-                '{0} - Shaper'.format(title),
+                "{0} - Shaper".format(title),
                 domain_3x1D,
             ),
             LUT3D(
                 table_3D,
-                '{0} - Cube'.format(title),
+                "{0} - Cube".format(title),
                 domain_3D,
-                comments=comments))
+                comments=comments,
+            ),
+        )
     elif has_3x1D:
         LUT = LUT3x1D(table, title, domain_3x1D, comments=comments)
     elif has_3D:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape([size_3D, size_3D, size_3D, 3], order='F')
+        table = table.reshape([size_3D, size_3D, size_3D, 3], order="F")
         LUT = LUT3D(table, title, domain_3D, comments=comments)
 
     return LUT
 
 
-def write_LUT_ResolveCube(LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence],
-                          path: str,
-                          decimals: Integer = 7) -> Boolean:
+def write_LUT_ResolveCube(
+    LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence],
+    path: str,
+    decimals: Integer = 7,
+) -> Boolean:
     """
     Writes given *LUT* to given  *Resolve* *.cube* *LUT* file.
 
@@ -287,14 +292,16 @@ def write_LUT_ResolveCube(LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence],
 
     if isinstance(LUT, LUTSequence):
         attest(
-            len(LUT) == 2 and isinstance(LUT[0], (LUT1D, LUT3x1D)) and
-            isinstance(LUT[1], LUT3D),
-            'LUTSequence must be 1D + 3D or 3x1D + 3D!')
+            len(LUT) == 2
+            and isinstance(LUT[0], (LUT1D, LUT3x1D))
+            and isinstance(LUT[1], LUT3D),
+            "LUTSequence must be 1D + 3D or 3x1D + 3D!",
+        )
 
         if isinstance(LUT[0], LUT1D):
             LUT[0] = LUT[0].as_LUT(LUT3x1D)
 
-        name = '{0} - {1}'.format(LUT[0].name, LUT[1].name)
+        name = "{0} - {1}".format(LUT[0].name, LUT[1].name)
         has_3x1D = True
         has_3D = True
     elif isinstance(LUT, LUT1D):
@@ -310,28 +317,30 @@ def write_LUT_ResolveCube(LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence],
         has_3D = True
         LUT = LUTSequence(LUT3x1D(), LUT)
     else:
-        raise ValueError('LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!')
+        raise ValueError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
 
     for i in range(2):
-        attest(not LUT[i].is_domain_explicit(),
-               '"LUT" domain must be implicit!')
+        attest(not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!')
 
-    attest((len(np.unique(LUT[0].domain)) == 2 and
-            len(np.unique(LUT[1].domain)) == 2), '"LUT" domain must be 1D!')
+    attest(
+        (len(np.unique(LUT[0].domain)) == 2 and len(np.unique(LUT[1].domain)) == 2),
+        '"LUT" domain must be 1D!',
+    )
 
     if has_3x1D:
-        attest(2 <= LUT[0].size <= 65536,
-               'Shaper size must be in domain [2, 65536]!')
+        attest(
+            2 <= LUT[0].size <= 65536,
+            "Shaper size must be in domain [2, 65536]!",
+        )
     if has_3D:
-        attest(2 <= LUT[1].size <= 256,
-               'Cube size must be in domain [2, 256]!')
+        attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
 
     def _format_array(array: Union[List, Tuple]) -> str:
         """
         Formats given array as a *Resolve* *.cube* data row.
         """
 
-        return '{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}'.format(decimals, *array)
+        return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
     def _format_tuple(array: Union[List, Tuple]) -> str:
         """
@@ -339,44 +348,48 @@ def write_LUT_ResolveCube(LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence],
         precision.
         """
 
-        return '{1:0.{0}f} {2:0.{0}f}'.format(decimals, *array)
+        return "{1:0.{0}f} {2:0.{0}f}".format(decimals, *array)
 
-    with open(path, 'w') as cube_file:
+    with open(path, "w") as cube_file:
         cube_file.write('TITLE "{0}"\n'.format(name))
 
         if LUT[0].comments:
             for comment in LUT[0].comments:
-                cube_file.write('# {0}\n'.format(comment))
+                cube_file.write("# {0}\n".format(comment))
 
         if LUT[1].comments:
             for comment in LUT[1].comments:
-                cube_file.write('# {0}\n'.format(comment))
+                cube_file.write("# {0}\n".format(comment))
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
 
         if has_3x1D:
-            cube_file.write('{0} {1}\n'.format('LUT_1D_SIZE',
-                                               LUT[0].table.shape[0]))
+            cube_file.write("{0} {1}\n".format("LUT_1D_SIZE", LUT[0].table.shape[0]))
             if not np.array_equal(LUT[0].domain, default_domain):
-                cube_file.write('LUT_1D_INPUT_RANGE {0}\n'.format(
-                    _format_tuple([LUT[0].domain[0][0], LUT[0].domain[1][0]])))
+                cube_file.write(
+                    "LUT_1D_INPUT_RANGE {0}\n".format(
+                        _format_tuple([LUT[0].domain[0][0], LUT[0].domain[1][0]])
+                    )
+                )
 
         if has_3D:
-            cube_file.write('{0} {1}\n'.format('LUT_3D_SIZE',
-                                               LUT[1].table.shape[0]))
+            cube_file.write("{0} {1}\n".format("LUT_3D_SIZE", LUT[1].table.shape[0]))
             if not np.array_equal(LUT[1].domain, default_domain):
-                cube_file.write('LUT_3D_INPUT_RANGE {0}\n'.format(
-                    _format_tuple([LUT[1].domain[0][0], LUT[1].domain[1][0]])))
+                cube_file.write(
+                    "LUT_3D_INPUT_RANGE {0}\n".format(
+                        _format_tuple([LUT[1].domain[0][0], LUT[1].domain[1][0]])
+                    )
+                )
 
         if has_3x1D:
             table = LUT[0].table
             for row in table:
-                cube_file.write('{0}\n'.format(_format_array(row)))
-            cube_file.write('\n')
+                cube_file.write("{0}\n".format(_format_array(row)))
+            cube_file.write("\n")
 
         if has_3D:
-            table = LUT[1].table.reshape([-1, 3], order='F')
+            table = LUT[1].table.reshape([-1, 3], order="F")
             for row in table:
-                cube_file.write('{0}\n'.format(_format_array(row)))
+                cube_file.write("{0}\n".format(_format_array(row)))
 
     return True

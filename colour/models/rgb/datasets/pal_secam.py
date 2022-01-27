@@ -29,20 +29,20 @@ from colour.models.rgb.datasets.itur_bt_470 import (
     RGB_COLOURSPACE_BT470_625,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_PAL_SECAM',
-    'WHITEPOINT_NAME_PAL_SECAM',
-    'CCS_WHITEPOINT_PAL_SECAM',
-    'MATRIX_PAL_SECAM_TO_XYZ',
-    'MATRIX_XYZ_TO_PAL_SECAM',
-    'RGB_COLOURSPACE_PAL_SECAM',
+    "PRIMARIES_PAL_SECAM",
+    "WHITEPOINT_NAME_PAL_SECAM",
+    "CCS_WHITEPOINT_PAL_SECAM",
+    "MATRIX_PAL_SECAM_TO_XYZ",
+    "MATRIX_XYZ_TO_PAL_SECAM",
+    "RGB_COLOURSPACE_PAL_SECAM",
 ]
 
 PRIMARIES_PAL_SECAM: NDArray = PRIMARIES_BT470_625
@@ -71,7 +71,7 @@ MATRIX_XYZ_TO_PAL_SECAM: NDArray = MATRIX_XYZ_TO_BT470_625
 """
 
 RGB_COLOURSPACE_PAL_SECAM: RGB_Colourspace = RGB_Colourspace(
-    'Pal/Secam',
+    "Pal/Secam",
     PRIMARIES_PAL_SECAM,
     CCS_WHITEPOINT_PAL_SECAM,
     WHITEPOINT_NAME_PAL_SECAM,

@@ -25,23 +25,25 @@ from colour.colorimetry import (
 )
 from colour.hints import Boolean, List, NDArray, Union
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'spectral_uniformity',
+    "spectral_uniformity",
 ]
 
 
 def spectral_uniformity(
-        sds: Union[List[Union[SpectralDistribution,
-                              MultiSpectralDistributions]],
-                   MultiSpectralDistributions],
-        use_second_order_derivatives: Boolean = False) -> NDArray:
+    sds: Union[
+        List[Union[SpectralDistribution, MultiSpectralDistributions]],
+        MultiSpectralDistributions,
+    ],
+    use_second_order_derivatives: Boolean = False,
+) -> NDArray:
     """
     Computes the *spectral uniformity* (or *spectral flatness*) of given
     spectral distributions.

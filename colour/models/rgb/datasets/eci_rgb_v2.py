@@ -33,44 +33,48 @@ from colour.hints import (
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_ECI_RGB_V2',
-    'WHITEPOINT_NAME_ECI_RGB_V',
-    'CCS_WHITEPOINT_ECI_RGB_V2',
-    'MATRIX_ECI_RGB_V2_TO_XYZ',
-    'MATRIX_XYZ_TO_ECI_RGB_V2',
-    'RGB_COLOURSPACE_ECI_RGB_V2',
+    "PRIMARIES_ECI_RGB_V2",
+    "WHITEPOINT_NAME_ECI_RGB_V",
+    "CCS_WHITEPOINT_ECI_RGB_V2",
+    "MATRIX_ECI_RGB_V2_TO_XYZ",
+    "MATRIX_XYZ_TO_ECI_RGB_V2",
+    "RGB_COLOURSPACE_ECI_RGB_V2",
 ]
 
-PRIMARIES_ECI_RGB_V2: NDArray = np.array([
-    [0.670103092783505, 0.329896907216495],
-    [0.209905660377358, 0.709905660377358],
-    [0.140061791967044, 0.080329557157570],
-])
+PRIMARIES_ECI_RGB_V2: NDArray = np.array(
+    [
+        [0.670103092783505, 0.329896907216495],
+        [0.209905660377358, 0.709905660377358],
+        [0.140061791967044, 0.080329557157570],
+    ]
+)
 """
 *ECI RGB v2* colourspace primaries.
 """
 
-WHITEPOINT_NAME_ECI_RGB_V: str = 'D50'
+WHITEPOINT_NAME_ECI_RGB_V: str = "D50"
 """
 *ECI RGB v2* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_ECI_RGB_V2: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_ECI_RGB_V])
+CCS_WHITEPOINT_ECI_RGB_V2: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_ECI_RGB_V]
 """
 *ECI RGB v2* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_ECI_RGB_V2_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_ECI_RGB_V2, CCS_WHITEPOINT_ECI_RGB_V2)
+    PRIMARIES_ECI_RGB_V2, CCS_WHITEPOINT_ECI_RGB_V2
+)
 """
 *ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -81,8 +85,9 @@ MATRIX_XYZ_TO_ECI_RGB_V2: NDArray = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
 """
 
 
-def _scale_domain_0_100_range_0_1(a: FloatingOrArrayLike,
-                                  callable_: Callable) -> FloatingOrNDArray:
+def _scale_domain_0_100_range_0_1(
+    a: FloatingOrArrayLike, callable_: Callable
+) -> FloatingOrNDArray:
     """
     Scales the input domain of given *luminance* :math:`Y` or *Lightness*
     :math:`L^*` array to [0, 100], call the given callable, and
@@ -110,7 +115,7 @@ def _scale_domain_0_100_range_0_1(a: FloatingOrArrayLike,
 
 
 RGB_COLOURSPACE_ECI_RGB_V2: RGB_Colourspace = RGB_Colourspace(
-    'ECI RGB v2',
+    "ECI RGB v2",
     PRIMARIES_ECI_RGB_V2,
     CCS_WHITEPOINT_ECI_RGB_V2,
     WHITEPOINT_NAME_ECI_RGB_V,

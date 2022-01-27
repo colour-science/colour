@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+
 from colour.hints import Any
 from colour.utilities.deprecation import (
     ModuleAPI,
@@ -10,7 +11,7 @@ from colour.utilities.deprecation import (
 
 
 class deprecated(ModuleAPI):
-    def __getattr__(self, attribute):
+    def __getattr__(self, attribute) -> Any:
         return super(deprecated, self).__getattr__(attribute)
 
 
@@ -29,20 +30,20 @@ NAME
 """
 
 try:
-    sys.modules['colour.utilities.tests.test_deprecated'] = (
-        deprecated(  # type: ignore[assignment]
-            sys.modules['colour.utilities.tests.test_deprecated'], {
-                'OLD_NAME':
-                    ObjectRenamed(
-                        name=(
-                            'colour.utilities.tests.test_deprecated.OLD_NAME'),
-                        new_name=(
-                            'colour.utilities.tests.test_deprecated.NEW_NAME')
-                    ),
-                'REMOVED':
-                    ObjectRemoved(
-                        name='colour.utilities.tests.test_deprecated.REMOVED')
-            }))
+    sys.modules[
+        "colour.utilities.tests.test_deprecated"
+    ] = deprecated(  # type: ignore[assignment]
+        sys.modules["colour.utilities.tests.test_deprecated"],
+        {
+            "OLD_NAME": ObjectRenamed(
+                name=("colour.utilities.tests.test_deprecated.OLD_NAME"),
+                new_name=("colour.utilities.tests.test_deprecated.NEW_NAME"),
+            ),
+            "REMOVED": ObjectRemoved(
+                name="colour.utilities.tests.test_deprecated.REMOVED"
+            ),
+        },
+    )
 except KeyError:  # pragma: no cover
     pass
 

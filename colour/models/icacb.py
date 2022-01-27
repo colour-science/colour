@@ -30,27 +30,29 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_ICACB_XYZ_TO_LMS',
-    'MATRIX_ICACB_LMS_TO_XYZ',
-    'MATRIX_ICACB_XYZ_TO_LMS_2',
-    'MATRIX_ICACB_LMS_TO_XYZ_2',
-    'XYZ_to_ICaCb',
-    'ICaCb_to_XYZ',
+    "MATRIX_ICACB_XYZ_TO_LMS",
+    "MATRIX_ICACB_LMS_TO_XYZ",
+    "MATRIX_ICACB_XYZ_TO_LMS_2",
+    "MATRIX_ICACB_LMS_TO_XYZ_2",
+    "XYZ_to_ICaCb",
+    "ICaCb_to_XYZ",
 ]
 
-MATRIX_ICACB_XYZ_TO_LMS: NDArray = np.array([
-    [0.37613, 0.70431, -0.05675],
-    [-0.21649, 1.14744, 0.05356],
-    [0.02567, 0.16713, 0.74235],
-])
+MATRIX_ICACB_XYZ_TO_LMS: NDArray = np.array(
+    [
+        [0.37613, 0.70431, -0.05675],
+        [-0.21649, 1.14744, 0.05356],
+        [0.02567, 0.16713, 0.74235],
+    ]
+)
 """
 *CIE XYZ* tristimulus values to normalised cone responses matrix.
 """
@@ -60,11 +62,13 @@ MATRIX_ICACB_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS)
 Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array([
-    [0.4949, 0.5037, 0.0015],
-    [4.2854, -4.5462, 0.2609],
-    [0.3605, 1.1499, -1.5105],
-])
+MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array(
+    [
+        [0.4949, 0.5037, 0.0015],
+        [4.2854, -4.5462, 0.2609],
+        [0.3605, 1.1499, -1.5105],
+    ]
+)
 """
 Normalised non-linear cone responses to :math:`IC_AC_B` colourspace matrix.
 """
@@ -125,7 +129,7 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
     XYZ = to_domain_1(XYZ)
     LMS = vector_dot(MATRIX_ICACB_XYZ_TO_LMS, XYZ)
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         LMS_prime = eotf_inverse_ST2084(LMS)
 
     return from_range_1(vector_dot(MATRIX_ICACB_XYZ_TO_LMS_2, LMS_prime))
@@ -178,7 +182,7 @@ def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
     ICaCb = to_domain_1(ICaCb)
     LMS_prime = vector_dot(MATRIX_ICACB_LMS_TO_XYZ_2, ICaCb)
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         LMS = eotf_ST2084(LMS_prime)
 
     return from_range_1(vector_dot(MATRIX_ICACB_LMS_TO_XYZ, LMS))

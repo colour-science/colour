@@ -30,15 +30,15 @@ else:  # pragma: no cover
     DataFrame = mock.MagicMock()
     Series = mock.MagicMock()
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RGB_DisplayPrimaries',
+    "RGB_DisplayPrimaries",
 ]
 
 
@@ -56,7 +56,7 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
         Values to initialise the multiple :class:`colour.SpectralDistribution`
-        :attr:`colour.continuous.Signal.wavelengths` attribute.
+        :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.
@@ -79,16 +79,28 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels
         Multi-spectral distributions labels for figures, default to
-        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` attribute value.
+        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` property value.
     """
 
     def __init__(
-            self,
-            data: Optional[Union[ArrayLike, DataFrame, dict, MultiSignals,
-                                 MultiSpectralDistributions, Sequence, Series,
-                                 Signal, SpectralDistribution]] = None,
-            domain: Optional[Union[ArrayLike, SpectralShape]] = None,
-            labels: Optional[Sequence] = None,
-            **kwargs: Any):
+        self,
+        data: Optional[
+            Union[
+                ArrayLike,
+                DataFrame,
+                dict,
+                MultiSignals,
+                MultiSpectralDistributions,
+                Sequence,
+                Series,
+                Signal,
+                SpectralDistribution,
+            ]
+        ] = None,
+        domain: Optional[Union[ArrayLike, SpectralShape]] = None,
+        labels: Optional[Sequence] = None,
+        **kwargs: Any
+    ):
         super(RGB_DisplayPrimaries, self).__init__(
-            data, domain, labels=('red', 'green', 'blue'), **kwargs)
+            data, domain, labels=("red", "green", "blue"), **kwargs
+        )

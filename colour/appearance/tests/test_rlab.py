@@ -19,15 +19,15 @@ from colour.utilities import (
     ignore_numpy_errors,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestXYZ_to_RLAB',
+    "TestXYZ_to_RLAB",
 ]
 
 
@@ -56,7 +56,8 @@ class TestXYZ_to_RLAB(unittest.TestCase):
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma),
             np.array([49.67, 0.01, 270, 0, np.nan, 0, -0.01]),
             rtol=0.01,
-            atol=0.01)
+            atol=0.01,
+        )
 
         XYZ = np.array([57.06, 43.06, 31.96])
         Y_n = 31.83
@@ -64,7 +65,8 @@ class TestXYZ_to_RLAB(unittest.TestCase):
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma),
             np.array([69.33, 49.74, 21.3, 0.72, np.nan, 46.33, 18.09]),
             rtol=0.01,
-            atol=0.01)
+            atol=0.01,
+        )
 
         XYZ = np.array([3.53, 6.56, 2.14])
         XYZ_n = np.array([109.85, 100.00, 35.58])
@@ -73,7 +75,8 @@ class TestXYZ_to_RLAB(unittest.TestCase):
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma),
             np.array([30.78, 41.02, 176.9, 1.33, np.nan, -40.96, 2.25]),
             rtol=0.01,
-            atol=0.01)
+            atol=0.01,
+        )
 
         XYZ = np.array([19.01, 20.00, 21.78])
         Y_n = 31.83
@@ -81,7 +84,8 @@ class TestXYZ_to_RLAB(unittest.TestCase):
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma),
             np.array([49.83, 54.87, 286.5, 1.1, np.nan, 15.57, -52.61]),
             rtol=0.01,
-            atol=0.01)
+            atol=0.01,
+        )
 
     def test_n_dimensional_XYZ_to_RLAB(self):
         """
@@ -98,17 +102,20 @@ class TestXYZ_to_RLAB(unittest.TestCase):
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7)
+            XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
+        )
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7)
+            XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 7))
         np.testing.assert_almost_equal(
-            XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7)
+            XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_RLAB(self):
         """
@@ -119,22 +126,22 @@ class TestXYZ_to_RLAB(unittest.TestCase):
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_n = np.array([109.85, 100, 35.58])
         Y_n = 31.83
-        sigma = VIEWING_CONDITIONS_RLAB['Average']
-        D = D_FACTOR_RLAB['Hard Copy Images']
+        sigma = VIEWING_CONDITIONS_RLAB["Average"]
+        D = D_FACTOR_RLAB["Hard Copy Images"]
         specification = XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)
 
         d_r = (
-            ('reference', 1, 1),
-            ('1', 0.01, np.array([1, 1, 1 / 360, 1, np.nan, 1, 1])),
-            ('100', 1, np.array([1, 1, 100 / 360, 1, np.nan, 1, 1])),
+            ("reference", 1, 1),
+            ("1", 0.01, np.array([1, 1, 1 / 360, 1, np.nan, 1, 1])),
+            ("100", 1, np.array([1, 1, 100 / 360, 1, np.nan, 1, 1])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    XYZ_to_RLAB(XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma,
-                                D),
+                    XYZ_to_RLAB(XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma, D),
                     as_float_array(specification) * factor_b,
-                    decimal=7)
+                    decimal=7,
+                )
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_RLAB(self):

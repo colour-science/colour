@@ -23,29 +23,29 @@ from colour.colorimetry.spectrum import (
 from colour.hints import Dict, Tuple
 from colour.utilities import tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_SAMPLE',
-    'DATA_SAMPLE_NON_UNIFORM',
-    'DATA_SAMPLE_INTERPOLATED',
-    'DATA_SAMPLE_INTERPOLATED_NON_UNIFORM',
-    'DATA_SAMPLE_NORMALISED',
-    'DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931',
-    'DATA_CMFS',
-    'DATA_SAMPLE_ABRIDGED',
-    'DATA_MULTI_SAMPLE_ABRIDGED',
-    'TestSpectralShape',
-    'TestSpectralDistribution',
-    'TestMultiSpectralDistributions',
-    'TestReshapeSd',
-    'TestSdsAndMdsToSds',
-    'TestSdsAndMsdsToMsds',
+    "DATA_SAMPLE",
+    "DATA_SAMPLE_NON_UNIFORM",
+    "DATA_SAMPLE_INTERPOLATED",
+    "DATA_SAMPLE_INTERPOLATED_NON_UNIFORM",
+    "DATA_SAMPLE_NORMALISED",
+    "DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931",
+    "DATA_CMFS",
+    "DATA_SAMPLE_ABRIDGED",
+    "DATA_MULTI_SAMPLE_ABRIDGED",
+    "TestSpectralShape",
+    "TestSpectralDistribution",
+    "TestMultiSpectralDistributions",
+    "TestReshapeSd",
+    "TestSdsAndMdsToSds",
+    "TestSdsAndMsdsToMsds",
 ]
 
 DATA_SAMPLE: Dict = {
@@ -73,7 +73,7 @@ DATA_SAMPLE: Dict = {
     760: 0.0000,
     780: 0.0000,
     800: 0.0000,
-    820: 0.0000
+    820: 0.0000,
 }
 
 DATA_SAMPLE_NON_UNIFORM: Dict = {
@@ -130,7 +130,7 @@ DATA_SAMPLE_NON_UNIFORM: Dict = {
     723.642: 16.333122,
     761.265: 41.342187,
     786.089: 8.850659,
-    805.862: 8.850659
+    805.862: 8.850659,
 }
 
 DATA_SAMPLE_INTERPOLATED: Tuple = (
@@ -614,7 +614,8 @@ DATA_SAMPLE_INTERPOLATED: Tuple = (
     0.000000000000000,
     0.000000000000000,
     0.000000000000000,
-    0.000000000000000)  # yapf: disable
+    0.000000000000000,
+)
 
 DATA_SAMPLE_INTERPOLATED_NON_UNIFORM: Tuple = (
     16.329808636577400,
@@ -1030,21 +1031,36 @@ DATA_SAMPLE_INTERPOLATED_NON_UNIFORM: Tuple = (
     4.521982149490528,
     5.392381559425689,
     6.434033619962720,
-    7.652991396265083)  # yapf: disable
+    7.652991396265083,
+)
 
-DATA_SAMPLE_NORMALISED: Tuple = (0.000000000000000, 0.000000000000000,
-                                 0.000000000000000, 22.475455820476860,
-                                 22.615708274894811, 19.705469845722302,
-                                 18.828892005610097, 19.600280504908834,
-                                 22.826086956521742, 24.719495091164092,
-                                 27.068723702664798, 30.504908835904626,
-                                 39.551192145862551, 47.685834502103788,
-                                 52.980364656381497, 59.186535764375883,
-                                 69.985974754558200, 84.046283309957929,
-                                 100.000000000000000, 0.000000000000000,
-                                 0.000000000000000, 0.000000000000000,
-                                 0.000000000000000, 0.000000000000000,
-                                 0.000000000000000)
+DATA_SAMPLE_NORMALISED: Tuple = (
+    0.000000000000000,
+    0.000000000000000,
+    0.000000000000000,
+    22.475455820476860,
+    22.615708274894811,
+    19.705469845722302,
+    18.828892005610097,
+    19.600280504908834,
+    22.826086956521742,
+    24.719495091164092,
+    27.068723702664798,
+    30.504908835904626,
+    39.551192145862551,
+    47.685834502103788,
+    52.980364656381497,
+    59.186535764375883,
+    69.985974754558200,
+    84.046283309957929,
+    100.000000000000000,
+    0.000000000000000,
+    0.000000000000000,
+    0.000000000000000,
+    0.000000000000000,
+    0.000000000000000,
+    0.000000000000000,
+)
 
 DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931: Dict = {
     380: (0.001368, 0.000039, 0.006450),
@@ -1127,7 +1143,7 @@ DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931: Dict = {
     765: (0.000117, 0.000042, 0.000000),
     770: (0.000083, 0.000030, 0.000000),
     775: (0.000059, 0.000021, 0.000000),
-    780: (0.000042, 0.000015, 0.000000)
+    780: (0.000042, 0.000015, 0.000000),
 }
 
 DATA_CMFS: Dict = {
@@ -1211,7 +1227,7 @@ DATA_CMFS: Dict = {
     765: np.array([0.000117, 4.20e-05, 0.000000]),
     770: np.array([8.30e-05, 3.00e-05, 0.000000]),
     775: np.array([5.90e-05, 2.10e-05, 0.000000]),
-    780: np.array([4.20e-05, 1.50e-05, 0.000000])
+    780: np.array([4.20e-05, 1.50e-05, 0.000000]),
 }
 
 DATA_SAMPLE_ABRIDGED: Dict = {
@@ -1220,7 +1236,7 @@ DATA_SAMPLE_ABRIDGED: Dict = {
     540: 0.0772,
     560: 0.0870,
     580: 0.1128,
-    600: 0.1360
+    600: 0.1360,
 }
 
 DATA_MULTI_SAMPLE_ABRIDGED: Dict = {
@@ -1230,7 +1246,7 @@ DATA_MULTI_SAMPLE_ABRIDGED: Dict = {
     530: (0.165500, 0.862000, 0.042160),
     540: (0.290400, 0.954000, 0.020300),
     550: (0.433450, 0.994950, 0.008750),
-    560: (0.594500, 0.995000, 0.003900)
+    560: (0.594500, 0.995000, 0.003900),
 }
 
 
@@ -1245,7 +1261,7 @@ class TestSpectralShape(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('start', 'end', 'interval', 'boundaries')
+        required_attributes = ("start", "end", "interval", "boundaries")
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralShape))
@@ -1255,9 +1271,18 @@ class TestSpectralShape(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__str__', '__repr__', '__hash__',
-                            '__iter__', '__contains__', '__len__', '__eq__',
-                            '__ne__', 'range')
+        required_methods = (
+            "__init__",
+            "__str__",
+            "__repr__",
+            "__hash__",
+            "__iter__",
+            "__contains__",
+            "__len__",
+            "__eq__",
+            "__ne__",
+            "range",
+        )
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralShape))
@@ -1276,7 +1301,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test_end(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.end` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.end` property.
         """
 
         self.assertEqual(SpectralShape(360, 830, 1).end, 830)
@@ -1288,7 +1313,7 @@ class TestSpectralShape(unittest.TestCase):
     def test_interval(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.SpectralShape.interval`
-        attribute.
+        property.
         """
 
         self.assertEqual(SpectralShape(360, 830, 1).interval, 1)
@@ -1296,7 +1321,7 @@ class TestSpectralShape(unittest.TestCase):
     def test_boundaries(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.SpectralShape.boundaries`
-        attribute.
+        property.
         """
 
         shape = SpectralShape(400, 700, 1)
@@ -1321,7 +1346,8 @@ class TestSpectralShape(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
-            np.arange(0, 10 + 0.1, 0.1))
+            np.arange(0, 10 + 0.1, 0.1),
+        )
 
     def test__contains__(self):
         """
@@ -1360,8 +1386,7 @@ class TestSpectralShape(unittest.TestCase):
         method.
         """
 
-        self.assertNotEqual(
-            SpectralShape(0, 10, 0.1), SpectralShape(1, 10, 0.1))
+        self.assertNotEqual(SpectralShape(0, 10, 0.1), SpectralShape(1, 10, 0.1))
 
     def test_range(self):
         """
@@ -1370,7 +1395,8 @@ class TestSpectralShape(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
-            np.arange(0, 10 + 0.1, 0.1))
+            np.arange(0, 10 + 0.1, 0.1),
+        )
 
 
 class TestSpectralDistribution(unittest.TestCase):
@@ -1384,12 +1410,13 @@ class TestSpectralDistribution(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._sd = SpectralDistribution(DATA_SAMPLE, name='Sample')
+        self._sd = SpectralDistribution(DATA_SAMPLE, name="Sample")
 
         self._non_uniform_sd = SpectralDistribution(
             DATA_SAMPLE_NON_UNIFORM,
-            name='Non Uniform Sample',
-            strict_name='Strict Non Uniform Sample')
+            name="Non Uniform Sample",
+            strict_name="Strict Non Uniform Sample",
+        )
 
         self._phi = (1 + np.sqrt(5)) / 2
 
@@ -1398,7 +1425,7 @@ class TestSpectralDistribution(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('strict_name', 'wavelengths', 'values', 'shape')
+        required_attributes = ("strict_name", "wavelengths", "values", "shape")
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralDistribution))
@@ -1408,26 +1435,31 @@ class TestSpectralDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'interpolate', 'extrapolate', 'align',
-                            'trim', 'normalise')
+        required_methods = (
+            "__init__",
+            "interpolate",
+            "extrapolate",
+            "align",
+            "trim",
+            "normalise",
+        )
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution))
 
     def test_strict_name(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralDistribution.strict_name` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.strict_name`
+        property.
         """
 
-        self.assertEqual(self._sd.strict_name, 'Sample')
-        self.assertEqual(self._non_uniform_sd.strict_name,
-                         'Strict Non Uniform Sample')
+        self.assertEqual(self._sd.strict_name, "Sample")
+        self.assertEqual(self._non_uniform_sd.strict_name, "Strict Non Uniform Sample")
 
     def test_wavelengths(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralDistribution.wavelengths` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.wavelengths`
+        property.
         """
 
         np.testing.assert_array_equal(self._sd.wavelengths, self._sd.domain)
@@ -1438,8 +1470,7 @@ SpectralDistribution.wavelengths` attribute.
 
     def test_values(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralDistribution.values` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.values` property.
         """
 
         np.testing.assert_array_equal(self._sd.values, self._sd.range)
@@ -1450,8 +1481,7 @@ SpectralDistribution.values` attribute.
 
     def test_shape(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralDistribution.shape` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.shape` property.
         """
 
         self.assertEqual(self._sd.shape, SpectralShape(340, 820, 20))
@@ -1467,7 +1497,8 @@ SpectralDistribution.shape` attribute.
             SpectralDistribution(
                 DATA_SAMPLE.values(),
                 SpectralShape(340, 820, 20),
-            ).wavelengths)
+            ).wavelengths,
+        )
 
     def test_interpolate(self):
         """
@@ -1479,25 +1510,32 @@ SpectralDistribution.interpolate` method.
             reshape_sd(
                 self._sd,
                 SpectralShape(self._sd.shape.start, self._sd.shape.end, 1),
-                'Interpolate').values,
+                "Interpolate",
+            ).values,
             DATA_SAMPLE_INTERPOLATED,
-            decimal=7)
+            decimal=7,
+        )
 
         # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
         # version.
         # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-        if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
+        if LooseVersion(scipy.__version__) < LooseVersion("0.19.0"):
             return  # pragma: no cover
 
         np.testing.assert_allclose(
             reshape_sd(
                 self._non_uniform_sd,
-                SpectralShape(self._non_uniform_sd.shape.start,
-                              self._non_uniform_sd.shape.end, 1),
-                'Interpolate').values,
+                SpectralShape(
+                    self._non_uniform_sd.shape.start,
+                    self._non_uniform_sd.shape.end,
+                    1,
+                ),
+                "Interpolate",
+            ).values,
             DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
             rtol=0.0000001,
-            atol=0.0000001)
+            atol=0.0000001,
+        )
 
     def test_extrapolate(self):
         """
@@ -1512,15 +1550,15 @@ SpectralDistribution.extrapolate` method.
         self.assertAlmostEqual(sd[10], 0, places=7)
         self.assertAlmostEqual(sd[50], 1, places=7)
 
-        sd = SpectralDistribution(
-            np.linspace(0, 1, 10), np.linspace(25, 35, 10))
+        sd = SpectralDistribution(np.linspace(0, 1, 10), np.linspace(25, 35, 10))
         sd.extrapolate(
             SpectralShape(10, 50, 10),
             extrapolator_kwargs={
-                'method': 'Linear',
-                'left': None,
-                'right': None
-            })
+                "method": "Linear",
+                "left": None,
+                "right": None,
+            },
+        )
 
         self.assertAlmostEqual(sd[10], -1.5000000000000004, places=7)
         self.assertAlmostEqual(sd[50], 2.4999999999999964, places=7)
@@ -1555,8 +1593,9 @@ SpectralDistribution.trim` method.
 SpectralDistribution.normalise` method.
         """
 
-        np.testing.assert_almost_equal(self._sd.copy().normalise(100).values,
-                                       DATA_SAMPLE_NORMALISED)
+        np.testing.assert_almost_equal(
+            self._sd.copy().normalise(100).values, DATA_SAMPLE_NORMALISED
+        )
 
 
 class TestMultiSpectralDistributions(unittest.TestCase):
@@ -1570,14 +1609,18 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._labels = ('x_bar', 'y_bar', 'z_bar')
-        self._strict_labels = ('Strict x_bar', 'Strict  y_bar',
-                               'Strict  z_bar')
+        self._labels = ("x_bar", "y_bar", "z_bar")
+        self._strict_labels = (
+            "Strict x_bar",
+            "Strict  y_bar",
+            "Strict  z_bar",
+        )
 
         self._msds = MultiSpectralDistributions(
             DATA_STANDARD_OBSERVER_2_DEGREE_CIE1931,
-            name='Observer',
-            labels=self._labels)
+            name="Observer",
+            labels=self._labels,
+        )
 
         sd = SpectralDistribution(DATA_SAMPLE)
         domain = sd.domain
@@ -1585,7 +1628,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         self._sample_msds = MultiSpectralDistributions(
             range_,
             domain,
-            name='Sample Observer',
+            name="Sample Observer",
             labels=self._labels,
         )
 
@@ -1595,10 +1638,11 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         self._non_uniform_sample_msds = MultiSpectralDistributions(
             range_,
             domain,
-            name='Non Uniform Sample Observer',
-            strict_name='Strict Non Uniform Sample Observer',
+            name="Non Uniform Sample Observer",
+            strict_name="Strict Non Uniform Sample Observer",
             labels=self._labels,
-            strict_labels=('Strict x_bar', 'Strict  y_bar', 'Strict  z_bar'))
+            strict_labels=("Strict x_bar", "Strict  y_bar", "Strict  z_bar"),
+        )
 
         self._phi = (1 + np.sqrt(5)) / 2
 
@@ -1607,8 +1651,13 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('strict_name', 'strict_labels', 'wavelengths',
-                               'values', 'shape')
+        required_attributes = (
+            "strict_name",
+            "strict_labels",
+            "wavelengths",
+            "values",
+            "shape",
+        )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(MultiSpectralDistributions))
@@ -1618,30 +1667,38 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'interpolate', 'extrapolate', 'align',
-                            'trim', 'normalise', 'to_sds')
+        required_methods = (
+            "__init__",
+            "interpolate",
+            "extrapolate",
+            "align",
+            "trim",
+            "normalise",
+            "to_sds",
+        )
 
         for method in required_methods:
             self.assertIn(method, dir(MultiSpectralDistributions))
 
     def test_strict_name(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.strict_name` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.strict_name`
+        property.
         """
 
-        self.assertEqual(self._sample_msds.strict_name, 'Sample Observer')
-        self.assertEqual(self._non_uniform_sample_msds.strict_name,
-                         'Strict Non Uniform Sample Observer')
+        self.assertEqual(self._sample_msds.strict_name, "Sample Observer")
+        self.assertEqual(
+            self._non_uniform_sample_msds.strict_name,
+            "Strict Non Uniform Sample Observer",
+        )
 
     def test_wavelengths(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.wavelengths` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.wavelengths`
+        property.
         """
 
-        np.testing.assert_array_equal(self._msds.wavelengths,
-                                      self._msds.domain)
+        np.testing.assert_array_equal(self._msds.wavelengths, self._msds.domain)
 
         msds = self._msds.copy()
         msds.wavelengths = msds.wavelengths + 10
@@ -1649,8 +1706,8 @@ MultiSpectralDistributions.wavelengths` attribute.
 
     def test_values(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.values` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.values`
+        property.
         """
 
         np.testing.assert_array_equal(self._msds.values, self._msds.range)
@@ -1661,20 +1718,20 @@ MultiSpectralDistributions.values` attribute.
 
     def test_strict_labels(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.strict_labels` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.\
+strict_labels` property.
         """
 
-        self.assertTupleEqual(
-            tuple(self._sample_msds.strict_labels), self._labels)
+        self.assertTupleEqual(tuple(self._sample_msds.strict_labels), self._labels)
         self.assertEqual(
             tuple(self._non_uniform_sample_msds.strict_labels),
-            ('Strict x_bar', 'Strict  y_bar', 'Strict  z_bar'))
+            ("Strict x_bar", "Strict  y_bar", "Strict  z_bar"),
+        )
 
     def test_shape(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.shape` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.shape`
+        property.
         """
 
         self.assertEqual(self._msds.shape, SpectralShape(380, 780, 5))
@@ -1690,7 +1747,8 @@ MultiSpectralDistributions.__init__` method.
             MultiSpectralDistributions(
                 DATA_CMFS.values(),
                 SpectralShape(380, 780, 5),
-            ).wavelengths)
+            ).wavelengths,
+        )
 
     def test_interpolate(self):
         """
@@ -1701,30 +1759,39 @@ MultiSpectralDistributions.interpolate` method.
         # pylint: disable=E1102
         msds = reshape_msds(
             self._sample_msds,
-            SpectralShape(self._sample_msds.shape.start,
-                          self._sample_msds.shape.end, 1), 'Interpolate')
+            SpectralShape(
+                self._sample_msds.shape.start, self._sample_msds.shape.end, 1
+            ),
+            "Interpolate",
+        )
         for signal in msds.signals.values():
             np.testing.assert_almost_equal(
-                signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7)
+                signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7
+            )
 
         # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
         # version.
         # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-        if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
+        if LooseVersion(scipy.__version__) < LooseVersion("0.19.0"):
             return  # pragma: no cover
 
         # pylint: disable=E1102
         msds = reshape_msds(
             self._non_uniform_sample_msds,
-            SpectralShape(self._non_uniform_sample_msds.shape.start,
-                          self._non_uniform_sample_msds.shape.end, 1),
-            'Interpolate')
+            SpectralShape(
+                self._non_uniform_sample_msds.shape.start,
+                self._non_uniform_sample_msds.shape.end,
+                1,
+            ),
+            "Interpolate",
+        )
         for signal in msds.signals.values():
             np.testing.assert_allclose(
                 signal.values,
                 DATA_SAMPLE_INTERPOLATED_NON_UNIFORM,
                 rtol=0.0000001,
-                atol=0.0000001)
+                atol=0.0000001,
+            )
 
     def test_extrapolate(self):
         """
@@ -1736,24 +1803,24 @@ MultiSpectralDistributions.extrapolate` method.
         msds = MultiSpectralDistributions(data)
         msds.extrapolate(SpectralShape(10, 50, 5))
 
-        np.testing.assert_almost_equal(
-            msds[10], np.array([0.0, 0.0, 0.0]), decimal=7)
-        np.testing.assert_almost_equal(
-            msds[50], np.array([1.0, 1.0, 1.0]), decimal=7)
+        np.testing.assert_almost_equal(msds[10], np.array([0.0, 0.0, 0.0]), decimal=7)
+        np.testing.assert_almost_equal(msds[50], np.array([1.0, 1.0, 1.0]), decimal=7)
 
         msds = MultiSpectralDistributions(
-            tstack([np.linspace(0, 1, 10)] * 3), np.linspace(25, 35, 10))
+            tstack([np.linspace(0, 1, 10)] * 3), np.linspace(25, 35, 10)
+        )
         msds.extrapolate(
             SpectralShape(10, 50, 10),
             extrapolator_kwargs={
-                'method': 'Linear',
-                'left': None,
-                'right': None
-            })
+                "method": "Linear",
+                "left": None,
+                "right": None,
+            },
+        )
         np.testing.assert_almost_equal(
-            msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7)
-        np.testing.assert_almost_equal(
-            msds[50], np.array([2.5, 2.5, 2.5]), decimal=7)
+            msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7
+        )
+        np.testing.assert_almost_equal(msds[50], np.array([2.5, 2.5, 2.5]), decimal=7)
 
     def test_align(self):
         """
@@ -1783,13 +1850,14 @@ MultiSpectralDistributions.trim` method.
 
     def test_normalise(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.
-MultiSpectralDistributions.normalise` method.
+                Tests :func:`colour.colorimetry.spectrum.
+        MultiSpectralDistributions.normalise` method.
         """
 
         np.testing.assert_almost_equal(
             self._sample_msds.copy().normalise(100).values,
-            tstack([DATA_SAMPLE_NORMALISED] * 3))
+            tstack([DATA_SAMPLE_NORMALISED] * 3),
+        )
 
     def test_to_sds(self):
         """
@@ -1823,38 +1891,42 @@ class TestReshapeSd(unittest.TestCase):
 
         shape = colour.SpectralShape(100, 900, 1)
         extrapolator_kwargs = {
-            'method': 'Constant',
-            'left': 0.05,
-            'right': 0.15
+            "method": "Constant",
+            "left": 0.05,
+            "right": 0.15,
         }
         sd_reshaped = reshape_sd(
             sd,
             shape,
-            method='Extrapolate',
-            extrapolator_kwargs=extrapolator_kwargs)
+            method="Extrapolate",
+            extrapolator_kwargs=extrapolator_kwargs,
+        )
         self.assertEqual(
             sd_reshaped,
-            sd.copy().extrapolate(
-                shape, extrapolator_kwargs=extrapolator_kwargs))
+            sd.copy().extrapolate(shape, extrapolator_kwargs=extrapolator_kwargs),
+        )
 
         shape = colour.SpectralShape(400, 700, 1)
-        interpolator_kwargs = {'fill_value': 0}
+        interpolator_kwargs = {"fill_value": 0}
         sd_reshaped = reshape_sd(
             sd,
             shape,
-            method='Interpolate',
+            method="Interpolate",
             interpolator=CubicSplineInterpolator,
-            interpolator_kwargs=interpolator_kwargs)
+            interpolator_kwargs=interpolator_kwargs,
+        )
         self.assertEqual(
             sd_reshaped,
             sd.copy().interpolate(
                 shape,
                 interpolator=CubicSplineInterpolator,
-                interpolator_kwargs=interpolator_kwargs))
+                interpolator_kwargs=interpolator_kwargs,
+            ),
+        )
 
         sd = SpectralDistribution(DATA_SAMPLE)
         shape = colour.SpectralShape(500, 600, 1)
-        sd_reshaped = reshape_sd(sd, shape, method='Trim')
+        sd_reshaped = reshape_sd(sd, shape, method="Trim")
         self.assertEqual(sd_reshaped, sd.copy().trim(shape))
 
 
@@ -1876,12 +1948,18 @@ class TestSdsAndMdsToSds(unittest.TestCase):
         multi_sds_2 = MultiSpectralDistributions(DATA_MULTI_SAMPLE_ABRIDGED)
 
         self.assertEqual(
-            len(sds_and_msds_to_sds([
-                sd_1,
-                sd_2,
-                multi_sds_1,
-                multi_sds_2,
-            ])), 8)
+            len(
+                sds_and_msds_to_sds(
+                    [
+                        sd_1,
+                        sd_2,
+                        multi_sds_1,
+                        multi_sds_2,
+                    ]
+                )
+            ),
+            8,
+        )
 
         self.assertEqual(len(sds_and_msds_to_sds(multi_sds_1)), 3)
 
@@ -1912,28 +1990,25 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
         shape = SpectralShape(500, 560, 10)
         self.assertEqual(
             sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1, multi_sds_2]).shape,
-            shape)
+            shape,
+        )
 
         np.testing.assert_almost_equal(
-            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1,
-                                  multi_sds_2]).wavelengths,
+            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1, multi_sds_2]).wavelengths,
             shape.range(),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1,
-                                  multi_sds_2]).values,
-            tstack([sd_1.align(shape).values,
-                    sd_2.align(shape).values] +
-                   [
-                       sd.values
-                       for sd in sds_and_msds_to_sds(multi_sds_1.align(shape))
-                   ] + [
-                       sd.values
-                       for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))
-                   ]),
-            decimal=7)
+            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1, multi_sds_2]).values,
+            tstack(
+                [sd_1.align(shape).values, sd_2.align(shape).values]
+                + [sd.values for sd in sds_and_msds_to_sds(multi_sds_1.align(shape))]
+                + [sd.values for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))]
+            ),
+            decimal=7,
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

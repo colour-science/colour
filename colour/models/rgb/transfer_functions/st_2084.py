@@ -29,17 +29,17 @@ from colour.algebra import spow
 from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_ST2084',
-    'eotf_inverse_ST2084',
-    'eotf_ST2084',
+    "CONSTANTS_ST2084",
+    "eotf_inverse_ST2084",
+    "eotf_ST2084",
 ]
 
 CONSTANTS_ST2084: Structure = Structure(
@@ -47,7 +47,8 @@ CONSTANTS_ST2084: Structure = Structure(
     m_2=2523 / 4096 * 128,
     c_1=3424 / 4096,
     c_2=2413 / 4096 * 32,
-    c_3=2392 / 4096 * 32)
+    c_3=2392 / 4096 * 32,
+)
 """
 Constants for *SMPTE ST 2084:2014* inverse electro-optical transfer function
 (EOTF) and electro-optical transfer function (EOTF).
@@ -55,9 +56,10 @@ Constants for *SMPTE ST 2084:2014* inverse electro-optical transfer function
 
 
 def eotf_inverse_ST2084(
-        C: FloatingOrArrayLike,
-        L_p: Floating = 10000,
-        constants: Structure = CONSTANTS_ST2084) -> FloatingOrNDArray:
+    C: FloatingOrArrayLike,
+    L_p: Floating = 10000,
+    constants: Structure = CONSTANTS_ST2084,
+) -> FloatingOrNDArray:
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
     transfer function (EOTF).
@@ -121,15 +123,19 @@ def eotf_inverse_ST2084(
 
     Y_p = spow(C / L_p, constants.m_1)
 
-    N = spow((constants.c_1 + constants.c_2 * Y_p) / (constants.c_3 * Y_p + 1),
-             constants.m_2)
+    N = spow(
+        (constants.c_1 + constants.c_2 * Y_p) / (constants.c_3 * Y_p + 1),
+        constants.m_2,
+    )
 
     return as_float(from_range_1(N))
 
 
-def eotf_ST2084(N: FloatingOrArrayLike,
-                L_p: Floating = 10000,
-                constants: Structure = CONSTANTS_ST2084) -> FloatingOrNDArray:
+def eotf_ST2084(
+    N: FloatingOrArrayLike,
+    L_p: Floating = 10000,
+    constants: Structure = CONSTANTS_ST2084,
+) -> FloatingOrNDArray:
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF).

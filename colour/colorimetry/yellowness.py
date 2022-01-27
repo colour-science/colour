@@ -51,20 +51,20 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'yellowness_ASTMD1925',
-    'yellowness_ASTME313_alternative',
-    'YELLOWNESS_COEFFICIENTS_ASTME313',
-    'yellowness_ASTME313',
-    'YELLOWNESS_METHODS',
-    'yellowness',
+    "yellowness_ASTMD1925",
+    "yellowness_ASTME313_alternative",
+    "YELLOWNESS_COEFFICIENTS_ASTME313",
+    "yellowness_ASTME313",
+    "YELLOWNESS_METHODS",
+    "yellowness",
 ]
 
 
@@ -184,19 +184,22 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(WI))
 
 
-YELLOWNESS_COEFFICIENTS_ASTME313: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping({
-        'CIE 1931 2 Degree Standard Observer':
-            CaseInsensitiveMapping({
-                'C': np.array([1.2769, 1.0592]),
-                'D65': np.array([1.2985, 1.1335]),
-            }),
-        'CIE 1964 10 Degree Standard Observer':
-            CaseInsensitiveMapping({
-                'C': np.array([1.2871, 1.0781]),
-                'D65': np.array([1.3013, 1.1498]),
-            })
-    }))
+YELLOWNESS_COEFFICIENTS_ASTME313: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "CIE 1931 2 Degree Standard Observer": CaseInsensitiveMapping(
+            {
+                "C": np.array([1.2769, 1.0592]),
+                "D65": np.array([1.2985, 1.1335]),
+            }
+        ),
+        "CIE 1964 10 Degree Standard Observer": CaseInsensitiveMapping(
+            {
+                "C": np.array([1.2871, 1.0781]),
+                "D65": np.array([1.3013, 1.1498]),
+            }
+        ),
+    }
+)
 YELLOWNESS_COEFFICIENTS_ASTME313.__doc__ = """
 Coefficients :math:`C_X` and :math:`C_Z` for the *ASTM E313* *yellowness* index
 :math:`YI` computation method.
@@ -210,16 +213,20 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-YELLOWNESS_COEFFICIENTS_ASTME313['cie_2_1931'] = (
-    YELLOWNESS_COEFFICIENTS_ASTME313['CIE 1931 2 Degree Standard Observer'])
-YELLOWNESS_COEFFICIENTS_ASTME313['cie_10_1964'] = (
-    YELLOWNESS_COEFFICIENTS_ASTME313['CIE 1964 10 Degree Standard Observer'])
+YELLOWNESS_COEFFICIENTS_ASTME313["cie_2_1931"] = YELLOWNESS_COEFFICIENTS_ASTME313[
+    "CIE 1931 2 Degree Standard Observer"
+]
+YELLOWNESS_COEFFICIENTS_ASTME313["cie_10_1964"] = YELLOWNESS_COEFFICIENTS_ASTME313[
+    "CIE 1964 10 Degree Standard Observer"
+]
 
 
-def yellowness_ASTME313(XYZ: ArrayLike,
-                        C_XZ: ArrayLike = YELLOWNESS_COEFFICIENTS_ASTME313[
-                            'CIE 1931 2 Degree Standard Observer']['D65']
-                        ) -> FloatingOrNDArray:
+def yellowness_ASTME313(
+    XYZ: ArrayLike,
+    C_XZ: ArrayLike = YELLOWNESS_COEFFICIENTS_ASTME313[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+) -> FloatingOrNDArray:
     """
     Returns the *yellowness* index :math:`YI` of given sample *CIE XYZ*
     tristimulus values using *ASTM E313* method.
@@ -276,11 +283,13 @@ def yellowness_ASTME313(XYZ: ArrayLike,
     return as_float(from_range_100(WI))
 
 
-YELLOWNESS_METHODS = CaseInsensitiveMapping({
-    'ASTM D1925': yellowness_ASTMD1925,
-    'ASTM E313 Alternative': yellowness_ASTME313_alternative,
-    'ASTM E313': yellowness_ASTME313
-})
+YELLOWNESS_METHODS = CaseInsensitiveMapping(
+    {
+        "ASTM D1925": yellowness_ASTMD1925,
+        "ASTM E313 Alternative": yellowness_ASTME313_alternative,
+        "ASTM E313": yellowness_ASTME313,
+    }
+)
 YELLOWNESS_METHODS.__doc__ = """
 Supported *yellowness* computation methods.
 
@@ -291,10 +300,12 @@ References
 
 
 def yellowness(
-        XYZ: ArrayLike,
-        method: Union[Literal['ASTM D1925', 'ASTM E313',
-                              'ASTM E313 Alternative'], str] = 'ASTM E313',
-        **kwargs: Any) -> FloatingOrNDArray:
+    XYZ: ArrayLike,
+    method: Union[
+        Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"], str
+    ] = "ASTM E313",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Returns the *yellowness* :math:`W` using given method.
 

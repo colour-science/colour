@@ -27,17 +27,17 @@ from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
 from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'XYZ_to_K_ab_HunterLab1966',
-    'XYZ_to_Hunter_Lab',
-    'Hunter_Lab_to_XYZ',
+    "XYZ_to_K_ab_HunterLab1966",
+    "XYZ_to_Hunter_Lab",
+    "Hunter_Lab_to_XYZ",
 ]
 
 
@@ -80,11 +80,14 @@ def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArray:
 
 
 def XYZ_to_Hunter_Lab(
-        XYZ: ArrayLike,
-        XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
-            'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
-        K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
-            'CIE 1931 2 Degree Standard Observer']['D65'].K_ab) -> NDArray:
+    XYZ: ArrayLike,
+    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].XYZ_n,
+    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].K_ab,
+) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
@@ -140,8 +143,9 @@ def XYZ_to_Hunter_Lab(
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
     X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
-    K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-                if K_ab is None else tsplit(K_ab))
+    K_a, K_b = (
+        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
+    )
 
     Y_Y_n = Y / Y_n
     sqrt_Y_Y_n = np.sqrt(Y_Y_n)
@@ -156,11 +160,14 @@ def XYZ_to_Hunter_Lab(
 
 
 def Hunter_Lab_to_XYZ(
-        Lab: ArrayLike,
-        XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
-            'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
-        K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
-            'CIE 1931 2 Degree Standard Observer']['D65'].K_ab) -> NDArray:
+    Lab: ArrayLike,
+    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].XYZ_n,
+    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].K_ab,
+) -> NDArray:
     """
     Converts from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 
@@ -216,8 +223,9 @@ def Hunter_Lab_to_XYZ(
 
     L, a, b = tsplit(to_domain_100(Lab))
     X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
-    K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-                if K_ab is None else tsplit(K_ab))
+    K_a, K_b = (
+        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
+    )
 
     L_100 = L / 100
     L_100_2 = L_100 ** 2

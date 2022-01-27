@@ -66,23 +66,23 @@ from colour.colorimetry.spectrum import SpectralDistribution
 from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_ILLUMINANTS_CIE',
-    'SDS_ILLUMINANTS_CIE',
-    'DATA_ILLUMINANTS_ISO',
-    'SDS_ILLUMINANTS_ISO',
-    'SDS_ILLUMINANTS',
+    "DATA_ILLUMINANTS_CIE",
+    "SDS_ILLUMINANTS_CIE",
+    "DATA_ILLUMINANTS_ISO",
+    "SDS_ILLUMINANTS_ISO",
+    "SDS_ILLUMINANTS",
 ]
 
 DATA_ILLUMINANTS_CIE: Dict = {
-    'A': {
+    "A": {
         300: 0.930483,
         305: 1.128210,
         310: 1.357690,
@@ -179,9 +179,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 234.589000,
         770: 237.008000,
         775: 239.370000,
-        780: 241.675000
+        780: 241.675000,
     },
-    'B': {
+    "B": {
         320: 0.02,
         325: 0.26,
         330: 0.50,
@@ -274,9 +274,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 84.90,
         770: 85.40,
         775: 86.10,
-        780: 87.00
+        780: 87.00,
     },
-    'C': {
+    "C": {
         300: 0.00,
         305: 0.00,
         310: 0.00,
@@ -373,9 +373,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 58.00,
         770: 58.20,
         775: 58.50,
-        780: 59.10
+        780: 59.10,
     },
-    'D50': {
+    "D50": {
         300: 0.019,
         305: 1.035,
         310: 2.051,
@@ -472,9 +472,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 70.307,
         770: 82.923,
         775: 80.599,
-        780: 78.274
+        780: 78.274,
     },
-    'D55': {
+    "D55": {
         300: 0.024,
         305: 1.048,
         310: 2.072,
@@ -571,9 +571,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 64.360,
         770: 75.927,
         775: 73.872,
-        780: 71.818
+        780: 71.818,
     },
-    'D60': {
+    "D60": {
         300: 0.029300000000000,
         305: 1.289900000000000,
         310: 2.550500000000000,
@@ -680,9 +680,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         815: 57.786200000000001,
         820: 60.697400000000002,
         825: 62.226949999999995,
-        830: 63.756500000000003
+        830: 63.756500000000003,
     },
-    'D65': {
+    "D65": {
         300: 0.034100,
         305: 1.664300,
         310: 3.294500,
@@ -779,9 +779,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 56.611800,
         770: 66.805400,
         775: 65.094100,
-        780: 63.382800
+        780: 63.382800,
     },
-    'D75': {
+    "D75": {
         300: 0.043,
         305: 2.588,
         310: 5.133,
@@ -878,9 +878,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 51.985,
         770: 61.352,
         775: 59.838,
-        780: 58.324
+        780: 58.324,
     },
-    'E': {
+    "E": {
         360: 100.000,
         365: 100.000,
         370: 100.000,
@@ -975,9 +975,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         815: 100.000,
         820: 100.000,
         825: 100.000,
-        830: 100.000
+        830: 100.000,
     },
-    'FL1': {
+    "FL1": {
         380: 1.87,
         385: 2.36,
         390: 2.94,
@@ -1058,9 +1058,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.69,
         770: 0.61,
         775: 0.52,
-        780: 0.43
+        780: 0.43,
     },
-    'FL2': {
+    "FL2": {
         380: 1.18,
         385: 1.48,
         390: 1.84,
@@ -1141,9 +1141,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.47,
         770: 0.40,
         775: 0.33,
-        780: 0.27
+        780: 0.27,
     },
-    'FL3': {
+    "FL3": {
         380: 0.82,
         385: 1.02,
         390: 1.26,
@@ -1224,9 +1224,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.39,
         770: 0.33,
         775: 0.28,
-        780: 0.21
+        780: 0.21,
     },
-    'FL4': {
+    "FL4": {
         380: 0.57,
         385: 0.70,
         390: 0.87,
@@ -1307,9 +1307,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.36,
         770: 0.31,
         775: 0.26,
-        780: 0.19
+        780: 0.19,
     },
-    'FL5': {
+    "FL5": {
         380: 1.87,
         385: 2.35,
         390: 2.92,
@@ -1390,9 +1390,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.64,
         770: 0.55,
         775: 0.47,
-        780: 0.40
+        780: 0.40,
     },
-    'FL6': {
+    "FL6": {
         380: 1.05,
         385: 1.31,
         390: 1.63,
@@ -1473,9 +1473,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.41,
         770: 0.33,
         775: 0.26,
-        780: 0.21
+        780: 0.21,
     },
-    'FL7': {
+    "FL7": {
         380: 2.56,
         385: 3.18,
         390: 3.84,
@@ -1556,9 +1556,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 1.32,
         770: 1.17,
         775: 0.99,
-        780: 0.81
+        780: 0.81,
     },
-    'FL8': {
+    "FL8": {
         380: 1.21,
         385: 1.50,
         390: 1.81,
@@ -1639,9 +1639,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 2.15,
         770: 1.89,
         775: 1.61,
-        780: 1.32
+        780: 1.32,
     },
-    'FL9': {
+    "FL9": {
         380: 0.90,
         385: 1.12,
         390: 1.36,
@@ -1722,9 +1722,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 1.83,
         770: 1.61,
         775: 1.38,
-        780: 1.12
+        780: 1.12,
     },
-    'FL10': {
+    "FL10": {
         380: 1.11,
         385: 0.80,
         390: 0.62,
@@ -1805,9 +1805,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.22,
         770: 0.17,
         775: 0.12,
-        780: 0.09
+        780: 0.09,
     },
-    'FL11': {
+    "FL11": {
         380: 0.91,
         385: 0.63,
         390: 0.46,
@@ -1888,9 +1888,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.26,
         770: 0.16,
         775: 0.12,
-        780: 0.09
+        780: 0.09,
     },
-    'FL12': {
+    "FL12": {
         380: 0.96,
         385: 0.64,
         390: 0.40,
@@ -1971,9 +1971,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.19,
         770: 0.15,
         775: 0.10,
-        780: 0.05
+        780: 0.05,
     },
-    'FL3.1': {
+    "FL3.1": {
         380: 2.39,
         385: 2.93,
         390: 3.82,
@@ -2054,9 +2054,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.95,
         770: 1.50,
         775: 0.89,
-        780: 0.68
+        780: 0.68,
     },
-    'FL3.2': {
+    "FL3.2": {
         380: 5.80,
         385: 6.99,
         390: 8.70,
@@ -2137,9 +2137,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 4.01,
         770: 4.09,
         775: 3.30,
-        780: 2.82
+        780: 2.82,
     },
-    'FL3.3': {
+    "FL3.3": {
         380: 8.94,
         385: 11.21,
         390: 14.08,
@@ -2220,9 +2220,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 2.19,
         770: 2.71,
         775: 2.00,
-        780: 1.80
+        780: 1.80,
     },
-    'FL3.4': {
+    "FL3.4": {
         380: 3.46,
         385: 3.86,
         390: 4.41,
@@ -2303,9 +2303,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 13.63,
         770: 10.43,
         775: 9.67,
-        780: 8.07
+        780: 8.07,
     },
-    'FL3.5': {
+    "FL3.5": {
         380: 4.72,
         385: 5.82,
         390: 7.18,
@@ -2386,9 +2386,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 12.42,
         770: 9.43,
         775: 8.96,
-        780: 7.39
+        780: 7.39,
     },
-    'FL3.6': {
+    "FL3.6": {
         380: 5.53,
         385: 6.63,
         390: 8.07,
@@ -2469,9 +2469,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 11.28,
         770: 8.51,
         775: 8.24,
-        780: 7.02
+        780: 7.02,
     },
-    'FL3.7': {
+    "FL3.7": {
         380: 3.79,
         385: 2.56,
         390: 1.91,
@@ -2552,9 +2552,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.46,
         770: 0.99,
         775: 0.43,
-        780: 0.00
+        780: 0.00,
     },
-    'FL3.8': {
+    "FL3.8": {
         380: 4.18,
         385: 2.93,
         390: 2.29,
@@ -2635,9 +2635,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.61,
         770: 1.25,
         775: 0.79,
-        780: 0.58
+        780: 0.58,
     },
-    'FL3.9': {
+    "FL3.9": {
         380: 3.77,
         385: 2.64,
         390: 2.06,
@@ -2718,9 +2718,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.10,
         770: 0.68,
         775: 0.16,
-        780: 0.00
+        780: 0.00,
     },
-    'FL3.10': {
+    "FL3.10": {
         380: 0.25,
         385: 0.00,
         390: 0.00,
@@ -2801,9 +2801,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.00,
         770: 0.00,
         775: 0.00,
-        780: 0.00
+        780: 0.00,
     },
-    'FL3.11': {
+    "FL3.11": {
         380: 3.85,
         385: 2.91,
         390: 2.56,
@@ -2884,9 +2884,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.45,
         770: 1.04,
         775: 0.45,
-        780: 0.00
+        780: 0.00,
     },
-    'FL3.12': {
+    "FL3.12": {
         380: 1.62,
         385: 2.06,
         390: 2.71,
@@ -2967,9 +2967,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 4.50,
         770: 4.81,
         775: 3.72,
-        780: 3.28
+        780: 3.28,
     },
-    'FL3.13': {
+    "FL3.13": {
         380: 2.23,
         385: 2.92,
         390: 3.91,
@@ -3050,9 +3050,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 3.74,
         770: 4.04,
         775: 3.14,
-        780: 2.75
+        780: 2.75,
     },
-    'FL3.14': {
+    "FL3.14": {
         380: 2.87,
         385: 3.69,
         390: 4.87,
@@ -3133,9 +3133,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 4.08,
         770: 4.43,
         775: 3.39,
-        780: 3.17
+        780: 3.17,
     },
-    'FL3.15': {
+    "FL3.15": {
         380: 300,
         385: 286,
         390: 268,
@@ -3216,9 +3216,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 51,
         770: 46,
         775: 41,
-        780: 37
+        780: 37,
     },
-    'HP1': {
+    "HP1": {
         380: 1.90,
         385: 2.20,
         390: 2.50,
@@ -3299,9 +3299,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 31.97,
         770: 27.87,
         775: 5.89,
-        780: 6.69
+        780: 6.69,
     },
-    'HP2': {
+    "HP2": {
         380: 2.64,
         385: 2.77,
         390: 3.42,
@@ -3382,9 +3382,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 83.04,
         770: 86.25,
         775: 63.93,
-        780: 64.92
+        780: 64.92,
     },
-    'HP3': {
+    "HP3": {
         380: 3.15,
         385: 7.49,
         390: 10.87,
@@ -3465,9 +3465,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 17.81,
         770: 16.07,
         775: 14.83,
-        780: 14.61
+        780: 14.61,
     },
-    'HP4': {
+    "HP4": {
         380: 9.80,
         385: 13.30,
         390: 19.97,
@@ -3548,9 +3548,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 24.46,
         770: 22.05,
         775: 16.11,
-        780: 12.91
+        780: 12.91,
     },
-    'HP5': {
+    "HP5": {
         380: 0.34,
         385: 7.11,
         390: 11.49,
@@ -3631,9 +3631,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 34.58,
         770: 30.21,
         775: 19.71,
-        780: 15.61
+        780: 15.61,
     },
-    'LED-B1': {
+    "LED-B1": {
         380: 0.00,
         385: 0.01,
         390: 0.01,
@@ -3714,9 +3714,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.86,
         770: 0.76,
         775: 0.68,
-        780: 0.61
+        780: 0.61,
     },
-    'LED-B2': {
+    "LED-B2": {
         380: 0.00,
         385: 0.00,
         390: 0.00,
@@ -3797,9 +3797,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.76,
         770: 0.67,
         775: 0.59,
-        780: 0.52
+        780: 0.52,
     },
-    'LED-B3': {
+    "LED-B3": {
         380: 0.00,
         385: 0.00,
         390: 0.01,
@@ -3880,9 +3880,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.43,
         770: 0.37,
         775: 0.32,
-        780: 0.28
+        780: 0.28,
     },
-    'LED-B4': {
+    "LED-B4": {
         380: 0.00,
         385: 0.00,
         390: 0.00,
@@ -3963,9 +3963,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.55,
         770: 0.50,
         775: 0.45,
-        780: 0.42
+        780: 0.42,
     },
-    'LED-B5': {
+    "LED-B5": {
         380: 0.00,
         385: 0.01,
         390: 0.01,
@@ -4046,9 +4046,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.39,
         770: 0.35,
         775: 0.31,
-        780: 0.27
+        780: 0.27,
     },
-    'LED-BH1': {
+    "LED-BH1": {
         380: 0.00,
         385: 0.01,
         390: 0.02,
@@ -4129,9 +4129,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.34,
         770: 0.30,
         775: 0.28,
-        780: 0.25
+        780: 0.25,
     },
-    'LED-RGB1': {
+    "LED-RGB1": {
         380: 0.00,
         385: 0.00,
         390: 0.00,
@@ -4212,9 +4212,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 0.27,
         770: 0.24,
         775: 0.21,
-        780: 0.17
+        780: 0.17,
     },
-    'LED-V1': {
+    "LED-V1": {
         380: 0.01,
         385: 0.03,
         390: 0.14,
@@ -4295,9 +4295,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 1.90,
         770: 1.65,
         775: 1.44,
-        780: 1.22
+        780: 1.22,
     },
-    'LED-V2': {
+    "LED-V2": {
         380: 0.01,
         385: 0.06,
         390: 0.26,
@@ -4378,9 +4378,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 1.30,
         770: 1.10,
         775: 0.96,
-        780: 0.84
+        780: 0.84,
     },
-    'ID65': {
+    "ID65": {
         300: 0.00,
         305: 0.00,
         310: 0.00,
@@ -4477,9 +4477,9 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 49.09,
         770: 57.70,
         775: 56.00,
-        780: 54.30
+        780: 54.30,
     },
-    'ID50': {
+    "ID50": {
         300: 0.00,
         305: 0.00,
         310: 0.00,
@@ -4576,15 +4576,22 @@ DATA_ILLUMINANTS_CIE: Dict = {
         765: 60.97,
         770: 71.62,
         775: 69.34,
-        780: 67.06
-    }
+        780: 67.06,
+    },
 }
 
-SDS_ILLUMINANTS_CIE: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping((
-    key,
-    partial(
-        SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
-) for key, value in DATA_ILLUMINANTS_CIE.items())
+SDS_ILLUMINANTS_CIE: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    (
+        key,
+        partial(
+            SpectralDistribution,
+            value,
+            name=key,
+            interpolator=LinearInterpolator,
+        ),
+    )
+    for key, value in DATA_ILLUMINANTS_CIE.items()
+)
 SDS_ILLUMINANTS_CIE.__doc__ = """
 Spectral distributions of the *CIE* illuminants.
 
@@ -4605,7 +4612,7 @@ References
 """
 
 DATA_ILLUMINANTS_ISO: Dict = {
-    'ISO 7589 Photographic Daylight': {
+    "ISO 7589 Photographic Daylight": {
         350: 28,
         360: 31,
         370: 34,
@@ -4642,7 +4649,7 @@ DATA_ILLUMINANTS_ISO: Dict = {
         680: 90,
         690: 80,
     },
-    'ISO 7589 Sensitometric Daylight': {
+    "ISO 7589 Sensitometric Daylight": {
         350: 0.00,
         360: 2.17,
         370: 7.82,
@@ -4679,7 +4686,7 @@ DATA_ILLUMINANTS_ISO: Dict = {
         680: 84.60,
         690: 75.20,
     },
-    'ISO 7589 Studio Tungsten': {
+    "ISO 7589 Studio Tungsten": {
         350: 1,
         360: 3,
         370: 5,
@@ -4716,7 +4723,7 @@ DATA_ILLUMINANTS_ISO: Dict = {
         680: 162,
         690: 167,
     },
-    'ISO 7589 Sensitometric Studio Tungsten': {
+    "ISO 7589 Sensitometric Studio Tungsten": {
         350: 0.00,
         360: 0.21,
         370: 1.15,
@@ -4753,7 +4760,7 @@ DATA_ILLUMINANTS_ISO: Dict = {
         680: 152.28,
         690: 156.98,
     },
-    'ISO 7589 Photoflood': {
+    "ISO 7589 Photoflood": {
         350: 11,
         360: 14,
         370: 16,
@@ -4790,7 +4797,7 @@ DATA_ILLUMINANTS_ISO: Dict = {
         680: 144,
         690: 146,
     },
-    'ISO 7589 Sensitometric Photoflood': {
+    "ISO 7589 Sensitometric Photoflood": {
         350: 0.00,
         360: 0.98,
         370: 3.68,
@@ -4827,7 +4834,7 @@ DATA_ILLUMINANTS_ISO: Dict = {
         680: 135.36,
         690: 137.24,
     },
-    'ISO 7589 Sensitometric Printer': {
+    "ISO 7589 Sensitometric Printer": {
         350: 0.00,
         360: 0.00,
         370: 0.00,
@@ -4850,14 +4857,21 @@ DATA_ILLUMINANTS_ISO: Dict = {
         540: 87.12,
         550: 94.00,
         560: 100.00,
-    }
+    },
 }
 
-SDS_ILLUMINANTS_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping((
-    key,
-    partial(
-        SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
-) for key, value in DATA_ILLUMINANTS_ISO.items())
+SDS_ILLUMINANTS_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    (
+        key,
+        partial(
+            SpectralDistribution,
+            value,
+            name=key,
+            interpolator=LinearInterpolator,
+        ),
+    )
+    for key, value in DATA_ILLUMINANTS_ISO.items()
+)
 SDS_ILLUMINANTS_ISO.__doc__ = """
 Spectral distributions of the *ISO* illuminants.
 
@@ -4884,7 +4898,8 @@ References
 """
 
 SDS_ILLUMINANTS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    SDS_ILLUMINANTS_CIE)
+    SDS_ILLUMINANTS_CIE
+)
 SDS_ILLUMINANTS.__doc__ = """
 Spectral distributions of the illuminants.
 

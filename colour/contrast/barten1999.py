@@ -36,26 +36,26 @@ from colour.hints import (
 )
 from colour.utilities import as_float_array, as_float
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'optical_MTF_Barten1999',
-    'pupil_diameter_Barten1999',
-    'sigma_Barten1999',
-    'retinal_illuminance_Barten1999',
-    'maximum_angular_size_Barten1999',
-    'contrast_sensitivity_function_Barten1999',
+    "optical_MTF_Barten1999",
+    "pupil_diameter_Barten1999",
+    "sigma_Barten1999",
+    "retinal_illuminance_Barten1999",
+    "maximum_angular_size_Barten1999",
+    "contrast_sensitivity_function_Barten1999",
 ]
 
 
-def optical_MTF_Barten1999(u: FloatingOrArrayLike,
-                           sigma: FloatingOrArrayLike = 0.01
-                           ) -> FloatingOrNDArray:
+def optical_MTF_Barten1999(
+    u: FloatingOrArrayLike, sigma: FloatingOrArrayLike = 0.01
+) -> FloatingOrNDArray:
     """
     Returns the optical modulation transfer function (MTF) :math:`M_{opt}` of
     the eye using *Barten (1999)* method.
@@ -92,9 +92,10 @@ def optical_MTF_Barten1999(u: FloatingOrArrayLike,
 
 
 def pupil_diameter_Barten1999(
-        L: FloatingOrArrayLike,
-        X_0: FloatingOrArrayLike = 60,
-        Y_0: Optional[FloatingOrArrayLike] = None) -> FloatingOrNDArray:
+    L: FloatingOrArrayLike,
+    X_0: FloatingOrArrayLike = 60,
+    Y_0: Optional[FloatingOrArrayLike] = None,
+) -> FloatingOrNDArray:
     """
     Returns the pupil diameter for given luminance and object or stimulus
     angular size using *Barten (1999)* method.
@@ -131,9 +132,11 @@ def pupil_diameter_Barten1999(
     return as_float(5 - 3 * np.tanh(0.4 * np.log(L * X_0 * Y_0 / 40 ** 2)))
 
 
-def sigma_Barten1999(sigma_0: FloatingOrArrayLike = 0.5 / 60,
-                     C_ab: FloatingOrArrayLike = 0.08 / 60,
-                     d: FloatingOrArrayLike = 2.1) -> FloatingOrNDArray:
+def sigma_Barten1999(
+    sigma_0: FloatingOrArrayLike = 0.5 / 60,
+    C_ab: FloatingOrArrayLike = 0.08 / 60,
+    d: FloatingOrArrayLike = 2.1,
+) -> FloatingOrNDArray:
     """
     Returns the standard deviation :math:`\\sigma` of the line-spread function
     resulting from the convolution of the different elements of the convolution
@@ -189,9 +192,10 @@ def sigma_Barten1999(sigma_0: FloatingOrArrayLike = 0.5 / 60,
 
 
 def retinal_illuminance_Barten1999(
-        L: FloatingOrArrayLike,
-        d: FloatingOrArrayLike = 2.1,
-        apply_stiles_crawford_effect_correction: Boolean = True):
+    L: FloatingOrArrayLike,
+    d: FloatingOrArrayLike = 2.1,
+    apply_stiles_crawford_effect_correction: Boolean = True,
+) -> FloatingOrNDArray:
     """
     Returns the retinal illuminance :math:`E` in Trolands for given average
     luminance :math:`L` and pupil diameter :math:`d` using *Barten (1999)*
@@ -237,16 +241,17 @@ def retinal_illuminance_Barten1999(
     E = (np.pi * d ** 2) / 4 * L
 
     if apply_stiles_crawford_effect_correction:
-        E *= (1 - (d / 9.7) ** 2 + (d / 12.4) ** 4)
+        E *= 1 - (d / 9.7) ** 2 + (d / 12.4) ** 4
 
     return as_float(E)
 
 
 def maximum_angular_size_Barten1999(
-        u: FloatingOrArrayLike,
-        X_0: FloatingOrArrayLike = 60,
-        X_max: FloatingOrArrayLike = 12,
-        N_max: FloatingOrArrayLike = 15) -> FloatingOrNDArray:
+    u: FloatingOrArrayLike,
+    X_0: FloatingOrArrayLike = 60,
+    X_max: FloatingOrArrayLike = 12,
+    N_max: FloatingOrArrayLike = 15,
+) -> FloatingOrNDArray:
     """
     Returns the maximum angular size :math:`X` of the object considered using
     *Barten (1999)* method.
@@ -285,26 +290,25 @@ def maximum_angular_size_Barten1999(
     X_max = as_float_array(X_max)
     N_max = as_float_array(N_max)
 
-    return as_float((1 / X_0 ** 2 + 1 / X_max ** 2 + u ** 2 / N_max ** 2)
-                    ** -0.5)
+    return as_float((1 / X_0 ** 2 + 1 / X_max ** 2 + u ** 2 / N_max ** 2) ** -0.5)
 
 
 def contrast_sensitivity_function_Barten1999(
-        u: FloatingOrArrayLike,
-        sigma: FloatingOrArrayLike = sigma_Barten1999(0.5 / 60, 0.08 / 60,
-                                                      2.1),
-        k: FloatingOrArrayLike = 3.0,
-        T: FloatingOrArrayLike = 0.1,
-        X_0: FloatingOrArrayLike = 60,
-        Y_0: Optional[FloatingOrArrayLike] = None,
-        X_max: FloatingOrArrayLike = 12,
-        Y_max: Optional[FloatingOrArrayLike] = None,
-        N_max: FloatingOrArrayLike = 15,
-        n: FloatingOrArrayLike = 0.03,
-        p: FloatingOrArrayLike = 1.2274 * 10 ** 6,
-        E: FloatingOrArrayLike = retinal_illuminance_Barten1999(20, 2.1),
-        phi_0: FloatingOrArrayLike = 3 * 10 ** -8,
-        u_0: FloatingOrArrayLike = 7) -> FloatingOrNDArray:
+    u: FloatingOrArrayLike,
+    sigma: FloatingOrArrayLike = sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1),
+    k: FloatingOrArrayLike = 3.0,
+    T: FloatingOrArrayLike = 0.1,
+    X_0: FloatingOrArrayLike = 60,
+    Y_0: Optional[FloatingOrArrayLike] = None,
+    X_max: FloatingOrArrayLike = 12,
+    Y_max: Optional[FloatingOrArrayLike] = None,
+    N_max: FloatingOrArrayLike = 15,
+    n: FloatingOrArrayLike = 0.03,
+    p: FloatingOrArrayLike = 1.2274 * 10 ** 6,
+    E: FloatingOrArrayLike = retinal_illuminance_Barten1999(20, 2.1),
+    phi_0: FloatingOrArrayLike = 3 * 10 ** -8,
+    u_0: FloatingOrArrayLike = 7,
+) -> FloatingOrNDArray:
     """
     Returns the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by *Barten (1999)*.
@@ -474,10 +478,13 @@ def contrast_sensitivity_function_Barten1999(
 
     M_opt = optical_MTF_Barten1999(u, sigma)
 
-    M_as = 1 / (maximum_angular_size_Barten1999(u, X_0, X_max, N_max) *
-                maximum_angular_size_Barten1999(u, Y_0, Y_max, N_max))
+    M_as = 1 / (
+        maximum_angular_size_Barten1999(u, X_0, X_max, N_max)
+        * maximum_angular_size_Barten1999(u, Y_0, Y_max, N_max)
+    )
 
-    S = (M_opt / k) / np.sqrt(2 / T * M_as * (1 / (n * p * E) + phi_0 /
-                                              (1 - np.exp(-(u / u_0) ** 2))))
+    S = (M_opt / k) / np.sqrt(
+        2 / T * M_as * (1 / (n * p * E) + phi_0 / (1 - np.exp(-((u / u_0) ** 2))))
+    )
 
     return as_float(S)

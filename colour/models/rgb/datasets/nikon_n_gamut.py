@@ -31,20 +31,20 @@ from colour.models.rgb.datasets.itur_bt_2020 import (
     MATRIX_XYZ_TO_BT2020,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2020 - Colour Developers"
+__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_N_GAMUT',
-    'WHITEPOINT_NAME_N_GAMUT',
-    'CCS_WHITEPOINT_N_GAMUT',
-    'MATRIX_N_GAMUT_TO_XYZ',
-    'MATRIX_XYZ_TO_N_GAMUT',
-    'RGB_COLOURSPACE_N_GAMUT',
+    "PRIMARIES_N_GAMUT",
+    "WHITEPOINT_NAME_N_GAMUT",
+    "CCS_WHITEPOINT_N_GAMUT",
+    "MATRIX_N_GAMUT_TO_XYZ",
+    "MATRIX_XYZ_TO_N_GAMUT",
+    "RGB_COLOURSPACE_N_GAMUT",
 ]
 
 PRIMARIES_N_GAMUT: NDArray = PRIMARIES_BT2020
@@ -78,7 +78,7 @@ MATRIX_XYZ_TO_N_GAMUT: NDArray = MATRIX_XYZ_TO_BT2020
 """
 
 RGB_COLOURSPACE_N_GAMUT: RGB_Colourspace = RGB_Colourspace(
-    'N-Gamut',
+    "N-Gamut",
     PRIMARIES_N_GAMUT,
     CCS_WHITEPOINT_N_GAMUT,
     WHITEPOINT_NAME_N_GAMUT,

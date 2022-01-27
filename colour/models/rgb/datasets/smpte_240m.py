@@ -29,44 +29,48 @@ from colour.models.rgb import (
     eotf_SMPTE240M,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_SMPTE_240M',
-    'WHITEPOINT_NAME_SMPTE_240M',
-    'CCS_WHITEPOINT_SMPTE_240M',
-    'MATRIX_SMPTE_240M_TO_XYZ',
-    'MATRIX_XYZ_TO_SMPTE_240M',
-    'RGB_COLOURSPACE_SMPTE_240M',
+    "PRIMARIES_SMPTE_240M",
+    "WHITEPOINT_NAME_SMPTE_240M",
+    "CCS_WHITEPOINT_SMPTE_240M",
+    "MATRIX_SMPTE_240M_TO_XYZ",
+    "MATRIX_XYZ_TO_SMPTE_240M",
+    "RGB_COLOURSPACE_SMPTE_240M",
 ]
 
-PRIMARIES_SMPTE_240M: NDArray = np.array([
-    [0.6300, 0.3400],
-    [0.3100, 0.5950],
-    [0.1550, 0.0700],
-])
+PRIMARIES_SMPTE_240M: NDArray = np.array(
+    [
+        [0.6300, 0.3400],
+        [0.3100, 0.5950],
+        [0.1550, 0.0700],
+    ]
+)
 """
 *SMPTE 240M* colourspace primaries.
 """
 
-WHITEPOINT_NAME_SMPTE_240M: str = 'D65'
+WHITEPOINT_NAME_SMPTE_240M: str = "D65"
 """
 *SMPTE 240M* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_SMPTE_240M: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_SMPTE_240M])
+CCS_WHITEPOINT_SMPTE_240M: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_SMPTE_240M]
 """
 *SMPTE 240M* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_SMPTE_240M_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_SMPTE_240M, CCS_WHITEPOINT_SMPTE_240M)
+    PRIMARIES_SMPTE_240M, CCS_WHITEPOINT_SMPTE_240M
+)
 """
 *SMPTE 240M* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -77,7 +81,7 @@ MATRIX_XYZ_TO_SMPTE_240M: NDArray = np.linalg.inv(MATRIX_SMPTE_240M_TO_XYZ)
 """
 
 RGB_COLOURSPACE_SMPTE_240M: RGB_Colourspace = RGB_Colourspace(
-    'SMPTE 240M',
+    "SMPTE 240M",
     PRIMARIES_SMPTE_240M,
     CCS_WHITEPOINT_SMPTE_240M,
     WHITEPOINT_NAME_SMPTE_240M,

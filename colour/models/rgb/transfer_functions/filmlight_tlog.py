@@ -21,23 +21,25 @@ import numpy as np
 from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'log_encoding_FilmLightTLog',
-    'log_decoding_FilmLightTLog',
+    "log_encoding_FilmLightTLog",
+    "log_decoding_FilmLightTLog",
 ]
 
 
-def log_encoding_FilmLightTLog(x: FloatingOrArrayLike,
-                               w: Floating = 128.0,
-                               g: Floating = 16.0,
-                               o: Floating = 0.075) -> FloatingOrNDArray:
+def log_encoding_FilmLightTLog(
+    x: FloatingOrArrayLike,
+    w: Floating = 128.0,
+    g: Floating = 16.0,
+    o: Floating = 0.075,
+) -> FloatingOrNDArray:
     """
     Defines the *FilmLight T-Log* log encoding curve.
 
@@ -127,10 +129,12 @@ def log_encoding_FilmLightTLog(x: FloatingOrArrayLike,
     return as_float(from_range_1(t))
 
 
-def log_decoding_FilmLightTLog(t: FloatingOrArrayLike,
-                               w: Floating = 128.0,
-                               g: Floating = 16.0,
-                               o: Floating = 0.075) -> FloatingOrNDArray:
+def log_decoding_FilmLightTLog(
+    t: FloatingOrArrayLike,
+    w: Floating = 128.0,
+    g: Floating = 16.0,
+    o: Floating = 0.075,
+) -> FloatingOrNDArray:
     """
     Defines the *FilmLight T-Log* log decoding curve.
 

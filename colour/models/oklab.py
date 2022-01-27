@@ -23,27 +23,29 @@ from colour.algebra import spow, vector_dot
 from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_1_XYZ_TO_LMS',
-    'MATRIX_1_LMS_TO_XYZ',
-    'MATRIX_2_LMS_TO_LAB',
-    'MATRIX_2_LAB_TO_LMS',
-    'XYZ_to_Oklab',
-    'Oklab_to_XYZ',
+    "MATRIX_1_XYZ_TO_LMS",
+    "MATRIX_1_LMS_TO_XYZ",
+    "MATRIX_2_LMS_TO_LAB",
+    "MATRIX_2_LAB_TO_LMS",
+    "XYZ_to_Oklab",
+    "Oklab_to_XYZ",
 ]
 
-MATRIX_1_XYZ_TO_LMS: NDArray = np.array([
-    [0.8189330101, 0.3618667424, -0.1288597137],
-    [0.0329845436, 0.9293118715, 0.0361456387],
-    [0.0482003018, 0.2643662691, 0.6338517070],
-])
+MATRIX_1_XYZ_TO_LMS: NDArray = np.array(
+    [
+        [0.8189330101, 0.3618667424, -0.1288597137],
+        [0.0329845436, 0.9293118715, 0.0361456387],
+        [0.0482003018, 0.2643662691, 0.6338517070],
+    ]
+)
 """
 *CIE XYZ* tristimulus values to normalised cone responses matrix.
 """
@@ -53,11 +55,13 @@ MATRIX_1_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_1_XYZ_TO_LMS)
 Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_2_LMS_TO_LAB: NDArray = np.array([
-    [0.2104542553, 0.7936177850, -0.0040720468],
-    [1.9779984951, -2.4285922050, 0.4505937099],
-    [0.0259040371, 0.7827717662, -0.8086757660],
-])
+MATRIX_2_LMS_TO_LAB: NDArray = np.array(
+    [
+        [0.2104542553, 0.7936177850, -0.0040720468],
+        [1.9779984951, -2.4285922050, 0.4505937099],
+        [0.0259040371, 0.7827717662, -0.8086757660],
+    ]
+)
 """
 Normalised cone responses to *Oklab* colourspace matrix.
 """

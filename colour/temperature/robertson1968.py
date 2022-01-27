@@ -42,19 +42,19 @@ from dataclasses import dataclass
 from colour.hints import ArrayLike, Floating, List, NDArray, Tuple
 from colour.utilities import as_float_array, tsplit
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_ISOTEMPERATURE_LINES_ROBERTSON1968',
-    'ISOTemperatureLine_Specification_Robertson1968',
-    'ISOTEMPERATURE_LINES_ROBERTSON1968',
-    'uv_to_CCT_Robertson1968',
-    'CCT_to_uv_Robertson1968',
+    "DATA_ISOTEMPERATURE_LINES_ROBERTSON1968",
+    "ISOTemperatureLine_Specification_Robertson1968",
+    "ISOTEMPERATURE_LINES_ROBERTSON1968",
+    "uv_to_CCT_Robertson1968",
+    "CCT_to_uv_Robertson1968",
 ]
 
 DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: Tuple = (
@@ -77,7 +77,7 @@ DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: Tuple = (
     (250, 0.22511, 0.33439, -1.4512),
     (275, 0.23247, 0.33904, -1.7298),
     (300, 0.24010, 0.34308, -2.0637),
-    (325, 0.24792, 0.34655, -2.4681),  # 0.24702 ---> 0.24792 Bruce Lindbloom
+    (325, 0.24792, 0.34655, -2.4681),  # 0.24702 --> 0.24792 Bruce Lindbloom
     (350, 0.25591, 0.34951, -2.9641),
     (375, 0.26400, 0.35200, -3.5814),
     (400, 0.27218, 0.35407, -4.3633),
@@ -88,7 +88,8 @@ DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: Tuple = (
     (525, 0.31320, 0.35968, -15.628),
     (550, 0.32129, 0.36011, -23.325),
     (575, 0.32931, 0.36038, -40.770),
-    (600, 0.33724, 0.36051, -116.45))
+    (600, 0.33724, 0.36051, -116.45),
+)
 """
 *Robertson (1968)* iso-temperature lines as a *tuple* as follows::
 
@@ -103,7 +104,7 @@ DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: Tuple = (
 Notes
 -----
 -   A correction has been done by Lindbloom for *325* Megakelvin
-    temperature: 0.24702 ---> 0.24792
+    temperature: 0.24702 --> 0.24792
 
 References
 ----------

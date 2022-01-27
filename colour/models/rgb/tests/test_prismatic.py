@@ -10,16 +10,16 @@ from itertools import permutations
 from colour.models.rgb import RGB_to_Prismatic, Prismatic_to_RGB
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestRGB_to_Prismatic',
-    'TestPrismatic_to_RGB',
+    "TestRGB_to_Prismatic",
+    "TestPrismatic_to_RGB",
 ]
 
 
@@ -37,12 +37,14 @@ class TestRGB_to_Prismatic(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_Prismatic(np.array([0.0, 0.0, 0.0])),
             np.array([0.0, 0.0, 0.0, 0.0]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             RGB_to_Prismatic(np.array([0.25, 0.50, 0.75])),
             np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_n_dimensional_RGB_to_Prismatic(self):
         """
@@ -70,11 +72,12 @@ class TestRGB_to_Prismatic(unittest.TestCase):
         RGB = np.array([0.25, 0.50, 0.75])
         Lrgb = RGB_to_Prismatic(RGB)
 
-        d_r = (('reference', 1), ('1', 1), ('100', 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    RGB_to_Prismatic(RGB * factor), Lrgb * factor, decimal=7)
+                    RGB_to_Prismatic(RGB * factor), Lrgb * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_RGB_to_Prismatic(self):
@@ -104,13 +107,14 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             Prismatic_to_RGB(np.array([0.0, 0.0, 0.0, 0.0])),
             np.array([0.0, 0.0, 0.0]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            Prismatic_to_RGB(
-                np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])),
+            Prismatic_to_RGB(np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])),
             np.array([0.25, 0.50, 0.75]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_n_dimensional_Prismatic_to_RGB(self):
         """
@@ -138,11 +142,12 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
         RGB = Prismatic_to_RGB(Lrgb)
 
-        d_r = (('reference', 1), ('1', 1), ('100', 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    Prismatic_to_RGB(Lrgb * factor), RGB * factor, decimal=7)
+                    Prismatic_to_RGB(Lrgb * factor), RGB * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_Prismatic_to_RGB(self):
@@ -158,5 +163,5 @@ class TestPrismatic_to_RGB(unittest.TestCase):
             Prismatic_to_RGB(Prismatic)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

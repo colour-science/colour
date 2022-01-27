@@ -67,30 +67,32 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Development'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Development"
 
 __all__ = [
-    'WEIGHTS_YCBCR',
-    'ranges_YCbCr',
-    'matrix_YCbCr',
-    'offset_YCbCr',
-    'RGB_to_YCbCr',
-    'YCbCr_to_RGB',
-    'RGB_to_YcCbcCrc',
-    'YcCbcCrc_to_RGB',
+    "WEIGHTS_YCBCR",
+    "ranges_YCbCr",
+    "matrix_YCbCr",
+    "offset_YCbCr",
+    "RGB_to_YCbCr",
+    "YCbCr_to_RGB",
+    "RGB_to_YcCbcCrc",
+    "YcCbcCrc_to_RGB",
 ]
 
-WEIGHTS_YCBCR: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ITU-R BT.601': np.array([0.2990, 0.1140]),
-    'ITU-R BT.709': np.array([0.2126, 0.0722]),
-    'ITU-R BT.2020': np.array([0.2627, 0.0593]),
-    'SMPTE-240M': np.array([0.2122, 0.0865])
-})
+WEIGHTS_YCBCR: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.601": np.array([0.2990, 0.1140]),
+        "ITU-R BT.709": np.array([0.2126, 0.0722]),
+        "ITU-R BT.2020": np.array([0.2627, 0.0593]),
+        "SMPTE-240M": np.array([0.2122, 0.0865]),
+    }
+)
 """
 Luma weightings presets.
 
@@ -105,7 +107,7 @@ References
 
 
 def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
-    """"
+    """ "
     Returns the *Y'CbCr* colour encoding ranges array for given bit depth,
     range legality and representation.
 
@@ -153,10 +155,12 @@ def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
     return ranges
 
 
-def matrix_YCbCr(K: NDArray = WEIGHTS_YCBCR['ITU-R BT.709'],
-                 bits: Integer = 8,
-                 is_legal: Boolean = False,
-                 is_int: Boolean = False) -> NDArray:
+def matrix_YCbCr(
+    K: NDArray = WEIGHTS_YCBCR["ITU-R BT.709"],
+    bits: Integer = 8,
+    is_legal: Boolean = False,
+    is_int: Boolean = False,
+) -> NDArray:
     """
     Computes the *R'G'B'* to *Y'CbCr* matrix for given weights, bit depth,
     range legality and representation.
@@ -238,9 +242,9 @@ def matrix_YCbCr(K: NDArray = WEIGHTS_YCBCR['ITU-R BT.709'],
     return np.linalg.inv(np.vstack([Y, Cb, Cr]))
 
 
-def offset_YCbCr(bits: Integer = 8,
-                 is_legal: Boolean = False,
-                 is_int: Boolean = False) -> NDArray:
+def offset_YCbCr(
+    bits: Integer = 8, is_legal: Boolean = False, is_int: Boolean = False
+) -> NDArray:
     """
     Computes the *R'G'B'* to *Y'CbCr* offsets for given bit depth, range
     legality and representation.
@@ -279,15 +283,17 @@ def offset_YCbCr(bits: Integer = 8,
     return np.array([Y_offset, C_offset, C_offset])
 
 
-def RGB_to_YCbCr(RGB: ArrayLike,
-                 K: NDArray = WEIGHTS_YCBCR['ITU-R BT.709'],
-                 in_bits: Integer = 10,
-                 in_legal: Boolean = False,
-                 in_int: Boolean = False,
-                 out_bits: Integer = 8,
-                 out_legal: Boolean = True,
-                 out_int: Boolean = False,
-                 **kwargs: Any) -> NDArray:
+def RGB_to_YCbCr(
+    RGB: ArrayLike,
+    K: NDArray = WEIGHTS_YCBCR["ITU-R BT.709"],
+    in_bits: Integer = 10,
+    in_legal: Boolean = False,
+    in_int: Boolean = False,
+    out_bits: Integer = 8,
+    out_legal: Boolean = True,
+    out_int: Boolean = False,
+    **kwargs: Any
+) -> NDArray:
     """
     Converts an array of *R'G'B'* values to the corresponding *Y'CbCr* colour
     encoding values array.
@@ -436,10 +442,10 @@ def RGB_to_YCbCr(RGB: ArrayLike,
         RGB = to_domain_1(RGB)
 
     Kr, Kb = K
-    RGB_min, RGB_max = kwargs.get('in_range',
-                                  CV_range(in_bits, in_legal, in_int))
+    RGB_min, RGB_max = kwargs.get("in_range", CV_range(in_bits, in_legal, in_int))
     Y_min, Y_max, C_min, C_max = kwargs.get(
-        'out_range', ranges_YCbCr(out_bits, out_legal, out_int))
+        "out_range", ranges_YCbCr(out_bits, out_legal, out_int)
+    )
 
     RGB_float = as_float_array(RGB) - RGB_min
     RGB_float *= 1 / (RGB_max - RGB_min)
@@ -463,15 +469,17 @@ def RGB_to_YCbCr(RGB: ArrayLike,
         return from_range_1(YCbCr)
 
 
-def YCbCr_to_RGB(YCbCr: ArrayLike,
-                 K: NDArray = WEIGHTS_YCBCR['ITU-R BT.709'],
-                 in_bits: Integer = 8,
-                 in_legal: Boolean = True,
-                 in_int: Boolean = False,
-                 out_bits: Integer = 10,
-                 out_legal: Boolean = False,
-                 out_int: Boolean = False,
-                 **kwargs: Any) -> NDArray:
+def YCbCr_to_RGB(
+    YCbCr: ArrayLike,
+    K: NDArray = WEIGHTS_YCBCR["ITU-R BT.709"],
+    in_bits: Integer = 8,
+    in_legal: Boolean = True,
+    in_int: Boolean = False,
+    out_bits: Integer = 10,
+    out_legal: Boolean = False,
+    out_int: Boolean = False,
+    **kwargs: Any
+) -> NDArray:
     """
     Converts an array of *Y'CbCr* colour encoding values to the corresponding
     *R'G'B'* values array.
@@ -569,9 +577,9 @@ def YCbCr_to_RGB(YCbCr: ArrayLike,
     Y, Cb, Cr = tsplit(YCbCr)
     Kr, Kb = K
     Y_min, Y_max, C_min, C_max = kwargs.get(
-        'in_range', ranges_YCbCr(in_bits, in_legal, in_int))
-    RGB_min, RGB_max = kwargs.get('out_range',
-                                  CV_range(out_bits, out_legal, out_int))
+        "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
+    )
+    RGB_min, RGB_max = kwargs.get("out_range", CV_range(out_bits, out_legal, out_int))
 
     Y -= Y_min
     Cb -= (C_max + C_min) / 2
@@ -592,12 +600,14 @@ def YCbCr_to_RGB(YCbCr: ArrayLike,
     return RGB
 
 
-def RGB_to_YcCbcCrc(RGB: ArrayLike,
-                    out_bits: Integer = 10,
-                    out_legal: Boolean = True,
-                    out_int: Boolean = False,
-                    is_12_bits_system: Boolean = False,
-                    **kwargs: Any) -> NDArray:
+def RGB_to_YcCbcCrc(
+    RGB: ArrayLike,
+    out_bits: Integer = 10,
+    out_legal: Boolean = True,
+    out_int: Boolean = False,
+    is_12_bits_system: Boolean = False,
+    **kwargs: Any
+) -> NDArray:
     """
     Converts an array of *RGB* linear values to the corresponding *Yc'Cbc'Crc'*
     colour encoding values array.
@@ -672,11 +682,12 @@ def RGB_to_YcCbcCrc(RGB: ArrayLike,
 
     R, G, B = tsplit(to_domain_1(RGB))
     Y_min, Y_max, C_min, C_max = kwargs.get(
-        'out_range', ranges_YCbCr(out_bits, out_legal, out_int))
+        "out_range", ranges_YCbCr(out_bits, out_legal, out_int)
+    )
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         Yc = eotf_inverse_BT2020(Yc, is_12_bits_system=is_12_bits_system)
         R = eotf_inverse_BT2020(R, is_12_bits_system=is_12_bits_system)
         B = eotf_inverse_BT2020(B, is_12_bits_system=is_12_bits_system)
@@ -698,12 +709,14 @@ def RGB_to_YcCbcCrc(RGB: ArrayLike,
         return from_range_1(YcCbcCrc)
 
 
-def YcCbcCrc_to_RGB(YcCbcCrc: ArrayLike,
-                    in_bits: Integer = 10,
-                    in_legal: Boolean = True,
-                    in_int: Boolean = False,
-                    is_12_bits_system: Boolean = False,
-                    **kwargs: Any) -> NDArray:
+def YcCbcCrc_to_RGB(
+    YcCbcCrc: ArrayLike,
+    in_bits: Integer = 10,
+    in_legal: Boolean = True,
+    in_int: Boolean = False,
+    is_12_bits_system: Boolean = False,
+    **kwargs: Any
+) -> NDArray:
     """
     Converts an array of *Yc'Cbc'Crc'* colour encoding values to the
     corresponding *RGB* array of linear values.
@@ -783,7 +796,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc: ArrayLike,
 
     Yc, Cbc, Crc = tsplit(YcCbcCrc)
     Y_min, Y_max, C_min, C_max = kwargs.get(
-        'in_range', ranges_YCbCr(in_bits, in_legal, in_int))
+        "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
+    )
 
     Yc -= Y_min
     Cbc -= (C_max + C_min) / 2
@@ -794,7 +808,7 @@ def YcCbcCrc_to_RGB(YcCbcCrc: ArrayLike,
     B = np.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         Yc = as_float_array(eotf_BT2020(Yc, is_12_bits_system))
         B = as_float_array(eotf_BT2020(B, is_12_bits_system))
         R = as_float_array(eotf_BT2020(R, is_12_bits_system))

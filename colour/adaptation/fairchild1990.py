@@ -33,20 +33,20 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_XYZ_TO_RGB_FAIRCHILD1990',
-    'MATRIX_RGB_TO_XYZ_FAIRCHILD1990',
-    'chromatic_adaptation_Fairchild1990',
-    'XYZ_to_RGB_Fairchild1990',
-    'RGB_to_XYZ_Fairchild1990',
-    'degrees_of_adaptation',
+    "MATRIX_XYZ_TO_RGB_FAIRCHILD1990",
+    "MATRIX_RGB_TO_XYZ_FAIRCHILD1990",
+    "chromatic_adaptation_Fairchild1990",
+    "XYZ_to_RGB_Fairchild1990",
+    "RGB_to_XYZ_Fairchild1990",
+    "degrees_of_adaptation",
 ]
 
 MATRIX_XYZ_TO_RGB_FAIRCHILD1990: NDArray = CAT_VON_KRIES
@@ -63,11 +63,12 @@ tristimulus values matrix.
 
 
 def chromatic_adaptation_Fairchild1990(
-        XYZ_1: ArrayLike,
-        XYZ_n: ArrayLike,
-        XYZ_r: ArrayLike,
-        Y_n: FloatingOrArrayLike,
-        discount_illuminant: Boolean = False) -> NDArray:
+    XYZ_1: ArrayLike,
+    XYZ_n: ArrayLike,
+    XYZ_r: ArrayLike,
+    Y_n: FloatingOrArrayLike,
+    discount_illuminant: Boolean = False,
+) -> NDArray:
     """
     Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *Fairchild (1990)*
@@ -135,8 +136,7 @@ def chromatic_adaptation_Fairchild1990(
     LMS_n = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_n)
     LMS_r = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_r)
 
-    p_LMS = degrees_of_adaptation(
-        LMS_1, Y_n, discount_illuminant=discount_illuminant)
+    p_LMS = degrees_of_adaptation(LMS_1, Y_n, discount_illuminant=discount_illuminant)
 
     a_LMS_1 = p_LMS / LMS_n
     a_LMS_2 = p_LMS / LMS_r
@@ -206,10 +206,12 @@ def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArray:
     return vector_dot(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, RGB)
 
 
-def degrees_of_adaptation(LMS: ArrayLike,
-                          Y_n: FloatingOrArrayLike,
-                          v: FloatingOrArrayLike = 1 / 3,
-                          discount_illuminant: Boolean = False) -> NDArray:
+def degrees_of_adaptation(
+    LMS: ArrayLike,
+    Y_n: FloatingOrArrayLike,
+    v: FloatingOrArrayLike = 1 / 3,
+    discount_illuminant: Boolean = False,
+) -> NDArray:
     """
     Computes the degrees of adaptation :math:`p_L`, :math:`p_M` and
     :math:`p_S`.

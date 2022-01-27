@@ -35,9 +35,11 @@ swatches_VAC = []
 
 for i in range(len(swatches)):
     VCC = colour.HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-        swatches[i], wp, L_a, method='VCC')
+        swatches[i], wp, L_a, method="VCC"
+    )
     VAC = colour.HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-        swatches[i], wp, L_a, method='VAC')
+        swatches[i], wp, L_a, method="VAC"
+    )
 
     swatches_normal.append(colour.XYZ_to_sRGB(bg_grey))
     swatches_normal.append(colour.XYZ_to_sRGB(swatches_XYZ[i]))
@@ -50,17 +52,22 @@ for i in range(len(swatches)):
 
 colour_style()
 
-message_box('Plotting swatches with the same luminance (Y).\n'
-            'The Helmholtz—Kohlrausch effect will be very noticeable.')
-plot_multi_colour_swatches(swatches_normal, compare_swatches='stacked')
-
-message_box('Plotting HKE-compensated swatches with VCC method.\n'
-            'The Helmholtz—Kohlrausch effect has been compensated using VCC'
-            '(variable chromatic colour) method.')
-plot_multi_colour_swatches(swatches_VCC, compare_swatches='stacked')
+message_box(
+    "Plotting swatches with the same luminance (Y).\n"
+    "The Helmholtz—Kohlrausch effect will be very noticeable."
+)
+plot_multi_colour_swatches(swatches_normal, compare_swatches="stacked")
 
 message_box(
-    'Plotting HKE-compensated swatches with VAC method.\n'
-    'The Helmholtz—Kohlrausch effect has been compensated for using VAC'
-    '(variable achromatic colour) method.')
-plot_multi_colour_swatches(swatches_VAC, compare_swatches='stacked')
+    "Plotting HKE-compensated swatches with VCC method.\n"
+    "The Helmholtz—Kohlrausch effect has been compensated using VCC"
+    "(variable chromatic colour) method."
+)
+plot_multi_colour_swatches(swatches_VCC, compare_swatches="stacked")
+
+message_box(
+    "Plotting HKE-compensated swatches with VAC method.\n"
+    "The Helmholtz—Kohlrausch effect has been compensated for using VAC"
+    "(variable achromatic colour) method."
+)
+plot_multi_colour_swatches(swatches_VAC, compare_swatches="stacked")

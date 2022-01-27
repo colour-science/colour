@@ -13,16 +13,16 @@ from colour.models.rgb.transfer_functions import (
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestEotfInverse_BT2020',
-    'TestEotf_BT2020',
+    "TestEotfInverse_BT2020",
+    "TestEotf_BT2020",
 ]
 
 
@@ -40,8 +40,7 @@ eotf_inverse_BT2020` definition.
 
         self.assertAlmostEqual(eotf_inverse_BT2020(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            eotf_inverse_BT2020(0.18), 0.409007728864150, places=7)
+        self.assertAlmostEqual(eotf_inverse_BT2020(0.18), 0.409007728864150, places=7)
 
         self.assertAlmostEqual(eotf_inverse_BT2020(1.0), 1.0, places=7)
 
@@ -75,11 +74,12 @@ eotf_inverse_BT2020` definition domain and range scale support.
         E = 0.18
         E_p = eotf_inverse_BT2020(E)
 
-        d_r = (('reference', 1), ('1', 1), ('100', 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_inverse_BT2020(E * factor), E_p * factor, decimal=7)
+                    eotf_inverse_BT2020(E * factor), E_p * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_eotf_inverse_BT2020(self):
@@ -88,8 +88,7 @@ eotf_inverse_BT2020` definition domain and range scale support.
 eotf_inverse_BT2020` definition nan support.
         """
 
-        eotf_inverse_BT2020(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_BT2020(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_BT2020(unittest.TestCase):
@@ -140,11 +139,12 @@ eotf_BT2020` definition domain and range scale support.
         E_p = 0.409007728864150
         E = eotf_BT2020(E_p)
 
-        d_r = (('reference', 1), ('1', 1), ('100', 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_BT2020(E_p * factor), E * factor, decimal=7)
+                    eotf_BT2020(E_p * factor), E * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_eotf_BT2020(self):
@@ -156,5 +156,5 @@ eotf_BT2020` definition nan support.
         eotf_BT2020(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -30,23 +30,25 @@ from colour.utilities import (
     zeros,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RGB_to_IHLS',
-    'IHLS_to_RGB',
+    "RGB_to_IHLS",
+    "IHLS_to_RGB",
 ]
 
-MATRIX_RGB_TO_YC_1_C_2: NDArray = np.array([
-    [0.2126, 0.7152, 0.0722],
-    [1, -0.5, -0.5],
-    [0, -np.sqrt(3) / 2, np.sqrt(3) / 2],
-])
+MATRIX_RGB_TO_YC_1_C_2: NDArray = np.array(
+    [
+        [0.2126, 0.7152, 0.0722],
+        [1, -0.5, -0.5],
+        [0, -np.sqrt(3) / 2, np.sqrt(3) / 2],
+    ]
+)
 """
 *RGB* colourspace to *YC_1C_2* colourspace matrix.
 """
