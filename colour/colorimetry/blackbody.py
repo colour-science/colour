@@ -12,11 +12,10 @@ References
     THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
 """
+
 from __future__ import annotations
 
 import numpy as np
-
-import colour
 
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
@@ -600,18 +599,16 @@ def sd_blackbody(temperature: Floating,
 Rayleigh-Jeans spectral distribution
 ==============================
 
-Defines the objects to compute the Rayleigh–Jeans law approximation to the spectral 
-radiance of electromagnetic radiation as a function of wavelength from a black body at a 
-given temperature through classical arguments.
-
-References
-----------
+Defines the objects to compute the Rayleigh–Jeans law approximation to
+the spectral radiance of electromagnetic radiation as a function of
+wavelength from a black body at a given temperature through
+classical arguments.
 """
 
 def rayleigh_jeans_law(wavelength, temperature):
     """
-    Returns the spectral radiance of electromagnetic radiation as a function of wavelength
-    from a black body at a given temperature
+    Returns the spectral radiance of electromagnetic radiation as a
+    function of wavelength from a black body at a given temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
     
     Parameters
@@ -628,7 +625,8 @@ def rayleigh_jeans_law(wavelength, temperature):
     
     Notes
     -----
-    -   The following form implementation is expressed in term of wavelength.
+    -   The following form implementation is expressed in term of
+        wavelength.
     -   The SI unit of radiance is *watts per steradian per square metre*
         (:math:`W/sr/m^2`).
     
@@ -652,9 +650,10 @@ def rayleigh_jeans_law(wavelength, temperature):
 
 def sd_rayleigh_jeans(temperature, shape=colour.SPECTRAL_SHAPE_DEFAULT):
     """
-    Returns the spectral distribution of the Spectral radiance for given
-    temperature :math:`T[K]` with values in
-    *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`).
+    Returns the spectral distribution of the Spectral radiance for
+    given temperature :math:`T[K]` with values in
+    *watts per steradian per square metre per nanometer*
+    (:math:`W/sr/m^2/nm`).
 
     Parameters
     ----------
