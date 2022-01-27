@@ -62,7 +62,7 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
         Values to initialise the multiple :class:`colour.SpectralDistribution`
-        :attr:`colour.continuous.Signal.wavelengths` attribute.
+        :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.
@@ -85,7 +85,7 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         of the :class:`colour.SpectralDistribution` class instances.
     strict_labels
         Multi-spectral distributions labels for figures, default to
-        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` attribute value.
+        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` property value.
     """
 
     def __init__(
@@ -126,10 +126,10 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         Data to be stored in the multi-spectral distributions.
     domain
         Values to initialise the multiple :class:`colour.SpectralDistribution`
-        class instances :attr:`colour.continuous.Signal.wavelengths` attribute
+        class instances :attr:`colour.continuous.Signal.wavelengths` property
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
-        :attr:`colour.continuous.Signal.wavelengths` attribute.
+        :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.
@@ -198,7 +198,7 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
-        :attr:`colour.continuous.Signal.wavelengths` attribute.
+        :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.

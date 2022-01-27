@@ -771,7 +771,7 @@ class Node:
 
         attest(
             isinstance(value, str),
-            '"{0}" attribute: "{1}" type is not "str"!'.format("name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
         )
 
         self._name = value
@@ -803,7 +803,7 @@ class Node:
         if value is not None:
             attest(
                 issubclass(value.__class__, Node),
-                '"{0}" attribute: "{1}" is not a "{2}" subclass!'.format(
+                '"{0}" property: "{1}" is not a "{2}" subclass!'.format(
                     "parent", value, Node.__class__.__name__
                 ),
             )
@@ -838,7 +838,7 @@ class Node:
 
         attest(
             isinstance(value, list),
-            '"{0}" attribute: "{1}" type is not a "list" instance!'.format(
+            '"{0}" property: "{1}" type is not a "list" instance!'.format(
                 "children", value
             ),
         )
@@ -846,7 +846,7 @@ class Node:
         for element in value:
             attest(
                 issubclass(element.__class__, Node),
-                '"{0}" attribute: A "{1}" element is not a "{2}" subclass!'.format(
+                '"{0}" property: A "{1}" element is not a "{2}" subclass!'.format(
                     "children", element, Node.__class__.__name__
                 ),
             )

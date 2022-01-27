@@ -91,9 +91,9 @@ class Signal(AbstractContinuousFunction):
     returns a corresponding range variable :math:`y \\in\\mathbb{R}`.
     It adopts an interpolating function encapsulated inside an extrapolating
     function. The resulting function independent domain, stored as discrete
-    values in the :attr:`colour.continuous.Signal.domain` attribute corresponds
+    values in the :attr:`colour.continuous.Signal.domain` property corresponds
     with the function dependent and already known range stored in the
-    :attr:`colour.continuous.Signal.range` attribute.
+    :attr:`colour.continuous.Signal.range` property.
 
     .. important::
 
@@ -109,7 +109,7 @@ class Signal(AbstractContinuousFunction):
         Values to initialise the :attr:`colour.continuous.Signal.domain`
         attribute with. If both ``data`` and ``domain`` arguments are defined,
         the latter with be used to initialise the
-        :attr:`colour.continuous.Signal.domain` attribute.
+        :attr:`colour.continuous.Signal.domain` property.
 
     Other Parameters
     ----------------
@@ -461,7 +461,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             isinstance(value, dict),
-            '"{0}" attribute: "{1}" type is not "dict"!'.format(
+            '"{0}" property: "{1}" type is not "dict"!'.format(
                 "interpolator_kwargs", value
             ),
         )
@@ -527,7 +527,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             isinstance(value, dict),
-            '"{0}" attribute: "{1}" type is not "dict"!'.format(
+            '"{0}" property: "{1}" type is not "dict"!'.format(
                 "extrapolator_kwargs", value
             ),
         )
@@ -1128,7 +1128,7 @@ class Signal(AbstractContinuousFunction):
             Values to initialise the :attr:`colour.continuous.Signal.domain`
             attribute with. If both ``data`` and ``domain`` arguments are
             defined, the latter will be used to initialise the
-            :attr:`colour.continuous.Signal.domain` attribute.
+            :attr:`colour.continuous.Signal.domain` property.
         dtype
             Floating point data type.
 

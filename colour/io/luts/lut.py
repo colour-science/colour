@@ -230,7 +230,7 @@ class AbstractLUT(ABC):
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format("name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
         )
 
         self._name = value
@@ -314,7 +314,7 @@ class AbstractLUT(ABC):
 
         attest(
             is_iterable(value),
-            '"{0}" attribute: "{1}" must be a sequence!'.format("comments", value),
+            '"{0}" property: "{1}" must be a sequence!'.format("comments", value),
         )
 
         self._comments = list(value)

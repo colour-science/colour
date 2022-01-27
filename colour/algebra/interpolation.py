@@ -590,7 +590,7 @@ class KernelInterpolator:
 
         attest(
             hasattr(value, "__call__"),
-            '"{0}" attribute: "{1}" is not callable!'.format("kernel", value),
+            '"{0}" property: "{1}" is not callable!'.format("kernel", value),
         )
 
         self._kernel = value
@@ -621,7 +621,7 @@ class KernelInterpolator:
 
         attest(
             isinstance(value, dict),
-            '"{0}" attribute: "{1}" type is not "dict"!'.format("kernel_kwargs", value),
+            '"{0}" property: "{1}" type is not "dict"!'.format("kernel_kwargs", value),
         )
 
         self._kernel_kwargs = value
@@ -652,7 +652,7 @@ class KernelInterpolator:
 
         attest(
             isinstance(value, Mapping),
-            '"{0}" attribute: "{1}" type is not a "Mapping" instance!'.format(
+            '"{0}" property: "{1}" type is not a "Mapping" instance!'.format(
                 "padding_kwargs", value
             ),
         )

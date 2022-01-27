@@ -1301,7 +1301,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test_end(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.end` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.end` property.
         """
 
         self.assertEqual(SpectralShape(360, 830, 1).end, 830)
@@ -1313,7 +1313,7 @@ class TestSpectralShape(unittest.TestCase):
     def test_interval(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.SpectralShape.interval`
-        attribute.
+        property.
         """
 
         self.assertEqual(SpectralShape(360, 830, 1).interval, 1)
@@ -1321,7 +1321,7 @@ class TestSpectralShape(unittest.TestCase):
     def test_boundaries(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.SpectralShape.boundaries`
-        attribute.
+        property.
         """
 
         shape = SpectralShape(400, 700, 1)
@@ -1449,8 +1449,8 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_strict_name(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralDistribution.strict_name` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.strict_name`
+        property.
         """
 
         self.assertEqual(self._sd.strict_name, "Sample")
@@ -1458,8 +1458,8 @@ SpectralDistribution.strict_name` attribute.
 
     def test_wavelengths(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralDistribution.wavelengths` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.wavelengths`
+        property.
         """
 
         np.testing.assert_array_equal(self._sd.wavelengths, self._sd.domain)
@@ -1470,8 +1470,7 @@ SpectralDistribution.wavelengths` attribute.
 
     def test_values(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralDistribution.values` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.values` property.
         """
 
         np.testing.assert_array_equal(self._sd.values, self._sd.range)
@@ -1482,8 +1481,7 @@ SpectralDistribution.values` attribute.
 
     def test_shape(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralDistribution.shape` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.shape` property.
         """
 
         self.assertEqual(self._sd.shape, SpectralShape(340, 820, 20))
@@ -1684,8 +1682,8 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 
     def test_strict_name(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.strict_name` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.strict_name`
+        property.
         """
 
         self.assertEqual(self._sample_msds.strict_name, "Sample Observer")
@@ -1696,8 +1694,8 @@ MultiSpectralDistributions.strict_name` attribute.
 
     def test_wavelengths(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.wavelengths` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.wavelengths`
+        property.
         """
 
         np.testing.assert_array_equal(self._msds.wavelengths, self._msds.domain)
@@ -1708,8 +1706,8 @@ MultiSpectralDistributions.wavelengths` attribute.
 
     def test_values(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.values` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.values`
+        property.
         """
 
         np.testing.assert_array_equal(self._msds.values, self._msds.range)
@@ -1720,8 +1718,8 @@ MultiSpectralDistributions.values` attribute.
 
     def test_strict_labels(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.strict_labels` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.\
+strict_labels` property.
         """
 
         self.assertTupleEqual(tuple(self._sample_msds.strict_labels), self._labels)
@@ -1732,8 +1730,8 @@ MultiSpectralDistributions.strict_labels` attribute.
 
     def test_shape(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.\
-MultiSpectralDistributions.shape` attribute.
+        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.shape`
+        property.
         """
 
         self.assertEqual(self._msds.shape, SpectralShape(380, 780, 5))

@@ -182,7 +182,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" attribute: "{1}" is not a "numeric"!'.format("start", value),
+            '"{0}" property: "{1}" is not a "numeric"!'.format("start", value),
         )
 
         attest(
@@ -219,7 +219,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" attribute: "{1}" is not a "numeric"!'.format("end", value),
+            '"{0}" property: "{1}" is not a "numeric"!'.format("end", value),
         )
 
         attest(
@@ -256,7 +256,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" attribute: "{1}" is not a "numeric"!'.format("interval", value),
+            '"{0}" property: "{1}" is not a "numeric"!'.format("interval", value),
         )
 
         self._interval = value
@@ -289,7 +289,7 @@ class SpectralShape:
 
         attest(
             value.size == 2,
-            '"{0}" attribute: "{1}" must have exactly '
+            '"{0}" property: "{1}" must have exactly '
             "two elements!".format("boundaries", value),
         )
 
@@ -563,10 +563,10 @@ class SpectralDistribution(Signal):
         Data to be stored in the spectral distribution.
     domain
         Values to initialise the
-        :attr:`colour.SpectralDistribution.wavelength` attribute with.
+        :attr:`colour.SpectralDistribution.wavelength` property with.
         If both ``data`` and ``domain`` arguments are defined, the latter will
         be used to initialise the
-        :attr:`colour.SpectralDistribution.wavelength` attribute.
+        :attr:`colour.SpectralDistribution.wavelength` property.
 
     Other Parameters
     ----------------
@@ -582,7 +582,7 @@ class SpectralDistribution(Signal):
         Arguments to use when instantiating the extrapolating function.
     strict_name
         Spectral distribution name for figures, default to
-        :attr:`colour.SpectralDistribution.name` attribute value.
+        :attr:`colour.SpectralDistribution.name` property value.
 
     Attributes
     ----------
@@ -724,7 +724,7 @@ class SpectralDistribution(Signal):
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format("strict_name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format("strict_name", value),
         )
 
         self._strict_name = value
@@ -797,7 +797,7 @@ class SpectralDistribution(Signal):
         -----
         -   A spectral distribution with a non-uniformly spaced independent
             variable have multiple intervals, in that case
-            :attr:`colour.SpectralDistribution.shape` attribute returns
+            :attr:`colour.SpectralDistribution.shape` property returns
             the *minimum* interval size.
 
         Examples
@@ -1611,7 +1611,7 @@ class MultiSpectralDistributions(MultiSignals):
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
-        :attr:`colour.continuous.Signal.wavelengths` attribute.
+        :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.
@@ -1634,7 +1634,7 @@ class MultiSpectralDistributions(MultiSignals):
         :class:`colour.SpectralDistribution` class instances.
     strict_labels
         Multi-spectral distributions labels for figures, default to
-        :attr:`colour.MultiSpectralDistributions.labels` attribute value.
+        :attr:`colour.MultiSpectralDistributions.labels` property value.
 
     Attributes
     ----------
@@ -1815,7 +1815,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format("strict_name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format("strict_name", value),
         )
 
         self._strict_name = value
@@ -1847,19 +1847,19 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_iterable(value),
-            '"{0}" attribute: "{1}" is not an "iterable" like object!'.format(
+            '"{0}" property: "{1}" is not an "iterable" like object!'.format(
                 "strict_labels", value
             ),
         )
 
         attest(
             len(set(value)) == len(value),
-            '"{0}" attribute: values must be unique!'.format("strict_labels"),
+            '"{0}" property: values must be unique!'.format("strict_labels"),
         )
 
         attest(
             len(value) == len(self.labels),
-            '"{0}" attribute: length must be "{1}"!'.format(
+            '"{0}" property: length must be "{1}"!'.format(
                 "strict_labels", len(self.labels)
             ),
         )
@@ -1937,7 +1937,7 @@ class MultiSpectralDistributions(MultiSignals):
         -----
         -   Multi-spectral distributions with a non-uniformly spaced
             independent variable have multiple intervals, in that case
-            :attr:`colour.MultiSpectralDistributions.shape` attribute returns
+            :attr:`colour.MultiSpectralDistributions.shape` property returns
             the *minimum* interval size.
 
         Examples

@@ -95,7 +95,7 @@ class Extrapolator:
 
     Notes
     -----
-    -   The interpolator must define ``x`` and ``y`` attributes.
+    -   The interpolator must define ``x`` and ``y`` properties.
 
     References
     ----------
@@ -227,7 +227,7 @@ class Extrapolator:
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format("method", value),
+            '"{0}" property: "{1}" type is not "str"!'.format("method", value),
         )
 
         value = validate_method(value, ["Linear", "Constant"])
@@ -261,7 +261,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" attribute: "{1}" is not a "numeric"!'.format("left", value),
+                '"{0}" property: "{1}" is not a "numeric"!'.format("left", value),
             )
 
             self._left = value
@@ -293,7 +293,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" attribute: "{1}" is not a "numeric"!'.format("right", value),
+                '"{0}" property: "{1}" is not a "numeric"!'.format("right", value),
             )
 
             self._right = value

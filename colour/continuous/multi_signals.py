@@ -618,19 +618,19 @@ class MultiSignals(AbstractContinuousFunction):
 
         attest(
             is_iterable(value),
-            '"{0}" attribute: "{1}" is not an "iterable" like object!'.format(
+            '"{0}" property: "{1}" is not an "iterable" like object!'.format(
                 "labels", value
             ),
         )
 
         attest(
             len(set(value)) == len(value),
-            '"{0}" attribute: values must be unique!'.format("labels"),
+            '"{0}" property: values must be unique!'.format("labels"),
         )
 
         attest(
             len(value) == len(self.labels),
-            '"{0}" attribute: length must be "{1}"!'.format(
+            '"{0}" property: length must be "{1}"!'.format(
                 "labels", len(self._signals)
             ),
         )
@@ -1264,7 +1264,7 @@ class MultiSignals(AbstractContinuousFunction):
             sub-class instances :attr:`colour.continuous.Signal.domain`
             attribute with. If both ``data`` and ``domain`` arguments are
             defined, the latter will be used to initialise the
-            :attr:`colour.continuous.Signal.domain` attribute.
+            :attr:`colour.continuous.Signal.domain` property.
         labels
             Names to use for the :class:`colour.continuous.Signal` sub-class
             instances.

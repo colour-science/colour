@@ -71,7 +71,7 @@ class AbstractContinuousFunction(ABC):
     The resulting function independent domain, stored as discrete values in the
     :attr:`colour.continuous.AbstractContinuousFunction.domain` attribute
     corresponds with the function dependent and already known range stored in
-    the :attr:`colour.continuous.AbstractContinuousFunction.range` attribute.
+    the :attr:`colour.continuous.AbstractContinuousFunction.range` property.
 
     Parameters
     ----------
@@ -151,7 +151,7 @@ arithmetical_operation`
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format("name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
         )
 
         self._name = value

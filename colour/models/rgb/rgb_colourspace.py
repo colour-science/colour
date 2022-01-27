@@ -183,7 +183,7 @@ class RGB_Colourspace:
     Notes
     -----
     -   The normalised primary matrix defined by
-        :attr:`colour.RGB_Colourspace.matrix_RGB_to_XYZ` attribute is treated
+        :attr:`colour.RGB_Colourspace.matrix_RGB_to_XYZ` property is treated
         as the prime matrix from which the inverse will be calculated as
         required by the internal derivation mechanism. This behaviour has been
         chosen in accordance with literature where commonly a *RGB* colourspace
@@ -295,7 +295,7 @@ class RGB_Colourspace:
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format("name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
         )
 
         self._name = value
@@ -326,7 +326,7 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-            '"{0}" attribute: "{1!r}" is not a "tuple", "list", "ndarray" '
+            '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
             'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
         )
 
@@ -364,7 +364,7 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-            '"{0}" attribute: "{1!r}" is not a "tuple", "list", "ndarray" '
+            '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
             'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
         )
 
@@ -401,7 +401,7 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" attribute: "{1}" type is not "str"!'.format(
+                '"{0}" property: "{1}" type is not "str"!'.format(
                     "whitepoint_name", value
                 ),
             )
@@ -441,7 +441,7 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-                '"{0}" attribute: "{1!r}" is not a "tuple", "list", "ndarray" '
+                '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
                 'or "matrix" instance!'.format("matrix_RGB_to_XYZ", value),
             )
 
@@ -482,7 +482,7 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-                '"{0}" attribute: "{1!r}" is not a "tuple", "list", "ndarray" '
+                '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
                 'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
             )
 
@@ -521,9 +521,7 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 hasattr(value, "__call__"),
-                '"{0}" attribute: "{1}" is not callable!'.format(
-                    "cctf_encoding", value
-                ),
+                '"{0}" property: "{1}" is not callable!'.format("cctf_encoding", value),
             )
 
         self._cctf_encoding = value
@@ -559,9 +557,7 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 hasattr(value, "__call__"),
-                '"{0}" attribute: "{1}" is not callable!'.format(
-                    "cctf_decoding", value
-                ),
+                '"{0}" property: "{1}" is not callable!'.format("cctf_decoding", value),
             )
 
         self._cctf_decoding = value
@@ -596,7 +592,7 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (bool, np.bool_)),
-            '"{0}" attribute: "{1}" is not a "bool"!'.format(
+            '"{0}" property: "{1}" is not a "bool"!'.format(
                 "use_derived_matrix_RGB_to_XYZ", value
             ),
         )
@@ -635,7 +631,7 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (bool, np.bool_)),
-            '"{0}" attribute: "{1}" is not a "bool"!'.format(
+            '"{0}" property: "{1}" is not a "bool"!'.format(
                 "use_derived_matrix_XYZ_to_RGB", value
             ),
         )

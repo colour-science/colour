@@ -109,7 +109,7 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format("name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
         )
 
         self._name = value
@@ -140,7 +140,7 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_iterable(value),
-            '"{0}" attribute: "{1}" must be a sequence!'.format("comments", value),
+            '"{0}" property: "{1}" must be a sequence!'.format("comments", value),
         )
 
         self._comments = list(value)
@@ -203,7 +203,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     Notes
     -----
     -   The internal :attr:`colour.io.Matrix.matrix` and
-        :attr:`colour.io.Matrix.offset` attributes are reshaped to (4, 4) and
+        :attr:`colour.io.Matrix.offset` properties are reshaped to (4, 4) and
         (4, ) respectively.
 
     Examples
@@ -294,7 +294,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         attest(
             value.shape in [(3, 3), (4, 4)],
-            '"{0}" attribute: "{1}" shape is not (3, 3) or (4, 4)!'.format(
+            '"{0}" property: "{1}" shape is not (3, 3) or (4, 4)!'.format(
                 "matrix", value
             ),
         )
@@ -334,7 +334,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         attest(
             value.shape in [(3,), (4,)],
-            '"{0}" attribute: "{1}" shape is not (3, ) or (4, )!'.format(
+            '"{0}" property: "{1}" shape is not (3, ) or (4, )!'.format(
                 "offset", value
             ),
         )
