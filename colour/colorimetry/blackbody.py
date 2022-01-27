@@ -14,8 +14,10 @@ References
 """
 
 from __future__ import annotations
-import colour
+
 import numpy as np
+
+import colour
 
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
@@ -40,7 +42,7 @@ __all__ = [
     'blackbody_spectral_radiance',
     'sd_blackbody',
     'rayleigh_jeans_law',
-    'sd_rayleigh_jeans'    
+    'sd_rayleigh_jeans',
 ]
 
 # 2 * math.pi * CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED ** 2
@@ -605,19 +607,13 @@ given temperature through classical arguments.
 
 References
 ----------
--  
--
--
- 
 """
 
 def rayleigh_jeans_law(wavelength, temperature):
     """
-    
     Returns the spectral radiance of electromagnetic radiation as a function of wavelength
     from a black body at a given temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
-
     
     Parameters
     ----------
@@ -641,7 +637,6 @@ def rayleigh_jeans_law(wavelength, temperature):
     --------
     >>> rayleigh_jeans_law(900 * 1e-9, 4800) # doctest: +ELLIPSIS
     6.05627372126...
-    
     """
     
     λ = colour.utilities.as_float_array(wavelength)
@@ -654,8 +649,9 @@ def rayleigh_jeans_law(wavelength, temperature):
     
     return B
 
-def sd_rayleigh_jeans(temperature,shape=colour.SPECTRAL_SHAPE_DEFAULT):
-    
+
+
+def sd_rayleigh_jeans(temperature, shape=colour.SPECTRAL_SHAPE_DEFAULT):
     """
     Returns the spectral distribution of the Spectral radiance for given
     temperature :math:`T[K]` with values in
@@ -1109,7 +1105,6 @@ def sd_rayleigh_jeans(temperature,shape=colour.SPECTRAL_SHAPE_DEFAULT):
     """
     
     wavelengths = shape.range()
-    
     return colour.SpectralDistribution(
         rayleigh_jeans_law(wavelengths * 1e-9, temperature) * 1e-9,
         wavelengths,
