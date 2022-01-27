@@ -836,7 +836,7 @@ def describe_conversion_path(
     width
         Message box width.
     padding
-        Padding on each sides of the message.
+        Padding on each side of the message.
     print_callable
         Callable used to print the message box.
 

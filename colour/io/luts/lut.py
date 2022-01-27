@@ -192,7 +192,7 @@ class AbstractLUT(ABC):
     @table.setter
     def table(self, value: ArrayLike):
         """
-        Setter for **self.table** property.
+        Setter for the **self.table** property.
         """
 
         self._table = self._validate_table(value)
@@ -218,7 +218,7 @@ class AbstractLUT(ABC):
     @name.setter
     def name(self, value: str):
         """
-        Setter for **self.name** property.
+        Setter for the **self.name** property.
         """
 
         attest(
@@ -248,7 +248,7 @@ class AbstractLUT(ABC):
     @domain.setter
     def domain(self, value: ArrayLike):
         """
-        Setter for **self.domain** property.
+        Setter for the **self.domain** property.
         """
 
         # pylint: disable=E1121
@@ -301,7 +301,7 @@ class AbstractLUT(ABC):
     @comments.setter
     def comments(self, value: Sequence):
         """
-        Setter for **self.comments** property.
+        Setter for the **self.comments** property.
         """
 
         attest(

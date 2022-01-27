@@ -5,7 +5,7 @@ Geometry Primitives
 
 Defines various geometry primitives and their generation methods:
 
--   :func:`colour.geometry.PLANE_TO_AXIS_MAPPING`
+-   :attr:`colour.geometry.PLANE_TO_AXIS_MAPPING`
 -   :func:`colour.geometry.primitive_grid`
 -   :func:`colour.geometry.primitive_cube`
 -   :func:`colour.PRIMITIVE_METHODS`

@@ -97,7 +97,7 @@ def message_box(message: str,
     width
         Message box width.
     padding
-        Padding on each sides of the message.
+        Padding on each side of the message.
     print_callable
         Callable used to print the message box.
 
@@ -515,7 +515,7 @@ def describe_environment(runtime_packages: Boolean = True,
     ----------------
     padding
         {:func:`colour.utilities.message_box`},
-        Padding on each sides of the message.
+        Padding on each side of the message.
     print_callable
         {:func:`colour.utilities.message_box`},
         Callable used to print the message box.

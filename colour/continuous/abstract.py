@@ -146,7 +146,7 @@ arithmetical_operation`
     @name.setter
     def name(self, value: str):
         """
-        Setter for **self.name** property.
+        Setter for the **self.name** property.
         """
 
         attest(
@@ -181,7 +181,7 @@ arithmetical_operation`
     @abstractmethod
     def dtype(self, value: Type[DTypeFloating]):
         """
-        Setter for **self.dtype** property, must be reimplemented by
+        Setter for the **self.dtype** property, must be reimplemented by
         sub-classes.
         """
 

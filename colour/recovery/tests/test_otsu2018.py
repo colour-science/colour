@@ -131,7 +131,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.__str__` method.
+        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.__str__` method.
         """
 
         self.assertEqual(
@@ -141,14 +141,14 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_select(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method.
+        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method.
         """
 
         self.assertEqual(self._dataset.select(self._xy), 6)
 
     def test_raise_exception_select(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method
+        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method
         raised exception.
         """
 
@@ -157,7 +157,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_cluster(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method.
+        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method.
         """
 
         basis_functions, means = self._dataset.cluster(self._xy)
@@ -166,7 +166,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_cluster(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method
+        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method
         raised exception.
         """
 
@@ -175,7 +175,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_read(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.read` method.
+        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.read` method.
         """
 
         dataset = Dataset_Otsu2018()
@@ -188,7 +188,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_write(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method.
+        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method.
         """
 
         self._dataset.write(self._path)
@@ -203,7 +203,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_write(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method
+        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method
         raised exception.
         """
 
@@ -382,21 +382,21 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.__str__` method.
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.__str__` method.
         """
 
         self.assertEqual(str(self._data), 'Data_Otsu2018(24 Reflectances)')
 
     def test__len__(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.__len__` method.
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.__len__` method.
         """
 
         self.assertEqual(len(self._data), 24)
 
     def test_origin(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.origin` method.
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method.
         """
 
         self.assertAlmostEqual(
@@ -404,7 +404,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_origin(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.origin` method
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method
         raised exception.
         """
 
@@ -414,7 +414,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_partition(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.partition` method.
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method.
         """
 
         partition = self._data.partition(PartitionAxis(4, 1))
@@ -423,7 +423,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_partition(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.partition` method
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method
         raised exception.
         """
 
@@ -434,7 +434,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_PCA(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.PCA` method.
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.PCA` method.
         """
 
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
@@ -494,7 +494,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_reconstruct(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct`
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct`
         method.
         """
 
@@ -522,7 +522,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_reconstruct(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct` method
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct` method
         raised exception.
         """
 
@@ -533,7 +533,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_reconstruction_error(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.\
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.\
 reconstruction_error` method.
         """
 
@@ -544,7 +544,7 @@ reconstruction_error` method.
 
     def test_raise_exception_reconstruction_error(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Data_Otsu2018.\
+        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.\
 reconstruction_error` method raised exception.
         """
 
@@ -630,7 +630,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_row(self):
         """
-        Tests :func:`colour.recovery.otsu2018.Node_Otsu2018.row` property
+        Tests :attr:`colour.recovery.otsu2018.Node_Otsu2018.row` property
         raised exception.
         """
 
@@ -638,7 +638,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_split(self):
         """
-        Tests :func:`colour.recovery.otsu2018.None.split` method.
+        Tests :meth:`colour.recovery.otsu2018.Node_Otsu2018.split` method.
         """
 
         node_a = Node_Otsu2018(self._tree, None)
@@ -650,7 +650,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_minimise(self):
         """
-        Tests :func:`colour.recovery.otsu2018.None.minimise` method.
+        Tests :meth:`colour.recovery.otsu2018.Node_Otsu2018.minimise` method.
         """
 
         node = Node_Otsu2018(data=self._data_a)
@@ -663,8 +663,8 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_leaf_reconstruction_error(self):
         """
-        Tests :func:`colour.recovery.otsu2018.None.leaf_reconstruction_error`
-        method.
+        Tests :meth:`colour.recovery.otsu2018.Node_Otsu2018.\
+leaf_reconstruction_error` method.
         """
 
         self.assertAlmostEqual(
@@ -674,8 +674,8 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_branch_reconstruction_error(self):
         """
-        Tests :func:`colour.recovery.otsu2018.None.branch_reconstruction_error`
-        method.
+        Tests :meth:`colour.recovery.otsu2018.Node_Otsu2018.\
+branch_reconstruction_error` method.
         """
 
         self.assertAlmostEqual(

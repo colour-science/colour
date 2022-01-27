@@ -703,7 +703,7 @@ class SpectralDistribution(Signal):
     @strict_name.setter
     def strict_name(self, value: str):
         """
-        Setter for **self.strict_name** property.
+        Setter for the **self.strict_name** property.
         """
 
         attest(
@@ -1767,7 +1767,7 @@ class MultiSpectralDistributions(MultiSignals):
     @strict_name.setter
     def strict_name(self, value: str):
         """
-        Setter for **self.strict_name** property.
+        Setter for the **self.strict_name** property.
         """
 
         attest(
@@ -1799,7 +1799,7 @@ class MultiSpectralDistributions(MultiSignals):
     @strict_labels.setter
     def strict_labels(self, value: Sequence):
         """
-        Setter for **self.strict_labels** property.
+        Setter for the **self.strict_labels** property.
         """
 
         attest(

@@ -697,7 +697,7 @@ def degree_of_adaptation(F: FloatingOrArrayLike,
                          L_A: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the degree of adaptation :math:`D` from given surround maximum
-    degree of adaptation :math:`F` and Adapting field *luminance* :math:`L_A`
+    degree of adaptation :math:`F` and adapting field *luminance* :math:`L_A`
     in :math:`cd/m^2`.
 
     Parameters

@@ -286,7 +286,7 @@ def _munsell_specifications() -> NDArray:
     :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
     definition:
 
-    ('2.5GY', 0.2, 2.0) ---> (2.5, 0.2, 2.0, 4)
+    ('2.5GY', 0.2, 2.0) --> (2.5, 0.2, 2.0, 4)
 
     Returns
     -------

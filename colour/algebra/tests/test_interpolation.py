@@ -334,7 +334,7 @@ class TestKernelCardinalSpline(unittest.TestCase):
 
 class TestKernelInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.KernelInterpolator` class unit
+    Defines :class:`colour.algebra.interpolation.KernelInterpolator` class unit
     tests methods.
     """
 
@@ -361,7 +361,7 @@ class TestKernelInterpolator(unittest.TestCase):
 
     def test_x(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.x`
+        Tests :attr:`colour.algebra.interpolation.KernelInterpolator.x`
         property.
         """
 
@@ -372,7 +372,7 @@ class TestKernelInterpolator(unittest.TestCase):
 
     def test_y(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.y`
+        Tests :attr:`colour.algebra.interpolation.KernelInterpolator.y`
         property.
         """
 
@@ -383,7 +383,7 @@ class TestKernelInterpolator(unittest.TestCase):
 
     def test_window(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.window`
+        Tests :attr:`colour.algebra.interpolation.KernelInterpolator.window`
         property.
         """
 
@@ -394,7 +394,7 @@ class TestKernelInterpolator(unittest.TestCase):
 
     def test_kernel(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.kernel`
+        Tests :attr:`colour.algebra.interpolation.KernelInterpolator.kernel`
         property.
         """
 
@@ -405,7 +405,7 @@ class TestKernelInterpolator(unittest.TestCase):
 
     def test_kernel_kwargs(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
+        Tests :attr:`colour.algebra.interpolation.KernelInterpolator.\
 kernel_kwargs` property.
         """
 
@@ -418,7 +418,7 @@ kernel_kwargs` property.
 
     def test_padding_kwargs(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.\
+        Tests :attr:`colour.algebra.interpolation.KernelInterpolator.\
 padding_kwargs` property.
         """
 
@@ -432,7 +432,7 @@ padding_kwargs` property.
 
     def test_raise_exception___init__(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__init__`
+        Tests :meth:`colour.algebra.interpolation.KernelInterpolator.__init__`
         method raised exception.
         """
 
@@ -536,7 +536,7 @@ padding_kwargs` property.
 
     def test_raise_exception___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method raised exception.
         """
 
@@ -550,7 +550,7 @@ padding_kwargs` property.
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method nan support.
         """
 
@@ -564,7 +564,7 @@ padding_kwargs` property.
 
 class TestNearestNeighbourInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.NearestNeighbourInterpolator`
+    Defines :class:`colour.algebra.interpolation.NearestNeighbourInterpolator`
     class unit tests methods.
     """
 
@@ -603,7 +603,7 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
 
 class TestLinearInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class unit
+    Defines :class:`colour.algebra.interpolation.LinearInterpolator` class unit
     tests methods.
     """
 
@@ -629,7 +629,7 @@ class TestLinearInterpolator(unittest.TestCase):
 
     def test_raise_exception___init__(self):
         """
-        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__init__`
+        Tests :meth:`colour.algebra.interpolation.LinearInterpolator.__init__`
         method raised exception.
         """
 
@@ -662,7 +662,7 @@ class TestLinearInterpolator(unittest.TestCase):
 
     def test_raise_exception___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method raised exception.
         """
 
@@ -676,7 +676,7 @@ class TestLinearInterpolator(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method nan support.
         """
 
@@ -693,7 +693,7 @@ class TestLinearInterpolator(unittest.TestCase):
 
 class TestSpragueInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.SpragueInterpolator` class
+    Defines :class:`colour.algebra.interpolation.SpragueInterpolator` class
     unit tests methods.
     """
 
@@ -719,7 +719,7 @@ class TestSpragueInterpolator(unittest.TestCase):
 
     def test_raise_exception___init__(self):
         """
-        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__init__`
+        Tests :meth:`colour.algebra.interpolation.SpragueInterpolator.__init__`
         method raised exception.
         """
 
@@ -752,7 +752,7 @@ class TestSpragueInterpolator(unittest.TestCase):
 
     def test_raise_exception___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method raised exception.
         """
 
@@ -766,7 +766,7 @@ class TestSpragueInterpolator(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method nan support.
         """
 
@@ -783,14 +783,14 @@ class TestSpragueInterpolator(unittest.TestCase):
 
 class TestCubicSplineInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.CubicSplineInterpolator` class
+    Defines :class:`colour.algebra.interpolation.CubicSplineInterpolator` class
     unit tests methods.
     """
 
     def test__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.\
-CubicSplineInterpolator.__call__` method.
+        Tests :meth:`colour.algebra.interpolation.CubicSplineInterpolator.\
+__call__` method.
 
         Notes
         -----
@@ -808,7 +808,7 @@ CubicSplineInterpolator.__call__` method.
 
 class TestPchipInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.PchipInterpolator` class
+    Defines :class:`colour.algebra.interpolation.PchipInterpolator` class
     unit tests methods.
     """
 
@@ -835,7 +835,7 @@ class TestPchipInterpolator(unittest.TestCase):
 
 class TestNullInterpolator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.interpolation.NullInterpolator` class
+    Defines :class:`colour.algebra.interpolation.NullInterpolator` class
     unit tests methods.
     """
 
@@ -861,7 +861,7 @@ class TestNullInterpolator(unittest.TestCase):
 
     def test_x(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.x`
+        Tests :attr:`colour.algebra.interpolation.NullInterpolator.x`
         property.
         """
 
@@ -872,7 +872,7 @@ class TestNullInterpolator(unittest.TestCase):
 
     def test_y(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.y`
+        Tests :attr:`colour.algebra.interpolation.NullInterpolator.y`
         property.
         """
 
@@ -883,7 +883,7 @@ class TestNullInterpolator(unittest.TestCase):
 
     def test_absolute_tolerance(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.\
+        Tests :attr:`colour.algebra.interpolation.NullInterpolator.\
 absolute_tolerance` property.
         """
 
@@ -894,7 +894,7 @@ absolute_tolerance` property.
 
     def test_relative_tolerance(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.\
+        Tests :attr:`colour.algebra.interpolation.NullInterpolator.\
 relative_tolerance` property.
         """
 
@@ -905,7 +905,7 @@ relative_tolerance` property.
 
     def test_default(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.\
+        Tests :attr:`colour.algebra.interpolation.NullInterpolator.\
 default` property.
         """
 
@@ -916,7 +916,7 @@ default` property.
 
     def test_raise_exception___init__(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.__init__`
+        Tests :meth:`colour.algebra.interpolation.NullInterpolator.__init__`
         method raised exception.
         """
 
@@ -942,7 +942,7 @@ default` property.
 
     def test_raise_exception___call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.NullInterpolator.__call__`
         method raised exception.
         """
 
@@ -956,7 +956,7 @@ default` property.
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests :func:`colour.algebra.interpolation.NullInterpolator.__call__`
+        Tests :meth:`colour.algebra.interpolation.NullInterpolator.__call__`
         method nan support.
         """
 

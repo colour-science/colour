@@ -332,7 +332,7 @@ class MultiSignals(AbstractContinuousFunction):
     @dtype.setter
     def dtype(self, value: Type[DTypeFloating]):
         """
-        Setter for **self.dtype** property.
+        Setter for the **self.dtype** property.
         """
 
         for signal in self._signals.values():

@@ -296,7 +296,7 @@ class Signal(AbstractContinuousFunction):
     @dtype.setter
     def dtype(self, value: Type[DTypeFloating]):
         """
-        Setter for **self.dtype** property.
+        Setter for the **self.dtype** property.
         """
 
         attest(

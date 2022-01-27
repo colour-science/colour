@@ -77,7 +77,7 @@ DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: Tuple = (
     (250, 0.22511, 0.33439, -1.4512),
     (275, 0.23247, 0.33904, -1.7298),
     (300, 0.24010, 0.34308, -2.0637),
-    (325, 0.24792, 0.34655, -2.4681),  # 0.24702 ---> 0.24792 Bruce Lindbloom
+    (325, 0.24792, 0.34655, -2.4681),  # 0.24702 --> 0.24792 Bruce Lindbloom
     (350, 0.25591, 0.34951, -2.9641),
     (375, 0.26400, 0.35200, -3.5814),
     (400, 0.27218, 0.35407, -4.3633),
@@ -103,7 +103,7 @@ DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: Tuple = (
 Notes
 -----
 -   A correction has been done by Lindbloom for *325* Megakelvin
-    temperature: 0.24702 ---> 0.24792
+    temperature: 0.24702 --> 0.24792
 
 References
 ----------
