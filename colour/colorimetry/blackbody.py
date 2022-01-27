@@ -13,9 +13,8 @@ References
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
 """
 
-
-import colour
 from __future__ import annotations
+import colour
 import numpy as np
 
 from colour.colorimetry import (
