@@ -425,7 +425,7 @@ epub_exclude_files = ['search.html']
 autoclass_content = 'both'
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3.7', None),
+    'python': ('https://docs.python.org/3.8', None),
     'matplotlib': ('http://matplotlib.org/stable', None),
     'numpy': ('http://docs.scipy.org/doc/numpy', None),
     'pandas': ('http://pandas.pydata.org/pandas-docs/dev', None),

@@ -43,10 +43,9 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-imageio = "*"
-six = "*"
-scipy = "^1.1.0"
+python = ">= 3.8, < 3.11"
+imageio = ">= 2, < 3"
+scipy = ">= 1.6, < 2"
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "*", optional = true }  # Development dependency.
@@ -57,13 +56,13 @@ jupyter = { version = "*", optional = true }  # Development dependency.
 matplotlib = { version = "*", optional = true }
 mypy = { version = "*", optional = true }  # Development dependency.
 networkx = { version = "*", optional = true }
-nose = { version = "*", optional = true }  # Development dependency.
 numpy = { version = "*", optional = true }
 opencolorio = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
 pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
+pytest-cov = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 scikit-learn = { version = "*", optional = true }
 sphinx = { version = "*", optional = true }  # Development dependency.
@@ -84,9 +83,9 @@ flake8 = "*"
 invoke = "*"
 jupyter = "*"
 mypy = "*"
-nose = "*"
 pre-commit = "*"
 pytest = "*"
+pytest-cov = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
 sphinx_rtd_theme = "*"
@@ -105,9 +104,9 @@ development = [
     "invoke",
     "jupyter",
     "mypy",
-    "nose",
     "pre-commit",
     "pytest",
+    "pytest-cov",
     "restructuredtext-lint",
     "sphinx",
     "sphinx_rtd_theme",
