@@ -1795,7 +1795,7 @@ def plot_constant_hue_loci(
             "hdr-IPT",
         ],
         str,
-    ],
+    ] = "CIE Lab",
     scatter_kwargs: Optional[Dict] = None,
     convert_kwargs: Optional[Dict] = None,
     **kwargs: Any
