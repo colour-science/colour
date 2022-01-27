@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sys
 
-from colour.hints import Dict
+from colour.hints import Any, Dict
 
 from .data_structures import (
     Lookup,
@@ -235,7 +235,7 @@ __all__ += [
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class utilities(ModuleAPI):
-    def __getattr__(self, attribute):
+    def __getattr__(self, attribute) -> Any:
         return super(utilities, self).__getattr__(attribute)
 
 

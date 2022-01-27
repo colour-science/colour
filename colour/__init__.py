@@ -56,6 +56,9 @@ from .utilities.array import (
     get_domain_range_scale,
     set_domain_range_scale,
 )
+
+from .hints import Any
+
 from .adaptation import (
     CHROMATIC_ADAPTATION_METHODS,
     CHROMATIC_ADAPTATION_TRANSFORMS,
@@ -442,7 +445,7 @@ else:
         if the sub-package is accessed but *Matplotlib* is not installed.
         """
 
-        def __getattr__(self, attribute):
+        def __getattr__(self, attribute) -> Any:
             is_matplotlib_installed(raise_exception=True)
 
     globals()["plotting"] = MockPlotting()  # pragma: no cover
@@ -856,7 +859,7 @@ except TypeError:  # pragma: no cover
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class colour(ModuleAPI):
-    def __getattr__(self, attribute):
+    def __getattr__(self, attribute) -> Any:
         return super(colour, self).__getattr__(attribute)
 
 

@@ -35,6 +35,7 @@ from colour.hints import (
     Callable,
     Dataclass,
     DType,
+    DTypeBoolean,
     DTypeFloating,
     DTypeInteger,
     DTypeNumber,
@@ -1791,7 +1792,7 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Number = EPSILON) -> NDArray
 
 def tstack(
     a: Union[ArrayLike, NestedSequence[NumberOrArrayLike]],
-    dtype: Optional[Type[DTypeNumber]] = None,
+    dtype: Optional[Union[Type[DTypeBoolean], Type[DTypeNumber]]] = None,
 ) -> NDArray:
     """
     Stacks given array of arrays :math:`a` along the last axis (tail) to
@@ -1854,7 +1855,7 @@ def tstack(
 
 def tsplit(
     a: Union[ArrayLike, NestedSequence[NumberOrArrayLike]],
-    dtype: Optional[Type[DTypeNumber]] = None,
+    dtype: Optional[Union[Type[DTypeBoolean], Type[DTypeNumber]]] = None,
 ) -> NDArray:
     """
     Splits given stacked array :math:`a` along the last axis (tail) to produce

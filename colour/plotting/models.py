@@ -325,7 +325,7 @@ def plot_pointer_gamut(
 
     if method == "cie 1931":
 
-        def XYZ_to_ij(XYZ, *args):
+        def XYZ_to_ij(XYZ: NDArray, *args: Any) -> NDArray:
             """
             Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -333,7 +333,7 @@ def plot_pointer_gamut(
 
             return XYZ_to_xy(XYZ, *args)
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -343,7 +343,7 @@ def plot_pointer_gamut(
 
     elif method == "cie 1960 ucs":
 
-        def XYZ_to_ij(XYZ, *args):
+        def XYZ_to_ij(XYZ: NDArray, *args: Any) -> NDArray:
             """
             Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -351,7 +351,7 @@ def plot_pointer_gamut(
 
             return UCS_to_uv(XYZ_to_UCS(XYZ))
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -361,7 +361,7 @@ def plot_pointer_gamut(
 
     elif method == "cie 1976 ucs":
 
-        def XYZ_to_ij(XYZ, *args):
+        def XYZ_to_ij(XYZ: NDArray, *args: Any) -> NDArray:
             """
             Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -369,7 +369,7 @@ def plot_pointer_gamut(
 
             return Luv_to_uv(XYZ_to_Luv(XYZ, *args), *args)
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -526,7 +526,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     if method == "cie 1931":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -539,7 +539,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     elif method == "cie 1960 ucs":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -552,7 +552,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
     elif method == "cie 1976 ucs":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -1267,7 +1267,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
 
 def ellipses_MacAdam1942(
     method: Union[Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str] = "CIE 1931"
-):
+) -> List[NDArray]:
     """
     Returns *MacAdam (1942) Ellipses (Observer PGN)* coefficients according to
     given method.
@@ -1279,8 +1279,8 @@ def ellipses_MacAdam1942(
 
     Returns
     -------
-    :class:`tuple`
-        Current figure and axes.
+    :class:`list`
+        *MacAdam (1942) Ellipses (Observer PGN)* coefficients.
 
     Examples
     --------
@@ -1293,7 +1293,7 @@ def ellipses_MacAdam1942(
 
     if method == "cie 1931":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -1303,7 +1303,7 @@ def ellipses_MacAdam1942(
 
     elif method == "cie 1960 ucs":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -1313,7 +1313,7 @@ def ellipses_MacAdam1942(
 
     elif method == "cie 1976 ucs":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
             Converts given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
@@ -1969,7 +1969,7 @@ def plot_constant_hue_loci(
         ijk_ct *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
         ijk_cr *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
 
-        def _linear_equation(x, a, b):
+        def _linear_equation(x: NDArray, a: NDArray, b: NDArray) -> NDArray:
             """
             Defines the canonical linear equation for a line.
             """
@@ -1988,7 +1988,7 @@ def plot_constant_hue_loci(
 
         if use_RGB_colours:
 
-            def _XYZ_to_RGB(XYZ):
+            def _XYZ_to_RGB(XYZ: NDArray) -> NDArray:
                 """
                 Converts given *CIE XYZ* tristimulus values to
                 ``colour.plotting`` *RGB* colourspace.

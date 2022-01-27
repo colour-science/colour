@@ -195,7 +195,7 @@ def retinal_illuminance_Barten1999(
     L: FloatingOrArrayLike,
     d: FloatingOrArrayLike = 2.1,
     apply_stiles_crawford_effect_correction: Boolean = True,
-):
+) -> FloatingOrNDArray:
     """
     Returns the retinal illuminance :math:`E` in Trolands for given average
     luminance :math:`L` and pupil diameter :math:`d` using *Barten (1999)*

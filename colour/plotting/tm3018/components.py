@@ -405,7 +405,7 @@ def plot_colour_vector_graphic(
     loop = np.append(xy_test, xy_test[0, np.newaxis], axis=0)
     axes.plot(loop[:, 0], loop[:, 1], "-", color="#F05046", lw=2)
 
-    def corner_label_and_text(label, text, ha, va):
+    def corner_label_and_text(label: str, text: str, ha: str, va: str):
         """
         Draws a label and text in given corner.
         """

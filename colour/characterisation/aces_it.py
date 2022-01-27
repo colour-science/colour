@@ -77,6 +77,7 @@ from colour.hints import (
     Callable,
     Dict,
     Floating,
+    FloatingOrNDArray,
     Literal,
     Mapping,
     NDArray,
@@ -96,6 +97,7 @@ from colour.models.rgb import (
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_float,
     as_float_array,
     from_range_1,
     optional,
@@ -233,7 +235,7 @@ def sd_to_aces_relative_exposure_values(
 
     r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 
-    def k(x, y):
+    def k(x: NDArray, y: NDArray) -> NDArray:
         """
         Computes the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors.
         """
@@ -757,7 +759,9 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
 .XYZ_to_optimization_colour_model at 0x...>)
     """
 
-    def objective_function(M, RGB, Lab):
+    def objective_function(
+        M: ArrayLike, RGB: ArrayLike, Lab: ArrayLike
+    ) -> FloatingOrNDArray:
         """
         Objective function according to *RAW to ACES* v1.
         """
@@ -769,9 +773,9 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
         )
         Lab_t = XYZ_to_Lab(XYZ_t, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
-        return np.linalg.norm(Lab_t - Lab)
+        return as_float(np.linalg.norm(Lab_t - Lab))
 
-    def XYZ_to_optimization_colour_model(XYZ):
+    def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
         """
         *CIE XYZ* colourspace to *CIE L\\*a\\*b\\** colourspace function.
         """
@@ -806,7 +810,9 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
 .XYZ_to_optimization_colour_model at 0x...>)
     """
 
-    def objective_function(M, RGB, Jab):
+    def objective_function(
+        M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
+    ) -> FloatingOrNDArray:
         """
         :math:`J_za_zb_z` colourspace based objective function.
         """
@@ -820,7 +826,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
 
         return np.sum(euclidean_distance(Jab, Jab_t))
 
-    def XYZ_to_optimization_colour_model(XYZ):
+    def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
         """
         *CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function.
         """

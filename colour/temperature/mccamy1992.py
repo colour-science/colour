@@ -135,7 +135,9 @@ def CCT_to_xy_McCamy1992(
     shape = list(CCT.shape)
     CCT = np.atleast_1d(CCT.reshape([-1, 1]))
 
-    def objective_function(xy: ArrayLike, CCT: FloatingOrArrayLike):
+    def objective_function(
+        xy: ArrayLike, CCT: FloatingOrArrayLike
+    ) -> FloatingOrNDArray:
         """
         Objective function.
         """

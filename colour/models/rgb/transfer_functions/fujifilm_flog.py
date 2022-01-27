@@ -150,7 +150,7 @@ def log_decoding_FLog(
     in_normalised_code_value: Boolean = True,
     out_reflection: Boolean = True,
     constants: Structure = CONSTANTS_FLOG,
-):
+) -> FloatingOrNDArray:
     """
     Defines the *Fujifilm F-Log* log decoding curve / electro-optical transfer
     function.

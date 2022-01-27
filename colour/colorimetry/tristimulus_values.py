@@ -202,7 +202,7 @@ SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
 def lagrange_coefficients_ASTME2022(
     interval: Integer = 10,
     interval_type: Union[Literal["Boundary", "Inner"], str] = "Inner",
-):
+) -> NDArray:
     """
     Computes the *Lagrange Coefficients* for given interval size using practise
     *ASTM E2022-11* method.
@@ -944,7 +944,7 @@ def sd_to_XYZ_ASTME308(
             )
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 20 and mi_20nm_interpolation_method:
-        sd = sd.copy()
+        sd = cast(SpectralDistribution, sd.copy())
         if sd.shape.boundaries != cmfs.shape.boundaries:
             runtime_warning(
                 'Trimming "{0}" spectral distribution shape to "{1}" '
@@ -1499,7 +1499,7 @@ def msds_to_XYZ(
     k: Optional[Number] = None,
     method: Union[Literal["ASTM E308", "Integration"], str] = "ASTM E308",
     **kwargs: Any
-):
+) -> NDArray:
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant. For the *Integration*

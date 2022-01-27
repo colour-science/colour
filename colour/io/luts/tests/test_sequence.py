@@ -16,9 +16,9 @@ from colour.io.luts import (
     LUT3D,
     LUTSequence,
 )
-from colour.hints import FloatingOrNDArray
+from colour.hints import Any, ArrayLike, FloatingOrNDArray, NDArray
 from colour.models import gamma_function
-from colour.utilities import tstack
+from colour.utilities import as_float_array, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
@@ -450,7 +450,7 @@ class TestLUTSequence(unittest.TestCase):
             def __init__(self, gamma: FloatingOrNDArray = 1.0):
                 self._gamma = gamma
 
-            def apply(self, RGB, **kwargs):
+            def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
                 """
                 Applies the *LUT* sequence operator to given *RGB* colourspace
                 array.
@@ -471,7 +471,7 @@ class TestLUTSequence(unittest.TestCase):
 
                 gamma = self._gamma if direction == "Forward" else 1 / self._gamma
 
-                return gamma_function(RGB, gamma)
+                return as_float_array(gamma_function(RGB, gamma))
 
         LUT_sequence = self._LUT_sequence.copy()
         LUT_sequence.insert(1, GammaOperator(1 / 2.2))

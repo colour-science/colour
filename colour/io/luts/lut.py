@@ -1420,7 +1420,7 @@ class LUT3x1D(AbstractLUT):
     def linear_table(
         size: Optional[IntegerOrArrayLike] = None,
         domain: Optional[ArrayLike] = None,
-    ):
+    ) -> NDArray:
         """
         Returns a linear table, the number of output samples :math:`n` is equal
         to ``size * 3`` or ``size[0] + size[1] + size[2]``.
@@ -1933,7 +1933,7 @@ class LUT3D(AbstractLUT):
     def linear_table(
         size: Optional[IntegerOrArrayLike] = None,
         domain: Optional[ArrayLike] = None,
-    ):
+    ) -> NDArray:
         """
         Returns a linear table, the number of output samples :math:`n` is equal
         to ``size**3 * 3`` or ``size[0] * size[1] * size[2] * 3``.

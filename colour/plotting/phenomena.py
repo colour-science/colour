@@ -14,7 +14,11 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 
 from colour.algebra import normalise_maximum
-from colour.colorimetry import MultiSpectralDistributions, sd_to_XYZ
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    sd_to_XYZ,
+)
 from colour.hints import (
     Any,
     Dict,
@@ -188,7 +192,7 @@ def plot_the_blue_sky(
 
     cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
-    ASTMG173_sd = SD_ASTMG173_ETR.copy()
+    ASTMG173_sd = cast(SpectralDistribution, SD_ASTMG173_ETR.copy())
     rayleigh_sd = sd_rayleigh_scattering()
     ASTMG173_sd.align(rayleigh_sd.shape)
 
@@ -228,7 +232,9 @@ def plot_the_blue_sky(
     settings.update(kwargs)
     settings["standalone"] = False
 
-    blue_sky_color = XYZ_to_plotting_colourspace(sd_to_XYZ(sd))
+    blue_sky_color = XYZ_to_plotting_colourspace(
+        sd_to_XYZ(cast(SpectralDistribution, sd))
+    )
 
     figure, axes = plot_single_colour_swatch(
         ColourSwatch(normalise_maximum(blue_sky_color)), **settings

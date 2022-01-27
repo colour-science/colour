@@ -5,6 +5,8 @@ import sys
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
+from colour.hints import Any
+
 from .common import (
     Jab_to_JCh,
     JCh_to_Jab,
@@ -703,7 +705,7 @@ __all__ += ["RGB_to_ICtCp", "ICtCp_to_RGB", "XYZ_to_ICtCp", "ICtCp_to_XYZ"]
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class models(ModuleAPI):
-    def __getattr__(self, attribute):
+    def __getattr__(self, attribute) -> Any:
         return super(models, self).__getattr__(attribute)
 
 

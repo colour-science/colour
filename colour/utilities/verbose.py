@@ -27,6 +27,7 @@ from colour.hints import (
     Dict,
     Integer,
     LiteralWarning,
+    Mapping,
     Generator,
     Optional,
     TextIO,
@@ -667,7 +668,7 @@ def describe_environment(
 
         environment["Runtime"].update(ANCILLARY_RUNTIME_PACKAGES)
 
-    def _get_package_version(package, mapping):
+    def _get_package_version(package: str, mapping: Mapping) -> str:
         """
         Returns given package version.
         """

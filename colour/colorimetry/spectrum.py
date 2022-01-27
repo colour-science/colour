@@ -1866,7 +1866,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         self._strict_labels = [str(label) for label in value]
         for i, signal in enumerate(self.signals.values()):
-            signal.strict_name = self._strict_labels[i]
+            cast(SpectralDistribution, signal).strict_name = self._strict_labels[i]
 
     @property
     def wavelengths(self) -> NDArray:
@@ -2184,7 +2184,9 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            signal.interpolate(shape, interpolator, interpolator_kwargs)
+            cast(SpectralDistribution, signal).interpolate(
+                shape, interpolator, interpolator_kwargs
+            )
 
         return self
 
@@ -2268,7 +2270,9 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            signal.extrapolate(shape, extrapolator, extrapolator_kwargs)
+            cast(SpectralDistribution, signal).extrapolate(
+                shape, extrapolator, extrapolator_kwargs
+            )
 
         return self
 
@@ -2410,7 +2414,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            signal.align(
+            cast(SpectralDistribution, signal).align(
                 shape,
                 interpolator,
                 interpolator_kwargs,
@@ -2495,7 +2499,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            signal.trim(shape)
+            cast(SpectralDistribution, signal).trim(shape)
 
         return self
 
@@ -2544,7 +2548,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            signal.normalise(factor)
+            cast(SpectralDistribution, signal).normalise(factor)
 
         return self
 
@@ -2597,7 +2601,10 @@ class MultiSpectralDistributions(MultiSignals):
          [ 560.         0.0039 ...]]
         """
 
-        return [signal.copy() for signal in self.signals.values()]
+        return [
+            cast(SpectralDistribution, signal.copy())
+            for signal in self.signals.values()
+        ]
 
 
 _CACHE_RESHAPED_SDS_AND_MSDS: Dict = CACHE_REGISTRY.register_cache(

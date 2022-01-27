@@ -39,13 +39,7 @@ from colour.colorimetry import (
     SpectralShape,
     reshape_msds,
 )
-from colour.hints import (
-    ArrayLike,
-    Floating,
-    Literal,
-    NDArray,
-    Union,
-)
+from colour.hints import ArrayLike, Floating, Literal, NDArray, Union, cast
 from colour.utilities import as_float_array, tsplit, tstack, usage_warning
 
 __author__ = "Colour Developers"
@@ -204,7 +198,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     array([ 0.0891288...,  0.0870524 ,  0.955393  ])
     """
 
-    cmfs = cmfs.copy()
+    cmfs = cast(LMS_ConeFundamentals, cmfs.copy())
     if cmfs.shape.interval != 1:
         cmfs.interpolate(SpectralShape(cmfs.shape.start, cmfs.shape.end, 1))
 
@@ -226,7 +220,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     area_L = np.trapz(L, cmfs.wavelengths)
     area_M = np.trapz(M, cmfs.wavelengths)
 
-    def alpha(x):
+    def alpha(x: NDArray) -> NDArray:
         """
         Computes :math:`alpha` factor.
         """

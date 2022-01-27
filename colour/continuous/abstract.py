@@ -835,7 +835,7 @@ arithmetical_operation`
 
         return is_uniform(self.domain)
 
-    def copy(self):
+    def copy(self) -> AbstractContinuousFunction:
         """
         Returns a copy of the sub-class instance.
 

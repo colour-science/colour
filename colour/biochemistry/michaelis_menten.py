@@ -180,7 +180,7 @@ def reaction_rate_MichaelisMenten(
     K_m: FloatingOrArrayLike,
     method: Union[Literal["Michaelis 1913", "Abebe 2017"], str] = "Michaelis 1913",
     **kwargs: Any
-):
+) -> FloatingOrNDArray:
     """
     Describes the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S` according to given

@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 from functools import partial
 
-from colour.hints import Number
+from colour.hints import Any, Floating, Number, Tuple
 from colour.utilities import (
     CacheRegistry,
     attest,
@@ -388,20 +388,23 @@ class TestFilterKwargs(unittest.TestCase):
         Tests :func:`colour.utilities.common.filter_kwargs` definition.
         """
 
-        def fn_a(a):
+        def fn_a(a: Any) -> Any:
             """
             :func:`filter_kwargs` unit tests :func:`fn_a` definition.
             """
+
             return a
 
-        def fn_b(a, b=0):
+        def fn_b(a: Any, b: Floating = 0) -> Tuple[Any, Floating]:
             """
             :func:`filter_kwargs` unit tests :func:`fn_b` definition.
             """
 
             return a, b
 
-        def fn_c(a, b=0, c=0):
+        def fn_c(
+            a: Any, b: Floating = 0, c: Floating = 0
+        ) -> Tuple[Any, Floating, Floating]:
             """
             :func:`filter_kwargs` unit tests :func:`fn_c` definition.
             """

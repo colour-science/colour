@@ -366,7 +366,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Offset     : [ 0.  0.  0.  0.]
         """
 
-        def _indent_array(a):
+        def _indent_array(a: ArrayLike) -> str:
             """
             Indents given array string representation.
             """

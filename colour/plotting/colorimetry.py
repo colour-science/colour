@@ -182,7 +182,7 @@ def plot_single_sd(
 
     cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
-    sd = sd.copy()
+    sd = cast(SpectralDistribution, sd.copy())
     sd.interpolator = LinearInterpolator
     wavelengths = cmfs.wavelengths[
         np.logical_and(

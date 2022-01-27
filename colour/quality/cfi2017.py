@@ -46,6 +46,7 @@ from colour.hints import (
     NDArray,
     Tuple,
     Union,
+    cast,
 )
 from colour.models import XYZ_to_UCS, UCS_to_uv, JMh_CIECAM02_to_CAM02UCS
 from colour.temperature import uv_to_CCT_Ohno2013, CCT_to_xy_CIE_D
@@ -190,7 +191,7 @@ def colour_fidelity_index_CIE2017(
 
         # NOTE: "CIE 2017 Colour Fidelity Index" standard recommends filling
         # missing values with zeros.
-        sd_test = sd_test.copy()
+        sd_test = cast(SpectralDistribution, sd_test.copy())
         sd_test.extrapolator = Extrapolator
         sd_test.extrapolator_kwargs = {
             "method": "constant",

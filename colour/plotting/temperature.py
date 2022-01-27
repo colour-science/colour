@@ -25,6 +25,7 @@ from colour.hints import (
     Dict,
     List,
     Literal,
+    NDArray,
     Optional,
     Sequence,
     Tuple,
@@ -120,7 +121,7 @@ def plot_planckian_locus(
 
     if method == "cie 1931":
 
-        def uv_to_ij(uv):
+        def uv_to_ij(uv: NDArray) -> NDArray:
             """
             Converts given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
@@ -132,7 +133,7 @@ def plot_planckian_locus(
 
     elif method == "cie 1960 ucs":
 
-        def uv_to_ij(uv):
+        def uv_to_ij(uv: NDArray) -> NDArray:
             """
             Converts given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
@@ -354,10 +355,10 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
     if method == "CIE 1931":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
             """
 
             return xy
@@ -365,10 +366,10 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
     elif method == "CIE 1960 UCS":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
             """
 
             return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))

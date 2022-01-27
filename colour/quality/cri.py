@@ -37,6 +37,7 @@ from colour.hints import (
     Boolean,
     Dict,
     Floating,
+    FloatingOrNDArray,
     Integer,
     NDArray,
     Tuple,
@@ -245,14 +246,14 @@ def tcs_colorimetry_data(
 
         if chromatic_adaptation:
 
-            def c(x, y):
+            def c(x: FloatingOrNDArray, y: FloatingOrNDArray) -> FloatingOrNDArray:
                 """
                 Computes the :math:`c` term.
                 """
 
                 return (4 - x - 10 * y) / y
 
-            def d(x, y):
+            def d(x: FloatingOrNDArray, y: FloatingOrNDArray) -> FloatingOrNDArray:
                 """
                 Computes the :math:`d` term.
                 """

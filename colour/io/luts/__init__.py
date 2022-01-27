@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import os
 
-from colour.hints import Any, Integer, Literal, Optional, Union, cast
+from colour.hints import Any, Boolean, Integer, Literal, Optional, Union, cast
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
@@ -265,7 +265,7 @@ def write_LUT(
         ]
     ] = None,
     **kwargs: Any
-):
+) -> Boolean:
     """
     Writes given *LUT* to given file using given method.
 

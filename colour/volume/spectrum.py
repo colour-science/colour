@@ -251,7 +251,7 @@ def XYZ_outer_surface(
     point_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
     filter_jagged_points: Boolean = False,
     **kwargs: Any
-):
+) -> NDArray:
     """
     Generates the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
     outer surface, for given colour matching functions using multi-spectral

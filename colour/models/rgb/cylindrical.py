@@ -321,7 +321,7 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
 
     H, S, L = tsplit(to_domain_1(HSL))
 
-    def H_to_RGB(vi, vj, vH):
+    def H_to_RGB(vi: NDArray, vj: NDArray, vH: NDArray) -> NDArray:
         """
         Converts *hue* value to *RGB* colourspace.
         """
@@ -501,7 +501,7 @@ def HCL_to_RGB(HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDAr
     Min = (4 * L - 3 * C) / (4 * Q - 2)
     Max = Min + (3 * C) / (2 * Q)
 
-    def _1_2_3(a):
+    def _1_2_3(a: ArrayLike) -> NDArray:
         """
         Tail-stack given :math:`a` array as a *bool* dtype.
         """

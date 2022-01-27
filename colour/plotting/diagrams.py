@@ -39,6 +39,7 @@ from colour.hints import (
     Integer,
     List,
     Literal,
+    NDArray,
     Optional,
     Sequence,
     Tuple,
@@ -877,7 +878,7 @@ def plot_sds_in_chromaticity_diagram(
 
     if method == "cie 1931":
 
-        def XYZ_to_ij(XYZ):
+        def XYZ_to_ij(XYZ: NDArray) -> NDArray:
             """
             Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -888,7 +889,7 @@ def plot_sds_in_chromaticity_diagram(
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
     elif method == "cie 1960 ucs":
 
-        def XYZ_to_ij(XYZ):
+        def XYZ_to_ij(XYZ: NDArray) -> NDArray:
             """
             Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
@@ -900,7 +901,7 @@ def plot_sds_in_chromaticity_diagram(
 
     elif method == "cie 1976 ucs":
 
-        def XYZ_to_ij(XYZ):
+        def XYZ_to_ij(XYZ: NDArray) -> NDArray:
             """
             Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.

@@ -25,9 +25,10 @@ import numpy as np
 from scipy.optimize import fmin
 
 from colour.algebra import spow, vector_dot
-from colour.hints import ArrayLike, Dict, NDArray, Optional
+from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
+    as_float,
     as_float_array,
     domain_range_scale,
     from_range_100,
@@ -214,16 +215,16 @@ def OSA_UCS_to_XYZ(
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    def error_function(XYZ, Ljg):
+    def error_function(XYZ: ArrayLike, Ljg: ArrayLike) -> FloatingOrNDArray:
         """
         Error function.
         """
 
         # Error must be computed in "reference" domain and range.
         with domain_range_scale("ignore"):
-            error = np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - Ljg)
+            error = np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - as_float_array(Ljg))
 
-        return error
+        return as_float(error)
 
     x_0 = np.array([30, 30, 30])
     XYZ = as_float_array(

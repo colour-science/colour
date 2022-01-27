@@ -8,7 +8,7 @@ Defines the objects related to *Pointer's Gamut* volume computations.
 
 from __future__ import annotations
 
-from colour.hints import ArrayLike, Floating, Optional
+from colour.hints import ArrayLike, Floating, NDArray, Optional
 from colour.models import (
     Lab_to_XYZ,
     LCHab_to_Lab,
@@ -29,7 +29,9 @@ __all__ = [
 ]
 
 
-def is_within_pointer_gamut(XYZ: ArrayLike, tolerance: Optional[Floating] = None):
+def is_within_pointer_gamut(
+    XYZ: ArrayLike, tolerance: Optional[Floating] = None
+) -> NDArray:
     """
     Returns whether given *CIE XYZ* tristimulus values are within Pointer's
     Gamut volume.

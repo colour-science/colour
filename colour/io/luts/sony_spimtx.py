@@ -32,7 +32,7 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPImtx(path: str):
+def read_LUT_SonySPImtx(path: str) -> LUTOperatorMatrix:
     """
     Reads given *Sony* *.spimtx* *LUT* file.
 

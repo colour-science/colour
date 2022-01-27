@@ -701,7 +701,9 @@ References
 """
 
 
-def log_decoding_Log3G10(y, method: Union[Literal["v1", "v2", "v3"], str] = "v3"):
+def log_decoding_Log3G10(
+    y, method: Union[Literal["v1", "v2", "v3"], str] = "v3"
+) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* log decoding curve / electro-optical transfer
     function.

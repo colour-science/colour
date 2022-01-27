@@ -522,7 +522,7 @@ __all__ += [
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class recovery(ModuleAPI):
-    def __getattr__(self, attribute):
+    def __getattr__(self, attribute) -> Any:
         return super(recovery, self).__getattr__(attribute)
 
 

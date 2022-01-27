@@ -282,7 +282,9 @@ def exponent_function_monitor_curve(
 
         s[np.isnan(s)] = 1
 
-    def monitor_curve_forward(x):
+    def monitor_curve_forward(
+        x: NDArray, offset: NDArray, exponent: NDArray
+    ) -> NDArray:
         """
         Defines the *Monitor Curve Forward* function.
         """
@@ -295,11 +297,12 @@ def exponent_function_monitor_curve(
             x * s,
         )
 
-    def monitor_curve_reverse(y):
+    def monitor_curve_reverse(
+        y: NDArray, offset: NDArray, exponent: NDArray
+    ) -> NDArray:
         """
         Defines the *Monitor Curve Reverse* function.
         """
-
         y_break = ((exponent * offset) / ((exponent - 1) * (1 + offset))) ** exponent
 
         return np.where(
@@ -309,22 +312,22 @@ def exponent_function_monitor_curve(
         )
 
     if style == "moncurvefwd":
-        return as_float(monitor_curve_forward(x))
+        return as_float(monitor_curve_forward(x, offset, exponent))
     elif style == "moncurverev":
-        return as_float(monitor_curve_reverse(x))
+        return as_float(monitor_curve_reverse(x, offset, exponent))
     elif style == "moncurvemirrorfwd":
         return as_float(
             np.where(
                 x >= 0,
-                monitor_curve_forward(x),
-                -monitor_curve_forward(-x),
+                monitor_curve_forward(x, offset, exponent),
+                -monitor_curve_forward(-x, offset, exponent),
             )
         )
     else:  # style == 'moncurvemirrorrev'
         return as_float(
             np.where(
                 x >= 0,
-                monitor_curve_reverse(x),
-                -monitor_curve_reverse(-x),
+                monitor_curve_reverse(x, offset, exponent),
+                -monitor_curve_reverse(-x, offset, exponent),
             )
         )

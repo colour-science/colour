@@ -318,7 +318,7 @@ class MultiSignals(AbstractContinuousFunction):
 
         self._signal_type: Type[Signal] = kwargs.get("signal_type", Signal)
 
-        self._signals: Dict = self.multi_signals_unpack_data(
+        self._signals: Dict[str, Signal] = self.multi_signals_unpack_data(
             data, domain, labels, **kwargs
         )
 
@@ -377,7 +377,7 @@ class MultiSignals(AbstractContinuousFunction):
         """
 
         for signal in self._signals.values():
-            signal.domain = value
+            signal.domain = as_float_array(value, self.dtype)
 
     @property
     def range(self) -> NDArray:
@@ -557,7 +557,7 @@ class MultiSignals(AbstractContinuousFunction):
         return first_item(self._signals.values()).function
 
     @property
-    def signals(self) -> Dict:
+    def signals(self) -> Dict[str, Signal]:
         """
         Getter and setter property for the :class:`colour.continuous.Signal`
         sub-class instances.
@@ -1196,7 +1196,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   9.  347.  378.  409.]]
         """
 
-        multi_signals = self if in_place else self.copy()
+        multi_signals = cast(MultiSignals, self if in_place else self.copy())
 
         if isinstance(a, MultiSignals):
             attest(
@@ -1251,7 +1251,7 @@ class MultiSignals(AbstractContinuousFunction):
         dtype: Optional[Type[DTypeFloating]] = None,
         signal_type: Type[Signal] = Signal,
         **kwargs: Any
-    ):
+    ) -> Dict[str, Signal]:
         """
         Unpack given data for multi-continuous signals instantiation.
 

@@ -28,7 +28,7 @@ from colour.colorimetry import (
     sd_ones,
     sd_to_XYZ_integration,
 )
-from colour.hints import ArrayLike, Dict, Optional
+from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = "Colour Developers"
@@ -172,14 +172,14 @@ def XYZ_to_sd_Meng2015(
 
     sd = sd_ones(cmfs.shape)
 
-    def objective_function(a):
+    def objective_function(a: ArrayLike) -> FloatingOrNDArray:
         """
         Objective function.
         """
 
         return np.sum(np.diff(a) ** 2)
 
-    def constraint_function(a):
+    def constraint_function(a: ArrayLike) -> NDArray:
         """
         Function defining the constraint.
         """

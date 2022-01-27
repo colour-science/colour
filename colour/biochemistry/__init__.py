@@ -5,6 +5,8 @@ import sys
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
+from colour.hints import Any
+
 from .michaelis_menten import (
     REACTION_RATE_MICHAELISMENTEN_METHODS,
     reaction_rate_MichaelisMenten,
@@ -36,7 +38,7 @@ __all__ += [
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class biochemistry(ModuleAPI):
-    def __getattr__(self, attribute):
+    def __getattr__(self, attribute) -> Any:
         return super(biochemistry, self).__getattr__(attribute)
 
 
