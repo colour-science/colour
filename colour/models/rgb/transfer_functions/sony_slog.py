@@ -42,27 +42,29 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'log_encoding_SLog',
-    'log_decoding_SLog',
-    'log_encoding_SLog2',
-    'log_decoding_SLog2',
-    'log_encoding_SLog3',
-    'log_decoding_SLog3',
+    "log_encoding_SLog",
+    "log_decoding_SLog",
+    "log_encoding_SLog2",
+    "log_decoding_SLog2",
+    "log_encoding_SLog3",
+    "log_decoding_SLog3",
 ]
 
 
-def log_encoding_SLog(x: FloatingOrArrayLike,
-                      bit_depth: Integer = 10,
-                      out_normalised_code_value: Boolean = True,
-                      in_reflection: Boolean = True) -> FloatingOrNDArray:
+def log_encoding_SLog(
+    x: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    out_normalised_code_value: Boolean = True,
+    in_reflection: Boolean = True,
+) -> FloatingOrNDArray:
     """
     Defines the *Sony S-Log* log encoding curve / opto-electronic transfer
     function.
@@ -135,10 +137,12 @@ def log_encoding_SLog(x: FloatingOrArrayLike,
     return as_float(from_range_1(y_cv))
 
 
-def log_decoding_SLog(y: FloatingOrArrayLike,
-                      bit_depth: Integer = 10,
-                      in_normalised_code_value: Boolean = True,
-                      out_reflection: Boolean = True) -> FloatingOrNDArray:
+def log_decoding_SLog(
+    y: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    in_normalised_code_value: Boolean = True,
+    out_reflection: Boolean = True,
+) -> FloatingOrNDArray:
     """
     Defines the *Sony S-Log* log decoding curve / electro-optical transfer
     function.
@@ -190,7 +194,7 @@ def log_decoding_SLog(y: FloatingOrArrayLike,
 
     x = legal_to_full(y, bit_depth) if in_normalised_code_value else y
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         x = np.where(
             y >= log_encoding_SLog(0.0, bit_depth, in_normalised_code_value),
             10 ** ((x - 0.616596 - 0.03) / 0.432699) - 0.037584,
@@ -203,10 +207,12 @@ def log_decoding_SLog(y: FloatingOrArrayLike,
     return as_float(from_range_1(x))
 
 
-def log_encoding_SLog2(x: FloatingOrArrayLike,
-                       bit_depth: Integer = 10,
-                       out_normalised_code_value: Boolean = True,
-                       in_reflection: Boolean = True) -> FloatingOrNDArray:
+def log_encoding_SLog2(
+    x: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    out_normalised_code_value: Boolean = True,
+    in_reflection: Boolean = True,
+) -> FloatingOrNDArray:
     """
     Defines the *Sony S-Log2* log encoding curve / opto-electronic transfer
     function.
@@ -265,14 +271,17 @@ def log_encoding_SLog2(x: FloatingOrArrayLike,
 
     x = as_float_array(x)
 
-    return log_encoding_SLog(x * 155 / 219, bit_depth,
-                             out_normalised_code_value, in_reflection)
+    return log_encoding_SLog(
+        x * 155 / 219, bit_depth, out_normalised_code_value, in_reflection
+    )
 
 
-def log_decoding_SLog2(y: FloatingOrArrayLike,
-                       bit_depth: Integer = 10,
-                       in_normalised_code_value: Boolean = True,
-                       out_reflection: Boolean = True) -> FloatingOrNDArray:
+def log_decoding_SLog2(
+    y: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    in_normalised_code_value: Boolean = True,
+    out_reflection: Boolean = True,
+) -> FloatingOrNDArray:
     """
     Defines the *Sony S-Log2* log decoding curve / electro-optical transfer
     function.
@@ -320,14 +329,19 @@ def log_decoding_SLog2(y: FloatingOrArrayLike,
     0.1...
     """
 
-    return 219 * log_decoding_SLog(y, bit_depth, in_normalised_code_value,
-                                   out_reflection) / 155
+    return (
+        219
+        * log_decoding_SLog(y, bit_depth, in_normalised_code_value, out_reflection)
+        / 155
+    )
 
 
-def log_encoding_SLog3(x: FloatingOrArrayLike,
-                       bit_depth: Integer = 10,
-                       out_normalised_code_value: Boolean = True,
-                       in_reflection: Boolean = True) -> FloatingOrNDArray:
+def log_encoding_SLog3(
+    x: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    out_normalised_code_value: Boolean = True,
+    in_reflection: Boolean = True,
+) -> FloatingOrNDArray:
     """
     Defines the *Sony S-Log3* log encoding curve / opto-electronic transfer
     function.
@@ -400,10 +414,12 @@ def log_encoding_SLog3(x: FloatingOrArrayLike,
     return as_float(from_range_1(y_cv))
 
 
-def log_decoding_SLog3(y: FloatingOrArrayLike,
-                       bit_depth: Integer = 10,
-                       in_normalised_code_value: Boolean = True,
-                       out_reflection: Boolean = True) -> FloatingOrNDArray:
+def log_decoding_SLog3(
+    y: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    in_normalised_code_value: Boolean = True,
+    out_reflection: Boolean = True,
+) -> FloatingOrNDArray:
     """
     Defines the *Sony S-Log3* log decoding curve / electro-optical transfer
     function.

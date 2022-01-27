@@ -27,28 +27,28 @@ from colour.utilities import (
     optional,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestCacheRegistry',
-    'TestAttest',
-    'TestBatch',
-    'TestMultiprocessingPool',
-    'TestIsIterable',
-    'TestIsString',
-    'TestIsNumeric',
-    'TestIsInteger',
-    'TestIsSibling',
-    'TestFilterKwargs',
-    'TestFilterMapping',
-    'TestFirstItem',
-    'TestValidateMethod',
-    'TestOptional',
+    "TestCacheRegistry",
+    "TestAttest",
+    "TestBatch",
+    "TestMultiprocessingPool",
+    "TestIsIterable",
+    "TestIsString",
+    "TestIsNumeric",
+    "TestIsInteger",
+    "TestIsSibling",
+    "TestFilterKwargs",
+    "TestFilterMapping",
+    "TestFirstItem",
+    "TestValidateMethod",
+    "TestOptional",
 ]
 
 
@@ -65,11 +65,11 @@ class TestCacheRegistry(unittest.TestCase):
         """
 
         cache_registry = CacheRegistry()
-        cache_a = cache_registry.register_cache('Cache A')
-        cache_a['Foo'] = 'Bar'
-        cache_b = cache_registry.register_cache('Cache B')
-        cache_b['John'] = 'Doe'
-        cache_b['Luke'] = 'Skywalker'
+        cache_a = cache_registry.register_cache("Cache A")
+        cache_a["Foo"] = "Bar"
+        cache_b = cache_registry.register_cache("Cache B")
+        cache_b["John"] = "Doe"
+        cache_b["Luke"] = "Skywalker"
 
         return cache_registry
 
@@ -78,7 +78,7 @@ class TestCacheRegistry(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('registry', )
+        required_attributes = ("registry",)
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(CacheRegistry))
@@ -88,9 +88,14 @@ class TestCacheRegistry(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__str__', 'register_cache',
-                            'unregister_cache', 'clear_cache',
-                            'clear_all_caches')
+        required_methods = (
+            "__init__",
+            "__str__",
+            "register_cache",
+            "unregister_cache",
+            "clear_cache",
+            "clear_all_caches",
+        )
 
         for method in required_methods:
             self.assertIn(method, dir(CacheRegistry))
@@ -103,7 +108,8 @@ class TestCacheRegistry(unittest.TestCase):
         cache_registry = self._default_test_cache_registry()
         self.assertEqual(
             str(cache_registry),
-            "{'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}")
+            "{'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}",
+        )
 
     def test_register_cache(self):
         """
@@ -112,13 +118,12 @@ class TestCacheRegistry(unittest.TestCase):
         """
 
         cache_registry = CacheRegistry()
-        cache_a = cache_registry.register_cache('Cache A')
-        self.assertDictEqual(cache_registry.registry, {'Cache A': cache_a})
-        cache_b = cache_registry.register_cache('Cache B')
-        self.assertDictEqual(cache_registry.registry, {
-            'Cache A': cache_a,
-            'Cache B': cache_b
-        })
+        cache_a = cache_registry.register_cache("Cache A")
+        self.assertDictEqual(cache_registry.registry, {"Cache A": cache_a})
+        cache_b = cache_registry.register_cache("Cache B")
+        self.assertDictEqual(
+            cache_registry.registry, {"Cache A": cache_a, "Cache B": cache_b}
+        )
 
     def test_unregister_cache(self):
         """
@@ -127,9 +132,9 @@ class TestCacheRegistry(unittest.TestCase):
         """
 
         cache_registry = self._default_test_cache_registry()
-        cache_registry.unregister_cache('Cache A')
-        self.assertNotIn('Cache A', cache_registry.registry)
-        self.assertIn('Cache B', cache_registry.registry)
+        cache_registry.unregister_cache("Cache A")
+        self.assertNotIn("Cache A", cache_registry.registry)
+        self.assertIn("Cache B", cache_registry.registry)
 
     def test_clear_cache(self):
         """
@@ -138,14 +143,11 @@ class TestCacheRegistry(unittest.TestCase):
         """
 
         cache_registry = self._default_test_cache_registry()
-        cache_registry.clear_cache('Cache A')
-        self.assertDictEqual(cache_registry.registry, {
-            'Cache A': {},
-            'Cache B': {
-                'John': 'Doe',
-                'Luke': 'Skywalker'
-            }
-        })
+        cache_registry.clear_cache("Cache A")
+        self.assertDictEqual(
+            cache_registry.registry,
+            {"Cache A": {}, "Cache B": {"John": "Doe", "Luke": "Skywalker"}},
+        )
 
     def test_clear_all_caches(self):
         """
@@ -155,10 +157,7 @@ class TestCacheRegistry(unittest.TestCase):
 
         cache_registry = self._default_test_cache_registry()
         cache_registry.clear_all_caches()
-        self.assertDictEqual(cache_registry.registry, {
-            'Cache A': {},
-            'Cache B': {}
-        })
+        self.assertDictEqual(cache_registry.registry, {"Cache A": {}, "Cache B": {}})
 
 
 class TestAttest(unittest.TestCase):
@@ -172,7 +171,7 @@ class TestAttest(unittest.TestCase):
         Tests :func:`colour.utilities.common.attest` definition.
         """
 
-        self.assertIsNone(attest(True, ''))
+        self.assertIsNone(attest(True, ""))
 
         self.assertRaises(AssertionError, attest, False)
 
@@ -190,16 +189,18 @@ class TestBatch(unittest.TestCase):
 
         self.assertListEqual(
             list(batch(tuple(range(10)), 3)),
-            [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9,)])  # yapf: disable
+            [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9,)],
+        )
 
         self.assertListEqual(
             list(batch(tuple(range(10)), 5)),
-            [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9)])  # yapf: disable
+            [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9)],
+        )
 
         self.assertListEqual(
             list(batch(tuple(range(10)), 1)),
-            [(0,), (1,), (2,), (3,), (4,),
-             (5,), (6,), (7,), (8,), (9,)])  # yapf: disable
+            [(0,), (1,), (2,), (3,), (4,), (5,), (6,), (7,), (8,), (9,)],
+        )
 
 
 def _add(a: Number, b: Number):
@@ -238,7 +239,8 @@ class TestMultiprocessingPool(unittest.TestCase):
         with multiprocessing_pool() as pool:
             self.assertListEqual(
                 pool.map(partial(_add, b=2), range(10)),
-                [2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+                [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            )
 
 
 class TestIsIterable(unittest.TestCase):
@@ -252,7 +254,7 @@ class TestIsIterable(unittest.TestCase):
         Tests :func:`colour.utilities.common.is_iterable` definition.
         """
 
-        self.assertTrue(is_iterable(''))
+        self.assertTrue(is_iterable(""))
 
         self.assertTrue(is_iterable(()))
 
@@ -284,11 +286,11 @@ class TestIsString(unittest.TestCase):
         Tests :func:`colour.utilities.common.is_string` definition.
         """
 
-        self.assertTrue(is_string(str('Hello World!')))
+        self.assertTrue(is_string(str("Hello World!")))
 
-        self.assertTrue(is_string('Hello World!'))
+        self.assertTrue(is_string("Hello World!"))
 
-        self.assertTrue(is_string(r'Hello World!'))
+        self.assertTrue(is_string(r"Hello World!"))
 
         self.assertFalse(is_string(1))
 
@@ -312,11 +314,11 @@ class TestIsNumeric(unittest.TestCase):
 
         self.assertTrue(is_numeric(1))
 
-        self.assertFalse(is_numeric((1, )))
+        self.assertFalse(is_numeric((1,)))
 
         self.assertFalse(is_numeric([1]))
 
-        self.assertFalse(is_numeric('1'))
+        self.assertFalse(is_numeric("1"))
 
 
 class TestIsInteger(unittest.TestCase):
@@ -365,14 +367,14 @@ class TestIsSibling(unittest.TestCase):
                 self.name = name
 
         mapping = {
-            'Element A': Element('A'),
-            'Element B': Element('B'),
-            'Element C': Element('C'),
+            "Element A": Element("A"),
+            "Element B": Element("B"),
+            "Element C": Element("C"),
         }
 
-        self.assertTrue(is_sibling(Element('D'), mapping))
+        self.assertTrue(is_sibling(Element("D"), mapping))
 
-        self.assertFalse(is_sibling(NotElement('Not D'), mapping))
+        self.assertFalse(is_sibling(NotElement("Not D"), mapping))
 
 
 class TestFilterKwargs(unittest.TestCase):
@@ -410,10 +412,9 @@ class TestFilterKwargs(unittest.TestCase):
 
         self.assertTupleEqual((1, 2), fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
 
-        self.assertTupleEqual((1, 2, 3),
-                              fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
+        self.assertTupleEqual((1, 2, 3), fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
 
-        self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {'b': 1})
+        self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {"b": 1})
 
 
 class TestFilterMapping(unittest.TestCase):
@@ -436,44 +437,54 @@ class TestFilterMapping(unittest.TestCase):
                 self.name = name
 
         mapping = {
-            'Element A': Element('A'),
-            'Element B': Element('B'),
-            'Element C': Element('C'),
-            'Not Element C': Element('Not C'),
+            "Element A": Element("A"),
+            "Element B": Element("B"),
+            "Element C": Element("C"),
+            "Not Element C": Element("Not C"),
         }
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, '\\w+\\s+A')), ['Element A'])
+            sorted(filter_mapping(mapping, "\\w+\\s+A")), ["Element A"]
+        )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, 'Element.*')), [
-                'Element A',
-                'Element B',
-                'Element C',
-            ])
+            sorted(filter_mapping(mapping, "Element.*")),
+            [
+                "Element A",
+                "Element B",
+                "Element C",
+            ],
+        )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, '^Element.*')), [
-                'Element A',
-                'Element B',
-                'Element C',
-            ])
+            sorted(filter_mapping(mapping, "^Element.*")),
+            [
+                "Element A",
+                "Element B",
+                "Element C",
+            ],
+        )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, '^Element.*', False)), [
-                'Element A',
-                'Element B',
-                'Element C',
-            ])
+            sorted(filter_mapping(mapping, "^Element.*", False)),
+            [
+                "Element A",
+                "Element B",
+                "Element C",
+            ],
+        )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, ['.*A', '.*B'])), [
-                'Element A',
-                'Element B',
-            ])
+            sorted(filter_mapping(mapping, [".*A", ".*B"])),
+            [
+                "Element A",
+                "Element B",
+            ],
+        )
 
         self.assertIsInstance(
-            filter_mapping(mapping, '^Element.*', False), type(mapping))
+            filter_mapping(mapping, "^Element.*", False), type(mapping)
+        )
 
 
 class TestFirstItem(unittest.TestCase):
@@ -489,10 +500,10 @@ class TestFirstItem(unittest.TestCase):
 
         self.assertEqual(first_item(range(10)), 0)
 
-        dictionary = {0: 'a', 1: 'b', 2: 'c'}
-        self.assertEqual(first_item(dictionary.items()), (0, 'a'))
+        dictionary = {0: "a", 1: "b", 2: "c"}
+        self.assertEqual(first_item(dictionary.items()), (0, "a"))
 
-        self.assertEqual(first_item(dictionary.values()), 'a')
+        self.assertEqual(first_item(dictionary.values()), "a")
 
 
 class TestValidateMethod(unittest.TestCase):
@@ -506,8 +517,7 @@ class TestValidateMethod(unittest.TestCase):
         Tests :func:`colour.utilities.common.validate_method` definition.
         """
 
-        self.assertEqual(
-            validate_method('Valid', ['Valid', 'Yes', 'Ok']), 'valid')
+        self.assertEqual(validate_method("Valid", ["Valid", "Yes", "Ok"]), "valid")
 
     def test_raise_exception_validate_method(self):
         """
@@ -515,8 +525,9 @@ class TestValidateMethod(unittest.TestCase):
         exception.
         """
 
-        self.assertRaises(ValueError, validate_method, 'Invalid',
-                          ['Valid', 'Yes', 'Ok'])
+        self.assertRaises(
+            ValueError, validate_method, "Invalid", ["Valid", "Yes", "Ok"]
+        )
 
 
 class TestOptional(unittest.TestCase):
@@ -530,10 +541,10 @@ class TestOptional(unittest.TestCase):
         Tests :func:`colour.utilities.common.optional` definition.
         """
 
-        self.assertEqual(optional('Foo', 'Bar'), 'Foo')
+        self.assertEqual(optional("Foo", "Bar"), "Foo")
 
-        self.assertEqual(optional(None, 'Bar'), 'Bar')
+        self.assertEqual(optional(None, "Bar"), "Bar")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

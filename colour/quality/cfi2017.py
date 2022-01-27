@@ -61,24 +61,24 @@ from colour.utilities import (
     usage_warning,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'SPECTRAL_SHAPE_CIE2017',
-    'RESOURCES_DIRECTORY_CIE2017',
-    'TCS_ColorimetryData_CIE2017',
-    'ColourRendering_Specification_CIE2017',
-    'colour_fidelity_index_CIE2017',
-    'load_TCS_CIE2017',
-    'CCT_reference_illuminant',
-    'sd_reference_illuminant',
-    'tcs_colorimetry_data',
-    'delta_E_to_R_f',
+    "SPECTRAL_SHAPE_CIE2017",
+    "RESOURCES_DIRECTORY_CIE2017",
+    "TCS_ColorimetryData_CIE2017",
+    "ColourRendering_Specification_CIE2017",
+    "colour_fidelity_index_CIE2017",
+    "load_TCS_CIE2017",
+    "CCT_reference_illuminant",
+    "sd_reference_illuminant",
+    "tcs_colorimetry_data",
+    "delta_E_to_R_f",
 ]
 
 SPECTRAL_SHAPE_CIE2017: SpectralShape = SpectralShape(380, 780, 1)
@@ -87,14 +87,14 @@ Spectral shape for *CIE 2017 Colour Fidelity Index* (CFI)
 standard.
 """
 
-RESOURCES_DIRECTORY_CIE2017: str = os.path.join(
-    os.path.dirname(__file__), 'datasets')
+RESOURCES_DIRECTORY_CIE2017: str = os.path.join(os.path.dirname(__file__), "datasets")
 """
 *CIE 2017 Colour Fidelity Index* resources directory.
 """
 
 _CACHE_TCS_CIE2017: Dict = CACHE_REGISTRY.register_cache(
-    '{0}._CACHE_TCS_CIE2017'.format(__name__))
+    "{0}._CACHE_TCS_CIE2017".format(__name__)
+)
 
 
 @dataclass
@@ -142,13 +142,15 @@ class ColourRendering_Specification_CIE2017:
     R_s: NDArray
     CCT: Floating
     D_uv: Floating
-    colorimetry_data: Tuple[Tuple[TCS_ColorimetryData_CIE2017, ...], Tuple[
-        TCS_ColorimetryData_CIE2017, ...]]
+    colorimetry_data: Tuple[
+        Tuple[TCS_ColorimetryData_CIE2017, ...],
+        Tuple[TCS_ColorimetryData_CIE2017, ...],
+    ]
     delta_E_s: NDArray
 
 
 def colour_fidelity_index_CIE2017(
-        sd_test: SpectralDistribution, additional_data: Boolean = False
+    sd_test: SpectralDistribution, additional_data: Boolean = False
 ) -> Union[Floating, ColourRendering_Specification_CIE2017]:
     """
     Returns the *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` of given
@@ -180,27 +182,34 @@ def colour_fidelity_index_CIE2017(
     """
 
     if sd_test.shape.start > 380 or sd_test.shape.end < 780:
-        usage_warning('Test spectral distribution shape does not span the'
-                      'recommended 380-780nm range, missing values will be'
-                      'filled with zeros!')
+        usage_warning(
+            "Test spectral distribution shape does not span the"
+            "recommended 380-780nm range, missing values will be"
+            "filled with zeros!"
+        )
 
         # NOTE: "CIE 2017 Colour Fidelity Index" standard recommends filling
         # missing values with zeros.
         sd_test = sd_test.copy()
         sd_test.extrapolator = Extrapolator
         sd_test.extrapolator_kwargs = {
-            'method': 'constant',
-            'left': 0,
-            'right': 0
+            "method": "constant",
+            "left": 0,
+            "right": 0,
         }
 
     if sd_test.shape.interval > 5:
-        raise ValueError('Test spectral distribution interval is greater than'
-                         '5nm which is the maximum recommended value '
-                         'for computing the "CIE 2017 Colour Fidelity Index"!')
+        raise ValueError(
+            "Test spectral distribution interval is greater than"
+            "5nm which is the maximum recommended value "
+            'for computing the "CIE 2017 Colour Fidelity Index"!'
+        )
 
-    shape = SpectralShape(SPECTRAL_SHAPE_CIE2017.start,
-                          SPECTRAL_SHAPE_CIE2017.end, sd_test.shape.interval)
+    shape = SpectralShape(
+        SPECTRAL_SHAPE_CIE2017.start,
+        SPECTRAL_SHAPE_CIE2017.end,
+        sd_test.shape.interval,
+    )
 
     CCT, D_uv = tsplit(CCT_reference_illuminant(sd_test))
     sd_reference = sd_reference_illuminant(CCT, shape)
@@ -208,30 +217,37 @@ def colour_fidelity_index_CIE2017(
     # NOTE: All computations except CCT calculation use the
     # "CIE 1964 10 Degree Standard Observer".
     # pylint: disable=E1102
-    cmfs_10 = reshape_msds(MSDS_CMFS['CIE 1964 10 Degree Standard Observer'],
-                           shape)
+    cmfs_10 = reshape_msds(MSDS_CMFS["CIE 1964 10 Degree Standard Observer"], shape)
 
     # pylint: disable=E1102
     sds_tcs = reshape_msds(load_TCS_CIE2017(shape), shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(sd_test, sds_tcs, cmfs_10)
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_reference, sds_tcs, cmfs_10)
+        sd_reference, sds_tcs, cmfs_10
+    )
 
     delta_E_s = np.empty(len(sds_tcs.labels))
     for i, _delta_E in enumerate(delta_E_s):
         delta_E_s[i] = euclidean_distance(
             test_tcs_colorimetry_data[i].Jpapbp,
-            reference_tcs_colorimetry_data[i].Jpapbp)
+            reference_tcs_colorimetry_data[i].Jpapbp,
+        )
 
     R_s = as_float_array(delta_E_to_R_f(delta_E_s))
     R_f = as_float_scalar(delta_E_to_R_f(np.average(delta_E_s)))
 
     if additional_data:
         return ColourRendering_Specification_CIE2017(
-            sd_test.name, sd_reference, R_f, R_s, CCT, D_uv,
+            sd_test.name,
+            sd_reference,
+            R_f,
+            R_s,
+            CCT,
+            D_uv,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
-            delta_E_s)
+            delta_E_s,
+        )
     else:
         return R_f
 
@@ -267,17 +283,18 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
 
     attest(
         interval in (1, 5),
-        'Spectral shape interval must be either 1nm or 5nm!')
+        "Spectral shape interval must be either 1nm or 5nm!",
+    )
 
-    filename = 'tcs_cfi2017_{0}_nm.csv.gz'.format(as_int_scalar(interval))
+    filename = "tcs_cfi2017_{0}_nm.csv.gz".format(as_int_scalar(interval))
 
     if filename in _CACHE_TCS_CIE2017:
         return _CACHE_TCS_CIE2017[filename]
 
     data = np.genfromtxt(
-        str(os.path.join(RESOURCES_DIRECTORY_CIE2017, filename)),
-        delimiter=',')
-    labels = ['TCS{0} (CIE 2017)'.format(i) for i in range(99)]
+        str(os.path.join(RESOURCES_DIRECTORY_CIE2017, filename)), delimiter=","
+    )
+    labels = ["TCS{0} (CIE 2017)".format(i) for i in range(99)]
 
     tcs = MultiSpectralDistributions(data[:, 1:], data[:, 0], labels)
 
@@ -315,8 +332,9 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArray:
     return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)))
 
 
-def sd_reference_illuminant(CCT: Floating,
-                            shape: SpectralShape) -> SpectralDistribution:
+def sd_reference_illuminant(
+    CCT: Floating, shape: SpectralShape
+) -> SpectralDistribution:
     """
     Computes the reference illuminant for a given correlated colour temperature
     :math:`T_{cp}` for use in *CIE 2017 Colour Fidelity Index* (CFI)
@@ -386,8 +404,9 @@ def sd_reference_illuminant(CCT: Floating,
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
         values = linstep_function(m, sd_planckian.values, sd_daylight.values)
-        name = ('{0}K Blackbody & CIE Illuminant D Series Mixture - {1:.1f}%'
-                .format(as_int_scalar(CCT), as_float_scalar(100 * m)))
+        name = "{0}K Blackbody & CIE Illuminant D Series Mixture - {1:.1f}%".format(
+            as_int_scalar(CCT), as_float_scalar(100 * m)
+        )
         sd_reference = SpectralDistribution(values, shape.range(), name=name)
     elif CCT > 5000:
         sd_reference = sd_daylight
@@ -395,10 +414,11 @@ def sd_reference_illuminant(CCT: Floating,
     return sd_reference
 
 
-def tcs_colorimetry_data(sd_irradiance: SpectralDistribution,
-                         sds_tcs: MultiSpectralDistributions,
-                         cmfs: MultiSpectralDistributions
-                         ) -> Tuple[TCS_ColorimetryData_CIE2017, ...]:
+def tcs_colorimetry_data(
+    sd_irradiance: SpectralDistribution,
+    sds_tcs: MultiSpectralDistributions,
+    cmfs: MultiSpectralDistributions,
+) -> Tuple[TCS_ColorimetryData_CIE2017, ...]:
     """
     Returns the *test colour samples* colorimetry data under given test light
     source or reference illuminant spectral distribution for the
@@ -429,7 +449,7 @@ def tcs_colorimetry_data(sd_irradiance: SpectralDistribution,
     XYZ_w = sd_to_XYZ(sd_ones(), cmfs, sd_irradiance)
     Y_b = 20
     L_A = 100
-    surround = VIEWING_CONDITIONS_CIECAM02['Average']
+    surround = VIEWING_CONDITIONS_CIECAM02["Average"]
 
     tcs_data = []
     for sd_tcs in sds_tcs.to_sds():
@@ -438,8 +458,7 @@ def tcs_colorimetry_data(sd_irradiance: SpectralDistribution,
         JMh = tstack([CAM.J, CAM.M, CAM.h])
         Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
 
-        tcs_data.append(
-            TCS_ColorimetryData_CIE2017(sd_tcs.name, XYZ, CAM, JMh, Jpapbp))
+        tcs_data.append(TCS_ColorimetryData_CIE2017(sd_tcs.name, XYZ, CAM, JMh, Jpapbp))
 
     return tuple(tcs_data)
 

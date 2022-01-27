@@ -58,36 +58,37 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'log_encoding_REDLog',
-    'log_decoding_REDLog',
-    'log_encoding_REDLogFilm',
-    'log_decoding_REDLogFilm',
-    'log_encoding_Log3G10_v1',
-    'log_decoding_Log3G10_v1',
-    'log_encoding_Log3G10_v2',
-    'log_decoding_Log3G10_v2',
-    'log_encoding_Log3G10_v3',
-    'log_decoding_Log3G10_v3',
-    'LOG3G10_ENCODING_METHODS',
-    'log_encoding_Log3G10',
-    'LOG3G10_DECODING_METHODS',
-    'log_decoding_Log3G10',
-    'log_encoding_Log3G12',
-    'log_decoding_Log3G12',
+    "log_encoding_REDLog",
+    "log_decoding_REDLog",
+    "log_encoding_REDLogFilm",
+    "log_decoding_REDLogFilm",
+    "log_encoding_Log3G10_v1",
+    "log_decoding_Log3G10_v1",
+    "log_encoding_Log3G10_v2",
+    "log_decoding_Log3G10_v2",
+    "log_encoding_Log3G10_v3",
+    "log_decoding_Log3G10_v3",
+    "LOG3G10_ENCODING_METHODS",
+    "log_encoding_Log3G10",
+    "LOG3G10_DECODING_METHODS",
+    "log_decoding_Log3G10",
+    "log_encoding_Log3G12",
+    "log_decoding_Log3G12",
 ]
 
 
-def log_encoding_REDLog(x: FloatingOrArrayLike,
-                        black_offset: FloatingOrArrayLike = 10
-                        ** ((0 - 1023) / 511)) -> FloatingOrNDArray:
+def log_encoding_REDLog(
+    x: FloatingOrArrayLike,
+    black_offset: FloatingOrArrayLike = 10 ** ((0 - 1023) / 511),
+) -> FloatingOrNDArray:
     """
     Defines the *REDLog* log encoding curve / opto-electronic transfer
     function.
@@ -137,9 +138,10 @@ def log_encoding_REDLog(x: FloatingOrArrayLike,
     return as_float(from_range_1(y))
 
 
-def log_decoding_REDLog(y: FloatingOrArrayLike,
-                        black_offset: FloatingOrArrayLike = 10
-                        ** ((0 - 1023) / 511)) -> FloatingOrNDArray:
+def log_decoding_REDLog(
+    y: FloatingOrArrayLike,
+    black_offset: FloatingOrArrayLike = 10 ** ((0 - 1023) / 511),
+) -> FloatingOrNDArray:
     """
     Defines the *REDLog* log decoding curve / electro-optical transfer
     function.
@@ -189,9 +191,10 @@ def log_decoding_REDLog(y: FloatingOrArrayLike,
     return as_float(from_range_1(x))
 
 
-def log_encoding_REDLogFilm(x: FloatingOrArrayLike,
-                            black_offset: FloatingOrArrayLike = 10
-                            ** ((95 - 685) / 300)) -> FloatingOrNDArray:
+def log_encoding_REDLogFilm(
+    x: FloatingOrArrayLike,
+    black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
+) -> FloatingOrNDArray:
     """
     Defines the *REDLogFilm* log encoding curve / opto-electronic transfer
     function.
@@ -236,9 +239,10 @@ def log_encoding_REDLogFilm(x: FloatingOrArrayLike,
     return log_encoding_Cineon(x, black_offset)
 
 
-def log_decoding_REDLogFilm(y: FloatingOrArrayLike,
-                            black_offset: FloatingOrArrayLike = 10
-                            ** ((95 - 685) / 300)) -> FloatingOrNDArray:
+def log_decoding_REDLogFilm(
+    y: FloatingOrArrayLike,
+    black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
+) -> FloatingOrNDArray:
     """
     Defines the *REDLogFilm* log decoding curve / electro-optical transfer
     function.
@@ -372,7 +376,7 @@ def log_decoding_Log3G10_v1(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     y = to_domain_1(y)
 
-    x = (np.sign(y) * (10.0 ** (np.abs(y) / 0.222497) - 1) / 169.379333)
+    x = np.sign(y) * (10.0 ** (np.abs(y) / 0.222497) - 1) / 169.379333
 
     return as_float(from_range_1(x))
 
@@ -419,8 +423,7 @@ def log_encoding_Log3G10_v2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     x = to_domain_1(x)
 
-    y = (np.sign(x + 0.01) * 0.224282 *
-         np.log10((np.abs(x + 0.01) * 155.975327) + 1))
+    y = np.sign(x + 0.01) * 0.224282 * np.log10((np.abs(x + 0.01) * 155.975327) + 1)
 
     return as_float(from_range_1(y))
 
@@ -521,8 +524,7 @@ def log_encoding_Log3G10_v3(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     x = x + c
 
-    y = np.where(x < 0.0, x * g,
-                 np.sign(x) * a * np.log10((np.abs(x) * b) + 1.0))
+    y = np.where(x < 0.0, x * g, np.sign(x) * a * np.log10((np.abs(x) * b) + 1.0))
 
     return as_float(from_range_1(y))
 
@@ -574,17 +576,22 @@ def log_decoding_Log3G10_v3(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     y = to_domain_1(y)
 
-    x = np.where(y < 0.0, (y / g) - c,
-                 np.sign(y) * (10 ** (np.abs(y) / a) - 1.0) / b - c)
+    x = np.where(
+        y < 0.0,
+        (y / g) - c,
+        np.sign(y) * (10 ** (np.abs(y) / a) - 1.0) / b - c,
+    )
 
     return as_float(from_range_1(x))
 
 
-LOG3G10_ENCODING_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'v1': log_encoding_Log3G10_v1,
-    'v2': log_encoding_Log3G10_v2,
-    'v3': log_encoding_Log3G10_v3,
-})
+LOG3G10_ENCODING_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "v1": log_encoding_Log3G10_v1,
+        "v2": log_encoding_Log3G10_v2,
+        "v3": log_encoding_Log3G10_v3,
+    }
+)
 LOG3G10_ENCODING_METHODS.__doc__ = """
 Supported *Log3G10* log encoding curve / opto-electronic transfer function
 methods.
@@ -595,9 +602,10 @@ References
 """
 
 
-def log_encoding_Log3G10(x: FloatingOrArrayLike,
-                         method: Union[Literal['v1', 'v2', 'v3'], str] = 'v3'
-                         ) -> FloatingOrNDArray:
+def log_encoding_Log3G10(
+    x: FloatingOrArrayLike,
+    method: Union[Literal["v1", "v2", "v3"], str] = "v3",
+) -> FloatingOrNDArray:
     """
     Defines the *Log3G10* log encoding curve / opto-electronic transfer
     function.
@@ -676,11 +684,13 @@ def log_encoding_Log3G10(x: FloatingOrArrayLike,
     return LOG3G10_ENCODING_METHODS[method](x)
 
 
-LOG3G10_DECODING_METHODS = CaseInsensitiveMapping({
-    'v1': log_decoding_Log3G10_v1,
-    'v2': log_decoding_Log3G10_v2,
-    'v3': log_decoding_Log3G10_v3,
-})
+LOG3G10_DECODING_METHODS = CaseInsensitiveMapping(
+    {
+        "v1": log_decoding_Log3G10_v1,
+        "v2": log_decoding_Log3G10_v2,
+        "v3": log_decoding_Log3G10_v3,
+    }
+)
 LOG3G10_DECODING_METHODS.__doc__ = """
 Supported *Log3G10* log decoding curve / electro-optical transfer function
 methods.
@@ -691,8 +701,7 @@ References
 """
 
 
-def log_decoding_Log3G10(y,
-                         method: Union[Literal['v1', 'v2', 'v3'], str] = 'v3'):
+def log_decoding_Log3G10(y, method: Union[Literal["v1", "v2", "v3"], str] = "v3"):
     """
     Defines the *Log3G10* log decoding curve / electro-optical transfer
     function.

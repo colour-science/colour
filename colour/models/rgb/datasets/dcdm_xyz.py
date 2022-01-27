@@ -28,44 +28,48 @@ from colour.models.rgb import (
     eotf_inverse_DCDM,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_DCDM_XYZ',
-    'WHITEPOINT_NAME_DCDM_XYZ',
-    'CCS_WHITEPOINT_DCDM_XYZ',
-    'MATRIX_DCDM_XYZ_TO_XYZ',
-    'MATRIX_XYZ_TO_DCDM_XYZ',
-    'RGB_COLOURSPACE_DCDM_XYZ',
+    "PRIMARIES_DCDM_XYZ",
+    "WHITEPOINT_NAME_DCDM_XYZ",
+    "CCS_WHITEPOINT_DCDM_XYZ",
+    "MATRIX_DCDM_XYZ_TO_XYZ",
+    "MATRIX_XYZ_TO_DCDM_XYZ",
+    "RGB_COLOURSPACE_DCDM_XYZ",
 ]
 
-PRIMARIES_DCDM_XYZ: NDArray = np.array([
-    [1.0, 0.0],
-    [0.0, 1.0],
-    [0.0, 0.0],
-])
+PRIMARIES_DCDM_XYZ: NDArray = np.array(
+    [
+        [1.0, 0.0],
+        [0.0, 1.0],
+        [0.0, 0.0],
+    ]
+)
 """
 *DCDM XYZ* colourspace primaries.
 """
 
-WHITEPOINT_NAME_DCDM_XYZ: str = 'E'
+WHITEPOINT_NAME_DCDM_XYZ: str = "E"
 """
 *DCDM XYZ* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_DCDM_XYZ: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DCDM_XYZ])
+CCS_WHITEPOINT_DCDM_XYZ: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_DCDM_XYZ]
 """
 *DCDM XYZ* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_DCDM_XYZ_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_DCDM_XYZ, CCS_WHITEPOINT_DCDM_XYZ)
+    PRIMARIES_DCDM_XYZ, CCS_WHITEPOINT_DCDM_XYZ
+)
 """
 *DCDM XYZ* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -76,7 +80,7 @@ MATRIX_XYZ_TO_DCDM_XYZ: NDArray = np.linalg.inv(MATRIX_DCDM_XYZ_TO_XYZ)
 """
 
 RGB_COLOURSPACE_DCDM_XYZ: RGB_Colourspace = RGB_Colourspace(
-    'DCDM XYZ',
+    "DCDM XYZ",
     PRIMARIES_DCDM_XYZ,
     CCS_WHITEPOINT_DCDM_XYZ,
     WHITEPOINT_NAME_DCDM_XYZ,

@@ -37,80 +37,87 @@ from colour.models.rgb import (
     cctf_decoding_ProPhotoRGB,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_ROMM_RGB',
-    'WHITEPOINT_NAME_ROMM_RGB',
-    'CCS_WHITEPOINT_ROMM_RGB',
-    'MATRIX_ROMM_RGB_TO_XYZ',
-    'MATRIX_XYZ_TO_ROMM_RGB',
-    'RGB_COLOURSPACE_ROMM_RGB',
-    'PRIMARIES_RIMM_RGB',
-    'WHITEPOINT_NAME_RIMM_RGB',
-    'CCS_WHITEPOINT_RIMM_RGB',
-    'MATRIX_RIMM_RGB_TO_XYZ',
-    'MATRIX_XYZ_TO_RIMM_RGB',
-    'RGB_COLOURSPACE_RIMM_RGB',
-    'PRIMARIES_ERIMM_RGB',
-    'WHITEPOINT_NAME_ERIMM_RGB',
-    'CCS_WHITEPOINT_ERIMM_RGB',
-    'MATRIX_ERIMM_RGB_TO_XYZ',
-    'MATRIX_XYZ_TO_ERIMM_RGB',
-    'RGB_COLOURSPACE_ERIMM_RGB',
-    'PRIMARIES_PROPHOTO_RGB',
-    'WHITEPOINT_NAME_PROPHOTO_RGB',
-    'CCS_WHITEPOINT_PROPHOTO_RGB',
-    'MATRIX_PROPHOTO_RGB_TO_XYZ',
-    'MATRIX_XYZ_TO_PROPHOTO_RGB',
-    'RGB_COLOURSPACE_PROPHOTO_RGB',
+    "PRIMARIES_ROMM_RGB",
+    "WHITEPOINT_NAME_ROMM_RGB",
+    "CCS_WHITEPOINT_ROMM_RGB",
+    "MATRIX_ROMM_RGB_TO_XYZ",
+    "MATRIX_XYZ_TO_ROMM_RGB",
+    "RGB_COLOURSPACE_ROMM_RGB",
+    "PRIMARIES_RIMM_RGB",
+    "WHITEPOINT_NAME_RIMM_RGB",
+    "CCS_WHITEPOINT_RIMM_RGB",
+    "MATRIX_RIMM_RGB_TO_XYZ",
+    "MATRIX_XYZ_TO_RIMM_RGB",
+    "RGB_COLOURSPACE_RIMM_RGB",
+    "PRIMARIES_ERIMM_RGB",
+    "WHITEPOINT_NAME_ERIMM_RGB",
+    "CCS_WHITEPOINT_ERIMM_RGB",
+    "MATRIX_ERIMM_RGB_TO_XYZ",
+    "MATRIX_XYZ_TO_ERIMM_RGB",
+    "RGB_COLOURSPACE_ERIMM_RGB",
+    "PRIMARIES_PROPHOTO_RGB",
+    "WHITEPOINT_NAME_PROPHOTO_RGB",
+    "CCS_WHITEPOINT_PROPHOTO_RGB",
+    "MATRIX_PROPHOTO_RGB_TO_XYZ",
+    "MATRIX_XYZ_TO_PROPHOTO_RGB",
+    "RGB_COLOURSPACE_PROPHOTO_RGB",
 ]
 
-PRIMARIES_ROMM_RGB: NDArray = np.array([
-    [0.7347, 0.2653],
-    [0.1596, 0.8404],
-    [0.0366, 0.0001],
-])
+PRIMARIES_ROMM_RGB: NDArray = np.array(
+    [
+        [0.7347, 0.2653],
+        [0.1596, 0.8404],
+        [0.0366, 0.0001],
+    ]
+)
 """
 *ROMM RGB* colourspace primaries.
 """
 
-WHITEPOINT_NAME_ROMM_RGB: str = 'D50'
+WHITEPOINT_NAME_ROMM_RGB: str = "D50"
 """
 *ROMM RGB* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_ROMM_RGB: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_ROMM_RGB])
+CCS_WHITEPOINT_ROMM_RGB: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_ROMM_RGB]
 """
 *ROMM RGB* colourspace whitepoint chromaticity coordinates.
 """
 
-MATRIX_ROMM_RGB_TO_XYZ: NDArray = np.array([
-    [0.7977, 0.1352, 0.0313],
-    [0.2880, 0.7119, 0.0001],
-    [0.0000, 0.0000, 0.8249],
-])
+MATRIX_ROMM_RGB_TO_XYZ: NDArray = np.array(
+    [
+        [0.7977, 0.1352, 0.0313],
+        [0.2880, 0.7119, 0.0001],
+        [0.0000, 0.0000, 0.8249],
+    ]
+)
 """
 *ROMM RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_ROMM_RGB: NDArray = np.array([
-    [1.3460, -0.2556, -0.0511],
-    [-0.5446, 1.5082, 0.0205],
-    [0.0000, 0.0000, 1.2123],
-])
+MATRIX_XYZ_TO_ROMM_RGB: NDArray = np.array(
+    [
+        [1.3460, -0.2556, -0.0511],
+        [-0.5446, 1.5082, 0.0205],
+        [0.0000, 0.0000, 1.2123],
+    ]
+)
 """
 *CIE XYZ* tristimulus values to *ROMM RGB* colourspace matrix.
 """
 
 RGB_COLOURSPACE_ROMM_RGB: RGB_Colourspace = RGB_Colourspace(
-    'ROMM RGB',
+    "ROMM RGB",
     PRIMARIES_ROMM_RGB,
     CCS_WHITEPOINT_ROMM_RGB,
     WHITEPOINT_NAME_ROMM_RGB,
@@ -153,7 +160,7 @@ MATRIX_XYZ_TO_RIMM_RGB: NDArray = MATRIX_XYZ_TO_ROMM_RGB
 """
 
 RGB_COLOURSPACE_RIMM_RGB: RGB_Colourspace = RGB_Colourspace(
-    'RIMM RGB',
+    "RIMM RGB",
     PRIMARIES_RIMM_RGB,
     CCS_WHITEPOINT_RIMM_RGB,
     WHITEPOINT_NAME_RIMM_RGB,
@@ -198,7 +205,7 @@ MATRIX_XYZ_TO_ERIMM_RGB: NDArray = MATRIX_XYZ_TO_ROMM_RGB
 """
 
 RGB_COLOURSPACE_ERIMM_RGB: RGB_Colourspace = RGB_Colourspace(
-    'ERIMM RGB',
+    "ERIMM RGB",
     PRIMARIES_ERIMM_RGB,
     CCS_WHITEPOINT_ERIMM_RGB,
     WHITEPOINT_NAME_ERIMM_RGB,
@@ -241,7 +248,7 @@ MATRIX_XYZ_TO_PROPHOTO_RGB: NDArray = MATRIX_XYZ_TO_ROMM_RGB
 """
 
 RGB_COLOURSPACE_PROPHOTO_RGB: RGB_Colourspace = RGB_Colourspace(
-    'ProPhoto RGB',
+    "ProPhoto RGB",
     PRIMARIES_PROPHOTO_RGB,
     CCS_WHITEPOINT_PROPHOTO_RGB,
     WHITEPOINT_NAME_PROPHOTO_RGB,

@@ -26,44 +26,48 @@ from colour.models.rgb import (
     normalised_primary_matrix,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_BEST_RGB',
-    'WHITEPOINT_NAME_BEST_RGB',
-    'CCS_WHITEPOINT_BEST_RGB',
-    'MATRIX_BEST_RGB_TO_XYZ',
-    'MATRIX_XYZ_TO_BEST_RGB',
-    'RGB_COLOURSPACE_BEST_RGB',
+    "PRIMARIES_BEST_RGB",
+    "WHITEPOINT_NAME_BEST_RGB",
+    "CCS_WHITEPOINT_BEST_RGB",
+    "MATRIX_BEST_RGB_TO_XYZ",
+    "MATRIX_XYZ_TO_BEST_RGB",
+    "RGB_COLOURSPACE_BEST_RGB",
 ]
 
-PRIMARIES_BEST_RGB: NDArray = np.array([
-    [0.735191637630662, 0.264808362369338],
-    [0.215336134453781, 0.774159663865546],
-    [0.130122950819672, 0.034836065573770],
-])
+PRIMARIES_BEST_RGB: NDArray = np.array(
+    [
+        [0.735191637630662, 0.264808362369338],
+        [0.215336134453781, 0.774159663865546],
+        [0.130122950819672, 0.034836065573770],
+    ]
+)
 """
 *Best RGB* colourspace primaries.
 """
 
-WHITEPOINT_NAME_BEST_RGB: str = 'D50'
+WHITEPOINT_NAME_BEST_RGB: str = "D50"
 """
 *Best RGB* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_BEST_RGB: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_BEST_RGB])
+CCS_WHITEPOINT_BEST_RGB: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_BEST_RGB]
 """
 *Best RGB* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_BEST_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_BEST_RGB, CCS_WHITEPOINT_BEST_RGB)
+    PRIMARIES_BEST_RGB, CCS_WHITEPOINT_BEST_RGB
+)
 """
 *Best RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -74,7 +78,7 @@ MATRIX_XYZ_TO_BEST_RGB: NDArray = np.linalg.inv(MATRIX_BEST_RGB_TO_XYZ)
 """
 
 RGB_COLOURSPACE_BEST_RGB: RGB_Colourspace = RGB_Colourspace(
-    'Best RGB',
+    "Best RGB",
     PRIMARIES_BEST_RGB,
     CCS_WHITEPOINT_BEST_RGB,
     WHITEPOINT_NAME_BEST_RGB,

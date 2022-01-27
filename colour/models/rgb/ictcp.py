@@ -47,31 +47,36 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_ICTCP_RGB_TO_LMS',
-    'MATRIX_ICTCP_LMS_TO_RGB',
-    'MATRIX_ICTCP_LMS_P_TO_ICTCP',
-    'MATRIX_ICTCP_ICTCP_TO_LMS_P',
-    'MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2',
-    'MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2',
-    'RGB_to_ICtCp',
-    'ICtCp_to_RGB',
-    'XYZ_to_ICtCp',
-    'ICtCp_to_XYZ',
+    "MATRIX_ICTCP_RGB_TO_LMS",
+    "MATRIX_ICTCP_LMS_TO_RGB",
+    "MATRIX_ICTCP_LMS_P_TO_ICTCP",
+    "MATRIX_ICTCP_ICTCP_TO_LMS_P",
+    "MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2",
+    "MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2",
+    "RGB_to_ICtCp",
+    "ICtCp_to_RGB",
+    "XYZ_to_ICtCp",
+    "ICtCp_to_XYZ",
 ]
 
-MATRIX_ICTCP_RGB_TO_LMS: NDArray = np.array([
-    [1688, 2146, 262],
-    [683, 2951, 462],
-    [99, 309, 3688],
-]) / 4096
+MATRIX_ICTCP_RGB_TO_LMS: NDArray = (
+    np.array(
+        [
+            [1688, 2146, 262],
+            [683, 2951, 462],
+            [99, 309, 3688],
+        ]
+    )
+    / 4096
+)
 """
 *ITU-R BT.2020* colourspace to normalised cone responses matrix.
 """
@@ -82,35 +87,45 @@ MATRIX_ICTCP_LMS_TO_RGB: NDArray = np.linalg.inv(MATRIX_ICTCP_RGB_TO_LMS)
 colourspace matrix.
 """
 
-MATRIX_ICTCP_LMS_P_TO_ICTCP: NDArray = np.array([
-    [2048, 2048, 0],
-    [6610, -13613, 7003],
-    [17933, -17390, -543],
-]) / 4096
+MATRIX_ICTCP_LMS_P_TO_ICTCP: NDArray = (
+    np.array(
+        [
+            [2048, 2048, 0],
+            [6610, -13613, 7003],
+            [17933, -17390, -543],
+        ]
+    )
+    / 4096
+)
 """
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
 :math:`IC_TC_P` colour encoding matrix.
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(
-    MATRIX_ICTCP_LMS_P_TO_ICTCP)
+MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_ICTCP_LMS_P_TO_ICTCP)
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
 normalised cone responses matrix.
 """
 
-MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2: NDArray = np.array([
-    [2048, 2048, 0],
-    [3625, -7465, 3840],
-    [9500, -9212, -288],
-]) / 4096
+MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2: NDArray = (
+    np.array(
+        [
+            [2048, 2048, 0],
+            [3625, -7465, 3840],
+            [9500, -9212, -288],
+        ]
+    )
+    / 4096
+)
 """
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
 :math:`IC_TC_P` colour encoding matrix as given in *ITU-R BT.2100-2*.
 """
 
 MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2: NDArray = np.linalg.inv(
-    MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2)
+    MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2
+)
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
 normalised cone responses matrix as given in *ITU-R BT.2100-2*.
@@ -118,11 +133,19 @@ normalised cone responses matrix as given in *ITU-R BT.2100-2*.
 
 
 def RGB_to_ICtCp(
-        RGB: ArrayLike,
-        method: Union[Literal['Dolby 2016', 'ITU-R BT.2100-1 HLG',
-                              'ITU-R BT.2100-1 PQ', 'ITU-R BT.2100-2 HLG',
-                              'ITU-R BT.2100-2 PQ'], str] = 'Dolby 2016',
-        L_p: Floating = 10000) -> NDArray:
+    RGB: ArrayLike,
+    method: Union[
+        Literal[
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ],
+        str,
+    ] = "Dolby 2016",
+    L_p: Floating = 10000,
+) -> NDArray:
     """
     Converts from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
@@ -213,33 +236,48 @@ def RGB_to_ICtCp(
     """
 
     RGB = to_domain_1(RGB)
-    method = validate_method(method, [
-        'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
-        'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'
-    ])
+    method = validate_method(
+        method,
+        [
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ],
+    )
 
-    is_hlg_method = 'hlg' in method
-    is_BT2100_2_method = '2100-2' in method
+    is_hlg_method = "hlg" in method
+    is_BT2100_2_method = "2100-2" in method
 
     LMS = vector_dot(MATRIX_ICTCP_RGB_TO_LMS, RGB)
 
-    with domain_range_scale('ignore'):
-        LMS_p = (oetf_HLG_BT2100(LMS)
-                 if is_hlg_method else eotf_inverse_ST2084(LMS, L_p))
+    with domain_range_scale("ignore"):
+        LMS_p = oetf_HLG_BT2100(LMS) if is_hlg_method else eotf_inverse_ST2084(LMS, L_p)
 
-    ICtCp = (vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2, LMS_p)
-             if (is_hlg_method and is_BT2100_2_method) else vector_dot(
-                 MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p))
+    ICtCp = (
+        vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2, LMS_p)
+        if (is_hlg_method and is_BT2100_2_method)
+        else vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
+    )
 
     return from_range_1(ICtCp)
 
 
 def ICtCp_to_RGB(
-        ICtCp: ArrayLike,
-        method: Union[Literal['Dolby 2016', 'ITU-R BT.2100-1 HLG',
-                              'ITU-R BT.2100-1 PQ', 'ITU-R BT.2100-2 HLG',
-                              'ITU-R BT.2100-2 PQ'], str] = 'Dolby 2016',
-        L_p: Floating = 10000) -> NDArray:
+    ICtCp: ArrayLike,
+    method: Union[
+        Literal[
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ],
+        str,
+    ] = "Dolby 2016",
+    L_p: Floating = 10000,
+) -> NDArray:
     """
     Converts from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
     colourspace.
@@ -330,21 +368,30 @@ def ICtCp_to_RGB(
     """
 
     ICtCp = to_domain_1(ICtCp)
-    method = validate_method(method, [
-        'Dolby 2016', 'ITU-R BT.2100-1 HLG', 'ITU-R BT.2100-1 PQ',
-        'ITU-R BT.2100-2 HLG', 'ITU-R BT.2100-2 PQ'
-    ])
+    method = validate_method(
+        method,
+        [
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ],
+    )
 
-    is_hlg_method = 'hlg' in method
-    is_BT2100_2_method = '2100-2' in method
+    is_hlg_method = "hlg" in method
+    is_BT2100_2_method = "2100-2" in method
 
-    LMS_p = (vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2, ICtCp)
-             if (is_hlg_method and is_BT2100_2_method) else vector_dot(
-                 MATRIX_ICTCP_ICTCP_TO_LMS_P, ICtCp))
+    LMS_p = (
+        vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2, ICtCp)
+        if (is_hlg_method and is_BT2100_2_method)
+        else vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICtCp)
+    )
 
-    with domain_range_scale('ignore'):
-        LMS = (oetf_inverse_HLG_BT2100(LMS_p)
-               if is_hlg_method else eotf_ST2084(LMS_p, L_p))
+    with domain_range_scale("ignore"):
+        LMS = (
+            oetf_inverse_HLG_BT2100(LMS_p) if is_hlg_method else eotf_ST2084(LMS_p, L_p)
+        )
 
     RGB = vector_dot(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
@@ -352,17 +399,37 @@ def ICtCp_to_RGB(
 
 
 def XYZ_to_ICtCp(
-        XYZ: ArrayLike,
-        illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D65'],
-        chromatic_adaptation_transform: Union[Literal[
-            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
-            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
-            'Von Kries', 'XYZ Scaling'], str] = 'CAT02',
-        method: Union[Literal['Dolby 2016', 'ITU-R BT.2100-1 HLG',
-                              'ITU-R BT.2100-1 PQ', 'ITU-R BT.2100-2 HLG',
-                              'ITU-R BT.2100-2 PQ'], str] = 'Dolby 2016',
-        L_p: Floating = 10000) -> NDArray:
+    XYZ: ArrayLike,
+    illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
+    chromatic_adaptation_transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+    method: Union[
+        Literal[
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ],
+        str,
+    ] = "Dolby 2016",
+    L_p: Floating = 10000,
+) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
@@ -457,7 +524,7 @@ def XYZ_to_ICtCp(
     array([ 0.5924279..., -0.0374073...,  0.2512267...])
     """
 
-    BT2020 = RGB_COLOURSPACES['ITU-R BT.2020']
+    BT2020 = RGB_COLOURSPACES["ITU-R BT.2020"]
 
     RGB = XYZ_to_RGB(
         XYZ,
@@ -471,17 +538,37 @@ def XYZ_to_ICtCp(
 
 
 def ICtCp_to_XYZ(
-        ICtCp: ArrayLike,
-        illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D65'],
-        chromatic_adaptation_transform: Union[Literal[
-            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
-            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
-            'Von Kries', 'XYZ Scaling'], str] = 'CAT02',
-        method: Union[Literal['Dolby 2016', 'ITU-R BT.2100-1 HLG',
-                              'ITU-R BT.2100-1 PQ', 'ITU-R BT.2100-2 HLG',
-                              'ITU-R BT.2100-2 PQ'], str] = 'Dolby 2016',
-        L_p: Floating = 10000) -> NDArray:
+    ICtCp: ArrayLike,
+    illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
+    chromatic_adaptation_transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+    method: Union[
+        Literal[
+            "Dolby 2016",
+            "ITU-R BT.2100-1 HLG",
+            "ITU-R BT.2100-1 PQ",
+            "ITU-R BT.2100-2 HLG",
+            "ITU-R BT.2100-2 PQ",
+        ],
+        str,
+    ] = "Dolby 2016",
+    L_p: Floating = 10000,
+) -> NDArray:
     """
     Converts from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
     values.
@@ -577,7 +664,7 @@ def ICtCp_to_XYZ(
 
     RGB = ICtCp_to_RGB(ICtCp, method, L_p)
 
-    BT2020 = RGB_COLOURSPACES['ITU-R BT.2020']
+    BT2020 = RGB_COLOURSPACES["ITU-R BT.2020"]
 
     XYZ = RGB_to_XYZ(
         RGB,

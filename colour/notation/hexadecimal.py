@@ -24,16 +24,16 @@ from colour.utilities import (
     usage_warning,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RGB_to_HEX',
-    'HEX_to_RGB',
+    "RGB_to_HEX",
+    "HEX_to_RGB",
 ]
 
 
@@ -72,21 +72,23 @@ def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
     if np.any(RGB < 0):
         usage_warning(
             '"RGB" array contains negative values, those will be clipped, '
-            'unpredictable results may occur!')
+            "unpredictable results may occur!"
+        )
 
         RGB = as_float_array(np.clip(RGB, 0, np.inf))
 
     if np.any(RGB > 1):
         usage_warning(
             '"RGB" array contains values over 1 and will be normalised, '
-            'unpredictable results may occur!')
+            "unpredictable results may occur!"
+        )
 
         RGB = eotf_inverse_sRGB(normalise_maximum(eotf_sRGB(RGB)))
 
-    to_HEX = np.vectorize('{0:02x}'.format)
+    to_HEX = np.vectorize("{0:02x}".format)
 
     HEX = to_HEX(as_int_array(RGB * 255, dtype=np.uint8)).astype(object)
-    HEX = np.asarray('#') + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
+    HEX = np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 
     return HEX
 
@@ -121,7 +123,7 @@ def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
     array([ 0.6666666...,  0.8666666...,  1.        ])
     """
 
-    HEX = np.core.defchararray.lstrip(HEX, '#')  # type: ignore[arg-type]
+    HEX = np.core.defchararray.lstrip(HEX, "#")  # type: ignore[arg-type]
 
     def to_RGB(x: List) -> List:
         """
@@ -131,7 +133,7 @@ def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
         l_x = len(x)
 
         return [
-            int(x[i:i + l_x // 3], 16)  # type: ignore[call-overload]
+            int(x[i : i + l_x // 3], 16)  # type: ignore[call-overload]
             for i in range(0, l_x, l_x // 3)
         ]
 

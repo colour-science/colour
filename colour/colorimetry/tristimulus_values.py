@@ -77,29 +77,29 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'SPECTRAL_SHAPE_ASTME308',
-    'handle_spectral_arguments',
-    'lagrange_coefficients_ASTME2022',
-    'tristimulus_weighting_factors_ASTME2022',
-    'adjust_tristimulus_weighting_factors_ASTME308',
-    'sd_to_XYZ_integration',
-    'sd_to_XYZ_tristimulus_weighting_factors_ASTME308',
-    'sd_to_XYZ_ASTME308',
-    'SD_TO_XYZ_METHODS',
-    'sd_to_XYZ',
-    'msds_to_XYZ_integration',
-    'msds_to_XYZ_ASTME308',
-    'MSDS_TO_XYZ_METHODS',
-    'msds_to_XYZ',
-    'wavelength_to_XYZ',
+    "SPECTRAL_SHAPE_ASTME308",
+    "handle_spectral_arguments",
+    "lagrange_coefficients_ASTME2022",
+    "tristimulus_weighting_factors_ASTME2022",
+    "adjust_tristimulus_weighting_factors_ASTME308",
+    "sd_to_XYZ_integration",
+    "sd_to_XYZ_tristimulus_weighting_factors_ASTME308",
+    "sd_to_XYZ_ASTME308",
+    "SD_TO_XYZ_METHODS",
+    "sd_to_XYZ",
+    "msds_to_XYZ_integration",
+    "msds_to_XYZ_ASTME308",
+    "MSDS_TO_XYZ_METHODS",
+    "msds_to_XYZ",
+    "wavelength_to_XYZ",
 ]
 
 SPECTRAL_SHAPE_ASTME308: SpectralShape = SPECTRAL_SHAPE_DEFAULT
@@ -111,24 +111,26 @@ References
 :cite:`ASTMInternational2015b`
 """
 
-_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS: Dict = (
-    CACHE_REGISTRY.register_cache(
-        '{0}._CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS'.format(__name__)))
+_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS: Dict = CACHE_REGISTRY.register_cache(
+    "{0}._CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS".format(__name__)
+)
 
 _CACHE_TRISTIMULUS_WEIGHTING_FACTORS: Dict = CACHE_REGISTRY.register_cache(
-    '{0}._CACHE_TRISTIMULUS_WEIGHTING_FACTORS'.format(__name__))
+    "{0}._CACHE_TRISTIMULUS_WEIGHTING_FACTORS".format(__name__)
+)
 
 _CACHE_SD_TO_XYZ: Dict = CACHE_REGISTRY.register_cache(
-    '{0}._CACHE_SD_TO_XYZ'.format(__name__))
+    "{0}._CACHE_SD_TO_XYZ".format(__name__)
+)
 
 
 def handle_spectral_arguments(
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        cmfs_default: str = 'CIE 1931 2 Degree Standard Observer',
-        illuminant_default: str = 'D65',
-        shape_default: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-        issue_runtime_warnings: bool = True
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    cmfs_default: str = "CIE 1931 2 Degree Standard Observer",
+    illuminant_default: str = "D65",
+    shape_default: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    issue_runtime_warnings: bool = True,
 ) -> Tuple[MultiSpectralDistributions, SpectralDistribution]:
     """
     Handles the spectral arguments of various *Colour* definitions performing
@@ -183,13 +185,14 @@ SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
 
     cmfs = optional(cmfs, reshape_msds(MSDS_CMFS[cmfs_default], shape_default))
     illuminant = optional(
-        illuminant, reshape_sd(SDS_ILLUMINANTS[illuminant_default],
-                               cmfs.shape))
+        illuminant, reshape_sd(SDS_ILLUMINANTS[illuminant_default], cmfs.shape)
+    )
 
     if illuminant.shape != cmfs.shape:
         issue_runtime_warnings and runtime_warning(
             'Aligning "{0}" illuminant shape to "{1}" colour matching '
-            'functions shape.'.format(illuminant.name, cmfs.name))
+            "functions shape.".format(illuminant.name, cmfs.name)
+        )
 
         illuminant = reshape_sd(illuminant, cmfs.shape)
 
@@ -197,8 +200,9 @@ SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
 
 
 def lagrange_coefficients_ASTME2022(
-        interval: Integer = 10,
-        interval_type: Union[Literal['Boundary', 'Inner'], str] = 'Inner'):
+    interval: Integer = 10,
+    interval_type: Union[Literal["Boundary", "Inner"], str] = "Inner",
+):
     """
     Computes the *Lagrange Coefficients* for given interval size using practise
     *ASTM E2022-11* method.
@@ -249,8 +253,10 @@ def lagrange_coefficients_ASTME2022(
     global _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS
 
     interval_type = validate_method(
-        interval_type, ['Boundary', 'Inner'],
-        '"{0}" interval type is invalid, it must be one of {1}!')
+        interval_type,
+        ["Boundary", "Inner"],
+        '"{0}" interval type is invalid, it must be one of {1}!',
+    )
 
     hash_key = tuple([hash(arg) for arg in (interval, interval_type)])
     if hash_key in _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS:
@@ -258,7 +264,7 @@ def lagrange_coefficients_ASTME2022(
 
     r_n = np.linspace(1 / interval, 1 - (1 / interval), interval - 1)
     d = 3
-    if interval_type == 'inner':
+    if interval_type == "inner":
         r_n += 1
         d = 4
 
@@ -270,10 +276,11 @@ def lagrange_coefficients_ASTME2022(
 
 
 def tristimulus_weighting_factors_ASTME2022(
-        cmfs: MultiSpectralDistributions,
-        illuminant: SpectralDistribution,
-        shape: SpectralShape,
-        k: Optional[Number] = None) -> NDArray:
+    cmfs: MultiSpectralDistributions,
+    illuminant: SpectralDistribution,
+    shape: SpectralShape,
+    k: Optional[Number] = None,
+) -> NDArray:
     """
     Returns a table of tristimulus weighting factors for given colour matching
     functions and illuminant using practise *ASTM E2022-11* method.
@@ -371,15 +378,13 @@ def tristimulus_weighting_factors_ASTME2022(
         raise ValueError('"{0}" shape "interval" must be 1!'.format(cmfs))
 
     if illuminant.shape.interval != 1:
-        raise ValueError(
-            '"{0}" shape "interval" must be 1!'.format(illuminant))
+        raise ValueError('"{0}" shape "interval" must be 1!'.format(illuminant))
 
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS
 
-    hash_key = tuple([
-        hash(arg) for arg in (cmfs, illuminant, shape, k,
-                              get_domain_range_scale())
-    ])
+    hash_key = tuple(
+        [hash(arg) for arg in (cmfs, illuminant, shape, k, get_domain_range_scale())]
+    )
     if hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
         return np.copy(_CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key])
 
@@ -390,9 +395,9 @@ def tristimulus_weighting_factors_ASTME2022(
     W = S[::interval_i, np.newaxis] * Y[::interval_i, :]
 
     # First and last measurement intervals *Lagrange Coefficients*.
-    c_c = lagrange_coefficients_ASTME2022(interval_i, 'boundary')
+    c_c = lagrange_coefficients_ASTME2022(interval_i, "boundary")
     # Intermediate measurement intervals *Lagrange Coefficients*.
-    c_b = lagrange_coefficients_ASTME2022(interval_i, 'inner')
+    c_b = lagrange_coefficients_ASTME2022(interval_i, "inner")
 
     # Total wavelengths count.
     w_c = len(Y)
@@ -417,8 +422,10 @@ def tristimulus_weighting_factors_ASTME2022(
         # Last interval.
         for j in range(r_c):
             for k in range(i_cm, i_cm - 3, -1):
-                W[k, i] = (W[k, i] + c_c[r_c - j - 1, i_cm - k] * S[j + w_lif]
-                           * Y[j + w_lif, i])
+                W[k, i] = (
+                    W[k, i]
+                    + c_c[r_c - j - 1, i_cm - k] * S[j + w_lif] * Y[j + w_lif, i]
+                )
 
         # Intermediate intervals.
         for j in range(i_c - 3):
@@ -441,8 +448,8 @@ def tristimulus_weighting_factors_ASTME2022(
 
 
 def adjust_tristimulus_weighting_factors_ASTME308(
-        W: ArrayLike, shape_r: SpectralShape,
-        shape_t: SpectralShape) -> NDArray:
+    W: ArrayLike, shape_r: SpectralShape, shape_t: SpectralShape
+) -> NDArray:
     """
     Adjusts given table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
@@ -510,15 +517,16 @@ def adjust_tristimulus_weighting_factors_ASTME308(
     for i in range(end_index):
         W[-end_index - 1] += W[-i - 1]
 
-    return W[start_index:-end_index or None, ...]
+    return W[start_index : -end_index or None, ...]
 
 
 def sd_to_XYZ_integration(
-        sd: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        k: Optional[Number] = None,
-        shape: Optional[SpectralShape] = None) -> NDArray:
+    sd: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    k: Optional[Number] = None,
+    shape: Optional[SpectralShape] = None,
+) -> NDArray:
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant according to classical
@@ -617,22 +625,26 @@ def sd_to_XYZ_integration(
     # not unpacking over it.
     if illuminant is None:
         cmfs, illuminant = handle_spectral_arguments(
-            cmfs, illuminant, illuminant_default='E')
+            cmfs, illuminant, illuminant_default="E"
+        )
     else:
         cmfs, illuminant_ = handle_spectral_arguments(
-            cmfs, illuminant, illuminant_default='E')
+            cmfs, illuminant, illuminant_default="E"
+        )
 
     if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions)):
         shape = cmfs.shape
 
         if sd.shape != shape:
             runtime_warning(
-                'Aligning "{0}" spectral data shape to "{1}".'.format(
-                    sd.name, shape))
+                'Aligning "{0}" spectral data shape to "{1}".'.format(sd.name, shape)
+            )
 
-            sd = (reshape_sd(sd, shape)
-                  if isinstance(sd, SpectralDistribution) else reshape_msds(
-                      sd, shape))
+            sd = (
+                reshape_sd(sd, shape)
+                if isinstance(sd, SpectralDistribution)
+                else reshape_msds(sd, shape)
+            )
 
         R = np.transpose(sd.values)
         shape_R = R.shape
@@ -640,8 +652,8 @@ def sd_to_XYZ_integration(
     else:
         attest(
             shape is not None,
-            'A spectral shape must be explicitly passed with a spectral data '
-            'array!')
+            "A spectral shape must be explicitly passed with a spectral data " "array!",
+        )
 
         shape = cast(SpectralShape, shape)
 
@@ -652,18 +664,21 @@ def sd_to_XYZ_integration(
 
         attest(
             wl_c_r == wl_c,
-            'Spectral data array with {0} wavelengths is not compatible with '
-            'spectral shape with {1} wavelengths!'.format(wl_c_r, wl_c))
+            "Spectral data array with {0} wavelengths is not compatible with "
+            "spectral shape with {1} wavelengths!".format(wl_c_r, wl_c),
+        )
 
         if cmfs.shape != shape:
-            runtime_warning('Aligning "{0}" cmfs shape to "{1}".'.format(
-                cmfs.name, shape))
+            runtime_warning(
+                'Aligning "{0}" cmfs shape to "{1}".'.format(cmfs.name, shape)
+            )
             # pylint: disable=E1102
             cmfs = reshape_msds(cmfs, shape)
 
     if illuminant.shape != shape:
-        runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
-            illuminant.name, shape))
+        runtime_warning(
+            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+        )
         illuminant = reshape_sd(illuminant, shape)
 
     XYZ_b = cmfs.values
@@ -680,10 +695,11 @@ def sd_to_XYZ_integration(
 
 
 def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-        sd: SpectralDistribution,
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        k: Optional[Number] = None) -> NDArray:
+    sd: SpectralDistribution,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    k: Optional[Number] = None,
+) -> NDArray:
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table of
@@ -756,36 +772,47 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     """
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
-        SPECTRAL_SHAPE_ASTME308)
+        cmfs,
+        illuminant,
+        "CIE 1931 2 Degree Standard Observer",
+        "E",
+        SPECTRAL_SHAPE_ASTME308,
+    )
 
     if cmfs.shape.interval != 1:
-        runtime_warning('Interpolating "{0}" cmfs to 1nm interval.'.format(
-            cmfs.name))
+        runtime_warning('Interpolating "{0}" cmfs to 1nm interval.'.format(cmfs.name))
         # pylint: disable=E1102
-        cmfs = reshape_msds(cmfs,
-                            SpectralShape(cmfs.shape.start, cmfs.shape.end, 1),
-                            'Interpolate')
+        cmfs = reshape_msds(
+            cmfs,
+            SpectralShape(cmfs.shape.start, cmfs.shape.end, 1),
+            "Interpolate",
+        )
 
     if illuminant.shape != cmfs.shape:
         runtime_warning(
             'Aligning "{0}" illuminant shape to "{1}" colour matching '
-            'functions shape.'.format(illuminant.name, cmfs.name))
+            "functions shape.".format(illuminant.name, cmfs.name)
+        )
         illuminant = reshape_sd(illuminant, cmfs.shape)
 
     if sd.shape.boundaries != cmfs.shape.boundaries:
-        runtime_warning('Trimming "{0}" spectral distribution shape to "{1}" '
-                        'colour matching functions shape.'.format(
-                            illuminant.name, cmfs.name))
-        sd = reshape_sd(sd, cmfs.shape, 'Trim')
+        runtime_warning(
+            'Trimming "{0}" spectral distribution shape to "{1}" '
+            "colour matching functions shape.".format(illuminant.name, cmfs.name)
+        )
+        sd = reshape_sd(sd, cmfs.shape, "Trim")
 
     W = tristimulus_weighting_factors_ASTME2022(
-        cmfs, illuminant,
-        SpectralShape(cmfs.shape.start, cmfs.shape.end, sd.shape.interval), k)
+        cmfs,
+        illuminant,
+        SpectralShape(cmfs.shape.start, cmfs.shape.end, sd.shape.interval),
+        k,
+    )
     start_w = cmfs.shape.start
     end_w = cmfs.shape.start + sd.shape.interval * (W.shape[0] - 1)
     W = adjust_tristimulus_weighting_factors_ASTME308(
-        W, SpectralShape(start_w, end_w, sd.shape.interval), sd.shape)
+        W, SpectralShape(start_w, end_w, sd.shape.interval), sd.shape
+    )
     R = sd.values
 
     XYZ = np.sum(W * R[..., np.newaxis], axis=0)
@@ -793,13 +820,15 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     return from_range_100(XYZ)
 
 
-def sd_to_XYZ_ASTME308(sd: SpectralDistribution,
-                       cmfs: Optional[MultiSpectralDistributions] = None,
-                       illuminant: Optional[SpectralDistribution] = None,
-                       use_practice_range: Boolean = True,
-                       mi_5nm_omission_method: Boolean = True,
-                       mi_20nm_interpolation_method: Boolean = True,
-                       k: Optional[Number] = None) -> NDArray:
+def sd_to_XYZ_ASTME308(
+    sd: SpectralDistribution,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    use_practice_range: Boolean = True,
+    mi_5nm_omission_method: Boolean = True,
+    mi_20nm_interpolation_method: Boolean = True,
+    k: Optional[Number] = None,
+) -> NDArray:
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values using
     given colour matching functions and illuminant according to practise
@@ -884,18 +913,23 @@ def sd_to_XYZ_ASTME308(sd: SpectralDistribution,
     """
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
-        SPECTRAL_SHAPE_ASTME308)
+        cmfs,
+        illuminant,
+        "CIE 1931 2 Degree Standard Observer",
+        "E",
+        SPECTRAL_SHAPE_ASTME308,
+    )
 
     if sd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
-            'Tristimulus values conversion from spectral data according to '
+            "Tristimulus values conversion from spectral data according to "
             'practise "ASTM E308-15" should be performed on spectral data '
-            'with measurement interval of 1, 5, 10 or 20nm!')
+            "with measurement interval of 1, 5, 10 or 20nm!"
+        )
 
     if use_practice_range:
         # pylint: disable=E1102
-        cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, 'Trim')
+        cmfs = reshape_msds(cmfs, SPECTRAL_SHAPE_ASTME308, "Trim")
 
     method = sd_to_XYZ_tristimulus_weighting_factors_ASTME308
     if sd.shape.interval == 1:
@@ -904,35 +938,40 @@ def sd_to_XYZ_ASTME308(sd: SpectralDistribution,
         if cmfs.shape.interval != 5:
             # pylint: disable=E1102
             cmfs = reshape_msds(
-                cmfs, SpectralShape(cmfs.shape.start, cmfs.shape.end, 5),
-                'Interpolate')
+                cmfs,
+                SpectralShape(cmfs.shape.start, cmfs.shape.end, 5),
+                "Interpolate",
+            )
         method = sd_to_XYZ_integration
     elif sd.shape.interval == 20 and mi_20nm_interpolation_method:
         sd = sd.copy()
         if sd.shape.boundaries != cmfs.shape.boundaries:
             runtime_warning(
                 'Trimming "{0}" spectral distribution shape to "{1}" '
-                'colour matching functions shape.'.format(
-                    illuminant.name, cmfs.name))
+                "colour matching functions shape.".format(illuminant.name, cmfs.name)
+            )
             sd.trim(cmfs.shape)
 
         # Extrapolation of additional 20nm padding intervals.
         sd.align(SpectralShape(sd.shape.start - 20, sd.shape.end + 20, 10))
         for i in range(2):
             sd[sd.wavelengths[i]] = (
-                    3 * sd.values[i + 2] -
-                    3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
+                3 * sd.values[i + 2] - 3 * sd.values[i + 4] + sd.values[i + 6]
+            )
             i_e = len(sd.domain) - 1 - i
             sd[sd.wavelengths[i_e]] = (
-                sd.values[i_e - 6] - 3 * sd.values[i_e - 4] +
-                3 * sd.values[i_e - 2])
+                sd.values[i_e - 6] - 3 * sd.values[i_e - 4] + 3 * sd.values[i_e - 2]
+            )
 
         # Interpolating every odd numbered values.
         # TODO: Investigate code vectorisation.
         for i in range(3, len(sd.domain) - 3, 2):
             sd[sd.wavelengths[i]] = (
-                -0.0625 * sd.values[i - 3] + 0.5625 * sd.values[i - 1] +
-                0.5625 * sd.values[i + 1] - 0.0625 * sd.values[i + 3])
+                -0.0625 * sd.values[i - 3]
+                + 0.5625 * sd.values[i - 1]
+                + 0.5625 * sd.values[i + 1]
+                - 0.0625 * sd.values[i + 3]
+            )
 
         # Discarding the additional 20nm padding intervals.
         sd.trim(SpectralShape(sd.shape.start + 20, sd.shape.end - 20, 10))
@@ -942,10 +981,9 @@ def sd_to_XYZ_ASTME308(sd: SpectralDistribution,
     return XYZ
 
 
-SD_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'ASTM E308': sd_to_XYZ_ASTME308,
-    'Integration': sd_to_XYZ_integration
-})
+SD_TO_XYZ_METHODS = CaseInsensitiveMapping(
+    {"ASTM E308": sd_to_XYZ_ASTME308, "Integration": sd_to_XYZ_integration}
+)
 SD_TO_XYZ_METHODS.__doc__ = """
 Supported spectral distribution to *CIE XYZ* tristimulus values conversion
 methods.
@@ -959,16 +997,17 @@ Aliases:
 
 -   'astm2015': 'ASTM E308'
 """
-SD_TO_XYZ_METHODS['astm2015'] = SD_TO_XYZ_METHODS['ASTM E308']
+SD_TO_XYZ_METHODS["astm2015"] = SD_TO_XYZ_METHODS["ASTM E308"]
 
 
 def sd_to_XYZ(
-        sd: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        k: Optional[Number] = None,
-        method: Union[Literal['ASTM E308', 'Integration'], str] = 'ASTM E308',
-        **kwargs: Any) -> NDArray:
+    sd: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    k: Optional[Number] = None,
+    method: Union[Literal["ASTM E308", "Integration"], str] = "ASTM E308",
+    **kwargs: Any
+) -> NDArray:
     """
     Converts given spectral distribution to *CIE XYZ* tristimulus values using
     given colour matching functions, illuminant and method.
@@ -1090,44 +1129,48 @@ def sd_to_XYZ(
     """
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, illuminant_default='E')
+        cmfs, illuminant, illuminant_default="E"
+    )
 
     method = validate_method(method, SD_TO_XYZ_METHODS)
 
     global _CACHE_SD_TO_XYZ
 
-    hash_key = tuple([
-        hash(arg) for arg in [
-            sd if isinstance(sd, (SpectralDistribution,
-                                  MultiSpectralDistributions)) else
-            sd.tobytes(),  # type: ignore[union-attr]
-            cmfs,
-            illuminant,
-            k,
-            method,
-            tuple(kwargs.items()),
-            get_domain_range_scale(),
+    hash_key = tuple(
+        [
+            hash(arg)
+            for arg in [
+                sd
+                if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
+                else sd.tobytes(),  # type: ignore[union-attr]
+                cmfs,
+                illuminant,
+                k,
+                method,
+                tuple(kwargs.items()),
+                get_domain_range_scale(),
+            ]
         ]
-    ])
+    )
     if hash_key in _CACHE_SD_TO_XYZ:
         return np.copy(_CACHE_SD_TO_XYZ[hash_key])
 
     function = SD_TO_XYZ_METHODS[method]
 
-    XYZ = function(
-        sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
+    XYZ = function(sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
 
     _CACHE_SD_TO_XYZ[hash_key] = np.copy(XYZ)
 
     return XYZ
 
 
-def msds_to_XYZ_integration(msds: Union[ArrayLike, SpectralDistribution,
-                                        MultiSpectralDistributions],
-                            cmfs: Optional[MultiSpectralDistributions] = None,
-                            illuminant: Optional[SpectralDistribution] = None,
-                            k: Optional[Number] = None,
-                            shape: Optional[SpectralShape] = None) -> NDArray:
+def msds_to_XYZ_integration(
+    msds: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    k: Optional[Number] = None,
+    shape: Optional[SpectralShape] = None,
+) -> NDArray:
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant.
@@ -1267,13 +1310,15 @@ def msds_to_XYZ_integration(msds: Union[ArrayLike, SpectralDistribution,
     return sd_to_XYZ_integration(msds, cmfs, illuminant, k, shape)
 
 
-def msds_to_XYZ_ASTME308(msds: MultiSpectralDistributions,
-                         cmfs: Optional[MultiSpectralDistributions] = None,
-                         illuminant: Optional[SpectralDistribution] = None,
-                         use_practice_range: Boolean = True,
-                         mi_5nm_omission_method: Boolean = True,
-                         mi_20nm_interpolation_method: Boolean = True,
-                         k: Optional[Number] = None) -> NDArray:
+def msds_to_XYZ_ASTME308(
+    msds: MultiSpectralDistributions,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    use_practice_range: Boolean = True,
+    mi_5nm_omission_method: Boolean = True,
+    mi_20nm_interpolation_method: Boolean = True,
+    k: Optional[Number] = None,
+) -> NDArray:
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant according to practise
@@ -1399,25 +1444,38 @@ def msds_to_XYZ_ASTME308(msds: MultiSpectralDistributions,
     """
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
-        SPECTRAL_SHAPE_ASTME308)
+        cmfs,
+        illuminant,
+        "CIE 1931 2 Degree Standard Observer",
+        "E",
+        SPECTRAL_SHAPE_ASTME308,
+    )
 
     if isinstance(msds, MultiSpectralDistributions):
-        return as_float_array([
-            sd_to_XYZ_ASTME308(sd, cmfs, illuminant, use_practice_range,
-                               mi_5nm_omission_method,
-                               mi_20nm_interpolation_method, k)
-            for sd in msds.to_sds()
-        ])
+        return as_float_array(
+            [
+                sd_to_XYZ_ASTME308(
+                    sd,
+                    cmfs,
+                    illuminant,
+                    use_practice_range,
+                    mi_5nm_omission_method,
+                    mi_20nm_interpolation_method,
+                    k,
+                )
+                for sd in msds.to_sds()
+            ]
+        )
     else:
-        raise ValueError('"ASTM E308-15" method does not support "ArrayLike" '
-                         'multi-spectral distributions!')
+        raise ValueError(
+            '"ASTM E308-15" method does not support "ArrayLike" '
+            "multi-spectral distributions!"
+        )
 
 
-MSDS_TO_XYZ_METHODS = CaseInsensitiveMapping({
-    'ASTM E308': msds_to_XYZ_ASTME308,
-    'Integration': msds_to_XYZ_integration
-})
+MSDS_TO_XYZ_METHODS = CaseInsensitiveMapping(
+    {"ASTM E308": msds_to_XYZ_ASTME308, "Integration": msds_to_XYZ_integration}
+)
 MSDS_TO_XYZ_METHODS.__doc__ = """
 Supported multi-spectral array to *CIE XYZ* tristimulus values conversion
 methods.
@@ -1431,17 +1489,17 @@ Aliases:
 
 -   'astm2015': 'ASTM E308'
 """
-MSDS_TO_XYZ_METHODS['astm2015'] = MSDS_TO_XYZ_METHODS['ASTM E308']
+MSDS_TO_XYZ_METHODS["astm2015"] = MSDS_TO_XYZ_METHODS["ASTM E308"]
 
 
 def msds_to_XYZ(
-        msds: Union[ArrayLike, SpectralDistribution,
-                    MultiSpectralDistributions],
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        k: Optional[Number] = None,
-        method: Union[Literal['ASTM E308', 'Integration'], str] = 'ASTM E308',
-        **kwargs: Any):
+    msds: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    k: Optional[Number] = None,
+    method: Union[Literal["ASTM E308", "Integration"], str] = "ASTM E308",
+    **kwargs: Any
+):
     """
     Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant. For the *Integration*
@@ -1603,13 +1661,13 @@ def msds_to_XYZ(
 
     function = MSDS_TO_XYZ_METHODS[method]
 
-    return function(msds, cmfs, illuminant, k,
-                    **filter_kwargs(function, **kwargs))
+    return function(msds, cmfs, illuminant, k, **filter_kwargs(function, **kwargs))
 
 
 def wavelength_to_XYZ(
-        wavelength: FloatingOrNDArray,
-        cmfs: Optional[MultiSpectralDistributions] = None) -> NDArray:
+    wavelength: FloatingOrNDArray,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+) -> NDArray:
     """
     Converts given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.
@@ -1664,9 +1722,12 @@ def wavelength_to_XYZ(
     if np.min(wavelength) < shape.start or np.max(wavelength) > shape.end:
         raise ValueError(
             '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
-                wavelength, shape.start, shape.end))
+                wavelength, shape.start, shape.end
+            )
+        )
 
-    XYZ = np.reshape(cmfs[np.ravel(wavelength)],
-                     as_float_array(wavelength).shape + (3, ))
+    XYZ = np.reshape(
+        cmfs[np.ravel(wavelength)], as_float_array(wavelength).shape + (3,)
+    )
 
     return XYZ

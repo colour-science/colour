@@ -16,19 +16,19 @@ from colour.utilities import (
     Node,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestStructure',
-    'TestLookup',
-    'TestCaseInsensitiveMapping',
-    'TestLazyCaseInsensitiveMapping',
-    'TestNode',
+    "TestStructure",
+    "TestLookup",
+    "TestCaseInsensitiveMapping",
+    "TestLazyCaseInsensitiveMapping",
+    "TestNode",
 ]
 
 
@@ -43,35 +43,35 @@ class TestStructure(unittest.TestCase):
         Tests :class:`colour.utilities.data_structures.Structure` class.
         """
 
-        structure = Structure(John='Doe', Jane='Doe')
-        self.assertIn('John', structure)
-        self.assertTrue(hasattr(structure, 'John'))
+        structure = Structure(John="Doe", Jane="Doe")
+        self.assertIn("John", structure)
+        self.assertTrue(hasattr(structure, "John"))
 
-        setattr(structure, 'John', 'Nemo')
-        self.assertEqual(structure['John'], 'Nemo')
+        setattr(structure, "John", "Nemo")
+        self.assertEqual(structure["John"], "Nemo")
 
-        structure['John'] = 'Vador'
-        self.assertEqual(structure['John'], 'Vador')
+        structure["John"] = "Vador"
+        self.assertEqual(structure["John"], "Vador")
 
-        del structure['John']
-        self.assertNotIn('John', structure)
-        self.assertFalse(hasattr(structure, 'John'))
+        del structure["John"]
+        self.assertNotIn("John", structure)
+        self.assertFalse(hasattr(structure, "John"))
 
-        structure.John = 'Doe'
-        self.assertIn('John', structure)
-        self.assertTrue(hasattr(structure, 'John'))
+        structure.John = "Doe"
+        self.assertIn("John", structure)
+        self.assertTrue(hasattr(structure, "John"))
 
         del structure.John
-        self.assertNotIn('John', structure)
-        self.assertFalse(hasattr(structure, 'John'))
+        self.assertNotIn("John", structure)
+        self.assertFalse(hasattr(structure, "John"))
 
         structure = Structure(John=None, Jane=None)
         self.assertIsNone(structure.John)
-        self.assertIsNone(structure['John'])
+        self.assertIsNone(structure["John"])
 
-        structure.update(**{'John': 'Doe', 'Jane': 'Doe'})
-        self.assertEqual(structure.John, 'Doe')
-        self.assertEqual(structure['John'], 'Doe')
+        structure.update(**{"John": "Doe", "Jane": "Doe"})
+        self.assertEqual(structure.John, "Doe")
+        self.assertEqual(structure["John"], "Doe")
 
     def test_Structure_pickle(self):
         """
@@ -79,7 +79,7 @@ class TestStructure(unittest.TestCase):
         pickling.
         """
 
-        structure = Structure(John='Doe', Jane='Doe')
+        structure = Structure(John="Doe", Jane="Doe")
 
         data = pickle.dumps(structure)
         data = pickle.loads(data)
@@ -89,7 +89,7 @@ class TestStructure(unittest.TestCase):
         data = pickle.loads(data)
         self.assertEqual(structure, data)
 
-        self.assertEqual(sorted(dir(data)), ['Jane', 'John'])
+        self.assertEqual(sorted(dir(data)), ["Jane", "John"])
 
 
 class TestLookup(unittest.TestCase):
@@ -103,7 +103,7 @@ class TestLookup(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('keys_from_value', 'first_key_from_value')
+        required_methods = ("keys_from_value", "first_key_from_value")
 
         for method in required_methods:
             self.assertIn(method, dir(Lookup))
@@ -114,17 +114,15 @@ class TestLookup(unittest.TestCase):
         method.
         """
 
-        lookup = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
-        self.assertListEqual(['Jane', 'John'],
-                             sorted(lookup.keys_from_value('Doe')))
+        lookup = Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
+        self.assertListEqual(["Jane", "John"], sorted(lookup.keys_from_value("Doe")))
 
         lookup = Lookup(
-            A=np.array([0, 1, 2]),
-            B=np.array([0, 1, 2]),
-            C=np.array([1, 2, 3]))
-        self.assertListEqual(['A', 'B'],
-                             sorted(
-                                 lookup.keys_from_value(np.array([0, 1, 2]))))
+            A=np.array([0, 1, 2]), B=np.array([0, 1, 2]), C=np.array([1, 2, 3])
+        )
+        self.assertListEqual(
+            ["A", "B"], sorted(lookup.keys_from_value(np.array([0, 1, 2])))
+        )
 
     def test_first_key_from_value(self):
         """
@@ -132,14 +130,13 @@ class TestLookup(unittest.TestCase):
 Lookup.first_key_from_value` method.
         """
 
-        lookup = Lookup(first_name='John', last_name='Doe', gender='male')
-        self.assertEqual('first_name', lookup.first_key_from_value('John'))
+        lookup = Lookup(first_name="John", last_name="Doe", gender="male")
+        self.assertEqual("first_name", lookup.first_key_from_value("John"))
 
         lookup = Lookup(
-            A=np.array([0, 1, 2]),
-            B=np.array([1, 2, 3]),
-            C=np.array([2, 3, 4]))
-        self.assertEqual('A', lookup.first_key_from_value(np.array([0, 1, 2])))
+            A=np.array([0, 1, 2]), B=np.array([1, 2, 3]), C=np.array([2, 3, 4])
+        )
+        self.assertEqual("A", lookup.first_key_from_value(np.array([0, 1, 2])))
 
     def test_raise_exception_first_key_from_value(self):
         """
@@ -147,7 +144,7 @@ Lookup.first_key_from_value` method.
 Lookup.first_key_from_value` method raised exception.
         """
 
-        self.assertRaises(IndexError, Lookup().first_key_from_value, 'John')
+        self.assertRaises(IndexError, Lookup().first_key_from_value, "John")
 
 
 class TestCaseInsensitiveMapping(unittest.TestCase):
@@ -161,7 +158,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('data', )
+        required_attributes = ("data",)
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(CaseInsensitiveMapping))
@@ -171,10 +168,20 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__repr__', '__setitem__',
-                            '__getitem__', '__delitem__', '__contains__',
-                            '__iter__', '__len__', '__eq__', '__ne__', 'copy',
-                            'lower_items')
+        required_methods = (
+            "__init__",
+            "__repr__",
+            "__setitem__",
+            "__getitem__",
+            "__delitem__",
+            "__contains__",
+            "__iter__",
+            "__len__",
+            "__eq__",
+            "__ne__",
+            "copy",
+            "lower_items",
+        )
 
         for method in required_methods:
             self.assertIn(method, dir(CaseInsensitiveMapping))
@@ -186,13 +193,9 @@ CaseInsensitiveMapping.data` property.
         """
 
         self.assertDictEqual(
-            CaseInsensitiveMapping({
-                'John': 'Doe',
-                'Jane': 'Doe'
-            }).data, {
-                'jane': ('Jane', 'Doe'),
-                'john': ('John', 'Doe')
-            })
+            CaseInsensitiveMapping({"John": "Doe", "Jane": "Doe"}).data,
+            {"jane": ("Jane", "Doe"), "john": ("John", "Doe")},
+        )
 
     def test__repr__(self):
         """
@@ -202,9 +205,8 @@ CaseInsensitiveMapping.__repr__` method.
 
         mapping = CaseInsensitiveMapping()
 
-        mapping['John'] = 'Doe'
-        self.assertEqual(
-            repr(mapping), "CaseInsensitiveMapping({'John': 'Doe'})")
+        mapping["John"] = "Doe"
+        self.assertEqual(repr(mapping), "CaseInsensitiveMapping({'John': 'Doe'})")
 
     def test__setitem__(self):
         """
@@ -214,9 +216,9 @@ CaseInsensitiveMapping.__setitem__` method.
 
         mapping = CaseInsensitiveMapping()
 
-        mapping['John'] = 'Doe'
-        self.assertEqual(mapping['John'], 'Doe')
-        self.assertEqual(mapping['john'], 'Doe')
+        mapping["John"] = "Doe"
+        self.assertEqual(mapping["John"], "Doe")
+        self.assertEqual(mapping["john"], "Doe")
 
     def test__getitem__(self):
         """
@@ -224,19 +226,19 @@ CaseInsensitiveMapping.__setitem__` method.
 CaseInsensitiveMapping.__getitem__` method.
         """
 
-        mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
+        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
 
-        self.assertEqual(mapping['John'], 'Doe')
+        self.assertEqual(mapping["John"], "Doe")
 
-        self.assertEqual(mapping['john'], 'Doe')
+        self.assertEqual(mapping["john"], "Doe")
 
-        self.assertEqual(mapping['Jane'], 'Doe')
+        self.assertEqual(mapping["Jane"], "Doe")
 
-        self.assertEqual(mapping['jane'], 'Doe')
+        self.assertEqual(mapping["jane"], "Doe")
 
-        mapping = CaseInsensitiveMapping({1: 'Foo', 2: 'Bar'})
+        mapping = CaseInsensitiveMapping({1: "Foo", 2: "Bar"})
 
-        self.assertEqual(mapping[1], 'Foo')
+        self.assertEqual(mapping[1], "Foo")
 
     def test__delitem__(self):
         """
@@ -244,13 +246,13 @@ CaseInsensitiveMapping.__getitem__` method.
 CaseInsensitiveMapping.__delitem__` method.
         """
 
-        mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
+        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
 
-        del mapping['john']
-        self.assertNotIn('John', mapping)
+        del mapping["john"]
+        self.assertNotIn("John", mapping)
 
-        del mapping['Jane']
-        self.assertNotIn('jane', mapping)
+        del mapping["Jane"]
+        self.assertNotIn("jane", mapping)
         self.assertEqual(len(mapping), 0)
 
     def test__contains__(self):
@@ -259,15 +261,15 @@ CaseInsensitiveMapping.__delitem__` method.
 CaseInsensitiveMapping.__contains__` method.
         """
 
-        mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
+        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
 
-        self.assertIn('John', mapping)
+        self.assertIn("John", mapping)
 
-        self.assertIn('john', mapping)
+        self.assertIn("john", mapping)
 
-        self.assertIn('Jane', mapping)
+        self.assertIn("Jane", mapping)
 
-        self.assertIn('jane', mapping)
+        self.assertIn("jane", mapping)
 
     def test__iter__(self):
         """
@@ -275,9 +277,8 @@ CaseInsensitiveMapping.__contains__` method.
 CaseInsensitiveMapping.__iter__` method.
         """
 
-        mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
-        self.assertListEqual(
-            sorted([item for item in mapping]), ['Jane', 'John'])
+        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        self.assertListEqual(sorted([item for item in mapping]), ["Jane", "John"])
 
     def test__len__(self):
         """
@@ -287,8 +288,7 @@ CaseInsensitiveMapping.__len__` method.
 
         self.assertEqual(len(CaseInsensitiveMapping()), 0)
 
-        self.assertEqual(
-            len(CaseInsensitiveMapping(John='Doe', Jane='Doe')), 2)
+        self.assertEqual(len(CaseInsensitiveMapping(John="Doe", Jane="Doe")), 2)
 
     def test__eq__(self):
         """
@@ -296,9 +296,9 @@ CaseInsensitiveMapping.__len__` method.
 CaseInsensitiveMapping.__eq__` method.
         """
 
-        mapping1 = CaseInsensitiveMapping(John='Doe', Jane='Doe')
-        mapping2 = CaseInsensitiveMapping(John='Doe', Jane='Doe')
-        mapping3 = CaseInsensitiveMapping(john='Doe', jane='Doe')
+        mapping1 = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping2 = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping3 = CaseInsensitiveMapping(john="Doe", jane="Doe")
 
         self.assertEqual(mapping1, mapping2)
 
@@ -310,9 +310,12 @@ CaseInsensitiveMapping.__eq__` method.
 CaseInsensitiveMapping.__eq__` method raised exception.
         """
 
-        self.assertRaises(ValueError, operator.eq,
-                          CaseInsensitiveMapping(John='Doe', Jane='Doe'),
-                          ['John', 'Doe', 'Jane', 'Doe'])
+        self.assertRaises(
+            ValueError,
+            operator.eq,
+            CaseInsensitiveMapping(John="Doe", Jane="Doe"),
+            ["John", "Doe", "Jane", "Doe"],
+        )
 
     def test__ne__(self):
         """
@@ -320,8 +323,8 @@ CaseInsensitiveMapping.__eq__` method raised exception.
 CaseInsensitiveMapping.__ne__` method.
         """
 
-        mapping1 = CaseInsensitiveMapping(John='Doe', Jane='Doe')
-        mapping2 = CaseInsensitiveMapping(Gi='Doe', Jane='Doe')
+        mapping1 = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping2 = CaseInsensitiveMapping(Gi="Doe", Jane="Doe")
 
         self.assertNotEqual(mapping1, mapping2)
 
@@ -331,9 +334,12 @@ CaseInsensitiveMapping.__ne__` method.
 CaseInsensitiveMapping.__ne__` method raised exception.
         """
 
-        self.assertRaises(ValueError, operator.ne,
-                          CaseInsensitiveMapping(John='Doe', Jane='Doe'),
-                          ['John', 'Doe', 'Jane', 'Doe'])
+        self.assertRaises(
+            ValueError,
+            operator.ne,
+            CaseInsensitiveMapping(John="Doe", Jane="Doe"),
+            ["John", "Doe", "Jane", "Doe"],
+        )
 
     def test_copy(self):
         """
@@ -341,7 +347,7 @@ CaseInsensitiveMapping.__ne__` method raised exception.
 CaseInsensitiveMapping.copy` method.
         """
 
-        mapping1 = CaseInsensitiveMapping(John='Doe', Jane='Doe')
+        mapping1 = CaseInsensitiveMapping(John="Doe", Jane="Doe")
         mapping2 = mapping1.copy()
 
         self.assertEqual(mapping1, mapping2)
@@ -354,11 +360,12 @@ CaseInsensitiveMapping.copy` method.
 CaseInsensitiveMapping.lower_items` method.
         """
 
-        mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
+        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
 
         self.assertListEqual(
             sorted([item for item in mapping.lower_items()]),
-            [('jane', 'Doe'), ('john', 'Doe')])
+            [("jane", "Doe"), ("john", "Doe")],
+        )
 
 
 class TestLazyCaseInsensitiveMapping(unittest.TestCase):
@@ -382,7 +389,7 @@ LazyCaseInsensitiveMapping` class unit tests methods.
         Tests presence of required methods.
         """
 
-        required_methods = ('__getitem__', )
+        required_methods = ("__getitem__",)
 
         for method in required_methods:
             self.assertIn(method, dir(LazyCaseInsensitiveMapping))
@@ -393,15 +400,15 @@ LazyCaseInsensitiveMapping` class unit tests methods.
 LazyCaseInsensitiveMapping.__getitem__` method.
         """
 
-        mapping = LazyCaseInsensitiveMapping(John='Doe', Jane=lambda: 'Doe')
+        mapping = LazyCaseInsensitiveMapping(John="Doe", Jane=lambda: "Doe")
 
-        self.assertEqual(mapping['John'], 'Doe')
+        self.assertEqual(mapping["John"], "Doe")
 
-        self.assertEqual(mapping['john'], 'Doe')
+        self.assertEqual(mapping["john"], "Doe")
 
-        self.assertEqual(mapping['Jane'], 'Doe')
+        self.assertEqual(mapping["Jane"], "Doe")
 
-        self.assertEqual(mapping['jane'], 'Doe')
+        self.assertEqual(mapping["jane"], "Doe")
 
 
 class TestNode(unittest.TestCase):
@@ -415,16 +422,16 @@ class TestNode(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._data = {'John': 'Doe'}
+        self._data = {"John": "Doe"}
 
-        self._node_a = Node('Node A', data=self._data)
-        self._node_b = Node('Node B', self._node_a)
-        self._node_c = Node('Node C', self._node_a)
-        self._node_d = Node('Node D', self._node_b)
-        self._node_e = Node('Node E', self._node_b)
-        self._node_f = Node('Node F', self._node_d)
-        self._node_g = Node('Node G', self._node_f)
-        self._node_h = Node('Node H', self._node_g)
+        self._node_a = Node("Node A", data=self._data)
+        self._node_b = Node("Node B", self._node_a)
+        self._node_c = Node("Node C", self._node_a)
+        self._node_d = Node("Node D", self._node_b)
+        self._node_e = Node("Node E", self._node_b)
+        self._node_f = Node("Node F", self._node_d)
+        self._node_g = Node("Node G", self._node_f)
+        self._node_h = Node("Node H", self._node_g)
 
         self._tree = self._node_a
 
@@ -433,8 +440,16 @@ class TestNode(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('name', 'parent', 'children', 'id', 'root',
-                               'leaves', 'siblings', 'data')
+        required_attributes = (
+            "name",
+            "parent",
+            "children",
+            "id",
+            "root",
+            "leaves",
+            "siblings",
+            "data",
+        )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Node))
@@ -444,8 +459,17 @@ class TestNode(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__new__', '__init__', '__str__', '__len__',
-                            'is_root', 'is_inner', 'is_leaf', 'walk', 'render')
+        required_methods = (
+            "__new__",
+            "__init__",
+            "__str__",
+            "__len__",
+            "is_root",
+            "is_inner",
+            "is_leaf",
+            "walk",
+            "render",
+        )
 
         for method in required_methods:
             self.assertIn(method, dir(Node))
@@ -455,8 +479,8 @@ class TestNode(unittest.TestCase):
         Tests :attr:`colour.utilities.data_structures.Node.name` property.
         """
 
-        self.assertEqual(self._tree.name, 'Node A')
-        self.assertIn('Node#', Node().name)
+        self.assertEqual(self._tree.name, "Node A")
+        self.assertIn("Node#", Node().name)
 
     def test_parent(self):
         """
@@ -471,8 +495,7 @@ class TestNode(unittest.TestCase):
         Tests :attr:`colour.utilities.data_structures.Node.children` property.
         """
 
-        self.assertListEqual(self._node_a.children,
-                             [self._node_b, self._node_c])
+        self.assertListEqual(self._node_a.children, [self._node_b, self._node_c])
 
     def test_id(self):
         """
@@ -500,7 +523,8 @@ class TestNode(unittest.TestCase):
 
         self.assertListEqual(
             list(self._node_a.leaves),
-            [self._node_h, self._node_e, self._node_c])
+            [self._node_h, self._node_e, self._node_c],
+        )
 
     def test_siblings(self):
         """
@@ -523,7 +547,7 @@ class TestNode(unittest.TestCase):
         Tests :attr:`colour.utilities.data_structures.Node.__str__` method.
         """
 
-        self.assertIn('Node#', str(self._node_a))
+        self.assertIn("Node#", str(self._node_a))
         self.assertIn("{'John': 'Doe'})", str(self._node_a))
 
     def test__len__(self):
@@ -569,16 +593,28 @@ class TestNode(unittest.TestCase):
         """
 
         self.assertListEqual(
-            list(self._node_a.walk()), [
-                self._node_b, self._node_d, self._node_f, self._node_g,
-                self._node_h, self._node_e, self._node_c
-            ])
+            list(self._node_a.walk()),
+            [
+                self._node_b,
+                self._node_d,
+                self._node_f,
+                self._node_g,
+                self._node_h,
+                self._node_e,
+                self._node_c,
+            ],
+        )
 
         self.assertListEqual(
-            list(self._node_h.walk(ascendants=True)), [
-                self._node_g, self._node_f, self._node_d, self._node_b,
-                self._node_a
-            ])
+            list(self._node_h.walk(ascendants=True)),
+            [
+                self._node_g,
+                self._node_f,
+                self._node_d,
+                self._node_b,
+                self._node_a,
+            ],
+        )
 
     def test_render(self):
         """
@@ -588,5 +624,5 @@ class TestNode(unittest.TestCase):
         self.assertIsInstance(self._node_a.render(), str)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

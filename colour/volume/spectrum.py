@@ -48,19 +48,19 @@ from colour.hints import (
 from colour.volume import is_within_mesh_volume
 from colour.utilities import CACHE_REGISTRY, zeros, validate_method
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'SPECTRAL_SHAPE_OUTER_SURFACE_XYZ',
-    'generate_pulse_waves',
-    'XYZ_outer_surface',
-    'solid_RoschMacAdam',
-    'is_within_visible_spectrum',
+    "SPECTRAL_SHAPE_OUTER_SURFACE_XYZ",
+    "generate_pulse_waves",
+    "XYZ_outer_surface",
+    "solid_RoschMacAdam",
+    "is_within_visible_spectrum",
 ]
 
 SPECTRAL_SHAPE_OUTER_SURFACE_XYZ: SpectralShape = SpectralShape(360, 780, 5)
@@ -70,16 +70,19 @@ interval of 5.
 """
 
 _CACHE_OUTER_SURFACE_XYZ: Dict = CACHE_REGISTRY.register_cache(
-    '{0}._CACHE_OUTER_SURFACE_XYZ'.format(__name__))
+    "{0}._CACHE_OUTER_SURFACE_XYZ".format(__name__)
+)
 
 _CACHE_OUTER_SURFACE_XYZ_POINTS: Dict = CACHE_REGISTRY.register_cache(
-    '{0}._CACHE_OUTER_SURFACE_XYZ_POINTS'.format(__name__))
+    "{0}._CACHE_OUTER_SURFACE_XYZ_POINTS".format(__name__)
+)
 
 
 def generate_pulse_waves(
-        bins: Integer,
-        pulse_order: Union[Literal['Bins', 'Pulse Wave Width'], str] = 'Bins',
-        filter_jagged_pulses: Boolean = False) -> NDArray:
+    bins: Integer,
+    pulse_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
+    filter_jagged_pulses: Boolean = False,
+) -> NDArray:
     """
     Generates the pulse waves of given number of bins necessary to totally
     stimulate the colour matching functions and produce the *Rösch-MacAdam*
@@ -211,14 +214,17 @@ def generate_pulse_waves(
     """
 
     pulse_order = validate_method(
-        pulse_order, ['Bins', 'Pulse Wave Width'],
-        '"{0}" pulse order is invalid, it must be one of {1}!')
+        pulse_order,
+        ["Bins", "Pulse Wave Width"],
+        '"{0}" pulse order is invalid, it must be one of {1}!',
+    )
 
     square_waves = []
-    square_waves_basis = np.tril(
-        np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE))[0:-1, :]
+    square_waves_basis = np.tril(np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE))[
+        0:-1, :
+    ]
 
-    if pulse_order.lower() == 'bins':
+    if pulse_order.lower() == "bins":
         for square_wave_basis in square_waves_basis:
             for i in range(bins):
                 square_waves.append(np.roll(square_wave_basis, i))
@@ -230,19 +236,22 @@ def generate_pulse_waves(
         if filter_jagged_pulses:
             square_waves = square_waves[::2]
 
-    return np.vstack([
-        zeros(bins),
-        np.vstack(square_waves),
-        np.ones(bins, dtype=DEFAULT_FLOAT_DTYPE)
-    ])
+    return np.vstack(
+        [
+            zeros(bins),
+            np.vstack(square_waves),
+            np.ones(bins, dtype=DEFAULT_FLOAT_DTYPE),
+        ]
+    )
 
 
 def XYZ_outer_surface(
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        point_order: Union[Literal['Bins', 'Pulse Wave Width'], str] = 'Bins',
-        filter_jagged_points: Boolean = False,
-        **kwargs: Any):
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    point_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
+    filter_jagged_points: Boolean = False,
+    **kwargs: Any
+):
     """
     Generates the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
     outer surface, for given colour matching functions using multi-spectral
@@ -338,22 +347,33 @@ def XYZ_outer_surface(
     """
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
-        SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
+        cmfs,
+        illuminant,
+        "CIE 1931 2 Degree Standard Observer",
+        "E",
+        SPECTRAL_SHAPE_OUTER_SURFACE_XYZ,
+    )
 
     settings = dict(kwargs)
-    settings.update({'shape': cmfs.shape})
+    settings.update({"shape": cmfs.shape})
 
-    key = (hash(cmfs), hash(illuminant), point_order, filter_jagged_points,
-           str(settings))
+    key = (
+        hash(cmfs),
+        hash(illuminant),
+        point_order,
+        filter_jagged_points,
+        str(settings),
+    )
     XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
     if XYZ is None:
         pulse_waves = generate_pulse_waves(
-            len(cmfs.wavelengths), point_order, filter_jagged_points)
-        XYZ = msds_to_XYZ(
-            pulse_waves, cmfs, illuminant, method='Integration', **
-            settings) / 100
+            len(cmfs.wavelengths), point_order, filter_jagged_points
+        )
+        XYZ = (
+            msds_to_XYZ(pulse_waves, cmfs, illuminant, method="Integration", **settings)
+            / 100
+        )
 
         _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
 
@@ -364,11 +384,12 @@ solid_RoschMacAdam = XYZ_outer_surface
 
 
 def is_within_visible_spectrum(
-        XYZ: ArrayLike,
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        tolerance: Optional[Floating] = None,
-        **kwargs: Any) -> NDArray:
+    XYZ: ArrayLike,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    tolerance: Optional[Floating] = None,
+    **kwargs: Any
+) -> NDArray:
     """
     Returns whether given *CIE XYZ* tristimulus values are within the visible
     spectrum volume, i.e. *Rösch-MacAdam* colour solid, for given colour
@@ -419,14 +440,19 @@ def is_within_visible_spectrum(
     """
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, 'CIE 1931 2 Degree Standard Observer', 'E',
-        SPECTRAL_SHAPE_OUTER_SURFACE_XYZ)
+        cmfs,
+        illuminant,
+        "CIE 1931 2 Degree Standard Observer",
+        "E",
+        SPECTRAL_SHAPE_OUTER_SURFACE_XYZ,
+    )
 
     key = (hash(cmfs), hash(illuminant), str(kwargs))
     vertices = _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key)
 
     if vertices is None:
-        _CACHE_OUTER_SURFACE_XYZ_POINTS[key] = vertices = (solid_RoschMacAdam(
-            cmfs, illuminant, **kwargs))
+        _CACHE_OUTER_SURFACE_XYZ_POINTS[key] = vertices = solid_RoschMacAdam(
+            cmfs, illuminant, **kwargs
+        )
 
     return is_within_mesh_volume(XYZ, vertices, tolerance)

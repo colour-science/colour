@@ -16,19 +16,19 @@ import re
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'XRITE_FILE_ENCODING',
-    'read_sds_from_xrite_file',
+    "XRITE_FILE_ENCODING",
+    "read_sds_from_xrite_file",
 ]
 
-XRITE_FILE_ENCODING: str = 'utf-8'
+XRITE_FILE_ENCODING: str = "utf-8"
 
 
 def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
@@ -63,32 +63,33 @@ def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     """
 
     with codecs.open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
-        lines = xrite_file.read().strip().split('\n')
+        lines = xrite_file.read().strip().split("\n")
 
         xrite_sds = {}
         is_spectral_data_format, is_spectral_data = False, False
         for line in lines:
             line = line.strip()
 
-            if line == 'END_DATA_FORMAT':
+            if line == "END_DATA_FORMAT":
                 is_spectral_data_format = False
 
-            if line == 'END_DATA':
+            if line == "END_DATA":
                 is_spectral_data = False
 
             if is_spectral_data_format:
-                wavelengths = [x for x in re.findall('nm(\\d+)', line)]
+                wavelengths = [x for x in re.findall("nm(\\d+)", line)]
                 index = len(wavelengths)
 
             if is_spectral_data:
                 tokens = line.split()
                 xrite_sds[tokens[1]] = SpectralDistribution(
-                    tokens[-index:], wavelengths, name=tokens[1])
+                    tokens[-index:], wavelengths, name=tokens[1]
+                )
 
-            if line == 'BEGIN_DATA_FORMAT':
+            if line == "BEGIN_DATA_FORMAT":
                 is_spectral_data_format = True
 
-            if line == 'BEGIN_DATA':
+            if line == "BEGIN_DATA":
                 is_spectral_data = True
 
         return xrite_sds

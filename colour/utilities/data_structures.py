@@ -49,24 +49,24 @@ from colour.hints import (
 )
 from colour.utilities.documentation import is_documentation_building
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'attest',
-    'Structure',
-    'Lookup',
-    'CaseInsensitiveMapping',
-    'LazyCaseInsensitiveMapping',
-    'Node',
+    "attest",
+    "Structure",
+    "Lookup",
+    "CaseInsensitiveMapping",
+    "LazyCaseInsensitiveMapping",
+    "Node",
 ]
 
 
-def attest(condition: Boolean, message: str = ''):
+def attest(condition: Boolean, message: str = ""):
     """
     A replacement for `assert` that is not removed by optimised Python
     execution.
@@ -239,7 +239,7 @@ class Lookup(dict):
                 matching = all(matching)
 
             except TypeError:
-                matching = all((matching, ))
+                matching = all((matching,))
 
             if matching:
                 keys.append(key)
@@ -313,9 +313,7 @@ class CaseInsensitiveMapping(MutableMapping):
     1
     """
 
-    def __init__(self,
-                 data: Optional[Union[Generator, Mapping]] = None,
-                 **kwargs: Any):
+    def __init__(self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any):
         self._data: Dict = dict()
 
         self.update({} if data is None else data, **kwargs)
@@ -348,11 +346,12 @@ class CaseInsensitiveMapping(MutableMapping):
         if is_documentation_building():  # pragma: no cover
             return "{0}({1})".format(
                 self.__class__.__name__,
-                repr(dict(zip(self.keys(), ['...'] * len(self)))).replace(
-                    "'...'", '...'))
+                repr(dict(zip(self.keys(), ["..."] * len(self)))).replace(
+                    "'...'", "..."
+                ),
+            )
         else:
-            return '{0}({1})'.format(self.__class__.__name__,
-                                     dict(self.items()))
+            return "{0}({1})".format(self.__class__.__name__, dict(self.items()))
 
     def __setitem__(self, item: Union[str, Any], value: Any):
         """
@@ -487,7 +486,9 @@ class CaseInsensitiveMapping(MutableMapping):
         else:
             raise ValueError(
                 'Impossible to test equality with "{0}" class type!'.format(
-                    other.__class__.__name__))
+                    other.__class__.__name__
+                )
+            )
 
         return dict(self.lower_items()) == dict(other_mapping.lower_items())
 
@@ -533,7 +534,7 @@ class CaseInsensitiveMapping(MutableMapping):
         except AttributeError:
             return key
 
-    def copy(self) -> 'CaseInsensitiveMapping':
+    def copy(self) -> "CaseInsensitiveMapping":
         """
         Returns a copy of the case-insensitive :class:`dict`-like object.
 
@@ -635,7 +636,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
         value = super(LazyCaseInsensitiveMapping, self).__getitem__(item)
 
-        if callable(value) and hasattr(colour, '__disable_lazy_load__'):
+        if callable(value) and hasattr(colour, "__disable_lazy_load__"):
             value = value()
             super(LazyCaseInsensitiveMapping, self).__setitem__(item, value)
 
@@ -729,12 +730,14 @@ class Node:
 
         return instance
 
-    def __init__(self,
-                 name: Optional[str] = None,
-                 parent: Optional[Node] = None,
-                 children: Optional[List[Node]] = None,
-                 data: Optional[Any] = None):
-        self._name: str = '{0}#{1}'.format(self.__class__.__name__, self.id)
+    def __init__(
+        self,
+        name: Optional[str] = None,
+        parent: Optional[Node] = None,
+        children: Optional[List[Node]] = None,
+        data: Optional[Any] = None,
+    ):
+        self._name: str = "{0}#{1}".format(self.__class__.__name__, self.id)
         self.name = self._name if name is None else name
         self._parent: Optional[Node] = None
         self.parent = parent
@@ -768,7 +771,8 @@ class Node:
 
         attest(
             isinstance(value, str),
-            '"{0}" attribute: "{1}" type is not "str"!'.format('name', value))
+            '"{0}" attribute: "{1}" type is not "str"!'.format("name", value),
+        )
 
         self._name = value
 
@@ -800,7 +804,9 @@ class Node:
             attest(
                 issubclass(value.__class__, Node),
                 '"{0}" attribute: "{1}" is not a "{2}" subclass!'.format(
-                    'parent', value, Node.__class__.__name__))
+                    "parent", value, Node.__class__.__name__
+                ),
+            )
 
             value.children.append(self)
 
@@ -833,13 +839,17 @@ class Node:
         attest(
             isinstance(value, list),
             '"{0}" attribute: "{1}" type is not a "list" instance!'.format(
-                'children', value))
+                "children", value
+            ),
+        )
 
         for element in value:
             attest(
                 issubclass(element.__class__, Node),
-                '"{0}" attribute: A "{1}" element is not a "{2}" subclass!'
-                .format('children', element, Node.__class__.__name__))
+                '"{0}" attribute: A "{1}" element is not a "{2}" subclass!'.format(
+                    "children", element, Node.__class__.__name__
+                ),
+            )
 
         for node in value:
             node.parent = self
@@ -887,7 +897,7 @@ class Node:
         """
 
         if self.is_leaf():
-            return (node for node in (self, ))
+            return (node for node in (self,))
         else:
             return (node for node in self.walk() if node.is_leaf())
 
@@ -905,8 +915,7 @@ class Node:
         if self.parent is None:
             return (sibling for sibling in ())  # type: ignore[var-annotated]
         else:
-            return (sibling for sibling in self.parent.children
-                    if sibling is not self)
+            return (sibling for sibling in self.parent.children if sibling is not self)
 
     @property
     def data(self) -> Any:
@@ -939,8 +948,7 @@ class Node:
             Formatted string representation.
         """
 
-        return '{0}#{1}({2})'.format(self.__class__.__name__, self.id,
-                                     self._data)
+        return "{0}#{1}({2})".format(self.__class__.__name__, self.id, self._data)
 
     def __len__(self) -> Integer:
         """
@@ -1056,7 +1064,7 @@ class Node:
         Node C
         """
 
-        attribute = 'children' if not ascendants else 'parent'
+        attribute = "children" if not ascendants else "parent"
 
         nodes = getattr(self, attribute)
         nodes = nodes if isinstance(nodes, list) else [nodes]
@@ -1096,10 +1104,10 @@ class Node:
         <BLANKLINE>
         """
 
-        output = ''
+        output = ""
 
         for i in range(tab_level):
-            output += '    '
+            output += "    "
 
         tab_level += 1
 

@@ -35,24 +35,27 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'XYZ_to_Lab',
-    'Lab_to_XYZ',
-    'Lab_to_LCHab',
-    'LCHab_to_Lab',
+    "XYZ_to_Lab",
+    "Lab_to_XYZ",
+    "Lab_to_LCHab",
+    "LCHab_to_Lab",
 ]
 
 
-def XYZ_to_Lab(XYZ: ArrayLike,
-               illuminant: ArrayLike = CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']) -> NDArray:
+def XYZ_to_Lab(
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
@@ -119,9 +122,12 @@ def XYZ_to_Lab(XYZ: ArrayLike,
     return from_range_100(Lab)
 
 
-def Lab_to_XYZ(Lab: ArrayLike,
-               illuminant: ArrayLike = CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']) -> NDArray:
+def Lab_to_XYZ(
+    Lab: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+) -> NDArray:
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.

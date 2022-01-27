@@ -31,22 +31,23 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'index_stress_Garcia2007',
-    'INDEX_STRESS_METHODS',
-    'index_stress',
+    "index_stress_Garcia2007",
+    "INDEX_STRESS_METHODS",
+    "index_stress",
 ]
 
 
-def index_stress_Garcia2007(d_E: FloatingOrArrayLike,
-                            d_V: FloatingOrArrayLike) -> FloatingOrNDArray:
+def index_stress_Garcia2007(
+    d_E: FloatingOrArrayLike, d_V: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Computes the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
@@ -81,15 +82,16 @@ def index_stress_Garcia2007(d_E: FloatingOrArrayLike,
 
     F_1 = np.sum(d_E ** 2) / np.sum(d_E * d_V)
 
-    stress = np.sqrt(
-        np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2))
+    stress = np.sqrt(np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2))
 
     return as_float(stress)
 
 
-INDEX_STRESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Garcia 2007': index_stress_Garcia2007,
-})
+INDEX_STRESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Garcia 2007": index_stress_Garcia2007,
+    }
+)
 INDEX_STRESS_METHODS.__doc__ = """
 Supported :math:`STRESS` index computation methods.
 
@@ -99,10 +101,11 @@ References
 """
 
 
-def index_stress(d_E: FloatingOrArrayLike,
-                 d_V: FloatingOrArrayLike,
-                 method: Union[Literal['Garcia 2007'], str] = 'Garcia 2007'
-                 ) -> FloatingOrNDArray:
+def index_stress(
+    d_E: FloatingOrArrayLike,
+    d_V: FloatingOrArrayLike,
+    method: Union[Literal["Garcia 2007"], str] = "Garcia 2007",
+) -> FloatingOrNDArray:
     """
     Computes the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*

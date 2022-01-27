@@ -27,31 +27,33 @@ import numpy as np
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import CaseInsensitiveMapping, tsplit, validate_method
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'power_function_Huang2015',
+    "power_function_Huang2015",
 ]
 
-COEFFICIENTS_HUANG2015: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'CIE 1976': np.array([1.26, 0.55]),
-    'CIE 1994': np.array([1.41, 0.70]),
-    'CIE 2000': np.array([1.43, 0.70]),
-    'CMC': np.array([1.34, 0.66]),
-    'CAM02-LCD': np.array([1.00, 0.85]),
-    'CAM02-SCD': np.array([1.45, 0.75]),
-    'CAM02-UCS': np.array([1.30, 0.75]),
-    'CAM16-UCS': np.array([1.41, 0.63]),
-    'DIN99d': np.array([1.28, 0.74]),
-    'OSA': np.array([3.32, 0.62]),
-    'OSA-GP-Euclidean': np.array([1.52, 0.76]),
-    'ULAB': np.array([1.17, 0.69]),
-})
+COEFFICIENTS_HUANG2015: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "CIE 1976": np.array([1.26, 0.55]),
+        "CIE 1994": np.array([1.41, 0.70]),
+        "CIE 2000": np.array([1.43, 0.70]),
+        "CMC": np.array([1.34, 0.66]),
+        "CAM02-LCD": np.array([1.00, 0.85]),
+        "CAM02-SCD": np.array([1.45, 0.75]),
+        "CAM02-UCS": np.array([1.30, 0.75]),
+        "CAM16-UCS": np.array([1.41, 0.63]),
+        "DIN99d": np.array([1.28, 0.74]),
+        "OSA": np.array([3.32, 0.62]),
+        "OSA-GP-Euclidean": np.array([1.52, 0.76]),
+        "ULAB": np.array([1.17, 0.69]),
+    }
+)
 COEFFICIENTS_HUANG2015.__doc__ = """
 *Huang et al. (2015)* power-functions coefficients.
 
@@ -71,17 +73,30 @@ Aliases:
 -   'cie1994': 'CIE 1994'
 -   'cie2000': 'CIE 2000'
 """
-COEFFICIENTS_HUANG2015['cie1976'] = COEFFICIENTS_HUANG2015['CIE 1976']
-COEFFICIENTS_HUANG2015['cie1994'] = COEFFICIENTS_HUANG2015['CIE 1994']
-COEFFICIENTS_HUANG2015['cie2000'] = COEFFICIENTS_HUANG2015['CIE 2000']
+COEFFICIENTS_HUANG2015["cie1976"] = COEFFICIENTS_HUANG2015["CIE 1976"]
+COEFFICIENTS_HUANG2015["cie1994"] = COEFFICIENTS_HUANG2015["CIE 1994"]
+COEFFICIENTS_HUANG2015["cie2000"] = COEFFICIENTS_HUANG2015["CIE 2000"]
 
 
 def power_function_Huang2015(
-        d_E: FloatingOrArrayLike,
-        coefficients: Union[Literal[
-            'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD',
-            'CAM02-SCD', 'CAM16-UCS', 'DIN99d', 'OSA', 'OSA-GP-Euclidean',
-            'ULAB'], str] = 'CIE 2000') -> FloatingOrNDArray:
+    d_E: FloatingOrArrayLike,
+    coefficients: Union[
+        Literal[
+            "CIE 1976",
+            "CIE 1994",
+            "CIE 2000",
+            "CMC",
+            "CAM02-LCD",
+            "CAM02-SCD",
+            "CAM16-UCS",
+            "DIN99d",
+            "OSA",
+            "OSA-GP-Euclidean",
+            "ULAB",
+        ],
+        str,
+    ] = "CIE 2000",
+) -> FloatingOrNDArray:
     """
     Improves the performance of the :math:`\\Delta E` value for given
     coefficients using
@@ -112,9 +127,10 @@ def power_function_Huang2015(
     """
 
     coefficients = validate_method(
-        coefficients, COEFFICIENTS_HUANG2015,
-        '"{0}" coefficients are invalid, '
-        'they must be one of {1}!')
+        coefficients,
+        COEFFICIENTS_HUANG2015,
+        '"{0}" coefficients are invalid, ' "they must be one of {1}!",
+    )
 
     a, b = tsplit(COEFFICIENTS_HUANG2015[coefficients])
 

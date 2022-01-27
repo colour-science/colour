@@ -29,20 +29,20 @@ NAME
 """
 
 try:
-    sys.modules['colour.utilities.tests.test_deprecated'] = (
-        deprecated(  # type: ignore[assignment]
-            sys.modules['colour.utilities.tests.test_deprecated'], {
-                'OLD_NAME':
-                    ObjectRenamed(
-                        name=(
-                            'colour.utilities.tests.test_deprecated.OLD_NAME'),
-                        new_name=(
-                            'colour.utilities.tests.test_deprecated.NEW_NAME')
-                    ),
-                'REMOVED':
-                    ObjectRemoved(
-                        name='colour.utilities.tests.test_deprecated.REMOVED')
-            }))
+    sys.modules[
+        "colour.utilities.tests.test_deprecated"
+    ] = deprecated(  # type: ignore[assignment]
+        sys.modules["colour.utilities.tests.test_deprecated"],
+        {
+            "OLD_NAME": ObjectRenamed(
+                name=("colour.utilities.tests.test_deprecated.OLD_NAME"),
+                new_name=("colour.utilities.tests.test_deprecated.NEW_NAME"),
+            ),
+            "REMOVED": ObjectRemoved(
+                name="colour.utilities.tests.test_deprecated.REMOVED"
+            ),
+        },
+    )
 except KeyError:  # pragma: no cover
     pass
 

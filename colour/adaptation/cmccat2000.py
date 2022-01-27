@@ -44,20 +44,20 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CAT_INVERSE_CMCCAT2000',
-    'InductionFactors_CMCCAT2000',
-    'VIEWING_CONDITIONS_CMCCAT2000',
-    'chromatic_adaptation_forward_CMCCAT2000',
-    'chromatic_adaptation_inverse_CMCCAT2000',
-    'chromatic_adaptation_CMCCAT2000',
+    "CAT_INVERSE_CMCCAT2000",
+    "InductionFactors_CMCCAT2000",
+    "VIEWING_CONDITIONS_CMCCAT2000",
+    "chromatic_adaptation_forward_CMCCAT2000",
+    "chromatic_adaptation_inverse_CMCCAT2000",
+    "chromatic_adaptation_CMCCAT2000",
 ]
 
 CAT_INVERSE_CMCCAT2000: NDArray = np.linalg.inv(CAT_CMCCAT2000)
@@ -87,10 +87,11 @@ class InductionFactors_CMCCAT2000(NamedTuple):
 
 VIEWING_CONDITIONS_CMCCAT2000: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
-        'Average': InductionFactors_CMCCAT2000(1),
-        'Dim': InductionFactors_CMCCAT2000(0.8),
-        'Dark': InductionFactors_CMCCAT2000(0.8)
-    })
+        "Average": InductionFactors_CMCCAT2000(1),
+        "Dim": InductionFactors_CMCCAT2000(0.8),
+        "Dark": InductionFactors_CMCCAT2000(0.8),
+    }
+)
 VIEWING_CONDITIONS_CMCCAT2000.__doc__ = """
 Reference *CMCCAT2000* chromatic adaptation model viewing conditions.
 
@@ -101,13 +102,13 @@ References
 
 
 def chromatic_adaptation_forward_CMCCAT2000(
-        XYZ: ArrayLike,
-        XYZ_w: ArrayLike,
-        XYZ_wr: ArrayLike,
-        L_A1: FloatingOrArrayLike,
-        L_A2: FloatingOrArrayLike,
-        surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
-            'Average']) -> NDArray:
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    L_A1: FloatingOrArrayLike,
+    L_A2: FloatingOrArrayLike,
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
+) -> NDArray:
     """
     Adapts given stimulus *CIE XYZ* tristimulus values from test viewing
     conditions to reference viewing conditions using *CMCCAT2000* forward
@@ -179,27 +180,29 @@ def chromatic_adaptation_forward_CMCCAT2000(
     RGB_w = vector_dot(CAT_CMCCAT2000, XYZ_w)
     RGB_wr = vector_dot(CAT_CMCCAT2000, XYZ_wr)
 
-    D = (surround.F * (0.08 * np.log10(0.5 * (L_A1 + L_A2)) + 0.76 - 0.45 *
-                       (L_A1 - L_A2) / (L_A1 + L_A2)))
+    D = surround.F * (
+        0.08 * np.log10(0.5 * (L_A1 + L_A2))
+        + 0.76
+        - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)
+    )
 
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB_c = (
-        RGB * (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
+    RGB_c = RGB * (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis])
     XYZ_c = vector_dot(CAT_INVERSE_CMCCAT2000, RGB_c)
 
     return from_range_100(XYZ_c)
 
 
 def chromatic_adaptation_inverse_CMCCAT2000(
-        XYZ_c: ArrayLike,
-        XYZ_w: ArrayLike,
-        XYZ_wr: ArrayLike,
-        L_A1: FloatingOrArrayLike,
-        L_A2: FloatingOrArrayLike,
-        surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
-            'Average']) -> NDArray:
+    XYZ_c: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    L_A1: FloatingOrArrayLike,
+    L_A2: FloatingOrArrayLike,
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
+) -> NDArray:
     """
     Adapts given stimulus corresponding colour *CIE XYZ* tristimulus values
     from reference viewing conditions to test viewing conditions using
@@ -272,28 +275,29 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     RGB_w = vector_dot(CAT_CMCCAT2000, XYZ_w)
     RGB_wr = vector_dot(CAT_CMCCAT2000, XYZ_wr)
 
-    D = (surround.F * (0.08 * np.log10(0.5 * (L_A1 + L_A2)) + 0.76 - 0.45 *
-                       (L_A1 - L_A2) / (L_A1 + L_A2)))
+    D = surround.F * (
+        0.08 * np.log10(0.5 * (L_A1 + L_A2))
+        + 0.76
+        - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)
+    )
 
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB = (RGB_c / (a[..., np.newaxis] *
-                    (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
+    RGB = RGB_c / (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis])
     XYZ = vector_dot(CAT_INVERSE_CMCCAT2000, RGB)
 
     return from_range_100(XYZ)
 
 
 def chromatic_adaptation_CMCCAT2000(
-        XYZ: ArrayLike,
-        XYZ_w: ArrayLike,
-        XYZ_wr: ArrayLike,
-        L_A1: FloatingOrArrayLike,
-        L_A2: FloatingOrArrayLike,
-        surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
-            'Average'],
-        direction: Union[Literal['Forward', 'Inverse'], str] = 'Forward'
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    L_A1: FloatingOrArrayLike,
+    L_A2: FloatingOrArrayLike,
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
+    direction: Union[Literal["Forward", "Inverse"], str] = "Forward",
 ) -> NDArray:
     """
     Adapts given stimulus *CIE XYZ* tristimulus values using given viewing
@@ -376,12 +380,16 @@ def chromatic_adaptation_CMCCAT2000(
     """
 
     direction = validate_method(
-        direction, ['Forward', 'Inverse'],
-        '"{0}" direction is invalid, it must be one of {1}!')
+        direction,
+        ["Forward", "Inverse"],
+        '"{0}" direction is invalid, it must be one of {1}!',
+    )
 
-    if direction == 'forward':
-        return chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
-                                                       L_A1, L_A2, surround)
+    if direction == "forward":
+        return chromatic_adaptation_forward_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround
+        )
     else:
-        return chromatic_adaptation_inverse_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
-                                                       L_A1, L_A2, surround)
+        return chromatic_adaptation_inverse_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround
+        )

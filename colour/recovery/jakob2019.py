@@ -70,23 +70,23 @@ else:  # pragma: no cover
 
     tqdm = mock.MagicMock()
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'SPECTRAL_SHAPE_JAKOB2019',
-    'StopMinimizationEarly',
-    'sd_Jakob2019',
-    'error_function',
-    'dimensionalise_coefficients',
-    'lightness_scale',
-    'find_coefficients_Jakob2019',
-    'XYZ_to_sd_Jakob2019',
-    'LUT3D_Jakob2019',
+    "SPECTRAL_SHAPE_JAKOB2019",
+    "StopMinimizationEarly",
+    "sd_Jakob2019",
+    "error_function",
+    "dimensionalise_coefficients",
+    "lightness_scale",
+    "find_coefficients_Jakob2019",
+    "XYZ_to_sd_Jakob2019",
+    "LUT3D_Jakob2019",
 ]
 
 SPECTRAL_SHAPE_JAKOB2019: SpectralShape = SpectralShape(360, 780, 5)
@@ -140,9 +140,9 @@ class StopMinimizationEarly(Exception):
         return self._error
 
 
-def sd_Jakob2019(coefficients: ArrayLike,
-                 shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
-                 ) -> SpectralDistribution:
+def sd_Jakob2019(
+    coefficients: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
+) -> SpectralDistribution:
     """
     Returns a spectral distribution following the spectral model given by
     *Jakob and Hanika (2019)*.
@@ -197,19 +197,22 @@ def sd_Jakob2019(coefficients: ArrayLike,
     U = c_0 * wl ** 2 + c_1 * wl + c_2
     R = 1 / 2 + U / (2 * np.sqrt(1 + U ** 2))
 
-    name = '{0!r} (COEFF) - Jakob (2019)'.format(coefficients)
+    name = "{0!r} (COEFF) - Jakob (2019)".format(coefficients)
 
     return SpectralDistribution(R, wl, name=name)
 
 
-def error_function(coefficients: ArrayLike,
-                   target: ArrayLike,
-                   cmfs: MultiSpectralDistributions,
-                   illuminant: SpectralDistribution,
-                   max_error: Optional[Floating] = None,
-                   additional_data: Boolean = False
-                   ) -> Union[Tuple[Floating, NDArray], Tuple[
-                       Floating, NDArray, NDArray, NDArray, NDArray]]:
+def error_function(
+    coefficients: ArrayLike,
+    target: ArrayLike,
+    cmfs: MultiSpectralDistributions,
+    illuminant: SpectralDistribution,
+    max_error: Optional[Floating] = None,
+    additional_data: Boolean = False,
+) -> Union[
+    Tuple[Floating, NDArray],
+    Tuple[Floating, NDArray, NDArray, NDArray, NDArray],
+]:
     """
     Computes :math:`\\Delta E_{76}` between the target colour and the colour
     defined by given spectral model, along with its gradient.
@@ -262,7 +265,8 @@ def error_function(coefficients: ArrayLike,
 
     XYZ = sd_to_XYZ_integration(R, cmfs, illuminant, shape=cmfs.shape) / 100
     dXYZ = np.transpose(
-        sd_to_XYZ_integration(dR, cmfs, illuminant, shape=cmfs.shape) / 100)
+        sd_to_XYZ_integration(dR, cmfs, illuminant, shape=cmfs.shape) / 100
+    )
 
     XYZ_n = sd_to_XYZ_integration(illuminant, cmfs)
     XYZ_n /= XYZ_n[1]
@@ -271,23 +275,27 @@ def error_function(coefficients: ArrayLike,
     XYZ_f = intermediate_lightness_function_CIE1976(XYZ, XYZ_n)
     dXYZ_f = np.where(
         XYZ_XYZ_n[..., np.newaxis] > (24 / 116) ** 3,
-        1 / (3 * spow(XYZ_n[..., np.newaxis], 1 / 3) * spow(
-            XYZ[..., np.newaxis], 2 / 3)) * dXYZ,
+        1
+        / (3 * spow(XYZ_n[..., np.newaxis], 1 / 3) * spow(XYZ[..., np.newaxis], 2 / 3))
+        * dXYZ,
         (841 / 108) * dXYZ / XYZ_n[..., np.newaxis],
     )
 
-    def intermediate_XYZ_to_Lab(XYZ_i: NDArray,
-                                offset: Optional[Floating] = 16) -> NDArray:
+    def intermediate_XYZ_to_Lab(
+        XYZ_i: NDArray, offset: Optional[Floating] = 16
+    ) -> NDArray:
         """
         Returns the final intermediate value for the *CIE Lab* to *CIE XYZ*
         conversion.
         """
 
-        return np.array([
-            116 * XYZ_i[1] - offset,
-            500 * (XYZ_i[0] - XYZ_i[1]),
-            200 * (XYZ_i[1] - XYZ_i[2]),
-        ])
+        return np.array(
+            [
+                116 * XYZ_i[1] - offset,
+                500 * (XYZ_i[0] - XYZ_i[1]),
+                200 * (XYZ_i[1] - XYZ_i[2]),
+            ]
+        )
 
     Lab_i = intermediate_XYZ_to_Lab(as_float_array(XYZ_f))
     dLab_i = intermediate_XYZ_to_Lab(as_float_array(dXYZ_f), 0)
@@ -296,9 +304,10 @@ def error_function(coefficients: ArrayLike,
     if max_error is not None and error <= max_error:
         raise StopMinimizationEarly(coefficients, error)
 
-    derror = np.sum(
-        dLab_i * (Lab_i[..., np.newaxis] - target[..., np.newaxis]),
-        axis=0) / error
+    derror = (
+        np.sum(dLab_i * (Lab_i[..., np.newaxis] - target[..., np.newaxis]), axis=0)
+        / error
+    )
 
     if additional_data:
         return error, derror, R, XYZ, Lab_i
@@ -306,8 +315,9 @@ def error_function(coefficients: ArrayLike,
         return error, derror
 
 
-def dimensionalise_coefficients(coefficients: ArrayLike,
-                                shape: SpectralShape) -> NDArray:
+def dimensionalise_coefficients(
+    coefficients: ArrayLike, shape: SpectralShape
+) -> NDArray:
     """
     Rescales the dimensionless coefficients to given spectral shape.
 
@@ -337,8 +347,7 @@ def dimensionalise_coefficients(coefficients: ArrayLike,
 
     c_0 = cp_0 / span ** 2
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span ** 2
-    c_2 = (
-        cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2)
+    c_2 = cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2
 
     return np.array([c_0, c_1, c_2])
 
@@ -373,12 +382,13 @@ def lightness_scale(steps: Integer) -> NDArray:
 
 
 def find_coefficients_Jakob2019(
-        XYZ: ArrayLike,
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        coefficients_0: ArrayLike = zeros(3),
-        max_error: Floating = JND_CIE1976 / 100,
-        dimensionalise: Boolean = True) -> Tuple[NDArray, Floating]:
+    XYZ: ArrayLike,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    coefficients_0: ArrayLike = zeros(3),
+    max_error: Floating = JND_CIE1976 / 100,
+    dimensionalise: Boolean = True,
+) -> Tuple[NDArray, Floating]:
     """
     Computes the coefficients for *Jakob and Hanika (2019)* reflectance
     spectral model.
@@ -425,10 +435,12 @@ def find_coefficients_Jakob2019(
     coefficients_0 = as_float_array(coefficients_0)
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019
+    )
 
-    def optimize(target_o: NDArray,
-                 coefficients_0_o: NDArray) -> Tuple[NDArray, Floating]:
+    def optimize(
+        target_o: NDArray, coefficients_0_o: NDArray
+    ) -> Tuple[NDArray, Floating]:
         """
         Minimises the error function using *L-BFGS-B* method.
         """
@@ -436,9 +448,11 @@ def find_coefficients_Jakob2019(
         try:
             result = minimize(
                 error_function,
-                coefficients_0_o, (target_o, cmfs, illuminant, max_error),
-                method='L-BFGS-B',
-                jac=True)
+                coefficients_0_o,
+                (target_o, cmfs, illuminant, max_error),
+                method="L-BFGS-B",
+                jac=True,
+            )
 
             return result.x, result.fun
         except StopMinimizationEarly as error:
@@ -484,11 +498,11 @@ def find_coefficients_Jakob2019(
 
 
 def XYZ_to_sd_Jakob2019(
-        XYZ: ArrayLike,
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        illuminant: Optional[SpectralDistribution] = None,
-        optimisation_kwargs: Optional[Dict] = None,
-        additional_data: Boolean = False
+    XYZ: ArrayLike,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    optimisation_kwargs: Optional[Dict] = None,
+    additional_data: Boolean = False,
 ) -> Union[Tuple[SpectralDistribution, Floating], SpectralDistribution]:
     """
     Recovers the spectral distribution of given RGB colourspace array
@@ -591,16 +605,18 @@ def XYZ_to_sd_Jakob2019(
     XYZ = to_domain_1(XYZ)
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019
+    )
 
     optimisation_kwargs = optional(optimisation_kwargs, {})
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         coefficients, error = find_coefficients_Jakob2019(
-            XYZ, cmfs, illuminant, **optimisation_kwargs)
+            XYZ, cmfs, illuminant, **optimisation_kwargs
+        )
 
     sd = sd_Jakob2019(coefficients, cmfs.shape)
-    sd.name = '{0} (XYZ) - Jakob (2019)'.format(XYZ)
+    sd.name = "{0} (XYZ) - Jakob (2019)".format(XYZ)
 
     if additional_data:
         return sd, error
@@ -783,14 +799,17 @@ class LUT3D_Jakob2019:
         axes = ([0, 1, 2], self._lightness_scale, samples, samples)
 
         self._interpolator = RegularGridInterpolator(
-            axes, self._coefficients, bounds_error=False)
+            axes, self._coefficients, bounds_error=False
+        )
 
-    def generate(self,
-                 colourspace: RGB_Colourspace,
-                 cmfs: Optional[MultiSpectralDistributions] = None,
-                 illuminant: Optional[SpectralDistribution] = None,
-                 size: Integer = 64,
-                 print_callable: Callable = print):
+    def generate(
+        self,
+        colourspace: RGB_Colourspace,
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        illuminant: Optional[SpectralDistribution] = None,
+        size: Integer = 64,
+        print_callable: Callable = print,
+    ):
         """
         Generates the lookup table data for given *RGB* colourspace, colour
         matching functions, illuminant and given size.
@@ -845,7 +864,8 @@ class LUT3D_Jakob2019:
         """
 
         cmfs, illuminant = handle_spectral_arguments(
-            cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
+            cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019
+        )
         shape = cmfs.shape
 
         xy_n = XYZ_to_xy(sd_to_XYZ_integration(illuminant, cmfs))
@@ -857,7 +877,8 @@ class LUT3D_Jakob2019:
 
         self._lightness_scale = lightness_scale(lightness_steps)
         self._coefficients = np.empty(
-            [3, chroma_steps, chroma_steps, lightness_steps, 3])
+            [3, chroma_steps, chroma_steps, lightness_steps, 3]
+        )
 
         cube_indexes = np.ndindex(3, chroma_steps, chroma_steps)
         total_coefficients = chroma_steps ** 2 * 3
@@ -865,20 +886,23 @@ class LUT3D_Jakob2019:
         # First, create a list of all the fully bright colours with the order
         # matching cube_indexes.
         samples = np.linspace(0, 1, chroma_steps)
-        ij = np.transpose(np.meshgrid([1], samples, samples,
-                                      indexing='ij')).reshape(-1, 3)
-        chromas = np.concatenate([
-            as_float_array(ij),
-            np.roll(ij, 1, axis=1),
-            np.roll(ij, 2, axis=1),
-        ])
+        ij = np.transpose(np.meshgrid([1], samples, samples, indexing="ij")).reshape(
+            -1, 3
+        )
+        chromas = np.concatenate(
+            [
+                as_float_array(ij),
+                np.roll(ij, 1, axis=1),
+                np.roll(ij, 2, axis=1),
+            ]
+        )
 
         message_box(
             '"Jakob et al. (2018)" LUT Optimisation',
-            print_callable=print_callable)
+            print_callable=print_callable,
+        )
 
-        print_callable(
-            '\nOptimising {0} coefficients...\n'.format(total_coefficients))
+        print_callable("\nOptimising {0} coefficients...\n".format(total_coefficients))
 
         def optimize(ijkL: ArrayLike, coefficients_0: ArrayLike) -> NDArray:
             """
@@ -890,14 +914,20 @@ class LUT3D_Jakob2019:
 
             RGB = self._lightness_scale[L] * chroma
 
-            XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, xy_n,
-                             colourspace.matrix_RGB_to_XYZ)
+            XYZ = RGB_to_XYZ(
+                RGB,
+                colourspace.whitepoint,
+                xy_n,
+                colourspace.matrix_RGB_to_XYZ,
+            )
 
             coefficients, _error = find_coefficients_Jakob2019(
-                XYZ, cmfs, illuminant, coefficients_0, dimensionalise=False)
+                XYZ, cmfs, illuminant, coefficients_0, dimensionalise=False
+            )
 
             self._coefficients[i, L, j, k, :] = dimensionalise_coefficients(
-                coefficients, shape)
+                coefficients, shape
+            )
 
             return coefficients
 
@@ -909,20 +939,17 @@ class LUT3D_Jakob2019:
                 # feedback works in "colour.recovery.\
                 # find_coefficients_Jakob2019" definition.
                 L_middle = lightness_steps // 3
-                coefficients_middle = optimize(
-                    np.hstack([ijk, L_middle]), zeros(3))
+                coefficients_middle = optimize(np.hstack([ijk, L_middle]), zeros(3))
 
                 # Down the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in reversed(range(0, L_middle)):
-                    coefficients_0 = optimize(
-                        np.hstack([ijk, L]), coefficients_0)
+                    coefficients_0 = optimize(np.hstack([ijk, L]), coefficients_0)
 
                 # Up the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in range(L_middle + 1, lightness_steps):
-                    coefficients_0 = optimize(
-                        np.hstack([ijk, L]), coefficients_0)
+                    coefficients_0 = optimize(np.hstack([ijk, L]), coefficients_0)
 
         self._size = size
         self._create_interpolator()
@@ -982,13 +1009,12 @@ class LUT3D_Jakob2019:
             return self._interpolator(indexes).squeeze()
         else:
             raise RuntimeError(
-                'The pre-computed lookup table has not been read or generated!'
+                "The pre-computed lookup table has not been read or generated!"
             )
 
-    def RGB_to_sd(self,
-                  RGB: ArrayLike,
-                  shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
-                  ) -> SpectralDistribution:
+    def RGB_to_sd(
+        self, RGB: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
+    ) -> SpectralDistribution:
         """
         Looks up a given *RGB* colourspace array and return the corresponding
         spectral distribution.
@@ -1072,7 +1098,7 @@ class LUT3D_Jakob2019:
         """
 
         sd = sd_Jakob2019(self.RGB_to_coefficients(RGB), shape)
-        sd.name = '{0!r} (RGB) - Jakob (2019)'.format(RGB)
+        sd.name = "{0!r} (RGB) - Jakob (2019)".format(RGB)
 
         return sd
 
@@ -1106,19 +1132,22 @@ class LUT3D_Jakob2019:
         >>> LUT.read(path)  # doctest: +SKIP
         """
 
-        with open(path, 'rb') as coeff_file:
-            if coeff_file.read(4).decode('ISO-8859-1') != 'SPEC':
+        with open(path, "rb") as coeff_file:
+            if coeff_file.read(4).decode("ISO-8859-1") != "SPEC":
                 raise ValueError(
-                    'Bad magic number, this is likely not the right file type!'
+                    "Bad magic number, this is likely not the right file type!"
                 )
 
-            self._size = struct.unpack('i', coeff_file.read(4))[0]
+            self._size = struct.unpack("i", coeff_file.read(4))[0]
             self._lightness_scale = np.fromfile(
-                coeff_file, count=self._size, dtype=np.float32)
+                coeff_file, count=self._size, dtype=np.float32
+            )
             self._coefficients = np.fromfile(
-                coeff_file, count=3 * (self._size ** 3) * 3, dtype=np.float32)
+                coeff_file, count=3 * (self._size ** 3) * 3, dtype=np.float32
+            )
             self._coefficients = self._coefficients.reshape(
-                3, self._size, self._size, self._size, 3)
+                3, self._size, self._size, self._size, 3
+            )
 
         self._create_interpolator()
 
@@ -1152,8 +1181,8 @@ class LUT3D_Jakob2019:
         >>> LUT.read(path)  # doctest: +SKIP
         """
 
-        with open(path, 'wb') as coeff_file:
-            coeff_file.write(b'SPEC')
-            coeff_file.write(struct.pack('i', self._coefficients.shape[1]))
+        with open(path, "wb") as coeff_file:
+            coeff_file.write(b"SPEC")
+            coeff_file.write(struct.pack("i", self._coefficients.shape[1]))
             np.float32(self._lightness_scale).tofile(coeff_file)
             np.float32(self._coefficients).tofile(coeff_file)

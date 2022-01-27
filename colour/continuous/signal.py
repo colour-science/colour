@@ -70,15 +70,15 @@ else:  # pragma: no cover
 
     Series = mock.MagicMock()
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'Signal',
+    "Signal",
 ]
 
 
@@ -244,11 +244,12 @@ class Signal(AbstractContinuousFunction):
     """
 
     def __init__(
-            self,
-            data: Optional[Union[ArrayLike, dict, Series, 'Signal']] = None,
-            domain: Optional[ArrayLike] = None,
-            **kwargs: Any):
-        super(Signal, self).__init__(kwargs.get('name'))
+        self,
+        data: Optional[Union[ArrayLike, dict, Series, "Signal"]] = None,
+        domain: Optional[ArrayLike] = None,
+        **kwargs: Any
+    ):
+        super(Signal, self).__init__(kwargs.get("name"))
 
         self._dtype: Type[DTypeFloating] = DEFAULT_FLOAT_DTYPE
         self._domain: NDArray = np.array([])
@@ -257,21 +258,23 @@ class Signal(AbstractContinuousFunction):
         self._interpolator_kwargs: Dict = {}
         self._extrapolator: Type[TypeExtrapolator] = Extrapolator
         self._extrapolator_kwargs: Dict = {
-            'method': 'Constant',
-            'left': np.nan,
-            'right': np.nan
+            "method": "Constant",
+            "left": np.nan,
+            "right": np.nan,
         }
 
         self.domain, self.range = self.signal_unpack_data(data, domain)
 
-        self.dtype = kwargs.get('dtype', self._dtype)
+        self.dtype = kwargs.get("dtype", self._dtype)
 
-        self.interpolator = kwargs.get('interpolator', self._interpolator)
-        self.interpolator_kwargs = kwargs.get('interpolator_kwargs',
-                                              self._interpolator_kwargs)
-        self.extrapolator = kwargs.get('extrapolator', self._extrapolator)
-        self.extrapolator_kwargs = kwargs.get('extrapolator_kwargs',
-                                              self._extrapolator_kwargs)
+        self.interpolator = kwargs.get("interpolator", self._interpolator)
+        self.interpolator_kwargs = kwargs.get(
+            "interpolator_kwargs", self._interpolator_kwargs
+        )
+        self.extrapolator = kwargs.get("extrapolator", self._extrapolator)
+        self.extrapolator_kwargs = kwargs.get(
+            "extrapolator_kwargs", self._extrapolator_kwargs
+        )
 
         self._create_function()
 
@@ -300,9 +303,11 @@ class Signal(AbstractContinuousFunction):
         """
 
         attest(
-            value in np.sctypes['float'],
+            value in np.sctypes["float"],
             '"dtype" must be one of the following types: {0}'.format(
-                np.sctypes['float']))
+                np.sctypes["float"]
+            ),
+        )
 
         self._dtype = value
 
@@ -340,15 +345,17 @@ class Signal(AbstractContinuousFunction):
         value = as_float_array(value, self.dtype)
 
         if not np.all(np.isfinite(value)):
-            runtime_warning('"{0}" new "domain" variable is not finite: {1}, '
-                            'unpredictable results may occur!'.format(
-                                self.name, value))
+            runtime_warning(
+                '"{0}" new "domain" variable is not finite: {1}, '
+                "unpredictable results may occur!".format(self.name, value)
+            )
 
         if value.size != self._range.size:
-            runtime_warning('"{0}" new "domain" and current "range" variables '
-                            'have different size, "range" variable will be '
-                            'resized to "domain" variable shape!'.format(
-                                self.name))
+            runtime_warning(
+                '"{0}" new "domain" and current "range" variables '
+                'have different size, "range" variable will be '
+                'resized to "domain" variable shape!'.format(self.name)
+            )
             self._range = np.resize(self._range, value.shape)
 
         self._domain = value
@@ -383,12 +390,15 @@ class Signal(AbstractContinuousFunction):
         value = as_float_array(value, self.dtype)
 
         if not np.all(np.isfinite(value)):
-            runtime_warning('"{0}" new "range" variable is not finite: {1}, '
-                            'unpredictable results may occur!'.format(
-                                self.name, value))
+            runtime_warning(
+                '"{0}" new "range" variable is not finite: {1}, '
+                "unpredictable results may occur!".format(self.name, value)
+            )
 
-        attest(value.size == self._domain.size,
-               '"domain" and "range" variables must have same size!')
+        attest(
+            value.size == self._domain.size,
+            '"domain" and "range" variables must have same size!',
+        )
 
         self._range = value
         self._create_function()
@@ -452,7 +462,9 @@ class Signal(AbstractContinuousFunction):
         attest(
             isinstance(value, dict),
             '"{0}" attribute: "{1}" type is not "dict"!'.format(
-                'interpolator_kwargs', value))
+                "interpolator_kwargs", value
+            ),
+        )
 
         self._interpolator_kwargs = value
         self._create_function()
@@ -516,7 +528,9 @@ class Signal(AbstractContinuousFunction):
         attest(
             isinstance(value, dict),
             '"{0}" attribute: "{1}" type is not "dict"!'.format(
-                'extrapolator_kwargs', value))
+                "extrapolator_kwargs", value
+            ),
+        )
 
         self._extrapolator_kwargs = value
         self._create_function()
@@ -594,27 +608,29 @@ class Signal(AbstractContinuousFunction):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{0}(name='{1}', ...)".format(self.__class__.__name__,
-                                                 self.name)
+            return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
 
         try:
             representation = repr(tstack([self.domain, self.range]))
-            representation = representation.replace('array',
-                                                    self.__class__.__name__)
+            representation = representation.replace("array", self.__class__.__name__)
             representation = representation.replace(
-                '       [',
-                '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
-            representation = ('{0},\n'
-                              '{1}interpolator={2},\n'
-                              '{1}interpolator_kwargs={3},\n'
-                              '{1}extrapolator={4},\n'
-                              '{1}extrapolator_kwargs={5})').format(
-                                  representation[:-1],
-                                  ' ' * (len(self.__class__.__name__) + 1),
-                                  self.interpolator.__name__,
-                                  repr(self.interpolator_kwargs),
-                                  self.extrapolator.__name__,
-                                  repr(self.extrapolator_kwargs))
+                "       [",
+                "{0}[".format(" " * (len(self.__class__.__name__) + 2)),
+            )
+            representation = (
+                "{0},\n"
+                "{1}interpolator={2},\n"
+                "{1}interpolator_kwargs={3},\n"
+                "{1}extrapolator={4},\n"
+                "{1}extrapolator_kwargs={5})"
+            ).format(
+                representation[:-1],
+                " " * (len(self.__class__.__name__) + 1),
+                self.interpolator.__name__,
+                repr(self.interpolator_kwargs),
+                self.extrapolator.__name__,
+                repr(self.extrapolator_kwargs),
+            )
 
             return representation
         except TypeError:
@@ -630,17 +646,18 @@ class Signal(AbstractContinuousFunction):
             Object hash.
         """
 
-        return hash((
-            self.domain.tobytes(),
-            self.range.tobytes(),
-            self.interpolator.__name__,
-            repr(self.interpolator_kwargs),
-            self.extrapolator.__name__,
-            repr(self.extrapolator_kwargs),
-        ))
+        return hash(
+            (
+                self.domain.tobytes(),
+                self.range.tobytes(),
+                self.interpolator.__name__,
+                repr(self.interpolator_kwargs),
+                self.extrapolator.__name__,
+                repr(self.extrapolator_kwargs),
+            )
+        )
 
-    def __getitem__(self,
-                    x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
+    def __getitem__(self, x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
         """
         Returns the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
@@ -686,8 +703,7 @@ class Signal(AbstractContinuousFunction):
         else:
             return self._function(x)
 
-    def __setitem__(self, x: Union[FloatingOrArrayLike, slice],
-                    y: FloatingOrArrayLike):
+    def __setitem__(self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike):
         """
         Sets the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -807,11 +823,14 @@ class Signal(AbstractContinuousFunction):
         return bool(
             np.all(
                 np.where(
-                    np.logical_and(x >= np.min(self._domain),
-                                   x <= np.max(self._domain)),
+                    np.logical_and(
+                        x >= np.min(self._domain), x <= np.max(self._domain)
+                    ),
                     True,
                     False,
-                )))
+                )
+            )
+        )
 
     def __eq__(self, other: Any) -> bool:
         """
@@ -847,14 +866,16 @@ class Signal(AbstractContinuousFunction):
         """
 
         if isinstance(other, Signal):
-            return all([
-                np.array_equal(self._domain, other.domain),
-                np.array_equal(self._range, other.range),
-                self._interpolator is other.interpolator,
-                self._interpolator_kwargs == other.interpolator_kwargs,
-                self._extrapolator is other.extrapolator,
-                self._extrapolator_kwargs == other.extrapolator_kwargs,
-            ])
+            return all(
+                [
+                    np.array_equal(self._domain, other.domain),
+                    np.array_equal(self._range, other.range),
+                    self._interpolator is other.interpolator,
+                    self._interpolator_kwargs == other.interpolator_kwargs,
+                    self._extrapolator is other.extrapolator,
+                    self._extrapolator_kwargs == other.extrapolator_kwargs,
+                ]
+            )
         else:
             return False
 
@@ -901,9 +922,11 @@ class Signal(AbstractContinuousFunction):
 
         if self._domain.size != 0 and self._range.size != 0:
             self._function = self._extrapolator(
-                self._interpolator(self.domain, self.range,
-                                   **self._interpolator_kwargs),
-                **self._extrapolator_kwargs)
+                self._interpolator(
+                    self.domain, self.range, **self._interpolator_kwargs
+                ),
+                **self._extrapolator_kwargs
+            )
         else:
 
             def _undefined_function(*args: Any, **kwargs: Any):
@@ -923,16 +946,18 @@ class Signal(AbstractContinuousFunction):
                 """
 
                 raise ValueError(
-                    'Underlying signal interpolator function does not exists, '
-                    'please ensure you defined both '
-                    '"domain" and "range" variables!')
+                    "Underlying signal interpolator function does not exists, "
+                    "please ensure you defined both "
+                    '"domain" and "range" variables!'
+                )
 
             self._function = _undefined_function
 
-    def _fill_domain_nan(self,
-                         method: Union[Literal['Constant', 'Interpolation'],
-                                       str] = 'Interpolation',
-                         default: Number = 0):
+    def _fill_domain_nan(
+        self,
+        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        default: Number = 0,
+    ):
         """
         Fill NaNs in independent domain variable :math:`x` using given method.
 
@@ -954,10 +979,11 @@ class Signal(AbstractContinuousFunction):
         self._domain = fill_nan(self._domain, method, default)
         self._create_function()
 
-    def _fill_range_nan(self,
-                        method: Union[Literal['Constant', 'Interpolation'],
-                                      str] = 'Interpolation',
-                        default: Number = 0):
+    def _fill_range_nan(
+        self,
+        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        default: Number = 0,
+    ):
         """
         Fill NaNs in corresponding range variable :math:`y` using given method.
 
@@ -980,10 +1006,11 @@ class Signal(AbstractContinuousFunction):
         self._create_function()
 
     def arithmetical_operation(
-            self,
-            a: Union[FloatingOrArrayLike, AbstractContinuousFunction],
-            operation: Literal['+', '-', '*', '/', '**'],
-            in_place: Boolean = False) -> AbstractContinuousFunction:
+        self,
+        a: Union[FloatingOrArrayLike, AbstractContinuousFunction],
+        operation: Literal["+", "-", "*", "/", "**"],
+        in_place: Boolean = False,
+    ) -> AbstractContinuousFunction:
         """
         Performs given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
@@ -1063,11 +1090,11 @@ class Signal(AbstractContinuousFunction):
         """
 
         operator, ioperator = {
-            '+': (add, iadd),
-            '-': (sub, isub),
-            '*': (mul, imul),
-            '/': (truediv, itruediv),
-            '**': (pow, ipow)
+            "+": (add, iadd),
+            "-": (sub, isub),
+            "*": (mul, imul),
+            "/": (truediv, itruediv),
+            "**": (pow, ipow),
         }[operation]
 
         if in_place:
@@ -1086,9 +1113,10 @@ class Signal(AbstractContinuousFunction):
 
     @staticmethod
     def signal_unpack_data(
-            data=Optional[Union[ArrayLike, dict, Series, 'Signal']],
-            domain: Optional[ArrayLike] = None,
-            dtype: Optional[Type[DTypeFloating]] = None) -> Tuple:
+        data=Optional[Union[ArrayLike, dict, Series, "Signal"]],
+        domain: Optional[ArrayLike] = None,
+        dtype: Optional[Type[DTypeFloating]] = None,
+    ) -> Tuple:
         """
         Unpack given data for continuous signal instantiation.
 
@@ -1169,15 +1197,17 @@ class Signal(AbstractContinuousFunction):
         if isinstance(data, Signal):
             domain_unpacked = data.domain
             range_unpacked = data.range
-        elif (issubclass(type(data), Sequence) or
-              isinstance(data,
-                         (tuple, list, np.ndarray, Iterator, ValuesView))):
+        elif issubclass(type(data), Sequence) or isinstance(
+            data, (tuple, list, np.ndarray, Iterator, ValuesView)
+        ):
             data_array = tsplit(list(data))
 
             attest(data_array.ndim == 1, 'User "data" must be 1-dimensional!')
 
-            domain_unpacked, range_unpacked = np.arange(
-                0, data_array.size, dtype=dtype), data_array
+            domain_unpacked, range_unpacked = (
+                np.arange(0, data_array.size, dtype=dtype),
+                data_array,
+            )
         elif issubclass(type(data), Mapping) or isinstance(data, dict):
             domain_unpacked, range_unpacked = tsplit(sorted(data.items()))
         elif is_pandas_installed():
@@ -1186,13 +1216,11 @@ class Signal(AbstractContinuousFunction):
                 range_unpacked = data.values
 
         if domain is not None:
-            domain_array = as_float_array(
-                list(domain),  # type: ignore[arg-type]
-                dtype)
+            domain_array = as_float_array(list(domain), dtype)  # type: ignore[arg-type]
 
             attest(
                 len(domain_array) == len(range_unpacked),
-                'User "domain" length is not compatible with unpacked "range"!'
+                'User "domain" length is not compatible with unpacked "range"!',
             )
 
             domain_unpacked = domain_array
@@ -1202,10 +1230,11 @@ class Signal(AbstractContinuousFunction):
 
         return domain_unpacked, range_unpacked
 
-    def fill_nan(self,
-                 method: Union[Literal['Constant', 'Interpolation'],
-                               str] = 'Interpolation',
-                 default: Number = 0) -> AbstractContinuousFunction:
+    def fill_nan(
+        self,
+        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        default: Number = 0,
+    ) -> AbstractContinuousFunction:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
         range variable :math:`y` using given method.
@@ -1264,14 +1293,14 @@ class Signal(AbstractContinuousFunction):
          [   9.  100.]]
         """
 
-        method = validate_method(method, ['Interpolation', 'Constant'])
+        method = validate_method(method, ["Interpolation", "Constant"])
 
         self._fill_domain_nan(method, default)
         self._fill_range_nan(method, default)
 
         return self
 
-    @required('Pandas')
+    @required("Pandas")
     def to_series(self) -> Series:
         """
         Converts the continuous signal to a *Pandas* :class:`pandas.Series`

@@ -44,24 +44,24 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'VERSION_IESTM2714',
-    'NAMESPACE_IESTM2714',
-    'Element_Specification_IESTM2714',
-    'Header_IESTM2714',
-    'SpectralDistribution_IESTM2714',
+    "VERSION_IESTM2714",
+    "NAMESPACE_IESTM2714",
+    "Element_Specification_IESTM2714",
+    "Header_IESTM2714",
+    "SpectralDistribution_IESTM2714",
 ]
 
-VERSION_IESTM2714: str = '1.0'
+VERSION_IESTM2714: str = "1.0"
 
-NAMESPACE_IESTM2714: str = 'http://www.ies.org/iestm2714'
+NAMESPACE_IESTM2714: str = "http://www.ies.org/iestm2714"
 
 
 @dataclass
@@ -90,7 +90,8 @@ class Element_Specification_IESTM2714:
     type_: Any = field(default_factory=str)
     required: Boolean = field(default_factory=lambda: False)
     read_conversion: Callable = field(
-        default_factory=lambda: lambda x: None if x == 'None' else str(x))
+        default_factory=lambda: lambda x: None if x == "None" else str(x)
+    )
     write_conversion: Callable = field(default_factory=lambda: str)
 
 
@@ -155,49 +156,51 @@ class Header_IESTM2714:
     'colour-science'
     """
 
-    def __init__(self,
-                 manufacturer: Optional[str] = None,
-                 catalog_number: Optional[str] = None,
-                 description: Optional[str] = None,
-                 document_creator: Optional[str] = None,
-                 unique_identifier: Optional[str] = None,
-                 measurement_equipment: Optional[str] = None,
-                 laboratory: Optional[str] = None,
-                 report_number: Optional[str] = None,
-                 report_date: Optional[str] = None,
-                 document_creation_date: Optional[str] = None,
-                 comments: Optional[str] = None):
+    def __init__(
+        self,
+        manufacturer: Optional[str] = None,
+        catalog_number: Optional[str] = None,
+        description: Optional[str] = None,
+        document_creator: Optional[str] = None,
+        unique_identifier: Optional[str] = None,
+        measurement_equipment: Optional[str] = None,
+        laboratory: Optional[str] = None,
+        report_number: Optional[str] = None,
+        report_date: Optional[str] = None,
+        document_creation_date: Optional[str] = None,
+        comments: Optional[str] = None,
+    ):
 
         self._mapping: Structure = Structure(
             **{
-                'element':
-                    'Header',
-                'elements':
-                    (Element_Specification_IESTM2714('Manufacturer',
-                                                     'manufacturer'),
-                     Element_Specification_IESTM2714('CatalogNumber',
-                                                     'catalog_number'),
-                     Element_Specification_IESTM2714(
-                         'Description', 'description', required=True),
-                     Element_Specification_IESTM2714(
-                         'DocumentCreator', 'document_creator', required=True),
-                     Element_Specification_IESTM2714('UniqueIdentifier',
-                                                     'unique_identifier'),
-                     Element_Specification_IESTM2714('MeasurementEquipment',
-                                                     'measurement_equipment'),
-                     Element_Specification_IESTM2714('Laboratory',
-                                                     'laboratory'),
-                     Element_Specification_IESTM2714('ReportNumber',
-                                                     'report_number'),
-                     Element_Specification_IESTM2714('ReportDate',
-                                                     'report_date'),
-                     Element_Specification_IESTM2714(
-                         'DocumentCreationDate',
-                         'document_creation_date',
-                         required=True),
-                     Element_Specification_IESTM2714('Comments', 'comments',
-                                                     False))
-            })
+                "element": "Header",
+                "elements": (
+                    Element_Specification_IESTM2714("Manufacturer", "manufacturer"),
+                    Element_Specification_IESTM2714("CatalogNumber", "catalog_number"),
+                    Element_Specification_IESTM2714(
+                        "Description", "description", required=True
+                    ),
+                    Element_Specification_IESTM2714(
+                        "DocumentCreator", "document_creator", required=True
+                    ),
+                    Element_Specification_IESTM2714(
+                        "UniqueIdentifier", "unique_identifier"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "MeasurementEquipment", "measurement_equipment"
+                    ),
+                    Element_Specification_IESTM2714("Laboratory", "laboratory"),
+                    Element_Specification_IESTM2714("ReportNumber", "report_number"),
+                    Element_Specification_IESTM2714("ReportDate", "report_date"),
+                    Element_Specification_IESTM2714(
+                        "DocumentCreationDate",
+                        "document_creation_date",
+                        required=True,
+                    ),
+                    Element_Specification_IESTM2714("Comments", "comments", False),
+                ),
+            }
+        )
 
         self._manufacturer: Optional[str] = None
         self.manufacturer = manufacturer
@@ -263,7 +266,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'manufacturer', value))
+                    "manufacturer", value
+                ),
+            )
 
         self._manufacturer = value
 
@@ -295,7 +300,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'catalog_number', value))
+                    "catalog_number", value
+                ),
+            )
 
         self._catalog_number = value
 
@@ -327,7 +334,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'description', value))
+                    "description", value
+                ),
+            )
 
         self._description = value
 
@@ -359,7 +368,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'document_creator', value))
+                    "document_creator", value
+                ),
+            )
 
         self._document_creator = value
 
@@ -391,7 +402,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'unique_identifier', value))
+                    "unique_identifier", value
+                ),
+            )
 
         self._unique_identifier = value
 
@@ -423,7 +436,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'measurement_equipment', value))
+                    "measurement_equipment", value
+                ),
+            )
 
         self._measurement_equipment = value
 
@@ -454,8 +469,8 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'laboratory', value))
+                '"{0}" attribute: "{1}" type is not "str"!'.format("laboratory", value),
+            )
 
         self._laboratory = value
 
@@ -487,7 +502,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'report_number', value))
+                    "report_number", value
+                ),
+            )
 
         self._report_number = value
 
@@ -519,7 +536,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'report_date', value))
+                    "report_date", value
+                ),
+            )
 
         self._report_date = value
 
@@ -551,7 +570,9 @@ class Header_IESTM2714:
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'document_creation_date', value))
+                    "document_creation_date", value
+                ),
+            )
 
         self._document_creation_date = value
 
@@ -582,8 +603,8 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'comments', value))
+                '"{0}" attribute: "{1}" type is not "str"!'.format("comments", value),
+            )
 
         self._comments = value
 
@@ -699,67 +720,123 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     """
 
     def __init__(
-            self,
-            path: Optional[str] = None,
-            header: Optional[Header_IESTM2714] = None,
-            spectral_quantity: Optional[Literal[
-                'absorptance', 'exitance', 'flux', 'intensity', 'irradiance',
-                'radiance', 'reflectance', 'relative', 'transmittance',
-                'R-Factor', 'T-Factor', 'other']] = None,
-            reflection_geometry: Optional[
-                Literal['di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0',
-                        '45c:0', '0:45a', '45x:0', '0:45x', 'other']] = None,
-            transmission_geometry: Optional[Literal[
-                '0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other']] = None,
-            bandwidth_FWHM: Optional[Floating] = None,
-            bandwidth_corrected: Optional[Boolean] = None,
-            **kwargs):
+        self,
+        path: Optional[str] = None,
+        header: Optional[Header_IESTM2714] = None,
+        spectral_quantity: Optional[
+            Literal[
+                "absorptance",
+                "exitance",
+                "flux",
+                "intensity",
+                "irradiance",
+                "radiance",
+                "reflectance",
+                "relative",
+                "transmittance",
+                "R-Factor",
+                "T-Factor",
+                "other",
+            ]
+        ] = None,
+        reflection_geometry: Optional[
+            Literal[
+                "di:8",
+                "de:8",
+                "8:di",
+                "8:de",
+                "d:d",
+                "d:0",
+                "45a:0",
+                "45c:0",
+                "0:45a",
+                "45x:0",
+                "0:45x",
+                "other",
+            ]
+        ] = None,
+        transmission_geometry: Optional[
+            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
+        ] = None,
+        bandwidth_FWHM: Optional[Floating] = None,
+        bandwidth_corrected: Optional[Boolean] = None,
+        **kwargs
+    ):
 
         super(SpectralDistribution_IESTM2714, self).__init__(**kwargs)
 
         self._mapping: Structure = Structure(
             **{
-                'element':
-                    'SpectralDistribution',
-                'elements':
-                    (Element_Specification_IESTM2714(
-                        'SpectralQuantity', 'spectral_quantity',
-                        required=True),
-                     Element_Specification_IESTM2714('ReflectionGeometry',
-                                                     'reflection_geometry'),
-                     Element_Specification_IESTM2714('TransmissionGeometry',
-                                                     'transmission_geometry'),
-                     Element_Specification_IESTM2714(
-                         'BandwidthFWHM',
-                         'bandwidth_FWHM',
-                         read_conversion=as_float_scalar),
-                     Element_Specification_IESTM2714(
-                         'BandwidthCorrected',
-                         'bandwidth_corrected',
-                         read_conversion=(
-                             lambda x: True if x == 'true' else False),
-                         write_conversion=(
-                             lambda x: 'true' if x is True else 'False'))),
-                'data':
+                "element": "SpectralDistribution",
+                "elements": (
                     Element_Specification_IESTM2714(
-                        'SpectralData', 'wavelength', required=True)
-            })
+                        "SpectralQuantity", "spectral_quantity", required=True
+                    ),
+                    Element_Specification_IESTM2714(
+                        "ReflectionGeometry", "reflection_geometry"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "TransmissionGeometry", "transmission_geometry"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "BandwidthFWHM",
+                        "bandwidth_FWHM",
+                        read_conversion=as_float_scalar,
+                    ),
+                    Element_Specification_IESTM2714(
+                        "BandwidthCorrected",
+                        "bandwidth_corrected",
+                        read_conversion=(lambda x: True if x == "true" else False),
+                        write_conversion=(lambda x: "true" if x is True else "False"),
+                    ),
+                ),
+                "data": Element_Specification_IESTM2714(
+                    "SpectralData", "wavelength", required=True
+                ),
+            }
+        )
 
         self._path: Optional[str] = None
         self.path = path
         self._header: Header_IESTM2714 = Header_IESTM2714()
         self.header = optional(header, self._header)
         self._spectral_quantity: Optional[
-            Literal['absorptance', 'exitance', 'flux', 'intensity',
-                    'irradiance', 'radiance', 'reflectance', 'relative',
-                    'transmittance', 'R-Factor', 'T-Factor', 'other']] = None
+            Literal[
+                "absorptance",
+                "exitance",
+                "flux",
+                "intensity",
+                "irradiance",
+                "radiance",
+                "reflectance",
+                "relative",
+                "transmittance",
+                "R-Factor",
+                "T-Factor",
+                "other",
+            ]
+        ] = None
         self.spectral_quantity = spectral_quantity
         self._reflection_geometry: Optional[
-            Literal['di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0',
-                    '45c:0', '0:45a', '45x:0', '0:45x', 'other']] = None
+            Literal[
+                "di:8",
+                "de:8",
+                "8:di",
+                "8:de",
+                "d:d",
+                "d:0",
+                "45a:0",
+                "45c:0",
+                "0:45a",
+                "45x:0",
+                "0:45x",
+                "other",
+            ]
+        ] = None
         self.reflection_geometry = reflection_geometry
-        self._transmission_geometry: Optional[Literal[
-            '0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other']] = None
+        self._transmission_geometry: Optional[
+            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
+        ] = None
         self.transmission_geometry = transmission_geometry
         self._bandwidth_FWHM: Optional[Floating] = None
         self.bandwidth_FWHM = bandwidth_FWHM
@@ -806,8 +883,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'path', value))
+                '"{0}" attribute: "{1}" type is not "str"!'.format("path", value),
+            )
 
         self._path = value
 
@@ -838,16 +915,31 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         attest(
             isinstance(value, Header_IESTM2714),
             '"{0}" attribute: "{1}" type is not a "Header_IESTM2714"!'.format(
-                'header', value))
+                "header", value
+            ),
+        )
 
         self._header = value
 
     @property
     def spectral_quantity(
-            self
-    ) -> Optional[Literal['absorptance', 'exitance', 'flux', 'intensity',
-                          'irradiance', 'radiance', 'reflectance', 'relative',
-                          'transmittance', 'R-Factor', 'T-Factor', 'other']]:
+        self,
+    ) -> Optional[
+        Literal[
+            "absorptance",
+            "exitance",
+            "flux",
+            "intensity",
+            "irradiance",
+            "radiance",
+            "reflectance",
+            "relative",
+            "transmittance",
+            "R-Factor",
+            "T-Factor",
+            "other",
+        ]
+    ]:
         """
         Getter and setter property for the spectral quantity.
 
@@ -865,10 +957,25 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._spectral_quantity
 
     @spectral_quantity.setter
-    def spectral_quantity(self, value: Optional[
-            Literal['absorptance', 'exitance', 'flux', 'intensity',
-                    'irradiance', 'radiance', 'reflectance', 'relative',
-                    'transmittance', 'R-Factor', 'T-Factor', 'other']]):
+    def spectral_quantity(
+        self,
+        value: Optional[
+            Literal[
+                "absorptance",
+                "exitance",
+                "flux",
+                "intensity",
+                "irradiance",
+                "radiance",
+                "reflectance",
+                "relative",
+                "transmittance",
+                "R-Factor",
+                "T-Factor",
+                "other",
+            ]
+        ],
+    ):
         """
         Setter for the **self.spectral_quantity** property.
         """
@@ -877,14 +984,31 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'spectral_quantity', value))
+                    "spectral_quantity", value
+                ),
+            )
 
         self._spectral_quantity = value
 
     @property
-    def reflection_geometry(self) -> Optional[
-            Literal['di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0',
-                    '45c:0', '0:45a', '45x:0', '0:45x', 'other']]:
+    def reflection_geometry(
+        self,
+    ) -> Optional[
+        Literal[
+            "di:8",
+            "de:8",
+            "8:di",
+            "8:de",
+            "d:d",
+            "d:0",
+            "45a:0",
+            "45c:0",
+            "0:45a",
+            "45x:0",
+            "0:45x",
+            "other",
+        ]
+    ]:
         """
         Getter and setter property for the reflection geometry.
 
@@ -902,9 +1026,25 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._reflection_geometry
 
     @reflection_geometry.setter
-    def reflection_geometry(self, value: Optional[
-            Literal['di:8', 'de:8', '8:di', '8:de', 'd:d', 'd:0', '45a:0',
-                    '45c:0', '0:45a', '45x:0', '0:45x', 'other']]):
+    def reflection_geometry(
+        self,
+        value: Optional[
+            Literal[
+                "di:8",
+                "de:8",
+                "8:di",
+                "8:de",
+                "d:d",
+                "d:0",
+                "45a:0",
+                "45c:0",
+                "0:45a",
+                "45x:0",
+                "0:45x",
+                "other",
+            ]
+        ],
+    ):
         """
         Setter for the **self.reflection_geometry** property.
         """
@@ -913,13 +1053,16 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'reflection_geometry', value))
+                    "reflection_geometry", value
+                ),
+            )
 
         self._reflection_geometry = value
 
     @property
-    def transmission_geometry(self) -> Optional[Literal[
-            '0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other']]:
+    def transmission_geometry(
+        self,
+    ) -> Optional[Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]]:
         """
         Getter and setter property for the transmission geometry.
 
@@ -937,8 +1080,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         return self._transmission_geometry
 
     @transmission_geometry.setter
-    def transmission_geometry(self, value: Optional[Literal[
-            '0:0', 'di:0', 'de:0', '0:di', '0:de', 'd:d', 'other']]):
+    def transmission_geometry(
+        self,
+        value: Optional[Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]],
+    ):
         """
         Setter for the **self.transmission_geometry** property.
         """
@@ -947,7 +1092,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             attest(
                 is_string(value),
                 '"{0}" attribute: "{1}" type is not "str"!'.format(
-                    'transmission_geometry', value))
+                    "transmission_geometry", value
+                ),
+            )
 
         self._transmission_geometry = value
 
@@ -979,7 +1126,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             attest(
                 is_numeric(value),
                 '"{0}" attribute: "{1}" is not a "numeric"!'.format(
-                    'bandwidth_FWHM', value))
+                    "bandwidth_FWHM", value
+                ),
+            )
 
             value = as_float_scalar(value)
 
@@ -1014,7 +1163,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             attest(
                 isinstance(value, bool),
                 '"{0}" attribute: "{1}" type is not "bool"!'.format(
-                    'bandwidth_corrected', value))
+                    "bandwidth_corrected", value
+                ),
+            )
 
         self._bandwidth_corrected = value
 
@@ -1042,18 +1193,19 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         """
 
         if self._path is not None:
-            formatter = './{{{0}}}{1}/{{{0}}}{2}'
+            formatter = "./{{{0}}}{1}/{{{0}}}{2}"
 
             tree = ElementTree.parse(self._path)  # nosec
             root = tree.getroot()
 
-            match = re.match('{(.*)}', root.tag)
+            match = re.match("{(.*)}", root.tag)
             if match:
                 namespace = match.group(1)
             else:
                 raise ValueError(
                     'The "IES TM-27-14" spectral distribution namespace '
-                    'was not found!')
+                    "was not found!"
+                )
 
             self.name = os.path.splitext(os.path.basename(self._path))[0]
 
@@ -1063,30 +1215,36 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 mapping = header_element.mapping  # type: ignore[attr-defined]
                 for specification in mapping.elements:
                     element = root.find(
-                        formatter.format(namespace, mapping.element,
-                                         specification.element))
+                        formatter.format(
+                            namespace, mapping.element, specification.element
+                        )
+                    )
                     if element is not None:
-                        setattr(header_element, specification.attribute,
-                                specification.read_conversion(element.text))
+                        setattr(
+                            header_element,
+                            specification.attribute,
+                            specification.read_conversion(element.text),
+                        )
 
             # Reading spectral data.
             wavelengths = []
             values = []
-            for spectral_data in iterator('{{{0}}}{1}'.format(
-                    namespace, self.mapping.data.element)):
-                wavelengths.append(
-                    spectral_data.attrib[self.mapping.data.attribute])
+            for spectral_data in iterator(
+                "{{{0}}}{1}".format(namespace, self.mapping.data.element)
+            ):
+                wavelengths.append(spectral_data.attrib[self.mapping.data.attribute])
                 values.append(spectral_data.text)
 
             components = [
-                component for component in (
+                component
+                for component in (
                     self.header.manufacturer,
                     self.header.catalog_number,
                     self.header.description,
-                ) if component is not None
+                )
+                if component is not None
             ]
-            self.name = ('Undefined'
-                         if len(components) == 0 else ' - '.join(components))
+            self.name = "Undefined" if len(components) == 0 else " - ".join(components)
 
             self.wavelengths = as_float_array(wavelengths)
             self.values = as_float_array(cast(ArrayLike, values))
@@ -1094,7 +1252,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             return self
         else:
             raise ValueError(
-                'The "IES TM-27-14" spectral distribution path is undefined!')
+                'The "IES TM-27-14" spectral distribution path is undefined!'
+            )
 
     def write(self) -> Boolean:
         """
@@ -1121,19 +1280,20 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         """
 
         if self._path is not None:
-            root = ElementTree.Element('IESTM2714')
+            root = ElementTree.Element("IESTM2714")
             root.attrib = {
-                'xmlns': NAMESPACE_IESTM2714,
-                'version': VERSION_IESTM2714
+                "xmlns": NAMESPACE_IESTM2714,
+                "version": VERSION_IESTM2714,
             }
 
-            spectral_distribution = ElementTree.Element('')
+            spectral_distribution = ElementTree.Element("")
             for header_element in (self.header, self):
                 mapping = header_element.mapping  # type: ignore[attr-defined]
                 element = ElementTree.SubElement(root, mapping.element)
                 for specification in mapping.elements:
                     element_child = ElementTree.SubElement(
-                        element, specification.element)
+                        element, specification.element
+                    )
                     value = getattr(header_element, specification.attribute)
                     element_child.text = specification.write_conversion(value)
 
@@ -1142,21 +1302,21 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
             # Writing spectral data.
             for (wavelength, value) in tstack([self.wavelengths, self.values]):
-                element_child = ElementTree.SubElement(spectral_distribution,
-                                                       mapping.data.element)
+                element_child = ElementTree.SubElement(
+                    spectral_distribution, mapping.data.element
+                )
                 element_child.text = mapping.data.write_conversion(value)
                 element_child.attrib = {
-                    mapping.data.attribute:
-                        mapping.data.write_conversion(wavelength)
+                    mapping.data.attribute: mapping.data.write_conversion(wavelength)
                 }
 
-            xml = minidom.parseString(
-                ElementTree.tostring(root)).toprettyxml()  # nosec
+            xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()  # nosec
 
-            with open(self._path, 'w') as file:
+            with open(self._path, "w") as file:
                 file.write(xml)
 
             return True
         else:
             raise ValueError(
-                'The "IES TM-27-14" spectral distribution path is undefined!')
+                'The "IES TM-27-14" spectral distribution path is undefined!'
+            )

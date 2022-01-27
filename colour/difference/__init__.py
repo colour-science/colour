@@ -54,47 +54,49 @@ from .huang2015 import power_function_Huang2015
 from .stress import index_stress_Garcia2007, INDEX_STRESS_METHODS, index_stress
 
 __all__ = [
-    'delta_E_CAM02LCD',
-    'delta_E_CAM02SCD',
-    'delta_E_CAM02UCS',
+    "delta_E_CAM02LCD",
+    "delta_E_CAM02SCD",
+    "delta_E_CAM02UCS",
 ]
 __all__ += [
-    'delta_E_CAM16LCD',
-    'delta_E_CAM16SCD',
-    'delta_E_CAM16UCS',
+    "delta_E_CAM16LCD",
+    "delta_E_CAM16SCD",
+    "delta_E_CAM16UCS",
 ]
 __all__ += [
-    'JND_CIE1976',
-    'delta_E_CIE1976',
-    'delta_E_CIE1994',
-    'delta_E_CIE2000',
-    'delta_E_CMC',
+    "JND_CIE1976",
+    "delta_E_CIE1976",
+    "delta_E_CIE1994",
+    "delta_E_CIE2000",
+    "delta_E_CMC",
 ]
 __all__ += [
-    'delta_E_DIN99',
+    "delta_E_DIN99",
 ]
 __all__ += [
-    'power_function_Huang2015',
+    "power_function_Huang2015",
 ]
 __all__ += [
-    'index_stress_Garcia2007',
-    'INDEX_STRESS_METHODS',
-    'index_stress',
+    "index_stress_Garcia2007",
+    "INDEX_STRESS_METHODS",
+    "index_stress",
 ]
 
-DELTA_E_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'CIE 1976': delta_E_CIE1976,
-    'CIE 1994': delta_E_CIE1994,
-    'CIE 2000': delta_E_CIE2000,
-    'CMC': delta_E_CMC,
-    'CAM02-LCD': delta_E_CAM02LCD,
-    'CAM02-SCD': delta_E_CAM02SCD,
-    'CAM02-UCS': delta_E_CAM02UCS,
-    'CAM16-LCD': delta_E_CAM16LCD,
-    'CAM16-SCD': delta_E_CAM16SCD,
-    'CAM16-UCS': delta_E_CAM16UCS,
-    'DIN99': delta_E_DIN99,
-})
+DELTA_E_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "CIE 1976": delta_E_CIE1976,
+        "CIE 1994": delta_E_CIE1994,
+        "CIE 2000": delta_E_CIE2000,
+        "CMC": delta_E_CMC,
+        "CAM02-LCD": delta_E_CAM02LCD,
+        "CAM02-SCD": delta_E_CAM02SCD,
+        "CAM02-UCS": delta_E_CAM02UCS,
+        "CAM16-LCD": delta_E_CAM16LCD,
+        "CAM16-SCD": delta_E_CAM16SCD,
+        "CAM16-UCS": delta_E_CAM16UCS,
+        "DIN99": delta_E_DIN99,
+    }
+)
 DELTA_E_METHODS.__doc__ = """
 Supported :math:`\\Delta E_{ab}` computation methods.
 
@@ -110,18 +112,32 @@ Aliases:
 -   'cie1994': 'CIE 1994'
 -   'cie2000': 'CIE 2000'
 """
-DELTA_E_METHODS['cie1976'] = DELTA_E_METHODS['CIE 1976']
-DELTA_E_METHODS['cie1994'] = DELTA_E_METHODS['CIE 1994']
-DELTA_E_METHODS['cie2000'] = DELTA_E_METHODS['CIE 2000']
+DELTA_E_METHODS["cie1976"] = DELTA_E_METHODS["CIE 1976"]
+DELTA_E_METHODS["cie1994"] = DELTA_E_METHODS["CIE 1994"]
+DELTA_E_METHODS["cie2000"] = DELTA_E_METHODS["CIE 2000"]
 
 
-def delta_E(a: ArrayLike,
-            b: ArrayLike,
-            method: Union[
-                Literal['CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD',
-                        'CAM02-SCD', 'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD',
-                        'CAM16-UCS', 'DIN99'], str] = 'CIE 2000',
-            **kwargs: Any) -> FloatingOrNDArray:
+def delta_E(
+    a: ArrayLike,
+    b: ArrayLike,
+    method: Union[
+        Literal[
+            "CIE 1976",
+            "CIE 1994",
+            "CIE 2000",
+            "CMC",
+            "CAM02-LCD",
+            "CAM02-SCD",
+            "CAM02-UCS",
+            "CAM16-LCD",
+            "CAM16-SCD",
+            "CAM16-UCS",
+            "DIN99",
+        ],
+        str,
+    ] = "CIE 2000",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{ab}` between two given
     *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace arrays using given method.
@@ -197,6 +213,6 @@ def delta_E(a: ArrayLike,
 
 
 __all__ += [
-    'DELTA_E_METHODS',
-    'delta_E',
+    "DELTA_E_METHODS",
+    "delta_E",
 ]

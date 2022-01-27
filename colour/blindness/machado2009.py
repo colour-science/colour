@@ -48,34 +48,37 @@ from colour.hints import (
 )
 from colour.utilities import as_float_array, tsplit, tstack, usage_warning
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_LMS_TO_WSYBRG',
-    'matrix_RGB_to_WSYBRG',
-    'msds_cmfs_anomalous_trichromacy_Machado2009',
-    'matrix_anomalous_trichromacy_Machado2009',
-    'matrix_cvd_Machado2009',
+    "MATRIX_LMS_TO_WSYBRG",
+    "matrix_RGB_to_WSYBRG",
+    "msds_cmfs_anomalous_trichromacy_Machado2009",
+    "matrix_anomalous_trichromacy_Machado2009",
+    "matrix_cvd_Machado2009",
 ]
 
-MATRIX_LMS_TO_WSYBRG: NDArray = np.array([
-    [0.600, 0.400, 0.000],
-    [0.240, 0.105, -0.700],
-    [1.200, -1.600, 0.400],
-])
+MATRIX_LMS_TO_WSYBRG: NDArray = np.array(
+    [
+        [0.600, 0.400, 0.000],
+        [0.240, 0.105, -0.700],
+        [1.200, -1.600, 0.400],
+    ]
+)
 """
 Ingling and Tsou (1977) matrix converting from cones responses to
 opponent-colour space.
 """
 
 
-def matrix_RGB_to_WSYBRG(cmfs: LMS_ConeFundamentals,
-                         primaries: RGB_DisplayPrimaries) -> NDArray:
+def matrix_RGB_to_WSYBRG(
+    cmfs: LMS_ConeFundamentals, primaries: RGB_DisplayPrimaries
+) -> NDArray:
     """
     Computes the matrix transforming from *RGB* colourspace to opponent-colour
     space using *Machado et al. (2009)* method.
@@ -114,11 +117,8 @@ def matrix_RGB_to_WSYBRG(cmfs: LMS_ConeFundamentals,
     primaries = reshape_msds(
         primaries,  # type: ignore[assignment]
         cmfs.shape,
-        extrapolator_kwargs={
-            'method': 'Constant',
-            'left': 0,
-            'right': 0
-        })
+        extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
+    )
 
     R, G, B = tsplit(primaries.values)
 
@@ -134,11 +134,13 @@ def matrix_RGB_to_WSYBRG(cmfs: LMS_ConeFundamentals,
     RG_G = np.trapz(G * RG, wavelengths)
     RG_B = np.trapz(B * RG, wavelengths)
 
-    M_G = np.array([
-        [WS_R, WS_G, WS_B],
-        [YB_R, YB_G, YB_B],
-        [RG_R, RG_G, RG_B],
-    ])
+    M_G = np.array(
+        [
+            [WS_R, WS_G, WS_B],
+            [YB_R, YB_G, YB_B],
+            [RG_R, RG_G, RG_B],
+        ]
+    )
 
     PWS = 1 / (WS_R + WS_G + WS_B)
     PYB = 1 / (YB_R + YB_G + YB_B)
@@ -150,7 +152,8 @@ def matrix_RGB_to_WSYBRG(cmfs: LMS_ConeFundamentals,
 
 
 def msds_cmfs_anomalous_trichromacy_Machado2009(
-        cmfs: LMS_ConeFundamentals, d_LMS: ArrayLike) -> LMS_ConeFundamentals:
+    cmfs: LMS_ConeFundamentals, d_LMS: ArrayLike
+) -> LMS_ConeFundamentals:
     """
     Shifts given *LMS* cone fundamentals colour matching functions with given
     :math:`\\Delta_{LMS}` shift amount in nanometers to simulate anomalous
@@ -205,7 +208,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     if cmfs.shape.interval != 1:
         cmfs.interpolate(SpectralShape(cmfs.shape.start, cmfs.shape.end, 1))
 
-    cmfs.extrapolator_kwargs = {'method': 'Constant', 'left': 0, 'right': 0}
+    cmfs.extrapolator_kwargs = {"method": "Constant", "left": 0, "right": 0}
 
     L, M, _S = tsplit(cmfs.values)
     d_L, d_M, d_S = tsplit(d_LMS)
@@ -213,11 +216,12 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     if d_S != 0:
         usage_warning(
             '"Machado et al. (2009)" simulation of tritanomaly is based on '
-            'the shift paradigm as an approximation to the actual phenomenon '
-            'and restrain the model from trying to model tritanopia.\n'
-            'The pre-generated matrices are using a shift value in domain '
-            '[5, 59] contrary to the domain [0, 20] used for protanomaly and '
-            'deuteranomaly simulation.')
+            "the shift paradigm as an approximation to the actual phenomenon "
+            "and restrain the model from trying to model tritanopia.\n"
+            "The pre-generated matrices are using a shift value in domain "
+            "[5, 59] contrary to the domain [0, 20] used for protanomaly and "
+            "deuteranomaly simulation."
+        )
 
     area_L = np.trapz(L, cmfs.wavelengths)
     area_M = np.trapz(M, cmfs.wavelengths)
@@ -239,17 +243,19 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     LMS_a = tstack([L_a, M_a, S_a])
     cmfs[cmfs.wavelengths] = LMS_a
 
-    severity = '{0}, {1}, {2}'.format(d_L, d_M, d_S)
-    template = '{0} - Anomalous Trichromacy ({1})'
+    severity = "{0}, {1}, {2}".format(d_L, d_M, d_S)
+    template = "{0} - Anomalous Trichromacy ({1})"
     cmfs.name = template.format(cmfs.name, severity)
     cmfs.strict_name = template.format(cmfs.strict_name, severity)
 
     return cmfs
 
 
-def matrix_anomalous_trichromacy_Machado2009(cmfs: LMS_ConeFundamentals,
-                                             primaries: RGB_DisplayPrimaries,
-                                             d_LMS: ArrayLike) -> NDArray:
+def matrix_anomalous_trichromacy_Machado2009(
+    cmfs: LMS_ConeFundamentals,
+    primaries: RGB_DisplayPrimaries,
+    d_LMS: ArrayLike,
+) -> NDArray:
     """
     Computes the *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
@@ -301,7 +307,8 @@ def matrix_anomalous_trichromacy_Machado2009(cmfs: LMS_ConeFundamentals,
         cmfs = reshape_msds(
             cmfs,  # type: ignore[assignment]
             SpectralShape(cmfs.shape.start, cmfs.shape.end, 1),
-            'Interpolate')
+            "Interpolate",
+        )
 
     M_n = matrix_RGB_to_WSYBRG(cmfs, primaries)
     cmfs_a = msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, d_LMS)
@@ -310,9 +317,10 @@ def matrix_anomalous_trichromacy_Machado2009(cmfs: LMS_ConeFundamentals,
     return matrix_dot(np.linalg.inv(M_n), M_a)
 
 
-def matrix_cvd_Machado2009(deficiency: Union[Literal[
-        'Deuteranomaly', 'Protanomaly', 'Tritanomaly'], str],
-                           severity: Floating) -> NDArray:
+def matrix_cvd_Machado2009(
+    deficiency: Union[Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str],
+    severity: Floating,
+) -> NDArray:
     """
     Computes *Machado et al. (2009)* *CVD* matrix for given deficiency and
     severity using the pre-computed matrices dataset.
@@ -351,14 +359,15 @@ def matrix_cvd_Machado2009(deficiency: Union[Literal[
            [-0.004238 ..., -0.0024515...,  1.0066895...]])
     """
 
-    if deficiency.lower() == 'tritanomaly':
+    if deficiency.lower() == "tritanomaly":
         usage_warning(
             '"Machado et al. (2009)" simulation of tritanomaly is based on '
-            'the shift paradigm as an approximation to the actual phenomenon '
-            'and restrain the model from trying to model tritanopia.\n'
-            'The pre-generated matrices are using a shift value in domain '
-            '[5, 59] contrary to the domain [0, 20] used for protanomaly and '
-            'deuteranomaly simulation.')
+            "the shift paradigm as an approximation to the actual phenomenon "
+            "and restrain the model from trying to model tritanopia.\n"
+            "The pre-generated matrices are using a shift value in domain "
+            "[5, 59] contrary to the domain [0, 20] used for protanomaly and "
+            "deuteranomaly simulation."
+        )
 
     matrices = CVD_MATRICES_MACHADO2010[deficiency]
     samples = np.array(sorted(matrices.keys()))

@@ -43,28 +43,30 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'reaction_rate_MichaelisMenten_Michaelis1913',
-    'reaction_rate_MichaelisMenten_Abebe2017',
-    'REACTION_RATE_MICHAELISMENTEN_METHODS',
-    'reaction_rate_MichaelisMenten',
-    'substrate_concentration_MichaelisMenten_Michaelis1913',
-    'substrate_concentration_MichaelisMenten_Abebe2017',
-    'SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS',
-    'substrate_concentration_MichaelisMenten',
+    "reaction_rate_MichaelisMenten_Michaelis1913",
+    "reaction_rate_MichaelisMenten_Abebe2017",
+    "REACTION_RATE_MICHAELISMENTEN_METHODS",
+    "reaction_rate_MichaelisMenten",
+    "substrate_concentration_MichaelisMenten_Michaelis1913",
+    "substrate_concentration_MichaelisMenten_Abebe2017",
+    "SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS",
+    "substrate_concentration_MichaelisMenten",
 ]
 
 
 def reaction_rate_MichaelisMenten_Michaelis1913(
-        S: FloatingOrArrayLike, V_max: FloatingOrArrayLike,
-        K_m: FloatingOrArrayLike) -> FloatingOrNDArray:
+    S: FloatingOrArrayLike,
+    V_max: FloatingOrArrayLike,
+    K_m: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Describes the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S`.
@@ -105,9 +107,11 @@ def reaction_rate_MichaelisMenten_Michaelis1913(
 
 
 def reaction_rate_MichaelisMenten_Abebe2017(
-        S: FloatingOrArrayLike, V_max: FloatingOrArrayLike,
-        K_m: FloatingOrArrayLike,
-        b_m: FloatingOrArrayLike) -> FloatingOrNDArray:
+    S: FloatingOrArrayLike,
+    V_max: FloatingOrArrayLike,
+    K_m: FloatingOrArrayLike,
+    b_m: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Describes the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S` according to the
@@ -154,11 +158,12 @@ def reaction_rate_MichaelisMenten_Abebe2017(
     return as_float(v)
 
 
-REACTION_RATE_MICHAELISMENTEN_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping({
-        'Michaelis 1913': reaction_rate_MichaelisMenten_Michaelis1913,
-        'Abebe 2017': reaction_rate_MichaelisMenten_Abebe2017,
-    }))
+REACTION_RATE_MICHAELISMENTEN_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Michaelis 1913": reaction_rate_MichaelisMenten_Michaelis1913,
+        "Abebe 2017": reaction_rate_MichaelisMenten_Abebe2017,
+    }
+)
 REACTION_RATE_MICHAELISMENTEN_METHODS.__doc__ = """
 Supported *Michaelis-Menten* kinetics reaction rate equation computation
 methods.
@@ -170,12 +175,12 @@ References
 
 
 def reaction_rate_MichaelisMenten(
-        S: FloatingOrArrayLike,
-        V_max: FloatingOrArrayLike,
-        K_m: FloatingOrArrayLike,
-        method: Union[Literal['Michaelis 1913', 'Abebe 2017'],
-                      str] = 'Michaelis 1913',
-        **kwargs: Any):
+    S: FloatingOrArrayLike,
+    V_max: FloatingOrArrayLike,
+    K_m: FloatingOrArrayLike,
+    method: Union[Literal["Michaelis 1913", "Abebe 2017"], str] = "Michaelis 1913",
+    **kwargs: Any
+):
     """
     Describes the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S` according to given
@@ -226,8 +231,10 @@ def reaction_rate_MichaelisMenten(
 
 
 def substrate_concentration_MichaelisMenten_Michaelis1913(
-        v: FloatingOrArrayLike, V_max: FloatingOrArrayLike,
-        K_m: FloatingOrArrayLike) -> FloatingOrNDArray:
+    v: FloatingOrArrayLike,
+    V_max: FloatingOrArrayLike,
+    K_m: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Describes the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v`.
@@ -269,9 +276,11 @@ def substrate_concentration_MichaelisMenten_Michaelis1913(
 
 
 def substrate_concentration_MichaelisMenten_Abebe2017(
-        v: FloatingOrArrayLike, V_max: FloatingOrArrayLike,
-        K_m: FloatingOrArrayLike,
-        b_m: FloatingOrArrayLike) -> FloatingOrNDArray:
+    v: FloatingOrArrayLike,
+    V_max: FloatingOrArrayLike,
+    K_m: FloatingOrArrayLike,
+    b_m: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Describes the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v` according to the modified
@@ -318,12 +327,13 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
 
 
 SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping({
-        'Michaelis 1913':
-            substrate_concentration_MichaelisMenten_Michaelis1913,
-        'Abebe 2017':
-            substrate_concentration_MichaelisMenten_Abebe2017,
-    }))
+    CaseInsensitiveMapping(
+        {
+            "Michaelis 1913": substrate_concentration_MichaelisMenten_Michaelis1913,
+            "Abebe 2017": substrate_concentration_MichaelisMenten_Abebe2017,
+        }
+    )
+)
 SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS.__doc__ = """
 Supported *Michaelis-Menten* kinetics substrate concentration equation
 computation methods.
@@ -335,12 +345,12 @@ References
 
 
 def substrate_concentration_MichaelisMenten(
-        v: FloatingOrArrayLike,
-        V_max: FloatingOrArrayLike,
-        K_m: FloatingOrArrayLike,
-        method: Union[Literal['Michaelis 1913', 'Abebe 2017'],
-                      str] = 'Michaelis 1913',
-        **kwargs: Any) -> FloatingOrNDArray:
+    v: FloatingOrArrayLike,
+    V_max: FloatingOrArrayLike,
+    K_m: FloatingOrArrayLike,
+    method: Union[Literal["Michaelis 1913", "Abebe 2017"], str] = "Michaelis 1913",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Describes the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v` according to given method.
@@ -385,8 +395,7 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
     0.5000000...
     """
 
-    method = validate_method(method,
-                             SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS)
+    method = validate_method(method, SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS)
 
     function = SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS[method]
 

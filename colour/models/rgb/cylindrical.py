@@ -53,20 +53,20 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RGB_to_HSV',
-    'HSV_to_RGB',
-    'RGB_to_HSL',
-    'HSL_to_RGB',
-    'RGB_to_HCL',
-    'HCL_to_RGB',
+    "RGB_to_HSV",
+    "HSV_to_RGB",
+    "RGB_to_HSL",
+    "HSL_to_RGB",
+    "RGB_to_HCL",
+    "HCL_to_RGB",
 ]
 
 
@@ -200,7 +200,7 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
             tstack([l, j, V]),
             tstack([V, j, k]),
         ],
-        mode='clip',
+        mode="clip",
     )
 
     return from_range_1(RGB)
@@ -362,8 +362,7 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
     return from_range_1(RGB)
 
 
-def RGB_to_HCL(RGB: ArrayLike, gamma: Floating = 3,
-               Y_0: Floating = 100) -> NDArray:
+def RGB_to_HCL(RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDArray:
     """
     Converts from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -450,8 +449,7 @@ def RGB_to_HCL(RGB: ArrayLike, gamma: Floating = 3,
     return from_range_1(HCL)
 
 
-def HCL_to_RGB(HCL: ArrayLike, gamma: Floating = 3,
-               Y_0: Floating = 100) -> NDArray:
+def HCL_to_RGB(HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDArray:
     """
     Converts from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -525,36 +523,48 @@ def HCL_to_RGB(HCL: ArrayLike, gamma: Floating = 3,
             _1_2_3(np.logical_and(-np.pi < H, H < np.radians(-120))),
         ],
         [
-            tstack([
-                Max,
-                (Max * tan_3_2_H + Min) / (1 + tan_3_2_H),
-                Min,
-            ]),
-            tstack([
-                (Max * (1 + tan_3_4_H_MP) - Min) / tan_3_4_H_MP,
-                Max,
-                Min,
-            ]),
-            tstack([
-                Min,
-                Max,
-                Max * (1 + tan_3_4_H_MP) - Min * tan_3_4_H_MP,
-            ]),
-            tstack([
-                Max,
-                Min,
-                Min * (1 + tan_3_4_H) - Max * tan_3_4_H,
-            ]),
-            tstack([
-                (Min * (1 + tan_3_4_H) - Max) / tan_3_4_H,
-                Min,
-                Max,
-            ]),
-            tstack([
-                Min,
-                (Min * tan_3_2_H_PP + Max) / (1 + tan_3_2_H_PP),
-                Max,
-            ]),
+            tstack(
+                [
+                    Max,
+                    (Max * tan_3_2_H + Min) / (1 + tan_3_2_H),
+                    Min,
+                ]
+            ),
+            tstack(
+                [
+                    (Max * (1 + tan_3_4_H_MP) - Min) / tan_3_4_H_MP,
+                    Max,
+                    Min,
+                ]
+            ),
+            tstack(
+                [
+                    Min,
+                    Max,
+                    Max * (1 + tan_3_4_H_MP) - Min * tan_3_4_H_MP,
+                ]
+            ),
+            tstack(
+                [
+                    Max,
+                    Min,
+                    Min * (1 + tan_3_4_H) - Max * tan_3_4_H,
+                ]
+            ),
+            tstack(
+                [
+                    (Min * (1 + tan_3_4_H) - Max) / tan_3_4_H,
+                    Min,
+                    Max,
+                ]
+            ),
+            tstack(
+                [
+                    Min,
+                    (Min * tan_3_2_H_PP + Max) / (1 + tan_3_2_H_PP),
+                    Max,
+                ]
+            ),
         ],
     )
 

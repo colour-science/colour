@@ -28,26 +28,28 @@ from colour.hints import (
 from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
 from colour.utilities import optional
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'plot_cvd_simulation_Machado2009',
+    "plot_cvd_simulation_Machado2009",
 ]
 
 
 @override_style()
 def plot_cvd_simulation_Machado2009(
-        RGB: ArrayLike,
-        deficiency: Union[Literal['Deuteranomaly', 'Protanomaly',
-                                  'Tritanomaly'], str] = 'Protanomaly',
-        severity: Floating = 0.5,
-        M_a: Optional[ArrayLike] = None,
-        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
+    RGB: ArrayLike,
+    deficiency: Union[
+        Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str
+    ] = "Protanomaly",
+    severity: Floating = 0.5,
+    M_a: Optional[ArrayLike] = None,
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Performs colour vision deficiency simulation on given *RGB* colourspace
     array using *Machado et al. (2009)* model.
@@ -92,17 +94,16 @@ def plot_cvd_simulation_Machado2009(
         :alt: plot_cvd_simulation_Machado2009
     """
 
-    M_a = cast(ArrayLike,
-               optional(M_a, matrix_cvd_Machado2009(deficiency, severity)))
+    M_a = cast(ArrayLike, optional(M_a, matrix_cvd_Machado2009(deficiency, severity)))
 
     settings: Dict[str, Any] = {
-        'text_kwargs': {
-            'text':
-                'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
+        "text_kwargs": {
+            "text": "Deficiency: {0} - Severity: {1}".format(deficiency, severity)
         }
     }
     settings.update(kwargs)
 
     return plot_image(
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
-            vector_dot(M_a, RGB)), **settings)
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(vector_dot(M_a, RGB)),
+        **settings
+    )

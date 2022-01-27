@@ -24,28 +24,28 @@ from colour.utilities.deprecation import (
     handle_arguments_deprecation,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestObjectRenamed',
-    'TestObjectRemoved',
-    'TestObjectFutureRename',
-    'TestObjectFutureRemove',
-    'TestObjectFutureAccessChange',
-    'TestObjectFutureAccessRemove',
-    'TestArgumentRenamed',
-    'TestArgumentRemoved',
-    'TestArgumentFutureRename',
-    'TestArgumentFutureRemove',
-    'TestModuleAPI',
-    'TestGetAttribute',
-    'TestBuildAPIChanges',
-    'TestHandleArgumentsDeprecation',
+    "TestObjectRenamed",
+    "TestObjectRemoved",
+    "TestObjectFutureRename",
+    "TestObjectFutureRemove",
+    "TestObjectFutureAccessChange",
+    "TestObjectFutureAccessRemove",
+    "TestArgumentRenamed",
+    "TestArgumentRemoved",
+    "TestArgumentFutureRename",
+    "TestArgumentFutureRemove",
+    "TestModuleAPI",
+    "TestGetAttribute",
+    "TestBuildAPIChanges",
+    "TestHandleArgumentsDeprecation",
 ]
 
 
@@ -60,7 +60,7 @@ class TestObjectRenamed(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ObjectRenamed))
@@ -71,8 +71,8 @@ class TestObjectRenamed(unittest.TestCase):
         method.
         """
 
-        self.assertIn('name', str(ObjectRenamed('name', 'new_name')))
-        self.assertIn('new_name', str(ObjectRenamed('name', 'new_name')))
+        self.assertIn("name", str(ObjectRenamed("name", "new_name")))
+        self.assertIn("new_name", str(ObjectRenamed("name", "new_name")))
 
 
 class TestObjectRemoved(unittest.TestCase):
@@ -86,7 +86,7 @@ class TestObjectRemoved(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ObjectRemoved))
@@ -97,7 +97,7 @@ class TestObjectRemoved(unittest.TestCase):
         method.
         """
 
-        self.assertIn('name', str(ObjectRemoved('name')))
+        self.assertIn("name", str(ObjectRemoved("name")))
 
 
 class TestObjectFutureRename(unittest.TestCase):
@@ -111,7 +111,7 @@ class TestObjectFutureRename(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ObjectFutureRename))
@@ -122,8 +122,8 @@ class TestObjectFutureRename(unittest.TestCase):
         method.
         """
 
-        self.assertIn('name', str(ObjectFutureRename('name', 'new_name')))
-        self.assertIn('new_name', str(ObjectFutureRename('name', 'new_name')))
+        self.assertIn("name", str(ObjectFutureRename("name", "new_name")))
+        self.assertIn("new_name", str(ObjectFutureRename("name", "new_name")))
 
 
 class TestObjectFutureRemove(unittest.TestCase):
@@ -137,7 +137,7 @@ class TestObjectFutureRemove(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ObjectFutureRemove))
@@ -148,7 +148,14 @@ class TestObjectFutureRemove(unittest.TestCase):
         method.
         """
 
-        self.assertIn('name', str(ObjectFutureRemove('name', )))
+        self.assertIn(
+            "name",
+            str(
+                ObjectFutureRemove(
+                    "name",
+                )
+            ),
+        )
 
 
 class TestObjectFutureAccessChange(unittest.TestCase):
@@ -162,7 +169,7 @@ class TestObjectFutureAccessChange(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ObjectFutureAccessChange))
@@ -173,10 +180,8 @@ class TestObjectFutureAccessChange(unittest.TestCase):
 ObjectFutureAccessChange.__str__` method.
         """
 
-        self.assertIn('name',
-                      str(ObjectFutureAccessChange('name', 'new_access')))
-        self.assertIn('new_access',
-                      str(ObjectFutureAccessChange('name', 'new_access')))
+        self.assertIn("name", str(ObjectFutureAccessChange("name", "new_access")))
+        self.assertIn("new_access", str(ObjectFutureAccessChange("name", "new_access")))
 
 
 class TestObjectFutureAccessRemove(unittest.TestCase):
@@ -190,7 +195,7 @@ class TestObjectFutureAccessRemove(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ObjectFutureAccessRemove))
@@ -201,7 +206,14 @@ class TestObjectFutureAccessRemove(unittest.TestCase):
 ObjectFutureAccessRemove.__str__` method.
         """
 
-        self.assertIn('name', str(ObjectFutureAccessRemove('name', )))
+        self.assertIn(
+            "name",
+            str(
+                ObjectFutureAccessRemove(
+                    "name",
+                )
+            ),
+        )
 
 
 class TestArgumentRenamed(unittest.TestCase):
@@ -215,7 +227,7 @@ class TestArgumentRenamed(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ArgumentRenamed))
@@ -226,8 +238,8 @@ class TestArgumentRenamed(unittest.TestCase):
         method.
         """
 
-        self.assertIn('name', str(ArgumentRenamed('name', 'new_name')))
-        self.assertIn('new_name', str(ArgumentRenamed('name', 'new_name')))
+        self.assertIn("name", str(ArgumentRenamed("name", "new_name")))
+        self.assertIn("new_name", str(ArgumentRenamed("name", "new_name")))
 
 
 class TestArgumentRemoved(unittest.TestCase):
@@ -241,7 +253,7 @@ class TestArgumentRemoved(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ArgumentRemoved))
@@ -252,7 +264,7 @@ class TestArgumentRemoved(unittest.TestCase):
         method.
         """
 
-        self.assertIn('name', str(ArgumentRemoved('name')))
+        self.assertIn("name", str(ArgumentRemoved("name")))
 
 
 class TestArgumentFutureRename(unittest.TestCase):
@@ -266,7 +278,7 @@ class TestArgumentFutureRename(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ArgumentFutureRename))
@@ -277,9 +289,8 @@ class TestArgumentFutureRename(unittest.TestCase):
 ArgumentFutureRename.__str__` method.
         """
 
-        self.assertIn('name', str(ArgumentFutureRename('name', 'new_name')))
-        self.assertIn('new_name', str(
-            ArgumentFutureRename('name', 'new_name')))
+        self.assertIn("name", str(ArgumentFutureRename("name", "new_name")))
+        self.assertIn("new_name", str(ArgumentFutureRename("name", "new_name")))
 
 
 class TestArgumentFutureRemove(unittest.TestCase):
@@ -293,7 +304,7 @@ class TestArgumentFutureRemove(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', )
+        required_methods = ("__str__",)
 
         for method in required_methods:
             self.assertIn(method, dir(ArgumentFutureRemove))
@@ -304,7 +315,14 @@ class TestArgumentFutureRemove(unittest.TestCase):
 ArgumentFutureRemove.__str__` method.
         """
 
-        self.assertIn('name', str(ArgumentFutureRemove('name', )))
+        self.assertIn(
+            "name",
+            str(
+                ArgumentFutureRemove(
+                    "name",
+                )
+            ),
+        )
 
 
 class TestModuleAPI(unittest.TestCase):
@@ -318,7 +336,7 @@ class TestModuleAPI(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__getattr__', '__dir__')
+        required_methods = ("__init__", "__getattr__", "__dir__")
 
         for method in required_methods:
             self.assertIn(method, dir(ModuleAPI))
@@ -338,11 +356,11 @@ class TestModuleAPI(unittest.TestCase):
             Helper definition to test the runtime warning.
             """
 
-            getattr(colour.utilities.tests.test_deprecated, 'OLD_NAME')
+            getattr(colour.utilities.tests.test_deprecated, "OLD_NAME")
 
         self.assertWarns(ColourUsageWarning, _assert_warns)
 
-        del sys.modules['colour.utilities.tests.test_deprecated']
+        del sys.modules["colour.utilities.tests.test_deprecated"]
 
     def test_raise_exception__getattr__(self):
         """
@@ -352,10 +370,14 @@ class TestModuleAPI(unittest.TestCase):
 
         import colour.utilities.tests.test_deprecated
 
-        self.assertRaises(AttributeError, getattr,
-                          colour.utilities.tests.test_deprecated, 'REMOVED')
+        self.assertRaises(
+            AttributeError,
+            getattr,
+            colour.utilities.tests.test_deprecated,
+            "REMOVED",
+        )
 
-        del sys.modules['colour.utilities.tests.test_deprecated']
+        del sys.modules["colour.utilities.tests.test_deprecated"]
 
 
 class TestGetAttribute(unittest.TestCase):
@@ -370,25 +392,26 @@ class TestGetAttribute(unittest.TestCase):
         """
 
         from colour import adaptation
-        self.assertIs(get_attribute('colour.adaptation'), adaptation)
+
+        self.assertIs(get_attribute("colour.adaptation"), adaptation)
 
         from colour.models import eotf_inverse_sRGB
+
         self.assertIs(
-            get_attribute('colour.models.eotf_inverse_sRGB'),
-            eotf_inverse_sRGB)
+            get_attribute("colour.models.eotf_inverse_sRGB"), eotf_inverse_sRGB
+        )
 
         from colour.utilities.array import as_float
-        self.assertIs(
-            get_attribute('colour.utilities.array.as_float'), as_float)
 
-        if 'colour.utilities.tests.test_deprecated' in sys.modules:
-            del sys.modules['colour.utilities.tests.test_deprecated']
-        attribute = get_attribute(
-            'colour.utilities.tests.test_deprecated.NEW_NAME')
+        self.assertIs(get_attribute("colour.utilities.array.as_float"), as_float)
+
+        if "colour.utilities.tests.test_deprecated" in sys.modules:
+            del sys.modules["colour.utilities.tests.test_deprecated"]
+        attribute = get_attribute("colour.utilities.tests.test_deprecated.NEW_NAME")
         import colour.utilities.tests.test_deprecated
-        self.assertIs(attribute,
-                      colour.utilities.tests.test_deprecated.NEW_NAME)
-        del sys.modules['colour.utilities.tests.test_deprecated']
+
+        self.assertIs(attribute, colour.utilities.tests.test_deprecated.NEW_NAME)
+        del sys.modules["colour.utilities.tests.test_deprecated"]
 
 
 class TestBuildAPIChanges(unittest.TestCase):
@@ -403,44 +426,56 @@ class TestBuildAPIChanges(unittest.TestCase):
         definition.
         """
 
-        changes = build_API_changes({
-            'ObjectRenamed': [[
-                'module.object_1_name',
-                'module.object_1_new_name',
-            ]],
-            'ObjectFutureRename': [[
-                'module.object_2_name',
-                'module.object_2_new_name',
-            ]],
-            'ObjectFutureAccessChange': [[
-                'module.object_3_access',
-                'module.sub_module.object_3_new_access',
-            ]],
-            'ObjectRemoved': ['module.object_4_name'],
-            'ObjectFutureRemove': ['module.object_5_name'],
-            'ObjectFutureAccessRemove': ['module.object_6_access'],
-            'ArgumentRenamed': [[
-                'argument_1_name',
-                'argument_1_new_name',
-            ]],
-            'ArgumentFutureRename': [[
-                'argument_2_name',
-                'argument_2_new_name',
-            ]],
-            'ArgumentRemoved': ['argument_3_name'],
-            'ArgumentFutureRemove': ['argument_4_name'],
-        })
+        changes = build_API_changes(
+            {
+                "ObjectRenamed": [
+                    [
+                        "module.object_1_name",
+                        "module.object_1_new_name",
+                    ]
+                ],
+                "ObjectFutureRename": [
+                    [
+                        "module.object_2_name",
+                        "module.object_2_new_name",
+                    ]
+                ],
+                "ObjectFutureAccessChange": [
+                    [
+                        "module.object_3_access",
+                        "module.sub_module.object_3_new_access",
+                    ]
+                ],
+                "ObjectRemoved": ["module.object_4_name"],
+                "ObjectFutureRemove": ["module.object_5_name"],
+                "ObjectFutureAccessRemove": ["module.object_6_access"],
+                "ArgumentRenamed": [
+                    [
+                        "argument_1_name",
+                        "argument_1_new_name",
+                    ]
+                ],
+                "ArgumentFutureRename": [
+                    [
+                        "argument_2_name",
+                        "argument_2_new_name",
+                    ]
+                ],
+                "ArgumentRemoved": ["argument_3_name"],
+                "ArgumentFutureRemove": ["argument_4_name"],
+            }
+        )
         for name, change_type in (
-            ('object_1_name', ObjectRenamed),
-            ('object_2_name', ObjectFutureRename),
-            ('object_3_access', ObjectFutureAccessChange),
-            ('object_4_name', ObjectRemoved),
-            ('object_5_name', ObjectFutureRemove),
-            ('object_6_access', ObjectFutureAccessRemove),
-            ('argument_1_name', ArgumentRenamed),
-            ('argument_2_name', ArgumentFutureRename),
-            ('argument_3_name', ArgumentRemoved),
-            ('argument_4_name', ArgumentFutureRemove),
+            ("object_1_name", ObjectRenamed),
+            ("object_2_name", ObjectFutureRename),
+            ("object_3_access", ObjectFutureAccessChange),
+            ("object_4_name", ObjectRemoved),
+            ("object_5_name", ObjectFutureRemove),
+            ("object_6_access", ObjectFutureAccessRemove),
+            ("argument_1_name", ArgumentRenamed),
+            ("argument_2_name", ArgumentFutureRename),
+            ("argument_3_name", ArgumentRemoved),
+            ("argument_4_name", ArgumentFutureRemove),
         ):
             self.assertIsInstance(changes[name], change_type)
 
@@ -458,16 +493,20 @@ class TestHandleArgumentsDeprecation(unittest.TestCase):
         """
 
         changes = {
-            'ArgumentRenamed': [[
-                'argument_1_name',
-                'argument_1_new_name',
-            ]],
-            'ArgumentFutureRename': [[
-                'argument_2_name',
-                'argument_2_new_name',
-            ]],
-            'ArgumentRemoved': ['argument_3_name'],
-            'ArgumentFutureRemove': ['argument_4_name'],
+            "ArgumentRenamed": [
+                [
+                    "argument_1_name",
+                    "argument_1_new_name",
+                ]
+            ],
+            "ArgumentFutureRename": [
+                [
+                    "argument_2_name",
+                    "argument_2_new_name",
+                ]
+            ],
+            "ArgumentRemoved": ["argument_3_name"],
+            "ArgumentFutureRemove": ["argument_4_name"],
         }
 
         self.assertDictEqual(
@@ -477,15 +516,16 @@ class TestHandleArgumentsDeprecation(unittest.TestCase):
                 argument_2_name=True,
                 argument_3_name=True,
                 argument_4_name=True,
-                argument_5_name=True),
+                argument_5_name=True,
+            ),
             {
-                'argument_1_new_name': True,
-                'argument_2_new_name': True,
-                'argument_4_name': True,
-                'argument_5_name': True
+                "argument_1_new_name": True,
+                "argument_2_new_name": True,
+                "argument_4_name": True,
+                "argument_5_name": True,
             },
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

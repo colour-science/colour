@@ -12,18 +12,18 @@ from colour.models.tests.test_cam02_ucs import (
     TestUCS_Luo2006_to_XYZ,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestJMh_CAM16_to_UCS_Li2017',
-    'TestUCS_Li2017_to_JMh_CAM16',
-    'TestXYZ_to_UCS_Li2017',
-    'TestUCS_Li2017_to_XYZ',
+    "TestJMh_CAM16_to_UCS_Li2017",
+    "TestUCS_Li2017_to_JMh_CAM16",
+    "TestXYZ_to_UCS_Li2017",
+    "TestUCS_Li2017_to_XYZ",
 ]
 
 
@@ -71,5 +71,5 @@ class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
     pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

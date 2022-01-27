@@ -49,29 +49,28 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'cctf_encoding_ROMMRGB',
-    'cctf_decoding_ROMMRGB',
-    'cctf_encoding_ProPhotoRGB',
-    'cctf_decoding_ProPhotoRGB',
-    'cctf_encoding_RIMMRGB',
-    'cctf_decoding_RIMMRGB',
-    'log_encoding_ERIMMRGB',
-    'log_decoding_ERIMMRGB',
+    "cctf_encoding_ROMMRGB",
+    "cctf_decoding_ROMMRGB",
+    "cctf_encoding_ProPhotoRGB",
+    "cctf_decoding_ProPhotoRGB",
+    "cctf_encoding_RIMMRGB",
+    "cctf_decoding_RIMMRGB",
+    "log_encoding_ERIMMRGB",
+    "log_decoding_ERIMMRGB",
 ]
 
 
-def cctf_encoding_ROMMRGB(X: FloatingOrArrayLike,
-                          bit_depth: Integer = 8,
-                          out_int: Boolean = False
-                          ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+def cctf_encoding_ROMMRGB(
+    X: FloatingOrArrayLike, bit_depth: Integer = 8, out_int: Boolean = False
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Defines the *ROMM RGB* encoding colour component transfer function
     (Encoding CCTF).
@@ -135,9 +134,11 @@ def cctf_encoding_ROMMRGB(X: FloatingOrArrayLike,
         return as_float(from_range_1(X_p / I_max))
 
 
-def cctf_decoding_ROMMRGB(X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-                          bit_depth: Integer = 8,
-                          in_int: Boolean = False) -> FloatingOrNDArray:
+def cctf_decoding_ROMMRGB(
+    X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    bit_depth: Integer = 8,
+    in_int: Boolean = False,
+) -> FloatingOrNDArray:
     """
     Defines the *ROMM RGB* decoding colour component transfer function
     (Encoding CCTF).
@@ -205,27 +206,30 @@ def cctf_decoding_ROMMRGB(X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
     return as_float(from_range_1(X))
 
 
-cctf_encoding_ProPhotoRGB = copy_definition(cctf_encoding_ROMMRGB,
-                                            'cctf_encoding_ProPhotoRGB')
+cctf_encoding_ProPhotoRGB = copy_definition(
+    cctf_encoding_ROMMRGB, "cctf_encoding_ProPhotoRGB"
+)
 # If-clause required for optimised python launch.
 if cctf_encoding_ProPhotoRGB.__doc__ is not None:
-    cctf_encoding_ProPhotoRGB.__doc__ = (
-        cctf_encoding_ProPhotoRGB.__doc__.replace('*ROMM RGB*',
-                                                  '*ProPhoto RGB*'))
-cctf_decoding_ProPhotoRGB = copy_definition(cctf_decoding_ROMMRGB,
-                                            'cctf_decoding_ProPhotoRGB')
+    cctf_encoding_ProPhotoRGB.__doc__ = cctf_encoding_ProPhotoRGB.__doc__.replace(
+        "*ROMM RGB*", "*ProPhoto RGB*"
+    )
+cctf_decoding_ProPhotoRGB = copy_definition(
+    cctf_decoding_ROMMRGB, "cctf_decoding_ProPhotoRGB"
+)
 # If-clause required for optimised python launch.
 if cctf_decoding_ProPhotoRGB.__doc__ is not None:
-    cctf_decoding_ProPhotoRGB.__doc__ = (
-        cctf_decoding_ProPhotoRGB.__doc__.replace('*ROMM RGB*',
-                                                  '*ProPhoto RGB*'))
+    cctf_decoding_ProPhotoRGB.__doc__ = cctf_decoding_ProPhotoRGB.__doc__.replace(
+        "*ROMM RGB*", "*ProPhoto RGB*"
+    )
 
 
 def cctf_encoding_RIMMRGB(
-        X: FloatingOrArrayLike,
-        bit_depth: Integer = 8,
-        out_int: Boolean = False,
-        E_clip: Floating = 2.0) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+    X: FloatingOrArrayLike,
+    bit_depth: Integer = 8,
+    out_int: Boolean = False,
+    E_clip: Floating = 2.0,
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Defines the *RIMM RGB* encoding colour component transfer function
     (Encoding CCTF).
@@ -287,8 +291,10 @@ def cctf_encoding_RIMMRGB(
     V_clip = 1.099 * spow(E_clip, 0.45) - 0.099
     q = I_max / V_clip
 
-    X_p = q * np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
-                        [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max])
+    X_p = q * np.select(
+        [X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
+        [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max],
+    )
 
     if out_int:
         return as_int(np.round(X_p))
@@ -296,10 +302,12 @@ def cctf_encoding_RIMMRGB(
         return as_float(from_range_1(X_p / I_max))
 
 
-def cctf_decoding_RIMMRGB(X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-                          bit_depth: Integer = 8,
-                          in_int: Boolean = False,
-                          E_clip: Floating = 2.0) -> FloatingOrNDArray:
+def cctf_decoding_RIMMRGB(
+    X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    bit_depth: Integer = 8,
+    in_int: Boolean = False,
+    E_clip: Floating = 2.0,
+) -> FloatingOrNDArray:
     """
     Defines the *RIMM RGB* decoding colour component transfer function
     (Encoding CCTF).
@@ -362,10 +370,9 @@ def cctf_decoding_RIMMRGB(X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
 
     m = V_clip * X_p / I_max
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         X = np.where(
-            X_p / I_max < cctf_encoding_RIMMRGB(
-                0.018, bit_depth, E_clip=E_clip),
+            X_p / I_max < cctf_encoding_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
             m / 4.5,
             spow((m + 0.099) / 1.099, 1 / 0.45),
         )
@@ -373,12 +380,13 @@ def cctf_decoding_RIMMRGB(X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
     return as_float(from_range_1(X))
 
 
-def log_encoding_ERIMMRGB(X: FloatingOrArrayLike,
-                          bit_depth: Integer = 8,
-                          out_int: Boolean = False,
-                          E_min: Floating = 0.001,
-                          E_clip: Floating = 316.2
-                          ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+def log_encoding_ERIMMRGB(
+    X: FloatingOrArrayLike,
+    bit_depth: Integer = 8,
+    out_int: Boolean = False,
+    E_min: Floating = 0.001,
+    E_clip: Floating = 316.2,
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Defines the *ERIMM RGB* log encoding curve / opto-electronic transfer
     function (OETF).
@@ -438,19 +446,22 @@ def log_encoding_ERIMMRGB(X: FloatingOrArrayLike,
 
     E_t = np.exp(1) * E_min
 
-    X_p = np.select([
-        X < 0.0,
-        X <= E_t,
-        X > E_t,
-        X > E_clip,
-    ], [
-        0,
-        I_max * ((np.log(E_t) - np.log(E_min)) /
-                 (np.log(E_clip) - np.log(E_min))) * (X / E_t),
-        I_max * (
-            (np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
-        I_max,
-    ])
+    X_p = np.select(
+        [
+            X < 0.0,
+            X <= E_t,
+            X > E_t,
+            X > E_clip,
+        ],
+        [
+            0,
+            I_max
+            * ((np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min)))
+            * (X / E_t),
+            I_max * ((np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
+            I_max,
+        ],
+    )
 
     if out_int:
         return as_int(np.round(X_p))
@@ -458,11 +469,13 @@ def log_encoding_ERIMMRGB(X: FloatingOrArrayLike,
         return as_float(from_range_1(X_p / I_max))
 
 
-def log_decoding_ERIMMRGB(X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-                          bit_depth: Integer = 8,
-                          in_int: Boolean = False,
-                          E_min: Floating = 0.001,
-                          E_clip: Floating = 316.2) -> FloatingOrNDArray:
+def log_decoding_ERIMMRGB(
+    X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    bit_depth: Integer = 8,
+    in_int: Boolean = False,
+    E_min: Floating = 0.001,
+    E_clip: Floating = 316.2,
+) -> FloatingOrNDArray:
     """
     Defines the *ERIMM RGB* log decoding curve / electro-optical transfer
     function (EOTF).
@@ -526,12 +539,11 @@ def log_decoding_ERIMMRGB(X_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
     E_t = np.exp(1) * E_min
 
     X = np.where(
-        X_p <= I_max * (
-            (np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
-        ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min))) * (
-            (X_p * E_t) / I_max),
-        np.exp((X_p / I_max) * (np.log(E_clip) - np.log(E_min)) +
-               np.log(E_min)),
+        X_p
+        <= I_max * ((np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
+        ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min)))
+        * ((X_p * E_t) / I_max),
+        np.exp((X_p / I_max) * (np.log(E_clip) - np.log(E_min)) + np.log(E_min)),
     )
 
     return as_float(from_range_1(X))

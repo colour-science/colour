@@ -17,20 +17,19 @@ from colour.models import (
 )
 from colour.volume import is_within_mesh_volume
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'is_within_pointer_gamut',
+    "is_within_pointer_gamut",
 ]
 
 
-def is_within_pointer_gamut(XYZ: ArrayLike,
-                            tolerance: Optional[Floating] = None):
+def is_within_pointer_gamut(XYZ: ArrayLike, tolerance: Optional[Floating] = None):
     """
     Returns whether given *CIE XYZ* tristimulus values are within Pointer's
     Gamut volume.
@@ -68,6 +67,7 @@ def is_within_pointer_gamut(XYZ: ArrayLike,
     """
 
     XYZ_p = Lab_to_XYZ(
-        LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT)
+        LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT
+    )
 
     return is_within_mesh_volume(XYZ, XYZ_p, tolerance)

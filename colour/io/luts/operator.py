@@ -34,16 +34,16 @@ from colour.utilities import (
     zeros,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'AbstractLUTSequenceOperator',
-    'LUTOperatorMatrix',
+    "AbstractLUTSequenceOperator",
+    "LUTOperatorMatrix",
 ]
 
 
@@ -71,17 +71,17 @@ class AbstractLUTSequenceOperator(ABC):
     -   :meth:`~colour.io.AbstractLUTSequenceOperator.apply`
     """
 
-    def __init__(self,
-                 name: Optional[str] = None,
-                 comments: Optional[Sequence[str]] = None):
-        self._name = 'LUT Sequence Operator {0}'.format(id(self))
+    def __init__(
+        self,
+        name: Optional[str] = None,
+        comments: Optional[Sequence[str]] = None,
+    ):
+        self._name = "LUT Sequence Operator {0}".format(id(self))
         self.name = optional(name, self._name)
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
         # is resolved.
         self._comments: List[str] = []
-        self.comments = optional(
-            comments,  # type: ignore[arg-type]
-            self._comments)
+        self.comments = optional(comments, self._comments)  # type: ignore[arg-type]
 
     @property
     def name(self) -> str:
@@ -109,7 +109,8 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format('name', value))
+            '"{0}" attribute: "{1}" type is not "str"!'.format("name", value),
+        )
 
         self._name = value
 
@@ -139,8 +140,8 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_iterable(value),
-            '"{0}" attribute: "{1}" must be a sequence!'.format(
-                'comments', value))
+            '"{0}" attribute: "{1}" must be a sequence!'.format("comments", value),
+        )
 
         self._comments = list(value)
 
@@ -241,21 +242,25 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     A second comment.
     """
 
-    def __init__(self,
-                 matrix: Optional[ArrayLike] = None,
-                 offset: Optional[ArrayLike] = None,
-                 *args: Any,
-                 **kwargs: Any):
+    def __init__(
+        self,
+        matrix: Optional[ArrayLike] = None,
+        offset: Optional[ArrayLike] = None,
+        *args: Any,
+        **kwargs: Any
+    ):
         super(LUTOperatorMatrix, self).__init__(*args, **kwargs)
 
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
         # is resolved.
         self._matrix: NDArray = np.diag(ones(4))
-        self.matrix = cast(ArrayLike, optional(
-            matrix, self._matrix))  # type: ignore[assignment]
+        self.matrix = cast(
+            ArrayLike, optional(matrix, self._matrix)
+        )  # type: ignore[assignment]
         self._offset: NDArray = zeros(4)
-        self.offset = cast(ArrayLike, optional(
-            offset, self._offset))  # type: ignore[assignment]
+        self.offset = cast(
+            ArrayLike, optional(offset, self._offset)
+        )  # type: ignore[assignment]
 
     @property
     def matrix(self) -> NDArray:
@@ -290,7 +295,9 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         attest(
             value.shape in [(3, 3), (4, 4)],
             '"{0}" attribute: "{1}" shape is not (3, 3) or (4, 4)!'.format(
-                'matrix', value))
+                "matrix", value
+            ),
+        )
 
         M = np.identity(4)
         M[:shape_t, :shape_t] = value
@@ -326,9 +333,11 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         shape_t = value.shape[-1]
 
         attest(
-            value.shape in [(3, ), (4, )],
+            value.shape in [(3,), (4,)],
             '"{0}" attribute: "{1}" shape is not (3, ) or (4, )!'.format(
-                'offset', value))
+                "offset", value
+            ),
+        )
 
         offset = zeros(4)
         offset[:shape_t] = value
@@ -362,18 +371,22 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             Indents given array string representation.
             """
 
-            return str(a).replace(' [', ' ' * 14 + '[')
+            return str(a).replace(" [", " " * 14 + "[")
 
-        return ('{0} - {1}\n'
-                '{2}\n\n'
-                'Matrix     : {3}\n'
-                'Offset     : {4}'
-                '{5}'.format(
-                    self.__class__.__name__, self._name,
-                    '-' * (len(self.__class__.__name__) + 3 + len(self._name)),
-                    _indent_array(self._matrix), _indent_array(self._offset),
-                    '\n\n{0}'.format('\n'.join(self._comments))
-                    if self._comments else ''))
+        return (
+            "{0} - {1}\n"
+            "{2}\n\n"
+            "Matrix     : {3}\n"
+            "Offset     : {4}"
+            "{5}".format(
+                self.__class__.__name__,
+                self._name,
+                "-" * (len(self.__class__.__name__) + 3 + len(self._name)),
+                _indent_array(self._matrix),
+                _indent_array(self._offset),
+                "\n\n{0}".format("\n".join(self._comments)) if self._comments else "",
+            )
+        )
 
     def __repr__(self) -> str:
         """
@@ -399,23 +412,21 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         representation = repr(self._matrix)
-        representation = representation.replace('array',
-                                                self.__class__.__name__)
+        representation = representation.replace("array", self.__class__.__name__)
         representation = representation.replace(
-            '       [',
-            '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
+            "       [", "{0}[".format(" " * (len(self.__class__.__name__) + 2))
+        )
 
-        indentation = ' ' * (len(self.__class__.__name__) + 1)
-        representation = ('{0},\n'
-                          '{1}{2},\n'
-                          '{1}name=\'{3}\''
-                          '{4})').format(
-                              representation[:-1], indentation,
-                              repr(self._offset).replace('array(', '').replace(
-                                  ')', ''), self._name,
-                              ',\n{0}comments={1}'.format(
-                                  indentation, repr(self._comments))
-                              if self._comments else '')
+        indentation = " " * (len(self.__class__.__name__) + 1)
+        representation = ("{0},\n" "{1}{2},\n" "{1}name='{3}'" "{4})").format(
+            representation[:-1],
+            indentation,
+            repr(self._offset).replace("array(", "").replace(")", ""),
+            self._name,
+            ",\n{0}comments={1}".format(indentation, repr(self._comments))
+            if self._comments
+            else "",
+        )
 
         return representation
 
@@ -440,10 +451,12 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         if isinstance(other, LUTOperatorMatrix):
-            if all([
+            if all(
+                [
                     np.array_equal(self._matrix, other._matrix),
-                    np.array_equal(self._offset, other._offset)
-            ]):
+                    np.array_equal(self._offset, other._offset),
+                ]
+            ):
                 return True
 
         return False
@@ -502,7 +515,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         RGB = as_float_array(RGB)
-        apply_offset_first = kwargs.get('apply_offset_first', False)
+        apply_offset_first = kwargs.get("apply_offset_first", False)
 
         has_alpha_channel = RGB.shape[-1] == 4
         M = self._matrix

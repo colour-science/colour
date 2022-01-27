@@ -77,7 +77,8 @@ from colour.models.rgb.transfer_functions import (
     oetf_inverse_BT709,
 )
 from colour.models.rgb.transfer_functions.arib_std_b67 import (
-    CONSTANTS_ARIBSTDB67, )
+    CONSTANTS_ARIBSTDB67,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     Structure,
@@ -94,42 +95,42 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'oetf_PQ_BT2100',
-    'oetf_inverse_PQ_BT2100',
-    'eotf_PQ_BT2100',
-    'eotf_inverse_PQ_BT2100',
-    'ootf_PQ_BT2100',
-    'ootf_inverse_PQ_BT2100',
-    'WEIGHTS_BT2100_HLG',
-    'CONSTANTS_BT2100_HLG',
-    'gamma_function_HLG_BT2100',
-    'oetf_HLG_BT2100',
-    'oetf_inverse_HLG_BT2100',
-    'black_level_lift_HLG_BT2100',
-    'eotf_HLG_BT2100_1',
-    'eotf_HLG_BT2100_2',
-    'BT2100_HLG_EOTF_METHODS',
-    'eotf_HLG_BT2100',
-    'eotf_inverse_HLG_BT2100_1',
-    'eotf_inverse_HLG_BT2100_2',
-    'BT2100_HLG_EOTF_INVERSE_METHODS',
-    'eotf_inverse_HLG_BT2100',
-    'ootf_HLG_BT2100_1',
-    'ootf_HLG_BT2100_2',
-    'BT2100_HLG_OOTF_METHODS',
-    'ootf_HLG_BT2100',
-    'ootf_inverse_HLG_BT2100_1',
-    'ootf_inverse_HLG_BT2100_2',
-    'BT2100_HLG_OOTF_INVERSE_METHODS',
-    'ootf_inverse_HLG_BT2100',
+    "oetf_PQ_BT2100",
+    "oetf_inverse_PQ_BT2100",
+    "eotf_PQ_BT2100",
+    "eotf_inverse_PQ_BT2100",
+    "ootf_PQ_BT2100",
+    "ootf_inverse_PQ_BT2100",
+    "WEIGHTS_BT2100_HLG",
+    "CONSTANTS_BT2100_HLG",
+    "gamma_function_HLG_BT2100",
+    "oetf_HLG_BT2100",
+    "oetf_inverse_HLG_BT2100",
+    "black_level_lift_HLG_BT2100",
+    "eotf_HLG_BT2100_1",
+    "eotf_HLG_BT2100_2",
+    "BT2100_HLG_EOTF_METHODS",
+    "eotf_HLG_BT2100",
+    "eotf_inverse_HLG_BT2100_1",
+    "eotf_inverse_HLG_BT2100_2",
+    "BT2100_HLG_EOTF_INVERSE_METHODS",
+    "eotf_inverse_HLG_BT2100",
+    "ootf_HLG_BT2100_1",
+    "ootf_HLG_BT2100_2",
+    "BT2100_HLG_OOTF_METHODS",
+    "ootf_HLG_BT2100",
+    "ootf_inverse_HLG_BT2100_1",
+    "ootf_inverse_HLG_BT2100_2",
+    "BT2100_HLG_OOTF_INVERSE_METHODS",
+    "ootf_inverse_HLG_BT2100",
 ]
 
 
@@ -424,7 +425,8 @@ Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*.
 CONSTANTS_BT2100_HLG: Structure = Structure(
     a=CONSTANTS_ARIBSTDB67.a,
     b=1 - 4 * CONSTANTS_ARIBSTDB67.a,
-    c=0.5 - CONSTANTS_ARIBSTDB67.a * np.log(4 * CONSTANTS_ARIBSTDB67.a))
+    c=0.5 - CONSTANTS_ARIBSTDB67.a * np.log(4 * CONSTANTS_ARIBSTDB67.a),
+)
 """
 *Recommendation ITU-R BT.2100* *Reference HLG* constants expressed in their
 analytical form in contrast to the *ARIB STD-B67 (Hybrid Log-Gamma)* numerical
@@ -467,9 +469,9 @@ def gamma_function_HLG_BT2100(L_W: Floating = 1000) -> Floating:
     return as_float_scalar(gamma)
 
 
-def oetf_HLG_BT2100(E: FloatingOrArrayLike,
-                    constants: Structure = CONSTANTS_BT2100_HLG
-                    ) -> FloatingOrNDArray:
+def oetf_HLG_BT2100(
+    E: FloatingOrArrayLike, constants: Structure = CONSTANTS_BT2100_HLG
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
     transfer function (OETF).
@@ -521,9 +523,9 @@ def oetf_HLG_BT2100(E: FloatingOrArrayLike,
     return oetf_ARIBSTDB67(12 * E, constants=constants)
 
 
-def oetf_inverse_HLG_BT2100(E_p: FloatingOrArrayLike,
-                            constants: Structure = CONSTANTS_BT2100_HLG
-                            ) -> FloatingOrNDArray:
+def oetf_inverse_HLG_BT2100(
+    E_p: FloatingOrArrayLike, constants: Structure = CONSTANTS_BT2100_HLG
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     opto-electrical transfer function (OETF).
@@ -570,9 +572,9 @@ def oetf_inverse_HLG_BT2100(E_p: FloatingOrArrayLike,
     return oetf_inverse_ARIBSTDB67(E_p, constants=constants) / 12
 
 
-def black_level_lift_HLG_BT2100(L_B: Floating = 0,
-                                L_W: Floating = 1000,
-                                gamma: Optional[Floating] = None) -> Floating:
+def black_level_lift_HLG_BT2100(
+    L_B: Floating = 0, L_W: Floating = 1000, gamma: Optional[Floating] = None
+) -> Floating:
     """
     Returns the *Reference HLG* black level lift :math:`\\beta` for given
     display luminance for black, nominal peak luminance and system gamma value.
@@ -613,11 +615,12 @@ def black_level_lift_HLG_BT2100(L_B: Floating = 0,
 
 
 def eotf_HLG_BT2100_1(
-        E_p: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None,
-        constants: Structure = CONSTANTS_BT2100_HLG) -> FloatingOrNDArray:
+    E_p: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF) as given in *ITU-R BT.2100-1*.
@@ -675,16 +678,17 @@ def eotf_HLG_BT2100_1(
     """
 
     return ootf_HLG_BT2100_1(
-        oetf_inverse_ARIBSTDB67(E_p, constants=constants) / 12, L_B, L_W,
-        gamma)
+        oetf_inverse_ARIBSTDB67(E_p, constants=constants) / 12, L_B, L_W, gamma
+    )
 
 
 def eotf_HLG_BT2100_2(
-        E_p: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None,
-        constants: Structure = CONSTANTS_BT2100_HLG) -> FloatingOrNDArray:
+    E_p: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF) as given in *ITU-R BT.2100-2* with the
@@ -747,14 +751,18 @@ def eotf_HLG_BT2100_2(
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
     return ootf_HLG_BT2100_2(
-        oetf_inverse_ARIBSTDB67(
-            (1 - beta) * E_p + beta, constants=constants) / 12, L_W, gamma)
+        oetf_inverse_ARIBSTDB67((1 - beta) * E_p + beta, constants=constants) / 12,
+        L_W,
+        gamma,
+    )
 
 
-BT2100_HLG_EOTF_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ITU-R BT.2100-1': eotf_HLG_BT2100_1,
-    'ITU-R BT.2100-2': eotf_HLG_BT2100_2,
-})
+BT2100_HLG_EOTF_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.2100-1": eotf_HLG_BT2100_1,
+        "ITU-R BT.2100-2": eotf_HLG_BT2100_2,
+    }
+)
 BT2100_HLG_EOTF_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
 transfer function (EOTF).
@@ -767,13 +775,15 @@ References
 
 
 def eotf_HLG_BT2100(
-        E_p: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None,
-        constants: Structure = CONSTANTS_BT2100_HLG,
-        method: Union[Literal['ITU-R BT.2100-1', 'ITU-R BT.2100-2'],
-                      str] = 'ITU-R BT.2100-2') -> FloatingOrNDArray:
+    E_p: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+    method: Union[
+        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
+    ] = "ITU-R BT.2100-2",
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF).
@@ -843,11 +853,12 @@ def eotf_HLG_BT2100(
 
 
 def eotf_inverse_HLG_BT2100_1(
-        F_D: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None,
-        constants: Structure = CONSTANTS_BT2100_HLG) -> FloatingOrNDArray:
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF) as given in
@@ -906,15 +917,17 @@ def eotf_inverse_HLG_BT2100_1(
 
     return oetf_ARIBSTDB67(
         ootf_inverse_HLG_BT2100_1(F_D, L_B, L_W, gamma) * 12,
-        constants=constants)
+        constants=constants,
+    )
 
 
 def eotf_inverse_HLG_BT2100_2(
-        F_D: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None,
-        constants: Structure = CONSTANTS_BT2100_HLG) -> FloatingOrNDArray:
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF) as given in
@@ -973,16 +986,21 @@ def eotf_inverse_HLG_BT2100_2(
 
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
-    return (oetf_ARIBSTDB67(
-        ootf_inverse_HLG_BT2100_2(F_D, L_W, gamma) * 12, constants=constants) -
-            beta) / (1 - beta)
+    return (
+        oetf_ARIBSTDB67(
+            ootf_inverse_HLG_BT2100_2(F_D, L_W, gamma) * 12,
+            constants=constants,
+        )
+        - beta
+    ) / (1 - beta)
 
 
-BT2100_HLG_EOTF_INVERSE_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping({
-        'ITU-R BT.2100-1': eotf_inverse_HLG_BT2100_1,
-        'ITU-R BT.2100-2': eotf_inverse_HLG_BT2100_2,
-    }))
+BT2100_HLG_EOTF_INVERSE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.2100-1": eotf_inverse_HLG_BT2100_1,
+        "ITU-R BT.2100-2": eotf_inverse_HLG_BT2100_2,
+    }
+)
 BT2100_HLG_EOTF_INVERSE_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* inverse
 electro-optical transfer function (EOTF).
@@ -995,13 +1013,15 @@ References
 
 
 def eotf_inverse_HLG_BT2100(
-        F_D: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None,
-        constants: Structure = CONSTANTS_BT2100_HLG,
-        method: Union[Literal['ITU-R BT.2100-1', 'ITU-R BT.2100-2'],
-                      str] = 'ITU-R BT.2100-2') -> FloatingOrNDArray:
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+    method: Union[
+        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
+    ] = "ITU-R BT.2100-2",
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF).
@@ -1064,14 +1084,15 @@ def eotf_inverse_HLG_BT2100(
 
     method = validate_method(method, BT2100_HLG_EOTF_INVERSE_METHODS)
 
-    return BT2100_HLG_EOTF_INVERSE_METHODS[method](F_D, L_B, L_W, gamma,
-                                                   constants)
+    return BT2100_HLG_EOTF_INVERSE_METHODS[method](F_D, L_B, L_W, gamma, constants)
 
 
-def ootf_HLG_BT2100_1(E: FloatingOrArrayLike,
-                      L_B: Floating = 0,
-                      L_W: Floating = 1000,
-                      gamma: Optional[Floating] = None) -> FloatingOrNDArray:
+def ootf_HLG_BT2100_1(
+    E: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
@@ -1132,9 +1153,10 @@ def ootf_HLG_BT2100_1(E: FloatingOrArrayLike,
     if E.shape[-1] != 3:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
-            'RGB Luminance in computations and expects a vector input, thus '
-            'the given input array will be stacked to compose a vector for '
-            'internal computations but a single component will be output.')
+            "RGB Luminance in computations and expects a vector input, thus "
+            "the given input array will be stacked to compose a vector for "
+            "internal computations but a single component will be output."
+        )
         R_S = G_S = B_S = E
     else:
         R_S, G_S, B_S = tsplit(E)
@@ -1158,9 +1180,11 @@ def ootf_HLG_BT2100_1(E: FloatingOrArrayLike,
         return from_range_1(RGB_D)
 
 
-def ootf_HLG_BT2100_2(E: FloatingOrArrayLike,
-                      L_W: Floating = 1000,
-                      gamma: Optional[Floating] = None) -> FloatingOrNDArray:
+def ootf_HLG_BT2100_2(
+    E: FloatingOrArrayLike,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
@@ -1216,9 +1240,10 @@ def ootf_HLG_BT2100_2(E: FloatingOrArrayLike,
     if E.shape[-1] != 3:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
-            'RGB Luminance in computations and expects a vector input, thus '
-            'the given input array will be stacked to compose a vector for '
-            'internal computations but a single component will be output.')
+            "RGB Luminance in computations and expects a vector input, thus "
+            "the given input array will be stacked to compose a vector for "
+            "internal computations but a single component will be output."
+        )
         R_S = G_S = B_S = E
     else:
         R_S, G_S, B_S = tsplit(E)
@@ -1241,10 +1266,12 @@ def ootf_HLG_BT2100_2(E: FloatingOrArrayLike,
         return from_range_1(RGB_D)
 
 
-BT2100_HLG_OOTF_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ITU-R BT.2100-1': ootf_HLG_BT2100_1,
-    'ITU-R BT.2100-2': ootf_HLG_BT2100_2,
-})
+BT2100_HLG_OOTF_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.2100-1": ootf_HLG_BT2100_1,
+        "ITU-R BT.2100-2": ootf_HLG_BT2100_2,
+    }
+)
 BT2100_HLG_OOTF_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical transfer
 function (OOTF / OOCF).
@@ -1257,12 +1284,14 @@ References
 
 
 def ootf_HLG_BT2100(
-        E: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None,
-        method: Union[Literal['ITU-R BT.2100-1', 'ITU-R BT.2100-2'],
-                      str] = 'ITU-R BT.2100-2') -> FloatingOrNDArray:
+    E: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    method: Union[
+        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
+    ] = "ITU-R BT.2100-2",
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF).
@@ -1325,18 +1354,16 @@ def ootf_HLG_BT2100(
     function = BT2100_HLG_OOTF_METHODS[method]
 
     return function(
-        E, **filter_kwargs(function, **{
-            'L_B': L_B,
-            'L_W': L_W,
-            'gamma': gamma
-        }))
+        E, **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma})
+    )
 
 
 def ootf_inverse_HLG_BT2100_1(
-        F_D: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None) -> FloatingOrNDArray:
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
@@ -1395,9 +1422,10 @@ def ootf_inverse_HLG_BT2100_1(
     if F_D.shape[-1] != 3:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
-            'RGB Luminance in computations and expects a vector input, thus '
-            'the given input array will be stacked to compose a vector for '
-            'internal computations but a single component will be output.')
+            "RGB Luminance in computations and expects a vector input, thus "
+            "the given input array will be stacked to compose a vector for "
+            "internal computations but a single component will be output."
+        )
         R_D = G_D = B_D = F_D
     else:
         R_D, G_D, B_D = tsplit(F_D)
@@ -1409,7 +1437,7 @@ def ootf_inverse_HLG_BT2100_1(
 
     gamma = optional(gamma, gamma_function_HLG_BT2100(L_W))
 
-    Y_D_beta = (np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma))
+    Y_D_beta = np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma)
 
     R_S = np.where(
         Y_D == beta,
@@ -1436,9 +1464,10 @@ def ootf_inverse_HLG_BT2100_1(
 
 
 def ootf_inverse_HLG_BT2100_2(
-        F_D: FloatingOrArrayLike,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None) -> FloatingOrNDArray:
+    F_D: FloatingOrArrayLike,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
@@ -1492,9 +1521,10 @@ def ootf_inverse_HLG_BT2100_2(
     if F_D.shape[-1] != 3:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
-            'RGB Luminance in computations and expects a vector input, thus '
-            'the given input array will be stacked to compose a vector for '
-            'internal computations but a single component will be output.')
+            "RGB Luminance in computations and expects a vector input, thus "
+            "the given input array will be stacked to compose a vector for "
+            "internal computations but a single component will be output."
+        )
         R_D = G_D = B_D = F_D
     else:
         R_D, G_D, B_D = tsplit(F_D)
@@ -1505,7 +1535,7 @@ def ootf_inverse_HLG_BT2100_2(
 
     gamma = optional(gamma, gamma_function_HLG_BT2100(L_W))
 
-    Y_D_alpha = (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma))
+    Y_D_alpha = np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)
 
     R_S = np.where(
         Y_D == 0,
@@ -1531,11 +1561,12 @@ def ootf_inverse_HLG_BT2100_2(
         return from_range_1(RGB_S)
 
 
-BT2100_HLG_OOTF_INVERSE_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping({
-        'ITU-R BT.2100-1': ootf_inverse_HLG_BT2100_1,
-        'ITU-R BT.2100-2': ootf_inverse_HLG_BT2100_2,
-    }))
+BT2100_HLG_OOTF_INVERSE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.2100-1": ootf_inverse_HLG_BT2100_1,
+        "ITU-R BT.2100-2": ootf_inverse_HLG_BT2100_2,
+    }
+)
 BT2100_HLG_OOTF_INVERSE_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
 transfer function (OOTF / OOCF).
@@ -1548,12 +1579,14 @@ References
 
 
 def ootf_inverse_HLG_BT2100(
-        F_D: FloatingOrArrayLike,
-        L_B: Floating = 0,
-        L_W: Floating = 1000,
-        gamma: Optional[Floating] = None,
-        method: Union[Literal['ITU-R BT.2100-1', 'ITU-R BT.2100-2'],
-                      str] = 'ITU-R BT.2100-2') -> FloatingOrNDArray:
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    method: Union[
+        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
+    ] = "ITU-R BT.2100-2",
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF).
@@ -1616,9 +1649,5 @@ def ootf_inverse_HLG_BT2100(
     function = BT2100_HLG_OOTF_INVERSE_METHODS[method]
 
     return function(
-        F_D,
-        **filter_kwargs(function, **{
-            'L_B': L_B,
-            'L_W': L_W,
-            'gamma': gamma
-        }))
+        F_D, **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma})
+    )

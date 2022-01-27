@@ -24,28 +24,29 @@ from colour.models import xyY_to_XYZ
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 from colour.utilities import CACHE_REGISTRY, validate_method
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'is_within_macadam_limits',
+    "is_within_macadam_limits",
 ]
 
 _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ: Dict = CACHE_REGISTRY.register_cache(
-    '{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ'.format(__name__))
+    "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ".format(__name__)
+)
 
-_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = (
-    CACHE_REGISTRY.register_cache(
-        '{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS'.format(
-            __name__)))
+_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = CACHE_REGISTRY.register_cache(
+    "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS".format(__name__)
+)
 
 
 def _XYZ_optimal_colour_stimuli(
-        illuminant: Union[Literal['A', 'C', 'D65'], str] = 'D65') -> NDArray:
+    illuminant: Union[Literal["A", "C", "D65"], str] = "D65"
+) -> NDArray:
     """
     Returns given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
@@ -62,30 +63,36 @@ def _XYZ_optimal_colour_stimuli(
     """
 
     illuminant = validate_method(
-        illuminant, list(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys()),
-        '"{0}" illuminant is invalid, it must be one of {1}!')
+        illuminant,
+        list(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys()),
+        '"{0}" illuminant is invalid, it must be one of {1}!',
+    )
 
     optimal_colour_stimuli = OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.get(illuminant)
 
     if optimal_colour_stimuli is None:
-        raise KeyError('"{0}" not found in factory '
-                       '"Optimal Colour Stimuli": "{1}".'.format(
-                           illuminant,
-                           sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())))
+        raise KeyError(
+            '"{0}" not found in factory '
+            '"Optimal Colour Stimuli": "{1}".'.format(
+                illuminant, sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())
+            )
+        )
 
     vertices = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ.get(illuminant)
 
     if vertices is None:
         _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ[illuminant] = vertices = (
-            xyY_to_XYZ(optimal_colour_stimuli) / 100)
+            xyY_to_XYZ(optimal_colour_stimuli) / 100
+        )
 
     return vertices
 
 
 def is_within_macadam_limits(
-        xyY: ArrayLike,
-        illuminant: Union[Literal['A', 'C', 'D65'], str] = 'D65',
-        tolerance: Optional[Floating] = None) -> NDArray:
+    xyY: ArrayLike,
+    illuminant: Union[Literal["A", "C", "D65"], str] = "D65",
+    tolerance: Optional[Floating] = None,
+) -> NDArray:
     """
     Returns whether given *CIE xyY* colourspace array is within MacAdam limits
     of given illuminant.
@@ -124,12 +131,12 @@ def is_within_macadam_limits(
     """
 
     optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
-    triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(
-        illuminant)
+    triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(illuminant)
 
     if triangulation is None:
-        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = \
-            triangulation = Delaunay(optimal_colour_stimuli)
+        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[
+            illuminant
+        ] = triangulation = Delaunay(optimal_colour_stimuli)
 
     simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
     simplex = np.where(simplex >= 0, True, False)

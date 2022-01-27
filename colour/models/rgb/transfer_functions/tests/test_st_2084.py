@@ -13,16 +13,16 @@ from colour.models.rgb.transfer_functions import (
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestEotf_inverse_ST2084',
-    'TestEotf_ST2084',
+    "TestEotf_inverse_ST2084",
+    "TestEotf_ST2084",
 ]
 
 
@@ -38,14 +38,11 @@ eotf_inverse_ST2084` definition unit tests methods.
 eotf_inverse_ST2084` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_inverse_ST2084(0.0), 0.000000730955903, places=7)
+        self.assertAlmostEqual(eotf_inverse_ST2084(0.0), 0.000000730955903, places=7)
 
-        self.assertAlmostEqual(
-            eotf_inverse_ST2084(100), 0.508078421517399, places=7)
+        self.assertAlmostEqual(eotf_inverse_ST2084(100), 0.508078421517399, places=7)
 
-        self.assertAlmostEqual(
-            eotf_inverse_ST2084(400), 0.652578597563067, places=7)
+        self.assertAlmostEqual(eotf_inverse_ST2084(400), 0.652578597563067, places=7)
 
         self.assertAlmostEqual(eotf_inverse_ST2084(5000, 5000), 1.0, places=7)
 
@@ -79,11 +76,12 @@ eotf_inverse_ST2084` definition domain and range scale support.
         C = 100
         N = eotf_inverse_ST2084(C)
 
-        d_r = (('reference', 1), ('1', 1), ('100', 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_inverse_ST2084(C * factor), N * factor, decimal=7)
+                    eotf_inverse_ST2084(C * factor), N * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_eotf_inverse_ST2084(self):
@@ -92,8 +90,7 @@ eotf_inverse_ST2084` definition domain and range scale support.
 eotf_inverse_ST2084` definition nan support.
         """
 
-        eotf_inverse_ST2084(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_ST2084(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_ST2084(unittest.TestCase):
@@ -146,11 +143,12 @@ eotf_ST2084` definition domain and range scale support.
         N = 0.508078421517399
         C = eotf_ST2084(N)
 
-        d_r = (('reference', 1), ('1', 1), ('100', 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_ST2084(N * factor), C * factor, decimal=7)
+                    eotf_ST2084(N * factor), C * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_eotf_ST2084(self):
@@ -162,5 +160,5 @@ eotf_ST2084` definition nan support.
         eotf_ST2084(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

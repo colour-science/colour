@@ -20,15 +20,15 @@ from colour.hints import FloatingOrNDArray
 from colour.models import gamma_function
 from colour.utilities import tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestLUTSequence',
+    "TestLUTSequence",
 ]
 
 
@@ -43,9 +43,9 @@ class TestLUTSequence(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125, 'Nemo 1D')
-        self._LUT_2 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2), 'Nemo 3D')
-        self._LUT_3 = LUT3x1D(LUT3x1D.linear_table(16) * 0.750, 'Nemo 3x1D')
+        self._LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125, "Nemo 1D")
+        self._LUT_2 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2), "Nemo 3D")
+        self._LUT_3 = LUT3x1D(LUT3x1D.linear_table(16) * 0.750, "Nemo 3x1D")
         self._LUT_sequence = LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3)
 
         samples = np.linspace(0, 1, 5)
@@ -57,7 +57,7 @@ class TestLUTSequence(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('sequence', )
+        required_attributes = ("sequence",)
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(LUTSequence))
@@ -67,9 +67,20 @@ class TestLUTSequence(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__getitem__', '__setitem__',
-                            '__delitem__', '__len__', '__str__', '__repr__',
-                            '__eq__', '__ne__', 'insert', 'apply', 'copy')
+        required_methods = (
+            "__init__",
+            "__getitem__",
+            "__setitem__",
+            "__delitem__",
+            "__len__",
+            "__str__",
+            "__repr__",
+            "__eq__",
+            "__ne__",
+            "insert",
+            "apply",
+            "copy",
+        )
 
         for method in required_methods:
             self.assertIn(method, dir(LUTSequence))
@@ -91,7 +102,8 @@ class TestLUTSequence(unittest.TestCase):
 
         self.assertEqual(
             LUTSequence(self._LUT_1, self._LUT_2, self._LUT_3),
-            self._LUT_sequence)
+            self._LUT_sequence,
+        )
 
     def test__getitem__(self):
         """
@@ -142,7 +154,8 @@ class TestLUTSequence(unittest.TestCase):
 
         self.assertEqual(
             str(self._LUT_sequence),
-            textwrap.dedent("""
+            textwrap.dedent(
+                """
             LUT Sequence
             ------------
 
@@ -173,7 +186,9 @@ class TestLUTSequence(unittest.TestCase):
                 Dimensions : 2
                 Domain     : [[ 0.  0.  0.]
                               [ 1.  1.  1.]]
-                Size       : (16, 3)""")[1:])
+                Size       : (16, 3)"""
+            )[1:],
+        )
 
     def test__repr__(self):
         """
@@ -185,7 +200,8 @@ class TestLUTSequence(unittest.TestCase):
 
         self.assertEqual(
             repr(LUT_sequence),
-            textwrap.dedent("""
+            textwrap.dedent(
+                """
             LUTSequence(
                 LUT1D([ 0.125     ,  0.19166667,  0.25833333,  0.325     ,  \
 0.39166667,
@@ -367,7 +383,11 @@ class TestLUTSequence(unittest.TestCase):
                         name='Nemo 3x1D',
                         domain=[[ 0.,  0.,  0.],
                                 [ 1.,  1.,  1.]])
-            )""" [1:]))
+            )"""[
+                    1:
+                ]
+            ),
+        )
 
     def test__eq__(self):
         """
@@ -390,8 +410,8 @@ class TestLUTSequence(unittest.TestCase):
 
         self.assertNotEqual(
             self._LUT_sequence,
-            LUTSequence(self._LUT_1,
-                        self._LUT_2.copy() * 0.75, self._LUT_3))
+            LUTSequence(self._LUT_1, self._LUT_2.copy() * 0.75, self._LUT_3),
+        )
 
     def test_insert(self):
         """
@@ -409,7 +429,8 @@ class TestLUTSequence(unittest.TestCase):
                 self._LUT_2,
                 self._LUT_2,
                 self._LUT_3,
-            ))
+            ),
+        )
 
     def test_apply(self):
         """
@@ -446,10 +467,9 @@ class TestLUTSequence(unittest.TestCase):
                     Processed *RGB* colourspace array.
                 """
 
-                direction = kwargs.get('direction', 'Forward')
+                direction = kwargs.get("direction", "Forward")
 
-                gamma = (self._gamma
-                         if direction == 'Forward' else 1 / self._gamma)
+                gamma = self._gamma if direction == "Forward" else 1 / self._gamma
 
                 return gamma_function(RGB, gamma)
 
@@ -459,15 +479,18 @@ class TestLUTSequence(unittest.TestCase):
         RGB = tstack([samples, samples, samples])
 
         np.testing.assert_almost_equal(
-            LUT_sequence.apply(RGB, GammaOperator={'direction': 'Inverse'}),
-            np.array([
-                [0.03386629, 0.03386629, 0.03386629],
-                [0.27852298, 0.27852298, 0.27852298],
-                [0.46830881, 0.46830881, 0.46830881],
-                [0.65615595, 0.65615595, 0.65615595],
-                [0.75000000, 0.75000000, 0.75000000],
-            ]))
+            LUT_sequence.apply(RGB, GammaOperator={"direction": "Inverse"}),
+            np.array(
+                [
+                    [0.03386629, 0.03386629, 0.03386629],
+                    [0.27852298, 0.27852298, 0.27852298],
+                    [0.46830881, 0.46830881, 0.46830881],
+                    [0.65615595, 0.65615595, 0.65615595],
+                    [0.75000000, 0.75000000, 0.75000000],
+                ]
+            ),
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

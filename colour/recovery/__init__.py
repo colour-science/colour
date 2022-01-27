@@ -53,34 +53,36 @@ from .smits1999 import RGB_to_sd_Smits1999
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
-    'sd_Jakob2019',
-    'find_coefficients_Jakob2019',
-    'XYZ_to_sd_Jakob2019',
-    'LUT3D_Jakob2019',
+    "sd_Jakob2019",
+    "find_coefficients_Jakob2019",
+    "XYZ_to_sd_Jakob2019",
+    "LUT3D_Jakob2019",
 ]
 __all__ += [
-    'spectral_primary_decomposition_Mallett2019',
-    'RGB_to_sd_Mallett2019',
+    "spectral_primary_decomposition_Mallett2019",
+    "RGB_to_sd_Mallett2019",
 ]
 __all__ += [
-    'XYZ_to_sd_Meng2015',
+    "XYZ_to_sd_Meng2015",
 ]
 __all__ += [
-    'Dataset_Otsu2018',
-    'Tree_Otsu2018',
-    'XYZ_to_sd_Otsu2018',
+    "Dataset_Otsu2018",
+    "Tree_Otsu2018",
+    "XYZ_to_sd_Otsu2018",
 ]
 __all__ += [
-    'RGB_to_sd_Smits1999',
+    "RGB_to_sd_Smits1999",
 ]
 
-XYZ_TO_SD_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Jakob 2019': XYZ_to_sd_Jakob2019,
-    'Mallett 2019': RGB_to_sd_Mallett2019,
-    'Meng 2015': XYZ_to_sd_Meng2015,
-    'Otsu 2018': XYZ_to_sd_Otsu2018,
-    'Smits 1999': RGB_to_sd_Smits1999,
-})
+XYZ_TO_SD_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Jakob 2019": XYZ_to_sd_Jakob2019,
+        "Mallett 2019": RGB_to_sd_Mallett2019,
+        "Meng 2015": XYZ_to_sd_Meng2015,
+        "Otsu 2018": XYZ_to_sd_Otsu2018,
+        "Smits 1999": RGB_to_sd_Smits1999,
+    }
+)
 XYZ_TO_SD_METHODS.__doc__ = """
 Supported spectral distribution recovery methods.
 
@@ -92,10 +94,19 @@ References
 
 
 def XYZ_to_sd(
-        XYZ: ArrayLike,
-        method: Union[Literal['Jakob 2019', 'Mallett 2019', 'Meng 2015',
-                              'Otsu 2018', 'Smits 1999'], str] = 'Meng 2015',
-        **kwargs: Any) -> SpectralDistribution:
+    XYZ: ArrayLike,
+    method: Union[
+        Literal[
+            "Jakob 2019",
+            "Mallett 2019",
+            "Meng 2015",
+            "Otsu 2018",
+            "Smits 1999",
+        ],
+        str,
+    ] = "Meng 2015",
+    **kwargs: Any
+) -> SpectralDistribution:
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus
     values using given method.
@@ -502,8 +513,8 @@ def XYZ_to_sd(
 
 
 __all__ += [
-    'XYZ_TO_SD_METHODS',
-    'XYZ_to_sd',
+    "XYZ_TO_SD_METHODS",
+    "XYZ_to_sd",
 ]
 
 
@@ -517,17 +528,20 @@ class recovery(ModuleAPI):
 
 # v0.4.0
 API_CHANGES = {
-    'ObjectRenamed': [[
-        'colour.recovery.NodeTree_Otsu2018',
-        'colour.recovery.Tree_Otsu2018',
-    ], ]
+    "ObjectRenamed": [
+        [
+            "colour.recovery.NodeTree_Otsu2018",
+            "colour.recovery.Tree_Otsu2018",
+        ],
+    ]
 }
 """
 Defines the *colour.recovery* sub-package API changes.
 """
 
 if not is_documentation_building():
-    sys.modules['colour.recovery'] = recovery(  # type: ignore[assignment]
-        sys.modules['colour.recovery'], build_API_changes(API_CHANGES))
+    sys.modules["colour.recovery"] = recovery(  # type: ignore[assignment]
+        sys.modules["colour.recovery"], build_API_changes(API_CHANGES)
+    )
 
     del ModuleAPI, is_documentation_building, build_API_changes, sys

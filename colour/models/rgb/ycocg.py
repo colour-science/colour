@@ -23,34 +23,38 @@ import numpy as np
 from colour.algebra import vector_dot
 from colour.hints import ArrayLike, NDArray
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Development'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Development"
 
 __all__ = [
-    'MATRIX_RGB_TO_YCOCG',
-    'MATRIX_YCOCG_TO_RGB',
-    'RGB_to_YCoCg',
-    'YCoCg_to_RGB',
+    "MATRIX_RGB_TO_YCOCG",
+    "MATRIX_YCOCG_TO_RGB",
+    "RGB_to_YCoCg",
+    "YCoCg_to_RGB",
 ]
 
-MATRIX_RGB_TO_YCOCG: NDArray = np.array([
-    [1 / 4, 1 / 2, 1 / 4],
-    [1 / 2, 0, -1 / 2],
-    [-1 / 4, 1 / 2, -1 / 4],
-])
+MATRIX_RGB_TO_YCOCG: NDArray = np.array(
+    [
+        [1 / 4, 1 / 2, 1 / 4],
+        [1 / 2, 0, -1 / 2],
+        [-1 / 4, 1 / 2, -1 / 4],
+    ]
+)
 """
 *R'G'B'* colourspace to *YCoCg* colour encoding matrix.
 """
 
-MATRIX_YCOCG_TO_RGB: NDArray = np.array([
-    [1, 1, -1],
-    [1, 0, 1],
-    [1, -1, -1],
-])
+MATRIX_YCOCG_TO_RGB: NDArray = np.array(
+    [
+        [1, 1, -1],
+        [1, 0, 1],
+        [1, -1, -1],
+    ]
+)
 """
 *YCoCg* colour encoding to *R'G'B'* colourspace matrix.
 """

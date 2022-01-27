@@ -25,16 +25,16 @@ from colour.utilities import (
     usage_warning,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'read_LUT_SonySPI3D',
-    'write_LUT_SonySPI3D',
+    "read_LUT_SonySPI3D",
+    "write_LUT_SonySPI3D",
 ]
 
 
@@ -93,7 +93,7 @@ def read_LUT_SonySPI3D(path: str) -> LUT3D:
     with open(path) as spi3d_file:
         lines = filter(None, (line.strip() for line in spi3d_file.readlines()))
         for line in lines:
-            if line.startswith('#'):
+            if line.startswith("#"):
                 comments.append(line[1:].strip())
                 continue
 
@@ -101,7 +101,8 @@ def read_LUT_SonySPI3D(path: str) -> LUT3D:
             if len(tokens) == 3:
                 attest(
                     len(set(tokens)) == 1,
-                    'Non-uniform "LUT" shape is unsupported!')
+                    'Non-uniform "LUT" shape is unsupported!',
+                )
 
                 size = as_int_scalar(tokens[0])
             if len(tokens) == 6:
@@ -114,20 +115,21 @@ def read_LUT_SonySPI3D(path: str) -> LUT3D:
     attest(
         np.array_equal(
             indexes[sorting_indexes],
-            as_int_array(np.around(
-                LUT3D.linear_table(size) * (size - 1))).reshape((-1, 3))),
-        'Indexes do not match expected "LUT3D" indexes!')
+            as_int_array(np.around(LUT3D.linear_table(size) * (size - 1))).reshape(
+                (-1, 3)
+            ),
+        ),
+        'Indexes do not match expected "LUT3D" indexes!',
+    )
 
-    table = as_float_array(data_table)[sorting_indexes].reshape(
-        [size, size, size, 3])
+    table = as_float_array(data_table)[sorting_indexes].reshape([size, size, size, 3])
 
-    return LUT3D(
-        table, title, np.vstack([domain_min, domain_max]), comments=comments)
+    return LUT3D(table, title, np.vstack([domain_min, domain_max]), comments=comments)
 
 
-def write_LUT_SonySPI3D(LUT: Union[LUT3D, LUTSequence],
-                        path: str,
-                        decimals: Integer = 7) -> Boolean:
+def write_LUT_SonySPI3D(
+    LUT: Union[LUT3D, LUTSequence], path: str, decimals: Integer = 7
+) -> Boolean:
     """
     Writes given *LUT* to given *Sony* *.spi3d* *LUT* file.
 
@@ -164,9 +166,11 @@ def write_LUT_SonySPI3D(LUT: Union[LUT3D, LUTSequence],
     """
 
     if isinstance(LUT, LUTSequence):
-        usage_warning('"LUT" is a "LUTSequence" instance was passed, '
-                      'using first sequence "LUT":\n'
-                      '{0}'.format(LUT))
+        usage_warning(
+            '"LUT" is a "LUTSequence" instance was passed, '
+            'using first sequence "LUT":\n'
+            "{0}".format(LUT)
+        )
         LUTxD = LUT[0]
     else:
         LUTxD = LUT
@@ -176,38 +180,44 @@ def write_LUT_SonySPI3D(LUT: Union[LUT3D, LUTSequence],
     attest(isinstance(LUTxD, LUT3D), '"LUT" must be either a 3D "LUT"!')
 
     attest(
-        np.array_equal(LUTxD.domain, np.array([
-            [0, 0, 0],
-            [1, 1, 1],
-        ])), '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!')
+        np.array_equal(
+            LUTxD.domain,
+            np.array(
+                [
+                    [0, 0, 0],
+                    [1, 1, 1],
+                ]
+            ),
+        ),
+        '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!',
+    )
 
     def _format_array(array: Union[List, Tuple]) -> str:
         """
         Formats given array as a *Sony* *.spi3d* data row.
         """
 
-        return '{1:d} {2:d} {3:d} {4:0.{0}f} {5:0.{0}f} {6:0.{0}f}'.format(
-            decimals, *array)
+        return "{1:d} {2:d} {3:d} {4:0.{0}f} {5:0.{0}f} {6:0.{0}f}".format(
+            decimals, *array
+        )
 
-    with open(path, 'w') as spi3d_file:
-        spi3d_file.write('SPILUT 1.0\n')
+    with open(path, "w") as spi3d_file:
+        spi3d_file.write("SPILUT 1.0\n")
 
-        spi3d_file.write('3 3\n')
+        spi3d_file.write("3 3\n")
 
-        spi3d_file.write('{0} {0} {0}\n'.format(LUTxD.size))
+        spi3d_file.write("{0} {0} {0}\n".format(LUTxD.size))
 
         indexes = as_int_array(
-            np.around(
-                LUTxD.linear_table(LUTxD.size) * (LUTxD.size - 1))).reshape(
-                    [-1, 3])
+            np.around(LUTxD.linear_table(LUTxD.size) * (LUTxD.size - 1))
+        ).reshape([-1, 3])
         table = LUTxD.table.reshape([-1, 3])
 
         for i, row in enumerate(indexes):
-            spi3d_file.write('{0}\n'.format(
-                _format_array(list(row) + list(table[i]))))
+            spi3d_file.write("{0}\n".format(_format_array(list(row) + list(table[i]))))
 
         if LUTxD.comments:
             for comment in LUTxD.comments:
-                spi3d_file.write('# {0}\n'.format(comment))
+                spi3d_file.write("# {0}\n".format(comment))
 
     return True

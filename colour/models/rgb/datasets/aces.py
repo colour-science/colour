@@ -70,79 +70,87 @@ from colour.models.rgb import (
     log_decoding_ACESproxy,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'AP0',
-    'AP1',
-    'WHITEPOINT_NAME_ACES',
-    'CCS_WHITEPOINT_ACES',
-    'MATRIX_AP0_TO_XYZ',
-    'MATRIX_XYZ_TO_AP0',
-    'MATRIX_AP1_TO_XYZ',
-    'MATRIX_XYZ_TO_AP1',
-    'RGB_COLOURSPACE_ACES2065_1',
-    'RGB_COLOURSPACE_ACESCG',
-    'RGB_COLOURSPACE_ACESCC',
-    'RGB_COLOURSPACE_ACESCCT',
-    'RGB_COLOURSPACE_ACESPROXY',
+    "AP0",
+    "AP1",
+    "WHITEPOINT_NAME_ACES",
+    "CCS_WHITEPOINT_ACES",
+    "MATRIX_AP0_TO_XYZ",
+    "MATRIX_XYZ_TO_AP0",
+    "MATRIX_AP1_TO_XYZ",
+    "MATRIX_XYZ_TO_AP1",
+    "RGB_COLOURSPACE_ACES2065_1",
+    "RGB_COLOURSPACE_ACESCG",
+    "RGB_COLOURSPACE_ACESCC",
+    "RGB_COLOURSPACE_ACESCCT",
+    "RGB_COLOURSPACE_ACESPROXY",
 ]
 
-AP0: NDArray = np.array([
-    [0.73470, 0.26530],
-    [0.00000, 1.00000],
-    [0.00010, -0.07700],
-])
+AP0: NDArray = np.array(
+    [
+        [0.73470, 0.26530],
+        [0.00000, 1.00000],
+        [0.00010, -0.07700],
+    ]
+)
 """
 *ACES Primaries 0* or *AP0* primaries.
 """
 
-AP1: NDArray = np.array([
-    [0.71300, 0.29300],
-    [0.16500, 0.83000],
-    [0.12800, 0.04400],
-])
+AP1: NDArray = np.array(
+    [
+        [0.71300, 0.29300],
+        [0.16500, 0.83000],
+        [0.12800, 0.04400],
+    ]
+)
 """
 *ACES Primaries 1* or *AP1* primaries (known as *ITU-R BT.2020+* primaries
 prior to *ACES* 1.0 release).
 """
 
-WHITEPOINT_NAME_ACES: str = 'ACES'
+WHITEPOINT_NAME_ACES: str = "ACES"
 """
 *ACES2065-1* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_ACES: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_ACES])
+CCS_WHITEPOINT_ACES: NDArray = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+    WHITEPOINT_NAME_ACES
+]
 """
 *ACES2065-1* colourspace whitepoint chromaticity coordinates.
 """
 
-MATRIX_AP0_TO_XYZ: NDArray = np.array([
-    [0.9525523959, 0.0000000000, 0.0000936786],
-    [0.3439664498, 0.7281660966, -0.0721325464],
-    [0.0000000000, 0.0000000000, 1.0088251844],
-])
+MATRIX_AP0_TO_XYZ: NDArray = np.array(
+    [
+        [0.9525523959, 0.0000000000, 0.0000936786],
+        [0.3439664498, 0.7281660966, -0.0721325464],
+        [0.0000000000, 0.0000000000, 1.0088251844],
+    ]
+)
 """
 *ACES Primaries 0* to *CIE XYZ* tristimulus values matrix defined as per [2].
 """
 
-MATRIX_XYZ_TO_AP0: NDArray = np.array([
-    [1.0498110175, 0.0000000000, -0.0000974845],
-    [-0.4959030231, 1.3733130458, 0.0982400361],
-    [0.0000000000, 0.0000000000, 0.9912520182],
-])
+MATRIX_XYZ_TO_AP0: NDArray = np.array(
+    [
+        [1.0498110175, 0.0000000000, -0.0000974845],
+        [-0.4959030231, 1.3733130458, 0.0982400361],
+        [0.0000000000, 0.0000000000, 0.9912520182],
+    ]
+)
 """
 *CIE XYZ* tristimulus values to *ACES Primaries 0* matrix.
 """
 
-MATRIX_AP1_TO_XYZ: NDArray = normalised_primary_matrix(AP1,
-                                                       CCS_WHITEPOINT_ACES)
+MATRIX_AP1_TO_XYZ: NDArray = normalised_primary_matrix(AP1, CCS_WHITEPOINT_ACES)
 """
 *ACES Primaries 1* to *CIE XYZ* tristimulus values matrix.
 """
@@ -153,7 +161,7 @@ MATRIX_XYZ_TO_AP1: NDArray = np.linalg.inv(MATRIX_AP1_TO_XYZ)
 """
 
 RGB_COLOURSPACE_ACES2065_1: RGB_Colourspace = RGB_Colourspace(
-    'ACES2065-1',
+    "ACES2065-1",
     AP0,
     CCS_WHITEPOINT_ACES,
     WHITEPOINT_NAME_ACES,
@@ -174,7 +182,7 @@ References
 """
 
 RGB_COLOURSPACE_ACESCG: RGB_Colourspace = RGB_Colourspace(
-    'ACEScg',
+    "ACEScg",
     AP1,
     CCS_WHITEPOINT_ACES,
     WHITEPOINT_NAME_ACES,
@@ -196,7 +204,7 @@ References
 """
 
 RGB_COLOURSPACE_ACESCC: RGB_Colourspace = RGB_Colourspace(
-    'ACEScc',
+    "ACEScc",
     AP1,
     CCS_WHITEPOINT_ACES,
     WHITEPOINT_NAME_ACES,
@@ -218,7 +226,7 @@ References
 """
 
 RGB_COLOURSPACE_ACESCCT: RGB_Colourspace = RGB_Colourspace(
-    'ACEScct',
+    "ACEScct",
     AP1,
     CCS_WHITEPOINT_ACES,
     WHITEPOINT_NAME_ACES,
@@ -241,7 +249,7 @@ References
 """
 
 RGB_COLOURSPACE_ACESPROXY: RGB_Colourspace = RGB_Colourspace(
-    'ACESproxy',
+    "ACESproxy",
     AP1,
     CCS_WHITEPOINT_ACES,
     WHITEPOINT_NAME_ACES,

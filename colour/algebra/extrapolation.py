@@ -45,15 +45,15 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'Extrapolator',
+    "Extrapolator",
 ]
 
 
@@ -137,20 +137,25 @@ class Extrapolator:
     array([ 0.,  0.,  3.,  3.])
     """
 
-    def __init__(self,
-                 interpolator: Optional[TypeInterpolator] = None,
-                 method: Union[Literal['Linear', 'Constant'], str] = 'Linear',
-                 left: Optional[Number] = None,
-                 right: Optional[Number] = None,
-                 dtype: Optional[Type[DTypeNumber]] = None):
+    def __init__(
+        self,
+        interpolator: Optional[TypeInterpolator] = None,
+        method: Union[Literal["Linear", "Constant"], str] = "Linear",
+        left: Optional[Number] = None,
+        right: Optional[Number] = None,
+        dtype: Optional[Type[DTypeNumber]] = None,
+    ):
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._interpolator: TypeInterpolator = NullInterpolator(
-            np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf]))
+            np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf])
+        )
         self.interpolator = optional(interpolator, self._interpolator)
-        self._method: Union[Literal['Linear', 'Constant'], str] = 'Linear'
-        self.method = cast(Union[Literal['Linear', 'Constant'], str],
-                           optional(method, self._method))
+        self._method: Union[Literal["Linear", "Constant"], str] = "Linear"
+        self.method = cast(
+            Union[Literal["Linear", "Constant"], str],
+            optional(method, self._method),
+        )
         self._right: Optional[Number] = None
         self.right = right
         self._left: Optional[Number] = None
@@ -185,17 +190,19 @@ class Extrapolator:
         """
 
         attest(
-            hasattr(value, 'x'),
-            '"{0}" interpolator has no "x" attribute!'.format(value))
+            hasattr(value, "x"),
+            '"{0}" interpolator has no "x" attribute!'.format(value),
+        )
 
         attest(
-            hasattr(value, 'y'),
-            '"{0}" interpolator has no "y" attribute!'.format(value))
+            hasattr(value, "y"),
+            '"{0}" interpolator has no "y" attribute!'.format(value),
+        )
 
         self._interpolator = value
 
     @property
-    def method(self) -> Union[Literal['Linear', 'Constant'], str]:
+    def method(self) -> Union[Literal["Linear", "Constant"], str]:
         """
         Getter and setter property for the extrapolation method.
 
@@ -213,17 +220,17 @@ class Extrapolator:
         return self._method
 
     @method.setter
-    def method(self, value: Union[Literal['Linear', 'Constant'], str]):
+    def method(self, value: Union[Literal["Linear", "Constant"], str]):
         """
         Setter for the **self.method** property.
         """
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format(
-                'method', value))
+            '"{0}" attribute: "{1}" type is not "str"!'.format("method", value),
+        )
 
-        value = validate_method(value, ['Linear', 'Constant'])
+        value = validate_method(value, ["Linear", "Constant"])
 
         self._method = value
 
@@ -254,8 +261,8 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
-                    'left', value))
+                '"{0}" attribute: "{1}" is not a "numeric"!'.format("left", value),
+            )
 
             self._left = value
 
@@ -286,8 +293,8 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
-                    'right', value))
+                '"{0}" attribute: "{1}" is not a "numeric"!'.format("right", value),
+            )
 
             self._right = value
 
@@ -332,12 +339,14 @@ class Extrapolator:
 
         y = np.empty_like(x)
 
-        if self._method == 'linear':
-            y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) /
-                            (xi[1] - xi[0]))
-            y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
-                             (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
-        elif self._method == 'constant':
+        if self._method == "linear":
+            y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) / (
+                xi[1] - xi[0]
+            )
+            y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (yi[-1] - yi[-2]) / (
+                xi[-1] - xi[-2]
+            )
+        elif self._method == "constant":
             y[x < xi[0]] = yi[0]
             y[x > xi[-1]] = yi[-1]
 

@@ -33,24 +33,25 @@ from colour.colorimetry import SpectralDistribution
 from colour.hints import Floating, Literal, Union
 from colour.utilities import CaseInsensitiveMapping, validate_method
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'bandpass_correction_Stearns1988',
-    'BANDPASS_CORRECTION_METHODS',
-    'bandpass_correction',
+    "bandpass_correction_Stearns1988",
+    "BANDPASS_CORRECTION_METHODS",
+    "bandpass_correction",
 ]
 
 CONSTANT_ALPHA_STEARNS: Floating = 0.083
 
 
 def bandpass_correction_Stearns1988(
-        sd: SpectralDistribution) -> SpectralDistribution:
+    sd: SpectralDistribution,
+) -> SpectralDistribution:
     """
     Implements spectral bandpass dependence correction on given spectral
     distribution using *Stearns and Stearns (1988)* method.
@@ -97,31 +98,35 @@ def bandpass_correction_Stearns1988(
     """
 
     values = np.copy(sd.values)
-    values[0] = (1 + CONSTANT_ALPHA_STEARNS
-                 ) * values[0] - CONSTANT_ALPHA_STEARNS * values[1]
-    values[-1] = (1 + CONSTANT_ALPHA_STEARNS
-                  ) * values[-1] - CONSTANT_ALPHA_STEARNS * values[-2]
+    values[0] = (1 + CONSTANT_ALPHA_STEARNS) * values[
+        0
+    ] - CONSTANT_ALPHA_STEARNS * values[1]
+    values[-1] = (1 + CONSTANT_ALPHA_STEARNS) * values[
+        -1
+    ] - CONSTANT_ALPHA_STEARNS * values[-2]
     for i in range(1, len(values) - 1):
-        values[i] = (-CONSTANT_ALPHA_STEARNS * values[i - 1] +
-                     (1 + 2 * CONSTANT_ALPHA_STEARNS) * values[i] -
-                     CONSTANT_ALPHA_STEARNS * values[i + 1])
+        values[i] = (
+            -CONSTANT_ALPHA_STEARNS * values[i - 1]
+            + (1 + 2 * CONSTANT_ALPHA_STEARNS) * values[i]
+            - CONSTANT_ALPHA_STEARNS * values[i + 1]
+        )
 
     sd.values = values
 
     return sd
 
 
-BANDPASS_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Stearns 1988': bandpass_correction_Stearns1988
-})
+BANDPASS_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {"Stearns 1988": bandpass_correction_Stearns1988}
+)
 BANDPASS_CORRECTION_METHODS.__doc__ = """
 Supported spectral bandpass dependence correction methods.
 """
 
 
 def bandpass_correction(
-        sd: SpectralDistribution,
-        method: Union[Literal['Stearns 1988'], str] = 'Stearns 1988',
+    sd: SpectralDistribution,
+    method: Union[Literal["Stearns 1988"], str] = "Stearns 1988",
 ) -> SpectralDistribution:
     """
     Implements spectral bandpass dependence correction on given spectral

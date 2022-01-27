@@ -35,16 +35,16 @@ from colour.hints import (
 )
 from colour.utilities import as_float_array, as_float, tsplit, usage_warning
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'xy_to_CCT_McCamy1992',
-    'CCT_to_xy_McCamy1992',
+    "xy_to_CCT_McCamy1992",
+    "CCT_to_xy_McCamy1992",
 ]
 
 
@@ -83,9 +83,9 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
     return as_float(CCT)
 
 
-def CCT_to_xy_McCamy1992(CCT: FloatingOrArrayLike,
-                         optimisation_kwargs: Optional[Dict] = None
-                         ) -> NDArray:
+def CCT_to_xy_McCamy1992(
+    CCT: FloatingOrArrayLike, optimisation_kwargs: Optional[Dict] = None
+) -> NDArray:
     """
     Returns the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *McCamy (1992)* method.
@@ -122,12 +122,14 @@ def CCT_to_xy_McCamy1992(CCT: FloatingOrArrayLike,
     array([ 0.3127...,  0.329...])
     """
 
-    usage_warning('"McCamy (1992)" method for computing "CIE xy" '
-                  'chromaticity coordinates from given correlated colour '
-                  'temperature is not a bijective function and might produce '
-                  'unexpected results. It is given for consistency with other '
-                  'correlated colour temperature computation methods but '
-                  'should be avoided for practical applications.')
+    usage_warning(
+        '"McCamy (1992)" method for computing "CIE xy" '
+        "chromaticity coordinates from given correlated colour "
+        "temperature is not a bijective function and might produce "
+        "unexpected results. It is given for consistency with other "
+        "correlated colour temperature computation methods but "
+        "should be avoided for practical applications."
+    )
 
     CCT = as_float_array(CCT)
     shape = list(CCT.shape)
@@ -138,26 +140,29 @@ def CCT_to_xy_McCamy1992(CCT: FloatingOrArrayLike,
         Objective function.
         """
 
-        objective = np.linalg.norm(
-            xy_to_CCT_McCamy1992(xy) - as_float_array(CCT))
+        objective = np.linalg.norm(xy_to_CCT_McCamy1992(xy) - as_float_array(CCT))
 
         return as_float(objective)
 
     optimisation_settings = {
-        'method': 'Nelder-Mead',
-        'options': {
-            'fatol': 1e-10,
+        "method": "Nelder-Mead",
+        "options": {
+            "fatol": 1e-10,
         },
     }
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    xy = as_float_array([
-        minimize(
-            objective_function,
-            x0=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-            args=(CCT_i, ),
-            **optimisation_settings).x for CCT_i in as_float_array(CCT)
-    ])
+    xy = as_float_array(
+        [
+            minimize(
+                objective_function,
+                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
+                args=(CCT_i,),
+                **optimisation_settings
+            ).x
+            for CCT_i in as_float_array(CCT)
+        ]
+    )
 
     return xy.reshape(shape + [2])

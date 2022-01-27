@@ -30,16 +30,16 @@ from __future__ import annotations
 from colour.characterisation import RGB_CameraSensitivities
 from colour.hints import Dict
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_ACES_RICD',
-    'MSDS_ACES_RICD',
+    "DATA_ACES_RICD",
+    "MSDS_ACES_RICD",
 ]
 
 DATA_ACES_RICD: Dict = {
@@ -513,11 +513,12 @@ DATA_ACES_RICD: Dict = {
     827.0: (0.0000000, 0.0000000, 0.0000000),
     828.0: (0.0000000, 0.0000000, 0.0000000),
     829.0: (0.0000000, 0.0000000, 0.0000000),
-    830.0: (0.0000000, 0.0000000, 0.0000000)
+    830.0: (0.0000000, 0.0000000, 0.0000000),
 }
 
 MSDS_ACES_RICD: RGB_CameraSensitivities = RGB_CameraSensitivities(
-    DATA_ACES_RICD, name='ACES RICD')
+    DATA_ACES_RICD, name="ACES RICD"
+)
 """
 *ACES Reference Input Capture Device* spectral sensitivities.
 

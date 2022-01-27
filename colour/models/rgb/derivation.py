@@ -41,20 +41,20 @@ from colour.hints import (
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import as_float, as_float_array, ones, tsplit
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'xy_to_z',
-    'normalised_primary_matrix',
-    'chromatically_adapted_primaries',
-    'primaries_whitepoint',
-    'RGB_luminance_equation',
-    'RGB_luminance',
+    "xy_to_z",
+    "normalised_primary_matrix",
+    "chromatically_adapted_primaries",
+    "primaries_whitepoint",
+    "RGB_luminance_equation",
+    "RGB_luminance",
 ]
 
 
@@ -85,8 +85,7 @@ def xy_to_z(xy: ArrayLike) -> Floating:
     return z
 
 
-def normalised_primary_matrix(primaries: ArrayLike,
-                              whitepoint: ArrayLike) -> NDArray:
+def normalised_primary_matrix(primaries: ArrayLike, whitepoint: ArrayLike) -> NDArray:
     """
     Computes the *Normalised Primary Matrix* (NPM) converting a *RGB*
     colourspace array to *CIE XYZ* tristimulus values using given *primaries*
@@ -134,13 +133,27 @@ def normalised_primary_matrix(primaries: ArrayLike,
 
 
 def chromatically_adapted_primaries(
-        primaries: ArrayLike,
-        whitepoint_t: ArrayLike,
-        whitepoint_r: ArrayLike,
-        chromatic_adaptation_transform: Union[Literal[
-            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
-            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
-            'Von Kries', 'XYZ Scaling'], str] = 'CAT02') -> NDArray:
+    primaries: ArrayLike,
+    whitepoint_t: ArrayLike,
+    whitepoint_r: ArrayLike,
+    chromatic_adaptation_transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+) -> NDArray:
     """
     Chromatically adapts given *primaries* :math:`xy` chromaticity coordinates
     from test ``whitepoint_t`` to reference ``whitepoint_r``.
@@ -178,8 +191,11 @@ def chromatically_adapted_primaries(
     primaries = np.reshape(primaries, (3, 2))
 
     XYZ_a = chromatic_adaptation_VonKries(
-        xy_to_XYZ(primaries), xy_to_XYZ(whitepoint_t), xy_to_XYZ(whitepoint_r),
-        chromatic_adaptation_transform)
+        xy_to_XYZ(primaries),
+        xy_to_XYZ(whitepoint_t),
+        xy_to_XYZ(whitepoint_r),
+        chromatic_adaptation_transform,
+    )
 
     P_a = XYZ_to_xyY(XYZ_a)[..., 0:2]
 
@@ -253,12 +269,14 @@ def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
     'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 
-    return 'Y = {0}(R) + {1}(G) + {2}(B)'.format(
-        *np.ravel(normalised_primary_matrix(primaries, whitepoint))[3:6])
+    return "Y = {0}(R) + {1}(G) + {2}(B)".format(
+        *np.ravel(normalised_primary_matrix(primaries, whitepoint))[3:6]
+    )
 
 
-def RGB_luminance(RGB: ArrayLike, primaries: ArrayLike,
-                  whitepoint: ArrayLike) -> FloatingOrNDArray:
+def RGB_luminance(
+    RGB: ArrayLike, primaries: ArrayLike, whitepoint: ArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *luminance* :math:`Y` of given *RGB* components from given
     *primaries* and *whitepoint*.
@@ -286,7 +304,6 @@ def RGB_luminance(RGB: ArrayLike, primaries: ArrayLike,
     0.1230145...
     """
 
-    Y = np.sum(
-        normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
+    Y = np.sum(normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
 
     return as_float(Y)

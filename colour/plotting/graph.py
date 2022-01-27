@@ -18,24 +18,24 @@ from colour.graph import (
 from colour.hints import Literal, Union
 from colour.utilities import required, validate_method
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'plot_automatic_colour_conversion_graph',
+    "plot_automatic_colour_conversion_graph",
 ]
 
 
-@required('NetworkX')
+@required("NetworkX")
 def plot_automatic_colour_conversion_graph(
-        filename: str,
-        prog: Union[Literal['circo', 'dot', 'fdp', 'neato', 'nop', 'twopi'],
-                    str] = 'fdp',
-        args: str = '') -> 'AGraph':  # type: ignore[name-defined]  # noqa
+    filename: str,
+    prog: Union[Literal["circo", "dot", "fdp", "neato", "nop", "twopi"], str] = "fdp",
+    args: str = "",
+) -> "AGraph":  # type: ignore[name-defined]  # noqa
     """
     Plots *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org/>`__ and
@@ -78,12 +78,14 @@ def plot_automatic_colour_conversion_graph(
 
     import networkx as nx
 
-    prog = validate_method(prog,
-                           ['circo', 'dot', 'fdp', 'neato', 'nop', 'twopi'],
-                           '"{0}" program is invalid, it must be one of {1}!')
+    prog = validate_method(
+        prog,
+        ["circo", "dot", "fdp", "neato", "nop", "twopi"],
+        '"{0}" program is invalid, it must be one of {1}!',
+    )
 
     # TODO: Investigate API to trigger the conversion graph build.
-    describe_conversion_path('RGB', 'RGB', print_callable=lambda x: x)
+    describe_conversion_path("RGB", "RGB", print_callable=lambda x: x)
 
     agraph = nx.nx_agraph.to_agraph(colour.graph.CONVERSION_GRAPH)
 
@@ -91,23 +93,35 @@ def plot_automatic_colour_conversion_graph(
         node.attr.update(label=CONVERSION_GRAPH_NODE_LABELS[node.name])
 
     agraph.node_attr.update(
-        style='filled',
-        shape='circle',
-        color='#2196F3FF',
-        fillcolor='#2196F370',
-        fontname='Helvetica',
-        fontcolor='#263238')
-    agraph.edge_attr.update(color='#26323870')
-    for node in ('CIE XYZ', 'RGB', 'Spectral Distribution'):
+        style="filled",
+        shape="circle",
+        color="#2196F3FF",
+        fillcolor="#2196F370",
+        fontname="Helvetica",
+        fontcolor="#263238",
+    )
+    agraph.edge_attr.update(color="#26323870")
+    for node in ("CIE XYZ", "RGB", "Spectral Distribution"):
         agraph.get_node(node.lower()).attr.update(
-            shape='doublecircle',
-            color='#673AB7FF',
-            fillcolor='#673AB770',
-            fontsize=30)
-    for node in ('ATD95', 'CAM16', 'CIECAM02', 'Hunt', 'Kim 2009', 'LLAB',
-                 'Nayatani95', 'RLAB', 'ZCAM'):
+            shape="doublecircle",
+            color="#673AB7FF",
+            fillcolor="#673AB770",
+            fontsize=30,
+        )
+    for node in (
+        "ATD95",
+        "CAM16",
+        "CIECAM02",
+        "Hunt",
+        "Kim 2009",
+        "LLAB",
+        "Nayatani95",
+        "RLAB",
+        "ZCAM",
+    ):
         agraph.get_node(node.lower()).attr.update(
-            color='#00BCD4FF', fillcolor='#00BCD470')
+            color="#00BCD4FF", fillcolor="#00BCD470"
+        )
 
     agraph.draw(filename, prog=prog, args=args)
 

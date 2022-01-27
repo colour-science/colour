@@ -66,50 +66,51 @@ from .cie1994 import chromatic_adaptation_CIE1994
 from .zhai2018 import chromatic_adaptation_Zhai2018
 from colour.utilities import validate_method
 
-__all__ = ['CHROMATIC_ADAPTATION_TRANSFORMS']
+__all__ = ["CHROMATIC_ADAPTATION_TRANSFORMS"]
 __all__ += [
-    'CAT_BIANCO2010',
-    'CAT_BRADFORD',
-    'CAT_CAT02',
-    'CAT_CAT02_BRILL2008',
-    'CAT_CAT16',
-    'CAT_CMCCAT2000',
-    'CAT_CMCCAT97',
-    'CAT_FAIRCHILD',
-    'CAT_PC_BIANCO2010',
-    'CAT_SHARP',
-    'CAT_VON_KRIES',
-    'CAT_XYZ_SCALING',
+    "CAT_BIANCO2010",
+    "CAT_BRADFORD",
+    "CAT_CAT02",
+    "CAT_CAT02_BRILL2008",
+    "CAT_CAT16",
+    "CAT_CMCCAT2000",
+    "CAT_CMCCAT97",
+    "CAT_FAIRCHILD",
+    "CAT_PC_BIANCO2010",
+    "CAT_SHARP",
+    "CAT_VON_KRIES",
+    "CAT_XYZ_SCALING",
 ]
 __all__ += [
-    'matrix_chromatic_adaptation_VonKries',
-    'chromatic_adaptation_VonKries',
+    "matrix_chromatic_adaptation_VonKries",
+    "chromatic_adaptation_VonKries",
 ]
 __all__ += [
-    'chromatic_adaptation_Fairchild1990',
+    "chromatic_adaptation_Fairchild1990",
 ]
 __all__ += [
-    'InductionFactors_CMCCAT2000',
-    'VIEWING_CONDITIONS_CMCCAT2000',
-    'chromatic_adaptation_forward_CMCCAT2000',
-    'chromatic_adaptation_inverse_CMCCAT2000',
-    'chromatic_adaptation_CMCCAT2000',
+    "InductionFactors_CMCCAT2000",
+    "VIEWING_CONDITIONS_CMCCAT2000",
+    "chromatic_adaptation_forward_CMCCAT2000",
+    "chromatic_adaptation_inverse_CMCCAT2000",
+    "chromatic_adaptation_CMCCAT2000",
 ]
 __all__ += [
-    'chromatic_adaptation_CIE1994',
+    "chromatic_adaptation_CIE1994",
 ]
 __all__ += [
-    'chromatic_adaptation_Zhai2018',
+    "chromatic_adaptation_Zhai2018",
 ]
 
-CHROMATIC_ADAPTATION_METHODS: CaseInsensitiveMapping = (CaseInsensitiveMapping(
+CHROMATIC_ADAPTATION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
-        'CIE 1994': chromatic_adaptation_CIE1994,
-        'CMCCAT2000': chromatic_adaptation_CMCCAT2000,
-        'Fairchild 1990': chromatic_adaptation_Fairchild1990,
-        'Von Kries': chromatic_adaptation_VonKries,
-        'Zhai 2018': chromatic_adaptation_Zhai2018,
-    }))
+        "CIE 1994": chromatic_adaptation_CIE1994,
+        "CMCCAT2000": chromatic_adaptation_CMCCAT2000,
+        "Fairchild 1990": chromatic_adaptation_Fairchild1990,
+        "Von Kries": chromatic_adaptation_VonKries,
+        "Zhai 2018": chromatic_adaptation_Zhai2018,
+    }
+)
 CHROMATIC_ADAPTATION_METHODS.__doc__ = """
 Supported chromatic adaptation methods.
 
@@ -122,12 +123,21 @@ References
 
 
 def chromatic_adaptation(
-        XYZ: ArrayLike,
-        XYZ_w: ArrayLike,
-        XYZ_wr: ArrayLike,
-        method: Union[Literal['CIE 1994', 'CMCCAT2000', 'Fairchild 1990',
-                              'Zhai 2018', 'Von Kries'], str] = 'Von Kries',
-        **kwargs: Any) -> NDArray:
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    method: Union[
+        Literal[
+            "CIE 1994",
+            "CMCCAT2000",
+            "Fairchild 1990",
+            "Zhai 2018",
+            "Von Kries",
+        ],
+        str,
+    ] = "Von Kries",
+    **kwargs: Any
+) -> NDArray:
     """
     Adapts given stimulus from test viewing conditions to reference viewing
     conditions.
@@ -292,33 +302,35 @@ def chromatic_adaptation(
 
     function = CHROMATIC_ADAPTATION_METHODS[method]
 
-    domain_range_reference = get_domain_range_scale() == 'reference'
-    domain_100 = (chromatic_adaptation_CIE1994,
-                  chromatic_adaptation_CMCCAT2000,
-                  chromatic_adaptation_Fairchild1990,
-                  chromatic_adaptation_Zhai2018)
+    domain_range_reference = get_domain_range_scale() == "reference"
+    domain_100 = (
+        chromatic_adaptation_CIE1994,
+        chromatic_adaptation_CMCCAT2000,
+        chromatic_adaptation_Fairchild1990,
+        chromatic_adaptation_Zhai2018,
+    )
 
     if function in domain_100 and domain_range_reference:
         XYZ = as_float_array(XYZ) * 100
         XYZ_w = as_float_array(XYZ_w) * 100
         XYZ_wr = as_float_array(XYZ_wr) * 100
 
-        if 'Y_o' in kwargs:
-            kwargs['Y_o'] = kwargs['Y_o'] * 100
+        if "Y_o" in kwargs:
+            kwargs["Y_o"] = kwargs["Y_o"] * 100
 
-        if 'XYZ_wo' in kwargs:
-            kwargs['XYZ_wo'] = kwargs['XYZ_wo'] * 100
+        if "XYZ_wo" in kwargs:
+            kwargs["XYZ_wo"] = kwargs["XYZ_wo"] * 100
 
-    kwargs.update({'XYZ_w': XYZ_w, 'XYZ_wr': XYZ_wr})
+    kwargs.update({"XYZ_w": XYZ_w, "XYZ_wr": XYZ_wr})
 
     if function is chromatic_adaptation_CIE1994:
         from colour import XYZ_to_xy
 
-        kwargs.update({'xy_o1': XYZ_to_xy(XYZ_w), 'xy_o2': XYZ_to_xy(XYZ_wr)})
+        kwargs.update({"xy_o1": XYZ_to_xy(XYZ_w), "xy_o2": XYZ_to_xy(XYZ_wr)})
     elif function is chromatic_adaptation_Fairchild1990:
-        kwargs.update({'XYZ_n': XYZ_w, 'XYZ_r': XYZ_wr})
+        kwargs.update({"XYZ_n": XYZ_w, "XYZ_r": XYZ_wr})
     elif function is chromatic_adaptation_Zhai2018:
-        kwargs.update({'XYZ_wb': XYZ_w, 'XYZ_wd': XYZ_wr})
+        kwargs.update({"XYZ_wb": XYZ_w, "XYZ_wd": XYZ_wr})
 
     XYZ_c = function(XYZ, **filter_kwargs(function, **kwargs))
 
@@ -329,6 +341,6 @@ def chromatic_adaptation(
 
 
 __all__ += [
-    'CHROMATIC_ADAPTATION_METHODS',
-    'chromatic_adaptation',
+    "CHROMATIC_ADAPTATION_METHODS",
+    "chromatic_adaptation",
 ]

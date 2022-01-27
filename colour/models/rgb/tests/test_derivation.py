@@ -18,20 +18,20 @@ from colour.models import (
 from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'Testxy_to_z',
-    'TestNormalisedPrimaryMatrix',
-    'TestChromaticallyAdaptedPrimaries',
-    'TestPrimariesWhitepoint',
-    'TestRGBLuminanceEquation',
-    'TestRGBLuminance',
+    "Testxy_to_z",
+    "TestNormalisedPrimaryMatrix",
+    "TestChromaticallyAdaptedPrimaries",
+    "TestPrimariesWhitepoint",
+    "TestRGBLuminanceEquation",
+    "TestRGBLuminance",
 ]
 
 
@@ -47,13 +47,16 @@ class Testxy_to_z(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            xy_to_z(np.array([0.2500, 0.2500])), 0.50000000, decimal=7)
+            xy_to_z(np.array([0.2500, 0.2500])), 0.50000000, decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            xy_to_z(np.array([0.0001, -0.0770])), 1.07690000, decimal=7)
+            xy_to_z(np.array([0.0001, -0.0770])), 1.07690000, decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            xy_to_z(np.array([0.0000, 1.0000])), 0.00000000, decimal=7)
+            xy_to_z(np.array([0.0000, 1.0000])), 0.00000000, decimal=7
+        )
 
     def test_n_dimensional_xy_to_z(self):
         """
@@ -102,26 +105,33 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             normalised_primary_matrix(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-                np.array([0.32168, 0.33767])),
-            np.array([
-                [0.95255240, 0.00000000, 0.00009368],
-                [0.34396645, 0.72816610, -0.07213255],
-                [0.00000000, 0.00000000, 1.00882518],
-            ]),
-            decimal=7)
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array([0.32168, 0.33767]),
+            ),
+            np.array(
+                [
+                    [0.95255240, 0.00000000, 0.00009368],
+                    [0.34396645, 0.72816610, -0.07213255],
+                    [0.00000000, 0.00000000, 1.00882518],
+                ]
+            ),
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             normalised_primary_matrix(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
-                np.array([0.3127, 0.3290])),
-            np.array([
-                [0.41239080, 0.35758434, 0.18048079],
-                [0.21263901, 0.71516868, 0.07219232],
-                [0.01933082, 0.11919478, 0.95053215],
-            ]),
-            decimal=7)
+                np.array([0.3127, 0.3290]),
+            ),
+            np.array(
+                [
+                    [0.41239080, 0.35758434, 0.18048079],
+                    [0.21263901, 0.71516868, 0.07219232],
+                    [0.01933082, 0.11919478, 0.95053215],
+                ]
+            ),
+            decimal=7,
+        )
 
     @ignore_numpy_errors
     def test_nan_normalised_primary_matrix(self):
@@ -155,38 +165,52 @@ chromatically_adapted_primaries` definition.
 
         np.testing.assert_almost_equal(
             chromatically_adapted_primaries(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-                np.array([0.32168, 0.33767]), np.array([0.34570, 0.35850])),
-            np.array([
-                [0.73431182, 0.26694964],
-                [0.02211963, 0.98038009],
-                [-0.05880375, -0.12573056],
-            ]),
-            decimal=7)
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array([0.32168, 0.33767]),
+                np.array([0.34570, 0.35850]),
+            ),
+            np.array(
+                [
+                    [0.73431182, 0.26694964],
+                    [0.02211963, 0.98038009],
+                    [-0.05880375, -0.12573056],
+                ]
+            ),
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             chromatically_adapted_primaries(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
-                np.array([0.31270, 0.32900]), np.array([0.34570, 0.35850])),
-            np.array([
-                [0.64922534, 0.33062196],
-                [0.32425276, 0.60237128],
-                [0.15236177, 0.06118676],
-            ]),
-            decimal=7)
+                np.array([0.31270, 0.32900]),
+                np.array([0.34570, 0.35850]),
+            ),
+            np.array(
+                [
+                    [0.64922534, 0.33062196],
+                    [0.32425276, 0.60237128],
+                    [0.15236177, 0.06118676],
+                ]
+            ),
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             chromatically_adapted_primaries(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
-                np.array([0.31270, 0.32900]), np.array([0.34570, 0.35850]),
-                'Bradford'),
-            np.array([
-                [0.64844144, 0.33085331],
-                [0.32119518, 0.59784434],
-                [0.15589322, 0.06604921],
-            ]),
-            decimal=7)
+                np.array([0.31270, 0.32900]),
+                np.array([0.34570, 0.35850]),
+                "Bradford",
+            ),
+            np.array(
+                [
+                    [0.64844144, 0.33085331],
+                    [0.32119518, 0.59784434],
+                    [0.15589322, 0.06604921],
+                ]
+            ),
+            decimal=7,
+        )
 
     @ignore_numpy_errors
     def test_nan_chromatically_adapted_primaries(self):
@@ -216,38 +240,48 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         """
 
         P, W = primaries_whitepoint(
-            np.array([
-                [0.95255240, 0.00000000, 0.00009368],
-                [0.34396645, 0.72816610, -0.07213255],
-                [0.00000000, 0.00000000, 1.00882518],
-            ]))
+            np.array(
+                [
+                    [0.95255240, 0.00000000, 0.00009368],
+                    [0.34396645, 0.72816610, -0.07213255],
+                    [0.00000000, 0.00000000, 1.00882518],
+                ]
+            )
+        )
         np.testing.assert_almost_equal(
             P,
-            np.array([
-                [0.73470, 0.26530],
-                [0.00000, 1.00000],
-                [0.00010, -0.07700],
-            ]),
-            decimal=7)
-        np.testing.assert_almost_equal(
-            W, np.array([0.32168, 0.33767]), decimal=7)
+            np.array(
+                [
+                    [0.73470, 0.26530],
+                    [0.00000, 1.00000],
+                    [0.00010, -0.07700],
+                ]
+            ),
+            decimal=7,
+        )
+        np.testing.assert_almost_equal(W, np.array([0.32168, 0.33767]), decimal=7)
 
         P, W = primaries_whitepoint(
-            np.array([
-                [0.41240000, 0.35760000, 0.18050000],
-                [0.21260000, 0.71520000, 0.07220000],
-                [0.01930000, 0.11920000, 0.95050000],
-            ]))
+            np.array(
+                [
+                    [0.41240000, 0.35760000, 0.18050000],
+                    [0.21260000, 0.71520000, 0.07220000],
+                    [0.01930000, 0.11920000, 0.95050000],
+                ]
+            )
+        )
         np.testing.assert_almost_equal(
             P,
-            np.array([
-                [0.64007450, 0.32997051],
-                [0.30000000, 0.60000000],
-                [0.15001662, 0.06000665],
-            ]),
-            decimal=7)
-        np.testing.assert_almost_equal(
-            W, np.array([0.31271591, 0.32900148]), decimal=7)
+            np.array(
+                [
+                    [0.64007450, 0.32997051],
+                    [0.30000000, 0.60000000],
+                    [0.15001662, 0.06000665],
+                ]
+            ),
+            decimal=7,
+        )
+        np.testing.assert_almost_equal(W, np.array([0.31271591, 0.32900148]), decimal=7)
 
     @ignore_numpy_errors
     def test_nan_primaries_whitepoint(self):
@@ -277,20 +311,26 @@ class TestRGBLuminanceEquation(unittest.TestCase):
 
         self.assertIsInstance(
             RGB_luminance_equation(
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-                np.array([0.32168, 0.33767])), str)
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array([0.32168, 0.33767]),
+            ),
+            str,
+        )
 
         # TODO: Simplify that monster.
         pattern = (
-            'Y\\s?=\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?.'
-            '\\(R\\)\\s?[+-]\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?.'
-            '\\(G\\)\\s?[+-]\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?.'
-            '\\(B\\)')
+            "Y\\s?=\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?."
+            "\\(R\\)\\s?[+-]\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?."
+            "\\(G\\)\\s?[+-]\\s?[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?."
+            "\\(B\\)"
+        )
         P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         self.assertTrue(
-            re.match(pattern,
-                     RGB_luminance_equation(P, np.array([0.32168, 0.33767]))))
+            re.match(
+                pattern,
+                RGB_luminance_equation(P, np.array([0.32168, 0.33767])),
+            )
+        )
 
 
 class TestRGBLuminance(unittest.TestCase):
@@ -308,28 +348,32 @@ class TestRGBLuminance(unittest.TestCase):
         self.assertAlmostEqual(
             RGB_luminance(
                 np.array([0.18, 0.18, 0.18]),
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-                np.array([0.32168, 0.33767])),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array([0.32168, 0.33767]),
+            ),
             0.18000000,
-            places=7)
+            places=7,
+        )
 
         self.assertAlmostEqual(
             RGB_luminance(
                 np.array([0.21959402, 0.06986677, 0.04703877]),
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-                np.array([0.32168, 0.33767])),
+                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array([0.32168, 0.33767]),
+            ),
             0.123014562384318,
-            places=7)
+            places=7,
+        )
 
         self.assertAlmostEqual(
             RGB_luminance(
                 np.array([0.45620519, 0.03081071, 0.04091952]),
                 np.array([0.6400, 0.3300, 0.3000, 0.6000, 0.1500, 0.0600]),
-                np.array([0.31270, 0.32900])),
+                np.array([0.31270, 0.32900]),
+            ),
             0.121995947729870,
-            places=7)
+            places=7,
+        )
 
     def test_n_dimensional_RGB_luminance(self):
         """
@@ -337,8 +381,8 @@ class TestRGBLuminance(unittest.TestCase):
         n_dimensional arrays support.
         """
 
-        RGB = np.array([0.18, 0.18, 0.18]),
-        P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+        RGB = (np.array([0.18, 0.18, 0.18]),)
+        P = (np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),)
         W = np.array([0.32168, 0.33767])
         Y = RGB_luminance(RGB, P, W)
 
@@ -369,5 +413,5 @@ class TestRGBLuminance(unittest.TestCase):
                 pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

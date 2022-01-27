@@ -31,16 +31,16 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'oetf_SMPTE240M',
-    'eotf_SMPTE240M',
+    "oetf_SMPTE240M",
+    "eotf_SMPTE240M",
 ]
 
 
@@ -135,7 +135,7 @@ def eotf_SMPTE240M(V_r: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     V_r = to_domain_1(V_r)
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         L_r = np.where(
             V_r < oetf_SMPTE240M(0.0228),
             V_r / 4,
