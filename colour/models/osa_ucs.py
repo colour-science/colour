@@ -19,10 +19,13 @@ References
     ISSN:2166-9635
 """
 
+from __future__ import annotations
+
 import numpy as np
 from scipy.optimize import fmin
 
 from colour.algebra import spow, vector_dot
+from colour.hints import ArrayLike, Dict, NDArray, Optional
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
     as_float_array,
@@ -45,7 +48,7 @@ __all__ = [
     'OSA_UCS_to_XYZ',
 ]
 
-MATRIX_XYZ_TO_RGB_OSA_UCS = np.array([
+MATRIX_XYZ_TO_RGB_OSA_UCS: NDArray = np.array([
     [0.799, 0.4194, -0.1648],
     [-0.4493, 1.3265, 0.0927],
     [-0.1149, 0.3394, 0.717],
@@ -53,12 +56,10 @@ MATRIX_XYZ_TO_RGB_OSA_UCS = np.array([
 """
 *OSA UCS* matrix converting from *CIE XYZ* tristimulus values to *RGB*
 colourspace.
-
-MATRIX_XYZ_TO_RGB_OSA_UCS : array_like, (3, 3)
 """
 
 
-def XYZ_to_OSA_UCS(XYZ):
+def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values under the
     *CIE 1964 10 Degree Standard Observer* to *OSA UCS* colourspace.
@@ -69,13 +70,13 @@ def XYZ_to_OSA_UCS(XYZ):
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values under the
         *CIE 1964 10 Degree Standard Observer*.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *OSA UCS* :math:`Ljg` lightness, jaune (yellowness), and greenness.
 
     Notes
@@ -136,21 +137,22 @@ def XYZ_to_OSA_UCS(XYZ):
     return from_range_100(Ljg)
 
 
-def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None):
+def OSA_UCS_to_XYZ(Ljg: ArrayLike,
+                   optimisation_kwargs: Optional[Dict] = None) -> NDArray:
     """
     Converts from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
 
     Parameters
     ----------
-    Ljg : array_like
+    Ljg
         *OSA UCS* :math:`Ljg` lightness, jaune (yellowness), and greenness.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.fmin` definition.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values under the
         *CIE 1964 10 Degree Standard Observer*.
 
@@ -217,7 +219,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_kwargs=None):
     x_0 = np.array([30, 30, 30])
     XYZ = as_float_array([
         fmin(error_function, x_0, (Ljg_i, ), **optimisation_settings)
-        for Ljg_i in Ljg
+        for Ljg_i in as_float_array(Ljg)
     ])
 
     return from_range_100(XYZ.reshape(shape))

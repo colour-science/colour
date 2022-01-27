@@ -89,7 +89,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         Y_abs = 100
         epsilon = exponent_hdr_CIELab(Y_s, Y_abs)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -194,7 +194,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         Y_abs = 100
         Lab_hdr = XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -307,7 +307,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         Y_abs = 100
         XYZ = hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs)
 
-        d_r = (('reference', 1, 1, 1), (1, 0.01, 1, 1), (100, 1, 100, 100))
+        d_r = (('reference', 1, 1, 1), ('1', 0.01, 1, 1), ('100', 1, 100, 100))
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

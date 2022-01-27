@@ -89,7 +89,7 @@ class TestYellownessASTMD1925(unittest.TestCase):
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         YI = 10.299999999999997
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -167,7 +167,7 @@ yellowness_ASTME313_alternative` definition domain and range scale support.
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         YI = 11.065000000000003
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -253,7 +253,7 @@ class TestYellownessASTM313(unittest.TestCase):
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         YI = 4.340000000000003
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -290,7 +290,7 @@ class TestYellowness(unittest.TestCase):
         m = ('ASTM D1925', 'ASTM E313')
         v = [yellowness(XYZ, method) for method in m]
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):

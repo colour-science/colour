@@ -17,7 +17,6 @@ from .common import (
     smooth,
     is_identity,
 )
-from .extrapolation import Extrapolator
 from .geometry import (
     normalise_vector,
     euclidean_distance,
@@ -51,6 +50,7 @@ from .interpolation import (
     TABLE_INTERPOLATION_METHODS,
     table_interpolation,
 )
+from .extrapolation import Extrapolator
 from .random import random_triplet_generator
 from .regression import least_square_mapping_MoorePenrose
 
@@ -70,9 +70,6 @@ __all__ += [
     'smoothstep_function',
     'smooth',
     'is_identity',
-]
-__all__ += [
-    'Extrapolator',
 ]
 __all__ += [
     'normalise_vector',
@@ -106,6 +103,9 @@ __all__ += [
     'table_interpolation_tetrahedral',
     'TABLE_INTERPOLATION_METHODS',
     'table_interpolation',
+]
+__all__ += [
+    'Extrapolator',
 ]
 __all__ += [
     'random_triplet_generator',

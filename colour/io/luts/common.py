@@ -7,6 +7,8 @@ Defines the *LUT* processing common utilities objects that don't fall in any
 specific category.
 """
 
+from __future__ import annotations
+
 import os
 import re
 
@@ -22,18 +24,18 @@ __all__ = [
 ]
 
 
-def path_to_title(path):
+def path_to_title(path: str) -> str:
     """
     Converts given file path to title.
 
     Parameters
     ----------
-    path : str
+    path
         File path to convert to title.
 
     Returns
     -------
-    str
+    :class:`str`
         File path converted to title.
 
     Examples

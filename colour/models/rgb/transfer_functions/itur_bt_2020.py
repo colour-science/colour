@@ -3,8 +3,8 @@
 ITU-R BT.2020
 =============
 
-Defines the *ITU-R BT.2020* opto-electrical transfer function (OETF / OECF) and
-electro-optical transfer function (EOTF / EOCF):
+Defines the *ITU-R BT.2020* opto-electrical transfer function (OETF) and
+electro-optical transfer function (EOTF):
 
 -   :func:`colour.models.eotf_inverse_BT2020`
 -   :func:`colour.models.eotf_BT2020`
@@ -19,9 +19,12 @@ References
 R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import Boolean, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import (
     Structure,
     as_float,
@@ -44,16 +47,14 @@ __all__ = [
     'eotf_BT2020',
 ]
 
-CONSTANTS_BT2020 = Structure(
+CONSTANTS_BT2020: Structure = Structure(
     alpha=lambda x: 1.0993 if x else 1.099,
     beta=lambda x: 0.0181 if x else 0.018)
 """
 *BT.2020* colourspace constants.
-
-CONSTANTS_BT2020 : Structure
 """
 
-CONSTANTS_BT2020_PRECISE = Structure(
+CONSTANTS_BT2020_PRECISE: Structure = Structure(
     alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807)
 """
 *BT.2020* colourspace constants at double precision to connect the two curve
@@ -62,31 +63,31 @@ segments smoothly.
 References
 ----------
 :cite:`InternationalTelecommunicationUnion2015h`
-
-CONSTANTS_BT2020_PRECISE : Structure
 """
 
 
-def eotf_inverse_BT2020(E, is_12_bits_system=False,
-                        constants=CONSTANTS_BT2020):
+def eotf_inverse_BT2020(
+        E: FloatingOrArrayLike,
+        is_12_bits_system: Boolean = False,
+        constants: Structure = CONSTANTS_BT2020) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2020* inverse electro-optical transfer
-    function (EOTF / EOCF).
+    function (EOTF).
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         Voltage :math:`E` normalised by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera colour channel R, G, B.
-    is_12_bits_system : bool, optional
+    is_12_bits_system
         *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Resulting non-linear signal :math:`E'`.
 
     Notes
@@ -124,23 +125,25 @@ def eotf_inverse_BT2020(E, is_12_bits_system=False,
     return as_float(from_range_1(E_p))
 
 
-def eotf_BT2020(E_p, is_12_bits_system=False, constants=CONSTANTS_BT2020):
+def eotf_BT2020(E_p: FloatingOrArrayLike,
+                is_12_bits_system: Boolean = False,
+                constants: Structure = CONSTANTS_BT2020) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
-    (EOTF / EOCF).
+    (EOTF).
 
     Parameters
     ----------
-    E_p : numeric or array_like
+    E_p
         Non-linear signal :math:`E'`.
-    is_12_bits_system : bool, optional
+    is_12_bits_system
         *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Resulting voltage :math:`E`.
 
     Notes

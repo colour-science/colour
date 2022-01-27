@@ -5,9 +5,12 @@ Unicode to ASCII Utility
 ========================
 """
 
+from __future__ import annotations
+
 import codecs
 import os
 import unicodedata
+from typing import Dict
 
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -15,9 +18,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['SUBSTITUTIONS', 'unicode_to_ascii']
+__all__ = [
+    'SUBSTITUTIONS',
+    'unicode_to_ascii',
+]
 
-SUBSTITUTIONS = {
+SUBSTITUTIONS: Dict = {
     '–': '-',
     '“': '"',
     '”': '"',
@@ -27,14 +33,14 @@ SUBSTITUTIONS = {
 }
 
 
-def unicode_to_ascii(root_directory):
+def unicode_to_ascii(root_directory: str):
     """
     Recursively converts from unicode to ASCII *.py*, *.bib* and *.rst* files
     in given directory.
 
     Parameters
     ----------
-    root_directory : unicode
+    root_directory
         Directory to convert the files from unicode to ASCII.
     """
 

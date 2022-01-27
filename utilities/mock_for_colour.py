@@ -26,7 +26,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['MockObject', 'MockModule', 'mock_scipy_for_colour']
+__all__ = [
+    'MockObject',
+    'MockModule',
+    'mock_scipy_for_colour',
+]
 
 
 class MockObject:
@@ -36,9 +40,9 @@ class MockObject:
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments.
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
 
     References
@@ -54,9 +58,9 @@ class MockObject:
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
-        \\**kwargs : dict, optional
+        kwargs
             Keywords arguments.
         """
 
@@ -88,7 +92,7 @@ class MockObject:
 
         Parameters
         ----------
-        key : unicode
+        key
             Key to check whether is is contained in the :class:`MockObject`
             class instance.
         """
@@ -117,7 +121,7 @@ class MockObject:
 
         Parameters
         ----------
-        key : unicode
+        key
             Key to return the value at.
         """
 
@@ -130,7 +134,7 @@ class MockObject:
 
         Parameters
         ----------
-        key : unicode
+        key
             Key to return the attribute at.
         """
 
@@ -142,9 +146,9 @@ class MockObject:
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
-        \\**kwargs : dict, optional
+        kwargs
             Keywords arguments.
         """
 
@@ -168,13 +172,13 @@ def _make_subclass(name, module, superclass=MockObject, attributes=None):
 
     Parameters
     ----------
-    name : unicode
+    name
         Name of the sub-class.
-    module : unicode
+    module
         Name of the sub-class module.
-    superclass : object
+    superclass
         Super-class type.
-    attributes : dict
+    attributes
         Attributes to set the sub-class with.
     """
 
@@ -190,7 +194,7 @@ class MockModule(ModuleType):
 
     Parameters
     ----------
-    name : unicode
+    name
         Name of the mocked module.
 
     References
@@ -212,7 +216,7 @@ class MockModule(ModuleType):
 
         Parameters
         ----------
-        name : unicode
+        name
             Name to return the attribute at.
         """
 

@@ -15,13 +15,26 @@ objects:
 -   :func:`colour.plotting.tm3018.components.plot_colour_fidelity_indexes`
 """
 
+from __future__ import annotations
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 
 from colour.colorimetry import sd_to_XYZ
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    Dict,
+    Floating,
+    List,
+    Literal,
+    Tuple,
+    Union,
+    cast,
+)
 from colour.io import read_image
-from colour.utilities import as_float_array
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,
@@ -29,6 +42,8 @@ from colour.plotting import (
     plot_image,
     render,
 )
+from colour.quality import ColourQuality_Specification_ANSIIESTM3018
+from colour.utilities import as_float_array, validate_method
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -48,27 +63,25 @@ __all__ = [
     'plot_colour_fidelity_indexes',
 ]
 
-RESOURCES_DIRECTORY_ANSIIESTM3018 = os.path.join(
+RESOURCES_DIRECTORY_ANSIIESTM3018: str = os.path.join(
     os.path.dirname(__file__), 'resources')
 """
 Resources directory.
-
-RESOURCES_DIRECTORY_ANSIIESTM3018 : str
 """
 
-_BIN_BAR_COLOURS = [
+_COLOURS_BIN_BAR: List = [
     '#A35C60', '#CC765E', '#CC8145', '#D8AC62', '#AC9959', '#919E5D',
     '#668B5E', '#61B290', '#7BBAA6', '#297A7E', '#55788D', '#708AB2',
     '#988CAA', '#735877', '#8F6682', '#BA7A8E'
 ]
 
-_BIN_ARROW_COLOURS = [
+_COLOURS_BIN_ARROW: List = [
     '#E62828', '#E74B4B', '#FB812E', '#FFB529', '#CBCA46', '#7EB94C',
     '#41C06D', '#009C7C', '#16BCB0', '#00A4BF', '#0085C3', '#3B62AA',
     '#4568AE', '#6A4E85', '#9D69A1', '#A74F81'
 ]
 
-_TCS_BAR_COLOURS = [
+_COLOURS_TCS_BAR: List = [
     '#F1BDCD', '#CA6183', '#573A40', '#CD8791', '#AD3F55', '#925F62',
     '#933440', '#8C3942', '#413D3E', '#FA8070', '#C35644', '#DA604A',
     '#824E39', '#BCA89F', '#C29A89', '#8D593C', '#915E3F', '#99745B',
@@ -90,25 +103,27 @@ _TCS_BAR_COLOURS = [
 
 
 @override_style()
-def plot_spectra_ANSIIESTM3018(specification, **kwargs):
+def plot_spectra_ANSIIESTM3018(
+        specification: ColourQuality_Specification_ANSIIESTM3018,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots a comparison of the spectral distributions of a test emission source
     and a reference illuminant for *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
     ----------
-    specification : ColourQuality_Specification_ANSIIESTM3018
+    specification
         *ANSI/IES TM-30-18 Colour Rendition Report* specification.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes
 
     Examples
@@ -122,7 +137,7 @@ def plot_spectra_ANSIIESTM3018(specification, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = kwargs.copy()
+    settings: Dict[str, Any] = dict(kwargs)
 
     _figure, axes = artist(**settings)
 
@@ -154,25 +169,27 @@ def plot_spectra_ANSIIESTM3018(specification, **kwargs):
     return render(**settings)
 
 
-def plot_colour_vector_graphic(specification, **kwargs):
+def plot_colour_vector_graphic(
+        specification: ColourQuality_Specification_ANSIIESTM3018,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots *Color Vector Graphic* according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
     ----------
-    specification : ColourQuality_Specification_ANSIIESTM3018
+    specification
         *ANSI/IES TM-30-18 Colour Rendition Report* specification.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes
 
     Examples
@@ -186,7 +203,7 @@ def plot_colour_vector_graphic(specification, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = kwargs.copy()
+    settings: Dict[str, Any] = dict(kwargs)
     settings['standalone'] = False
 
     # Background
@@ -232,12 +249,13 @@ def plot_colour_vector_graphic(specification, **kwargs):
     axes.annotate('+20%', xy=(0, -1.2), va='top', **props)
 
     # Average "CAM02" h correlate for each bin, in radians.
-    average_hues = as_float_array([
-        np.mean([
-            specification.colorimetry_data[1][i].CAM.h
-            for i in specification.bins[j]
-        ]) for j in range(16)
-    ]) / 180 * np.pi
+    average_hues = np.radians([
+        np.mean(
+            as_float_array([
+                cast(Floating, specification.colorimetry_data[1][i].CAM.h)
+                for i in specification.bins[j]
+            ])) for j in range(16)
+    ])
     xy_reference = np.transpose(
         np.vstack([np.cos(average_hues),
                    np.sin(average_hues)]))
@@ -258,7 +276,7 @@ def plot_colour_vector_graphic(specification, **kwargs):
             width=0.005,
             head_width=0.04,
             linewidth=None,
-            color=_BIN_ARROW_COLOURS[i])
+            color=_COLOURS_BIN_ARROW[i])
 
     # Red (test) gamut shape.
     loop = np.append(xy_test, xy_test[0, np.newaxis], axis=0)
@@ -306,36 +324,36 @@ def plot_colour_vector_graphic(specification, **kwargs):
     return render(**settings)
 
 
-def plot_16_bin_bars(values,
-                     label_template,
-                     x_ticker=False,
-                     label_orientation='Vertical',
-                     **kwargs):
+def plot_16_bin_bars(values: ArrayLike,
+                     label_template: str,
+                     x_ticker: Boolean = False,
+                     label_orientation: Union[Literal[
+                         'Horizontal', 'Vertical'], str] = 'Vertical',
+                     **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the 16 bin bars for given values according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
     ----------
-    values : array_like
+    values
         Values to generate the bin bars for.
-    label_template : str
+    label_template
         Template to format the labels.
-    x_ticker : bool, optional
+    x_ticker
         Whether to show the *X* axis ticker and the associated label.
-    label_orientation : str, optional
-        **{'Vertical', 'Horizonal'}**,
+    label_orientation
         Orientation of the labels.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes
 
     Examples
@@ -345,13 +363,18 @@ def plot_16_bin_bars(values,
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
+    values = as_float_array(values)
+
+    label_orientation = validate_method(label_orientation,
+                                        ['Horizontal', 'Vertical'])
+
     _figure, axes = artist(**kwargs)
 
-    bar_count = len(_BIN_BAR_COLOURS)
+    bar_count = len(_COLOURS_BIN_BAR)
     axes.bar(
         np.arange(bar_count) + 1,
         values,
-        color=_BIN_BAR_COLOURS,
+        color=_COLOURS_BIN_BAR,
         width=1,
         edgecolor='black',
         linewidth=CONSTANTS_COLOUR_STYLE.geometry.short / 3)
@@ -363,7 +386,7 @@ def plot_16_bin_bars(values,
         axes.set_xticks([])
 
     label_orientation = label_orientation.lower()
-    value_max = max(values)
+    value_max = np.max(values)
     for i, value in enumerate(values):
         if label_orientation == 'vertical':
             va, vo = (('bottom', value_max * 0.15)
@@ -388,27 +411,30 @@ def plot_16_bin_bars(values,
     return render(**kwargs)
 
 
-def plot_local_chroma_shifts(specification, x_ticker=False, **kwargs):
+def plot_local_chroma_shifts(
+        specification: ColourQuality_Specification_ANSIIESTM3018,
+        x_ticker: Boolean = False,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the local chroma shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
     ----------
-    specification : ColourQuality_Specification_ANSIIESTM3018
+    specification
         *ANSI/IES TM-30-18 Colour Rendition Report* specification.
-    x_ticker : bool, optional
+    x_ticker
         Whether to show the *X* axis ticker and the associated label.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes
 
     Examples
@@ -422,7 +448,7 @@ def plot_local_chroma_shifts(specification, x_ticker=False, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = kwargs.copy()
+    settings: Dict[str, Any] = dict(kwargs)
     settings['standalone'] = False
 
     _figure, axes = plot_16_bin_bars(specification.R_cs, '{0:.0f}%', x_ticker,
@@ -441,27 +467,30 @@ def plot_local_chroma_shifts(specification, x_ticker=False, **kwargs):
     return render(**settings)
 
 
-def plot_local_hue_shifts(specification, x_ticker=False, **kwargs):
+def plot_local_hue_shifts(
+        specification: ColourQuality_Specification_ANSIIESTM3018,
+        x_ticker: Boolean = False,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the local hue shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
     ----------
-    specification : ColourQuality_Specification_ANSIIESTM3018
+    specification
         *ANSI/IES TM-30-18 Colour Rendition Report* specification.
-    x_ticker : bool, optional
+    x_ticker
         Whether to show the *X* axis ticker and the associated label.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes
 
     Examples
@@ -475,7 +504,7 @@ def plot_local_hue_shifts(specification, x_ticker=False, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = kwargs.copy()
+    settings: Dict[str, Any] = dict(kwargs)
     settings['standalone'] = False
 
     _figure, axes = plot_16_bin_bars(specification.R_hs, '{0:.2f}', x_ticker,
@@ -490,27 +519,30 @@ def plot_local_hue_shifts(specification, x_ticker=False, **kwargs):
     return render(**settings)
 
 
-def plot_local_colour_fidelities(specification, x_ticker=False, **kwargs):
+def plot_local_colour_fidelities(
+        specification: ColourQuality_Specification_ANSIIESTM3018,
+        x_ticker: Boolean = False,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the local colour fidelities according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
     ----------
-    specification : ColourQuality_Specification_ANSIIESTM3018
+    specification
         *ANSI/IES TM-30-18 Colour Rendition Report* specification.
-    x_ticker : bool, optional
+    x_ticker
         Whether to show the *X* axis ticker and the associated label.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes
 
     Examples
@@ -524,7 +556,7 @@ def plot_local_colour_fidelities(specification, x_ticker=False, **kwargs):
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
     """
 
-    settings = kwargs.copy()
+    settings: Dict[str, Any] = dict(kwargs)
     settings['standalone'] = False
 
     _figure, axes = plot_16_bin_bars(specification.R_fs, '{0:.0f}', x_ticker,
@@ -539,25 +571,27 @@ def plot_local_colour_fidelities(specification, x_ticker=False, **kwargs):
     return render(**settings)
 
 
-def plot_colour_fidelity_indexes(specification, **kwargs):
+def plot_colour_fidelity_indexes(
+        specification: ColourQuality_Specification_ANSIIESTM3018,
+        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the local chroma shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
     ----------
-    specification : ColourQuality_Specification_ANSIIESTM3018
+    specification
         *ANSI/IES TM-30-18 Colour Rendition Report* specification.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes
 
     Examples
@@ -573,11 +607,11 @@ def plot_colour_fidelity_indexes(specification, **kwargs):
 
     _figure, axes = artist(**kwargs)
 
-    bar_count = len(_TCS_BAR_COLOURS)
+    bar_count = len(_COLOURS_TCS_BAR)
     axes.bar(
         np.arange(bar_count) + 1,
         specification.R_s,
-        color=_TCS_BAR_COLOURS,
+        color=_COLOURS_TCS_BAR,
         width=1,
         edgecolor='black',
         linewidth=CONSTANTS_COLOUR_STYLE.geometry.short / 3)

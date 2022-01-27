@@ -14,9 +14,12 @@ References
 1FF5WO2nvI9GEWb4_EntrBoV9ZIuFToZd/view
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     oetf_BlackmagicFilmGeneration5,
@@ -39,18 +42,16 @@ __all__ = [
     'RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT',
 ]
 
-PRIMARIES_BLACKMAGIC_WIDE_GAMUT = np.array([
+PRIMARIES_BLACKMAGIC_WIDE_GAMUT: NDArray = np.array([
     [0.7177215, 0.3171181],
     [0.2280410, 0.8615690],
     [0.1005841, -0.0820452],
 ])
 """
 *Blackmagic Wide Gamut* colourspace primaries.
-
-PRIMARIES_BLACKMAGIC_WIDE_GAMUT : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT = 'Blackmagic Wide Gamut'
+WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT: str = 'Blackmagic Wide Gamut'
 """
 *Blackmagic Wide Gamut* colourspace whitepoint name.
 
@@ -58,42 +59,34 @@ Notes
 -----
 -   *Blackmagic Wide Gamut* colourspace whitepoint is an uncommonly rounded
     *D65* variant at 7 decimals: [0.3127170, 0.3290312]
-
-WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT : str
 """
 
-CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT = (
+CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT: NDArray = (
     CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
         WHITEPOINT_NAME_BLACKMAGIC_WIDE_GAMUT])
 """
 *Blackmagic Wide Gamut* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT : ndarray
 """
 
-MATRIX_BLACKMAGIC_WIDE_GAMUT_TO_XYZ = np.array([
+MATRIX_BLACKMAGIC_WIDE_GAMUT_TO_XYZ: NDArray = np.array([
     [0.606530, 0.220408, 0.123479],
     [0.267989, 0.832731, -0.100720],
     [-0.029442, -0.086611, 1.204861],
 ])
 """
 *Blackmagic Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_BLACKMAGIC_WIDE_GAMUT_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_BLACKMAGIC_WIDE_GAMUT = np.array([
+MATRIX_XYZ_TO_BLACKMAGIC_WIDE_GAMUT: NDArray = np.array([
     [1.866382, -0.518397, -0.234610],
     [-0.600342, 1.378149, 0.176732],
     [0.002452, 0.086400, 0.836943],
 ])
 """
 *CIE XYZ* tristimulus values to *Blackmagic Wide Gamut* colourspace matrix.
-
-MATRIX_XYZ_TO_BLACKMAGIC_WIDE_GAMUT : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT = RGB_Colourspace(
+RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT: RGB_Colourspace = RGB_Colourspace(
     'Blackmagic Wide Gamut',
     PRIMARIES_BLACKMAGIC_WIDE_GAMUT,
     CCS_WHITEPOINT_BLACKMAGIC_WIDE_GAMUT,
@@ -111,6 +104,4 @@ RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT.__doc__ = """
 References
 ----------
 :cite:`BlackmagicDesign2021`
-
-RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT : RGB_Colourspace
 """

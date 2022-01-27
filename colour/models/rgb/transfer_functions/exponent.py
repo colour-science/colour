@@ -17,8 +17,17 @@ References
     Tables. Retrieved June 24, 2020, from http://j.mp/S-2014-006
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import (
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    NDArray,
+    Union,
+)
 from colour.utilities import (
     as_float,
     as_float_array,
@@ -39,19 +48,23 @@ __all__ = [
 ]
 
 
-def exponent_function_basic(x, exponent=1, style='basicFwd'):
+def exponent_function_basic(
+        x: FloatingOrArrayLike,
+        exponent: FloatingOrArrayLike = 1,
+        style: Union[
+            Literal['basicFwd', 'basicRev', 'basicMirrorFwd', 'basicMirrorRev',
+                    'basicPassThruFwd', 'basicPassThruRev'], str] = 'basicFwd'
+) -> FloatingOrNDArray:
     """
     Defines the *basic* exponent transfer function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Data to undergo the basic exponent conversion.
-    exponent : numeric or array_like, optional
+    exponent
         Exponent value used for the conversion.
-    style : str, optional
-        **{'basicFwd', 'basicRev', 'basicMirrorFwd', 'basicMirrorRev',
-        'basicPassThruFwd', 'basicPassThruRev'}**,
+    style
         Defines the behaviour for the transfer function to operate:
 
         -   *basicFwd*: *Basic Forward* exponential behaviour where the
@@ -81,13 +94,8 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Exponentially converted data.
-
-    Raises
-    ------
-    ValueError
-        If the *style* is not defined.
 
     Examples
     --------
@@ -132,19 +140,19 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
         'basicPassThruFwd', 'basicPassThruRev'
     ], '"{0}" style is invalid, it must be one of {1}!')
 
-    def exponent_forward(x):
+    def exponent_forward(x: NDArray) -> NDArray:
         """
         Returns the input raised to the exponent value.
         """
 
         return x ** exponent
 
-    def exponent_reverse(y):
+    def exponent_reverse(y: NDArray) -> NDArray:
         """
         Returns the input raised to the inverse exponent value.
         """
 
-        return y ** (1 / exponent)
+        return y ** (as_float_array(1) / exponent)
 
     if style == 'basicfwd':
         return as_float(np.where(x >= 0, exponent_forward(x), 0))
@@ -158,28 +166,29 @@ def exponent_function_basic(x, exponent=1, style='basicFwd'):
             np.where(x >= 0, exponent_reverse(x), -exponent_reverse(-x)))
     elif style == 'basicpassthrufwd':
         return as_float(np.where(x >= 0, exponent_forward(x), x))
-    elif style == 'basicpassthrurev':
+    else:  # style == 'basicpassthrurev'
         return as_float(np.where(x >= 0, exponent_reverse(x), x))
 
 
-def exponent_function_monitor_curve(x,
-                                    exponent=1,
-                                    offset=0,
-                                    style='monCurveFwd'):
+def exponent_function_monitor_curve(
+        x: FloatingOrArrayLike,
+        exponent: FloatingOrArrayLike = 1,
+        offset: FloatingOrArrayLike = 0,
+        style: Union[Literal['monCurveFwd', 'monCurveRev', 'monCurveMirrorFwd',
+                             'monCurveMirrorRev'], str] = 'monCurveFwd'
+) -> FloatingOrNDArray:
     """
     Defines the *Monitor Curve* exponent transfer function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Data to undergo the monitor curve exponential conversion.
-    exponent : numeric or array_like, optional
+    exponent
         Exponent value used for the conversion.
-    offset: numeric or array_like, optional
+    offset
         Offset value used for the conversion.
-    style : str, optional
-        **{'monCurveFwd', 'monCurveRev', 'monCurveMirrorFwd',
-        'monCurveMirrorRev'}**,
+    style
         Defines the behaviour for the transfer function to operate:
 
         -   *monCurveFwd*: *Monitor Curve Forward* exponential behaviour
@@ -199,13 +208,8 @@ def exponent_function_monitor_curve(x,
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Exponentially converted data.
-
-    Raises
-    ------
-    ValueError
-        If the *style* is not defined.
 
     Examples
     --------
@@ -286,7 +290,7 @@ def exponent_function_monitor_curve(x,
                 monitor_curve_forward(x),
                 -monitor_curve_forward(-x),
             ))
-    elif style == 'moncurvemirrorrev':
+    else:  # style == 'moncurvemirrorrev'
         return as_float(
             np.where(
                 x >= 0,

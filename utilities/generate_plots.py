@@ -5,6 +5,8 @@ Generate Plots
 ==============
 """
 
+from __future__ import annotations
+
 import matplotlib
 
 matplotlib.use('AGG')
@@ -22,8 +24,8 @@ from colour.colorimetry import (  # noqa
     sd_blackbody, sd_mesopic_luminous_efficiency_function, sd_to_XYZ)
 from colour.geometry import primitive_cube  # noqa
 from colour.io import read_image  # noqa
-from colour.models import (RGB_COLOURSPACE_sRGB, RGB_to_XYZ, sRGB_to_XYZ,
-                           XYZ_to_sRGB, XYZ_to_xy)  # noqa
+from colour.models import (  # noqa
+    RGB_COLOURSPACE_sRGB, RGB_to_XYZ, sRGB_to_XYZ, XYZ_to_sRGB, XYZ_to_xy)
 from colour.plotting import (  # noqa
     colour_style, ColourSwatch, plot_automatic_colour_conversion_graph,
     plot_blackbody_colours, plot_blackbody_spectral_radiance,
@@ -70,8 +72,8 @@ from colour.plotting.models import (  # noqa
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram)
 from colour.plotting.quality import plot_colour_quality_bars  # noqa
-from colour.plotting.section import (plot_hull_section_colours,
-                                     plot_hull_section_contour)  # noqa
+from colour.plotting.section import (  # noqa
+    plot_hull_section_colours, plot_hull_section_contour)
 from colour.plotting.temperature import (  # noqa
     plot_planckian_locus, plot_planckian_locus_CIE1931,
     plot_planckian_locus_CIE1960UCS,
@@ -85,16 +87,18 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
-__all__ = ['generate_documentation_plots']
+__all__ = [
+    'generate_documentation_plots',
+]
 
 
-def generate_documentation_plots(output_directory):
+def generate_documentation_plots(output_directory: str):
     """
     Generates documentation plots.
 
     Parameters
     ----------
-    output_directory : unicode
+    output_directory
         Output directory.
     """
 
@@ -347,13 +351,13 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_Colour_Swatch.png')
-    RGB = ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952))
+    RGB = ColourSwatch((0.45620519, 0.03081071, 0.04091952))
     plt.close(plot_single_colour_swatch(RGB, **arguments)[0])
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Colour_Swatches.png')
-    RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
-    RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
+    RGB_1 = ColourSwatch((0.45293517, 0.31732158, 0.26414773))
+    RGB_2 = ColourSwatch((0.77875824, 0.57726450, 0.50453169))
     plt.close(plot_multi_colour_swatches([RGB_1, RGB_2], **arguments)[0])
 
     arguments['filename'] = os.path.join(output_directory,
@@ -870,7 +874,7 @@ def generate_documentation_plots(output_directory):
         RGB = XYZ_to_sRGB(XYZ)
     plt.close(
         plot_single_colour_swatch(
-            ColourSwatch('Sample', RGB),
+            ColourSwatch(RGB, 'Sample'),
             text_kwargs={'size': 'x-large'},
             **arguments)[0])
 
@@ -883,7 +887,7 @@ def generate_documentation_plots(output_directory):
         RGB = XYZ_to_sRGB(XYZ)
     plt.close(
         plot_single_colour_swatch(
-            ColourSwatch(patch_name.title(), RGB),
+            ColourSwatch(RGB, patch_name.title()),
             text_kwargs={'size': 'x-large'},
             **arguments)[0])
 

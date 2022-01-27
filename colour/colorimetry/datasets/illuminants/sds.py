@@ -57,10 +57,13 @@ References
     daylight, incandescent tungsten and printer.
 """
 
+from __future__ import annotations
+
 from functools import partial
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -78,7 +81,7 @@ __all__ = [
     'SDS_ILLUMINANTS',
 ]
 
-DATA_ILLUMINANTS_CIE = {
+DATA_ILLUMINANTS_CIE: Dict = {
     'A': {
         300: 0.930483,
         305: 1.128210,
@@ -4577,7 +4580,7 @@ DATA_ILLUMINANTS_CIE = {
     }
 }
 
-SDS_ILLUMINANTS_CIE = LazyCaseInsensitiveMapping((
+SDS_ILLUMINANTS_CIE: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping((
     key,
     partial(
         SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
@@ -4599,11 +4602,9 @@ computed as follows::
 References
 ----------
 :cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`
-
-SDS_ILLUMINANTS_CIE : LazyCaseInsensitiveMapping
 """
 
-DATA_ILLUMINANTS_ISO = {
+DATA_ILLUMINANTS_ISO: Dict = {
     'ISO 7589 Photographic Daylight': {
         350: 28,
         360: 31,
@@ -4852,7 +4853,7 @@ DATA_ILLUMINANTS_ISO = {
     }
 }
 
-SDS_ILLUMINANTS_ISO = LazyCaseInsensitiveMapping((
+SDS_ILLUMINANTS_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping((
     key,
     partial(
         SpectralDistribution, value, name=key, interpolator=LinearInterpolator)
@@ -4880,11 +4881,10 @@ ISO 7589 Studio Tungsten * ISO Standard Lens * ISO 7589 Diffuser
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-SDS_ILLUMINANTS_ISO : LazyCaseInsensitiveMapping
 """
 
-SDS_ILLUMINANTS = LazyCaseInsensitiveMapping(SDS_ILLUMINANTS_CIE)
+SDS_ILLUMINANTS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    SDS_ILLUMINANTS_CIE)
 SDS_ILLUMINANTS.__doc__ = """
 Spectral distributions of the illuminants.
 
@@ -4898,8 +4898,6 @@ References
 ----------
 :cite:`Carter2018`, :cite:`CIEce`, :cite:`CIEcf`,
 :cite:`InternationalOrganizationforStandardization2002`
-
-SDS_ILLUMINANTS : LazyCaseInsensitiveMapping
 """
 
 SDS_ILLUMINANTS.update(SDS_ILLUMINANTS_ISO)

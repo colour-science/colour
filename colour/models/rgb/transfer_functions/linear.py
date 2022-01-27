@@ -9,6 +9,11 @@ related objects:
 - :func:`colour.linear_function`
 """
 
+from __future__ import annotations
+
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.utilities import as_float
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
 __license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
@@ -21,25 +26,25 @@ __all__ = [
 ]
 
 
-def linear_function(a):
+def linear_function(a: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines a typical linear encoding / decoding function, essentially a
     pass-through function.
 
     Parameters
     ----------
-    a : numeric or array_like
+    a
         Array to encode / decode.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Encoded / decoded array.
 
     Examples
     --------
-    >>> linear_function(0.18)
-    0.18
+    >>> linear_function(0.18)  # doctest: +ELLIPSIS
+    0.1799999...
     """
 
-    return a
+    return as_float(a)

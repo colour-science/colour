@@ -15,8 +15,11 @@ References
     http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
+from __future__ import annotations
+
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import ArrayLike, NDArray
 from colour.models import (
     UCS_to_uv,
     UCS_uv_to_xy,
@@ -41,24 +44,24 @@ __all__ = [
 ]
 
 
-def XYZ_to_UVW(XYZ,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_UVW(XYZ: ArrayLike,
+               illuminant: ArrayLike = CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE 1964 U\\*V\\*W\\** colourspace array.
 
     Notes
@@ -112,24 +115,24 @@ def XYZ_to_UVW(XYZ,
     return from_range_100(UVW)
 
 
-def UVW_to_XYZ(UVW,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def UVW_to_XYZ(UVW: ArrayLike,
+               illuminant: ArrayLike = CCS_ILLUMINANTS[
+                   'CIE 1931 2 Degree Standard Observer']['D65']) -> NDArray:
     """
     Converts *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
     ----------
-    UVW : array_like
+    UVW
         *CIE 1964 U\\*V\\*W\\** colourspace array.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes

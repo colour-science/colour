@@ -72,8 +72,11 @@ References
     2014, from http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import NDArray
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -99,18 +102,16 @@ __all__ = [
     'CHROMATIC_ADAPTATION_TRANSFORMS',
 ]
 
-CAT_XYZ_SCALING = np.array(np.identity(3)).reshape([3, 3])
+CAT_XYZ_SCALING: NDArray = np.array(np.identity(3)).reshape([3, 3])
 """
 *XYZ Scaling* chromatic adaptation transform.
 
 References
 ----------
 :cite:`Lindbloom2009g`
-
-CAT_XYZ_SCALING : array_like, (3, 3)
 """
 
-CAT_VON_KRIES = np.array([
+CAT_VON_KRIES: NDArray = np.array([
     [0.4002400, 0.7076000, -0.0808100],
     [-0.2263000, 1.1653200, 0.0457000],
     [0.0000000, 0.0000000, 0.9182200],
@@ -122,11 +123,9 @@ References
 ----------
 :cite:`CIETC1-321994b`, :cite:`Fairchild2013ba`, :cite:`Lindbloom2009g`,
 :cite:`Nayatani1995a`
-
-CAT_VON_KRIES : array_like, (3, 3)
 """
 
-CAT_BRADFORD = np.array([
+CAT_BRADFORD: NDArray = np.array([
     [0.8951000, 0.2664000, -0.1614000],
     [-0.7502000, 1.7135000, 0.0367000],
     [0.0389000, -0.0685000, 1.0296000],
@@ -137,11 +136,9 @@ CAT_BRADFORD = np.array([
 References
 ----------
 :cite:`Lindbloom2009g`
-
-CAT_BRADFORD : array_like, (3, 3)
 """
 
-CAT_SHARP = np.array([
+CAT_SHARP: NDArray = np.array([
     [1.2694, -0.0988, -0.1706],
     [-0.8364, 1.8006, 0.0357],
     [0.0297, -0.0315, 1.0018],
@@ -152,11 +149,9 @@ CAT_SHARP = np.array([
 References
 ----------
 :cite:`Bianco2010a`
-
-CAT_SHARP : array_like, (3, 3)
 """
 
-CAT_FAIRCHILD = np.array([
+CAT_FAIRCHILD: NDArray = np.array([
     [0.8562, 0.3372, -0.1934],
     [-0.8360, 1.8327, 0.0033],
     [0.0357, -0.0469, 1.0112],
@@ -167,11 +162,9 @@ CAT_FAIRCHILD = np.array([
 References
 ----------
 :cite:`Fairchildb`
-
-CAT_FAIRCHILD : array_like, (3, 3)
 """
 
-CAT_CMCCAT97 = np.array([
+CAT_CMCCAT97: NDArray = np.array([
     [0.8951, -0.7502, 0.0389],
     [0.2664, 1.7135, 0.0685],
     [-0.1614, 0.0367, 1.0296],
@@ -182,11 +175,9 @@ CAT_CMCCAT97 = np.array([
 References
 ----------
 :cite:`Westland2012g`
-
-CAT_CMCCAT97 : array_like, (3, 3)
 """
 
-CAT_CMCCAT2000 = np.array([
+CAT_CMCCAT2000: NDArray = np.array([
     [0.7982, 0.3389, -0.1371],
     [-0.5918, 1.5512, 0.0406],
     [0.0008, 0.0239, 0.9753],
@@ -197,11 +188,9 @@ CAT_CMCCAT2000 = np.array([
 References
 ----------
 :cite:`Westland2012k`
-
-CAT_CMCCAT2000 : array_like, (3, 3)
 """
 
-CAT_CAT02 = np.array([
+CAT_CAT02: NDArray = np.array([
     [0.7328, 0.4296, -0.1624],
     [-0.7036, 1.6975, 0.0061],
     [0.0030, 0.0136, 0.9834],
@@ -212,11 +201,9 @@ CAT_CAT02 = np.array([
 References
 ----------
 :cite:`Wikipedia2007`
-
-CAT_CAT02 : array_like, (3, 3)
 """
 
-CAT_CAT02_BRILL2008 = np.array([
+CAT_CAT02_BRILL2008: NDArray = np.array([
     [0.7328, 0.4296, -0.1624],
     [-0.7036, 1.6975, 0.0061],
     [0.0000, 0.0000, 1.0000],
@@ -228,11 +215,9 @@ transform.
 References
 ----------
 :cite:`Brill2008a`, :cite:`Li2007e`
-
-CAT_CAT02_BRILL2008 : array_like, (3, 3)
 """
 
-CAT_CAT16 = np.array([
+CAT_CAT16: NDArray = np.array([
     [0.401288, 0.650173, -0.051461],
     [-0.250268, 1.204414, 0.045854],
     [-0.002079, 0.048952, 0.953127],
@@ -243,11 +228,9 @@ CAT_CAT16 = np.array([
 References
 ----------
 :cite:`Li2017`
-
-CAT_CAT16 : array_like, (3, 3)
 """
 
-CAT_BIANCO2010 = np.array([
+CAT_BIANCO2010: NDArray = np.array([
     [0.8752, 0.2787, -0.1539],
     [-0.8904, 1.8709, 0.0195],
     [-0.0061, 0.0162, 0.9899],
@@ -258,11 +241,9 @@ CAT_BIANCO2010 = np.array([
 References
 ----------
 :cite:`Bianco2010a`
-
-CAT_BIANCO2010 : array_like, (3, 3)
 """
 
-CAT_PC_BIANCO2010 = np.array([
+CAT_PC_BIANCO2010: NDArray = np.array([
     [0.6489, 0.3915, -0.0404],
     [-0.3775, 1.3055, 0.0720],
     [-0.0271, 0.0888, 0.9383],
@@ -274,27 +255,26 @@ References
 ----------
 :cite:`Bianco2010a`
 
-CAT_PC_BIANCO2010 : array_like, (3, 3)
-
 Notes
 -----
 -   This chromatic adaptation transform has no negative lobes.
 """
 
-CHROMATIC_ADAPTATION_TRANSFORMS = CaseInsensitiveMapping({
-    'XYZ Scaling': CAT_XYZ_SCALING,
-    'Von Kries': CAT_VON_KRIES,
-    'Bradford': CAT_BRADFORD,
-    'Sharp': CAT_SHARP,
-    'Fairchild': CAT_FAIRCHILD,
-    'CMCCAT97': CAT_CMCCAT97,
-    'CMCCAT2000': CAT_CMCCAT2000,
-    'CAT02': CAT_CAT02,
-    'CAT02 Brill 2008': CAT_CAT02_BRILL2008,
-    'CAT16': CAT_CAT16,
-    'Bianco 2010': CAT_BIANCO2010,
-    'Bianco PC 2010': CAT_PC_BIANCO2010
-})
+CHROMATIC_ADAPTATION_TRANSFORMS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping({
+        'XYZ Scaling': CAT_XYZ_SCALING,
+        'Von Kries': CAT_VON_KRIES,
+        'Bradford': CAT_BRADFORD,
+        'Sharp': CAT_SHARP,
+        'Fairchild': CAT_FAIRCHILD,
+        'CMCCAT97': CAT_CMCCAT97,
+        'CMCCAT2000': CAT_CMCCAT2000,
+        'CAT02': CAT_CAT02,
+        'CAT02 Brill 2008': CAT_CAT02_BRILL2008,
+        'CAT16': CAT_CAT16,
+        'Bianco 2010': CAT_BIANCO2010,
+        'Bianco PC 2010': CAT_PC_BIANCO2010
+    }))
 CHROMATIC_ADAPTATION_TRANSFORMS.__doc__ = """
 Chromatic adaptation transforms.
 
@@ -303,9 +283,4 @@ References
 :cite:`Bianco2010a`, :cite:`Brill2008a`, :cite:`Fairchildb`, :cite:`Li2007e`,
 :cite:`Li2017`, :cite:`Lindbloom2009g`, :cite:`Westland2012g`,
 :cite:`Westland2012k`, :cite:`Wikipedia2007`
-
-CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping
-    **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,
-    'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16', 'Bianco 2010',
-    'Bianco PC 2010'}**
 """

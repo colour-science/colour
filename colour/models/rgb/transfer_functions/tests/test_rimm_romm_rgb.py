@@ -91,7 +91,7 @@ cctf_encoding_ROMMRGB` definition domain and range scale support.
         X = 0.18
         X_p = cctf_encoding_ROMMRGB(X)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -172,7 +172,7 @@ cctf_decoding_ROMMRGB` definition domain and range scale support.
         X_p = 0.385711424751138
         X = cctf_decoding_ROMMRGB(X_p)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -247,7 +247,7 @@ cctf_encoding_RIMMRGB` definition domain and range scale support.
         X = 0.18
         X_p = cctf_encoding_RIMMRGB(X)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -329,7 +329,7 @@ cctf_decoding_RIMMRGB` definition domain and range scale support.
         X_p = 0.291673732475746
         X = cctf_decoding_RIMMRGB(X_p)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -404,7 +404,7 @@ log_encoding_ERIMMRGB` definition domain and range scale support.
         X = 0.18
         X_p = log_encoding_ERIMMRGB(X)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -486,7 +486,7 @@ log_decoding_ERIMMRGB` definition domain and range scale support.
         X_p = 0.410052389492129
         X = log_decoding_ERIMMRGB(X_p)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

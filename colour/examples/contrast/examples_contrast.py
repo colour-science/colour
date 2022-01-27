@@ -9,6 +9,7 @@ import numpy as np
 from scipy.optimize import fmin
 
 import colour
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, message_box
 from colour.plotting import colour_style, plot_single_function
 
@@ -42,18 +43,18 @@ settings_BT2246 = {
 }
 
 
-def maximise_spatial_frequency(L):
+def maximise_spatial_frequency(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Maximises the spatial frequency :math:`u` for given luminance value.
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         Luminance value at which to maximize the spatial frequency :math:`u`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`np.floating` or :class:`numpy.ndarray`
         Maximised spatial frequency :math:`u`.
     """
 

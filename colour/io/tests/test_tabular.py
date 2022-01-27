@@ -3,12 +3,15 @@
 Defines the unit tests for the :mod:`colour.io.tabular` module.
 """
 
+from __future__ import annotations
+
 import os
 import shutil
 import unittest
 import tempfile
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
+from colour.hints import Dict
 from colour.io import (
     read_spectral_data_from_csv_file,
     read_sds_from_csv_file,
@@ -30,9 +33,9 @@ __all__ = [
     'TestWriteSdsToCsvFile',
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), 'resources')
 
-COLOURCHECKER_N_OHTA_1 = {
+COLOURCHECKER_N_OHTA_1: Dict = {
     380.0: 0.048,
     385.0: 0.051,
     390.0: 0.055,
@@ -229,7 +232,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         key = list(sds.keys())[0]
         sds[key] = sds[key].align(SpectralShape(400, 700, 10))
 
-        self.assertRaises(RuntimeError, write_sds_to_csv_file, sds, '')
+        self.assertRaises(ValueError, write_sds_to_csv_file, sds, '')
 
 
 if __name__ == '__main__':

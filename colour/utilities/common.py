@@ -14,6 +14,8 @@ References
 numpyerrors.html
 """
 
+from __future__ import annotations
+
 import inspect
 import multiprocessing
 import multiprocessing.pool
@@ -26,7 +28,23 @@ from contextlib import contextmanager
 from copy import copy
 from pprint import pformat
 
-from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
+from colour.constants import INTEGER_THRESHOLD
+from colour.hints import (
+    Any,
+    Boolean,
+    Callable,
+    Dict,
+    Generator,
+    Integer,
+    Iterable,
+    Literal,
+    Mapping,
+    Optional,
+    RegexFlag,
+    Sequence,
+    TypeVar,
+    Union,
+)
 from colour.utilities import CaseInsensitiveMapping, Lookup
 
 __author__ = 'Colour Developers'
@@ -66,21 +84,9 @@ __all__ = [
     'filter_kwargs',
     'filter_mapping',
     'first_item',
-    'get_domain_range_scale',
-    'set_domain_range_scale',
-    'domain_range_scale',
-    'to_domain_1',
-    'to_domain_10',
-    'to_domain_100',
-    'to_domain_degrees',
-    'to_domain_int',
-    'from_range_1',
-    'from_range_10',
-    'from_range_100',
-    'from_range_degrees',
-    'from_range_int',
     'copy_definition',
     'validate_method',
+    'optional',
 ]
 
 
@@ -125,25 +131,25 @@ class CacheRegistry:
         self._registry = {}
 
     @property
-    def registry(self):
+    def registry(self) -> Dict:
         """
         Getter and setter property for the cache registry.
 
         Returns
         -------
-        numeric
+        :class:`dict`
             Cache registry.
         """
 
         return self._registry
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the cache registry.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
         """
 
@@ -152,18 +158,18 @@ class CacheRegistry:
             for name in sorted(self._registry)
         })
 
-    def register_cache(self, name):
+    def register_cache(self, name: str) -> Dict:
         """
         Registers a new cache with given name in the registry.
 
         Parameters
         ----------
-        name : str
+        name
             Cache name for the registry.
 
         Returns
         -------
-        dict
+        :class:`dict`
             Registered cache.
 
         Examples
@@ -178,19 +184,17 @@ class CacheRegistry:
         {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
         """
 
-        cache = {}
+        self._registry[name] = {}
 
-        self._registry[name] = cache
+        return self._registry[name]
 
-        return cache
-
-    def unregister_cache(self, name):
+    def unregister_cache(self, name: str):
         """
         Unregisters cache with given name in the registry.
 
         Parameters
         ----------
-        name : str
+        name
             Cache name in the registry.
 
         Notes
@@ -218,13 +222,13 @@ class CacheRegistry:
 
         del self._registry[name]
 
-    def clear_cache(self, name):
+    def clear_cache(self, name: str):
         """
         Clears the cache with given name.
 
         Parameters
         ----------
-        name : str
+        name
             Cache name in the registry.
 
         Examples
@@ -264,27 +268,27 @@ class CacheRegistry:
             self.clear_cache(key)
 
 
-CACHE_REGISTRY = CacheRegistry()
+CACHE_REGISTRY: CacheRegistry = CacheRegistry()
 """
 *Colour* cache registry referencing all the caches used for repetitive or long
 processes.
 
-CACHE_REGISTRY : CacheRegistry
+CACHE_REGISTRY
 """
 
 
-def handle_numpy_errors(**kwargs):
+def handle_numpy_errors(**kwargs: Any) -> Callable:
     """
     Decorator for handling *Numpy* errors.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
 
     Returns
     -------
-    object
+    Callable
 
     References
     ----------
@@ -301,13 +305,13 @@ def handle_numpy_errors(**kwargs):
 
     context = np.errstate(**kwargs)
 
-    def wrapper(function):
+    def wrapper(function: Callable) -> Callable:
         """
         Wrapper for given function.
         """
 
         @functools.wraps(function)
-        def wrapped(*args, **kwargs):
+        def wrapped(*args: Any, **kwargs: Any) -> Any:
             """
             Wrapped function.
             """
@@ -326,18 +330,18 @@ print_numpy_errors = handle_numpy_errors(all='print')
 warn_numpy_errors = handle_numpy_errors(all='warn')
 
 
-def ignore_python_warnings(function):
+def ignore_python_warnings(function: Callable) -> Callable:
     """
     Decorator for ignoring *Python* warnings.
 
     Parameters
     ----------
-    function : object
+    function
         Function to decorate.
 
     Returns
     -------
-    object
+    Callable
 
     Examples
     --------
@@ -348,7 +352,7 @@ def ignore_python_warnings(function):
     """
 
     @functools.wraps(function)
-    def wrapped(*args, **kwargs):
+    def wrapped(*args: Any, **kwargs: Any) -> Any:
         """
         Wrapped function.
         """
@@ -361,16 +365,16 @@ def ignore_python_warnings(function):
     return wrapped
 
 
-def attest(condition, message=str()):
+def attest(condition: Boolean, message: str = ''):
     """
     A replacement for `assert` that is not removed by optimised Python
     execution.
 
     Parameters
     ----------
-    condition : bool
+    condition
         Condition to attest/assert.
-    message : str, optional
+    message
         Message to display when the assertion fails.
     """
 
@@ -378,37 +382,37 @@ def attest(condition, message=str()):
         raise AssertionError(message)
 
 
-def batch(iterable, k=3):
+def batch(sequence: Sequence, k: Union[Integer, Literal[3]] = 3) -> Generator:
     """
-    Returns a batch generator from given iterable.
+    Returns a batch generator from given sequence.
 
     Parameters
     ----------
-    iterable : iterable
-        Iterable to create batches from.
-    k : integer
-        Batches size.
+    sequence
+        Sequence to create batches from.
+    k
+        Batch size.
 
-    Returns
-    -------
-    bool
-        Is *string_like* variable.
+    Yields
+    ------
+    Generator
+        Batch generator.
 
     Examples
     --------
-    >>> batch(tuple(range(10)))  # doctest: +ELLIPSIS
+    >>> batch(tuple(range(10)), 3)  # doctest: +ELLIPSIS
     <generator object batch at 0x...>
     """
 
-    for i in range(0, len(iterable), k):
-        yield iterable[i:i + k]
+    for i in range(0, len(sequence), k):
+        yield sequence[i:i + k]
 
 
-_MULTIPROCESSING_ENABLED = True
+_MULTIPROCESSING_ENABLED: Boolean = True
 """
 Whether *Colour* multiprocessing is enabled.
 
-_MULTIPROCESSING_ENABLED : bool
+_MULTIPROCESSING_ENABLED
 """
 
 
@@ -418,7 +422,7 @@ class disable_multiprocessing:
     multiprocessing.
     """
 
-    def __enter__(self):
+    def __enter__(self) -> disable_multiprocessing:
         """
         Called upon entering the context manager and decorator.
         """
@@ -429,7 +433,7 @@ class disable_multiprocessing:
 
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *args: Any):
         """
         Called upon exiting the context manager and decorator.
         """
@@ -438,49 +442,56 @@ class disable_multiprocessing:
 
         _MULTIPROCESSING_ENABLED = True
 
-    def __call__(self, function):
+    def __call__(self, function: Callable) -> Callable:
         """
         Calls the wrapped definition.
         """
 
         @functools.wraps(function)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             with self:
                 return function(*args, **kwargs)
 
         return wrapper
 
 
-def _initializer(kwargs):
+def _initializer(kwargs: Any):
     """
-    Initializer for the multiprocessing pool. It is mainly use to ensure that
-    processes on *Windows* correctly inherit from the current domain-range
+    Initializer for the multiprocessing pool. It is used to ensure that
+    processes on *Windows* inherit correctly from the current domain-range
     scale.
 
     Parameters
     ----------
-    kwargs : dict
+    kwargs
         Initialisation arguments.
     """
 
-    global _DOMAIN_RANGE_SCALE
-
     # NOTE: No coverage information is available as this code is executed in
     # sub-processes.
-    _DOMAIN_RANGE_SCALE = kwargs.get('scale', 'reference')  # pragma: no cover
+
+    import colour.utilities.array  # pragma: no cover
+
+    colour.utilities.array._DOMAIN_RANGE_SCALE = kwargs.get(
+        'scale', 'reference')  # pragma: no cover
 
 
 @contextmanager
-def multiprocessing_pool(*args, **kwargs):
+def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     """
     A context manager providing a multiprocessing pool.
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments.
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
+
+    Yields
+    ------
+    Generator
+        Multiprocessing pool.
 
     Examples
     --------
@@ -493,19 +504,21 @@ def multiprocessing_pool(*args, **kwargs):
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
+    from colour.utilities import get_domain_range_scale
+
     class _DummyPool:
         """
         A dummy multiprocessing pool that does not perform multiprocessing.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
-        \\**kwargs : dict, optional
+        kwargs
             Keywords arguments.
         """
 
-        def __init__(self, *args, **kwargs):
+        def __init__(self, *args: Any, **kwargs: Any):
             pass
 
         def map(self, func, iterable, chunksize=None):
@@ -525,6 +538,7 @@ def multiprocessing_pool(*args, **kwargs):
     kwargs['initializer'] = _initializer
     kwargs['initargs'] = ({'scale': get_domain_range_scale()}, )
 
+    pool_factory: Callable
     if _MULTIPROCESSING_ENABLED:
         pool_factory = multiprocessing.Pool
     else:
@@ -538,23 +552,23 @@ def multiprocessing_pool(*args, **kwargs):
         pool.terminate()
 
 
-def is_matplotlib_installed(raise_exception=False):
+def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns if *Matplotlib* is installed and available.
+    Returns whether *Matplotlib* is installed and available.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *Matplotlib* is unavailable.
+    raise_exception
+        Whether to raise an exception if *Matplotlib* is unavailable.
 
     Returns
     -------
-    bool
-        Is *Matplotlib* installed.
+    :class:`bool`
+        Whether *Matplotlib* is installed.
 
     Raises
     ------
-    ImportError
+    :class:`ImportError`
         If *Matplotlib* is not installed.
     """
 
@@ -567,30 +581,29 @@ def is_matplotlib_installed(raise_exception=False):
         if raise_exception:
             raise ImportError(
                 ('"Matplotlib" related API features are not available: '
-                 '"{0}".\nPlease refer to the installation guide for more '
-                 'information: '
+                 '"{0}".\nSee the installation guide for more information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
 
 
-def is_networkx_installed(raise_exception=False):
+def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns if *NetworkX* is installed and available.
+    Returns whether *NetworkX* is installed and available.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *NetworkX* is unavailable.
+    raise_exception
+        Whether to raise an exception if *NetworkX* is unavailable.
 
     Returns
     -------
-    bool
-        Is *NetworkX* installed.
+    :class:`bool`
+        Whether *NetworkX* is installed.
 
     Raises
     ------
-    ImportError
+    :class:`ImportError`
         If *NetworkX* is not installed.
     """
 
@@ -610,23 +623,23 @@ def is_networkx_installed(raise_exception=False):
         return False
 
 
-def is_opencolorio_installed(raise_exception=False):
+def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns if *OpenColorIO* is installed and available.
+    Returns whether *OpenColorIO* is installed and available.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *OpenColorIO* is unavailable.
+    raise_exception
+        Whether to raise an exception if *OpenColorIO* is unavailable.
 
     Returns
     -------
-    bool
-        Is *OpenColorIO* installed.
+    :class:`bool`
+        Whether *OpenColorIO* is installed.
 
     Raises
     ------
-    ImportError
+    :class:`ImportError`
         If *OpenColorIO* is not installed.
     """
 
@@ -639,30 +652,29 @@ def is_opencolorio_installed(raise_exception=False):
         if raise_exception:
             raise ImportError(
                 ('"OpenColorIO" related API features are not available: '
-                 '"{0}".\nPlease refer to the installation guide for more '
-                 'information: '
+                 '"{0}".\nSee the installation guide for more information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
 
 
-def is_openimageio_installed(raise_exception=False):
+def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns if *OpenImageIO* is installed and available.
+    Returns whether *OpenImageIO* is installed and available.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *OpenImageIO* is unavailable.
+    raise_exception
+        Whether to raise an exception if *OpenImageIO* is unavailable.
 
     Returns
     -------
-    bool
-        Is *OpenImageIO* installed.
+    :class:`bool`
+        Whether *OpenImageIO* is installed.
 
     Raises
     ------
-    ImportError
+    :class:`ImportError`
         If *OpenImageIO* is not installed.
     """
 
@@ -675,30 +687,29 @@ def is_openimageio_installed(raise_exception=False):
         if raise_exception:
             raise ImportError(
                 ('"OpenImageIO" related API features are not available: '
-                 '"{0}".\nPlease refer to the installation guide for more '
-                 'information: '
+                 '"{0}".\nSee the installation guide for more information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
 
 
-def is_pandas_installed(raise_exception=False):
+def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns if *Pandas* is installed and available.
+    Returns whether *Pandas* is installed and available.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *Pandas* is unavailable.
+    raise_exception
+        Whether to raise an exception if *Pandas* is unavailable.
 
     Returns
     -------
-    bool
-        Is *Pandas* installed.
+    :class:`bool`
+        Whether *Pandas* is installed.
 
     Raises
     ------
-    ImportError
+    :class:`ImportError`
         If *Pandas* is not installed.
     """
 
@@ -711,30 +722,30 @@ def is_pandas_installed(raise_exception=False):
         if raise_exception:
             raise ImportError(
                 ('"Pandas" related API features are not available: "{0}".\n'
-                 'Please refer to the installation guide for more '
-                 'information: '
+                 'See the installation guide for more information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
 
 
-def is_sklearn_installed(raise_exception=False):
+def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns if *Scikit-Learn* (sklearn) is installed and available.
+    Returns whether *Scikit-Learn* (sklearn) is installed and available.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *Scikit-Learn* (sklearn) is unavailable.
+    raise_exception
+        Whether to raise an exception if *Scikit-Learn* (sklearn) is
+        unavailable.
 
     Returns
     -------
-    bool
-        Is *Scikit-Learn* (sklearn) installed.
+    :class:`bool`
+        Whether *Scikit- isLearn* (sklearn) installed.
 
     Raises
     ------
-    ImportError
+    :class:`ImportError`
         If *Scikit-Learn* (sklearn) is not installed.
     """
 
@@ -748,30 +759,29 @@ def is_sklearn_installed(raise_exception=False):
             raise ImportError(
                 ('"Scikit-Learn" related API features are not available: '
                  '"{0}".\n'
-                 'Please refer to the installation guide for more '
-                 'information: '
+                 'See the installation guide for more information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
 
 
-def is_tqdm_installed(raise_exception=False):
+def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns if *tqdm* is installed and available.
+    Returns whether *tqdm* is installed and available.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *tqdm* is unavailable.
+    raise_exception
+        Whether to raise an exception if *tqdm* is unavailable.
 
     Returns
     -------
-    bool
-        Is *tqdm* installed.
+    :class:`bool`
+        Whether *tqdm* is installed.
 
     Raises
     ------
-    ImportError
+    :class:`ImportError`
         If *tqdm* is not installed.
     """
 
@@ -784,30 +794,29 @@ def is_tqdm_installed(raise_exception=False):
         if raise_exception:
             raise ImportError(
                 ('"tqdm" related API features are not available: "{0}".\n'
-                 'Please refer to the installation guide for more '
-                 'information: '
+                 'See the installation guide for more information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
 
 
-def is_trimesh_installed(raise_exception=False):
+def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns if *Trimesh* is installed and available.
+    Returns whether *Trimesh* is installed and available.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *Trimesh* is unavailable.
+    raise_exception
+        Whether to raise an exception if *Trimesh* is unavailable.
 
     Returns
     -------
-    bool
-        Is *Trimesh* installed.
+    :class:`bool`
+        Whether *Trimesh* is installed.
 
     Raises
     ------
-    ImportError
+    :class:`ImportError`
         If *Trimesh* is not installed.
     """
 
@@ -820,14 +829,13 @@ def is_trimesh_installed(raise_exception=False):
         if raise_exception:
             raise ImportError(
                 ('"Trimesh" related API features are not available: '
-                 '"{0}".\nPlease refer to the installation guide for more '
-                 'information: '
+                 '"{0}".\nSee the installation guide for more information: '
                  'https://www.colour-science.org/installation-guide/'
                  ).format(error))
         return False
 
 
-_REQUIREMENTS_TO_CALLABLE = CaseInsensitiveMapping({
+_REQUIREMENTS_TO_CALLABLE: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'Matplotlib': is_matplotlib_installed,
     'NetworkX': is_networkx_installed,
     'OpenColorIO': is_opencolorio_installed,
@@ -840,37 +848,35 @@ _REQUIREMENTS_TO_CALLABLE = CaseInsensitiveMapping({
 """
 Mapping of requirements to their respective callables.
 
-_REQUIREMENTS_TO_CALLABLE : CaseInsensitiveMapping
+_REQUIREMENTS_TO_CALLABLE
     **{'Matplotlib', 'NetworkX', 'OpenColorIO', 'OpenImageIO', 'Pandas',
     'Scikit-Learn', 'tqdm', 'trimesh'}**
 """
 
 
-def required(*requirements):
+def required(*requirements: Literal['Matplotlib', 'NetworkX', 'OpenColorIO',
+                                    'OpenImageIO', 'Pandas', 'Scikit-Learn',
+                                    'tqdm', 'trimesh']) -> Callable:
     """
     A decorator checking if various requirements are satisfied.
 
     Other Parameters
     ----------------
-    \\*requirements : list, optional
-        **{'Matplotlib', 'NetworkX', 'OpenColorIO', 'OpenImageIO', 'Pandas',
-        'tqdm', 'trimesh'}**,
-        **{'Matplotlib', 'NetworkX', 'OpenImageIO', 'Pandas', 'tqdm',
-        'trimesh'}**,
+    requirements
         Requirements to check whether they are satisfied.
 
     Returns
     -------
-    object
+    Callable
     """
 
-    def wrapper(function):
+    def wrapper(function: Callable) -> Callable:
         """
         Wrapper for given function.
         """
 
         @functools.wraps(function)
-        def wrapped(*args, **kwargs):
+        def wrapped(*args: Any, **kwargs: Any) -> Any:
             """
             Wrapped function.
             """
@@ -885,19 +891,19 @@ def required(*requirements):
     return wrapper
 
 
-def is_iterable(a):
+def is_iterable(a: Any) -> Boolean:
     """
-    Returns if given :math:`a` variable is iterable.
+    Returns whether given variable :math:`a` is iterable.
 
     Parameters
     ----------
-    a : object
-        Variable to check the iterability.
+    a
+        Variable :math:`a` to check the iterability.
 
     Returns
     -------
-    bool
-        :math:`a` variable iterability.
+    :class:`bool`
+        Whether variable :math:`a` is iterable.
 
     Examples
     --------
@@ -910,19 +916,19 @@ def is_iterable(a):
     return is_string(a) or (True if getattr(a, '__iter__', False) else False)
 
 
-def is_string(a):
+def is_string(a: Any) -> Boolean:
     """
-    Returns if given :math:`a` variable is a *string* like variable.
+    Returns whether given variable :math:`a` is a :class:`str`-like variable.
 
     Parameters
     ----------
-    a : object
-        Data to test.
+    a
+        Variable :math:`a` to test.
 
     Returns
     -------
-    bool
-        Is :math:`a` variable a *string* like variable.
+    :class:`bool`
+        Whether variable :math:`a` is a :class:`str`-like variable.
 
     Examples
     --------
@@ -935,19 +941,20 @@ def is_string(a):
     return True if isinstance(a, str) else False
 
 
-def is_numeric(a):
+def is_numeric(a: Any) -> Boolean:
     """
-    Returns if given :math:`a` variable is a number.
+    Returns whether given variable :math:`a` is a :class:`Number`-like
+    variable.
 
     Parameters
     ----------
-    a : object
-        Variable to check.
+    a
+        Variable :math:`a` to test.
 
     Returns
     -------
-    bool
-        Is :math:`a` variable a number.
+    :class:`bool`
+        Whether variable :math:`a` is a :class:`Number`-like variable.
 
     Examples
     --------
@@ -957,23 +964,29 @@ def is_numeric(a):
     False
     """
 
-    return isinstance(
-        a, (int, float, complex, np.integer, np.floating, np.complex))
+    return isinstance(a, (
+        int,
+        float,
+        complex,
+        np.integer,
+        np.floating,
+    ))
 
 
-def is_integer(a):
+def is_integer(a: Any) -> Boolean:
     """
-    Returns if given :math:`a` variable is an integer under given threshold.
+    Returns whether given variable :math:`a` is an :class:`numpy.integer`-like
+    variable under given threshold.
 
     Parameters
     ----------
-    a : object
-        Variable to check.
+    a
+        Variable :math:`a` to test.
 
     Returns
     -------
-    bool
-        Is :math:`a` variable an integer.
+    :class:`bool`
+        Whether variable :math:`a` is an :class:`numpy.integer`-like variable.
 
     Notes
     -----
@@ -991,20 +1004,20 @@ def is_integer(a):
     return abs(a - np.around(a)) <= INTEGER_THRESHOLD
 
 
-def is_sibling(element, mapping):
+def is_sibling(element: Any, mapping: Mapping) -> Boolean:
     """
     Returns whether given element type is present in given mapping types.
 
     Parameters
     ----------
-    element : object
-        Element to check if its type is present in the mapping types.
-    mapping : dict
-        Mapping.
+    element
+        Element to check whether its type is present in the mapping types.
+    mapping
+        Mapping types.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Whether given element type is present in given mapping types.
     """
 
@@ -1012,18 +1025,18 @@ def is_sibling(element, mapping):
         element, tuple(set(type(element) for element in mapping.values())))
 
 
-def filter_kwargs(function, **kwargs):
+def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     """
     Filters keyword arguments incompatible with the given function signature.
 
     Parameters
     ----------
-    function : callable
+    function
         Callable to filter the incompatible keyword arguments.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
 
     Returns
@@ -1054,27 +1067,29 @@ def filter_kwargs(function, **kwargs):
     except ValueError:  # pragma: no cover
         return {}
 
-    args = set(kwargs.keys()) - set(args)
-    for key in args:
+    for key in set(kwargs.keys()) - set(args):
         kwargs.pop(key)
 
     return kwargs
 
 
-def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
+def filter_mapping(mapping: Mapping,
+                   filterers: Union[str, Sequence[str]],
+                   anchors: Boolean = True,
+                   flags: Union[Integer, RegexFlag] = re.IGNORECASE) -> Dict:
     """
     Filters given mapping with given filterers.
 
     Parameters
     ----------
-    mapping : dict_like
+    mapping
         Mapping to filter.
-    filterers : str or object or array_like
+    filterers
         Filterer pattern for given mapping elements or a list of filterers.
-    anchors : bool, optional
+    anchors
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterer pattern.
-    flags : int, optional
+    flags
         Regex flags.
 
     Returns
@@ -1103,20 +1118,24 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     ['Element A', 'Element B', 'Element C']
     """
 
-    def filter_mapping_with_filter(mapping, filterer, anchors, flags):
+    def filter_mapping_with_filter(
+            mapping: Mapping,
+            filterer: str,
+            anchors: Boolean = True,
+            flags: Union[Integer, RegexFlag] = re.IGNORECASE) -> Dict:
         """
         Filters given mapping with given filterer.
 
         Parameters
         ----------
-        mapping : dict_like
+        mapping
             Mapping to filter.
-        filterer : str or object
+        filterer
             Filterer pattern for given mapping elements.
-        anchors : bool, optional
+        anchors
             Whether to use Regex line anchors, i.e. *^* and *$* are added,
             surrounding the filterer pattern.
-        flags : int, optional
+        flags
             Regex flags.
 
         Returns
@@ -1141,8 +1160,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
             for element in elements
         }
 
-    if is_string(filterers):
-        filterers = [filterers]
+    filterers = [str(filterers)] if is_string(filterers) else filterers
 
     filtered_mapping = {}
 
@@ -1153,22 +1171,22 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     return filtered_mapping
 
 
-def first_item(a):
+def first_item(a: Iterable) -> Any:
     """
-    Return the first item of an iterable.
+    Return the first item of given iterable.
 
     Parameters
     ----------
-    a : object
+    a
         Iterable to get the first item from.
 
     Returns
     -------
-    object
+    :class:`object`
 
     Raises
     ------
-    StopIteration
+    :class:`StopIteration`
         If the iterable is empty.
 
     Examples
@@ -1181,816 +1199,64 @@ def first_item(a):
     return next(iter(a))
 
 
-_DOMAIN_RANGE_SCALE = 'reference'
-"""
-Global variable storing the current *Colour* domain-range scale.
-
-_DOMAIN_RANGE_SCALE : str
-"""
-
-
-def get_domain_range_scale():
-    """
-    Returns the current *Colour* domain-range scale. The following scales are
-    available:
-
-    -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
-        [0, 255], etc...
-    -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
-        acknowledge that this is a soft normalisation and it is possible to
-        use negative out of gamut values or high dynamic range data exceeding
-        1.
-
-    Returns
-    -------
-    str
-        *Colour* domain-range scale.
-    """
-
-    return _DOMAIN_RANGE_SCALE
-
-
-def set_domain_range_scale(scale='Reference'):
-    """
-    Sets the current *Colour* domain-range scale. The following scales are
-    available:
-
-    -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
-        [0, 255], etc...
-    -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
-        acknowledge that this is a soft normalisation and it is possible to
-        use negative out of gamut values or high dynamic range data exceeding
-        1.
-
-    Parameters
-    ----------
-    scale : str or int
-        **{'Reference', '1'}**,
-        *Colour* domain-range scale to set.
-    """
-
-    global _DOMAIN_RANGE_SCALE
-
-    scale = str(scale).lower()
-    valid = ('1', '100', 'reference', 'ignore')
-    attest(scale in valid, 'Scale must be one of "{0}".'.format(valid))
-
-    _DOMAIN_RANGE_SCALE = scale
-
-
-class domain_range_scale:
-    """
-    A context manager and decorator temporarily setting *Colour* domain-range
-    scale. The following scales are available:
-
-    -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
-        [0, 255], etc...
-    -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
-        acknowledge that this is a soft normalisation and it is possible to
-        use negative out of gamut values or high dynamic range data exceeding
-        1.
-
-    Parameters
-    ----------
-    scale : str
-        **{'Reference', '1'}**,
-        *Colour* domain-range scale to set.
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('1'):
-    ...     to_domain_1(1)
-    array(1.0)
-    >>> with domain_range_scale('Reference'):
-    ...     from_range_1(1)
-    1
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     to_domain_1(1)
-    array(1.0)
-    >>> with domain_range_scale('1'):
-    ...     from_range_1(1)
-    1
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     to_domain_1(1)
-    array(0.01)
-    >>> with domain_range_scale('100'):
-    ...     from_range_1(1)
-    100
-    """
-
-    def __init__(self, scale):
-        self._scale = scale
-        self._previous_scale = get_domain_range_scale()
-
-    def __enter__(self):
-        """
-        Called upon entering the context manager and decorator.
-        """
-
-        set_domain_range_scale(self._scale)
-
-        return self
-
-    def __exit__(self, *args):
-        """
-        Called upon exiting the context manager and decorator.
-        """
-
-        set_domain_range_scale(self._previous_scale)
-
-    def __call__(self, function):
-        """
-        Calls the wrapped definition.
-        """
-
-        @functools.wraps(function)
-        def wrapper(*args, **kwargs):
-            with self:
-                return function(*args, **kwargs)
-
-        return wrapper
-
-
-def to_domain_1(a, scale_factor=100, dtype=None):
-    """
-    Scales given array :math:`a` to domain **'1'**. The behaviour is as
-    follows:
-
-    -   If *Colour* domain-range scale is **'Reference'** or **'1'**, the
-        definition is almost entirely by-passed and will just conveniently
-        convert array :math:`a` to :class:`np.ndarray`.
-    -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is divided by
-        ``scale_factor``, typically 100.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale to domain **'1'**.
-    scale_factor : numeric or array_like, optional
-        Scale factor, usually *numeric* but can be an *array_like* if some
-        axis need different scaling to be brought to domain **'1'**.
-    dtype : object, optional
-        Data type used for the conversion to :class:`np.ndarray`.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled to domain **'1'**.
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     to_domain_1(1)
-    array(1.0)
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     to_domain_1(1)
-    array(1.0)
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     to_domain_1(1)
-    array(0.01)
-    """
-
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
-
-    a = np.asarray(a, dtype).copy()
-
-    if _DOMAIN_RANGE_SCALE == '100':
-        a /= scale_factor
-
-    return a
-
-
-def to_domain_10(a, scale_factor=10, dtype=None):
-    """
-    Scales given array :math:`a` to domain **'10'**, used by
-    *Munsell Renotation System*. The behaviour is as follows:
-
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is almost entirely by-passed and will just conveniently
-        convert array :math:`a` to :class:`np.ndarray`.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
-        multiplied by ``scale_factor``, typically 10.
-    -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is
-        divided by ``scale_factor``, typically 10.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale to domain **'10'**.
-    scale_factor : numeric or array_like, optional
-        Scale factor, usually *numeric* but can be an *array_like* if some
-        axis need different scaling to be brought to domain **'10'**.
-    dtype : object, optional
-        Data type used for the conversion to :class:`np.ndarray`.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled to domain **'10'**.
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     to_domain_10(1)
-    array(1.0)
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     to_domain_10(1)
-    array(10.0)
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     to_domain_10(1)
-    array(0.1)
-    """
-
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
-
-    a = np.asarray(a, dtype).copy()
-
-    if _DOMAIN_RANGE_SCALE == '1':
-        a *= scale_factor
-
-    if _DOMAIN_RANGE_SCALE == '100':
-        a /= scale_factor
-
-    return a
-
-
-def to_domain_100(a, scale_factor=100, dtype=None):
-    """
-    Scales given array :math:`a` to domain **'100'**. The behaviour is as
-    follows:
-
-    -   If *Colour* domain-range scale is **'Reference'** or **'100'**
-        (currently unsupported private value only used for unit tests), the
-        definition is almost entirely by-passed and will just conveniently
-        convert array :math:`a` to :class:`np.ndarray`.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
-        multiplied by ``scale_factor``, typically 100.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale to domain **'100'**.
-    scale_factor : numeric or array_like, optional
-        Scale factor, usually *numeric* but can be an *array_like* if some
-        axis need different scaling to be brought to domain **'100'**.
-    dtype : object, optional
-        Data type used for the conversion to :class:`np.ndarray`.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled to domain **'100'**.
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     to_domain_100(1)
-    array(1.0)
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     to_domain_100(1)
-    array(100.0)
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     to_domain_100(1)
-    array(1.0)
-    """
-
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
-
-    a = np.asarray(a, dtype).copy()
-
-    if _DOMAIN_RANGE_SCALE == '1':
-        a *= scale_factor
-
-    return a
-
-
-def to_domain_degrees(a, scale_factor=360, dtype=None):
-    """
-    Scales given array :math:`a` to degrees domain. The behaviour is as
-    follows:
-
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is almost entirely by-passed and will just conveniently
-        convert array :math:`a` to :class:`np.ndarray`.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
-        multiplied by ``scale_factor``, typically 360.
-    -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is
-        multiplied by ``scale_factor`` / 100, typically 360 / 100.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale to degrees domain.
-    scale_factor : numeric or array_like, optional
-        Scale factor, usually *numeric* but can be an *array_like* if some
-        axis need different scaling to be brought to degrees domain.
-    dtype : object, optional
-        Data type used for the conversion to :class:`np.ndarray`.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled to degrees domain.
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     to_domain_degrees(1)
-    array(1.0)
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     to_domain_degrees(1)
-    array(360.0)
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     to_domain_degrees(1)
-    array(3.6)
-    """
-
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
-
-    a = np.asarray(a, dtype).copy()
-
-    if _DOMAIN_RANGE_SCALE == '1':
-        a *= scale_factor
-
-    if _DOMAIN_RANGE_SCALE == '100':
-        a *= scale_factor / 100
-
-    return a
-
-
-def to_domain_int(a, bit_depth=8, dtype=None):
-    """
-    Scales given array :math:`a` to int domain. The behaviour is as follows:
-
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is almost entirely by-passed and will just conveniently
-        convert array :math:`a` to :class:`np.ndarray`.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
-        multiplied by :math:`2^{bit\\_depth} - 1`.
-    -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is
-        multiplied by :math:`2^{bit\\_depth} - 1`.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale to int domain.
-    bit_depth : numeric or array_like, optional
-        Bit depth, usually *int* but can be an *array_like* if some axis need
-        different scaling to be brought to int domain.
-    dtype : object, optional
-        Data type used for the conversion to :class:`np.ndarray`.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled to int domain.
-
-    Notes
-    -----
-    -   To avoid precision issues and rounding, the scaling is performed on
-        floating-point numbers.
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     to_domain_int(1)
-    array(1.0)
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     to_domain_int(1)
-    array(255.0)
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     to_domain_int(1)
-    array(2.55)
-    """
-
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
-
-    a = np.asarray(a, dtype).copy()
-
-    maximum_code_value = 2 ** bit_depth - 1
-    if _DOMAIN_RANGE_SCALE == '1':
-        a *= maximum_code_value
-
-    if _DOMAIN_RANGE_SCALE == '100':
-        a *= maximum_code_value / 100
-
-    return a
-
-
-def from_range_1(a, scale_factor=100):
-    """
-    Scales given array :math:`a` from range **'1'**. The behaviour is as
-    follows:
-
-    -   If *Colour* domain-range scale is **'Reference'** or **'1'**, the
-        definition is entirely by-passed.
-    -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is multiplied
-        by ``scale_factor``, typically 100.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale from range **'1'**.
-    scale_factor : numeric or array_like, optional
-        Scale factor, usually *numeric* but can be an *array_like* if some
-        axis need different scaling to be brought from range **'1'**.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled from range **'1'**.
-
-    Warnings
-    --------
-    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
-    will be mutated!
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     from_range_1(1)
-    1
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     from_range_1(1)
-    1
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     from_range_1(1)
-    100
-    """
-
-    if _DOMAIN_RANGE_SCALE == '100':
-        a *= scale_factor
-
-    return a
-
-
-def from_range_10(a, scale_factor=10):
-    """
-    Scales given array :math:`a` from range **'10'**, used by
-    *Munsell Renotation System*. The behaviour is as follows:
-
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is entirely by-passed.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
-        divided by ``scale_factor``, typically 10.
-    -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is
-        multiplied by ``scale_factor``, typically 10.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale from range **'10'**.
-    scale_factor : numeric or array_like, optional
-        Scale factor, usually *numeric* but can be an *array_like* if some
-        axis need different scaling to be brought from range **'10'**.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled from range **'10'**.
-
-    Warnings
-    --------
-    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
-    will be mutated!
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     from_range_10(1)
-    1
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     from_range_10(1)
-    0.1
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     from_range_10(1)
-    10
-    """
-
-    if _DOMAIN_RANGE_SCALE == '1':
-        a /= scale_factor
-
-    if _DOMAIN_RANGE_SCALE == '100':
-        a *= scale_factor
-
-    return a
-
-
-def from_range_100(a, scale_factor=100):
-    """
-    Scales given array :math:`a` from range **'100'**. The behaviour is as
-    follows:
-
-    -   If *Colour* domain-range scale is **'Reference'** or **'100'**
-        (currently unsupported private value only used for unit tests), the
-        definition is entirely by-passed.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
-        divided by ``scale_factor``, typically 100.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale from range **'100'**.
-    scale_factor : numeric or array_like, optional
-        Scale factor, usually *numeric* but can be an *array_like* if some
-        axis need different scaling to be brought from range **'100'**.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled from range **'100'**.
-
-    Warnings
-    --------
-    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
-    will be mutated!
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     from_range_100(1)
-    1
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     from_range_100(1)
-    0.01
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     from_range_100(1)
-    1
-    """
-
-    if _DOMAIN_RANGE_SCALE == '1':
-        a /= scale_factor
-
-    return a
-
-
-def from_range_degrees(a, scale_factor=360):
-    """
-    Scales given array :math:`a` from degrees range. The behaviour is as
-    follows:
-
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is entirely by-passed.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
-        divided by ``scale_factor``, typically 360.
-    -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is
-        divided by ``scale_factor`` / 100, typically 360 / 100.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale from degrees range.
-    scale_factor : numeric or array_like, optional
-        Scale factor, usually *numeric* but can be an *array_like* if some
-        axis need different scaling to be brought from degrees range.
-
-    Warnings
-    --------
-    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
-    will be mutated!
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled from degrees range.
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     from_range_degrees(1)
-    1
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     from_range_degrees(1)  # doctest: +ELLIPSIS
-    0.0027777...
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     from_range_degrees(1)  # doctest: +ELLIPSIS
-    0.2777777...
-    """
-
-    if _DOMAIN_RANGE_SCALE == '1':
-        a /= scale_factor
-
-    if _DOMAIN_RANGE_SCALE == '100':
-        a /= scale_factor / 100
-
-    return a
-
-
-def from_range_int(a, bit_depth=8, dtype=None):
-    """
-    Scales given array :math:`a` from int range. The behaviour is as follows:
-
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is entirely by-passed.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is converted
-        to :class:`np.ndarray` and divided by :math:`2^{bit\\_depth} - 1`.
-    -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is converted
-        to :class:`np.ndarray` and divided by :math:`2^{bit\\_depth} - 1`.
-
-    Parameters
-    ----------
-    a : array_like
-        :math:`a` to scale from int range.
-    bit_depth : numeric or array_like, optional
-        Bit depth, usually *int* but can be an *array_like* if some axis need
-        different scaling to be brought from int range.
-    dtype : object, optional
-        Data type used for the conversion to :class:`np.ndarray`.
-
-    Returns
-    -------
-    ndarray
-        :math:`a` scaled from int range.
-
-    Warnings
-    --------
-    The scale conversion of :math:`a` variable happens in-place, i.e. :math:`a`
-    will be mutated!
-
-    Notes
-    -----
-    -   To avoid precision issues and rounding, the scaling is performed on
-        floating-point numbers.
-
-    Examples
-    --------
-    With *Colour* domain-range scale set to **'Reference'**:
-
-    >>> with domain_range_scale('Reference'):
-    ...     from_range_int(1)
-    1
-
-    With *Colour* domain-range scale set to **'1'**:
-
-    >>> with domain_range_scale('1'):
-    ...     from_range_int(1)  # doctest: +ELLIPSIS
-    array(0.0039215...)
-
-    With *Colour* domain-range scale set to **'100'** (unsupported):
-
-    >>> with domain_range_scale('100'):
-    ...     from_range_int(1)  # doctest: +ELLIPSIS
-    array(0.3921568...)
-    """
-
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
-
-    maximum_code_value = 2 ** bit_depth - 1
-    if _DOMAIN_RANGE_SCALE == '1':
-        a = np.asarray(a, dtype)
-        a /= maximum_code_value
-
-    if _DOMAIN_RANGE_SCALE == '100':
-        a = np.asarray(a, dtype)
-        a /= maximum_code_value / 100
-
-    return a
-
-
-def copy_definition(definition, name=None):
+def copy_definition(definition: Callable,
+                    name: Optional[str] = None) -> Callable:
     """
     Copies a definition with same code, globals, defaults, closure, and
     name.
 
     Parameters
     ----------
-    definition : callable
+    definition
         Definition to be copied.
-    name : str, optional
+    name
         Optional definition copy name.
 
     Returns
     -------
-    callable
+    Callable
         Definition copy.
     """
 
-    copy = types.FunctionType(definition.__code__, definition.__globals__,
-                              str(name or definition.__name__),
-                              definition.__defaults__, definition.__closure__)
+    copy = types.FunctionType(
+        definition.__code__,
+        definition.__globals__,  # type: ignore[attr-defined]
+        str(name or definition.__name__),
+        definition.__defaults__,  # type: ignore[attr-defined]
+        definition.__closure__,  # type: ignore[attr-defined]
+    )
     copy.__dict__.update(definition.__dict__)
 
     return copy
 
 
-def validate_method(method,
-                    valid_methods,
-                    message='"{0}" method is invalid, it must be one of {1}!'):
+def validate_method(
+        method: str,
+        valid_methods: Union[Sequence, Mapping],
+        message: str = '"{0}" method is invalid, it must be one of {1}!'
+) -> str:
     """
     Validates whether given method exists in the given valid methods and
-    returns the method lower cased. If the method does not exist a
-    :class:`ValueError` exception is raised.
+    returns the method lower cased.
 
     Parameters
     ----------
-    method : str
+    method
         Method to validate.
-    valid_methods : array_like
+    valid_methods
         Valid methods.
-    message : str, optional
+    message
         Message for the exception.
 
     Returns
     -------
-    str
+    :class:`str`
         Method lower cased.
+
+    Raises
+    ------
+    :class:`ValueError`
+         If the method does not exist.
 
     Examples
     --------
@@ -1998,7 +1264,7 @@ def validate_method(method,
     'valid'
     """
 
-    valid_methods = [valid_method for valid_method in valid_methods]
+    valid_methods = [str(valid_method) for valid_method in valid_methods]
 
     method_lower = method.lower()
     if method_lower not in [
@@ -2007,3 +1273,36 @@ def validate_method(method,
         raise ValueError(message.format(method, valid_methods))
 
     return method_lower
+
+
+T = TypeVar('T')
+
+
+def optional(value: Optional[T], default: T) -> T:
+    """
+    Handles optional argument value by providing a default value.
+
+    Parameters
+    ----------
+    value
+        Optional argument value.
+    default
+        Default argument value if ``value`` is *None*.
+
+    Returns
+    -------
+    T
+        Argument value.
+
+    Examples
+    --------
+    >>> optional('Foo', 'Bar')
+    'Foo'
+    >>> optional(None, 'Bar')
+    'Bar'
+    """
+
+    if value is None:
+        return default
+    else:
+        return value

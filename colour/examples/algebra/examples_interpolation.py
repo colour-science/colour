@@ -80,10 +80,16 @@ uniform_pchip_interpolated_sd = colour.SpectralDistribution(
 non_uniform_interpolated_sd = colour.SpectralDistribution(
     data_non_uniform, name='Non Uniform - Cubic Spline Interpolation')
 
-uniform_interpolated_sd.interpolate(colour.SpectralShape(interval=1))
+uniform_interpolated_sd.interpolate(
+    colour.SpectralShape(uniform_interpolated_sd.shape.start,
+                         uniform_interpolated_sd.shape.end, 1))
 uniform_pchip_interpolated_sd.interpolate(
-    colour.SpectralShape(interval=1), interpolator=colour.PchipInterpolator)
-non_uniform_interpolated_sd.interpolate(colour.SpectralShape(interval=1))
+    colour.SpectralShape(uniform_pchip_interpolated_sd.shape.start,
+                         uniform_pchip_interpolated_sd.shape.end, 1),
+    interpolator=colour.PchipInterpolator)
+non_uniform_interpolated_sd.interpolate(
+    colour.SpectralShape(non_uniform_interpolated_sd.shape.start,
+                         non_uniform_interpolated_sd.shape.end, 1))
 
 shape = sd_base.shape
 x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []

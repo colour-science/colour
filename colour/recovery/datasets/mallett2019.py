@@ -13,9 +13,12 @@ References
     on Rendering - DL-Only and Industry Track, 7 pages. doi:10.2312/SR.20191216
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import MultiSpectralDistributions, SpectralShape
+from colour.hints import NDArray
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -30,7 +33,7 @@ __all__ = [
     'MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019',
 ]
 
-SPECTRAL_SHAPE_sRGB_MALLETT2019 = SpectralShape(380, 780, 5)
+SPECTRAL_SHAPE_sRGB_MALLETT2019: SpectralShape = SpectralShape(380, 780, 5)
 SPECTRAL_SHAPE_sRGB_MALLETT2019.__doc__ = """
 Shape for *Mallett and Yuksel (2019)* *sRGB* colourspace basis functions:
 (380, 780, 5).
@@ -38,11 +41,9 @@ Shape for *Mallett and Yuksel (2019)* *sRGB* colourspace basis functions:
 References
 ----------
 :cite:`Mallett2019`
-
-SPECTRAL_SHAPE_sRGB_MALLETT2019 : SpectralShape
 """
 
-DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019 = np.array([
+DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019: NDArray = np.array([
     [0.32745741382705500, 0.33186171308587400, 0.34068079154805200],
     [0.32375057827054100, 0.32968818775939900, 0.34656118662485200],
     [0.31343946125157700, 0.32786002162469700, 0.35870049314035100],
@@ -126,17 +127,16 @@ DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019 = np.array([
     [0.33356951340559100, 0.33330942495777500, 0.33311108308149700],
 ])
 
-MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019 = MultiSpectralDistributions(
-    DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019,
-    SPECTRAL_SHAPE_sRGB_MALLETT2019.range(),
-    name='Basis Functions - sRGB - Mallett 2019',
-    labels=('red', 'green', 'blue'))
+MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019: MultiSpectralDistributions = (
+    MultiSpectralDistributions(
+        DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019,
+        SPECTRAL_SHAPE_sRGB_MALLETT2019.range(),
+        name='Basis Functions - sRGB - Mallett 2019',
+        labels=('red', 'green', 'blue')))
 """
 *Mallett and Yuksel (2019)* basis functions for the *sRGB* colourspace.
 
 References
 ----------
 :cite:`Mallett2019`
-
-MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019 : MultiSpectralDistributions
 """

@@ -3,10 +3,13 @@
 Defines the unit tests for the :mod:`colour.colorimetry.uniformity` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 
 from colour.colorimetry import spectral_uniformity
+from colour.hints import NDArray
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -20,7 +23,7 @@ __all__ = [
     'TestSpectralUniformity',
 ]
 
-DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES = np.array([
+DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES: NDArray = np.array([
     9.55142857e-06, 1.14821429e-05, 1.87842857e-05, 2.87114286e-05,
     3.19714286e-05, 3.23428571e-05, 3.38500000e-05, 3.99257143e-05,
     4.13335714e-05, 2.40021429e-05, 5.76214286e-06, 1.47571429e-06,
@@ -47,7 +50,7 @@ DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES = np.array([
     8.27142857e-07, 7.17142857e-07, 6.60000000e-07
 ])
 
-DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES = np.array([
+DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES: NDArray = np.array([
     7.97142857e-09, 3.69285714e-08, 9.21500000e-08, 6.66714286e-08,
     6.75428571e-08, 1.30571429e-07, 1.83300000e-07, 8.26071429e-08,
     4.10357143e-08, 1.64628571e-07, 1.47007143e-07, 4.51000000e-08,

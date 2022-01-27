@@ -77,7 +77,7 @@ log_encoding_ALEXALogC` definition domain and range scale support.
         x = 0.18
         t = log_encoding_ALEXALogC(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -144,7 +144,7 @@ log_decoding_ALEXALogC` definition domain and range scale support.
         t = 0.391006832034084
         x = log_decoding_ALEXALogC(t)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

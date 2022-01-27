@@ -10,6 +10,7 @@ from colour.colorimetry import (
     SpectralDistribution,
     bandpass_correction_Stearns1988,
 )
+from colour.hints import Tuple
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -24,15 +25,17 @@ __all__ = [
     'TestBandpassCorrectionStearns1988',
 ]
 
-DATA_NON_BANDPASS_CORRECTED = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200,
-                               4.3300, 4.2900, 3.8800, 4.5100, 10.9200,
-                               27.5000, 49.6700, 69.5900, 81.7300, 88.1900,
-                               86.0500)
+DATA_NON_BANDPASS_CORRECTED: Tuple = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200,
+                                      4.3300, 4.2900, 3.8800, 4.5100, 10.9200,
+                                      27.5000, 49.6700, 69.5900, 81.7300,
+                                      88.1900, 86.0500)
 
-DATA_BANDPASS_CORRECTED = (9.12515000, 12.57355255, 12.69542514, 9.54357971,
-                           5.75121288, 4.21535933, 4.33022518, 3.79034131,
-                           4.03770167, 10.11509076, 27.10283747, 49.88971449,
-                           70.21750370, 82.14935719, 88.88373581, 85.87238000)
+DATA_BANDPASS_CORRECTED: Tuple = (9.12515000, 12.57355255, 12.69542514,
+                                  9.54357971, 5.75121288, 4.21535933,
+                                  4.33022518, 3.79034131, 4.03770167,
+                                  10.11509076, 27.10283747, 49.88971449,
+                                  70.21750370, 82.14935719, 88.88373581,
+                                  85.87238000)
 
 
 class TestBandpassCorrectionStearns1988(unittest.TestCase):

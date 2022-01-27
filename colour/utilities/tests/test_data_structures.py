@@ -89,6 +89,8 @@ class TestStructure(unittest.TestCase):
         data = pickle.loads(data)
         self.assertEqual(structure, data)
 
+        self.assertEqual(sorted(dir(data)), ['Jane', 'John'])
+
 
 class TestLookup(unittest.TestCase):
     """
@@ -231,6 +233,10 @@ CaseInsensitiveMapping.__getitem__` method.
         self.assertEqual(mapping['Jane'], 'Doe')
 
         self.assertEqual(mapping['jane'], 'Doe')
+
+        mapping = CaseInsensitiveMapping({1: 'Foo', 2: 'Bar'})
+
+        self.assertEqual(mapping[1], 'Foo')
 
     def test__delitem__(self):
         """

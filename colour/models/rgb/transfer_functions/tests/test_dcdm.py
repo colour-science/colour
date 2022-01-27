@@ -76,7 +76,7 @@ dcdm.eotf_inverse_DCDM` definition domain and range scale support.
         XYZ = 0.18
         XYZ_p = eotf_inverse_DCDM(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -143,7 +143,7 @@ class TestEotf_DCDM(unittest.TestCase):
         XYZ_p = 0.11281861
         XYZ = eotf_DCDM(XYZ_p)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

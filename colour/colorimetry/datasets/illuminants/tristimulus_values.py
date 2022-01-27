@@ -31,6 +31,8 @@ References
     Edition. International Commission on Illumination. doi:10.25039/TR.015.2018
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping
@@ -48,8 +50,8 @@ __all__ = [
     'TVS_ILLUMINANTS',
 ]
 
-TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
-    CaseInsensitiveMapping({
+TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'A': np.array([109.85, 100.00, 35.58]),
         'C': np.array([98.07, 100.00, 118.22]),
         'D50': np.array([96.42, 100.00, 82.51]),
@@ -64,12 +66,10 @@ TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931 = (
 References
 ----------
 :cite:`Carter2018`
-
-TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931 : CaseInsensitiveMapping
 """
 
-TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964 = (
-    CaseInsensitiveMapping({
+TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
+    CaseInsensitiveMapping) = (CaseInsensitiveMapping({
         'A': np.array([111.14, 100.00, 35.20]),
         'C': np.array([97.29, 100.00, 116.14]),
         'D50': np.array([96.72, 100.00, 81.43]),
@@ -89,7 +89,7 @@ TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
 CaseInsensitiveMapping
 """
 
-TVS_ILLUMINANTS = CaseInsensitiveMapping({
+TVS_ILLUMINANTS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
         CaseInsensitiveMapping(
             TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931),
@@ -103,10 +103,6 @@ TVS_ILLUMINANTS.__doc__ = """
 References
 ----------
 :cite:`Carter2018`
-
-TVS_ILLUMINANTS : CaseInsensitiveMapping
-    **{'CIE 1931 2 Degree Standard Observer',
-    'CIE 1964 10 Degree Standard Observer'}**
 
 Aliases:
 

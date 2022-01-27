@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+from colour.hints import Any
 from colour.utilities.deprecation import (
     ModuleAPI,
     ObjectRenamed,
@@ -13,30 +14,37 @@ class deprecated(ModuleAPI):
         return super(deprecated, self).__getattr__(attribute)
 
 
-NAME = None
+NAME: Any = None
 """
 An non-deprecated module attribute.
 
-NAME : object
+NAME
 """
 
-NEW_NAME = None
+NEW_NAME: Any = None
 """
 A module attribute with a new name.
 
-NAME : object
+NAME
 """
 
-sys.modules['colour.utilities.tests.test_deprecated'] = (deprecated(
-    sys.modules['colour.utilities.tests.test_deprecated'], {
-        'OLD_NAME':
-            ObjectRenamed(
-                name='colour.utilities.tests.test_deprecated.OLD_NAME',
-                new_name='colour.utilities.tests.test_deprecated.NEW_NAME'),
-        'REMOVED':
-            ObjectRemoved(name='colour.utilities.tests.test_deprecated.REMOVED'
-                          )
-    }))
+try:
+    sys.modules['colour.utilities.tests.test_deprecated'] = (
+        deprecated(  # type: ignore[assignment]
+            sys.modules['colour.utilities.tests.test_deprecated'], {
+                'OLD_NAME':
+                    ObjectRenamed(
+                        name=(
+                            'colour.utilities.tests.test_deprecated.OLD_NAME'),
+                        new_name=(
+                            'colour.utilities.tests.test_deprecated.NEW_NAME')
+                    ),
+                'REMOVED':
+                    ObjectRemoved(
+                        name='colour.utilities.tests.test_deprecated.REMOVED')
+            }))
+except KeyError:  # pragma: no cover
+    pass
 
 del ModuleAPI
 del ObjectRenamed

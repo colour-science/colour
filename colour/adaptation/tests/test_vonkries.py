@@ -140,7 +140,7 @@ matrix_chromatic_adaptation_VonKries` definition domain and range scale
         XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         M = matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr)
 
-        d_r = (('reference', 1), (1, 1), (100, 0.01))
+        d_r = (('reference', 1), ('1', 1), ('100', 0.01))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -267,7 +267,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         XYZ_a = chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
 
-        d_r = (('reference', 1), (1, 1), (100, 0.01))
+        d_r = (('reference', 1), ('1', 1), ('100', 0.01))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

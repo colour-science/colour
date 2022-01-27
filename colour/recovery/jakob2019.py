@@ -18,13 +18,17 @@ References
     38(2), 147-155. doi:10.1111/cgf.13626
 """
 
+from __future__ import annotations
+
 import numpy as np
 import struct
 from scipy.optimize import minimize
 from scipy.interpolate import RegularGridInterpolator
 
 from colour.algebra import smoothstep_function, spow
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.colorimetry import (
+    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
     handle_spectral_arguments,
@@ -32,15 +36,30 @@ from colour.colorimetry import (
     sd_to_XYZ_integration,
 )
 from colour.difference import JND_CIE1976
-from colour.models import XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    Callable,
+    Dict,
+    Floating,
+    Integer,
+    NDArray,
+    Optional,
+    Tuple,
+    Union,
+)
+from colour.models import RGB_Colourspace, XYZ_to_xy, XYZ_to_Lab, RGB_to_XYZ
 from colour.utilities import (
     as_float_array,
+    as_float_scalar,
     domain_range_scale,
     full,
     index_along_last_axis,
     is_tqdm_installed,
     message_box,
+    optional,
     to_domain_1,
+    tsplit,
     zeros,
 )
 
@@ -70,11 +89,9 @@ __all__ = [
     'LUT3D_Jakob2019',
 ]
 
-SPECTRAL_SHAPE_JAKOB2019 = SpectralShape(360, 780, 5)
+SPECTRAL_SHAPE_JAKOB2019: SpectralShape = SpectralShape(360, 780, 5)
 """
 Spectral shape for *Jakob and Hanika (2019)* method.
-
-SPECTRAL_SHAPE_JAKOB2019 : SpectralShape
 """
 
 
@@ -90,55 +107,57 @@ class StopMinimizationEarly(Exception):
     -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarly.error`
     """
 
-    def __init__(self, coefficients, error):
-        self._coefficients = coefficients
-        self._error = error
+    def __init__(self, coefficients: ArrayLike, error: Floating):
+        self._coefficients = as_float_array(coefficients)
+        self._error = as_float_scalar(error)
 
     @property
-    def coefficients(self):
+    def coefficients(self) -> NDArray:
         """
         Getter property for the *Jakob and Hanika (2019)* exception
         coefficients.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             *Jakob and Hanika (2019)* exception coefficients.
         """
 
         return self._coefficients
 
     @property
-    def error(self):
+    def error(self) -> Floating:
         """
         Getter property for the *Jakob and Hanika (2019)* exception error
         value.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.floating`
             *Jakob and Hanika (2019)* exception coefficients.
         """
 
         return self._error
 
 
-def sd_Jakob2019(coefficients, shape=SPECTRAL_SHAPE_JAKOB2019):
+def sd_Jakob2019(coefficients: ArrayLike,
+                 shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
+                 ) -> SpectralDistribution:
     """
     Returns a spectral distribution following the spectral model given by
     *Jakob and Hanika (2019)*.
 
     Parameters
     ----------
-    coefficients : array_like
+    coefficients
         Dimensionless coefficients for *Jakob and Hanika (2019)* reflectance
         spectral model.
-    shape : SpectralShape, optional
+    shape
         Shape used by the spectral distribution.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         *Jakob and Hanika (2019)* spectral distribution.
 
     References
@@ -178,58 +197,58 @@ def sd_Jakob2019(coefficients, shape=SPECTRAL_SHAPE_JAKOB2019):
     U = c_0 * wl ** 2 + c_1 * wl + c_2
     R = 1 / 2 + U / (2 * np.sqrt(1 + U ** 2))
 
-    name = '{0} (COEFF) - Jakob (2019)'.format(coefficients)
+    name = '{0!r} (COEFF) - Jakob (2019)'.format(coefficients)
 
     return SpectralDistribution(R, wl, name=name)
 
 
-def error_function(coefficients,
-                   target,
-                   cmfs,
-                   illuminant,
-                   max_error=None,
-                   additional_data=False):
+def error_function(coefficients: ArrayLike,
+                   target: ArrayLike,
+                   cmfs: MultiSpectralDistributions,
+                   illuminant: SpectralDistribution,
+                   max_error: Optional[Floating] = None,
+                   additional_data: Boolean = False
+                   ) -> Union[Tuple[Floating, NDArray], Tuple[
+                       Floating, NDArray, NDArray, NDArray, NDArray]]:
     """
     Computes :math:`\\Delta E_{76}` between the target colour and the colour
     defined by given spectral model, along with its gradient.
 
     Parameters
     ----------
-    coefficients : array_like
+    coefficients
         Dimensionless coefficients for *Jakob and Hanika (2019)* reflectance
         spectral model.
-    target : array_like, (3,)
+    target
         *CIE L\\*a\\*b\\** colourspace array of the target colour.
-    cmfs : XYZ_ColourMatchingFunctions
+    cmfs
         Standard observer colour matching functions.
-    illuminant : SpectralDistribution
+    illuminant
         Illuminant spectral distribution.
-    max_error : float, optional
+    max_error
         Raise ``StopMinimizationEarly`` if the error is smaller than this.
         The default is *None* and the function doesn't raise anything.
-    additional_data : bool, optional
+    additional_data
         If *True*, some intermediate calculations are returned, for use in
         correctness tests: R, XYZ and Lab.
 
     Returns
     -------
-    error : float
-        The computed :math:`\\Delta E_{76}` error.
-    derror : ndarray, (3,)
-        The gradient of error, i.e. the first derivatives of error with respect
-        to the input coefficients.
-    R : ndarray
-        Computed spectral reflectance.
-    XYZ : ndarray, (3,)
-        *CIE XYZ* tristimulus values corresponding to ``R``.
-    Lab : ndarray, (3,)
-        *CIE L\\*a\\*b\\** colourspace array corresponding to ``XYZ``.
+    :class:`tuple` or :class:`tuple`
+        Tuple of computed :math:`\\Delta E_{76}` error and gradient of error,
+        i.e. the first derivatives of error with respect to the input
+        coefficients or tuple of computed :math:`\\Delta E_{76}` error,
+        gradient of error, computed spectral reflectance, *CIE XYZ* tristimulus
+        values corresponding to ``R`` and *CIE L\\*a\\*b\\** colourspace array
+        corresponding to ``XYZ``.
 
     Raises
     ------
     StopMinimizationEarly
         Raised when the error is below ``max_error``.
     """
+
+    target = as_float_array(target)
 
     c_0, c_1, c_2 = as_float_array(coefficients)
     wv = np.linspace(0, 1, len(cmfs.shape))
@@ -257,7 +276,8 @@ def error_function(coefficients,
         (841 / 108) * dXYZ / XYZ_n[..., np.newaxis],
     )
 
-    def intermediate_XYZ_to_Lab(XYZ_i, offset=16):
+    def intermediate_XYZ_to_Lab(XYZ_i: NDArray,
+                                offset: Optional[Floating] = 16) -> NDArray:
         """
         Returns the final intermediate value for the *CIE Lab* to *CIE XYZ*
         conversion.
@@ -269,8 +289,8 @@ def error_function(coefficients,
             200 * (XYZ_i[1] - XYZ_i[2]),
         ])
 
-    Lab_i = intermediate_XYZ_to_Lab(XYZ_f)
-    dLab_i = intermediate_XYZ_to_Lab(dXYZ_f, 0)
+    Lab_i = intermediate_XYZ_to_Lab(as_float_array(XYZ_f))
+    dLab_i = intermediate_XYZ_to_Lab(as_float_array(dXYZ_f), 0)
 
     error = np.sqrt(np.sum((Lab_i - target) ** 2))
     if max_error is not None and error <= max_error:
@@ -286,7 +306,8 @@ def error_function(coefficients,
         return error, derror
 
 
-def dimensionalise_coefficients(coefficients, shape):
+def dimensionalise_coefficients(coefficients: ArrayLike,
+                                shape: SpectralShape) -> NDArray:
     """
     Rescales the dimensionless coefficients to given spectral shape.
 
@@ -298,20 +319,20 @@ def dimensionalise_coefficients(coefficients, shape):
 
     Parameters
     ----------
-    coefficients : array_like, (3,)
+    coefficients
         Dimensionless coefficients.
-    shape : SpectralShape
+    shape
         Spectral distribution shape used in calculations.
 
     Returns
     -------
-    ndarray, (3,)
+    :class:`numpy.ndarray`
         Dimensionful coefficients, with units of
         :math:`\\frac{1}{\\mathrm{nm}^2}`, :math:`\\frac{1}{\\mathrm{nm}}`
         and 1, respectively.
     """
 
-    cp_0, cp_1, cp_2 = coefficients
+    cp_0, cp_1, cp_2 = tsplit(coefficients)
     span = shape.end - shape.start
 
     c_0 = cp_0 / span ** 2
@@ -322,7 +343,7 @@ def dimensionalise_coefficients(coefficients, shape):
     return np.array([c_0, c_1, c_2])
 
 
-def lightness_scale(steps):
+def lightness_scale(steps: Integer) -> NDArray:
     """
     Creates a non-linear lightness scale, as described in *Jakob and Hanika
     (2019)*. The spacing between very dark and very bright (and saturated)
@@ -331,12 +352,12 @@ def lightness_scale(steps):
 
     Parameters
     ----------
-    steps : int
+    steps
         Samples/steps count along the non-linear lightness scale.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Non-linear lightness scale.
 
     Examples
@@ -351,41 +372,41 @@ def lightness_scale(steps):
     return smoothstep_function(smoothstep_function(linear))
 
 
-def find_coefficients_Jakob2019(XYZ,
-                                cmfs=None,
-                                illuminant=None,
-                                coefficients_0=zeros(3),
-                                max_error=JND_CIE1976 / 100,
-                                dimensionalise=True):
+def find_coefficients_Jakob2019(
+        XYZ: ArrayLike,
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        illuminant: Optional[SpectralDistribution] = None,
+        coefficients_0: ArrayLike = zeros(3),
+        max_error: Floating = JND_CIE1976 / 100,
+        dimensionalise: Boolean = True) -> Tuple[NDArray, Floating]:
     """
     Computes the coefficients for *Jakob and Hanika (2019)* reflectance
     spectral model.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ
         *CIE XYZ* tristimulus values to find the coefficients for.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    illuminant : SpectralDistribution, optional
+    illuminant
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    coefficients_0 : array_like, (3,), optional
+    coefficients_0
         Starting coefficients for the solver.
-    max_error : float, optional
+    max_error
         Maximal acceptable error. Set higher to save computational time.
         If *None*, the solver will keep going until it is very close to the
         minimum. The default is ``ACCEPTABLE_DELTA_E``.
-    dimensionalise : bool, optional
+    dimensionalise
         If *True*, returned coefficients are dimensionful and will not work
         correctly if fed back as ``coefficients_0``. The default is *True*.
 
     Returns
     -------
-    coefficients : ndarray, (3,)
-        Computed coefficients that best fit the given colour.
-    error : float
+    :class:`tuple`
+        Tuple of computed coefficients that best fit the given colour and
         :math:`\\Delta E_{76}` between the target colour and the colour
         corresponding to the computed coefficients.
 
@@ -401,10 +422,13 @@ def find_coefficients_Jakob2019(XYZ,
 0.0141941...)
     """
 
+    coefficients_0 = as_float_array(coefficients_0)
+
     cmfs, illuminant = handle_spectral_arguments(
         cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
 
-    def optimize(target_o, coefficients_0_o):
+    def optimize(target_o: NDArray,
+                 coefficients_0_o: NDArray) -> Tuple[NDArray, Floating]:
         """
         Minimises the error function using *L-BFGS-B* method.
         """
@@ -459,38 +483,40 @@ def find_coefficients_Jakob2019(XYZ,
     return coefficients, error
 
 
-def XYZ_to_sd_Jakob2019(XYZ,
-                        cmfs=None,
-                        illuminant=None,
-                        optimisation_kwargs=None,
-                        additional_data=False):
+def XYZ_to_sd_Jakob2019(
+        XYZ: ArrayLike,
+        cmfs: Optional[MultiSpectralDistributions] = None,
+        illuminant: Optional[SpectralDistribution] = None,
+        optimisation_kwargs: Optional[Dict] = None,
+        additional_data: Boolean = False
+) -> Union[Tuple[SpectralDistribution, Floating], SpectralDistribution]:
     """
     Recovers the spectral distribution of given RGB colourspace array
     using *Jakob and Hanika (2019)* method.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ
         *CIE XYZ* tristimulus values to recover the spectral distribution from.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    illuminant : SpectralDistribution, optional
+    illuminant
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`colour.recovery.find_coefficients_Jakob2019`
         definition.
-    additional_data : bool, optional
-        If *True*, ``error`` will be returned alongside ``sd``.
+    additional_data
+        If *True*, ``error`` will be returned alongside the recovered spectral
+        distribution.
 
     Returns
     -------
-    sd : SpectralDistribution
-        Recovered spectral distribution.
-    error : float
-        :math:`\\Delta E_{76}` between the target colour and the colour
-        corresponding to the computed coefficients.
+    :class:`tuple` or :class:`colour.SpectralDistribution`
+        Tuple of recovered spectral distribution and :math:`\\Delta E_{76}`
+        between the target colour and the colour corresponding to the computed
+        coefficients or recovered spectral distribution.
 
     References
     ----------
@@ -567,8 +593,7 @@ def XYZ_to_sd_Jakob2019(XYZ,
     cmfs, illuminant = handle_spectral_arguments(
         cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
 
-    if optimisation_kwargs is None:
-        optimisation_kwargs = {}
+    optimisation_kwargs = optional(optimisation_kwargs, {})
 
     with domain_range_scale('ignore'):
         coefficients, error = find_coefficients_Jakob2019(
@@ -688,61 +713,61 @@ class LUT3D_Jakob2019:
     """
 
     def __init__(self):
-        self._interpolator = None
-        self._size = None
-        self._lightness_scale = None
-        self._coefficients = None
+        self._interpolator: Optional[RegularGridInterpolator] = None
+        self._size: Integer = 0
+        self._lightness_scale: NDArray = np.array([])
+        self._coefficients: NDArray = np.array([])
 
     @property
-    def size(self):
+    def size(self) -> Integer:
         """
         Getter property for the *Jakob and Hanika (2019)* interpolator
         size, i.e. the samples count on one side of the 3D table.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.integer`
             *Jakob and Hanika (2019)* interpolator size.
         """
 
         return self._size
 
     @property
-    def lightness_scale(self):
+    def lightness_scale(self) -> NDArray:
         """
         Getter property for the *Jakob and Hanika (2019)* interpolator
         lightness scale.
 
         Returns
         -------
-        int
+        :class:`numpy.ndarray`
             *Jakob and Hanika (2019)* interpolator lightness scale.
         """
 
         return self._lightness_scale
 
     @property
-    def coefficients(self):
+    def coefficients(self) -> NDArray:
         """
         Getter property for the *Jakob and Hanika (2019)* interpolator
         coefficients.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             *Jakob and Hanika (2019)* interpolator coefficients.
         """
 
         return self._coefficients
 
     @property
-    def interpolator(self):
+    def interpolator(self) -> RegularGridInterpolator:
         """
         Getter property for the *Jakob and Hanika (2019)* interpolator.
 
         Returns
         -------
-        RegularGridInterpolator
+        :class:`scipy.interpolate.RegularGridInterpolator`
             *Jakob and Hanika (2019)* interpolator.
         """
 
@@ -761,30 +786,30 @@ class LUT3D_Jakob2019:
             axes, self._coefficients, bounds_error=False)
 
     def generate(self,
-                 colourspace,
-                 cmfs=None,
-                 illuminant=None,
-                 size=64,
-                 print_callable=print):
+                 colourspace: RGB_Colourspace,
+                 cmfs: Optional[MultiSpectralDistributions] = None,
+                 illuminant: Optional[SpectralDistribution] = None,
+                 size: Integer = 64,
+                 print_callable: Callable = print):
         """
         Generates the lookup table data for given *RGB* colourspace, colour
         matching functions, illuminant and given size.
 
         Parameters
         ----------
-        colourspace: RGB_Colourspace
+        colourspace
             The *RGB* colourspace to create a lookup table for.
-        cmfs : XYZ_ColourMatchingFunctions, optional
+        cmfs
             Standard observer colour matching functions, default to the
             *CIE 1931 2 Degree Standard Observer*.
-        illuminant : SpectralDistribution, optional
+        illuminant
             Illuminant spectral distribution, default to
             *CIE Standard Illuminant D65*.
-        size : int, optional
+        size
             The resolution of the lookup table. Higher values will decrease
             errors but at the cost of a much longer run time. The published
             *\\*.coeff* files have a resolution of 64.
-        print_callable : callable, optional
+        print_callable
             Callable used to print progress and diagnostic information.
 
         Examples
@@ -821,6 +846,7 @@ class LUT3D_Jakob2019:
 
         cmfs, illuminant = handle_spectral_arguments(
             cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019)
+        shape = cmfs.shape
 
         xy_n = XYZ_to_xy(sd_to_XYZ_integration(illuminant, cmfs))
 
@@ -839,11 +865,13 @@ class LUT3D_Jakob2019:
         # First, create a list of all the fully bright colours with the order
         # matching cube_indexes.
         samples = np.linspace(0, 1, chroma_steps)
-        ij = np.meshgrid(*[[1], samples, samples], indexing='ij')
-        ij = np.transpose(ij).reshape(-1, 3)
-        chromas = np.concatenate(
-            [ij, np.roll(ij, 1, axis=1),
-             np.roll(ij, 2, axis=1)])
+        ij = np.transpose(np.meshgrid([1], samples, samples,
+                                      indexing='ij')).reshape(-1, 3)
+        chromas = np.concatenate([
+            as_float_array(ij),
+            np.roll(ij, 1, axis=1),
+            np.roll(ij, 2, axis=1),
+        ])
 
         message_box(
             '"Jakob et al. (2018)" LUT Optimisation',
@@ -852,13 +880,13 @@ class LUT3D_Jakob2019:
         print_callable(
             '\nOptimising {0} coefficients...\n'.format(total_coefficients))
 
-        def optimize(ijkL, coefficients_0):
+        def optimize(ijkL: ArrayLike, coefficients_0: ArrayLike) -> NDArray:
             """
             Solves for a specific lightness and stores the result in the
             appropriate cell.
             """
 
-            i, j, k, L = ijkL
+            i, j, k, L = tsplit(ijkL, dtype=DEFAULT_INT_DTYPE)
 
             RGB = self._lightness_scale[L] * chroma
 
@@ -869,7 +897,7 @@ class LUT3D_Jakob2019:
                 XYZ, cmfs, illuminant, coefficients_0, dimensionalise=False)
 
             self._coefficients[i, L, j, k, :] = dimensionalise_coefficients(
-                coefficients, cmfs.shape)
+                coefficients, shape)
 
             return coefficients
 
@@ -884,13 +912,13 @@ class LUT3D_Jakob2019:
                 coefficients_middle = optimize(
                     np.hstack([ijk, L_middle]), zeros(3))
 
-                # Goes down the lightness scale.
+                # Down the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in reversed(range(0, L_middle)):
                     coefficients_0 = optimize(
                         np.hstack([ijk, L]), coefficients_0)
 
-                # Goes up the lightness scale.
+                # Up the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in range(L_middle + 1, lightness_steps):
                     coefficients_0 = optimize(
@@ -899,22 +927,27 @@ class LUT3D_Jakob2019:
         self._size = size
         self._create_interpolator()
 
-    def RGB_to_coefficients(self, RGB):
+    def RGB_to_coefficients(self, RGB: ArrayLike) -> NDArray:
         """
         Look up a given *RGB* colourspace array and return corresponding
         coefficients. Interpolation is used for colours not on the table grid.
 
         Parameters
         ----------
-        RGB : ndarray, (3,)
+        RGB
             *RGB* colourspace array.
 
         Returns
         -------
-        coefficients : ndarray, (3,)
+        :class:`numpy.ndarray`
             Corresponding coefficients that can be passed to
             :func:`colour.recovery.jakob2019.sd_Jakob2019` to obtain a spectral
             distribution.
+
+        Raises
+        ------
+        RuntimeError
+            If the pre-computed lookup table has not been generated or read.
 
         Examples
         --------
@@ -933,35 +966,43 @@ class LUT3D_Jakob2019:
         array([  1.5013448...e-04,  -1.4679754...e-01,   3.4020219...e+01])
         """
 
-        RGB = as_float_array(RGB)
+        if self._interpolator is not None:
+            RGB = as_float_array(RGB)
 
-        value_max = np.max(RGB, axis=-1)
-        chroma = RGB / (value_max[..., np.newaxis] + 1e-10)
+            value_max = np.max(RGB, axis=-1)
+            chroma = RGB / (value_max[..., np.newaxis] + 1e-10)
 
-        i_m = np.argmax(RGB, axis=-1)
-        i_1 = index_along_last_axis(RGB, i_m)
-        i_2 = index_along_last_axis(chroma, (i_m + 2) % 3)
-        i_3 = index_along_last_axis(chroma, (i_m + 1) % 3)
+            i_m = np.argmax(RGB, axis=-1)
+            i_1 = index_along_last_axis(RGB, i_m)
+            i_2 = index_along_last_axis(chroma, (i_m + 2) % 3)
+            i_3 = index_along_last_axis(chroma, (i_m + 1) % 3)
 
-        indexes = np.stack([i_m, i_1, i_2, i_3], axis=-1)
+            indexes = np.stack([i_m, i_1, i_2, i_3], axis=-1)
 
-        return self._interpolator(indexes).squeeze()
+            return self._interpolator(indexes).squeeze()
+        else:
+            raise RuntimeError(
+                'The pre-computed lookup table has not been read or generated!'
+            )
 
-    def RGB_to_sd(self, RGB, shape=SPECTRAL_SHAPE_JAKOB2019):
+    def RGB_to_sd(self,
+                  RGB: ArrayLike,
+                  shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
+                  ) -> SpectralDistribution:
         """
         Looks up a given *RGB* colourspace array and return the corresponding
         spectral distribution.
 
         Parameters
         ----------
-        RGB : ndarray, (3,)
+        RGB
             *RGB* colourspace array.
-        shape : SpectralShape, optional
+        shape
             Shape used by the spectral distribution.
 
         Returns
         -------
-        sd : SpectralDistribution
+        :class:`colour.SpectralDistribution`
             Spectral distribution corresponding with the RGB* colourspace
             array.
 
@@ -1031,17 +1072,17 @@ class LUT3D_Jakob2019:
         """
 
         sd = sd_Jakob2019(self.RGB_to_coefficients(RGB), shape)
-        sd.name = '{0} (RGB) - Jakob (2019)'.format(RGB)
+        sd.name = '{0!r} (RGB) - Jakob (2019)'.format(RGB)
 
         return sd
 
-    def read(self, path):
+    def read(self, path: str):
         """
         Loads a lookup table from a *\\*.coeff* file.
 
         Parameters
         ----------
-        path : str
+        path
             Path to the file.
 
         Examples
@@ -1081,13 +1122,13 @@ class LUT3D_Jakob2019:
 
         self._create_interpolator()
 
-    def write(self, path):
+    def write(self, path: str):
         """
         Writes the lookup table to a *\\*.coeff* file.
 
         Parameters
         ----------
-        path : str
+        path
             Path to the file.
 
         Examples

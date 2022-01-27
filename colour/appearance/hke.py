@@ -24,9 +24,18 @@ References
     385-401. doi:10.1002/(SICI)1520-6378(199712)22:6<385::AID-COL6>3.0.CO;2-R
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import (
+    ArrayLike,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
@@ -60,32 +69,32 @@ Nayatani HKE computation methods, choice between variable achromatic colour
 References
 ----------
 :cite:`Nayatani1997`
-
-HKE_NAYATANI1997_METHODS : CaseInsensitiveMapping
-    **{'VAC', 'VCC'}**
 """
 
 
-def HelmholtzKohlrausch_effect_object_Nayatani1997(uv, uv_c, L_a,
-                                                   method='VCC'):
+def HelmholtzKohlrausch_effect_object_Nayatani1997(
+        uv: ArrayLike,
+        uv_c: ArrayLike,
+        L_a: FloatingOrArrayLike,
+        method: Union[Literal['VAC', 'VCC'], str] = 'VCC'
+) -> FloatingOrNDArray:
     """
     Returns the HKE value for object colours using *Nayatani (1997)* method.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *CIE uv* chromaticity coordinates of samples.
-    uv_c : array_like
+    uv_c
         *CIE uv* chromaticity coordinates of reference white.
-    L_a : numeric
+    L_a
         Adapting luminance in :math:`cd/m^2`.
-    method: str, optional
-        **{'VAC', 'VCC'}**
+    method
         Which estimation method to use, *VCC* or *VAC*.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Luminance factor (:math:`\\Gamma`) value(s) computed with Nayatani
         object colour estimation method.
 
@@ -118,28 +127,29 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(uv, uv_c, L_a,
     return 1 + (HKE_NAYATANI1997_METHODS[method] * q + 0.0872 * K_Br) * S_uv
 
 
-def HelmholtzKohlrausch_effect_luminous_Nayatani1997(uv,
-                                                     uv_c,
-                                                     L_a,
-                                                     method='VCC'):
+def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
+        uv: ArrayLike,
+        uv_c: ArrayLike,
+        L_a: FloatingOrArrayLike,
+        method: Union[Literal['VAC', 'VCC'], str] = 'VCC'
+) -> FloatingOrNDArray:
     """
     Returns the HKE factor for luminous colours using *Nayatani (1997)* method.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *CIE uv* chromaticity coordinates of samples.
-    uv_c : array_like
+    uv_c
         *CIE uv* chromaticity coordinates of reference white.
-    L_a : numeric or array_like
+    L_a
         Adapting luminance in :math:`cd/m^2`.
-    method: str, optional
-        **{'VAC', 'VCC'}**
+    method
         Which estimation method to use, *VCC* or *VAC*.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Luminance factor (:math:`\\Gamma`) value(s) computed with Nayatani
         luminous colour estimation method.
 
@@ -164,26 +174,28 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(uv,
         uv, uv_c, L_a, method) + 0.3086) ** 3)
 
 
-def coefficient_q_Nayatani1997(theta):
+def coefficient_q_Nayatani1997(
+        theta: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the :math:`q(\\theta)` coefficient for *Nayatani (1997)* HKE
     computations.
 
     The hue angle :math:`\\theta` can be computed as follows:
 
-    :math:`tan^{-1}\\cfrac{v' - v'_c}{u' - u'_c}` where :math:`u'` and
-    :math:`v'` are the CIE 1976 chromaticity coordinates of the test chromatic
-    light and :math:`u'_c` and :math:`v'_c` are the CIE 1976 chromaticity
-    coordinates of the reference white light.
+    :math:`tan^{-1}\\cfrac{v' - v'_c}{u' - u'_c}`
+
+    where :math:`u'` and :math:`v'` are the CIE 1976 chromaticity coordinates
+    of the test chromatic light and :math:`u'_c` and :math:`v'_c` are the CIE
+    1976 chromaticity coordinates of the reference white light.
 
     Parameters
     ----------
-    theta : numeric or array_like
+    theta
         Hue angle (:math:`\\theta`) in radians.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`q` coefficient for *Nayatani (1997)* HKE methods.
 
     References
@@ -212,19 +224,20 @@ def coefficient_q_Nayatani1997(theta):
             0.01900 * np.sin(theta_3) - 0.00764 * np.sin(theta_4))
 
 
-def coefficient_K_Br_Nayatani1997(L_a):
+def coefficient_K_Br_Nayatani1997(
+        L_a: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the :math:`K_{Br}` coefficient for *Nayatani (1997)* HKE
     computations.
 
     Parameters
     ----------
-    L_a : numeric or array_like
+    L_a
         Adapting luminance in :math:`cd/m^2`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`K_{Br}` coefficient for *Nayatani (1997)* HKE methods.
 
     Notes
@@ -247,4 +260,5 @@ def coefficient_K_Br_Nayatani1997(L_a):
     """
 
     L_a_4495 = spow(L_a, 0.4495)
+
     return 0.2717 * (6.469 + 6.362 * L_a_4495) / (6.469 + L_a_4495)

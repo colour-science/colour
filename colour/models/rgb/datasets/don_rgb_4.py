@@ -13,10 +13,13 @@ References
     http://www.hutchcolor.com/profiles/DonRGB4.zip
 """
 
+from __future__ import annotations
+
 import numpy as np
 from functools import partial
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     gamma_function,
@@ -39,48 +42,38 @@ __all__ = [
     'RGB_COLOURSPACE_DON_RGB_4',
 ]
 
-PRIMARIES_DON_RGB_4 = np.array([
+PRIMARIES_DON_RGB_4: NDArray = np.array([
     [0.696120689655172, 0.299568965517241],
     [0.214682981090100, 0.765294771968854],
     [0.129937629937630, 0.035343035343035],
 ])
 """
 *Don RGB 4* colourspace primaries.
-
-PRIMARIES_DON_RGB_4 : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_DON_RGB_4 = 'D50'
+WHITEPOINT_NAME_DON_RGB_4: str = 'D50'
 """
 *Don RGB 4* colourspace whitepoint name.
-
-WHITEPOINT_NAME_DON_RGB_4 : str
 """
 
-CCS_WHITEPOINT_DON_RGB_4 = (CCS_ILLUMINANTS[
+CCS_WHITEPOINT_DON_RGB_4: NDArray = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DON_RGB_4])
 """
 *Don RGB 4* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_DON_RGB_4 : ndarray
 """
 
-MATRIX_DON_RGB_4_TO_XYZ = normalised_primary_matrix(PRIMARIES_DON_RGB_4,
-                                                    CCS_WHITEPOINT_DON_RGB_4)
+MATRIX_DON_RGB_4_TO_XYZ: NDArray = normalised_primary_matrix(
+    PRIMARIES_DON_RGB_4, CCS_WHITEPOINT_DON_RGB_4)
 """
 *Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_DON_RGB_4_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_DON_RGB_4 = np.linalg.inv(MATRIX_DON_RGB_4_TO_XYZ)
+MATRIX_XYZ_TO_DON_RGB_4: NDArray = np.linalg.inv(MATRIX_DON_RGB_4_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *Don RGB 4* colourspace matrix.
-
-MATRIX_XYZ_TO_DON_RGB_4 : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_DON_RGB_4 = RGB_Colourspace(
+RGB_COLOURSPACE_DON_RGB_4: RGB_Colourspace = RGB_Colourspace(
     'Don RGB 4',
     PRIMARIES_DON_RGB_4,
     CCS_WHITEPOINT_DON_RGB_4,
@@ -96,6 +89,4 @@ RGB_COLOURSPACE_DON_RGB_4.__doc__ = """
 References
 ----------
 :cite:`HutchColorg`
-
-RGB_COLOURSPACE_DON_RGB_4 : RGB_Colourspace
 """

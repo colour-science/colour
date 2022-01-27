@@ -21,11 +21,21 @@ References
     83-86). ISBN:978-0-470-66569-5
 """
 
+from __future__ import annotations
+
 import numpy as np
-from collections import namedtuple
+from typing import NamedTuple
 
 from colour.adaptation import CAT_CMCCAT2000
 from colour.algebra import vector_dot
+from colour.hints import (
+    ArrayLike,
+    Floating,
+    FloatingOrArrayLike,
+    Literal,
+    NDArray,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_float_array,
@@ -50,22 +60,21 @@ __all__ = [
     'chromatic_adaptation_CMCCAT2000',
 ]
 
-CAT_INVERSE_CMCCAT2000 = np.linalg.inv(CAT_CMCCAT2000)
+CAT_INVERSE_CMCCAT2000: NDArray = np.linalg.inv(CAT_CMCCAT2000)
 """
 Inverse *CMCCAT2000* chromatic adaptation transform.
 
-CAT_INVERSE_CMCCAT2000 : array_like, (3, 3)
+CAT_INVERSE_CMCCAT2000
 """
 
 
-class InductionFactors_CMCCAT2000(
-        namedtuple('InductionFactors_CMCCAT2000', ('F', ))):
+class InductionFactors_CMCCAT2000(NamedTuple):
     """
     *CMCCAT2000* chromatic adaptation model induction factors.
 
     Parameters
     ----------
-    F : numeric or array_like
+    F
         :math:`F` surround condition.
 
     References
@@ -73,31 +82,32 @@ class InductionFactors_CMCCAT2000(
     :cite:`Li2002a`, :cite:`Westland2012k`
     """
 
+    F: Floating
 
-VIEWING_CONDITIONS_CMCCAT2000 = CaseInsensitiveMapping({
-    'Average': InductionFactors_CMCCAT2000(1),
-    'Dim': InductionFactors_CMCCAT2000(0.8),
-    'Dark': InductionFactors_CMCCAT2000(0.8)
-})
+
+VIEWING_CONDITIONS_CMCCAT2000: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        'Average': InductionFactors_CMCCAT2000(1),
+        'Dim': InductionFactors_CMCCAT2000(0.8),
+        'Dark': InductionFactors_CMCCAT2000(0.8)
+    })
 VIEWING_CONDITIONS_CMCCAT2000.__doc__ = """
 Reference *CMCCAT2000* chromatic adaptation model viewing conditions.
 
 References
 ----------
 :cite:`Li2002a`, :cite:`Westland2012k`
-
-VIEWING_CONDITIONS_CMCCAT2000 : CaseInsensitiveMapping
-    ('Average', 'Dim', 'Dark')
 """
 
 
 def chromatic_adaptation_forward_CMCCAT2000(
-        XYZ,
-        XYZ_w,
-        XYZ_wr,
-        L_A1,
-        L_A2,
-        surround=VIEWING_CONDITIONS_CMCCAT2000['Average']):
+        XYZ: ArrayLike,
+        XYZ_w: ArrayLike,
+        XYZ_wr: ArrayLike,
+        L_A1: FloatingOrArrayLike,
+        L_A2: FloatingOrArrayLike,
+        surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
+            'Average']) -> NDArray:
     """
     Adapts given stimulus *CIE XYZ* tristimulus values from test viewing
     conditions to reference viewing conditions using *CMCCAT2000* forward
@@ -105,23 +115,23 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of the stimulus to adapt.
-    XYZ_w : array_like
+    XYZ_w
         Test viewing condition *CIE XYZ* tristimulus values of the whitepoint.
-    XYZ_wr : array_like
+    XYZ_wr
         Reference viewing condition *CIE XYZ* tristimulus values of the
         whitepoint.
-    L_A1 : numeric or array_like
+    L_A1
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric or array_like
+    L_A2
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
-    surround : InductionFactors_CMCCAT2000, optional
+    surround
         Surround viewing conditions induction factors.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
     Notes
@@ -183,12 +193,13 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
 
 def chromatic_adaptation_inverse_CMCCAT2000(
-        XYZ_c,
-        XYZ_w,
-        XYZ_wr,
-        L_A1,
-        L_A2,
-        surround=VIEWING_CONDITIONS_CMCCAT2000['Average']):
+        XYZ_c: ArrayLike,
+        XYZ_w: ArrayLike,
+        XYZ_wr: ArrayLike,
+        L_A1: FloatingOrArrayLike,
+        L_A2: FloatingOrArrayLike,
+        surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
+            'Average']) -> NDArray:
     """
     Adapts given stimulus corresponding colour *CIE XYZ* tristimulus values
     from reference viewing conditions to test viewing conditions using
@@ -196,23 +207,23 @@ def chromatic_adaptation_inverse_CMCCAT2000(
 
     Parameters
     ----------
-    XYZ_c : array_like
+    XYZ_c
         *CIE XYZ* tristimulus values of the stimulus to adapt.
-    XYZ_w : array_like
+    XYZ_w
         Test viewing condition *CIE XYZ* tristimulus values of the whitepoint.
-    XYZ_wr : array_like
+    XYZ_wr
         Reference viewing condition *CIE XYZ* tristimulus values of the
         whitepoint.
-    L_A1 : numeric or array_like
+    L_A1
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric or array_like
+    L_A2
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
-    surround : InductionFactors_CMCCAT2000, optional
+    surround
         Surround viewing conditions induction factors.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ_c* tristimulus values of the adapted stimulus.
 
     Notes
@@ -275,13 +286,15 @@ def chromatic_adaptation_inverse_CMCCAT2000(
 
 
 def chromatic_adaptation_CMCCAT2000(
-        XYZ,
-        XYZ_w,
-        XYZ_wr,
-        L_A1,
-        L_A2,
-        surround=VIEWING_CONDITIONS_CMCCAT2000['Average'],
-        direction='Forward'):
+        XYZ: ArrayLike,
+        XYZ_w: ArrayLike,
+        XYZ_wr: ArrayLike,
+        L_A1: FloatingOrArrayLike,
+        L_A2: FloatingOrArrayLike,
+        surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
+            'Average'],
+        direction: Union[Literal['Forward', 'Inverse'], str] = 'Forward'
+) -> NDArray:
     """
     Adapts given stimulus *CIE XYZ* tristimulus values using given viewing
     conditions.
@@ -292,27 +305,26 @@ def chromatic_adaptation_CMCCAT2000(
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of the stimulus to adapt.
-    XYZ_w : array_like
+    XYZ_w
         Source viewing condition *CIE XYZ* tristimulus values of the
         whitepoint.
-    XYZ_wr : array_like
+    XYZ_wr
         Target viewing condition *CIE XYZ* tristimulus values of the
         whitepoint.
-    L_A1 : numeric or array_like
+    L_A1
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric or array_like
+    L_A2
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
-    surround : InductionFactors_CMCCAT2000, optional
+    surround
         Surround viewing conditions induction factors.
-    direction : str, optional
-        **{'Forward', 'Inverse'}**,
+    direction
         Chromatic adaptation direction.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Adapted stimulus *CIE XYZ* tristimulus values.
 
     Notes

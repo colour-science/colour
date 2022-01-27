@@ -24,11 +24,22 @@ References
     T. and Shaw, N.
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
+from colour.hints import (
+    Floating,
+    FloatingOrNDArray,
+    ArrayLike,
+    Literal,
+    NDArray,
+    Tuple,
+    Union,
+)
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
-from colour.utilities import as_numeric, ones, tsplit
+from colour.utilities import as_float, as_float_array, ones, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -47,18 +58,18 @@ __all__ = [
 ]
 
 
-def xy_to_z(xy):
+def xy_to_z(xy: ArrayLike) -> Floating:
     """
     Returns the *z* coordinate using given :math:`xy` chromaticity coordinates.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         :math:`xy` chromaticity coordinates.
 
     Returns
     -------
-    numeric
+    :class:`numpy.floating`
         *z* coordinate.
 
     Examples
@@ -74,7 +85,8 @@ def xy_to_z(xy):
     return z
 
 
-def normalised_primary_matrix(primaries, whitepoint):
+def normalised_primary_matrix(primaries: ArrayLike,
+                              whitepoint: ArrayLike) -> NDArray:
     """
     Computes the *Normalised Primary Matrix* (NPM) converting a *RGB*
     colourspace array to *CIE XYZ* tristimulus values using given *primaries*
@@ -82,14 +94,14 @@ def normalised_primary_matrix(primaries, whitepoint):
 
     Parameters
     ----------
-    primaries : array_like, (3, 2)
+    primaries
         Primaries :math:`xy` chromaticity coordinates.
-    whitepoint : array_like
+    whitepoint
         Illuminant / whitepoint :math:`xy` chromaticity coordinates.
 
     Returns
     -------
-    ndarray, (3, 3)
+    :class:`numpy.ndarray`
         *Normalised Primary Matrix* (NPM).
 
     References
@@ -108,7 +120,7 @@ def normalised_primary_matrix(primaries, whitepoint):
 
     primaries = np.reshape(primaries, (3, 2))
 
-    z = xy_to_z(primaries)[..., np.newaxis]
+    z = as_float_array(xy_to_z(primaries))[..., np.newaxis]
     primaries = np.transpose(np.hstack([primaries, z]))
 
     whitepoint = xy_to_XYZ(whitepoint)
@@ -121,31 +133,32 @@ def normalised_primary_matrix(primaries, whitepoint):
     return npm
 
 
-def chromatically_adapted_primaries(primaries,
-                                    whitepoint_t,
-                                    whitepoint_r,
-                                    chromatic_adaptation_transform='CAT02'):
+def chromatically_adapted_primaries(
+        primaries: ArrayLike,
+        whitepoint_t: ArrayLike,
+        whitepoint_r: ArrayLike,
+        chromatic_adaptation_transform: Union[Literal[
+            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
+            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
+            'Von Kries', 'XYZ Scaling'], str] = 'CAT02') -> NDArray:
     """
     Chromatically adapts given *primaries* :math:`xy` chromaticity coordinates
     from test ``whitepoint_t`` to reference ``whitepoint_r``.
 
     Parameters
     ----------
-    primaries : array_like, (3, 2)
+    primaries
         Primaries :math:`xy` chromaticity coordinates.
-    whitepoint_t : array_like
+    whitepoint_t
         Test illuminant / whitepoint :math:`xy` chromaticity coordinates.
-    whitepoint_r : array_like
+    whitepoint_r
         Reference illuminant / whitepoint :math:`xy` chromaticity coordinates.
-    chromatic_adaptation_transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    chromatic_adaptation_transform
         *Chromatic adaptation* transform.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Chromatically adapted primaries :math:`xy` chromaticity coordinates.
 
     Examples
@@ -173,19 +186,19 @@ def chromatically_adapted_primaries(primaries,
     return P_a
 
 
-def primaries_whitepoint(npm):
+def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArray, NDArray]:
     """
     Computes the *primaries* and *whitepoint* :math:`xy` chromaticity
     coordinates using given *Normalised Primary Matrix* (NPM).
 
     Parameters
     ----------
-    npm : array_like, (3, 3)
+    npm
         *Normalised Primary Matrix*.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         *Primaries* and *whitepoint* :math:`xy` chromaticity coordinates.
 
     References
@@ -209,27 +222,27 @@ def primaries_whitepoint(npm):
     npm = np.reshape(npm, (3, 3))
 
     primaries = XYZ_to_xy(np.transpose(np.dot(npm, np.identity(3))))
-    whitepoint = np.squeeze(XYZ_to_xy(np.transpose(np.dot(npm, ones([3, 1])))))
+    whitepoint = np.squeeze(XYZ_to_xy(np.transpose(np.dot(npm, ones((3, 1))))))
 
     # TODO: Investigate if we return an ndarray here with primaries and
     # whitepoint stacked together.
     return primaries, whitepoint
 
 
-def RGB_luminance_equation(primaries, whitepoint):
+def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
     """
     Returns the *luminance equation* from given *primaries* and *whitepoint*.
 
     Parameters
     ----------
-    primaries : array_like, (3, 2)
+    primaries
         Primaries chromaticity coordinates.
-    whitepoint : array_like
+    whitepoint
         Illuminant / whitepoint chromaticity coordinates.
 
     Returns
     -------
-    str
+    :class:`str`
         *Luminance* equation.
 
     Examples
@@ -244,23 +257,24 @@ def RGB_luminance_equation(primaries, whitepoint):
         *np.ravel(normalised_primary_matrix(primaries, whitepoint))[3:6])
 
 
-def RGB_luminance(RGB, primaries, whitepoint):
+def RGB_luminance(RGB: ArrayLike, primaries: ArrayLike,
+                  whitepoint: ArrayLike) -> FloatingOrNDArray:
     """
     Returns the *luminance* :math:`Y` of given *RGB* components from given
     *primaries* and *whitepoint*.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* chromaticity coordinate matrix.
-    primaries : array_like, (3, 2)
+    primaries
         Primaries chromaticity coordinate matrix.
-    whitepoint : array_like
+    whitepoint
         Illuminant / whitepoint chromaticity coordinates.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
     Examples
@@ -275,4 +289,4 @@ def RGB_luminance(RGB, primaries, whitepoint):
     Y = np.sum(
         normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
 
-    return as_numeric(Y)
+    return as_float(Y)

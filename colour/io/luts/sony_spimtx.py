@@ -9,11 +9,15 @@ Defines *Sony* *.spimtx* *LUT* format related input / output utilities objects.
 -   :func:`colour.io.write_LUT_SonySPImtx`
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.hints import Integer
 from colour.io.luts.common import path_to_title
 from colour.io.luts import LUTOperatorMatrix
+from colour.hints import Boolean
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,18 +32,18 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPImtx(path):
+def read_LUT_SonySPImtx(path: str):
     """
     Reads given *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------
-    path : str
+    path
         *LUT* path.
 
     Returns
     -------
-    LUTOperatorMatrix
+    :class:`colour.LUTOperatorMatrix`
         :class:`colour.io.Matrix` class instance.
 
     Examples
@@ -69,23 +73,25 @@ def read_LUT_SonySPImtx(path):
     return LUTOperatorMatrix(matrix, offset, name=title)
 
 
-def write_LUT_SonySPImtx(LUT, path, decimals=7):
+def write_LUT_SonySPImtx(LUT: LUTOperatorMatrix,
+                         path: str,
+                         decimals: Integer = 7) -> Boolean:
     """
     Writes given *LUT* to given *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------
-    LUT : LUTOperatorMatrix
+    LUT
         :class:`colour.LUTOperatorMatrix` class instance to write at given
         path.
-    path : str
+    path
         *LUT* path.
-    decimals : int, optional
+    decimals
         Formatting decimals.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Definition success.
 
     Examples
@@ -105,6 +111,6 @@ def write_LUT_SonySPImtx(LUT, path, decimals=7):
         np.transpose(np.array([offset[:3]]))
     ])
 
-    np.savetxt(path, array, fmt='%.{0}f'.format(decimals).encode('utf-8'))
+    np.savetxt(path, array, fmt='%.{0}f'.format(decimals))
 
     return True

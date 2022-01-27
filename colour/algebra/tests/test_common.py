@@ -403,11 +403,9 @@ class TestIsIdentity(unittest.TestCase):
         self.assertFalse(
             is_identity(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3])))
 
-        self.assertTrue(
-            is_identity(np.array([1, 0, 0, 1]).reshape([2, 2]), n=2))
+        self.assertTrue(is_identity(np.array([1, 0, 0, 1]).reshape([2, 2])))
 
-        self.assertFalse(
-            is_identity(np.array([1, 2, 0, 1]).reshape([2, 2]), n=2))
+        self.assertFalse(is_identity(np.array([1, 2, 0, 1]).reshape([2, 2])))
 
 
 if __name__ == '__main__':

@@ -15,10 +15,13 @@ References
     ISBN:B00DAYO8E2
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import matrix_dot, vector_dot
+from colour.hints import ArrayLike, Literal, NDArray, Union
 from colour.utilities import (
     from_range_1,
     row_as_diagonal,
@@ -39,33 +42,31 @@ __all__ = [
 ]
 
 
-def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
+def matrix_chromatic_adaptation_VonKries(
+        XYZ_w: ArrayLike,
+        XYZ_wr: ArrayLike,
+        transform: Union[Literal[
+            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
+            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
+            'Von Kries', 'XYZ Scaling'], str] = 'CAT02') -> NDArray:
     """
     Computes the *chromatic adaptation* matrix from test viewing conditions
     to reference viewing conditions.
 
     Parameters
     ----------
-    XYZ_w : array_like
+    XYZ_w
         Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
-    XYZ_wr : array_like
+    XYZ_wr
         Reference viewing conditions *CIE XYZ* tristimulus values of
         whitepoint.
-    transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    transform
         Chromatic adaptation transform.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Chromatic adaptation matrix :math:`M_{cat}`.
-
-    Raises
-    ------
-    KeyError
-        If chromatic adaptation method is not defined.
 
     Notes
     -----
@@ -127,29 +128,33 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     return M_CAT
 
 
-def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
+def chromatic_adaptation_VonKries(
+        XYZ: ArrayLike,
+        XYZ_w: ArrayLike,
+        XYZ_wr: ArrayLike,
+        transform: Union[Literal[
+            'Bianco 2010', 'Bianco PC 2010', 'Bradford', 'CAT02 Brill 2008',
+            'CAT02', 'CAT16', 'CMCCAT2000', 'CMCCAT97', 'Fairchild', 'Sharp',
+            'Von Kries', 'XYZ Scaling'], str] = 'CAT02') -> NDArray:
     """
     Adapts given stimulus from test viewing conditions to reference viewing
     conditions.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of stimulus to adapt.
-    XYZ_w : array_like
+    XYZ_w
         Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
-    XYZ_wr : array_like
+    XYZ_wr
         Reference viewing conditions *CIE XYZ* tristimulus values of
         whitepoint.
-    transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    transform
         Chromatic adaptation transform.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
     Notes

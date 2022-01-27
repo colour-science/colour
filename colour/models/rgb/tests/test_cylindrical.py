@@ -91,7 +91,7 @@ class TestRGB_to_HSV(unittest.TestCase):
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         HSV = RGB_to_HSV(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -168,7 +168,7 @@ class TestHSV_to_RGB(unittest.TestCase):
         HSV = np.array([0.99603944, 0.93246304, 0.45620519])
         RGB = HSV_to_RGB(HSV)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -245,7 +245,7 @@ class TestRGB_to_HSL(unittest.TestCase):
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         HSL = RGB_to_HSL(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -322,7 +322,7 @@ class TestHSL_to_RGB(unittest.TestCase):
         HSL = np.array([0.99603944, 0.87347144, 0.24350795])
         RGB = HSL_to_RGB(HSL)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -399,7 +399,7 @@ class TestRGB_to_HCL(unittest.TestCase):
         RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         HCL = RGB_to_HCL(RGB)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -476,7 +476,7 @@ class TestHCL_to_RGB(unittest.TestCase):
         HCL = np.array([0.99603944, 0.87347144, 0.24350795])
         RGB = HCL_to_RGB(HCL)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

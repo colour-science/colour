@@ -9,12 +9,15 @@ References
     199-203. doi:10.1002/col.5080100407
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
 import unittest
 from itertools import permutations
 
 from colour.algebra.interpolation import vertices_and_relative_coordinates
+from colour.hints import NDArray, Tuple
 from colour.algebra import (
     kernel_nearest_neighbour,
     kernel_linear,
@@ -68,11 +71,11 @@ __all__ = [
     'TestTableInterpolationTetrahedral',
 ]
 
-DATA_POINTS_A = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200, 4.3300, 4.2900,
-                 3.8800, 4.5100, 10.9200, 27.5000, 49.6700, 69.5900, 81.7300,
-                 88.1900, 86.0500)
+DATA_POINTS_A: Tuple = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200, 4.3300,
+                        4.2900, 3.8800, 4.5100, 10.9200, 27.5000, 49.6700,
+                        69.5900, 81.7300, 88.1900, 86.0500)
 
-DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES = (
+DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES: Tuple = (
     9.370, 9.665, 9.960, 10.255, 10.550, 10.845, 11.140, 11.435, 11.730,
     12.025, 12.320, 12.334, 12.348, 12.362, 12.376, 12.390, 12.404, 12.418,
     12.432, 12.446, 12.460, 12.165, 11.870, 11.575, 11.280, 10.985, 10.690,
@@ -91,7 +94,7 @@ DATA_POINTS_A_LINEAR_INTERPOLATED_10_SAMPLES = (
     87.976, 87.762, 87.548, 87.334, 87.120, 86.906, 86.692, 86.478, 86.264,
     86.050)
 
-DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES = (
+DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES: Tuple = (
     9.37000000, 9.72075073, 10.06936191, 10.41147570, 10.74302270, 11.06022653,
     11.35960827, 11.63799100, 11.89250427, 12.12058860, 12.32000000,
     12.48873542, 12.62489669, 12.72706530, 12.79433478, 12.82623598,
@@ -121,7 +124,7 @@ DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES = (
     88.37111372, 88.30221714, 88.13600972, 87.88846516, 87.57902706,
     87.22734720, 86.85002373, 86.45733945, 86.05000000)
 
-DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES = (
+DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES: Tuple = (
     9.37000000, 11.08838189, 12.26359953, 12.78808025, 12.55425139,
     11.50391691, 9.87473603, 8.01707329, 6.30369624, 5.08664365, 4.43550284,
     4.25438019, 4.29206798, 4.21753374, 3.98875865, 3.79691327, 4.02534907,
@@ -129,7 +132,7 @@ DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES = (
     52.53540869, 62.65180882, 71.10713687, 77.46889540, 82.31355134,
     86.05208477, 88.28078752, 88.45998434, 86.05000000)
 
-LAGRANGE_COEFFICIENTS_A = np.array([
+LAGRANGE_COEFFICIENTS_A: NDArray = np.array([
     [0.92625, 0.09750, -0.02375],
     [0.85500, 0.19000, -0.04500],
     [0.78625, 0.27750, -0.06375],
@@ -151,7 +154,7 @@ LAGRANGE_COEFFICIENTS_A = np.array([
     [0.02625, 0.99750, -0.02375],
 ])
 
-LAGRANGE_COEFFICIENTS_B = np.array([
+LAGRANGE_COEFFICIENTS_B: NDArray = np.array([
     [-0.0154375, 0.9725625, 0.0511875, -0.0083125],
     [-0.0285000, 0.9405000, 0.1045000, -0.0165000],
     [-0.0393125, 0.9041875, 0.1595625, -0.0244375],
@@ -173,10 +176,11 @@ LAGRANGE_COEFFICIENTS_B = np.array([
     [-0.0083125, 0.0511875, 0.9725625, -0.0154375],
 ])
 
-LUT_TABLE = read_LUT(
+LUT_TABLE: NDArray = read_LUT(
     os.path.join(
         os.path.dirname(__file__), '..', '..', 'io', 'luts', 'tests',
-        'resources', 'iridas_cube', 'Colour_Correct.cube')).table
+        'resources', 'iridas_cube',
+        'Colour_Correct.cube')).table  # type: ignore[union-attr]
 
 
 class TestKernelNearestNeighbour(unittest.TestCase):

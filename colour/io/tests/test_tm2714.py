@@ -3,6 +3,8 @@
 Defines the unit tests for the :mod:`colour.io.tm2714` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
 import shutil
@@ -10,7 +12,9 @@ import unittest
 import tempfile
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict, List, Optional, Tuple, Union, cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
+from colour.utilities import optional
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,9 +32,9 @@ __all__ = [
     'TestIES_TM2714_Sd',
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), 'resources')
 
-FLUORESCENT_FILE_HEADER = {
+FLUORESCENT_FILE_HEADER: Dict = {
     'Manufacturer': 'Unknown',
     'CatalogNumber': 'N/A',
     'Description': 'Rare earth fluorescent lamp',
@@ -43,13 +47,13 @@ FLUORESCENT_FILE_HEADER = {
     'Comments': 'Ambient temperature 25 degrees C.'
 }
 
-FLUORESCENT_FILE_SPECTRAL_DESCRIPTION = {
+FLUORESCENT_FILE_SPECTRAL_DESCRIPTION: Dict = {
     'SpectralQuantity': 'relative',
     'BandwidthFWHM': 2.0,
     'BandwidthCorrected': True
 }
 
-FLUORESCENT_FILE_SPECTRAL_DATA = {
+FLUORESCENT_FILE_SPECTRAL_DATA: Dict = {
     400.0: 0.034,
     403.1: 0.037,
     405.5: 0.069,
@@ -202,33 +206,54 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution_IESTM2714))
 
-    def test_read(self, sd=None):
+    def test_read(self, sd: Optional[SpectralDistribution] = None):
         """
         Tests :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
 
         Parameters
         ----------
-        sd : SpectralDistribution_IESTM2714, optional
+        sd
             Optional *IES TM-27-14* spectral distribution for read tests.
         """
 
-        if sd is None:
-            sd = SpectralDistribution_IESTM2714(
-                os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx')).read()
+        sd = cast(
+            SpectralDistribution_IESTM2714,
+            optional(
+                sd,
+                SpectralDistribution_IESTM2714(
+                    os.path.join(RESOURCES_DIRECTORY,
+                                 'Fluorescent.spdx')).read()))
 
         sd_r = SpectralDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
 
         np.testing.assert_array_equal(sd_r.domain, sd.domain)
         np.testing.assert_almost_equal(sd_r.values, sd.values, decimal=7)
 
-        for test, read in ((FLUORESCENT_FILE_HEADER, sd.header),
-                           (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd)):
+        test_read: List[Tuple[Dict, Union[
+            Header_IESTM2714, SpectralDistribution_IESTM2714]]] = [
+                (FLUORESCENT_FILE_HEADER,
+                 sd.header), (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd)
+            ]
+        for test, read in test_read:
             for key, value in test.items():
                 for specification in read.mapping.elements:
                     if key == specification.element:
                         self.assertEquals(
                             getattr(read, specification.attribute), value)
+
+    def test_raise_exception_read(self):
+        """
+        Tests :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
+        method raised exception.
+        """
+
+        sd = SpectralDistribution_IESTM2714()
+        self.assertRaises(ValueError, sd.read)
+
+        sd = SpectralDistribution_IESTM2714(
+            os.path.join(RESOURCES_DIRECTORY, 'Invalid.spdx'))
+        self.assertRaises(ValueError, sd.read)
 
     def test_write(self):
         """
@@ -245,6 +270,30 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
         self.test_read(sd_t)
         self.assertEquals(sd_r, sd_t)
+
+        for attribute in ('manufacturer', 'catalog_number', 'description',
+                          'document_creator', 'unique_identifier',
+                          'measurement_equipment', 'laboratory',
+                          'report_number', 'report_date',
+                          'document_creation_date', 'comments'):
+            self.assertEquals(
+                getattr(sd_r.header, attribute), getattr(
+                    sd_t.header, attribute))
+
+        for attribute in ('spectral_quantity', 'reflection_geometry',
+                          'transmission_geometry', 'bandwidth_FWHM',
+                          'bandwidth_corrected'):
+            self.assertEquals(
+                getattr(sd_r, attribute), getattr(sd_t, attribute))
+
+    def test_raise_exception_write(self):
+        """
+        Tests :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
+        method raised exception.
+        """
+
+        sd = SpectralDistribution_IESTM2714()
+        self.assertRaises(ValueError, sd.write)
 
 
 if __name__ == '__main__':

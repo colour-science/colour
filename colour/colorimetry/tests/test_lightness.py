@@ -87,7 +87,7 @@ class TestLightnessGlasser1958(unittest.TestCase):
 
         L = lightness_Glasser1958(12.19722535)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -156,7 +156,7 @@ class TestLightnessWyszecki1963(unittest.TestCase):
 
         W = lightness_Wyszecki1963(12.19722535)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -236,7 +236,7 @@ intermediate_lightness_function_CIE1976` definition domain and range scale
 
         f_Y_Y_n = intermediate_lightness_function_CIE1976(12.19722535, 100)
 
-        for scale in ('reference', 1, 100):
+        for scale in ('reference', '1', '100'):
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     intermediate_lightness_function_CIE1976(12.19722535, 100),
@@ -313,7 +313,7 @@ class TestLightnessCIE1976(unittest.TestCase):
 
         L_star = lightness_CIE1976(12.19722535, 100)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -401,7 +401,7 @@ class TestLightnessFairchild2010(unittest.TestCase):
 
         L_hdr = lightness_Fairchild2010(12.19722535 / 100)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -490,7 +490,7 @@ class TestLightnessFairchild2011(unittest.TestCase):
 
         L_hdr = lightness_Fairchild2011(12.19722535 / 100)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -573,7 +573,7 @@ class TestLightnessAbebe2017(unittest.TestCase):
 
         L = lightness_Abebe2017(12.19722535)
 
-        d_r = (('reference', 1), (1, 1), (100, 1))
+        d_r = (('reference', 1), ('1', 1), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -608,7 +608,7 @@ class TestLightness(unittest.TestCase):
              'Fairchild 2011', 'Abebe 2017')
         v = [lightness(12.19722535, method, Y_n=100) for method in m]
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):

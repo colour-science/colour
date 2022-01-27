@@ -10,11 +10,13 @@ References
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 
 from colour.algebra import random_triplet_generator
-from colour.utilities import ColourRuntimeWarning
+from colour.hints import NDArray
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
@@ -28,7 +30,7 @@ __all__ = [
     'TestRandomTripletGenerator',
 ]
 
-RANDOM_TRIPLETS = np.array([
+RANDOM_TRIPLETS: NDArray = np.array([
     [0.96702984, 0.77938292, 0.43614665],
     [0.54723225, 0.19768507, 0.94897731],
     [0.97268436, 0.86299324, 0.78630599],
@@ -67,8 +69,6 @@ class TestRandomTripletGenerator(unittest.TestCase):
             RANDOM_TRIPLETS,
             random_triplet_generator(10, random_state=prng),
             decimal=7)
-
-        self.assertWarns(ColourRuntimeWarning, random_triplet_generator, 5.5)
 
 
 if __name__ == '__main__':

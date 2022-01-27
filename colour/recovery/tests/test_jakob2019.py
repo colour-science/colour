@@ -180,7 +180,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             XYZ_to_sd_Jakob2019(XYZ_i, self._cmfs, self._sd_D65), self._cmfs,
             self._sd_D65)
 
-        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        d_r = (('reference', 1, 1), ('1', 1, 0.01), ('100', 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -308,6 +308,16 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             if error > 2 * JND_CIE1976 / 100:  # pragma: no cover
                 self.fail('Delta E for RGB={0} in colourspace {1} is {2}!'
                           .format(RGB, self._RGB_colourspace.name, error))
+
+    def test_raise_exception_RGB_to_coefficients(self):
+        """
+        Tests :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.\
+RGB_to_coefficients` method raised exception.
+        """
+
+        LUT = LUT3D_Jakob2019()
+
+        self.assertRaises(RuntimeError, LUT.RGB_to_coefficients, np.array([]))
 
     def test_raise_exception_read(self):
         """

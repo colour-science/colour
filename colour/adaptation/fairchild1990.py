@@ -16,10 +16,13 @@ References
     In Color Appearance Models (3rd ed., pp. 4418-4495). Wiley. ISBN:B00DAYO8E2
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
+from colour.hints import ArrayLike, Boolean, FloatingOrArrayLike, NDArray
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -46,28 +49,25 @@ __all__ = [
     'degrees_of_adaptation',
 ]
 
-MATRIX_XYZ_TO_RGB_FAIRCHILD1990 = CAT_VON_KRIES
+MATRIX_XYZ_TO_RGB_FAIRCHILD1990: NDArray = CAT_VON_KRIES
 """
 *Fairchild (1990)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
-
-MATRIX_XYZ_TO_RGB_FAIRCHILD1990 : array_like, (3, 3)
 """
 
-MATRIX_RGB_TO_XYZ_FAIRCHILD1990 = np.linalg.inv(CAT_VON_KRIES)
+MATRIX_RGB_TO_XYZ_FAIRCHILD1990: NDArray = np.linalg.inv(CAT_VON_KRIES)
 """
 *Fairchild (1990)* colour appearance model cone responses to *CIE XYZ*
 tristimulus values matrix.
-
-MATRIX_RGB_TO_XYZ_FAIRCHILD1990 : array_like, (3, 3)
 """
 
 
-def chromatic_adaptation_Fairchild1990(XYZ_1,
-                                       XYZ_n,
-                                       XYZ_r,
-                                       Y_n,
-                                       discount_illuminant=False):
+def chromatic_adaptation_Fairchild1990(
+        XYZ_1: ArrayLike,
+        XYZ_n: ArrayLike,
+        XYZ_r: ArrayLike,
+        Y_n: FloatingOrArrayLike,
+        discount_illuminant: Boolean = False) -> NDArray:
     """
     Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *Fairchild (1990)*
@@ -75,21 +75,21 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
 
     Parameters
     ----------
-    XYZ_1 : array_like
+    XYZ_1
         *CIE XYZ_1* tristimulus values of test sample / stimulus.
-    XYZ_n : array_like
+    XYZ_n
         Test viewing condition *CIE XYZ_n* tristimulus values of whitepoint.
-    XYZ_r : array_like
+    XYZ_r
         Reference viewing condition *CIE XYZ_r* tristimulus values of
         whitepoint.
-    Y_n : numeric or array_like
+    Y_n
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Adapted *CIE XYZ_2* tristimulus values of stimulus.
 
     Notes
@@ -158,18 +158,18 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     return from_range_100(XYZ_c)
 
 
-def XYZ_to_RGB_Fairchild1990(XYZ):
+def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Cone responses.
 
     Examples
@@ -182,18 +182,18 @@ def XYZ_to_RGB_Fairchild1990(XYZ):
     return vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ)
 
 
-def RGB_to_XYZ_Fairchild1990(RGB):
+def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArray:
     """
     Converts from cone responses to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         Cone responses.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Examples
@@ -206,25 +206,28 @@ def RGB_to_XYZ_Fairchild1990(RGB):
     return vector_dot(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, RGB)
 
 
-def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
+def degrees_of_adaptation(LMS: ArrayLike,
+                          Y_n: FloatingOrArrayLike,
+                          v: FloatingOrArrayLike = 1 / 3,
+                          discount_illuminant: Boolean = False) -> NDArray:
     """
     Computes the degrees of adaptation :math:`p_L`, :math:`p_M` and
     :math:`p_S`.
 
     Parameters
     ----------
-    LMS : array_like
+    LMS
         Cone responses.
-    Y_n : numeric or array_like
+    Y_n
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
-    v : numeric or array_like, optional
+    v
         Exponent :math:`v`.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Degrees of adaptation :math:`p_L`, :math:`p_M` and :math:`p_S`.
 
     Examples
@@ -252,14 +255,14 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     Ye_n = spow(Y_n, v)
 
-    def m_E(x, y):
+    def m_E(x: NDArray, y: NDArray) -> NDArray:
         """
         Computes the :math:`m_E` term.
         """
 
         return (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
 
-    def P_c(x):
+    def P_c(x: NDArray) -> NDArray:
         """
         Computes the :math:`P_L`, :math:`P_M` or :math:`P_S` terms.
         """

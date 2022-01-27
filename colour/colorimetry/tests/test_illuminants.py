@@ -3,6 +3,8 @@
 Defines the unit tests for the :mod:`colour.colorimetry.illuminants` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 
@@ -13,6 +15,7 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     daylight_locus_function,
 )
+from colour.hints import NDArray
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
 
@@ -30,7 +33,7 @@ __all__ = [
     'TestDaylightLocusFunction',
 ]
 
-DATA_A = np.array([
+DATA_A: NDArray = np.array([
     6.14461778,
     6.94719899,
     7.82134941,

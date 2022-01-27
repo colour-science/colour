@@ -87,7 +87,7 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition domain and range
         L = 0.18
         V = oetf_DaVinciIntermediate(L)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -175,7 +175,7 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition domain and
         V = 0.336043272384855
         L = oetf_inverse_DaVinciIntermediate(V)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

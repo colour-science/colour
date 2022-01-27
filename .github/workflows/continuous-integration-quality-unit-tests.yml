@@ -1,4 +1,4 @@
-name: Continuous Integration - Package
+name: Continuous Integration - Quality & Unit Tests
 
 on: [push, pull_request]
 
@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest, ubuntu-20.04, windows-latest]
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.8, 3.9, '3.10']
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -75,9 +75,9 @@ jobs:
       run: |
         poetry run python -OO -c "import $CI_PACKAGE"
       shell: bash
-    - name: Test with nosetests
+    - name: Test with Pytest
       run: |
-        poetry run python -W ignore -m nose -q -v --with-doctest --doctest-options=+ELLIPSIS --with-coverage --traverse-namespace --cover-package=$CI_PACKAGE $CI_PACKAGE
+        poetry run python -W ignore -m py.test --disable-warnings --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
       shell: bash
     - name: Upload Coverage to coveralls.io
       if: matrix.os == 'ubuntu-20.04' && matrix.python-version == '3.8'

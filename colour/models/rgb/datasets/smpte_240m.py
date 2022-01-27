@@ -16,9 +16,12 @@ References
 SMPTE%20normes%20et%20confs/s240m.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
+from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
@@ -42,48 +45,38 @@ __all__ = [
     'RGB_COLOURSPACE_SMPTE_240M',
 ]
 
-PRIMARIES_SMPTE_240M = np.array([
+PRIMARIES_SMPTE_240M: NDArray = np.array([
     [0.6300, 0.3400],
     [0.3100, 0.5950],
     [0.1550, 0.0700],
 ])
 """
 *SMPTE 240M* colourspace primaries.
-
-PRIMARIES_SMPTE_240M : ndarray, (3, 2)
 """
 
-WHITEPOINT_NAME_SMPTE_240M = 'D65'
+WHITEPOINT_NAME_SMPTE_240M: str = 'D65'
 """
 *SMPTE 240M* colourspace whitepoint name.
-
-WHITEPOINT_NAME_SMPTE_240M : str
 """
 
-CCS_WHITEPOINT_SMPTE_240M = (CCS_ILLUMINANTS[
+CCS_WHITEPOINT_SMPTE_240M: NDArray = (CCS_ILLUMINANTS[
     'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_SMPTE_240M])
 """
 *SMPTE 240M* colourspace whitepoint chromaticity coordinates.
-
-CCS_WHITEPOINT_SMPTE_240M : ndarray
 """
 
-MATRIX_SMPTE_240M_TO_XYZ = normalised_primary_matrix(
+MATRIX_SMPTE_240M_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_SMPTE_240M, CCS_WHITEPOINT_SMPTE_240M)
 """
 *SMPTE 240M* colourspace to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_SMPTE_240M_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_XYZ_TO_SMPTE_240M = np.linalg.inv(MATRIX_SMPTE_240M_TO_XYZ)
+MATRIX_XYZ_TO_SMPTE_240M: NDArray = np.linalg.inv(MATRIX_SMPTE_240M_TO_XYZ)
 """
 *CIE XYZ* tristimulus values to *SMPTE 240M* colourspace matrix.
-
-MATRIX_XYZ_TO_SMPTE_240M : array_like, (3, 3)
 """
 
-RGB_COLOURSPACE_SMPTE_240M = RGB_Colourspace(
+RGB_COLOURSPACE_SMPTE_240M: RGB_Colourspace = RGB_Colourspace(
     'SMPTE 240M',
     PRIMARIES_SMPTE_240M,
     CCS_WHITEPOINT_SMPTE_240M,
@@ -99,6 +92,4 @@ RGB_COLOURSPACE_SMPTE_240M.__doc__ = """
 References
 ----------
 :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
-
-RGB_COLOURSPACE_SMPTE_240M : RGB_Colourspace
 """

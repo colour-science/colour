@@ -3,10 +3,13 @@
 Defines the unit tests for the :mod:`colour.io.xrite` module.
 """
 
+from __future__ import annotations
+
 import os
 import unittest
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.io import read_sds_from_xrite_file
 
 __author__ = 'Colour Developers'
@@ -22,9 +25,9 @@ __all__ = [
     'TestReadSdsFromXRiteFile',
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), 'resources')
 
-COLOURCHECKER_XRITE_1 = {
+COLOURCHECKER_XRITE_1: Dict = {
     380.0: 0.0069,
     390.0: 0.0069,
     400.0: 0.0068,

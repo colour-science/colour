@@ -3,11 +3,14 @@
 Defines the unit tests for the :mod:`colour.colorimetry.blackbody` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 from itertools import permutations
 
 from colour.colorimetry import SpectralShape, planck_law, sd_blackbody
+from colour.hints import Dict, NDArray
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -24,7 +27,7 @@ __all__ = [
     'TestSdBlackbody',
 ]
 
-DATA_PLANCK_LAW = {
+DATA_PLANCK_LAW: Dict = {
     1667: {
         10: 0.000000000000000,
         20: 0.000000000000000,
@@ -4031,7 +4034,7 @@ DATA_PLANCK_LAW = {
     }
 }
 
-DATA_BLACKBODY = np.array([
+DATA_BLACKBODY: NDArray = np.array([
     6654.27827064,
     6709.60527925,
     6764.82512152,

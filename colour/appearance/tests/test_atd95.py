@@ -144,8 +144,8 @@ class TestXYZ_to_ATD95(unittest.TestCase):
 
         d_r = (
             ('reference', 1, 1),
-            (1, 0.01, np.array([1 / 360, 1, 1, 1, 1, 1, 1, 1, 1])),
-            (100, 1, np.array([100 / 360, 1, 1, 1, 1, 1, 1, 1, 1])),
+            ('1', 0.01, np.array([1 / 360, 1, 1, 1, 1, 1, 1, 1, 1])),
+            ('100', 1, np.array([100 / 360, 1, 1, 1, 1, 1, 1, 1, 1])),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):

@@ -124,7 +124,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         K_ab = D65.K_ab
         R_d_ab = XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -247,7 +247,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         K_ab = D65.K_ab
         XYZ = Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

@@ -3,9 +3,10 @@
 Defines the unit tests for the :mod:`colour.io.image` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
-import platform
 import shutil
 import unittest
 import tempfile
@@ -34,7 +35,7 @@ __all__ = [
     'TestWriteImage',
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), 'resources')
 
 
 class TestConvertBitDepth(unittest.TestCase):
@@ -82,8 +83,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, 'float64').dtype, np.dtype('float64'))
 
-        if platform.system() not in ('Windows',
-                                     'Microsoft'):  # pragma: no cover
+        if hasattr(np, 'float128'):  # pragma: no cover
             self.assertIs(
                 convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
 
@@ -119,8 +119,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, 'float64').dtype, np.dtype('float64'))
 
-        if platform.system() not in ('Windows',
-                                     'Microsoft'):  # pragma: no cover
+        if hasattr(np, 'float128'):  # pragma: no cover
             self.assertIs(
                 convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
 
@@ -155,8 +154,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, 'float64').dtype, np.dtype('float64'))
 
-        if platform.system() not in ('Windows',
-                                     'Microsoft'):  # pragma: no cover
+        if hasattr(np, 'float128'):  # pragma: no cover
             self.assertIs(
                 convert_bit_depth(a, 'float128').dtype, np.dtype('float128'))
 

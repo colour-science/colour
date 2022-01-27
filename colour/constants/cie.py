@@ -30,14 +30,12 @@ __all__ = [
     'CONSTANT_KP_M',
 ]
 
-CONSTANT_K_M = 683
+CONSTANT_K_M: float = 683
 if is_documentation_building():  # pragma: no cover
     CONSTANT_K_M = DocstringFloat(CONSTANT_K_M)
     CONSTANT_K_M.__doc__ = """
 Rounded maximum photopic luminous efficiency :math:`K_m` value in
 :math:`lm\\cdot W^{-1}`.
-
-CONSTANT_K_M : numeric
 
 Notes
 -----
@@ -49,14 +47,12 @@ References
 :cite:`Wyszecki2000s`
 """
 
-CONSTANT_KP_M = 1700
+CONSTANT_KP_M: float = 1700
 if is_documentation_building():  # pragma: no cover
     CONSTANT_KP_M = DocstringFloat(CONSTANT_KP_M)
     CONSTANT_KP_M.__doc__ = """
 Rounded maximum scotopic luminous efficiency :math:`K^{\\prime}_m` value in
 :math:`lm\\cdot W^{-1}`.
-
-CONSTANT_KP_M : numeric
 
 Notes
 -----

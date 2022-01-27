@@ -33,10 +33,13 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     Delta E - A survey. Machine Graphics and Vision, 20, 383-411.
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.utilities import to_domain_100, tsplit
+from colour.hints import ArrayLike, Boolean, Floating, FloatingOrNDArray
+from colour.utilities import as_float, to_domain_100, tsplit
 from colour.utilities.documentation import (
     DocstringFloat,
     is_documentation_building,
@@ -78,26 +81,24 @@ A standard observer sees the difference in colour as follows:
 References
 ----------
 :cite:`Mokrzycki2011`
-
-JND_CIE1976 : numeric
 """
 
 
-def delta_E_CIE1976(Lab_1, Lab_2):
+def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{76}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
     ----------
-    Lab_1 : array_like
+    Lab_1
         *CIE L\\*a\\*b\\** colourspace array 1.
-    Lab_2 : array_like
+    Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{76}`.
 
     Notes
@@ -136,25 +137,27 @@ def delta_E_CIE1976(Lab_1, Lab_2):
     return d_E
 
 
-def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
+def delta_E_CIE1994(Lab_1: ArrayLike,
+                    Lab_2: ArrayLike,
+                    textiles: Boolean = False) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{94}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
     ----------
-    Lab_1 : array_like
+    Lab_1
         *CIE L\\*a\\*b\\** colourspace array 1.
-    Lab_2 : array_like
+    Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
-    textiles : bool, optional
+    textiles
         Textiles application specific parametric factors,
         :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014` weights are used
         instead of :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{94}`.
 
     Notes
@@ -224,28 +227,30 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     d_E = np.sqrt(L + C + H)
 
-    return d_E
+    return as_float(d_E)
 
 
-def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
+def delta_E_CIE2000(Lab_1: ArrayLike,
+                    Lab_2: ArrayLike,
+                    textiles: Boolean = False) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{00}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
     ----------
-    Lab_1 : array_like
+    Lab_1
         *CIE L\\*a\\*b\\** colourspace array 1.
-    Lab_2 : array_like
+    Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
-    textiles : bool, optional
+    textiles
         Textiles application specific parametric factors.
         :math:`k_L=2,\\ k_C=k_H=1` weights are used instead of
         :math:`k_L=k_C=k_H=1`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{00}`.
 
     Notes
@@ -363,10 +368,14 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
                   (delta_C_prime / (k_C * s_C)) * (delta_H_prime /
                                                    (k_H * s_H)) * r_T)
 
-    return d_E
+    return as_float(d_E)
 
 
-def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
+def delta_E_CMC(
+        Lab_1: ArrayLike,
+        Lab_2: ArrayLike,
+        l: Floating = 2,  # noqa
+        c: Floating = 1) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{CMC}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*
@@ -379,18 +388,18 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
 
     Parameters
     ----------
-    Lab_1 : array_like
+    Lab_1
         *CIE L\\*a\\*b\\** colourspace array 1.
-    Lab_2 : array_like
+    Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
-    l : numeric, optional
+    l
         Lightness weighting factor.
-    c : numeric, optional
+    c
         Chroma weighting factor.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{CMC}`.
 
     Notes
@@ -455,4 +464,4 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
 
     d_E = np.sqrt(v_1 ** 2 + v_2 ** 2 + (delta_H2 / (v_3 * v_3)))
 
-    return d_E
+    return as_float(d_E)

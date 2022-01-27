@@ -75,7 +75,7 @@ class TestXYZ_to_Oklab(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         Oklab = XYZ_to_Oklab(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -152,7 +152,7 @@ class TestOklab_to_XYZ(unittest.TestCase):
         Oklab = np.array([0.51634019, 0.15469500, 0.06289579])
         XYZ = Oklab_to_XYZ(Oklab)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(

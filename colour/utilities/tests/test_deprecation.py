@@ -377,9 +377,9 @@ class TestGetAttribute(unittest.TestCase):
             get_attribute('colour.models.eotf_inverse_sRGB'),
             eotf_inverse_sRGB)
 
-        from colour.utilities.array import as_numeric
+        from colour.utilities.array import as_float
         self.assertIs(
-            get_attribute('colour.utilities.array.as_numeric'), as_numeric)
+            get_attribute('colour.utilities.array.as_float'), as_float)
 
         if 'colour.utilities.tests.test_deprecated' in sys.modules:
             del sys.modules['colour.utilities.tests.test_deprecated']

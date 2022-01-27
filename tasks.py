@@ -4,15 +4,18 @@ Invoke - Tasks
 ==============
 """
 
+from __future__ import annotations
+
 import biblib.bib
 import fnmatch
 import os
 import re
 import toml
 import uuid
-from invoke import task
+from invoke import Context, task
 
 import colour
+from colour.hints import Boolean
 from colour.utilities import message_box
 
 __author__ = 'Colour Developers'
@@ -23,42 +26,89 @@ __email__ = 'colour-developers@colour-science.org'
 __status__ = 'Production'
 
 __all__ = [
-    'APPLICATION_NAME', 'APPLICATION_VERSION', 'PYTHON_PACKAGE_NAME',
-    'PYPI_PACKAGE_NAME', 'BIBLIOGRAPHY_NAME', 'clean', 'formatting', 'tests',
-    'quality', 'examples', 'preflight', 'docs', 'todo', 'requirements',
-    'build', 'virtualise', 'tag', 'release', 'sha256'
+    'APPLICATION_NAME',
+    'APPLICATION_VERSION',
+    'PYTHON_PACKAGE_NAME',
+    'PYPI_PACKAGE_NAME',
+    'BIBLIOGRAPHY_NAME',
+    'clean',
+    'formatting',
+    'tests',
+    'quality',
+    'examples',
+    'preflight',
+    'docs',
+    'todo',
+    'requirements',
+    'build',
+    'virtualise',
+    'tag',
+    'release',
+    'sha256',
 ]
 
-APPLICATION_NAME = colour.__application_name__
+APPLICATION_NAME: str = colour.__application_name__
 
-APPLICATION_VERSION = colour.__version__
+APPLICATION_VERSION: str = colour.__version__
 
-PYTHON_PACKAGE_NAME = colour.__name__
+PYTHON_PACKAGE_NAME: str = colour.__name__
 
-PYPI_PACKAGE_NAME = 'colour-science'
+PYPI_PACKAGE_NAME: str = 'colour-science'
 
-BIBLIOGRAPHY_NAME = 'BIBLIOGRAPHY.bib'
+BIBLIOGRAPHY_NAME: str = 'BIBLIOGRAPHY.bib'
+
+
+def _patch_invoke_annotations_support():
+    """
+    See https://github.com/pyinvoke/invoke/issues/357
+    """
+
+    import invoke
+    from unittest.mock import patch
+    from inspect import getfullargspec, ArgSpec
+
+    def patched_inspect_getargspec(function):
+        spec = getfullargspec(function)
+        return ArgSpec(*spec[0:4])
+
+    org_task_argspec = invoke.tasks.Task.argspec
+
+    def patched_task_argspec(*args, **kwargs):
+        with patch(
+                target="inspect.getargspec", new=patched_inspect_getargspec):
+            return org_task_argspec(*args, **kwargs)
+
+    invoke.tasks.Task.argspec = patched_task_argspec
+
+
+_patch_invoke_annotations_support()
 
 
 @task
-def clean(ctx, docs=True, bytecode=False):
+def clean(
+        ctx: Context,
+        docs: Boolean = True,
+        bytecode: Boolean = False,
+        mypy: Boolean = True,
+        pytest: Boolean = True,
+):
     """
     Cleans the project.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    docs : bool, optional
+    docs
         Whether to clean the *docs* directory.
-    bytecode : bool, optional
+    bytecode
         Whether to clean the bytecode files, e.g. *.pyc* files.
-
-    Returns
-    -------
-    bool
-        Task success.
+    mypy
+        Whether to clean the *Mypy* cache directory.
+    pytest
+        Whether to clean the *Pytest* cache directory.
     """
+
     message_box('Cleaning project...')
 
     patterns = ['build', '*.egg-info', 'dist']
@@ -71,31 +121,35 @@ def clean(ctx, docs=True, bytecode=False):
         patterns.append('**/__pycache__')
         patterns.append('**/*.pyc')
 
+    if mypy:
+        patterns.append('.mypy_cache')
+
+    if pytest:
+        patterns.append('.pytest_cache')
+
     for pattern in patterns:
         ctx.run("rm -rf {}".format(pattern))
 
 
 @task
-def formatting(ctx, yapf=False, asciify=True, bibtex=True):
+def formatting(ctx: Context,
+               yapf: Boolean = False,
+               asciify: Boolean = True,
+               bibtex: Boolean = True):
     """
     Formats the codebase with *Yapf*, converts unicode characters to ASCII and
     cleanup the "BibTeX" file.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    yapf : bool, optional
+    yapf
         Whether to format the codebase with *Yapf*.
-    asciify : bool, optional
+    asciify
         Whether to convert unicode characters to ASCII.
-    bibtex : bool, optional
+    bibtex
         Whether to cleanup the *BibTeX* file.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     if yapf:
@@ -107,83 +161,80 @@ def formatting(ctx, yapf=False, asciify=True, bibtex=True):
         with ctx.cd('utilities'):
             ctx.run('./unicode_to_ascii.py')
 
-    message_box('Cleaning up "BibTeX" file...')
-    bibtex_path = BIBLIOGRAPHY_NAME
-    with open(bibtex_path) as bibtex_file:
-        bibtex = biblib.bib.Parser().parse(bibtex_file.read()).get_entries()
+    if bibtex:
+        message_box('Cleaning up "BibTeX" file...')
+        bibtex_path = BIBLIOGRAPHY_NAME
+        with open(bibtex_path) as bibtex_file:
+            entries = biblib.bib.Parser().parse(
+                bibtex_file.read()).get_entries()
 
-    for entry in sorted(bibtex.values(), key=lambda x: x.key):
-        try:
-            del entry['file']
-        except KeyError:
-            pass
+        for entry in sorted(entries.values(), key=lambda x: x.key):
+            try:
+                del entry['file']
+            except KeyError:
+                pass
 
-        for key, value in entry.items():
-            entry[key] = re.sub('(?<!\\\\)\\&', '\\&', value)
+            for key, value in entry.items():
+                entry[key] = re.sub('(?<!\\\\)\\&', '\\&', value)
 
-    with open(bibtex_path, 'w') as bibtex_file:
-        for entry in sorted(bibtex.values(), key=lambda x: x.key):
-            bibtex_file.write(entry.to_bib())
-            bibtex_file.write('\n')
+        with open(bibtex_path, 'w') as bibtex_file:
+            for entry in sorted(entries.values(), key=lambda x: x.key):
+                bibtex_file.write(entry.to_bib())
+                bibtex_file.write('\n')
 
 
 @task
-def tests(ctx, nose=True):
+def tests(ctx: Context):
     """
     Runs the unit tests with *Nose* or *Pytest*.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    nose : bool, optional
-        Whether to use *Nose* or *Pytest*.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
-    if nose:
-        message_box('Running "Nosetests"...')
-        ctx.run(
-            ("nosetests --with-doctest --with-coverage "
-             "--traverse-namespace --cover-package={0} {0}"
-             ).format(PYTHON_PACKAGE_NAME),
-            env={'MPLBACKEND': 'AGG'})
-    else:
-        message_box('Running "Pytest"...')
-        ctx.run(
-            'py.test --disable-warnings --doctest-modules '
-            '--ignore={0}/examples {0}'.format(PYTHON_PACKAGE_NAME),
-            env={'MPLBACKEND': 'AGG'})
+    message_box('Running "Pytest"...')
+    ctx.run(
+        'py.test --disable-warnings --doctest-modules '
+        '--ignore={0}/examples {0}'.format(PYTHON_PACKAGE_NAME),
+        env={'MPLBACKEND': 'AGG'})
 
 
 @task
-def quality(ctx, flake8=True, rstlint=True):
+def quality(ctx: Context,
+            flake8: Boolean = True,
+            mypy: Boolean = True,
+            rstlint: Boolean = True):
     """
     Checks the codebase with *Flake8* and lints various *restructuredText*
     files with *rst-lint*.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    flake8 : bool, optional
+    flake8
         Whether to check the codebase with *Flake8*.
-    rstlint : bool, optional
+    mypy
+        Whether to check the codebase with *Mypy*.
+    rstlint
         Whether to lint various *restructuredText* files with *rst-lint*.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     if flake8:
         message_box('Checking codebase with "Flake8"...')
         ctx.run('flake8 {0} --exclude=examples'.format(PYTHON_PACKAGE_NAME))
+
+    if mypy:
+        message_box('Checking codebase with "Mypy"...')
+        ctx.run('mypy '
+                '--install-types '
+                '--non-interactive '
+                '--show-error-codes '
+                '--warn-unused-ignores '
+                '--warn-redundant-casts '
+                '-p {0}'.format(PYTHON_PACKAGE_NAME))
 
     if rstlint:
         message_box('Linting "README.rst" file...')
@@ -191,22 +242,17 @@ def quality(ctx, flake8=True, rstlint=True):
 
 
 @task
-def examples(ctx, plots=False):
+def examples(ctx: Context, plots: Boolean = False):
     """
     Runs the examples.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    plots : bool, optional
+    plots
         Whether to skip or only run the plotting examples: This a mutually
         exclusive switch.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Running examples...')
@@ -223,45 +269,38 @@ def examples(ctx, plots=False):
 
 
 @task(formatting, tests, quality, examples)
-def preflight(ctx):
+def preflight(ctx: Context):
     """
     Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
     *examples*.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Finishing "Preflight"...')
 
 
 @task
-def docs(ctx, plots=True, html=True, pdf=True):
+def docs(ctx: Context,
+         plots: Boolean = True,
+         html: Boolean = True,
+         pdf: Boolean = True):
     """
     Builds the documentation.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    plots : bool, optional
+    plots
         Whether to generate the documentation plots.
-    html : bool, optional
+    html
         Whether to build the *HTML* documentation.
-    pdf : bool, optional
+    pdf
         Whether to build the *PDF* documentation.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     if plots:
@@ -281,19 +320,14 @@ def docs(ctx, plots=True, html=True, pdf=True):
 
 
 @task
-def todo(ctx):
+def todo(ctx: Context):
     """
     Export the TODO items.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Exporting "TODO" items...')
@@ -303,19 +337,14 @@ def todo(ctx):
 
 
 @task
-def requirements(ctx):
+def requirements(ctx: Context):
     """
     Exports the *requirements.txt* file.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Exporting "requirements.txt" file...')
@@ -325,20 +354,15 @@ def requirements(ctx):
 
 
 @task(clean, preflight, docs, todo, requirements)
-def build(ctx):
+def build(ctx: Context):
     """
     Builds the project and runs dependency tasks, i.e. *docs*, *todo*, and
     *preflight*.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Building...')
@@ -423,21 +447,16 @@ setup({0}
 
 
 @task
-def virtualise(ctx, tests=True):
+def virtualise(ctx: Context, tests: Boolean = True):
     """
     Create a virtual environment for the project build.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-    tests : bool, optional
+    tests
         Whether to run tests on the virtual environment.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     unique_name = '{0}-{1}'.format(PYPI_PACKAGE_NAME, uuid.uuid1())
@@ -457,19 +476,14 @@ def virtualise(ctx, tests=True):
 
 
 @task
-def tag(ctx):
+def tag(ctx: Context):
     """
     Tags the repository according to defined version using *git-flow*.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Tagging...')
@@ -480,12 +494,18 @@ def tag(ctx):
 
     with open(os.path.join(PYTHON_PACKAGE_NAME, '__init__.py')) as file_handle:
         file_content = file_handle.read()
-        major_version = re.search("__major_version__\\s+=\\s+'(.*)'",
-                                  file_content).group(1)
-        minor_version = re.search("__minor_version__\\s+=\\s+'(.*)'",
-                                  file_content).group(1)
-        change_version = re.search("__change_version__\\s+=\\s+'(.*)'",
-                                   file_content).group(1)
+        major_version = re.search(
+            "__major_version__\\s+=\\s+'(.*)'",
+            file_content).group(  # type: ignore[union-attr]
+                1)
+        minor_version = re.search(
+            "__minor_version__\\s+=\\s+'(.*)'",
+            file_content).group(  # type: ignore[union-attr]
+                1)
+        change_version = re.search(
+            "__change_version__\\s+=\\s+'(.*)'",
+            file_content).group(  # type: ignore[union-attr]
+                1)
 
         version = '.'.join((major_version, minor_version, change_version))
 
@@ -495,8 +515,8 @@ def tag(ctx):
         for remote_tag in remote_tags:
             tags.add(
                 remote_tag.split('refs/tags/')[1].replace('refs/tags/', '^{}'))
-        tags = sorted(list(tags))
-        assert 'v{0}'.format(version) not in tags, (
+        version_tags = sorted(list(tags))
+        assert 'v{0}'.format(version) not in version_tags, (
             'A "{0}" "v{1}" tag already exists in remote repository!'.format(
                 PYTHON_PACKAGE_NAME, version))
 
@@ -505,19 +525,14 @@ def tag(ctx):
 
 
 @task(build)
-def release(ctx):
+def release(ctx: Context):
     """
     Releases the project to *Pypi* with *Twine*.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Releasing...')
@@ -527,19 +542,14 @@ def release(ctx):
 
 
 @task
-def sha256(ctx):
+def sha256(ctx: Context):
     """
     Computes the project *Pypi* package *sha256* with *OpenSSL*.
 
     Parameters
     ----------
-    ctx : invoke.context.Context
+    ctx
         Context.
-
-    Returns
-    -------
-    bool
-        Task success.
     """
 
     message_box('Computing "sha256"...')

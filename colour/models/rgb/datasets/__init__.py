@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import annotations
+
 from colour.utilities import CaseInsensitiveMapping
 from .aces import (
     RGB_COLOURSPACE_ACES2065_1,
@@ -69,14 +71,13 @@ from .xtreme_rgb import RGB_COLOURSPACE_XTREME_RGB
 
 from colour.models.rgb import RGB_Colourspace
 
-RGB_COLOURSPACES = CaseInsensitiveMapping(
-    sorted([(colourspace.name, colourspace)
-            for colourspace in locals().values()
-            if isinstance(colourspace, RGB_Colourspace)]))
+RGB_COLOURSPACES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    dict(
+        sorted([(colourspace.name, colourspace)
+                for colourspace in locals().values()
+                if isinstance(colourspace, RGB_Colourspace)])))
 RGB_COLOURSPACES.__doc__ = """
 Aggregated *RGB* colourspaces.
-
-RGB_COLOURSPACES : CaseInsensitiveMapping
 
 Aliases:
 

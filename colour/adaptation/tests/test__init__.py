@@ -98,7 +98,7 @@ class TestChromaticAdaptation(unittest.TestCase):
                 Y_n=Y_n) for method in m
         ]
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):

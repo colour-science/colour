@@ -3,6 +3,8 @@
 Defines the unit tests for the :mod:`colour.io.luts.resolve_cube` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import os
 import unittest
@@ -24,7 +26,7 @@ __all__ = [
     'TestWriteLUTResolveCube',
 ]
 
-LUTS_DIRECTORY = os.path.join(
+LUTS_DIRECTORY: str = os.path.join(
     os.path.dirname(__file__), 'resources', 'resolve_cube')
 
 

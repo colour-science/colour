@@ -75,7 +75,7 @@ eotf_inverse_BT2020` definition domain and range scale support.
         E = 0.18
         E_p = eotf_inverse_BT2020(E)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -140,7 +140,7 @@ eotf_BT2020` definition domain and range scale support.
         E_p = 0.409007728864150
         E = eotf_BT2020(E_p)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

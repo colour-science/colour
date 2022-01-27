@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines the unit tests for the :mod:`colour.models.icacb` module.
+Defines the unit tests for the :mod:`colour.models.hunter_rdab` module.
 """
 
 from itertools import permutations
@@ -9,6 +9,18 @@ import unittest
 
 from colour.models import XYZ_to_ICaCb, ICaCb_to_XYZ
 from colour.utilities import ignore_numpy_errors, domain_range_scale
+
+__author__ = 'Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
+__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
+__maintainer__ = 'Colour Developers'
+__email__ = 'colour-developers@colour-science.org'
+__status__ = 'Production'
+
+__all__ = [
+    'TestXYZ_to_ICaCb',
+    'TestICaCb_to_XYZ',
+]
 
 
 class TestXYZ_to_ICaCb(unittest.TestCase):
@@ -68,7 +80,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
         XYZ = np.array([0.07818780, 0.06157201, 0.28099326])
         ICaCb = XYZ_to_ICaCb(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -141,7 +153,7 @@ class TestICaCb_to_XYZ(unittest.TestCase):
         ICaCb = np.array([0.06875297, 0.05753352, 0.02081548])
         XYZ = ICaCb_to_XYZ(ICaCb)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (('reference', 1), ('1', 1), ('100', 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

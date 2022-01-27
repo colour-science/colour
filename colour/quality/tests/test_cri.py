@@ -3,14 +3,17 @@
 Defines the unit tests for the :mod:`colour.quality.cri` module.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import unittest
 
+from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
+from colour.hints import Dict
 from colour.quality import (
     ColourRendering_Specification_CRI,
     colour_rendering_index,
 )
-from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
 from colour.quality.cri import TCS_ColorimetryData, TCS_ColourQualityScaleData
 
 __author__ = 'Colour Developers'
@@ -24,7 +27,7 @@ __all__ = [
     'TestColourRenderingIndex',
 ]
 
-DATA_SAMPLE = {
+DATA_SAMPLE: Dict = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,

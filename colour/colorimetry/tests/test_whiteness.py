@@ -101,7 +101,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
         XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
         W = whiteness_Berger1959(XYZ, XYZ_0)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -189,7 +189,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
         XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
         WI = whiteness_Taube1960(XYZ, XYZ_0)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -267,7 +267,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
         Lab = np.array([100.00000000, -2.46875131, -16.72486654])
         WI = whiteness_Stensby1968(Lab)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -345,7 +345,7 @@ class TestWhitenessASTM313(unittest.TestCase):
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         WI = whiteness_ASTME313(XYZ)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -427,7 +427,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
         Y = 100
         WT = whiteness_Ganz1979(xy, Y)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -517,7 +517,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
         xy_n = np.array([0.3139, 0.3311])
         WT = whiteness_CIE2004(xy, Y, xy_n)
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -560,7 +560,7 @@ class TestWhiteness(unittest.TestCase):
              'Ganz 1979', 'CIE 2004')
         v = [whiteness(XYZ, XYZ_0, method) for method in m]
 
-        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        d_r = (('reference', 1), ('1', 0.01), ('100', 1))
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):

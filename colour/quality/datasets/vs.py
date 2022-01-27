@@ -29,7 +29,10 @@ usp=sharing
 usp=sharing
 """
 
+from __future__ import annotations
+
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -47,7 +50,7 @@ __all__ = [
     'SDS_VS',
 ]
 
-INDEXES_TO_NAMES_VS = {
+INDEXES_TO_NAMES_VS: Dict = {
     1: 'VS1',
     2: 'VS2',
     3: 'VS3',
@@ -66,57 +69,53 @@ INDEXES_TO_NAMES_VS = {
 }
 """
 *NIST CQS* test colour samples indexes to names mapping.
-
-INDEXES_TO_NAMES_VS : dict
 """
 
-APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74 = CaseInsensitiveMapping({
-    'VS1': '7.5P 4/10',
-    'VS2': '10PB 4/10',
-    'VS3': '5PB 4/2',
-    'VS4': '7.5B 5/10',
-    'VS5': '10B G6/8',
-    'VS6': '2.5BG 6/10',
-    'VS7': '2.5G 6/12',
-    'VS8': '7.5GY 7/10',
-    'VS9': '2.5GY 8/10',
-    'VS10': '5Y 8.5/12',
-    'VS11': '10YR 7/12',
-    'VS12': '5YR 7/12',
-    'VS13': '10R 6/12',
-    'VS14': '5R 4/14',
-    'VS15': '7.5RP 4/12'
-})
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping({
+        'VS1': '7.5P 4/10',
+        'VS2': '10PB 4/10',
+        'VS3': '5PB 4/2',
+        'VS4': '7.5B 5/10',
+        'VS5': '10B G6/8',
+        'VS6': '2.5BG 6/10',
+        'VS7': '2.5G 6/12',
+        'VS8': '7.5GY 7/10',
+        'VS9': '2.5GY 8/10',
+        'VS10': '5Y 8.5/12',
+        'VS11': '10YR 7/12',
+        'VS12': '5YR 7/12',
+        'VS13': '10R 6/12',
+        'VS14': '5R 4/14',
+        'VS15': '7.5RP 4/12'
+    }))
 """
 *NIST CQS 7.4* test colour samples *Munsell* colour approximations.
-
-APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74 : CaseInsensitiveMapping
 """
 
-APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90 = CaseInsensitiveMapping({
-    'VS1': '5R 4/14',
-    'VS2': '10R 6/12',
-    'VS3': '7.5YR 7/12',
-    'VS4': '5Y 8-12',
-    'VS5': '2.5GY 8/10',
-    'VS6': '7.5GY 7/10',
-    'VS7': '2.5G 6/12',
-    'VS8': '2.5BG 6/10',
-    'VS9': '10BG 6/8',
-    'VS10': '7.5B 5/10',
-    'VS11': '2.5PB 4/10',
-    'VS12': '7.5PB 4/12',
-    'VS13': '5P 5/10',
-    'VS14': '2.5RP 6/12',
-    'VS15': '7.5RP 5/12'
-})
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping({
+        'VS1': '5R 4/14',
+        'VS2': '10R 6/12',
+        'VS3': '7.5YR 7/12',
+        'VS4': '5Y 8-12',
+        'VS5': '2.5GY 8/10',
+        'VS6': '7.5GY 7/10',
+        'VS7': '2.5G 6/12',
+        'VS8': '2.5BG 6/10',
+        'VS9': '10BG 6/8',
+        'VS10': '7.5B 5/10',
+        'VS11': '2.5PB 4/10',
+        'VS12': '7.5PB 4/12',
+        'VS13': '5P 5/10',
+        'VS14': '2.5RP 6/12',
+        'VS15': '7.5RP 5/12'
+    }))
 """
 *NIST CQS 9.0* test colour samples *Munsell* colour approximations.
-
-VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQ90 : CaseInsensitiveMapping
 """
 
-DATA_VS = {
+DATA_VS: Dict = {
     'NIST CQS 7.4': {
         'VS1': {
             380: 0.1086,
@@ -2973,7 +2972,7 @@ DATA_VS = {
     }
 }
 
-SDS_VS = CaseInsensitiveMapping({
+SDS_VS: CaseInsensitiveMapping = CaseInsensitiveMapping({
     key: dict((name, SpectralDistribution(data, name=name))
               for name, data in value.items())
     for key, value in DATA_VS.items()
@@ -2984,7 +2983,4 @@ SDS_VS = CaseInsensitiveMapping({
 References
 ----------
 :cite:`Ohno2008a`, :cite:`Ohno2013`
-
-SDS_VS : CaseInsensitiveMapping
-    **{'NIST CQS 7.4', 'NIST CQS 9.0'}**
 """

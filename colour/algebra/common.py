@@ -7,9 +7,23 @@ Defines the common algebra utilities objects that don't fall in any specific
 category.
 """
 
+from __future__ import annotations
+
 import functools
 import numpy as np
 
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    Callable,
+    Floating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+    NDArray,
+    Optional,
+)
 from colour.utilities import as_float_array, as_float, tsplit
 
 __author__ = 'Colour Developers'
@@ -35,22 +49,21 @@ __all__ = [
     'is_identity',
 ]
 
+# TODO: Annotate with "bool" when Python 3.7 is dropped.
 _SPOW_ENABLED = True
 """
 Global variable storing the current *Colour* safe / symmetrical power function
 enabled state.
-
-_SPOW_ENABLED : bool
 """
 
 
-def is_spow_enabled():
+def is_spow_enabled() -> bool:
     """
     Returns whether *Colour* safe / symmetrical power function is enabled.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Whether *Colour* safe / symmetrical power function is enabled.
 
     Examples
@@ -66,13 +79,13 @@ def is_spow_enabled():
     return _SPOW_ENABLED
 
 
-def set_spow_enable(enable):
+def set_spow_enable(enable: bool):
     """
     Sets *Colour* safe / symmetrical power function enabled state.
 
     Parameters
     ----------
-    enable : bool
+    enable
         Whether to enable *Colour* safe / symmetrical power function.
 
     Examples
@@ -97,16 +110,16 @@ class spow_enable:
 
     Parameters
     ----------
-    enable : bool
+    enable
         Whether to enable or disable *Colour* safe / symmetrical power
         function.
     """
 
-    def __init__(self, enable):
+    def __init__(self, enable: bool):
         self._enable = enable
         self._previous_state = is_spow_enabled()
 
-    def __enter__(self):
+    def __enter__(self) -> spow_enable:
         """
         Called upon entering the context manager and decorator.
         """
@@ -115,27 +128,27 @@ class spow_enable:
 
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *args: Any):
         """
         Called upon exiting the context manager and decorator.
         """
 
         set_spow_enable(self._previous_state)
 
-    def __call__(self, function):
+    def __call__(self, function: Callable) -> Callable:
         """
         Calls the wrapped definition.
         """
 
         @functools.wraps(function)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             with self:
                 return function(*args, **kwargs)
 
         return wrapper
 
 
-def spow(a, p):
+def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Raises given array :math:`a` to the power :math:`p` as follows:
     :math:`sign(a) * |a|^p`.
@@ -147,14 +160,14 @@ def spow(a, p):
 
     Parameters
     ----------------
-    a : numeric or array_like
+    a
         Array :math:`a`.
-    p : numeric or array_like
+    p
         Power :math:`p`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`np.floating` or :class:`numpy.ndarray`
         Array :math:`a` safely raised to the power :math:`p`.
 
     Examples
@@ -180,26 +193,29 @@ def spow(a, p):
     return as_float(a_p)
 
 
-def normalise_maximum(a, axis=None, factor=1, clip=True):
+def normalise_maximum(a: ArrayLike,
+                      axis: Optional[Integer] = None,
+                      factor: Floating = 1,
+                      clip: Boolean = True) -> NDArray:
     """
-    Normalises given *array_like* :math:`a` variable values by :math:`a`
-    variable maximum value and optionally clip them between.
+    Normalises given array :math:`a` values by :math:`a` maximum value and
+    optionally clip them between.
 
     Parameters
     ----------
-    a : array_like
-        :math:`a` variable to normalise.
-    axis : numeric, optional
+    a
+        Array :math:`a` to normalise.
+    axis
         Normalization axis.
-    factor : numeric, optional
+    factor
         Normalization factor.
-    clip : bool, optional
+    clip
         Clip values to domain [0, 'factor'].
 
     Returns
     -------
-    ndarray
-        Maximum normalised :math:`a` variable.
+    :class:`numpy.ndarray`
+        Maximum normalised array :math:`a`.
 
     Examples
     --------
@@ -216,24 +232,25 @@ def normalise_maximum(a, axis=None, factor=1, clip=True):
     return np.clip(a, 0, factor) if clip else a
 
 
-def vector_dot(m, v):
+def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
     """
     Convenient wrapper around :func:`np.einsum` with the following subscripts:
     *'...ij,...j->...i'*.
 
-    It performs the dot product of two arrays where *m* parameter is expected
-    to be an array of 3x3 matrices and parameter *v* an array of vectors.
+    It performs the dot product of the matrix array :math:`m` with the vector
+    array :math:`v`.
 
     Parameters
     ----------
-    m : array_like
-        Array of 3x3 matrices.
-    v : array_like
-        Array of vectors.
+    m
+        Matrix array :math:`m`.
+    v
+        Vector array :math:`v`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
+        Transformed vector array :math:`v`.
 
     Examples
     --------
@@ -254,34 +271,27 @@ def vector_dot(m, v):
            [ 0.1954094...,  0.0620396...,  0.0527952...]])
     """
 
-    m = as_float_array(m)
-    v = as_float_array(v)
-
-    return np.einsum('...ij,...j->...i', m, v)
+    return np.einsum('...ij,...j->...i', as_float_array(m), as_float_array(v))
 
 
-def matrix_dot(a, b):
+def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
     Convenient wrapper around :func:`np.einsum` with the following subscripts:
     *'...ij,...jk->...ik'*.
 
-    It performs the dot product of two arrays where *a* parameter is expected
-    to be an array of 3x3 matrices and parameter *b* another array of of 3x3
-    matrices.
+    It performs the dot product of the matrix array :math:`a` with the matrix
+    array :math:`b`.
 
     Parameters
     ----------
-    a : array_like
-        Array of 3x3 matrices.
-    b : array_like
-        Array of 3x3 matrices.
-    dtype : object
-        Type to use for conversion, default to the type defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    a
+        Matrix array :math:`a`.
+    b
+        Matrix array :math:`b`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
 
     Examples
     --------
@@ -318,29 +328,28 @@ def matrix_dot(a, b):
             [-0.0044203...,  0.0377490...,  0.9666713...]]])
     """
 
-    a = as_float_array(a)
-    b = as_float_array(b)
-
-    return np.einsum('...ij,...jk->...ik', a, b)
+    return np.einsum('...ij,...jk->...ik', as_float_array(a),
+                     as_float_array(b))
 
 
-def linear_conversion(a, old_range, new_range):
+def linear_conversion(a: ArrayLike, old_range: ArrayLike,
+                      new_range: ArrayLike) -> NDArray:
     """
-    Performs a simple linear conversion of given array between the old and new
-    ranges.
+    Performs a simple linear conversion of given array :math:`a` between the
+    old and new ranges.
 
     Parameters
     ----------
-    a : array_like
-        Array to perform the linear conversion onto.
-    old_range : array_like
+    a
+        Array :math:`a` to perform the linear conversion onto.
+    old_range
         Old range.
-    new_range : array_like
+    new_range
         New range.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Linear conversion result.
 
     Examples
@@ -358,26 +367,29 @@ def linear_conversion(a, old_range, new_range):
     return ((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min
 
 
-def linstep_function(x, a=0, b=1, clip=False):
+def linstep_function(x: FloatingOrArrayLike,
+                     a: FloatingOrArrayLike = 0,
+                     b: FloatingOrArrayLike = 1,
+                     clip: Boolean = False) -> NDArray:
     """
     Performs a simple linear interpolation between given array :math:`a` and
     array :math:`b` using :math:`x` array.
 
     Parameters
     ----------
-    x : array_like
+    x
         Array :math:`x` value to use to interpolate between array :math:`a` and
         array :math:`b`.
-    a : array_like
+    a
         Array :math:`a`, the start of the range in which to interpolate.
-    b : array_like
+    b
         Array :math:`b`, the end of the range in which to interpolate.
-    clip : bool, optional
-        Whether to clip the output values to range [a, b].
+    clip
+        Whether to clip the output values to range [``a``, ``b``].
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Linear interpolation result.
 
     Examples
@@ -400,24 +412,27 @@ def linstep_function(x, a=0, b=1, clip=False):
 lerp = linstep_function
 
 
-def smoothstep_function(x, a=0, b=1, clip=False):
+def smoothstep_function(x: FloatingOrArrayLike,
+                        a: FloatingOrArrayLike = 0,
+                        b: FloatingOrArrayLike = 1,
+                        clip: Boolean = False) -> NDArray:
     """
     Evaluates the *smoothstep* sigmoid-like function on array :math:`x`.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Array :math:`x`.
-    a : numeric, optional
+    a
         Low input domain limit, i.e. the left edge.
-    b : numeric, optional
+    b
         High input domain limit, i.e. the right edge.
-    clip : bool, optional
-        Whether to scale, bias and clip input values to domain [0, 1].
+    clip
+        Whether to scale, bias and clip input values to domain [``a``, ``b``].
 
     Returns
     -------
-    array_like
+    :class:`numpy.ndarray`
         Array :math:`x` after *smoothstep* sigmoid-like function evaluation.
 
     Examples
@@ -428,6 +443,8 @@ def smoothstep_function(x, a=0, b=1, clip=False):
     """
 
     x = as_float_array(x)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     i = np.clip((x - a) / (b - a), 0, 1) if clip else x
 
@@ -437,21 +454,19 @@ def smoothstep_function(x, a=0, b=1, clip=False):
 smooth = smoothstep_function
 
 
-def is_identity(a, n=3):
+def is_identity(a: ArrayLike) -> Boolean:
     """
-    Returns if :math:`a` array is an identity matrix.
+    Returns whether :math:`a` array is an identity matrix.
 
     Parameters
     ----------
-    a : array_like, (N)
-        Variable :math:`a` to test.
-    n : int, optional
-        Matrix dimension.
+    a
+        Array :math:`a` to test.
 
     Returns
     -------
-    bool
-        Is identity matrix.
+    :class:`bool`
+        Whether :math:`a` array is an identity matrix.
 
     Examples
     --------
@@ -461,4 +476,4 @@ def is_identity(a, n=3):
     False
     """
 
-    return np.array_equal(np.identity(n), a)
+    return np.array_equal(np.identity(len(np.diag(a))), a)
