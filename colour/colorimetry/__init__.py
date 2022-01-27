@@ -135,6 +135,8 @@ __all__ += [
     'sd_blackbody',
     'blackbody_spectral_radiance',
     'planck_law',
+    'rayleigh_jeans_law',
+    'sd_rayleigh_jeans',
 ]
 __all__ += [
     'LMS_ConeFundamentals',
