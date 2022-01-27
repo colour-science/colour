@@ -12,7 +12,6 @@ References
     THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
 """
-
 from __future__ import annotations
 
 import numpy as np
