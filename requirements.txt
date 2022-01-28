@@ -54,7 +54,7 @@ keyring==23.5.0
 kiwisolver==1.3.2
 latexcodec==2.0.1
 MarkupSafe==2.0.1
-matplotlib==3.5.1
+matplotlib==3.4.3
 matplotlib-inline==0.1.3
 mccabe==0.6.1
 mistune==0.8.4

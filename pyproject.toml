@@ -54,7 +54,7 @@ coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
 jupyter = { version = "*", optional = true }  # Development dependency.
-matplotlib = { version = "*", optional = true }
+matplotlib = { version = "<= 3.4", optional = true }
 mypy = { version = "*", optional = true }  # Development dependency.
 networkx = { version = "*", optional = true }
 numpy = { version = "*", optional = true }
