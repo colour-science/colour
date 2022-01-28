@@ -299,7 +299,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     >>> prng = np.random.RandomState(2)
     >>> with disable_multiprocessing():
     ...     RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)
-    ... # doctest: +ELLIPSIS
+    ... # doctest: +SKIP
     8...
     """
 

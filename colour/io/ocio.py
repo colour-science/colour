@@ -57,14 +57,17 @@ def process_image_OpenColorIO(
 
     Examples
     --------
+    # TODO: Reinstate when "Pypi" wheel compatible with "ARM" on "macOS" is
+    # released.
+
     >>> import os
-    >>> import PyOpenColorIO as ocio
+    >>> import PyOpenColorIO as ocio  # doctest: +SKIP
     >>> from colour.utilities import full
     >>> config = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources',
     ...     'config-aces-reference.ocio.yaml')
     >>> a = full([4, 2, 3], 0.18)
-    >>> process_image_OpenColorIO(  # doctest: +ELLIPSIS
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
     ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
     array([[[ 0.4135878...,  0.4135878...,  0.4135878...],
             [ 0.4135878...,  0.4135878...,  0.4135878...]],
@@ -77,7 +80,7 @@ def process_image_OpenColorIO(
     <BLANKLINE>
            [[ 0.4135878...,  0.4135878...,  0.4135878...],
             [ 0.4135878...,  0.4135878...,  0.4135878...]]], dtype=float32)
-    >>> process_image_OpenColorIO(  # doctest: +ELLIPSIS
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
     ...     a, 'ACES - ACES2065-1', 'Display - sRGB',
     ...     'Output - SDR Video - ACES 1.0', ocio.TRANSFORM_DIR_FORWARD,
     ...     config=config)

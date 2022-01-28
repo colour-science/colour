@@ -10,7 +10,7 @@ import os
 import unittest
 
 from colour.io import process_image_OpenColorIO
-from colour.utilities import full
+from colour.utilities import full, is_opencolorio_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
@@ -37,6 +37,11 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
         """
         Tests :func:`colour.io.ocio.process_image_OpenColorIO` definition.
         """
+
+        # TODO: Remove when "Pypi" wheel compatible with "ARM" on "macOS" is
+        # released.
+        if not is_opencolorio_installed():  # pragma: no cover
+            return
 
         import PyOpenColorIO as ocio
 
