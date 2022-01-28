@@ -676,7 +676,7 @@ matrix_colour_correction_Cheung2004` definition.
     @ignore_numpy_errors
     def test_nan_matrix_colour_correction_Cheung2004(self):
         """
-            Tests :func:`colour.characterisation.correction.
+        Tests :func:`colour.characterisation.correction.\
         matrix_colour_correction_Cheung2004` definition nan support.
         """
 
@@ -775,7 +775,7 @@ matrix_colour_correction_Finlayson2015` definition.
     @ignore_numpy_errors
     def test_nan_matrix_colour_correction_Finlayson2015(self):
         """
-            Tests :func:`colour.characterisation.correction.
+        Tests :func:`colour.characterisation.correction.\
         matrix_colour_correction_Finlayson2015` definition nan support.
         """
 
@@ -865,7 +865,7 @@ matrix_colour_correction_Vandermonde` definition.
     @ignore_numpy_errors
     def test_nan_matrix_colour_correction_Vandermonde(self):
         """
-            Tests :func:`colour.characterisation.correction.
+        Tests :func:`colour.characterisation.correction.\
         matrix_colour_correction_Vandermonde` definition nan support.
         """
 

@@ -186,7 +186,7 @@ def formatting(
 @task
 def tests(ctx: Context):
     """
-    Runs the unit tests with *Nose* or *Pytest*.
+    Runs the unit tests with *Pytest*.
 
     Parameters
     ----------

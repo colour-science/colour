@@ -578,7 +578,7 @@ class SpectralDistribution(Signal):
         Arguments to use when instantiating the interpolating function.
     extrapolator
         Extrapolator class type to use as extrapolating function.
-    extrapolator_kwargsl
+    extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function.
     strict_name
         Spectral distribution name for figures, default to
