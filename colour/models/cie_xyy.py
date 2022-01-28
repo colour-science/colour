@@ -39,26 +39,29 @@ from colour.utilities import (
     zeros,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'XYZ_to_xyY',
-    'xyY_to_XYZ',
-    'xy_to_xyY',
-    'xyY_to_xy',
-    'XYZ_to_xy',
-    'xy_to_XYZ',
+    "XYZ_to_xyY",
+    "xyY_to_XYZ",
+    "xy_to_xyY",
+    "xyY_to_xy",
+    "XYZ_to_xy",
+    "xy_to_XYZ",
 ]
 
 
-def XYZ_to_xyY(XYZ: ArrayLike,
-               illuminant: ArrayLike = CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']) -> NDArray:
+def XYZ_to_xyY(
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
     reference *illuminant*.
@@ -111,11 +114,13 @@ def XYZ_to_xyY(XYZ: ArrayLike,
     xyY = np.where(
         np.all(XYZ == 0, axis=-1)[..., np.newaxis],
         XYZ_n,
-        tstack([
-            X / (X + Y + Z),
-            Y / (X + Y + Z),
-            from_range_1(Y),
-        ]),
+        tstack(
+            [
+                X / (X + Y + Z),
+                Y / (X + Y + Z),
+                from_range_1(Y),
+            ]
+        ),
     )
 
     return xyY
@@ -300,9 +305,12 @@ def xy_to_xyY(xy: ArrayLike, Y: Floating = 1) -> NDArray:
     return from_range_1(xyY, np.array([1, 1, 100]))
 
 
-def XYZ_to_xy(XYZ: ArrayLike,
-              illuminant: ArrayLike = CCS_ILLUMINANTS[
-                  'CIE 1931 2 Degree Standard Observer']['D65']) -> NDArray:
+def XYZ_to_xy(
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+) -> NDArray:
     """
     Returns the *CIE xy* chromaticity coordinates from given *CIE XYZ*
     tristimulus values.

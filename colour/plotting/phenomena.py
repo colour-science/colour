@@ -14,7 +14,11 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 
 from colour.algebra import normalise_maximum
-from colour.colorimetry import MultiSpectralDistributions, sd_to_XYZ
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    sd_to_XYZ,
+)
 from colour.hints import (
     Any,
     Dict,
@@ -45,32 +49,33 @@ from colour.plotting import (
 )
 from colour.utilities import first_item
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'plot_single_sd_rayleigh_scattering',
-    'plot_the_blue_sky',
+    "plot_single_sd_rayleigh_scattering",
+    "plot_the_blue_sky",
 ]
 
 
 @override_style()
 def plot_single_sd_rayleigh_scattering(
-        CO2_concentration:
-        FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
-        temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
-        pressure:
-        FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-        latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
-        altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
-        cmfs: Union[MultiSpectralDistributions, str, Sequence[
-            Union[MultiSpectralDistributions,
-                  str]]] = 'CIE 1931 2 Degree Standard Observer',
-        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
+    CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
+    temperature: FloatingOrArrayLike = CONSTANT_STANDARD_AIR_TEMPERATURE,
+    pressure: FloatingOrArrayLike = CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
+    latitude: FloatingOrArrayLike = CONSTANT_DEFAULT_LATITUDE,
+    altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
+    cmfs: Union[
+        MultiSpectralDistributions,
+        str,
+        Sequence[Union[MultiSpectralDistributions, str]],
+    ] = "CIE 1931 2 Degree Standard Observer",
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots a single *Rayleigh* scattering spectral distribution.
 
@@ -119,25 +124,34 @@ def plot_single_sd_rayleigh_scattering(
         :alt: plot_single_sd_rayleigh_scattering
     """
 
-    title = 'Rayleigh Scattering'
+    title = "Rayleigh Scattering"
 
-    cmfs = cast(MultiSpectralDistributions,
-                first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
-    settings: Dict[str, Any] = {'title': title, 'y_label': 'Optical Depth'}
+    settings: Dict[str, Any] = {"title": title, "y_label": "Optical Depth"}
     settings.update(kwargs)
 
-    sd = sd_rayleigh_scattering(cmfs.shape, CO2_concentration, temperature,
-                                pressure, latitude, altitude)
+    sd = sd_rayleigh_scattering(
+        cmfs.shape,
+        CO2_concentration,
+        temperature,
+        pressure,
+        latitude,
+        altitude,
+    )
 
     return plot_single_sd(sd, **settings)
 
 
 @override_style()
-def plot_the_blue_sky(cmfs: Union[MultiSpectralDistributions, str, Sequence[
-        Union[MultiSpectralDistributions,
-              str]]] = 'CIE 1931 2 Degree Standard Observer',
-                      **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
+def plot_the_blue_sky(
+    cmfs: Union[
+        MultiSpectralDistributions,
+        str,
+        Sequence[Union[MultiSpectralDistributions, str]],
+    ] = "CIE 1931 2 Degree Standard Observer",
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the blue sky.
 
@@ -176,10 +190,9 @@ def plot_the_blue_sky(cmfs: Union[MultiSpectralDistributions, str, Sequence[
 
     figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
-    cmfs = cast(MultiSpectralDistributions,
-                first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
 
-    ASTMG173_sd = SD_ASTMG173_ETR.copy()
+    ASTMG173_sd = cast(SpectralDistribution, SD_ASTMG173_ETR.copy())
     rayleigh_sd = sd_rayleigh_scattering()
     ASTMG173_sd.align(rayleigh_sd.shape)
 
@@ -188,41 +201,46 @@ def plot_the_blue_sky(cmfs: Union[MultiSpectralDistributions, str, Sequence[
     axes = figure.add_subplot(211)
 
     settings: Dict[str, Any] = {
-        'axes': axes,
-        'title': 'The Blue Sky - Synthetic Spectral Distribution',
-        'y_label': u'W / m-2 / nm-1',
+        "axes": axes,
+        "title": "The Blue Sky - Synthetic Spectral Distribution",
+        "y_label": u"W / m-2 / nm-1",
     }
     settings.update(kwargs)
-    settings['standalone'] = False
+    settings["standalone"] = False
 
     plot_single_sd(sd, cmfs, **settings)
 
     axes = figure.add_subplot(212)
 
-    x_label = ('The sky is blue because molecules in the atmosphere '
-               'scatter shorter wavelengths more than longer ones.\n'
-               'The synthetic spectral distribution is computed as '
-               'follows: '
-               '(ASTM G-173 ETR * Standard Air Rayleigh Scattering).')
+    x_label = (
+        "The sky is blue because molecules in the atmosphere "
+        "scatter shorter wavelengths more than longer ones.\n"
+        "The synthetic spectral distribution is computed as "
+        "follows: "
+        "(ASTM G-173 ETR * Standard Air Rayleigh Scattering)."
+    )
 
     settings = {
-        'axes': axes,
-        'aspect': None,
-        'title': 'The Blue Sky - Colour',
-        'x_label': x_label,
-        'y_label': '',
-        'x_ticker': False,
-        'y_ticker': False,
+        "axes": axes,
+        "aspect": None,
+        "title": "The Blue Sky - Colour",
+        "x_label": x_label,
+        "y_label": "",
+        "x_ticker": False,
+        "y_ticker": False,
     }
     settings.update(kwargs)
-    settings['standalone'] = False
+    settings["standalone"] = False
 
-    blue_sky_color = XYZ_to_plotting_colourspace(sd_to_XYZ(sd))
+    blue_sky_color = XYZ_to_plotting_colourspace(
+        sd_to_XYZ(cast(SpectralDistribution, sd))
+    )
 
     figure, axes = plot_single_colour_swatch(
-        ColourSwatch(normalise_maximum(blue_sky_color)), **settings)
+        ColourSwatch(normalise_maximum(blue_sky_color)), **settings
+    )
 
-    settings = {'axes': axes, 'standalone': True}
+    settings = {"axes": axes, "standalone": True}
     settings.update(kwargs)
 
     return render(**settings)

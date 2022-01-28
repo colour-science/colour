@@ -29,17 +29,17 @@ from colour.recovery import (
     RGB_to_sd_Mallett2019,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestMixinMallett2019',
-    'TestSpectralPrimaryDecompositionMallett2019',
-    'TestRGB_to_sd_Mallett2019',
+    "TestMixinMallett2019",
+    "TestSpectralPrimaryDecompositionMallett2019",
+    "TestRGB_to_sd_Mallett2019",
 ]
 
 
@@ -55,11 +55,11 @@ class TestMixinMallett2019:
 
         # pylint: disable=E1102
         self._cmfs = reshape_msds(
-            MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
-            SpectralShape(360, 780, 10))
-        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS['D65'], self._cmfs.shape)
-        self._xy_D65 = CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D65']
+            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+            SpectralShape(360, 780, 10),
+        )
+        self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
     def check_basis_functions(self):
         """
@@ -76,23 +76,25 @@ class TestMixinMallett2019:
 
         # Check if the primaries or their combination exceeds the [0, 1] range.
         lower = np.zeros_like(sd.values) - 1e-12
-        upper = np.ones_like(sd.values) + 1e+12
+        upper = np.ones_like(sd.values) + 1e12
         for RGB in [[1, 1, 1], [1, 0, 0], [0, 1, 0], [0, 0, 1]]:
             sd = RGB_to_sd_Mallett2019(RGB, self._basis)
             np.testing.assert_array_less(sd.values, upper)
             np.testing.assert_array_less(lower, sd.values)
 
         # Check Delta E's using a colour checker.
-        for name, sd in SDS_COLOURCHECKERS['ColorChecker N Ohta'].items():
+        for name, sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].items():
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
-            RGB = XYZ_to_RGB(XYZ, self._RGB_colourspace.whitepoint,
-                             self._xy_D65,
-                             self._RGB_colourspace.matrix_XYZ_to_RGB)
+            RGB = XYZ_to_RGB(
+                XYZ,
+                self._RGB_colourspace.whitepoint,
+                self._xy_D65,
+                self._RGB_colourspace.matrix_XYZ_to_RGB,
+            )
 
             recovered_sd = RGB_to_sd_Mallett2019(RGB, self._basis)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs,
-                                      self._sd_D65) / 100
+            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
@@ -101,8 +103,9 @@ class TestMixinMallett2019:
                 self.fail('Delta E for "{0}" is {1}!'.format(name, error))
 
 
-class TestSpectralPrimaryDecompositionMallett2019(unittest.TestCase,
-                                                  TestMixinMallett2019):
+class TestSpectralPrimaryDecompositionMallett2019(
+    unittest.TestCase, TestMixinMallett2019
+):
     """
     Defines :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`
     definition unit tests methods.
@@ -124,7 +127,8 @@ test_spectral_primary_decomposition_Mallett2019` definition.
         """
 
         self._basis = spectral_primary_decomposition_Mallett2019(
-            self._RGB_colourspace, self._cmfs, self._sd_D65)
+            self._RGB_colourspace, self._cmfs, self._sd_D65
+        )
 
         self.check_basis_functions()
 
@@ -153,5 +157,5 @@ class TestRGB_to_sd_Mallett2019(unittest.TestCase, TestMixinMallett2019):
         self.check_basis_functions()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

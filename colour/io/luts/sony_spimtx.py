@@ -19,20 +19,20 @@ from colour.io.luts.common import path_to_title
 from colour.io.luts import LUTOperatorMatrix
 from colour.hints import Boolean
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'read_LUT_SonySPImtx',
-    'write_LUT_SonySPImtx',
+    "read_LUT_SonySPImtx",
+    "write_LUT_SonySPImtx",
 ]
 
 
-def read_LUT_SonySPImtx(path: str):
+def read_LUT_SonySPImtx(path: str) -> LUTOperatorMatrix:
     """
     Reads given *Sony* *.spimtx* *LUT* file.
 
@@ -73,9 +73,9 @@ def read_LUT_SonySPImtx(path: str):
     return LUTOperatorMatrix(matrix, offset, name=title)
 
 
-def write_LUT_SonySPImtx(LUT: LUTOperatorMatrix,
-                         path: str,
-                         decimals: Integer = 7) -> Boolean:
+def write_LUT_SonySPImtx(
+    LUT: LUTOperatorMatrix, path: str, decimals: Integer = 7
+) -> Boolean:
     """
     Writes given *LUT* to given *Sony* *.spimtx* *LUT* file.
 
@@ -106,11 +106,13 @@ def write_LUT_SonySPImtx(LUT: LUTOperatorMatrix,
     matrix, offset = LUT.matrix, LUT.offset
     offset *= 65535
 
-    array = np.hstack([
-        np.reshape(matrix, (4, 4))[:3, :3],
-        np.transpose(np.array([offset[:3]]))
-    ])
+    array = np.hstack(
+        [
+            np.reshape(matrix, (4, 4))[:3, :3],
+            np.transpose(np.array([offset[:3]])),
+        ]
+    )
 
-    np.savetxt(path, array, fmt='%.{0}f'.format(decimals))
+    np.savetxt(path, array, fmt="%.{0}f".format(decimals))
 
     return True

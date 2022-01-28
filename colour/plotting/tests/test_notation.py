@@ -11,16 +11,16 @@ from colour.plotting import (
     plot_multi_munsell_value_functions,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotSingleMunsellValueFunction',
-    'TestPlotMultiMunsellValueFunctions',
+    "TestPlotSingleMunsellValueFunction",
+    "TestPlotMultiMunsellValueFunctions",
 ]
 
 
@@ -36,7 +36,7 @@ class TestPlotSingleMunsellValueFunction(unittest.TestCase):
 plot_single_munsell_value_function` definition.
         """
 
-        figure, axes = plot_single_munsell_value_function('ASTM D1535')
+        figure, axes = plot_single_munsell_value_function("ASTM D1535")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -54,12 +54,11 @@ class TestPlotMultiMunsellValueFunctions(unittest.TestCase):
 plot_multi_munsell_value_functions` definition.
         """
 
-        figure, axes = plot_multi_munsell_value_functions(
-            ['ASTM D1535', 'McCamy 1987'])
+        figure, axes = plot_multi_munsell_value_functions(["ASTM D1535", "McCamy 1987"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

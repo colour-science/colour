@@ -50,36 +50,36 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_XYZ_TO_RGB_NAYATANI95',
-    'CAM_ReferenceSpecification_Nayatani95',
-    'CAM_Specification_Nayatani95',
-    'XYZ_to_Nayatani95',
-    'illuminance_to_luminance',
-    'XYZ_to_RGB_Nayatani95',
-    'scaling_coefficient',
-    'achromatic_response',
-    'tritanopic_response',
-    'protanopic_response',
-    'brightness_correlate',
-    'ideal_white_brightness_correlate',
-    'achromatic_lightness_correlate',
-    'normalised_achromatic_lightness_correlate',
-    'hue_angle',
-    'saturation_components',
-    'saturation_correlate',
-    'chroma_components',
-    'chroma_correlate',
-    'colourfulness_components',
-    'colourfulness_correlate',
-    'chromatic_strength_function',
+    "MATRIX_XYZ_TO_RGB_NAYATANI95",
+    "CAM_ReferenceSpecification_Nayatani95",
+    "CAM_Specification_Nayatani95",
+    "XYZ_to_Nayatani95",
+    "illuminance_to_luminance",
+    "XYZ_to_RGB_Nayatani95",
+    "scaling_coefficient",
+    "achromatic_response",
+    "tritanopic_response",
+    "protanopic_response",
+    "brightness_correlate",
+    "ideal_white_brightness_correlate",
+    "achromatic_lightness_correlate",
+    "normalised_achromatic_lightness_correlate",
+    "hue_angle",
+    "saturation_components",
+    "saturation_correlate",
+    "chroma_components",
+    "chroma_correlate",
+    "colourfulness_components",
+    "colourfulness_correlate",
+    "chromatic_strength_function",
 ]
 
 MATRIX_XYZ_TO_RGB_NAYATANI95: NDArray = MATRIX_XYZ_TO_RGB_CIE1994
@@ -186,12 +186,13 @@ class CAM_Specification_Nayatani95(MixinDataclassArray):
 
 
 def XYZ_to_Nayatani95(
-        XYZ: ArrayLike,
-        XYZ_n: ArrayLike,
-        Y_o: FloatingOrArrayLike,
-        E_o: FloatingOrArrayLike,
-        E_or: FloatingOrArrayLike,
-        n: FloatingOrArrayLike = 1) -> CAM_Specification_Nayatani95:
+    XYZ: ArrayLike,
+    XYZ_n: ArrayLike,
+    Y_o: FloatingOrArrayLike,
+    E_o: FloatingOrArrayLike,
+    E_or: FloatingOrArrayLike,
+    n: FloatingOrArrayLike = 1,
+) -> CAM_Specification_Nayatani95:
     """
     Computes the *Nayatani (1995)* colour appearance model correlates.
 
@@ -272,8 +273,7 @@ H=None, HC=None, L_star_N=50.0039154...)
     xi, eta, _zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
-    RGB_o = ((
-        (Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)) * xez)
+    RGB_o = ((Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)) * xez
 
     # Computing stimulus cone responses.
     RGB = XYZ_to_RGB_Nayatani95(XYZ)
@@ -301,24 +301,21 @@ H=None, HC=None, L_star_N=50.0039154...)
     B_r = brightness_correlate(bRGB_o, bL_or, Q_response)
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
-    brightness_ideal_white = ideal_white_brightness_correlate(
-        bRGB_o, xez, bL_or, n)
+    brightness_ideal_white = ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)
 
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\\star`.
-    L_star_P = (achromatic_lightness_correlate(Q_response))
+    L_star_P = achromatic_lightness_correlate(Q_response)
 
     # Computing the correlate of normalised achromatic *Lightness*
     # :math:`L_n^\\star`.
-    L_star_N = (normalised_achromatic_lightness_correlate(
-        B_r, brightness_ideal_white))
+    L_star_N = normalised_achromatic_lightness_correlate(B_r, brightness_ideal_white)
 
     # Computing the *hue* angle :math:`\\theta`.
     theta = hue_angle(p_response, t_response)
     # TODO: Implement hue quadrature & composition computation.
 
     # Computing the correlate of *saturation* :math:`S`.
-    S_RG, S_YB = tsplit(
-        saturation_components(theta, bL_or, t_response, p_response))
+    S_RG, S_YB = tsplit(saturation_components(theta, bL_or, t_response, p_response))
     S = saturation_correlate(S_RG, S_YB)
 
     # Computing the correlate of *chroma* :math:`C`.
@@ -344,8 +341,9 @@ H=None, HC=None, L_star_N=50.0039154...)
     )
 
 
-def illuminance_to_luminance(E: FloatingOrArrayLike,
-                             Y_f: FloatingOrArrayLike) -> FloatingOrNDArray:
+def illuminance_to_luminance(
+    E: FloatingOrArrayLike, Y_f: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Converts given *illuminance* :math:`E` value in lux to *luminance* in
     :math:`cd/m^2`.
@@ -398,8 +396,9 @@ def XYZ_to_RGB_Nayatani95(XYZ: ArrayLike) -> NDArray:
     return vector_dot(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
 
 
-def scaling_coefficient(x: FloatingOrArrayLike,
-                        y: FloatingOrArrayLike) -> FloatingOrNDArray:
+def scaling_coefficient(
+    x: FloatingOrArrayLike, y: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the scaling coefficient :math:`e(R)` or :math:`e(G)`.
 
@@ -429,13 +428,15 @@ def scaling_coefficient(x: FloatingOrArrayLike,
     return as_float(np.where(x >= (20 * y), 1.758, 1))
 
 
-def achromatic_response(RGB: ArrayLike,
-                        bRGB_o: ArrayLike,
-                        xez: ArrayLike,
-                        bL_or: FloatingOrArrayLike,
-                        eR: FloatingOrArrayLike,
-                        eG: FloatingOrArrayLike,
-                        n: FloatingOrArrayLike = 1) -> FloatingOrNDArray:
+def achromatic_response(
+    RGB: ArrayLike,
+    bRGB_o: ArrayLike,
+    xez: ArrayLike,
+    bL_or: FloatingOrArrayLike,
+    eR: FloatingOrArrayLike,
+    eG: FloatingOrArrayLike,
+    n: FloatingOrArrayLike = 1,
+) -> FloatingOrNDArray:
     """
     Returns the achromatic response :math:`Q` from given stimulus cone
     responses.
@@ -492,8 +493,9 @@ def achromatic_response(RGB: ArrayLike,
     return as_float(Q)
 
 
-def tritanopic_response(RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike,
-                        n: FloatingOrArrayLike) -> FloatingOrNDArray:
+def tritanopic_response(
+    RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike, n: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the tritanopic response :math:`t` from given stimulus cone
     responses.
@@ -536,8 +538,9 @@ def tritanopic_response(RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike,
     return as_float(t)
 
 
-def protanopic_response(RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike,
-                        n: FloatingOrArrayLike) -> FloatingOrNDArray:
+def protanopic_response(
+    RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike, n: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the protanopic response :math:`p` from given stimulus cone
     responses.
@@ -580,8 +583,9 @@ def protanopic_response(RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike,
     return as_float(p)
 
 
-def brightness_correlate(bRGB_o: ArrayLike, bL_or: FloatingOrArrayLike,
-                         Q: FloatingOrArrayLike) -> FloatingOrNDArray:
+def brightness_correlate(
+    bRGB_o: ArrayLike, bL_or: FloatingOrArrayLike, Q: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *brightness* correlate :math:`B_r`.
 
@@ -619,8 +623,11 @@ def brightness_correlate(bRGB_o: ArrayLike, bL_or: FloatingOrArrayLike,
 
 
 def ideal_white_brightness_correlate(
-        bRGB_o: ArrayLike, xez: ArrayLike, bL_or: FloatingOrArrayLike,
-        n: FloatingOrArrayLike) -> FloatingOrNDArray:
+    bRGB_o: ArrayLike,
+    xez: ArrayLike,
+    bL_or: FloatingOrArrayLike,
+    n: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the ideal white *brightness* correlate :math:`B_{rw}`.
 
@@ -667,7 +674,8 @@ def ideal_white_brightness_correlate(
 
 
 def achromatic_lightness_correlate(
-        Q: FloatingOrArrayLike) -> FloatingOrNDArray:
+    Q: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the *achromatic Lightness* correlate :math:`L_p^\\star`.
 
@@ -694,8 +702,8 @@ def achromatic_lightness_correlate(
 
 
 def normalised_achromatic_lightness_correlate(
-        B_r: FloatingOrArrayLike,
-        B_rw: FloatingOrArrayLike) -> FloatingOrNDArray:
+    B_r: FloatingOrArrayLike, B_rw: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *normalised achromatic Lightness* correlate :math:`L_n^\\star`.
 
@@ -726,8 +734,7 @@ def normalised_achromatic_lightness_correlate(
     return as_float(100 * (B_r / B_rw))
 
 
-def hue_angle(p: FloatingOrArrayLike,
-              t: FloatingOrArrayLike) -> FloatingOrNDArray:
+def hue_angle(p: FloatingOrArrayLike, t: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the *hue* angle :math:`h` in degrees.
 
@@ -760,7 +767,8 @@ def hue_angle(p: FloatingOrArrayLike,
 
 
 def chromatic_strength_function(
-        theta: FloatingOrArrayLike) -> FloatingOrNDArray:
+    theta: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Defines the chromatic strength function :math:`E_s(\\theta)` used to
     correct saturation scale as function of hue angle :math:`\\theta` in
@@ -798,9 +806,12 @@ def chromatic_strength_function(
     return as_float(E_s)
 
 
-def saturation_components(h: FloatingOrArrayLike, bL_or: FloatingOrArrayLike,
-                          t: FloatingOrArrayLike,
-                          p: FloatingOrArrayLike) -> NDArray:
+def saturation_components(
+    h: FloatingOrArrayLike,
+    bL_or: FloatingOrArrayLike,
+    t: FloatingOrArrayLike,
+    p: FloatingOrArrayLike,
+) -> NDArray:
     """
     Returns the *saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
 
@@ -843,8 +854,9 @@ def saturation_components(h: FloatingOrArrayLike, bL_or: FloatingOrArrayLike,
     return tstack([S_RG, S_YB])
 
 
-def saturation_correlate(S_RG: FloatingOrArrayLike,
-                         S_YB: FloatingOrArrayLike) -> FloatingOrNDArray:
+def saturation_correlate(
+    S_RG: FloatingOrArrayLike, S_YB: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the correlate of *saturation* :math:`S`.
 
@@ -876,8 +888,11 @@ def saturation_correlate(S_RG: FloatingOrArrayLike,
     return as_float(S)
 
 
-def chroma_components(L_star_P: FloatingOrArrayLike, S_RG: FloatingOrArrayLike,
-                      S_YB: FloatingOrArrayLike) -> NDArray:
+def chroma_components(
+    L_star_P: FloatingOrArrayLike,
+    S_RG: FloatingOrArrayLike,
+    S_YB: FloatingOrArrayLike,
+) -> NDArray:
     """
     Returns the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
 
@@ -914,8 +929,9 @@ def chroma_components(L_star_P: FloatingOrArrayLike, S_RG: FloatingOrArrayLike,
     return tstack([C_RG, C_YB])
 
 
-def chroma_correlate(L_star_P: FloatingOrArrayLike,
-                     S: FloatingOrArrayLike) -> FloatingOrNDArray:
+def chroma_correlate(
+    L_star_P: FloatingOrArrayLike, S: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the correlate of *chroma* :math:`C`.
 
@@ -947,9 +963,11 @@ def chroma_correlate(L_star_P: FloatingOrArrayLike,
     return C
 
 
-def colourfulness_components(C_RG: FloatingOrArrayLike,
-                             C_YB: FloatingOrArrayLike,
-                             B_rw: FloatingOrArrayLike) -> NDArray:
+def colourfulness_components(
+    C_RG: FloatingOrArrayLike,
+    C_YB: FloatingOrArrayLike,
+    B_rw: FloatingOrArrayLike,
+) -> NDArray:
     """
     Returns the *colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
 
@@ -986,8 +1004,9 @@ def colourfulness_components(C_RG: FloatingOrArrayLike,
     return tstack([M_RG, M_YB])
 
 
-def colourfulness_correlate(C: FloatingOrArrayLike,
-                            B_rw: FloatingOrArrayLike) -> FloatingOrNDArray:
+def colourfulness_correlate(
+    C: FloatingOrArrayLike, B_rw: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the correlate of *colourfulness* :math:`M`.
 

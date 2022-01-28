@@ -23,17 +23,17 @@ from colour.models.rgb.transfer_functions import (
 )
 from colour.utilities import ColourUsageWarning, as_int
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Development'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Development"
 
 __all__ = [
-    'TestCctfEncoding',
-    'TestCctfDecoding',
-    'TestTransferFunctions',
+    "TestCctfEncoding",
+    "TestCctfDecoding",
+    "TestTransferFunctions",
 ]
 
 
@@ -53,12 +53,14 @@ log_encoding_ACESproxy` definition raised exception.
             ColourUsageWarning,
             cctf_encoding,
             0.18,
-            function='ITU-R BT.2100 HLG')
+            function="ITU-R BT.2100 HLG",
+        )
         self.assertWarns(
             ColourUsageWarning,
             cctf_encoding,
             0.18,
-            function='ITU-R BT.2100 PQ')
+            function="ITU-R BT.2100 PQ",
+        )
 
 
 class TestCctfDecoding(unittest.TestCase):
@@ -77,12 +79,14 @@ log_encoding_ACESproxy` definition raised exception.
             ColourUsageWarning,
             cctf_decoding,
             0.18,
-            function='ITU-R BT.2100 HLG')
+            function="ITU-R BT.2100 HLG",
+        )
         self.assertWarns(
             ColourUsageWarning,
             cctf_decoding,
             0.18,
-            function='ITU-R BT.2100 PQ')
+            function="ITU-R BT.2100 PQ",
+        )
 
 
 class TestTransferFunctions(unittest.TestCase):
@@ -95,10 +99,13 @@ class TestTransferFunctions(unittest.TestCase):
         Tests transfer functions reciprocity.
         """
 
-        ignored_transfer_functions = ('ACESproxy', 'DICOM GSDF',
-                                      'Filmic Pro 6')
+        ignored_transfer_functions = (
+            "ACESproxy",
+            "DICOM GSDF",
+            "Filmic Pro 6",
+        )
 
-        decimals = {'D-Log': 1, 'F-Log': 4, 'N-Log': 3}
+        decimals = {"D-Log": 1, "F-Log": 4, "N-Log": 3}
 
         reciprocal_mappings = [
             (LOG_ENCODINGS, LOG_DECODINGS),
@@ -108,10 +115,9 @@ class TestTransferFunctions(unittest.TestCase):
             (OOTFS, OOTF_INVERSES),
         ]
 
-        samples = np.hstack([
-            np.linspace(0, 1, as_int(1e5)),
-            np.linspace(0, 65504, 65504 * 10)
-        ])
+        samples = np.hstack(
+            [np.linspace(0, 1, as_int(1e5)), np.linspace(0, 65504, 65504 * 10)]
+        )
 
         for encoding_mapping, _decoding_mapping in reciprocal_mappings:
             for name in encoding_mapping:
@@ -122,8 +128,9 @@ class TestTransferFunctions(unittest.TestCase):
                 decoded_s = CCTF_DECODINGS[name](encoded_s)
 
                 np.testing.assert_almost_equal(
-                    samples, decoded_s, decimal=decimals.get(name, 7))
+                    samples, decoded_s, decimal=decimals.get(name, 7)
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

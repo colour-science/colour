@@ -14,18 +14,18 @@ from colour.geometry.section import (
 from colour.geometry import primitive_cube, hull_section
 from colour.utilities import is_trimesh_installed
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestEdgesToChord',
-    'TestCloseChord',
-    'TestUniqueVertices',
-    'TestHullSection',
+    "TestEdgesToChord",
+    "TestCloseChord",
+    "TestUniqueVertices",
+    "TestHullSection",
 ]
 
 
@@ -40,58 +40,66 @@ class TestEdgesToChord(unittest.TestCase):
         Tests :func:`colour.geometry.section.edges_to_chord` definition.
         """
 
-        edges = np.array([
-            [[0.0, -0.5, 0.0], [0.5, -0.5, 0.0]],
-            [[-0.5, -0.5, 0.0], [0.0, -0.5, 0.0]],
-            [[0.5, 0.5, 0.0], [0.0, 0.5, 0.0]],
-            [[0.0, 0.5, 0.0], [-0.5, 0.5, 0.0]],
-            [[-0.5, 0.0, 0.0], [-0.5, -0.5, 0.0]],
-            [[-0.5, 0.5, 0.0], [-0.5, 0.0, 0.0]],
-            [[0.5, -0.5, 0.0], [0.5, 0.0, 0.0]],
-            [[0.5, 0.0, 0.0], [0.5, 0.5, 0.0]],
-        ])
+        edges = np.array(
+            [
+                [[0.0, -0.5, 0.0], [0.5, -0.5, 0.0]],
+                [[-0.5, -0.5, 0.0], [0.0, -0.5, 0.0]],
+                [[0.5, 0.5, 0.0], [0.0, 0.5, 0.0]],
+                [[0.0, 0.5, 0.0], [-0.5, 0.5, 0.0]],
+                [[-0.5, 0.0, 0.0], [-0.5, -0.5, 0.0]],
+                [[-0.5, 0.5, 0.0], [-0.5, 0.0, 0.0]],
+                [[0.5, -0.5, 0.0], [0.5, 0.0, 0.0]],
+                [[0.5, 0.0, 0.0], [0.5, 0.5, 0.0]],
+            ]
+        )
 
         np.testing.assert_almost_equal(
             edges_to_chord(edges),
-            np.array([
-                [0.0, -0.5, 0.0],
-                [0.5, -0.5, 0.0],
-                [0.5, -0.5, -0.0],
-                [0.5, 0.0, -0.0],
-                [0.5, 0.0, -0.0],
-                [0.5, 0.5, -0.0],
-                [0.5, 0.5, 0.0],
-                [0.0, 0.5, 0.0],
-                [0.0, 0.5, 0.0],
-                [-0.5, 0.5, 0.0],
-                [-0.5, 0.5, -0.0],
-                [-0.5, 0.0, -0.0],
-                [-0.5, 0.0, -0.0],
-                [-0.5, -0.5, -0.0],
-                [-0.5, -0.5, 0.0],
-                [0.0, -0.5, 0.0],
-            ]))
+            np.array(
+                [
+                    [0.0, -0.5, 0.0],
+                    [0.5, -0.5, 0.0],
+                    [0.5, -0.5, -0.0],
+                    [0.5, 0.0, -0.0],
+                    [0.5, 0.0, -0.0],
+                    [0.5, 0.5, -0.0],
+                    [0.5, 0.5, 0.0],
+                    [0.0, 0.5, 0.0],
+                    [0.0, 0.5, 0.0],
+                    [-0.5, 0.5, 0.0],
+                    [-0.5, 0.5, -0.0],
+                    [-0.5, 0.0, -0.0],
+                    [-0.5, 0.0, -0.0],
+                    [-0.5, -0.5, -0.0],
+                    [-0.5, -0.5, 0.0],
+                    [0.0, -0.5, 0.0],
+                ]
+            ),
+        )
 
         np.testing.assert_almost_equal(
             edges_to_chord(edges, 5),
-            np.array([
-                [-0.5, 0.5, 0.0],
-                [-0.5, 0.0, 0.0],
-                [-0.5, 0.0, 0.0],
-                [-0.5, -0.5, 0.0],
-                [-0.5, -0.5, 0.0],
-                [0.0, -0.5, 0.0],
-                [0.0, -0.5, 0.0],
-                [0.5, -0.5, 0.0],
-                [0.5, -0.5, 0.0],
-                [0.5, 0.0, 0.0],
-                [0.5, 0.0, 0.0],
-                [0.5, 0.5, 0.0],
-                [0.5, 0.5, 0.0],
-                [0.0, 0.5, 0.0],
-                [0.0, 0.5, 0.0],
-                [-0.5, 0.5, 0.0],
-            ]))
+            np.array(
+                [
+                    [-0.5, 0.5, 0.0],
+                    [-0.5, 0.0, 0.0],
+                    [-0.5, 0.0, 0.0],
+                    [-0.5, -0.5, 0.0],
+                    [-0.5, -0.5, 0.0],
+                    [0.0, -0.5, 0.0],
+                    [0.0, -0.5, 0.0],
+                    [0.5, -0.5, 0.0],
+                    [0.5, -0.5, 0.0],
+                    [0.5, 0.0, 0.0],
+                    [0.5, 0.0, 0.0],
+                    [0.5, 0.5, 0.0],
+                    [0.5, 0.5, 0.0],
+                    [0.0, 0.5, 0.0],
+                    [0.0, 0.5, 0.0],
+                    [-0.5, 0.5, 0.0],
+                ]
+            ),
+        )
 
 
 class TestCloseChord(unittest.TestCase):
@@ -107,7 +115,8 @@ class TestCloseChord(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             close_chord(np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]])),
-            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]]))
+            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]]),
+        )
 
 
 class TestUniqueVertices(unittest.TestCase):
@@ -123,14 +132,18 @@ class TestUniqueVertices(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             unique_vertices(
-                np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]])),
-            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]))
+                np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]])
+            ),
+            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),
+        )
 
         np.testing.assert_almost_equal(
             unique_vertices(
-                np.array([[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52,
-                                                               0.0]]), 1),
-            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]))
+                np.array([[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]),
+                1,
+            ),
+            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),
+        )
 
 
 class TestHullSection(unittest.TestCase):
@@ -150,67 +163,79 @@ class TestHullSection(unittest.TestCase):
         import trimesh
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 2, 2, 2)
-        hull = trimesh.Trimesh(vertices['position'], faces, process=False)
+        hull = trimesh.Trimesh(vertices["position"], faces, process=False)
 
         np.testing.assert_almost_equal(
             hull_section(hull, origin=0),
-            np.array([
-                [0.0, -0.5, 0.0],
-                [0.5, -0.5, 0.0],
-                [0.5, 0.0, 0.0],
-                [0.5, 0.5, 0.0],
-                [0.0, 0.5, 0.0],
-                [-0.5, 0.5, 0.0],
-                [-0.5, 0.0, 0.0],
-                [-0.5, -0.5, 0.0],
-                [0.0, -0.5, 0.0],
-            ]))
+            np.array(
+                [
+                    [0.0, -0.5, 0.0],
+                    [0.5, -0.5, 0.0],
+                    [0.5, 0.0, 0.0],
+                    [0.5, 0.5, 0.0],
+                    [0.0, 0.5, 0.0],
+                    [-0.5, 0.5, 0.0],
+                    [-0.5, 0.0, 0.0],
+                    [-0.5, -0.5, 0.0],
+                    [0.0, -0.5, 0.0],
+                ]
+            ),
+        )
 
         np.testing.assert_almost_equal(
-            hull_section(hull, axis='+x', origin=0),
-            np.array([
-                [0.0, 0.0, -0.5],
-                [0.0, 0.5, -0.5],
-                [0.0, 0.5, 0.0],
-                [0.0, 0.5, 0.5],
-                [0.0, 0.0, 0.5],
-                [0.0, -0.5, 0.5],
-                [0.0, -0.5, 0.0],
-                [0.0, -0.5, -0.5],
-                [0.0, 0.0, -0.5],
-            ]))
+            hull_section(hull, axis="+x", origin=0),
+            np.array(
+                [
+                    [0.0, 0.0, -0.5],
+                    [0.0, 0.5, -0.5],
+                    [0.0, 0.5, 0.0],
+                    [0.0, 0.5, 0.5],
+                    [0.0, 0.0, 0.5],
+                    [0.0, -0.5, 0.5],
+                    [0.0, -0.5, 0.0],
+                    [0.0, -0.5, -0.5],
+                    [0.0, 0.0, -0.5],
+                ]
+            ),
+        )
 
         np.testing.assert_almost_equal(
-            hull_section(hull, axis='+y', origin=0),
-            np.array([
-                [0.0, 0.0, -0.5],
-                [-0.5, 0.0, -0.5],
-                [-0.5, 0.0, 0.0],
-                [-0.5, 0.0, 0.5],
-                [0.0, 0.0, 0.5],
-                [0.5, 0.0, 0.5],
-                [0.5, 0.0, 0.0],
-                [0.5, 0.0, -0.5],
-                [0.0, 0.0, -0.5],
-            ]))
+            hull_section(hull, axis="+y", origin=0),
+            np.array(
+                [
+                    [0.0, 0.0, -0.5],
+                    [-0.5, 0.0, -0.5],
+                    [-0.5, 0.0, 0.0],
+                    [-0.5, 0.0, 0.5],
+                    [0.0, 0.0, 0.5],
+                    [0.5, 0.0, 0.5],
+                    [0.5, 0.0, 0.0],
+                    [0.5, 0.0, -0.5],
+                    [0.0, 0.0, -0.5],
+                ]
+            ),
+        )
 
         hull.vertices = (hull.vertices + 0.5) * 2
         np.testing.assert_almost_equal(
             hull_section(hull, origin=0.5, normalise=True),
-            np.array([
-                [1.0, 0.0, 1.0],
-                [2.0, 0.0, 1.0],
-                [2.0, 1.0, 1.0],
-                [2.0, 2.0, 1.0],
-                [1.0, 2.0, 1.0],
-                [0.0, 2.0, 1.0],
-                [0.0, 1.0, 1.0],
-                [0.0, 0.0, 1.0],
-                [1.0, 0.0, 1.0],
-            ]))
+            np.array(
+                [
+                    [1.0, 0.0, 1.0],
+                    [2.0, 0.0, 1.0],
+                    [2.0, 1.0, 1.0],
+                    [2.0, 2.0, 1.0],
+                    [1.0, 2.0, 1.0],
+                    [0.0, 2.0, 1.0],
+                    [0.0, 1.0, 1.0],
+                    [0.0, 0.0, 1.0],
+                    [1.0, 0.0, 1.0],
+                ]
+            ),
+        )
 
         self.assertRaises(ValueError, hull_section, hull, origin=-1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

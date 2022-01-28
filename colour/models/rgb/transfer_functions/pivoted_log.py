@@ -23,25 +23,26 @@ import numpy as np
 from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'log_encoding_PivotedLog',
-    'log_decoding_PivotedLog',
+    "log_encoding_PivotedLog",
+    "log_decoding_PivotedLog",
 ]
 
 
 def log_encoding_PivotedLog(
-        x: FloatingOrArrayLike,
-        log_reference: Floating = 445,
-        linear_reference: Floating = 0.18,
-        negative_gamma: Floating = 0.6,
-        density_per_code_value: Floating = 0.002) -> FloatingOrNDArray:
+    x: FloatingOrArrayLike,
+    log_reference: Floating = 445,
+    linear_reference: Floating = 0.18,
+    negative_gamma: Floating = 0.6,
+    density_per_code_value: Floating = 0.002,
+) -> FloatingOrNDArray:
     """
     Defines the *Josh Pines* style *Pivoted Log* log encoding curve /
     opto-electronic transfer function.
@@ -91,18 +92,21 @@ def log_encoding_PivotedLog(
 
     x = to_domain_1(x)
 
-    y = ((log_reference + np.log10(x / linear_reference) /
-          (density_per_code_value / negative_gamma)) / 1023)
+    y = (
+        log_reference
+        + np.log10(x / linear_reference) / (density_per_code_value / negative_gamma)
+    ) / 1023
 
     return as_float(from_range_1(y))
 
 
 def log_decoding_PivotedLog(
-        y: FloatingOrArrayLike,
-        log_reference: Floating = 445,
-        linear_reference: Floating = 0.18,
-        negative_gamma: Floating = 0.6,
-        density_per_code_value: Floating = 0.002) -> FloatingOrNDArray:
+    y: FloatingOrArrayLike,
+    log_reference: Floating = 445,
+    linear_reference: Floating = 0.18,
+    negative_gamma: Floating = 0.6,
+    density_per_code_value: Floating = 0.002,
+) -> FloatingOrNDArray:
     """
     Defines the *Josh Pines* style *Pivoted Log* log decoding curve /
     electro-optical transfer function.
@@ -152,7 +156,9 @@ def log_decoding_PivotedLog(
 
     y = to_domain_1(y)
 
-    x = (10 ** ((y * 1023 - log_reference) *
-                (density_per_code_value / negative_gamma)) * linear_reference)
+    x = (
+        10 ** ((y * 1023 - log_reference) * (density_per_code_value / negative_gamma))
+        * linear_reference
+    )
 
     return as_float(from_range_1(x))

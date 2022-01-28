@@ -41,34 +41,34 @@ from colour.plotting import (
 )
 from colour.utilities import attest
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestColourStyle',
-    'TestOverrideStyle',
-    'TestXyzToPlottingColourspace',
-    'TestColourCycle',
-    'TestArtist',
-    'TestCamera',
-    'TestRender',
-    'TestLabelRectangles',
-    'TestUniformAxes3d',
-    'TestFilterPassthrough',
-    'TestFilterRgbColourspaces',
-    'TestFilterCmfs',
-    'TestFilterIlluminants',
-    'TestFilterColourCheckers',
-    'TestUpdateSettingsCollection',
-    'TestPlotSingleColourSwatch',
-    'TestPlotMultiColourSwatches',
-    'TestPlotSingleFunction',
-    'TestPlotMultiFunctions',
-    'TestPlotImage',
+    "TestColourStyle",
+    "TestOverrideStyle",
+    "TestXyzToPlottingColourspace",
+    "TestColourCycle",
+    "TestArtist",
+    "TestCamera",
+    "TestRender",
+    "TestLabelRectangles",
+    "TestUniformAxes3d",
+    "TestFilterPassthrough",
+    "TestFilterRgbColourspaces",
+    "TestFilterCmfs",
+    "TestFilterIlluminants",
+    "TestFilterColourCheckers",
+    "TestUpdateSettingsCollection",
+    "TestPlotSingleColourSwatch",
+    "TestPlotMultiColourSwatches",
+    "TestPlotSingleFunction",
+    "TestPlotMultiFunctions",
+    "TestPlotImage",
 ]
 
 
@@ -97,20 +97,20 @@ class TestOverrideStyle(unittest.TestCase):
         Tests :func:`colour.plotting.common.override_style` definition.
         """
 
-        text_color = plt.rcParams['text.color']
+        text_color = plt.rcParams["text.color"]
         try:
 
-            @override_style(**{'text.color': 'red'})
+            @override_style(**{"text.color": "red"})
             def test_text_color_override():
                 """
                 Tests :func:`colour.plotting.common.override_style` definition.
                 """
 
-                attest(plt.rcParams['text.color'] == 'red')
+                attest(plt.rcParams["text.color"] == "red")
 
             test_text_color_override()
         finally:
-            plt.rcParams['text.color'] = text_color
+            plt.rcParams["text.color"] = text_color
 
 
 class TestXyzToPlottingColourspace(unittest.TestCase):
@@ -127,7 +127,8 @@ class TestXyzToPlottingColourspace(unittest.TestCase):
 
         XYZ = np.random.random(3)
         np.testing.assert_almost_equal(
-            XYZ_to_sRGB(XYZ), XYZ_to_plotting_colourspace(XYZ), decimal=7)
+            XYZ_to_sRGB(XYZ), XYZ_to_plotting_colourspace(XYZ), decimal=7
+        )
 
 
 class TestColourCycle(unittest.TestCase):
@@ -146,24 +147,28 @@ class TestColourCycle(unittest.TestCase):
         np.testing.assert_almost_equal(
             next(cycler),
             np.array([0.95686275, 0.26274510, 0.21176471, 1.00000000]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             next(cycler),
             np.array([0.61582468, 0.15423299, 0.68456747, 1.00000000]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             next(cycler),
             np.array([0.25564014, 0.31377163, 0.70934256, 1.00000000]),
-            decimal=7)
+            decimal=7,
+        )
 
-        cycler = colour_cycle(colour_cycle_map='viridis')
+        cycler = colour_cycle(colour_cycle_map="viridis")
 
         np.testing.assert_almost_equal(
             next(cycler),
             np.array([0.26700400, 0.00487400, 0.32941500, 1.00000000]),
-            decimal=7)
+            decimal=7,
+        )
 
 
 class TestArtist(unittest.TestCase):
@@ -201,7 +206,7 @@ class TestCamera(unittest.TestCase):
         """
 
         figure, _axes = artist()
-        axes = figure.add_subplot(111, projection='3d')
+        axes = figure.add_subplot(111, projection="3d")
 
         _figure, axes = camera(axes=axes, elevation=45, azimuth=90)
 
@@ -240,17 +245,17 @@ class TestRender(unittest.TestCase):
             figure=figure,
             axes=axes,
             standalone=False,
-            aspect='equal',
+            aspect="equal",
             axes_visible=True,
             bounding_box=[0, 1, 0, 1],
             tight_layout=False,
             legend=True,
             legend_columns=2,
             transparent_background=False,
-            title='Render Unit Test',
+            title="Render Unit Test",
             wrap_title=True,
-            x_label='x Label',
-            y_label='y Label',
+            x_label="x Label",
+            y_label="y Label",
             x_ticker=False,
             y_ticker=False,
         )
@@ -258,8 +263,9 @@ class TestRender(unittest.TestCase):
         render(standalone=True)
 
         render(
-            filename=os.path.join(self._temporary_directory, 'render.png'),
-            axes_visible=False)
+            filename=os.path.join(self._temporary_directory, "render.png"),
+            axes_visible=False,
+        )
 
 
 class TestLabelRectangles(unittest.TestCase):
@@ -278,7 +284,8 @@ class TestLabelRectangles(unittest.TestCase):
         samples = np.linspace(0, 1, 10)
 
         _figure, axes = label_rectangles(
-            samples, axes.bar(samples, 1), figure=figure, axes=axes)
+            samples, axes.bar(samples, 1), figure=figure, axes=axes
+        )
 
         self.assertEqual(len(axes.texts), len(samples))
 
@@ -295,7 +302,7 @@ class TestUniformAxes3d(unittest.TestCase):
         """
 
         figure, _axes = artist()
-        axes = figure.add_subplot(111, projection='3d')
+        axes = figure.add_subplot(111, projection="3d")
 
         uniform_axes3d(axes=axes)
 
@@ -315,43 +322,56 @@ class TestFilterPassthrough(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted([
-                colourspace.name for colourspace in filter_passthrough(
-                    RGB_COLOURSPACES, ['^ACES.*']).values()
-            ]), ['ACES2065-1', 'ACEScc', 'ACEScct', 'ACEScg', 'ACESproxy'])
+            sorted(
+                [
+                    colourspace.name
+                    for colourspace in filter_passthrough(
+                        RGB_COLOURSPACES, ["^ACES.*"]
+                    ).values()
+                ]
+            ),
+            ["ACES2065-1", "ACEScc", "ACEScct", "ACEScg", "ACESproxy"],
+        )
 
         self.assertListEqual(
-            sorted(filter_passthrough(RGB_COLOURSPACES, ['^ACEScc$']).keys()),
-            ['ACEScc'])
+            sorted(filter_passthrough(RGB_COLOURSPACES, ["^ACEScc$"]).keys()),
+            ["ACEScc"],
+        )
 
         self.assertListEqual(
-            sorted(filter_passthrough(RGB_COLOURSPACES, ['^acescc$']).keys()),
-            ['ACEScc'])
+            sorted(filter_passthrough(RGB_COLOURSPACES, ["^acescc$"]).keys()),
+            ["ACEScc"],
+        )
 
         self.assertDictEqual(
             filter_passthrough(
-                SDS_ILLUMINANTS, [SDS_ILLUMINANTS['D65'], {
-                    'Is': 'Excluded'
-                }],
-                allow_non_siblings=False), {'D65': SDS_ILLUMINANTS['D65']})
+                SDS_ILLUMINANTS,
+                [SDS_ILLUMINANTS["D65"], {"Is": "Excluded"}],
+                allow_non_siblings=False,
+            ),
+            {"D65": SDS_ILLUMINANTS["D65"]},
+        )
 
         self.assertDictEqual(
             filter_passthrough(
-                SDS_ILLUMINANTS, [SDS_ILLUMINANTS['D65'], {
-                    'Is': 'Included'
-                }],
-                allow_non_siblings=True), {
-                    'D65': SDS_ILLUMINANTS['D65'],
-                    'Is': 'Included'
-                })
+                SDS_ILLUMINANTS,
+                [SDS_ILLUMINANTS["D65"], {"Is": "Included"}],
+                allow_non_siblings=True,
+            ),
+            {"D65": SDS_ILLUMINANTS["D65"], "Is": "Included"},
+        )
 
         self.assertListEqual(
-            sorted([
-                element for element in filter_passthrough({
-                    'John': 'Doe',
-                    'Luke': 'Skywalker'
-                }, ['John']).values()
-            ]), ['Doe', 'John'])
+            sorted(
+                [
+                    element
+                    for element in filter_passthrough(
+                        {"John": "Doe", "Luke": "Skywalker"}, ["John"]
+                    ).values()
+                ]
+            ),
+            ["Doe", "John"],
+        )
 
 
 class TestFilterRgbColourspaces(unittest.TestCase):
@@ -367,10 +387,14 @@ class TestFilterRgbColourspaces(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted([
-                colourspace.name for colourspace in filter_RGB_colourspaces(
-                    ['^ACES.*']).values()
-            ]), ['ACES2065-1', 'ACEScc', 'ACEScct', 'ACEScg', 'ACESproxy'])
+            sorted(
+                [
+                    colourspace.name
+                    for colourspace in filter_RGB_colourspaces(["^ACES.*"]).values()
+                ]
+            ),
+            ["ACES2065-1", "ACEScc", "ACEScct", "ACEScg", "ACESproxy"],
+        )
 
 
 class TestFilterCmfs(unittest.TestCase):
@@ -385,15 +409,15 @@ class TestFilterCmfs(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted([
-                cmfs.name for cmfs in filter_cmfs(['.*2 Degree.*']).values()
-            ]), [
-                'CIE 1931 2 Degree Standard Observer',
-                'CIE 2012 2 Degree Standard Observer',
-                'Stiles & Burch 1955 2 Degree RGB CMFs',
-                'Stockman & Sharpe 2 Degree Cone Fundamentals',
-                'Wright & Guild 1931 2 Degree RGB CMFs'
-            ])
+            sorted([cmfs.name for cmfs in filter_cmfs([".*2 Degree.*"]).values()]),
+            [
+                "CIE 1931 2 Degree Standard Observer",
+                "CIE 2012 2 Degree Standard Observer",
+                "Stiles & Burch 1955 2 Degree RGB CMFs",
+                "Stockman & Sharpe 2 Degree Cone Fundamentals",
+                "Wright & Guild 1931 2 Degree RGB CMFs",
+            ],
+        )
 
 
 class TestFilterIlluminants(unittest.TestCase):
@@ -408,8 +432,9 @@ class TestFilterIlluminants(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted(filter_illuminants(['^D.*']).keys()),
-            ['D50', 'D55', 'D60', 'D65', 'D75', 'Daylight FL'])
+            sorted(filter_illuminants(["^D.*"]).keys()),
+            ["D50", "D55", "D60", "D65", "D75", "Daylight FL"],
+        )
 
 
 class TestFilterColourCheckers(unittest.TestCase):
@@ -424,13 +449,17 @@ class TestFilterColourCheckers(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted([
-                colour_checker.name for colour_checker in
-                filter_colour_checkers(['.*24.*']).values()
-            ]), [
-                'ColorChecker24 - After November 2014',
-                'ColorChecker24 - Before November 2014'
-            ])
+            sorted(
+                [
+                    colour_checker.name
+                    for colour_checker in filter_colour_checkers([".*24.*"]).values()
+                ]
+            ),
+            [
+                "ColorChecker24 - After November 2014",
+                "ColorChecker24 - Before November 2014",
+            ],
+        )
 
 
 class TestUpdateSettingsCollection(unittest.TestCase):
@@ -469,13 +498,15 @@ class TestPlotSingleColourSwatch(unittest.TestCase):
         """
 
         figure, axes = plot_single_colour_swatch(
-            ColourSwatch((0.45620519, 0.03081071, 0.04091952)))
+            ColourSwatch((0.45620519, 0.03081071, 0.04091952))
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_single_colour_swatch(
-            np.array([0.45620519, 0.03081071, 0.04091952]))
+            np.array([0.45620519, 0.03081071, 0.04091952])
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -493,18 +524,25 @@ class TestPlotMultiColourSwatches(unittest.TestCase):
         definition.
         """
 
-        figure, axes = plot_multi_colour_swatches([
-            ColourSwatch((0.45293517, 0.31732158, 0.26414773)),
-            ColourSwatch((0.77875824, 0.57726450, 0.50453169))
-        ])
+        figure, axes = plot_multi_colour_swatches(
+            [
+                ColourSwatch((0.45293517, 0.31732158, 0.26414773)),
+                ColourSwatch((0.77875824, 0.57726450, 0.50453169)),
+            ]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_multi_colour_swatches(
-            np.array([[0.45293517, 0.31732158, 0.26414773],
-                      [0.77875824, 0.57726450, 0.50453169]]),
-            direction='-y')
+            np.array(
+                [
+                    [0.45293517, 0.31732158, 0.26414773],
+                    [0.77875824, 0.57726450, 0.50453169],
+                ]
+            ),
+            direction="-y",
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -521,8 +559,7 @@ class TestPlotSingleFunction(unittest.TestCase):
         Tests :func:`colour.plotting.common.plot_single_function` definition.
         """
 
-        figure, axes = plot_single_function(
-            partial(gamma_function, exponent=1 / 2.2))
+        figure, axes = plot_single_function(partial(gamma_function, exponent=1 / 2.2))
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -540,19 +577,20 @@ class TestPlotMultiFunctions(unittest.TestCase):
         """
 
         functions = {
-            'Gamma 2.2': lambda x: x ** (1 / 2.2),
-            'Gamma 2.4': lambda x: x ** (1 / 2.4),
-            'Gamma 2.6': lambda x: x ** (1 / 2.6),
+            "Gamma 2.2": lambda x: x ** (1 / 2.2),
+            "Gamma 2.4": lambda x: x ** (1 / 2.4),
+            "Gamma 2.6": lambda x: x ** (1 / 2.6),
         }
-        plot_kwargs = {'c': 'r'}
+        plot_kwargs = {"c": "r"}
         figure, axes = plot_multi_functions(functions, plot_kwargs=plot_kwargs)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        plot_kwargs = [{'c': 'r'}, {'c': 'g'}, {'c': 'b'}]
+        plot_kwargs = [{"c": "r"}, {"c": "g"}, {"c": "b"}]
         figure, axes = plot_multi_functions(
-            functions, log_x=10, log_y=10, plot_kwargs=plot_kwargs)
+            functions, log_x=10, log_y=10, plot_kwargs=plot_kwargs
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -579,8 +617,9 @@ class TestPlotImage(unittest.TestCase):
         Tests :func:`colour.plotting.common.plot_image` definition.
         """
 
-        path = os.path.join(colour.__path__[0], '..', 'docs', '_static',
-                            'Logo_Medium_001.png')
+        path = os.path.join(
+            colour.__path__[0], "..", "docs", "_static", "Logo_Medium_001.png"
+        )
 
         # Distribution does not ship the documentation thus we are skipping
         # this unit test if the image does not exist.
@@ -593,5 +632,5 @@ class TestPlotImage(unittest.TestCase):
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

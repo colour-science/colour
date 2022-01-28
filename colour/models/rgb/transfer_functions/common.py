@@ -22,23 +22,23 @@ from colour.hints import (
 )
 from colour.utilities import as_float, as_int, as_float_array, as_int_array
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CV_range',
-    'legal_to_full',
-    'full_to_legal',
+    "CV_range",
+    "legal_to_full",
+    "full_to_legal",
 ]
 
 
-def CV_range(bit_depth: Integer = 10,
-             is_legal: Boolean = False,
-             is_int: Boolean = False) -> NDArray:
+def CV_range(
+    bit_depth: Integer = 10, is_legal: Boolean = False, is_int: Boolean = False
+) -> NDArray:
     """
     Returns the code value :math:`CV` range for given bit depth, range legality
     and representation.
@@ -79,11 +79,12 @@ def CV_range(bit_depth: Integer = 10,
     return ranges
 
 
-def legal_to_full(CV: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-                  bit_depth: Integer = 10,
-                  in_int: Boolean = False,
-                  out_int: Boolean = False
-                  ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+def legal_to_full(
+    CV: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    bit_depth: Integer = 10,
+    in_int: Boolean = False,
+    out_int: Boolean = False,
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Converts given code value :math:`CV` or float equivalent of a code value at
     a given bit depth from legal range (studio swing) to full range
@@ -145,11 +146,12 @@ def legal_to_full(CV: Union[FloatingOrArrayLike, IntegerOrArrayLike],
         return as_float(CV_full)
 
 
-def full_to_legal(CV: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-                  bit_depth: Integer = 10,
-                  in_int: Boolean = False,
-                  out_int: Boolean = False
-                  ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+def full_to_legal(
+    CV: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    bit_depth: Integer = 10,
+    in_int: Boolean = False,
+    out_int: Boolean = False,
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Converts given code value :math:`CV` or float equivalent of a code value at
     a given bit depth from full range (full swing) to legal range

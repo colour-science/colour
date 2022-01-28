@@ -62,26 +62,27 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'InductionFactors_Kim2009',
-    'VIEWING_CONDITIONS_KIM2009',
-    'MediaParameters_Kim2009',
-    'MEDIA_PARAMETERS_KIM2009',
-    'CAM_Specification_Kim2009',
-    'XYZ_to_Kim2009',
-    'Kim2009_to_XYZ',
+    "InductionFactors_Kim2009",
+    "VIEWING_CONDITIONS_KIM2009",
+    "MediaParameters_Kim2009",
+    "MEDIA_PARAMETERS_KIM2009",
+    "CAM_Specification_Kim2009",
+    "XYZ_to_Kim2009",
+    "Kim2009_to_XYZ",
 ]
 
 
 class InductionFactors_Kim2009(
-        namedtuple('InductionFactors_Kim2009', ('F', 'c', 'N_c'))):
+    namedtuple("InductionFactors_Kim2009", ("F", "c", "N_c"))
+):
     """
     *Kim, Weyrich and Kautz (2009)* colour appearance model induction factors.
 
@@ -111,7 +112,8 @@ class InductionFactors_Kim2009(
 
 
 VIEWING_CONDITIONS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    VIEWING_CONDITIONS_CIECAM02)
+    VIEWING_CONDITIONS_CIECAM02
+)
 VIEWING_CONDITIONS_KIM2009.__doc__ = """
 Reference *Kim, Weyrich and Kautz (2009)* colour appearance model viewing
 conditions.
@@ -122,7 +124,7 @@ References
 """
 
 
-class MediaParameters_Kim2009(namedtuple('MediaParameters_Kim2009', ('E', ))):
+class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
     """
     *Kim, Weyrich and Kautz (2009)* colour appearance model media parameters.
 
@@ -145,12 +147,14 @@ class MediaParameters_Kim2009(namedtuple('MediaParameters_Kim2009', ('E', ))):
         return super(MediaParameters_Kim2009, cls).__new__(cls, E)
 
 
-MEDIA_PARAMETERS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'High-luminance LCD Display': MediaParameters_Kim2009(1),
-    'Transparent Advertising Media': MediaParameters_Kim2009(1.2175),
-    'CRT Displays': MediaParameters_Kim2009(1.4572),
-    'Reflective Paper': MediaParameters_Kim2009(1.7526)
-})
+MEDIA_PARAMETERS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "High-luminance LCD Display": MediaParameters_Kim2009(1),
+        "Transparent Advertising Media": MediaParameters_Kim2009(1.2175),
+        "CRT Displays": MediaParameters_Kim2009(1.4572),
+        "Reflective Paper": MediaParameters_Kim2009(1.7526),
+    }
+)
 MEDIA_PARAMETERS_KIM2009.__doc__ = """
 Reference *Kim, Weyrich and Kautz (2009)* colour appearance model media
 parameters.
@@ -166,13 +170,14 @@ Aliases:
 -   'crt': 'CRT Displays'
 -   'paper': 'Reflective Paper'
 """
-MEDIA_PARAMETERS_KIM2009['bright_lcd_display'] = (
-    MEDIA_PARAMETERS_KIM2009['High-luminance LCD Display'])
-MEDIA_PARAMETERS_KIM2009['advertising_transparencies'] = (
-    MEDIA_PARAMETERS_KIM2009['Transparent Advertising Media'])
-MEDIA_PARAMETERS_KIM2009['crt'] = (MEDIA_PARAMETERS_KIM2009['CRT Displays'])
-MEDIA_PARAMETERS_KIM2009['paper'] = (
-    MEDIA_PARAMETERS_KIM2009['Reflective Paper'])
+MEDIA_PARAMETERS_KIM2009["bright_lcd_display"] = MEDIA_PARAMETERS_KIM2009[
+    "High-luminance LCD Display"
+]
+MEDIA_PARAMETERS_KIM2009["advertising_transparencies"] = MEDIA_PARAMETERS_KIM2009[
+    "Transparent Advertising Media"
+]
+MEDIA_PARAMETERS_KIM2009["crt"] = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009["Reflective Paper"]
 
 
 @dataclass
@@ -216,15 +221,14 @@ class CAM_Specification_Kim2009(MixinDataclassArray):
 
 
 def XYZ_to_Kim2009(
-        XYZ: ArrayLike,
-        XYZ_w: ArrayLike,
-        L_A: FloatingOrArrayLike,
-        media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009[
-            'CRT Displays'],
-        surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009[
-            'Average'],
-        discount_illuminant: Boolean = False,
-        n_c: Floating = 0.57) -> CAM_Specification_Kim2009:
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
+    surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
+    discount_illuminant: Boolean = False,
+    n_c: Floating = 0.57,
+) -> CAM_Specification_Kim2009:
     """
     Computes the *Kim, Weyrich and Kautz (2009)* colour appearance model
     correlates from given *CIE XYZ* tristimulus values.
@@ -310,8 +314,11 @@ H=278.0602824..., HC=None)
     RGB_w = vector_dot(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = (degree_of_adaptation(surround.F, L_A)
-         if not discount_illuminant else ones(L_A.shape))
+    D = (
+        degree_of_adaptation(surround.F, L_A)
+        if not discount_illuminant
+        else ones(L_A.shape)
+    )
 
     # Computing full chromatic adaptation.
     XYZ_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
@@ -336,8 +343,7 @@ H=278.0602824..., HC=None)
     # Perceived *Lightness* :math:`J_p`.
     a_j, b_j, o_j, n_j = 0.89, 0.24, 0.65, 3.65
     A_A_w = A / A_w
-    J_p = spow((-(A_A_w - b_j) * spow(o_j, n_j)) / (A_A_w - b_j - a_j),
-               1 / n_j)
+    J_p = spow((-(A_A_w - b_j) * spow(o_j, n_j)) / (A_A_w - b_j - a_j), 1 / n_j)
 
     # Computing the media dependent *Lightness* :math:`J`.
     J = 100 * (media.E * (J_p - 1) + 1)
@@ -380,15 +386,14 @@ H=278.0602824..., HC=None)
 
 
 def Kim2009_to_XYZ(
-        specification: CAM_Specification_Kim2009,
-        XYZ_w: ArrayLike,
-        L_A: FloatingOrArrayLike,
-        media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009[
-            'CRT Displays'],
-        surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009[
-            'Average'],
-        discount_illuminant: Boolean = False,
-        n_c: Floating = 0.57) -> NDArray:
+    specification: CAM_Specification_Kim2009,
+    XYZ_w: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
+    surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
+    discount_illuminant: Boolean = False,
+    n_c: Floating = 0.57,
+) -> NDArray:
     """
     Converts from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
     tristimulus values.
@@ -487,8 +492,11 @@ def Kim2009_to_XYZ(
     RGB_w = vector_dot(CAT_CAT02, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = (degree_of_adaptation(surround.F, L_A)
-         if not discount_illuminant else ones(L_A.shape))
+    D = (
+        degree_of_adaptation(surround.F, L_A)
+        if not discount_illuminant
+        else ones(L_A.shape)
+    )
 
     # Computing full chromatic adaptation.
     XYZ_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
@@ -502,8 +510,10 @@ def Kim2009_to_XYZ(
         a_m, b_m = 0.11, 0.61
         C = M / (a_m * np.log10(Y_w) + b_m)
     elif has_only_nan(C):
-        raise ValueError('Either "C" or "M" correlate must be defined in '
-                         'the "CAM_Specification_Kim2009" argument!')
+        raise ValueError(
+            'Either "C" or "M" correlate must be defined in '
+            'the "CAM_Specification_Kim2009" argument!'
+        )
 
     # Cones absolute response.
     LMS_w_n_c = spow(LMS_w, n_c)
@@ -529,11 +539,13 @@ def Kim2009_to_XYZ(
     a, b = np.cos(hr) * C_a_k_n_k, np.sin(hr) * C_a_k_n_k
 
     # Cones absolute response.
-    M = np.array([
-        [1.0000, 0.3215, 0.2053],
-        [1.0000, -0.6351, -0.1860],
-        [1.0000, -0.1568, -4.4904],
-    ])
+    M = np.array(
+        [
+            [1.0000, 0.3215, 0.2053],
+            [1.0000, -0.6351, -0.1860],
+            [1.0000, -0.1568, -4.4904],
+        ]
+    )
     LMS_p = vector_dot(M, tstack([A, a, b]))
     LMS = spow((-spow(L_A, n_c) * LMS_p) / (LMS_p - 1), 1 / n_c)
 

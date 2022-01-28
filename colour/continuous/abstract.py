@@ -43,15 +43,15 @@ from colour.utilities import (
     optional,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'AbstractContinuousFunction',
+    "AbstractContinuousFunction",
 ]
 
 
@@ -71,7 +71,7 @@ class AbstractContinuousFunction(ABC):
     The resulting function independent domain, stored as discrete values in the
     :attr:`colour.continuous.AbstractContinuousFunction.domain` attribute
     corresponds with the function dependent and already known range stored in
-    the :attr:`colour.continuous.AbstractContinuousFunction.range` attribute.
+    the :attr:`colour.continuous.AbstractContinuousFunction.range` property.
 
     Parameters
     ----------
@@ -122,7 +122,7 @@ arithmetical_operation`
     """
 
     def __init__(self, name: Optional[str] = None):
-        self._name: str = '{0} ({1})'.format(self.__class__.__name__, id(self))
+        self._name: str = "{0} ({1})".format(self.__class__.__name__, id(self))
         self.name = optional(name, self._name)
 
     @property
@@ -146,12 +146,13 @@ arithmetical_operation`
     @name.setter
     def name(self, value: str):
         """
-        Setter for **self.name** property.
+        Setter for the **self.name** property.
         """
 
         attest(
             is_string(value),
-            '"{0}" attribute: "{1}" type is not "str"!'.format('name', value))
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+        )
 
         self._name = value
 
@@ -181,7 +182,7 @@ arithmetical_operation`
     @abstractmethod
     def dtype(self, value: Type[DTypeFloating]):
         """
-        Setter for **self.dtype** property, must be reimplemented by
+        Setter for the **self.dtype** property, must be reimplemented by
         sub-classes.
         """
 
@@ -442,8 +443,7 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __getitem__(self,
-                    x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
+    def __getitem__(self, x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
         """
         Returns the corresponding range variable :math:`y` for independent
         domain variable :math:`x`, must be reimplemented by sub-classes.
@@ -462,8 +462,7 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __setitem__(self, x: Union[FloatingOrArrayLike, slice],
-                    y: FloatingOrArrayLike):
+    def __setitem__(self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike):
         """
         Sets the corresponding range variable :math:`y` for independent domain
         variable :math:`x`, must be reimplemented by sub-classes.
@@ -553,8 +552,9 @@ arithmetical_operation`
 
         ...  # pragma: no cover
 
-    def __add__(self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                ) -> AbstractContinuousFunction:
+    def __add__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for addition.
 
@@ -569,11 +569,11 @@ arithmetical_operation`
             Variable added abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '+')
+        return self.arithmetical_operation(a, "+")
 
-    def __iadd__(self,
-                 a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                 ) -> AbstractContinuousFunction:
+    def __iadd__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for in-place addition.
 
@@ -588,10 +588,11 @@ arithmetical_operation`
             In-place variable added abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '+', True)
+        return self.arithmetical_operation(a, "+", True)
 
-    def __sub__(self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                ) -> AbstractContinuousFunction:
+    def __sub__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for subtraction.
 
@@ -606,11 +607,11 @@ arithmetical_operation`
             Variable subtracted abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '-')
+        return self.arithmetical_operation(a, "-")
 
-    def __isub__(self,
-                 a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                 ) -> AbstractContinuousFunction:
+    def __isub__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for in-place subtraction.
 
@@ -625,10 +626,11 @@ arithmetical_operation`
             In-place variable subtracted abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '-', True)
+        return self.arithmetical_operation(a, "-", True)
 
-    def __mul__(self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                ) -> AbstractContinuousFunction:
+    def __mul__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for multiplication.
 
@@ -643,11 +645,11 @@ arithmetical_operation`
             Variable multiplied abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '*')
+        return self.arithmetical_operation(a, "*")
 
-    def __imul__(self,
-                 a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                 ) -> AbstractContinuousFunction:
+    def __imul__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for in-place multiplication.
 
@@ -662,10 +664,11 @@ arithmetical_operation`
             In-place variable multiplied abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '*', True)
+        return self.arithmetical_operation(a, "*", True)
 
-    def __div__(self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                ) -> AbstractContinuousFunction:
+    def __div__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for division.
 
@@ -680,11 +683,11 @@ arithmetical_operation`
             Variable divided abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '/')
+        return self.arithmetical_operation(a, "/")
 
-    def __idiv__(self,
-                 a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                 ) -> AbstractContinuousFunction:
+    def __idiv__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for in-place division.
 
@@ -699,13 +702,14 @@ arithmetical_operation`
             In-place variable divided abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '/', True)
+        return self.arithmetical_operation(a, "/", True)
 
     __itruediv__ = __idiv__
     __truediv__ = __div__
 
-    def __pow__(self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                ) -> AbstractContinuousFunction:
+    def __pow__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for exponentiation.
 
@@ -720,11 +724,11 @@ arithmetical_operation`
             Variable exponentiated abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '**')
+        return self.arithmetical_operation(a, "**")
 
-    def __ipow__(self,
-                 a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
-                 ) -> AbstractContinuousFunction:
+    def __ipow__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
         Implements support for in-place exponentiation.
 
@@ -739,14 +743,15 @@ arithmetical_operation`
             In-place variable exponentiated abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '**', True)
+        return self.arithmetical_operation(a, "**", True)
 
     @abstractmethod
     def arithmetical_operation(
-            self,
-            a: Union[FloatingOrArrayLike, AbstractContinuousFunction],
-            operation: Literal['+', '-', '*', '/', '**'],
-            in_place: Boolean = False) -> AbstractContinuousFunction:
+        self,
+        a: Union[FloatingOrArrayLike, AbstractContinuousFunction],
+        operation: Literal["+", "-", "*", "/", "**"],
+        in_place: Boolean = False,
+    ) -> AbstractContinuousFunction:
         """
         Performs given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place, must be
@@ -770,10 +775,11 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def fill_nan(self,
-                 method: Union[Literal['Constant', 'Interpolation'],
-                               str] = 'Interpolation',
-                 default: Number = 0) -> AbstractContinuousFunction:
+    def fill_nan(
+        self,
+        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        default: Number = 0,
+    ) -> AbstractContinuousFunction:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
         range variable :math:`y` using given method, must be reimplemented by
@@ -829,7 +835,7 @@ arithmetical_operation`
 
         return is_uniform(self.domain)
 
-    def copy(self):
+    def copy(self) -> AbstractContinuousFunction:
         """
         Returns a copy of the sub-class instance.
 

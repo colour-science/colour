@@ -16,21 +16,29 @@ XYZ_0 = np.array([95.05, 100.00, 108.88])
 Y_0 = 318.31
 k_1 = 0.0
 k_2 = 50.0
-message_box(('Converting to "ATD (1995)" colour appearance model '
-             'specification using given parameters:\n'
-             '\n\tXYZ: {0}\n\tXYZ_0: {1}\n\tY_0: {2}\n\tk_1: {3}'
-             '\n\tk_2: {4}'.format(XYZ, XYZ_0, Y_0, k_1, k_2)))
+message_box(
+    (
+        'Converting to "ATD (1995)" colour appearance model '
+        "specification using given parameters:\n"
+        "\n\tXYZ: {0}\n\tXYZ_0: {1}\n\tY_0: {2}\n\tk_1: {3}"
+        "\n\tk_2: {4}".format(XYZ, XYZ_0, Y_0, k_1, k_2)
+    )
+)
 specification = colour.XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)
 print(specification)
 
-print('\n')
+print("\n")
 
-message_box(('Broadcasting current output "ATD (1995)" colour appearance '
-             'model specification to reference specification.\n'
-             'The intent of this reference specification is to provide names '
-             'as closest as possible to "Mark D. Fairchild" reference.\n'
-             'The current output specification is meant to be consistent with '
-             'the other colour appearance model specification by using same '
-             'argument names for consistency wherever possible.'))
+message_box(
+    (
+        'Broadcasting current output "ATD (1995)" colour appearance '
+        "model specification to reference specification.\n"
+        "The intent of this reference specification is to provide names "
+        'as closest as possible to "Mark D. Fairchild" reference.\n'
+        "The current output specification is meant to be consistent with "
+        "the other colour appearance model specification by using same "
+        "argument names for consistency wherever possible."
+    )
+)
 
 print(CAM_ReferenceSpecification_ATD95(*specification))

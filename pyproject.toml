@@ -48,6 +48,7 @@ imageio = ">= 2, < 3"
 scipy = ">= 1.6, < 2"
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
+black = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "*", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
@@ -73,10 +74,10 @@ tqdm = { version = "*", optional = true }
 trimesh = { version = "*", optional = true }
 twine = { version = "*", optional = true }  # Development dependency.
 typing-extensions = { version = "*", optional = true }  # Development dependency.
-yapf = { version = "0.23", optional = true }  # Development dependency.
 
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
+black = "*"
 coverage = "*"
 coveralls = "*"
 flake8 = "*"
@@ -93,11 +94,11 @@ sphinxcontrib-bibtex = "*"
 toml = "*"
 twine = "*"
 typing-extensions = "*"
-yapf = "0.23"
 
 [tool.poetry.extras]
 development = [
     "biblib-simple",
+    "black",
     "coverage",
     "coveralls",
     "flake8",
@@ -114,7 +115,6 @@ development = [
     "toml",
     "twine",
     "typing-extensions",
-    "yapf"
 ]
 graphviz = [ "pygraphviz" ]
 meshing = [ "trimesh" ]
@@ -128,6 +128,16 @@ read-the-docs = [
     "sphinxcontrib-bibtex",
     "trimesh"
 ]
+
+[tool.black]
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | build
+  | dist
+)/
+'''
 
 [tool.mypy]
 plugins = "numpy.typing.mypy_plugin"

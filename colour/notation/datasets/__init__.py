@@ -8,8 +8,8 @@ from .munsell import (
 )
 
 __all__ = [
-    'MUNSELL_COLOURS_ALL',
-    'MUNSELL_COLOURS_1929',
-    'MUNSELL_COLOURS_REAL',
-    'MUNSELL_COLOURS',
+    "MUNSELL_COLOURS_ALL",
+    "MUNSELL_COLOURS_1929",
+    "MUNSELL_COLOURS_REAL",
+    "MUNSELL_COLOURS",
 ]

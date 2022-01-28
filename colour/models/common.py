@@ -35,19 +35,19 @@ from colour.utilities.documentation import (
     is_documentation_building,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'Jab_to_JCh',
-    'JCh_to_Jab',
-    'COLOURSPACE_MODELS',
-    'COLOURSPACE_MODELS_AXIS_LABELS',
-    'COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE',
+    "Jab_to_JCh",
+    "JCh_to_Jab",
+    "COLOURSPACE_MODELS",
+    "COLOURSPACE_MODELS_AXIS_LABELS",
+    "COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE",
 ]
 
 
@@ -171,20 +171,39 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArray:
 
     L, C, H = tsplit(JCh)
 
-    a, b = tsplit(
-        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
+    a, b = tsplit(polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
 
     Jab = tstack([L, a, b])
 
     return Jab
 
 
-COLOURSPACE_MODELS: Tuple = ('CAM02LCD', 'CAM02SCD', 'CAM02UCS', 'CAM16LCD',
-                             'CAM16SCD', 'CAM16UCS', 'CIE XYZ', 'CIE xyY',
-                             'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-                             'DIN99', 'Hunter Lab', 'Hunter Rdab', 'ICaCb',
-                             'ICtCp', 'IPT', 'IgPgTg', 'Jzazbz', 'OSA UCS',
-                             'Oklab', 'hdr-CIELAB', 'hdr-IPT')
+COLOURSPACE_MODELS: Tuple = (
+    "CAM02LCD",
+    "CAM02SCD",
+    "CAM02UCS",
+    "CAM16LCD",
+    "CAM16SCD",
+    "CAM16UCS",
+    "CIE XYZ",
+    "CIE xyY",
+    "CIE Lab",
+    "CIE Luv",
+    "CIE UCS",
+    "CIE UVW",
+    "DIN99",
+    "Hunter Lab",
+    "Hunter Rdab",
+    "ICaCb",
+    "ICtCp",
+    "IPT",
+    "IgPgTg",
+    "Jzazbz",
+    "OSA UCS",
+    "Oklab",
+    "hdr-CIELAB",
+    "hdr-IPT",
+)
 if is_documentation_building():  # pragma: no cover
     COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
     COLOURSPACE_MODELS.__doc__ = """
@@ -192,33 +211,34 @@ Colourspace models supporting a direct conversion to *CIE XYZ* tristimulus
 values.
 """
 
-COLOURSPACE_MODELS_AXIS_LABELS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping({
-        'CAM02LCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
-        'CAM02SCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
-        'CAM02UCS': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
-        'CAM16LCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
-        'CAM16SCD': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
-        'CAM16UCS': ('$J^\\prime$', '$a^\\prime$', '$b^\\prime$'),
-        'CIE XYZ': ('X', 'Y', 'Z'),
-        'CIE xyY': ('x', 'y', 'Y'),
-        'CIE Lab': ('$L^*$', '$a^*$', '$b^*$'),
-        'CIE Luv': ('$L^*$', '$u^\\prime$', '$v^\\prime$'),
-        'CIE UCS': ('U', 'V', 'W'),
-        'CIE UVW': ('U', 'V', 'W'),
-        'DIN99': ('$L_{99}$', '$a_{99}$', '$b_{99}$'),
-        'Hunter Lab': ('$L^*$', '$a^*$', '$b^*$'),
-        'Hunter Rdab': ('Rd', 'a', 'b'),
-        'ICaCb': ('$I$', '$C_a$', '$C_b$'),
-        'ICtCp': ('$I$', '$C_T$', '$C_P$'),
-        'IPT': ('I', 'P', 'T'),
-        'IgPgTg': ('$I_G$', '$P_G$', '$T_G$'),
-        'Jzazbz': ('$J_z$', '$a_z$', '$b_z$'),
-        'OSA UCS': ('L', 'j', 'g'),
-        'Oklab': ('$L$', '$a$', '$b$'),
-        'hdr-CIELAB': ('L hdr', 'a hdr', 'b hdr'),
-        'hdr-IPT': ('I hdr', 'P hdr', 'T hdr'),
-    }))
+COLOURSPACE_MODELS_AXIS_LABELS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "CAM02LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+        "CAM02SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+        "CAM02UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+        "CAM16LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+        "CAM16SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+        "CAM16UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+        "CIE XYZ": ("X", "Y", "Z"),
+        "CIE xyY": ("x", "y", "Y"),
+        "CIE Lab": ("$L^*$", "$a^*$", "$b^*$"),
+        "CIE Luv": ("$L^*$", "$u^\\prime$", "$v^\\prime$"),
+        "CIE UCS": ("U", "V", "W"),
+        "CIE UVW": ("U", "V", "W"),
+        "DIN99": ("$L_{99}$", "$a_{99}$", "$b_{99}$"),
+        "Hunter Lab": ("$L^*$", "$a^*$", "$b^*$"),
+        "Hunter Rdab": ("Rd", "a", "b"),
+        "ICaCb": ("$I$", "$C_a$", "$C_b$"),
+        "ICtCp": ("$I$", "$C_T$", "$C_P$"),
+        "IPT": ("I", "P", "T"),
+        "IgPgTg": ("$I_G$", "$P_G$", "$T_G$"),
+        "Jzazbz": ("$J_z$", "$a_z$", "$b_z$"),
+        "OSA UCS": ("L", "j", "g"),
+        "Oklab": ("$L$", "$a$", "$b$"),
+        "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
+        "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
+    }
+)
 """
 Colourspace models labels mapping.
 """
@@ -226,32 +246,35 @@ Colourspace models labels mapping.
 attest(COLOURSPACE_MODELS == tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()))
 
 COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
-    CaseInsensitiveMapping) = CaseInsensitiveMapping({
-        'CAM02LCD': np.array([100, 100, 100]),
-        'CAM02SCD': np.array([100, 100, 100]),
-        'CAM02UCS': np.array([100, 100, 100]),
-        'CAM16LCD': np.array([100, 100, 100]),
-        'CAM16SCD': np.array([100, 100, 100]),
-        'CAM16UCS': np.array([100, 100, 100]),
-        'CIE XYZ': np.array([1, 1, 1]),
-        'CIE xyY': np.array([1, 1, 1]),
-        'CIE Lab': np.array([100, 100, 100]),
-        'CIE Luv': np.array([100, 100, 100]),
-        'CIE UCS': np.array([1, 1, 1]),
-        'CIE UVW': np.array([100, 100, 100]),
-        'DIN99': np.array([100, 100, 100]),
-        'Hunter Lab': np.array([100, 100, 100]),
-        'Hunter Rdab': np.array([100, 100, 100]),
-        'ICaCb': np.array([1, 1, 1]),
-        'ICtCp': np.array([1, 1, 1]),
-        'IPT': np.array([1, 1, 1]),
-        'IgPgTg': np.array([1, 1, 1]),
-        'Jzazbz': np.array([1, 1, 1]),
-        'OSA UCS': np.array([100, 100, 100]),
-        'Oklab': np.array([1, 1, 1]),
-        'hdr-CIELAB': np.array([100, 100, 100]),
-        'hdr-IPT': np.array([100, 100, 100]),
-    })
+    CaseInsensitiveMapping
+) = CaseInsensitiveMapping(
+    {
+        "CAM02LCD": np.array([100, 100, 100]),
+        "CAM02SCD": np.array([100, 100, 100]),
+        "CAM02UCS": np.array([100, 100, 100]),
+        "CAM16LCD": np.array([100, 100, 100]),
+        "CAM16SCD": np.array([100, 100, 100]),
+        "CAM16UCS": np.array([100, 100, 100]),
+        "CIE XYZ": np.array([1, 1, 1]),
+        "CIE xyY": np.array([1, 1, 1]),
+        "CIE Lab": np.array([100, 100, 100]),
+        "CIE Luv": np.array([100, 100, 100]),
+        "CIE UCS": np.array([1, 1, 1]),
+        "CIE UVW": np.array([100, 100, 100]),
+        "DIN99": np.array([100, 100, 100]),
+        "Hunter Lab": np.array([100, 100, 100]),
+        "Hunter Rdab": np.array([100, 100, 100]),
+        "ICaCb": np.array([1, 1, 1]),
+        "ICtCp": np.array([1, 1, 1]),
+        "IPT": np.array([1, 1, 1]),
+        "IgPgTg": np.array([1, 1, 1]),
+        "Jzazbz": np.array([1, 1, 1]),
+        "OSA UCS": np.array([100, 100, 100]),
+        "Oklab": np.array([1, 1, 1]),
+        "hdr-CIELAB": np.array([100, 100, 100]),
+        "hdr-IPT": np.array([100, 100, 100]),
+    }
+)
 """
 Colourspace models domain-range scale **'1'** to **'Reference'** mapping.
 """

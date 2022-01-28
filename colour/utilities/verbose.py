@@ -27,6 +27,7 @@ from colour.hints import (
     Dict,
     Integer,
     LiteralWarning,
+    Mapping,
     Generator,
     Optional,
     TextIO,
@@ -35,30 +36,30 @@ from colour.hints import (
     cast,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'ColourWarning',
-    'ColourUsageWarning',
-    'ColourRuntimeWarning',
-    'message_box',
-    'show_warning',
-    'warning',
-    'runtime_warning',
-    'usage_warning',
-    'filter_warnings',
-    'suppress_warnings',
-    'numpy_print_options',
-    'ANCILLARY_COLOUR_SCIENCE_PACKAGES',
-    'ANCILLARY_RUNTIME_PACKAGES',
-    'ANCILLARY_DEVELOPMENT_PACKAGES',
-    'ANCILLARY_EXTRAS_PACKAGES',
-    'describe_environment',
+    "ColourWarning",
+    "ColourUsageWarning",
+    "ColourRuntimeWarning",
+    "message_box",
+    "show_warning",
+    "warning",
+    "runtime_warning",
+    "usage_warning",
+    "filter_warnings",
+    "suppress_warnings",
+    "numpy_print_options",
+    "ANCILLARY_COLOUR_SCIENCE_PACKAGES",
+    "ANCILLARY_RUNTIME_PACKAGES",
+    "ANCILLARY_DEVELOPMENT_PACKAGES",
+    "ANCILLARY_EXTRAS_PACKAGES",
+    "describe_environment",
 ]
 
 
@@ -83,10 +84,12 @@ class ColourRuntimeWarning(Warning):
     """
 
 
-def message_box(message: str,
-                width: Integer = 79,
-                padding: Integer = 3,
-                print_callable: Callable = print):
+def message_box(
+    message: str,
+    width: Integer = 79,
+    padding: Integer = 3,
+    print_callable: Callable = print,
+):
     """
     Prints a message inside a box.
 
@@ -97,7 +100,7 @@ def message_box(message: str,
     width
         Message box width.
     padding
-        Padding on each sides of the message.
+        Padding on each side of the message.
     print_callable
         Callable used to print the message box.
 
@@ -140,29 +143,33 @@ def message_box(message: str,
         Formats and pads inner text for the message box.
         """
 
-        return '*{0}{1}{2}{0}*'.format(
-            ' ' * padding, text, (' ' * (width - len(text) - padding * 2 - 2)))
+        return "*{0}{1}{2}{0}*".format(
+            " " * padding, text, (" " * (width - len(text) - padding * 2 - 2))
+        )
 
-    print_callable('=' * width)
-    print_callable(inner(''))
+    print_callable("=" * width)
+    print_callable(inner(""))
 
     wrapper = TextWrapper(
-        width=ideal_width, break_long_words=False, replace_whitespace=False)
+        width=ideal_width, break_long_words=False, replace_whitespace=False
+    )
 
     lines = [wrapper.wrap(line) for line in message.split("\n")]
-    for line in chain(*[' ' if len(line) == 0 else line for line in lines]):
+    for line in chain(*[" " if len(line) == 0 else line for line in lines]):
         print_callable(inner(line.expandtabs()))
 
-    print_callable(inner(''))
-    print_callable('=' * width)
+    print_callable(inner(""))
+    print_callable("=" * width)
 
 
-def show_warning(message: Union[Warning, str],
-                 category: Type[Warning],
-                 filename: str,
-                 lineno: Integer,
-                 file: Optional[TextIO] = None,
-                 line: Optional[str] = None) -> None:
+def show_warning(
+    message: Union[Warning, str],
+    category: Type[Warning],
+    filename: str,
+    lineno: Integer,
+    file: Optional[TextIO] = None,
+    line: Optional[str] = None,
+) -> None:
     """
     Alternative :func:`warnings.showwarning` definition that allows traceback
     printing.
@@ -210,8 +217,11 @@ def show_warning(message: Union[Warning, str],
             raise ZeroDivisionError
         except ZeroDivisionError:
             exception_traceback = sys.exc_info()[2]
-            frame = (exception_traceback.tb_frame.f_back
-                     if exception_traceback is not None else None)
+            frame = (
+                exception_traceback.tb_frame.f_back
+                if exception_traceback is not None
+                else None
+            )
             while frame_in and frame is not None:
                 frame = frame.f_back
                 frame_in -= 1
@@ -224,7 +234,8 @@ def show_warning(message: Union[Warning, str],
 
 
 if os.environ.get(  # pragma: no cover
-        'COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK'):
+    "COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK"
+):
     warnings.showwarning = show_warning  # pragma: no cover
 
 
@@ -244,7 +255,7 @@ def warning(*args: Any, **kwargs: Any):
     >>> warning('This is a warning!')  # doctest: +SKIP
     """
 
-    kwargs['category'] = kwargs.get('category', ColourWarning)
+    kwargs["category"] = kwargs.get("category", ColourWarning)
 
     warn(*args, **kwargs)
 
@@ -265,7 +276,7 @@ def runtime_warning(*args: Any, **kwargs: Any):
     >>> usage_warning('This is a runtime warning!')  # doctest: +SKIP
     """
 
-    kwargs['category'] = ColourRuntimeWarning
+    kwargs["category"] = ColourRuntimeWarning
 
     warning(*args, **kwargs)
 
@@ -286,16 +297,17 @@ def usage_warning(*args: Any, **kwargs: Any):
     >>> usage_warning('This is an usage warning!')  # doctest: +SKIP
     """
 
-    kwargs['category'] = ColourUsageWarning
+    kwargs["category"] = ColourUsageWarning
 
     warning(*args, **kwargs)
 
 
 def filter_warnings(
-        colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
-        colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
-        colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
-        python_warnings: Optional[Union[bool, LiteralWarning]] = None):
+    colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    python_warnings: Optional[Union[bool, LiteralWarning]] = None,
+):
     """
     Filters *Colour* and also optionally overall Python warnings.
 
@@ -369,7 +381,7 @@ def filter_warnings(
         if is_string(action):
             action = cast(LiteralWarning, str(action))
         else:
-            action = 'ignore' if action else 'default'
+            action = "ignore" if action else "default"
 
         filterwarnings(action, category=category)
 
@@ -380,10 +392,10 @@ filter_warnings(colour_runtime_warnings=True)
 
 @contextmanager
 def suppress_warnings(
-        colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
-        colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
-        colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
-        python_warnings: Optional[Union[bool, LiteralWarning]] = None
+    colour_runtime_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    colour_usage_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    colour_warnings: Optional[Union[bool, LiteralWarning]] = None,
+    python_warnings: Optional[Union[bool, LiteralWarning]] = None,
 ) -> Generator:
     """
     A context manager filtering *Colour* and also optionally overall Python
@@ -424,7 +436,8 @@ def suppress_warnings(
         colour_warnings=colour_warnings,
         colour_runtime_warnings=colour_runtime_warnings,
         colour_usage_warnings=colour_usage_warnings,
-        python_warnings=python_warnings)
+        python_warnings=python_warnings,
+    )
 
     try:
         yield
@@ -491,11 +504,13 @@ ANCILLARY_EXTRAS_PACKAGES
 """
 
 
-def describe_environment(runtime_packages: Boolean = True,
-                         development_packages: Boolean = False,
-                         extras_packages: Boolean = False,
-                         print_environment: Boolean = True,
-                         **kwargs: Any) -> defaultdict:
+def describe_environment(
+    runtime_packages: Boolean = True,
+    development_packages: Boolean = False,
+    extras_packages: Boolean = False,
+    print_environment: Boolean = True,
+    **kwargs: Any
+) -> defaultdict:
     """
     Describes *Colour* running environment, i.e. interpreter, runtime and
     development packages.
@@ -515,7 +530,7 @@ def describe_environment(runtime_packages: Boolean = True,
     ----------------
     padding
         {:func:`colour.utilities.message_box`},
-        Padding on each sides of the message.
+        Padding on each side of the message.
     print_callable
         {:func:`colour.utilities.message_box`},
         Callable used to print the message box.
@@ -600,7 +615,7 @@ def describe_environment(runtime_packages: Boolean = True,
 
     environment: defaultdict = defaultdict(dict)
 
-    environment['Interpreter']['python'] = sys.version
+    environment["Interpreter"]["python"] = sys.version
 
     import subprocess  # nosec
 
@@ -613,38 +628,47 @@ def describe_environment(runtime_packages: Boolean = True,
     # during continuous integration and are thus ignored for coverage.
     try:  # pragma: no cover
         output = subprocess.check_output(  # nosec
-            ['git', 'describe'],
+            ["git", "describe"],
             cwd=colour.__path__[0],
-            stderr=subprocess.STDOUT).strip()
-        version = output.decode('utf-8')
+            stderr=subprocess.STDOUT,
+        ).strip()
+        version = output.decode("utf-8")
     except Exception:  # pragma: no cover
         version = colour.__version__
 
-    environment['colour-science.org']['colour'] = version
-    environment['colour-science.org'].update(ANCILLARY_COLOUR_SCIENCE_PACKAGES)
+    environment["colour-science.org"]["colour"] = version
+    environment["colour-science.org"].update(ANCILLARY_COLOUR_SCIENCE_PACKAGES)
 
     if runtime_packages:
         for package in [
-                'imageio', 'matplotlib', 'networkx', 'numpy', 'pandas',
-                'pygraphviz', 'PyOpenColorIO', 'scipy', 'sklearn', 'tqdm',
-                'trimesh'
+            "imageio",
+            "matplotlib",
+            "networkx",
+            "numpy",
+            "pandas",
+            "pygraphviz",
+            "PyOpenColorIO",
+            "scipy",
+            "sklearn",
+            "tqdm",
+            "trimesh",
         ]:
             try:
                 namespace = __import__(package)
-                environment['Runtime'][package] = namespace.__version__
+                environment["Runtime"][package] = namespace.__version__
             except ImportError:
                 continue
 
         # OpenImageIO
         try:  # pragma: no cover
-            namespace = __import__('OpenImageIO')
-            environment['Runtime']['OpenImageIO'] = namespace.VERSION_STRING
+            namespace = __import__("OpenImageIO")
+            environment["Runtime"]["OpenImageIO"] = namespace.VERSION_STRING
         except ImportError:  # pragma: no cover
             pass
 
-        environment['Runtime'].update(ANCILLARY_RUNTIME_PACKAGES)
+        environment["Runtime"].update(ANCILLARY_RUNTIME_PACKAGES)
 
-    def _get_package_version(package, mapping):
+    def _get_package_version(package: str, mapping: Mapping) -> str:
         """
         Returns given package version.
         """
@@ -654,9 +678,7 @@ def describe_environment(runtime_packages: Boolean = True,
         if package in mapping:
             import pkg_resources
 
-            distributions = [
-                distribution for distribution in pkg_resources.working_set
-            ]
+            distributions = [distribution for distribution in pkg_resources.working_set]
 
             for distribution in distributions:
                 if distribution.project_name == mapping[package]:
@@ -666,59 +688,77 @@ def describe_environment(runtime_packages: Boolean = True,
 
     if development_packages:
         mapping = {
-            'biblib.bib': 'biblib-simple',
-            'pre_commit': 'pre-commit',
-            'restructuredtext_lint': 'restructuredtext-lint',
-            'sphinxcontrib.bibtex': 'sphinxcontrib-bibtex'
+            "biblib.bib": "biblib-simple",
+            "pre_commit": "pre-commit",
+            "restructuredtext_lint": "restructuredtext-lint",
+            "sphinxcontrib.bibtex": "sphinxcontrib-bibtex",
         }
         for package in [
-                'biblib.bib', 'coverage', 'coveralls', 'flake8', 'invoke',
-                'jupyter', 'mock', 'nose', 'pre_commit', 'pytest',
-                'restructuredtext_lint', 'sphinx', 'sphinx_rtd_theme',
-                'sphinxcontrib.bibtex', 'toml', 'twine', 'yapf'
+            "biblib.bib",
+            "coverage",
+            "coveralls",
+            "flake8",
+            "invoke",
+            "jupyter",
+            "mock",
+            "nose",
+            "pre_commit",
+            "pytest",
+            "restructuredtext_lint",
+            "sphinx",
+            "sphinx_rtd_theme",
+            "sphinxcontrib.bibtex",
+            "toml",
+            "twine",
+            "yapf",
         ]:
             try:
                 version = _get_package_version(package, mapping)
                 package = mapping.get(package, package)
 
-                environment['Development'][package] = version
+                environment["Development"][package] = version
             except Exception:  # pragma: no cover
                 # pylint: disable=B112
                 continue
 
-        environment['Development'].update(ANCILLARY_DEVELOPMENT_PACKAGES)
+        environment["Development"].update(ANCILLARY_DEVELOPMENT_PACKAGES)
 
     if extras_packages:
         mapping = {}
-        for package in ['ipywidgets', 'notebook']:
+        for package in ["ipywidgets", "notebook"]:
             try:
                 version = _get_package_version(package, mapping)
                 package = mapping.get(package, package)
 
-                environment['Extras'][package] = version
+                environment["Extras"][package] = version
             except Exception:  # pragma: no cover
                 # pylint: disable=B112
                 continue
 
-        environment['Extras'].update(ANCILLARY_EXTRAS_PACKAGES)
+        environment["Extras"].update(ANCILLARY_EXTRAS_PACKAGES)
 
     if print_environment:
         message = str()
-        for category in ('Interpreter', 'colour-science.org', 'Runtime',
-                         'Development', 'Extras'):
+        for category in (
+            "Interpreter",
+            "colour-science.org",
+            "Runtime",
+            "Development",
+            "Extras",
+        ):
             elements = environment.get(category)
             if not elements:
                 continue
 
-            message += '{0} :\n'.format(category)
+            message += "{0} :\n".format(category)
             for key, value in elements.items():
-                lines = value.split('\n')
-                message += '    {0} : {1}\n'.format(key, lines.pop(0))
-                indentation = len('    {0} : '.format(key))
+                lines = value.split("\n")
+                message += "    {0} : {1}\n".format(key, lines.pop(0))
+                indentation = len("    {0} : ".format(key))
                 for line in lines:
-                    message += '{0}{1}\n'.format(' ' * indentation, line)
+                    message += "{0}{1}\n".format(" " * indentation, line)
 
-            message += '\n'
+            message += "\n"
 
         message_box(message.strip(), **kwargs)
 

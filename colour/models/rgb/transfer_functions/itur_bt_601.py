@@ -32,16 +32,16 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'oetf_BT601',
-    'oetf_inverse_BT601',
+    "oetf_BT601",
+    "oetf_inverse_BT601",
 ]
 
 
@@ -134,7 +134,7 @@ def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     E = to_domain_1(E)
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         L = np.where(
             E < oetf_BT601(0.018),
             E / 4.5,

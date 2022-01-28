@@ -15,21 +15,20 @@ import numpy as np
 from colour.hints import Any, ArrayLike, NDArray
 from colour.utilities import as_float_array, required
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'process_image_OpenColorIO',
+    "process_image_OpenColorIO",
 ]
 
 
-@required('OpenColorIO')
-def process_image_OpenColorIO(a: ArrayLike, *args: Any,
-                              **kwargs: Any) -> NDArray:
+@required("OpenColorIO")
+def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
     """
     Processes given image with *OpenColorIO*.
 
@@ -95,9 +94,12 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any,
 
     import PyOpenColorIO as ocio
 
-    config = kwargs.get('config')
-    config = (ocio.Config.CreateFromEnv()
-              if config is None else ocio.Config.CreateFromFile(config))
+    config = kwargs.get("config")
+    config = (
+        ocio.Config.CreateFromEnv()
+        if config is None
+        else ocio.Config.CreateFromFile(config)
+    )
 
     a = as_float_array(np.atleast_3d(a), dtype=np.float32)
     height, width, channels = a.shape

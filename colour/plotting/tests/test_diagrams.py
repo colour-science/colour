@@ -27,24 +27,24 @@ from colour.plotting.diagrams import (
     plot_sds_in_chromaticity_diagram,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotSpectralLocus',
-    'TestPlotChromaticityDiagramColours',
-    'TestPlotChromaticityDiagram',
-    'TestPlotChromaticityDiagramCIE1931',
-    'TestPlotChromaticityDiagramCIE1960UCS',
-    'TestPlotChromaticityDiagramCIE1976UCS',
-    'TestPlotSdsInChromaticityDiagram',
-    'TestPlotSdsInChromaticityDiagramCIE1931',
-    'TestPlotSdsInChromaticityDiagramCIE1960UCS',
-    'TestPlotSdsInChromaticityDiagramCIE1976UCS',
+    "TestPlotSpectralLocus",
+    "TestPlotChromaticityDiagramColours",
+    "TestPlotChromaticityDiagram",
+    "TestPlotChromaticityDiagramCIE1931",
+    "TestPlotChromaticityDiagramCIE1960UCS",
+    "TestPlotChromaticityDiagramCIE1976UCS",
+    "TestPlotSdsInChromaticityDiagram",
+    "TestPlotSdsInChromaticityDiagramCIE1931",
+    "TestPlotSdsInChromaticityDiagramCIE1960UCS",
+    "TestPlotSdsInChromaticityDiagramCIE1976UCS",
 ]
 
 
@@ -64,33 +64,37 @@ class TestPlotSpectralLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_spectral_locus(spectral_locus_colours='RGB')
+        figure, axes = plot_spectral_locus(spectral_locus_colours="RGB")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_spectral_locus(
-            method='CIE 1960 UCS', spectral_locus_colours='RGB')
+            method="CIE 1960 UCS", spectral_locus_colours="RGB"
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_spectral_locus(
-            method='CIE 1976 UCS', spectral_locus_colours='RGB')
+            method="CIE 1976 UCS", spectral_locus_colours="RGB"
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         # pylint: disable=E1102
         figure, axes = plot_spectral_locus(
-            reshape_msds(MSDS_CMFS['CIE 1931 2 Degree Standard Observer'],
-                         SpectralShape(400, 700, 10)))
+            reshape_msds(
+                MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+                SpectralShape(400, 700, 10),
+            )
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(
-            ValueError, lambda: plot_spectral_locus(method='Undefined'))
+        self.assertRaises(ValueError, lambda: plot_spectral_locus(method="Undefined"))
 
 
 class TestPlotChromaticityDiagramColours(unittest.TestCase):
@@ -112,7 +116,8 @@ plot_chromaticity_diagram_colours` definition.
 
         self.assertRaises(
             ValueError,
-            lambda: plot_chromaticity_diagram_colours(method='Undefined'))
+            lambda: plot_chromaticity_diagram_colours(method="Undefined"),
+        )
 
 
 class TestPlotChromaticityDiagram(unittest.TestCase):
@@ -132,21 +137,23 @@ class TestPlotChromaticityDiagram(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_chromaticity_diagram(method='CIE 1960 UCS')
+        figure, axes = plot_chromaticity_diagram(method="CIE 1960 UCS")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_chromaticity_diagram(method='CIE 1976 UCS')
+        figure, axes = plot_chromaticity_diagram(method="CIE 1976 UCS")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         self.assertRaises(
-            ValueError, lambda: plot_chromaticity_diagram(
-                method='Undefined',
+            ValueError,
+            lambda: plot_chromaticity_diagram(
+                method="Undefined",
                 show_diagram_colours=False,
-                show_spectral_locus=False)
+                show_spectral_locus=False,
+            ),
         )
 
 
@@ -217,29 +224,19 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
         """
 
         figure, axes = plot_sds_in_chromaticity_diagram(
-            [SDS_ILLUMINANTS['A'], SDS_ILLUMINANTS['D65']],
-            annotate_kwargs={'arrowprops': {
-                'width': 10
-            }},
-            plot_kwargs={
-                'normalise_sd_colours': True,
-                'use_sd_colours': True
-            })
+            [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]],
+            annotate_kwargs={"arrowprops": {"width": 10}},
+            plot_kwargs={"normalise_sd_colours": True, "use_sd_colours": True},
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_sds_in_chromaticity_diagram(
-            [SDS_ILLUMINANTS['A'], SDS_ILLUMINANTS['D65']],
-            annotate_kwargs=[{
-                'arrowprops': {
-                    'width': 10
-                }
-            }] * 2,
-            plot_kwargs=[{
-                'normalise_sd_colours': True,
-                'use_sd_colours': True
-            }] * 2)
+            [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]],
+            annotate_kwargs=[{"arrowprops": {"width": 10}}] * 2,
+            plot_kwargs=[{"normalise_sd_colours": True, "use_sd_colours": True}] * 2,
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -247,9 +244,10 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
         self.assertRaises(
             ValueError,
             lambda: plot_sds_in_chromaticity_diagram(
-                [SDS_ILLUMINANTS['A'], SDS_ILLUMINANTS['D65']],
+                [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]],
                 chromaticity_diagram_callable=lambda **x: x,
-                method='Undefined')
+                method="Undefined",
+            ),
         )
 
 
@@ -266,7 +264,8 @@ plot_sds_in_chromaticity_diagram_CIE1931` definition.
         """
 
         figure, axes = plot_sds_in_chromaticity_diagram_CIE1931(
-            [SDS_ILLUMINANTS['A'], SDS_ILLUMINANTS['D65']])
+            [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -285,7 +284,8 @@ plot_sds_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
         figure, axes = plot_sds_in_chromaticity_diagram_CIE1960UCS(
-            [SDS_ILLUMINANTS['A'], SDS_ILLUMINANTS['D65']])
+            [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -304,11 +304,12 @@ plot_sds_in_chromaticity_diagram_CIE1976UCS` definition.
         """
 
         figure, axes = plot_sds_in_chromaticity_diagram_CIE1976UCS(
-            [SDS_ILLUMINANTS['A'], SDS_ILLUMINANTS['D65']])
+            [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

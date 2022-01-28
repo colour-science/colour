@@ -16,32 +16,32 @@ from operator import attrgetter
 from colour.utilities import attest, optional, usage_warning
 from colour.hints import Any, Dict, List, ModuleType, Optional
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'ObjectRenamed',
-    'ObjectRemoved',
-    'ObjectFutureRename',
-    'ObjectFutureRemove',
-    'ObjectFutureAccessChange',
-    'ObjectFutureAccessRemove',
-    'ModuleAPI',
-    'ArgumentRenamed',
-    'ArgumentRemoved',
-    'ArgumentFutureRename',
-    'ArgumentFutureRemove',
-    'get_attribute',
-    'build_API_changes',
-    'handle_arguments_deprecation',
+    "ObjectRenamed",
+    "ObjectRemoved",
+    "ObjectFutureRename",
+    "ObjectFutureRemove",
+    "ObjectFutureAccessChange",
+    "ObjectFutureAccessRemove",
+    "ModuleAPI",
+    "ArgumentRenamed",
+    "ArgumentRemoved",
+    "ArgumentFutureRename",
+    "ArgumentFutureRemove",
+    "get_attribute",
+    "build_API_changes",
+    "handle_arguments_deprecation",
 ]
 
 
-class ObjectRenamed(namedtuple('ObjectRenamed', ('name', 'new_name'))):
+class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
     """
     A class used for an object that has been renamed.
 
@@ -63,11 +63,12 @@ class ObjectRenamed(namedtuple('ObjectRenamed', ('name', 'new_name'))):
             Formatted string representation.
         """
 
-        return ('"{0}" object has been renamed to "{1}".'.format(
-            self.name, self.new_name))
+        return '"{0}" object has been renamed to "{1}".'.format(
+            self.name, self.new_name
+        )
 
 
-class ObjectRemoved(namedtuple('ObjectRemoved', ('name', ))):
+class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
     """
     A class used for an object that has been removed.
 
@@ -90,8 +91,7 @@ class ObjectRemoved(namedtuple('ObjectRemoved', ('name', ))):
         return '"{0}" object has been removed from the API.'.format(self.name)
 
 
-class ObjectFutureRename(
-        namedtuple('ObjectFutureRename', ('name', 'new_name'))):
+class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name"))):
     """
     A class used for future object name deprecation, i.e. object name will
     change in a future release.
@@ -114,11 +114,13 @@ class ObjectFutureRename(
             Formatted string representation.
         """
 
-        return ('"{0}" object is deprecated and will be renamed to "{1}" '
-                'in a future release.'.format(self.name, self.new_name))
+        return (
+            '"{0}" object is deprecated and will be renamed to "{1}" '
+            "in a future release.".format(self.name, self.new_name)
+        )
 
 
-class ObjectFutureRemove(namedtuple('ObjectFutureRemove', ('name', ))):
+class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
     """
     A class used for future object removal.
 
@@ -138,12 +140,15 @@ class ObjectFutureRemove(namedtuple('ObjectFutureRemove', ('name', ))):
             Formatted string representation.
         """
 
-        return ('"{0}" object is deprecated and will be removed '
-                'in a future release.'.format(self.name))
+        return (
+            '"{0}" object is deprecated and will be removed '
+            "in a future release.".format(self.name)
+        )
 
 
 class ObjectFutureAccessChange(
-        namedtuple('ObjectFutureAccessChange', ('access', 'new_access'))):
+    namedtuple("ObjectFutureAccessChange", ("access", "new_access"))
+):
     """
     A class used for future object access deprecation, i.e. object access will
     change in a future release.
@@ -166,13 +171,13 @@ class ObjectFutureAccessChange(
             Formatted string representation.
         """
 
-        return ('"{0}" object access is deprecated and will change to '
-                '"{1}" in a future release.'.format(self.access,
-                                                    self.new_access))
+        return (
+            '"{0}" object access is deprecated and will change to '
+            '"{1}" in a future release.'.format(self.access, self.new_access)
+        )
 
 
-class ObjectFutureAccessRemove(
-        namedtuple('ObjectFutureAccessRemove', ('name', ))):
+class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))):
     """
     A class used for future object access removal, i.e. object access will
     be removed in a future release.
@@ -193,12 +198,12 @@ class ObjectFutureAccessRemove(
             Formatted string representation.
         """
 
-        return (
-            '"{0}" object access will be removed in a future release.'.format(
-                self.name))
+        return '"{0}" object access will be removed in a future release.'.format(
+            self.name
+        )
 
 
-class ArgumentRenamed(namedtuple('ArgumentRenamed', ('name', 'new_name'))):
+class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
     """
     A class used for an argument that has been renamed.
 
@@ -220,11 +225,12 @@ class ArgumentRenamed(namedtuple('ArgumentRenamed', ('name', 'new_name'))):
             Formatted string representation.
         """
 
-        return ('"{0}" argument has been renamed to "{1}".'.format(
-            self.name, self.new_name))
+        return '"{0}" argument has been renamed to "{1}".'.format(
+            self.name, self.new_name
+        )
 
 
-class ArgumentRemoved(namedtuple('ArgumentRemoved', ('name', ))):
+class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
     """
     A class used for an argument that has been removed.
 
@@ -244,12 +250,10 @@ class ArgumentRemoved(namedtuple('ArgumentRemoved', ('name', ))):
             Formatted string representation.
         """
 
-        return '"{0}" argument has been removed from the API.'.format(
-            self.name)
+        return '"{0}" argument has been removed from the API.'.format(self.name)
 
 
-class ArgumentFutureRename(
-        namedtuple('ArgumentFutureRename', ('name', 'new_name'))):
+class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name"))):
     """
     A class used for future argument name deprecation, i.e. argument name will
     change in a future release.
@@ -272,11 +276,13 @@ class ArgumentFutureRename(
             Formatted string representation.
         """
 
-        return ('"{0}" argument is deprecated and will be renamed to "{1}" '
-                'in a future release.'.format(self.name, self.new_name))
+        return (
+            '"{0}" argument is deprecated and will be renamed to "{1}" '
+            "in a future release.".format(self.name, self.new_name)
+        )
 
 
-class ArgumentFutureRemove(namedtuple('ArgumentFutureRemove', ('name', ))):
+class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
     """
     A class used for future argument removal.
 
@@ -296,8 +302,10 @@ class ArgumentFutureRemove(namedtuple('ArgumentFutureRemove', ('name', ))):
             Formatted string representation.
         """
 
-        return ('"{0}" argument is deprecated and will be removed '
-                'in a future release.'.format(self.name))
+        return (
+            '"{0}" argument is deprecated and will be removed '
+            "in a future release.".format(self.name)
+        )
 
 
 class ModuleAPI:
@@ -354,8 +362,11 @@ class ModuleAPI:
 
                 usage_warning(str(change))
 
-                return (getattr(self._module, attribute) if isinstance(
-                    change, ObjectFutureRemove) else get_attribute(change[1]))
+                return (
+                    getattr(self._module, attribute)
+                    if isinstance(change, ObjectFutureRemove)
+                    else get_attribute(change[1])
+                )
             else:
                 raise AttributeError(str(change))
 
@@ -373,7 +384,8 @@ class ModuleAPI:
         """
 
         attributes = [
-            attribute for attribute in dir(self._module)
+            attribute
+            for attribute in dir(self._module)
             if attribute not in self._changes
         ]
 
@@ -401,16 +413,16 @@ def get_attribute(attribute: str) -> Any:
     <function eotf_BT2020 at 0x...>
     """
 
-    attest('.' in attribute, '"{0}" attribute has no namespace!')
+    attest("." in attribute, '"{0}" attribute has no namespace!')
 
-    module_name, attribute = attribute.rsplit('.', 1)
+    module_name, attribute = attribute.rsplit(".", 1)
 
     module = optional(sys.modules.get(module_name), import_module(module_name))
 
     attest(
         module is not None,
-        '"{0}" module does not exists or cannot be imported!'.format(
-            module_name))
+        '"{0}" module does not exists or cannot be imported!'.format(module_name),
+    )
 
     return attrgetter(attribute)(module)
 
@@ -463,17 +475,25 @@ new_access='module.sub_module.object_3_new_access'),
 name='module.object_6_access')}
     """
 
-    for rename_type in (ObjectRenamed, ObjectFutureRename,
-                        ObjectFutureAccessChange, ArgumentRenamed,
-                        ArgumentFutureRename):
+    for rename_type in (
+        ObjectRenamed,
+        ObjectFutureRename,
+        ObjectFutureAccessChange,
+        ArgumentRenamed,
+        ArgumentFutureRename,
+    ):
         for change in changes.pop(rename_type.__name__, []):
-            changes[change[0].split('.')[-1]] = rename_type(*change)  # noqa
+            changes[change[0].split(".")[-1]] = rename_type(*change)  # noqa
 
-    for remove_type in (ObjectRemoved, ObjectFutureRemove,
-                        ObjectFutureAccessRemove, ArgumentRemoved,
-                        ArgumentFutureRemove):
+    for remove_type in (
+        ObjectRemoved,
+        ObjectFutureRemove,
+        ObjectFutureAccessRemove,
+        ArgumentRemoved,
+        ArgumentFutureRemove,
+    ):
         for change in changes.pop(remove_type.__name__, []):
-            changes[change.split('.')[-1]] = remove_type(change)  # noqa
+            changes[change.split(".")[-1]] = remove_type(change)  # noqa
 
     return changes
 

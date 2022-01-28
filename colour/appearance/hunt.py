@@ -49,47 +49,48 @@ from colour.utilities import (
     zeros,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'InductionFactors_Hunt',
-    'VIEWING_CONDITIONS_HUNT',
-    'HUE_DATA_FOR_HUE_QUADRATURE',
-    'MATRIX_XYZ_TO_HPE',
-    'MATRIX_HPE_TO_XYZ',
-    'CAM_ReferenceSpecification_Hunt',
-    'CAM_Specification_Hunt',
-    'XYZ_to_Hunt',
-    'luminance_level_adaptation_factor',
-    'illuminant_scotopic_luminance',
-    'XYZ_to_rgb',
-    'f_n',
-    'chromatic_adaptation',
-    'adjusted_reference_white_signals',
-    'achromatic_post_adaptation_signal',
-    'colour_difference_signals',
-    'hue_angle',
-    'eccentricity_factor',
-    'low_luminance_tritanopia_factor',
-    'yellowness_blueness_response',
-    'redness_greenness_response',
-    'overall_chromatic_response',
-    'saturation_correlate',
-    'achromatic_signal',
-    'brightness_correlate',
-    'lightness_correlate',
-    'chroma_correlate',
-    'colourfulness_correlate',
+    "InductionFactors_Hunt",
+    "VIEWING_CONDITIONS_HUNT",
+    "HUE_DATA_FOR_HUE_QUADRATURE",
+    "MATRIX_XYZ_TO_HPE",
+    "MATRIX_HPE_TO_XYZ",
+    "CAM_ReferenceSpecification_Hunt",
+    "CAM_Specification_Hunt",
+    "XYZ_to_Hunt",
+    "luminance_level_adaptation_factor",
+    "illuminant_scotopic_luminance",
+    "XYZ_to_rgb",
+    "f_n",
+    "chromatic_adaptation",
+    "adjusted_reference_white_signals",
+    "achromatic_post_adaptation_signal",
+    "colour_difference_signals",
+    "hue_angle",
+    "eccentricity_factor",
+    "low_luminance_tritanopia_factor",
+    "yellowness_blueness_response",
+    "redness_greenness_response",
+    "overall_chromatic_response",
+    "saturation_correlate",
+    "achromatic_signal",
+    "brightness_correlate",
+    "lightness_correlate",
+    "chroma_correlate",
+    "colourfulness_correlate",
 ]
 
 
 class InductionFactors_Hunt(
-        namedtuple('InductionFactors_Hunt', ('N_c', 'N_b', 'N_cb', 'N_bb'))):
+    namedtuple("InductionFactors_Hunt", ("N_c", "N_b", "N_cb", "N_bb"))
+):
     """
     *Hunt* colour appearance model induction factors.
 
@@ -119,22 +120,18 @@ class InductionFactors_Hunt(
         :class:`colour.appearance.InductionFactors_Hunt` class.
         """
 
-        return super(InductionFactors_Hunt, cls).__new__(
-            cls, N_c, N_b, N_cb, N_bb)
+        return super(InductionFactors_Hunt, cls).__new__(cls, N_c, N_b, N_cb, N_bb)
 
 
-VIEWING_CONDITIONS_HUNT: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Small Areas, Uniform Background & Surrounds':
-        InductionFactors_Hunt(1, 300),
-    'Normal Scenes':
-        InductionFactors_Hunt(1, 75),
-    'Television & CRT, Dim Surrounds':
-        InductionFactors_Hunt(1, 25),
-    'Large Transparencies On Light Boxes':
-        InductionFactors_Hunt(0.7, 25),
-    'Projected Transparencies, Dark Surrounds':
-        InductionFactors_Hunt(0.7, 10)
-})
+VIEWING_CONDITIONS_HUNT: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Small Areas, Uniform Background & Surrounds": InductionFactors_Hunt(1, 300),
+        "Normal Scenes": InductionFactors_Hunt(1, 75),
+        "Television & CRT, Dim Surrounds": InductionFactors_Hunt(1, 25),
+        "Large Transparencies On Light Boxes": InductionFactors_Hunt(0.7, 25),
+        "Projected Transparencies, Dark Surrounds": InductionFactors_Hunt(0.7, 10),
+    }
+)
 VIEWING_CONDITIONS_HUNT.__doc__ = """
 Reference *Hunt* colour appearance model viewing conditions.
 
@@ -151,26 +148,32 @@ Aliases:
 -   'projected_dark': 'Projected Transparencies, Dark Surrounds'
 
 """
-VIEWING_CONDITIONS_HUNT['small_uniform'] = (
-    VIEWING_CONDITIONS_HUNT['Small Areas, Uniform Background & Surrounds'])
-VIEWING_CONDITIONS_HUNT['normal'] = (VIEWING_CONDITIONS_HUNT['Normal Scenes'])
-VIEWING_CONDITIONS_HUNT['tv_dim'] = (
-    VIEWING_CONDITIONS_HUNT['Television & CRT, Dim Surrounds'])
-VIEWING_CONDITIONS_HUNT['light_boxes'] = (
-    VIEWING_CONDITIONS_HUNT['Large Transparencies On Light Boxes'])
-VIEWING_CONDITIONS_HUNT['projected_dark'] = (
-    VIEWING_CONDITIONS_HUNT['Projected Transparencies, Dark Surrounds'])
+VIEWING_CONDITIONS_HUNT["small_uniform"] = VIEWING_CONDITIONS_HUNT[
+    "Small Areas, Uniform Background & Surrounds"
+]
+VIEWING_CONDITIONS_HUNT["normal"] = VIEWING_CONDITIONS_HUNT["Normal Scenes"]
+VIEWING_CONDITIONS_HUNT["tv_dim"] = VIEWING_CONDITIONS_HUNT[
+    "Television & CRT, Dim Surrounds"
+]
+VIEWING_CONDITIONS_HUNT["light_boxes"] = VIEWING_CONDITIONS_HUNT[
+    "Large Transparencies On Light Boxes"
+]
+VIEWING_CONDITIONS_HUNT["projected_dark"] = VIEWING_CONDITIONS_HUNT[
+    "Projected Transparencies, Dark Surrounds"
+]
 
 HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
-    'h_s': np.array([20.14, 90.00, 164.25, 237.53]),
-    'e_s': np.array([0.8, 0.7, 1.0, 1.2])
+    "h_s": np.array([20.14, 90.00, 164.25, 237.53]),
+    "e_s": np.array([0.8, 0.7, 1.0, 1.2]),
 }
 
-MATRIX_XYZ_TO_HPE: NDArray = np.array([
-    [0.38971, 0.68898, -0.07868],
-    [-0.22981, 1.18340, 0.04641],
-    [0.00000, 0.00000, 1.00000],
-])
+MATRIX_XYZ_TO_HPE: NDArray = np.array(
+    [
+        [0.38971, 0.68898, -0.07868],
+        [-0.22981, 1.18340, 0.04641],
+        [0.00000, 0.00000, 1.00000],
+    ]
+)
 """
 *Hunt* colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace matrix.
@@ -272,20 +275,21 @@ class CAM_Specification_Hunt(MixinDataclassArray):
     HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
-def XYZ_to_Hunt(XYZ: ArrayLike,
-                XYZ_w: ArrayLike,
-                XYZ_b: ArrayLike,
-                L_A: FloatingOrArrayLike,
-                surround: InductionFactors_Hunt = VIEWING_CONDITIONS_HUNT[
-                    'Normal Scenes'],
-                L_AS: Optional[FloatingOrArrayLike] = None,
-                CCT_w: Optional[FloatingOrArrayLike] = None,
-                XYZ_p: Optional[ArrayLike] = None,
-                p: Optional[FloatingOrArrayLike] = None,
-                S: Optional[FloatingOrArrayLike] = None,
-                S_w: Optional[FloatingOrArrayLike] = None,
-                helson_judd_effect: Boolean = False,
-                discount_illuminant: Boolean = True) -> CAM_Specification_Hunt:
+def XYZ_to_Hunt(
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_b: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    surround: InductionFactors_Hunt = VIEWING_CONDITIONS_HUNT["Normal Scenes"],
+    L_AS: Optional[FloatingOrArrayLike] = None,
+    CCT_w: Optional[FloatingOrArrayLike] = None,
+    XYZ_p: Optional[ArrayLike] = None,
+    p: Optional[FloatingOrArrayLike] = None,
+    S: Optional[FloatingOrArrayLike] = None,
+    S_w: Optional[FloatingOrArrayLike] = None,
+    helson_judd_effect: Boolean = False,
+    discount_illuminant: Boolean = True,
+) -> CAM_Specification_Hunt:
     """
     Computes the *Hunt* colour appearance model correlates.
 
@@ -390,45 +394,56 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         X_p = X_b
         Y_p = Y_b
         Z_p = Y_b
-        usage_warning('Unspecified proximal field "XYZ_p" argument, using '
-                      'background "XYZ_b" as approximation!')
+        usage_warning(
+            'Unspecified proximal field "XYZ_p" argument, using '
+            'background "XYZ_b" as approximation!'
+        )
 
     if surround.N_cb is None:
         N_cb = 0.725 * spow(Y_w / Y_b, 0.2)
-        usage_warning('Unspecified "N_cb" argument, using approximation: '
-                      '"{0}"'.format(N_cb))
+        usage_warning(
+            'Unspecified "N_cb" argument, using approximation: ' '"{0}"'.format(N_cb)
+        )
     if surround.N_bb is None:
         N_bb = 0.725 * spow(Y_w / Y_b, 0.2)
-        usage_warning('Unspecified "N_bb" argument, using approximation: '
-                      '"{0}"'.format(N_bb))
+        usage_warning(
+            'Unspecified "N_bb" argument, using approximation: ' '"{0}"'.format(N_bb)
+        )
 
     if L_AS is None and CCT_w is None:
-        raise ValueError('Either the scotopic luminance "L_AS" of the '
-                         'illuminant or its correlated colour temperature '
-                         '"CCT_w" must be specified!')
+        raise ValueError(
+            'Either the scotopic luminance "L_AS" of the '
+            "illuminant or its correlated colour temperature "
+            '"CCT_w" must be specified!'
+        )
     elif L_AS is None and CCT_w is not None:
         L_AS = illuminant_scotopic_luminance(L_A, CCT_w)
         usage_warning(
             'Unspecified "L_AS" argument, using approximation from "CCT": '
-            '"{0}"'.format(L_AS))
+            '"{0}"'.format(L_AS)
+        )
 
     if (S is None and S_w is not None) or (S is not None and S_w is None):
-        raise ValueError('Either both stimulus scotopic response "S" and '
-                         'reference white scotopic response "S_w" arguments '
-                         'need to be specified or none of them!')
+        raise ValueError(
+            'Either both stimulus scotopic response "S" and '
+            'reference white scotopic response "S_w" arguments '
+            "need to be specified or none of them!"
+        )
     elif S is None and S_w is None:
         S_p = Y
         S_w_p = Y_w
         usage_warning(
             'Unspecified stimulus scotopic response "S" and reference '
             'white scotopic response "S_w" arguments, using '
-            'approximation: "{0}", "{1}"'.format(S, S_w))
+            'approximation: "{0}", "{1}"'.format(S, S_w)
+        )
 
     if p is None:
         usage_warning(
             'Unspecified simultaneous contrast / assimilation "p" '
-            'argument, model will not account for simultaneous chromatic '
-            'contrast!')
+            "argument, model will not account for simultaneous chromatic "
+            "contrast!"
+        )
 
     XYZ_p = tstack([X_p, Y_p, Z_p])
 
@@ -436,12 +451,30 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     F_L = luminance_level_adaptation_factor(L_A)
 
     # Computing test sample chromatic adaptation.
-    rgb_a = chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L, XYZ_p, p,
-                                 helson_judd_effect, discount_illuminant)
+    rgb_a = chromatic_adaptation(
+        XYZ,
+        XYZ_w,
+        XYZ_b,
+        L_A,
+        F_L,
+        XYZ_p,
+        p,
+        helson_judd_effect,
+        discount_illuminant,
+    )
 
     # Computing reference white chromatic adaptation.
-    rgb_aw = chromatic_adaptation(XYZ_w, XYZ_w, XYZ_b, L_A, F_L, XYZ_p, p,
-                                  helson_judd_effect, discount_illuminant)
+    rgb_aw = chromatic_adaptation(
+        XYZ_w,
+        XYZ_w,
+        XYZ_b,
+        L_A,
+        F_L,
+        XYZ_p,
+        p,
+        helson_judd_effect,
+        discount_illuminant,
+    )
 
     # Computing opponent colour dimensions.
     # Computing achromatic post adaptation signals.
@@ -484,8 +517,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     # -------------------------------------------------------------------------
     # Computing achromatic signal :math:`A`.
     A = achromatic_signal(cast(FloatingOrNDArray, L_AS), S_p, S_w_p, N_bb, A_a)
-    A_w = achromatic_signal(
-        cast(FloatingOrNDArray, L_AS), S_w_p, S_w_p, N_bb, A_aw)
+    A_w = achromatic_signal(cast(FloatingOrNDArray, L_AS), S_w_p, S_w_p, N_bb, A_aw)
 
     Q = brightness_correlate(A, A_w, M, surround.N_b)
     brightness_w = brightness_correlate(A_w, A_w, M_w, surround.N_b)
@@ -519,7 +551,8 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
 
 
 def luminance_level_adaptation_factor(
-        L_A: FloatingOrArrayLike) -> FloatingOrNDArray:
+    L_A: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the *luminance* level adaptation factor :math:`F_L`.
 
@@ -549,8 +582,8 @@ def luminance_level_adaptation_factor(
 
 
 def illuminant_scotopic_luminance(
-        L_A: FloatingOrArrayLike,
-        CCT: FloatingOrArrayLike) -> FloatingOrNDArray:
+    L_A: FloatingOrArrayLike, CCT: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the approximate scotopic luminance :math:`L_{AS}` of the
     illuminant.
@@ -635,15 +668,17 @@ def f_n(x: ArrayLike) -> NDArray:
     return as_float_array(x_m)
 
 
-def chromatic_adaptation(XYZ: ArrayLike,
-                         XYZ_w: ArrayLike,
-                         XYZ_b: ArrayLike,
-                         L_A,
-                         F_L,
-                         XYZ_p: ArrayLike = None,
-                         p: Optional[FloatingOrArrayLike] = None,
-                         helson_judd_effect: Boolean = False,
-                         discount_illuminant: Boolean = True) -> NDArray:
+def chromatic_adaptation(
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_b: ArrayLike,
+    L_A,
+    F_L,
+    XYZ_p: ArrayLike = None,
+    p: Optional[FloatingOrArrayLike] = None,
+    helson_judd_effect: Boolean = False,
+    discount_illuminant: Boolean = True,
+) -> NDArray:
     """
     Applies chromatic adaptation to given *CIE XYZ* tristimulus values.
 
@@ -715,14 +750,13 @@ def chromatic_adaptation(XYZ: ArrayLike,
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
         L_A_p = spow(L_A, 1 / 3)
-        F_rgb = ((1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb)))
+        F_rgb = (1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb))
     else:
         F_rgb = ones(h_rgb.shape)
 
     # Computing Helson-Judd effect parameters.
     if helson_judd_effect:
-        D_rgb = (f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) - f_n(
-            (Y_b / Y_w) * F_L * F_rgb))
+        D_rgb = f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) - f_n((Y_b / Y_w) * F_L * F_rgb)
     else:
         D_rgb = zeros(F_rgb.shape)
 
@@ -735,15 +769,17 @@ def chromatic_adaptation(XYZ: ArrayLike,
         rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
 
     # Computing adapted cone responses.
-    rgb_a = (
-        1 + B_rgb * (f_n(F_L[..., np.newaxis] * F_rgb * rgb / rgb_w) + D_rgb))
+    rgb_a = 1 + B_rgb * (f_n(F_L[..., np.newaxis] * F_rgb * rgb / rgb_w) + D_rgb)
 
     return rgb_a
 
 
-def adjusted_reference_white_signals(rgb_p: ArrayLike, rgb_b: ArrayLike,
-                                     rgb_w: ArrayLike,
-                                     p: FloatingOrArrayLike) -> NDArray:
+def adjusted_reference_white_signals(
+    rgb_p: ArrayLike,
+    rgb_b: ArrayLike,
+    rgb_w: ArrayLike,
+    p: FloatingOrArrayLike,
+) -> NDArray:
     """
     Adjusts the white point for simultaneous chromatic contrast.
 
@@ -786,8 +822,11 @@ def adjusted_reference_white_signals(rgb_p: ArrayLike, rgb_b: ArrayLike,
     p = as_float_array(p)
 
     p_rgb = rgb_p / rgb_b
-    rgb_w = (rgb_w * (spow((1 - p) * p_rgb + (1 + p) / p_rgb, 0.5)) / (spow(
-        (1 + p) * p_rgb + (1 - p) / p_rgb, 0.5)))
+    rgb_w = (
+        rgb_w
+        * (spow((1 - p) * p_rgb + (1 + p) / p_rgb, 0.5))
+        / (spow((1 + p) * p_rgb + (1 - p) / p_rgb, 0.5))
+    )
 
     return rgb_w
 
@@ -883,8 +922,7 @@ def hue_angle(C: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     C_1, C_2, C_3 = tsplit(C)
 
-    hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 -
-                            (C_2 / 11)) / np.pi) % 360
+    hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 - (C_2 / 11)) / np.pi) % 360
     return as_float(hue)
 
 
@@ -911,8 +949,8 @@ def eccentricity_factor(hue: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     hue = as_float_array(hue)
 
-    h_s = HUE_DATA_FOR_HUE_QUADRATURE['h_s']
-    e_s = HUE_DATA_FOR_HUE_QUADRATURE['e_s']
+    h_s = HUE_DATA_FOR_HUE_QUADRATURE["h_s"]
+    e_s = HUE_DATA_FOR_HUE_QUADRATURE["e_s"]
 
     x = np.interp(hue, h_s, e_s)
     x = np.where(hue < 20.14, 0.856 - (hue / 20.14) * 0.056, x)
@@ -922,7 +960,8 @@ def eccentricity_factor(hue: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 
 def low_luminance_tritanopia_factor(
-        L_A: FloatingOrArrayLike) -> FloatingOrNDArray:
+    L_A: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the low luminance tritanopia factor :math:`F_t` from given adapting
     field *luminance* :math:`L_A` in :math:`cd/m^2`.
@@ -951,9 +990,12 @@ def low_luminance_tritanopia_factor(
 
 
 def yellowness_blueness_response(
-        C: FloatingOrArrayLike, e_s: FloatingOrArrayLike,
-        N_c: FloatingOrArrayLike, N_cb: FloatingOrArrayLike,
-        F_t: FloatingOrArrayLike) -> FloatingOrNDArray:
+    C: FloatingOrArrayLike,
+    e_s: FloatingOrArrayLike,
+    N_c: FloatingOrArrayLike,
+    N_cb: FloatingOrArrayLike,
+    F_t: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the yellowness / blueness response :math:`M_{yb}`.
 
@@ -997,16 +1039,17 @@ def yellowness_blueness_response(
     N_cb = as_float_array(N_cb)
     F_t = as_float_array(F_t)
 
-    M_yb = (
-        100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s * (10 / 13) * N_c * N_cb * F_t))
+    M_yb = 100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s * (10 / 13) * N_c * N_cb * F_t)
 
     return as_float(M_yb)
 
 
-def redness_greenness_response(C: FloatingOrArrayLike,
-                               e_s: FloatingOrArrayLike,
-                               N_c: FloatingOrArrayLike,
-                               N_cb: FloatingOrArrayLike) -> FloatingOrNDArray:
+def redness_greenness_response(
+    C: FloatingOrArrayLike,
+    e_s: FloatingOrArrayLike,
+    N_c: FloatingOrArrayLike,
+    N_cb: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the redness / greenness response :math:`M_{yb}`.
 
@@ -1050,8 +1093,9 @@ def redness_greenness_response(C: FloatingOrArrayLike,
     return as_float(M_rg)
 
 
-def overall_chromatic_response(M_yb: FloatingOrArrayLike,
-                               M_rg: FloatingOrArrayLike) -> FloatingOrNDArray:
+def overall_chromatic_response(
+    M_yb: FloatingOrArrayLike, M_rg: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the overall chromatic response :math:`M`.
 
@@ -1083,8 +1127,7 @@ def overall_chromatic_response(M_yb: FloatingOrArrayLike,
     return M
 
 
-def saturation_correlate(M: FloatingOrArrayLike,
-                         rgb_a: ArrayLike) -> FloatingOrNDArray:
+def saturation_correlate(M: FloatingOrArrayLike, rgb_a: ArrayLike) -> FloatingOrNDArray:
     """
     Returns the *saturation* correlate :math:`s`.
 
@@ -1117,9 +1160,13 @@ def saturation_correlate(M: FloatingOrArrayLike,
     return as_float(s)
 
 
-def achromatic_signal(L_AS: FloatingOrArrayLike, S: FloatingOrArrayLike,
-                      S_w: FloatingOrArrayLike, N_bb: FloatingOrArrayLike,
-                      A_a: FloatingOrArrayLike) -> FloatingOrNDArray:
+def achromatic_signal(
+    L_AS: FloatingOrArrayLike,
+    S: FloatingOrArrayLike,
+    S_w: FloatingOrArrayLike,
+    N_bb: FloatingOrArrayLike,
+    A_a: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the achromatic signal :math:`A`.
 
@@ -1177,9 +1224,12 @@ def achromatic_signal(L_AS: FloatingOrArrayLike, S: FloatingOrArrayLike,
     return as_float(A)
 
 
-def brightness_correlate(A: FloatingOrArrayLike, A_w: FloatingOrArrayLike,
-                         M: FloatingOrArrayLike,
-                         N_b: FloatingOrArrayLike) -> FloatingOrNDArray:
+def brightness_correlate(
+    A: FloatingOrArrayLike,
+    A_w: FloatingOrArrayLike,
+    M: FloatingOrArrayLike,
+    N_b: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the *brightness* correlate :math:`Q`.
 
@@ -1222,9 +1272,12 @@ def brightness_correlate(A: FloatingOrArrayLike, A_w: FloatingOrArrayLike,
     return Q
 
 
-def lightness_correlate(Y_b: FloatingOrArrayLike, Y_w: FloatingOrArrayLike,
-                        Q: FloatingOrArrayLike,
-                        Q_w: FloatingOrArrayLike) -> FloatingOrNDArray:
+def lightness_correlate(
+    Y_b: FloatingOrArrayLike,
+    Y_w: FloatingOrArrayLike,
+    Q: FloatingOrArrayLike,
+    Q_w: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the *Lightness* correlate :math:`J`.
 
@@ -1265,9 +1318,13 @@ def lightness_correlate(Y_b: FloatingOrArrayLike, Y_w: FloatingOrArrayLike,
     return J
 
 
-def chroma_correlate(s: FloatingOrArrayLike, Y_b: FloatingOrArrayLike,
-                     Y_w: FloatingOrArrayLike, Q: FloatingOrArrayLike,
-                     Q_w: FloatingOrArrayLike) -> FloatingOrNDArray:
+def chroma_correlate(
+    s: FloatingOrArrayLike,
+    Y_b: FloatingOrArrayLike,
+    Y_w: FloatingOrArrayLike,
+    Q: FloatingOrArrayLike,
+    Q_w: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the *chroma* correlate :math:`C_94`.
 
@@ -1306,14 +1363,19 @@ def chroma_correlate(s: FloatingOrArrayLike, Y_b: FloatingOrArrayLike,
     Q = as_float_array(Q)
     Q_w = as_float_array(Q_w)
 
-    C_94 = (2.44 * spow(s, 0.69) * (spow(Q / Q_w, Y_b / Y_w)) *
-            (1.64 - spow(0.29, Y_b / Y_w)))
+    C_94 = (
+        2.44
+        * spow(s, 0.69)
+        * (spow(Q / Q_w, Y_b / Y_w))
+        * (1.64 - spow(0.29, Y_b / Y_w))
+    )
 
     return C_94
 
 
-def colourfulness_correlate(F_L: FloatingOrArrayLike,
-                            C_94: FloatingOrArrayLike) -> FloatingOrNDArray:
+def colourfulness_correlate(
+    F_L: FloatingOrArrayLike, C_94: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *colourfulness* correlate :math:`M_94`.
 

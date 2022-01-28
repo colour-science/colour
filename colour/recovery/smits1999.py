@@ -26,19 +26,19 @@ from colour.models import (
 from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_SMITS1999',
-    'CCS_WHITEPOINT_SMITS1999',
-    'MATRIX_XYZ_TO_RGB_SMITS1999',
-    'XYZ_to_RGB_Smits1999',
-    'RGB_to_sd_Smits1999',
+    "PRIMARIES_SMITS1999",
+    "CCS_WHITEPOINT_SMITS1999",
+    "MATRIX_XYZ_TO_RGB_SMITS1999",
+    "XYZ_to_RGB_Smits1999",
+    "RGB_to_sd_Smits1999",
 ]
 
 PRIMARIES_SMITS1999: NDArray = RGB_COLOURSPACE_sRGB.primaries
@@ -46,14 +46,16 @@ PRIMARIES_SMITS1999: NDArray = RGB_COLOURSPACE_sRGB.primaries
 Current *Smits (1999)* method implementation colourspace primaries.
 """
 
-CCS_WHITEPOINT_SMITS1999: NDArray = (
-    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
+CCS_WHITEPOINT_SMITS1999: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+]["E"]
 """
 Current *Smits (1999)* method implementation colourspace whitepoint.
 """
 
 MATRIX_XYZ_TO_RGB_SMITS1999: NDArray = np.linalg.inv(
-    normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999))
+    normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999)
+)
 """
 Current *Smits (1999)* method implementation *RGB* colourspace to
 *CIE XYZ* tristimulus values matrix.
@@ -152,17 +154,17 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
 
-    white_sd = SDS_SMITS1999['white'].copy()
-    cyan_sd = SDS_SMITS1999['cyan'].copy()
-    magenta_sd = SDS_SMITS1999['magenta'].copy()
-    yellow_sd = SDS_SMITS1999['yellow'].copy()
-    red_sd = SDS_SMITS1999['red'].copy()
-    green_sd = SDS_SMITS1999['green'].copy()
-    blue_sd = SDS_SMITS1999['blue'].copy()
+    white_sd = SDS_SMITS1999["white"].copy()
+    cyan_sd = SDS_SMITS1999["cyan"].copy()
+    magenta_sd = SDS_SMITS1999["magenta"].copy()
+    yellow_sd = SDS_SMITS1999["yellow"].copy()
+    red_sd = SDS_SMITS1999["red"].copy()
+    green_sd = SDS_SMITS1999["green"].copy()
+    blue_sd = SDS_SMITS1999["blue"].copy()
 
     R, G, B = to_domain_1(RGB)
     sd = white_sd.copy() * 0
-    sd.name = 'Smits (1999) - {0!r}'.format(RGB)
+    sd.name = "Smits (1999) - {0!r}".format(RGB)
 
     if R <= G and R <= B:
         sd += white_sd * R

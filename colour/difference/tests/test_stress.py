@@ -8,15 +8,15 @@ import unittest
 
 from colour.difference import index_stress
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestIndexStress',
+    "TestIndexStress",
 ]
 
 
@@ -35,9 +35,8 @@ class TestIndexStress(unittest.TestCase):
         d_E = np.array([2.0425, 2.8615, 3.4412])
         d_V = np.array([1.2644, 1.2630, 1.8731])
 
-        self.assertAlmostEqual(
-            index_stress(d_E, d_V), 0.121170939369957, places=7)
+        self.assertAlmostEqual(index_stress(d_E, d_V), 0.121170939369957, places=7)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

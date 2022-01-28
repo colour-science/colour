@@ -43,29 +43,29 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'primitive_vertices_quad_mpl',
-    'primitive_vertices_grid_mpl',
-    'primitive_vertices_cube_mpl',
-    'primitive_vertices_sphere',
-    'PRIMITIVE_VERTICES_METHODS',
-    'primitive_vertices',
+    "primitive_vertices_quad_mpl",
+    "primitive_vertices_grid_mpl",
+    "primitive_vertices_cube_mpl",
+    "primitive_vertices_sphere",
+    "PRIMITIVE_VERTICES_METHODS",
+    "primitive_vertices",
 ]
 
 
 def primitive_vertices_quad_mpl(
-        width: Floating = 1,
-        height: Floating = 1,
-        depth: Floating = 0,
-        origin: ArrayLike = np.array([0, 0]),
-        axis: Union[Literal['+z', '+x', '+y', 'yz', 'xz', 'xy'], str] = '+z'
+    width: Floating = 1,
+    height: Floating = 1,
+    depth: Floating = 0,
+    origin: ArrayLike = np.array([0, 0]),
+    axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
     Returns the vertices of a quad primitive for use with *Matplotlib*
@@ -100,26 +100,27 @@ def primitive_vertices_quad_mpl(
     """
 
     axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
-    axis = validate_method(axis, ['+x', '+y', '+z'],
-                           '"{0}" axis invalid, it must be one of {1}!')
+    axis = validate_method(
+        axis, ["+x", "+y", "+z"], '"{0}" axis invalid, it must be one of {1}!'
+    )
 
     u, v = tsplit(origin)
 
-    if axis == '+z':
+    if axis == "+z":
         vertices = [
             (u, v, depth),
             (u + width, v, depth),
             (u + width, v + height, depth),
             (u, v + height, depth),
         ]
-    elif axis == '+y':
+    elif axis == "+y":
         vertices = [
             (u, depth, v),
             (u + width, depth, v),
             (u + width, depth, v + height),
             (u, depth, v + height),
         ]
-    elif axis == '+x':
+    elif axis == "+x":
         vertices = [
             (depth, u, v),
             (depth, u + width, v),
@@ -131,13 +132,13 @@ def primitive_vertices_quad_mpl(
 
 
 def primitive_vertices_grid_mpl(
-        width: Floating = 1,
-        height: Floating = 1,
-        depth: Floating = 0,
-        width_segments: Integer = 1,
-        height_segments: Integer = 1,
-        origin: ArrayLike = np.array([0, 0]),
-        axis: Union[Literal['+z', '+x', '+y', 'yz', 'xz', 'xy'], str] = '+z'
+    width: Floating = 1,
+    height: Floating = 1,
+    depth: Floating = 0,
+    width_segments: Integer = 1,
+    height_segments: Integer = 1,
+    origin: ArrayLike = np.array([0, 0]),
+    axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
     Returns the vertices of a grid primitive made of quad primitives for use
@@ -199,22 +200,38 @@ def primitive_vertices_grid_mpl(
     for i in range(width_segments):
         for j in range(height_segments):
             quads.append(
-                primitive_vertices_quad_mpl(w_x, h_y, depth,
-                                            (i * w_x + u, j * h_y + v), axis))
+                primitive_vertices_quad_mpl(
+                    w_x, h_y, depth, (i * w_x + u, j * h_y + v), axis
+                )
+            )
 
     return as_float_array(quads)
 
 
 def primitive_vertices_cube_mpl(
-        width: Floating = 1,
-        height: Floating = 1,
-        depth: Floating = 1,
-        width_segments: Integer = 1,
-        height_segments: Integer = 1,
-        depth_segments: Integer = 1,
-        origin: ArrayLike = np.array([0, 0, 0]),
-        planes: Optional[Literal['-x', '+x', '-y', '+y', '-z', '+z', 'xy',
-                                 'xz', 'yz', 'yx', 'zx', 'zy']] = None
+    width: Floating = 1,
+    height: Floating = 1,
+    depth: Floating = 1,
+    width_segments: Integer = 1,
+    height_segments: Integer = 1,
+    depth_segments: Integer = 1,
+    origin: ArrayLike = np.array([0, 0, 0]),
+    planes: Optional[
+        Literal[
+            "-x",
+            "+x",
+            "-y",
+            "+y",
+            "-z",
+            "+z",
+            "xy",
+            "xz",
+            "yz",
+            "yx",
+            "zx",
+            "zy",
+        ]
+    ] = None,
 ) -> NDArray:
     """
     Returns the vertices of a cube primitive made of grid primitives for use
@@ -279,52 +296,59 @@ def primitive_vertices_cube_mpl(
             [ 1.,  0.,  1.]]])
     """
 
-    axis = (sorted(list(
-        PLANE_TO_AXIS_MAPPING.values())) if planes is None else [
-            PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes
-        ])
+    axis = (
+        sorted(list(PLANE_TO_AXIS_MAPPING.values()))
+        if planes is None
+        else [PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes]
+    )
 
     u, v, w = tsplit(origin)
 
     w_s, h_s, d_s = width_segments, height_segments, depth_segments
 
     grids: List = []
-    if '-z' in axis:
+    if "-z" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(width, depth, v, w_s, d_s, (u, w),
-                                        '+z'))
-    if '+z' in axis:
+            primitive_vertices_grid_mpl(width, depth, v, w_s, d_s, (u, w), "+z")
+        )
+    if "+z" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(width, depth, v + height, w_s, d_s,
-                                        (u, w), '+z'))
+            primitive_vertices_grid_mpl(
+                width, depth, v + height, w_s, d_s, (u, w), "+z"
+            )
+        )
 
-    if '-y' in axis:
+    if "-y" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(width, height, w, w_s, h_s, (u, v),
-                                        '+y'))
-    if '+y' in axis:
+            primitive_vertices_grid_mpl(width, height, w, w_s, h_s, (u, v), "+y")
+        )
+    if "+y" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(width, height, w + depth, w_s, h_s,
-                                        (u, v), '+y'))
+            primitive_vertices_grid_mpl(
+                width, height, w + depth, w_s, h_s, (u, v), "+y"
+            )
+        )
 
-    if '-x' in axis:
+    if "-x" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(depth, height, u, d_s, h_s, (w, v),
-                                        '+x'))
-    if '+x' in axis:
+            primitive_vertices_grid_mpl(depth, height, u, d_s, h_s, (w, v), "+x")
+        )
+    if "+x" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(depth, height, u + width, d_s, h_s,
-                                        (w, v), '+x'))
+            primitive_vertices_grid_mpl(
+                depth, height, u + width, d_s, h_s, (w, v), "+x"
+            )
+        )
 
     return as_float_array(grids)
 
 
 def primitive_vertices_sphere(
-        radius: Floating = 0.5,
-        segments: Integer = 8,
-        intermediate: Boolean = False,
-        origin: ArrayLike = np.array([0, 0, 0]),
-        axis: Union[Literal['+z', '+x', '+y', 'yz', 'xz', 'xy'], str] = '+z'
+    radius: Floating = 0.5,
+    segments: Integer = 8,
+    intermediate: Boolean = False,
+    origin: ArrayLike = np.array([0, 0, 0]),
+    axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
     Returns the vertices of a latitude-longitude sphere primitive.
@@ -385,30 +409,40 @@ def primitive_vertices_sphere(
     """
 
     axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
-    axis = validate_method(axis, ['+x', '+y', '+z'],
-                           '"{0}" axis invalid, it must be one of {1}!')
+    axis = validate_method(
+        axis, ["+x", "+y", "+z"], '"{0}" axis invalid, it must be one of {1}!'
+    )
 
     if not intermediate:
         theta = np.tile(
             np.radians(np.linspace(0, 180, segments + 1)),
-            (int(segments) + 1, 1))
+            (int(segments) + 1, 1),
+        )
         phi = np.transpose(
             np.tile(
                 np.radians(np.linspace(-180, 180, segments + 1)),
-                (int(segments) + 1, 1)))
+                (int(segments) + 1, 1),
+            )
+        )
     else:
         theta = np.tile(
             np.radians(np.linspace(0, 180, segments * 2 + 1)[1::2][1:-1]),
-            (int(segments) + 1, 1))
-        theta = np.hstack([
-            zeros((segments + 1, 1)),
-            theta,
-            full((segments + 1, 1), np.pi),
-        ])
+            (int(segments) + 1, 1),
+        )
+        theta = np.hstack(
+            [
+                zeros((segments + 1, 1)),
+                theta,
+                full((segments + 1, 1), np.pi),
+            ]
+        )
         phi = np.transpose(
             np.tile(
-                np.radians(np.linspace(-180, 180, segments + 1)) + np.radians(
-                    360 / segments / 2), (int(segments), 1)))
+                np.radians(np.linspace(-180, 180, segments + 1))
+                + np.radians(360 / segments / 2),
+                (int(segments), 1),
+            )
+        )
 
     rho = ones(phi.shape) * radius
     rho_theta_phi = tstack([rho, theta, phi])
@@ -418,11 +452,11 @@ def primitive_vertices_sphere(
     # Removing extra longitude vertices.
     vertices = vertices[:-1, :, :]
 
-    if axis == '+z':
+    if axis == "+z":
         pass
-    elif axis == '+y':
+    elif axis == "+y":
         vertices = np.roll(vertices, 2, -1)
-    elif axis == '+x':
+    elif axis == "+x":
         vertices = np.roll(vertices, 1, -1)
 
     vertices += origin
@@ -430,20 +464,25 @@ def primitive_vertices_sphere(
     return vertices
 
 
-PRIMITIVE_VERTICES_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Quad MPL': primitive_vertices_quad_mpl,
-    'Grid MPL': primitive_vertices_grid_mpl,
-    'Cube MPL': primitive_vertices_cube_mpl,
-    'Sphere': primitive_vertices_sphere,
-})
+PRIMITIVE_VERTICES_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Quad MPL": primitive_vertices_quad_mpl,
+        "Grid MPL": primitive_vertices_grid_mpl,
+        "Cube MPL": primitive_vertices_cube_mpl,
+        "Sphere": primitive_vertices_sphere,
+    }
+)
 PRIMITIVE_VERTICES_METHODS.__doc__ = """
 Supported geometry primitive vertices generation methods.
 """
 
 
-def primitive_vertices(method: Union[Literal[
-        'Cube MPL', 'Quad MPL', 'Grid MPL', 'Sphere'], str] = 'Cube MPL',
-                       **kwargs: Any) -> NDArray:
+def primitive_vertices(
+    method: Union[
+        Literal["Cube MPL", "Quad MPL", "Grid MPL", "Sphere"], str
+    ] = "Cube MPL",
+    **kwargs: Any
+) -> NDArray:
     """
     Returns the vertices of a geometry primitive using given method.
 

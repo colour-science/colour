@@ -23,27 +23,29 @@ from colour.algebra import spow, vector_dot
 from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_IGPGTG_XYZ_TO_LMS',
-    'MATRIX_IGPGTG_LMS_TO_XYZ',
-    'MATRIX_IGPGTG_LMS_P_TO_IGPGTG',
-    'MATRIX_IGPGTG_IGPGTG_TO_LMS_P',
-    'XYZ_to_IgPgTg',
-    'IgPgTg_to_XYZ',
+    "MATRIX_IGPGTG_XYZ_TO_LMS",
+    "MATRIX_IGPGTG_LMS_TO_XYZ",
+    "MATRIX_IGPGTG_LMS_P_TO_IGPGTG",
+    "MATRIX_IGPGTG_IGPGTG_TO_LMS_P",
+    "XYZ_to_IgPgTg",
+    "IgPgTg_to_XYZ",
 ]
 
-MATRIX_IGPGTG_XYZ_TO_LMS: NDArray = np.array([
-    [2.968, 2.741, -0.649],
-    [1.237, 5.969, -0.173],
-    [-0.318, 0.387, 2.311],
-])
+MATRIX_IGPGTG_XYZ_TO_LMS: NDArray = np.array(
+    [
+        [2.968, 2.741, -0.649],
+        [1.237, 5.969, -0.173],
+        [-0.318, 0.387, 2.311],
+    ]
+)
 """
 *CIE XYZ* tristimulus values to normalised cone responses matrix.
 """
@@ -53,17 +55,18 @@ MATRIX_IGPGTG_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IGPGTG_XYZ_TO_LMS)
 Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_IGPGTG_LMS_P_TO_IGPGTG: NDArray = np.array([
-    [0.117, 1.464, 0.130],
-    [8.285, -8.361, 21.400],
-    [-1.208, 2.412, -36.530],
-])
+MATRIX_IGPGTG_LMS_P_TO_IGPGTG: NDArray = np.array(
+    [
+        [0.117, 1.464, 0.130],
+        [8.285, -8.361, 21.400],
+        [-1.208, 2.412, -36.530],
+    ]
+)
 """
 Normalised non-linear cone responses to :math:`I_GP_GT_G` colourspace matrix.
 """
 
-MATRIX_IGPGTG_IGPGTG_TO_LMS_P: NDArray = np.linalg.inv(
-    MATRIX_IGPGTG_LMS_P_TO_IGPGTG)
+MATRIX_IGPGTG_IGPGTG_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IGPGTG_LMS_P_TO_IGPGTG)
 """
 :math:`I_GP_GT_G` colourspace to normalised non-linear cone responses matrix.
 """

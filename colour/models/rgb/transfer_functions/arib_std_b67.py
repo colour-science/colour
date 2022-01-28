@@ -33,30 +33,30 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_ARIBSTDB67',
-    'oetf_ARIBSTDB67',
-    'oetf_inverse_ARIBSTDB67',
+    "CONSTANTS_ARIBSTDB67",
+    "oetf_ARIBSTDB67",
+    "oetf_inverse_ARIBSTDB67",
 ]
 
-CONSTANTS_ARIBSTDB67: Structure = Structure(
-    a=0.17883277, b=0.28466892, c=0.55991073)
+CONSTANTS_ARIBSTDB67: Structure = Structure(a=0.17883277, b=0.28466892, c=0.55991073)
 """
 *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 """
 
 
 def oetf_ARIBSTDB67(
-        E: FloatingOrArrayLike,
-        r: FloatingOrArrayLike = 0.5,
-        constants: Structure = CONSTANTS_ARIBSTDB67) -> FloatingOrNDArray:
+    E: FloatingOrArrayLike,
+    r: FloatingOrArrayLike = 0.5,
+    constants: Structure = CONSTANTS_ARIBSTDB67,
+) -> FloatingOrNDArray:
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
     function (OETF).
@@ -113,16 +113,16 @@ def oetf_ARIBSTDB67(
     b = constants.b
     c = constants.c
 
-    E_p = np.where(E <= 1, r * gamma_function(E, 0.5, 'mirror'),
-                   a * np.log(E - b) + c)
+    E_p = np.where(E <= 1, r * gamma_function(E, 0.5, "mirror"), a * np.log(E - b) + c)
 
     return as_float(from_range_1(E_p))
 
 
 def oetf_inverse_ARIBSTDB67(
-        E_p: FloatingOrArrayLike,
-        r: FloatingOrArrayLike = 0.5,
-        constants: Structure = CONSTANTS_ARIBSTDB67) -> FloatingOrNDArray:
+    E_p: FloatingOrArrayLike,
+    r: FloatingOrArrayLike = 0.5,
+    constants: Structure = CONSTANTS_ARIBSTDB67,
+) -> FloatingOrNDArray:
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
     function (OETF).
@@ -178,10 +178,10 @@ def oetf_inverse_ARIBSTDB67(
     b = constants.b
     c = constants.c
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         E = np.where(
             E_p <= oetf_ARIBSTDB67(1),
-            gamma_function((E_p / r), 2, 'mirror'),
+            gamma_function((E_p / r), 2, "mirror"),
             np.exp((E_p - c) / a) + b,
         )
 

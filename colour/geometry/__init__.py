@@ -12,24 +12,24 @@ from .vertices import (
 from .vertices import PRIMITIVE_VERTICES_METHODS, primitive_vertices
 
 __all__ = [
-    'PLANE_TO_AXIS_MAPPING',
-    'primitive_grid',
-    'primitive_cube',
+    "PLANE_TO_AXIS_MAPPING",
+    "primitive_grid",
+    "primitive_cube",
 ]
 __all__ += [
-    'hull_section',
+    "hull_section",
 ]
 __all__ += [
-    'PRIMITIVE_METHODS',
-    'primitive',
+    "PRIMITIVE_METHODS",
+    "primitive",
 ]
 __all__ += [
-    'primitive_vertices_quad_mpl',
-    'primitive_vertices_grid_mpl',
-    'primitive_vertices_cube_mpl',
-    'primitive_vertices_sphere',
+    "primitive_vertices_quad_mpl",
+    "primitive_vertices_grid_mpl",
+    "primitive_vertices_cube_mpl",
+    "primitive_vertices_sphere",
 ]
 __all__ += [
-    'PRIMITIVE_VERTICES_METHODS',
-    'primitive_vertices',
+    "PRIMITIVE_VERTICES_METHODS",
+    "primitive_vertices",
 ]

@@ -18,18 +18,18 @@ from colour.plotting.section import (
 )
 from colour.utilities import is_trimesh_installed
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotHullSectionColours',
-    'TestPlotHullSectionContour',
-    'TestPlotVisibleSpectrumSection',
-    'TestPlotRGBColourspaceSection',
+    "TestPlotHullSectionColours",
+    "TestPlotHullSectionContour",
+    "TestPlotVisibleSpectrumSection",
+    "TestPlotRGBColourspaceSection",
 ]
 
 
@@ -52,7 +52,7 @@ class TestPlotHullSectionColours(unittest.TestCase):
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
         XYZ_vertices = RGB_to_XYZ(
-            vertices['position'] + 0.5,
+            vertices["position"] + 0.5,
             RGB_COLOURSPACE_sRGB.whitepoint,
             RGB_COLOURSPACE_sRGB.whitepoint,
             RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
@@ -64,12 +64,12 @@ class TestPlotHullSectionColours(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_hull_section_colours(hull, axis='+x')
+        figure, axes = plot_hull_section_colours(hull, axis="+x")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        figure, axes = plot_hull_section_colours(hull, axis='+y')
+        figure, axes = plot_hull_section_colours(hull, axis="+y")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -94,7 +94,7 @@ class TestPlotHullSectionContour(unittest.TestCase):
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
         XYZ_vertices = RGB_to_XYZ(
-            vertices['position'] + 0.5,
+            vertices["position"] + 0.5,
             RGB_COLOURSPACE_sRGB.whitepoint,
             RGB_COLOURSPACE_sRGB.whitepoint,
             RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
@@ -143,11 +143,11 @@ class TestPlotRGBColourspaceSection(unittest.TestCase):
         if not is_trimesh_installed:  # pragma: no cover
             return
 
-        figure, axes = plot_RGB_colourspace_section('sRGB')
+        figure, axes = plot_RGB_colourspace_section("sRGB")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -35,6 +35,7 @@ from colour.hints import (
     Callable,
     Dataclass,
     DType,
+    DTypeBoolean,
     DTypeFloating,
     DTypeInteger,
     DTypeNumber,
@@ -63,54 +64,54 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MixinDataclassArray',
-    'as_array',
-    'as_int',
-    'as_float',
-    'as_int_array',
-    'as_float_array',
-    'as_int_scalar',
-    'as_float_scalar',
-    'set_float_precision',
-    'set_int_precision',
-    'get_domain_range_scale',
-    'set_domain_range_scale',
-    'domain_range_scale',
-    'to_domain_1',
-    'to_domain_10',
-    'to_domain_100',
-    'to_domain_degrees',
-    'to_domain_int',
-    'from_range_1',
-    'from_range_10',
-    'from_range_100',
-    'from_range_degrees',
-    'from_range_int',
-    'closest_indexes',
-    'closest',
-    'interval',
-    'is_uniform',
-    'in_array',
-    'tstack',
-    'tsplit',
-    'row_as_diagonal',
-    'orient',
-    'centroid',
-    'fill_nan',
-    'has_only_nan',
-    'ndarray_write',
-    'zeros',
-    'ones',
-    'full',
-    'index_along_last_axis',
+    "MixinDataclassArray",
+    "as_array",
+    "as_int",
+    "as_float",
+    "as_int_array",
+    "as_float_array",
+    "as_int_scalar",
+    "as_float_scalar",
+    "set_float_precision",
+    "set_int_precision",
+    "get_domain_range_scale",
+    "set_domain_range_scale",
+    "domain_range_scale",
+    "to_domain_1",
+    "to_domain_10",
+    "to_domain_100",
+    "to_domain_degrees",
+    "to_domain_int",
+    "from_range_1",
+    "from_range_10",
+    "from_range_100",
+    "from_range_degrees",
+    "from_range_int",
+    "closest_indexes",
+    "closest",
+    "interval",
+    "is_uniform",
+    "in_array",
+    "tstack",
+    "tsplit",
+    "row_as_diagonal",
+    "orient",
+    "centroid",
+    "fill_nan",
+    "has_only_nan",
+    "ndarray_write",
+    "zeros",
+    "ones",
+    "full",
+    "index_along_last_axis",
 ]
 
 
@@ -159,10 +160,7 @@ class MixinDataclassArray:
 
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        field_values = {
-            field.name: getattr(self, field.name)
-            for field in fields(self)
-        }
+        field_values = {field.name: getattr(self, field.name) for field in fields(self)}
 
         default = None
         for field, value in field_values.items():
@@ -175,7 +173,8 @@ class MixinDataclassArray:
                 value if value is not None else default
                 for value in field_values.values()
             ],
-            dtype=dtype)
+            dtype=dtype,
+        )
 
     def __add__(self, a: Any) -> Dataclass:
         """
@@ -192,7 +191,7 @@ class MixinDataclassArray:
             Variable added :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '+')
+        return self.arithmetical_operation(a, "+")
 
     def __iadd__(self, a: Any) -> Dataclass:
         """
@@ -209,7 +208,7 @@ class MixinDataclassArray:
             In-place variable added :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '+', True)
+        return self.arithmetical_operation(a, "+", True)
 
     def __sub__(self, a: Any) -> Dataclass:
         """
@@ -226,7 +225,7 @@ class MixinDataclassArray:
             Variable subtracted :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '-')
+        return self.arithmetical_operation(a, "-")
 
     def __isub__(self, a: Any) -> Dataclass:
         """
@@ -243,7 +242,7 @@ class MixinDataclassArray:
             In-place variable subtracted :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '-', True)
+        return self.arithmetical_operation(a, "-", True)
 
     def __mul__(self, a: Any) -> Dataclass:
         """
@@ -260,7 +259,7 @@ class MixinDataclassArray:
             Variable multiplied :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '*')
+        return self.arithmetical_operation(a, "*")
 
     def __imul__(self, a: Any) -> Dataclass:
         """
@@ -277,7 +276,7 @@ class MixinDataclassArray:
             In-place variable multiplied :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '*', True)
+        return self.arithmetical_operation(a, "*", True)
 
     def __div__(self, a: Any) -> Dataclass:
         """
@@ -294,7 +293,7 @@ class MixinDataclassArray:
             Variable divided :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '/')
+        return self.arithmetical_operation(a, "/")
 
     def __idiv__(self, a: Any) -> Dataclass:
         """
@@ -311,7 +310,7 @@ class MixinDataclassArray:
             In-place variable divided :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '/', True)
+        return self.arithmetical_operation(a, "/", True)
 
     __itruediv__ = __idiv__
     __truediv__ = __div__
@@ -331,7 +330,7 @@ class MixinDataclassArray:
             Variable exponentiated :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '**')
+        return self.arithmetical_operation(a, "**")
 
     def __ipow__(self, a: Any) -> Dataclass:
         """
@@ -348,12 +347,11 @@ class MixinDataclassArray:
             In-place variable exponentiated :class:`Dataclass`.
         """
 
-        return self.arithmetical_operation(a, '**', True)
+        return self.arithmetical_operation(a, "**", True)
 
-    def arithmetical_operation(self,
-                               a: Any,
-                               operation: str,
-                               in_place: Boolean = False) -> Dataclass:
+    def arithmetical_operation(
+        self, a: Any, operation: str, in_place: Boolean = False
+    ) -> Dataclass:
         """
         Performs given arithmetical operation with :math:`a` operand on the
         :class:`Dataclass`.
@@ -374,24 +372,21 @@ class MixinDataclassArray:
         """
 
         callable_operation = {
-            '+': add,
-            '-': sub,
-            '*': mul,
-            '/': truediv,
-            '**': pow
+            "+": add,
+            "-": sub,
+            "*": mul,
+            "/": truediv,
+            "**": pow,
         }[operation]
 
         if is_dataclass(a):
             a = as_float_array(a)
 
         values = tsplit(callable_operation(as_float_array(self), a))
-        field_values = {
-            field.name: values[i]
-            for i, field in enumerate(fields(self))
-        }
+        field_values = {field.name: values[i] for i, field in enumerate(fields(self))}
         field_values.update(
-            {field.name: None
-             for field in fields(self) if field is None})
+            {field.name: None for field in fields(self) if field is None}
+        )
 
         dataclass = replace(self, **field_values)
 
@@ -403,8 +398,10 @@ class MixinDataclassArray:
             return dataclass
 
 
-def as_array(a: Union[NumberOrArrayLike, NestedSequence[NumberOrArrayLike]],
-             dtype: Optional[Type[DType]] = None) -> NDArray:
+def as_array(
+    a: Union[NumberOrArrayLike, NestedSequence[NumberOrArrayLike]],
+    dtype: Optional[Type[DType]] = None,
+) -> NDArray:
     """
     Converts given variable :math:`a` to :class:`numpy.ndarray` using given
     :class:`numpy.dtype`.
@@ -439,8 +436,9 @@ def as_array(a: Union[NumberOrArrayLike, NestedSequence[NumberOrArrayLike]],
     return np.asarray(a, dtype)
 
 
-def as_int(a: NumberOrArrayLike,
-           dtype: Optional[Type[DTypeInteger]] = None) -> IntegerOrNDArray:
+def as_int(
+    a: NumberOrArrayLike, dtype: Optional[Type[DTypeInteger]] = None
+) -> IntegerOrNDArray:
     """
     Attempts to convert given variable :math:`a` to :class:`numpy.integer`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
@@ -470,17 +468,20 @@ def as_int(a: NumberOrArrayLike,
 
     dtype = cast(Type[DTypeInteger], optional(dtype, DEFAULT_INT_DTYPE))
 
-    args = getattr(DTypeInteger, '__args__')
-    attest(dtype in args,
-           '"dtype" must be one of the following types: {0}'.format(args))
+    args = getattr(DTypeInteger, "__args__")
+    attest(
+        dtype in args,
+        '"dtype" must be one of the following types: {0}'.format(args),
+    )
 
     # TODO: Reassess implementation when and if
     # https://github.com/numpy/numpy/issues/11956 is addressed.
     return dtype(np.squeeze(a))  # type: ignore[return-value]
 
 
-def as_float(a: NumberOrArrayLike,
-             dtype: Optional[Type[DTypeFloating]] = None) -> FloatingOrNDArray:
+def as_float(
+    a: NumberOrArrayLike, dtype: Optional[Type[DTypeFloating]] = None
+) -> FloatingOrNDArray:
     """
     Attempts to convert given variable :math:`a` to :class:`numpy.floating`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
@@ -510,15 +511,18 @@ def as_float(a: NumberOrArrayLike,
 
     dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-    args = getattr(DTypeFloating, '__args__')
-    attest(dtype in args,
-           '"dtype" must be one of the following types: {0}'.format(args))
+    args = getattr(DTypeFloating, "__args__")
+    attest(
+        dtype in args,
+        '"dtype" must be one of the following types: {0}'.format(args),
+    )
 
     return dtype(a)  # type: ignore[arg-type, return-value]
 
 
-def as_int_array(a: NumberOrArrayLike,
-                 dtype: Optional[Type[DTypeInteger]] = None) -> NDArray:
+def as_int_array(
+    a: NumberOrArrayLike, dtype: Optional[Type[DTypeInteger]] = None
+) -> NDArray:
     """
     Converts given variable :math:`a` to :class:`numpy.ndarray` using given
     :class:`numpy.dtype`.
@@ -545,15 +549,18 @@ def as_int_array(a: NumberOrArrayLike,
 
     dtype = cast(Type[DTypeInteger], optional(dtype, DEFAULT_INT_DTYPE))
 
-    args = getattr(DTypeInteger, '__args__')
-    attest(dtype in args,
-           '"dtype" must be one of the following types: {0}'.format(args))
+    args = getattr(DTypeInteger, "__args__")
+    attest(
+        dtype in args,
+        '"dtype" must be one of the following types: {0}'.format(args),
+    )
 
     return as_array(a, dtype)
 
 
-def as_float_array(a: NumberOrArrayLike,
-                   dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def as_float_array(
+    a: NumberOrArrayLike, dtype: Optional[Type[DTypeFloating]] = None
+) -> NDArray:
     """
     Converts given variable :math:`a` to :class:`numpy.ndarray` using given
     :class:`numpy.dtype`.
@@ -581,15 +588,16 @@ def as_float_array(a: NumberOrArrayLike,
     dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
     attest(
-        dtype in np.sctypes['float'],
-        '"dtype" must be one of the following types: {0}'.format(
-            np.sctypes['float']))
+        dtype in np.sctypes["float"],
+        '"dtype" must be one of the following types: {0}'.format(np.sctypes["float"]),
+    )
 
     return as_array(a, dtype)
 
 
-def as_int_scalar(a: NumberOrArrayLike,
-                  dtype: Optional[Type[DTypeInteger]] = None) -> Integer:
+def as_int_scalar(
+    a: NumberOrArrayLike, dtype: Optional[Type[DTypeInteger]] = None
+) -> Integer:
     """
     Converts given :math:`a` variable to :class:`numpy.integer` using given
     :class:`numpy.dtype`.
@@ -621,8 +629,9 @@ def as_int_scalar(a: NumberOrArrayLike,
     return cast(Integer, as_int(a, dtype))
 
 
-def as_float_scalar(a: NumberOrArrayLike,
-                    dtype: Optional[Type[DTypeFloating]] = None) -> Floating:
+def as_float_scalar(
+    a: NumberOrArrayLike, dtype: Optional[Type[DTypeFloating]] = None
+) -> Floating:
     """
     Converts given :math:`a` variable to :class:`numpy.floating` using given
     :class:`numpy.dtype`.
@@ -649,14 +658,14 @@ def as_float_scalar(a: NumberOrArrayLike,
 
     a = np.squeeze(as_float_array(a, dtype))
 
-    attest(a.ndim == 0,
-           '"{0}" cannot be converted to "float" scalar!'.format(a))
+    attest(a.ndim == 0, '"{0}" cannot be converted to "float" scalar!'.format(a))
 
     return cast(Floating, as_float(a, dtype))
 
 
 def set_float_precision(
-        dtype: Type[DTypeFloating] = DEFAULT_FLOAT_DTYPE) -> None:
+    dtype: Type[DTypeFloating] = DEFAULT_FLOAT_DTYPE,
+) -> None:
     """
     Sets *Colour* *float* precision by setting
     :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute with given
@@ -696,10 +705,10 @@ def set_float_precision(
 
     with suppress_warnings(colour_usage_warnings=True):
         for module in sys.modules.values():
-            if not hasattr(module, 'DEFAULT_FLOAT_DTYPE'):
+            if not hasattr(module, "DEFAULT_FLOAT_DTYPE"):
                 continue
 
-            setattr(module, 'DEFAULT_FLOAT_DTYPE', dtype)
+            setattr(module, "DEFAULT_FLOAT_DTYPE", dtype)
 
 
 def set_int_precision(dtype: Type[DTypeInteger] = DEFAULT_INT_DTYPE) -> None:
@@ -742,15 +751,15 @@ def set_int_precision(dtype: Type[DTypeInteger] = DEFAULT_INT_DTYPE) -> None:
     # TODO: Investigate behaviour on Windows.
     with suppress_warnings(colour_usage_warnings=True):
         for name, module in sys.modules.items():
-            if not hasattr(module, 'DEFAULT_INT_DTYPE'):
+            if not hasattr(module, "DEFAULT_INT_DTYPE"):
                 continue
 
-            setattr(module, 'DEFAULT_INT_DTYPE', dtype)
+            setattr(module, "DEFAULT_INT_DTYPE", dtype)
 
 
 # TODO: Annotate with "Union[Literal['ignore', 'reference', '1', '100'], str]"
 # when Python 3.7 is dropped.
-_DOMAIN_RANGE_SCALE = 'reference'
+_DOMAIN_RANGE_SCALE = "reference"
 """
 Global variable storing the current *Colour* domain-range scale.
 
@@ -758,8 +767,7 @@ _DOMAIN_RANGE_SCALE
 """
 
 
-def get_domain_range_scale(
-) -> Union[Literal['ignore', 'reference', '1', '100'], str]:
+def get_domain_range_scale() -> Union[Literal["ignore", "reference", "1", "100"], str]:
     """
     Returns the current *Colour* domain-range scale. The following scales are
     available:
@@ -786,9 +794,11 @@ def get_domain_range_scale(
     return _DOMAIN_RANGE_SCALE
 
 
-def set_domain_range_scale(scale: Union[Literal['ignore', 'reference'
-                                                'Ignore', 'Reference', '1',
-                                                '100'], str] = 'reference'):
+def set_domain_range_scale(
+    scale: Union[
+        Literal["ignore", "reference" "Ignore", "Reference", "1", "100"], str
+    ] = "reference"
+):
     """
     Sets the current *Colour* domain-range scale. The following scales are
     available:
@@ -815,8 +825,10 @@ def set_domain_range_scale(scale: Union[Literal['ignore', 'reference'
     global _DOMAIN_RANGE_SCALE
 
     _DOMAIN_RANGE_SCALE = validate_method(
-        str(scale), ('ignore', 'reference', '1', '100'),
-        '"{0}" scale is invalid, it must be one of {1}!')
+        str(scale),
+        ("ignore", "reference", "1", "100"),
+        '"{0}" scale is invalid, it must be one of {1}!',
+    )
 
 
 class domain_range_scale:
@@ -873,9 +885,12 @@ class domain_range_scale:
     """
 
     def __init__(
-            self,
-            scale: Union[Literal['ignore', 'reference'
-                                 'Ignore', 'Reference', '1', '100'], str]):
+        self,
+        scale: Union[
+            Literal["ignore", "reference" "Ignore", "Reference", "1", "100"],
+            str,
+        ],
+    ):
         self._scale = scale
         self._previous_scale = get_domain_range_scale()
 
@@ -908,9 +923,11 @@ class domain_range_scale:
         return wrapper
 
 
-def to_domain_1(a: ArrayLike,
-                scale_factor: FloatingOrArrayLike = 100,
-                dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def to_domain_1(
+    a: ArrayLike,
+    scale_factor: FloatingOrArrayLike = 100,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` to domain **'1'**. The behaviour is as
     follows:
@@ -962,15 +979,17 @@ def to_domain_1(a: ArrayLike,
 
     a = as_float_array(a, dtype).copy()
 
-    if _DOMAIN_RANGE_SCALE == '100':
+    if _DOMAIN_RANGE_SCALE == "100":
         a /= as_float_array(scale_factor)
 
     return a
 
 
-def to_domain_10(a: ArrayLike,
-                 scale_factor: FloatingOrArrayLike = 10,
-                 dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def to_domain_10(
+    a: ArrayLike,
+    scale_factor: FloatingOrArrayLike = 10,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` to domain **'10'**, used by
     *Munsell Renotation System*. The behaviour is as follows:
@@ -1024,18 +1043,20 @@ def to_domain_10(a: ArrayLike,
 
     a = as_float_array(a, dtype).copy()
 
-    if _DOMAIN_RANGE_SCALE == '1':
+    if _DOMAIN_RANGE_SCALE == "1":
         a *= as_float_array(scale_factor)
 
-    if _DOMAIN_RANGE_SCALE == '100':
+    if _DOMAIN_RANGE_SCALE == "100":
         a /= as_float_array(scale_factor)
 
     return a
 
 
-def to_domain_100(a: ArrayLike,
-                  scale_factor: FloatingOrArrayLike = 100,
-                  dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def to_domain_100(
+    a: ArrayLike,
+    scale_factor: FloatingOrArrayLike = 100,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` to domain **'100'**. The behaviour is as
     follows:
@@ -1087,15 +1108,17 @@ def to_domain_100(a: ArrayLike,
 
     a = as_float_array(a, dtype).copy()
 
-    if _DOMAIN_RANGE_SCALE == '1':
+    if _DOMAIN_RANGE_SCALE == "1":
         a *= as_float_array(scale_factor)
 
     return a
 
 
-def to_domain_degrees(a: ArrayLike,
-                      scale_factor: FloatingOrArrayLike = 360,
-                      dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def to_domain_degrees(
+    a: ArrayLike,
+    scale_factor: FloatingOrArrayLike = 360,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` to degrees domain. The behaviour is as
     follows:
@@ -1149,18 +1172,20 @@ def to_domain_degrees(a: ArrayLike,
 
     a = as_float_array(a, dtype).copy()
 
-    if _DOMAIN_RANGE_SCALE == '1':
+    if _DOMAIN_RANGE_SCALE == "1":
         a *= as_float_array(scale_factor)
 
-    if _DOMAIN_RANGE_SCALE == '100':
+    if _DOMAIN_RANGE_SCALE == "100":
         a *= as_float_array(scale_factor) / 100
 
     return a
 
 
-def to_domain_int(a: ArrayLike,
-                  bit_depth: IntegerOrArrayLike = 8,
-                  dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def to_domain_int(
+    a: ArrayLike,
+    bit_depth: IntegerOrArrayLike = 8,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` to int domain. The behaviour is as follows:
 
@@ -1219,18 +1244,20 @@ def to_domain_int(a: ArrayLike,
     a = as_float_array(a, dtype).copy()
 
     maximum_code_value = np.power(2, bit_depth) - 1
-    if _DOMAIN_RANGE_SCALE == '1':
+    if _DOMAIN_RANGE_SCALE == "1":
         a *= maximum_code_value
 
-    if _DOMAIN_RANGE_SCALE == '100':
+    if _DOMAIN_RANGE_SCALE == "100":
         a *= maximum_code_value / 100
 
     return a
 
 
-def from_range_1(a: ArrayLike,
-                 scale_factor: FloatingOrArrayLike = 100,
-                 dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def from_range_1(
+    a: ArrayLike,
+    scale_factor: FloatingOrArrayLike = 100,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` from range **'1'**. The behaviour is as
     follows:
@@ -1286,15 +1313,17 @@ def from_range_1(a: ArrayLike,
 
     a = as_float_array(a, dtype)
 
-    if _DOMAIN_RANGE_SCALE == '100':
+    if _DOMAIN_RANGE_SCALE == "100":
         a *= as_float_array(scale_factor)
 
     return a
 
 
-def from_range_10(a: ArrayLike,
-                  scale_factor: FloatingOrArrayLike = 10,
-                  dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def from_range_10(
+    a: ArrayLike,
+    scale_factor: FloatingOrArrayLike = 10,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` from range **'10'**, used by
     *Munsell Renotation System*. The behaviour is as follows:
@@ -1352,18 +1381,20 @@ def from_range_10(a: ArrayLike,
 
     a = as_float_array(a, dtype)
 
-    if _DOMAIN_RANGE_SCALE == '1':
+    if _DOMAIN_RANGE_SCALE == "1":
         a /= as_float_array(scale_factor)
 
-    if _DOMAIN_RANGE_SCALE == '100':
+    if _DOMAIN_RANGE_SCALE == "100":
         a *= as_float_array(scale_factor)
 
     return a
 
 
-def from_range_100(a: ArrayLike,
-                   scale_factor: FloatingOrArrayLike = 100,
-                   dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def from_range_100(
+    a: ArrayLike,
+    scale_factor: FloatingOrArrayLike = 100,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` from range **'100'**. The behaviour is as
     follows:
@@ -1419,15 +1450,17 @@ def from_range_100(a: ArrayLike,
 
     a = as_float_array(a, dtype)
 
-    if _DOMAIN_RANGE_SCALE == '1':
+    if _DOMAIN_RANGE_SCALE == "1":
         a /= as_float_array(scale_factor)
 
     return a
 
 
-def from_range_degrees(a: ArrayLike,
-                       scale_factor: FloatingOrArrayLike = 360,
-                       dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def from_range_degrees(
+    a: ArrayLike,
+    scale_factor: FloatingOrArrayLike = 360,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` from degrees range. The behaviour is as
     follows:
@@ -1485,18 +1518,20 @@ def from_range_degrees(a: ArrayLike,
 
     a = as_float_array(a, dtype)
 
-    if _DOMAIN_RANGE_SCALE == '1':
+    if _DOMAIN_RANGE_SCALE == "1":
         a /= as_float_array(scale_factor)
 
-    if _DOMAIN_RANGE_SCALE == '100':
+    if _DOMAIN_RANGE_SCALE == "100":
         a /= as_float_array(scale_factor) / 100
 
     return a
 
 
-def from_range_int(a: ArrayLike,
-                   bit_depth: IntegerOrArrayLike = 8,
-                   dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
+def from_range_int(
+    a: ArrayLike,
+    bit_depth: IntegerOrArrayLike = 8,
+    dtype: Optional[Type[DTypeFloating]] = None,
+) -> NDArray:
     """
     Scales given array :math:`a` from int range. The behaviour is as follows:
 
@@ -1559,10 +1594,10 @@ def from_range_int(a: ArrayLike,
     a = as_float_array(a, dtype)
 
     maximum_code_value = np.power(2, bit_depth) - 1
-    if _DOMAIN_RANGE_SCALE == '1':
+    if _DOMAIN_RANGE_SCALE == "1":
         a /= maximum_code_value
 
-    if _DOMAIN_RANGE_SCALE == '100':
+    if _DOMAIN_RANGE_SCALE == "100":
         a /= maximum_code_value / 100
 
     return a
@@ -1711,8 +1746,7 @@ def is_uniform(distribution: ArrayLike) -> Boolean:
     return True if interval(distribution).size == 1 else False
 
 
-def in_array(a: ArrayLike, b: ArrayLike,
-             tolerance: Number = EPSILON) -> NDArray:
+def in_array(a: ArrayLike, b: ArrayLike, tolerance: Number = EPSILON) -> NDArray:
     """
     Returns whether each element of the array :math:`a` is also present in the
     array :math:`b` within given tolerance.
@@ -1756,8 +1790,10 @@ def in_array(a: ArrayLike, b: ArrayLike,
     return np.any(d <= tolerance, axis=0).reshape(a.shape)
 
 
-def tstack(a: Union[ArrayLike, NestedSequence[NumberOrArrayLike]],
-           dtype: Optional[Type[DTypeNumber]] = None) -> NDArray:
+def tstack(
+    a: Union[ArrayLike, NestedSequence[NumberOrArrayLike]],
+    dtype: Optional[Union[Type[DTypeBoolean], Type[DTypeNumber]]] = None,
+) -> NDArray:
     """
     Stacks given array of arrays :math:`a` along the last axis (tail) to
     produce a stacked array.
@@ -1817,8 +1853,10 @@ def tstack(a: Union[ArrayLike, NestedSequence[NumberOrArrayLike]],
     return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
 
 
-def tsplit(a: Union[ArrayLike, NestedSequence[NumberOrArrayLike]],
-           dtype: Optional[Type[DTypeNumber]] = None) -> NDArray:
+def tsplit(
+    a: Union[ArrayLike, NestedSequence[NumberOrArrayLike]],
+    dtype: Optional[Union[Type[DTypeBoolean], Type[DTypeNumber]]] = None,
+) -> NDArray:
     """
     Splits given stacked array :math:`a` along the last axis (tail) to produce
     an array of arrays.
@@ -1936,9 +1974,10 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
     return np.eye(d.shape[-1]) * d
 
 
-def orient(a: ArrayLike,
-           orientation: Union[Literal['Flip', 'Flop', '90 CW', '90 CCW',
-                                      '180'], str]) -> Union[NDArray, None]:
+def orient(
+    a: ArrayLike,
+    orientation: Union[Literal["Flip", "Flop", "90 CW", "90 CCW", "180"], str],
+) -> Union[NDArray, None]:
     """
     Orients given array :math:`a` according to given orientation.
 
@@ -1977,18 +2016,19 @@ def orient(a: ArrayLike,
            [4, 3, 2, 1, 0]])
     """
 
-    orientation = validate_method(orientation,
-                                  ['Flip', 'Flop', '90 CW', '90 CCW', '180'])
+    orientation = validate_method(
+        orientation, ["Flip", "Flop", "90 CW", "90 CCW", "180"]
+    )
 
-    if orientation == 'flip':
+    if orientation == "flip":
         return np.fliplr(a)
-    elif orientation == 'flop':
+    elif orientation == "flop":
         return np.flipud(a)
-    elif orientation == '90 cw':
+    elif orientation == "90 cw":
         return np.rot90(a, 3)
-    elif orientation == '90 ccw':
+    elif orientation == "90 ccw":
         return np.rot90(a)
-    elif orientation == '180':
+    elif orientation == "180":
         return np.rot90(a, 2)
     else:  # pragma: no cover
         return None
@@ -2035,10 +2075,11 @@ def centroid(a: ArrayLike) -> NDArray:
     return np.array(a_ci).astype(DEFAULT_INT_DTYPE)
 
 
-def fill_nan(a: ArrayLike,
-             method: Union[Literal['Interpolation', 'Constant'],
-                           str] = 'Interpolation',
-             default: Number = 0) -> NDArray:
+def fill_nan(
+    a: ArrayLike,
+    method: Union[Literal["Interpolation", "Constant"], str] = "Interpolation",
+    default: Number = 0,
+) -> NDArray:
     """
     Fills given array :math:`a` NaN values according to given method.
 
@@ -2067,14 +2108,13 @@ def fill_nan(a: ArrayLike,
     """
 
     a = np.array(a, copy=True)
-    method = validate_method(method, ['Interpolation', 'Constant'])
+    method = validate_method(method, ["Interpolation", "Constant"])
 
     mask = np.isnan(a)
 
-    if method == 'interpolation':
-        a[mask] = np.interp(
-            np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask])
-    elif method == 'constant':
+    if method == "interpolation":
+        a[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask])
+    elif method == "constant":
         a[mask] = default
 
     return a
@@ -2149,9 +2189,11 @@ def ndarray_write(a: ArrayLike) -> Generator:
         a.setflags(write=False)
 
 
-def zeros(shape: Union[Integer, Tuple[int, ...]],
-          dtype: Optional[Type[DTypeNumber]] = None,
-          order: Literal['C', 'F'] = 'C') -> NDArray:
+def zeros(
+    shape: Union[Integer, Tuple[int, ...]],
+    dtype: Optional[Type[DTypeNumber]] = None,
+    order: Literal["C", "F"] = "C",
+) -> NDArray:
     """
     Simple wrapper around :func:`np.zeros` definition to create an array with
     the active :class:`numpy.dtype` defined by the
@@ -2185,9 +2227,11 @@ def zeros(shape: Union[Integer, Tuple[int, ...]],
     return np.zeros(shape, dtype, order)
 
 
-def ones(shape: Union[Integer, Tuple[int, ...]],
-         dtype: Optional[Type[DTypeNumber]] = None,
-         order: Literal['C', 'F'] = 'C') -> NDArray:
+def ones(
+    shape: Union[Integer, Tuple[int, ...]],
+    dtype: Optional[Type[DTypeNumber]] = None,
+    order: Literal["C", "F"] = "C",
+) -> NDArray:
     """
     Simple wrapper around :func:`np.ones` definition to create an array with
     the active :class:`numpy.dtype` defined by the
@@ -2221,10 +2265,12 @@ def ones(shape: Union[Integer, Tuple[int, ...]],
     return np.ones(shape, dtype, order)
 
 
-def full(shape: Union[Integer, Tuple[int, ...]],
-         fill_value: Number,
-         dtype: Optional[Type[DTypeNumber]] = None,
-         order: Literal['C', 'F'] = 'C') -> NDArray:
+def full(
+    shape: Union[Integer, Tuple[int, ...]],
+    fill_value: Number,
+    dtype: Optional[Type[DTypeNumber]] = None,
+    order: Literal["C", "F"] = "C",
+) -> NDArray:
     """
     Simple wrapper around :func:`np.full` definition to create an array with
     the active type defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
@@ -2345,8 +2391,9 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
 
     if a.shape[:-1] != indexes.shape:
         raise ValueError(
-            'Array and indexes have incompatible shapes: {0} and {1}'.format(
-                a.shape, indexes.shape))
+            "Array and indexes have incompatible shapes: {0} and {1}".format(
+                a.shape, indexes.shape
+            )
+        )
 
-    return np.take_along_axis(
-        a, indexes[..., np.newaxis], axis=-1).squeeze(axis=-1)
+    return np.take_along_axis(a, indexes[..., np.newaxis], axis=-1).squeeze(axis=-1)

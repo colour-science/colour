@@ -30,50 +30,54 @@ from colour.models.rgb import (
     normalised_primary_matrix,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_BT470_525',
-    'CCS_WHITEPOINT_BT470_525',
-    'WHITEPOINT_NAME_BT470_525',
-    'MATRIX_BT470_525_TO_XYZ',
-    'MATRIX_XYZ_TO_BT470_525',
-    'RGB_COLOURSPACE_BT470_525',
-    'PRIMARIES_BT470_625',
-    'CCS_WHITEPOINT_BT470_625',
-    'WHITEPOINT_NAME_BT470_625',
-    'MATRIX_BT470_625_TO_XYZ',
-    'MATRIX_XYZ_TO_BT470_625',
-    'RGB_COLOURSPACE_BT470_625',
+    "PRIMARIES_BT470_525",
+    "CCS_WHITEPOINT_BT470_525",
+    "WHITEPOINT_NAME_BT470_525",
+    "MATRIX_BT470_525_TO_XYZ",
+    "MATRIX_XYZ_TO_BT470_525",
+    "RGB_COLOURSPACE_BT470_525",
+    "PRIMARIES_BT470_625",
+    "CCS_WHITEPOINT_BT470_625",
+    "WHITEPOINT_NAME_BT470_625",
+    "MATRIX_BT470_625_TO_XYZ",
+    "MATRIX_XYZ_TO_BT470_625",
+    "RGB_COLOURSPACE_BT470_625",
 ]
 
-PRIMARIES_BT470_525: NDArray = np.array([
-    [0.6700, 0.3300],
-    [0.2100, 0.7100],
-    [0.1400, 0.0800],
-])
+PRIMARIES_BT470_525: NDArray = np.array(
+    [
+        [0.6700, 0.3300],
+        [0.2100, 0.7100],
+        [0.1400, 0.0800],
+    ]
+)
 """
 *ITU-R BT.470 - 525* colourspace primaries.
 """
 
-WHITEPOINT_NAME_BT470_525: str = 'C'
+WHITEPOINT_NAME_BT470_525: str = "C"
 """
 *ITU-R BT.470 - 525* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_BT470_525: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_BT470_525])
+CCS_WHITEPOINT_BT470_525: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_BT470_525]
 """
 *ITU-R BT.470 - 525* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_BT470_525_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_BT470_525, CCS_WHITEPOINT_BT470_525)
+    PRIMARIES_BT470_525, CCS_WHITEPOINT_BT470_525
+)
 """
 *ITU-R BT.470 - 525* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -84,7 +88,7 @@ MATRIX_XYZ_TO_BT470_525: NDArray = np.linalg.inv(MATRIX_BT470_525_TO_XYZ)
 """
 
 RGB_COLOURSPACE_BT470_525: RGB_Colourspace = RGB_Colourspace(
-    'ITU-R BT.470 - 525',
+    "ITU-R BT.470 - 525",
     PRIMARIES_BT470_525,
     CCS_WHITEPOINT_BT470_525,
     WHITEPOINT_NAME_BT470_525,
@@ -101,28 +105,32 @@ References
 :cite:`InternationalTelecommunicationUnion1998a`
 """
 
-PRIMARIES_BT470_625: NDArray = np.array([
-    [0.6400, 0.3300],
-    [0.2900, 0.6000],
-    [0.1500, 0.0600],
-])
+PRIMARIES_BT470_625: NDArray = np.array(
+    [
+        [0.6400, 0.3300],
+        [0.2900, 0.6000],
+        [0.1500, 0.0600],
+    ]
+)
 """
 *ITU-R BT.470 - 625* colourspace primaries.
 """
 
-WHITEPOINT_NAME_BT470_625: str = 'D65'
+WHITEPOINT_NAME_BT470_625: str = "D65"
 """
 *ITU-R BT.470 - 625* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_BT470_625: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_BT470_625])
+CCS_WHITEPOINT_BT470_625: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_BT470_625]
 """
 *ITU-R BT.470 - 625* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_BT470_625_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_BT470_625, CCS_WHITEPOINT_BT470_625)
+    PRIMARIES_BT470_625, CCS_WHITEPOINT_BT470_625
+)
 """
 *ITU-R BT.470 - 625* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -133,7 +141,7 @@ MATRIX_XYZ_TO_BT470_625: NDArray = np.linalg.inv(MATRIX_BT470_625_TO_XYZ)
 """
 
 RGB_COLOURSPACE_BT470_625: RGB_Colourspace = RGB_Colourspace(
-    'ITU-R BT.470 - 625',
+    "ITU-R BT.470 - 625",
     PRIMARIES_BT470_625,
     CCS_WHITEPOINT_BT470_625,
     WHITEPOINT_NAME_BT470_625,

@@ -10,15 +10,15 @@ from itertools import permutations
 from colour.volume import is_within_pointer_gamut
 from colour.utilities import ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestIsWithinPointerGamut',
+    "TestIsWithinPointerGamut",
 ]
 
 
@@ -34,17 +34,13 @@ class TestIsWithinPointerGamut(unittest.TestCase):
         definition.
         """
 
-        self.assertTrue(
-            is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.5100])))
+        self.assertTrue(is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.5100])))
 
-        self.assertFalse(
-            is_within_pointer_gamut(np.array([0.0005, 0.0031, 0.0010])))
+        self.assertFalse(is_within_pointer_gamut(np.array([0.0005, 0.0031, 0.0010])))
 
-        self.assertTrue(
-            is_within_pointer_gamut(np.array([0.4325, 0.3788, 0.1034])))
+        self.assertTrue(is_within_pointer_gamut(np.array([0.4325, 0.3788, 0.1034])))
 
-        self.assertFalse(
-            is_within_pointer_gamut(np.array([0.0025, 0.0088, 0.0340])))
+        self.assertFalse(is_within_pointer_gamut(np.array([0.0025, 0.0088, 0.0340])))
 
     def test_n_dimensional_is_within_pointer_gamut(self):
         """
@@ -76,5 +72,5 @@ class TestIsWithinPointerGamut(unittest.TestCase):
             is_within_pointer_gamut(case)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -8,12 +8,16 @@ import numpy as np
 import colour
 from colour.utilities import message_box
 
-message_box('Spectral Bandpass Dependence Correction')
+message_box("Spectral Bandpass Dependence Correction")
 
-message_box(('Applying spectral bandpass dependence correction on a sample '
-             'spectral distribution using "Stearns and Stearns (1988)" '
-             'method:\n'
-             '\n\t("Measured Values", "Corrected Values")'))
+message_box(
+    (
+        "Applying spectral bandpass dependence correction on a sample "
+        'spectral distribution using "Stearns and Stearns (1988)" '
+        "method:\n"
+        '\n\t("Measured Values", "Corrected Values")'
+    )
+)
 data_sample = {
     380: 0.048,
     385: 0.051,
@@ -95,12 +99,9 @@ data_sample = {
     765: 0.465,
     770: 0.448,
     775: 0.432,
-    780: 0.421
+    780: 0.421,
 }
 
-sd_sample = colour.SpectralDistribution(data_sample, name='Sample')
+sd_sample = colour.SpectralDistribution(data_sample, name="Sample")
 uncorrected_values = sd_sample.values
-print(
-    np.dstack(
-        [uncorrected_values,
-         colour.bandpass_correction(sd_sample).values]))
+print(np.dstack([uncorrected_values, colour.bandpass_correction(sd_sample).values]))

@@ -25,12 +25,12 @@ from colour.colorimetry import (
 from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float_array
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
     'CONSTANT_C1',
@@ -41,6 +41,12 @@ __all__ = [
     'sd_blackbody',
     'rayleigh_jeans_law',
     'sd_rayleigh_jeans',
+    "CONSTANT_C1",
+    "CONSTANT_C2",
+    "CONSTANT_N",
+    "planck_law",
+    "blackbody_spectral_radiance",
+    "sd_blackbody",
 ]
 
 # 2 * math.pi * CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED ** 2
@@ -52,11 +58,13 @@ CONSTANT_C2: float = 1.4388e-2
 CONSTANT_N: float = 1
 
 
-def planck_law(wavelength: FloatingOrArrayLike,
-               temperature: FloatingOrArrayLike,
-               c1: Floating = CONSTANT_C1,
-               c2: Floating = CONSTANT_C2,
-               n: Floating = CONSTANT_N) -> FloatingOrNDArray:
+def planck_law(
+    wavelength: FloatingOrArrayLike,
+    temperature: FloatingOrArrayLike,
+    c1: Floating = CONSTANT_C1,
+    c2: Floating = CONSTANT_C2,
+    n: Floating = CONSTANT_N,
+) -> FloatingOrNDArray:
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
@@ -107,8 +115,7 @@ def planck_law(wavelength: FloatingOrArrayLike,
     l = as_float_array(wavelength)  # noqa
     t = as_float_array(temperature)
 
-    p = (((c1 * n ** -2 * l ** -5) / np.pi) * (np.exp(c2 / (n * l * t)) - 1) **
-         -1)
+    p = ((c1 * n ** -2 * l ** -5) / np.pi) * (np.exp(c2 / (n * l * t)) - 1) ** -1
 
     return p
 
@@ -116,11 +123,13 @@ def planck_law(wavelength: FloatingOrArrayLike,
 blackbody_spectral_radiance = planck_law
 
 
-def sd_blackbody(temperature: Floating,
-                 shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-                 c1: Floating = CONSTANT_C1,
-                 c2: Floating = CONSTANT_C2,
-                 n: Floating = CONSTANT_N) -> SpectralDistribution:
+def sd_blackbody(
+    temperature: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    c1: Floating = CONSTANT_C1,
+    c2: Floating = CONSTANT_C2,
+    n: Floating = CONSTANT_N,
+) -> SpectralDistribution:
     """
     Returns the spectral distribution of the planckian radiator for given
     temperature :math:`T[K]` with values in
@@ -1107,3 +1116,5 @@ def sd_rayleigh_jeans(temperature, shape=colour.SPECTRAL_SHAPE_DEFAULT):
         rayleigh_jeans_law(wavelengths * 1e-9, temperature) * 1e-9,
         wavelengths,
         name='{0}K Rayleigh-Jeans'.format(temperature))
+        name="{0}K Blackbody".format(temperature),
+    )

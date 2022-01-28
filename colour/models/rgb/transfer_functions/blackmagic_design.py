@@ -22,17 +22,17 @@ import numpy as np
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_BLACKMAGIC_FILM_GENERATION_5',
-    'oetf_BlackmagicFilmGeneration5',
-    'oetf_inverse_BlackmagicFilmGeneration5',
+    "CONSTANTS_BLACKMAGIC_FILM_GENERATION_5",
+    "oetf_BlackmagicFilmGeneration5",
+    "oetf_inverse_BlackmagicFilmGeneration5",
 ]
 
 CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
@@ -41,15 +41,16 @@ CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
     C=0.5300133392291939,
     D=8.283605932402494,
     E=0.09246575342465753,
-    LIN_CUT=0.005)
+    LIN_CUT=0.005,
+)
 """
 *Blackmagic Film Generation 5* colour component transfer functions constants.
 """
 
 
 def oetf_BlackmagicFilmGeneration5(
-        x: FloatingOrArrayLike,
-        constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5
+    x: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
 ) -> FloatingOrNDArray:
     """
     Defines the *Blackmagic Film Generation 5* opto-electronic transfer
@@ -111,8 +112,8 @@ def oetf_BlackmagicFilmGeneration5(
 
 
 def oetf_inverse_BlackmagicFilmGeneration5(
-        y: FloatingOrArrayLike,
-        constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5
+    y: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
 ) -> FloatingOrNDArray:
     """
     Defines the *Blackmagic Film Generation 5* inverse opto-electronic transfer

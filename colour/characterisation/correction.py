@@ -83,35 +83,35 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'matrix_augmented_Cheung2004',
-    'polynomial_expansion_Finlayson2015',
-    'polynomial_expansion_Vandermonde',
-    'POLYNOMIAL_EXPANSION_METHODS',
-    'polynomial_expansion',
-    'matrix_colour_correction_Cheung2004',
-    'matrix_colour_correction_Finlayson2015',
-    'matrix_colour_correction_Vandermonde',
-    'MATRIX_COLOUR_CORRECTION_METHODS',
-    'matrix_colour_correction',
-    'colour_correction_Cheung2004',
-    'colour_correction_Finlayson2015',
-    'colour_correction_Vandermonde',
-    'COLOUR_CORRECTION_METHODS',
-    'colour_correction',
+    "matrix_augmented_Cheung2004",
+    "polynomial_expansion_Finlayson2015",
+    "polynomial_expansion_Vandermonde",
+    "POLYNOMIAL_EXPANSION_METHODS",
+    "polynomial_expansion",
+    "matrix_colour_correction_Cheung2004",
+    "matrix_colour_correction_Finlayson2015",
+    "matrix_colour_correction_Vandermonde",
+    "MATRIX_COLOUR_CORRECTION_METHODS",
+    "matrix_colour_correction",
+    "colour_correction_Cheung2004",
+    "colour_correction_Finlayson2015",
+    "colour_correction_Vandermonde",
+    "COLOUR_CORRECTION_METHODS",
+    "colour_correction",
 ]
 
 
 def matrix_augmented_Cheung2004(
-        RGB: ArrayLike,
-        terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3
+    RGB: ArrayLike,
+    terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
     Performs polynomial expansion of given *RGB* colourspace array using
@@ -153,201 +153,225 @@ def matrix_augmented_Cheung2004(
     existing_terms = np.array([3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22])
     closest_terms = as_int(closest(existing_terms, terms))
     if closest_terms != terms:
-        raise ValueError('"Cheung et al. (2004)" method does not define '
-                         'an augmented matrix with {0} terms, '
-                         'closest augmented matrix has {1} terms!'.format(
-                             terms, closest_terms))
+        raise ValueError(
+            '"Cheung et al. (2004)" method does not define '
+            "an augmented matrix with {0} terms, "
+            "closest augmented matrix has {1} terms!".format(terms, closest_terms)
+        )
 
     if terms == 3:
         return RGB
     elif terms == 5:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G * B,
-            tail,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G * B,
+                tail,
+            ]
+        )
     elif terms == 7:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            tail,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                tail,
+            ]
+        )
     elif terms == 8:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R * G * B,
-            tail,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R * G * B,
+                tail,
+            ]
+        )
     elif terms == 10:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R ** 2,
-            G ** 2,
-            B ** 2,
-            tail,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                tail,
+            ]
+        )
     elif terms == 11:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R ** 2,
-            G ** 2,
-            B ** 2,
-            R * G * B,
-            tail,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G * B,
+                tail,
+            ]
+        )
     elif terms == 14:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R ** 2,
-            G ** 2,
-            B ** 2,
-            R * G * B,
-            R ** 3,
-            G ** 3,
-            B ** 3,
-            tail,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G * B,
+                R ** 3,
+                G ** 3,
+                B ** 3,
+                tail,
+            ]
+        )
     elif terms == 16:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R ** 2,
-            G ** 2,
-            B ** 2,
-            R * G * B,
-            R ** 2 * G,
-            G ** 2 * B,
-            B ** 2 * R,
-            R ** 3,
-            G ** 3,
-            B ** 3,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G * B,
+                R ** 2 * G,
+                G ** 2 * B,
+                B ** 2 * R,
+                R ** 3,
+                G ** 3,
+                B ** 3,
+            ]
+        )
     elif terms == 17:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R ** 2,
-            G ** 2,
-            B ** 2,
-            R * G * B,
-            R ** 2 * G,
-            G ** 2 * B,
-            B ** 2 * R,
-            R ** 3,
-            G ** 3,
-            B ** 3,
-            tail,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G * B,
+                R ** 2 * G,
+                G ** 2 * B,
+                B ** 2 * R,
+                R ** 3,
+                G ** 3,
+                B ** 3,
+                tail,
+            ]
+        )
     elif terms == 19:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R ** 2,
-            G ** 2,
-            B ** 2,
-            R * G * B,
-            R ** 2 * G,
-            G ** 2 * B,
-            B ** 2 * R,
-            R ** 2 * B,
-            G ** 2 * R,
-            B ** 2 * G,
-            R ** 3,
-            G ** 3,
-            B ** 3,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G * B,
+                R ** 2 * G,
+                G ** 2 * B,
+                B ** 2 * R,
+                R ** 2 * B,
+                G ** 2 * R,
+                B ** 2 * G,
+                R ** 3,
+                G ** 3,
+                B ** 3,
+            ]
+        )
     elif terms == 20:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R ** 2,
-            G ** 2,
-            B ** 2,
-            R * G * B,
-            R ** 2 * G,
-            G ** 2 * B,
-            B ** 2 * R,
-            R ** 2 * B,
-            G ** 2 * R,
-            B ** 2 * G,
-            R ** 3,
-            G ** 3,
-            B ** 3,
-            tail,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G * B,
+                R ** 2 * G,
+                G ** 2 * B,
+                B ** 2 * R,
+                R ** 2 * B,
+                G ** 2 * R,
+                B ** 2 * G,
+                R ** 3,
+                G ** 3,
+                B ** 3,
+                tail,
+            ]
+        )
     elif terms == 22:
-        return tstack([
-            R,
-            G,
-            B,
-            R * G,
-            R * B,
-            G * B,
-            R ** 2,
-            G ** 2,
-            B ** 2,
-            R * G * B,
-            R ** 2 * G,
-            G ** 2 * B,
-            B ** 2 * R,
-            R ** 2 * B,
-            G ** 2 * R,
-            B ** 2 * G,
-            R ** 3,
-            G ** 3,
-            B ** 3,
-            R ** 2 * G * B,
-            R * G ** 2 * B,
-            R * G * B ** 2,
-        ])
+        return tstack(
+            [
+                R,
+                G,
+                B,
+                R * G,
+                R * B,
+                G * B,
+                R ** 2,
+                G ** 2,
+                B ** 2,
+                R * G * B,
+                R ** 2 * G,
+                G ** 2 * B,
+                B ** 2 * R,
+                R ** 2 * B,
+                G ** 2 * R,
+                B ** 2 * G,
+                R ** 3,
+                G ** 3,
+                B ** 3,
+                R ** 2 * G * B,
+                R * G ** 2 * B,
+                R * G * B ** 2,
+            ]
+        )
 
 
 def polynomial_expansion_Finlayson2015(
-        RGB: ArrayLike,
-        degree: Literal[1, 2, 3, 4] = 1,
-        root_polynomial_expansion: Boolean = True) -> NDArray:
+    RGB: ArrayLike,
+    degree: Literal[1, 2, 3, 4] = 1,
+    root_polynomial_expansion: Boolean = True,
+) -> NDArray:
     """
     Performs polynomial expansion of given *RGB* colourspace array using
     *Finlayson et al. (2015)* method.
@@ -387,142 +411,154 @@ def polynomial_expansion_Finlayson2015(
     existing_degrees = np.array([1, 2, 3, 4])
     closest_degree = as_int(closest(existing_degrees, degree))
     if closest_degree != degree:
-        raise ValueError('"Finlayson et al. (2015)" method does not define '
-                         'a polynomial expansion for {0} degree, '
-                         'closest polynomial expansion is {1} degree!'.format(
-                             degree, closest_degree))
+        raise ValueError(
+            '"Finlayson et al. (2015)" method does not define '
+            "a polynomial expansion for {0} degree, "
+            "closest polynomial expansion is {1} degree!".format(degree, closest_degree)
+        )
 
     if degree == 1:
         return RGB
     elif degree == 2:
         if root_polynomial_expansion:
-            return tstack([
-                R,
-                G,
-                B,
-                spow(R * G, 1 / 2),
-                spow(G * B, 1 / 2),
-                spow(R * B, 1 / 2),
-            ])
+            return tstack(
+                [
+                    R,
+                    G,
+                    B,
+                    spow(R * G, 1 / 2),
+                    spow(G * B, 1 / 2),
+                    spow(R * B, 1 / 2),
+                ]
+            )
 
         else:
-            return tstack([
-                R,
-                G,
-                B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
-                R * G,
-                G * B,
-                R * B,
-            ])
+            return tstack(
+                [
+                    R,
+                    G,
+                    B,
+                    R ** 2,
+                    G ** 2,
+                    B ** 2,
+                    R * G,
+                    G * B,
+                    R * B,
+                ]
+            )
     elif degree == 3:
         if root_polynomial_expansion:
-            return tstack([
-                R,
-                G,
-                B,
-                spow(R * G, 1 / 2),
-                spow(G * B, 1 / 2),
-                spow(R * B, 1 / 2),
-                spow(R * G ** 2, 1 / 3),
-                spow(G * B ** 2, 1 / 3),
-                spow(R * B ** 2, 1 / 3),
-                spow(G * R ** 2, 1 / 3),
-                spow(B * G ** 2, 1 / 3),
-                spow(B * R ** 2, 1 / 3),
-                spow(R * G * B, 1 / 3),
-            ])
+            return tstack(
+                [
+                    R,
+                    G,
+                    B,
+                    spow(R * G, 1 / 2),
+                    spow(G * B, 1 / 2),
+                    spow(R * B, 1 / 2),
+                    spow(R * G ** 2, 1 / 3),
+                    spow(G * B ** 2, 1 / 3),
+                    spow(R * B ** 2, 1 / 3),
+                    spow(G * R ** 2, 1 / 3),
+                    spow(B * G ** 2, 1 / 3),
+                    spow(B * R ** 2, 1 / 3),
+                    spow(R * G * B, 1 / 3),
+                ]
+            )
         else:
-            return tstack([
-                R,
-                G,
-                B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
-                R * G,
-                G * B,
-                R * B,
-                R ** 3,
-                G ** 3,
-                B ** 3,
-                R * G ** 2,
-                G * B ** 2,
-                R * B ** 2,
-                G * R ** 2,
-                B * G ** 2,
-                B * R ** 2,
-                R * G * B,
-            ])
+            return tstack(
+                [
+                    R,
+                    G,
+                    B,
+                    R ** 2,
+                    G ** 2,
+                    B ** 2,
+                    R * G,
+                    G * B,
+                    R * B,
+                    R ** 3,
+                    G ** 3,
+                    B ** 3,
+                    R * G ** 2,
+                    G * B ** 2,
+                    R * B ** 2,
+                    G * R ** 2,
+                    B * G ** 2,
+                    B * R ** 2,
+                    R * G * B,
+                ]
+            )
     elif degree == 4:
         if root_polynomial_expansion:
-            return tstack([
-                R,
-                G,
-                B,
-                spow(R * G, 1 / 2),
-                spow(G * B, 1 / 2),
-                spow(R * B, 1 / 2),
-                spow(R * G ** 2, 1 / 3),
-                spow(G * B ** 2, 1 / 3),
-                spow(R * B ** 2, 1 / 3),
-                spow(G * R ** 2, 1 / 3),
-                spow(B * G ** 2, 1 / 3),
-                spow(B * R ** 2, 1 / 3),
-                spow(R * G * B, 1 / 3),
-                spow(R ** 3 * G, 1 / 4),
-                spow(R ** 3 * B, 1 / 4),
-                spow(G ** 3 * R, 1 / 4),
-                spow(G ** 3 * B, 1 / 4),
-                spow(B ** 3 * R, 1 / 4),
-                spow(B ** 3 * G, 1 / 4),
-                spow(R ** 2 * G * B, 1 / 4),
-                spow(G ** 2 * R * B, 1 / 4),
-                spow(B ** 2 * R * G, 1 / 4),
-            ])
+            return tstack(
+                [
+                    R,
+                    G,
+                    B,
+                    spow(R * G, 1 / 2),
+                    spow(G * B, 1 / 2),
+                    spow(R * B, 1 / 2),
+                    spow(R * G ** 2, 1 / 3),
+                    spow(G * B ** 2, 1 / 3),
+                    spow(R * B ** 2, 1 / 3),
+                    spow(G * R ** 2, 1 / 3),
+                    spow(B * G ** 2, 1 / 3),
+                    spow(B * R ** 2, 1 / 3),
+                    spow(R * G * B, 1 / 3),
+                    spow(R ** 3 * G, 1 / 4),
+                    spow(R ** 3 * B, 1 / 4),
+                    spow(G ** 3 * R, 1 / 4),
+                    spow(G ** 3 * B, 1 / 4),
+                    spow(B ** 3 * R, 1 / 4),
+                    spow(B ** 3 * G, 1 / 4),
+                    spow(R ** 2 * G * B, 1 / 4),
+                    spow(G ** 2 * R * B, 1 / 4),
+                    spow(B ** 2 * R * G, 1 / 4),
+                ]
+            )
         else:
-            return tstack([
-                R,
-                G,
-                B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
-                R * G,
-                G * B,
-                R * B,
-                R ** 3,
-                G ** 3,
-                B ** 3,
-                R * G ** 2,
-                G * B ** 2,
-                R * B ** 2,
-                G * R ** 2,
-                B * G ** 2,
-                B * R ** 2,
-                R * G * B,
-                R ** 4,
-                G ** 4,
-                B ** 4,
-                R ** 3 * G,
-                R ** 3 * B,
-                G ** 3 * R,
-                G ** 3 * B,
-                B ** 3 * R,
-                B ** 3 * G,
-                R ** 2 * G ** 2,
-                G ** 2 * B ** 2,
-                R ** 2 * B ** 2,
-                R ** 2 * G * B,
-                G ** 2 * R * B,
-                B ** 2 * R * G,
-            ])
+            return tstack(
+                [
+                    R,
+                    G,
+                    B,
+                    R ** 2,
+                    G ** 2,
+                    B ** 2,
+                    R * G,
+                    G * B,
+                    R * B,
+                    R ** 3,
+                    G ** 3,
+                    B ** 3,
+                    R * G ** 2,
+                    G * B ** 2,
+                    R * B ** 2,
+                    G * R ** 2,
+                    B * G ** 2,
+                    B * R ** 2,
+                    R * G * B,
+                    R ** 4,
+                    G ** 4,
+                    B ** 4,
+                    R ** 3 * G,
+                    R ** 3 * B,
+                    G ** 3 * R,
+                    G ** 3 * B,
+                    B ** 3 * R,
+                    B ** 3 * G,
+                    R ** 2 * G ** 2,
+                    G ** 2 * B ** 2,
+                    R ** 2 * B ** 2,
+                    R ** 2 * G * B,
+                    G ** 2 * R * B,
+                    B ** 2 * R * G,
+                ]
+            )
 
 
-def polynomial_expansion_Vandermonde(a: ArrayLike,
-                                     degree: Integer = 1) -> NDArray:
+def polynomial_expansion_Vandermonde(a: ArrayLike, degree: Integer = 1) -> NDArray:
     """
     Performs polynomial expansion of given :math:`a` array using *Vandermonde*
     method.
@@ -555,14 +591,16 @@ def polynomial_expansion_Vandermonde(a: ArrayLike,
     a_e = np.transpose(np.vander(np.ravel(a), int(degree) + 1))
     a_e = np.hstack(list(a_e.reshape(a_e.shape[0], -1, 3)))
 
-    return np.squeeze(a_e[:, 0:a_e.shape[-1] - a.shape[-1] + 1])
+    return np.squeeze(a_e[:, 0 : a_e.shape[-1] - a.shape[-1] + 1])
 
 
-POLYNOMIAL_EXPANSION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Cheung 2004': matrix_augmented_Cheung2004,
-    'Finlayson 2015': polynomial_expansion_Finlayson2015,
-    'Vandermonde': polynomial_expansion_Vandermonde,
-})
+POLYNOMIAL_EXPANSION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Cheung 2004": matrix_augmented_Cheung2004,
+        "Finlayson 2015": polynomial_expansion_Finlayson2015,
+        "Vandermonde": polynomial_expansion_Vandermonde,
+    }
+)
 POLYNOMIAL_EXPANSION_METHODS.__doc__ = """
 Supported polynomial expansion methods.
 
@@ -574,10 +612,12 @@ References
 
 
 def polynomial_expansion(
-        a: ArrayLike,
-        method: Union[Literal['Cheung 2004', 'Finlayson 2015', 'Vandermonde'],
-                      str] = 'Cheung 2004',
-        **kwargs: Any) -> NDArray:
+    a: ArrayLike,
+    method: Union[
+        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
+    ] = "Cheung 2004",
+    **kwargs: Any
+) -> NDArray:
     """
     Performs polynomial expansion of given :math:`a` array.
 
@@ -630,9 +670,9 @@ def polynomial_expansion(
 
 
 def matrix_colour_correction_Cheung2004(
-        M_T: ArrayLike,
-        M_R: ArrayLike,
-        terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3
+    M_T: ArrayLike,
+    M_R: ArrayLike,
+    terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
@@ -668,14 +708,16 @@ def matrix_colour_correction_Cheung2004(
     """
 
     return least_square_mapping_MoorePenrose(
-        matrix_augmented_Cheung2004(M_T, terms), M_R)
+        matrix_augmented_Cheung2004(M_T, terms), M_R
+    )
 
 
 def matrix_colour_correction_Finlayson2015(
-        M_T: ArrayLike,
-        M_R: ArrayLike,
-        degree: Literal[1, 2, 3, 4] = 1,
-        root_polynomial_expansion: Boolean = True) -> NDArray:
+    M_T: ArrayLike,
+    M_R: ArrayLike,
+    degree: Literal[1, 2, 3, 4] = 1,
+    root_polynomial_expansion: Boolean = True,
+) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Finlayson et al. (2015)* method.
@@ -712,13 +754,14 @@ def matrix_colour_correction_Finlayson2015(
     """
 
     return least_square_mapping_MoorePenrose(
-        polynomial_expansion_Finlayson2015(M_T, degree,
-                                           root_polynomial_expansion), M_R)
+        polynomial_expansion_Finlayson2015(M_T, degree, root_polynomial_expansion),
+        M_R,
+    )
 
 
-def matrix_colour_correction_Vandermonde(M_T: ArrayLike,
-                                         M_R: ArrayLike,
-                                         degree: Integer = 1) -> NDArray:
+def matrix_colour_correction_Vandermonde(
+    M_T: ArrayLike, M_R: ArrayLike, degree: Integer = 1
+) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
@@ -753,15 +796,17 @@ def matrix_colour_correction_Vandermonde(M_T: ArrayLike,
     """
 
     return least_square_mapping_MoorePenrose(
-        polynomial_expansion_Vandermonde(M_T, degree), M_R)
+        polynomial_expansion_Vandermonde(M_T, degree), M_R
+    )
 
 
-MATRIX_COLOUR_CORRECTION_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping({
-        'Cheung 2004': matrix_colour_correction_Cheung2004,
-        'Finlayson 2015': matrix_colour_correction_Finlayson2015,
-        'Vandermonde': matrix_colour_correction_Vandermonde,
-    }))
+MATRIX_COLOUR_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Cheung 2004": matrix_colour_correction_Cheung2004,
+        "Finlayson 2015": matrix_colour_correction_Finlayson2015,
+        "Vandermonde": matrix_colour_correction_Vandermonde,
+    }
+)
 MATRIX_COLOUR_CORRECTION_METHODS.__doc__ = """
 Supported colour correction matrix methods.
 
@@ -773,11 +818,13 @@ References
 
 
 def matrix_colour_correction(
-        M_T: ArrayLike,
-        M_R: ArrayLike,
-        method: Union[Literal['Cheung 2004', 'Finlayson 2015', 'Vandermonde'],
-                      str] = 'Cheung 2004',
-        **kwargs: Any) -> NDArray:
+    M_T: ArrayLike,
+    M_R: ArrayLike,
+    method: Union[
+        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
+    ] = "Cheung 2004",
+    **kwargs: Any
+) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
@@ -889,10 +936,10 @@ def matrix_colour_correction(
 
 
 def colour_correction_Cheung2004(
-        RGB: ArrayLike,
-        M_T: ArrayLike,
-        M_R: ArrayLike,
-        terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3
+    RGB: ArrayLike,
+    M_T: ArrayLike,
+    M_R: ArrayLike,
+    terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
@@ -942,11 +989,12 @@ def colour_correction_Cheung2004(
 
 
 def colour_correction_Finlayson2015(
-        RGB: ArrayLike,
-        M_T: ArrayLike,
-        M_R: ArrayLike,
-        degree: Literal[1, 2, 3, 4] = 1,
-        root_polynomial_expansion: Boolean = True) -> NDArray:
+    RGB: ArrayLike,
+    M_T: ArrayLike,
+    M_R: ArrayLike,
+    degree: Literal[1, 2, 3, 4] = 1,
+    root_polynomial_expansion: Boolean = True,
+) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -989,19 +1037,18 @@ def colour_correction_Finlayson2015(
 
     RGB = np.reshape(RGB, (-1, 3))
 
-    RGB_e = polynomial_expansion_Finlayson2015(RGB, degree,
-                                               root_polynomial_expansion)
+    RGB_e = polynomial_expansion_Finlayson2015(RGB, degree, root_polynomial_expansion)
 
-    CCM = matrix_colour_correction_Finlayson2015(M_T, M_R, degree,
-                                                 root_polynomial_expansion)
+    CCM = matrix_colour_correction_Finlayson2015(
+        M_T, M_R, degree, root_polynomial_expansion
+    )
 
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
-def colour_correction_Vandermonde(RGB: ArrayLike,
-                                  M_T: ArrayLike,
-                                  M_R: ArrayLike,
-                                  degree: Integer = 1) -> NDArray:
+def colour_correction_Vandermonde(
+    RGB: ArrayLike, M_T: ArrayLike, M_R: ArrayLike, degree: Integer = 1
+) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
@@ -1049,11 +1096,13 @@ def colour_correction_Vandermonde(RGB: ArrayLike,
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
-COLOUR_CORRECTION_METHODS = CaseInsensitiveMapping({
-    'Cheung 2004': colour_correction_Cheung2004,
-    'Finlayson 2015': colour_correction_Finlayson2015,
-    'Vandermonde': colour_correction_Vandermonde,
-})
+COLOUR_CORRECTION_METHODS = CaseInsensitiveMapping(
+    {
+        "Cheung 2004": colour_correction_Cheung2004,
+        "Finlayson 2015": colour_correction_Finlayson2015,
+        "Vandermonde": colour_correction_Vandermonde,
+    }
+)
 COLOUR_CORRECTION_METHODS.__doc__ = """
 Supported colour correction methods.
 
@@ -1065,12 +1114,14 @@ References
 
 
 def colour_correction(
-        RGB: ArrayLike,
-        M_T: ArrayLike,
-        M_R: ArrayLike,
-        method: Union[Literal['Cheung 2004', 'Finlayson 2015', 'Vandermonde'],
-                      str] = 'Cheung 2004',
-        **kwargs: Any) -> NDArray:
+    RGB: ArrayLike,
+    M_T: ArrayLike,
+    M_R: ArrayLike,
+    method: Union[
+        Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
+    ] = "Cheung 2004",
+    **kwargs: Any
+) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
