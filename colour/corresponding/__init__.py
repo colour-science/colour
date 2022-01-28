@@ -9,6 +9,7 @@ from .prediction import (
     corresponding_chromaticities_prediction_CMCCAT2000,
     corresponding_chromaticities_prediction_Fairchild1990,
     corresponding_chromaticities_prediction_VonKries,
+    corresponding_chromaticities_prediction_Zhai2018,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
     corresponding_chromaticities_prediction,
 )
@@ -22,6 +23,7 @@ __all__ += [
     "corresponding_chromaticities_prediction_CMCCAT2000",
     "corresponding_chromaticities_prediction_Fairchild1990",
     "corresponding_chromaticities_prediction_VonKries",
+    "corresponding_chromaticities_prediction_Zhai2018",
     "CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS",
     "corresponding_chromaticities_prediction",
 ]

@@ -253,7 +253,7 @@ def generate_documentation_plots(output_directory: str):
     )
     plt.close(
         plot_corresponding_chromaticities_prediction(
-            2, "Von Kries", "Bianco 2010", **arguments
+            2, "Von Kries", **arguments
         )[0]
     )
 
@@ -494,7 +494,7 @@ def generate_documentation_plots(output_directory: str):
     )
     plt.close(
         plot_corresponding_chromaticities_prediction(
-            1, "Von Kries", "CAT02", **arguments
+            1, "Von Kries", **arguments
         )[0]
     )
 

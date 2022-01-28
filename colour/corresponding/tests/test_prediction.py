@@ -14,12 +14,14 @@ from colour.corresponding.prediction import (
     convert_experiment_results_Breneman1987,
 )
 from colour.corresponding import (
-    corresponding_chromaticities_prediction_VonKries,
     corresponding_chromaticities_prediction_CIE1994,
     corresponding_chromaticities_prediction_CMCCAT2000,
     corresponding_chromaticities_prediction_Fairchild1990,
+    corresponding_chromaticities_prediction_VonKries,
+    corresponding_chromaticities_prediction_Zhai2018,
 )
 from colour.hints import NDArray
+
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
@@ -34,10 +36,12 @@ __all__ = [
     "DATA_PREDICTION_CIE1994",
     "DATA_PREDICTION_CMCCAT2000",
     "DATA_PREDICTION_VONKRIES",
+    "DATA_PREDICTION_ZHAI2018",
     "TestCorrespondingChromaticitiesPredictionFairchild1990",
     "TestCorrespondingChromaticitiesPredictionCIE1994",
     "TestCorrespondingChromaticitiesPredictionCMCCAT2000",
     "TestCorrespondingChromaticitiesPredictionVonKries",
+    "TestCorrespondingChromaticitiesPredictionZhai2018",
 ]
 
 DATASET_CORRESPONDING_COLOUR_1: CorrespondingColourDataset = (
@@ -205,6 +209,23 @@ DATA_PREDICTION_VONKRIES: NDArray = np.array(
     ]
 )
 
+DATA_PREDICTION_ZHAI2018: NDArray = np.array(
+    [
+        [(0.199, 0.487), (0.199994235295863, 0.470596132542110)],
+        [(0.420, 0.509), (0.414913855668385, 0.503766204685646)],
+        [(0.249, 0.497), (0.244202332779817, 0.483154861151019)],
+        [(0.302, 0.548), (0.307287743499555, 0.543174463393956)],
+        [(0.290, 0.537), (0.294129765202449, 0.531627707350365)],
+        [(0.257, 0.554), (0.261399171975815, 0.549476532253198)],
+        [(0.192, 0.529), (0.199113248438711, 0.512769667764083)],
+        [(0.129, 0.521), (0.142266217705415, 0.499812542997584)],
+        [(0.133, 0.469), (0.138134593378073, 0.443768079552098)],
+        [(0.158, 0.340), (0.154188271421900, 0.338322678880046)],
+        [(0.178, 0.426), (0.175297924104065, 0.404343935551269)],
+        [(0.231, 0.365), (0.213004721499844, 0.354595262694384)],
+    ]
+)
+
 
 class TestConvertExperimentResultsBreneman1987(unittest.TestCase):
     """
@@ -357,5 +378,30 @@ corresponding_chromaticities_prediction_VonKries` definition.
                 ]
             ),
             DATA_PREDICTION_VONKRIES,
+            decimal=7,
+        )
+
+
+class TestCorrespondingChromaticitiesPredictionZhai2018(unittest.TestCase):
+    """
+    Defines :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_Zhai2018` definition unit tests
+    methods.
+    """
+
+    def test_corresponding_chromaticities_prediction_Zhai2018(self):
+        """
+        Tests :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_Zhai2018` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            np.array(
+                [
+                    (p.uv_m, p.uv_p)
+                    for p in corresponding_chromaticities_prediction_Zhai2018()
+                ]
+            ),
+            DATA_PREDICTION_ZHAI2018,
             decimal=7,
         )
