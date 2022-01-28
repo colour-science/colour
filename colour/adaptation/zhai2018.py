@@ -51,9 +51,7 @@ def chromatic_adaptation_Zhai2018(
     D_b: FloatingOrArrayLike = 1,
     D_d: FloatingOrArrayLike = 1,
     XYZ_wo: ArrayLike = np.array([1, 1, 1]),
-    chromatic_adaptation_transform: Union[
-        Literal["CAT02", "CAT16"], str
-    ] = "CAT02",
+    transform: Union[Literal["CAT02", "CAT16"], str] = "CAT02",
 ) -> NDArray:
     """
     Adapts given sample colour :math:`XYZ_{\\beta}` tristimulus values from
@@ -95,7 +93,7 @@ def chromatic_adaptation_Zhai2018(
         :math:`\\delta`.
     XYZ_wo
         Baseline illuminant (:math:`BI`) :math:`o`.
-    chromatic_adaptation_transform
+    transform
         Chromatic adaptation transform.
 
     Returns
@@ -157,10 +155,8 @@ def chromatic_adaptation_Zhai2018(
     Y_wd = XYZ_wd[..., 1][..., np.newaxis]
     Y_wo = XYZ_wo[..., 1][..., np.newaxis]
 
-    chromatic_adaptation_transform = validate_method(
-        chromatic_adaptation_transform, ["CAT02", "CAT16"]
-    )
-    M = CHROMATIC_ADAPTATION_TRANSFORMS[chromatic_adaptation_transform]
+    transform = validate_method(transform, ["CAT02", "CAT16"])
+    M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
     RGB_b = vector_dot(M, XYZ_b)
     RGB_wb = vector_dot(M, XYZ_wb)

@@ -187,9 +187,6 @@ def chromatic_adaptation(
     discount_illuminant
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
         Truth value indicating if the illuminant should be discounted.
-    transform
-        {:func:`colour.adaptation.chromatic_adaptation_VonKries`},
-        Chromatic adaptation transform.
     D_b
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\beta` of input illuminant
@@ -201,8 +198,9 @@ def chromatic_adaptation(
     XYZ_wo
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Baseline illuminant (:math:`BI`) :math:`o`.
-    chromatic_adaptation_transform
-        {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
+    transform
+        {:func:`colour.adaptation.chromatic_adaptation_VonKries`,
+        :func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Chromatic adaptation transform.
 
     Returns

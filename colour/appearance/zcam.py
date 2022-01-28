@@ -446,7 +446,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     )
 
     XYZ_D65 = chromatic_adaptation_Zhai2018(
-        XYZ, XYZ_w, TVS_D65, D, D, chromatic_adaptation_transform="CAT02"
+        XYZ, XYZ_w, TVS_D65, D, D, transform="CAT02"
     )
 
     # Step 1 (Forward) - Computing factors related with viewing conditions and
@@ -730,7 +730,7 @@ def ZCAM_to_XYZ(
         XYZ_D65 = Izazbz_to_XYZ(tstack([I_z, a_z, b_z]), method="Safdar 2021")
 
     XYZ = chromatic_adaptation_Zhai2018(
-        XYZ_D65, TVS_D65, XYZ_w, D, D, chromatic_adaptation_transform="CAT02"
+        XYZ_D65, TVS_D65, XYZ_w, D, D, transform="CAT02"
     )
 
     return from_range_1(XYZ)
