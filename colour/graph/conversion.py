@@ -218,7 +218,9 @@ __all__ = [
 
 
 class Conversion_Specification(
-    namedtuple("Conversion_Specification", ("source", "target", "conversion_function"))
+    namedtuple(
+        "Conversion_Specification", ("source", "target", "conversion_function")
+    )
 ):
     """
     Conversion specification for *Colour* graph for automatic colour
@@ -542,9 +544,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
         "Hunter Lab",
         partial(
             XYZ_to_Hunter_Lab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
+                "CIE 1931 2 Degree Standard Observer"
+            ]["D65"].XYZ_n
             / 100,
         ),
     ),
@@ -553,9 +555,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
         "CIE XYZ",
         partial(
             Hunter_Lab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
+                "CIE 1931 2 Degree Standard Observer"
+            ]["D65"].XYZ_n
             / 100,
         ),
     ),
@@ -564,9 +566,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
         "Hunter Rdab",
         partial(
             XYZ_to_Hunter_Rdab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
+                "CIE 1931 2 Degree Standard Observer"
+            ]["D65"].XYZ_n
             / 100,
         ),
     ),
@@ -575,9 +577,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
         "CIE XYZ",
         partial(
             Hunter_Rdab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
+                "CIE 1931 2 Degree Standard Observer"
+            ]["D65"].XYZ_n
             / 100,
         ),
     ),
@@ -737,7 +739,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     (
         "CIE XYZ",
         "LLAB",
-        partial(XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80),
+        partial(
+            XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80
+        ),
     ),
     (
         "CIE XYZ",
@@ -985,7 +989,9 @@ def describe_conversion_path(
         "[ Conversion Path ]\n\n{0}".format(
             " --> ".join(
                 [
-                    '"{0}"'.format(_lower_order_function(conversion_function).__name__)
+                    '"{0}"'.format(
+                        _lower_order_function(conversion_function).__name__
+                    )
                     for conversion_function in conversion_path
                 ]
             )
@@ -996,7 +1002,9 @@ def describe_conversion_path(
     )
 
     for conversion_function in conversion_path:
-        conversion_function_name = _lower_order_function(conversion_function).__name__
+        conversion_function_name = _lower_order_function(
+            conversion_function
+        ).__name__
 
         # Filtering compatible keyword arguments passed directly and
         # irrespective of any conversion function name.
@@ -1012,7 +1020,9 @@ def describe_conversion_path(
             message = ('[ "{0}" ]' "\n\n[ Signature ]\n\n{1}").format(
                 _lower_order_function(conversion_function).__name__,
                 pformat(
-                    signature_inspection(_lower_order_function(conversion_function))
+                    signature_inspection(
+                        _lower_order_function(conversion_function)
+                    )
                 ),
             )
 
@@ -1029,7 +1039,9 @@ def describe_conversion_path(
                 )
 
             if return_value is not None:
-                message += "\n\n[ Conversion Output ]\n\n{0}".format(return_value)
+                message += "\n\n[ Conversion Output ]\n\n{0}".format(
+                    return_value
+                )
 
             message_box(message, width, padding, print_callable)
 
@@ -1241,7 +1253,9 @@ verbose={'mode': 'Long'})
 
     verbose_kwargs = copy(kwargs)
     for conversion_function in conversion_path:
-        conversion_function_name = _lower_order_function(conversion_function).__name__
+        conversion_function_name = _lower_order_function(
+            conversion_function
+        ).__name__
 
         # Filtering compatible keyword arguments passed directly and
         # irrespective of any conversion function name.

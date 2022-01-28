@@ -269,19 +269,25 @@ class TestCMYK_to_CMY(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            CMYK_to_CMY(np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])),
+            CMYK_to_CMY(
+                np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
+            ),
             np.array([0.54379481, 0.96918929, 0.95908048]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            CMYK_to_CMY(np.array([0.00000000, 1.00000000, 1.00000000, 0.15000000])),
+            CMYK_to_CMY(
+                np.array([0.00000000, 1.00000000, 1.00000000, 0.15000000])
+            ),
             np.array([0.15000000, 1.00000000, 1.00000000]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            CMYK_to_CMY(np.array([0.15000000, 0.00000000, 0.00000000, 0.00000000])),
+            CMYK_to_CMY(
+                np.array([0.15000000, 0.00000000, 0.00000000, 0.00000000])
+            ),
             np.array([0.15000000, 0.00000000, 0.00000000]),
             decimal=7,
         )

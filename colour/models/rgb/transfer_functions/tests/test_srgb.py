@@ -37,7 +37,9 @@ eotf_inverse_sRGB` definition.
 
         self.assertAlmostEqual(eotf_inverse_sRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(eotf_inverse_sRGB(0.18), 0.461356129500442, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_sRGB(0.18), 0.461356129500442, places=7
+        )
 
         self.assertAlmostEqual(eotf_inverse_sRGB(1.0), 1.0, places=7)
 

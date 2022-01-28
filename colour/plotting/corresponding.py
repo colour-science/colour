@@ -171,7 +171,9 @@ Plot_Corresponding_Chromaticities_Prediction.png
             ),
             markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
         )
-        axes.plot(uv_p[0], uv_p[1], "^", color=CONSTANTS_COLOUR_STYLE.colour.dark)
+        axes.plot(
+            uv_p[0], uv_p[1], "^", color=CONSTANTS_COLOUR_STYLE.colour.dark
+        )
 
     settings.update(
         {

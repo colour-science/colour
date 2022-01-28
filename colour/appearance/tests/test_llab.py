@@ -73,7 +73,9 @@ class TestXYZ_to_LLAB(unittest.TestCase):
             L = 31.83
             np.testing.assert_allclose(
                 XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround),
-                np.array([61.26, 30.51, 22.3, 0.5, 56.55, np.nan, 52.33, 21.43]),
+                np.array(
+                    [61.26, 30.51, 22.3, 0.5, 56.55, np.nan, 52.33, 21.43]
+                ),
                 rtol=0.01,
                 atol=0.01,
             )
@@ -83,7 +85,9 @@ class TestXYZ_to_LLAB(unittest.TestCase):
             L = 318.31
             np.testing.assert_allclose(
                 XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround),
-                np.array([16.25, 30.43, 173.8, 1.87, 53.83, np.nan, -53.51, 5.83]),
+                np.array(
+                    [16.25, 30.43, 173.8, 1.87, 53.83, np.nan, -53.51, 5.83]
+                ),
                 rtol=0.01,
                 atol=0.01,
             )
@@ -92,7 +96,9 @@ class TestXYZ_to_LLAB(unittest.TestCase):
             L = 31.83
             np.testing.assert_allclose(
                 XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround),
-                np.array([39.82, 29.34, 271.9, 0.74, 54.59, np.nan, 1.76, -54.56]),
+                np.array(
+                    [39.82, 29.34, 271.9, 0.74, 54.59, np.nan, 1.76, -54.56]
+                ),
                 rtol=0.01,
                 atol=0.01,
             )
@@ -165,7 +171,9 @@ class TestXYZ_to_LLAB(unittest.TestCase):
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    XYZ_to_LLAB(XYZ * factor_a, XYZ_0 * factor_a, Y_b, L, surround),
+                    XYZ_to_LLAB(
+                        XYZ * factor_a, XYZ_0 * factor_a, Y_b, L, surround
+                    ),
                     as_float_array(specification) * factor_b,
                     decimal=7,
                 )

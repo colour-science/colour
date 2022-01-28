@@ -450,7 +450,9 @@ class TestLUTSequence(unittest.TestCase):
             def __init__(self, gamma: FloatingOrNDArray = 1.0):
                 self._gamma = gamma
 
-            def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
+            def apply(
+                self, RGB: ArrayLike, *args: Any, **kwargs: Any
+            ) -> NDArray:
                 """
                 Applies the *LUT* sequence operator to given *RGB* colourspace
                 array.
@@ -469,7 +471,9 @@ class TestLUTSequence(unittest.TestCase):
 
                 direction = kwargs.get("direction", "Forward")
 
-                gamma = self._gamma if direction == "Forward" else 1 / self._gamma
+                gamma = (
+                    self._gamma if direction == "Forward" else 1 / self._gamma
+                )
 
                 return as_float_array(gamma_function(RGB, gamma))
 

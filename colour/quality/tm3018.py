@@ -154,23 +154,35 @@ def colour_fidelity_index_ANSIIESTM3018(
     # Setup bins based on where the reference a'b' points are located.
     bins: List[List[int]] = [[] for _i in range(16)]
     for i, sample in enumerate(specification.colorimetry_data[1]):
-        bin_index = as_int_scalar(np.floor(cast(Floating, sample.CAM.h) / 22.5))
+        bin_index = as_int_scalar(
+            np.floor(cast(Floating, sample.CAM.h) / 22.5)
+        )
         bins[bin_index].append(i)
 
     # Per-bin a'b' averages.
     averages_test = np.empty([16, 2])
     averages_reference = np.empty([16, 2])
     for i in range(16):
-        apbp_s = [specification.colorimetry_data[0][j].Jpapbp[[1, 2]] for j in bins[i]]
+        apbp_s = [
+            specification.colorimetry_data[0][j].Jpapbp[[1, 2]]
+            for j in bins[i]
+        ]
         averages_test[i, :] = np.mean(apbp_s, axis=0)
-        apbp_s = [specification.colorimetry_data[1][j].Jpapbp[[1, 2]] for j in bins[i]]
+        apbp_s = [
+            specification.colorimetry_data[1][j].Jpapbp[[1, 2]]
+            for j in bins[i]
+        ]
         averages_reference[i, :] = np.mean(apbp_s, axis=0)
 
     # Gamut Index.
-    R_g = 100 * (averages_area(averages_test) / averages_area(averages_reference))
+    R_g = 100 * (
+        averages_area(averages_test) / averages_area(averages_reference)
+    )
 
     # Local colour fidelity indexes, i.e. 16 CFIs for each bin.
-    bin_delta_E_s = [np.mean([specification.delta_E_s[bins[i]]]) for i in range(16)]
+    bin_delta_E_s = [
+        np.mean([specification.delta_E_s[bins[i]]]) for i in range(16)
+    ]
     R_fs = as_float_array(delta_E_to_R_f(bin_delta_E_s))
 
     # Angles bisecting the hue bins.

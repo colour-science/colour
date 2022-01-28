@@ -25,7 +25,9 @@ message_box(
     )
 )
 pprint(colour.contrast_sensitivity_function(u=4, X_0=60, E=65))
-pprint(colour.contrast.contrast_sensitivity_function_Barten1999(u=4, X_0=60, E=65))
+pprint(
+    colour.contrast.contrast_sensitivity_function_Barten1999(u=4, X_0=60, E=65)
+)
 
 print("\n")
 

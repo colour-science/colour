@@ -75,11 +75,15 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT = np.tile(CCT, 6)
-        np.testing.assert_almost_equal(uv_to_CCT_Krystek1985(uv), CCT, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Krystek1985(uv), CCT, decimal=7
+        )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT = np.reshape(CCT, (2, 3))
-        np.testing.assert_almost_equal(uv_to_CCT_Krystek1985(uv), CCT, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Krystek1985(uv), CCT, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_uv_to_CCT_Krystek1985(self):
@@ -135,11 +139,15 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
 
         CCT = np.tile(CCT, 6)
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(CCT_to_uv_Krystek1985(CCT), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Krystek1985(CCT), uv, decimal=7
+        )
 
         CCT = np.reshape(CCT, (2, 3))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(CCT_to_uv_Krystek1985(CCT), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Krystek1985(CCT), uv, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_CCT_to_uv_Krystek1985(self):

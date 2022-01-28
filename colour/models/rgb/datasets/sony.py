@@ -294,7 +294,9 @@ MATRIX_VENICE_S_GAMUT3_TO_XYZ: NDArray = normalised_primary_matrix(
 *Venice S-Gamut3* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_VENICE_S_GAMUT3: NDArray = np.linalg.inv(MATRIX_VENICE_S_GAMUT3_TO_XYZ)
+MATRIX_XYZ_TO_VENICE_S_GAMUT3: NDArray = np.linalg.inv(
+    MATRIX_VENICE_S_GAMUT3_TO_XYZ
+)
 """
 *CIE XYZ* tristimulus values to *Venice S-Gamut3* colourspace matrix.
 """

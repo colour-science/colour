@@ -22,7 +22,10 @@ pprint(sorted(data_babelcolor_average.keys()))
 print("\n")
 
 message_box(
-    ('Reading spectral data from a "CSV" file directly as spectral ' "distributions.")
+    (
+        'Reading spectral data from a "CSV" file directly as spectral '
+        "distributions."
+    )
 )
 sds_babelcolor_average = colour.read_sds_from_csv_file(
     os.path.join(RESOURCES_DIRECTORY, "babelcolor_average.csv")

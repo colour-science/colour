@@ -40,7 +40,9 @@ log_encoding_ViperLog` definition.
 
         self.assertAlmostEqual(log_encoding_ViperLog(0.0), -np.inf, places=7)
 
-        self.assertAlmostEqual(log_encoding_ViperLog(0.18), 0.636008067010413, places=7)
+        self.assertAlmostEqual(
+            log_encoding_ViperLog(0.18), 0.636008067010413, places=7
+        )
 
         self.assertAlmostEqual(log_encoding_ViperLog(1.0), 1.0, places=7)
 
@@ -88,7 +90,9 @@ log_encoding_ViperLog` definition domain and range scale support.
 log_encoding_ViperLog` definition nan support.
         """
 
-        log_encoding_ViperLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_encoding_ViperLog(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLogDecoding_ViperLog(unittest.TestCase):
@@ -105,7 +109,9 @@ log_decoding_ViperLog` definition.
 
         self.assertAlmostEqual(log_decoding_ViperLog(-np.inf), 0.0, places=7)
 
-        self.assertAlmostEqual(log_decoding_ViperLog(0.636008067010413), 0.18, places=7)
+        self.assertAlmostEqual(
+            log_decoding_ViperLog(0.636008067010413), 0.18, places=7
+        )
 
         self.assertAlmostEqual(log_decoding_ViperLog(1.0), 1.0, places=7)
 
@@ -153,7 +159,9 @@ log_decoding_ViperLog` definition domain and range scale support.
 log_decoding_ViperLog` definition nan support.
         """
 
-        log_decoding_ViperLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_decoding_ViperLog(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 if __name__ == "__main__":

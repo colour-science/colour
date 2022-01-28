@@ -788,7 +788,9 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     except NotImplementedError:  # pragma: no cover
         pass
 
-    extents = np.array([getattr(axes, "get_{}lim".format(axis))() for axis in "xyz"])
+    extents = np.array(
+        [getattr(axes, "get_{}lim".format(axis))() for axis in "xyz"]
+    )
 
     centers = np.mean(extents, axis=1)
     extent = np.max(np.abs(extents[..., 1] - extents[..., 0]))
@@ -895,17 +897,22 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
         non_siblings = [
             filterer
             for filterer in filterers
-            if filterer not in string_filterers and filterer not in object_filterers
+            if filterer not in string_filterers
+            and filterer not in object_filterers
         ]
 
         if non_siblings:
             runtime_warning(
-                'Non-sibling elements are passed-through: "{0}"'.format(non_siblings)
+                'Non-sibling elements are passed-through: "{0}"'.format(
+                    non_siblings
+                )
             )
 
             object_filterers.extend(non_siblings)
 
-    filtered_mapping = filter_mapping(mapping, string_filterers, anchors, flags)
+    filtered_mapping = filter_mapping(
+        mapping, string_filterers, anchors, flags
+    )
 
     for filterer in object_filterers:
         # TODO: Consider using "MutableMapping" here.
@@ -927,7 +934,9 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
 
 def filter_RGB_colourspaces(
-    filterers: Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]],
+    filterers: Union[
+        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
+    ],
     anchors: Boolean = True,
     allow_non_siblings: Boolean = True,
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
@@ -999,7 +1008,9 @@ def filter_cmfs(
         Filtered colour matching functions.
     """
 
-    return filter_passthrough(MSDS_CMFS, filterers, anchors, allow_non_siblings, flags)
+    return filter_passthrough(
+        MSDS_CMFS, filterers, anchors, allow_non_siblings, flags
+    )
 
 
 def filter_illuminants(
@@ -1218,7 +1229,9 @@ def plot_multi_colour_swatches(
     direction: Union[Literal["+y", "-y"], str] = "+y",
     text_kwargs: Optional[Dict] = None,
     background_colour: ArrayLike = (1.0, 1.0, 1.0),
-    compare_swatches: Optional[Union[Literal["Diagonal", "Stacked"], str]] = None,
+    compare_swatches: Optional[
+        Union[Literal["Diagonal", "Stacked"], str]
+    ] = None,
     **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -1585,7 +1598,9 @@ def plot_multi_functions(
     samples = cast(ArrayLike, optional(samples, np.linspace(0, 1, 1000)))
 
     for i, (_name, function) in enumerate(functions.items()):
-        plotting_function(samples, function(samples), **plot_settings_collection[i])
+        plotting_function(
+            samples, function(samples), **plot_settings_collection[i]
+        )
 
     x_label = (
         "x - Log Base {0} Scale".format(log_x)

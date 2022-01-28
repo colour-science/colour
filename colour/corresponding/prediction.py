@@ -247,7 +247,9 @@ def convert_experiment_results_Breneman1987(
 
     experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
     illuminant_chromaticities = experiment_results.pop(0)
-    Y_r = Y_t = as_float(BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y)
+    Y_r = Y_t = as_float(
+        BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y
+    )
     B_r = B_t = 0.3
 
     XYZ_t, XYZ_r = (
@@ -423,7 +425,9 @@ def corresponding_chromaticities_prediction_CIE1994(
         E_o1, E_o2 = experiment_results.Y_t, experiment_results.Y_r
 
         XYZ_1 = experiment_results.XYZ_ct
-        XYZ_2 = chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_r, E_o1, E_o2)
+        XYZ_2 = chromatic_adaptation_CIE1994(
+            XYZ_1, xy_o1, xy_o2, Y_r, E_o1, E_o2
+        )
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_o2), xy_o2)
 
         return tuple(
@@ -497,7 +501,9 @@ def corresponding_chromaticities_prediction_CMCCAT2000(
         L_A2 = experiment_results.Y_r
 
         XYZ_1 = experiment_results.XYZ_ct
-        XYZ_2 = chromatic_adaptation_CMCCAT2000(XYZ_1, XYZ_w, XYZ_wr, L_A1, L_A2)
+        XYZ_2 = chromatic_adaptation_CMCCAT2000(
+            XYZ_1, XYZ_w, XYZ_wr, L_A1, L_A2
+        )
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
 
         return tuple(

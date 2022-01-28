@@ -751,7 +751,8 @@ def eotf_HLG_BT2100_2(
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
     return ootf_HLG_BT2100_2(
-        oetf_inverse_ARIBSTDB67((1 - beta) * E_p + beta, constants=constants) / 12,
+        oetf_inverse_ARIBSTDB67((1 - beta) * E_p + beta, constants=constants)
+        / 12,
         L_W,
         gamma,
     )
@@ -995,11 +996,13 @@ def eotf_inverse_HLG_BT2100_2(
     ) / (1 - beta)
 
 
-BT2100_HLG_EOTF_INVERSE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "ITU-R BT.2100-1": eotf_inverse_HLG_BT2100_1,
-        "ITU-R BT.2100-2": eotf_inverse_HLG_BT2100_2,
-    }
+BT2100_HLG_EOTF_INVERSE_METHODS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "ITU-R BT.2100-1": eotf_inverse_HLG_BT2100_1,
+            "ITU-R BT.2100-2": eotf_inverse_HLG_BT2100_2,
+        }
+    )
 )
 BT2100_HLG_EOTF_INVERSE_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* inverse
@@ -1084,7 +1087,9 @@ def eotf_inverse_HLG_BT2100(
 
     method = validate_method(method, BT2100_HLG_EOTF_INVERSE_METHODS)
 
-    return BT2100_HLG_EOTF_INVERSE_METHODS[method](F_D, L_B, L_W, gamma, constants)
+    return BT2100_HLG_EOTF_INVERSE_METHODS[method](
+        F_D, L_B, L_W, gamma, constants
+    )
 
 
 def ootf_HLG_BT2100_1(
@@ -1354,7 +1359,8 @@ def ootf_HLG_BT2100(
     function = BT2100_HLG_OOTF_METHODS[method]
 
     return function(
-        E, **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma})
+        E,
+        **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma})
     )
 
 
@@ -1561,11 +1567,13 @@ def ootf_inverse_HLG_BT2100_2(
         return from_range_1(RGB_S)
 
 
-BT2100_HLG_OOTF_INVERSE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "ITU-R BT.2100-1": ootf_inverse_HLG_BT2100_1,
-        "ITU-R BT.2100-2": ootf_inverse_HLG_BT2100_2,
-    }
+BT2100_HLG_OOTF_INVERSE_METHODS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "ITU-R BT.2100-1": ootf_inverse_HLG_BT2100_1,
+            "ITU-R BT.2100-2": ootf_inverse_HLG_BT2100_2,
+        }
+    )
 )
 BT2100_HLG_OOTF_INVERSE_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
@@ -1649,5 +1657,6 @@ def ootf_inverse_HLG_BT2100(
     function = BT2100_HLG_OOTF_INVERSE_METHODS[method]
 
     return function(
-        F_D, **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma})
+        F_D,
+        **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma})
     )

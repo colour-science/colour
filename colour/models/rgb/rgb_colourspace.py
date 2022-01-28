@@ -427,7 +427,10 @@ class RGB_Colourspace:
             values.
         """
 
-        if self._matrix_RGB_to_XYZ is None or self._use_derived_matrix_RGB_to_XYZ:
+        if (
+            self._matrix_RGB_to_XYZ is None
+            or self._use_derived_matrix_RGB_to_XYZ
+        ):
             return self._derived_matrix_RGB_to_XYZ
         else:
             return self._matrix_RGB_to_XYZ
@@ -468,7 +471,10 @@ class RGB_Colourspace:
             colourspace.
         """
 
-        if self._matrix_XYZ_to_RGB is None or self._use_derived_matrix_XYZ_to_RGB:
+        if (
+            self._matrix_XYZ_to_RGB is None
+            or self._use_derived_matrix_XYZ_to_RGB
+        ):
             return self._derived_matrix_XYZ_to_RGB
         else:
             return self._matrix_XYZ_to_RGB
@@ -521,7 +527,9 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 hasattr(value, "__call__"),
-                '"{0}" property: "{1}" is not callable!'.format("cctf_encoding", value),
+                '"{0}" property: "{1}" is not callable!'.format(
+                    "cctf_encoding", value
+                ),
             )
 
         self._cctf_encoding = value
@@ -557,7 +565,9 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 hasattr(value, "__call__"),
-                '"{0}" property: "{1}" is not callable!'.format("cctf_decoding", value),
+                '"{0}" property: "{1}" is not callable!'.format(
+                    "cctf_decoding", value
+                ),
             )
 
         self._cctf_decoding = value
@@ -812,7 +822,9 @@ class RGB_Colourspace:
 
         if hasattr(self, "_primaries") and hasattr(self, "_whitepoint"):
             if self._primaries is not None and self._whitepoint is not None:
-                npm = normalised_primary_matrix(self._primaries, self._whitepoint)
+                npm = normalised_primary_matrix(
+                    self._primaries, self._whitepoint
+                )
 
                 self._derived_matrix_RGB_to_XYZ = npm
                 self._derived_matrix_XYZ_to_RGB = np.linalg.inv(npm)
@@ -1321,7 +1333,8 @@ def RGB_to_RGB(
     if apply_cctf_encoding and output_colourspace.cctf_encoding is not None:
         with domain_range_scale("ignore"):
             RGB = output_colourspace.cctf_encoding(
-                RGB, **filter_kwargs(output_colourspace.cctf_encoding, **kwargs)
+                RGB,
+                **filter_kwargs(output_colourspace.cctf_encoding, **kwargs)
             )
 
     return from_range_1(RGB)

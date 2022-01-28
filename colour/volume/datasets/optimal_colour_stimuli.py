@@ -740,12 +740,14 @@ References
 :cite:`Wyszecki2000bh`
 """
 
-OPTIMAL_COLOUR_STIMULI_ILLUMINANTS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "A": OPTIMAL_COLOUR_STIMULI_A,
-        "C": OPTIMAL_COLOUR_STIMULI_C,
-        "D65": OPTIMAL_COLOUR_STIMULI_D65,
-    }
+OPTIMAL_COLOUR_STIMULI_ILLUMINANTS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "A": OPTIMAL_COLOUR_STIMULI_A,
+            "C": OPTIMAL_COLOUR_STIMULI_C,
+            "D65": OPTIMAL_COLOUR_STIMULI_D65,
+        }
+    )
 )
 OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.__doc__ = """
 Illuminants *Optimal Colour Stimuli*.

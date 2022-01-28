@@ -126,7 +126,9 @@ def plot_single_sd_rayleigh_scattering(
 
     title = "Rayleigh Scattering"
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     settings: Dict[str, Any] = {"title": title, "y_label": "Optical Depth"}
     settings.update(kwargs)
@@ -190,7 +192,9 @@ def plot_the_blue_sky(
 
     figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     ASTMG173_sd = cast(SpectralDistribution, SD_ASTMG173_ETR.copy())
     rayleigh_sd = sd_rayleigh_scattering()

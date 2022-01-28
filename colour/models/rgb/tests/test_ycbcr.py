@@ -391,19 +391,25 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
-        np.testing.assert_almost_equal(RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
+        np.testing.assert_almost_equal(
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
-        np.testing.assert_almost_equal(RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
+        np.testing.assert_almost_equal(
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
+        np.testing.assert_almost_equal(
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
+        )
 
     def test_domain_range_scale_RGB_to_YcCbcCrc(self):
         """
@@ -477,19 +483,25 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
-        np.testing.assert_almost_equal(YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
+        np.testing.assert_almost_equal(
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
-        np.testing.assert_almost_equal(YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
+        np.testing.assert_almost_equal(
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
+        np.testing.assert_almost_equal(
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
+        )
 
     def test_domain_range_scale_YcCbcCrc_to_RGB(self):
         """

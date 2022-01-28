@@ -1193,7 +1193,10 @@ def filter_mapping(
 
         lookup = Lookup(mapping)
 
-        return {lookup.first_key_from_value(element): element for element in elements}
+        return {
+            lookup.first_key_from_value(element): element
+            for element in elements
+        }
 
     filterers = [str(filterers)] if is_string(filterers) else filterers
 
@@ -1235,7 +1238,9 @@ def first_item(a: Iterable) -> Any:
     return next(iter(a))
 
 
-def copy_definition(definition: Callable, name: Optional[str] = None) -> Callable:
+def copy_definition(
+    definition: Callable, name: Optional[str] = None
+) -> Callable:
     """
     Copies a definition with same code, globals, defaults, closure, and
     name.
@@ -1302,7 +1307,9 @@ def validate_method(
     valid_methods = [str(valid_method) for valid_method in valid_methods]
 
     method_lower = method.lower()
-    if method_lower not in [valid_method.lower() for valid_method in valid_methods]:
+    if method_lower not in [
+        valid_method.lower() for valid_method in valid_methods
+    ]:
         raise ValueError(message.format(method, valid_methods))
 
     return method_lower

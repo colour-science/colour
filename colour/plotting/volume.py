@@ -221,9 +221,13 @@ def nadir_grid(
 
     RGB_g = ones((quads_g.shape[0], quads_g.shape[-1]))
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack([RGB_gf, full((RGB_gf.shape[0], 1), settings.grid_face_alpha)])
+    RGB_gf = np.hstack(
+        [RGB_gf, full((RGB_gf.shape[0], 1), settings.grid_face_alpha)]
+    )
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack([RGB_ge, full((RGB_ge.shape[0], 1), settings.grid_edge_alpha)])
+    RGB_ge = np.hstack(
+        [RGB_ge, full((RGB_ge.shape[0], 1), settings.grid_edge_alpha)]
+    )
 
     # Inner grid.
     quads_gs = primitive_vertices_grid_mpl(
@@ -267,8 +271,16 @@ def nadir_grid(
             ticks = list(sorted(set(quads_g[..., 0, i])))
             ticks += [ticks[-1] + ticks[-1] - ticks[-2]]
             for tick in ticks:
-                x = limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25) if i else tick
-                y = tick if i else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25)
+                x = (
+                    limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25)
+                    if i
+                    else tick
+                )
+                y = (
+                    tick
+                    if i
+                    else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25)
+                )
 
                 tick = as_int_scalar(tick) if is_integer(tick) else tick
                 c = settings["{0}_ticks_colour".format(axis)]
@@ -290,8 +302,16 @@ def nadir_grid(
             h_a = "center" if axis == "x" else "left" if x_s == 1 else "right"
             v_a = "center"
 
-            x = limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 10) if i else 0
-            y = 0 if i else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10)
+            x = (
+                limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 10)
+                if i
+                else 0
+            )
+            y = (
+                0
+                if i
+                else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10)
+            )
 
             c = settings["{0}_label_colour".format(axis)]
 
@@ -414,7 +434,9 @@ def RGB_identity_cube(
 
 @override_style()
 def plot_RGB_colourspaces_gamuts(
-    colourspaces: Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]],
+    colourspaces: Union[
+        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
+    ],
     reference_colourspace: Union[
         Literal[
             "CAM02LCD",
@@ -557,7 +579,9 @@ def plot_RGB_colourspaces_gamuts(
 
     points = zeros((4, 3))
     if show_spectral_locus:
-        cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+        cmfs = cast(
+            MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+        )
         XYZ = cmfs.values
 
         points = colourspace_model_axis_reorder(
@@ -573,7 +597,9 @@ def plot_RGB_colourspaces_gamuts(
             else spectral_locus_colour
         )
 
-        axes.plot(points[..., 0], points[..., 1], points[..., 2], color=c, zorder=10)
+        axes.plot(
+            points[..., 0], points[..., 1], points[..., 2], color=c, zorder=10
+        )
         axes.plot(
             (points[-1][0], points[0][0]),
             (points[-1][1], points[0][1]),
@@ -615,7 +641,9 @@ def plot_RGB_colourspaces_gamuts(
 
         quads_c.extend(
             colourspace_model_axis_reorder(
-                convert(XYZ, "CIE XYZ", reference_colourspace, **convert_settings),
+                convert(
+                    XYZ, "CIE XYZ", reference_colourspace, **convert_settings
+                ),
                 reference_colourspace,
             )
         )
@@ -623,12 +651,16 @@ def plot_RGB_colourspaces_gamuts(
         if settings.face_colours[i] is not None:
             RGB = ones(RGB.shape) * settings.face_colours[i]
 
-        RGB_cf.extend(np.hstack([RGB, full((RGB.shape[0], 1), settings.face_alpha[i])]))
+        RGB_cf.extend(
+            np.hstack([RGB, full((RGB.shape[0], 1), settings.face_alpha[i])])
+        )
 
         if settings.edge_colours[i] is not None:
             RGB = ones(RGB.shape) * settings.edge_colours[i]
 
-        RGB_ce.extend(np.hstack([RGB, full((RGB.shape[0], 1), settings.edge_alpha[i])]))
+        RGB_ce.extend(
+            np.hstack([RGB, full((RGB.shape[0], 1), settings.edge_alpha[i])])
+        )
 
     quads = as_float_array(quads_c)
     RGB_f = as_float_array(RGB_cf)
@@ -643,7 +675,9 @@ def plot_RGB_colourspaces_gamuts(
             getattr(axes, "set_{}lim".format(axis))((min_a, max_a))
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[reference_colourspace])[
-        as_int_array(colourspace_model_axis_reorder([0, 1, 2], reference_colourspace))
+        as_int_array(
+            colourspace_model_axis_reorder([0, 1, 2], reference_colourspace)
+        )
     ]
     for i, axis in enumerate("xyz"):
         getattr(axes, "set_{}label".format(axis))(labels[i])
@@ -664,7 +698,9 @@ def plot_RGB_colourspaces_gamuts(
 
     axes.add_collection3d(collection)
 
-    settings.update({"axes": axes, "axes_visible": False, "camera_aspect": "equal"})
+    settings.update(
+        {"axes": axes, "axes_visible": False, "camera_aspect": "equal"}
+    )
     settings.update(kwargs)
 
     return render(**settings)
@@ -673,7 +709,9 @@ def plot_RGB_colourspaces_gamuts(
 @override_style()
 def plot_RGB_scatter(
     RGB: ArrayLike,
-    colourspace: Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]],
+    colourspace: Union[
+        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
+    ],
     reference_colourspace: Union[
         Literal[
             "CAM02LCD",

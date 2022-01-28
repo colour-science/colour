@@ -168,7 +168,9 @@ class TestHEX_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB * factor, decimal=2)
+                np.testing.assert_almost_equal(
+                    HEX_to_RGB(HEX), RGB * factor, decimal=2
+                )
 
 
 if __name__ == "__main__":

@@ -38,11 +38,17 @@ eotf_inverse_ST2084` definition unit tests methods.
 eotf_inverse_ST2084` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_ST2084(0.0), 0.000000730955903, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_ST2084(0.0), 0.000000730955903, places=7
+        )
 
-        self.assertAlmostEqual(eotf_inverse_ST2084(100), 0.508078421517399, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_ST2084(100), 0.508078421517399, places=7
+        )
 
-        self.assertAlmostEqual(eotf_inverse_ST2084(400), 0.652578597563067, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_ST2084(400), 0.652578597563067, places=7
+        )
 
         self.assertAlmostEqual(eotf_inverse_ST2084(5000, 5000), 1.0, places=7)
 
@@ -90,7 +96,9 @@ eotf_inverse_ST2084` definition domain and range scale support.
 eotf_inverse_ST2084` definition nan support.
         """
 
-        eotf_inverse_ST2084(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_ST2084(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestEotf_ST2084(unittest.TestCase):

@@ -320,10 +320,15 @@ def write_LUT_ResolveCube(
         raise ValueError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
 
     for i in range(2):
-        attest(not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!')
+        attest(
+            not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!'
+        )
 
     attest(
-        (len(np.unique(LUT[0].domain)) == 2 and len(np.unique(LUT[1].domain)) == 2),
+        (
+            len(np.unique(LUT[0].domain)) == 2
+            and len(np.unique(LUT[1].domain)) == 2
+        ),
         '"LUT" domain must be 1D!',
     )
 
@@ -333,7 +338,9 @@ def write_LUT_ResolveCube(
             "Shaper size must be in domain [2, 65536]!",
         )
     if has_3D:
-        attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
+        attest(
+            2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
+        )
 
     def _format_array(array: Union[List, Tuple]) -> str:
         """
@@ -364,20 +371,28 @@ def write_LUT_ResolveCube(
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
 
         if has_3x1D:
-            cube_file.write("{0} {1}\n".format("LUT_1D_SIZE", LUT[0].table.shape[0]))
+            cube_file.write(
+                "{0} {1}\n".format("LUT_1D_SIZE", LUT[0].table.shape[0])
+            )
             if not np.array_equal(LUT[0].domain, default_domain):
                 cube_file.write(
                     "LUT_1D_INPUT_RANGE {0}\n".format(
-                        _format_tuple([LUT[0].domain[0][0], LUT[0].domain[1][0]])
+                        _format_tuple(
+                            [LUT[0].domain[0][0], LUT[0].domain[1][0]]
+                        )
                     )
                 )
 
         if has_3D:
-            cube_file.write("{0} {1}\n".format("LUT_3D_SIZE", LUT[1].table.shape[0]))
+            cube_file.write(
+                "{0} {1}\n".format("LUT_3D_SIZE", LUT[1].table.shape[0])
+            )
             if not np.array_equal(LUT[1].domain, default_domain):
                 cube_file.write(
                     "LUT_3D_INPUT_RANGE {0}\n".format(
-                        _format_tuple([LUT[1].domain[0][0], LUT[1].domain[1][0]])
+                        _format_tuple(
+                            [LUT[1].domain[0][0], LUT[1].domain[1][0]]
+                        )
                     )
                 )
 

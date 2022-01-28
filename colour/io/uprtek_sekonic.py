@@ -236,7 +236,9 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                     if wavelength == self._spectral_section:
                         spectral_section += 1
 
-                    spectral_sections[spectral_section].append([wavelength, value])
+                    spectral_sections[spectral_section].append(
+                        [wavelength, value]
+                    )
                 else:
                     for method in (int, float, as_array):
                         try:

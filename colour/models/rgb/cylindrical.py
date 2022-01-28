@@ -362,7 +362,9 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
     return from_range_1(RGB)
 
 
-def RGB_to_HCL(RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDArray:
+def RGB_to_HCL(
+    RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
+) -> NDArray:
     """
     Converts from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -449,7 +451,9 @@ def RGB_to_HCL(RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDAr
     return from_range_1(HCL)
 
 
-def HCL_to_RGB(HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDArray:
+def HCL_to_RGB(
+    HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
+) -> NDArray:
     """
     Converts from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.

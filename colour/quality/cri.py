@@ -185,7 +185,9 @@ def colour_rendering_index(
     )
 
     Q_a = as_float_scalar(
-        np.average([v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)])
+        np.average(
+            [v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)]
+        )
     )
 
     if additional_data:
@@ -246,14 +248,18 @@ def tcs_colorimetry_data(
 
         if chromatic_adaptation:
 
-            def c(x: FloatingOrNDArray, y: FloatingOrNDArray) -> FloatingOrNDArray:
+            def c(
+                x: FloatingOrNDArray, y: FloatingOrNDArray
+            ) -> FloatingOrNDArray:
                 """
                 Computes the :math:`c` term.
                 """
 
                 return (4 - x - 10 * y) / y
 
-            def d(x: FloatingOrNDArray, y: FloatingOrNDArray) -> FloatingOrNDArray:
+            def d(
+                x: FloatingOrNDArray, y: FloatingOrNDArray
+            ) -> FloatingOrNDArray:
                 """
                 Computes the :math:`d` term.
                 """
@@ -263,10 +269,12 @@ def tcs_colorimetry_data(
             c_t, d_t = c(u_t, v_t), d(u_t, v_t)
             c_r, d_r = c(u_r, v_r), d(u_r, v_r)
             tcs_c, tcs_d = c(u_tcs, v_tcs), d(u_tcs, v_tcs)
-            u_tcs = (10.872 + 0.404 * c_r / c_t * tcs_c - 4 * d_r / d_t * tcs_d) / (
+            u_tcs = (
+                10.872 + 0.404 * c_r / c_t * tcs_c - 4 * d_r / d_t * tcs_d
+            ) / (16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d)
+            v_tcs = 5.52 / (
                 16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d
             )
-            v_tcs = 5.52 / (16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d)
 
         W_tcs = 25 * spow(xyY_tcs[-1], 1 / 3) - 17
         U_tcs = 13 * W_tcs * (u_tcs - u_r)

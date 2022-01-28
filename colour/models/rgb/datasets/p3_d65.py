@@ -53,9 +53,9 @@ WHITEPOINT_NAME_P3_D65: str = "D65"
 *P3-D65* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_P3_D65: NDArray = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-    WHITEPOINT_NAME_P3_D65
-]
+CCS_WHITEPOINT_P3_D65: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_P3_D65]
 """
 *P3-D65* colourspace whitepoint chromaticity coordinates.
 """

@@ -35,19 +35,25 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_OSA_UCS(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
+            XYZ_to_OSA_UCS(
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100
+            ),
             np.array([-3.00499790, 2.99713697, -9.66784231]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            XYZ_to_OSA_UCS(np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
+            XYZ_to_OSA_UCS(
+                np.array([0.14222010, 0.23042768, 0.10495772]) * 100
+            ),
             np.array([-1.64657491, 4.59201565, 5.31738757]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            XYZ_to_OSA_UCS(np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
+            XYZ_to_OSA_UCS(
+                np.array([0.07818780, 0.06157201, 0.28099326]) * 100
+            ),
             np.array([-5.08589672, -7.91062749, 0.98107575]),
             decimal=7,
         )
@@ -150,11 +156,15 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
 
         Ljg = np.tile(Ljg, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(OSA_UCS_to_XYZ(Ljg), XYZ, rtol=0.00001, atol=0.00001)
+        np.testing.assert_allclose(
+            OSA_UCS_to_XYZ(Ljg), XYZ, rtol=0.00001, atol=0.00001
+        )
 
         Ljg = np.reshape(Ljg, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(OSA_UCS_to_XYZ(Ljg), XYZ, rtol=0.00001, atol=0.00001)
+        np.testing.assert_allclose(
+            OSA_UCS_to_XYZ(Ljg), XYZ, rtol=0.00001, atol=0.00001
+        )
 
     def test_domain_range_scale_OSA_UCS_to_XYZ(self):
         """

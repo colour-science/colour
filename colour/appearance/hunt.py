@@ -120,16 +120,22 @@ class InductionFactors_Hunt(
         :class:`colour.appearance.InductionFactors_Hunt` class.
         """
 
-        return super(InductionFactors_Hunt, cls).__new__(cls, N_c, N_b, N_cb, N_bb)
+        return super(InductionFactors_Hunt, cls).__new__(
+            cls, N_c, N_b, N_cb, N_bb
+        )
 
 
 VIEWING_CONDITIONS_HUNT: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
-        "Small Areas, Uniform Background & Surrounds": InductionFactors_Hunt(1, 300),
+        "Small Areas, Uniform Background & Surrounds": InductionFactors_Hunt(
+            1, 300
+        ),
         "Normal Scenes": InductionFactors_Hunt(1, 75),
         "Television & CRT, Dim Surrounds": InductionFactors_Hunt(1, 25),
         "Large Transparencies On Light Boxes": InductionFactors_Hunt(0.7, 25),
-        "Projected Transparencies, Dark Surrounds": InductionFactors_Hunt(0.7, 10),
+        "Projected Transparencies, Dark Surrounds": InductionFactors_Hunt(
+            0.7, 10
+        ),
     }
 )
 VIEWING_CONDITIONS_HUNT.__doc__ = """
@@ -402,12 +408,14 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     if surround.N_cb is None:
         N_cb = 0.725 * spow(Y_w / Y_b, 0.2)
         usage_warning(
-            'Unspecified "N_cb" argument, using approximation: ' '"{0}"'.format(N_cb)
+            'Unspecified "N_cb" argument, using approximation: '
+            '"{0}"'.format(N_cb)
         )
     if surround.N_bb is None:
         N_bb = 0.725 * spow(Y_w / Y_b, 0.2)
         usage_warning(
-            'Unspecified "N_bb" argument, using approximation: ' '"{0}"'.format(N_bb)
+            'Unspecified "N_bb" argument, using approximation: '
+            '"{0}"'.format(N_bb)
         )
 
     if L_AS is None and CCT_w is None:
@@ -517,7 +525,9 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     # -------------------------------------------------------------------------
     # Computing achromatic signal :math:`A`.
     A = achromatic_signal(cast(FloatingOrNDArray, L_AS), S_p, S_w_p, N_bb, A_a)
-    A_w = achromatic_signal(cast(FloatingOrNDArray, L_AS), S_w_p, S_w_p, N_bb, A_aw)
+    A_w = achromatic_signal(
+        cast(FloatingOrNDArray, L_AS), S_w_p, S_w_p, N_bb, A_aw
+    )
 
     Q = brightness_correlate(A, A_w, M, surround.N_b)
     brightness_w = brightness_correlate(A_w, A_w, M_w, surround.N_b)
@@ -756,7 +766,9 @@ def chromatic_adaptation(
 
     # Computing Helson-Judd effect parameters.
     if helson_judd_effect:
-        D_rgb = f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) - f_n((Y_b / Y_w) * F_L * F_rgb)
+        D_rgb = f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) - f_n(
+            (Y_b / Y_w) * F_L * F_rgb
+        )
     else:
         D_rgb = zeros(F_rgb.shape)
 
@@ -769,7 +781,9 @@ def chromatic_adaptation(
         rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
 
     # Computing adapted cone responses.
-    rgb_a = 1 + B_rgb * (f_n(F_L[..., np.newaxis] * F_rgb * rgb / rgb_w) + D_rgb)
+    rgb_a = 1 + B_rgb * (
+        f_n(F_L[..., np.newaxis] * F_rgb * rgb / rgb_w) + D_rgb
+    )
 
     return rgb_a
 
@@ -922,7 +936,9 @@ def hue_angle(C: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     C_1, C_2, C_3 = tsplit(C)
 
-    hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 - (C_2 / 11)) / np.pi) % 360
+    hue = (
+        180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 - (C_2 / 11)) / np.pi
+    ) % 360
     return as_float(hue)
 
 
@@ -1039,7 +1055,9 @@ def yellowness_blueness_response(
     N_cb = as_float_array(N_cb)
     F_t = as_float_array(F_t)
 
-    M_yb = 100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s * (10 / 13) * N_c * N_cb * F_t)
+    M_yb = (
+        100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s * (10 / 13) * N_c * N_cb * F_t)
+    )
 
     return as_float(M_yb)
 
@@ -1127,7 +1145,9 @@ def overall_chromatic_response(
     return M
 
 
-def saturation_correlate(M: FloatingOrArrayLike, rgb_a: ArrayLike) -> FloatingOrNDArray:
+def saturation_correlate(
+    M: FloatingOrArrayLike, rgb_a: ArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *saturation* correlate :math:`s`.
 

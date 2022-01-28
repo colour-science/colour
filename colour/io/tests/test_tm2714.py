@@ -248,7 +248,9 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         np.testing.assert_almost_equal(sd_r.values, sd.values, decimal=7)
 
         test_read: List[
-            Tuple[Dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]]
+            Tuple[
+                Dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]
+            ]
         ] = [
             (FLUORESCENT_FILE_HEADER, sd.header),
             (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd),
@@ -257,7 +259,9 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             for key, value in test.items():
                 for specification in read.mapping.elements:
                     if key == specification.element:
-                        self.assertEquals(getattr(read, specification.attribute), value)
+                        self.assertEquals(
+                            getattr(read, specification.attribute), value
+                        )
 
     def test_raise_exception_read(self):
         """
@@ -315,7 +319,9 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             "bandwidth_FWHM",
             "bandwidth_corrected",
         ):
-            self.assertEquals(getattr(sd_r, attribute), getattr(sd_t, attribute))
+            self.assertEquals(
+                getattr(sd_r, attribute), getattr(sd_t, attribute)
+            )
 
     def test_raise_exception_write(self):
         """

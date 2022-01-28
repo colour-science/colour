@@ -140,7 +140,9 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_iterable(value),
-            '"{0}" property: "{1}" must be a sequence!'.format("comments", value),
+            '"{0}" property: "{1}" must be a sequence!'.format(
+                "comments", value
+            ),
         )
 
         self._comments = list(value)
@@ -384,7 +386,9 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
                 "-" * (len(self.__class__.__name__) + 3 + len(self._name)),
                 _indent_array(self._matrix),
                 _indent_array(self._offset),
-                "\n\n{0}".format("\n".join(self._comments)) if self._comments else "",
+                "\n\n{0}".format("\n".join(self._comments))
+                if self._comments
+                else "",
             )
         )
 
@@ -412,7 +416,9 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         representation = repr(self._matrix)
-        representation = representation.replace("array", self.__class__.__name__)
+        representation = representation.replace(
+            "array", self.__class__.__name__
+        )
         representation = representation.replace(
             "       [", "{0}[".format(" " * (len(self.__class__.__name__) + 2))
         )

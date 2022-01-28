@@ -188,7 +188,9 @@ else:
 if TYPE_CHECKING:  # pragma: no cover
     IntegerOrNDArray = Union[Integer, NDArray[DTypeInteger]]
     FloatingOrNDArray = Union[Floating, NDArray[DTypeFloating]]
-    NumberOrNDArray = Union[Number, NDArray[Union[DTypeInteger, DTypeFloating]]]
+    NumberOrNDArray = Union[
+        Number, NDArray[Union[DTypeInteger, DTypeFloating]]
+    ]
     ComplexOrNDArray = Union[Complex, NDArray[DTypeComplex]]
 
     BooleanOrNDArray = Union[Boolean, NDArray[DTypeBoolean]]
@@ -233,7 +235,9 @@ class TypeLUTSequenceItem(Protocol):
         ...  # pragma: no cover
 
 
-LiteralWarning = Literal["default", "error", "ignore", "always", "module", "once"]
+LiteralWarning = Literal[
+    "default", "error", "ignore", "always", "module", "once"
+]
 
 cast = cast
 

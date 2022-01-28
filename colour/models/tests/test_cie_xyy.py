@@ -101,15 +101,21 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_xyY(self):
         """
@@ -485,15 +491,21 @@ class TestXYZ_to_xy(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(xy, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_xy(self):
         """
@@ -509,7 +521,9 @@ class TestXYZ_to_xy(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(XYZ_to_xy(XYZ * factor), xy, decimal=7)
+                np.testing.assert_almost_equal(
+                    XYZ_to_xy(XYZ * factor), xy, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_xy(self):

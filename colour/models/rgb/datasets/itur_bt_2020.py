@@ -62,9 +62,9 @@ WHITEPOINT_NAME_BT2020: str = "D65"
 *ITU-R BT.2020* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_BT2020: NDArray = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-    WHITEPOINT_NAME_BT2020
-]
+CCS_WHITEPOINT_BT2020: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_BT2020]
 """
 *ITU-R BT.2020* colourspace whitepoint chromaticity coordinates.
 """

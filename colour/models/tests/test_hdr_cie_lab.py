@@ -153,7 +153,9 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_CIELab(np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5),
+            XYZ_to_hdr_CIELab(
+                np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5
+            ),
             np.array([23.10388654, 59.31425004, 23.69960142]),
             decimal=7,
         )
@@ -252,7 +254,9 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            hdr_CIELab_to_XYZ(np.array([51.87002062, 60.47633850, 32.14551912])),
+            hdr_CIELab_to_XYZ(
+                np.array([51.87002062, 60.47633850, 32.14551912])
+            ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7,
         )

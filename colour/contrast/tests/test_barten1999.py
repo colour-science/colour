@@ -154,7 +154,9 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            pupil_diameter_Barten1999(np.array(case), np.array(case), np.array(case))
+            pupil_diameter_Barten1999(
+                np.array(case), np.array(case), np.array(case)
+            )
 
 
 class TestSigmaBarten1999(unittest.TestCase):
@@ -531,13 +533,17 @@ contrast_sensitivity_function_Barten1999` definition n-dimensional support.
         sigma = np.array([0.01, 0.02, 0.04])
         E = np.array([0.65, 90, 1500])
         X_0 = np.array([60, 120, 240])
-        S = contrast_sensitivity_function_Barten1999(u=u, sigma=sigma, E=E, X_0=X_0)
+        S = contrast_sensitivity_function_Barten1999(
+            u=u, sigma=sigma, E=E, X_0=X_0
+        )
 
         u = np.tile(u, (6, 1))
         E = np.tile(E, (6, 1))
         S = np.tile(S, (6, 1))
         np.testing.assert_almost_equal(
-            contrast_sensitivity_function_Barten1999(u=u, sigma=sigma, E=E, X_0=X_0),
+            contrast_sensitivity_function_Barten1999(
+                u=u, sigma=sigma, E=E, X_0=X_0
+            ),
             S,
             decimal=7,
         )
@@ -546,7 +552,9 @@ contrast_sensitivity_function_Barten1999` definition n-dimensional support.
         E = np.reshape(E, (2, 3, 3))
         S = np.reshape(S, (2, 3, 3))
         np.testing.assert_almost_equal(
-            contrast_sensitivity_function_Barten1999(u=u, sigma=sigma, E=E, X_0=X_0),
+            contrast_sensitivity_function_Barten1999(
+                u=u, sigma=sigma, E=E, X_0=X_0
+            ),
             S,
             decimal=7,
         )

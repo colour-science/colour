@@ -413,20 +413,26 @@ class TestSignal(unittest.TestCase):
         signal[0] = 20
         np.testing.assert_almost_equal(
             signal.range,
-            np.array([20.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
+            np.array(
+                [20.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
+            ),
         )
 
         signal[np.array([0, 1, 2])] = 30
         np.testing.assert_almost_equal(
             signal.range,
-            np.array([30.0, 30.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
+            np.array(
+                [30.0, 30.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
+            ),
             decimal=7,
         )
 
         signal[0:3] = 40
         np.testing.assert_almost_equal(
             signal.range,
-            np.array([40.0, 40.0, 40.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
+            np.array(
+                [40.0, 40.0, 40.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
+            ),
             decimal=7,
         )
 
@@ -712,11 +718,15 @@ class TestSignal(unittest.TestCase):
         )
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(dict(zip(self._domain, self._range)))
+        domain, range_ = Signal.signal_unpack_data(
+            dict(zip(self._domain, self._range))
+        )
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(Signal(self._range, self._domain))
+        domain, range_ = Signal.signal_unpack_data(
+            Signal(self._range, self._domain)
+        )
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
@@ -740,7 +750,9 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             signal.fill_nan().range,
-            np.array([10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
+            np.array(
+                [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
+            ),
             decimal=7,
         )
 
@@ -748,7 +760,9 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             signal.fill_nan(method="Constant").range,
-            np.array([10.0, 20.0, 30.0, 0.0, 0.0, 0.0, 0.0, 80.0, 90.0, 100.0]),
+            np.array(
+                [10.0, 20.0, 30.0, 0.0, 0.0, 0.0, 0.0, 80.0, 90.0, 100.0]
+            ),
             decimal=7,
         )
 
@@ -757,7 +771,9 @@ class TestSignal(unittest.TestCase):
         Tests :func:`colour.continuous.signal.Signal.domain_distance` method.
         """
 
-        self.assertAlmostEqual(self._signal.domain_distance(0.5), 0.5, places=7)
+        self.assertAlmostEqual(
+            self._signal.domain_distance(0.5), 0.5, places=7
+        )
 
         np.testing.assert_almost_equal(
             self._signal.domain_distance(np.linspace(0, 9, 10) + 0.5),

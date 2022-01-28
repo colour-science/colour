@@ -106,7 +106,9 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_Newhall1943(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        luminance_Newhall1943(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLuminanceASTMD1535(unittest.TestCase):
@@ -178,7 +180,9 @@ class TestLuminanceASTMD1535(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_ASTMD1535(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        luminance_ASTMD1535(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestIntermediateLuminanceFunctionCIE1976(unittest.TestCase):
@@ -251,7 +255,9 @@ support.
         for scale in ("reference", "1", "100"):
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    intermediate_luminance_function_CIE1976(41.527875844653451, 100),
+                    intermediate_luminance_function_CIE1976(
+                        41.527875844653451, 100
+                    ),
                     Y,
                     decimal=7,
                 )
@@ -417,15 +423,21 @@ class TestLuminanceFairchild2010(unittest.TestCase):
 
         L_hdr = np.tile(L_hdr, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(luminance_Fairchild2010(L_hdr), Y, decimal=7)
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2010(L_hdr), Y, decimal=7
+        )
 
         L_hdr = np.reshape(L_hdr, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(luminance_Fairchild2010(L_hdr), Y, decimal=7)
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2010(L_hdr), Y, decimal=7
+        )
 
         L_hdr = np.reshape(L_hdr, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(luminance_Fairchild2010(L_hdr), Y, decimal=7)
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2010(L_hdr), Y, decimal=7
+        )
 
     def test_domain_range_scale_luminance_Fairchild2010(self):
         """
@@ -451,7 +463,9 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_Fairchild2010(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        luminance_Fairchild2010(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLuminanceFairchild2011(unittest.TestCase):
@@ -513,15 +527,21 @@ class TestLuminanceFairchild2011(unittest.TestCase):
 
         L_hdr = np.tile(L_hdr, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(luminance_Fairchild2011(L_hdr), Y, decimal=7)
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2011(L_hdr), Y, decimal=7
+        )
 
         L_hdr = np.reshape(L_hdr, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(luminance_Fairchild2011(L_hdr), Y, decimal=7)
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2011(L_hdr), Y, decimal=7
+        )
 
         L_hdr = np.reshape(L_hdr, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(luminance_Fairchild2011(L_hdr), Y, decimal=7)
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2011(L_hdr), Y, decimal=7
+        )
 
     def test_domain_range_scale_luminance_Fairchild2011(self):
         """
@@ -547,7 +567,9 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_Fairchild2011(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        luminance_Fairchild2011(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLuminanceAbebe2017(unittest.TestCase):
@@ -625,7 +647,9 @@ class TestLuminanceAbebe2017(unittest.TestCase):
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    luminance_Abebe2017(0.486955571109229 * factor, 100 * factor),
+                    luminance_Abebe2017(
+                        0.486955571109229 * factor, 100 * factor
+                    ),
                     L * factor,
                     decimal=7,
                 )
@@ -637,7 +661,9 @@ class TestLuminanceAbebe2017(unittest.TestCase):
         definition nan support.
         """
 
-        luminance_Abebe2017(*[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
+        luminance_Abebe2017(
+            *[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2
+        )
 
 
 class TestLuminance(unittest.TestCase):
@@ -667,7 +693,9 @@ class TestLuminance(unittest.TestCase):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_almost_equal(
-                        luminance(41.527875844653451 * factor, method, Y_n=100),
+                        luminance(
+                            41.527875844653451 * factor, method, Y_n=100
+                        ),
                         value * factor,
                         decimal=7,
                     )

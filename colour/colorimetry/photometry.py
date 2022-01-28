@@ -79,7 +79,9 @@ def luminous_flux(
 
     lef = cast(
         SpectralDistribution,
-        optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]),
+        optional(
+            lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
+        ),
     )
 
     lef = reshape_sd(
@@ -127,7 +129,9 @@ def luminous_efficiency(
 
     lef = cast(
         SpectralDistribution,
-        optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]),
+        optional(
+            lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
+        ),
     )
 
     lef = reshape_sd(

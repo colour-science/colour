@@ -19,7 +19,10 @@ sd_dark_skin = colour.SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
 print(colour.convert(sd_dark_skin, "Spectral Distribution", "sRGB"))
 print(
     colour.XYZ_to_sRGB(
-        colour.sd_to_XYZ(sd_dark_skin, illuminant=colour.SDS_ILLUMINANTS["D65"]) / 100
+        colour.sd_to_XYZ(
+            sd_dark_skin, illuminant=colour.SDS_ILLUMINANTS["D65"]
+        )
+        / 100
     )
 )
 
@@ -81,7 +84,9 @@ print(
         colour.CAM16_to_XYZ(
             specification,
             XYZ_w=colour.xy_to_XYZ(
-                colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+                colour.CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+                    "D65"
+                ]
             )
             * 100,
             L_A=64 / np.pi * 0.2,

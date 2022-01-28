@@ -18,7 +18,9 @@ import sys
 
 import colour as package  # noqa
 
-basename = re.sub("_(\\w)", lambda x: x.group(1).upper(), package.__name__.title())
+basename = re.sub(
+    "_(\\w)", lambda x: x.group(1).upper(), package.__name__.title()
+)
 
 if os.environ.get("READTHEDOCS") == "True":
     utilities_directory = os.path.join(
@@ -132,7 +134,9 @@ copyright = package.__copyright__.replace("Copyright (C)", "")
 # built documents.
 #
 # The short X.Y version.
-version = "{0}.{1}".format(package.__major_version__, package.__minor_version__)
+version = "{0}.{1}".format(
+    package.__major_version__, package.__minor_version__
+)
 # The full version, including alpha/beta/rc tags.
 release = package.__version__
 

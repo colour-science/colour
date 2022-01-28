@@ -137,7 +137,9 @@ def log_encoding_CanonLog(
             0.529136 * np.log10(10.1596 * x + 1) + 0.0730597,
         )
 
-    clog_cv = full_to_legal(clog, bit_depth) if out_normalised_code_value else clog
+    clog_cv = (
+        full_to_legal(clog, bit_depth) if out_normalised_code_value else clog
+    )
 
     return as_float(from_range_1(clog_cv))
 
@@ -274,7 +276,9 @@ def log_encoding_CanonLog2(
             0.281863093 * np.log10(x * 87.09937546 + 1) + 0.035388128,
         )
 
-    clog2_cv = full_to_legal(clog2, bit_depth) if out_normalised_code_value else clog2
+    clog2_cv = (
+        full_to_legal(clog2, bit_depth) if out_normalised_code_value else clog2
+    )
 
     return as_float(from_range_1(clog2_cv))
 
@@ -333,7 +337,9 @@ def log_decoding_CanonLog2(
 
     clog2 = to_domain_1(clog2)
 
-    clog2 = legal_to_full(clog2, bit_depth) if in_normalised_code_value else clog2
+    clog2 = (
+        legal_to_full(clog2, bit_depth) if in_normalised_code_value else clog2
+    )
 
     x = np.where(
         clog2 < 0.035388128,
@@ -417,9 +423,14 @@ def log_encoding_CanonLog3(
     with domain_range_scale("ignore"):
         clog3 = np.select(
             (
-                x < log_decoding_CanonLog3(0.04076162, bit_depth, False, False),
-                x <= log_decoding_CanonLog3(0.105357102, bit_depth, False, False),
-                x > log_decoding_CanonLog3(0.105357102, bit_depth, False, False),
+                x
+                < log_decoding_CanonLog3(0.04076162, bit_depth, False, False),
+                x
+                <= log_decoding_CanonLog3(
+                    0.105357102, bit_depth, False, False
+                ),
+                x
+                > log_decoding_CanonLog3(0.105357102, bit_depth, False, False),
             ),
             (
                 -0.42889912 * np.log10(-x * 14.98325 + 1) + 0.07623209,
@@ -428,7 +439,9 @@ def log_encoding_CanonLog3(
             ),
         )
 
-    clog3_cv = full_to_legal(clog3, bit_depth) if out_normalised_code_value else clog3
+    clog3_cv = (
+        full_to_legal(clog3, bit_depth) if out_normalised_code_value else clog3
+    )
 
     return as_float(from_range_1(clog3_cv))
 
@@ -487,7 +500,9 @@ def log_decoding_CanonLog3(
 
     clog3 = to_domain_1(clog3)
 
-    clog3 = legal_to_full(clog3, bit_depth) if in_normalised_code_value else clog3
+    clog3 = (
+        legal_to_full(clog3, bit_depth) if in_normalised_code_value else clog3
+    )
 
     x = np.select(
         (clog3 < 0.04076162, clog3 <= 0.105357102, clog3 > 0.105357102),

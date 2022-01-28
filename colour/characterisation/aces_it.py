@@ -258,7 +258,9 @@ def sd_to_aces_relative_exposure_values(
 
     if apply_chromatic_adaptation:
         xy = XYZ_to_xy(sd_to_XYZ(illuminant) / 100)
-        NPM = normalised_primary_matrix(RGB_COLOURSPACE_ACES2065_1.primaries, xy)
+        NPM = normalised_primary_matrix(
+            RGB_COLOURSPACE_ACES2065_1.primaries, xy
+        )
         XYZ = RGB_to_XYZ(
             E_rgb,
             xy,
@@ -397,7 +399,9 @@ def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
 
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.
         sd = read_sds_from_csv_file(
-            os.path.join(RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv")
+            os.path.join(
+                RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv"
+            )
         )["iso7589"]
         illuminants.update({sd.name: sd})
 
@@ -445,7 +449,9 @@ def white_balance_multipliers(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            'Aligning "{0}" illuminant shape to "{1}".'.format(
+                illuminant.name, shape
+            )
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -548,7 +554,9 @@ def normalise_illuminant(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            'Aligning "{0}" illuminant shape to "{1}".'.format(
+                illuminant.name, shape
+            )
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -607,7 +615,9 @@ def training_data_sds_to_RGB(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            'Aligning "{0}" illuminant shape to "{1}".'.format(
+                illuminant.name, shape
+            )
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -623,7 +633,9 @@ def training_data_sds_to_RGB(
     RGB_w = white_balance_multipliers(sensitivities, illuminant)
 
     RGB = np.dot(
-        np.transpose(illuminant.values[..., np.newaxis] * training_data.values),
+        np.transpose(
+            illuminant.values[..., np.newaxis] * training_data.values
+        ),
         sensitivities.values,
     )
 
@@ -699,7 +711,9 @@ def training_data_sds_to_XYZ(
     shape = cmfs.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            'Aligning "{0}" illuminant shape to "{1}".'.format(
+                illuminant.name, shape
+            )
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -713,7 +727,9 @@ def training_data_sds_to_XYZ(
         training_data = reshape_msds(training_data, shape)
 
     XYZ = np.dot(
-        np.transpose(illuminant.values[..., np.newaxis] * training_data.values),
+        np.transpose(
+            illuminant.values[..., np.newaxis] * training_data.values
+        ),
         cmfs.values,
     )
 
@@ -967,7 +983,9 @@ def matrix_idt(
 
     illuminant = normalise_illuminant(illuminant, sensitivities)
 
-    RGB, RGB_w = training_data_sds_to_RGB(training_data, sensitivities, illuminant)
+    RGB, RGB_w = training_data_sds_to_RGB(
+        training_data, sensitivities, illuminant
+    )
 
     XYZ = training_data_sds_to_XYZ(
         training_data, cmfs, illuminant, chromatic_adaptation_transform

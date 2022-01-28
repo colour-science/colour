@@ -244,14 +244,18 @@ def hull_section(
     if normalise:
         vertices = hull.vertices * normal
         origin = as_float_scalar(
-            linear_conversion(origin, [0, 1], [np.min(vertices), np.max(vertices)])
+            linear_conversion(
+                origin, [0, 1], [np.min(vertices), np.max(vertices)]
+            )
         )
         plane[plane != 0] = origin
 
     section = trimesh.intersections.mesh_plane(hull, normal, plane)
     if len(section) == 0:
         raise ValueError(
-            'No section exists on "{0}" axis at {1} origin!'.format(axis, origin)
+            'No section exists on "{0}" axis at {1} origin!'.format(
+                axis, origin
+            )
         )
     section = close_chord(unique_vertices(edges_to_chord(section)))
 

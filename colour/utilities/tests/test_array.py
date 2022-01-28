@@ -343,7 +343,9 @@ class TestAsInt(unittest.TestCase):
             as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3])
         )
 
-        self.assertEqual(as_int(np.array([1.0, 2.0, 3.0])).dtype, DEFAULT_INT_DTYPE)
+        self.assertEqual(
+            as_int(np.array([1.0, 2.0, 3.0])).dtype, DEFAULT_INT_DTYPE
+        )
 
         self.assertIsInstance(as_int(1), DEFAULT_INT_DTYPE)
 
@@ -367,7 +369,9 @@ class TestAsFloat(unittest.TestCase):
             as_float(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0])
         )
 
-        self.assertEqual(as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE)
+        self.assertEqual(
+            as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE
+        )
 
         self.assertIsInstance(as_float(1), DEFAULT_FLOAT_DTYPE)
 
@@ -383,7 +387,9 @@ class TestAsIntArray(unittest.TestCase):
         Tests :func:`colour.utilities.array.as_int_array` definition.
         """
 
-        np.testing.assert_equal(as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3]))
+        np.testing.assert_equal(
+            as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3])
+        )
 
         self.assertEqual(as_int_array([1, 2, 3]).dtype, DEFAULT_INT_DTYPE)
 
@@ -628,7 +634,9 @@ class TestSetDomainRangeScale(unittest.TestCase):
             set_domain_range_scale("Reference")
             self.assertEqual(get_domain_range_scale(), "reference")
 
-        self.assertRaises(ValueError, lambda: set_domain_range_scale("Invalid"))
+        self.assertRaises(
+            ValueError, lambda: set_domain_range_scale("Invalid")
+        )
 
 
 class TestDomainRangeScale(unittest.TestCase):
@@ -728,7 +736,9 @@ class TestToDomain1(unittest.TestCase):
             self.assertEqual(to_domain_1(1, np.pi), 1 / np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_1(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_1(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestToDomain10(unittest.TestCase):
@@ -755,7 +765,9 @@ class TestToDomain10(unittest.TestCase):
             self.assertEqual(to_domain_10(1, np.pi), 1 / np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_10(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_10(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestToDomain100(unittest.TestCase):
@@ -782,7 +794,9 @@ class TestToDomain100(unittest.TestCase):
             self.assertEqual(to_domain_100(1, np.pi), np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_100(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_100(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestToDomainDegrees(unittest.TestCase):
@@ -809,7 +823,9 @@ class TestToDomainDegrees(unittest.TestCase):
             self.assertEqual(to_domain_degrees(1, np.pi), np.pi / 100)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_degrees(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_degrees(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestToDomainInt(unittest.TestCase):
@@ -836,7 +852,9 @@ class TestToDomainInt(unittest.TestCase):
             self.assertEqual(to_domain_int(1, 10), 10.23)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_int(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_int(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestFromRange1(unittest.TestCase):
@@ -959,7 +977,9 @@ class TestFromRangeInt(unittest.TestCase):
             self.assertEqual(from_range_int(1, 10), 1 / (1023 / 100))
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_int(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                from_range_int(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestClosestIndexes(unittest.TestCase):
@@ -1042,7 +1062,9 @@ class TestInterval(unittest.TestCase):
         Tests :func:`colour.utilities.array.interval` definition.
         """
 
-        np.testing.assert_almost_equal(interval(range(0, 10, 2)), np.array([2]))
+        np.testing.assert_almost_equal(
+            interval(range(0, 10, 2)), np.array([2])
+        )
 
         np.testing.assert_almost_equal(
             interval(range(0, 10, 2), False), np.array([2, 2, 2, 2])
@@ -1123,7 +1145,9 @@ class TestInArray(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            in_array(np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)).shape,
+            in_array(
+                np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)
+            ).shape,
             np.array([2, 1]),
         )
 
@@ -1579,7 +1603,9 @@ class TestIndexAlongLastAxis(unittest.TestCase):
             ]
         )
 
-        indexes = np.array([[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1], [2, 0]]])
+        indexes = np.array(
+            [[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1], [2, 0]]]
+        )
 
         np.testing.assert_equal(
             index_along_last_axis(a, indexes),

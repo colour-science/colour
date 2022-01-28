@@ -299,7 +299,9 @@ def primitive_vertices_cube_mpl(
     axis = (
         sorted(list(PLANE_TO_AXIS_MAPPING.values()))
         if planes is None
-        else [PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes]
+        else [
+            PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes
+        ]
     )
 
     u, v, w = tsplit(origin)
@@ -309,7 +311,9 @@ def primitive_vertices_cube_mpl(
     grids: List = []
     if "-z" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(width, depth, v, w_s, d_s, (u, w), "+z")
+            primitive_vertices_grid_mpl(
+                width, depth, v, w_s, d_s, (u, w), "+z"
+            )
         )
     if "+z" in axis:
         grids.extend(
@@ -320,7 +324,9 @@ def primitive_vertices_cube_mpl(
 
     if "-y" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(width, height, w, w_s, h_s, (u, v), "+y")
+            primitive_vertices_grid_mpl(
+                width, height, w, w_s, h_s, (u, v), "+y"
+            )
         )
     if "+y" in axis:
         grids.extend(
@@ -331,7 +337,9 @@ def primitive_vertices_cube_mpl(
 
     if "-x" in axis:
         grids.extend(
-            primitive_vertices_grid_mpl(depth, height, u, d_s, h_s, (w, v), "+x")
+            primitive_vertices_grid_mpl(
+                depth, height, u, d_s, h_s, (w, v), "+x"
+            )
         )
     if "+x" in axis:
         grids.extend(

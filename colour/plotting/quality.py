@@ -205,7 +205,9 @@ def plot_colour_quality_bars(
                 axes=axes,
             )
 
-    axes.axhline(y=100, color=CONSTANTS_COLOUR_STYLE.colour.dark, linestyle="--")
+    axes.axhline(
+        y=100, color=CONSTANTS_COLOUR_STYLE.colour.dark, linestyle="--"
+    )
 
     axes.set_xticks(
         (
@@ -221,7 +223,8 @@ def plot_colour_quality_bars(
         + (count_s * bar_width / 2)
     )
     axes.set_xticklabels(
-        ["Qa"] + ["Q{0}".format(index + 1) for index in range(0, count_Q_as, 1)]
+        ["Qa"]
+        + ["Q{0}".format(index + 1) for index in range(0, count_Q_as, 1)]
     )
     axes.set_yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
@@ -364,7 +367,10 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
 
     specifications = cast(
         List[ColourRendering_Specification_CRI],
-        [colour_rendering_index(sd, additional_data=True) for sd in sds_converted],
+        [
+            colour_rendering_index(sd, additional_data=True)
+            for sd in sds_converted
+        ],
     )
 
     # *colour rendering index* colorimetry data tristimulus values are
@@ -392,7 +398,9 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
 @override_style()
 def plot_single_sd_colour_quality_scale_bars(
     sd: SpectralDistribution,
-    method: Union[Literal["NIST CQS 7.4", "NIST CQS 9.0"], str] = "NIST CQS 9.0",
+    method: Union[
+        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
+    ] = "NIST CQS 9.0",
     **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -454,7 +462,9 @@ def plot_multi_sds_colour_quality_scales_bars(
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
         MultiSpectralDistributions,
     ],
-    method: Union[Literal["NIST CQS 7.4", "NIST CQS 9.0"], str] = "NIST CQS 9.0",
+    method: Union[
+        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
+    ] = "NIST CQS 9.0",
     **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """

@@ -111,8 +111,10 @@ References
 :cite:`ASTMInternational2015b`
 """
 
-_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS".format(__name__)
+_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS: Dict = (
+    CACHE_REGISTRY.register_cache(
+        "{0}._CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS".format(__name__)
+    )
 )
 
 _CACHE_TRISTIMULUS_WEIGHTING_FACTORS: Dict = CACHE_REGISTRY.register_cache(
@@ -378,12 +380,17 @@ def tristimulus_weighting_factors_ASTME2022(
         raise ValueError('"{0}" shape "interval" must be 1!'.format(cmfs))
 
     if illuminant.shape.interval != 1:
-        raise ValueError('"{0}" shape "interval" must be 1!'.format(illuminant))
+        raise ValueError(
+            '"{0}" shape "interval" must be 1!'.format(illuminant)
+        )
 
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS
 
     hash_key = tuple(
-        [hash(arg) for arg in (cmfs, illuminant, shape, k, get_domain_range_scale())]
+        [
+            hash(arg)
+            for arg in (cmfs, illuminant, shape, k, get_domain_range_scale())
+        ]
     )
     if hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
         return np.copy(_CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key])
@@ -424,7 +431,9 @@ def tristimulus_weighting_factors_ASTME2022(
             for k in range(i_cm, i_cm - 3, -1):
                 W[k, i] = (
                     W[k, i]
-                    + c_c[r_c - j - 1, i_cm - k] * S[j + w_lif] * Y[j + w_lif, i]
+                    + c_c[r_c - j - 1, i_cm - k]
+                    * S[j + w_lif]
+                    * Y[j + w_lif, i]
                 )
 
         # Intermediate intervals.
@@ -637,7 +646,9 @@ def sd_to_XYZ_integration(
 
         if sd.shape != shape:
             runtime_warning(
-                'Aligning "{0}" spectral data shape to "{1}".'.format(sd.name, shape)
+                'Aligning "{0}" spectral data shape to "{1}".'.format(
+                    sd.name, shape
+                )
             )
 
             sd = (
@@ -652,7 +663,8 @@ def sd_to_XYZ_integration(
     else:
         attest(
             shape is not None,
-            "A spectral shape must be explicitly passed with a spectral data " "array!",
+            "A spectral shape must be explicitly passed with a spectral data "
+            "array!",
         )
 
         shape = cast(SpectralShape, shape)
@@ -677,7 +689,9 @@ def sd_to_XYZ_integration(
 
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            'Aligning "{0}" illuminant shape to "{1}".'.format(
+                illuminant.name, shape
+            )
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -780,7 +794,9 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     )
 
     if cmfs.shape.interval != 1:
-        runtime_warning('Interpolating "{0}" cmfs to 1nm interval.'.format(cmfs.name))
+        runtime_warning(
+            'Interpolating "{0}" cmfs to 1nm interval.'.format(cmfs.name)
+        )
         # pylint: disable=E1102
         cmfs = reshape_msds(
             cmfs,
@@ -798,7 +814,9 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     if sd.shape.boundaries != cmfs.shape.boundaries:
         runtime_warning(
             'Trimming "{0}" spectral distribution shape to "{1}" '
-            "colour matching functions shape.".format(illuminant.name, cmfs.name)
+            "colour matching functions shape.".format(
+                illuminant.name, cmfs.name
+            )
         )
         sd = reshape_sd(sd, cmfs.shape, "Trim")
 
@@ -948,7 +966,9 @@ def sd_to_XYZ_ASTME308(
         if sd.shape.boundaries != cmfs.shape.boundaries:
             runtime_warning(
                 'Trimming "{0}" spectral distribution shape to "{1}" '
-                "colour matching functions shape.".format(illuminant.name, cmfs.name)
+                "colour matching functions shape.".format(
+                    illuminant.name, cmfs.name
+                )
             )
             sd.trim(cmfs.shape)
 
@@ -960,7 +980,9 @@ def sd_to_XYZ_ASTME308(
             )
             i_e = len(sd.domain) - 1 - i
             sd[sd.wavelengths[i_e]] = (
-                sd.values[i_e - 6] - 3 * sd.values[i_e - 4] + 3 * sd.values[i_e - 2]
+                sd.values[i_e - 6]
+                - 3 * sd.values[i_e - 4]
+                + 3 * sd.values[i_e - 2]
             )
 
         # Interpolating every odd numbered values.
@@ -1141,7 +1163,9 @@ def sd_to_XYZ(
             hash(arg)
             for arg in [
                 sd
-                if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
+                if isinstance(
+                    sd, (SpectralDistribution, MultiSpectralDistributions)
+                )
                 else sd.tobytes(),  # type: ignore[union-attr]
                 cmfs,
                 illuminant,
@@ -1157,7 +1181,9 @@ def sd_to_XYZ(
 
     function = SD_TO_XYZ_METHODS[method]
 
-    XYZ = function(sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
+    XYZ = function(
+        sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs)
+    )
 
     _CACHE_SD_TO_XYZ[hash_key] = np.copy(XYZ)
 
@@ -1661,7 +1687,9 @@ def msds_to_XYZ(
 
     function = MSDS_TO_XYZ_METHODS[method]
 
-    return function(msds, cmfs, illuminant, k, **filter_kwargs(function, **kwargs))
+    return function(
+        msds, cmfs, illuminant, k, **filter_kwargs(function, **kwargs)
+    )
 
 
 def wavelength_to_XYZ(

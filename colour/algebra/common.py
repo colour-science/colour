@@ -330,7 +330,9 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
             [-0.0044203...,  0.0377490...,  0.9666713...]]])
     """
 
-    return np.einsum("...ij,...jk->...ik", as_float_array(a), as_float_array(b))
+    return np.einsum(
+        "...ij,...jk->...ik", as_float_array(a), as_float_array(b)
+    )
 
 
 def linear_conversion(

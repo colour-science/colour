@@ -94,16 +94,22 @@ def plot_cvd_simulation_Machado2009(
         :alt: plot_cvd_simulation_Machado2009
     """
 
-    M_a = cast(ArrayLike, optional(M_a, matrix_cvd_Machado2009(deficiency, severity)))
+    M_a = cast(
+        ArrayLike, optional(M_a, matrix_cvd_Machado2009(deficiency, severity))
+    )
 
     settings: Dict[str, Any] = {
         "text_kwargs": {
-            "text": "Deficiency: {0} - Severity: {1}".format(deficiency, severity)
+            "text": "Deficiency: {0} - Severity: {1}".format(
+                deficiency, severity
+            )
         }
     }
     settings.update(kwargs)
 
     return plot_image(
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(vector_dot(M_a, RGB)),
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
+            vector_dot(M_a, RGB)
+        ),
         **settings
     )

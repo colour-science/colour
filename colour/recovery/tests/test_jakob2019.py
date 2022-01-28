@@ -54,7 +54,9 @@ class TestErrorFunction(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape
+        )
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
         self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
@@ -154,7 +156,9 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape
+        )
 
     def test_XYZ_to_sd_Jakob2019(self):
         """
@@ -190,7 +194,9 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     sd_to_XYZ(
-                        XYZ_to_sd_Jakob2019(XYZ_i * factor_a, self._cmfs, self._sd_D65),
+                        XYZ_to_sd_Jakob2019(
+                            XYZ_i * factor_a, self._cmfs, self._sd_D65
+                        ),
                         self._cmfs,
                         self._sd_D65,
                     ),
@@ -211,7 +217,9 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape
+        )
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
         self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
@@ -222,7 +230,9 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         self._LUT = LUT3D_Jakob2019()
         self._LUT.generate(self._RGB_colourspace, self._cmfs, self._sd_D65, 5)
 
-        self._path = os.path.join(self._temporary_directory, "Test_Jakob2019.coeff")
+        self._path = os.path.join(
+            self._temporary_directory, "Test_Jakob2019.coeff"
+        )
         self._LUT.write(self._path)
 
     def tearDown(self):
@@ -279,7 +289,9 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             self._LUT.lightness_scale,
-            np.array([0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]),
+            np.array(
+                [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]
+            ),
             decimal=7,
         )
 
@@ -317,7 +329,9 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
             recovered_sd = LUT.RGB_to_sd(RGB)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
+            recovered_XYZ = (
+                sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
+            )
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)

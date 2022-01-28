@@ -196,7 +196,9 @@ References
 def colour_quality_scale(
     sd_test: SpectralDistribution,
     additional_data: Boolean = False,
-    method: Union[Literal["NIST CQS 7.4", "NIST CQS 9.0"], str] = "NIST CQS 9.0",
+    method: Union[
+        Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
+    ] = "NIST CQS 9.0",
 ) -> Union[Floating, ColourRendering_Specification_CQS]:
     """
     Returns the *Colour Quality Scale* (CQS) of given spectral distribution
@@ -291,8 +293,12 @@ def colour_quality_scale(
 
     Q_f = scale_conversion(D_E_RMS, CCT_f, scaling_f)
 
-    G_t = gamut_area([vs_CQS_data.Lab for vs_CQS_data in test_vs_colorimetry_data])
-    G_r = gamut_area([vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data])
+    G_t = gamut_area(
+        [vs_CQS_data.Lab for vs_CQS_data in test_vs_colorimetry_data]
+    )
+    G_r = gamut_area(
+        [vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data]
+    )
 
     Q_g = G_t / GAMUT_AREA_D65 * 100
 
@@ -523,7 +529,10 @@ def delta_E_RMS(
         1
         / len(CQS_data)
         * np.sum(
-            [getattr(sample_data, attribute) ** 2 for sample_data in CQS_data.values()]
+            [
+                getattr(sample_data, attribute) ** 2
+                for sample_data in CQS_data.values()
+            ]
         )
     )
 

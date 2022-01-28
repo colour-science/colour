@@ -746,7 +746,9 @@ DATA_LIGHT_SOURCES_RIT: Dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_RIT: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_RIT: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
     (
         key,
         partial(
@@ -2877,7 +2879,9 @@ DATA_LIGHT_SOURCES_NIST_LED: Dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_NIST_LED: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_NIST_LED: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
     (
         key,
         partial(
@@ -4948,7 +4952,9 @@ DATA_LIGHT_SOURCES_COMMON: Dict = {
     }
 }
 
-SDS_LIGHT_SOURCES_COMMON: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_COMMON: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
     {
         "Kinoton 75P": partial(
             SpectralDistribution,

@@ -232,10 +232,14 @@ def write_LUT_SonySPI1D(
     with open(path, "w") as spi1d_file:
         spi1d_file.write("Version 1\n")
 
-        spi1d_file.write("From {1:0.{0}f} {2:0.{0}f}\n".format(decimals, *domain))
+        spi1d_file.write(
+            "From {1:0.{0}f} {2:0.{0}f}\n".format(decimals, *domain)
+        )
 
         spi1d_file.write(
-            "Length {0}\n".format(LUTxD.table.size if is_1D else LUTxD.table.shape[0])
+            "Length {0}\n".format(
+                LUTxD.table.size if is_1D else LUTxD.table.shape[0]
+            )
         )
 
         spi1d_file.write("Components {0}\n".format(1 if is_1D else 3))

@@ -228,7 +228,9 @@ __all__ = [
     "munsell_specification_to_xy",
 ]
 
-MUNSELL_GRAY_PATTERN: str = "N(?P<value>{0})".format(FLOATING_POINT_NUMBER_PATTERN)
+MUNSELL_GRAY_PATTERN: str = "N(?P<value>{0})".format(
+    FLOATING_POINT_NUMBER_PATTERN
+)
 MUNSELL_COLOUR_PATTERN: str = (
     "(?P<hue>{0})\\s*"
     "(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\\s*"
@@ -265,11 +267,15 @@ CCS_ILLUMINANT_MUNSELL: NDArray = CCS_ILLUMINANTS[
 _MUNSELL_SPECIFICATIONS_CACHE: Dict = CACHE_REGISTRY.register_cache(
     "{0}._MUNSELL_SPECIFICATIONS_CACHE".format(__name__)
 )
-_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE".format(__name__)
+_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE: Dict = (
+    CACHE_REGISTRY.register_cache(
+        "{0}._MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE".format(__name__)
+    )
 )
-_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE".format(__name__)
+_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE: Dict = (
+    CACHE_REGISTRY.register_cache(
+        "{0}._MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE".format(__name__)
+    )
 )
 
 
@@ -387,7 +393,9 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
 
         chromas[index] = chroma
 
-    maximum_chromas_from_renotation = tuple(zip(chromas.keys(), chromas.values()))
+    maximum_chromas_from_renotation = tuple(
+        zip(chromas.keys(), chromas.values())
+    )
 
     _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE[
         "Maximum Chromas From Renotation"
@@ -983,7 +991,10 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
     specification = as_float_array(specification)
     shape = list(specification.shape)
 
-    xyY = [_munsell_specification_to_xyY(a) for a in specification.reshape([-1, 4])]
+    xyY = [
+        _munsell_specification_to_xyY(a)
+        for a in specification.reshape([-1, 4])
+    ]
 
     shape[-1] = 3
 
@@ -1029,11 +1040,16 @@ def munsell_colour_to_xyY(munsell_colour: StrOrArrayLike) -> NDArray:
     shape = list(munsell_colour.shape)
 
     specification = np.array(
-        [munsell_colour_to_munsell_specification(a) for a in np.ravel(munsell_colour)]
+        [
+            munsell_colour_to_munsell_specification(a)
+            for a in np.ravel(munsell_colour)
+        ]
     )
 
     return munsell_specification_to_xyY(
-        from_range_10(specification.reshape(shape + [4]), _munsell_scale_factor())
+        from_range_10(
+            specification.reshape(shape + [4]), _munsell_scale_factor()
+        )
     )
 
 
@@ -1077,7 +1093,9 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
         value = np.around(value)
 
     with domain_range_scale("ignore"):
-        x_center, y_center, Y_center = tsplit(_munsell_specification_to_xyY(value))
+        x_center, y_center, Y_center = tsplit(
+            _munsell_specification_to_xyY(value)
+        )
 
     rho_input, phi_input, _z_input = tsplit(
         cartesian_to_cylindrical([x - x_center, y - y_center, Y_center])
@@ -1164,11 +1182,15 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
                 # path, it is kept for consistency with the reference
                 # implementation.
                 raise RuntimeError(  # pragma: no cover
-                    ("Maximum inner iterations count reached without " "convergence!")
+                    (
+                        "Maximum inner iterations count reached without "
+                        "convergence!"
+                    )
                 )
 
             hue_angle_inner = (
-                hue_angle_current + iterations_inner * (phi_input - phi_current)
+                hue_angle_current
+                + iterations_inner * (phi_input - phi_current)
             ) % 360
             hue_angle_difference_inner = (
                 iterations_inner * (phi_input - phi_current) % 360
@@ -1205,10 +1227,14 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
         phi_differences_indexes = phi_differences.argsort()
 
         phi_differences = phi_differences[phi_differences_indexes]
-        hue_angles_differences = hue_angles_differences[phi_differences_indexes]
+        hue_angles_differences = hue_angles_differences[
+            phi_differences_indexes
+        ]
 
         hue_angle_difference_new = (
-            Extrapolator(LinearInterpolator(phi_differences, hue_angles_differences))(0)
+            Extrapolator(
+                LinearInterpolator(phi_differences, hue_angles_differences)
+            )(0)
             % 360
         )
         hue_angle_new = (hue_angle_current + hue_angle_difference_new) % 360
@@ -1262,12 +1288,15 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
         iterations_maximum_inner = 16
         iterations_inner = 0
-        while not (np.min(rho_bounds_data) < rho_input < np.max(rho_bounds_data)):
+        while not (
+            np.min(rho_bounds_data) < rho_input < np.max(rho_bounds_data)
+        ):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
                 raise RuntimeError(
-                    "Maximum inner iterations count reached " "without convergence!"
+                    "Maximum inner iterations count reached "
+                    "without convergence!"
                 )
 
             chroma_inner = (
@@ -1384,7 +1413,9 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
     xyY = as_float_array(xyY)
     shape = list(xyY.shape)
 
-    specification = [_xyY_to_munsell_specification(a) for a in xyY.reshape([-1, 3])]
+    specification = [
+        _xyY_to_munsell_specification(a) for a in xyY.reshape([-1, 3])
+    ]
 
     shape[-1] = 4
 
@@ -1492,7 +1523,9 @@ def parse_munsell_colour(munsell_colour: str) -> NDArray:
             ]
         )
 
-    match = re.match(MUNSELL_COLOUR_PATTERN, munsell_colour, flags=re.IGNORECASE)
+    match = re.match(
+        MUNSELL_COLOUR_PATTERN, munsell_colour, flags=re.IGNORECASE
+    )
     if match:
         return tstack(
             [
@@ -1505,7 +1538,8 @@ def parse_munsell_colour(munsell_colour: str) -> NDArray:
 
     raise ValueError(
         (
-            '"{0}" is not a valid "Munsell Renotation System" colour ' "specification!"
+            '"{0}" is not a valid "Munsell Renotation System" colour '
+            "specification!"
         ).format(munsell_colour)
     )
 
@@ -1603,7 +1637,9 @@ def munsell_colour_to_munsell_specification(munsell_colour: str) -> NDArray:
     array([ 10.,   2.,   4.,   7.])
     """
 
-    return normalise_munsell_specification(parse_munsell_colour(munsell_colour))
+    return normalise_munsell_specification(
+        parse_munsell_colour(munsell_colour)
+    )
 
 
 def munsell_specification_to_munsell_colour(
@@ -1641,7 +1677,9 @@ def munsell_specification_to_munsell_colour(
     '10.0R 2.0/4.0'
     """
 
-    hue, value, chroma, code = tsplit(normalise_munsell_specification(specification))
+    hue, value, chroma, code = tsplit(
+        normalise_munsell_specification(specification)
+    )
 
     if is_grey_munsell_colour(specification):
         return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
@@ -1722,7 +1760,9 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArray:
     specification = normalise_munsell_specification(specification)
 
     try:
-        index = np.where((_munsell_specifications() == specification).all(axis=-1))
+        index = np.where(
+            (_munsell_specifications() == specification).all(axis=-1)
+        )
 
         return MUNSELL_COLOURS_ALL[int(index[0])][1]
     except Exception:
@@ -1994,7 +2034,9 @@ def interpolation_method_from_renotation_ovoid(
 
     specification = normalise_munsell_specification(specification)
 
-    interpolation_methods: Dict[Integer, Optional[Literal["Linear", "Radial"]]] = {
+    interpolation_methods: Dict[
+        Integer, Optional[Literal["Linear", "Radial"]]
+    ] = {
         0: None,
         1: "Linear",
         2: "Radial",
@@ -2015,7 +2057,9 @@ def interpolation_method_from_renotation_ovoid(
 
         attest(
             is_integer(value),
-            '"{0}" specification value must be an integer!'.format(specification),
+            '"{0}" specification value must be an integer!'.format(
+                specification
+            ),
         )
 
         value = round(value)
@@ -2203,7 +2247,11 @@ def interpolation_method_from_renotation_ovoid(
                 else:
                     interpolation_method = 1
             elif chroma == 10:
-                if 30 < ASTM_hue < 42.5 or 5 < ASTM_hue < 25 or 60 < ASTM_hue < 82.5:
+                if (
+                    30 < ASTM_hue < 42.5
+                    or 5 < ASTM_hue < 25
+                    or 60 < ASTM_hue < 82.5
+                ):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
@@ -2217,7 +2265,11 @@ def interpolation_method_from_renotation_ovoid(
                 else:
                     interpolation_method = 1
             elif chroma >= 14:
-                if 32.5 < ASTM_hue < 40 or 7.5 < ASTM_hue < 15 or 80 < ASTM_hue < 82.5:
+                if (
+                    32.5 < ASTM_hue < 40
+                    or 7.5 < ASTM_hue < 15
+                    or 80 < ASTM_hue < 82.5
+                ):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
@@ -2230,7 +2282,11 @@ def interpolation_method_from_renotation_ovoid(
                 else:
                     interpolation_method = 1
             elif chroma >= 14:
-                if 32.5 < ASTM_hue < 40 or 5 < ASTM_hue < 15 or 60 < ASTM_hue < 85:
+                if (
+                    32.5 < ASTM_hue < 40
+                    or 5 < ASTM_hue < 15
+                    or 60 < ASTM_hue < 85
+                ):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
@@ -2315,7 +2371,9 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
         attest(
             is_integer(value),
-            '"{0}" specification value must be an integer!'.format(specification),
+            '"{0}" specification value must be an integer!'.format(
+                specification
+            ),
         )
 
         value = round(value)
@@ -2389,7 +2447,9 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
                 hue_angle_lower -= 360
                 hue_angle -= 360
 
-        interpolation_method = interpolation_method_from_renotation_ovoid(specification)
+        interpolation_method = interpolation_method_from_renotation_ovoid(
+            specification
+        )
 
         attest(
             interpolation_method is not None,
@@ -2406,21 +2466,31 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
             x_minus_plus = np.squeeze([x_minus, x_plus])
             y_minus_plus = np.squeeze([y_minus, y_plus])
 
-            x = LinearInterpolator(hue_angle_lower_upper, x_minus_plus)(hue_angle)
-            y = LinearInterpolator(hue_angle_lower_upper, y_minus_plus)(hue_angle)
+            x = LinearInterpolator(hue_angle_lower_upper, x_minus_plus)(
+                hue_angle
+            )
+            y = LinearInterpolator(hue_angle_lower_upper, y_minus_plus)(
+                hue_angle
+            )
         elif interpolation_method == "Radial":
             rho_minus_plus = np.squeeze([rho_minus, rho_plus])
             phi_minus_plus = np.squeeze([phi_minus, phi_plus])
 
             rho = as_float_array(
-                LinearInterpolator(hue_angle_lower_upper, rho_minus_plus)(hue_angle)
+                LinearInterpolator(hue_angle_lower_upper, rho_minus_plus)(
+                    hue_angle
+                )
             )
             phi = as_float_array(
-                LinearInterpolator(hue_angle_lower_upper, phi_minus_plus)(hue_angle)
+                LinearInterpolator(hue_angle_lower_upper, phi_minus_plus)(
+                    hue_angle
+                )
             )
 
             rho_phi = np.squeeze([rho, np.radians(phi)])
-            x, y = tsplit(polar_to_cartesian(rho_phi) + tstack([x_grey, y_grey]))
+            x, y = tsplit(
+                polar_to_cartesian(rho_phi) + tstack([x_grey, y_grey])
+            )
 
         return tstack([x, y])
 
@@ -2554,7 +2624,9 @@ def maximum_chroma_from_renotation(
         ma_limit_pccw = maximum_chromas[
             specification_for_indexes.index((hue_ccw, value_plus, code_ccw))
         ][1]
-        max_chroma = min([ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw])
+        max_chroma = min(
+            [ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw]
+        )
     else:
         L = as_float_scalar(luminance_ASTMD1535(value))
         L9 = as_float_scalar(luminance_ASTMD1535(9))
@@ -2562,8 +2634,12 @@ def maximum_chroma_from_renotation(
 
         max_chroma = min(
             [
-                as_float_scalar(LinearInterpolator([L9, L10], [ma_limit_mcw, 0])(L)),
-                as_float_scalar(LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L)),
+                as_float_scalar(
+                    LinearInterpolator([L9, L10], [ma_limit_mcw, 0])(L)
+                ),
+                as_float_scalar(
+                    LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L)
+                ),
             ]
         )
 
@@ -2615,7 +2691,9 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArray:
 
         attest(
             is_integer(value),
-            '"{0}" specification value must be an integer!'.format(specification),
+            '"{0}" specification value must be an integer!'.format(
+                specification
+            ),
         )
 
         value = round(value)
@@ -2635,7 +2713,9 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArray:
                 [hue, value, chroma_minus, code]
             )
 
-        x_plus, y_plus = xy_from_renotation_ovoid([hue, value, chroma_plus, code])
+        x_plus, y_plus = xy_from_renotation_ovoid(
+            [hue, value, chroma_plus, code]
+        )
 
         if chroma_minus == chroma_plus:
             x = x_minus

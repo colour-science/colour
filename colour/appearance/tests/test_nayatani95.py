@@ -71,7 +71,9 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         E_o = 5000
         np.testing.assert_allclose(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
-            np.array([24.5, 49.3, 190.6, 81.3, 37.5, 62.1, np.nan, np.nan, 29.7]),
+            np.array(
+                [24.5, 49.3, 190.6, 81.3, 37.5, 62.1, np.nan, np.nan, 29.7]
+            ),
             rtol=0.01,
             atol=0.01,
         )
@@ -80,7 +82,9 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         E_o = 500
         np.testing.assert_allclose(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
-            np.array([49.4, 39.9, 236.3, 40.2, 44.2, 35.8, np.nan, np.nan, 49.4]),
+            np.array(
+                [49.4, 39.9, 236.3, 40.2, 44.2, 35.8, np.nan, np.nan, 49.4]
+            ),
             rtol=0.01,
             atol=0.01,
         )
@@ -147,7 +151,9 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    XYZ_to_Nayatani95(XYZ * factor_a, XYZ_n * factor_a, Y_o, E_o, E_or),
+                    XYZ_to_Nayatani95(
+                        XYZ * factor_a, XYZ_n * factor_a, Y_o, E_o, E_or
+                    ),
                     as_float_array(specification) * factor_b,
                     decimal=7,
                 )

@@ -82,9 +82,9 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: Integer = 1000000,
     limits: ArrayLike = np.array([[0, 100], [-150, 150], [-150, 150]]),
-    illuminant_Lab: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
     chromatic_adaptation_transform: Union[
         Literal[
             "Bianco 2010",
@@ -153,7 +153,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     9...
     """
 
-    random_state = random_state if random_state is not None else np.random.RandomState()
+    random_state = (
+        random_state if random_state is not None else np.random.RandomState()
+    )
 
     Lab = random_generator(DEFAULT_INT_DTYPE(samples), limits, random_state)
     RGB = XYZ_to_RGB(
@@ -163,7 +165,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
         colourspace.matrix_XYZ_to_RGB,
         chromatic_adaptation_transform=chromatic_adaptation_transform,
     )
-    RGB_w = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)]
+    RGB_w = RGB[
+        np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)
+    ]
     return len(RGB_w)
 
 
@@ -226,9 +230,9 @@ def RGB_colourspace_volume_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: Integer = 1000000,
     limits: ArrayLike = np.array([[0, 100], [-150, 150], [-150, 150]]),
-    illuminant_Lab: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
     chromatic_adaptation_transform: Union[
         Literal[
             "Bianco 2010",
@@ -318,7 +322,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
             [arguments for _ in range(processes)],
         )
 
-    Lab_volume = np.product([np.sum(np.abs(x)) for x in as_float_array(limits)])
+    Lab_volume = np.product(
+        [np.sum(np.abs(x)) for x in as_float_array(limits)]
+    )
 
     return Lab_volume * np.sum(results) / (process_samples * processes)
 
@@ -362,9 +368,13 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     81...
     """
 
-    random_state = random_state if random_state is not None else np.random.RandomState()
+    random_state = (
+        random_state if random_state is not None else np.random.RandomState()
+    )
 
-    XYZ = random_generator(DEFAULT_INT_DTYPE(samples), random_state=random_state)
+    XYZ = random_generator(
+        DEFAULT_INT_DTYPE(samples), random_state=random_state
+    )
     XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
     RGB = XYZ_to_RGB(
@@ -374,7 +384,9 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
         colourspace.matrix_XYZ_to_RGB,
     )
 
-    RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)]
+    RGB_c = RGB[
+        np.logical_and(np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)
+    ]
 
     return 100 * RGB_c.size / XYZ_vs.size
 

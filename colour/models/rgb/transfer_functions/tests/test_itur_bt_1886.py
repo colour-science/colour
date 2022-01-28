@@ -40,7 +40,9 @@ eotf_inverse_BT1886` definition.
 
         self.assertAlmostEqual(eotf_inverse_BT1886(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(eotf_inverse_BT1886(0.016317514686316), 0.18, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_BT1886(0.016317514686316), 0.18, places=7
+        )
 
         self.assertAlmostEqual(eotf_inverse_BT1886(1.0), 1.0, places=7)
 
@@ -88,7 +90,9 @@ eotf_inverse_BT1886` definition domain and range scale support.
 eotf_inverse_BT1886` definition nan support.
         """
 
-        eotf_inverse_BT1886(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_BT1886(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestEotf_BT1886(unittest.TestCase):

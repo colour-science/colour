@@ -26,12 +26,15 @@ print(colour.sd_to_XYZ(sd, illuminant=illuminant) / 100)
 print("\n")
 
 message_box(
-    'Generating a spectral dataset according to "Otsu et al. (2018)"' "method :"
+    'Generating a spectral dataset according to "Otsu et al. (2018)"'
+    "method :"
 )
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 reflectances = [
     reflectance.copy().align(colour.recovery.SPECTRAL_SHAPE_OTSU2018).values
-    for reflectance in colour.SDS_COLOURCHECKERS["ColorChecker N Ohta"].values()
+    for reflectance in colour.SDS_COLOURCHECKERS[
+        "ColorChecker N Ohta"
+    ].values()
 ]
 node_tree = colour.recovery.Tree_Otsu2018(reflectances)
 node_tree.optimise()

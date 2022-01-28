@@ -27,9 +27,9 @@ __all__ = [
 
 def XYZ_to_sRGB(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
     chromatic_adaptation_transform: Union[
         Literal[
             "Bianco 2010",
@@ -106,9 +106,9 @@ def XYZ_to_sRGB(
 
 def sRGB_to_XYZ(
     RGB: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
     chromatic_adaptation_transform: Union[
         Literal[
             "Bianco 2010",

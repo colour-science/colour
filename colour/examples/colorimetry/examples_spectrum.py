@@ -132,7 +132,9 @@ print((sd_clone + np.linspace(0, 1, len(sd_clone.wavelengths))).values)
 
 print("\n")
 
-message_box("Regular arithmetical operation: adding a spectral " "distribution.")
+message_box(
+    "Regular arithmetical operation: adding a spectral " "distribution."
+)
 print((sd_clone + sd_clone).values)
 
 print("\n")
@@ -149,7 +151,9 @@ print(sd_clone.values)
 
 print("\n")
 
-message_box("In-place arithmetical operation: adding a spectral " "distribution.")
+message_box(
+    "In-place arithmetical operation: adding a spectral " "distribution."
+)
 sd_clone += sd_clone
 print(sd_clone.values)
 

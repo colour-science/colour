@@ -110,7 +110,9 @@ VIEWING_CONDITIONS_LLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "Television & VDU Displays, Dim Surround": (
             InductionFactors_LLAB(0.7, 3.5, 1, 1)
         ),
-        "Cut Sheet Transparency, Dim Surround": (InductionFactors_LLAB(1, 5, 1, 1.1)),
+        "Cut Sheet Transparency, Dim Surround": (
+            InductionFactors_LLAB(1, 5, 1, 1.1)
+        ),
         "35mm Projection Transparency, Dark Surround": (
             InductionFactors_LLAB(0.7, 4, 1, 1)
         ),
@@ -563,7 +565,9 @@ def opponent_colour_dimensions(
     return Lab
 
 
-def hue_angle(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
+def hue_angle(
+    a: FloatingOrArrayLike, b: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *hue* angle :math:`h_L` in degrees.
 

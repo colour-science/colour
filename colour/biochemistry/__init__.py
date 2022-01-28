@@ -60,7 +60,9 @@ Defines the *colour.biochemistry* sub-package API changes.
 """
 
 if not is_documentation_building():
-    sys.modules["colour.biochemistry"] = biochemistry(  # type:ignore[assignment]
+    sys.modules[
+        "colour.biochemistry"
+    ] = biochemistry(  # type:ignore[assignment]
         sys.modules["colour.biochemistry"], build_API_changes(API_CHANGES)
     )
 

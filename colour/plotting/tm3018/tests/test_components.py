@@ -149,7 +149,9 @@ class TestPlotLocalColourFidelities(unittest.TestCase):
 plot_local_colour_fidelities` definition.
         """
 
-        figure, axes = plot_local_colour_fidelities(SPECIFICATION_ANSIIESTM3018)
+        figure, axes = plot_local_colour_fidelities(
+            SPECIFICATION_ANSIIESTM3018
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -167,7 +169,9 @@ plot_colour_fidelity_indexes` definition unit tests methods.
 plot_colour_fidelity_indexes` definition.
         """
 
-        figure, axes = plot_colour_fidelity_indexes(SPECIFICATION_ANSIIESTM3018)
+        figure, axes = plot_colour_fidelity_indexes(
+            SPECIFICATION_ANSIIESTM3018
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

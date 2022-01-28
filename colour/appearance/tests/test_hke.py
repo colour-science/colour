@@ -247,7 +247,9 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 2, r=2))
         for case in cases:
-            HelmholtzKohlrausch_effect_luminous_Nayatani1997(case, case, case[0])
+            HelmholtzKohlrausch_effect_luminous_Nayatani1997(
+                case, case, case[0]
+            )
 
 
 class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
@@ -366,15 +368,21 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
 
         L_a = np.tile(L_a, 6)
         q = np.tile(q, 6)
-        np.testing.assert_almost_equal(coefficient_q_Nayatani1997(L_a), q, decimal=7)
+        np.testing.assert_almost_equal(
+            coefficient_q_Nayatani1997(L_a), q, decimal=7
+        )
 
         L_a = np.reshape(L_a, (2, 3))
         q = np.reshape(q, (2, 3))
-        np.testing.assert_almost_equal(coefficient_q_Nayatani1997(L_a), q, decimal=7)
+        np.testing.assert_almost_equal(
+            coefficient_q_Nayatani1997(L_a), q, decimal=7
+        )
 
         L_a = np.reshape(L_a, (2, 3, 1))
         q = np.reshape(q, (2, 3, 1))
-        np.testing.assert_almost_equal(coefficient_q_Nayatani1997(L_a), q, decimal=7)
+        np.testing.assert_almost_equal(
+            coefficient_q_Nayatani1997(L_a), q, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_coefficient_q_Nayatani1997(self):

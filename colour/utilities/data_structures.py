@@ -313,7 +313,9 @@ class CaseInsensitiveMapping(MutableMapping):
     1
     """
 
-    def __init__(self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any):
+    def __init__(
+        self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any
+    ):
         self._data: Dict = dict()
 
         self.update({} if data is None else data, **kwargs)
@@ -351,7 +353,9 @@ class CaseInsensitiveMapping(MutableMapping):
                 ),
             )
         else:
-            return "{0}({1})".format(self.__class__.__name__, dict(self.items()))
+            return "{0}({1})".format(
+                self.__class__.__name__, dict(self.items())
+            )
 
     def __setitem__(self, item: Union[str, Any], value: Any):
         """
@@ -915,7 +919,11 @@ class Node:
         if self.parent is None:
             return (sibling for sibling in ())  # type: ignore[var-annotated]
         else:
-            return (sibling for sibling in self.parent.children if sibling is not self)
+            return (
+                sibling
+                for sibling in self.parent.children
+                if sibling is not self
+            )
 
     @property
     def data(self) -> Any:
@@ -948,7 +956,9 @@ class Node:
             Formatted string representation.
         """
 
-        return "{0}#{1}({2})".format(self.__class__.__name__, self.id, self._data)
+        return "{0}#{1}({2})".format(
+            self.__class__.__name__, self.id, self._data
+        )
 
     def __len__(self) -> Integer:
         """

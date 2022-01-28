@@ -33,7 +33,9 @@ __all__ = [
 @required("NetworkX")
 def plot_automatic_colour_conversion_graph(
     filename: str,
-    prog: Union[Literal["circo", "dot", "fdp", "neato", "nop", "twopi"], str] = "fdp",
+    prog: Union[
+        Literal["circo", "dot", "fdp", "neato", "nop", "twopi"], str
+    ] = "fdp",
     args: str = "",
 ) -> "AGraph":  # type: ignore[name-defined]  # noqa
     """

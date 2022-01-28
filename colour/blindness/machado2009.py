@@ -312,7 +312,9 @@ def matrix_anomalous_trichromacy_Machado2009(
 
 
 def matrix_cvd_Machado2009(
-    deficiency: Union[Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str],
+    deficiency: Union[
+        Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str
+    ],
     severity: Floating,
 ) -> NDArray:
     """

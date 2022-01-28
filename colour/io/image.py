@@ -274,7 +274,9 @@ def read_image_OpenImageIO(
     image_data = image.read_image(bit_depth_specification.openimageio)
     image.close()
     image = np.squeeze(
-        np.array(image_data, dtype=bit_depth_specification.numpy).reshape(shape)
+        np.array(image_data, dtype=bit_depth_specification.numpy).reshape(
+            shape
+        )
     )
 
     if attributes:

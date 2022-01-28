@@ -66,7 +66,9 @@ MATRIX_IGPGTG_LMS_P_TO_IGPGTG: NDArray = np.array(
 Normalised non-linear cone responses to :math:`I_GP_GT_G` colourspace matrix.
 """
 
-MATRIX_IGPGTG_IGPGTG_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IGPGTG_LMS_P_TO_IGPGTG)
+MATRIX_IGPGTG_IGPGTG_TO_LMS_P: NDArray = np.linalg.inv(
+    MATRIX_IGPGTG_LMS_P_TO_IGPGTG
+)
 """
 :math:`I_GP_GT_G` colourspace to normalised non-linear cone responses matrix.
 """

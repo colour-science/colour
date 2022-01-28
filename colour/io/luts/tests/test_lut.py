@@ -146,9 +146,13 @@ class AbstractLUTTest(unittest.TestCase):
         self._table_1_kwargs: Optional[Dict] = None
         self._table_2_kwargs: Optional[Dict] = None
         self._table_3_kwargs: Optional[Dict] = None
-        self._interpolator_1: Optional[Union[Callable, Type[TypeInterpolator]]] = None
+        self._interpolator_1: Optional[
+            Union[Callable, Type[TypeInterpolator]]
+        ] = None
         self._interpolator_kwargs_1: Dict = {}
-        self._interpolator_2: Optional[Union[Callable, Type[TypeInterpolator]]] = None
+        self._interpolator_2: Optional[
+            Union[Callable, Type[TypeInterpolator]]
+        ] = None
         self._interpolator_kwargs_2: Dict = {}
         self._invert_kwargs_1: Dict = {}
         self._invert_kwargs_2: Dict = {}
@@ -405,7 +409,9 @@ class AbstractLUTTest(unittest.TestCase):
 
         # pylint: disable=E1102
         self.assertTrue(
-            self._LUT_factory(self._table_3, domain=self._domain_3).is_domain_explicit()
+            self._LUT_factory(
+                self._table_3, domain=self._domain_3
+            ).is_domain_explicit()
         )
 
     def test_arithmetical_operation(self):
@@ -536,7 +542,9 @@ class AbstractLUTTest(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            spow(self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6),
+            spow(
+                self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6
+            ),
             self._table_3,
             decimal=7,
         )
@@ -1151,7 +1159,9 @@ class TestLUT_to_LUT(unittest.TestCase):
             LUT3x1D.linear_table(16) ** (1 / 2.2) * (1.0, 0.75, 0.5),
             domain=self._domain,
         )
-        self._LUT_3 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain)
+        self._LUT_3 = LUT3D(
+            LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain
+        )
 
     def test_LUT_to_LUT(self):
         """

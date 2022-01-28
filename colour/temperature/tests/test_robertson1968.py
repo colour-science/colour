@@ -142,7 +142,9 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
-            np.testing.assert_allclose(uv_to_CCT_Robertson1968(value), key, atol=0.25)
+            np.testing.assert_allclose(
+                uv_to_CCT_Robertson1968(value), key, atol=0.25
+            )
 
     def test_n_dimensional_uv_to_CCT_Robertson1968(self):
         """
@@ -155,11 +157,15 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
-        np.testing.assert_almost_equal(uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7
+        )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
-        np.testing.assert_almost_equal(uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_uv_to_CCT_Robertson1968(self):
@@ -203,11 +209,15 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7
+        )
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_CCT_to_uv_Robertson1968(self):

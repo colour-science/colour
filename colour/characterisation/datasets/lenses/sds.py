@@ -100,7 +100,9 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(SDS_LENSES_ISO)
+SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    SDS_LENSES_ISO
+)
 SDS_LENSES.__doc__ = """
 Spectral distributions of lenses.
 

@@ -125,7 +125,8 @@ def matrix_chromatic_adaptation_VonKries(
     transform = validate_method(
         transform,
         CHROMATIC_ADAPTATION_TRANSFORMS,
-        '"{0}" chromatic adaptation transform is invalid, ' "it must be one of {1}!",
+        '"{0}" chromatic adaptation transform is invalid, '
+        "it must be one of {1}!",
     )
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]

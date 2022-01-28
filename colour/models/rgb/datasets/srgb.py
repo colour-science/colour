@@ -62,9 +62,9 @@ WHITEPOINT_NAME_sRGB: str = "D65"
 *sRGB* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_sRGB: NDArray = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-    WHITEPOINT_NAME_sRGB
-]
+CCS_WHITEPOINT_sRGB: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_sRGB]
 """
 *sRGB* colourspace whitepoint chromaticity coordinates.
 """

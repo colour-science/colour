@@ -91,7 +91,9 @@ class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
         return '"{0}" object has been removed from the API.'.format(self.name)
 
 
-class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name"))):
+class ObjectFutureRename(
+    namedtuple("ObjectFutureRename", ("name", "new_name"))
+):
     """
     A class used for future object name deprecation, i.e. object name will
     change in a future release.
@@ -177,7 +179,9 @@ class ObjectFutureAccessChange(
         )
 
 
-class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))):
+class ObjectFutureAccessRemove(
+    namedtuple("ObjectFutureAccessRemove", ("name",))
+):
     """
     A class used for future object access removal, i.e. object access will
     be removed in a future release.
@@ -198,8 +202,10 @@ class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))
             Formatted string representation.
         """
 
-        return '"{0}" object access will be removed in a future release.'.format(
-            self.name
+        return (
+            '"{0}" object access will be removed in a future release.'.format(
+                self.name
+            )
         )
 
 
@@ -250,10 +256,14 @@ class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
             Formatted string representation.
         """
 
-        return '"{0}" argument has been removed from the API.'.format(self.name)
+        return '"{0}" argument has been removed from the API.'.format(
+            self.name
+        )
 
 
-class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name"))):
+class ArgumentFutureRename(
+    namedtuple("ArgumentFutureRename", ("name", "new_name"))
+):
     """
     A class used for future argument name deprecation, i.e. argument name will
     change in a future release.
@@ -421,7 +431,9 @@ def get_attribute(attribute: str) -> Any:
 
     attest(
         module is not None,
-        '"{0}" module does not exists or cannot be imported!'.format(module_name),
+        '"{0}" module does not exists or cannot be imported!'.format(
+            module_name
+        ),
     )
 
     return attrgetter(attribute)(module)

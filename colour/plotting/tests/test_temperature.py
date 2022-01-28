@@ -51,7 +51,9 @@ class TestPlotPlanckianLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(ValueError, lambda: plot_planckian_locus(method="Undefined"))
+        self.assertRaises(
+            ValueError, lambda: plot_planckian_locus(method="Undefined")
+        )
 
 
 class TestPlotPlanckianLocusCIE1931(unittest.TestCase):

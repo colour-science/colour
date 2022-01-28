@@ -145,7 +145,8 @@ class LUTSequence(MutableSequence):
         for item in value:
             attest(
                 isinstance(item, TypeLUTSequenceItem),
-                '"value" items must implement the "TypeLUTSequenceItem" ' "protocol!",
+                '"value" items must implement the "TypeLUTSequenceItem" '
+                "protocol!",
             )
 
         self._sequence = list(value)
@@ -182,7 +183,8 @@ class LUTSequence(MutableSequence):
         for item in value if is_iterable(value) else [value]:
             attest(
                 isinstance(item, TypeLUTSequenceItem),
-                '"value" items must implement the "TypeLUTSequenceItem" ' "protocol!",
+                '"value" items must implement the "TypeLUTSequenceItem" '
+                "protocol!",
             )
 
         self._sequence[index] = value
@@ -320,7 +322,8 @@ class LUTSequence(MutableSequence):
 
         attest(
             isinstance(item, TypeLUTSequenceItem),
-            '"value" items must implement the "TypeLUTSequenceItem" ' "protocol!",
+            '"value" items must implement the "TypeLUTSequenceItem" '
+            "protocol!",
         )
 
         self._sequence.insert(index, item)
@@ -375,7 +378,9 @@ class LUTSequence(MutableSequence):
 
         RGB_o = RGB
         for operator in self:
-            RGB_o = operator.apply(RGB_o, **kwargs.get(operator.__class__.__name__, {}))
+            RGB_o = operator.apply(
+                RGB_o, **kwargs.get(operator.__class__.__name__, {})
+            )
 
         return RGB_o
 

@@ -157,7 +157,9 @@ class TestCacheRegistry(unittest.TestCase):
 
         cache_registry = self._default_test_cache_registry()
         cache_registry.clear_all_caches()
-        self.assertDictEqual(cache_registry.registry, {"Cache A": {}, "Cache B": {}})
+        self.assertDictEqual(
+            cache_registry.registry, {"Cache A": {}, "Cache B": {}}
+        )
 
 
 class TestAttest(unittest.TestCase):
@@ -415,7 +417,9 @@ class TestFilterKwargs(unittest.TestCase):
 
         self.assertTupleEqual((1, 2), fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
 
-        self.assertTupleEqual((1, 2, 3), fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
+        self.assertTupleEqual(
+            (1, 2, 3), fn_c(1, **filter_kwargs(fn_c, b=2, c=3))
+        )
 
         self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {"b": 1})
 
@@ -520,7 +524,9 @@ class TestValidateMethod(unittest.TestCase):
         Tests :func:`colour.utilities.common.validate_method` definition.
         """
 
-        self.assertEqual(validate_method("Valid", ["Valid", "Yes", "Ok"]), "valid")
+        self.assertEqual(
+            validate_method("Valid", ["Valid", "Yes", "Ok"]), "valid"
+        )
 
     def test_raise_exception_validate_method(self):
         """

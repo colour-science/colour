@@ -322,7 +322,9 @@ def plot_colour_vector_graphic(
         os.path.join(RESOURCES_DIRECTORY_ANSIIESTM3018, "CVG_Background.jpg")
     )
     _figure, axes = plot_image(
-        background_image, imshow_kwargs={"extent": [-1.5, 1.5, -1.5, 1.5]}, **settings
+        background_image,
+        imshow_kwargs={"extent": [-1.5, 1.5, -1.5, 1.5]},
+        **settings
     )
 
     # Lines dividing the hues in 16 equal parts along with bin numbers.
@@ -379,7 +381,9 @@ def plot_colour_vector_graphic(
             for j in range(16)
         ]
     )
-    xy_reference = np.transpose(np.vstack([np.cos(average_hues), np.sin(average_hues)]))
+    xy_reference = np.transpose(
+        np.vstack([np.cos(average_hues), np.sin(average_hues)])
+    )
 
     # Arrow offsets as defined by the standard.
     offsets = (
@@ -434,8 +438,12 @@ def plot_colour_vector_graphic(
             size="small",
         )
 
-    corner_label_and_text("$R_f$", "{0:.0f}".format(specification.R_f), "left", "top")
-    corner_label_and_text("$R_g$", "{0:.0f}".format(specification.R_g), "right", "top")
+    corner_label_and_text(
+        "$R_f$", "{0:.0f}".format(specification.R_f), "left", "top"
+    )
+    corner_label_and_text(
+        "$R_g$", "{0:.0f}".format(specification.R_g), "right", "top"
+    )
     corner_label_and_text(
         "CCT", "{0:.0f} K".format(specification.CCT), "left", "bottom"
     )
@@ -453,7 +461,9 @@ def plot_16_bin_bars(
     values: ArrayLike,
     label_template: str,
     x_ticker: Boolean = False,
-    label_orientation: Union[Literal["Horizontal", "Vertical"], str] = "Vertical",
+    label_orientation: Union[
+        Literal["Horizontal", "Vertical"], str
+    ] = "Vertical",
     **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -491,7 +501,9 @@ def plot_16_bin_bars(
 
     values = as_float_array(values)
 
-    label_orientation = validate_method(label_orientation, ["Horizontal", "Vertical"])
+    label_orientation = validate_method(
+        label_orientation, ["Horizontal", "Vertical"]
+    )
 
     _figure, axes = artist(**kwargs)
 
@@ -765,7 +777,8 @@ def plot_colour_fidelity_indexes(
     axes.set_xticks(ticks)
 
     labels = [
-        "CES{0:02d}".format(i) if i % 3 == 1 else "" for i in range(1, bar_count + 1)
+        "CES{0:02d}".format(i) if i % 3 == 1 else ""
+        for i in range(1, bar_count + 1)
     ]
     axes.set_xticklabels(labels, rotation=90)
 

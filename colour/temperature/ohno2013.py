@@ -182,7 +182,9 @@ def planckian_table_minimal_distance_index(
     9
     """
 
-    return as_int_scalar(np.argmin(as_float_array([x.di for x in planckian_table_])))
+    return as_int_scalar(
+        np.argmin(as_float_array([x.di for x in planckian_table_]))
+    )
 
 
 def _uv_to_CCT_Ohno2013(
@@ -275,7 +277,11 @@ def _uv_to_CCT_Ohno2013(
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
         b = (
-            -(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 * (di - dip))
+            -(
+                Tip ** 2 * (din - di)
+                + Ti ** 2 * (dip - din)
+                + Tin ** 2 * (di - dip)
+            )
             * X ** -1
         )
         c = (

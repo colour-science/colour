@@ -158,11 +158,13 @@ def reaction_rate_MichaelisMenten_Abebe2017(
     return as_float(v)
 
 
-REACTION_RATE_MICHAELISMENTEN_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "Michaelis 1913": reaction_rate_MichaelisMenten_Michaelis1913,
-        "Abebe 2017": reaction_rate_MichaelisMenten_Abebe2017,
-    }
+REACTION_RATE_MICHAELISMENTEN_METHODS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "Michaelis 1913": reaction_rate_MichaelisMenten_Michaelis1913,
+            "Abebe 2017": reaction_rate_MichaelisMenten_Abebe2017,
+        }
+    )
 )
 REACTION_RATE_MICHAELISMENTEN_METHODS.__doc__ = """
 Supported *Michaelis-Menten* kinetics reaction rate equation computation
@@ -178,7 +180,9 @@ def reaction_rate_MichaelisMenten(
     S: FloatingOrArrayLike,
     V_max: FloatingOrArrayLike,
     K_m: FloatingOrArrayLike,
-    method: Union[Literal["Michaelis 1913", "Abebe 2017"], str] = "Michaelis 1913",
+    method: Union[
+        Literal["Michaelis 1913", "Abebe 2017"], str
+    ] = "Michaelis 1913",
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
@@ -326,13 +330,13 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
     return as_float(S)
 
 
-SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "Michaelis 1913": substrate_concentration_MichaelisMenten_Michaelis1913,
-            "Abebe 2017": substrate_concentration_MichaelisMenten_Abebe2017,
-        }
-    )
+SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS: (
+    CaseInsensitiveMapping
+) = CaseInsensitiveMapping(
+    {
+        "Michaelis 1913": substrate_concentration_MichaelisMenten_Michaelis1913,
+        "Abebe 2017": substrate_concentration_MichaelisMenten_Abebe2017,
+    }
 )
 SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS.__doc__ = """
 Supported *Michaelis-Menten* kinetics substrate concentration equation
@@ -348,7 +352,9 @@ def substrate_concentration_MichaelisMenten(
     v: FloatingOrArrayLike,
     V_max: FloatingOrArrayLike,
     K_m: FloatingOrArrayLike,
-    method: Union[Literal["Michaelis 1913", "Abebe 2017"], str] = "Michaelis 1913",
+    method: Union[
+        Literal["Michaelis 1913", "Abebe 2017"], str
+    ] = "Michaelis 1913",
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
@@ -395,7 +401,9 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
     0.5000000...
     """
 
-    method = validate_method(method, SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS)
+    method = validate_method(
+        method, SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS
+    )
 
     function = SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS[method]
 

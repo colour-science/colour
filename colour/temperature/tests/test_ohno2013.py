@@ -138,11 +138,15 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
-        np.testing.assert_almost_equal(uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7
+        )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
-        np.testing.assert_almost_equal(uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_uv_to_CCT_Ohno2013(self):
@@ -199,11 +203,15 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
+        )
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_CCT_to_uv_Ohno2013(self):

@@ -121,9 +121,9 @@ WHITEPOINT_NAME_ACES: str = "ACES"
 *ACES2065-1* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_ACES: NDArray = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-    WHITEPOINT_NAME_ACES
-]
+CCS_WHITEPOINT_ACES: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_ACES]
 """
 *ACES2065-1* colourspace whitepoint chromaticity coordinates.
 """
@@ -150,7 +150,9 @@ MATRIX_XYZ_TO_AP0: NDArray = np.array(
 *CIE XYZ* tristimulus values to *ACES Primaries 0* matrix.
 """
 
-MATRIX_AP1_TO_XYZ: NDArray = normalised_primary_matrix(AP1, CCS_WHITEPOINT_ACES)
+MATRIX_AP1_TO_XYZ: NDArray = normalised_primary_matrix(
+    AP1, CCS_WHITEPOINT_ACES
+)
 """
 *ACES Primaries 1* to *CIE XYZ* tristimulus values matrix.
 """

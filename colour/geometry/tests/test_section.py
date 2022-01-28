@@ -139,7 +139,9 @@ class TestUniqueVertices(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             unique_vertices(
-                np.array([[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]),
+                np.array(
+                    [[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]
+                ),
                 1,
             ),
             np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),

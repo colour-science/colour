@@ -180,14 +180,18 @@ def plot_single_sd(
 
     _figure, axes = artist(**kwargs)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     sd = cast(SpectralDistribution, sd.copy())
     sd.interpolator = LinearInterpolator
     wavelengths = cmfs.wavelengths[
         np.logical_and(
-            cmfs.wavelengths >= max(min(cmfs.wavelengths), min(sd.wavelengths)),
-            cmfs.wavelengths <= min(max(cmfs.wavelengths), max(sd.wavelengths)),
+            cmfs.wavelengths
+            >= max(min(cmfs.wavelengths), min(sd.wavelengths)),
+            cmfs.wavelengths
+            <= min(max(cmfs.wavelengths), max(sd.wavelengths)),
         )
     ]
     values = as_float_array(sd[wavelengths])
@@ -378,7 +382,9 @@ def plot_multi_sds(
         )
         illuminant = cast(
             SpectralDistribution,
-            first_item(filter_illuminants(plot_settings.pop("illuminant")).values()),
+            first_item(
+                filter_illuminants(plot_settings.pop("illuminant")).values()
+            ),
         )
         normalise_sd_colours = plot_settings.pop("normalise_sd_colours")
         use_sd_colours = plot_settings.pop("use_sd_colours")
@@ -398,7 +404,9 @@ def plot_multi_sds(
             if normalise_sd_colours:
                 XYZ /= XYZ[..., 1]
 
-            plot_settings["color"] = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
+            plot_settings["color"] = np.clip(
+                XYZ_to_plotting_colourspace(XYZ), 0, 1
+            )
 
         axes.plot(wavelengths, values, **plot_settings)
 
@@ -462,7 +470,9 @@ def plot_single_cmfs(
         :alt: plot_single_cmfs
     """
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     settings: Dict[str, Any] = {
         "title": "{0} - Colour Matching Functions".format(cmfs.strict_name)
@@ -516,7 +526,9 @@ def plot_multi_cmfs(
         :alt: plot_multi_cmfs
     """
 
-    cmfs = cast(List[MultiSpectralDistributions], list(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        List[MultiSpectralDistributions], list(filter_cmfs(cmfs).values())
+    )
 
     _figure, axes = artist(**kwargs)
 
@@ -524,7 +536,9 @@ def plot_multi_cmfs(
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, cmfs_i in enumerate(cmfs):
-        for j, RGB in enumerate(as_float_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])):
+        for j, RGB in enumerate(
+            as_float_array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+        ):
             RGB = [reduce(lambda y, _: y * 0.5, range(i), x) for x in RGB]
             values = cmfs_i.values[:, j]
 
@@ -538,7 +552,9 @@ def plot_multi_cmfs(
                 cmfs_i.wavelengths,
                 values,
                 color=RGB,
-                label="{0} - {1}".format(cmfs_i.strict_labels[j], cmfs_i.strict_name),
+                label="{0} - {1}".format(
+                    cmfs_i.strict_labels[j], cmfs_i.strict_name
+                ),
             )
 
     bounding_box = (
@@ -619,7 +635,9 @@ def plot_single_illuminant_sd(
         :alt: plot_single_illuminant_sd
     """
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     title = "Illuminant {0} - {1}".format(illuminant, cmfs.strict_name)
 
@@ -753,7 +771,9 @@ def plot_visible_spectrum(
         :alt: plot_visible_spectrum
     """
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     bounding_box = (min(cmfs.wavelengths), max(cmfs.wavelengths), 0, 1)
 
@@ -818,7 +838,9 @@ def plot_single_lightness_function(
         :alt: plot_single_lightness_function
     """
 
-    settings: Dict[str, Any] = {"title": "{0} - Lightness Function".format(function)}
+    settings: Dict[str, Any] = {
+        "title": "{0} - Lightness Function".format(function)
+    }
     settings.update(kwargs)
 
     return plot_multi_lightness_functions((function,), **settings)
@@ -826,7 +848,8 @@ def plot_single_lightness_function(
 
 @override_style()
 def plot_multi_lightness_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]], **kwargs: Any
+    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Lightness* functions.
@@ -867,7 +890,9 @@ def plot_multi_lightness_functions(
     settings: Dict[str, Any] = {
         "bounding_box": (0, 1, 0, 1),
         "legend": True,
-        "title": "{0} - Lightness Functions".format(", ".join(functions_filtered)),
+        "title": "{0} - Lightness Functions".format(
+            ", ".join(functions_filtered)
+        ),
         "x_label": "Normalised Relative Luminance Y",
         "y_label": "Normalised Lightness",
     }
@@ -912,7 +937,9 @@ def plot_single_luminance_function(
         :alt: plot_single_luminance_function
     """
 
-    settings: Dict[str, Any] = {"title": "{0} - Luminance Function".format(function)}
+    settings: Dict[str, Any] = {
+        "title": "{0} - Luminance Function".format(function)
+    }
     settings.update(kwargs)
 
     return plot_multi_luminance_functions((function,), **settings)
@@ -920,7 +947,8 @@ def plot_single_luminance_function(
 
 @override_style()
 def plot_multi_luminance_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]], **kwargs: Any
+    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Luminance* functions.
@@ -961,7 +989,9 @@ def plot_multi_luminance_functions(
     settings: Dict[str, Any] = {
         "bounding_box": (0, 1, 0, 1),
         "legend": True,
-        "title": "{0} - Luminance Functions".format(", ".join(functions_filtered)),
+        "title": "{0} - Luminance Functions".format(
+            ", ".join(functions_filtered)
+        ),
         "x_label": "Normalised Munsell Value / Lightness",
         "y_label": "Normalised Relative Luminance Y",
     }
@@ -1024,7 +1054,9 @@ def plot_blackbody_spectral_radiance(
 
     figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     sd = sd_blackbody(temperature, cmfs.shape)
 
@@ -1117,7 +1149,9 @@ def plot_blackbody_colours(
 
     _figure, axes = artist(**kwargs)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     RGB = []
     temperatures = []

@@ -88,7 +88,9 @@ Spectral shape for *CIE 2017 Colour Fidelity Index* (CFI)
 standard.
 """
 
-RESOURCES_DIRECTORY_CIE2017: str = os.path.join(os.path.dirname(__file__), "datasets")
+RESOURCES_DIRECTORY_CIE2017: str = os.path.join(
+    os.path.dirname(__file__), "datasets"
+)
 """
 *CIE 2017 Colour Fidelity Index* resources directory.
 """
@@ -218,7 +220,9 @@ def colour_fidelity_index_CIE2017(
     # NOTE: All computations except CCT calculation use the
     # "CIE 1964 10 Degree Standard Observer".
     # pylint: disable=E1102
-    cmfs_10 = reshape_msds(MSDS_CMFS["CIE 1964 10 Degree Standard Observer"], shape)
+    cmfs_10 = reshape_msds(
+        MSDS_CMFS["CIE 1964 10 Degree Standard Observer"], shape
+    )
 
     # pylint: disable=E1102
     sds_tcs = reshape_msds(load_TCS_CIE2017(shape), shape)
@@ -459,7 +463,9 @@ def tcs_colorimetry_data(
         JMh = tstack([CAM.J, CAM.M, CAM.h])
         Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
 
-        tcs_data.append(TCS_ColorimetryData_CIE2017(sd_tcs.name, XYZ, CAM, JMh, Jpapbp))
+        tcs_data.append(
+            TCS_ColorimetryData_CIE2017(sd_tcs.name, XYZ, CAM, JMh, Jpapbp)
+        )
 
     return tuple(tcs_data)
 

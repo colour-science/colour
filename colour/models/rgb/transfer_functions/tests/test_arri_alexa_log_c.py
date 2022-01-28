@@ -38,13 +38,17 @@ log_encoding_ALEXALogC` definition unit tests methods.
 log_encoding_ALEXALogC` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_ALEXALogC(0.0), 0.092809000000000, places=7)
+        self.assertAlmostEqual(
+            log_encoding_ALEXALogC(0.0), 0.092809000000000, places=7
+        )
 
         self.assertAlmostEqual(
             log_encoding_ALEXALogC(0.18), 0.391006832034084, places=7
         )
 
-        self.assertAlmostEqual(log_encoding_ALEXALogC(1.0), 0.570631558120417, places=7)
+        self.assertAlmostEqual(
+            log_encoding_ALEXALogC(1.0), 0.570631558120417, places=7
+        )
 
     def test_n_dimensional_log_encoding_ALEXALogC(self):
         """
@@ -90,7 +94,9 @@ log_encoding_ALEXALogC` definition domain and range scale support.
 log_encoding_ALEXALogC` definition nan support.
         """
 
-        log_encoding_ALEXALogC(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_encoding_ALEXALogC(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLogDecoding_ALEXALogC(unittest.TestCase):
@@ -111,7 +117,9 @@ log_decoding_ALEXALogC` definition.
             log_decoding_ALEXALogC(0.391006832034084), 0.18, places=7
         )
 
-        self.assertAlmostEqual(log_decoding_ALEXALogC(0.570631558120417), 1.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_ALEXALogC(0.570631558120417), 1.0, places=7
+        )
 
     def test_n_dimensional_log_decoding_ALEXALogC(self):
         """
@@ -157,7 +165,9 @@ log_decoding_ALEXALogC` definition domain and range scale support.
 log_decoding_ALEXALogC` definition nan support.
         """
 
-        log_decoding_ALEXALogC(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_decoding_ALEXALogC(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 if __name__ == "__main__":

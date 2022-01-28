@@ -51,7 +51,9 @@ def chromatic_adaptation_Zhai2018(
     D_b: FloatingOrArrayLike = 1,
     D_d: FloatingOrArrayLike = 1,
     XYZ_wo: ArrayLike = np.array([1, 1, 1]),
-    chromatic_adaptation_transform: Union[Literal["CAT02", "CAT16"], str] = "CAT02",
+    chromatic_adaptation_transform: Union[
+        Literal["CAT02", "CAT16"], str
+    ] = "CAT02",
 ) -> NDArray:
     """
     Adapts given sample colour :math:`XYZ_{\\beta}` tristimulus values from

@@ -22,7 +22,9 @@ colour_style()
 
 ISHIHARA_CBT_3_IMAGE = colour.cctf_decoding(
     colour.read_image(
-        os.path.join(RESOURCES_DIRECTORY, "Ishihara_Colour_Blindness_Test_Plate_3.png")
+        os.path.join(
+            RESOURCES_DIRECTORY, "Ishihara_Colour_Blindness_Test_Plate_3.png"
+        )
     ),
     function="sRGB",
 )

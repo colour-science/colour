@@ -82,7 +82,9 @@ def index_stress_Garcia2007(
 
     F_1 = np.sum(d_E ** 2) / np.sum(d_E * d_V)
 
-    stress = np.sqrt(np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2))
+    stress = np.sqrt(
+        np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2)
+    )
 
     return as_float(stress)
 

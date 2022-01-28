@@ -156,7 +156,9 @@ def matrix_augmented_Cheung2004(
         raise ValueError(
             '"Cheung et al. (2004)" method does not define '
             "an augmented matrix with {0} terms, "
-            "closest augmented matrix has {1} terms!".format(terms, closest_terms)
+            "closest augmented matrix has {1} terms!".format(
+                terms, closest_terms
+            )
         )
 
     if terms == 3:
@@ -414,7 +416,9 @@ def polynomial_expansion_Finlayson2015(
         raise ValueError(
             '"Finlayson et al. (2015)" method does not define '
             "a polynomial expansion for {0} degree, "
-            "closest polynomial expansion is {1} degree!".format(degree, closest_degree)
+            "closest polynomial expansion is {1} degree!".format(
+                degree, closest_degree
+            )
         )
 
     if degree == 1:
@@ -558,7 +562,9 @@ def polynomial_expansion_Finlayson2015(
             )
 
 
-def polynomial_expansion_Vandermonde(a: ArrayLike, degree: Integer = 1) -> NDArray:
+def polynomial_expansion_Vandermonde(
+    a: ArrayLike, degree: Integer = 1
+) -> NDArray:
     """
     Performs polynomial expansion of given :math:`a` array using *Vandermonde*
     method.
@@ -754,7 +760,9 @@ def matrix_colour_correction_Finlayson2015(
     """
 
     return least_square_mapping_MoorePenrose(
-        polynomial_expansion_Finlayson2015(M_T, degree, root_polynomial_expansion),
+        polynomial_expansion_Finlayson2015(
+            M_T, degree, root_polynomial_expansion
+        ),
         M_R,
     )
 
@@ -800,12 +808,14 @@ def matrix_colour_correction_Vandermonde(
     )
 
 
-MATRIX_COLOUR_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "Cheung 2004": matrix_colour_correction_Cheung2004,
-        "Finlayson 2015": matrix_colour_correction_Finlayson2015,
-        "Vandermonde": matrix_colour_correction_Vandermonde,
-    }
+MATRIX_COLOUR_CORRECTION_METHODS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "Cheung 2004": matrix_colour_correction_Cheung2004,
+            "Finlayson 2015": matrix_colour_correction_Finlayson2015,
+            "Vandermonde": matrix_colour_correction_Vandermonde,
+        }
+    )
 )
 MATRIX_COLOUR_CORRECTION_METHODS.__doc__ = """
 Supported colour correction matrix methods.
@@ -1037,7 +1047,9 @@ def colour_correction_Finlayson2015(
 
     RGB = np.reshape(RGB, (-1, 3))
 
-    RGB_e = polynomial_expansion_Finlayson2015(RGB, degree, root_polynomial_expansion)
+    RGB_e = polynomial_expansion_Finlayson2015(
+        RGB, degree, root_polynomial_expansion
+    )
 
     CCM = matrix_colour_correction_Finlayson2015(
         M_T, M_R, degree, root_polynomial_expansion

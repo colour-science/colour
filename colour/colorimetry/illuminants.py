@@ -139,7 +139,9 @@ def sd_CIE_standard_illuminant_A(
         )
     )
 
-    return SpectralDistribution(values, wavelengths, name="CIE Standard Illuminant A")
+    return SpectralDistribution(
+        values, wavelengths, name="CIE Standard Illuminant A"
+    )
 
 
 def sd_CIE_illuminant_D_series(

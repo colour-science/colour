@@ -61,7 +61,9 @@ class TestReadLUTSonySPImtx(unittest.TestCase):
         )
         self.assertEqual(LUT_1.name, "dt")
 
-        LUT_2 = read_LUT_SonySPImtx(os.path.join(LUTS_DIRECTORY, "p3_to_xyz16.spimtx"))
+        LUT_2 = read_LUT_SonySPImtx(
+            os.path.join(LUTS_DIRECTORY, "p3_to_xyz16.spimtx")
+        )
         np.testing.assert_almost_equal(
             LUT_2.matrix,
             np.array(
@@ -92,7 +94,9 @@ class TestReadLUTSonySPImtx(unittest.TestCase):
                 ]
             ),
         )
-        np.testing.assert_almost_equal(LUT_3.offset, np.array([0.0, 0.0, 1.0, 0.0]))
+        np.testing.assert_almost_equal(
+            LUT_3.offset, np.array([0.0, 0.0, 1.0, 0.0])
+        )
         self.assertEqual(LUT_3.name, "Matrix Offset")
 
 
@@ -122,7 +126,9 @@ class TestWriteLUTSonySPImtx(unittest.TestCase):
         definition.
         """
 
-        LUT_1_r = read_LUT_SonySPImtx(os.path.join(LUTS_DIRECTORY, "dt.spimtx"))
+        LUT_1_r = read_LUT_SonySPImtx(
+            os.path.join(LUTS_DIRECTORY, "dt.spimtx")
+        )
         write_LUT_SonySPImtx(
             LUT_1_r, os.path.join(self._temporary_directory, "dt.spimtx")
         )

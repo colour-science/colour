@@ -73,7 +73,9 @@ MATRIX_COLOR_MATCH_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
 *ColorMatch RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_COLOR_MATCH_RGB: NDArray = np.linalg.inv(MATRIX_COLOR_MATCH_RGB_TO_XYZ)
+MATRIX_XYZ_TO_COLOR_MATCH_RGB: NDArray = np.linalg.inv(
+    MATRIX_COLOR_MATCH_RGB_TO_XYZ
+)
 """
 *CIE XYZ* tristimulus values to *ColorMatch RGB* colourspace matrix.
 """

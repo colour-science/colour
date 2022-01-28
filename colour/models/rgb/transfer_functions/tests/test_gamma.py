@@ -36,13 +36,17 @@ gamma_function` definition.
 
         self.assertAlmostEqual(gamma_function(0.0, 2.2), 0.0, places=7)
 
-        self.assertAlmostEqual(gamma_function(0.18, 2.2), 0.022993204992707, places=7)
+        self.assertAlmostEqual(
+            gamma_function(0.18, 2.2), 0.022993204992707, places=7
+        )
 
         self.assertAlmostEqual(
             gamma_function(0.022993204992707, 1.0 / 2.2), 0.18, places=7
         )
 
-        self.assertAlmostEqual(gamma_function(-0.18, 2.0), 0.0323999999999998, places=7)
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.0), 0.0323999999999998, places=7
+        )
 
         np.testing.assert_array_equal(gamma_function(-0.18, 2.2), np.nan)
 
@@ -50,15 +54,23 @@ gamma_function` definition.
             gamma_function(-0.18, 2.2, "Mirror"), -0.022993204992707, places=7
         )
 
-        self.assertAlmostEqual(gamma_function(-0.18, 2.2, "Preserve"), -0.18, places=7)
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.2, "Preserve"), -0.18, places=7
+        )
 
-        self.assertAlmostEqual(gamma_function(-0.18, 2.2, "Clamp"), 0, places=7)
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.2, "Clamp"), 0, places=7
+        )
 
         np.testing.assert_array_equal(gamma_function(-0.18, -2.2), np.nan)
 
-        self.assertAlmostEqual(gamma_function(0.0, -2.2, "Mirror"), 0.0, places=7)
+        self.assertAlmostEqual(
+            gamma_function(0.0, -2.2, "Mirror"), 0.0, places=7
+        )
 
-        self.assertAlmostEqual(gamma_function(0.0, 2.2, "Preserve"), 0.0, places=7)
+        self.assertAlmostEqual(
+            gamma_function(0.0, 2.2, "Preserve"), 0.0, places=7
+        )
 
         self.assertAlmostEqual(gamma_function(0.0, 2.2, "Clamp"), 0, places=7)
 
@@ -85,19 +97,27 @@ gamma_function` definition n-dimensional arrays support.
 
         a = -0.18
         a_p = -0.022993204992707
-        np.testing.assert_almost_equal(gamma_function(a, 2.2, "Mirror"), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            gamma_function(a, 2.2, "Mirror"), a_p, decimal=7
+        )
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(gamma_function(a, 2.2, "Mirror"), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            gamma_function(a, 2.2, "Mirror"), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(gamma_function(a, 2.2, "Mirror"), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            gamma_function(a, 2.2, "Mirror"), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(gamma_function(a, 2.2, "Mirror"), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            gamma_function(a, 2.2, "Mirror"), a_p, decimal=7
+        )
 
         a = -0.18
         a_p = -0.18
@@ -125,19 +145,27 @@ gamma_function` definition n-dimensional arrays support.
 
         a = -0.18
         a_p = 0.0
-        np.testing.assert_almost_equal(gamma_function(a, 2.2, "Clamp"), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            gamma_function(a, 2.2, "Clamp"), a_p, decimal=7
+        )
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(gamma_function(a, 2.2, "Clamp"), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            gamma_function(a, 2.2, "Clamp"), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(gamma_function(a, 2.2, "Clamp"), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            gamma_function(a, 2.2, "Clamp"), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(gamma_function(a, 2.2, "Clamp"), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            gamma_function(a, 2.2, "Clamp"), a_p, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_gamma_function(self):

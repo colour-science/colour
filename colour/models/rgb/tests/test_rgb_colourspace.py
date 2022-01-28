@@ -69,7 +69,9 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         }
         XYZ_r = np.array([0.5, 0.5, 0.5]).reshape([3, 1])
         for colourspace in RGB_COLOURSPACES.values():
-            M = normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
+            M = normalised_primary_matrix(
+                colourspace.primaries, colourspace.whitepoint
+            )
 
             tolerance = tolerances.get(colourspace.name, 1e-7)
             np.testing.assert_allclose(
@@ -406,14 +408,18 @@ chromatically_adapt` method.
 
         np.testing.assert_array_almost_equal(
             colourspace.matrix_RGB_to_XYZ,
-            normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint),
+            normalised_primary_matrix(
+                colourspace.primaries, colourspace.whitepoint
+            ),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
             colourspace.matrix_XYZ_to_RGB,
             np.linalg.inv(
-                normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
+                normalised_primary_matrix(
+                    colourspace.primaries, colourspace.whitepoint
+                )
             ),
             decimal=7,
         )
@@ -804,7 +810,9 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            matrix_RGB_to_RGB(aces_2065_1_colourspace, aces_cg_colourspace, "Bradford"),
+            matrix_RGB_to_RGB(
+                aces_2065_1_colourspace, aces_cg_colourspace, "Bradford"
+            ),
             np.array(
                 [
                     [1.45143932, -0.23651075, -0.21492857],
@@ -816,7 +824,9 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace, "Bradford"),
+            matrix_RGB_to_RGB(
+                aces_2065_1_colourspace, sRGB_colourspace, "Bradford"
+            ),
             np.array(
                 [
                     [2.52140089, -1.13399575, -0.38756186],

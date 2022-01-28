@@ -104,7 +104,9 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_2 = np.tile(Jpapbp_2, (6, 1))
         delta_E_p = np.tile(delta_E_p, 6)
         np.testing.assert_almost_equal(
-            delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
+            delta_E_Luo2006(
+                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+            ),
             delta_E_p,
             decimal=7,
         )
@@ -113,7 +115,9 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_2 = np.reshape(Jpapbp_2, (2, 3, 3))
         delta_E_p = np.reshape(delta_E_p, (2, 3))
         np.testing.assert_almost_equal(
-            delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
+            delta_E_Luo2006(
+                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+            ),
             delta_E_p,
             decimal=7,
         )
@@ -130,7 +134,9 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         for case in cases:
             Jpapbp_1 = np.array(case)
             Jpapbp_2 = np.array(case)
-            delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
+            delta_E_Luo2006(
+                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+            ),
 
 
 if __name__ == "__main__":

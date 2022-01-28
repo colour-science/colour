@@ -607,7 +607,9 @@ handle_spectral_arguments` definition.
         )
         self.assertEqual(
             cmfs,
-            reshape_msds(MSDS_CMFS["CIE 2012 2 Degree Standard Observer"], shape=shape),
+            reshape_msds(
+                MSDS_CMFS["CIE 2012 2 Degree Standard Observer"], shape=shape
+            ),
         )
         self.assertEqual(
             illuminant, sd_ones(shape, interpolator=LinearInterpolator) * 100
@@ -707,7 +709,9 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, D65, SpectralShape(360, 830, 20), k=1
         )
-        np.testing.assert_almost_equal(twf, TWF_D65_CIE_1931_2_20_K1, decimal=7)
+        np.testing.assert_almost_equal(
+            twf, TWF_D65_CIE_1931_2_20_K1, decimal=7
+        )
 
         # Testing that the cache returns a copy of the data.
         cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
@@ -828,7 +832,9 @@ sd_to_XYZ_integration` definition.
         )
 
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"], k=683),
+            sd_to_XYZ_integration(
+                SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"], k=683
+            ),
             np.array([122375.09261493, 105572.84645912, 41785.01342332]),
             decimal=7,
         )
@@ -846,7 +852,9 @@ sd_to_XYZ_integration` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]),
+                    sd_to_XYZ_integration(
+                        SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]
+                    ),
                     XYZ * factor,
                     decimal=7,
                 )
@@ -904,7 +912,9 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 10), "Interpolate"),
+                reshape_sd(
+                    SD_SAMPLE, SpectralShape(400, 700, 10), "Interpolate"
+                ),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
@@ -914,7 +924,9 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"),
+                reshape_sd(
+                    SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"
+                ),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
@@ -924,7 +936,9 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
         np.testing.assert_almost_equal(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-                reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"),
+                reshape_sd(
+                    SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"
+                ),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
                 k=1,
@@ -1482,19 +1496,25 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(480, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]),
+            wavelength_to_XYZ(
+                480, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+            ),
             np.array([0.09564, 0.13902, 0.81295]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(480, MSDS_CMFS["CIE 2012 2 Degree Standard Observer"]),
+            wavelength_to_XYZ(
+                480, MSDS_CMFS["CIE 2012 2 Degree Standard Observer"]
+            ),
             np.array([0.08182895, 0.17880480, 0.75523790]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(641.5, MSDS_CMFS["CIE 2012 2 Degree Standard Observer"]),
+            wavelength_to_XYZ(
+                641.5, MSDS_CMFS["CIE 2012 2 Degree Standard Observer"]
+            ),
             np.array([0.44575583, 0.18184213, 0.00000000]),
             decimal=7,
         )
@@ -1521,15 +1541,21 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7
+        )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7
+        )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7
+        )
 
 
 if __name__ == "__main__":

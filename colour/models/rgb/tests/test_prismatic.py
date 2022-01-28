@@ -111,7 +111,9 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            Prismatic_to_RGB(np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])),
+            Prismatic_to_RGB(
+                np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
+            ),
             np.array([0.25, 0.50, 0.75]),
             decimal=7,
         )

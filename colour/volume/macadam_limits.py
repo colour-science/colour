@@ -39,8 +39,10 @@ _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ: Dict = CACHE_REGISTRY.register_cache(
     "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ".format(__name__)
 )
 
-_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS".format(__name__)
+_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = (
+    CACHE_REGISTRY.register_cache(
+        "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS".format(__name__)
+    )
 )
 
 
@@ -131,7 +133,9 @@ def is_within_macadam_limits(
     """
 
     optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
-    triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(illuminant)
+    triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(
+        illuminant
+    )
 
     if triangulation is None:
         _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[

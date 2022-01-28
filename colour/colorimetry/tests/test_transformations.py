@@ -70,15 +70,21 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
     @ignore_numpy_errors
     def test_nan_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
@@ -277,15 +283,21 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
     @ignore_numpy_errors
     def test_nan_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):

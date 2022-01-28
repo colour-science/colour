@@ -121,12 +121,16 @@ class TestEuclideanDistance(unittest.TestCase):
         a = np.tile(a, (6, 1))
         b = np.tile(b, (6, 1))
         distance = np.tile(distance, 6)
-        np.testing.assert_almost_equal(euclidean_distance(a, b), distance, decimal=7)
+        np.testing.assert_almost_equal(
+            euclidean_distance(a, b), distance, decimal=7
+        )
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
-        np.testing.assert_almost_equal(euclidean_distance(a, b), distance, decimal=7)
+        np.testing.assert_almost_equal(
+            euclidean_distance(a, b), distance, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_euclidean_distance(self):
@@ -194,12 +198,16 @@ class TestManhattanDistance(unittest.TestCase):
         a = np.tile(a, (6, 1))
         b = np.tile(b, (6, 1))
         distance = np.tile(distance, 6)
-        np.testing.assert_almost_equal(manhattan_distance(a, b), distance, decimal=7)
+        np.testing.assert_almost_equal(
+            manhattan_distance(a, b), distance, decimal=7
+        )
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
-        np.testing.assert_almost_equal(manhattan_distance(a, b), distance, decimal=7)
+        np.testing.assert_almost_equal(
+            manhattan_distance(a, b), distance, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_manhattan_distance(self):
@@ -314,12 +322,16 @@ class TestIntersectLineSegments(unittest.TestCase):
 
         np.testing.assert_array_equal(
             s.parallel,
-            np.array([[False, False, False, False], [False, False, False, True]]),
+            np.array(
+                [[False, False, False, False], [False, False, False, True]]
+            ),
         )
 
         np.testing.assert_array_equal(
             s.coincident,
-            np.array([[False, False, False, False], [False, False, False, True]]),
+            np.array(
+                [[False, False, False, False], [False, False, False, True]]
+            ),
         )
 
 
@@ -432,7 +444,9 @@ class TestEllipseFittingHalir1998(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            ellipse_fitting_Halir1998(np.array([[2, 0], [0, 1], [-2, 0], [0, -1]])),
+            ellipse_fitting_Halir1998(
+                np.array([[2, 0], [0, 1], [-2, 0], [0, -1]])
+            ),
             np.array(
                 [
                     0.24253563,

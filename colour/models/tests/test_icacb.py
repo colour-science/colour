@@ -130,7 +130,9 @@ class TestICaCb_to_XYZ(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            ICaCb_to_XYZ(np.array([1702.0656419, 14738.00583456, 1239.66837927])),
+            ICaCb_to_XYZ(
+                np.array([1702.0656419, 14738.00583456, 1239.66837927])
+            ),
             np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7,
         )

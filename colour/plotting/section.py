@@ -214,7 +214,9 @@ def plot_hull_section_colours(
 
     section_colours = cast(
         ArrayLike,
-        optional(section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)),
+        optional(
+            section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
+        ),
     )
 
     convert_kwargs = optional(convert_kwargs, {})
@@ -225,7 +227,9 @@ def plot_hull_section_colours(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
+            model
+        ]
 
     hull.vertices = ijk_vertices
 
@@ -239,7 +243,9 @@ def plot_hull_section_colours(
 
     section = hull_section(hull, axis, origin, normalise)
 
-    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(
+        COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+    )
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -253,9 +259,13 @@ def plot_hull_section_colours(
             np.linspace(max_y, min_y, samples),
         )
         ij = tstack([ii, jj])
-        ijk_section = full((samples, samples, 3), np.median(section[..., index_origin]))
+        ijk_section = full(
+            (samples, samples, 3), np.median(section[..., index_origin])
+        )
         ijk_section[..., plane] = ij
-        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
+            model
+        ]
         XYZ_section = convert(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
@@ -267,7 +277,9 @@ def plot_hull_section_colours(
         section_colours = np.hstack([section_colours, section_opacity])
 
     facecolor = "none" if is_section_colours_RGB else section_colours
-    polygon = Polygon(section[..., plane], facecolor=facecolor, edgecolor="none")
+    polygon = Polygon(
+        section[..., plane], facecolor=facecolor, edgecolor="none"
+    )
     axes.add_patch(polygon)
     if is_section_colours_RGB:
         image = axes.imshow(
@@ -410,13 +422,17 @@ def plot_hull_section_contour(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
+            model
+        ]
 
     hull.vertices = ijk_vertices
 
     plane = AXIS_TO_PLANE_MAPPING[axis]
 
-    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(
+        COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+    )
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -435,7 +451,9 @@ def plot_hull_section_contour(
             "CIE XYZ",
             **convert_kwargs
         )
-        contour_colours = np.clip(XYZ_to_plotting_colourspace(XYZ_section), 0, 1)
+        contour_colours = np.clip(
+            XYZ_to_plotting_colourspace(XYZ_section), 0, 1
+        )
 
     section = section[..., plane].reshape(-1, 1, 2)
     line_collection = LineCollection(
@@ -585,14 +603,18 @@ def plot_visible_spectrum_section(
         settings.update(kwargs)
         settings["standalone"] = False
 
-        plot_hull_section_colours(hull, model, axis, origin, normalise, **settings)
+        plot_hull_section_colours(
+            hull, model, axis, origin, normalise, **settings
+        )
 
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
         settings["standalone"] = False
 
-        plot_hull_section_contour(hull, model, axis, origin, normalise, **settings)
+        plot_hull_section_contour(
+            hull, model, axis, origin, normalise, **settings
+        )
 
     title = "Visible Spectrum Section - {0} - {1} - {2}".format(
         "{0}%".format(origin * 100) if normalise else origin,
@@ -624,7 +646,9 @@ def plot_visible_spectrum_section(
 @required("trimesh")
 @override_style()
 def plot_RGB_colourspace_section(
-    colourspace: Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]],
+    colourspace: Union[
+        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
+    ],
     model: Union[
         Literal[
             "CAM02LCD",
@@ -738,14 +762,18 @@ def plot_RGB_colourspace_section(
         settings.update(kwargs)
         settings["standalone"] = False
 
-        plot_hull_section_colours(hull, model, axis, origin, normalise, **settings)
+        plot_hull_section_colours(
+            hull, model, axis, origin, normalise, **settings
+        )
 
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
         settings["standalone"] = False
 
-        plot_hull_section_contour(hull, model, axis, origin, normalise, **settings)
+        plot_hull_section_contour(
+            hull, model, axis, origin, normalise, **settings
+        )
 
     title = "{0} Section - {1} - {2}".format(
         colourspace.name,

@@ -95,7 +95,9 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         if self._sd_factory is None:
             return
 
-        sd = self._sd_factory(os.path.join(RESOURCES_DIRECTORY, self._path)).read()
+        sd = self._sd_factory(
+            os.path.join(RESOURCES_DIRECTORY, self._path)
+        ).read()
 
         sd_r = SpectralDistribution(self._spectral_data)
 
@@ -106,7 +108,9 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
             for specification in sd.header.mapping.elements:
                 if key == specification.element:
                     if key == "Comments":
-                        self.assertDictEqual(json.loads(sd.header.comments), value)
+                        self.assertDictEqual(
+                            json.loads(sd.header.comments), value
+                        )
                     else:
                         self.assertEqual(
                             getattr(sd.header, specification.attribute), value

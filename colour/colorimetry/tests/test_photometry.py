@@ -83,7 +83,9 @@ class TestLuminousEfficiency(unittest.TestCase):
         )
 
         self.assertAlmostEqual(
-            luminous_efficiency(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
+            luminous_efficiency(
+                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
+            ),
             0.51080919,
             places=7,
         )

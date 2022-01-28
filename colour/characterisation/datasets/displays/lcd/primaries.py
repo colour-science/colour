@@ -136,14 +136,16 @@ DATA_DISPLAY_PRIMARIES_LCD: Dict = {
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_LCD: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    {
-        "Apple Studio Display": partial(
-            RGB_DisplayPrimaries,
-            DATA_DISPLAY_PRIMARIES_LCD["Apple Studio Display"],
-            name="Apple Studio Display",
-        )
-    }
+MSDS_DISPLAY_PRIMARIES_LCD: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        {
+            "Apple Studio Display": partial(
+                RGB_DisplayPrimaries,
+                DATA_DISPLAY_PRIMARIES_LCD["Apple Studio Display"],
+                name="Apple Studio Display",
+            )
+        }
+    )
 )
 """
 Primaries multi-spectral distributions of *LCD* displays.

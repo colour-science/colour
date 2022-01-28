@@ -21,9 +21,9 @@ colourspace = colour.RGB_COLOURSPACES["ACES2065-1"]
 print('Name:\n"{0}"'.format(colourspace.name))
 print("\nPrimaries:\n{0}".format(colourspace.primaries))
 print(
-    ('\nNormalised primary matrix to "CIE XYZ" ' "tristimulus values:\n{0}").format(
-        colourspace.matrix_RGB_to_XYZ
-    )
+    (
+        '\nNormalised primary matrix to "CIE XYZ" ' "tristimulus values:\n{0}"
+    ).format(colourspace.matrix_RGB_to_XYZ)
 )
 print(
     '\nNormalised primary matrix to "ACES2065-1":\n{0}'.format(
@@ -42,7 +42,10 @@ print(
 print("\n")
 
 message_box(
-    ('Computing "ACES2065-1" colourspace to "ITU-R BT.709" colourspace ' "matrix.")
+    (
+        'Computing "ACES2065-1" colourspace to "ITU-R BT.709" colourspace '
+        "matrix."
+    )
 )
 cat = colour.adaptation.matrix_chromatic_adaptation_VonKries(
     colour.xy_to_XYZ(colourspace.whitepoint),

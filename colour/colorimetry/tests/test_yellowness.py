@@ -44,19 +44,25 @@ class TestYellownessASTMD1925(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            yellowness_ASTMD1925(np.array([95.00000000, 100.00000000, 105.00000000])),
+            yellowness_ASTMD1925(
+                np.array([95.00000000, 100.00000000, 105.00000000])
+            ),
             10.299999999999997,
             places=7,
         )
 
         self.assertAlmostEqual(
-            yellowness_ASTMD1925(np.array([105.00000000, 100.00000000, 95.00000000])),
+            yellowness_ASTMD1925(
+                np.array([105.00000000, 100.00000000, 95.00000000])
+            ),
             33.700000000000003,
             places=7,
         )
 
         self.assertAlmostEqual(
-            yellowness_ASTMD1925(np.array([100.00000000, 100.00000000, 100.00000000])),
+            yellowness_ASTMD1925(
+                np.array([100.00000000, 100.00000000, 100.00000000])
+            ),
             22.0,
             places=7,
         )
@@ -72,11 +78,15 @@ class TestYellownessASTMD1925(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)
-        np.testing.assert_almost_equal(yellowness_ASTMD1925(XYZ), YI, decimal=7)
+        np.testing.assert_almost_equal(
+            yellowness_ASTMD1925(XYZ), YI, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         YI = np.reshape(YI, (2, 3))
-        np.testing.assert_almost_equal(yellowness_ASTMD1925(XYZ), YI, decimal=7)
+        np.testing.assert_almost_equal(
+            yellowness_ASTMD1925(XYZ), YI, decimal=7
+        )
 
     def test_domain_range_scale_yellowness_ASTMD1925(self):
         """
@@ -210,19 +220,25 @@ class TestYellownessASTM313(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            yellowness_ASTME313(np.array([95.00000000, 100.00000000, 105.00000000])),
+            yellowness_ASTME313(
+                np.array([95.00000000, 100.00000000, 105.00000000])
+            ),
             4.340000000000003,
             places=7,
         )
 
         self.assertAlmostEqual(
-            yellowness_ASTME313(np.array([105.00000000, 100.00000000, 95.00000000])),
+            yellowness_ASTME313(
+                np.array([105.00000000, 100.00000000, 95.00000000])
+            ),
             28.660000000000011,
             places=7,
         )
 
         self.assertAlmostEqual(
-            yellowness_ASTME313(np.array([100.00000000, 100.00000000, 100.00000000])),
+            yellowness_ASTME313(
+                np.array([100.00000000, 100.00000000, 100.00000000])
+            ),
             16.500000000000000,
             places=7,
         )
@@ -230,9 +246,9 @@ class TestYellownessASTM313(unittest.TestCase):
         self.assertAlmostEqual(
             yellowness_ASTME313(
                 np.array([95.00000000, 100.00000000, 105.00000000]),
-                YELLOWNESS_COEFFICIENTS_ASTME313["CIE 1931 2 Degree Standard Observer"][
-                    "C"
-                ],
+                YELLOWNESS_COEFFICIENTS_ASTME313[
+                    "CIE 1931 2 Degree Standard Observer"
+                ]["C"],
             ),
             10.089500000000001,
             places=7,

@@ -230,7 +230,9 @@ class TestPlotRGBScatter(unittest.TestCase):
         Tests :func:`colour.plotting.volume.plot_RGB_scatter` definition.
         """
 
-        figure, axes = plot_RGB_scatter(np.random.random((128, 128, 3)), "ITU-R BT.709")
+        figure, axes = plot_RGB_scatter(
+            np.random.random((128, 128, 3)), "ITU-R BT.709"
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

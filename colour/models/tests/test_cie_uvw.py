@@ -91,15 +91,21 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         UVW = np.tile(UVW, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         UVW = np.reshape(UVW, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_UVW(self):
         """
@@ -202,15 +208,21 @@ class TestUVW_to_XYZ(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         UVW = np.tile(UVW, (6, 1))
-        np.testing.assert_almost_equal(UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         UVW = np.reshape(UVW, (2, 3, 3))
-        np.testing.assert_almost_equal(UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7
+        )
 
     def test_domain_range_scale_UVW_to_XYZ(self):
         """

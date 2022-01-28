@@ -52,7 +52,9 @@ __all__ = [
     }
 )
 def plot_single_colour_checker(
-    colour_checker: Union[ColourChecker, str] = "ColorChecker24 - After November 2014",
+    colour_checker: Union[
+        ColourChecker, str
+    ] = "ColorChecker24 - After November 2014",
     **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -101,7 +103,9 @@ def plot_single_colour_checker(
     }
 )
 def plot_multi_colour_checkers(
-    colour_checkers: Union[ColourChecker, str, Sequence[Union[ColourChecker, str]]],
+    colour_checkers: Union[
+        ColourChecker, str, Sequence[Union[ColourChecker, str]]
+    ],
     **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -138,7 +142,9 @@ def plot_multi_colour_checkers(
         :alt: plot_multi_colour_checkers
     """
 
-    filtered_colour_checkers = list(filter_colour_checkers(colour_checkers).values())
+    filtered_colour_checkers = list(
+        filter_colour_checkers(colour_checkers).values()
+    )
 
     attest(
         len(filtered_colour_checkers) <= 2,

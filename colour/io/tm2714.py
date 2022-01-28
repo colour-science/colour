@@ -175,8 +175,12 @@ class Header_IESTM2714:
             **{
                 "element": "Header",
                 "elements": (
-                    Element_Specification_IESTM2714("Manufacturer", "manufacturer"),
-                    Element_Specification_IESTM2714("CatalogNumber", "catalog_number"),
+                    Element_Specification_IESTM2714(
+                        "Manufacturer", "manufacturer"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "CatalogNumber", "catalog_number"
+                    ),
                     Element_Specification_IESTM2714(
                         "Description", "description", required=True
                     ),
@@ -189,15 +193,23 @@ class Header_IESTM2714:
                     Element_Specification_IESTM2714(
                         "MeasurementEquipment", "measurement_equipment"
                     ),
-                    Element_Specification_IESTM2714("Laboratory", "laboratory"),
-                    Element_Specification_IESTM2714("ReportNumber", "report_number"),
-                    Element_Specification_IESTM2714("ReportDate", "report_date"),
+                    Element_Specification_IESTM2714(
+                        "Laboratory", "laboratory"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "ReportNumber", "report_number"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "ReportDate", "report_date"
+                    ),
                     Element_Specification_IESTM2714(
                         "DocumentCreationDate",
                         "document_creation_date",
                         required=True,
                     ),
-                    Element_Specification_IESTM2714("Comments", "comments", False),
+                    Element_Specification_IESTM2714(
+                        "Comments", "comments", False
+                    ),
                 ),
             }
         )
@@ -333,7 +345,9 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("description", value),
+                '"{0}" property: "{1}" type is not "str"!'.format(
+                    "description", value
+                ),
             )
 
         self._description = value
@@ -467,7 +481,9 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("laboratory", value),
+                '"{0}" property: "{1}" type is not "str"!'.format(
+                    "laboratory", value
+                ),
             )
 
         self._laboratory = value
@@ -533,7 +549,9 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("report_date", value),
+                '"{0}" property: "{1}" type is not "str"!'.format(
+                    "report_date", value
+                ),
             )
 
         self._report_date = value
@@ -599,7 +617,9 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("comments", value),
+                '"{0}" property: "{1}" type is not "str"!'.format(
+                    "comments", value
+                ),
             )
 
         self._comments = value
@@ -782,8 +802,12 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     Element_Specification_IESTM2714(
                         "BandwidthCorrected",
                         "bandwidth_corrected",
-                        read_conversion=(lambda x: True if x == "true" else False),
-                        write_conversion=(lambda x: "true" if x is True else "False"),
+                        read_conversion=(
+                            lambda x: True if x == "true" else False
+                        ),
+                        write_conversion=(
+                            lambda x: "true" if x is True else "False"
+                        ),
                     ),
                 ),
                 "data": Element_Specification_IESTM2714(
@@ -879,7 +903,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("path", value),
+                '"{0}" property: "{1}" type is not "str"!'.format(
+                    "path", value
+                ),
             )
 
         self._path = value
@@ -1058,7 +1084,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def transmission_geometry(
         self,
-    ) -> Optional[Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]]:
+    ) -> Optional[
+        Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
+    ]:
         """
         Getter and setter property for the transmission geometry.
 
@@ -1078,7 +1106,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @transmission_geometry.setter
     def transmission_geometry(
         self,
-        value: Optional[Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]],
+        value: Optional[
+            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
+        ],
     ):
         """
         Setter for the **self.transmission_geometry** property.
@@ -1228,7 +1258,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             for spectral_data in iterator(
                 "{{{0}}}{1}".format(namespace, self.mapping.data.element)
             ):
-                wavelengths.append(spectral_data.attrib[self.mapping.data.attribute])
+                wavelengths.append(
+                    spectral_data.attrib[self.mapping.data.attribute]
+                )
                 values.append(spectral_data.text)
 
             components = [
@@ -1240,7 +1272,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 )
                 if component is not None
             ]
-            self.name = "Undefined" if len(components) == 0 else " - ".join(components)
+            self.name = (
+                "Undefined" if len(components) == 0 else " - ".join(components)
+            )
 
             self.wavelengths = as_float_array(wavelengths)
             self.values = as_float_array(cast(ArrayLike, values))
@@ -1303,10 +1337,14 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 )
                 element_child.text = mapping.data.write_conversion(value)
                 element_child.attrib = {
-                    mapping.data.attribute: mapping.data.write_conversion(wavelength)
+                    mapping.data.attribute: mapping.data.write_conversion(
+                        wavelength
+                    )
                 }
 
-            xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()  # nosec
+            xml = minidom.parseString(
+                ElementTree.tostring(root)
+            ).toprettyxml()  # nosec
 
             with open(self._path, "w") as file:
                 file.write(xml)

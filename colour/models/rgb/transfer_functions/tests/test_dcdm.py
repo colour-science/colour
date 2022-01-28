@@ -54,15 +54,21 @@ eotf_inverse_DCDM` definition n-dimensional arrays support.
 
         XYZ = np.tile(XYZ, 6)
         XYZ_p = np.tile(XYZ_p, 6)
-        np.testing.assert_almost_equal(eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3))
         XYZ_p = np.reshape(XYZ_p, (2, 3))
-        np.testing.assert_almost_equal(eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 1))
         XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_DCDM(XYZ), XYZ_p, decimal=7
+        )
 
     def test_domain_range_scale_eotf_inverse_DCDM(self):
         """

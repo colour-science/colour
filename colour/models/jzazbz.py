@@ -93,7 +93,9 @@ Notes
     the development of the :math:`J_za_zb_z` colourspace.
 """
 
-CONSTANTS_JZAZBZ_SAFDAR2021: Structure = Structure(**CONSTANTS_JZAZBZ_SAFDAR2017)
+CONSTANTS_JZAZBZ_SAFDAR2021: Structure = Structure(
+    **CONSTANTS_JZAZBZ_SAFDAR2017
+)
 CONSTANTS_JZAZBZ_SAFDAR2021.d_0 = 3.7035226210190005 * 10 ** -11
 """
 :math:`J_za_zb_z` colourspace constants for the *ZCAM* colour appearance model.
@@ -180,7 +182,9 @@ References
 def XYZ_to_Izazbz(
     XYZ_D65: ArrayLike,
     constants: Optional[Structure] = None,
-    method: Union[Literal["Safdar 2017", "Safdar 2021", "ZCAM"], str] = "Safdar 2017",
+    method: Union[
+        Literal["Safdar 2017", "Safdar 2021", "ZCAM"], str
+    ] = "Safdar 2017",
 ) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
@@ -278,7 +282,9 @@ def XYZ_to_Izazbz(
 def Izazbz_to_XYZ(
     Izazbz: ArrayLike,
     constants: Optional[Structure] = None,
-    method: Union[Literal["Safdar 2017", "Safdar 2021", "ZCAM"], str] = "Safdar 2017",
+    method: Union[
+        Literal["Safdar 2017", "Safdar 2021", "ZCAM"], str
+    ] = "Safdar 2017",
 ) -> NDArray:
     """
     Converts from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
@@ -361,7 +367,9 @@ def Izazbz_to_XYZ(
     with domain_range_scale("ignore"):
         LMS = eotf_ST2084(LMS_p, 10000, constants)
 
-    X_p_D65, Y_p_D65, Z_p_D65 = tsplit(vector_dot(MATRIX_JZAZBZ_LMS_TO_XYZ, LMS))
+    X_p_D65, Y_p_D65, Z_p_D65 = tsplit(
+        vector_dot(MATRIX_JZAZBZ_LMS_TO_XYZ, LMS)
+    )
 
     X_D65 = (X_p_D65 + (constants.b - 1) * Z_p_D65) / constants.b
     Y_D65 = (Y_p_D65 + (constants.g - 1) * X_D65) / constants.g

@@ -138,7 +138,9 @@ class TestXYZ_to_RLAB(unittest.TestCase):
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    XYZ_to_RLAB(XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma, D),
+                    XYZ_to_RLAB(
+                        XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma, D
+                    ),
                     as_float_array(specification) * factor_b,
                     decimal=7,
                 )

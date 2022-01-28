@@ -113,7 +113,9 @@ class TestReadLUT(unittest.TestCase):
         self.assertRaises(
             ValueError,
             read_LUT,
-            os.path.join(LUTS_DIRECTORY, "sony_spi1d", "Exception_Raising.spi1d"),
+            os.path.join(
+                LUTS_DIRECTORY, "sony_spi1d", "Exception_Raising.spi1d"
+            ),
         )
 
 

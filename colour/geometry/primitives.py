@@ -146,7 +146,9 @@ def primitive_grid(
     dtype_vertices = cast(
         Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
     )
-    dtype_indexes = cast(Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE))
+    dtype_indexes = cast(
+        Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE)
+    )
 
     x_grid = width_segments
     y_grid = height_segments
@@ -366,13 +368,17 @@ def primitive_cube(
     axis = (
         sorted(list(PLANE_TO_AXIS_MAPPING.values()))
         if planes is None
-        else [PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes]
+        else [
+            PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes
+        ]
     )
 
     dtype_vertices = cast(
         Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
     )
-    dtype_indexes = cast(Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE))
+    dtype_indexes = cast(
+        Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE)
+    )
 
     w_s, h_s, d_s = width_segments, height_segments, depth_segments
 

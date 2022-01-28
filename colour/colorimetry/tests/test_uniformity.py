@@ -245,7 +245,9 @@ class TestSpectralUniformity(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            spectral_uniformity(SDS_TCS.values(), use_second_order_derivatives=True),
+            spectral_uniformity(
+                SDS_TCS.values(), use_second_order_derivatives=True
+            ),
             DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES,
             decimal=7,
         )

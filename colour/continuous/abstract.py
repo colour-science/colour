@@ -443,7 +443,9 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __getitem__(self, x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
+    def __getitem__(
+        self, x: Union[FloatingOrArrayLike, slice]
+    ) -> FloatingOrNDArray:
         """
         Returns the corresponding range variable :math:`y` for independent
         domain variable :math:`x`, must be reimplemented by sub-classes.
@@ -462,7 +464,9 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __setitem__(self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike):
+    def __setitem__(
+        self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
+    ):
         """
         Sets the corresponding range variable :math:`y` for independent domain
         variable :math:`x`, must be reimplemented by sub-classes.
@@ -777,7 +781,9 @@ arithmetical_operation`
     @abstractmethod
     def fill_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ) -> AbstractContinuousFunction:
         """

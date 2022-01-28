@@ -46,9 +46,9 @@ __all__ = [
 
 def XYZ_to_UVW(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
 ) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
@@ -120,9 +120,9 @@ def XYZ_to_UVW(
 
 def UVW_to_XYZ(
     UVW: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
 ) -> NDArray:
     """
     Converts *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus

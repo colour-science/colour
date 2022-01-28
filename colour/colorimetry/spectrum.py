@@ -256,7 +256,9 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" property: "{1}" is not a "numeric"!'.format("interval", value),
+            '"{0}" property: "{1}" is not a "numeric"!'.format(
+                "interval", value
+            ),
         )
 
         self._interval = value
@@ -672,7 +674,9 @@ class SpectralDistribution(Signal):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         **kwargs: Any
     ):
-        domain = domain.range() if isinstance(domain, SpectralShape) else domain
+        domain = (
+            domain.range() if isinstance(domain, SpectralShape) else domain
+        )
         domain_unpacked, range_unpacked = self.signal_unpack_data(data, domain)
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
@@ -724,7 +728,9 @@ class SpectralDistribution(Signal):
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("strict_name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format(
+                "strict_name", value
+            ),
         )
 
         self._strict_name = value
@@ -1157,8 +1163,13 @@ class SpectralDistribution(Signal):
 
         # Defining proper interpolation bounds.
         # TODO: Provide support for fractional interval like 0.1, etc...
-        if np.around(shape_start) != shape_start or np.around(shape_end) != shape_end:
-            runtime_warning("Fractional bound encountered, rounding will occur!")
+        if (
+            np.around(shape_start) != shape_start
+            or np.around(shape_end) != shape_end
+        ):
+            runtime_warning(
+                "Fractional bound encountered, rounding will occur!"
+            )
 
         shape.start = max([shape.start, np.ceil(shape_start)])
         shape.end = min([shape.end, np.floor(shape_end)])
@@ -1191,7 +1202,9 @@ class SpectralDistribution(Signal):
 
         self.domain = shape.range()
         self.range = as_float_array(
-            interpolator(wavelengths, values, **interpolator_kwargs)(self.domain)
+            interpolator(wavelengths, values, **interpolator_kwargs)(
+                self.domain
+            )
         )
 
         return self
@@ -1270,7 +1283,8 @@ class SpectralDistribution(Signal):
         wavelengths = np.hstack(
             [
                 np.arange(shape.start, shape_start, shape_interval),
-                np.arange(shape_end, shape.end, shape_interval) + shape_interval,
+                np.arange(shape_end, shape.end, shape_interval)
+                + shape_interval,
             ]
         )
 
@@ -1532,7 +1546,9 @@ class SpectralDistribution(Signal):
         start = max([shape.start, self.shape.start])
         end = min([shape.end, self.shape.end])
 
-        indexes = np.where(np.logical_and(self.domain >= start, self.domain <= end))
+        indexes = np.where(
+            np.logical_and(self.domain >= start, self.domain <= end)
+        )
 
         wavelengths = self.wavelengths[indexes]
         values = self.values[indexes]
@@ -1759,7 +1775,9 @@ class MultiSpectralDistributions(MultiSignals):
         labels: Optional[Sequence] = None,
         **kwargs: Any
     ):
-        domain = domain.range() if isinstance(domain, SpectralShape) else domain
+        domain = (
+            domain.range() if isinstance(domain, SpectralShape) else domain
+        )
         signals = self.multi_signals_unpack_data(data, domain, labels)
 
         domain = signals[list(signals.keys())[0]].domain if signals else None
@@ -1815,7 +1833,9 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("strict_name", value),
+            '"{0}" property: "{1}" type is not "str"!'.format(
+                "strict_name", value
+            ),
         )
 
         self._strict_name = value
@@ -1866,7 +1886,9 @@ class MultiSpectralDistributions(MultiSignals):
 
         self._strict_labels = [str(label) for label in value]
         for i, signal in enumerate(self.signals.values()):
-            cast(SpectralDistribution, signal).strict_name = self._strict_labels[i]
+            cast(
+                SpectralDistribution, signal
+            ).strict_name = self._strict_labels[i]
 
     @property
     def wavelengths(self) -> NDArray:
@@ -2663,13 +2685,17 @@ def reshape_sd(
         if isinstance(value, Mapping):
             kwargs_items[i] = (keyword, tuple(value.items()))
 
-    hash_key = tuple([hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))])
+    hash_key = tuple(
+        [hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))]
+    )
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         return _CACHE_RESHAPED_SDS_AND_MSDS[hash_key].copy()
 
     function = getattr(sd, method)
 
-    reshaped_sd = getattr(sd.copy(), method)(shape, **filter_kwargs(function, **kwargs))
+    reshaped_sd = getattr(sd.copy(), method)(
+        shape, **filter_kwargs(function, **kwargs)
+    )
 
     _CACHE_RESHAPED_SDS_AND_MSDS[hash_key] = reshaped_sd
 
@@ -2777,7 +2803,9 @@ def sds_and_msds_to_sds(
         sds_converted = []
         for sd in sds:
             sds_converted += (
-                sd.to_sds() if isinstance(sd, MultiSpectralDistributions) else [sd]
+                sd.to_sds()
+                if isinstance(sd, MultiSpectralDistributions)
+                else [sd]
             )
 
     return sds_converted

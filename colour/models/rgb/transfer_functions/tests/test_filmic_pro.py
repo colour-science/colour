@@ -59,15 +59,21 @@ log_encoding_FilmicPro6` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_almost_equal(log_encoding_FilmicPro6(x), y, decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_FilmicPro6(x), y, decimal=7
+        )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_almost_equal(log_encoding_FilmicPro6(x), y, decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_FilmicPro6(x), y, decimal=7
+        )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_FilmicPro6(x), y, decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_FilmicPro6(x), y, decimal=7
+        )
 
     def test_domain_range_scale_log_encoding_FilmicPro6(self):
         """
@@ -92,7 +98,9 @@ log_encoding_FilmicPro6` definition domain and range scale support.
 log_encoding_FilmicPro6` definition nan support.
         """
 
-        log_encoding_FilmicPro6(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_encoding_FilmicPro6(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLogDecoding_FilmicPro6(unittest.TestCase):
@@ -128,15 +136,21 @@ log_decoding_FilmicPro6` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_almost_equal(log_decoding_FilmicPro6(y), x, decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_FilmicPro6(y), x, decimal=7
+        )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_almost_equal(log_decoding_FilmicPro6(y), x, decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_FilmicPro6(y), x, decimal=7
+        )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_almost_equal(log_decoding_FilmicPro6(y), x, decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_FilmicPro6(y), x, decimal=7
+        )
 
     def test_domain_range_scale_log_decoding_FilmicPro6(self):
         """
@@ -161,7 +175,9 @@ log_decoding_FilmicPro6` definition domain and range scale support.
 log_decoding_FilmicPro6` definition nan support.
         """
 
-        log_decoding_FilmicPro6(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_decoding_FilmicPro6(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 if __name__ == "__main__":

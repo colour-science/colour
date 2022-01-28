@@ -678,7 +678,9 @@ def describe_environment(
         if package in mapping:
             import pkg_resources
 
-            distributions = [distribution for distribution in pkg_resources.working_set]
+            distributions = [
+                distribution for distribution in pkg_resources.working_set
+            ]
 
             for distribution in distributions:
                 if distribution.project_name == mapping[package]:

@@ -36,7 +36,10 @@ print(colour.models.eotf_BT1886(N))
 print("\n")
 
 message_box(
-    ('Encoding to "Cineon" using given linear-light value:\n' "\n\t{0}".format(C))
+    (
+        'Encoding to "Cineon" using given linear-light value:\n'
+        "\n\t{0}".format(C)
+    )
 )
 print(colour.log_encoding(C, function="Cineon"))
 print(colour.models.log_encoding_Cineon(C))
@@ -45,7 +48,10 @@ print("\n")
 
 N = 0.45731961
 message_box(
-    ('Decoding to linear-light using given "Cineon" code value:\n' "\n\t{0}".format(N))
+    (
+        'Decoding to linear-light using given "Cineon" code value:\n'
+        "\n\t{0}".format(N)
+    )
 )
 print(colour.log_decoding(N, function="Cineon"))
 print(colour.models.log_decoding_Cineon(N))
@@ -53,7 +59,10 @@ print(colour.models.log_decoding_Cineon(N))
 print("\n")
 
 message_box(
-    ('Encoding to "PLog" using given linear-light value:\n' "\n\t{0}".format(C))
+    (
+        'Encoding to "PLog" using given linear-light value:\n'
+        "\n\t{0}".format(C)
+    )
 )
 print(colour.log_encoding(C, function="PLog"))
 print(colour.models.log_encoding_PivotedLog(C))

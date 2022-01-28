@@ -253,7 +253,9 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    XYZ_to_ZCAM(XYZ * factor_a, XYZ_w * factor_a, L_a, Y_b, surround),
+                    XYZ_to_ZCAM(
+                        XYZ * factor_a, XYZ_w * factor_a, L_a, Y_b, surround
+                    ),
                     as_float_array(specification) * factor_b,
                     decimal=7,
                 )
@@ -272,7 +274,9 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
             XYZ_w = np.array(case)
             L_a = case[0]
             Y_b = 100
-            surround = InductionFactors_ZCAM(case[0], case[0], case[0], case[0])
+            surround = InductionFactors_ZCAM(
+                case[0], case[0], case[0], case[0]
+            )
             XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround)
 
 
@@ -531,7 +535,9 @@ class TestZCAM_to_XYZ(unittest.TestCase):
             XYZ_w = np.array(case)
             L_a = case[0]
             Y_b = 100
-            surround = InductionFactors_ZCAM(case[0], case[0], case[0], case[0])
+            surround = InductionFactors_ZCAM(
+                case[0], case[0], case[0], case[0]
+            )
             ZCAM_to_XYZ(
                 CAM_Specification_ZCAM(J, C, h, M=50),
                 XYZ_w,

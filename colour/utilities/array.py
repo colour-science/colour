@@ -160,7 +160,9 @@ class MixinDataclassArray:
 
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        field_values = {field.name: getattr(self, field.name) for field in fields(self)}
+        field_values = {
+            field.name: getattr(self, field.name) for field in fields(self)
+        }
 
         default = None
         for field, value in field_values.items():
@@ -383,7 +385,9 @@ class MixinDataclassArray:
             a = as_float_array(a)
 
         values = tsplit(callable_operation(as_float_array(self), a))
-        field_values = {field.name: values[i] for i, field in enumerate(fields(self))}
+        field_values = {
+            field.name: values[i] for i, field in enumerate(fields(self))
+        }
         field_values.update(
             {field.name: None for field in fields(self) if field is None}
         )
@@ -589,7 +593,9 @@ def as_float_array(
 
     attest(
         dtype in np.sctypes["float"],
-        '"dtype" must be one of the following types: {0}'.format(np.sctypes["float"]),
+        '"dtype" must be one of the following types: {0}'.format(
+            np.sctypes["float"]
+        ),
     )
 
     return as_array(a, dtype)
@@ -658,7 +664,9 @@ def as_float_scalar(
 
     a = np.squeeze(as_float_array(a, dtype))
 
-    attest(a.ndim == 0, '"{0}" cannot be converted to "float" scalar!'.format(a))
+    attest(
+        a.ndim == 0, '"{0}" cannot be converted to "float" scalar!'.format(a)
+    )
 
     return cast(Floating, as_float(a, dtype))
 
@@ -767,7 +775,9 @@ _DOMAIN_RANGE_SCALE
 """
 
 
-def get_domain_range_scale() -> Union[Literal["ignore", "reference", "1", "100"], str]:
+def get_domain_range_scale() -> Union[
+    Literal["ignore", "reference", "1", "100"], str
+]:
     """
     Returns the current *Colour* domain-range scale. The following scales are
     available:
@@ -1746,7 +1756,9 @@ def is_uniform(distribution: ArrayLike) -> Boolean:
     return True if interval(distribution).size == 1 else False
 
 
-def in_array(a: ArrayLike, b: ArrayLike, tolerance: Number = EPSILON) -> NDArray:
+def in_array(
+    a: ArrayLike, b: ArrayLike, tolerance: Number = EPSILON
+) -> NDArray:
     """
     Returns whether each element of the array :math:`a` is also present in the
     array :math:`b` within given tolerance.
@@ -2113,7 +2125,9 @@ def fill_nan(
     mask = np.isnan(a)
 
     if method == "interpolation":
-        a[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask])
+        a[mask] = np.interp(
+            np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask]
+        )
     elif method == "constant":
         a[mask] = default
 
@@ -2396,4 +2410,6 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
             )
         )
 
-    return np.take_along_axis(a, indexes[..., np.newaxis], axis=-1).squeeze(axis=-1)
+    return np.take_along_axis(a, indexes[..., np.newaxis], axis=-1).squeeze(
+        axis=-1
+    )

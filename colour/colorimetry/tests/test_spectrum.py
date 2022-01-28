@@ -1386,7 +1386,9 @@ class TestSpectralShape(unittest.TestCase):
         method.
         """
 
-        self.assertNotEqual(SpectralShape(0, 10, 0.1), SpectralShape(1, 10, 0.1))
+        self.assertNotEqual(
+            SpectralShape(0, 10, 0.1), SpectralShape(1, 10, 0.1)
+        )
 
     def test_range(self):
         """
@@ -1454,7 +1456,9 @@ class TestSpectralDistribution(unittest.TestCase):
         """
 
         self.assertEqual(self._sd.strict_name, "Sample")
-        self.assertEqual(self._non_uniform_sd.strict_name, "Strict Non Uniform Sample")
+        self.assertEqual(
+            self._non_uniform_sd.strict_name, "Strict Non Uniform Sample"
+        )
 
     def test_wavelengths(self):
         """
@@ -1550,7 +1554,9 @@ SpectralDistribution.extrapolate` method.
         self.assertAlmostEqual(sd[10], 0, places=7)
         self.assertAlmostEqual(sd[50], 1, places=7)
 
-        sd = SpectralDistribution(np.linspace(0, 1, 10), np.linspace(25, 35, 10))
+        sd = SpectralDistribution(
+            np.linspace(0, 1, 10), np.linspace(25, 35, 10)
+        )
         sd.extrapolate(
             SpectralShape(10, 50, 10),
             extrapolator_kwargs={
@@ -1698,7 +1704,9 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         property.
         """
 
-        np.testing.assert_array_equal(self._msds.wavelengths, self._msds.domain)
+        np.testing.assert_array_equal(
+            self._msds.wavelengths, self._msds.domain
+        )
 
         msds = self._msds.copy()
         msds.wavelengths = msds.wavelengths + 10
@@ -1722,7 +1730,9 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 strict_labels` property.
         """
 
-        self.assertTupleEqual(tuple(self._sample_msds.strict_labels), self._labels)
+        self.assertTupleEqual(
+            tuple(self._sample_msds.strict_labels), self._labels
+        )
         self.assertEqual(
             tuple(self._non_uniform_sample_msds.strict_labels),
             ("Strict x_bar", "Strict  y_bar", "Strict  z_bar"),
@@ -1803,8 +1813,12 @@ MultiSpectralDistributions.extrapolate` method.
         msds = MultiSpectralDistributions(data)
         msds.extrapolate(SpectralShape(10, 50, 5))
 
-        np.testing.assert_almost_equal(msds[10], np.array([0.0, 0.0, 0.0]), decimal=7)
-        np.testing.assert_almost_equal(msds[50], np.array([1.0, 1.0, 1.0]), decimal=7)
+        np.testing.assert_almost_equal(
+            msds[10], np.array([0.0, 0.0, 0.0]), decimal=7
+        )
+        np.testing.assert_almost_equal(
+            msds[50], np.array([1.0, 1.0, 1.0]), decimal=7
+        )
 
         msds = MultiSpectralDistributions(
             tstack([np.linspace(0, 1, 10)] * 3), np.linspace(25, 35, 10)
@@ -1820,7 +1834,9 @@ MultiSpectralDistributions.extrapolate` method.
         np.testing.assert_almost_equal(
             msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7
         )
-        np.testing.assert_almost_equal(msds[50], np.array([2.5, 2.5, 2.5]), decimal=7)
+        np.testing.assert_almost_equal(
+            msds[50], np.array([2.5, 2.5, 2.5]), decimal=7
+        )
 
     def test_align(self):
         """
@@ -1903,7 +1919,9 @@ class TestReshapeSd(unittest.TestCase):
         )
         self.assertEqual(
             sd_reshaped,
-            sd.copy().extrapolate(shape, extrapolator_kwargs=extrapolator_kwargs),
+            sd.copy().extrapolate(
+                shape, extrapolator_kwargs=extrapolator_kwargs
+            ),
         )
 
         shape = colour.SpectralShape(400, 700, 1)
@@ -1994,17 +2012,27 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1, multi_sds_2]).wavelengths,
+            sds_and_msds_to_msds(
+                [sd_1, sd_2, multi_sds_1, multi_sds_2]
+            ).wavelengths,
             shape.range(),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            sds_and_msds_to_msds([sd_1, sd_2, multi_sds_1, multi_sds_2]).values,
+            sds_and_msds_to_msds(
+                [sd_1, sd_2, multi_sds_1, multi_sds_2]
+            ).values,
             tstack(
                 [sd_1.align(shape).values, sd_2.align(shape).values]
-                + [sd.values for sd in sds_and_msds_to_sds(multi_sds_1.align(shape))]
-                + [sd.values for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))]
+                + [
+                    sd.values
+                    for sd in sds_and_msds_to_sds(multi_sds_1.align(shape))
+                ]
+                + [
+                    sd.values
+                    for sd in sds_and_msds_to_sds(multi_sds_2.align(shape))
+                ]
             ),
             decimal=7,
         )

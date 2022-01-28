@@ -140,7 +140,9 @@ class TestSpow(unittest.TestCase):
         )
 
         with spow_enable(True):
-            np.testing.assert_almost_equal(spow(-2, 0.15), -1.10956947, decimal=7)
+            np.testing.assert_almost_equal(
+                spow(-2, 0.15), -1.10956947, decimal=7
+            )
 
         with spow_enable(False):
             np.testing.assert_equal(spow(-2, 0.15), np.nan)
@@ -213,7 +215,9 @@ class TestNormaliseMaximum(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            normalise_maximum(np.array([-0.11518475, -0.10080000, 0.05089373])),
+            normalise_maximum(
+                np.array([-0.11518475, -0.10080000, 0.05089373])
+            ),
             np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7,
         )

@@ -36,10 +36,14 @@ class TestMetricMse(unittest.TestCase):
         self.assertEqual(metric_mse(a, a), 0)
 
         b = a * 0.9
-        self.assertAlmostEqual(metric_mse(a, b), 0.0012714955474297446, places=7)
+        self.assertAlmostEqual(
+            metric_mse(a, b), 0.0012714955474297446, places=7
+        )
 
         b = a * 1.1
-        self.assertAlmostEqual(metric_mse(a, b), 0.0012714955474297446, places=7)
+        self.assertAlmostEqual(
+            metric_mse(a, b), 0.0012714955474297446, places=7
+        )
 
 
 class TestMetricPsnr(unittest.TestCase):

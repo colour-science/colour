@@ -36,7 +36,9 @@ __all__ = [
 ]
 
 
-def read_spectral_data_from_csv_file(path: str, **kwargs: Any) -> Dict[str, NDArray]:
+def read_spectral_data_from_csv_file(
+    path: str, **kwargs: Any
+) -> Dict[str, NDArray]:
     """
     Reads the spectral data from given *CSV* file in the following form::
 
@@ -129,7 +131,9 @@ def read_spectral_data_from_csv_file(path: str, **kwargs: Any) -> Dict[str, NDAr
         with open(path, "r") as csv_file:
             content = zip(*csv.reader(csv_file, delimiter=delimiter))
 
-        transposed_csv_file = tempfile.NamedTemporaryFile(mode="w", delete=False)
+        transposed_csv_file = tempfile.NamedTemporaryFile(
+            mode="w", delete=False
+        )
         path = transposed_csv_file.name
         csv.writer(transposed_csv_file).writerows(content)
         transposed_csv_file.close()
@@ -142,7 +146,9 @@ def read_spectral_data_from_csv_file(path: str, **kwargs: Any) -> Dict[str, NDAr
     return {name: data[name] for name in data.dtype.names}
 
 
-def read_sds_from_csv_file(path: str, **kwargs: Any) -> Dict[str, SpectralDistribution]:
+def read_sds_from_csv_file(
+    path: str, **kwargs: Any
+) -> Dict[str, SpectralDistribution]:
     """
     Reads the spectral data from given *CSV* file and returns its content as a
     *dict* of :class:`colour.SpectralDistribution` class instances.
@@ -276,7 +282,9 @@ def read_sds_from_csv_file(path: str, **kwargs: Any) -> Dict[str, SpectralDistri
     return sds
 
 
-def write_sds_to_csv_file(sds: Dict[str, SpectralDistribution], path: str) -> Boolean:
+def write_sds_to_csv_file(
+    sds: Dict[str, SpectralDistribution], path: str
+) -> Boolean:
     """
     Writes the given spectral distributions to given *CSV* file.
 
@@ -320,7 +328,9 @@ def write_sds_to_csv_file(sds: Dict[str, SpectralDistribution], path: str) -> Bo
 
         for wavelength in wavelengths:
             row = {"wavelength": wavelength}
-            row.update(dict((field, sds[field][wavelength]) for field in fields))
+            row.update(
+                dict((field, sds[field][wavelength]) for field in fields)
+            )
             writer.writerow(row)
 
     return True

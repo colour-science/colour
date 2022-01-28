@@ -48,13 +48,17 @@ cctf_encoding_ROMMRGB` definition.
 
         self.assertAlmostEqual(cctf_encoding_ROMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(cctf_encoding_ROMMRGB(0.18), 0.385711424751138, places=7)
+        self.assertAlmostEqual(
+            cctf_encoding_ROMMRGB(0.18), 0.385711424751138, places=7
+        )
 
         self.assertAlmostEqual(cctf_encoding_ROMMRGB(1.0), 1.0, places=7)
 
         self.assertEqual(cctf_encoding_ROMMRGB(0.18, out_int=True), 98)
 
-        self.assertEqual(cctf_encoding_ROMMRGB(0.18, bit_depth=12, out_int=True), 1579)
+        self.assertEqual(
+            cctf_encoding_ROMMRGB(0.18, bit_depth=12, out_int=True), 1579
+        )
 
     def test_n_dimensional_cctf_encoding_ROMMRGB(self):
         """
@@ -67,15 +71,21 @@ cctf_encoding_ROMMRGB` definition n-dimensional arrays support.
 
         X = np.tile(X, 6)
         X_ROMM = np.tile(X_ROMM, 6)
-        np.testing.assert_almost_equal(cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7
+        )
 
         X = np.reshape(X, (2, 3))
         X_ROMM = np.reshape(X_ROMM, (2, 3))
-        np.testing.assert_almost_equal(cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7
+        )
 
         X = np.reshape(X, (2, 3, 1))
         X_ROMM = np.reshape(X_ROMM, (2, 3, 1))
-        np.testing.assert_almost_equal(cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_encoding_ROMMRGB(X), X_ROMM, decimal=7
+        )
 
     def test_domain_range_scale_cctf_encoding_ROMMRGB(self):
         """
@@ -100,7 +110,9 @@ cctf_encoding_ROMMRGB` definition domain and range scale support.
 cctf_encoding_ROMMRGB` definition nan support.
         """
 
-        cctf_encoding_ROMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        cctf_encoding_ROMMRGB(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestCctfDecoding_ROMMRGB(unittest.TestCase):
@@ -117,7 +129,9 @@ cctf_decoding_ROMMRGB` definition.
 
         self.assertAlmostEqual(cctf_decoding_ROMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(cctf_decoding_ROMMRGB(0.385711424751138), 0.18, places=7)
+        self.assertAlmostEqual(
+            cctf_decoding_ROMMRGB(0.385711424751138), 0.18, places=7
+        )
 
         self.assertAlmostEqual(cctf_decoding_ROMMRGB(1.0), 1.0, places=7)
 
@@ -146,15 +160,21 @@ cctf_decoding_ROMMRGB` definition n-dimensional arrays support.
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
-        np.testing.assert_almost_equal(cctf_decoding_ROMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_decoding_ROMMRGB(X_p), X, decimal=7
+        )
 
         X_p = np.reshape(X_p, (2, 3))
         X = np.reshape(X, (2, 3))
-        np.testing.assert_almost_equal(cctf_decoding_ROMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_decoding_ROMMRGB(X_p), X, decimal=7
+        )
 
         X_p = np.reshape(X_p, (2, 3, 1))
         X = np.reshape(X, (2, 3, 1))
-        np.testing.assert_almost_equal(cctf_decoding_ROMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_decoding_ROMMRGB(X_p), X, decimal=7
+        )
 
     def test_domain_range_scale_cctf_decoding_ROMMRGB(self):
         """
@@ -179,7 +199,9 @@ cctf_decoding_ROMMRGB` definition domain and range scale support.
 cctf_decoding_ROMMRGB` definition nan support.
         """
 
-        cctf_decoding_ROMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        cctf_decoding_ROMMRGB(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestCctfEncoding_RIMMRGB(unittest.TestCase):
@@ -196,13 +218,19 @@ cctf_encoding_RIMMRGB` definition.
 
         self.assertAlmostEqual(cctf_encoding_RIMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(cctf_encoding_RIMMRGB(0.18), 0.291673732475746, places=7)
+        self.assertAlmostEqual(
+            cctf_encoding_RIMMRGB(0.18), 0.291673732475746, places=7
+        )
 
-        self.assertAlmostEqual(cctf_encoding_RIMMRGB(1.0), 0.713125234297525, places=7)
+        self.assertAlmostEqual(
+            cctf_encoding_RIMMRGB(1.0), 0.713125234297525, places=7
+        )
 
         self.assertEqual(cctf_encoding_RIMMRGB(0.18, out_int=True), 74)
 
-        self.assertEqual(cctf_encoding_RIMMRGB(0.18, bit_depth=12, out_int=True), 1194)
+        self.assertEqual(
+            cctf_encoding_RIMMRGB(0.18, bit_depth=12, out_int=True), 1194
+        )
 
     def test_n_dimensional_cctf_encoding_RIMMRGB(self):
         """
@@ -215,15 +243,21 @@ cctf_encoding_RIMMRGB` definition n-dimensional arrays support.
 
         X = np.tile(X, 6)
         X_p = np.tile(X_p, 6)
-        np.testing.assert_almost_equal(cctf_encoding_RIMMRGB(X), X_p, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_encoding_RIMMRGB(X), X_p, decimal=7
+        )
 
         X = np.reshape(X, (2, 3))
         X_p = np.reshape(X_p, (2, 3))
-        np.testing.assert_almost_equal(cctf_encoding_RIMMRGB(X), X_p, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_encoding_RIMMRGB(X), X_p, decimal=7
+        )
 
         X = np.reshape(X, (2, 3, 1))
         X_p = np.reshape(X_p, (2, 3, 1))
-        np.testing.assert_almost_equal(cctf_encoding_RIMMRGB(X), X_p, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_encoding_RIMMRGB(X), X_p, decimal=7
+        )
 
     def test_domain_range_scale_cctf_encoding_RIMMRGB(self):
         """
@@ -248,7 +282,9 @@ cctf_encoding_RIMMRGB` definition domain and range scale support.
 cctf_encoding_RIMMRGB` definition nan support.
         """
 
-        cctf_encoding_RIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        cctf_encoding_RIMMRGB(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestCctfDecoding_RIMMRGB(unittest.TestCase):
@@ -265,9 +301,13 @@ cctf_decoding_RIMMRGB` definition.
 
         self.assertAlmostEqual(cctf_decoding_RIMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(cctf_decoding_RIMMRGB(0.291673732475746), 0.18, places=7)
+        self.assertAlmostEqual(
+            cctf_decoding_RIMMRGB(0.291673732475746), 0.18, places=7
+        )
 
-        self.assertAlmostEqual(cctf_decoding_RIMMRGB(0.713125234297525), 1.0, places=7)
+        self.assertAlmostEqual(
+            cctf_decoding_RIMMRGB(0.713125234297525), 1.0, places=7
+        )
 
         np.testing.assert_allclose(
             cctf_decoding_RIMMRGB(74, in_int=True),
@@ -294,15 +334,21 @@ cctf_decoding_RIMMRGB` definition n-dimensional arrays support.
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
-        np.testing.assert_almost_equal(cctf_decoding_RIMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_decoding_RIMMRGB(X_p), X, decimal=7
+        )
 
         X_p = np.reshape(X_p, (2, 3))
         X = np.reshape(X, (2, 3))
-        np.testing.assert_almost_equal(cctf_decoding_RIMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_decoding_RIMMRGB(X_p), X, decimal=7
+        )
 
         X_p = np.reshape(X_p, (2, 3, 1))
         X = np.reshape(X, (2, 3, 1))
-        np.testing.assert_almost_equal(cctf_decoding_RIMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            cctf_decoding_RIMMRGB(X_p), X, decimal=7
+        )
 
     def test_domain_range_scale_cctf_decoding_RIMMRGB(self):
         """
@@ -327,7 +373,9 @@ cctf_decoding_RIMMRGB` definition domain and range scale support.
 cctf_decoding_RIMMRGB` definition nan support.
         """
 
-        cctf_decoding_RIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        cctf_decoding_RIMMRGB(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLog_encoding_ERIMMRGB(unittest.TestCase):
@@ -344,13 +392,19 @@ log_encoding_ERIMMRGB` definition.
 
         self.assertAlmostEqual(log_encoding_ERIMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(log_encoding_ERIMMRGB(0.18), 0.410052389492129, places=7)
+        self.assertAlmostEqual(
+            log_encoding_ERIMMRGB(0.18), 0.410052389492129, places=7
+        )
 
-        self.assertAlmostEqual(log_encoding_ERIMMRGB(1.0), 0.545458327405113, places=7)
+        self.assertAlmostEqual(
+            log_encoding_ERIMMRGB(1.0), 0.545458327405113, places=7
+        )
 
         self.assertEqual(log_encoding_ERIMMRGB(0.18, out_int=True), 105)
 
-        self.assertEqual(log_encoding_ERIMMRGB(0.18, bit_depth=12, out_int=True), 1679)
+        self.assertEqual(
+            log_encoding_ERIMMRGB(0.18, bit_depth=12, out_int=True), 1679
+        )
 
     def test_n_dimensional_log_encoding_ERIMMRGB(self):
         """
@@ -363,15 +417,21 @@ log_encoding_ERIMMRGB` definition n-dimensional arrays support.
 
         X = np.tile(X, 6)
         X_p = np.tile(X_p, 6)
-        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(X), X_p, decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_ERIMMRGB(X), X_p, decimal=7
+        )
 
         X = np.reshape(X, (2, 3))
         X_p = np.reshape(X_p, (2, 3))
-        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(X), X_p, decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_ERIMMRGB(X), X_p, decimal=7
+        )
 
         X = np.reshape(X, (2, 3, 1))
         X_p = np.reshape(X_p, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(X), X_p, decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_ERIMMRGB(X), X_p, decimal=7
+        )
 
     def test_domain_range_scale_log_encoding_ERIMMRGB(self):
         """
@@ -396,7 +456,9 @@ log_encoding_ERIMMRGB` definition domain and range scale support.
 log_encoding_ERIMMRGB` definition nan support.
         """
 
-        log_encoding_ERIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_encoding_ERIMMRGB(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLog_decoding_ERIMMRGB(unittest.TestCase):
@@ -413,9 +475,13 @@ log_decoding_ERIMMRGB` definition.
 
         self.assertAlmostEqual(log_decoding_ERIMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(log_decoding_ERIMMRGB(0.410052389492129), 0.18, places=7)
+        self.assertAlmostEqual(
+            log_decoding_ERIMMRGB(0.410052389492129), 0.18, places=7
+        )
 
-        self.assertAlmostEqual(log_decoding_ERIMMRGB(0.545458327405113), 1.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_ERIMMRGB(0.545458327405113), 1.0, places=7
+        )
 
         np.testing.assert_allclose(
             log_decoding_ERIMMRGB(105, in_int=True),
@@ -442,15 +508,21 @@ log_decoding_ERIMMRGB` definition n-dimensional arrays support.
 
         X_p = np.tile(X_p, 6)
         X = np.tile(X, 6)
-        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_ERIMMRGB(X_p), X, decimal=7
+        )
 
         X_p = np.reshape(X_p, (2, 3))
         X = np.reshape(X, (2, 3))
-        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_ERIMMRGB(X_p), X, decimal=7
+        )
 
         X_p = np.reshape(X_p, (2, 3, 1))
         X = np.reshape(X, (2, 3, 1))
-        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(X_p), X, decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_ERIMMRGB(X_p), X, decimal=7
+        )
 
     def test_domain_range_scale_log_decoding_ERIMMRGB(self):
         """
@@ -475,7 +547,9 @@ log_decoding_ERIMMRGB` definition domain and range scale support.
 log_decoding_ERIMMRGB` definition nan support.
         """
 
-        log_decoding_ERIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_decoding_ERIMMRGB(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 if __name__ == "__main__":

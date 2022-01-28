@@ -469,7 +469,9 @@ def luminance_Fairchild2011(
 def luminance_Abebe2017(
     L: FloatingOrArrayLike,
     Y_n: FloatingOrArrayLike = 100,
-    method: Union[Literal["Michaelis-Menten", "Stevens"], str] = "Michaelis-Menten",
+    method: Union[
+        Literal["Michaelis-Menten", "Stevens"], str
+    ] = "Michaelis-Menten",
 ) -> FloatingOrNDArray:
     """
     Computes *luminance* :math:`Y` of *Lightness* :math:`L` using

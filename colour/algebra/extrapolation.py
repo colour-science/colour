@@ -261,7 +261,9 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" property: "{1}" is not a "numeric"!'.format("left", value),
+                '"{0}" property: "{1}" is not a "numeric"!'.format(
+                    "left", value
+                ),
             )
 
             self._left = value
@@ -293,7 +295,9 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" property: "{1}" is not a "numeric"!'.format("right", value),
+                '"{0}" property: "{1}" is not a "numeric"!'.format(
+                    "right", value
+                ),
             )
 
             self._right = value
@@ -343,9 +347,9 @@ class Extrapolator:
             y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) / (
                 xi[1] - xi[0]
             )
-            y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (yi[-1] - yi[-2]) / (
-                xi[-1] - xi[-2]
-            )
+            y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (
+                yi[-1] - yi[-2]
+            ) / (xi[-1] - xi[-2])
         elif self._method == "constant":
             y[x < xi[0]] = yi[0]
             y[x > xi[-1]] = yi[-1]

@@ -220,9 +220,9 @@ def generate_pulse_waves(
     )
 
     square_waves = []
-    square_waves_basis = np.tril(np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE))[
-        0:-1, :
-    ]
+    square_waves_basis = np.tril(
+        np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE)
+    )[0:-1, :]
 
     if pulse_order.lower() == "bins":
         for square_wave_basis in square_waves_basis:
@@ -371,7 +371,9 @@ def XYZ_outer_surface(
             len(cmfs.wavelengths), point_order, filter_jagged_points
         )
         XYZ = (
-            msds_to_XYZ(pulse_waves, cmfs, illuminant, method="Integration", **settings)
+            msds_to_XYZ(
+                pulse_waves, cmfs, illuminant, method="Integration", **settings
+            )
             / 100
         )
 

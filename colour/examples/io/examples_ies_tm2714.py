@@ -26,11 +26,17 @@ print("Catalog Number: {0}".format(sd_tm2714.header.catalog_number))
 print("Description: {0}".format(sd_tm2714.header.description))
 print("Document Creator: {0}".format(sd_tm2714.header.document_creator))
 print("Unique Identifier: {0}".format(sd_tm2714.header.unique_identifier))
-print("Measurement Equipment: {0}".format(sd_tm2714.header.measurement_equipment))
+print(
+    "Measurement Equipment: {0}".format(sd_tm2714.header.measurement_equipment)
+)
 print("Laboratory: {0}".format(sd_tm2714.header.laboratory))
 print("Report Number: {0}".format(sd_tm2714.header.report_number))
 print("Report Date: {0}".format(sd_tm2714.header.report_date))
-print("Document Creation Date: {0}".format(sd_tm2714.header.document_creation_date))
+print(
+    "Document Creation Date: {0}".format(
+        sd_tm2714.header.document_creation_date
+    )
+)
 print("Comments: {0}".format(sd_tm2714.header.comments))
 
 print("\n")

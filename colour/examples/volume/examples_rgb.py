@@ -12,7 +12,9 @@ if __name__ == "__main__":
     message_box("RGB Colourspace Volume Computations")
 
     message_box('Computing "ProPhoto RGB" RGB colourspace limits.')
-    limits = colour.RGB_colourspace_limits(colour.RGB_COLOURSPACES["ProPhoto RGB"])
+    limits = colour.RGB_colourspace_limits(
+        colour.RGB_COLOURSPACES["ProPhoto RGB"]
+    )
     print(limits)
 
     print("\n")

@@ -272,8 +272,12 @@ def write_LUT_IridasCube(
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
         if not np.array_equal(LUTxD.domain, default_domain):
-            cube_file.write("DOMAIN_MIN {0}\n".format(_format_array(LUTxD.domain[0])))
-            cube_file.write("DOMAIN_MAX {0}\n".format(_format_array(LUTxD.domain[1])))
+            cube_file.write(
+                "DOMAIN_MIN {0}\n".format(_format_array(LUTxD.domain[0]))
+            )
+            cube_file.write(
+                "DOMAIN_MAX {0}\n".format(_format_array(LUTxD.domain[1]))
+            )
 
         if not is_3x1D:
             table = LUTxD.table.reshape([-1, 3], order="F")

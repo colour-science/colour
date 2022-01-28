@@ -87,7 +87,9 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_FILTERS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(SDS_FILTERS_ISO)
+SDS_FILTERS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    SDS_FILTERS_ISO
+)
 SDS_FILTERS.__doc__ = """
 Spectral distributions of filters.
 

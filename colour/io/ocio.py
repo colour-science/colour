@@ -28,7 +28,9 @@ __all__ = [
 
 
 @required("OpenColorIO")
-def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
+def process_image_OpenColorIO(
+    a: ArrayLike, *args: Any, **kwargs: Any
+) -> NDArray:
     """
     Processes given image with *OpenColorIO*.
 

@@ -98,7 +98,9 @@ eotf_inverse_DICOMGSDF` definition domain and range scale support.
 eotf_inverse_DICOMGSDF` definition nan support.
         """
 
-        eotf_inverse_DICOMGSDF(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_DICOMGSDF(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestEotf_DICOMGSDF(unittest.TestCase):

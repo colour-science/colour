@@ -104,9 +104,13 @@ oetf_inverse_BT601` definition.
 
         self.assertAlmostEqual(oetf_inverse_BT601(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(oetf_inverse_BT601(0.067500000000000), 0.015, places=7)
+        self.assertAlmostEqual(
+            oetf_inverse_BT601(0.067500000000000), 0.015, places=7
+        )
 
-        self.assertAlmostEqual(oetf_inverse_BT601(0.409007728864150), 0.18, places=7)
+        self.assertAlmostEqual(
+            oetf_inverse_BT601(0.409007728864150), 0.18, places=7
+        )
 
         self.assertAlmostEqual(oetf_inverse_BT601(1.0), 1.0, places=7)
 

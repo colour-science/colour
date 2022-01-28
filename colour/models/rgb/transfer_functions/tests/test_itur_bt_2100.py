@@ -72,11 +72,17 @@ oetf_PQ_BT2100` definition unit tests methods.
 oetf_PQ_BT2100` definition.
         """
 
-        self.assertAlmostEqual(oetf_PQ_BT2100(0.0), 0.000000730955903, places=7)
+        self.assertAlmostEqual(
+            oetf_PQ_BT2100(0.0), 0.000000730955903, places=7
+        )
 
-        self.assertAlmostEqual(oetf_PQ_BT2100(0.1), 0.724769816665726, places=7)
+        self.assertAlmostEqual(
+            oetf_PQ_BT2100(0.1), 0.724769816665726, places=7
+        )
 
-        self.assertAlmostEqual(oetf_PQ_BT2100(1.0), 0.999999934308041, places=7)
+        self.assertAlmostEqual(
+            oetf_PQ_BT2100(1.0), 0.999999934308041, places=7
+        )
 
     def test_n_dimensional_oetf_PQ_BT2100(self):
         """
@@ -137,11 +143,17 @@ oetf_inverse_PQ_BT2100` definition unit tests methods.
 oetf_inverse_PQ_BT2100` definition.
         """
 
-        self.assertAlmostEqual(oetf_inverse_PQ_BT2100(0.000000730955903), 0.0, places=7)
+        self.assertAlmostEqual(
+            oetf_inverse_PQ_BT2100(0.000000730955903), 0.0, places=7
+        )
 
-        self.assertAlmostEqual(oetf_inverse_PQ_BT2100(0.724769816665726), 0.1, places=7)
+        self.assertAlmostEqual(
+            oetf_inverse_PQ_BT2100(0.724769816665726), 0.1, places=7
+        )
 
-        self.assertAlmostEqual(oetf_inverse_PQ_BT2100(0.999999934308041), 1.0, places=7)
+        self.assertAlmostEqual(
+            oetf_inverse_PQ_BT2100(0.999999934308041), 1.0, places=7
+        )
 
     def test_n_dimensional_oetf_inverse_PQ_BT2100(self):
         """
@@ -154,15 +166,21 @@ oetf_inverse_PQ_BT2100` definition n-dimensional arrays support.
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
-        np.testing.assert_almost_equal(oetf_inverse_PQ_BT2100(E_p), E, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_inverse_PQ_BT2100(E_p), E, decimal=7
+        )
 
         E_p = np.reshape(E_p, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_almost_equal(oetf_inverse_PQ_BT2100(E_p), E, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_inverse_PQ_BT2100(E_p), E, decimal=7
+        )
 
         E_p = np.reshape(E_p, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_inverse_PQ_BT2100(E_p), E, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_inverse_PQ_BT2100(E_p), E, decimal=7
+        )
 
     def test_domain_range_scale_oetf_inverse_PQ_BT2100(self):
         """
@@ -187,7 +205,9 @@ oetf_inverse_PQ_BT2100` definition domain and range scale support.
 oetf_inverse_PQ_BT2100` definition nan support.
         """
 
-        oetf_inverse_PQ_BT2100(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        oetf_inverse_PQ_BT2100(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestEotf_PQ_BT2100(unittest.TestCase):
@@ -269,7 +289,9 @@ eotf_inverse_PQ_BT2100` definition unit tests methods.
 eotf_inverse_PQ_BT2100` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_PQ_BT2100(0.0), 0.000000730955903, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_PQ_BT2100(0.0), 0.000000730955903, places=7
+        )
 
         self.assertAlmostEqual(
             eotf_inverse_PQ_BT2100(779.98836083408537),
@@ -290,15 +312,21 @@ eotf_inverse_PQ_BT2100` definition n-dimensional arrays support.
 
         F_D = np.tile(F_D, 6)
         E_p = np.tile(E_p, 6)
-        np.testing.assert_almost_equal(eotf_inverse_PQ_BT2100(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_PQ_BT2100(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
-        np.testing.assert_almost_equal(eotf_inverse_PQ_BT2100(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_PQ_BT2100(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_inverse_PQ_BT2100(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_PQ_BT2100(F_D), E_p, decimal=7
+        )
 
     def test_domain_range_scale_eotf_inverse_PQ_BT2100(self):
         """
@@ -325,7 +353,9 @@ eotf_inverse_PQ_BT2100` definition domain and range scale support.
 eotf_inverse_PQ_BT2100` definition nan support.
         """
 
-        eotf_inverse_PQ_BT2100(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_PQ_BT2100(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestOotf_PQ_BT2100(unittest.TestCase):
@@ -342,9 +372,13 @@ ootf_PQ_BT2100` definition.
 
         self.assertAlmostEqual(ootf_PQ_BT2100(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(ootf_PQ_BT2100(0.1), 779.98836083411584, places=7)
+        self.assertAlmostEqual(
+            ootf_PQ_BT2100(0.1), 779.98836083411584, places=7
+        )
 
-        self.assertAlmostEqual(ootf_PQ_BT2100(1.0), 9999.993723673924300, places=7)
+        self.assertAlmostEqual(
+            ootf_PQ_BT2100(1.0), 9999.993723673924300, places=7
+        )
 
     def test_n_dimensional_ootf_PQ_BT2100(self):
         """
@@ -426,15 +460,21 @@ ootf_inverse_PQ_BT2100` definition n-dimensional arrays support.
 
         F_D = np.tile(F_D, 6)
         E = np.tile(E, 6)
-        np.testing.assert_almost_equal(ootf_inverse_PQ_BT2100(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_PQ_BT2100(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_almost_equal(ootf_inverse_PQ_BT2100(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_PQ_BT2100(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_almost_equal(ootf_inverse_PQ_BT2100(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_PQ_BT2100(F_D), E, decimal=7
+        )
 
     def test_domain_range_scale_ootf_inverse_PQ_BT2100(self):
         """
@@ -459,7 +499,9 @@ ootf_inverse_PQ_BT2100` definition domain and range scale support.
 ootf_inverse_PQ_BT2100` definition nan support.
         """
 
-        ootf_inverse_PQ_BT2100(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        ootf_inverse_PQ_BT2100(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestGamma_function_HLG_BT2100(unittest.TestCase):
@@ -474,7 +516,9 @@ gamma_function_HLG_BT2100` definition unit tests methods.
 gamma_function_HLG_BT2100` definition.
         """
 
-        self.assertAlmostEqual(gamma_function_HLG_BT2100(1000.0), 1.2, places=7)
+        self.assertAlmostEqual(
+            gamma_function_HLG_BT2100(1000.0), 1.2, places=7
+        )
 
         self.assertAlmostEqual(
             gamma_function_HLG_BT2100(2000.0), 1.326432598178872, places=7
@@ -503,9 +547,13 @@ oetf_HLG_BT2100` definition.
 
         self.assertAlmostEqual(oetf_HLG_BT2100(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(oetf_HLG_BT2100(0.18 / 12), 0.212132034355964, places=7)
+        self.assertAlmostEqual(
+            oetf_HLG_BT2100(0.18 / 12), 0.212132034355964, places=7
+        )
 
-        self.assertAlmostEqual(oetf_HLG_BT2100(1.0), 0.999999995536569, places=7)
+        self.assertAlmostEqual(
+            oetf_HLG_BT2100(1.0), 0.999999995536569, places=7
+        )
 
     def test_n_dimensional_oetf_HLG_BT2100(self):
         """
@@ -587,15 +635,21 @@ oetf_inverse_HLG_BT2100` definition n-dimensional arrays support.
 
         E_p = np.tile(E_p, 6)
         E = np.tile(E, 6)
-        np.testing.assert_almost_equal(oetf_inverse_HLG_BT2100(E_p), E, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_inverse_HLG_BT2100(E_p), E, decimal=7
+        )
 
         E_p = np.reshape(E_p, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_almost_equal(oetf_inverse_HLG_BT2100(E_p), E, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_inverse_HLG_BT2100(E_p), E, decimal=7
+        )
 
         E_p = np.reshape(E_p, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_inverse_HLG_BT2100(E_p), E, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_inverse_HLG_BT2100(E_p), E, decimal=7
+        )
 
     def test_domain_range_scale_oetf_inverse_HLG_BT2100(self):
         """
@@ -622,7 +676,9 @@ oetf_inverse_HLG_BT2100` definition domain and range scale support.
 oetf_inverse_HLG_BT2100` definition nan support.
         """
 
-        oetf_inverse_HLG_BT2100(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        oetf_inverse_HLG_BT2100(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestEotf_HLG_BT2100_1(unittest.TestCase):
@@ -643,7 +699,9 @@ eotf_HLG_BT2100_1` definition.
             eotf_HLG_BT2100_1(0.212132034355964), 6.476039825649814, places=7
         )
 
-        self.assertAlmostEqual(eotf_HLG_BT2100_1(1.0), 1000.000032321769100, places=7)
+        self.assertAlmostEqual(
+            eotf_HLG_BT2100_1(1.0), 1000.000032321769100, places=7
+        )
 
         self.assertAlmostEqual(
             eotf_HLG_BT2100_1(0.212132034355964, 0.001, 10000, 1.4),
@@ -732,7 +790,9 @@ eotf_HLG_BT2100_2` definition.
             eotf_HLG_BT2100_2(0.212132034355964), 6.476039825649814, places=7
         )
 
-        self.assertAlmostEqual(eotf_HLG_BT2100_2(1.0), 1000.000032321769100, places=7)
+        self.assertAlmostEqual(
+            eotf_HLG_BT2100_2(1.0), 1000.000032321769100, places=7
+        )
 
         self.assertAlmostEqual(
             eotf_HLG_BT2100_2(0.212132034355964, 0.001, 10000, 1.4),
@@ -844,31 +904,45 @@ eotf_inverse_HLG_BT2100_1` definition n-dimensional arrays support.
 
         F_D = np.tile(F_D, 6)
         E_p = np.tile(E_p, 6)
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (6, 1))
         E_p = np.reshape(E_p, (6, 1))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7
+        )
 
         F_D = np.array([12.49759413, 49.99037650, 158.94693786])
         E_p = np.array([0.25, 0.50, 0.75])
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7
+        )
 
         F_D = np.tile(F_D, (6, 1))
         E_p = np.tile(E_p, (6, 1))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 3))
         E_p = np.reshape(E_p, (2, 3, 3))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_1(F_D), E_p, decimal=7
+        )
 
     def test_domain_range_scale_eotf_inverse_HLG_BT2100_1(self):
         """
@@ -895,7 +969,9 @@ eotf_inverse_HLG_BT2100_1` definition domain and range scale support.
 eotf_inverse_HLG_BT2100_1` definition nan support.
         """
 
-        eotf_inverse_HLG_BT2100_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_HLG_BT2100_1(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestEotf_inverse_HLG_BT2100_2(unittest.TestCase):
@@ -939,31 +1015,45 @@ eotf_inverse_HLG_BT2100_2` definition n-dimensional arrays support.
 
         F_D = np.tile(F_D, 6)
         E_p = np.tile(E_p, 6)
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3))
         E_p = np.reshape(E_p, (2, 3))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (6, 1))
         E_p = np.reshape(E_p, (6, 1))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7
+        )
 
         F_D = np.array([12.49759413, 49.99037650, 158.94693786])
         E_p = np.array([0.25, 0.50, 0.75])
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7
+        )
 
         F_D = np.tile(F_D, (6, 1))
         E_p = np.tile(E_p, (6, 1))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 3))
         E_p = np.reshape(E_p, (2, 3, 3))
-        np.testing.assert_almost_equal(eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7)
+        np.testing.assert_almost_equal(
+            eotf_inverse_HLG_BT2100_2(F_D), E_p, decimal=7
+        )
 
     def test_domain_range_scale_eotf_inverse_HLG_BT2100_2(self):
         """
@@ -990,7 +1080,9 @@ eotf_inverse_HLG_BT2100_2` definition domain and range scale support.
 eotf_inverse_HLG_BT2100_2` definition nan support.
         """
 
-        eotf_inverse_HLG_BT2100_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_HLG_BT2100_2(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestOotf_HLG_BT2100_1(unittest.TestCase):
@@ -1007,7 +1099,9 @@ ootf_HLG_BT2100_1` definition.
 
         self.assertAlmostEqual(ootf_HLG_BT2100_1(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(ootf_HLG_BT2100_1(0.1), 63.095734448019336, places=7)
+        self.assertAlmostEqual(
+            ootf_HLG_BT2100_1(0.1), 63.095734448019336, places=7
+        )
 
         self.assertAlmostEqual(ootf_HLG_BT2100_1(1.0), 1000.0, places=7)
 
@@ -1121,7 +1215,9 @@ ootf_HLG_BT2100_2` definition.
 
         self.assertAlmostEqual(ootf_HLG_BT2100_2(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(ootf_HLG_BT2100_2(0.1), 63.095734448019336, places=7)
+        self.assertAlmostEqual(
+            ootf_HLG_BT2100_2(0.1), 63.095734448019336, places=7
+        )
 
         self.assertAlmostEqual(ootf_HLG_BT2100_2(1.0), 1000.0, places=7)
 
@@ -1237,7 +1333,9 @@ ootf_inverse_HLG_BT2100_1` definition.
             ootf_inverse_HLG_BT2100_1(63.095734448019336), 0.1, places=7
         )
 
-        self.assertAlmostEqual(ootf_inverse_HLG_BT2100_1(1000.0), 1.0, places=7)
+        self.assertAlmostEqual(
+            ootf_inverse_HLG_BT2100_1(1000.0), 1.0, places=7
+        )
 
         self.assertAlmostEqual(
             ootf_inverse_HLG_BT2100_1(398.108130742780300, 0.001, 10000, 1.4),
@@ -1281,31 +1379,45 @@ ootf_inverse_HLG_BT2100_1` definition n-dimensional arrays support.
 
         F_D = np.tile(F_D, 6)
         E = np.tile(E, 6)
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (6, 1))
         E = np.reshape(E, (6, 1))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7
+        )
 
         F_D = np.array([213.01897444, 426.03794887, 639.05692331])
         E = np.array([0.25, 0.50, 0.75])
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7
+        )
 
         F_D = np.tile(F_D, (6, 1))
         E = np.tile(E, (6, 1))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 3))
         E = np.reshape(E, (2, 3, 3))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_1(F_D), E, decimal=7
+        )
 
     def test_domain_range_scale_ootf_inverse_HLG_BT2100_1(self):
         """
@@ -1332,7 +1444,9 @@ ootf_inverse_HLG_BT2100_1` definition domain and range scale support.
 ootf_inverse_HLG_BT2100_1` definition nan support.
         """
 
-        ootf_inverse_HLG_BT2100_1(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        ootf_inverse_HLG_BT2100_1(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestOotf_inverse_HLG_BT2100_2(unittest.TestCase):
@@ -1353,7 +1467,9 @@ ootf_inverse_HLG_BT2100_2` definition.
             ootf_inverse_HLG_BT2100_2(63.095734448019336), 0.1, places=7
         )
 
-        self.assertAlmostEqual(ootf_inverse_HLG_BT2100_2(1000.0), 1.0, places=7)
+        self.assertAlmostEqual(
+            ootf_inverse_HLG_BT2100_2(1000.0), 1.0, places=7
+        )
 
         self.assertAlmostEqual(
             ootf_inverse_HLG_BT2100_2(398.107170553497380, 10000, 1.4),
@@ -1397,31 +1513,45 @@ ootf_inverse_HLG_BT2100_2` definition n-dimensional arrays support.
 
         F_D = np.tile(F_D, 6)
         E = np.tile(E, 6)
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3))
         E = np.reshape(E, (2, 3))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 1))
         E = np.reshape(E, (2, 3, 1))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (6, 1))
         E = np.reshape(E, (6, 1))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7
+        )
 
         F_D = np.array([213.01897444, 426.03794887, 639.05692331])
         E = np.array([0.25, 0.50, 0.75])
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7
+        )
 
         F_D = np.tile(F_D, (6, 1))
         E = np.tile(E, (6, 1))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7
+        )
 
         F_D = np.reshape(F_D, (2, 3, 3))
         E = np.reshape(E, (2, 3, 3))
-        np.testing.assert_almost_equal(ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7)
+        np.testing.assert_almost_equal(
+            ootf_inverse_HLG_BT2100_2(F_D), E, decimal=7
+        )
 
     def test_domain_range_scale_ootf_inverse_HLG_BT2100_2(self):
         """
@@ -1448,7 +1578,9 @@ ootf_inverse_HLG_BT2100_2` definition domain and range scale support.
 ootf_inverse_HLG_BT2100_2` definition nan support.
         """
 
-        ootf_inverse_HLG_BT2100_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        ootf_inverse_HLG_BT2100_2(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 if __name__ == "__main__":

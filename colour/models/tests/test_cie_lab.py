@@ -93,15 +93,21 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_Lab(self):
         """
@@ -204,15 +210,21 @@ class TestLab_to_XYZ(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7
+        )
 
         Lab = np.reshape(Lab, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7
+        )
 
     def test_domain_range_scale_Lab_to_XYZ(self):
         """

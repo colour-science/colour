@@ -636,7 +636,8 @@ class MultiSignals(AbstractContinuousFunction):
         )
 
         self._signals = {
-            str(value[i]): signal for i, signal in enumerate(self._signals.values())
+            str(value[i]): signal
+            for i, signal in enumerate(self._signals.values())
         }
 
     @property
@@ -720,11 +721,17 @@ class MultiSignals(AbstractContinuousFunction):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
+            return "{0}(name='{1}', ...)".format(
+                self.__class__.__name__, self.name
+            )
 
         try:
-            representation = repr(np.hstack([self.domain[:, np.newaxis], self.range]))
-            representation = representation.replace("array", self.__class__.__name__)
+            representation = repr(
+                np.hstack([self.domain[:, np.newaxis], self.range])
+            )
+            representation = representation.replace(
+                "array", self.__class__.__name__
+            )
             representation = representation.replace(
                 "       [",
                 "{0}[".format(" " * (len(self.__class__.__name__) + 2)),
@@ -775,7 +782,9 @@ class MultiSignals(AbstractContinuousFunction):
             )
         )
 
-    def __getitem__(self, x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
+    def __getitem__(
+        self, x: Union[FloatingOrArrayLike, slice]
+    ) -> FloatingOrNDArray:
         """
         Returns the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
@@ -837,9 +846,13 @@ class MultiSignals(AbstractContinuousFunction):
 
         x_r, x_c = (x[0], x[1]) if isinstance(x, tuple) else (x, slice(None))
 
-        return tstack([signal[x_r] for signal in self._signals.values()])[..., x_c]
+        return tstack([signal[x_r] for signal in self._signals.values()])[
+            ..., x_c
+        ]
 
-    def __setitem__(self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike):
+    def __setitem__(
+        self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
+    ):
         """
         Sets the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -1228,7 +1241,9 @@ class MultiSignals(AbstractContinuousFunction):
                     'underlying "Signal" components!',
                 )
 
-                for signal, y in zip(multi_signals.signals.values(), tsplit(a)):
+                for signal, y in zip(
+                    multi_signals.signals.values(), tsplit(a)
+                ):
                     signal.arithmetical_operation(y, operation, True)
 
         return multi_signals
@@ -1469,7 +1484,10 @@ class MultiSignals(AbstractContinuousFunction):
             data_sequence = list(data)  # type: ignore[arg-type]
 
             is_signal = all(
-                [True if isinstance(i, Signal) else False for i in data_sequence]
+                [
+                    True if isinstance(i, Signal) else False
+                    for i in data_sequence
+                ]
             )
 
             if is_signal:
@@ -1488,7 +1506,9 @@ class MultiSignals(AbstractContinuousFunction):
                     data_array = data_array[np.newaxis, :]
 
                 for i, range_unpacked in enumerate(data_array):
-                    signals[str(i)] = signal_type(range_unpacked, domain, **settings)
+                    signals[str(i)] = signal_type(
+                        range_unpacked, domain, **settings
+                    )
         elif issubclass(type(data), Mapping) or isinstance(data, dict):
             data_mapping = dict(data)  # type: ignore[arg-type]
 
@@ -1505,7 +1525,9 @@ class MultiSignals(AbstractContinuousFunction):
                         signal.range, signal.domain, **settings
                     )
             else:
-                domain_unpacked, range_unpacked = zip(*sorted(data_mapping.items()))
+                domain_unpacked, range_unpacked = zip(
+                    *sorted(data_mapping.items())
+                )
                 for i, range_unpacked in enumerate(tsplit(range_unpacked)):
                     signals[str(i)] = signal_type(
                         range_unpacked, domain_unpacked, **settings
@@ -1516,7 +1538,9 @@ class MultiSignals(AbstractContinuousFunction):
             elif isinstance(data, DataFrame):
                 domain_unpacked = data.index.values
                 signals = {
-                    label: signal_type(data[label], domain_unpacked, **settings)
+                    label: signal_type(
+                        data[label], domain_unpacked, **settings
+                    )
                     for label in data
                 }
 
@@ -1537,11 +1561,13 @@ class MultiSignals(AbstractContinuousFunction):
         if labels is not None:
             attest(
                 len(labels) == len(signals),
-                'User "labels" length is not compatible with unpacked ' '"signals"!',
+                'User "labels" length is not compatible with unpacked '
+                '"signals"!',
             )
 
             signals = {
-                str(labels[i]): signal for i, signal in enumerate(signals.values())
+                str(labels[i]): signal
+                for i, signal in enumerate(signals.values())
             }
 
         for label in signals:
@@ -1554,7 +1580,9 @@ class MultiSignals(AbstractContinuousFunction):
 
     def fill_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ) -> AbstractContinuousFunction:
         """
@@ -1655,4 +1683,6 @@ class MultiSignals(AbstractContinuousFunction):
         9.0  100.0  110.0  120.0
         """
 
-        return DataFrame(data=self.range, index=self.domain, columns=self.labels)
+        return DataFrame(
+            data=self.range, index=self.domain, columns=self.labels
+        )

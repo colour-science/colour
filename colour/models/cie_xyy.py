@@ -58,9 +58,9 @@ __all__ = [
 
 def XYZ_to_xyY(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
 ) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
@@ -307,9 +307,9 @@ def xy_to_xyY(xy: ArrayLike, Y: Floating = 1) -> NDArray:
 
 def XYZ_to_xy(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
 ) -> NDArray:
     """
     Returns the *CIE xy* chromaticity coordinates from given *CIE XYZ*

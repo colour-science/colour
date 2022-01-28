@@ -442,7 +442,9 @@ def RGB_to_YCbCr(
         RGB = to_domain_1(RGB)
 
     Kr, Kb = K
-    RGB_min, RGB_max = kwargs.get("in_range", CV_range(in_bits, in_legal, in_int))
+    RGB_min, RGB_max = kwargs.get(
+        "in_range", CV_range(in_bits, in_legal, in_int)
+    )
     Y_min, Y_max, C_min, C_max = kwargs.get(
         "out_range", ranges_YCbCr(out_bits, out_legal, out_int)
     )
@@ -579,7 +581,9 @@ def YCbCr_to_RGB(
     Y_min, Y_max, C_min, C_max = kwargs.get(
         "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
     )
-    RGB_min, RGB_max = kwargs.get("out_range", CV_range(out_bits, out_legal, out_int))
+    RGB_min, RGB_max = kwargs.get(
+        "out_range", CV_range(out_bits, out_legal, out_int)
+    )
 
     Y -= Y_min
     Cb -= (C_max + C_min) / 2

@@ -40,7 +40,9 @@ log_encoding_Protune` definition.
 
         self.assertAlmostEqual(log_encoding_Protune(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(log_encoding_Protune(0.18), 0.645623486803636, places=7)
+        self.assertAlmostEqual(
+            log_encoding_Protune(0.18), 0.645623486803636, places=7
+        )
 
         self.assertAlmostEqual(log_encoding_Protune(1.0), 1.0, places=7)
 
@@ -88,7 +90,9 @@ log_encoding_Protune` definition domain and range scale support.
 log_encoding_Protune` definition nan support.
         """
 
-        log_encoding_Protune(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_encoding_Protune(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLogDecoding_Protune(unittest.TestCase):
@@ -105,7 +109,9 @@ log_decoding_Protune` definition.
 
         self.assertAlmostEqual(log_decoding_Protune(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(log_decoding_Protune(0.645623486803636), 0.18, places=7)
+        self.assertAlmostEqual(
+            log_decoding_Protune(0.645623486803636), 0.18, places=7
+        )
 
         self.assertAlmostEqual(log_decoding_Protune(1.0), 1.0, places=7)
 
@@ -153,7 +159,9 @@ log_decoding_Protune` definition domain and range scale support.
 log_decoding_Protune` definition nan support.
         """
 
-        log_decoding_Protune(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_decoding_Protune(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 if __name__ == "__main__":

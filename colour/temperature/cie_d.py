@@ -115,7 +115,10 @@ def xy_to_CCT_CIE_D(
     CCT = as_float_array(
         [
             minimize(
-                objective_function, x0=6500, args=(xy_i,), **optimisation_settings
+                objective_function,
+                x0=6500,
+                args=(xy_i,),
+                **optimisation_settings
             ).x
             for xy_i in as_float_array(xy)
         ]

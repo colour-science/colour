@@ -171,7 +171,9 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArray:
 
     L, C, H = tsplit(JCh)
 
-    a, b = tsplit(polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
+    a, b = tsplit(
+        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))]))
+    )
 
     Jab = tstack([L, a, b])
 
@@ -211,33 +213,35 @@ Colourspace models supporting a direct conversion to *CIE XYZ* tristimulus
 values.
 """
 
-COLOURSPACE_MODELS_AXIS_LABELS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "CAM02LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM02SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM02UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM16LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM16SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CAM16UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
-        "CIE XYZ": ("X", "Y", "Z"),
-        "CIE xyY": ("x", "y", "Y"),
-        "CIE Lab": ("$L^*$", "$a^*$", "$b^*$"),
-        "CIE Luv": ("$L^*$", "$u^\\prime$", "$v^\\prime$"),
-        "CIE UCS": ("U", "V", "W"),
-        "CIE UVW": ("U", "V", "W"),
-        "DIN99": ("$L_{99}$", "$a_{99}$", "$b_{99}$"),
-        "Hunter Lab": ("$L^*$", "$a^*$", "$b^*$"),
-        "Hunter Rdab": ("Rd", "a", "b"),
-        "ICaCb": ("$I$", "$C_a$", "$C_b$"),
-        "ICtCp": ("$I$", "$C_T$", "$C_P$"),
-        "IPT": ("I", "P", "T"),
-        "IgPgTg": ("$I_G$", "$P_G$", "$T_G$"),
-        "Jzazbz": ("$J_z$", "$a_z$", "$b_z$"),
-        "OSA UCS": ("L", "j", "g"),
-        "Oklab": ("$L$", "$a$", "$b$"),
-        "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
-        "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
-    }
+COLOURSPACE_MODELS_AXIS_LABELS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "CAM02LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM02SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM02UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM16LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM16SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM16UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CIE XYZ": ("X", "Y", "Z"),
+            "CIE xyY": ("x", "y", "Y"),
+            "CIE Lab": ("$L^*$", "$a^*$", "$b^*$"),
+            "CIE Luv": ("$L^*$", "$u^\\prime$", "$v^\\prime$"),
+            "CIE UCS": ("U", "V", "W"),
+            "CIE UVW": ("U", "V", "W"),
+            "DIN99": ("$L_{99}$", "$a_{99}$", "$b_{99}$"),
+            "Hunter Lab": ("$L^*$", "$a^*$", "$b^*$"),
+            "Hunter Rdab": ("Rd", "a", "b"),
+            "ICaCb": ("$I$", "$C_a$", "$C_b$"),
+            "ICtCp": ("$I$", "$C_T$", "$C_P$"),
+            "IPT": ("I", "P", "T"),
+            "IgPgTg": ("$I_G$", "$P_G$", "$T_G$"),
+            "Jzazbz": ("$J_z$", "$a_z$", "$b_z$"),
+            "OSA UCS": ("L", "j", "g"),
+            "Oklab": ("$L$", "$a$", "$b$"),
+            "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
+            "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
+        }
+    )
 )
 """
 Colourspace models labels mapping.

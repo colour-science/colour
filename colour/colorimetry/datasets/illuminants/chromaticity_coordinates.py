@@ -242,11 +242,15 @@ CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
         "ISO 7589 Sensitometric Daylight": np.array(
             [0.333818313227557, 0.353436231513603]
         ),
-        "ISO 7589 Studio Tungsten": np.array([0.430944089109761, 0.403585442674295]),
+        "ISO 7589 Studio Tungsten": np.array(
+            [0.430944089109761, 0.403585442674295]
+        ),
         "ISO 7589 Sensitometric Studio Tungsten": np.array(
             [0.431418223648390, 0.407471441950342]
         ),
-        "ISO 7589 Photoflood": np.array([0.411146015714843, 0.393719378241161]),
+        "ISO 7589 Photoflood": np.array(
+            [0.411146015714843, 0.393719378241161]
+        ),
         "ISO 7589 Sensitometric Photoflood": np.array(
             [0.412024776908998, 0.398177410548532]
         ),
@@ -341,11 +345,15 @@ CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
         "ISO 7589 Sensitometric Daylight": np.array(
             [0.336125906007630, 0.354997062476417]
         ),
-        "ISO 7589 Studio Tungsten": np.array([0.434575926493196, 0.402219691745325]),
+        "ISO 7589 Studio Tungsten": np.array(
+            [0.434575926493196, 0.402219691745325]
+        ),
         "ISO 7589 Sensitometric Studio Tungsten": np.array(
             [0.435607674215215, 0.406129244796761]
         ),
-        "ISO 7589 Photoflood": np.array([0.414144647169611, 0.392458587686395]),
+        "ISO 7589 Photoflood": np.array(
+            [0.414144647169611, 0.392458587686395]
+        ),
         "ISO 7589 Sensitometric Photoflood": np.array(
             [0.415625819190627, 0.397002292994179]
         ),
@@ -424,8 +432,12 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-CCS_ILLUMINANTS["cie_2_1931"] = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]
-CCS_ILLUMINANTS["cie_10_1964"] = CCS_ILLUMINANTS["CIE 1964 10 Degree Standard Observer"]
+CCS_ILLUMINANTS["cie_2_1931"] = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+]
+CCS_ILLUMINANTS["cie_10_1964"] = CCS_ILLUMINANTS[
+    "CIE 1964 10 Degree Standard Observer"
+]
 
 CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"].update(
     CCS_ILLUMINANTS_ACES_STANDARD_OBSERVER_2_DEGREE_CIE1931

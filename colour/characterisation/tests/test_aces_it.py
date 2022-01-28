@@ -76,9 +76,13 @@ MSDS_CANON_EOS_5DMARK_II: MultiSpectralDistributions = sds_and_msds_to_msds(
     )
 )
 
-SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = read_sds_from_csv_file(
-    os.path.join(RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv")
-)["iso7589"]
+SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = (
+    read_sds_from_csv_file(
+        os.path.join(
+            RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv"
+        )
+    )["iso7589"]
+)
 
 
 class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
@@ -117,7 +121,9 @@ sd_to_aces_relative_exposure_values` definition unit tests methods.
 
         dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
         np.testing.assert_almost_equal(
-            sd_to_aces_relative_exposure_values(dark_skin, SDS_ILLUMINANTS["A"]),
+            sd_to_aces_relative_exposure_values(
+                dark_skin, SDS_ILLUMINANTS["A"]
+            ),
             np.array([0.13583991, 0.09431845, 0.05928214]),
             decimal=7,
         )
@@ -262,7 +268,9 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            white_balance_multipliers(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"]),
+            white_balance_multipliers(
+                MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"]
+            ),
             np.array([2.34141541, 1.00000000, 1.51633759]),
             decimal=7,
         )
@@ -962,7 +970,9 @@ class TestMatrixIdt(unittest.TestCase):
         # 0.021805 1.066614 -0.088418
         # -0.019718 -0.206664 1.226381
         np.testing.assert_allclose(
-            matrix_idt(MSDS_CANON_EOS_5DMARK_II, SD_AMPAS_ISO7589_STUDIO_TUNGSTEN)[0],
+            matrix_idt(
+                MSDS_CANON_EOS_5DMARK_II, SD_AMPAS_ISO7589_STUDIO_TUNGSTEN
+            )[0],
             np.array(
                 [
                     [0.85895300, -0.04381920, 0.15978620],

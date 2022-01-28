@@ -132,14 +132,16 @@ DATA_DISPLAY_PRIMARIES_CRT: Dict = {
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_CRT: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    {
-        "Typical CRT Brainard 1997": partial(
-            RGB_DisplayPrimaries,
-            DATA_DISPLAY_PRIMARIES_CRT["Typical CRT Brainard 1997"],
-            name="Typical CRT Brainard 1997",
-        )
-    }
+MSDS_DISPLAY_PRIMARIES_CRT: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        {
+            "Typical CRT Brainard 1997": partial(
+                RGB_DisplayPrimaries,
+                DATA_DISPLAY_PRIMARIES_CRT["Typical CRT Brainard 1997"],
+                name="Typical CRT Brainard 1997",
+            )
+        }
+    )
 )
 """
 Primaries multi-spectral distributions of *CRT* displays.

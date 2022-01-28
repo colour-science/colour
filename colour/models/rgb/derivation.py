@@ -85,7 +85,9 @@ def xy_to_z(xy: ArrayLike) -> Floating:
     return z
 
 
-def normalised_primary_matrix(primaries: ArrayLike, whitepoint: ArrayLike) -> NDArray:
+def normalised_primary_matrix(
+    primaries: ArrayLike, whitepoint: ArrayLike
+) -> NDArray:
     """
     Computes the *Normalised Primary Matrix* (NPM) converting a *RGB*
     colourspace array to *CIE XYZ* tristimulus values using given *primaries*
@@ -304,6 +306,8 @@ def RGB_luminance(
     0.1230145...
     """
 
-    Y = np.sum(normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
+    Y = np.sum(
+        normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1
+    )
 
     return as_float(Y)

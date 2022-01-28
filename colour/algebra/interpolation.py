@@ -552,7 +552,9 @@ class KernelInterpolator:
         Setter for the **self.window** property.
         """
 
-        attest(bool(value >= 1), '"window" must be equal to or greater than 1!')
+        attest(
+            bool(value >= 1), '"window" must be equal to or greater than 1!'
+        )
 
         self._window = value
 
@@ -621,7 +623,9 @@ class KernelInterpolator:
 
         attest(
             isinstance(value, dict),
-            '"{0}" property: "{1}" type is not "dict"!'.format("kernel_kwargs", value),
+            '"{0}" property: "{1}" type is not "dict"!'.format(
+                "kernel_kwargs", value
+            ),
         )
 
         self._kernel_kwargs = value
@@ -705,7 +709,9 @@ class KernelInterpolator:
         x_interval = interval(self._x)[0]
         x_f = np.floor(x / x_interval)
 
-        windows = x_f[:, np.newaxis] + np.arange(-self._window + 1, self._window + 1)
+        windows = x_f[:, np.newaxis] + np.arange(
+            -self._window + 1, self._window + 1
+        )
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
@@ -714,7 +720,9 @@ class KernelInterpolator:
         return np.sum(
             self._y_p[windows]
             * self._kernel(
-                x[:, np.newaxis] / x_interval - windows - min(self._x_p) / x_interval,
+                x[:, np.newaxis] / x_interval
+                - windows
+                - min(self._x_p) / x_interval,
                 **self._kernel_kwargs
             ),
             axis=-1,
@@ -1259,8 +1267,12 @@ class SpragueInterpolator:
         r = self._yp
 
         a0p = r[i]
-        a1p = (2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 * r[i + 2]) / 24
-        a2p = (-r[i - 2] + 16 * r[i - 1] - 30 * r[i] + 16 * r[i + 1] - r[i + 2]) / 24
+        a1p = (
+            2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 * r[i + 2]
+        ) / 24
+        a2p = (
+            -r[i - 2] + 16 * r[i - 1] - 30 * r[i] + 16 * r[i + 1] - r[i + 2]
+        ) / 24
         a3p = (
             -9 * r[i - 2]
             + 39 * r[i - 1]
@@ -1286,7 +1298,14 @@ class SpragueInterpolator:
             + 5 * r[i + 3]
         ) / 24
 
-        y = a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 + a5p * X ** 5
+        y = (
+            a0p
+            + a1p * X
+            + a2p * X ** 2
+            + a3p * X ** 3
+            + a4p * X ** 4
+            + a5p * X ** 5
+        )
 
         return y
 
@@ -1332,7 +1351,9 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
 
     def __init__(self, *args: Any, **kwargs: Any):
-        super(CubicSplineInterpolator, self).__init__(kind="cubic", *args, **kwargs)
+        super(CubicSplineInterpolator, self).__init__(
+            kind="cubic", *args, **kwargs
+        )
 
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):
@@ -1722,7 +1743,9 @@ def lagrange_coefficients(r: Floating, n: Integer = 4) -> NDArray:
     r_i = np.arange(n)
     L_n = []
     for j in range(len(r_i)):
-        basis = [(r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i)) if i != j]
+        basis = [
+            (r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i)) if i != j
+        ]
         L_n.append(reduce(lambda x, y: x * y, basis))  # noqa
 
     return np.array(L_n)
@@ -1825,7 +1848,9 @@ def vertices_and_relative_coordinates(
     # forming a cube around it:
     vertices = np.array(
         [
-            table[i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]]
+            table[
+                i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]
+            ]
             for i in itertools.product(*zip([0, 0, 0], [1, 1, 1]))
         ]
     )
@@ -1833,7 +1858,9 @@ def vertices_and_relative_coordinates(
     return vertices, V_xyzr
 
 
-def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray:
+def table_interpolation_trilinear(
+    V_xyz: ArrayLike, table: ArrayLike
+) -> NDArray:
     """
     Performs trilinear interpolation of given :math:`V_{xyz}` values using
     given interpolation table.
@@ -1904,7 +1931,9 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
     return xyz_o
 
 
-def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArray:
+def table_interpolation_tetrahedral(
+    V_xyz: ArrayLike, table: ArrayLike
+) -> NDArray:
     """
     Performs tetrahedral interpolation of given :math:`V_{xyz}` values using
     given interpolation table.

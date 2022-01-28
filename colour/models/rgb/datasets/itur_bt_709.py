@@ -62,9 +62,9 @@ WHITEPOINT_NAME_BT709: str = "D65"
 *ITU-R BT.709* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_BT709: NDArray = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-    WHITEPOINT_NAME_BT709
-]
+CCS_WHITEPOINT_BT709: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_BT709]
 """
 *ITU-R BT.709* colourspace whitepoint chromaticity coordinates.
 """

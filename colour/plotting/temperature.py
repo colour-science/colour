@@ -170,7 +170,8 @@ def plot_planckian_locus(
 
 @override_style()
 def plot_planckian_locus_CIE1931(
-    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None, **kwargs: Any
+    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* according to *CIE 1931* method.
@@ -209,7 +210,8 @@ def plot_planckian_locus_CIE1931(
 
 @override_style()
 def plot_planckian_locus_CIE1960UCS(
-    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None, **kwargs: Any
+    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* according to *CIE 1960 UCS* method.

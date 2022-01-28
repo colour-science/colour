@@ -84,7 +84,9 @@ MATRIX_PROTUNE_NATIVE_TO_XYZ: NDArray = normalised_primary_matrix(
 *Protune Native* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_PROTUNE_NATIVE: NDArray = np.linalg.inv(MATRIX_PROTUNE_NATIVE_TO_XYZ)
+MATRIX_XYZ_TO_PROTUNE_NATIVE: NDArray = np.linalg.inv(
+    MATRIX_PROTUNE_NATIVE_TO_XYZ
+)
 """
 *CIE XYZ* tristimulus values to *Protune Native* colourspace matrix.
 """

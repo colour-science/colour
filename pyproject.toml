@@ -130,6 +130,7 @@ read-the-docs = [
 ]
 
 [tool.black]
+line-length = 79
 exclude = '''
 /(
     \.git

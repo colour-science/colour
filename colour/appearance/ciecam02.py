@@ -173,7 +173,9 @@ HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
 }
 
 CAM_KWARGS_CIECAM02_sRGB: Dict = {
-    "XYZ_w": xy_to_XYZ(CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"])
+    "XYZ_w": xy_to_XYZ(
+        CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+    )
     * 100,
     "L_A": 64 / np.pi * 0.2,
     "Y_b": 20,
@@ -237,7 +239,9 @@ def XYZ_to_CIECAM02(
     XYZ_w: ArrayLike,
     L_A: FloatingOrArrayLike,
     Y_b: FloatingOrArrayLike,
-    surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
+    surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02[
+        "Average"
+    ],
     discount_illuminant: Boolean = False,
 ) -> CAM_Specification_CIECAM02:
     """
@@ -340,7 +344,9 @@ H=278.0607358..., HC=None)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A
+    )
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -364,7 +370,9 @@ H=278.0607358..., HC=None)
 
     # Applying forward post-adaptation non-linear response compression.
     RGB_a = post_adaptation_non_linear_response_compression_forward(RGB_p, F_L)
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_pw, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(
+        RGB_pw, F_L
+    )
 
     # Converting to preliminary cartesian coordinates.
     a, b = tsplit(opponent_colour_dimensions_forward(RGB_a))
@@ -415,7 +423,9 @@ def CIECAM02_to_XYZ(
     XYZ_w: ArrayLike,
     L_A: FloatingOrArrayLike,
     Y_b: FloatingOrArrayLike,
-    surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
+    surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02[
+        "Average"
+    ],
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
@@ -531,7 +541,9 @@ def CIECAM02_to_XYZ(
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A
+    )
 
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
@@ -559,7 +571,9 @@ def CIECAM02_to_XYZ(
     RGB_pw = RGB_to_rgb(RGB_wc)
 
     # Applying post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_pw, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(
+        RGB_pw, F_L
+    )
 
     # Computing achromatic response for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -781,7 +795,9 @@ def full_chromatic_adaptation_forward(
     D = as_float_array(D)
 
     RGB_c = (
-        (Y_w[..., np.newaxis] * D[..., np.newaxis] / RGB_w) + 1 - D[..., np.newaxis]
+        (Y_w[..., np.newaxis] * D[..., np.newaxis] / RGB_w)
+        + 1
+        - D[..., np.newaxis]
     ) * RGB
 
     return RGB_c
@@ -830,7 +846,9 @@ def full_chromatic_adaptation_inverse(
     D = as_float_array(D)
 
     RGB_c = RGB / (
-        Y_w[..., np.newaxis] * (D[..., np.newaxis] / RGB_w) + 1 - D[..., np.newaxis]
+        Y_w[..., np.newaxis] * (D[..., np.newaxis] / RGB_w)
+        + 1
+        - D[..., np.newaxis]
     )
 
     return RGB_c
@@ -1096,7 +1114,9 @@ def opponent_colour_dimensions_inverse(
     return ab
 
 
-def hue_angle(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
+def hue_angle(
+    a: FloatingOrArrayLike, b: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *hue* angle :math:`h` in degrees.
 
@@ -1164,7 +1184,9 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     h_ii1 = h_i[i + 1]
     e_ii1 = e_i[i + 1]
 
-    H = H_ii + ((100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
+    H = H_ii + (
+        (100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1)
+    )
 
     H = np.where(
         h < 20.14,
@@ -1173,7 +1195,11 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     )
     H = np.where(
         h >= 237.53,
-        H_ii + ((85.9 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (360 - h) / 0.856)),
+        H_ii
+        + (
+            (85.9 * (h - h_ii) / e_ii)
+            / ((h - h_ii) / e_ii + (360 - h) / 0.856)
+        ),
         H,
     )
     return as_float(H)

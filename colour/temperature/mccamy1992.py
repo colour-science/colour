@@ -142,7 +142,9 @@ def CCT_to_xy_McCamy1992(
         Objective function.
         """
 
-        objective = np.linalg.norm(xy_to_CCT_McCamy1992(xy) - as_float_array(CCT))
+        objective = np.linalg.norm(
+            xy_to_CCT_McCamy1992(xy) - as_float_array(CCT)
+        )
 
         return as_float(objective)
 
@@ -159,7 +161,9 @@ def CCT_to_xy_McCamy1992(
         [
             minimize(
                 objective_function,
-                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
+                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+                    "D65"
+                ],
                 args=(CCT_i,),
                 **optimisation_settings
             ).x

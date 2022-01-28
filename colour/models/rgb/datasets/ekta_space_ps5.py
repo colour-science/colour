@@ -72,7 +72,9 @@ MATRIX_EKTA_SPACE_PS_5_TO_XYZ: NDArray = normalised_primary_matrix(
 *Ekta Space PS 5* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_EKTA_SPACE_PS_5: NDArray = np.linalg.inv(MATRIX_EKTA_SPACE_PS_5_TO_XYZ)
+MATRIX_XYZ_TO_EKTA_SPACE_PS_5: NDArray = np.linalg.inv(
+    MATRIX_EKTA_SPACE_PS_5_TO_XYZ
+)
 """
 *CIE XYZ* tristimulus values to *Ekta Space PS 5* colourspace matrix.
 """

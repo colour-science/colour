@@ -118,7 +118,9 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
         """
 
         pre_LUT_size = max([int(lines[i]) for i in [0, 3, 6]])
-        pre_LUT = [as_float_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]]
+        pre_LUT = [
+            as_float_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]
+        ]
 
         pre_LUT_padded = []
         for row in pre_LUT:
@@ -303,7 +305,9 @@ def write_LUT_Cinespace(
             and isinstance(LUT[1], LUT3D),
             '"LUTSequence" must be "1D + 3D" or "3x1D + 3D"!',
         )
-        LUT[0] = LUT[0].as_LUT(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
+        LUT[0] = (
+            LUT[0].as_LUT(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
+        )
         name = "{0} - {1}".format(LUT[0].name, LUT[1].name)
         has_3x1D = True
         has_3D = True
@@ -332,7 +336,9 @@ def write_LUT_Cinespace(
             "Shaper size must be in domain [2, 65536]!",
         )
     if has_3D:
-        attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
+        attest(
+            2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!"
+        )
 
     def _ragged_size(table: ArrayLike) -> List:
         """
@@ -420,10 +426,14 @@ def write_LUT_Cinespace(
                     csp_file.write("2\n")
                     csp_file.write(
                         "{0}\n".format(
-                            _format_tuple([LUT[1].domain[0][i], LUT[1].domain[1][i]])
+                            _format_tuple(
+                                [LUT[1].domain[0][i], LUT[1].domain[1][i]]
+                            )
                         )
                     )
-                    csp_file.write("{0:.{2}f} {1:.{2}f}\n".format(0, 1, decimals))
+                    csp_file.write(
+                        "{0:.{2}f} {1:.{2}f}\n".format(0, 1, decimals)
+                    )
 
             csp_file.write(
                 "\n{0} {1} {2}\n".format(
@@ -441,7 +451,9 @@ def write_LUT_Cinespace(
                 csp_file.write("2\n")
                 csp_file.write(
                     "{0}\n".format(
-                        _format_tuple([LUT[0].domain[0][i], LUT[0].domain[1][i]])
+                        _format_tuple(
+                            [LUT[0].domain[0][i], LUT[0].domain[1][i]]
+                        )
                     )
                 )
                 csp_file.write("0.0 1.0\n")

@@ -82,7 +82,8 @@ def plot_single_munsell_value_function(
 
 @override_style()
 def plot_multi_munsell_value_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]], **kwargs: Any
+    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Munsell* value functions.
@@ -123,7 +124,9 @@ def plot_multi_munsell_value_functions(
     settings: Dict[str, Any] = {
         "bounding_box": (0, 100, 0, 10),
         "legend": True,
-        "title": "{0} - Munsell Functions".format(", ".join(functions_filtered)),
+        "title": "{0} - Munsell Functions".format(
+            ", ".join(functions_filtered)
+        ),
         "x_label": "Luminance Y",
         "y_label": "Munsell Value V",
     }

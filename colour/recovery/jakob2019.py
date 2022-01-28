@@ -276,7 +276,11 @@ def error_function(
     dXYZ_f = np.where(
         XYZ_XYZ_n[..., np.newaxis] > (24 / 116) ** 3,
         1
-        / (3 * spow(XYZ_n[..., np.newaxis], 1 / 3) * spow(XYZ[..., np.newaxis], 2 / 3))
+        / (
+            3
+            * spow(XYZ_n[..., np.newaxis], 1 / 3)
+            * spow(XYZ[..., np.newaxis], 2 / 3)
+        )
         * dXYZ,
         (841 / 108) * dXYZ / XYZ_n[..., np.newaxis],
     )
@@ -305,7 +309,9 @@ def error_function(
         raise StopMinimizationEarly(coefficients, error)
 
     derror = (
-        np.sum(dLab_i * (Lab_i[..., np.newaxis] - target[..., np.newaxis]), axis=0)
+        np.sum(
+            dLab_i * (Lab_i[..., np.newaxis] - target[..., np.newaxis]), axis=0
+        )
         / error
     )
 
@@ -347,7 +353,9 @@ def dimensionalise_coefficients(
 
     c_0 = cp_0 / span ** 2
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span ** 2
-    c_2 = cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2
+    c_2 = (
+        cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2
+    )
 
     return np.array([c_0, c_1, c_2])
 
@@ -886,9 +894,9 @@ class LUT3D_Jakob2019:
         # First, create a list of all the fully bright colours with the order
         # matching cube_indexes.
         samples = np.linspace(0, 1, chroma_steps)
-        ij = np.transpose(np.meshgrid([1], samples, samples, indexing="ij")).reshape(
-            -1, 3
-        )
+        ij = np.transpose(
+            np.meshgrid([1], samples, samples, indexing="ij")
+        ).reshape(-1, 3)
         chromas = np.concatenate(
             [
                 as_float_array(ij),
@@ -902,7 +910,9 @@ class LUT3D_Jakob2019:
             print_callable=print_callable,
         )
 
-        print_callable("\nOptimising {0} coefficients...\n".format(total_coefficients))
+        print_callable(
+            "\nOptimising {0} coefficients...\n".format(total_coefficients)
+        )
 
         def optimize(ijkL: ArrayLike, coefficients_0: ArrayLike) -> NDArray:
             """
@@ -939,17 +949,23 @@ class LUT3D_Jakob2019:
                 # feedback works in "colour.recovery.\
                 # find_coefficients_Jakob2019" definition.
                 L_middle = lightness_steps // 3
-                coefficients_middle = optimize(np.hstack([ijk, L_middle]), zeros(3))
+                coefficients_middle = optimize(
+                    np.hstack([ijk, L_middle]), zeros(3)
+                )
 
                 # Down the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in reversed(range(0, L_middle)):
-                    coefficients_0 = optimize(np.hstack([ijk, L]), coefficients_0)
+                    coefficients_0 = optimize(
+                        np.hstack([ijk, L]), coefficients_0
+                    )
 
                 # Up the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in range(L_middle + 1, lightness_steps):
-                    coefficients_0 = optimize(np.hstack([ijk, L]), coefficients_0)
+                    coefficients_0 = optimize(
+                        np.hstack([ijk, L]), coefficients_0
+                    )
 
         self._size = size
         self._create_interpolator()

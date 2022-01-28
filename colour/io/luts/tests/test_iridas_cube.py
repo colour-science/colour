@@ -93,13 +93,17 @@ class TestReadLUTIridasCube(unittest.TestCase):
         )
         self.assertEqual(LUT_1.name, "ACES Proxy 10 to ACES")
         self.assertEqual(LUT_1.dimensions, 2)
-        np.testing.assert_array_equal(LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]]))
+        np.testing.assert_array_equal(
+            LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]])
+        )
         self.assertEqual(LUT_1.size, 32)
         self.assertListEqual(LUT_1.comments, [])
 
         LUT_2 = read_LUT_IridasCube(os.path.join(LUTS_DIRECTORY, "Demo.cube"))
         self.assertListEqual(LUT_2.comments, ["Comments can go anywhere"])
-        np.testing.assert_array_equal(LUT_2.domain, np.array([[0, 0, 0], [1, 2, 3]]))
+        np.testing.assert_array_equal(
+            LUT_2.domain, np.array([[0, 0, 0], [1, 2, 3]])
+        )
 
         LUT_3 = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, "Three_Dimensional_Table.cube")
@@ -139,20 +143,28 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         )
         write_LUT_IridasCube(
             LUT_1_r,
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            ),
         )
         LUT_1_t = read_LUT_IridasCube(
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            )
         )
         self.assertEqual(LUT_1_r, LUT_1_t)
 
         write_LUT_IridasCube(
             LUTSequence(LUT_1_r),
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            ),
         )
         self.assertEqual(LUT_1_r, LUT_1_t)
 
-        LUT_2_r = read_LUT_IridasCube(os.path.join(LUTS_DIRECTORY, "Demo.cube"))
+        LUT_2_r = read_LUT_IridasCube(
+            os.path.join(LUTS_DIRECTORY, "Demo.cube")
+        )
         write_LUT_IridasCube(
             LUT_2_r, os.path.join(self._temporary_directory, "Demo.cube")
         )
@@ -167,10 +179,14 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         )
         write_LUT_IridasCube(
             LUT_3_r,
-            os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube"),
+            os.path.join(
+                self._temporary_directory, "Three_Dimensional_Table.cube"
+            ),
         )
         LUT_3_t = read_LUT_IridasCube(
-            os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube")
+            os.path.join(
+                self._temporary_directory, "Three_Dimensional_Table.cube"
+            )
         )
         self.assertEqual(LUT_3_r, LUT_3_t)
 
@@ -179,10 +195,14 @@ class TestWriteLUTIridasCube(unittest.TestCase):
         )
         write_LUT_IridasCube(
             LUT_4_r.as_LUT(LUT1D, force_conversion=True),
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            ),
         )
         LUT_4_t = read_LUT_IridasCube(
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            )
         )
         self.assertEqual(LUT_4_r, LUT_4_t)
 

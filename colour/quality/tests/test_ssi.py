@@ -569,7 +569,9 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
         """
 
         self.assertEqual(
-            spectral_similarity_index(SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"]),
+            spectral_similarity_index(
+                SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"]
+            ),
             94.0,
         )
         self.assertEqual(

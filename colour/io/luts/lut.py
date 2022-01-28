@@ -156,7 +156,9 @@ class AbstractLUT(ABC):
         comments: Optional[Sequence] = None,
     ):
         self._name: str = (
-            "Unity {0!r}".format(size) if table is None else "{0}".format(id(self))
+            "Unity {0!r}".format(size)
+            if table is None
+            else "{0}".format(id(self))
         )
         self.name = optional(name, self._name)
         self._dimensions = optional(dimensions, 0)
@@ -314,7 +316,9 @@ class AbstractLUT(ABC):
 
         attest(
             is_iterable(value),
-            '"{0}" property: "{1}" must be a sequence!'.format("comments", value),
+            '"{0}" property: "{1}" must be a sequence!'.format(
+                "comments", value
+            ),
         )
 
         self._comments = list(value)
@@ -368,7 +372,9 @@ class AbstractLUT(ABC):
         """
 
         representation = repr(self.table)
-        representation = representation.replace("array", self.__class__.__name__)
+        representation = representation.replace(
+            "array", self.__class__.__name__
+        )
         representation = representation.replace(
             "       [", "{0}[".format(" " * (len(self.__class__.__name__) + 2))
         )
@@ -379,7 +385,9 @@ class AbstractLUT(ABC):
         )
 
         indentation = " " * (len(self.__class__.__name__) + 1)
-        representation = ("{0},\n" "{1}name='{2}',\n" "{1}domain={3}{4})").format(
+        representation = (
+            "{0},\n" "{1}name='{2}',\n" "{1}domain={3}{4})"
+        ).format(
             representation[:-1],
             indentation,
             self.name,
@@ -434,7 +442,9 @@ class AbstractLUT(ABC):
 
         return not (self == other)
 
-    def __add__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __add__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for addition.
 
@@ -451,7 +461,9 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "+")
 
-    def __iadd__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __iadd__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for in-place addition.
 
@@ -468,7 +480,9 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "+", True)
 
-    def __sub__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __sub__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for subtraction.
 
@@ -485,7 +499,9 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "-")
 
-    def __isub__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __isub__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for in-place subtraction.
 
@@ -502,7 +518,9 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "-", True)
 
-    def __mul__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __mul__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for multiplication.
 
@@ -519,7 +537,9 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "*")
 
-    def __imul__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __imul__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for in-place multiplication.
 
@@ -536,7 +556,9 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "*", True)
 
-    def __div__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __div__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for division.
 
@@ -553,7 +575,9 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "/")
 
-    def __idiv__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __idiv__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for in-place division.
 
@@ -573,7 +597,9 @@ class AbstractLUT(ABC):
     __itruediv__ = __idiv__
     __truediv__ = __div__
 
-    def __pow__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __pow__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for exponentiation.
 
@@ -590,7 +616,9 @@ class AbstractLUT(ABC):
 
         return self.arithmetical_operation(a, "**")
 
-    def __ipow__(self, a: Union[FloatingOrArrayLike, AbstractLUT]) -> AbstractLUT:
+    def __ipow__(
+        self, a: Union[FloatingOrArrayLike, AbstractLUT]
+    ) -> AbstractLUT:
         """
         Implements support for in-place exponentiation.
 
@@ -814,7 +842,10 @@ class AbstractLUT(ABC):
 
     @abstractmethod
     def as_LUT(
-        self, cls: Type[AbstractLUT], force_conversion: Boolean = False, **kwargs: Any
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any
     ) -> AbstractLUT:
         """
         Converts the *LUT* to given ``cls`` class instance.
@@ -933,7 +964,9 @@ class LUT1D(AbstractLUT):
         comments: Optional[Sequence] = None,
     ):
 
-        domain = as_float_array(cast(ArrayLike, optional(domain, np.array([0, 1]))))
+        domain = as_float_array(
+            cast(ArrayLike, optional(domain, np.array([0, 1])))
+        )
         size = cast(Integer, optional(size, 10))
 
         super(LUT1D, self).__init__(table, name, 1, domain, size, comments)
@@ -1043,7 +1076,9 @@ class LUT1D(AbstractLUT):
         """
 
         size = cast(Integer, optional(size, 10))
-        domain = as_float_array(cast(ArrayLike, optional(domain, np.array([0, 1]))))
+        domain = as_float_array(
+            cast(ArrayLike, optional(domain, np.array([0, 1])))
+        )
 
         if len(domain) != 2:
             return domain
@@ -1175,7 +1210,10 @@ class LUT1D(AbstractLUT):
         return RGB_interpolator(RGB)
 
     def as_LUT(
-        self, cls: Type[AbstractLUT], force_conversion: Boolean = False, **kwargs: Any
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any
     ) -> AbstractLUT:
         """
         Converts the *LUT* to given ``cls`` class instance.
@@ -1325,7 +1363,9 @@ class LUT3x1D(AbstractLUT):
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
     ):
-        domain = cast(ArrayLike, optional(domain, np.array([[0, 0, 0], [1, 1, 1]])))
+        domain = cast(
+            ArrayLike, optional(domain, np.array([[0, 0, 0], [1, 1, 1]]))
+        )
         size = cast(Integer, optional(size, 10))
 
         super(LUT3x1D, self).__init__(table, name, 2, domain, size, comments)
@@ -1375,7 +1415,9 @@ class LUT3x1D(AbstractLUT):
             "The domain row count must be equal or greater than 2!",
         )
 
-        attest(domain.shape[1] == 3, "The domain column count must be equal to 3!")
+        attest(
+            domain.shape[1] == 3, "The domain column count must be equal to 3!"
+        )
 
         return domain
 
@@ -1489,7 +1531,8 @@ class LUT3x1D(AbstractLUT):
             R, G, B = tsplit(domain)
 
             samples = [
-                np.linspace(a[0], a[1], size_array[i]) for i, a in enumerate([R, G, B])
+                np.linspace(a[0], a[1], size_array[i])
+                for i, a in enumerate([R, G, B])
             ]
 
             if not len(np.unique(size_array)) == 1:
@@ -1576,7 +1619,10 @@ class LUT3x1D(AbstractLUT):
             ]
         else:
             domain_min, domain_max = self.domain
-            domain = [np.linspace(domain_min[i], domain_max[i], size) for i in range(3)]
+            domain = [
+                np.linspace(domain_min[i], domain_max[i], size)
+                for i in range(3)
+            ]
 
         LUT_i = LUT3x1D(
             table=tstack(domain),
@@ -1669,7 +1715,8 @@ class LUT3x1D(AbstractLUT):
         else:
             domain_min, domain_max = LUT.domain
             samples = [
-                np.linspace(domain_min[i], domain_max[i], size) for i in range(3)
+                np.linspace(domain_min[i], domain_max[i], size)
+                for i in range(3)
             ]
             R_t, G_t, B_t = tsplit(LUT.table)
 
@@ -1677,7 +1724,8 @@ class LUT3x1D(AbstractLUT):
 
         RGB_i = [
             extrapolator(
-                interpolator(a[0], a[1], **interpolator_kwargs), **extrapolator_kwargs
+                interpolator(a[0], a[1], **interpolator_kwargs),
+                **extrapolator_kwargs
             )(a[2])
             for a in zip((s_R, s_G, s_B), (R_t, G_t, B_t), (R, G, B))
         ]
@@ -1685,7 +1733,10 @@ class LUT3x1D(AbstractLUT):
         return tstack(RGB_i)
 
     def as_LUT(
-        self, cls: Type[AbstractLUT], force_conversion: Boolean = False, **kwargs: Any
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any
     ) -> AbstractLUT:
         """
         Converts the *LUT* to given ``cls`` class instance.
@@ -1834,7 +1885,9 @@ class LUT3D(AbstractLUT):
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
     ):
-        domain = cast(ArrayLike, optional(domain, np.array([[0, 0, 0], [1, 1, 1]])))
+        domain = cast(
+            ArrayLike, optional(domain, np.array([[0, 0, 0], [1, 1, 1]]))
+        )
         size = cast(Integer, optional(size, 33))
 
         super(LUT3D, self).__init__(table, name, 3, domain, size, comments)
@@ -1888,7 +1941,9 @@ class LUT3D(AbstractLUT):
             "The domain row count must be equal or greater than 2!",
         )
 
-        attest(domain.shape[1] == 3, "The domain column count must be equal to 3!")
+        attest(
+            domain.shape[1] == 3, "The domain column count must be equal to 3!"
+        )
 
         return domain
 
@@ -2083,7 +2138,8 @@ class LUT3D(AbstractLUT):
 
             size_array = np.flip(size_array, -1)
             samples = [
-                np.linspace(a[0], a[1], size_array[i]) for i, a in enumerate([B, G, R])
+                np.linspace(a[0], a[1], size_array[i])
+                for i, a in enumerate([B, G, R])
             ]
 
         table = np.flip(
@@ -2148,13 +2204,17 @@ class LUT3D(AbstractLUT):
         # defined as the minimal version.
         from sklearn.neighbors import KDTree
 
-        interpolator = kwargs.get("interpolator", table_interpolation_trilinear)
+        interpolator = kwargs.get(
+            "interpolator", table_interpolation_trilinear
+        )
         extrapolate = kwargs.get("extrapolate", False)
         query_size = kwargs.get("query_size", 3)
 
         LUT = self.copy()
         source_size = LUT.size
-        target_size = kwargs.get("size", (as_int(2 ** (np.sqrt(source_size) + 1) + 1)))
+        target_size = kwargs.get(
+            "size", (as_int(2 ** (np.sqrt(source_size) + 1) + 1))
+        )
 
         if target_size > 129:
             usage_warning("LUT3D inverse computation time could be excessive!")
@@ -2264,7 +2324,9 @@ class LUT3D(AbstractLUT):
             kwargs.get("direction", "Forward"), ["Forward", "Inverse"]
         )
 
-        interpolator = kwargs.get("interpolator", table_interpolation_trilinear)
+        interpolator = kwargs.get(
+            "interpolator", table_interpolation_trilinear
+        )
         interpolator_kwargs = kwargs.get("interpolator_kwargs", {})
 
         R, G, B = tsplit(RGB)
@@ -2297,7 +2359,10 @@ class LUT3D(AbstractLUT):
         return RGB_i
 
     def as_LUT(
-        self, cls: Type[AbstractLUT], force_conversion: Boolean = False, **kwargs: Any
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any
     ) -> AbstractLUT:
         """
         Converts the *LUT* to given ``cls`` class instance.
@@ -2367,7 +2432,10 @@ class LUT3D(AbstractLUT):
 
 
 def LUT_to_LUT(
-    LUT, cls: Type[AbstractLUT], force_conversion: Boolean = False, **kwargs: Any
+    LUT,
+    cls: Type[AbstractLUT],
+    force_conversion: Boolean = False,
+    **kwargs: Any
 ) -> AbstractLUT:
     """
     Converts given *LUT* to given ``cls`` class instance.
@@ -2459,7 +2527,9 @@ def LUT_to_LUT(
         if "size" in kwargs:
             del kwargs["size"]
 
-        channel_weights = as_float_array(kwargs.get("channel_weights", full(3, 1 / 3)))
+        channel_weights = as_float_array(
+            kwargs.get("channel_weights", full(3, 1 / 3))
+        )
         if "channel_weights" in kwargs:
             del kwargs["channel_weights"]
 

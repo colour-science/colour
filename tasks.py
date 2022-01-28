@@ -74,7 +74,9 @@ def _patch_invoke_annotations_support():
     org_task_argspec = invoke.tasks.Task.argspec
 
     def patched_task_argspec(*args, **kwargs):
-        with patch(target="inspect.getargspec", new=patched_inspect_getargspec):
+        with patch(
+            target="inspect.getargspec", new=patched_inspect_getargspec
+        ):
             return org_task_argspec(*args, **kwargs)
 
     invoke.tasks.Task.argspec = patched_task_argspec
@@ -166,7 +168,9 @@ def formatting(
         message_box('Cleaning up "BibTeX" file...')
         bibtex_path = BIBLIOGRAPHY_NAME
         with open(bibtex_path) as bibtex_file:
-            entries = biblib.bib.Parser().parse(bibtex_file.read()).get_entries()
+            entries = (
+                biblib.bib.Parser().parse(bibtex_file.read()).get_entries()
+            )
 
         for entry in sorted(entries.values(), key=lambda x: x.key):
             try:
@@ -379,7 +383,9 @@ def build(ctx: Context):
 
     message_box("Building...")
     if "modified:   pyproject.toml" in ctx.run("git status").stdout:
-        raise RuntimeError('Please commit your changes to the "pyproject.toml" file!')
+        raise RuntimeError(
+            'Please commit your changes to the "pyproject.toml" file!'
+        )
 
     pyproject_content = toml.load("pyproject.toml")
     pyproject_content["tool"]["poetry"]["name"] = PYPI_PACKAGE_NAME
@@ -390,7 +396,9 @@ def build(ctx: Context):
         toml.dump(pyproject_content, pyproject_file)
 
     if "modified:   README.rst" in ctx.run("git status").stdout:
-        raise RuntimeError('Please commit your changes to the "README.rst" file!')
+        raise RuntimeError(
+            'Please commit your changes to the "README.rst" file!'
+        )
 
     with open("README.rst", "r") as readme_file:
         readme_content = readme_file.read()
@@ -414,13 +422,19 @@ def build(ctx: Context):
 
     with ctx.cd("dist"):
         ctx.run(
-            "tar -xvf {0}-{1}.tar.gz".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION)
+            "tar -xvf {0}-{1}.tar.gz".format(
+                PYPI_PACKAGE_NAME, APPLICATION_VERSION
+            )
         )
         ctx.run(
-            "cp {0}-{1}/setup.py ../".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION)
+            "cp {0}-{1}/setup.py ../".format(
+                PYPI_PACKAGE_NAME, APPLICATION_VERSION
+            )
         )
 
-        ctx.run("rm -rf {0}-{1}".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION))
+        ctx.run(
+            "rm -rf {0}-{1}".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION)
+        )
 
     with open("setup.py") as setup_file:
         source = setup_file.read()
@@ -482,17 +496,22 @@ def virtualise(ctx: Context, tests: Boolean = True):
     unique_name = "{0}-{1}".format(PYPI_PACKAGE_NAME, uuid.uuid1())
     with ctx.cd("dist"):
         ctx.run(
-            "tar -xvf {0}-{1}.tar.gz".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION)
+            "tar -xvf {0}-{1}.tar.gz".format(
+                PYPI_PACKAGE_NAME, APPLICATION_VERSION
+            )
         )
         ctx.run(
-            "mv {0}-{1} {2}".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION, unique_name)
+            "mv {0}-{1} {2}".format(
+                PYPI_PACKAGE_NAME, APPLICATION_VERSION, unique_name
+            )
         )
         with ctx.cd(unique_name):
             ctx.run("poetry env use 3")
             ctx.run('poetry install --extras "optional plotting"')
             ctx.run("source $(poetry env info -p)/bin/activate")
             ctx.run(
-                'python -c "import imageio;' 'imageio.plugins.freeimage.download()"'
+                'python -c "import imageio;'
+                'imageio.plugins.freeimage.download()"'
             )
             if tests:
                 ctx.run("poetry run nosetests", env={"MPLBACKEND": "AGG"})
@@ -540,7 +559,9 @@ def tag(ctx: Context):
         remote_tags = result.stdout.strip().split("\n")
         tags = set()
         for remote_tag in remote_tags:
-            tags.add(remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}"))
+            tags.add(
+                remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}")
+            )
         version_tags = sorted(list(tags))
         assert (
             "v{0}".format(version) not in version_tags

@@ -32,7 +32,9 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
 
 print("\n")
 
-message_box(('Plotting "RGB" colourspaces in ' '"CIE 1960 UCS Chromaticity Diagram".'))
+message_box(
+    ('Plotting "RGB" colourspaces in ' '"CIE 1960 UCS Chromaticity Diagram".')
+)
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     ["ITU-R BT.709", "ACEScg", "S-Gamut"], show_pointer_gamut=True
@@ -40,7 +42,9 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
 
 print("\n")
 
-message_box(('Plotting "RGB" colourspaces in ' '"CIE 1976 UCS Chromaticity Diagram".'))
+message_box(
+    ('Plotting "RGB" colourspaces in ' '"CIE 1976 UCS Chromaticity Diagram".')
+)
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     ["ITU-R BT.709", "ACEScg", "S-Gamut"], show_pointer_gamut=True
@@ -51,7 +55,8 @@ print("\n")
 RGB = np.random.random((32, 32, 3))
 
 message_box(
-    'Plotting "RGB" chromaticity coordinates in ' '"CIE 1931 Chromaticity Diagram".'
+    'Plotting "RGB" chromaticity coordinates in '
+    '"CIE 1931 Chromaticity Diagram".'
 )
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     RGB,
@@ -63,7 +68,8 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
 print("\n")
 
 message_box(
-    'Plotting "RGB" chromaticity coordinates in ' '"CIE 1960 UCS Chromaticity Diagram".'
+    'Plotting "RGB" chromaticity coordinates in '
+    '"CIE 1960 UCS Chromaticity Diagram".'
 )
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     RGB,
@@ -75,7 +81,8 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
 print("\n")
 
 message_box(
-    'Plotting "RGB" chromaticity coordinates in ' '"CIE 1976 UCS Chromaticity Diagram".'
+    'Plotting "RGB" chromaticity coordinates in '
+    '"CIE 1976 UCS Chromaticity Diagram".'
 )
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     RGB,
@@ -104,7 +111,9 @@ AWFUL_RGB = colour.RGB_Colourspace(
     whitepoint=np.array([1.0 / 3.0, 1.0 / 3.0]),
 )
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
-plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(["ITU-R BT.709", AWFUL_RGB])
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
+    ["ITU-R BT.709", AWFUL_RGB]
+)
 
 print("\n")
 

@@ -459,7 +459,9 @@ def lightness_Fairchild2011(
 def lightness_Abebe2017(
     Y: FloatingOrArrayLike,
     Y_n: FloatingOrArrayLike = 100,
-    method: Union[Literal["Michaelis-Menten", "Stevens"], str] = "Michaelis-Menten",
+    method: Union[
+        Literal["Michaelis-Menten", "Stevens"], str
+    ] = "Michaelis-Menten",
 ) -> FloatingOrNDArray:
     """
     Computes *Lightness* :math:`L` of given *luminance* :math:`Y` using
@@ -674,7 +676,9 @@ def lightness(
 
     L = function(Y, **filter_kwargs(function, **kwargs))
 
-    if function in domain_undefined and (domain_range_reference or domain_range_100):
+    if function in domain_undefined and (
+        domain_range_reference or domain_range_100
+    ):
         L *= 100
 
     return L

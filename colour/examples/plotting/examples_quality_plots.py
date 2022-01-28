@@ -44,7 +44,10 @@ plot_single_sd_colour_quality_scale_bars(colour.SDS_ILLUMINANTS["FL2"])
 print("\n")
 
 message_box(
-    ("Plotting various illuminants and light sources " '"Colour Quality Scale (CQS)".')
+    (
+        "Plotting various illuminants and light sources "
+        '"Colour Quality Scale (CQS)".'
+    )
 )
 plot_multi_sds_colour_quality_scales_bars(
     (

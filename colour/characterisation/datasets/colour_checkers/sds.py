@@ -1061,9 +1061,11 @@ DATA_BABELCOLOR_AVERAGE: Dict = dict(
     ]
 )
 
-SDS_BABELCOLOR_AVERAGE: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    (key, partial(SpectralDistribution, value, name=key))
-    for key, value in DATA_BABELCOLOR_AVERAGE.items()
+SDS_BABELCOLOR_AVERAGE: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        (key, partial(SpectralDistribution, value, name=key))
+        for key, value in DATA_BABELCOLOR_AVERAGE.items()
+    )
 )
 """
 Average data derived from measurements of 30 *ColorChecker Classic* charts.
@@ -3142,9 +3144,11 @@ DATA_COLORCHECKER_N_OHTA = dict(
     ]
 )
 
-SDS_COLORCHECKER_N_OHTA: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    (key, partial(SpectralDistribution, value, name=key))
-    for key, value in DATA_COLORCHECKER_N_OHTA.items()
+SDS_COLORCHECKER_N_OHTA: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        (key, partial(SpectralDistribution, value, name=key))
+        for key, value in DATA_COLORCHECKER_N_OHTA.items()
+    )
 )
 """
 *ColorChecker Classic* data Measured by *Ohta (1997)*.

@@ -180,7 +180,9 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
             D_b = case[0]
             D_d = case[0]
             XYZ_wo = np.array(case)
-            chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo)
+            chromatic_adaptation_Zhai2018(
+                XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo
+            )
 
 
 if __name__ == "__main__":

@@ -448,13 +448,17 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         )
 
         self.assertAlmostEqual(
-            mesopic_weighting_function(500, 0.2, source="Red Heavy", method="LRC"),
+            mesopic_weighting_function(
+                500, 0.2, source="Red Heavy", method="LRC"
+            ),
             0.90951000,
             places=7,
         )
 
         self.assertAlmostEqual(
-            mesopic_weighting_function(700, 10, source="Red Heavy", method="LRC"),
+            mesopic_weighting_function(
+                700, 10, source="Red Heavy", method="LRC"
+            ),
             0.00410200,
             places=7,
         )
