@@ -45,7 +45,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">= 3.8, < 3.11"
 imageio = ">= 2, < 3"
-scipy = ">= 1.6, < 2"
+scipy = ">= 1.5, < 2"
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
 black = { version = "*", optional = true }  # Development dependency.
