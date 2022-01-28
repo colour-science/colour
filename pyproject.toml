@@ -45,6 +45,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">= 3.8, < 3.11"
 imageio = ">= 2, < 3"
+numpy = ">= 1.19, < 2"
 scipy = ">= 1.5, < 2"
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
@@ -54,10 +55,9 @@ coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
 jupyter = { version = "*", optional = true }  # Development dependency.
-matplotlib = { version = "<= 3.4", optional = true }
+matplotlib = { version = ">= 3.2, != 3.5.0, != 3.5.1", optional = true }
 mypy = { version = "*", optional = true }  # Development dependency.
 networkx = { version = "*", optional = true }
-numpy = { version = "*", optional = true }
 opencolorio = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
 pre-commit = { version = "*", optional = true }  # Development dependency.
