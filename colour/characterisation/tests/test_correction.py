@@ -27,7 +27,7 @@ from colour.hints import NDArray
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -786,7 +786,9 @@ matrix_colour_correction_Finlayson2015` definition.
         )
 
     @ignore_numpy_errors
-    def test_nan_matrix_colour_correction_Finlayson2015(self):  # pragma: no cover
+    def test_nan_matrix_colour_correction_Finlayson2015(
+        self,
+    ):  # pragma: no cover
         """
         Tests :func:`colour.characterisation.correction.\
         matrix_colour_correction_Finlayson2015` definition nan support.
@@ -882,7 +884,9 @@ matrix_colour_correction_Vandermonde` definition.
         )
 
     @ignore_numpy_errors
-    def test_nan_matrix_colour_correction_Vandermonde(self):  # pragma: no cover
+    def test_nan_matrix_colour_correction_Vandermonde(
+        self,
+    ):  # pragma: no cover
         """
         Tests :func:`colour.characterisation.correction.\
         matrix_colour_correction_Vandermonde` definition nan support.
