@@ -108,7 +108,7 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_string(value),
-            '"{}" property: "{}" type is not "str"!'.format("name", value),
+            f'"name" property: "{value}" type is not "str"!',
         )
 
         self._name = value
@@ -139,9 +139,7 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_iterable(value),
-            '"{}" property: "{}" must be a sequence!'.format(
-                "comments", value
-            ),
+            f'"comments" property: "{value}" must be a sequence!',
         )
 
         self._comments = list(value)
@@ -295,9 +293,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         attest(
             value.shape in [(3, 3), (4, 4)],
-            '"{}" property: "{}" shape is not (3, 3) or (4, 4)!'.format(
-                "matrix", value
-            ),
+            f'"matrix" property: "{value}" shape is not (3, 3) or (4, 4)!',
         )
 
         M = np.identity(4)
@@ -335,9 +331,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         attest(
             value.shape in [(3,), (4,)],
-            '"{}" property: "{}" shape is not (3, ) or (4, )!'.format(
-                "offset", value
-            ),
+            f'"offset" property: "{value}" shape is not (3, ) or (4, )!',
         )
 
         offset = zeros(4)
@@ -419,7 +413,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             "array", self.__class__.__name__
         )
         representation = representation.replace(
-            "       [", "{}[".format(" " * (len(self.__class__.__name__) + 2))
+            "       [", f"{' ' * (len(self.__class__.__name__) + 2)}["
         )
 
         indentation = " " * (len(self.__class__.__name__) + 1)

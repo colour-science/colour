@@ -370,30 +370,20 @@ def write_LUT_ResolveCube(
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
 
         if has_3x1D:
-            cube_file.write(
-                "{} {}\n".format("LUT_1D_SIZE", LUT[0].table.shape[0])
-            )
+            cube_file.write(f"LUT_1D_SIZE {LUT[0].table.shape[0]}\n")
             if not np.array_equal(LUT[0].domain, default_domain):
-                cube_file.write(
-                    "LUT_1D_INPUT_RANGE {}\n".format(
-                        _format_tuple(
-                            [LUT[0].domain[0][0], LUT[0].domain[1][0]]
-                        )
-                    )
+                input_range = _format_tuple(
+                    [LUT[0].domain[0][0], LUT[0].domain[1][0]]
                 )
+                cube_file.write(f"LUT_1D_INPUT_RANGE {input_range}\n")
 
         if has_3D:
-            cube_file.write(
-                "{} {}\n".format("LUT_3D_SIZE", LUT[1].table.shape[0])
-            )
+            cube_file.write(f"LUT_3D_SIZE {LUT[1].table.shape[0]}\n")
             if not np.array_equal(LUT[1].domain, default_domain):
-                cube_file.write(
-                    "LUT_3D_INPUT_RANGE {}\n".format(
-                        _format_tuple(
-                            [LUT[1].domain[0][0], LUT[1].domain[1][0]]
-                        )
-                    )
+                input_range = _format_tuple(
+                    [LUT[1].domain[0][0], LUT[1].domain[1][0]]
                 )
+                cube_file.write(f"LUT_3D_INPUT_RANGE {input_range}\n")
 
         if has_3x1D:
             table = LUT[0].table

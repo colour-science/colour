@@ -235,14 +235,14 @@ def quality(
     if mypy:
         message_box('Checking codebase with "Mypy"...')
         ctx.run(
-            "mypy "
-            "--install-types "
-            "--non-interactive "
-            "--show-error-codes "
-            "--warn-unused-ignores "
-            "--warn-redundant-casts "
-            "-p {} "
-            "|| true".format(PYTHON_PACKAGE_NAME)
+            f"mypy "
+            f"--install-types "
+            f"--non-interactive "
+            f"--show-error-codes "
+            f"--warn-unused-ignores "
+            f"--warn-redundant-casts "
+            f"-p {PYTHON_PACKAGE_NAME} "
+            f"|| true"
         )
 
     if rstlint:
@@ -422,16 +422,8 @@ def build(ctx: Context):
     ctx.run("git checkout -- README.rst")
 
     with ctx.cd("dist"):
-        ctx.run(
-            "tar -xvf {}-{}.tar.gz".format(
-                PYPI_PACKAGE_NAME, APPLICATION_VERSION
-            )
-        )
-        ctx.run(
-            "cp {}-{}/setup.py ../".format(
-                PYPI_PACKAGE_NAME, APPLICATION_VERSION
-            )
-        )
+        ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
+        ctx.run(f"cp {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}/setup.py ../")
 
         ctx.run(f"rm -rf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}")
 
@@ -494,16 +486,8 @@ def virtualise(ctx: Context, tests: Boolean = True):
 
     unique_name = f"{PYPI_PACKAGE_NAME}-{uuid.uuid1()}"
     with ctx.cd("dist"):
-        ctx.run(
-            "tar -xvf {}-{}.tar.gz".format(
-                PYPI_PACKAGE_NAME, APPLICATION_VERSION
-            )
-        )
-        ctx.run(
-            "mv {}-{} {}".format(
-                PYPI_PACKAGE_NAME, APPLICATION_VERSION, unique_name
-            )
-        )
+        ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
+        ctx.run(f"mv {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION} {unique_name}")
         with ctx.cd(unique_name):
             ctx.run("poetry env use 3")
             ctx.run('poetry install --extras "optional plotting"')
@@ -562,10 +546,9 @@ def tag(ctx: Context):
                 remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}")
             )
         version_tags = sorted(list(tags))
-        assert (
-            f"v{version}" not in version_tags
-        ), 'A "{}" "v{}" tag already exists in remote repository!'.format(
-            PYTHON_PACKAGE_NAME, version
+        assert f"v{version}" not in version_tags, (
+            f'A "{PYTHON_PACKAGE_NAME}" "v{version}" tag already exists in '
+            f"remote repository!"
         )
 
         ctx.run(f"git flow release start v{version}")

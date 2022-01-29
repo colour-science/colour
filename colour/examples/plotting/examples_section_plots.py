@@ -134,9 +134,7 @@ for i, RGB in zip(np.arange(0.5, 0.9, 0.1), section_colours):
 axes.legend(handles=legend_lines)
 
 colour.plotting.render(
-    title="Visible Spectrum - 50% - sRGB Sections - {}% -  DIN99".format(
-        origins
-    ),
+    title=f"Visible Spectrum - 50% - sRGB Sections - {origins}% -  DIN99",
     axes=axes,
     bounding_box=bounding_box,
 )

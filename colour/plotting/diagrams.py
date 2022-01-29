@@ -577,9 +577,7 @@ def plot_chromaticity_diagram(
             "CIE v'",
         )
 
-    title = "{} Chromaticity Diagram - {}".format(
-        method.upper(), cmfs.strict_name
-    )
+    title = f"{method.upper()} Chromaticity Diagram - {cmfs.strict_name}"
 
     settings.update(
         {

@@ -448,9 +448,7 @@ def white_balance_multipliers(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{}" illuminant shape to "{}".'.format(
-                illuminant.name, shape
-            )
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -553,9 +551,7 @@ def normalise_illuminant(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{}" illuminant shape to "{}".'.format(
-                illuminant.name, shape
-            )
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -614,17 +610,13 @@ def training_data_sds_to_RGB(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{}" illuminant shape to "{}".'.format(
-                illuminant.name, shape
-            )
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{}" training data shape to "{}".'.format(
-                training_data.name, shape
-            )
+            f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)
@@ -710,17 +702,13 @@ def training_data_sds_to_XYZ(
     shape = cmfs.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{}" illuminant shape to "{}".'.format(
-                illuminant.name, shape
-            )
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{}" training data shape to "{}".'.format(
-                training_data.name, shape
-            )
+            f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)
@@ -964,18 +952,14 @@ def matrix_idt(
     shape = cmfs.shape
     if sensitivities.shape != shape:
         runtime_warning(
-            'Aligning "{}" sensitivities shape to "{}".'.format(
-                sensitivities.name, shape
-            )
+            f'Aligning "{sensitivities.name}" sensitivities shape to "{shape}".'
         )
         # pylint: disable=E1102
         sensitivities = reshape_msds(sensitivities, shape)  # type: ignore[assignment]
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{}" training data shape to "{}".'.format(
-                training_data.name, shape
-            )
+            f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)

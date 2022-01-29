@@ -276,9 +276,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "manufacturer", value
-                ),
+                f'"manufacturer" property: "{value}" type is not "str"!',
             )
 
         self._manufacturer = value
@@ -310,9 +308,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "catalog_number", value
-                ),
+                f'"catalog_number" property: "{value}" type is not "str"!',
             )
 
         self._catalog_number = value
@@ -344,9 +340,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "description", value
-                ),
+                f'"description" property: "{value}" type is not "str"!',
             )
 
         self._description = value
@@ -378,9 +372,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "document_creator", value
-                ),
+                f'"document_creator" property: "{value}" type is not "str"!',
             )
 
         self._document_creator = value
@@ -412,9 +404,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "unique_identifier", value
-                ),
+                f'"unique_identifier" property: "{value}" type is not "str"!',
             )
 
         self._unique_identifier = value
@@ -446,9 +436,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "measurement_equipment", value
-                ),
+                f'"measurement_equipment" property: "{value}" type is not "str"!',
             )
 
         self._measurement_equipment = value
@@ -480,9 +468,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "laboratory", value
-                ),
+                f'"laboratory" property: "{value}" type is not "str"!',
             )
 
         self._laboratory = value
@@ -514,9 +500,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "report_number", value
-                ),
+                f'"report_number" property: "{value}" type is not "str"!',
             )
 
         self._report_number = value
@@ -548,9 +532,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "report_date", value
-                ),
+                f'"report_date" property: "{value}" type is not "str"!',
             )
 
         self._report_date = value
@@ -582,9 +564,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "document_creation_date", value
-                ),
+                f'"document_creation_date" property: "{value}" type is not "str"!',
             )
 
         self._document_creation_date = value
@@ -616,9 +596,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "comments", value
-                ),
+                f'"comments" property: "{value}" type is not "str"!',
             )
 
         self._comments = value
@@ -902,7 +880,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format("path", value),
+                f'"path" property: "{value}" type is not "str"!',
             )
 
         self._path = value
@@ -933,9 +911,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         attest(
             isinstance(value, Header_IESTM2714),
-            '"{}" property: "{}" type is not a "Header_IESTM2714"!'.format(
-                "header", value
-            ),
+            f'"header" property: "{value}" type is not a "Header_IESTM2714"!',
         )
 
         self._header = value
@@ -1002,9 +978,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "spectral_quantity", value
-                ),
+                f'"spectral_quantity" property: "{value}" type is not "str"!',
             )
 
         self._spectral_quantity = value
@@ -1071,9 +1045,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "reflection_geometry", value
-                ),
+                f'"reflection_geometry" property: "{value}" type is not "str"!',
             )
 
         self._reflection_geometry = value
@@ -1114,9 +1086,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{}" property: "{}" type is not "str"!'.format(
-                    "transmission_geometry", value
-                ),
+                f'"transmission_geometry" property: "{value}" type is not "str"!',
             )
 
         self._transmission_geometry = value
@@ -1148,9 +1118,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{}" property: "{}" is not a "numeric"!'.format(
-                    "bandwidth_FWHM", value
-                ),
+                f'"bandwidth_FWHM" property: "{value}" is not a "numeric"!',
             )
 
             value = as_float_scalar(value)
@@ -1185,9 +1153,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 isinstance(value, bool),
-                '"{}" property: "{}" type is not "bool"!'.format(
-                    "bandwidth_corrected", value
-                ),
+                f'"bandwidth_corrected" property: "{value}" type is not "bool"!',
             )
 
         self._bandwidth_corrected = value

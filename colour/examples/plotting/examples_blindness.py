@@ -40,8 +40,8 @@ print("\n")
 
 message_box(
     'Simulating average "Protanomaly" on '
-    '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
-    "model and pre-computed matrix."
+    '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) model and '
+    "pre-computed matrix."
 )
 plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE,
@@ -59,8 +59,8 @@ M_a = colour.matrix_anomalous_trichromacy_Machado2009(
 )
 message_box(
     'Simulating average "Protanomaly" on '
-    '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
-    'model using "Stockman & Sharpe 2 Degree Cone Fundamentals" and '
+    '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) model '
+    'using "Stockman & Sharpe 2 Degree Cone Fundamentals" and '
     '"Typical CRT Brainard 1997" "RGB" display primaries.'
 )
 plot_cvd_simulation_Machado2009(
@@ -78,8 +78,8 @@ M_a = colour.matrix_anomalous_trichromacy_Machado2009(
 )
 message_box(
     'Simulating "Protanopia" on '
-    '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
-    'model using "Stockman & Sharpe 2 Degree Cone Fundamentals" and '
+    '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) model '
+    'using "Stockman & Sharpe 2 Degree Cone Fundamentals" and '
     '"Typical CRT Brainard 1997" "RGB" display primaries.'
 )
 plot_cvd_simulation_Machado2009(

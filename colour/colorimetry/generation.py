@@ -607,11 +607,7 @@ def sd_single_led_Ohno2005(
     1.0000000...
     """
 
-    settings = {
-        "name": "{}nm - {} FWHM LED - Ohno (2005)".format(
-            peak_wavelength, fwhm
-        )
-    }
+    settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM LED - Ohno (2005)"}
     settings.update(kwargs)
 
     sd = sd_gaussian_fwhm(peak_wavelength, fwhm, shape, **kwargs)
@@ -783,11 +779,10 @@ def sd_multi_leds_Ohno2005(
         return ", ".join([str(e) for e in a])
 
     sd.name = (
-        "{}nm - {}FWHM - {} Peak Power Ratios - LED - Ohno (2005)".format(
-            _format_array(peak_wavelengths),
-            _format_array(fwhm),
-            _format_array(peak_power_ratios),
-        )
+        f"{_format_array(peak_wavelengths)}nm - "
+        f"{_format_array(fwhm)}FWHM - "
+        f"{_format_array(peak_power_ratios)} Peak Power Ratios - "
+        f"LED - Ohno (2005)"
     )
 
     return sd

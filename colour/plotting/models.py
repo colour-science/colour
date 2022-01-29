@@ -514,10 +514,9 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
-    title = "{}\n{} - {} Chromaticity Diagram".format(
-        ", ".join([colourspace.name for colourspace in colourspaces]),
-        cmfs.name,
-        method.upper(),
+    title = (
+        f"{', '.join([colourspace.name for colourspace in colourspaces])}\n"
+        f"{cmfs.name} - {method.upper()} Chromaticity Diagram"
     )
 
     settings = {"axes": axes, "title": title, "method": method}
@@ -1717,9 +1716,7 @@ def plot_single_cctf(
     """
 
     settings: Dict[str, Any] = {
-        "title": "{} - {} CCTF".format(
-            cctf, "Decoding" if cctf_decoding else "Encoding"
-        )
+        "title": f"{cctf} - {'Decoding' if cctf_decoding else 'Encoding'} CCTF"
     }
     settings.update(kwargs)
 
@@ -1772,9 +1769,7 @@ def plot_multi_cctfs(
     )
 
     mode = "Decoding" if cctf_decoding else "Encoding"
-    title = "{} - {} CCTFs".format(
-        ", ".join([cctf for cctf in cctfs_filtered]), mode
-    )
+    title = f"{', '.join([cctf for cctf in cctfs_filtered])} - {mode} CCTFs"
 
     settings: Dict[str, Any] = {
         "bounding_box": (0, 1, 0, 1),

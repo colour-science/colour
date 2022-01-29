@@ -486,9 +486,8 @@ class CaseInsensitiveMapping(MutableMapping):
             other_mapping = CaseInsensitiveMapping(other)
         else:
             raise ValueError(
-                'Impossible to test equality with "{}" class type!'.format(
-                    other.__class__.__name__
-                )
+                f"Impossible to test equality with "
+                f'"{other.__class__.__name__}" class type!'
             )
 
         return dict(self.lower_items()) == dict(other_mapping.lower_items())
@@ -772,7 +771,7 @@ class Node:
 
         attest(
             isinstance(value, str),
-            '"{}" property: "{}" type is not "str"!'.format("name", value),
+            f'"name" property: "{value}" type is not "str"!',
         )
 
         self._name = value
@@ -804,9 +803,8 @@ class Node:
         if value is not None:
             attest(
                 issubclass(value.__class__, Node),
-                '"{}" property: "{}" is not a "{}" subclass!'.format(
-                    "parent", value, Node.__class__.__name__
-                ),
+                f'"parent" property: "{value}" is not a '
+                f'"{Node.__class__.__name__}" subclass!',
             )
 
             value.children.append(self)
@@ -839,17 +837,14 @@ class Node:
 
         attest(
             isinstance(value, list),
-            '"{}" property: "{}" type is not a "list" instance!'.format(
-                "children", value
-            ),
+            f'"children" property: "{value}" type is not a "list" instance!',
         )
 
         for element in value:
             attest(
                 issubclass(element.__class__, Node),
-                '"{}" property: A "{}" element is not a "{}" subclass!'.format(
-                    "children", element, Node.__class__.__name__
-                ),
+                f'"children" property: A "{element}" element is not a '
+                f'"{Node.__class__.__name__}" subclass!',
             )
 
         for node in value:

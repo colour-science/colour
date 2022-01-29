@@ -311,7 +311,7 @@ class MultiSignals(AbstractContinuousFunction):
         ] = None,
         domain: Optional[ArrayLike] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(kwargs.get("name"))
 
@@ -617,21 +617,17 @@ class MultiSignals(AbstractContinuousFunction):
 
         attest(
             is_iterable(value),
-            '"{}" property: "{}" is not an "iterable" like object!'.format(
-                "labels", value
-            ),
+            f'"labels" property: "{value}" is not an "iterable" like object!',
         )
 
         attest(
             len(set(value)) == len(value),
-            '"{}" property: values must be unique!'.format("labels"),
+            '"labels" property: values must be unique!',
         )
 
         attest(
             len(value) == len(self.labels),
-            '"{}" property: length must be "{}"!'.format(
-                "labels", len(self._signals)
-            ),
+            f'"labels" property: length must be "{len(self._signals)}"!',
         )
 
         self._signals = {
@@ -720,9 +716,7 @@ class MultiSignals(AbstractContinuousFunction):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{}(name='{}', ...)".format(
-                self.__class__.__name__, self.name
-            )
+            return f"{self.__class__.__name__}(name='{self.name}', ...)"
 
         try:
             representation = repr(
@@ -733,7 +727,7 @@ class MultiSignals(AbstractContinuousFunction):
             )
             representation = representation.replace(
                 "       [",
-                "{}[".format(" " * (len(self.__class__.__name__) + 2)),
+                f"{' ' * (len(self.__class__.__name__) + 2)}[",
             )
             representation = (
                 "{0},\n"
@@ -1264,7 +1258,7 @@ class MultiSignals(AbstractContinuousFunction):
         labels: Optional[Sequence] = None,
         dtype: Optional[Type[DTypeFloating]] = None,
         signal_type: Type[Signal] = Signal,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> Dict[str, Signal]:
         """
         Unpack given data for multi-continuous signals instantiation.

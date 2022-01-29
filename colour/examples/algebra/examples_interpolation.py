@@ -13,8 +13,8 @@ from colour.utilities import message_box
 message_box("Interpolation Computations")
 
 message_box(
-    'Comparing "Sprague (1880)" and "Cubic Spline" recommended '
-    'interpolation methods to "Pchip" method.'
+    'Comparing the "Sprague (1880)" and "Cubic Spline" recommended '
+    'interpolation methods to the "Pchip" method.'
 )
 
 data_uniform = {
@@ -158,9 +158,9 @@ print("\n")
 
 V_xyz = np.random.random((6, 3))
 message_box(
-    'Performing "trilinear" interpolation of given "xyz" values:\n'
-    "\n{}\n"
-    "\nusing given interpolation table.".format(V_xyz)
+    f'Performing "trilinear" interpolation of given "xyz" values:\n\n'
+    f"{V_xyz}\n\n"
+    f"using given interpolation table."
 )
 path = os.path.join(
     os.path.dirname(__file__),
@@ -180,9 +180,9 @@ print(colour.algebra.table_interpolation_trilinear(V_xyz, table))
 print("\n")
 
 message_box(
-    'Performing "tetrahedral" interpolation of given "xyz" values:\n'
-    "\n{}\n"
-    "\nusing given interpolation table.".format(V_xyz)
+    f'Performing "tetrahedral" interpolation of given "xyz" values:\n\n'
+    f"{V_xyz}\n\n"
+    f"using given interpolation table."
 )
 print(colour.table_interpolation(V_xyz, table, method="Tetrahedral"))
 print(colour.algebra.table_interpolation_tetrahedral(V_xyz, table))

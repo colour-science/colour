@@ -16,12 +16,13 @@ L_A = 318.31
 Y_b = 20.0
 surround = colour.VIEWING_CONDITIONS_ZCAM["Average"]
 message_box(
-    (
-        'Converting to "ZCAM" colour appearance model specification '
-        "using given parameters:\n"
-        "\n\tXYZ: {}\n\tXYZ_w: {}\n\tL_A: {}\n\tY_b: {}"
-        "\n\tSurround: {}"
-    ).format(XYZ, XYZ_w, L_A, Y_b, surround)
+    f'Converting to the "ZCAM" colour appearance model specification using '
+    f"given parameters:\n\n"
+    f"\tXYZ: {XYZ}\n"
+    f"\tXYZ_w: {XYZ_w}\n"
+    f"\tL_A: {L_A}\n"
+    f"\tY_b: {Y_b}\n"
+    f"\tSurround: {surround}"
 )
 specification = colour.XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b, surround)
 print(specification)
@@ -29,8 +30,8 @@ print(specification)
 print("\n")
 
 message_box(
-    'Broadcasting current output "ZCAM" colour appearance '
-    "model specification to the reference specification."
+    'Broadcasting the current output "ZCAM" colour appearance model '
+    "specification to the reference specification."
 )
 
 print(CAM_ReferenceSpecification_ZCAM(*specification.values))
@@ -43,10 +44,13 @@ C = 0.18427174878137914
 h = 219.74741565783773
 specification = colour.CAM_Specification_ZCAM(J, C, h)
 message_box(
-    (
-        'Converting to "CIE XYZ" tristimulus values using given parameters:\n'
-        "\n\tJ: {}\n\tC: {}\n\th: {}\n\tXYZ_w: {}\n\tL_A: {}\n\tY_b: {}"
-        "\n\tSurround: {}"
-    ).format(J, C, h, XYZ_w, L_A, Y_b, surround)
+    f'Converting to "CIE XYZ" tristimulus values using given parameters:\n\n'
+    f"\tJ: {J}\n"
+    f"\tC: {C}\n"
+    f"\th: {h}\n"
+    f"\tXYZ_w: {XYZ_w}\n"
+    f"\tL_A: {L_A}\n"
+    f"\tY_b: {Y_b}\n"
+    f"\tSurround: {surround}"
 )
 print(colour.ZCAM_to_XYZ(specification, XYZ_w, L_A, Y_b, surround))

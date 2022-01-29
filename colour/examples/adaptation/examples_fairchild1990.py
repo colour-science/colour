@@ -14,10 +14,12 @@ XYZ_n = np.array([1.1115, 1.0000, 0.3520])
 XYZ_r = np.array([0.9481, 1.0000, 1.0730])
 Y_n = 200
 message_box(
-    'Computing chromatic adaptation using "Fairchild (1990)" '
-    "chromatic adaptation model.\n"
-    '\n\t"XYZ_1":\n\t\t{}\n\t"XYZ_n":\n\t\t{}\n\t"XYZ_r":\n\t\t{}'
-    '\n\t"Y_n":\n\t\t{}'.format(XYZ_1, XYZ_n, XYZ_r, Y_n)
+    f'Computing chromatic adaptation using "Fairchild (1990)" chromatic '
+    f"adaptation model.\n\n"
+    f'\t"XYZ_1": {XYZ_1}\n'
+    f'\t"XYZ_n": {XYZ_n}\n'
+    f'\t"XYZ_r": {XYZ_r}\n'
+    f'\t"Y_n": {Y_n}'
 )
 print(
     colour.chromatic_adaptation(

@@ -405,14 +405,12 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     if surround.N_cb is None:
         N_cb = 0.725 * spow(Y_w / Y_b, 0.2)
         usage_warning(
-            'Unspecified "N_cb" argument, using approximation: '
-            '"{}"'.format(N_cb)
+            f'Unspecified "N_cb" argument, using approximation: "{N_cb}"'
         )
     if surround.N_bb is None:
         N_bb = 0.725 * spow(Y_w / Y_b, 0.2)
         usage_warning(
-            'Unspecified "N_bb" argument, using approximation: '
-            '"{}"'.format(N_bb)
+            f'Unspecified "N_bb" argument, using approximation: "{N_bb}"'
         )
 
     if L_AS is None and CCT_w is None:
@@ -424,8 +422,8 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     elif L_AS is None and CCT_w is not None:
         L_AS = illuminant_scotopic_luminance(L_A, CCT_w)
         usage_warning(
-            'Unspecified "L_AS" argument, using approximation from "CCT": '
-            '"{}"'.format(L_AS)
+            f'Unspecified "L_AS" argument, using approximation from "CCT": '
+            f'"{L_AS}"'
         )
 
     if (S is None and S_w is not None) or (S is not None and S_w is None):
@@ -438,9 +436,9 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         S_p = Y
         S_w_p = Y_w
         usage_warning(
-            'Unspecified stimulus scotopic response "S" and reference '
-            'white scotopic response "S_w" arguments, using '
-            'approximation: "{}", "{}"'.format(S, S_w)
+            f'Unspecified stimulus scotopic response "S" and reference white '
+            f'scotopic response "S_w" arguments, using approximation: '
+            f'"{S}", "{S_w}"'
         )
 
     if p is None:

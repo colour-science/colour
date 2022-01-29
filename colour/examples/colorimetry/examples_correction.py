@@ -10,10 +10,9 @@ from colour.utilities import message_box
 message_box("Spectral Bandpass Dependence Correction")
 
 message_box(
-    "Applying spectral bandpass dependence correction on a sample "
-    'spectral distribution using "Stearns and Stearns (1988)" '
-    "method:\n"
-    '\n\t("Measured Values", "Corrected Values")'
+    "Applying spectral bandpass dependence correction on a sample spectral "
+    'distribution using "Stearns and Stearns (1988)" method:\n\n'
+    '\t("Measured Values", "Corrected Values")'
 )
 data_sample = {
     380: 0.048,

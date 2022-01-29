@@ -206,9 +206,8 @@ def XYZ_to_sd_Meng2015(
 
     if not result.success:
         raise RuntimeError(
-            'Optimization failed for {} after {} iterations: "{}".'.format(
-                XYZ, result.nit, result.message
-            )
+            f"Optimization failed for {XYZ} after {result.nit} iterations: "
+            f'"{result.message}".'
         )
 
     return SpectralDistribution(

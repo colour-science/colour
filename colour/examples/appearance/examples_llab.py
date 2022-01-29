@@ -16,10 +16,13 @@ Y_b = 20.0
 L = 318.31
 surround = colour.VIEWING_CONDITIONS_LLAB["ref_average_4_minus"]
 message_box(
-    'Converting to "LLAB(l:c)" colour appearance model '
-    "specification using given parameters:\n"
-    "\n\tXYZ: {}\n\tXYZ_0: {}\n\tY_b: {}\n\tL: {}"
-    "\n\tsurround: {}".format(XYZ, XYZ_0, Y_b, L, surround)
+    f'Converting to the  "LLAB(l:c)" colour appearance model specification '
+    f"using given parameters:\n\n"
+    f"\tXYZ: {XYZ}\n"
+    f"\tXYZ_0: {XYZ_0}\n"
+    f"\tY_b: {Y_b}\n"
+    f"\tL: {L}\n"
+    f"\tsurround: {surround}"
 )
 specification = colour.XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
 print(specification)
@@ -27,10 +30,10 @@ print(specification)
 print("\n")
 
 message_box(
-    'Broadcasting current output "LLAB(l:c)" colour appearance '
+    'Broadcasting the current output "LLAB(l:c)" colour appearance '
     "model specification to the reference specification.\n"
     "The intent of this reference specification is to provide names "
-    'as closest as possible to "Mark D. Fairchild" reference.\n'
+    'as closest as possible to the "Mark D. Fairchild" reference.\n'
     "The current output specification is meant to be consistent with "
     "the other colour appearance model specification by using same "
     "argument names for consistency wherever possible."

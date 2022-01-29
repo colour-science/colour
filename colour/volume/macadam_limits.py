@@ -73,10 +73,8 @@ def _XYZ_optimal_colour_stimuli(
 
     if optimal_colour_stimuli is None:
         raise KeyError(
-            '"{}" not found in factory '
-            '"Optimal Colour Stimuli": "{}".'.format(
-                illuminant, sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())
-            )
+            f'"{illuminant}" not found in factory "Optimal Colour Stimuli": '
+            f'"{sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())}".'
         )
 
     vertices = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ.get(illuminant)

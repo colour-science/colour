@@ -936,9 +936,8 @@ plot_multi_sds(
 print("\n")
 
 message_box(
-    "Plotting a mesopic luminous efficiency function with given "
-    "photopic luminance value:\n"
-    "\n\t0.2"
+    "Plotting a mesopic luminous efficiency function with given photopic "
+    "luminance value:\n\n\t0.2"
 )
 sd_mesopic_luminous_efficiency_function = (
     colour.sd_mesopic_luminous_efficiency_function(0.2)

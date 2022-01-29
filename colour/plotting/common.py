@@ -900,9 +900,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
         if non_siblings:
             runtime_warning(
-                'Non-sibling elements are passed-through: "{}"'.format(
-                    non_siblings
-                )
+                f'Non-sibling elements are passed-through: "{non_siblings}"'
             )
 
             object_filterers.extend(non_siblings)
@@ -1594,7 +1592,7 @@ def plot_multi_functions(
     settings = {
         "axes": axes,
         "legend": True,
-        "title": "{} - Functions".format(", ".join(functions)),
+        "title": f"{', '.join(functions)} - Functions",
         "x_label": x_label,
         "y_label": y_label,
     }

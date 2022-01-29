@@ -15,12 +15,13 @@ L_A = 318.31
 Y_b = 20.0
 surround = colour.VIEWING_CONDITIONS_CAM16["Average"]
 message_box(
-    (
-        'Converting to "CAM16" colour appearance model specification '
-        "using given parameters:\n"
-        "\n\tXYZ: {}\n\tXYZ_w: {}\n\tL_A: {}\n\tY_b: {}"
-        "\n\tSurround: {}"
-    ).format(XYZ, XYZ_w, L_A, Y_b, surround)
+    f'Converting to the "CAM16" colour appearance model specification '
+    f"using given parameters:\n\n"
+    f"\tXYZ: {XYZ}\n"
+    f"\tXYZ_w: {XYZ_w}\n"
+    f"\tL_A: {L_A}\n"
+    f"\tY_b: {Y_b}\n"
+    f"\tSurround: {surround}"
 )
 specification = colour.XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 print(specification)
@@ -32,11 +33,13 @@ C = 0.10335574
 h = 217.06795977
 specification = colour.CAM_Specification_CAM16(J, C, h)
 message_box(
-    (
-        'Converting to "CIE XYZ" tristimulus values using given '
-        "parameters:\n"
-        "\n\tJ: {}\n\tC: {}\n\th: {}\n\tXYZ_w: {}\n\tL_A: {}"
-        "\n\tY_b: {}\n\tSurround: {}"
-    ).format(J, C, h, XYZ_w, L_A, Y_b, surround)
+    f'Converting to "CIE XYZ" tristimulus values using given parameters:\n\n'
+    f"\tJ: {J}\n"
+    f"\tC: {C}\n"
+    f"\th: {h}\n"
+    f"\tXYZ_w: {XYZ_w}\n"
+    f"\tL_A: {L_A}\n"
+    f"\tY_b: {Y_b}\n"
+    f"\tSurround: {surround}"
 )
 print(colour.CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround))

@@ -16,10 +16,13 @@ Y_n = 31.83
 sigma = colour.VIEWING_CONDITIONS_RLAB["Average"]
 D = colour.appearance.D_FACTOR_RLAB["Hard Copy Images"]
 message_box(
-    'Converting to "RLAB" colour appearance model '
-    "specification using given parameters:\n"
-    "\n\tXYZ: {}\n\tXYZ_n: {}\n\tY_n: {}\n\tsigma: {}"
-    "\n\tD: {}".format(XYZ, XYZ_n, Y_n, sigma, D)
+    f'Converting to the "RLAB" colour appearance model specification using '
+    f"given parameters:\n\n"
+    f"\tXYZ: {XYZ}\n"
+    f"\tXYZ_n: {XYZ_n}\n"
+    f"\tY_n: {Y_n}\n"
+    f"\tsigma: {sigma}\n"
+    f"\tD: {D}"
 )
 specification = colour.XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)
 print(specification)
@@ -27,10 +30,10 @@ print(specification)
 print("\n")
 
 message_box(
-    'Broadcasting current output "RLAB" colour appearance '
+    'Broadcasting the current output "RLAB" colour appearance '
     "model specification to the reference specification.\n"
     "The intent of this reference specification is to provide names "
-    'as closest as possible to "Mark D. Fairchild" reference.\n'
+    'as closest as possible to the "Mark D. Fairchild" reference.\n'
     "The current output specification is meant to be consistent with "
     "the other colour appearance model specification by using same "
     "argument names for consistency wherever possible."

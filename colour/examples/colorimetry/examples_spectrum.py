@@ -106,11 +106,11 @@ print(sd_sample.is_uniform())
 print("\n")
 
 message_box(
-    "Sample spectral distribution cloning:\n"
-    '\n\t("Original Id", "Clone Id")\n'
+    "Sample spectral distribution cloning:\n\n"
+    '\t("Original Id", "Clone Id")\n'
     "\nCloning is a convenient way to get a copy of the spectral "
-    "distribution, this an important feature because some "
-    "operations happen in place."
+    "distribution, this an important feature because some operations happen "
+    "in place."
 )
 sd_clone = sd_sample.copy()
 print(id(sd_sample), id(sd_clone))

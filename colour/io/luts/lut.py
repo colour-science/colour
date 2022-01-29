@@ -227,7 +227,7 @@ class AbstractLUT(ABC):
 
         attest(
             is_string(value),
-            '"{}" property: "{}" type is not "str"!'.format("name", value),
+            f'"name" property: "{value}" type is not "str"!',
         )
 
         self._name = value
@@ -311,9 +311,7 @@ class AbstractLUT(ABC):
 
         attest(
             is_iterable(value),
-            '"{}" property: "{}" must be a sequence!'.format(
-                "comments", value
-            ),
+            f'"comments" property: "{value}" must be a sequence!',
         )
 
         self._comments = list(value)
@@ -371,12 +369,12 @@ class AbstractLUT(ABC):
             "array", self.__class__.__name__
         )
         representation = representation.replace(
-            "       [", "{}[".format(" " * (len(self.__class__.__name__) + 2))
+            "       [", f"{' ' * (len(self.__class__.__name__) + 2)}["
         )
 
         domain = repr(self.domain).replace("array(", "").replace(")", "")
         domain = domain.replace(
-            "       [", "{}[".format(" " * (len(self.__class__.__name__) + 9))
+            "       [", f"{' ' * (len(self.__class__.__name__) + 9)}["
         )
 
         indentation = " " * (len(self.__class__.__name__) + 1)
@@ -2337,9 +2335,9 @@ class LUT3D(AbstractLUT):
                 for axes in np.transpose(LUT.domain)
             ]
             usage_warning(
-                '"LUT" was defined with an explicit domain but requires '
-                "an implicit domain to be applied. The following domain "
-                "will be used: {}".format(np.vstack([domain_min, domain_max]))
+                f'"LUT" was defined with an explicit domain but requires an '
+                f"implicit domain to be applied. The following domain will be "
+                f"used: {np.vstack([domain_min, domain_max])}"
             )
         else:
             domain_min, domain_max = LUT.domain

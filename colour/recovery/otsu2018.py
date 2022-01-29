@@ -234,8 +234,9 @@ class Dataset_Otsu2018:
         """
 
         if self._basis_functions is not None:
-            return "{}({} basis functions)".format(
-                self.__class__.__name__, self._basis_functions.shape[0]
+            return (
+                f"{self.__class__.__name__}"
+                f"({self._basis_functions.shape[0]} basis functions)"
             )
         else:
             return f"{self.__class__.__name__}()"
@@ -579,11 +580,10 @@ class PartitionAxis:
             Formatted string representation.
         """
 
-        return "{}({} partition at {} = {})".format(
-            self.__class__.__name__,
-            "horizontal" if self.direction else "vertical",
-            "y" if self.direction else "x",
-            self.origin,
+        return (
+            f"{self.__class__.__name__}"
+            f"({'horizontal' if self.direction else 'vertical'} partition "
+            f"at {'y' if self.direction else 'x'} = {self.origin})"
         )
 
 
@@ -1480,28 +1480,23 @@ the initial error.
 
             if optimised_total_error is None:
                 print_callable(
-                    "\nNo further improvement is possible!\n"
-                    "Terminating at iteration {}.\n".format(i)
+                    f"\nNo further improvement is possible!"
+                    f"\nTerminating at iteration {i}.\n"
                 )
                 break
 
             if best_partition is not None:
                 print_callable(
-                    '\nSplitting "{}" into "{}" and "{}" along "{}".'.format(
-                        best_leaf,
-                        best_partition[0],
-                        best_partition[1],
-                        best_axis,
-                    )
+                    f'\nSplitting "{best_leaf}" into "{best_partition[0]}" '
+                    f'and "{best_partition[1]}" along "{best_axis}".'
                 )
 
             print_callable(
-                "Error is reduced by {} and is now {}, "
-                "{:.1f}% of the initial error.".format(
-                    leaf.leaf_reconstruction_error() - partition_error,
-                    optimised_total_error,
-                    100 * optimised_total_error / initial_branch_error,
-                )
+                f"Error is reduced by "
+                f"{leaf.leaf_reconstruction_error() - partition_error} and "
+                f"is now {optimised_total_error}, "
+                f"{100 * optimised_total_error / initial_branch_error:.1f}% "
+                f"of the initial error."
             )
 
             if best_leaf is not None:

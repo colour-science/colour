@@ -33,8 +33,8 @@ print(
 print("\n")
 
 message_box(
-    'Computing "F2" illuminant "Colour Fidelity Index" (CFI) with '
-    "detailed output data."
+    'Computing "F2" illuminant "Colour Fidelity Index" (CFI) with detailed '
+    "output data."
 )
 pprint(
     colour.colour_fidelity_index(
@@ -67,7 +67,7 @@ print(
 print("\n")
 
 message_box(
-    'Computing "CIE Standard Illuminant A" ' '"Colour Fidelity Index (CFI)".'
+    'Computing "CIE Standard Illuminant A" "Colour Fidelity Index (CFI)".'
 )
 print(colour.colour_fidelity_index(colour.SDS_ILLUMINANTS["A"]))
 

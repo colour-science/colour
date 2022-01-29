@@ -75,16 +75,14 @@ print(colour.read_LUT(path))
 print("\n")
 
 RGB = np.array([0.35521588, 0.41000000, 0.24177934])
-message_box('Applying a 1D LUT to given "RGB" values:\n' "\n\t{}".format(RGB))
+message_box(f'Applying a 1D LUT to given "RGB" values:\n\n\t{RGB}')
 path = os.path.join(RESOURCES_DIRECTORY, "sony_spi1d", "eotf_sRGB_1D.spi1d")
 LUT = colour.io.read_LUT(path)
 print(LUT.apply(RGB))
 
 print("\n")
 
-message_box(
-    'Applying a 3x1D LUT to given "RGB" values:\n' "\n\t{}".format(RGB)
-)
+message_box(f'Applying a 3x1D LUT to given "RGB" values:\n\n\t{RGB}')
 path = os.path.join(
     RESOURCES_DIRECTORY, "iridas_cube", "ACES_Proxy_10_to_ACES.cube"
 )
@@ -93,14 +91,13 @@ print(LUT.apply(RGB))
 
 print("\n")
 
-message_box('Applying a 3D LUT to given "RGB" values:\n' "\n\t{}".format(RGB))
+message_box(f'Applying a 3D LUT to given "RGB" values:\n\n\t{RGB}')
 path = os.path.join(RESOURCES_DIRECTORY, "iridas_cube", "Colour_Correct.cube")
 LUT = colour.io.read_LUT(path)
 print(LUT.apply(RGB))
 
 message_box(
-    'Applying a "Sony" ".spimtx" LUT to given "RGB" values:\n'
-    "\n\t{}".format(RGB)
+    f'Applying a "Sony" ".spimtx" LUT to given "RGB" values:\n\n\t{RGB}'
 )
 path = os.path.join(RESOURCES_DIRECTORY, "sony_spimtx", "dt.spimtx")
 LUT = colour.io.read_LUT(path)

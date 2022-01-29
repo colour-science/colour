@@ -409,9 +409,9 @@ def sd_reference_illuminant(
         m = (CCT - 4000) / 1000
         values = linstep_function(m, sd_planckian.values, sd_daylight.values)
         name = (
-            "{}K Blackbody & CIE Illuminant D Series Mixture - {:.1f}%".format(
-                as_int_scalar(CCT), as_float_scalar(100 * m)
-            )
+            f"{as_int_scalar(CCT)}K "
+            f"Blackbody & CIE Illuminant D Series Mixture - "
+            f"{as_float_scalar(100 * m):.1f}%"
         )
         sd_reference = SpectralDistribution(values, shape.range(), name=name)
     elif CCT > 5000:

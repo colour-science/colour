@@ -552,9 +552,9 @@ def plot_RGB_colourspaces_gamuts(
 
     count_c = len(colourspaces)
 
-    title = "{} - {} Reference Colourspace".format(
-        ", ".join([colourspace.name for colourspace in colourspaces]),
-        reference_colourspace,
+    title = (
+        f"{', '.join([colourspace.name for colourspace in colourspaces])} "
+        f"- {reference_colourspace} Reference Colourspace"
     )
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint

@@ -223,9 +223,8 @@ def write_LUT_IridasCube(
 
     if isinstance(LUT, LUTSequence):
         usage_warning(
-            '"LUT" is a "LUTSequence" instance was passed, '
-            'using first sequence "LUT":\n'
-            "{}".format(LUT)
+            f'"LUT" is a "LUTSequence" instance was passed, '
+            f'using first sequence "LUT":\n{LUT}'
         )
         LUTxD = LUT[0]
     elif isinstance(LUT, LUT1D):
@@ -263,10 +262,7 @@ def write_LUT_IridasCube(
                 cube_file.write(f"# {comment}\n")
 
         cube_file.write(
-            "{} {}\n".format(
-                "LUT_1D_SIZE" if is_3x1D else "LUT_3D_SIZE",
-                LUTxD.table.shape[0],
-            )
+            f"{'LUT_1D_SIZE' if is_3x1D else 'LUT_3D_SIZE'} {LUTxD.table.shape[0]}\n"
         )
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])

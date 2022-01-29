@@ -197,9 +197,8 @@ def write_LUT_SonySPI1D(
 
     if isinstance(LUT, LUTSequence):
         usage_warning(
-            '"LUT" is a "LUTSequence" instance was passed, '
-            'using first sequence "LUT":\n'
-            "{}".format(LUT)
+            f'"LUT" is a "LUTSequence" instance was passed, using first '
+            f'sequence "LUT":\n{LUT}'
         )
         LUTxD = LUT[0]
     else:
@@ -236,9 +235,7 @@ def write_LUT_SonySPI1D(
         )
 
         spi1d_file.write(
-            "Length {}\n".format(
-                LUTxD.table.size if is_1D else LUTxD.table.shape[0]
-            )
+            f"Length {LUTxD.table.size if is_1D else LUTxD.table.shape[0]}\n"
         )
 
         spi1d_file.write(f"Components {1 if is_1D else 3}\n")

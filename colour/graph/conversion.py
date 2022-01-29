@@ -247,7 +247,7 @@ def sd_to_XYZ(
     illuminant: Optional[SpectralDistribution] = None,
     k: Optional[Number] = None,
     method: Union[Literal["ASTM E308", "Integration"], str] = "ASTM E308",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
 
     illuminant = cast(
@@ -925,7 +925,7 @@ def describe_conversion_path(
     width: Integer = 79,
     padding: Integer = 3,
     print_callable: Callable = print,
-    **kwargs: Any
+    **kwargs: Any,
 ):
     """
     Describes the conversion path from source colour representation to target
@@ -942,7 +942,7 @@ def describe_conversion_path(
     mode
         Verbose mode: *Short* describes the conversion path, *Long* provides
         details about the arguments, definitions signatures and output values,
-        *Extended* appends the definitions documentation.
+        *Extended* appends the definitions' documentation.
     width
         Message box width.
     padding
@@ -1026,21 +1026,18 @@ def describe_conversion_path(
             )
 
             if filtered_kwargs:
-                message += "\n\n[ Filtered Arguments ]\n\n{}".format(
-                    pformat(filtered_kwargs)
+                message += (
+                    f"\n\n[ Filtered Arguments ]\n\n{pformat(filtered_kwargs)}"
                 )
 
             if mode in ("extended",):
-                message += "\n\n[ Documentation ]\n\n{}".format(
-                    textwrap.dedent(
-                        str(_lower_order_function(conversion_function).__doc__)
-                    ).strip()
-                )
+                docstring = textwrap.dedent(
+                    str(_lower_order_function(conversion_function).__doc__)
+                ).strip()
+                message += f"\n\n[ Documentation ]\n\n {docstring}"
 
             if return_value is not None:
-                message += "\n\n[ Conversion Output ]\n\n{}".format(
-                    return_value
-                )
+                message += f"\n\n[ Conversion Output ]\n\n{return_value}"
 
             message_box(message, width, padding, print_callable)
 

@@ -17,13 +17,13 @@ from colour.utilities import (
 message_box("Automatic Colour Conversion Graph")
 
 message_box(
-    'Starting with version "0.3.14", "Colour" implements an automatic '
-    "colour conversion graph enabling easier colour conversions."
+    'Starting with version "0.3.14", "Colour" implements an automatic colour '
+    "conversion graph enabling easier colour conversions."
 )
 
 message_box(
-    'Converting a "ColorChecker" "dark skin" sample spectral '
-    'distribution to "Output-Referred" "sRGB" colourspace.'
+    'Converting a "ColorChecker" "dark skin" sample spectral distribution to '
+    '"Output-Referred" "sRGB" colourspace.'
 )
 
 sd = colour.SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
@@ -34,9 +34,8 @@ print("\n")
 
 RGB = np.array([0.45675795, 0.30986982, 0.24861924])
 message_box(
-    'Converting to "CAM16-UCS" colourspace from given '
-    '"Output-Referred" "sRGB" colourspace values:\n'
-    "\n\t{}".format(RGB)
+    f'Converting to the "CAM16-UCS" colourspace from given "Output-Referred" '
+    f'"sRGB" colourspace values:\n\n\t{RGB}'
 )
 print(colour.convert(RGB, "Output-Referred RGB", "CAM16UCS"))
 
@@ -44,9 +43,8 @@ print("\n")
 
 Jpapbp = np.array([0.39994811, 0.09206558, 0.0812752])
 message_box(
-    'Converting to "Output-Referred" "sRGB" colourspace from given '
-    '"CAM16-UCS" colourspace colourspace values:\n'
-    "\n\t{}".format(RGB)
+    f'Converting to the "Output-Referred" "sRGB" colourspace from given '
+    f'"CAM16-UCS" colourspace colourspace values:\n\n\t{RGB}'
 )
 print(colour.convert(Jpapbp, "CAM16UCS", "sRGB"))
 
@@ -98,37 +96,36 @@ message_box("N-Dimensional Arrays Support")
 
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 illuminant = np.array([0.31270, 0.32900])
-message_box('Using 1d "ArrayLike" parameter:\n' "\n{}".format(XYZ))
+message_box(f'Using 1d "ArrayLike" parameter:\n\n{XYZ}')
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print("\n")
 
 XYZ = np.tile(XYZ, (6, 1))
 illuminant = np.tile(illuminant, (6, 1))
-message_box('Using 2d "ArrayLike" parameter:\n' "\n{}".format(XYZ))
+message_box(f'Using 2d "ArrayLike" parameter:\n\n{XYZ}')
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print("\n")
 
 XYZ = np.reshape(XYZ, (2, 3, 3))
 illuminant = np.reshape(illuminant, (2, 3, 2))
-message_box('Using 3d "ArrayLike" parameter:\n' "\n{}".format(XYZ))
+message_box(f'Using 3d "ArrayLike" parameter:\n\n{XYZ}')
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print("\n")
 
 XYZ = np.reshape(XYZ, (3, 2, 1, 3))
 illuminant = np.reshape(illuminant, (3, 2, 1, 2))
-message_box('Using 4d "ArrayLike" parameter:\n' "\n{}".format(XYZ))
+message_box(f'Using 4d "ArrayLike" parameter:\n\n{XYZ}')
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print("\n")
 
 xy = np.tile((0.31270, 0.32900), (6, 1))
 message_box(
-    "Definitions return value may lose a dimension with respect to "
-    "the parameter(s):\n"
-    "\n{}".format(xy)
+    f"Definitions return value may lose a dimension with respect to the "
+    f"parameter(s):\n\n{xy}"
 )
 print(colour.xy_to_CCT(xy))
 
@@ -136,18 +133,17 @@ print("\n")
 
 CCT = np.tile(6504.38938305, 6)
 message_box(
-    "Definitions return value may gain a dimension with respect to "
-    "the parameter(s):\n"
-    "\n{}".format(CCT)
+    f"Definitions return value may gain a dimension with respect to the "
+    f"parameter(s):\n\n{CCT}"
 )
 print(colour.CCT_to_xy(CCT))
 
 print("\n")
 
 message_box(
-    'Definitions mixing "ArrayLike" and "numeric" parameters '
-    'expect the "numeric" parameters to have a dimension less than '
-    'the "ArrayLike" parameters.'
+    'Definitions mixing "ArrayLike" and "Number" parameters expect the '
+    '"Number" parameters to have a dimension less than the "ArrayLike" '
+    "parameters."
 )
 XYZ_1 = np.array([28.00, 21.26, 5.27])
 xy_o1 = np.array([0.4476, 0.4074])
@@ -156,13 +152,13 @@ Y_o = 20
 E_o1 = 1000
 E_o2 = 1000
 message_box(
-    "Parameters:\n\n"
-    "XYZ_1:\n\n{}\n\n"
-    "\nxy_o1:\n\n{}\n\n"
-    "\nxy_o2:\n\n{}\n\n"
-    "\nY_o:\n\n{}\n\n"
-    "\nE_o1:\n\n{}\n\n"
-    "\nE_o2:\n\n{}".format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    f"Parameters:\n\n"
+    f"\tXYZ_1: {XYZ_1}\n"
+    f"\txy_o1: {xy_o1}\n"
+    f"\txy_o2: {xy_o2}\n"
+    f"\tY_o: {Y_o}\n"
+    f"\tE_o1: {E_o1}\n"
+    f"\tE_o2: {E_o2}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(
@@ -174,13 +170,13 @@ print("\n")
 
 XYZ_1 = np.tile(XYZ_1, (6, 1))
 message_box(
-    "Parameters:\n\n"
-    "XYZ_1:\n\n{}\n\n"
-    "\nxy_o1:\n\n{}\n\n"
-    "\nxy_o2:\n\n{}\n\n"
-    "\nY_o:\n\n{}\n\n"
-    "\nE_o1:\n\n{}\n\n"
-    "\nE_o2:\n\n{}".format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    f"Parameters:\n\n"
+    f"\tXYZ_1: {XYZ_1}\n"
+    f"\txy_o1: {xy_o1}\n"
+    f"\txy_o2: {xy_o2}\n"
+    f"\tY_o: {Y_o}\n"
+    f"\tE_o1: {E_o1}\n"
+    f"\tE_o2: {E_o2}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(
@@ -196,13 +192,13 @@ Y_o = np.tile(Y_o, 6)
 E_o1 = np.tile(E_o1, 6)
 E_o2 = np.tile(E_o2, 6)
 message_box(
-    "Parameters:\n\n"
-    "XYZ_1:\n\n{}\n\n"
-    "\nxy_o1:\n\n{}\n\n"
-    "\nxy_o2:\n\n{}\n\n"
-    "\nY_o:\n\n{}\n\n"
-    "\nE_o1:\n\n{}\n\n"
-    "\nE_o2:\n\n{}".format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    f"Parameters:\n\n"
+    f"\tXYZ_1: {XYZ_1}\n"
+    f"\txy_o1: {xy_o1}\n"
+    f"\txy_o2: {xy_o2}\n"
+    f"\tY_o: {Y_o}\n"
+    f"\tE_o1: {E_o1}\n"
+    f"\tE_o2: {E_o2}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(
@@ -219,13 +215,13 @@ Y_o = np.reshape(Y_o, (2, 3))
 E_o1 = np.reshape(E_o1, (2, 3))
 E_o2 = np.reshape(E_o2, (2, 3))
 message_box(
-    "Parameters:\n\n"
-    "XYZ_1:\n\n{}\n\n"
-    "\nxy_o1:\n\n{}\n\n"
-    "\nxy_o2:\n\n{}\n\n"
-    "\nY_o:\n\n{}\n\n"
-    "\nE_o1:\n\n{}\n\n"
-    "\nE_o2:\n\n{}".format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    f"Parameters:\n\n"
+    f"\tXYZ_1: {XYZ_1}\n"
+    f"\txy_o1: {xy_o1}\n"
+    f"\txy_o2: {xy_o2}\n"
+    f"\tY_o: {Y_o}\n"
+    f"\tE_o1: {E_o1}\n"
+    f"\tE_o2: {E_o2}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(
@@ -262,13 +258,13 @@ Y_o = 0.2
 E_o1 = 1000
 E_o2 = 1000
 message_box(
-    "Parameters:\n\n"
-    "XYZ_1:\n\n{}\n\n"
-    "\nxy_o1:\n\n{}\n\n"
-    "\nxy_o2:\n\n{}\n\n"
-    "\nY_o:\n\n{}\n\n"
-    "\nE_o1:\n\n{}\n\n"
-    "\nE_o2:\n\n{}".format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    f"Parameters:\n\n"
+    f"\tXYZ_1: {XYZ_1}\n"
+    f"\txy_o1: {xy_o1}\n"
+    f"\txy_o2: {xy_o2}\n"
+    f"\tY_o: {Y_o}\n"
+    f"\tE_o1: {E_o1}\n"
+    f"\tE_o2: {E_o2}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(

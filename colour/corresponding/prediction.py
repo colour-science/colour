@@ -237,8 +237,8 @@ def convert_experiment_results_Breneman1987(
     valid_experiment_results = [1, 2, 3, 4, 6, 8, 9, 11, 12]
     attest(
         experiment in valid_experiment_results,
-        '"Breneman (1987)" experiment result is invalid, '
-        'it must be one of "{}"!'.format(valid_experiment_results),
+        f'"Breneman (1987)" experiment result is invalid, it must be one of '
+        f'"{valid_experiment_results}"!',
     )
 
     samples_luminance = [
@@ -741,7 +741,7 @@ def corresponding_chromaticities_prediction(
         ],
         str,
     ] = "Von Kries",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
         Returns the corresponding chromaticities prediction for given chromatic
