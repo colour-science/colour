@@ -273,8 +273,9 @@ def examples(ctx: Context, plots: Boolean = False):
         for filename in fnmatch.filter(filenames, "*.py"):
             if not plots and (
                 "plotting" in root
-                or "examples_interpolation" in filename
                 or "examples_contrast" in filename
+                or "examples_hke" in filename
+                or "examples_interpolation" in filename
             ):
                 continue
 

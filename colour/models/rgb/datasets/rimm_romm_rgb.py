@@ -33,9 +33,8 @@ from colour.models.rgb import (
     cctf_decoding_RIMMRGB,
     log_encoding_ERIMMRGB,
     log_decoding_ERIMMRGB,
-    cctf_encoding_ProPhotoRGB,
-    cctf_decoding_ProPhotoRGB,
 )
+
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
@@ -254,8 +253,11 @@ RGB_COLOURSPACE_PROPHOTO_RGB: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_PROPHOTO_RGB,
     MATRIX_PROPHOTO_RGB_TO_XYZ,
     MATRIX_XYZ_TO_PROPHOTO_RGB,
-    cctf_encoding_ProPhotoRGB,
-    cctf_decoding_ProPhotoRGB,
+    # NOTE: The "colour.models.cctf_encoding_ProPhotoRGB" and
+    # "colour.models.cctf_decoding_ProPhotoRGB" definitions cannot be pickled
+    # properly within that class.
+    cctf_encoding_ROMMRGB,
+    cctf_decoding_ROMMRGB,
 )
 RGB_COLOURSPACE_PROPHOTO_RGB.__doc__ = """
 *ProPhoto RGB* colourspace, an alias colourspace for *ROMM RGB*.
