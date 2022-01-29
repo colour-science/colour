@@ -54,6 +54,7 @@ black = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
+flynt = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
 jupyter = { version = "*", optional = true }  # Development dependency.
 matplotlib = { version = ">= 3.2, != 3.5.0, != 3.5.1", optional = true }
@@ -82,6 +83,7 @@ black = "*"
 coverage = "!= 6.3"
 coveralls = "*"
 flake8 = "*"
+flynt = "*"
 invoke = "*"
 jupyter = "*"
 mypy = "*"
@@ -103,6 +105,7 @@ development = [
     "coverage",
     "coveralls",
     "flake8",
+    "flynt",
     "invoke",
     "jupyter",
     "mypy",
@@ -140,6 +143,9 @@ exclude = '''
   | dist
 )/
 '''
+
+[tool.flynt]
+line_length=999
 
 [tool.mypy]
 plugins = "numpy.typing.mypy_plugin"
