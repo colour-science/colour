@@ -18,22 +18,22 @@ from colour.io import (
     write_sds_to_csv_file,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RESOURCES_DIRECTORY',
-    'COLOURCHECKER_N_OHTA_1',
-    'TestReadSpectralDataFromCsvFile',
-    'TestReadSdsFromCsvFile',
-    'TestWriteSdsToCsvFile',
+    "RESOURCES_DIRECTORY",
+    "COLOURCHECKER_N_OHTA_1",
+    "TestReadSpectralDataFromCsvFile",
+    "TestReadSdsFromCsvFile",
+    "TestWriteSdsToCsvFile",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
 COLOURCHECKER_N_OHTA_1: Dict = {
     380.0: 0.048,
@@ -116,7 +116,7 @@ COLOURCHECKER_N_OHTA_1: Dict = {
     765.0: 0.465,
     770.0: 0.448,
     775.0: 0.432,
-    780.0: 0.421
+    780.0: 0.421,
 }
 
 
@@ -132,36 +132,46 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         definition.
         """
 
-        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                             'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+        )
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(
-            list(data.keys()), ['wavelength'] + [str(x) for x in range(1, 25)])
+            list(data.keys()), ["wavelength"] + [str(x) for x in range(1, 25)]
+        )
         self.assertDictEqual(
-            dict(zip(data['wavelength'], data['1'])), COLOURCHECKER_N_OHTA_1)
+            dict(zip(data["wavelength"], data["1"])), COLOURCHECKER_N_OHTA_1
+        )
 
         colour_checker_n_ohta_transposed = os.path.join(
-            RESOURCES_DIRECTORY, 'colorchecker_n_ohta_transposed.csv')
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta_transposed.csv"
+        )
         data = read_spectral_data_from_csv_file(
-            colour_checker_n_ohta_transposed, transpose=True, delimiter='\t')
+            colour_checker_n_ohta_transposed, transpose=True, delimiter="\t"
+        )
         self.assertListEqual(
-            list(data.keys()), ['wavelength'] + [str(x) for x in range(1, 25)])
+            list(data.keys()), ["wavelength"] + [str(x) for x in range(1, 25)]
+        )
         self.assertDictEqual(
-            dict(zip(data['wavelength'], data['1'])), COLOURCHECKER_N_OHTA_1)
+            dict(zip(data["wavelength"], data["1"])), COLOURCHECKER_N_OHTA_1
+        )
 
-        linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, 'linss2_10e_5.csv')
+        linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, "linss2_10e_5.csv")
         data = read_spectral_data_from_csv_file(
             linss2_10e_5,
-            names=['wavelength', 'l_bar', 'm_bar', 's_bar'],
-            filling_values=0)
+            names=["wavelength", "l_bar", "m_bar", "s_bar"],
+            filling_values=0,
+        )
         self.assertListEqual(
-            list(data.keys()), ['wavelength', 'l_bar', 'm_bar', 's_bar'])
-        self.assertEqual(data['s_bar'][77], 0)
+            list(data.keys()), ["wavelength", "l_bar", "m_bar", "s_bar"]
+        )
+        self.assertEqual(data["s_bar"][77], 0)
         data = read_spectral_data_from_csv_file(
             linss2_10e_5,
-            names=['wavelength', 'l_bar', 'm_bar', 's_bar'],
-            filling_values=-1)
-        self.assertEqual(data['s_bar'][77], -1)
+            names=["wavelength", "l_bar", "m_bar", "s_bar"],
+            filling_values=-1,
+        )
+        self.assertEqual(data["s_bar"][77], -1)
 
 
 class TestReadSdsFromCsvFile(unittest.TestCase):
@@ -175,14 +185,16 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
         Tests :func:`colour.io.tabular.read_sds_from_csv_file` definition.
         """
 
-        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                             'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+        )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         for sd in sds.values():
             self.assertIsInstance(sd, SpectralDistribution)
 
         self.assertEqual(
-            sds['1'], SpectralDistribution(COLOURCHECKER_N_OHTA_1, name='1'))
+            sds["1"], SpectralDistribution(COLOURCHECKER_N_OHTA_1, name="1")
+        )
 
 
 class TestWriteSdsToCsvFile(unittest.TestCase):
@@ -210,11 +222,13 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition.
         """
 
-        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                             'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+        )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
-        colour_checker_n_ohta_test = os.path.join(self._temporary_directory,
-                                                  'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta_test = os.path.join(
+            self._temporary_directory, "colorchecker_n_ohta.csv"
+        )
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
@@ -226,14 +240,15 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
         raised exception.
         """
 
-        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                             'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+        )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         key = list(sds.keys())[0]
         sds[key] = sds[key].align(SpectralShape(400, 700, 10))
 
-        self.assertRaises(ValueError, write_sds_to_csv_file, sds, '')
+        self.assertRaises(ValueError, write_sds_to_csv_file, sds, "")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

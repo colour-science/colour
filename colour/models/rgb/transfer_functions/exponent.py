@@ -35,25 +35,33 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'exponent_function_basic',
-    'exponent_function_monitor_curve',
+    "exponent_function_basic",
+    "exponent_function_monitor_curve",
 ]
 
 
 def exponent_function_basic(
-        x: FloatingOrArrayLike,
-        exponent: FloatingOrArrayLike = 1,
-        style: Union[
-            Literal['basicFwd', 'basicRev', 'basicMirrorFwd', 'basicMirrorRev',
-                    'basicPassThruFwd', 'basicPassThruRev'], str] = 'basicFwd'
+    x: FloatingOrArrayLike,
+    exponent: FloatingOrArrayLike = 1,
+    style: Union[
+        Literal[
+            "basicFwd",
+            "basicRev",
+            "basicMirrorFwd",
+            "basicMirrorRev",
+            "basicPassThruFwd",
+            "basicPassThruRev",
+        ],
+        str,
+    ] = "basicFwd",
 ) -> FloatingOrNDArray:
     """
     Defines the *basic* exponent transfer function.
@@ -135,10 +143,18 @@ def exponent_function_basic(
 
     x = as_float_array(x)
     exponent = as_float_array(exponent)
-    style = validate_method(style, [
-        'basicFwd', 'basicRev', 'basicMirrorFwd', 'basicMirrorRev',
-        'basicPassThruFwd', 'basicPassThruRev'
-    ], '"{0}" style is invalid, it must be one of {1}!')
+    style = validate_method(
+        style,
+        [
+            "basicFwd",
+            "basicRev",
+            "basicMirrorFwd",
+            "basicMirrorRev",
+            "basicPassThruFwd",
+            "basicPassThruRev",
+        ],
+        '"{0}" style is invalid, it must be one of {1}!',
+    )
 
     def exponent_forward(x: NDArray) -> NDArray:
         """
@@ -154,28 +170,33 @@ def exponent_function_basic(
 
         return y ** (as_float_array(1) / exponent)
 
-    if style == 'basicfwd':
+    if style == "basicfwd":
         return as_float(np.where(x >= 0, exponent_forward(x), 0))
-    elif style == 'basicrev':
+    elif style == "basicrev":
         return as_float(np.where(x >= 0, exponent_reverse(x), 0))
-    elif style == 'basicmirrorfwd':
-        return as_float(
-            np.where(x >= 0, exponent_forward(x), -exponent_forward(-x)))
-    elif style == 'basicmirrorrev':
-        return as_float(
-            np.where(x >= 0, exponent_reverse(x), -exponent_reverse(-x)))
-    elif style == 'basicpassthrufwd':
+    elif style == "basicmirrorfwd":
+        return as_float(np.where(x >= 0, exponent_forward(x), -exponent_forward(-x)))
+    elif style == "basicmirrorrev":
+        return as_float(np.where(x >= 0, exponent_reverse(x), -exponent_reverse(-x)))
+    elif style == "basicpassthrufwd":
         return as_float(np.where(x >= 0, exponent_forward(x), x))
     else:  # style == 'basicpassthrurev'
         return as_float(np.where(x >= 0, exponent_reverse(x), x))
 
 
 def exponent_function_monitor_curve(
-        x: FloatingOrArrayLike,
-        exponent: FloatingOrArrayLike = 1,
-        offset: FloatingOrArrayLike = 0,
-        style: Union[Literal['monCurveFwd', 'monCurveRev', 'monCurveMirrorFwd',
-                             'monCurveMirrorRev'], str] = 'monCurveFwd'
+    x: FloatingOrArrayLike,
+    exponent: FloatingOrArrayLike = 1,
+    offset: FloatingOrArrayLike = 0,
+    style: Union[
+        Literal[
+            "monCurveFwd",
+            "monCurveRev",
+            "monCurveMirrorFwd",
+            "monCurveMirrorRev",
+        ],
+        str,
+    ] = "monCurveFwd",
 ) -> FloatingOrNDArray:
     """
     Defines the *Monitor Curve* exponent transfer function.
@@ -242,17 +263,28 @@ def exponent_function_monitor_curve(
     x = as_float_array(x)
     exponent = as_float_array(exponent)
     offset = as_float_array(offset)
-    style = validate_method(style, [
-        'monCurveFwd', 'monCurveRev', 'monCurveMirrorFwd', 'monCurveMirrorRev'
-    ], '"{0}" style is invalid, it must be one of {1}!')
+    style = validate_method(
+        style,
+        [
+            "monCurveFwd",
+            "monCurveRev",
+            "monCurveMirrorFwd",
+            "monCurveMirrorRev",
+        ],
+        '"{0}" style is invalid, it must be one of {1}!',
+    )
 
     with suppress_warnings(python_warnings=True):
-        s = as_float_array(((exponent - 1) / offset) * ((exponent * offset) / (
-            (exponent - 1) * (offset + 1))) ** exponent)
+        s = as_float_array(
+            ((exponent - 1) / offset)
+            * ((exponent * offset) / ((exponent - 1) * (offset + 1))) ** exponent
+        )
 
         s[np.isnan(s)] = 1
 
-    def monitor_curve_forward(x):
+    def monitor_curve_forward(
+        x: NDArray, offset: NDArray, exponent: NDArray
+    ) -> NDArray:
         """
         Defines the *Monitor Curve Forward* function.
         """
@@ -265,13 +297,13 @@ def exponent_function_monitor_curve(
             x * s,
         )
 
-    def monitor_curve_reverse(y):
+    def monitor_curve_reverse(
+        y: NDArray, offset: NDArray, exponent: NDArray
+    ) -> NDArray:
         """
         Defines the *Monitor Curve Reverse* function.
         """
-
-        y_break = ((exponent * offset) / (
-            (exponent - 1) * (1 + offset))) ** exponent
+        y_break = ((exponent * offset) / ((exponent - 1) * (1 + offset))) ** exponent
 
         return np.where(
             y >= y_break,
@@ -279,21 +311,23 @@ def exponent_function_monitor_curve(
             y / s,
         )
 
-    if style == 'moncurvefwd':
-        return as_float(monitor_curve_forward(x))
-    elif style == 'moncurverev':
-        return as_float(monitor_curve_reverse(x))
-    elif style == 'moncurvemirrorfwd':
+    if style == "moncurvefwd":
+        return as_float(monitor_curve_forward(x, offset, exponent))
+    elif style == "moncurverev":
+        return as_float(monitor_curve_reverse(x, offset, exponent))
+    elif style == "moncurvemirrorfwd":
         return as_float(
             np.where(
                 x >= 0,
-                monitor_curve_forward(x),
-                -monitor_curve_forward(-x),
-            ))
+                monitor_curve_forward(x, offset, exponent),
+                -monitor_curve_forward(-x, offset, exponent),
+            )
+        )
     else:  # style == 'moncurvemirrorrev'
         return as_float(
             np.where(
                 x >= 0,
-                monitor_curve_reverse(x),
-                -monitor_curve_reverse(-x),
-            ))
+                monitor_curve_reverse(x, offset, exponent),
+                -monitor_curve_reverse(-x, offset, exponent),
+            )
+        )

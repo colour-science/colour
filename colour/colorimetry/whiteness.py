@@ -66,27 +66,26 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'whiteness_Berger1959',
-    'whiteness_Taube1960',
-    'whiteness_Stensby1968',
-    'whiteness_ASTME313',
-    'whiteness_Ganz1979',
-    'whiteness_CIE2004',
-    'WHITENESS_METHODS',
-    'whiteness',
+    "whiteness_Berger1959",
+    "whiteness_Taube1960",
+    "whiteness_Stensby1968",
+    "whiteness_ASTME313",
+    "whiteness_Ganz1979",
+    "whiteness_CIE2004",
+    "WHITENESS_METHODS",
+    "whiteness",
 ]
 
 
-def whiteness_Berger1959(XYZ: ArrayLike,
-                         XYZ_0: ArrayLike) -> FloatingOrNDArray:
+def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *Berger (1959)* method.
@@ -374,12 +373,13 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: FloatingOrNDArray) -> NDArray:
 
 
 def whiteness_CIE2004(
-        xy: ArrayLike,
-        Y: FloatingOrNDArray,
-        xy_n: ArrayLike,
-        observer: Literal['CIE 1931 2 Degree Standard Observer',
-                          'CIE 1964 10 Degree Standard Observer'] = (
-                              'CIE 1931 2 Degree Standard Observer')
+    xy: ArrayLike,
+    Y: FloatingOrNDArray,
+    xy_n: ArrayLike,
+    observer: Literal[
+        "CIE 1931 2 Degree Standard Observer",
+        "CIE 1964 10 Degree Standard Observer",
+    ] = ("CIE 1931 2 Degree Standard Observer"),
 ) -> NDArray:
     """
     Returns the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
@@ -449,21 +449,23 @@ def whiteness_CIE2004(
     x_n, y_n = tsplit(xy_n)
 
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
-    T = (1000 if '1931' in observer else 900) * (x_n - x) - 650 * (y_n - y)
+    T = (1000 if "1931" in observer else 900) * (x_n - x) - 650 * (y_n - y)
 
     WT = tstack([W, T])
 
     return from_range_100(WT)
 
 
-WHITENESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Berger 1959': whiteness_Berger1959,
-    'Taube 1960': whiteness_Taube1960,
-    'Stensby 1968': whiteness_Stensby1968,
-    'ASTM E313': whiteness_ASTME313,
-    'Ganz 1979': whiteness_Ganz1979,
-    'CIE 2004': whiteness_CIE2004
-})
+WHITENESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Berger 1959": whiteness_Berger1959,
+        "Taube 1960": whiteness_Taube1960,
+        "Stensby 1968": whiteness_Stensby1968,
+        "ASTM E313": whiteness_ASTME313,
+        "Ganz 1979": whiteness_Ganz1979,
+        "CIE 2004": whiteness_CIE2004,
+    }
+)
 WHITENESS_METHODS.__doc__ = """
 Supported *whiteness* computation methods.
 
@@ -475,15 +477,25 @@ Aliases:
 
 -   'cie2004': 'CIE 2004'
 """
-WHITENESS_METHODS['cie2004'] = WHITENESS_METHODS['CIE 2004']
+WHITENESS_METHODS["cie2004"] = WHITENESS_METHODS["CIE 2004"]
 
 
-def whiteness(XYZ: ArrayLike,
-              XYZ_0: ArrayLike,
-              method: Union[Literal['ASTM E313', 'CIE 2004', 'Berger 1959',
-                                    'Ganz 1979', 'Stensby 1968', 'Taube 1960'],
-                            str] = 'CIE 2004',
-              **kwargs: Any) -> FloatingOrNDArray:
+def whiteness(
+    XYZ: ArrayLike,
+    XYZ_0: ArrayLike,
+    method: Union[
+        Literal[
+            "ASTM E313",
+            "CIE 2004",
+            "Berger 1959",
+            "Ganz 1979",
+            "Stensby 1968",
+            "Taube 1960",
+        ],
+        str,
+    ] = "CIE 2004",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Returns the *whiteness* :math:`W` using given method.
 
@@ -550,26 +562,22 @@ def whiteness(XYZ: ArrayLike,
 
     method = validate_method(method, WHITENESS_METHODS)
 
-    kwargs.update({'XYZ': XYZ, 'XYZ_0': XYZ_0})
+    kwargs.update({"XYZ": XYZ, "XYZ_0": XYZ_0})
 
     function = WHITENESS_METHODS[method]
 
     if function is whiteness_Stensby1968:
         from colour.models import XYZ_to_Lab, XYZ_to_xy
 
-        if get_domain_range_scale() == 'reference':
+        if get_domain_range_scale() == "reference":
             XYZ = XYZ / 100
             XYZ_0 = XYZ_0 / 100
 
-        kwargs.update({'Lab': XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_0))})
+        kwargs.update({"Lab": XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_0))})
     elif function in (whiteness_Ganz1979, whiteness_CIE2004):
         from colour.models import XYZ_to_xy
 
         _X_0, Y_0, _Z_0 = tsplit(XYZ_0)
-        kwargs.update({
-            'xy': XYZ_to_xy(XYZ),
-            'Y': Y_0,
-            'xy_n': XYZ_to_xy(XYZ_0)
-        })
+        kwargs.update({"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)})
 
     return function(**filter_kwargs(function, **kwargs))

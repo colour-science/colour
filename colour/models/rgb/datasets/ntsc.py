@@ -42,26 +42,26 @@ from colour.models.rgb.datasets.smpte_c import (
     RGB_COLOURSPACE_SMPTE_C,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_NTSC1953',
-    'WHITEPOINT_NAME_NTSC1953',
-    'CCS_WHITEPOINT_NTSC1953',
-    'MATRIX_NTSC1953_TO_XYZ',
-    'MATRIX_XYZ_TO_NTSC1953',
-    'RGB_COLOURSPACE_NTSC1953',
-    'PRIMARIES_NTSC1987',
-    'WHITEPOINT_NAME_NTSC1987',
-    'CCS_WHITEPOINT_NTSC1987',
-    'MATRIX_NTSC1987_TO_XYZ',
-    'MATRIX_XYZ_TO_NTSC1987',
-    'RGB_COLOURSPACE_NTSC1987',
+    "PRIMARIES_NTSC1953",
+    "WHITEPOINT_NAME_NTSC1953",
+    "CCS_WHITEPOINT_NTSC1953",
+    "MATRIX_NTSC1953_TO_XYZ",
+    "MATRIX_XYZ_TO_NTSC1953",
+    "RGB_COLOURSPACE_NTSC1953",
+    "PRIMARIES_NTSC1987",
+    "WHITEPOINT_NAME_NTSC1987",
+    "CCS_WHITEPOINT_NTSC1987",
+    "MATRIX_NTSC1987_TO_XYZ",
+    "MATRIX_XYZ_TO_NTSC1987",
+    "RGB_COLOURSPACE_NTSC1987",
 ]
 
 PRIMARIES_NTSC1953: NDArray = PRIMARIES_BT470_525
@@ -90,7 +90,7 @@ MATRIX_XYZ_TO_NTSC1953: NDArray = MATRIX_XYZ_TO_BT470_525
 """
 
 RGB_COLOURSPACE_NTSC1953: RGB_Colourspace = RGB_Colourspace(
-    'NTSC (1953)',
+    "NTSC (1953)",
     PRIMARIES_NTSC1953,
     CCS_WHITEPOINT_NTSC1953,
     WHITEPOINT_NAME_NTSC1953,
@@ -133,7 +133,7 @@ MATRIX_XYZ_TO_NTSC1987: NDArray = MATRIX_XYZ_TO_SMPTE_C
 """
 
 RGB_COLOURSPACE_NTSC1987: RGB_Colourspace = RGB_Colourspace(
-    'NTSC (1987)',
+    "NTSC (1987)",
     PRIMARIES_NTSC1987,
     CCS_WHITEPOINT_NTSC1987,
     WHITEPOINT_NAME_NTSC1987,

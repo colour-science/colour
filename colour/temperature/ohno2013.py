@@ -40,23 +40,23 @@ from colour.utilities import (
     tsplit,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'Tuvd_PlanckianTable',
-    'CCT_MINIMAL',
-    'CCT_MAXIMAL',
-    'CCT_SAMPLES',
-    'CCT_CALCULATION_ITERATIONS',
-    'planckian_table',
-    'planckian_table_minimal_distance_index',
-    'uv_to_CCT_Ohno2013',
-    'CCT_to_uv_Ohno2013',
+    "Tuvd_PlanckianTable",
+    "CCT_MINIMAL",
+    "CCT_MAXIMAL",
+    "CCT_SAMPLES",
+    "CCT_CALCULATION_ITERATIONS",
+    "planckian_table",
+    "planckian_table_minimal_distance_index",
+    "uv_to_CCT_Ohno2013",
+    "CCT_to_uv_Ohno2013",
 ]
 
 
@@ -74,9 +74,13 @@ CCT_SAMPLES: Integer = 10
 CCT_CALCULATION_ITERATIONS: Integer = 6
 
 
-def planckian_table(uv: ArrayLike, cmfs: MultiSpectralDistributions,
-                    start: Floating, end: Floating,
-                    count: Integer) -> List[Tuvd_PlanckianTable]:
+def planckian_table(
+    uv: ArrayLike,
+    cmfs: MultiSpectralDistributions,
+    start: Floating,
+    end: Floating,
+    count: Integer,
+) -> List[Tuvd_PlanckianTable]:
     """
     Returns a planckian table from given *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
@@ -148,7 +152,8 @@ vi=0.3548306..., di=0.2514749...)]
 
 
 def planckian_table_minimal_distance_index(
-        planckian_table_: List[Tuvd_PlanckianTable]) -> Integer:
+    planckian_table_: List[Tuvd_PlanckianTable],
+) -> Integer:
     """
     Returns the shortest distance index in given planckian table using
     *Ohno (2013)* method.
@@ -177,17 +182,17 @@ def planckian_table_minimal_distance_index(
     9
     """
 
-    return as_int_scalar(
-        np.argmin(as_float_array([x.di for x in planckian_table_])))
+    return as_int_scalar(np.argmin(as_float_array([x.di for x in planckian_table_])))
 
 
 def _uv_to_CCT_Ohno2013(
-        uv: ArrayLike,
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        start: Floating = CCT_MINIMAL,
-        end: Floating = CCT_MAXIMAL,
-        count: Integer = CCT_SAMPLES,
-        iterations: Integer = CCT_CALCULATION_ITERATIONS) -> NDArray:
+    uv: ArrayLike,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    start: Floating = CCT_MINIMAL,
+    end: Floating = CCT_MAXIMAL,
+    count: Integer = CCT_SAMPLES,
+    iterations: Integer = CCT_CALCULATION_ITERATIONS,
+) -> NDArray:
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -231,13 +236,19 @@ def _uv_to_CCT_Ohno2013(
         index = planckian_table_minimal_distance_index(table)
         if index == 0:
             runtime_warning(
-                ('Minimal distance index is on lowest planckian table bound, '
-                 'unpredictable results may occur!'))
+                (
+                    "Minimal distance index is on lowest planckian table bound, "
+                    "unpredictable results may occur!"
+                )
+            )
             index += 1
         elif index == len(table) - 1:
             runtime_warning(
-                ('Minimal distance index is on highest planckian table bound, '
-                 'unpredictable results may occur!'))
+                (
+                    "Minimal distance index is on highest planckian table bound, "
+                    "unpredictable results may occur!"
+                )
+            )
             index -= 1
 
         start = table[index - 1].Ti
@@ -263,11 +274,18 @@ def _uv_to_CCT_Ohno2013(
     if np.abs(D_uv) >= 0.002:
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
-        b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
-               (di - dip)) * X ** -1)
+        b = (
+            -(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 * (di - dip))
+            * X ** -1
+        )
         c = (
-            -(dip * (Tin - Ti) * Ti * Tin + di *
-              (Tip - Tin) * Tip * Tin + din * (Ti - Tip) * Tip * Ti) * X ** -1)
+            -(
+                dip * (Tin - Ti) * Ti * Tin
+                + di * (Tip - Tin) * Tip * Tin
+                + din * (Ti - Tip) * Tip * Ti
+            )
+            * X ** -1
+        )
 
         T = -b / (2 * a)
 
@@ -277,12 +295,13 @@ def _uv_to_CCT_Ohno2013(
 
 
 def uv_to_CCT_Ohno2013(
-        uv: ArrayLike,
-        cmfs: Optional[MultiSpectralDistributions] = None,
-        start: Floating = CCT_MINIMAL,
-        end: Floating = CCT_MAXIMAL,
-        count: Integer = CCT_SAMPLES,
-        iterations: Integer = CCT_CALCULATION_ITERATIONS) -> NDArray:
+    uv: ArrayLike,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    start: Floating = CCT_MINIMAL,
+    end: Floating = CCT_MAXIMAL,
+    count: Integer = CCT_SAMPLES,
+    iterations: Integer = CCT_CALCULATION_ITERATIONS,
+) -> NDArray:
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -341,9 +360,9 @@ def uv_to_CCT_Ohno2013(
     return as_float_array(CCT_D_uv).reshape(uv.shape)
 
 
-def _CCT_to_uv_Ohno2013(CCT_D_uv: ArrayLike,
-                        cmfs: Optional[MultiSpectralDistributions] = None
-                        ) -> NDArray:
+def _CCT_to_uv_Ohno2013(
+    CCT_D_uv: ArrayLike, cmfs: Optional[MultiSpectralDistributions] = None
+) -> NDArray:
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
@@ -393,9 +412,9 @@ def _CCT_to_uv_Ohno2013(CCT_D_uv: ArrayLike,
         return np.array([u, v])
 
 
-def CCT_to_uv_Ohno2013(CCT_D_uv: ArrayLike,
-                       cmfs: Optional[MultiSpectralDistributions] = None
-                       ) -> NDArray:
+def CCT_to_uv_Ohno2013(
+    CCT_D_uv: ArrayLike, cmfs: Optional[MultiSpectralDistributions] = None
+) -> NDArray:
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and

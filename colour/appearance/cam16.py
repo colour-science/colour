@@ -73,21 +73,21 @@ from colour.utilities import (
     tsplit,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_16',
-    'MATRIX_INVERSE_16',
-    'InductionFactors_CAM16',
-    'VIEWING_CONDITIONS_CAM16',
-    'CAM_Specification_CAM16',
-    'XYZ_to_CAM16',
-    'CAM16_to_XYZ',
+    "MATRIX_16",
+    "MATRIX_INVERSE_16",
+    "InductionFactors_CAM16",
+    "VIEWING_CONDITIONS_CAM16",
+    "CAM_Specification_CAM16",
+    "XYZ_to_CAM16",
+    "CAM16_to_XYZ",
 ]
 
 MATRIX_16: NDArray = CAT_CAT16
@@ -101,8 +101,7 @@ Inverse adaptation matrix :math:`M^{-1}_{16}`.
 """
 
 
-class InductionFactors_CAM16(
-        namedtuple('InductionFactors_CAM16', ('F', 'c', 'N_c'))):
+class InductionFactors_CAM16(namedtuple("InductionFactors_CAM16", ("F", "c", "N_c"))):
     """
     *CAM16* colour appearance model induction factors.
 
@@ -127,7 +126,8 @@ class InductionFactors_CAM16(
 
 
 VIEWING_CONDITIONS_CAM16: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    VIEWING_CONDITIONS_CIECAM02)
+    VIEWING_CONDITIONS_CIECAM02
+)
 VIEWING_CONDITIONS_CAM16.__doc__ = """
 Reference *CAM16* colour appearance model viewing conditions.
 
@@ -177,14 +177,15 @@ class CAM_Specification_CAM16(MixinDataclassArray):
 
 
 def XYZ_to_CAM16(
-        XYZ: ArrayLike,
-        XYZ_w: ArrayLike,
-        L_A: FloatingOrArrayLike,
-        Y_b: FloatingOrArrayLike,
-        surround: Union[InductionFactors_CIECAM02,
-                        InductionFactors_CAM16] = VIEWING_CONDITIONS_CAM16[
-                            'Average'],
-        discount_illuminant: Boolean = False) -> CAM_Specification_CAM16:
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    Y_b: FloatingOrArrayLike,
+    surround: Union[
+        InductionFactors_CIECAM02, InductionFactors_CAM16
+    ] = VIEWING_CONDITIONS_CAM16["Average"],
+    discount_illuminant: Boolean = False,
+) -> CAM_Specification_CAM16:
     """
     Computes the *CAM16* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
@@ -272,19 +273,19 @@ H=275.5949861..., HC=None)
     RGB_w = vector_dot(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-         if not discount_illuminant else ones(L_A.shape))
+    D = (
+        np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
+        if not discount_illuminant
+        else ones(L_A.shape)
+    )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
-        Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
 
-    D_RGB = (D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 -
-             D[..., np.newaxis])
+    D_RGB = D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 - D[..., np.newaxis]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -350,14 +351,15 @@ H=275.5949861..., HC=None)
 
 
 def CAM16_to_XYZ(
-        specification: CAM_Specification_CAM16,
-        XYZ_w: ArrayLike,
-        L_A: FloatingOrArrayLike,
-        Y_b: FloatingOrArrayLike,
-        surround: Union[InductionFactors_CIECAM02,
-                        InductionFactors_CAM16] = VIEWING_CONDITIONS_CAM16[
-                            'Average'],
-        discount_illuminant: Boolean = False) -> NDArray:
+    specification: CAM_Specification_CAM16,
+    XYZ_w: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    Y_b: FloatingOrArrayLike,
+    surround: Union[
+        InductionFactors_CIECAM02, InductionFactors_CAM16
+    ] = VIEWING_CONDITIONS_CAM16["Average"],
+    discount_illuminant: Boolean = False,
+) -> NDArray:
     """
     Converts from *CAM16* specification to *CIE XYZ* tristimulus values.
 
@@ -456,19 +458,19 @@ def CAM16_to_XYZ(
     RGB_w = vector_dot(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-         if not discount_illuminant else ones(L_A.shape))
+    D = (
+        np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
+        if not discount_illuminant
+        else ones(L_A.shape)
+    )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
-        Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
 
-    D_RGB = (D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 -
-             D[..., np.newaxis])
+    D_RGB = D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 - D[..., np.newaxis]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -477,8 +479,10 @@ def CAM16_to_XYZ(
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
     elif has_only_nan(C):
-        raise ValueError('Either "C" or "M" correlate must be defined in '
-                         'the "CAM_Specification_CAM16" argument!')
+        raise ValueError(
+            'Either "C" or "M" correlate must be defined in '
+            'the "CAM_Specification_CAM16" argument!'
+        )
 
     # Step 2
     # Computing temporary magnitude quantity :math:`t`.

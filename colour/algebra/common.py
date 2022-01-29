@@ -26,27 +26,27 @@ from colour.hints import (
 )
 from colour.utilities import as_float_array, as_float, tsplit
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'is_spow_enabled',
-    'set_spow_enable',
-    'spow_enable',
-    'spow',
-    'normalise_maximum',
-    'vector_dot',
-    'matrix_dot',
-    'linear_conversion',
-    'linstep_function',
-    'lerp',
-    'smoothstep_function',
-    'smooth',
-    'is_identity',
+    "is_spow_enabled",
+    "set_spow_enable",
+    "spow_enable",
+    "spow",
+    "normalise_maximum",
+    "vector_dot",
+    "matrix_dot",
+    "linear_conversion",
+    "linstep_function",
+    "lerp",
+    "smoothstep_function",
+    "smooth",
+    "is_identity",
 ]
 
 # TODO: Annotate with "bool" when Python 3.7 is dropped.
@@ -193,10 +193,12 @@ def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(a_p)
 
 
-def normalise_maximum(a: ArrayLike,
-                      axis: Optional[Integer] = None,
-                      factor: Floating = 1,
-                      clip: Boolean = True) -> NDArray:
+def normalise_maximum(
+    a: ArrayLike,
+    axis: Optional[Integer] = None,
+    factor: Floating = 1,
+    clip: Boolean = True,
+) -> NDArray:
     """
     Normalises given array :math:`a` values by :math:`a` maximum value and
     optionally clip them between.
@@ -271,7 +273,7 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
            [ 0.1954094...,  0.0620396...,  0.0527952...]])
     """
 
-    return np.einsum('...ij,...j->...i', as_float_array(m), as_float_array(v))
+    return np.einsum("...ij,...j->...i", as_float_array(m), as_float_array(v))
 
 
 def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
@@ -328,12 +330,12 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
             [-0.0044203...,  0.0377490...,  0.9666713...]]])
     """
 
-    return np.einsum('...ij,...jk->...ik', as_float_array(a),
-                     as_float_array(b))
+    return np.einsum("...ij,...jk->...ik", as_float_array(a), as_float_array(b))
 
 
-def linear_conversion(a: ArrayLike, old_range: ArrayLike,
-                      new_range: ArrayLike) -> NDArray:
+def linear_conversion(
+    a: ArrayLike, old_range: ArrayLike, new_range: ArrayLike
+) -> NDArray:
     """
     Performs a simple linear conversion of given array :math:`a` between the
     old and new ranges.
@@ -367,10 +369,12 @@ def linear_conversion(a: ArrayLike, old_range: ArrayLike,
     return ((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min
 
 
-def linstep_function(x: FloatingOrArrayLike,
-                     a: FloatingOrArrayLike = 0,
-                     b: FloatingOrArrayLike = 1,
-                     clip: Boolean = False) -> NDArray:
+def linstep_function(
+    x: FloatingOrArrayLike,
+    a: FloatingOrArrayLike = 0,
+    b: FloatingOrArrayLike = 1,
+    clip: Boolean = False,
+) -> NDArray:
     """
     Performs a simple linear interpolation between given array :math:`a` and
     array :math:`b` using :math:`x` array.
@@ -412,10 +416,12 @@ def linstep_function(x: FloatingOrArrayLike,
 lerp = linstep_function
 
 
-def smoothstep_function(x: FloatingOrArrayLike,
-                        a: FloatingOrArrayLike = 0,
-                        b: FloatingOrArrayLike = 1,
-                        clip: Boolean = False) -> NDArray:
+def smoothstep_function(
+    x: FloatingOrArrayLike,
+    a: FloatingOrArrayLike = 0,
+    b: FloatingOrArrayLike = 1,
+    clip: Boolean = False,
+) -> NDArray:
     """
     Evaluates the *smoothstep* sigmoid-like function on array :math:`x`.
 

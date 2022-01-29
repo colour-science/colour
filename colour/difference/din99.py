@@ -22,21 +22,21 @@ from colour.hints import ArrayLike, Boolean, FloatingOrNDArray
 from colour.models import Lab_to_DIN99
 from colour.utilities import get_domain_range_scale
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'delta_E_DIN99',
+    "delta_E_DIN99",
 ]
 
 
-def delta_E_DIN99(Lab_1: ArrayLike,
-                  Lab_2: ArrayLike,
-                  textiles: Boolean = False) -> FloatingOrNDArray:
+def delta_E_DIN99(
+    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{DIN99}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *DIN99* formula.
@@ -92,10 +92,11 @@ def delta_E_DIN99(Lab_1: ArrayLike,
     k_E = 2 if textiles else 1
     k_CH = 0.5 if textiles else 1
 
-    factor = 100 if get_domain_range_scale() == '1' else 1
+    factor = 100 if get_domain_range_scale() == "1" else 1
 
     d_E = euclidean_distance(
         Lab_to_DIN99(Lab_1, k_E, k_CH) * factor,
-        Lab_to_DIN99(Lab_2, k_E, k_CH) * factor)
+        Lab_to_DIN99(Lab_2, k_E, k_CH) * factor,
+    )
 
     return d_E

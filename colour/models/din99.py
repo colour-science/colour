@@ -39,33 +39,32 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DIN99_METHODS',
-    'Lab_to_DIN99',
-    'DIN99_to_Lab',
-    'XYZ_to_DIN99',
-    'DIN99_to_XYZ',
+    "DIN99_METHODS",
+    "Lab_to_DIN99",
+    "DIN99_to_Lab",
+    "XYZ_to_DIN99",
+    "DIN99_to_XYZ",
 ]
 
-DIN99_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ASTMD2244-07':
-        np.array([105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]),
-    'DIN99':
-        np.array([105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]),
-    'DIN99b':
-        np.array([303.67, 0.0039, 26.0, 0.83, 23.0, 0.075, 26.0, 1]),
-    'DIN99c':
-        np.array([317.65, 0.0037, 0.0, 0.94, 23.0, 0.066, 0.0, 1]),
-    'DIN99d':
-        np.array([325.22, 0.0036, 50.0, 1.14, 22.5, 0.06, 50.0, 1]),
-})
+DIN99_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ASTMD2244-07": np.array(
+            [105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]
+        ),
+        "DIN99": np.array([105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]),
+        "DIN99b": np.array([303.67, 0.0039, 26.0, 0.83, 23.0, 0.075, 26.0, 1]),
+        "DIN99c": np.array([317.65, 0.0037, 0.0, 0.94, 23.0, 0.066, 0.0, 1]),
+        "DIN99d": np.array([325.22, 0.0036, 50.0, 1.14, 22.5, 0.06, 50.0, 1]),
+    }
+)
 """
 *DIN99* colourspace methods, i.e. the coefficients for the *DIN99b*, *DIN99c*,
 and *DIN99d* refined formulas according to *Cui et al. (2002)*.
@@ -77,11 +76,13 @@ References
 
 
 def Lab_to_DIN99(
-        Lab: ArrayLike,
-        k_E: Floating = 1,
-        k_CH: Floating = 1,
-        method: Union[Literal['ASTMD2244-07', 'DIN99', 'DIN99b', 'DIN99c',
-                              'DIN99d'], str] = 'DIN99') -> NDArray:
+    Lab: ArrayLike,
+    k_E: Floating = 1,
+    k_CH: Floating = 1,
+    method: Union[
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
+    ] = "DIN99",
+) -> NDArray:
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
@@ -141,8 +142,9 @@ def Lab_to_DIN99(
     array([ 53.2282198...,  28.4163465...,   3.8983955...])
     """
 
-    c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[validate_method(
-        str(method), DIN99_METHODS)]
+    c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[
+        validate_method(str(method), DIN99_METHODS)
+    ]
 
     L, a, b = tsplit(to_domain_100(Lab))
 
@@ -167,11 +169,13 @@ def Lab_to_DIN99(
 
 
 def DIN99_to_Lab(
-        Lab_99: ArrayLike,
-        k_E: Floating = 1,
-        k_CH: Floating = 1,
-        method: Union[Literal['ASTMD2244-07', 'DIN99', 'DIN99b', 'DIN99c',
-                              'DIN99d'], str] = 'DIN99') -> NDArray:
+    Lab_99: ArrayLike,
+    k_E: Floating = 1,
+    k_CH: Floating = 1,
+    method: Union[
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
+    ] = "DIN99",
+) -> NDArray:
     """
     Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to
@@ -231,8 +235,9 @@ def DIN99_to_Lab(
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
 
-    c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[validate_method(
-        str(method), DIN99_METHODS)]
+    c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[
+        validate_method(str(method), DIN99_METHODS)
+    ]
 
     L_99, a_99, b_99 = tsplit(to_domain_100(Lab_99))
 
@@ -257,13 +262,16 @@ def DIN99_to_Lab(
 
 
 def XYZ_to_DIN99(
-        XYZ: ArrayLike,
-        illuminant: ArrayLike = CCS_ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D65'],
-        k_E: Floating = 1,
-        k_CH: Floating = 1,
-        method: Union[Literal['ASTMD2244-07', 'DIN99', 'DIN99b', 'DIN99c',
-                              'DIN99d'], str] = 'DIN99') -> NDArray:
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+    k_E: Floating = 1,
+    k_CH: Floating = 1,
+    method: Union[
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
+    ] = "DIN99",
+) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
@@ -330,13 +338,16 @@ def XYZ_to_DIN99(
 
 
 def DIN99_to_XYZ(
-        Lab_99: ArrayLike,
-        illuminant: ArrayLike = CCS_ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D65'],
-        k_E: Floating = 1,
-        k_CH: Floating = 1,
-        method: Union[Literal['ASTMD2244-07', 'DIN99', 'DIN99b', 'DIN99c',
-                              'DIN99d'], str] = 'DIN99') -> NDArray:
+    Lab_99: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
+    k_E: Floating = 1,
+    k_CH: Floating = 1,
+    method: Union[
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"], str
+    ] = "DIN99",
+) -> NDArray:
     """
     Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to *CIE XYZ*

@@ -44,36 +44,36 @@ from colour.utilities import (
     tsplit,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_R',
-    'VIEWING_CONDITIONS_RLAB',
-    'D_FACTOR_RLAB',
-    'CAM_ReferenceSpecification_RLAB',
-    'CAM_Specification_RLAB',
-    'XYZ_to_RLAB',
+    "MATRIX_R",
+    "VIEWING_CONDITIONS_RLAB",
+    "D_FACTOR_RLAB",
+    "CAM_ReferenceSpecification_RLAB",
+    "CAM_Specification_RLAB",
+    "XYZ_to_RLAB",
 ]
 
-MATRIX_R: NDArray = np.array([
-    [1.9569, -1.1882, 0.2313],
-    [0.3612, 0.6388, 0.0000],
-    [0.0000, 0.0000, 1.0000],
-])
+MATRIX_R: NDArray = np.array(
+    [
+        [1.9569, -1.1882, 0.2313],
+        [0.3612, 0.6388, 0.0000],
+        [0.0000, 0.0000, 1.0000],
+    ]
+)
 """
 *RLAB* colour appearance model precomputed helper matrix.
 """
 
-VIEWING_CONDITIONS_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Average': 1 / 2.3,
-    'Dim': 1 / 2.9,
-    'Dark': 1 / 3.5
-})
+VIEWING_CONDITIONS_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {"Average": 1 / 2.3, "Dim": 1 / 2.9, "Dark": 1 / 3.5}
+)
 VIEWING_CONDITIONS_RLAB.__doc__ = """
 Reference *RLAB* colour appearance model viewing conditions.
 
@@ -82,11 +82,13 @@ References
 :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 """
 
-D_FACTOR_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Hard Copy Images': 1,
-    'Soft Copy Images': 0,
-    'Projected Transparencies, Dark Room': 0.5
-})
+D_FACTOR_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Hard Copy Images": 1,
+        "Soft Copy Images": 0,
+        "Projected Transparencies, Dark Room": 0.5,
+    }
+)
 D_FACTOR_RLAB.__doc__ = """
 *RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
 
@@ -100,10 +102,9 @@ Aliases:
 -   'soft_cp_img': 'Soft Copy Images'
 -   'projected_dark': 'Projected Transparencies, Dark Room'
 """
-D_FACTOR_RLAB['hard_cp_img'] = D_FACTOR_RLAB['Hard Copy Images']
-D_FACTOR_RLAB['soft_cp_img'] = D_FACTOR_RLAB['Soft Copy Images']
-D_FACTOR_RLAB['projected_dark'] = (
-    D_FACTOR_RLAB['Projected Transparencies, Dark Room'])
+D_FACTOR_RLAB["hard_cp_img"] = D_FACTOR_RLAB["Hard Copy Images"]
+D_FACTOR_RLAB["soft_cp_img"] = D_FACTOR_RLAB["Soft Copy Images"]
+D_FACTOR_RLAB["projected_dark"] = D_FACTOR_RLAB["Projected Transparencies, Dark Room"]
 
 
 @dataclass
@@ -190,11 +191,11 @@ class CAM_Specification_RLAB(MixinDataclassArray):
 
 
 def XYZ_to_RLAB(
-        XYZ: ArrayLike,
-        XYZ_n: ArrayLike,
-        Y_n: FloatingOrArrayLike,
-        sigma: FloatingOrArrayLike = VIEWING_CONDITIONS_RLAB['Average'],
-        D: FloatingOrArrayLike = D_FACTOR_RLAB['Hard Copy Images']
+    XYZ: ArrayLike,
+    XYZ_n: ArrayLike,
+    Y_n: FloatingOrArrayLike,
+    sigma: FloatingOrArrayLike = VIEWING_CONDITIONS_RLAB["Average"],
+    D: FloatingOrArrayLike = D_FACTOR_RLAB["Hard Copy Images"],
 ) -> CAM_Specification_RLAB:
     """
     Computes the *RLAB* model color appearance correlates.
@@ -268,12 +269,12 @@ b=-52.6142956...)
 
     # Computing the :math:`A` matrix.
     LMS_l_E = (3 * LMS_n) / np.sum(LMS_n, axis=-1)[..., np.newaxis]
-    LMS_p_L = ((1 + spow(Y_n[..., np.newaxis], 1 / 3) + LMS_l_E) /
-               (1 + spow(Y_n[..., np.newaxis], 1 / 3) + (1 / LMS_l_E)))
+    LMS_p_L = (1 + spow(Y_n[..., np.newaxis], 1 / 3) + LMS_l_E) / (
+        1 + spow(Y_n[..., np.newaxis], 1 / 3) + (1 / LMS_l_E)
+    )
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
-    M = matrix_dot(
-        matrix_dot(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE)
+    M = matrix_dot(matrix_dot(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE)
     XYZ_ref = vector_dot(M, XYZ)
 
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)

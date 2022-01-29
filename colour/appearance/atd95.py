@@ -48,21 +48,21 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CAM_ReferenceSpecification_ATD95',
-    'CAM_Specification_ATD95',
-    'XYZ_to_ATD95',
-    'luminance_to_retinal_illuminance',
-    'XYZ_to_LMS_ATD95',
-    'opponent_colour_dimensions',
-    'final_response',
+    "CAM_ReferenceSpecification_ATD95",
+    "CAM_Specification_ATD95",
+    "XYZ_to_ATD95",
+    "luminance_to_retinal_illuminance",
+    "XYZ_to_LMS_ATD95",
+    "opponent_colour_dimensions",
+    "final_response",
 ]
 
 
@@ -169,12 +169,14 @@ class CAM_Specification_ATD95(MixinDataclassArray):
     D_2: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
-def XYZ_to_ATD95(XYZ: ArrayLike,
-                 XYZ_0: ArrayLike,
-                 Y_0: FloatingOrArrayLike,
-                 k_1: FloatingOrArrayLike,
-                 k_2: FloatingOrArrayLike,
-                 sigma: FloatingOrArrayLike = 300) -> CAM_Specification_ATD95:
+def XYZ_to_ATD95(
+    XYZ: ArrayLike,
+    XYZ_0: ArrayLike,
+    Y_0: FloatingOrArrayLike,
+    k_1: FloatingOrArrayLike,
+    k_2: FloatingOrArrayLike,
+    sigma: FloatingOrArrayLike = 300,
+) -> CAM_Specification_ATD95:
     """
     Computes the *ATD (1995)* colour vision model correlates.
 
@@ -279,8 +281,9 @@ T_2=0.0205377..., D_2=0.0107584...)
     )
 
 
-def luminance_to_retinal_illuminance(XYZ: ArrayLike,
-                                     Y_c: FloatingOrArrayLike) -> NDArray:
+def luminance_to_retinal_illuminance(
+    XYZ: ArrayLike, Y_c: FloatingOrArrayLike
+) -> NDArray:
     """
     Converts from luminance in :math:`cd/m^2` to retinal illuminance in
     trolands.
@@ -332,11 +335,14 @@ def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArray:
     array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
-    LMS = vector_dot([
-        [0.2435, 0.8524, -0.0516],
-        [-0.3954, 1.1642, 0.0837],
-        [0.0000, 0.0400, 0.6225],
-    ], XYZ)
+    LMS = vector_dot(
+        [
+            [0.2435, 0.8524, -0.0516],
+            [-0.3954, 1.1642, 0.0837],
+            [0.0000, 0.0400, 0.6225],
+        ],
+        XYZ,
+    )
     LMS *= np.array([0.66, 1.0, 0.43])
 
     LMS_p = spow(LMS, 0.7)

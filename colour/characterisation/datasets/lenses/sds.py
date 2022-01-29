@@ -30,21 +30,21 @@ from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_LENSES_ISO',
-    'SDS_LENSES_ISO',
-    'SDS_LENSES',
+    "DATA_LENSES_ISO",
+    "SDS_LENSES_ISO",
+    "SDS_LENSES",
 ]
 
 DATA_LENSES_ISO: Dict = {
-    'ISO Standard Lens': {
+    "ISO Standard Lens": {
         350: 0.00,
         360: 0.07,
         370: 0.23,
@@ -83,13 +83,15 @@ DATA_LENSES_ISO: Dict = {
     }
 }
 
-SDS_LENSES_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping({
-    'ISO Standard Lens':
-        partial(
+SDS_LENSES_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    {
+        "ISO Standard Lens": partial(
             SpectralDistribution,
-            DATA_LENSES_ISO['ISO Standard Lens'],
-            name='ISO Standard Lens'),
-})
+            DATA_LENSES_ISO["ISO Standard Lens"],
+            name="ISO Standard Lens",
+        ),
+    }
+)
 SDS_LENSES_ISO.__doc__ = """
 Spectral distributions of *ISO* lenses.
 
@@ -98,8 +100,7 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    SDS_LENSES_ISO)
+SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(SDS_LENSES_ISO)
 SDS_LENSES.__doc__ = """
 Spectral distributions of lenses.
 

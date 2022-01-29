@@ -26,44 +26,48 @@ from colour.models.rgb import (
     normalised_primary_matrix,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_DON_RGB_4',
-    'WHITEPOINT_NAME_DON_RGB_4',
-    'CCS_WHITEPOINT_DON_RGB_4',
-    'MATRIX_DON_RGB_4_TO_XYZ',
-    'MATRIX_XYZ_TO_DON_RGB_4',
-    'RGB_COLOURSPACE_DON_RGB_4',
+    "PRIMARIES_DON_RGB_4",
+    "WHITEPOINT_NAME_DON_RGB_4",
+    "CCS_WHITEPOINT_DON_RGB_4",
+    "MATRIX_DON_RGB_4_TO_XYZ",
+    "MATRIX_XYZ_TO_DON_RGB_4",
+    "RGB_COLOURSPACE_DON_RGB_4",
 ]
 
-PRIMARIES_DON_RGB_4: NDArray = np.array([
-    [0.696120689655172, 0.299568965517241],
-    [0.214682981090100, 0.765294771968854],
-    [0.129937629937630, 0.035343035343035],
-])
+PRIMARIES_DON_RGB_4: NDArray = np.array(
+    [
+        [0.696120689655172, 0.299568965517241],
+        [0.214682981090100, 0.765294771968854],
+        [0.129937629937630, 0.035343035343035],
+    ]
+)
 """
 *Don RGB 4* colourspace primaries.
 """
 
-WHITEPOINT_NAME_DON_RGB_4: str = 'D50'
+WHITEPOINT_NAME_DON_RGB_4: str = "D50"
 """
 *Don RGB 4* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_DON_RGB_4: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DON_RGB_4])
+CCS_WHITEPOINT_DON_RGB_4: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_DON_RGB_4]
 """
 *Don RGB 4* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_DON_RGB_4_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_DON_RGB_4, CCS_WHITEPOINT_DON_RGB_4)
+    PRIMARIES_DON_RGB_4, CCS_WHITEPOINT_DON_RGB_4
+)
 """
 *Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -74,7 +78,7 @@ MATRIX_XYZ_TO_DON_RGB_4: NDArray = np.linalg.inv(MATRIX_DON_RGB_4_TO_XYZ)
 """
 
 RGB_COLOURSPACE_DON_RGB_4: RGB_Colourspace = RGB_Colourspace(
-    'Don RGB 4',
+    "Don RGB 4",
     PRIMARIES_DON_RGB_4,
     CCS_WHITEPOINT_DON_RGB_4,
     WHITEPOINT_NAME_DON_RGB_4,

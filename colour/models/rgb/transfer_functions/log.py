@@ -59,29 +59,32 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'logarithmic_function_basic',
-    'logarithmic_function_quasilog',
-    'logarithmic_function_camera',
-    'log_encoding_Log2',
-    'log_decoding_Log2',
+    "logarithmic_function_basic",
+    "logarithmic_function_quasilog",
+    "logarithmic_function_camera",
+    "log_encoding_Log2",
+    "log_decoding_Log2",
 ]
 
 FLT_MIN = 1.175494e-38
 
 
 def logarithmic_function_basic(
-        x: FloatingOrArrayLike,
-        style: Union[Literal['log10', 'antiLog10', 'log2', 'antiLog2', 'logB',
-                             'antiLogB'], str] = 'log2',
-        base: Integer = 2) -> FloatingOrNDArray:
+    x: FloatingOrArrayLike,
+    style: Union[
+        Literal["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"],
+        str,
+    ] = "log2",
+    base: Integer = 2,
+) -> FloatingOrNDArray:
     """
     Defines the basic logarithmic function.
 
@@ -131,31 +134,34 @@ def logarithmic_function_basic(
 
     x = as_float_array(x)
     style = validate_method(
-        style, ['log10', 'antiLog10', 'log2', 'antiLog2', 'logB', 'antiLogB'],
-        '"{0}" style is invalid, it must be one of {1}!')
+        style,
+        ["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"],
+        '"{0}" style is invalid, it must be one of {1}!',
+    )
 
-    if style == 'log10':
+    if style == "log10":
         return as_float(np.where(x >= FLT_MIN, np.log10(x), np.log10(FLT_MIN)))
-    elif style == 'antilog10':
+    elif style == "antilog10":
         return as_float(10 ** x)
-    elif style == 'log2':
+    elif style == "log2":
         return as_float(np.where(x >= FLT_MIN, np.log2(x), np.log2(FLT_MIN)))
-    elif style == 'antilog2':
+    elif style == "antilog2":
         return as_float(2 ** x)
-    elif style == 'logb':
+    elif style == "logb":
         return as_float(np.log(x) / np.log(base))
     else:  # style == 'antilogb'
         return as_float(base ** x)
 
 
 def logarithmic_function_quasilog(
-        x: FloatingOrArrayLike,
-        style: Union[Literal['linToLog', 'logToLin'], str] = 'linToLog',
-        base: Integer = 2,
-        log_side_slope: Floating = 1,
-        lin_side_slope: Floating = 1,
-        log_side_offset: Floating = 0,
-        lin_side_offset: Floating = 0) -> FloatingOrNDArray:
+    x: FloatingOrArrayLike,
+    style: Union[Literal["linToLog", "logToLin"], str] = "linToLog",
+    base: Integer = 2,
+    log_side_slope: Floating = 1,
+    lin_side_slope: Floating = 1,
+    log_side_offset: Floating = 0,
+    lin_side_offset: Floating = 0,
+) -> FloatingOrNDArray:
     """
     Defines the quasilog logarithmic function.
 
@@ -201,32 +207,43 @@ def logarithmic_function_quasilog(
     """
 
     x = as_float_array(x)
-    style = validate_method(style, ['lintolog', 'logtolin'],
-                            '"{0}" style is invalid, it must be one of {1}!')
+    style = validate_method(
+        style,
+        ["lintolog", "logtolin"],
+        '"{0}" style is invalid, it must be one of {1}!',
+    )
 
-    if style == 'lintolog':
-        return as_float((
-            log_side_slope *
-            (np.log(np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN))
-             / np.log(base)) + log_side_offset))
+    if style == "lintolog":
+        return as_float(
+            (
+                log_side_slope
+                * (
+                    np.log(np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN))
+                    / np.log(base)
+                )
+                + log_side_offset
+            )
+        )
     else:  # style == 'logtolin'
         return as_float(
-            ((base **
-              ((x - log_side_offset) / log_side_slope) - lin_side_offset) /
-             lin_side_slope))
+            (
+                (base ** ((x - log_side_offset) / log_side_slope) - lin_side_offset)
+                / lin_side_slope
+            )
+        )
 
 
 def logarithmic_function_camera(
-        x: FloatingOrArrayLike,
-        style: Union[Literal['cameraLinToLog', 'cameraLogToLin'],
-                     str] = 'cameraLinToLog',
-        base: Integer = 2,
-        log_side_slope: Floating = 1,
-        lin_side_slope: Floating = 1,
-        log_side_offset: Floating = 0,
-        lin_side_offset: Floating = 0,
-        lin_side_break: Floating = 0.005,
-        linear_slope: Optional[Floating] = None) -> FloatingOrNDArray:
+    x: FloatingOrArrayLike,
+    style: Union[Literal["cameraLinToLog", "cameraLogToLin"], str] = "cameraLinToLog",
+    base: Integer = 2,
+    log_side_slope: Floating = 1,
+    lin_side_slope: Floating = 1,
+    log_side_offset: Floating = 0,
+    lin_side_offset: Floating = 0,
+    lin_side_break: Floating = 0.005,
+    linear_slope: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
     Defines the camera logarithmic function.
 
@@ -279,44 +296,77 @@ def logarithmic_function_camera(
     """
 
     x = as_float_array(x)
-    style = validate_method(style, ['cameraLinToLog', 'cameraLogToLin'],
-                            '"{0}" style is invalid, it must be one of {1}!')
+    style = validate_method(
+        style,
+        ["cameraLinToLog", "cameraLogToLin"],
+        '"{0}" style is invalid, it must be one of {1}!',
+    )
 
     log_side_break = (
-        log_side_slope *
-        (np.log(lin_side_slope * lin_side_break + lin_side_offset) /
-         np.log(base)) + log_side_offset)
+        log_side_slope
+        * (np.log(lin_side_slope * lin_side_break + lin_side_offset) / np.log(base))
+        + log_side_offset
+    )
 
     linear_slope = cast(
         Floating,
-        optional(linear_slope, (log_side_slope * (lin_side_slope / (
-            (lin_side_slope * lin_side_break + lin_side_offset) * np.log(base))
-                                                  ))))
+        optional(
+            linear_slope,
+            (
+                log_side_slope
+                * (
+                    lin_side_slope
+                    / (
+                        (lin_side_slope * lin_side_break + lin_side_offset)
+                        * np.log(base)
+                    )
+                )
+            ),
+        ),
+    )
 
     linear_offset = log_side_break - linear_slope * lin_side_break
 
-    if style == 'cameralintolog':
+    if style == "cameralintolog":
         return as_float(
             np.where(
-                x <= lin_side_break, linear_slope * x + linear_offset,
+                x <= lin_side_break,
+                linear_slope * x + linear_offset,
                 logarithmic_function_quasilog(
-                    x, 'linToLog', base, log_side_slope, lin_side_slope,
-                    log_side_offset, lin_side_offset)))
+                    x,
+                    "linToLog",
+                    base,
+                    log_side_slope,
+                    lin_side_slope,
+                    log_side_offset,
+                    lin_side_offset,
+                ),
+            )
+        )
     else:  # style == 'cameralogtolin'
         return as_float(
             np.where(
                 x <= log_side_break,
                 (x - linear_offset) / linear_slope,
                 logarithmic_function_quasilog(
-                    x, 'logToLin', base, log_side_slope, lin_side_slope,
-                    log_side_offset, lin_side_offset),
-            ))
+                    x,
+                    "logToLin",
+                    base,
+                    log_side_slope,
+                    lin_side_slope,
+                    log_side_offset,
+                    lin_side_offset,
+                ),
+            )
+        )
 
 
-def log_encoding_Log2(lin: FloatingOrArrayLike,
-                      middle_grey: Floating = 0.18,
-                      min_exposure: Floating = -6.5,
-                      max_exposure: Floating = 6.5) -> FloatingOrNDArray:
+def log_encoding_Log2(
+    lin: FloatingOrArrayLike,
+    middle_grey: Floating = 0.18,
+    min_exposure: Floating = -6.5,
+    max_exposure: Floating = 6.5,
+) -> FloatingOrNDArray:
     """
     Defines the common *Log2* encoding function.
 
@@ -367,10 +417,12 @@ def log_encoding_Log2(lin: FloatingOrArrayLike,
     return as_float(from_range_1(log_norm))
 
 
-def log_decoding_Log2(log_norm: FloatingOrArrayLike,
-                      middle_grey: Floating = 0.18,
-                      min_exposure: Floating = -6.5,
-                      max_exposure: Floating = 6.5) -> FloatingOrNDArray:
+def log_decoding_Log2(
+    log_norm: FloatingOrArrayLike,
+    middle_grey: Floating = 0.18,
+    min_exposure: Floating = -6.5,
+    max_exposure: Floating = 6.5,
+) -> FloatingOrNDArray:
     """
     Defines the common *Log2* decoding function.
 

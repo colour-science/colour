@@ -30,18 +30,18 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'edges_to_chord',
-    'unique_vertices',
-    'close_chord',
-    'hull_section',
+    "edges_to_chord",
+    "unique_vertices",
+    "close_chord",
+    "hull_section",
 ]
 
 
@@ -141,8 +141,8 @@ def close_chord(vertices: ArrayLike) -> NDArray:
 
 
 def unique_vertices(
-        vertices: ArrayLike,
-        decimals: Integer = np.finfo(DEFAULT_FLOAT_DTYPE).precision - 1
+    vertices: ArrayLike,
+    decimals: Integer = np.finfo(DEFAULT_FLOAT_DTYPE).precision - 1,
 ) -> NDArray:
     """
     Returns the unique vertices from given vertices.
@@ -174,17 +174,19 @@ def unique_vertices(
     vertices = as_float_array(vertices)
 
     unique, indexes = np.unique(
-        vertices.round(decimals=decimals), axis=0, return_index=True)
+        vertices.round(decimals=decimals), axis=0, return_index=True
+    )
 
     return unique[np.argsort(indexes)]
 
 
-@required('trimesh')
+@required("trimesh")
 def hull_section(
-        hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
-        axis: Union[Literal['+z', '+x', '+y'], str] = '+z',
-        origin: Floating = 0.5,
-        normalise: Boolean = False) -> NDArray:
+    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
+    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
+    origin: Floating = 0.5,
+    normalise: Boolean = False,
+) -> NDArray:
     """
     Computes the hull section for given axis at given origin.
 
@@ -226,29 +228,31 @@ def hull_section(
 
     import trimesh
 
-    axis = validate_method(axis, ['+z', '+x', '+y'],
-                           '"{0}" axis is invalid, it must be one of {1}!')
+    axis = validate_method(
+        axis,
+        ["+z", "+x", "+y"],
+        '"{0}" axis is invalid, it must be one of {1}!',
+    )
 
-    if axis == '+x':
+    if axis == "+x":
         normal, plane = np.array([1, 0, 0]), np.array([origin, 0, 0])
-    elif axis == '+y':
+    elif axis == "+y":
         normal, plane = np.array([0, 1, 0]), np.array([0, origin, 0])
-    elif axis == '+z':
+    elif axis == "+z":
         normal, plane = np.array([0, 0, 1]), np.array([0, 0, origin])
 
     if normalise:
         vertices = hull.vertices * normal
         origin = as_float_scalar(
-            linear_conversion(
-                origin, [0, 1],
-                [np.min(vertices), np.max(vertices)]))
+            linear_conversion(origin, [0, 1], [np.min(vertices), np.max(vertices)])
+        )
         plane[plane != 0] = origin
 
     section = trimesh.intersections.mesh_plane(hull, normal, plane)
     if len(section) == 0:
         raise ValueError(
-            'No section exists on "{0}" axis at {1} origin!'.format(
-                axis, origin))
+            'No section exists on "{0}" axis at {1} origin!'.format(axis, origin)
+        )
     section = close_chord(unique_vertices(edges_to_chord(section)))
 
     return section

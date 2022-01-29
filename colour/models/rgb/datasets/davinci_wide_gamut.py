@@ -29,62 +29,69 @@ from colour.models.rgb import (
     oetf_inverse_DaVinciIntermediate,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_DAVINCI_WIDE_GAMUT',
-    'WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT',
-    'CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT',
-    'MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ',
-    'MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT',
-    'RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT',
+    "PRIMARIES_DAVINCI_WIDE_GAMUT",
+    "WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT",
+    "CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT",
+    "MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ",
+    "MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT",
+    "RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT",
 ]
 
-PRIMARIES_DAVINCI_WIDE_GAMUT: NDArray = np.array([
-    [0.8000, 0.3130],
-    [0.1682, 0.9877],
-    [0.0790, -0.1155],
-])
+PRIMARIES_DAVINCI_WIDE_GAMUT: NDArray = np.array(
+    [
+        [0.8000, 0.3130],
+        [0.1682, 0.9877],
+        [0.0790, -0.1155],
+    ]
+)
 """
 *DaVinci Wide Gamut* colourspace primaries.
 """
 
-WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT: str = 'D65'
+WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT: str = "D65"
 """
 *DaVinci Wide Gamut* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT])
+CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+][WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT]
 """
 *DaVinci Wide Gamut* colourspace whitepoint chromaticity coordinates.
 """
 
-MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ: NDArray = np.array([
-    [0.70062239, 0.14877482, 0.10105872],
-    [0.27411851, 0.87363190, -0.14775041],
-    [-0.09896291, -0.13789533, 1.32591599],
-])
+MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ: NDArray = np.array(
+    [
+        [0.70062239, 0.14877482, 0.10105872],
+        [0.27411851, 0.87363190, -0.14775041],
+        [-0.09896291, -0.13789533, 1.32591599],
+    ]
+)
 """
 *DaVinci Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT: NDArray = np.array([
-    [1.51667204, -0.28147805, -0.14696363],
-    [-0.46491710, 1.25142378, 0.17488461],
-    [0.06484905, 0.10913934, 0.76141462],
-])
+MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT: NDArray = np.array(
+    [
+        [1.51667204, -0.28147805, -0.14696363],
+        [-0.46491710, 1.25142378, 0.17488461],
+        [0.06484905, 0.10913934, 0.76141462],
+    ]
+)
 """
 *CIE XYZ* tristimulus values to *DaVinci Wide Gamut* colourspace matrix.
 """
 
 RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT: RGB_Colourspace = RGB_Colourspace(
-    'DaVinci Wide Gamut',
+    "DaVinci Wide Gamut",
     PRIMARIES_DAVINCI_WIDE_GAMUT,
     CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT,
     WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT,

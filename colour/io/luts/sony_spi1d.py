@@ -24,16 +24,16 @@ from colour.utilities import (
     usage_warning,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'read_LUT_SonySPI1D',
-    'write_LUT_SonySPI1D',
+    "read_LUT_SonySPI1D",
+    "write_LUT_SonySPI1D",
 ]
 
 
@@ -96,25 +96,26 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
     with open(path) as spi1d_file:
         lines = filter(None, (line.strip() for line in spi1d_file.readlines()))
         for line in lines:
-            if line.startswith('#'):
+            if line.startswith("#"):
                 comments.append(line[1:].strip())
                 continue
 
             tokens = line.split()
-            if tokens[0] == 'Version':
+            if tokens[0] == "Version":
                 continue
-            if tokens[0] == 'From':
+            if tokens[0] == "From":
                 domain_min, domain_max = as_float_array(tokens[1:])
-            elif tokens[0] == 'Length':
+            elif tokens[0] == "Length":
                 continue
-            elif tokens[0] == 'Components':
+            elif tokens[0] == "Components":
                 component = as_int_scalar(tokens[1])
                 attest(
                     component in (1, 3),
-                    'Only 1 or 3 components are supported!')
+                    "Only 1 or 3 components are supported!",
+                )
 
                 dimensions = 1 if component == 1 else 2
-            elif tokens[0] in ('{', '}'):
+            elif tokens[0] in ("{", "}"):
                 continue
             else:
                 data.append(tokens)
@@ -127,21 +128,27 @@ def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
             np.squeeze(table),
             title,
             np.array([domain_min, domain_max]),
-            comments=comments)
+            comments=comments,
+        )
     elif dimensions == 2:
         LUT = LUT3x1D(
             table,
             title,
-            np.array([[domain_min, domain_min, domain_min],
-                      [domain_max, domain_max, domain_max]]),
-            comments=comments)
+            np.array(
+                [
+                    [domain_min, domain_min, domain_min],
+                    [domain_max, domain_max, domain_max],
+                ]
+            ),
+            comments=comments,
+        )
 
     return LUT
 
 
-def write_LUT_SonySPI1D(LUT: Union[LUT1D, LUT3x1D, LUTSequence],
-                        path: str,
-                        decimals: Integer = 7) -> Boolean:
+def write_LUT_SonySPI1D(
+    LUT: Union[LUT1D, LUT3x1D, LUTSequence], path: str, decimals: Integer = 7
+) -> Boolean:
     """
     Writes given *LUT* to given *Sony* *.spi1d* *LUT* file.
 
@@ -190,9 +197,11 @@ def write_LUT_SonySPI1D(LUT: Union[LUT1D, LUT3x1D, LUTSequence],
     """
 
     if isinstance(LUT, LUTSequence):
-        usage_warning('"LUT" is a "LUTSequence" instance was passed, '
-                      'using first sequence "LUT":\n'
-                      '{0}'.format(LUT))
+        usage_warning(
+            '"LUT" is a "LUTSequence" instance was passed, '
+            'using first sequence "LUT":\n'
+            "{0}".format(LUT)
+        )
         LUTxD = LUT[0]
     else:
         LUTxD = LUT
@@ -201,7 +210,8 @@ def write_LUT_SonySPI1D(LUT: Union[LUT1D, LUT3x1D, LUTSequence],
 
     attest(
         isinstance(LUTxD, LUT1D) or isinstance(LUTxD, LUT3x1D),
-        '"LUT" must be either a 1D or 3x1D "LUT"!')
+        '"LUT" must be either a 1D or 3x1D "LUT"!',
+    )
 
     is_1D = isinstance(LUTxD, LUT1D)
 
@@ -217,29 +227,29 @@ def write_LUT_SonySPI1D(LUT: Union[LUT1D, LUT3x1D, LUTSequence],
         Formats given array as a *Sony* *.spi1d* data row.
         """
 
-        return ' {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}'.format(decimals, *array)
+        return " {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
-    with open(path, 'w') as spi1d_file:
-        spi1d_file.write('Version 1\n')
+    with open(path, "w") as spi1d_file:
+        spi1d_file.write("Version 1\n")
 
-        spi1d_file.write('From {1:0.{0}f} {2:0.{0}f}\n'.format(
-            decimals, *domain))
+        spi1d_file.write("From {1:0.{0}f} {2:0.{0}f}\n".format(decimals, *domain))
 
-        spi1d_file.write('Length {0}\n'.format(LUTxD.table.size if is_1D else
-                                               LUTxD.table.shape[0]))
+        spi1d_file.write(
+            "Length {0}\n".format(LUTxD.table.size if is_1D else LUTxD.table.shape[0])
+        )
 
-        spi1d_file.write('Components {0}\n'.format(1 if is_1D else 3))
+        spi1d_file.write("Components {0}\n".format(1 if is_1D else 3))
 
-        spi1d_file.write('{\n')
+        spi1d_file.write("{\n")
         for row in LUTxD.table:
             if is_1D:
-                spi1d_file.write(' {1:0.{0}f}\n'.format(decimals, row))
+                spi1d_file.write(" {1:0.{0}f}\n".format(decimals, row))
             else:
-                spi1d_file.write('{0}\n'.format(_format_array(row)))
-        spi1d_file.write('}\n')
+                spi1d_file.write("{0}\n".format(_format_array(row)))
+        spi1d_file.write("}\n")
 
         if LUTxD.comments:
             for comment in LUTxD.comments:
-                spi1d_file.write('# {0}\n'.format(comment))
+                spi1d_file.write("# {0}\n".format(comment))
 
     return True

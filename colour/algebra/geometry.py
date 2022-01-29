@@ -60,26 +60,26 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'normalise_vector',
-    'euclidean_distance',
-    'manhattan_distance',
-    'extend_line_segment',
-    'LineSegmentsIntersections_Specification',
-    'intersect_line_segments',
-    'ellipse_coefficients_general_form',
-    'ellipse_coefficients_canonical_form',
-    'point_at_angle_on_ellipse',
-    'ellipse_fitting_Halir1998',
-    'ELLIPSE_FITTING_METHODS',
-    'ellipse_fitting',
+    "normalise_vector",
+    "euclidean_distance",
+    "manhattan_distance",
+    "extend_line_segment",
+    "LineSegmentsIntersections_Specification",
+    "intersect_line_segments",
+    "ellipse_coefficients_general_form",
+    "ellipse_coefficients_canonical_form",
+    "point_at_angle_on_ellipse",
+    "ellipse_fitting_Halir1998",
+    "ELLIPSE_FITTING_METHODS",
+    "ellipse_fitting",
 ]
 
 
@@ -138,8 +138,7 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
     451.7133019...
     """
 
-    return as_float(
-        np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1))
+    return as_float(np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1))
 
 
 def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
@@ -171,12 +170,10 @@ def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
     604.9396351...
     """
 
-    return as_float(
-        np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1))
+    return as_float(np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1))
 
 
-def extend_line_segment(a: ArrayLike, b: ArrayLike,
-                        distance: Floating = 1) -> NDArray:
+def extend_line_segment(a: ArrayLike, b: ArrayLike, distance: Floating = 1) -> NDArray:
     """
     Extends the line segment defined by point arrays :math:`a` and :math:`b` by
     given distance and return the new end point.
@@ -254,8 +251,9 @@ class LineSegmentsIntersections_Specification:
     coincident: NDArray
 
 
-def intersect_line_segments(l_1: ArrayLike, l_2: ArrayLike
-                            ) -> LineSegmentsIntersections_Specification:
+def intersect_line_segments(
+    l_1: ArrayLike, l_2: ArrayLike
+) -> LineSegmentsIntersections_Specification:
     """
     Computes :math:`l_1` line segments intersections with :math:`l_2` line
     segments.
@@ -328,9 +326,7 @@ def intersect_line_segments(l_1: ArrayLike, l_2: ArrayLike
     r_1, c_1 = l_1.shape[0], l_1.shape[1]
     r_2, c_2 = l_2.shape[0], l_2.shape[1]
 
-    x_1, y_1, x_2, y_2 = [
-        np.tile(l_1[:, i, np.newaxis], (1, r_2)) for i in range(c_1)
-    ]
+    x_1, y_1, x_2, y_2 = [np.tile(l_1[:, i, np.newaxis], (1, r_2)) for i in range(c_1)]
 
     l_2 = np.transpose(l_2)
 
@@ -354,11 +350,9 @@ def intersect_line_segments(l_1: ArrayLike, l_2: ArrayLike
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
     xy[~intersect] = np.nan
     parallel = denominator == 0
-    coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0,
-                                        parallel))
+    coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0, parallel))
 
-    return LineSegmentsIntersections_Specification(xy, intersect, parallel,
-                                                   coincident)
+    return LineSegmentsIntersections_Specification(xy, intersect, parallel, coincident)
 
 
 def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArray:
@@ -475,8 +469,7 @@ def ellipse_coefficients_canonical_form(coefficients: ArrayLike) -> NDArray:
     return np.array([x_c, y_c, a_a, a_b, theta])
 
 
-def point_at_angle_on_ellipse(phi: ArrayLike,
-                              coefficients: ArrayLike) -> NDArray:
+def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArray:
     """
     Returns the coordinates of the point at angle :math:`\\phi` in degrees on
     the ellipse with given canonical form coefficients.
@@ -591,9 +584,9 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArray:
     return A
 
 
-ELLIPSE_FITTING_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Halir 1998': ellipse_fitting_Halir1998
-})
+ELLIPSE_FITTING_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {"Halir 1998": ellipse_fitting_Halir1998}
+)
 ELLIPSE_FITTING_METHODS.__doc__ = """
 Supported ellipse fitting methods.
 
@@ -603,9 +596,9 @@ References
 """
 
 
-def ellipse_fitting(a: ArrayLike,
-                    method: Union[Literal['Halir 1998'], str] = 'Halir 1998'
-                    ) -> NDArray:
+def ellipse_fitting(
+    a: ArrayLike, method: Union[Literal["Halir 1998"], str] = "Halir 1998"
+) -> NDArray:
     """
     Returns the coefficients of the implicit second-order polynomial/quadratic
     curve that fits given point array :math:`a` using

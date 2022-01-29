@@ -22,25 +22,26 @@ import numpy as np
 from colour.hints import ArrayLike, Integer, NDArray
 from colour.utilities import as_float_array, tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RANDOM_STATE',
-    'random_triplet_generator',
+    "RANDOM_STATE",
+    "random_triplet_generator",
 ]
 
 RANDOM_STATE = np.random.RandomState()
 
 
 def random_triplet_generator(
-        size: Integer,
-        limits: ArrayLike = np.array([[0, 1], [0, 1], [0, 1]]),
-        random_state: np.random.RandomState = RANDOM_STATE) -> NDArray:
+    size: Integer,
+    limits: ArrayLike = np.array([[0, 1], [0, 1], [0, 1]]),
+    random_state: np.random.RandomState = RANDOM_STATE,
+) -> NDArray:
     """
     Returns a generator yielding random triplets.
 
@@ -86,8 +87,10 @@ def random_triplet_generator(
 
     limit_x, limit_y, limit_z = as_float_array(limits)
 
-    return tstack([
-        random_state.uniform(limit_x[0], limit_x[1], size=size),
-        random_state.uniform(limit_y[0], limit_y[1], size=size),
-        random_state.uniform(limit_z[0], limit_z[1], size=size),
-    ])
+    return tstack(
+        [
+            random_state.uniform(limit_x[0], limit_x[1], size=size),
+            random_state.uniform(limit_y[0], limit_y[1], size=size),
+            random_state.uniform(limit_z[0], limit_z[1], size=size),
+        ]
+    )

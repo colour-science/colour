@@ -28,22 +28,23 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'log_encoding_Cineon',
-    'log_decoding_Cineon',
+    "log_encoding_Cineon",
+    "log_decoding_Cineon",
 ]
 
 
-def log_encoding_Cineon(x: FloatingOrArrayLike,
-                        black_offset: FloatingOrArrayLike = 10
-                        ** ((95 - 685) / 300)) -> FloatingOrNDArray:
+def log_encoding_Cineon(
+    x: FloatingOrArrayLike,
+    black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
+) -> FloatingOrNDArray:
     """
     Defines the *Cineon* log encoding curve / opto-electronic transfer
     function.
@@ -88,14 +89,15 @@ def log_encoding_Cineon(x: FloatingOrArrayLike,
     x = to_domain_1(x)
     black_offset = as_float_array(black_offset)
 
-    y = ((685 + 300 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
+    y = (685 + 300 * np.log10(x * (1 - black_offset) + black_offset)) / 1023
 
     return as_float(from_range_1(y))
 
 
-def log_decoding_Cineon(y: FloatingOrArrayLike,
-                        black_offset: FloatingOrArrayLike = 10
-                        ** ((95 - 685) / 300)) -> FloatingOrNDArray:
+def log_decoding_Cineon(
+    y: FloatingOrArrayLike,
+    black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
+) -> FloatingOrNDArray:
     """
     Defines the *Cineon* log decoding curve / electro-optical transfer
     function.
@@ -140,6 +142,6 @@ def log_decoding_Cineon(y: FloatingOrArrayLike,
     y = to_domain_1(y)
     black_offset = as_float_array(black_offset)
 
-    x = ((10 ** ((1023 * y - 685) / 300) - black_offset) / (1 - black_offset))
+    x = (10 ** ((1023 * y - 685) / 300) - black_offset) / (1 - black_offset)
 
     return as_float(from_range_1(x))

@@ -22,16 +22,16 @@ from colour.io import SpectralDistribution_IESTM2714
 from colour.hints import Any, Dict, List, cast
 from colour.utilities import as_float_array
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'SpectralDistribution_UPRTek',
-    'SpectralDistribution_Sekonic',
+    "SpectralDistribution_UPRTek",
+    "SpectralDistribution_Sekonic",
 ]
 
 
@@ -128,9 +128,9 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     def __init__(self, path: str, **kwargs: Any):
         super(SpectralDistribution_UPRTek, self).__init__(path, **kwargs)
 
-        self._delimiter: str = '\t'
-        self._spectral_section: str = '380'
-        self._spectral_data_pattern: str = '(\\d{3})nm'
+        self._delimiter: str = "\t"
+        self._spectral_section: str = "380"
+        self._spectral_data_pattern: str = "(\\d{3})nm"
 
         self._metadata: Dict = {}
 
@@ -218,12 +218,12 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
             return [float(e) for e in a]
 
         spectral_sections = defaultdict(list)
-        with open(path, encoding='utf-8') as csv_file:
+        with open(path, encoding="utf-8") as csv_file:
             content = csv.reader(csv_file, delimiter=self._delimiter)
 
             spectral_section = 0
             for row in content:
-                if not ''.join(row).strip():
+                if not "".join(row).strip():
                     continue
 
                 attribute, tokens = row[0], row[1:]
@@ -236,31 +236,31 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                     if wavelength == self._spectral_section:
                         spectral_section += 1
 
-                    spectral_sections[spectral_section].append(
-                        [wavelength, value])
+                    spectral_sections[spectral_section].append([wavelength, value])
                 else:
                     for method in (int, float, as_array):
                         try:
-                            self._metadata[attribute] = (
-                                method(value)  # type: ignore[operator]
-                            )
+                            self._metadata[attribute] = method(
+                                value
+                            )  # type: ignore[operator]
                             break
                         except Exception:
                             self._metadata[attribute] = value
 
         self.name = os.path.splitext(os.path.basename(path))[0]
-        spectral_data = as_float_array(spectral_sections[sorted(
-            spectral_sections.keys())[-1]])
+        spectral_data = as_float_array(
+            spectral_sections[sorted(spectral_sections.keys())[-1]]
+        )
 
         self.wavelengths = spectral_data[..., 0]
         self.values = spectral_data[..., 1]
 
         self.header.comments = json.dumps(self._metadata)
 
-        self.header.report_date = self._metadata.get('Time')
-        self.header.measurement_equipment = self._metadata.get('Model Name')
-        self.header.manufacturer = 'UPRTek'
-        self.spectral_quantity = 'irradiance'
+        self.header.report_date = self._metadata.get("Time")
+        self.header.measurement_equipment = self._metadata.get("Model Name")
+        self.header.manufacturer = "UPRTek"
+        self.spectral_quantity = "irradiance"
 
         return self
 
@@ -342,9 +342,9 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     def __init__(self, path: str, **kwargs: Any):
         super(SpectralDistribution_Sekonic, self).__init__(path, **kwargs)
 
-        self._delimiter: str = ','
-        self._spectral_section: str = '380'
-        self._spectral_data_pattern: str = 'Spectral Data (\\d{3})\\[nm\\]'
+        self._delimiter: str = ","
+        self._spectral_section: str = "380"
+        self._spectral_data_pattern: str = "Spectral Data (\\d{3})\\[nm\\]"
 
     def read(self) -> SpectralDistribution_Sekonic:
         """
@@ -409,7 +409,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
         super(SpectralDistribution_Sekonic, self).read()
 
-        self.header.report_date = self._metadata.get('Date Saved')
-        self.header.manufacturer = 'Sekonic'
+        self.header.report_date = self._metadata.get("Date Saved")
+        self.header.manufacturer = "Sekonic"
 
         return self

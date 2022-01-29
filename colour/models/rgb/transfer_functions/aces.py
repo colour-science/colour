@@ -71,24 +71,24 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_ACES_PROXY_10',
-    'CONSTANTS_ACES_PROXY_12',
-    'CONSTANTS_ACES_PROXY',
-    'CONSTANTS_ACES_CCT',
-    'log_encoding_ACESproxy',
-    'log_decoding_ACESproxy',
-    'log_encoding_ACEScc',
-    'log_decoding_ACEScc',
-    'log_encoding_ACEScct',
-    'log_decoding_ACEScct',
+    "CONSTANTS_ACES_PROXY_10",
+    "CONSTANTS_ACES_PROXY_12",
+    "CONSTANTS_ACES_PROXY",
+    "CONSTANTS_ACES_CCT",
+    "log_encoding_ACESproxy",
+    "log_decoding_ACESproxy",
+    "log_encoding_ACEScc",
+    "log_decoding_ACEScc",
+    "log_encoding_ACEScct",
+    "log_decoding_ACEScct",
 ]
 
 CONSTANTS_ACES_PROXY_10: Structure = Structure(
@@ -96,7 +96,8 @@ CONSTANTS_ACES_PROXY_10: Structure = Structure(
     CV_max=940,
     steps_per_stop=50,
     mid_CV_offset=425,
-    mid_log_offset=2.5)
+    mid_log_offset=2.5,
+)
 """
 *ACESproxy* 10 bit colourspace constants.
 """
@@ -106,14 +107,15 @@ CONSTANTS_ACES_PROXY_12: Structure = Structure(
     CV_max=3760,
     steps_per_stop=200,
     mid_CV_offset=1700,
-    mid_log_offset=2.5)
+    mid_log_offset=2.5,
+)
 """
 *ACESproxy* 12 bit colourspace constants.
 """
 
 CONSTANTS_ACES_PROXY: Dict = {
     10: CONSTANTS_ACES_PROXY_10,
-    12: CONSTANTS_ACES_PROXY_12
+    12: CONSTANTS_ACES_PROXY_12,
 }
 """
 Aggregated *ACESproxy* colourspace constants.
@@ -123,18 +125,20 @@ CONSTANTS_ACES_CCT: Structure = Structure(
     X_BRK=0.0078125,
     Y_BRK=0.155251141552511,
     A=10.5402377416545,
-    B=0.0729055341958355)
+    B=0.0729055341958355,
+)
 """
 *ACEScct* colourspace constants.
 """
 
 
 # pylint: disable=W0102
-def log_encoding_ACESproxy(lin_AP1: FloatingOrArrayLike,
-                           bit_depth: Literal[10, 12] = 10,
-                           out_int: Boolean = False,
-                           constants: Dict = CONSTANTS_ACES_PROXY
-                           ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+def log_encoding_ACESproxy(
+    lin_AP1: FloatingOrArrayLike,
+    bit_depth: Literal[10, 12] = 10,
+    out_int: Boolean = False,
+    constants: Dict = CONSTANTS_ACES_PROXY,
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -206,8 +210,9 @@ def log_encoding_ACESproxy(lin_AP1: FloatingOrArrayLike,
 
     ACESproxy = np.where(
         lin_AP1 > 2 ** -9.72,
-        float_2_cv((np.log2(lin_AP1) + mid_log_offset) * steps_per_stop +
-                   mid_CV_offset),
+        float_2_cv(
+            (np.log2(lin_AP1) + mid_log_offset) * steps_per_stop + mid_CV_offset
+        ),
         np.resize(CV_min, lin_AP1.shape),
     )
 
@@ -219,10 +224,11 @@ def log_encoding_ACESproxy(lin_AP1: FloatingOrArrayLike,
 
 # pylint: disable=W0102
 def log_decoding_ACESproxy(
-        ACESproxy: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-        bit_depth: Literal[10, 12] = 10,
-        in_int: Boolean = False,
-        constants: Dict = CONSTANTS_ACES_PROXY) -> FloatingOrNDArray:
+    ACESproxy: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    bit_depth: Literal[10, 12] = 10,
+    in_int: Boolean = False,
+    constants: Dict = CONSTANTS_ACES_PROXY,
+) -> FloatingOrNDArray:
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
@@ -286,8 +292,7 @@ def log_decoding_ACESproxy(
     if not in_int:
         ACESproxy = ACESproxy * (2 ** bit_depth - 1)
 
-    lin_AP1 = 2 ** (
-        (ACESproxy - mid_CV_offset) / steps_per_stop - mid_log_offset)
+    lin_AP1 = 2 ** ((ACESproxy - mid_CV_offset) / steps_per_stop - mid_log_offset)
 
     return as_float(from_range_1(lin_AP1))
 
@@ -411,9 +416,9 @@ def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 
 # pylint: disable=W0102
-def log_encoding_ACEScct(lin_AP1: FloatingOrArrayLike,
-                         constants: Structure = CONSTANTS_ACES_CCT
-                         ) -> FloatingOrNDArray:
+def log_encoding_ACEScct(
+    lin_AP1: FloatingOrArrayLike, constants: Structure = CONSTANTS_ACES_CCT
+) -> FloatingOrNDArray:
     """
     Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
     function.
@@ -470,9 +475,9 @@ def log_encoding_ACEScct(lin_AP1: FloatingOrArrayLike,
 
 
 # pylint: disable=W0102
-def log_decoding_ACEScct(ACEScct: FloatingOrArrayLike,
-                         constants: Structure = CONSTANTS_ACES_CCT
-                         ) -> FloatingOrNDArray:
+def log_decoding_ACEScct(
+    ACEScct: FloatingOrArrayLike, constants: Structure = CONSTANTS_ACES_CCT
+) -> FloatingOrNDArray:
     """
     Defines the *ACEScct* colourspace log decoding / electro-optical transfer
     function.

@@ -36,17 +36,19 @@ from .barten1999 import (
 )
 
 __all__ = [
-    'optical_MTF_Barten1999',
-    'pupil_diameter_Barten1999',
-    'sigma_Barten1999',
-    'retinal_illuminance_Barten1999',
-    'maximum_angular_size_Barten1999',
-    'contrast_sensitivity_function_Barten1999',
+    "optical_MTF_Barten1999",
+    "pupil_diameter_Barten1999",
+    "sigma_Barten1999",
+    "retinal_illuminance_Barten1999",
+    "maximum_angular_size_Barten1999",
+    "contrast_sensitivity_function_Barten1999",
 ]
 
-CONTRAST_SENSITIVITY_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Barten 1999': contrast_sensitivity_function_Barten1999,
-})
+CONTRAST_SENSITIVITY_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Barten 1999": contrast_sensitivity_function_Barten1999,
+    }
+)
 CONTRAST_SENSITIVITY_METHODS.__doc__ = """
 Supported contrast sensitivity methods.
 
@@ -58,8 +60,8 @@ References
 
 
 def contrast_sensitivity_function(
-        method: Union[Literal['Barten 1999'], str] = 'Barten 1999',
-        **kwargs) -> FloatingOrNDArray:
+    method: Union[Literal["Barten 1999"], str] = "Barten 1999", **kwargs
+) -> FloatingOrNDArray:
     """
     Returns the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by given method.
@@ -151,6 +153,6 @@ def contrast_sensitivity_function(
 
 
 __all__ += [
-    'CONTRAST_SENSITIVITY_METHODS',
-    'contrast_sensitivity_function',
+    "CONTRAST_SENSITIVITY_METHODS",
+    "contrast_sensitivity_function",
 ]

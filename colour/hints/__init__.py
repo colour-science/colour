@@ -45,7 +45,10 @@ try:
     )
 except ImportError:  # pragma: no cover
     from typing_extensions import (  # type: ignore[misc]
-        Literal, Protocol, SupportsIndex, TypedDict,
+        Literal,
+        Protocol,
+        SupportsIndex,
+        TypedDict,
     )
 
 __author__ = "Colour Developers"
@@ -132,8 +135,16 @@ TypeVar = TypeVar
 
 RegexFlag = NewType("RegexFlag", re.RegexFlag)
 
-DTypeInteger = Union[np.int8, np.int16, np.int32, np.int64, np.uint8,
-                     np.uint16, np.uint32, np.uint64]
+DTypeInteger = Union[
+    np.int8,
+    np.int16,
+    np.int32,
+    np.int64,
+    np.uint8,
+    np.uint16,
+    np.uint32,
+    np.uint64,
+]
 DTypeFloating = Union[np.float16, np.float32, np.float64]
 DTypeNumber = Union[DTypeInteger, DTypeFloating]
 DTypeComplex = Union[np.csingle, np.cdouble]
@@ -177,8 +188,7 @@ else:
 if TYPE_CHECKING:  # pragma: no cover
     IntegerOrNDArray = Union[Integer, NDArray[DTypeInteger]]
     FloatingOrNDArray = Union[Floating, NDArray[DTypeFloating]]
-    NumberOrNDArray = Union[Number, NDArray[Union[DTypeInteger,
-                                                  DTypeFloating]]]
+    NumberOrNDArray = Union[Number, NDArray[Union[DTypeInteger, DTypeFloating]]]
     ComplexOrNDArray = Union[Complex, NDArray[DTypeComplex]]
 
     BooleanOrNDArray = Union[Boolean, NDArray[DTypeBoolean]]
@@ -223,8 +233,7 @@ class TypeLUTSequenceItem(Protocol):
         ...  # pragma: no cover
 
 
-LiteralWarning = Literal["default", "error", "ignore", "always", "module",
-                         "once"]
+LiteralWarning = Literal["default", "error", "ignore", "always", "module", "once"]
 
 cast = cast
 
@@ -234,7 +243,8 @@ def arraylike(a: Union[ArrayLike, NestedSequence[ArrayLike]]) -> NDArray:
 
 
 def number_or_arraylike(
-        a: Union[NumberOrArrayLike, NestedSequence[ArrayLike]]) -> NDArray:
+    a: Union[NumberOrArrayLike, NestedSequence[ArrayLike]]
+) -> NDArray:
     ...
 
 

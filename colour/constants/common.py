@@ -18,22 +18,22 @@ from colour.utilities.documentation import (
 )
 from colour.hints import DTypeFloating, Floating, Type, Union, cast
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'FLOATING_POINT_NUMBER_PATTERN',
-    'INTEGER_THRESHOLD',
-    'EPSILON',
-    'DEFAULT_FLOAT_DTYPE',
-    'DEFAULT_INT_DTYPE',
+    "FLOATING_POINT_NUMBER_PATTERN",
+    "INTEGER_THRESHOLD",
+    "EPSILON",
+    "DEFAULT_FLOAT_DTYPE",
+    "DEFAULT_INT_DTYPE",
 ]
 
-FLOATING_POINT_NUMBER_PATTERN: str = '[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?'
+FLOATING_POINT_NUMBER_PATTERN: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
 """
 Floating point number regex matching pattern.
 """
@@ -55,8 +55,10 @@ computations.
 DEFAULT_FLOAT_DTYPE: Type[DTypeFloating] = cast(
     Type[DTypeFloating],
     np.sctypeDict.get(
-        os.environ.get('COLOUR_SCIENCE__FLOAT_PRECISION', 'float64'),
-        np.float64))
+        os.environ.get("COLOUR_SCIENCE__FLOAT_PRECISION", "float64"),
+        np.float64,
+    ),
+)
 """
 Default floating point number dtype.
 """
@@ -64,7 +66,9 @@ Default floating point number dtype.
 DEFAULT_INT_DTYPE: Type[Union[np.int32, np.int64]] = cast(
     Type[Union[np.int32, np.int64]],
     np.sctypeDict.get(
-        os.environ.get('COLOUR_SCIENCE__INT_PRECISION', 'int64'), np.int64))
+        os.environ.get("COLOUR_SCIENCE__INT_PRECISION", "int64"), np.int64
+    ),
+)
 """
 Default integer number dtype.
 """

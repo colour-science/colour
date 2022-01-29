@@ -24,17 +24,17 @@ import numpy as np
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_DAVINCI_INTERMEDIATE',
-    'oetf_DaVinciIntermediate',
-    'oetf_inverse_DaVinciIntermediate',
+    "CONSTANTS_DAVINCI_INTERMEDIATE",
+    "oetf_DaVinciIntermediate",
+    "oetf_inverse_DaVinciIntermediate",
 ]
 
 CONSTANTS_DAVINCI_INTERMEDIATE: Structure = Structure(
@@ -43,15 +43,16 @@ CONSTANTS_DAVINCI_INTERMEDIATE: Structure = Structure(
     DI_C=0.07329248,
     DI_M=10.44426855,
     DI_LIN_CUT=0.00262409,
-    DI_LOG_CUT=0.02740668)
+    DI_LOG_CUT=0.02740668,
+)
 """
 *DaVinci Intermediate* colour component transfer functions constants.
 """
 
 
 def oetf_DaVinciIntermediate(
-        L: FloatingOrArrayLike,
-        constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE
+    L: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
 ) -> FloatingOrNDArray:
     """
     Defines the *DaVinci Intermediate* opto-electronic transfer function.
@@ -111,8 +112,8 @@ def oetf_DaVinciIntermediate(
 
 
 def oetf_inverse_DaVinciIntermediate(
-        V: FloatingOrArrayLike,
-        constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE
+    V: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
 ) -> FloatingOrNDArray:
     """
     Defines the *DaVinci Intermediate* inverse opto-electronic transfer

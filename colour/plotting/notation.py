@@ -22,23 +22,23 @@ from colour.plotting import (
     override_style,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'plot_single_munsell_value_function',
-    'plot_multi_munsell_value_functions',
+    "plot_single_munsell_value_function",
+    "plot_multi_munsell_value_functions",
 ]
 
 
 @override_style()
 def plot_single_munsell_value_function(
-        function: Union[Callable, str],
-        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
+    function: Union[Callable, str], **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Lightness* function.
 
@@ -73,17 +73,17 @@ def plot_single_munsell_value_function(
     """
 
     settings: Dict[str, Any] = {
-        'title': '{0} - Munsell Value Function'.format(function)
+        "title": "{0} - Munsell Value Function".format(function)
     }
     settings.update(kwargs)
 
-    return plot_multi_munsell_value_functions((function, ), **settings)
+    return plot_multi_munsell_value_functions((function,), **settings)
 
 
 @override_style()
 def plot_multi_munsell_value_functions(
-        functions: Union[Callable, str, Sequence[Union[Callable, str]]],
-        **kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
+    functions: Union[Callable, str, Sequence[Union[Callable, str]]], **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Munsell* value functions.
 
@@ -121,17 +121,14 @@ def plot_multi_munsell_value_functions(
     functions_filtered = filter_passthrough(MUNSELL_VALUE_METHODS, functions)
 
     settings: Dict[str, Any] = {
-        'bounding_box': (0, 100, 0, 10),
-        'legend':
-            True,
-        'title':
-            '{0} - Munsell Functions'.format(', '.join(functions_filtered)),
-        'x_label':
-            'Luminance Y',
-        'y_label':
-            'Munsell Value V',
+        "bounding_box": (0, 100, 0, 10),
+        "legend": True,
+        "title": "{0} - Munsell Functions".format(", ".join(functions_filtered)),
+        "x_label": "Luminance Y",
+        "y_label": "Munsell Value V",
     }
     settings.update(kwargs)
 
     return plot_multi_functions(
-        functions_filtered, samples=np.linspace(0, 100, 1000), **settings)
+        functions_filtered, samples=np.linspace(0, 100, 1000), **settings
+    )

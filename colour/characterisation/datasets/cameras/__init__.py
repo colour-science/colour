@@ -13,8 +13,9 @@ from __future__ import annotations
 from .dslr import MSDS_CAMERA_SENSITIVITIES_DSLR
 from colour.utilities import LazyCaseInsensitiveMapping
 
-MSDS_CAMERA_SENSITIVITIES: LazyCaseInsensitiveMapping = (
-    LazyCaseInsensitiveMapping(MSDS_CAMERA_SENSITIVITIES_DSLR))
+MSDS_CAMERA_SENSITIVITIES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    MSDS_CAMERA_SENSITIVITIES_DSLR
+)
 MSDS_CAMERA_SENSITIVITIES.__doc__ = """
 Multi-spectral distributions of camera sensitivities.
 
@@ -24,5 +25,5 @@ References
 """
 
 __all__ = [
-    'MSDS_CAMERA_SENSITIVITIES',
+    "MSDS_CAMERA_SENSITIVITIES",
 ]

@@ -25,9 +25,10 @@ import numpy as np
 from scipy.optimize import fmin
 
 from colour.algebra import spow, vector_dot
-from colour.hints import ArrayLike, Dict, NDArray, Optional
+from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
+    as_float,
     as_float_array,
     domain_range_scale,
     from_range_100,
@@ -36,23 +37,25 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'XYZ_to_OSA_UCS',
-    'OSA_UCS_to_XYZ',
+    "XYZ_to_OSA_UCS",
+    "OSA_UCS_to_XYZ",
 ]
 
-MATRIX_XYZ_TO_RGB_OSA_UCS: NDArray = np.array([
-    [0.799, 0.4194, -0.1648],
-    [-0.4493, 1.3265, 0.0927],
-    [-0.1149, 0.3394, 0.717],
-])
+MATRIX_XYZ_TO_RGB_OSA_UCS: NDArray = np.array(
+    [
+        [0.799, 0.4194, -0.1648],
+        [-0.4493, 1.3265, 0.0927],
+        [-0.1149, 0.3394, 0.717],
+    ]
+)
 """
 *OSA UCS* matrix converting from *CIE XYZ* tristimulus values to *RGB*
 colourspace.
@@ -115,8 +118,14 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
     XYZ = to_domain_100(XYZ)
     x, y, Y = tsplit(XYZ_to_xyY(XYZ))
 
-    Y_0 = Y * (4.4934 * x ** 2 + 4.3034 * y ** 2 - 4.276 * x * y - 1.3744 * x -
-               2.5643 * y + 1.8103)
+    Y_0 = Y * (
+        4.4934 * x ** 2
+        + 4.3034 * y ** 2
+        - 4.276 * x * y
+        - 1.3744 * x
+        - 2.5643 * y
+        + 1.8103
+    )
 
     o_3 = 1 / 3
     Y_0_es = spow(Y_0, o_3) - 2 / 3
@@ -137,8 +146,9 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
     return from_range_100(Ljg)
 
 
-def OSA_UCS_to_XYZ(Ljg: ArrayLike,
-                   optimisation_kwargs: Optional[Dict] = None) -> NDArray:
+def OSA_UCS_to_XYZ(
+    Ljg: ArrayLike, optimisation_kwargs: Optional[Dict] = None
+) -> NDArray:
     """
     Converts from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
@@ -201,25 +211,27 @@ def OSA_UCS_to_XYZ(Ljg: ArrayLike,
     shape = Ljg.shape
     Ljg = np.atleast_1d(Ljg.reshape([-1, 3]))
 
-    optimisation_settings = {'disp': False}
+    optimisation_settings = {"disp": False}
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    def error_function(XYZ, Ljg):
+    def error_function(XYZ: ArrayLike, Ljg: ArrayLike) -> FloatingOrNDArray:
         """
         Error function.
         """
 
         # Error must be computed in "reference" domain and range.
-        with domain_range_scale('ignore'):
-            error = np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - Ljg)
+        with domain_range_scale("ignore"):
+            error = np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - as_float_array(Ljg))
 
-        return error
+        return as_float(error)
 
     x_0 = np.array([30, 30, 30])
-    XYZ = as_float_array([
-        fmin(error_function, x_0, (Ljg_i, ), **optimisation_settings)
-        for Ljg_i in as_float_array(Ljg)
-    ])
+    XYZ = as_float_array(
+        [
+            fmin(error_function, x_0, (Ljg_i,), **optimisation_settings)
+            for Ljg_i in as_float_array(Ljg)
+        ]
+    )
 
     return from_range_100(XYZ.reshape(shape))

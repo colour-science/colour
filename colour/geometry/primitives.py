@@ -5,7 +5,7 @@ Geometry Primitives
 
 Defines various geometry primitives and their generation methods:
 
--   :func:`colour.geometry.PLANE_TO_AXIS_MAPPING`
+-   :attr:`colour.geometry.PLANE_TO_AXIS_MAPPING`
 -   :func:`colour.geometry.primitive_grid`
 -   :func:`colour.geometry.primitive_cube`
 -   :func:`colour.PRIMITIVE_METHODS`
@@ -47,43 +47,47 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PLANE_TO_AXIS_MAPPING',
-    'primitive_grid',
-    'primitive_cube',
-    'PRIMITIVE_METHODS',
-    'primitive',
+    "PLANE_TO_AXIS_MAPPING",
+    "primitive_grid",
+    "primitive_cube",
+    "PRIMITIVE_METHODS",
+    "primitive",
 ]
 
-PLANE_TO_AXIS_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'yz': '+x',
-    'zy': '-x',
-    'xz': '+y',
-    'zx': '-y',
-    'xy': '+z',
-    'yx': '-z',
-})
+PLANE_TO_AXIS_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "yz": "+x",
+        "zy": "-x",
+        "xz": "+y",
+        "zx": "-y",
+        "xy": "+z",
+        "yx": "-z",
+    }
+)
 PLANE_TO_AXIS_MAPPING.__doc__ = """
 Plane to axis mapping.
 """
 
 
-def primitive_grid(width: Floating = 1,
-                   height: Floating = 1,
-                   width_segments: Integer = 1,
-                   height_segments: Integer = 1,
-                   axis: Literal['-x', '+x', '-y', '+y', '-z', '+z', 'xy',
-                                 'xz', 'yz', 'yx', 'zx', 'zy'] = '+z',
-                   dtype_vertices: Optional[Type[DTypeFloating]] = None,
-                   dtype_indexes: Optional[Type[DTypeInteger]] = None
-                   ) -> Tuple[NDArray, NDArray, NDArray]:
+def primitive_grid(
+    width: Floating = 1,
+    height: Floating = 1,
+    width_segments: Integer = 1,
+    height_segments: Integer = 1,
+    axis: Literal[
+        "-x", "+x", "-y", "+y", "-z", "+z", "xy", "xz", "yz", "yx", "zx", "zy"
+    ] = "+z",
+    dtype_vertices: Optional[Type[DTypeFloating]] = None,
+    dtype_indexes: Optional[Type[DTypeInteger]] = None,
+) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Generates vertices and indexes for a filled and outlined grid primitive.
 
@@ -139,10 +143,10 @@ def primitive_grid(width: Floating = 1,
 
     axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
 
-    dtype_vertices = cast(Type[DTypeFloating],
-                          optional(dtype_vertices, DEFAULT_FLOAT_DTYPE))
-    dtype_indexes = cast(Type[DTypeInteger],
-                         optional(dtype_indexes, DEFAULT_INT_DTYPE))
+    dtype_vertices = cast(
+        Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
+    )
+    dtype_indexes = cast(Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE))
 
     x_grid = width_segments
     y_grid = height_segments
@@ -186,53 +190,76 @@ def primitive_grid(width: Floating = 1,
     uvs = np.reshape(uvs, (-1, 2))
     normals = np.reshape(normals, (-1, 3))
 
-    if axis in ('-x', '+x'):
+    if axis in ("-x", "+x"):
         shift, zero_axis = 1, 0
-    elif axis in ('-y', '+y'):
+    elif axis in ("-y", "+y"):
         shift, zero_axis = -1, 1
-    elif axis in ('-z', '+z'):
+    elif axis in ("-z", "+z"):
         shift, zero_axis = 0, 2
 
-    sign = -1 if '-' in axis else 1
+    sign = -1 if "-" in axis else 1
 
     positions = np.roll(positions, shift, -1)
     normals = np.roll(normals, shift, -1) * sign
     vertex_colours = np.ravel(positions)
-    vertex_colours = np.hstack([
-        np.reshape(
-            np.interp(vertex_colours,
-                      (np.min(vertex_colours), np.max(vertex_colours)),
-                      (0, 1)), positions.shape),
-        ones((positions.shape[0], 1))
-    ])
+    vertex_colours = np.hstack(
+        [
+            np.reshape(
+                np.interp(
+                    vertex_colours,
+                    (np.min(vertex_colours), np.max(vertex_colours)),
+                    (0, 1),
+                ),
+                positions.shape,
+            ),
+            ones((positions.shape[0], 1)),
+        ]
+    )
     vertex_colours[..., zero_axis] = 0
 
-    vertices = zeros(positions.shape[0], [
-        ('position', dtype_vertices, 3),
-        ('uv', dtype_vertices, 2),
-        ('normal', dtype_vertices, 3),
-        ('colour', dtype_vertices, 4),
-    ])  # type: ignore[arg-type]
+    vertices = zeros(
+        positions.shape[0],
+        [
+            ("position", dtype_vertices, 3),
+            ("uv", dtype_vertices, 2),
+            ("normal", dtype_vertices, 3),
+            ("colour", dtype_vertices, 4),
+        ],  # type: ignore[arg-type]
+    )
 
-    vertices['position'] = positions
-    vertices['uv'] = uvs
-    vertices['normal'] = normals
-    vertices['colour'] = vertex_colours
+    vertices["position"] = positions
+    vertices["uv"] = uvs
+    vertices["normal"] = normals
+    vertices["colour"] = vertex_colours
 
     return vertices, faces, outline
 
 
 def primitive_cube(
-        width: Floating = 1,
-        height: Floating = 1,
-        depth: Floating = 1,
-        width_segments: Integer = 1,
-        height_segments: Integer = 1,
-        depth_segments: Integer = 1,
-        planes: Optional[Literal['-x', '+x', '-y', '+y', '-z', '+z', 'xy',
-                                 'xz', 'yz', 'yx', 'zx', 'zy']] = None,
-        dtype_vertices: Optional[Type[DTypeFloating]] = None,
-        dtype_indexes: Optional[Type[DTypeInteger]] = None
+    width: Floating = 1,
+    height: Floating = 1,
+    depth: Floating = 1,
+    width_segments: Integer = 1,
+    height_segments: Integer = 1,
+    depth_segments: Integer = 1,
+    planes: Optional[
+        Literal[
+            "-x",
+            "+x",
+            "-y",
+            "+y",
+            "-z",
+            "+z",
+            "xy",
+            "xz",
+            "yz",
+            "yx",
+            "zx",
+            "zy",
+        ]
+    ] = None,
+    dtype_vertices: Optional[Type[DTypeFloating]] = None,
+    dtype_indexes: Optional[Type[DTypeInteger]] = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Generates vertices and indexes for a filled and outlined cube primitive.
@@ -336,42 +363,43 @@ def primitive_cube(
      [21 20]]
     """
 
-    axis = (sorted(list(
-        PLANE_TO_AXIS_MAPPING.values())) if planes is None else [
-            PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes
-        ])
+    axis = (
+        sorted(list(PLANE_TO_AXIS_MAPPING.values()))
+        if planes is None
+        else [PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes]
+    )
 
-    dtype_vertices = cast(Type[DTypeFloating],
-                          optional(dtype_vertices, DEFAULT_FLOAT_DTYPE))
-    dtype_indexes = cast(Type[DTypeInteger],
-                         optional(dtype_indexes, DEFAULT_INT_DTYPE))
+    dtype_vertices = cast(
+        Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
+    )
+    dtype_indexes = cast(Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE))
 
     w_s, h_s, d_s = width_segments, height_segments, depth_segments
 
     planes_p = []
-    if '-z' in axis:
-        planes_p.append(list(primitive_grid(width, depth, w_s, d_s, '-z')))
-        planes_p[-1][0]['position'][..., 2] -= height / 2
+    if "-z" in axis:
+        planes_p.append(list(primitive_grid(width, depth, w_s, d_s, "-z")))
+        planes_p[-1][0]["position"][..., 2] -= height / 2
         planes_p[-1][1] = np.fliplr(planes_p[-1][1])
-    if '+z' in axis:
-        planes_p.append(list(primitive_grid(width, depth, w_s, d_s, '+z')))
-        planes_p[-1][0]['position'][..., 2] += height / 2
+    if "+z" in axis:
+        planes_p.append(list(primitive_grid(width, depth, w_s, d_s, "+z")))
+        planes_p[-1][0]["position"][..., 2] += height / 2
 
-    if '-y' in axis:
-        planes_p.append(list(primitive_grid(height, width, h_s, w_s, '-y')))
-        planes_p[-1][0]['position'][..., 1] -= depth / 2
+    if "-y" in axis:
+        planes_p.append(list(primitive_grid(height, width, h_s, w_s, "-y")))
+        planes_p[-1][0]["position"][..., 1] -= depth / 2
         planes_p[-1][1] = np.fliplr(planes_p[-1][1])
-    if '+y' in axis:
-        planes_p.append(list(primitive_grid(height, width, h_s, w_s, '+y')))
-        planes_p[-1][0]['position'][..., 1] += depth / 2
+    if "+y" in axis:
+        planes_p.append(list(primitive_grid(height, width, h_s, w_s, "+y")))
+        planes_p[-1][0]["position"][..., 1] += depth / 2
 
-    if '-x' in axis:
-        planes_p.append(list(primitive_grid(depth, height, d_s, h_s, '-x')))
-        planes_p[-1][0]['position'][..., 0] -= width / 2
+    if "-x" in axis:
+        planes_p.append(list(primitive_grid(depth, height, d_s, h_s, "-x")))
+        planes_p[-1][0]["position"][..., 0] -= width / 2
         planes_p[-1][1] = np.fliplr(planes_p[-1][1])
-    if '+x' in axis:
-        planes_p.append(list(primitive_grid(depth, height, d_s, h_s, '+x')))
-        planes_p[-1][0]['position'][..., 0] += width / 2
+    if "+x" in axis:
+        planes_p.append(list(primitive_grid(depth, height, d_s, h_s, "+x")))
+        planes_p[-1][0]["position"][..., 0] += width / 2
 
     positions = zeros((0, 3))
     uvs = zeros((0, 2))
@@ -382,49 +410,61 @@ def primitive_cube(
 
     offset = 0
     for vertices_p, faces_p, outline_p in planes_p:
-        positions = np.vstack([positions, vertices_p['position']])
-        uvs = np.vstack([uvs, vertices_p['uv']])
-        normals = np.vstack([normals, vertices_p['normal']])
+        positions = np.vstack([positions, vertices_p["position"]])
+        uvs = np.vstack([uvs, vertices_p["uv"]])
+        normals = np.vstack([normals, vertices_p["normal"]])
 
         faces = np.vstack([faces, faces_p + offset])
         outline = np.vstack([outline, outline_p + offset])
-        offset += vertices_p['position'].shape[0]
+        offset += vertices_p["position"].shape[0]
 
-    vertices = zeros(positions.shape[0], [
-        ('position', dtype_vertices, 3),
-        ('uv', dtype_vertices, 2),
-        ('normal', dtype_vertices, 3),
-        ('colour', dtype_vertices, 4),
-    ])  # type: ignore[arg-type]
+    vertices = zeros(
+        positions.shape[0],
+        [
+            ("position", dtype_vertices, 3),
+            ("uv", dtype_vertices, 2),
+            ("normal", dtype_vertices, 3),
+            ("colour", dtype_vertices, 4),
+        ],  # type: ignore[arg-type]
+    )
 
     vertex_colours = np.ravel(positions)
-    vertex_colours = np.hstack([
-        np.reshape(
-            np.interp(vertex_colours,
-                      (np.min(vertex_colours), np.max(vertex_colours)),
-                      (0, 1)), positions.shape),
-        ones((positions.shape[0], 1))
-    ])
+    vertex_colours = np.hstack(
+        [
+            np.reshape(
+                np.interp(
+                    vertex_colours,
+                    (np.min(vertex_colours), np.max(vertex_colours)),
+                    (0, 1),
+                ),
+                positions.shape,
+            ),
+            ones((positions.shape[0], 1)),
+        ]
+    )
 
-    vertices['position'] = positions
-    vertices['uv'] = uvs
-    vertices['normal'] = normals
-    vertices['colour'] = vertex_colours
+    vertices["position"] = positions
+    vertices["uv"] = uvs
+    vertices["normal"] = normals
+    vertices["colour"] = vertex_colours
 
     return vertices, faces, outline
 
 
-PRIMITIVE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Grid': primitive_grid,
-    'Cube': primitive_cube,
-})
+PRIMITIVE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Grid": primitive_grid,
+        "Cube": primitive_cube,
+    }
+)
 PRIMITIVE_METHODS.__doc__ = """
 Supported geometry primitive generation methods.
 """
 
 
-def primitive(method: Union[Literal['Cube', 'Grid'], str] = 'Cube',
-              **kwargs: Any) -> Tuple[NDArray, NDArray, NDArray]:
+def primitive(
+    method: Union[Literal["Cube", "Grid"], str] = "Cube", **kwargs: Any
+) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Returns a geometry primitive using given method.
 

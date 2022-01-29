@@ -38,45 +38,49 @@ from colour.models.rgb import (
     normalised_primary_matrix,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_DCI_P3',
-    'PRIMARIES_DCI_P3_P',
-    'WHITEPOINT_NAME_DCI_P3',
-    'CCS_WHITEPOINT_DCI_P3',
-    'MATRIX_DCI_P3_TO_XYZ',
-    'MATRIX_XYZ_TO_DCI_P3',
-    'MATRIX_DCI_P3_P_TO_XYZ',
-    'MATRIX_XYZ_TO_DCI_P3_P',
-    'RGB_COLOURSPACE_DCI_P3',
-    'RGB_COLOURSPACE_DCI_P3_P',
+    "PRIMARIES_DCI_P3",
+    "PRIMARIES_DCI_P3_P",
+    "WHITEPOINT_NAME_DCI_P3",
+    "CCS_WHITEPOINT_DCI_P3",
+    "MATRIX_DCI_P3_TO_XYZ",
+    "MATRIX_XYZ_TO_DCI_P3",
+    "MATRIX_DCI_P3_P_TO_XYZ",
+    "MATRIX_XYZ_TO_DCI_P3_P",
+    "RGB_COLOURSPACE_DCI_P3",
+    "RGB_COLOURSPACE_DCI_P3_P",
 ]
 
-PRIMARIES_DCI_P3: NDArray = np.array([
-    [0.6800, 0.3200],
-    [0.2650, 0.6900],
-    [0.1500, 0.0600],
-])
+PRIMARIES_DCI_P3: NDArray = np.array(
+    [
+        [0.6800, 0.3200],
+        [0.2650, 0.6900],
+        [0.1500, 0.0600],
+    ]
+)
 """
 *DCI-P3* colourspace primaries.
 """
 
-PRIMARIES_DCI_P3_P: NDArray = np.array([
-    [0.7400, 0.2700],
-    [0.2200, 0.7800],
-    [0.0900, -0.0900],
-])
+PRIMARIES_DCI_P3_P: NDArray = np.array(
+    [
+        [0.7400, 0.2700],
+        [0.2200, 0.7800],
+        [0.0900, -0.0900],
+    ]
+)
 """
 *DCI-P3+* colourspace primaries.
 """
 
-WHITEPOINT_NAME_DCI_P3: str = 'DCI-P3'
+WHITEPOINT_NAME_DCI_P3: str = "DCI-P3"
 """
 *DCI-P3* colourspace whitepoint name.
 
@@ -87,14 +91,16 @@ official reference spectral measurement for this whitepoint. The closest
 matching spectral distribution is Kinoton 75P projector.
 """
 
-CCS_WHITEPOINT_DCI_P3: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_DCI_P3])
+CCS_WHITEPOINT_DCI_P3: NDArray = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+    WHITEPOINT_NAME_DCI_P3
+]
 """
 *DCI-P3* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_DCI_P3_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_DCI_P3, CCS_WHITEPOINT_DCI_P3)
+    PRIMARIES_DCI_P3, CCS_WHITEPOINT_DCI_P3
+)
 """
 *DCI-P3* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -105,7 +111,8 @@ MATRIX_XYZ_TO_DCI_P3: NDArray = np.linalg.inv(MATRIX_DCI_P3_TO_XYZ)
 """
 
 MATRIX_DCI_P3_P_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_DCI_P3_P, CCS_WHITEPOINT_DCI_P3)
+    PRIMARIES_DCI_P3_P, CCS_WHITEPOINT_DCI_P3
+)
 """
 *DCI-P3+* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -116,7 +123,7 @@ MATRIX_XYZ_TO_DCI_P3_P: NDArray = np.linalg.inv(MATRIX_DCI_P3_P_TO_XYZ)
 """
 
 RGB_COLOURSPACE_DCI_P3: RGB_Colourspace = RGB_Colourspace(
-    'DCI-P3',
+    "DCI-P3",
     PRIMARIES_DCI_P3,
     CCS_WHITEPOINT_DCI_P3,
     WHITEPOINT_NAME_DCI_P3,
@@ -135,7 +142,7 @@ References
 """
 
 RGB_COLOURSPACE_DCI_P3_P: RGB_Colourspace = RGB_Colourspace(
-    'DCI-P3+',
+    "DCI-P3+",
     PRIMARIES_DCI_P3_P,
     CCS_WHITEPOINT_DCI_P3,
     WHITEPOINT_NAME_DCI_P3,

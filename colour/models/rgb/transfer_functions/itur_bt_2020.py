@@ -33,29 +33,31 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_BT2020',
-    'CONSTANTS_BT2020_PRECISE',
-    'eotf_inverse_BT2020',
-    'eotf_BT2020',
+    "CONSTANTS_BT2020",
+    "CONSTANTS_BT2020_PRECISE",
+    "eotf_inverse_BT2020",
+    "eotf_BT2020",
 ]
 
 CONSTANTS_BT2020: Structure = Structure(
     alpha=lambda x: 1.0993 if x else 1.099,
-    beta=lambda x: 0.0181 if x else 0.018)
+    beta=lambda x: 0.0181 if x else 0.018,
+)
 """
 *BT.2020* colourspace constants.
 """
 
 CONSTANTS_BT2020_PRECISE: Structure = Structure(
-    alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807)
+    alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807
+)
 """
 *BT.2020* colourspace constants at double precision to connect the two curve
 segments smoothly.
@@ -67,9 +69,10 @@ References
 
 
 def eotf_inverse_BT2020(
-        E: FloatingOrArrayLike,
-        is_12_bits_system: Boolean = False,
-        constants: Structure = CONSTANTS_BT2020) -> FloatingOrNDArray:
+    E: FloatingOrArrayLike,
+    is_12_bits_system: Boolean = False,
+    constants: Structure = CONSTANTS_BT2020,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2020* inverse electro-optical transfer
     function (EOTF).
@@ -125,9 +128,11 @@ def eotf_inverse_BT2020(
     return as_float(from_range_1(E_p))
 
 
-def eotf_BT2020(E_p: FloatingOrArrayLike,
-                is_12_bits_system: Boolean = False,
-                constants: Structure = CONSTANTS_BT2020) -> FloatingOrNDArray:
+def eotf_BT2020(
+    E_p: FloatingOrArrayLike,
+    is_12_bits_system: Boolean = False,
+    constants: Structure = CONSTANTS_BT2020,
+) -> FloatingOrNDArray:
     """
     Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
     (EOTF).
@@ -176,7 +181,7 @@ def eotf_BT2020(E_p: FloatingOrArrayLike,
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         E = np.where(
             E_p < eotf_inverse_BT2020(b),
             E_p / 4.5,

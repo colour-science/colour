@@ -43,25 +43,27 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Ilia Sibiryakov'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Ilia Sibiryakov"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'HKE_NAYATANI1997_METHODS',
-    'HelmholtzKohlrausch_effect_object_Nayatani1997',
-    'HelmholtzKohlrausch_effect_luminous_Nayatani1997',
-    'coefficient_q_Nayatani1997',
-    'coefficient_K_Br_Nayatani1997',
+    "HKE_NAYATANI1997_METHODS",
+    "HelmholtzKohlrausch_effect_object_Nayatani1997",
+    "HelmholtzKohlrausch_effect_luminous_Nayatani1997",
+    "coefficient_q_Nayatani1997",
+    "coefficient_K_Br_Nayatani1997",
 ]
 
-HKE_NAYATANI1997_METHODS = CaseInsensitiveMapping({
-    'VAC': -0.1340,
-    'VCC': -0.8660,
-})
+HKE_NAYATANI1997_METHODS = CaseInsensitiveMapping(
+    {
+        "VAC": -0.1340,
+        "VCC": -0.8660,
+    }
+)
 HKE_NAYATANI1997_METHODS.__doc__ = """
 Nayatani HKE computation methods, choice between variable achromatic colour
 ('VAC') and variable chromatic colour ('VCC')
@@ -73,10 +75,10 @@ References
 
 
 def HelmholtzKohlrausch_effect_object_Nayatani1997(
-        uv: ArrayLike,
-        uv_c: ArrayLike,
-        L_a: FloatingOrArrayLike,
-        method: Union[Literal['VAC', 'VCC'], str] = 'VCC'
+    uv: ArrayLike,
+    uv_c: ArrayLike,
+    L_a: FloatingOrArrayLike,
+    method: Union[Literal["VAC", "VCC"], str] = "VCC",
 ) -> FloatingOrNDArray:
     """
     Returns the HKE value for object colours using *Nayatani (1997)* method.
@@ -128,10 +130,10 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
 
 
 def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-        uv: ArrayLike,
-        uv_c: ArrayLike,
-        L_a: FloatingOrArrayLike,
-        method: Union[Literal['VAC', 'VCC'], str] = 'VCC'
+    uv: ArrayLike,
+    uv_c: ArrayLike,
+    L_a: FloatingOrArrayLike,
+    method: Union[Literal["VAC", "VCC"], str] = "VCC",
 ) -> FloatingOrNDArray:
     """
     Returns the HKE factor for luminous colours using *Nayatani (1997)* method.
@@ -170,12 +172,19 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
 4.1828629...])
     """
 
-    return (0.4462 * (HelmholtzKohlrausch_effect_object_Nayatani1997(
-        uv, uv_c, L_a, method) + 0.3086) ** 3)
+    return (
+        0.4462
+        * (
+            HelmholtzKohlrausch_effect_object_Nayatani1997(uv, uv_c, L_a, method)
+            + 0.3086
+        )
+        ** 3
+    )
 
 
 def coefficient_q_Nayatani1997(
-        theta: FloatingOrArrayLike) -> FloatingOrNDArray:
+    theta: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the :math:`q(\\theta)` coefficient for *Nayatani (1997)* HKE
     computations.
@@ -218,14 +227,22 @@ def coefficient_q_Nayatani1997(
 
     theta_2, theta_3, theta_4 = 2 * theta, 3 * theta, 4 * theta
 
-    return (-0.01585 - 0.03017 * np.cos(theta) - 0.04556 * np.cos(theta_2) -
-            0.02667 * np.cos(theta_3) - 0.00295 * np.cos(theta_4) +
-            0.14592 * np.sin(theta) + 0.05084 * np.sin(theta_2) -
-            0.01900 * np.sin(theta_3) - 0.00764 * np.sin(theta_4))
+    return (
+        -0.01585
+        - 0.03017 * np.cos(theta)
+        - 0.04556 * np.cos(theta_2)
+        - 0.02667 * np.cos(theta_3)
+        - 0.00295 * np.cos(theta_4)
+        + 0.14592 * np.sin(theta)
+        + 0.05084 * np.sin(theta_2)
+        - 0.01900 * np.sin(theta_3)
+        - 0.00764 * np.sin(theta_4)
+    )
 
 
 def coefficient_K_Br_Nayatani1997(
-        L_a: FloatingOrArrayLike) -> FloatingOrNDArray:
+    L_a: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
     Returns the :math:`K_{Br}` coefficient for *Nayatani (1997)* HKE
     computations.

@@ -30,44 +30,48 @@ from colour.models.rgb import (
     eotf_BT2020,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_BT2020',
-    'WHITEPOINT_NAME_BT2020',
-    'CCS_WHITEPOINT_BT2020',
-    'MATRIX_BT2020_TO_XYZ',
-    'MATRIX_XYZ_TO_BT2020',
-    'RGB_COLOURSPACE_BT2020',
+    "PRIMARIES_BT2020",
+    "WHITEPOINT_NAME_BT2020",
+    "CCS_WHITEPOINT_BT2020",
+    "MATRIX_BT2020_TO_XYZ",
+    "MATRIX_XYZ_TO_BT2020",
+    "RGB_COLOURSPACE_BT2020",
 ]
 
-PRIMARIES_BT2020: NDArray = np.array([
-    [0.7080, 0.2920],
-    [0.1700, 0.7970],
-    [0.1310, 0.0460],
-])
+PRIMARIES_BT2020: NDArray = np.array(
+    [
+        [0.7080, 0.2920],
+        [0.1700, 0.7970],
+        [0.1310, 0.0460],
+    ]
+)
 """
 *ITU-R BT.2020* colourspace primaries.
 """
 
-WHITEPOINT_NAME_BT2020: str = 'D65'
+WHITEPOINT_NAME_BT2020: str = "D65"
 """
 *ITU-R BT.2020* colourspace whitepoint name.
 """
 
-CCS_WHITEPOINT_BT2020: NDArray = (CCS_ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][WHITEPOINT_NAME_BT2020])
+CCS_WHITEPOINT_BT2020: NDArray = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+    WHITEPOINT_NAME_BT2020
+]
 """
 *ITU-R BT.2020* colourspace whitepoint chromaticity coordinates.
 """
 
 MATRIX_BT2020_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_BT2020, CCS_WHITEPOINT_BT2020)
+    PRIMARIES_BT2020, CCS_WHITEPOINT_BT2020
+)
 """
 *ITU-R BT.2020* colourspace to *CIE XYZ* tristimulus values matrix.
 """
@@ -78,7 +82,7 @@ MATRIX_XYZ_TO_BT2020: NDArray = np.linalg.inv(MATRIX_BT2020_TO_XYZ)
 """
 
 RGB_COLOURSPACE_BT2020: RGB_Colourspace = RGB_Colourspace(
-    'ITU-R BT.2020',
+    "ITU-R BT.2020",
     PRIMARIES_BT2020,
     CCS_WHITEPOINT_BT2020,
     WHITEPOINT_NAME_BT2020,

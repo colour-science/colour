@@ -44,19 +44,20 @@ from colour.utilities.documentation import (
     DocstringFloat,
     is_documentation_building,
 )
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'JND_CIE1976',
-    'delta_E_CIE1976',
-    'delta_E_CIE1994',
-    'delta_E_CIE2000',
-    'delta_E_CMC',
+    "JND_CIE1976",
+    "delta_E_CIE1976",
+    "delta_E_CIE1994",
+    "delta_E_CIE2000",
+    "delta_E_CMC",
 ]
 
 JND_CIE1976 = 2.3
@@ -137,9 +138,9 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
     return d_E
 
 
-def delta_E_CIE1994(Lab_1: ArrayLike,
-                    Lab_2: ArrayLike,
-                    textiles: Boolean = False) -> FloatingOrNDArray:
+def delta_E_CIE1994(
+    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{94}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
@@ -230,9 +231,9 @@ def delta_E_CIE1994(Lab_1: ArrayLike,
     return as_float(d_E)
 
 
-def delta_E_CIE2000(Lab_1: ArrayLike,
-                    Lab_2: ArrayLike,
-                    textiles: Boolean = False) -> FloatingOrNDArray:
+def delta_E_CIE2000(
+    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{00}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
@@ -335,10 +336,13 @@ def delta_E_CIE2000(Lab_1: ArrayLike,
         (0.5 * (h_1_prime + h_2_prime + 360)),
     )
 
-    t = (1 - 0.17 * np.cos(np.deg2rad(h_bar_prime - 30)) +
-         0.24 * np.cos(np.deg2rad(2 * h_bar_prime)) +
-         0.32 * np.cos(np.deg2rad(3 * h_bar_prime + 6)) -
-         0.20 * np.cos(np.deg2rad(4 * h_bar_prime - 63)))
+    t = (
+        1
+        - 0.17 * np.cos(np.deg2rad(h_bar_prime - 30))
+        + 0.24 * np.cos(np.deg2rad(2 * h_bar_prime))
+        + 0.32 * np.cos(np.deg2rad(3 * h_bar_prime + 6))
+        - 0.20 * np.cos(np.deg2rad(4 * h_bar_prime - 63))
+    )
 
     h = h_2_prime - h_1_prime
     delta_h_prime = np.where(h_2_prime <= h_1_prime, h - 360, h + 360)
@@ -346,36 +350,40 @@ def delta_E_CIE2000(Lab_1: ArrayLike,
 
     delta_L_prime = L_2 - L_1
     delta_C_prime = c_2_prime - c_1_prime
-    delta_H_prime = (2 * np.sqrt(c_1_prime * c_2_prime) * np.sin(
-        np.deg2rad(0.5 * delta_h_prime)))
+    delta_H_prime = (
+        2 * np.sqrt(c_1_prime * c_2_prime) * np.sin(np.deg2rad(0.5 * delta_h_prime))
+    )
 
-    s_L = 1 + ((0.015 * (l_bar_prime - 50) * (l_bar_prime - 50)) /
-               np.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50)))
+    s_L = 1 + (
+        (0.015 * (l_bar_prime - 50) * (l_bar_prime - 50))
+        / np.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50))
+    )
     s_C = 1 + 0.045 * c_bar_prime
     s_H = 1 + 0.015 * c_bar_prime * t
 
-    delta_theta = (
-        30 * np.exp(-((h_bar_prime - 275) / 25) * ((h_bar_prime - 275) / 25)))
+    delta_theta = 30 * np.exp(-((h_bar_prime - 275) / 25) * ((h_bar_prime - 275) / 25))
 
     c_bar_prime7 = c_bar_prime ** 7
 
     r_C = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
     r_T = -2 * r_C * np.sin(np.deg2rad(2 * delta_theta))
 
-    d_E = np.sqrt((delta_L_prime / (k_L * s_L)) ** 2 +
-                  (delta_C_prime / (k_C * s_C)) ** 2 +
-                  (delta_H_prime / (k_H * s_H)) ** 2 +
-                  (delta_C_prime / (k_C * s_C)) * (delta_H_prime /
-                                                   (k_H * s_H)) * r_T)
+    d_E = np.sqrt(
+        (delta_L_prime / (k_L * s_L)) ** 2
+        + (delta_C_prime / (k_C * s_C)) ** 2
+        + (delta_H_prime / (k_H * s_H)) ** 2
+        + (delta_C_prime / (k_C * s_C)) * (delta_H_prime / (k_H * s_H)) * r_T
+    )
 
     return as_float(d_E)
 
 
 def delta_E_CMC(
-        Lab_1: ArrayLike,
-        Lab_2: ArrayLike,
-        l: Floating = 2,  # noqa
-        c: Floating = 1) -> FloatingOrNDArray:
+    Lab_1: ArrayLike,
+    Lab_2: ArrayLike,
+    l: Floating = 2,  # noqa
+    c: Floating = 1,
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{CMC}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*

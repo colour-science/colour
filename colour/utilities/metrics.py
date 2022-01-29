@@ -32,23 +32,24 @@ from colour.hints import (
     Union,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'metric_mse',
-    'metric_psnr',
+    "metric_mse",
+    "metric_psnr",
 ]
 
 
-def metric_mse(a: ArrayLike,
-               b: ArrayLike,
-               axis: Optional[Union[Integer, Tuple[Integer]]] = None
-               ) -> FloatingOrNDArray:
+def metric_mse(
+    a: ArrayLike,
+    b: ArrayLike,
+    axis: Optional[Union[Integer, Tuple[Integer]]] = None,
+) -> FloatingOrNDArray:
     """
     Computes the mean squared error (MSE) or mean squared deviation (MSD)
     between given variables :math:`a` and :math:`b`.
@@ -82,15 +83,15 @@ def metric_mse(a: ArrayLike,
     0.0012714...
     """
 
-    return as_float(
-        np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis))
+    return as_float(np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis))
 
 
-def metric_psnr(a: ArrayLike,
-                b: ArrayLike,
-                max_a: Number = 1,
-                axis: Optional[Union[Integer, Tuple[Integer]]] = None
-                ) -> FloatingOrNDArray:
+def metric_psnr(
+    a: ArrayLike,
+    b: ArrayLike,
+    max_a: Number = 1,
+    axis: Optional[Union[Integer, Tuple[Integer]]] = None,
+) -> FloatingOrNDArray:
     """
     Computes the peak signal-to-noise ratio (PSNR) between given variables
     :math:`a` and :math:`b`.

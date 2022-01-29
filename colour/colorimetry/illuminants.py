@@ -44,22 +44,23 @@ from colour.hints import (
 )
 from colour.utilities import as_float_array, as_float, tsplit
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'sd_CIE_standard_illuminant_A',
-    'sd_CIE_illuminant_D_series',
-    'daylight_locus_function',
+    "sd_CIE_standard_illuminant_A",
+    "sd_CIE_illuminant_D_series",
+    "daylight_locus_function",
 ]
 
 
 def sd_CIE_standard_illuminant_A(
-        shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT) -> SpectralDistribution:
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+) -> SpectralDistribution:
     """
     *CIE Standard Illuminant A* is intended to represent typical, domestic,
     tungsten-filament lighting.
@@ -127,16 +128,23 @@ def sd_CIE_standard_illuminant_A(
     """
 
     wavelengths = shape.range()
-    values = (100 * (560 / wavelengths) ** 5 * (((np.exp(
-        (1.435 * 10 ** 7) / (2848 * 560)) - 1) / (np.exp(
-            (1.435 * 10 ** 7) / (2848 * wavelengths)) - 1))))
+    values = (
+        100
+        * (560 / wavelengths) ** 5
+        * (
+            (
+                (np.exp((1.435 * 10 ** 7) / (2848 * 560)) - 1)
+                / (np.exp((1.435 * 10 ** 7) / (2848 * wavelengths)) - 1)
+            )
+        )
+    )
 
-    return SpectralDistribution(
-        values, wavelengths, name='CIE Standard Illuminant A')
+    return SpectralDistribution(values, wavelengths, name="CIE Standard Illuminant A")
 
 
 def sd_CIE_illuminant_D_series(
-        xy: ArrayLike, M1_M2_rounding: Boolean = True) -> SpectralDistribution:
+    xy: ArrayLike, M1_M2_rounding: Boolean = True
+) -> SpectralDistribution:
     """
     Returns the spectral distribution of given *CIE Illuminant D Series* using
     given *CIE xy* chromaticity coordinates.
@@ -300,17 +308,18 @@ def sd_CIE_illuminant_D_series(
         M1 = np.around(M1, 3)
         M2 = np.around(M2, 3)
 
-    S0 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S0']
-    S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S1']
-    S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S2']
+    S0 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"]
+    S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"]
+    S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"]
 
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 
     return SpectralDistribution(
         distribution,
         S0.wavelengths,
-        name='CIE xy ({0}, {1}) - CIE Illuminant D Series'.format(*xy),
-        interpolator=LinearInterpolator)
+        name="CIE xy ({0}, {1}) - CIE Illuminant D Series".format(*xy),
+        interpolator=LinearInterpolator,
+    )
 
 
 def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:

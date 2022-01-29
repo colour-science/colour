@@ -128,231 +128,260 @@ from .srgb import eotf_inverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
 __all__ = [
-    'CV_range',
-    'legal_to_full',
-    'full_to_legal',
+    "CV_range",
+    "legal_to_full",
+    "full_to_legal",
 ]
 __all__ += [
-    'gamma_function',
+    "gamma_function",
 ]
 __all__ += [
-    'log_encoding_ACESproxy',
-    'log_decoding_ACESproxy',
-    'log_encoding_ACEScc',
-    'log_decoding_ACEScc',
-    'log_encoding_ACEScct',
-    'log_decoding_ACEScct',
+    "log_encoding_ACESproxy",
+    "log_decoding_ACESproxy",
+    "log_encoding_ACEScc",
+    "log_decoding_ACEScc",
+    "log_encoding_ACEScct",
+    "log_decoding_ACEScct",
 ]
 __all__ += [
-    'oetf_ARIBSTDB67',
-    'oetf_inverse_ARIBSTDB67',
+    "oetf_ARIBSTDB67",
+    "oetf_inverse_ARIBSTDB67",
 ]
 __all__ += [
-    'log_encoding_ALEXALogC',
-    'log_decoding_ALEXALogC',
+    "log_encoding_ALEXALogC",
+    "log_decoding_ALEXALogC",
 ]
 __all__ += [
-    'oetf_BlackmagicFilmGeneration5',
-    'oetf_inverse_BlackmagicFilmGeneration5',
+    "oetf_BlackmagicFilmGeneration5",
+    "oetf_inverse_BlackmagicFilmGeneration5",
 ]
 __all__ += [
-    'log_encoding_CanonLog',
-    'log_decoding_CanonLog',
-    'log_encoding_CanonLog2',
-    'log_decoding_CanonLog2',
-    'log_encoding_CanonLog3',
-    'log_decoding_CanonLog3',
+    "log_encoding_CanonLog",
+    "log_decoding_CanonLog",
+    "log_encoding_CanonLog2",
+    "log_decoding_CanonLog2",
+    "log_encoding_CanonLog3",
+    "log_decoding_CanonLog3",
 ]
 __all__ += [
-    'log_encoding_Cineon',
-    'log_decoding_Cineon',
+    "log_encoding_Cineon",
+    "log_decoding_Cineon",
 ]
 __all__ += [
-    'oetf_DaVinciIntermediate',
-    'oetf_inverse_DaVinciIntermediate',
+    "oetf_DaVinciIntermediate",
+    "oetf_inverse_DaVinciIntermediate",
 ]
 __all__ += [
-    'eotf_inverse_DCDM',
-    'eotf_DCDM',
+    "eotf_inverse_DCDM",
+    "eotf_DCDM",
 ]
 __all__ += [
-    'eotf_inverse_DICOMGSDF',
-    'eotf_DICOMGSDF',
+    "eotf_inverse_DICOMGSDF",
+    "eotf_DICOMGSDF",
 ]
 __all__ += [
-    'log_encoding_DJIDLog',
-    'log_decoding_DJIDLog',
+    "log_encoding_DJIDLog",
+    "log_decoding_DJIDLog",
 ]
 __all__ += [
-    'exponent_function_basic',
-    'exponent_function_monitor_curve',
+    "exponent_function_basic",
+    "exponent_function_monitor_curve",
 ]
 __all__ += [
-    'log_encoding_FilmicPro6',
-    'log_decoding_FilmicPro6',
+    "log_encoding_FilmicPro6",
+    "log_decoding_FilmicPro6",
 ]
 __all__ += [
-    'log_encoding_FilmLightTLog',
-    'log_decoding_FilmLightTLog',
+    "log_encoding_FilmLightTLog",
+    "log_decoding_FilmLightTLog",
 ]
 __all__ += [
-    'log_encoding_Protune',
-    'log_decoding_Protune',
+    "log_encoding_Protune",
+    "log_decoding_Protune",
 ]
 __all__ += [
-    'oetf_BT601',
-    'oetf_inverse_BT601',
+    "oetf_BT601",
+    "oetf_inverse_BT601",
 ]
 __all__ += [
-    'oetf_BT709',
-    'oetf_inverse_BT709',
+    "oetf_BT709",
+    "oetf_inverse_BT709",
 ]
 __all__ += [
-    'eotf_inverse_BT1886',
-    'eotf_BT1886',
+    "eotf_inverse_BT1886",
+    "eotf_BT1886",
 ]
 __all__ += [
-    'eotf_inverse_BT2020',
-    'eotf_BT2020',
+    "eotf_inverse_BT2020",
+    "eotf_BT2020",
 ]
 __all__ += [
-    'eotf_inverse_ST2084',
-    'eotf_ST2084',
+    "eotf_inverse_ST2084",
+    "eotf_ST2084",
 ]
 __all__ += [
-    'oetf_PQ_BT2100',
-    'oetf_inverse_PQ_BT2100',
-    'eotf_PQ_BT2100',
-    'eotf_inverse_PQ_BT2100',
-    'ootf_PQ_BT2100',
-    'ootf_inverse_PQ_BT2100',
-    'oetf_HLG_BT2100',
-    'oetf_inverse_HLG_BT2100',
-    'BT2100_HLG_EOTF_METHODS',
-    'eotf_HLG_BT2100',
-    'BT2100_HLG_EOTF_INVERSE_METHODS',
-    'eotf_inverse_HLG_BT2100',
-    'BT2100_HLG_OOTF_METHODS',
-    'ootf_HLG_BT2100',
-    'BT2100_HLG_OOTF_INVERSE_METHODS',
-    'ootf_inverse_HLG_BT2100',
+    "oetf_PQ_BT2100",
+    "oetf_inverse_PQ_BT2100",
+    "eotf_PQ_BT2100",
+    "eotf_inverse_PQ_BT2100",
+    "ootf_PQ_BT2100",
+    "ootf_inverse_PQ_BT2100",
+    "oetf_HLG_BT2100",
+    "oetf_inverse_HLG_BT2100",
+    "BT2100_HLG_EOTF_METHODS",
+    "eotf_HLG_BT2100",
+    "BT2100_HLG_EOTF_INVERSE_METHODS",
+    "eotf_inverse_HLG_BT2100",
+    "BT2100_HLG_OOTF_METHODS",
+    "ootf_HLG_BT2100",
+    "BT2100_HLG_OOTF_INVERSE_METHODS",
+    "ootf_inverse_HLG_BT2100",
 ]
 __all__ += [
-    'linear_function',
+    "linear_function",
 ]
 __all__ += [
-    'logarithmic_function_basic',
-    'logarithmic_function_quasilog',
-    'logarithmic_function_camera',
-    'log_encoding_Log2',
-    'log_decoding_Log2',
+    "logarithmic_function_basic",
+    "logarithmic_function_quasilog",
+    "logarithmic_function_camera",
+    "log_encoding_Log2",
+    "log_decoding_Log2",
 ]
 __all__ += [
-    'log_encoding_Panalog',
-    'log_decoding_Panalog',
+    "log_encoding_Panalog",
+    "log_decoding_Panalog",
 ]
 __all__ += [
-    'log_encoding_VLog',
-    'log_decoding_VLog',
+    "log_encoding_VLog",
+    "log_decoding_VLog",
 ]
 __all__ += [
-    'log_encoding_FLog',
-    'log_decoding_FLog',
+    "log_encoding_FLog",
+    "log_decoding_FLog",
 ]
 __all__ += [
-    'log_encoding_NLog',
-    'log_decoding_NLog',
+    "log_encoding_NLog",
+    "log_decoding_NLog",
 ]
 __all__ += [
-    'log_encoding_PivotedLog',
-    'log_decoding_PivotedLog',
+    "log_encoding_PivotedLog",
+    "log_decoding_PivotedLog",
 ]
 __all__ += [
-    'log_encoding_REDLog',
-    'log_decoding_REDLog',
-    'log_encoding_REDLogFilm',
-    'log_decoding_REDLogFilm',
-    'LOG3G10_ENCODING_METHODS',
-    'LOG3G10_DECODING_METHODS',
-    'log_encoding_Log3G10',
-    'log_decoding_Log3G10',
-    'log_encoding_Log3G12',
-    'log_decoding_Log3G12',
+    "log_encoding_REDLog",
+    "log_decoding_REDLog",
+    "log_encoding_REDLogFilm",
+    "log_decoding_REDLogFilm",
+    "LOG3G10_ENCODING_METHODS",
+    "LOG3G10_DECODING_METHODS",
+    "log_encoding_Log3G10",
+    "log_decoding_Log3G10",
+    "log_encoding_Log3G12",
+    "log_decoding_Log3G12",
 ]
 __all__ += [
-    'cctf_encoding_ROMMRGB',
-    'cctf_decoding_ROMMRGB',
-    'cctf_encoding_ProPhotoRGB',
-    'cctf_decoding_ProPhotoRGB',
-    'cctf_encoding_RIMMRGB',
-    'cctf_decoding_RIMMRGB',
-    'log_encoding_ERIMMRGB',
-    'log_decoding_ERIMMRGB',
+    "cctf_encoding_ROMMRGB",
+    "cctf_decoding_ROMMRGB",
+    "cctf_encoding_ProPhotoRGB",
+    "cctf_decoding_ProPhotoRGB",
+    "cctf_encoding_RIMMRGB",
+    "cctf_decoding_RIMMRGB",
+    "log_encoding_ERIMMRGB",
+    "log_decoding_ERIMMRGB",
 ]
 __all__ += [
-    'oetf_SMPTE240M',
-    'eotf_SMPTE240M',
+    "oetf_SMPTE240M",
+    "eotf_SMPTE240M",
 ]
 __all__ += [
-    'log_encoding_SLog',
-    'log_decoding_SLog',
-    'log_encoding_SLog2',
-    'log_decoding_SLog2',
-    'log_encoding_SLog3',
-    'log_decoding_SLog3',
+    "log_encoding_SLog",
+    "log_decoding_SLog",
+    "log_encoding_SLog2",
+    "log_decoding_SLog2",
+    "log_encoding_SLog3",
+    "log_decoding_SLog3",
 ]
 __all__ += [
-    'eotf_inverse_sRGB',
-    'eotf_sRGB',
+    "eotf_inverse_sRGB",
+    "eotf_sRGB",
 ]
 __all__ += [
-    'log_encoding_ViperLog',
-    'log_decoding_ViperLog',
+    "log_encoding_ViperLog",
+    "log_decoding_ViperLog",
 ]
 
-LOG_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ACEScc': log_encoding_ACEScc,
-    'ACEScct': log_encoding_ACEScct,
-    'ACESproxy': log_encoding_ACESproxy,
-    'ALEXA Log C': log_encoding_ALEXALogC,
-    'Canon Log 2': log_encoding_CanonLog2,
-    'Canon Log 3': log_encoding_CanonLog3,
-    'Canon Log': log_encoding_CanonLog,
-    'Cineon': log_encoding_Cineon,
-    'D-Log': log_encoding_DJIDLog,
-    'ERIMM RGB': log_encoding_ERIMMRGB,
-    'F-Log': log_encoding_FLog,
-    'Filmic Pro 6': log_encoding_FilmicPro6,
-    'Log2': log_encoding_Log2,
-    'Log3G10': log_encoding_Log3G10,
-    'Log3G12': log_encoding_Log3G12,
-    'N-Log': log_encoding_NLog,
-    'PLog': log_encoding_PivotedLog,
-    'Panalog': log_encoding_Panalog,
-    'Protune': log_encoding_Protune,
-    'REDLog': log_encoding_REDLog,
-    'REDLogFilm': log_encoding_REDLogFilm,
-    'S-Log': log_encoding_SLog,
-    'S-Log2': log_encoding_SLog2,
-    'S-Log3': log_encoding_SLog3,
-    'T-Log': log_encoding_FilmLightTLog,
-    'V-Log': log_encoding_VLog,
-    'ViperLog': log_encoding_ViperLog
-})
+LOG_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ACEScc": log_encoding_ACEScc,
+        "ACEScct": log_encoding_ACEScct,
+        "ACESproxy": log_encoding_ACESproxy,
+        "ALEXA Log C": log_encoding_ALEXALogC,
+        "Canon Log 2": log_encoding_CanonLog2,
+        "Canon Log 3": log_encoding_CanonLog3,
+        "Canon Log": log_encoding_CanonLog,
+        "Cineon": log_encoding_Cineon,
+        "D-Log": log_encoding_DJIDLog,
+        "ERIMM RGB": log_encoding_ERIMMRGB,
+        "F-Log": log_encoding_FLog,
+        "Filmic Pro 6": log_encoding_FilmicPro6,
+        "Log2": log_encoding_Log2,
+        "Log3G10": log_encoding_Log3G10,
+        "Log3G12": log_encoding_Log3G12,
+        "N-Log": log_encoding_NLog,
+        "PLog": log_encoding_PivotedLog,
+        "Panalog": log_encoding_Panalog,
+        "Protune": log_encoding_Protune,
+        "REDLog": log_encoding_REDLog,
+        "REDLogFilm": log_encoding_REDLogFilm,
+        "S-Log": log_encoding_SLog,
+        "S-Log2": log_encoding_SLog2,
+        "S-Log3": log_encoding_SLog3,
+        "T-Log": log_encoding_FilmLightTLog,
+        "V-Log": log_encoding_VLog,
+        "ViperLog": log_encoding_ViperLog,
+    }
+)
 LOG_ENCODINGS.__doc__ = """
 Supported *log* encoding functions.
 """
 
 
 def log_encoding(
-        value: FloatingOrArrayLike,
-        function: Union[Literal[
-            'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-            'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
-            'F-Log', 'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log',
-            'PLog', 'Panalog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log',
-            'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'], str] = 'Cineon',
-        **kwargs: Any) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+    value: FloatingOrArrayLike,
+    function: Union[
+        Literal[
+            "ACEScc",
+            "ACEScct",
+            "ACESproxy",
+            "ALEXA Log C",
+            "Canon Log 2",
+            "Canon Log 3",
+            "Canon Log",
+            "Cineon",
+            "D-Log",
+            "ERIMM RGB",
+            "F-Log",
+            "Filmic Pro 6",
+            "Log2",
+            "Log3G10",
+            "Log3G12",
+            "N-Log",
+            "PLog",
+            "Panalog",
+            "Protune",
+            "REDLog",
+            "REDLogFilm",
+            "S-Log",
+            "S-Log2",
+            "S-Log3",
+            "T-Log",
+            "V-Log",
+            "ViperLog",
+        ],
+        str,
+    ] = "Cineon",
+    **kwargs: Any
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Encodes *scene-referred* exposure values to :math:`R'G'B'` video component
     signal value using given *log* encoding function.
@@ -415,57 +444,88 @@ def log_encoding(
     """
 
     function = validate_method(
-        function, LOG_ENCODINGS,
-        '"{0}" "log" encoding function is invalid, it must be one of {1}!')
+        function,
+        LOG_ENCODINGS,
+        '"{0}" "log" encoding function is invalid, it must be one of {1}!',
+    )
 
     callable_ = LOG_ENCODINGS[function]
 
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-LOG_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ACEScc': log_decoding_ACEScc,
-    'ACEScct': log_decoding_ACEScct,
-    'ACESproxy': log_decoding_ACESproxy,
-    'ALEXA Log C': log_decoding_ALEXALogC,
-    'Canon Log 2': log_decoding_CanonLog2,
-    'Canon Log 3': log_decoding_CanonLog3,
-    'Canon Log': log_decoding_CanonLog,
-    'Cineon': log_decoding_Cineon,
-    'D-Log': log_decoding_DJIDLog,
-    'ERIMM RGB': log_decoding_ERIMMRGB,
-    'F-Log': log_decoding_FLog,
-    'Filmic Pro 6': log_decoding_FilmicPro6,
-    'Log2': log_decoding_Log2,
-    'Log3G10': log_decoding_Log3G10,
-    'Log3G12': log_decoding_Log3G12,
-    'N-Log': log_decoding_NLog,
-    'PLog': log_decoding_PivotedLog,
-    'Panalog': log_decoding_Panalog,
-    'Protune': log_decoding_Protune,
-    'REDLog': log_decoding_REDLog,
-    'REDLogFilm': log_decoding_REDLogFilm,
-    'S-Log': log_decoding_SLog,
-    'S-Log2': log_decoding_SLog2,
-    'S-Log3': log_decoding_SLog3,
-    'T-Log': log_decoding_FilmLightTLog,
-    'V-Log': log_decoding_VLog,
-    'ViperLog': log_decoding_ViperLog
-})
+LOG_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ACEScc": log_decoding_ACEScc,
+        "ACEScct": log_decoding_ACEScct,
+        "ACESproxy": log_decoding_ACESproxy,
+        "ALEXA Log C": log_decoding_ALEXALogC,
+        "Canon Log 2": log_decoding_CanonLog2,
+        "Canon Log 3": log_decoding_CanonLog3,
+        "Canon Log": log_decoding_CanonLog,
+        "Cineon": log_decoding_Cineon,
+        "D-Log": log_decoding_DJIDLog,
+        "ERIMM RGB": log_decoding_ERIMMRGB,
+        "F-Log": log_decoding_FLog,
+        "Filmic Pro 6": log_decoding_FilmicPro6,
+        "Log2": log_decoding_Log2,
+        "Log3G10": log_decoding_Log3G10,
+        "Log3G12": log_decoding_Log3G12,
+        "N-Log": log_decoding_NLog,
+        "PLog": log_decoding_PivotedLog,
+        "Panalog": log_decoding_Panalog,
+        "Protune": log_decoding_Protune,
+        "REDLog": log_decoding_REDLog,
+        "REDLogFilm": log_decoding_REDLogFilm,
+        "S-Log": log_decoding_SLog,
+        "S-Log2": log_decoding_SLog2,
+        "S-Log3": log_decoding_SLog3,
+        "T-Log": log_decoding_FilmLightTLog,
+        "V-Log": log_decoding_VLog,
+        "ViperLog": log_decoding_ViperLog,
+    }
+)
 LOG_DECODINGS.__doc__ = """
 Supported *log* decoding functions.
 """
 
 
 def log_decoding(
-        value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-        function: Union[Literal[
-            'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-            'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
-            'F-Log', 'Filmic Pro 6', 'Log2', 'Log3G10', 'Log3G12', 'N-Log',
-            'PLog', 'Panalog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log',
-            'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'], str] = 'Cineon',
-        **kwargs: Any) -> FloatingOrNDArray:
+    value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    function: Union[
+        Literal[
+            "ACEScc",
+            "ACEScct",
+            "ACESproxy",
+            "ALEXA Log C",
+            "Canon Log 2",
+            "Canon Log 3",
+            "Canon Log",
+            "Cineon",
+            "D-Log",
+            "ERIMM RGB",
+            "F-Log",
+            "Filmic Pro 6",
+            "Log2",
+            "Log3G10",
+            "Log3G12",
+            "N-Log",
+            "PLog",
+            "Panalog",
+            "Protune",
+            "REDLog",
+            "REDLogFilm",
+            "S-Log",
+            "S-Log2",
+            "S-Log3",
+            "T-Log",
+            "V-Log",
+            "ViperLog",
+        ],
+        str,
+    ] = "Cineon",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Decodes :math:`R'G'B'` video component signal value to *scene-referred*
     exposure values using given *log* decoding function.
@@ -530,8 +590,10 @@ def log_decoding(
     """
 
     function = validate_method(
-        function, LOG_DECODINGS,
-        '"{0}" "log" decoding function is invalid, it must be one of {1}!')
+        function,
+        LOG_DECODINGS,
+        '"{0}" "log" decoding function is invalid, it must be one of {1}!',
+    )
 
     callable_ = LOG_DECODINGS[function]
 
@@ -539,36 +601,48 @@ def log_decoding(
 
 
 __all__ += [
-    'LOG_ENCODINGS',
-    'LOG_DECODINGS',
+    "LOG_ENCODINGS",
+    "LOG_DECODINGS",
 ]
 __all__ += [
-    'log_encoding',
-    'log_decoding',
+    "log_encoding",
+    "log_decoding",
 ]
 
-OETFS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ARIB STD-B67': oetf_ARIBSTDB67,
-    'Blackmagic Film Generation 5': oetf_BlackmagicFilmGeneration5,
-    'DaVinci Intermediate': oetf_DaVinciIntermediate,
-    'ITU-R BT.2100 HLG': oetf_HLG_BT2100,
-    'ITU-R BT.2100 PQ': oetf_PQ_BT2100,
-    'ITU-R BT.601': oetf_BT601,
-    'ITU-R BT.709': oetf_BT709,
-    'SMPTE 240M': oetf_SMPTE240M,
-})
+OETFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ARIB STD-B67": oetf_ARIBSTDB67,
+        "Blackmagic Film Generation 5": oetf_BlackmagicFilmGeneration5,
+        "DaVinci Intermediate": oetf_DaVinciIntermediate,
+        "ITU-R BT.2100 HLG": oetf_HLG_BT2100,
+        "ITU-R BT.2100 PQ": oetf_PQ_BT2100,
+        "ITU-R BT.601": oetf_BT601,
+        "ITU-R BT.709": oetf_BT709,
+        "SMPTE 240M": oetf_SMPTE240M,
+    }
+)
 OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
 """
 
 
-def oetf(value: FloatingOrArrayLike,
-         function: Union[Literal[
-             'ARIB STD-B67', 'Blackmagic Film Generation 5',
-             'DaVinci Intermediate', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-             'ITU-R BT.601', 'ITU-R BT.709', 'SMPTE 240M'],
-                         str] = 'ITU-R BT.709',
-         **kwargs: Any) -> FloatingOrNDArray:
+def oetf(
+    value: FloatingOrArrayLike,
+    function: Union[
+        Literal[
+            "ARIB STD-B67",
+            "Blackmagic Film Generation 5",
+            "DaVinci Intermediate",
+            "ITU-R BT.2100 HLG",
+            "ITU-R BT.2100 PQ",
+            "ITU-R BT.601",
+            "ITU-R BT.709",
+            "SMPTE 240M",
+        ],
+        str,
+    ] = "ITU-R BT.709",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given opto-electronic transfer function
@@ -608,34 +682,46 @@ def oetf(value: FloatingOrArrayLike,
     """
 
     function = validate_method(
-        function, OETFS, '"{0}" "OETF" is invalid, it must be one of {1}!')
+        function, OETFS, '"{0}" "OETF" is invalid, it must be one of {1}!'
+    )
 
     callable_ = OETFS[function]
 
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-OETF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ARIB STD-B67': oetf_inverse_ARIBSTDB67,
-    'Blackmagic Film Generation 5': oetf_inverse_BlackmagicFilmGeneration5,
-    'DaVinci Intermediate': oetf_inverse_DaVinciIntermediate,
-    'ITU-R BT.2100 HLG': oetf_inverse_HLG_BT2100,
-    'ITU-R BT.2100 PQ': oetf_inverse_PQ_BT2100,
-    'ITU-R BT.601': oetf_inverse_BT601,
-    'ITU-R BT.709': oetf_inverse_BT709,
-})
+OETF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ARIB STD-B67": oetf_inverse_ARIBSTDB67,
+        "Blackmagic Film Generation 5": oetf_inverse_BlackmagicFilmGeneration5,
+        "DaVinci Intermediate": oetf_inverse_DaVinciIntermediate,
+        "ITU-R BT.2100 HLG": oetf_inverse_HLG_BT2100,
+        "ITU-R BT.2100 PQ": oetf_inverse_PQ_BT2100,
+        "ITU-R BT.601": oetf_inverse_BT601,
+        "ITU-R BT.709": oetf_inverse_BT709,
+    }
+)
 OETF_INVERSES.__doc__ = """
 Supported inverse opto-electrical transfer functions (OETFs / OECFs).
 """
 
 
 def oetf_inverse(
-        value: FloatingOrArrayLike,
-        function: Union[Literal['ARIB STD-B67', 'Blackmagic Film Generation 5',
-                                'DaVinci Intermediate', 'ITU-R BT.2100 HLG',
-                                'ITU-R BT.2100 PQ', 'ITU-R BT.601',
-                                'ITU-R BT.709'], str] = 'ITU-R BT.709',
-        **kwargs: Any) -> FloatingOrNDArray:
+    value: FloatingOrArrayLike,
+    function: Union[
+        Literal[
+            "ARIB STD-B67",
+            "Blackmagic Film Generation 5",
+            "DaVinci Intermediate",
+            "ITU-R BT.2100 HLG",
+            "ITU-R BT.2100 PQ",
+            "ITU-R BT.601",
+            "ITU-R BT.709",
+        ],
+        str,
+    ] = "ITU-R BT.709",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Decodes :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given inverse opto-electronic transfer function
@@ -676,36 +762,52 @@ def oetf_inverse(
     """
 
     function = validate_method(
-        function, OETF_INVERSES,
-        '"{0}" inverse "OETF" is invalid, it must be one of {1}!')
+        function,
+        OETF_INVERSES,
+        '"{0}" inverse "OETF" is invalid, it must be one of {1}!',
+    )
 
     callable_ = OETF_INVERSES[function]
 
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-EOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'DCDM': eotf_DCDM,
-    'DICOM GSDF': eotf_DICOMGSDF,
-    'ITU-R BT.1886': eotf_BT1886,
-    'ITU-R BT.2020': eotf_BT2020,
-    'ITU-R BT.2100 HLG': eotf_HLG_BT2100,
-    'ITU-R BT.2100 PQ': eotf_PQ_BT2100,
-    'SMPTE 240M': eotf_SMPTE240M,
-    'ST 2084': eotf_ST2084,
-    'sRGB': eotf_sRGB,
-})
+EOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "DCDM": eotf_DCDM,
+        "DICOM GSDF": eotf_DICOMGSDF,
+        "ITU-R BT.1886": eotf_BT1886,
+        "ITU-R BT.2020": eotf_BT2020,
+        "ITU-R BT.2100 HLG": eotf_HLG_BT2100,
+        "ITU-R BT.2100 PQ": eotf_PQ_BT2100,
+        "SMPTE 240M": eotf_SMPTE240M,
+        "ST 2084": eotf_ST2084,
+        "sRGB": eotf_sRGB,
+    }
+)
 EOTFS.__doc__ = """
 Supported electro-optical transfer functions (EOTFs / EOCFs).
 """
 
 
-def eotf(value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-         function: Union[
-             Literal['DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
-                     'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'SMPTE 240M',
-                     'ST 2084', 'sRGB'], str] = 'ITU-R BT.1886',
-         **kwargs: Any) -> FloatingOrNDArray:
+def eotf(
+    value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    function: Union[
+        Literal[
+            "DCDM",
+            "DICOM GSDF",
+            "ITU-R BT.1886",
+            "ITU-R BT.2020",
+            "ITU-R BT.2100 HLG",
+            "ITU-R BT.2100 PQ",
+            "SMPTE 240M",
+            "ST 2084",
+            "sRGB",
+        ],
+        str,
+    ] = "ITU-R BT.1886",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Decodes :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given electro-optical transfer function (EOTF).
@@ -749,34 +851,48 @@ def eotf(value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
     """
 
     function = validate_method(
-        function, EOTFS, '"{0}" "EOTF" is invalid, it must be one of {1}!')
+        function, EOTFS, '"{0}" "EOTF" is invalid, it must be one of {1}!'
+    )
 
     callable_ = EOTFS[function]
 
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-EOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'DCDM': eotf_inverse_DCDM,
-    'DICOM GSDF': eotf_inverse_DICOMGSDF,
-    'ITU-R BT.1886': eotf_inverse_BT1886,
-    'ITU-R BT.2020': eotf_inverse_BT2020,
-    'ITU-R BT.2100 HLG': eotf_inverse_HLG_BT2100,
-    'ITU-R BT.2100 PQ': eotf_inverse_PQ_BT2100,
-    'ST 2084': eotf_inverse_ST2084,
-    'sRGB': eotf_inverse_sRGB,
-})
+EOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "DCDM": eotf_inverse_DCDM,
+        "DICOM GSDF": eotf_inverse_DICOMGSDF,
+        "ITU-R BT.1886": eotf_inverse_BT1886,
+        "ITU-R BT.2020": eotf_inverse_BT2020,
+        "ITU-R BT.2100 HLG": eotf_inverse_HLG_BT2100,
+        "ITU-R BT.2100 PQ": eotf_inverse_PQ_BT2100,
+        "ST 2084": eotf_inverse_ST2084,
+        "sRGB": eotf_inverse_sRGB,
+    }
+)
 EOTF_INVERSES.__doc__ = """
 Supported inverse electro-optical transfer functions (EOTFs / EOCFs).
 """
 
 
-def eotf_inverse(value: FloatingOrArrayLike,
-                 function: Union[Literal['DCDM', 'DICOM GSDF', 'ITU-R BT.1886',
-                                         'ITU-R BT.2020', 'ITU-R BT.2100 HLG',
-                                         'ITU-R BT.2100 PQ', 'ST 2084',
-                                         'sRGB'], str] = 'ITU-R BT.1886',
-                 **kwargs) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+def eotf_inverse(
+    value: FloatingOrArrayLike,
+    function: Union[
+        Literal[
+            "DCDM",
+            "DICOM GSDF",
+            "ITU-R BT.1886",
+            "ITU-R BT.2020",
+            "ITU-R BT.2100 HLG",
+            "ITU-R BT.2100 PQ",
+            "ST 2084",
+            "sRGB",
+        ],
+        str,
+    ] = "ITU-R BT.1886",
+    **kwargs
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given inverse electro-optical transfer
@@ -817,8 +933,10 @@ def eotf_inverse(value: FloatingOrArrayLike,
     """
 
     function = validate_method(
-        function, EOTF_INVERSES,
-        '"{0}" inverse "EOTF" is invalid, it must be one of {1}!')
+        function,
+        EOTF_INVERSES,
+        '"{0}" inverse "EOTF" is invalid, it must be one of {1}!',
+    )
 
     callable_ = EOTF_INVERSES[function]
 
@@ -826,26 +944,28 @@ def eotf_inverse(value: FloatingOrArrayLike,
 
 
 __all__ += [
-    'OETFS',
-    'OETF_INVERSES',
-    'EOTFS',
-    'EOTF_INVERSES',
+    "OETFS",
+    "OETF_INVERSES",
+    "EOTFS",
+    "EOTF_INVERSES",
 ]
 __all__ += [
-    'oetf',
-    'oetf_inverse',
-    'eotf',
-    'eotf_inverse',
+    "oetf",
+    "oetf_inverse",
+    "eotf",
+    "eotf_inverse",
 ]
 
-CCTF_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Gamma 2.2': partial(gamma_function, exponent=1 / 2.2),
-    'Gamma 2.4': partial(gamma_function, exponent=1 / 2.4),
-    'Gamma 2.6': partial(gamma_function, exponent=1 / 2.6),
-    'ProPhoto RGB': cctf_encoding_ProPhotoRGB,
-    'RIMM RGB': cctf_encoding_RIMMRGB,
-    'ROMM RGB': cctf_encoding_ROMMRGB,
-})
+CCTF_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Gamma 2.2": partial(gamma_function, exponent=1 / 2.2),
+        "Gamma 2.4": partial(gamma_function, exponent=1 / 2.4),
+        "Gamma 2.6": partial(gamma_function, exponent=1 / 2.6),
+        "ProPhoto RGB": cctf_encoding_ProPhotoRGB,
+        "RIMM RGB": cctf_encoding_RIMMRGB,
+        "ROMM RGB": cctf_encoding_ROMMRGB,
+    }
+)
 CCTF_ENCODINGS.update(LOG_ENCODINGS)
 CCTF_ENCODINGS.update(OETFS)
 CCTF_ENCODINGS.update(EOTF_INVERSES)
@@ -868,20 +988,61 @@ For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
 
 
 def cctf_encoding(
-        value: FloatingOrArrayLike,
-        function: Union[Literal[
-            'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'ARIB STD-B67',
-            'Blackmagic Film Generation 5', 'Canon Log 2', 'Canon Log 3',
-            'Canon Log', 'Cineon', 'D-Log', 'DCDM', 'DICOM GSDF',
-            'DaVinci Intermediate', 'ERIMM RGB', 'F-Log', 'Filmic Pro 6',
-            'Gamma 2.2', 'Gamma 2.4', 'Gamma 2.6', 'ITU-R BT.1886',
-            'ITU-R BT.2020', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-            'ITU-R BT.601', 'ITU-R BT.709', 'Log2', 'Log3G10', 'Log3G12',
-            'N-Log', 'PLog', 'Panalog', 'ProPhoto RGB', 'Protune', 'REDLog',
-            'REDLogFilm', 'RIMM RGB', 'ROMM RGB', 'S-Log', 'S-Log2', 'S-Log3',
-            'SMPTE 240M', 'ST 2084', 'T-Log', 'V-Log', 'ViperLog', 'sRGB'],
-                        str] = 'sRGB',
-        **kwargs: Any) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
+    value: FloatingOrArrayLike,
+    function: Union[
+        Literal[
+            "ACEScc",
+            "ACEScct",
+            "ACESproxy",
+            "ALEXA Log C",
+            "ARIB STD-B67",
+            "Blackmagic Film Generation 5",
+            "Canon Log 2",
+            "Canon Log 3",
+            "Canon Log",
+            "Cineon",
+            "D-Log",
+            "DCDM",
+            "DICOM GSDF",
+            "DaVinci Intermediate",
+            "ERIMM RGB",
+            "F-Log",
+            "Filmic Pro 6",
+            "Gamma 2.2",
+            "Gamma 2.4",
+            "Gamma 2.6",
+            "ITU-R BT.1886",
+            "ITU-R BT.2020",
+            "ITU-R BT.2100 HLG",
+            "ITU-R BT.2100 PQ",
+            "ITU-R BT.601",
+            "ITU-R BT.709",
+            "Log2",
+            "Log3G10",
+            "Log3G12",
+            "N-Log",
+            "PLog",
+            "Panalog",
+            "ProPhoto RGB",
+            "Protune",
+            "REDLog",
+            "REDLogFilm",
+            "RIMM RGB",
+            "ROMM RGB",
+            "S-Log",
+            "S-Log2",
+            "S-Log3",
+            "SMPTE 240M",
+            "ST 2084",
+            "T-Log",
+            "V-Log",
+            "ViperLog",
+            "sRGB",
+        ],
+        str,
+    ] = "sRGB",
+    **kwargs: Any
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
     Encodes linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
     given encoding colour component transfer function (Encoding CCTF).
@@ -926,29 +1087,34 @@ def cctf_encoding(
     """
 
     function = validate_method(
-        function, CCTF_ENCODINGS,
-        '"{0}" encoding "CCTF" is invalid, it must be one of {1}!')
+        function,
+        CCTF_ENCODINGS,
+        '"{0}" encoding "CCTF" is invalid, it must be one of {1}!',
+    )
 
-    if 'itu-r bt.2100' in function:
+    if "itu-r bt.2100" in function:
         usage_warning(
             'With the "ITU-R BT.2100" method, only the inverse '
-            'electro-optical transfer functions (EOTFs / EOCFs) are exposed '
+            "electro-optical transfer functions (EOTFs / EOCFs) are exposed "
             'by this definition, See the "colour.oetf" definition '
-            'for the opto-electronic transfer functions (OETF).')
+            "for the opto-electronic transfer functions (OETF)."
+        )
 
     callable_ = CCTF_ENCODINGS[function]
 
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-CCTF_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'Gamma 2.2': partial(gamma_function, exponent=2.2),
-    'Gamma 2.4': partial(gamma_function, exponent=2.4),
-    'Gamma 2.6': partial(gamma_function, exponent=2.6),
-    'ProPhoto RGB': cctf_decoding_ProPhotoRGB,
-    'RIMM RGB': cctf_decoding_RIMMRGB,
-    'ROMM RGB': cctf_decoding_ROMMRGB,
-})
+CCTF_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Gamma 2.2": partial(gamma_function, exponent=2.2),
+        "Gamma 2.4": partial(gamma_function, exponent=2.4),
+        "Gamma 2.6": partial(gamma_function, exponent=2.6),
+        "ProPhoto RGB": cctf_decoding_ProPhotoRGB,
+        "RIMM RGB": cctf_decoding_RIMMRGB,
+        "ROMM RGB": cctf_decoding_ROMMRGB,
+    }
+)
 CCTF_DECODINGS.update(LOG_DECODINGS)
 CCTF_DECODINGS.update(OETF_INVERSES)
 CCTF_DECODINGS.update(EOTFS)
@@ -976,20 +1142,61 @@ Notes
 
 
 def cctf_decoding(
-        value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
-        function: Union[Literal[
-            'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'ARIB STD-B67',
-            'Blackmagic Film Generation 5', 'Canon Log 2', 'Canon Log 3',
-            'Canon Log', 'Cineon', 'D-Log', 'DCDM', 'DICOM GSDF',
-            'DaVinci Intermediate', 'ERIMM RGB', 'F-Log', 'Filmic Pro 6',
-            'Gamma 2.2', 'Gamma 2.4', 'Gamma 2.6', 'ITU-R BT.1886',
-            'ITU-R BT.2020', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ',
-            'ITU-R BT.601', 'ITU-R BT.709', 'Log2', 'Log3G10', 'Log3G12',
-            'N-Log', 'PLog', 'Panalog', 'ProPhoto RGB', 'Protune', 'REDLog',
-            'REDLogFilm', 'RIMM RGB', 'ROMM RGB', 'S-Log', 'S-Log2', 'S-Log3',
-            'SMPTE 240M', 'ST 2084', 'T-Log', 'V-Log', 'ViperLog', 'sRGB'],
-                        str] = 'sRGB',
-        **kwargs: Any) -> FloatingOrNDArray:
+    value: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    function: Union[
+        Literal[
+            "ACEScc",
+            "ACEScct",
+            "ACESproxy",
+            "ALEXA Log C",
+            "ARIB STD-B67",
+            "Blackmagic Film Generation 5",
+            "Canon Log 2",
+            "Canon Log 3",
+            "Canon Log",
+            "Cineon",
+            "D-Log",
+            "DCDM",
+            "DICOM GSDF",
+            "DaVinci Intermediate",
+            "ERIMM RGB",
+            "F-Log",
+            "Filmic Pro 6",
+            "Gamma 2.2",
+            "Gamma 2.4",
+            "Gamma 2.6",
+            "ITU-R BT.1886",
+            "ITU-R BT.2020",
+            "ITU-R BT.2100 HLG",
+            "ITU-R BT.2100 PQ",
+            "ITU-R BT.601",
+            "ITU-R BT.709",
+            "Log2",
+            "Log3G10",
+            "Log3G12",
+            "N-Log",
+            "PLog",
+            "Panalog",
+            "ProPhoto RGB",
+            "Protune",
+            "REDLog",
+            "REDLogFilm",
+            "RIMM RGB",
+            "ROMM RGB",
+            "S-Log",
+            "S-Log2",
+            "S-Log3",
+            "SMPTE 240M",
+            "ST 2084",
+            "T-Log",
+            "V-Log",
+            "ViperLog",
+            "sRGB",
+        ],
+        str,
+    ] = "sRGB",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Decodes non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
     given decoding colour component transfer function (Decoding CCTF).
@@ -1034,15 +1241,18 @@ def cctf_decoding(
     """
 
     function = validate_method(
-        function, CCTF_DECODINGS,
-        '"{0}" decoding "CCTF" is invalid, it must be one of {1}!')
+        function,
+        CCTF_DECODINGS,
+        '"{0}" decoding "CCTF" is invalid, it must be one of {1}!',
+    )
 
-    if 'itu-r bt.2100' in function:
+    if "itu-r bt.2100" in function:
         usage_warning(
             'With the "ITU-R BT.2100" method, only the electro-optical '
-            'transfer functions (EOTFs / EOCFs) are exposed by this '
+            "transfer functions (EOTFs / EOCFs) are exposed by this "
             'definition, See the "colour.oetf_inverse" definition '
-            'for the inverse opto-electronic transfer functions (OETF).')
+            "for the inverse opto-electronic transfer functions (OETF)."
+        )
 
     callable_ = CCTF_DECODINGS[function]
 
@@ -1050,27 +1260,32 @@ def cctf_decoding(
 
 
 __all__ += [
-    'CCTF_ENCODINGS',
-    'CCTF_DECODINGS',
+    "CCTF_ENCODINGS",
+    "CCTF_DECODINGS",
 ]
 __all__ += [
-    'cctf_encoding',
-    'cctf_decoding',
+    "cctf_encoding",
+    "cctf_decoding",
 ]
 
-OOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ITU-R BT.2100 HLG': ootf_HLG_BT2100,
-    'ITU-R BT.2100 PQ': ootf_PQ_BT2100,
-})
+OOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.2100 HLG": ootf_HLG_BT2100,
+        "ITU-R BT.2100 PQ": ootf_PQ_BT2100,
+    }
+)
 OOTFS.__doc__ = """
 Supported opto-optical transfer functions (OOTFs / OOCFs).
 """
 
 
-def ootf(value: FloatingOrArrayLike,
-         function: Union[Literal['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'],
-                         str] = 'ITU-R BT.2100 PQ',
-         **kwargs: Any) -> FloatingOrNDArray:
+def ootf(
+    value: FloatingOrArrayLike,
+    function: Union[
+        Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"], str
+    ] = "ITU-R BT.2100 PQ",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Maps relative scene linear light to display linear light using given
     opto-optical transfer function (OOTF / OOCF).
@@ -1103,27 +1318,32 @@ def ootf(value: FloatingOrArrayLike,
     """
 
     function = validate_method(
-        function, OOTFS, '"{0}" "OOTF" is invalid, it must be one of {1}!')
+        function, OOTFS, '"{0}" "OOTF" is invalid, it must be one of {1}!'
+    )
 
     callable_ = OOTFS[function]
 
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-OOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping({
-    'ITU-R BT.2100 HLG': ootf_inverse_HLG_BT2100,
-    'ITU-R BT.2100 PQ': ootf_inverse_PQ_BT2100,
-})
+OOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.2100 HLG": ootf_inverse_HLG_BT2100,
+        "ITU-R BT.2100 PQ": ootf_inverse_PQ_BT2100,
+    }
+)
 OOTF_INVERSES.__doc__ = """
 Supported inverse opto-optical transfer functions (OOTFs / OOCFs).
 """
 
 
 def ootf_inverse(
-        value: FloatingOrArrayLike,
-        function: Union[Literal['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'],
-                        str] = 'ITU-R BT.2100 PQ',
-        **kwargs: Any) -> FloatingOrNDArray:
+    value: FloatingOrArrayLike,
+    function: Union[
+        Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"], str
+    ] = "ITU-R BT.2100 PQ",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Maps relative display linear light to scene linear light using given
     inverse opto-optical transfer function (OOTF / OOCF).
@@ -1157,8 +1377,10 @@ def ootf_inverse(
     """
 
     function = validate_method(
-        function, OOTF_INVERSES,
-        '"{0}" inverse "OOTF" is invalid, it must be one of {1}!')
+        function,
+        OOTF_INVERSES,
+        '"{0}" inverse "OOTF" is invalid, it must be one of {1}!',
+    )
 
     callable_ = OOTF_INVERSES[function]
 
@@ -1166,10 +1388,10 @@ def ootf_inverse(
 
 
 __all__ += [
-    'OOTFS',
-    'OOTF_INVERSES',
+    "OOTFS",
+    "OOTF_INVERSES",
 ]
 __all__ += [
-    'ootf',
-    'ootf_inverse',
+    "ootf",
+    "ootf_inverse",
 ]

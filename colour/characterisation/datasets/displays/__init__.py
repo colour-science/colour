@@ -27,5 +27,5 @@ References
 """
 
 __all__ = [
-    'MSDS_DISPLAY_PRIMARIES',
+    "MSDS_DISPLAY_PRIMARIES",
 ]

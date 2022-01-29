@@ -13,16 +13,16 @@ from colour.models.rgb.transfer_functions import (
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestLogEncoding_ALEXALogC',
-    'TestLogDecoding_ALEXALogC',
+    "TestLogEncoding_ALEXALogC",
+    "TestLogDecoding_ALEXALogC",
 ]
 
 
@@ -38,14 +38,13 @@ log_encoding_ALEXALogC` definition unit tests methods.
 log_encoding_ALEXALogC` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ALEXALogC(0.0), 0.092809000000000, places=7)
+        self.assertAlmostEqual(log_encoding_ALEXALogC(0.0), 0.092809000000000, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_ALEXALogC(0.18), 0.391006832034084, places=7)
+            log_encoding_ALEXALogC(0.18), 0.391006832034084, places=7
+        )
 
-        self.assertAlmostEqual(
-            log_encoding_ALEXALogC(1.0), 0.570631558120417, places=7)
+        self.assertAlmostEqual(log_encoding_ALEXALogC(1.0), 0.570631558120417, places=7)
 
     def test_n_dimensional_log_encoding_ALEXALogC(self):
         """
@@ -77,11 +76,12 @@ log_encoding_ALEXALogC` definition domain and range scale support.
         x = 0.18
         t = log_encoding_ALEXALogC(x)
 
-        d_r = (('reference', 1), ('1', 1), ('100', 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_encoding_ALEXALogC(x * factor), t * factor, decimal=7)
+                    log_encoding_ALEXALogC(x * factor), t * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_log_encoding_ALEXALogC(self):
@@ -90,8 +90,7 @@ log_encoding_ALEXALogC` definition domain and range scale support.
 log_encoding_ALEXALogC` definition nan support.
         """
 
-        log_encoding_ALEXALogC(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_encoding_ALEXALogC(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_ALEXALogC(unittest.TestCase):
@@ -109,10 +108,10 @@ log_decoding_ALEXALogC` definition.
         self.assertAlmostEqual(log_decoding_ALEXALogC(0.092809), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ALEXALogC(0.391006832034084), 0.18, places=7)
+            log_decoding_ALEXALogC(0.391006832034084), 0.18, places=7
+        )
 
-        self.assertAlmostEqual(
-            log_decoding_ALEXALogC(0.570631558120417), 1.0, places=7)
+        self.assertAlmostEqual(log_decoding_ALEXALogC(0.570631558120417), 1.0, places=7)
 
     def test_n_dimensional_log_decoding_ALEXALogC(self):
         """
@@ -144,11 +143,12 @@ log_decoding_ALEXALogC` definition domain and range scale support.
         t = 0.391006832034084
         x = log_decoding_ALEXALogC(t)
 
-        d_r = (('reference', 1), ('1', 1), ('100', 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_decoding_ALEXALogC(t * factor), x * factor, decimal=7)
+                    log_decoding_ALEXALogC(t * factor), x * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_log_decoding_ALEXALogC(self):
@@ -157,9 +157,8 @@ log_decoding_ALEXALogC` definition domain and range scale support.
 log_decoding_ALEXALogC` definition nan support.
         """
 
-        log_decoding_ALEXALogC(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_decoding_ALEXALogC(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

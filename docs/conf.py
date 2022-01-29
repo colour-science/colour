@@ -18,13 +18,13 @@ import sys
 
 import colour as package  # noqa
 
-basename = re.sub('_(\\w)', lambda x: x.group(1).upper(),
-                  package.__name__.title())
+basename = re.sub("_(\\w)", lambda x: x.group(1).upper(), package.__name__.title())
 
-if os.environ.get('READTHEDOCS') == 'True':
+if os.environ.get("READTHEDOCS") == "True":
     utilities_directory = os.path.join(
-        os.path.dirname(os.path.abspath('.')), 'utilities')
-    static_directory = os.path.join(os.path.abspath('.'), '_static')
+        os.path.dirname(os.path.abspath(".")), "utilities"
+    )
+    static_directory = os.path.join(os.path.abspath("."), "_static")
     sys.path.append(utilities_directory)
 
     from generate_plots import generate_documentation_plots
@@ -45,95 +45,94 @@ if os.environ.get('READTHEDOCS') == 'True':
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.coverage',
-    'sphinx.ext.ifconfig',
-    'sphinx.ext.inheritance_diagram',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.todo',
-    'sphinx.ext.viewcode',
-    'sphinxcontrib.bibtex',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.coverage",
+    "sphinx.ext.ifconfig",
+    "sphinx.ext.inheritance_diagram",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
+    "sphinxcontrib.bibtex",
 ]
 
-autodoc_member_order = 'bysource'
+autodoc_member_order = "bysource"
 autodoc_mock_imports = [
-    'matplotlib',
-    'matplotlib.cm',
-    'matplotlib.image',
-    'matplotlib.patches',
-    'matplotlib.path',
-    'matplotlib.pyplot',
-    'matplotlib.ticker',
-    'mpl_toolkits.mplot3d',
-    'mpl_toolkits.mplot3d.art3d',
-    'scipy',
-    'scipy.interpolate',
-    'scipy.ndimage',
-    'scipy.ndimage.filters',
-    'scipy.optimize',
-    'scipy.spatial',
-    'scipy.spatial.distance',
+    "matplotlib",
+    "matplotlib.cm",
+    "matplotlib.image",
+    "matplotlib.patches",
+    "matplotlib.path",
+    "matplotlib.pyplot",
+    "matplotlib.ticker",
+    "mpl_toolkits.mplot3d",
+    "mpl_toolkits.mplot3d.art3d",
+    "scipy",
+    "scipy.interpolate",
+    "scipy.ndimage",
+    "scipy.ndimage.filters",
+    "scipy.optimize",
+    "scipy.spatial",
+    "scipy.spatial.distance",
 ]
-autodoc_typehints = 'both'
+autodoc_typehints = "both"
 autodoc_type_aliases = {
-    'ArrayLike': 'ArrayLike',
-    'Boolean': 'Boolean',
-    'BooleanOrArrayLike': 'BooleanOrArrayLike',
-    'BooleanOrNDArray': 'BooleanOrNDArray',
-    'DType': 'DType',
-    'DTypeBoolean': 'DTypeBoolean',
-    'DTypeComplex': 'DTypeComplex',
-    'DTypeFloating': 'DTypeFloating',
-    'DTypeInteger': 'DTypeInteger',
-    'DTypeNumber': 'DTypeNumber',
-    'Floating': 'Floating',
-    'FloatingOrArrayLike': 'FloatingOrArrayLike',
-    'FloatingOrNDArray': 'FloatingOrNDArray',
-    'Integer': 'Integer',
-    'IntegerOrArrayLike': 'IntegerOrArrayLike',
-    'IntegerOrNDArray': 'IntegerOrNDArray',
-    'NestedSequence': 'NestedSequence',
-    'Number': 'Number',
-    'NumberOrArrayLike': 'NumberOrArrayLike',
-    'NumberOrNDArray': 'NumberOrNDArray',
-    'StrOrArrayLike': 'StrOrArrayLike',
-    'StrOrNDArray': 'StrOrNDArray',
+    "ArrayLike": "ArrayLike",
+    "Boolean": "Boolean",
+    "BooleanOrArrayLike": "BooleanOrArrayLike",
+    "BooleanOrNDArray": "BooleanOrNDArray",
+    "DType": "DType",
+    "DTypeBoolean": "DTypeBoolean",
+    "DTypeComplex": "DTypeComplex",
+    "DTypeFloating": "DTypeFloating",
+    "DTypeInteger": "DTypeInteger",
+    "DTypeNumber": "DTypeNumber",
+    "Floating": "Floating",
+    "FloatingOrArrayLike": "FloatingOrArrayLike",
+    "FloatingOrNDArray": "FloatingOrNDArray",
+    "Integer": "Integer",
+    "IntegerOrArrayLike": "IntegerOrArrayLike",
+    "IntegerOrNDArray": "IntegerOrNDArray",
+    "NestedSequence": "NestedSequence",
+    "Number": "Number",
+    "NumberOrArrayLike": "NumberOrArrayLike",
+    "NumberOrNDArray": "NumberOrNDArray",
+    "StrOrArrayLike": "StrOrArrayLike",
+    "StrOrNDArray": "StrOrNDArray",
 }
 autodoc_preserve_defaults = True
 
 autosummary_generate = True
 
-bibtex_bibfiles = ['bibliography.bib']
-bibtex_encoding = 'utf8'
+bibtex_bibfiles = ["bibliography.bib"]
+bibtex_encoding = "utf8"
 
-napoleon_custom_sections = ['Attributes', 'Methods']
+napoleon_custom_sections = ["Attributes", "Methods"]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
 project = package.__application_name__
-copyright = package.__copyright__.replace('Copyright (C)', '')
+copyright = package.__copyright__.replace("Copyright (C)", "")
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '{0}.{1}'.format(package.__major_version__,
-                           package.__minor_version__)
+version = "{0}.{1}".format(package.__major_version__, package.__minor_version__)
 # The full version, including alpha/beta/rc tags.
 release = package.__version__
 
@@ -149,7 +148,7 @@ release = package.__version__
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ["_build"]
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -167,7 +166,7 @@ exclude_patterns = ['_build']
 # show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'lovelace'
+pygments_style = "lovelace"
 
 # A list of ignored prefixes for module index sorting.
 # modindex_common_prefix = []
@@ -179,7 +178,7 @@ pygments_style = 'lovelace'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
 #
 # html_theme_options = {}
 
@@ -200,7 +199,7 @@ html_theme = 'sphinx_rtd_theme'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = '_static/Logo_Small_001.png'
+html_logo = "_static/Logo_Small_001.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -210,7 +209,7 @@ html_logo = '_static/Logo_Small_001.png'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named 'default.css' will overwrite the builtin 'default.css'.
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -259,22 +258,17 @@ html_static_path = ['_static']
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = '{0}Doc'.format(basename)
+htmlhelp_basename = "{0}Doc".format(basename)
 
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    'papersize':
-        'a4paper',
-
+    "papersize": "a4paper",
     # The font size ('10pt', '11pt' or '12pt').
-    'pointsize':
-        '10pt',
-
+    "pointsize": "10pt",
     # Additional stuff for the LaTeX preamble.
-    'preamble':
-        """
+    "preamble": """
 \\usepackage{charter}
 \\usepackage[defaultsans]{lato}
 \\usepackage{inconsolata}
@@ -296,13 +290,18 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', '{0}.tex'.format(basename), u'{0} Documentation'.format(
-        package.__application_name__), package.__author__, 'manual'),
+    (
+        "index",
+        "{0}.tex".format(basename),
+        u"{0} Documentation".format(package.__application_name__),
+        package.__author__,
+        "manual",
+    ),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = '_static/Logo_Medium_001.png'
+latex_logo = "_static/Logo_Medium_001.png"
 
 # For 'manual' documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -324,8 +323,15 @@ latex_logo = '_static/Logo_Medium_001.png'
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [('index', basename, u'{0} Documentation'.format(
-    package.__application_name__), [package.__author__], 1)]
+man_pages = [
+    (
+        "index",
+        basename,
+        u"{0} Documentation".format(package.__application_name__),
+        [package.__author__],
+        1,
+    )
+]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -336,9 +342,15 @@ man_pages = [('index', basename, u'{0} Documentation'.format(
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', basename, u'{0} Documentation'.format(
-        package.__application_name__), package.__author__,
-     package.__application_name__, basename, 'Miscellaneous'),
+    (
+        "index",
+        basename,
+        u"{0} Documentation".format(package.__application_name__),
+        package.__author__,
+        package.__application_name__,
+        basename,
+        "Miscellaneous",
+    ),
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -359,7 +371,7 @@ texinfo_documents = [
 epub_title = package.__application_name__
 epub_author = package.__author__
 epub_publisher = package.__author__
-epub_copyright = package.__copyright__.replace('Copyright (C)', '')
+epub_copyright = package.__copyright__.replace("Copyright (C)", "")
 
 # The basename for the epub file. It defaults to the project name.
 # epub_basename = basename
@@ -399,7 +411,7 @@ epub_copyright = package.__copyright__.replace('Copyright (C)', '')
 # epub_post_files = []
 
 # A list of files that should not be packed into the epub file.
-epub_exclude_files = ['search.html']
+epub_exclude_files = ["search.html"]
 
 # The depth of the table of contents in toc.ncx.
 # epub_tocdepth = 3
@@ -422,14 +434,14 @@ epub_exclude_files = ['search.html']
 # If false, no index is generated.
 # epub_use_index = True
 
-autoclass_content = 'both'
+autoclass_content = "both"
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3.8', None),
-    'matplotlib': ('http://matplotlib.org/stable', None),
-    'numpy': ('http://docs.scipy.org/doc/numpy', None),
-    'pandas': ('http://pandas.pydata.org/pandas-docs/dev', None),
-    'scipy': ('http://docs.scipy.org/doc/scipy/reference', None)
+    "python": ("https://docs.python.org/3.8", None),
+    "matplotlib": ("http://matplotlib.org/stable", None),
+    "numpy": ("http://docs.scipy.org/doc/numpy", None),
+    "pandas": ("http://pandas.pydata.org/pandas-docs/dev", None),
+    "scipy": ("http://docs.scipy.org/doc/scipy/reference", None),
 }
 
 
@@ -439,9 +451,9 @@ def _autodoc_process_docstring(app, what, name, obj, options, lines):
     """
 
     for i, line in enumerate(lines):
-        lines[i] = line.replace('# noqa', '')
+        lines[i] = line.replace("# noqa", "")
 
 
 def setup(app):
-    app.add_css_file('custom.css')
-    app.connect('autodoc-process-docstring', _autodoc_process_docstring)
+    app.add_css_file("custom.css")
+    app.connect("autodoc-process-docstring", _autodoc_process_docstring)
