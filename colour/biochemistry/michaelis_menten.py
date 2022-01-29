@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Michaelis-Menten Kinetcs
+Michaelis-Menten Kinetics
 =========================
 
 Implements support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
