@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.biochemistry.michaelis_menten`
 module.
@@ -17,7 +16,7 @@ from colour.biochemistry import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -115,7 +114,9 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition nan support.
             reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m)
 
 
-class TestSubstrateConcentrationMichaelisMentenMichaelis1913(unittest.TestCase):
+class TestSubstrateConcentrationMichaelisMentenMichaelis1913(
+    unittest.TestCase
+):
     """
     Defines :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
@@ -128,19 +129,25 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition.
         """
 
         self.assertAlmostEqual(
-            substrate_concentration_MichaelisMenten_Michaelis1913(0.25, 0.5, 0.25),
+            substrate_concentration_MichaelisMenten_Michaelis1913(
+                0.25, 0.5, 0.25
+            ),
             0.250000000000000,
             places=7,
         )
 
         self.assertAlmostEqual(
-            substrate_concentration_MichaelisMenten_Michaelis1913(1 / 3, 0.5, 0.25),
+            substrate_concentration_MichaelisMenten_Michaelis1913(
+                1 / 3, 0.5, 0.25
+            ),
             0.500000000000000,
             places=7,
         )
 
         self.assertAlmostEqual(
-            substrate_concentration_MichaelisMenten_Michaelis1913(0.4875, 0.75, 0.35),
+            substrate_concentration_MichaelisMenten_Michaelis1913(
+                0.4875, 0.75, 0.35
+            ),
             0.650000000000000,
             places=7,
         )
@@ -157,12 +164,16 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         S = 1 / 3
         V_max = 0.5
         K_m = 0.25
-        v = substrate_concentration_MichaelisMenten_Michaelis1913(S, V_max, K_m)
+        v = substrate_concentration_MichaelisMenten_Michaelis1913(
+            S, V_max, K_m
+        )
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
         np.testing.assert_almost_equal(
-            substrate_concentration_MichaelisMenten_Michaelis1913(S, V_max, K_m),
+            substrate_concentration_MichaelisMenten_Michaelis1913(
+                S, V_max, K_m
+            ),
             v,
             decimal=7,
         )
@@ -170,7 +181,9 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
         np.testing.assert_almost_equal(
-            substrate_concentration_MichaelisMenten_Michaelis1913(S, V_max, K_m),
+            substrate_concentration_MichaelisMenten_Michaelis1913(
+                S, V_max, K_m
+            ),
             v,
             decimal=7,
         )
@@ -180,7 +193,9 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         K_m = np.reshape(K_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
         np.testing.assert_almost_equal(
-            substrate_concentration_MichaelisMenten_Michaelis1913(S, V_max, K_m),
+            substrate_concentration_MichaelisMenten_Michaelis1913(
+                S, V_max, K_m
+            ),
             v,
             decimal=7,
         )
@@ -198,7 +213,9 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition nan support.
             s = np.array(case)
             V_max = np.array(case)
             K_m = np.array(case)
-            substrate_concentration_MichaelisMenten_Michaelis1913(s, V_max, K_m)
+            substrate_concentration_MichaelisMenten_Michaelis1913(
+                s, V_max, K_m
+            )
 
 
 class TestReactionRateMichaelisMentenAbebe2017(unittest.TestCase):
@@ -338,12 +355,16 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         V_max = 0.5
         K_m = 0.25
         b_m = 0.25
-        v = substrate_concentration_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m)
+        v = substrate_concentration_MichaelisMenten_Abebe2017(
+            S, V_max, K_m, b_m
+        )
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
         np.testing.assert_almost_equal(
-            substrate_concentration_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m),
+            substrate_concentration_MichaelisMenten_Abebe2017(
+                S, V_max, K_m, b_m
+            ),
             v,
             decimal=7,
         )
@@ -352,7 +373,9 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         K_m = np.tile(K_m, (6, 1))
         b_m = np.tile(b_m, (6, 1))
         np.testing.assert_almost_equal(
-            substrate_concentration_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m),
+            substrate_concentration_MichaelisMenten_Abebe2017(
+                S, V_max, K_m, b_m
+            ),
             v,
             decimal=7,
         )
@@ -363,7 +386,9 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         b_m = np.reshape(b_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
         np.testing.assert_almost_equal(
-            substrate_concentration_MichaelisMenten_Abebe2017(S, V_max, K_m, b_m),
+            substrate_concentration_MichaelisMenten_Abebe2017(
+                S, V_max, K_m, b_m
+            ),
             v,
             decimal=7,
         )
@@ -382,7 +407,9 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition nan support.
             V_max = np.array(case)
             K_m = np.array(case)
             b_m = np.array(case)
-            substrate_concentration_MichaelisMenten_Abebe2017(s, V_max, K_m, b_m)
+            substrate_concentration_MichaelisMenten_Abebe2017(
+                s, V_max, K_m, b_m
+            )
 
 
 if __name__ == "__main__":

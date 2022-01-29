@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.cie_lab` module.
 """
@@ -11,7 +10,7 @@ from colour.models import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -93,15 +92,21 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_Lab(self):
         """
@@ -204,15 +209,21 @@ class TestLab_to_XYZ(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7
+        )
 
         Lab = np.reshape(Lab, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7
+        )
 
     def test_domain_range_scale_Lab_to_XYZ(self):
         """

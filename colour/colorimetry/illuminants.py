@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Illuminants
 ===========
@@ -45,7 +44,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tsplit
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -132,14 +131,14 @@ def sd_CIE_standard_illuminant_A(
         100
         * (560 / wavelengths) ** 5
         * (
-            (
-                (np.exp((1.435 * 10 ** 7) / (2848 * 560)) - 1)
-                / (np.exp((1.435 * 10 ** 7) / (2848 * wavelengths)) - 1)
-            )
+            (np.exp((1.435 * 10 ** 7) / (2848 * 560)) - 1)
+            / (np.exp((1.435 * 10 ** 7) / (2848 * wavelengths)) - 1)
         )
     )
 
-    return SpectralDistribution(values, wavelengths, name="CIE Standard Illuminant A")
+    return SpectralDistribution(
+        values, wavelengths, name="CIE Standard Illuminant A"
+    )
 
 
 def sd_CIE_illuminant_D_series(
@@ -317,7 +316,7 @@ def sd_CIE_illuminant_D_series(
     return SpectralDistribution(
         distribution,
         S0.wavelengths,
-        name="CIE xy ({0}, {1}) - CIE Illuminant D Series".format(*xy),
+        name="CIE xy ({}, {}) - CIE Illuminant D Series".format(*xy),
         interpolator=LinearInterpolator,
     )
 

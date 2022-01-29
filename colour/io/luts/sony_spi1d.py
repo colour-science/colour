@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Sony .spi1d LUT Format Input / Output Utilities
 ===============================================
@@ -25,7 +24,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -198,9 +197,8 @@ def write_LUT_SonySPI1D(
 
     if isinstance(LUT, LUTSequence):
         usage_warning(
-            '"LUT" is a "LUTSequence" instance was passed, '
-            'using first sequence "LUT":\n'
-            "{0}".format(LUT)
+            f'"LUT" is a "LUTSequence" instance was passed, using first '
+            f'sequence "LUT":\n{LUT}'
         )
         LUTxD = LUT[0]
     else:
@@ -232,24 +230,26 @@ def write_LUT_SonySPI1D(
     with open(path, "w") as spi1d_file:
         spi1d_file.write("Version 1\n")
 
-        spi1d_file.write("From {1:0.{0}f} {2:0.{0}f}\n".format(decimals, *domain))
-
         spi1d_file.write(
-            "Length {0}\n".format(LUTxD.table.size if is_1D else LUTxD.table.shape[0])
+            "From {1:0.{0}f} {2:0.{0}f}\n".format(decimals, *domain)
         )
 
-        spi1d_file.write("Components {0}\n".format(1 if is_1D else 3))
+        spi1d_file.write(
+            f"Length {LUTxD.table.size if is_1D else LUTxD.table.shape[0]}\n"
+        )
+
+        spi1d_file.write(f"Components {1 if is_1D else 3}\n")
 
         spi1d_file.write("{\n")
         for row in LUTxD.table:
             if is_1D:
                 spi1d_file.write(" {1:0.{0}f}\n".format(decimals, row))
             else:
-                spi1d_file.write("{0}\n".format(_format_array(row)))
+                spi1d_file.write(f"{_format_array(row)}\n")
         spi1d_file.write("}\n")
 
         if LUTxD.comments:
             for comment in LUTxD.comments:
-                spi1d_file.write("# {0}\n".format(comment))
+                spi1d_file.write(f"# {comment}\n")
 
     return True

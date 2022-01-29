@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Nayatani (1995) Colour Appearance Model
 =======================================
@@ -41,7 +40,7 @@ from colour.hints import (
 )
 from colour.models import XYZ_to_xy
 from colour.utilities import (
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -51,7 +50,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -90,7 +89,7 @@ responses matrix.
 
 
 @dataclass
-class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArray):
+class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArithmetic):
     """
     Defines the *Nayatani (1995)* colour appearance model reference
     specification.
@@ -136,7 +135,7 @@ class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_Nayatani95(MixinDataclassArray):
+class CAM_Specification_Nayatani95(MixinDataclassArithmetic):
     """
     Defines the *Nayatani (1995)* colour appearance model specification.
 
@@ -273,7 +272,9 @@ H=None, HC=None, L_star_N=50.0039154...)
     xi, eta, _zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
-    RGB_o = ((Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)) * xez
+    RGB_o = (
+        (Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)
+    ) * xez
 
     # Computing stimulus cone responses.
     RGB = XYZ_to_RGB_Nayatani95(XYZ)
@@ -301,21 +302,27 @@ H=None, HC=None, L_star_N=50.0039154...)
     B_r = brightness_correlate(bRGB_o, bL_or, Q_response)
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
-    brightness_ideal_white = ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)
+    brightness_ideal_white = ideal_white_brightness_correlate(
+        bRGB_o, xez, bL_or, n
+    )
 
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\\star`.
     L_star_P = achromatic_lightness_correlate(Q_response)
 
     # Computing the correlate of normalised achromatic *Lightness*
     # :math:`L_n^\\star`.
-    L_star_N = normalised_achromatic_lightness_correlate(B_r, brightness_ideal_white)
+    L_star_N = normalised_achromatic_lightness_correlate(
+        B_r, brightness_ideal_white
+    )
 
     # Computing the *hue* angle :math:`\\theta`.
     theta = hue_angle(p_response, t_response)
     # TODO: Implement hue quadrature & composition computation.
 
     # Computing the correlate of *saturation* :math:`S`.
-    S_RG, S_YB = tsplit(saturation_components(theta, bL_or, t_response, p_response))
+    S_RG, S_YB = tsplit(
+        saturation_components(theta, bL_or, t_response, p_response)
+    )
     S = saturation_correlate(S_RG, S_YB)
 
     # Computing the correlate of *chroma* :math:`C`.
@@ -734,7 +741,9 @@ def normalised_achromatic_lightness_correlate(
     return as_float(100 * (B_r / B_rw))
 
 
-def hue_angle(p: FloatingOrArrayLike, t: FloatingOrArrayLike) -> FloatingOrNDArray:
+def hue_angle(
+    p: FloatingOrArrayLike, t: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *hue* angle :math:`h` in degrees.
 

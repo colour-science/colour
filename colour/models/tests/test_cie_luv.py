@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.cie_luv` module.
 """
@@ -20,7 +19,7 @@ from colour.models import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -106,15 +105,21 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Luv = np.tile(Luv, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         Luv = np.reshape(Luv, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_Luv(XYZ, illuminant), Luv, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_Luv(self):
         """
@@ -217,15 +222,21 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
         Luv = np.tile(Luv, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7
+        )
 
         Luv = np.reshape(Luv, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            Luv_to_XYZ(Luv, illuminant), XYZ, decimal=7
+        )
 
     def test_domain_range_scale_Luv_to_XYZ(self):
         """
@@ -328,15 +339,21 @@ class TestLuv_to_uv(unittest.TestCase):
 
         Luv = np.tile(Luv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(Luv_to_uv(Luv, illuminant), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            Luv_to_uv(Luv, illuminant), uv, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(Luv_to_uv(Luv, illuminant), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            Luv_to_uv(Luv, illuminant), uv, decimal=7
+        )
 
         Luv = np.reshape(Luv, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(Luv_to_uv(Luv, illuminant), uv, decimal=7)
+        np.testing.assert_almost_equal(
+            Luv_to_uv(Luv, illuminant), uv, decimal=7
+        )
 
     def test_domain_range_scale_Luv_to_uv(self):
         """
@@ -443,15 +460,21 @@ class Testuv_to_Luv(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         Luv = np.tile(Luv, (6, 1))
-        np.testing.assert_almost_equal(uv_to_Luv(uv, illuminant), Luv, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_Luv(uv, illuminant), Luv, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(uv_to_Luv(uv, illuminant), Luv, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_Luv(uv, illuminant), Luv, decimal=7
+        )
 
         uv = np.reshape(uv, (2, 3, 2))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         Luv = np.reshape(Luv, (2, 3, 3))
-        np.testing.assert_almost_equal(uv_to_Luv(uv, illuminant), Luv, decimal=7)
+        np.testing.assert_almost_equal(
+            uv_to_Luv(uv, illuminant), Luv, decimal=7
+        )
 
     def test_domain_range_scale_uv_to_Luv(self):
         """

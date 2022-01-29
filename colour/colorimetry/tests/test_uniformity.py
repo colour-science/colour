@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.colorimetry.uniformity` module.
 """
@@ -12,7 +11,7 @@ from colour.colorimetry import spectral_uniformity
 from colour.hints import NDArray
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -245,7 +244,9 @@ class TestSpectralUniformity(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            spectral_uniformity(SDS_TCS.values(), use_second_order_derivatives=True),
+            spectral_uniformity(
+                SDS_TCS.values(), use_second_order_derivatives=True
+            ),
             DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES,
             decimal=7,
         )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations.
 """
@@ -12,11 +11,8 @@ message_box("Cyan-Magenta-Yellow (Black) (CMY(K)) Colour Transformations")
 
 RGB = np.array([0.45620519, 0.03081071, 0.04091952])
 message_box(
-    (
-        'Converting to "CMY" colourspace from given "RGB" colourspace '
-        "values:\n"
-        "\n\t{0}".format(RGB)
-    )
+    f'Converting to the "CMY" colourspace from given "RGB" colourspace '
+    f"values:\n\n\t{RGB}"
 )
 print(colour.RGB_to_CMY(RGB))
 
@@ -24,22 +20,16 @@ print("\n")
 
 CMY = np.array([0.54379481, 0.96918929, 0.95908048])
 message_box(
-    (
-        'Converting to "RGB" colourspace from given "CMY" colourspace '
-        "values:\n"
-        "\n\t{0}".format(CMY)
-    )
+    f'Converting to the "RGB" colourspace from given "CMY" colourspace '
+    f"values:\n\n\t{CMY}"
 )
 print(colour.CMY_to_RGB(CMY))
 
 print("\n")
 
 message_box(
-    (
-        'Converting to "CMYK" colourspace from given "CMY" colourspace '
-        "values:\n"
-        "\n\t{0}".format(CMY)
-    )
+    f'Converting to the "CMYK" colourspace from given "CMY" colourspace '
+    f"values:\n\n\t{CMY}"
 )
 print(colour.CMY_to_CMYK(CMY))
 
@@ -47,10 +37,7 @@ print("\n")
 
 CMYK = np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
 message_box(
-    (
-        'Converting to "CMY" colourspace from given "CMYK" colourspace '
-        "values:\n"
-        "\n\t{0}".format(CMYK)
-    )
+    f'Converting to the "CMY" colourspace from given "CMYK" colourspace '
+    f"values:\n\n\t{CMYK}"
 )
 print(colour.CMYK_to_CMY(CMYK))

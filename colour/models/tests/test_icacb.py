@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.hunter_rdab` module.
 """
@@ -11,7 +10,7 @@ from colour.models import XYZ_to_ICaCb, ICaCb_to_XYZ
 from colour.utilities import ignore_numpy_errors, domain_range_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -130,7 +129,9 @@ class TestICaCb_to_XYZ(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            ICaCb_to_XYZ(np.array([1702.0656419, 14738.00583456, 1239.66837927])),
+            ICaCb_to_XYZ(
+                np.array([1702.0656419, 14738.00583456, 1239.66837927])
+            ),
             np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7,
         )

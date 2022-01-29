@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 IES TM-27-14 Data Input / Output
 ================================
@@ -45,7 +44,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -175,8 +174,12 @@ class Header_IESTM2714:
             **{
                 "element": "Header",
                 "elements": (
-                    Element_Specification_IESTM2714("Manufacturer", "manufacturer"),
-                    Element_Specification_IESTM2714("CatalogNumber", "catalog_number"),
+                    Element_Specification_IESTM2714(
+                        "Manufacturer", "manufacturer"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "CatalogNumber", "catalog_number"
+                    ),
                     Element_Specification_IESTM2714(
                         "Description", "description", required=True
                     ),
@@ -189,15 +192,23 @@ class Header_IESTM2714:
                     Element_Specification_IESTM2714(
                         "MeasurementEquipment", "measurement_equipment"
                     ),
-                    Element_Specification_IESTM2714("Laboratory", "laboratory"),
-                    Element_Specification_IESTM2714("ReportNumber", "report_number"),
-                    Element_Specification_IESTM2714("ReportDate", "report_date"),
+                    Element_Specification_IESTM2714(
+                        "Laboratory", "laboratory"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "ReportNumber", "report_number"
+                    ),
+                    Element_Specification_IESTM2714(
+                        "ReportDate", "report_date"
+                    ),
                     Element_Specification_IESTM2714(
                         "DocumentCreationDate",
                         "document_creation_date",
                         required=True,
                     ),
-                    Element_Specification_IESTM2714("Comments", "comments", False),
+                    Element_Specification_IESTM2714(
+                        "Comments", "comments", False
+                    ),
                 ),
             }
         )
@@ -265,9 +276,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "manufacturer", value
-                ),
+                f'"manufacturer" property: "{value}" type is not "str"!',
             )
 
         self._manufacturer = value
@@ -299,9 +308,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "catalog_number", value
-                ),
+                f'"catalog_number" property: "{value}" type is not "str"!',
             )
 
         self._catalog_number = value
@@ -333,7 +340,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("description", value),
+                f'"description" property: "{value}" type is not "str"!',
             )
 
         self._description = value
@@ -365,9 +372,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "document_creator", value
-                ),
+                f'"document_creator" property: "{value}" type is not "str"!',
             )
 
         self._document_creator = value
@@ -399,9 +404,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "unique_identifier", value
-                ),
+                f'"unique_identifier" property: "{value}" type is not "str"!',
             )
 
         self._unique_identifier = value
@@ -433,9 +436,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "measurement_equipment", value
-                ),
+                f'"measurement_equipment" property: "{value}" type is not "str"!',
             )
 
         self._measurement_equipment = value
@@ -467,7 +468,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("laboratory", value),
+                f'"laboratory" property: "{value}" type is not "str"!',
             )
 
         self._laboratory = value
@@ -499,9 +500,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "report_number", value
-                ),
+                f'"report_number" property: "{value}" type is not "str"!',
             )
 
         self._report_number = value
@@ -533,7 +532,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("report_date", value),
+                f'"report_date" property: "{value}" type is not "str"!',
             )
 
         self._report_date = value
@@ -565,9 +564,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "document_creation_date", value
-                ),
+                f'"document_creation_date" property: "{value}" type is not "str"!',
             )
 
         self._document_creation_date = value
@@ -599,7 +596,7 @@ class Header_IESTM2714:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("comments", value),
+                f'"comments" property: "{value}" type is not "str"!',
             )
 
         self._comments = value
@@ -639,16 +636,16 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         If both ``data`` and ``domain`` arguments are defined, the latter will
         be used to initialise the
         :attr:`colour.SpectralDistribution.wavelength` property.
-    name
-        Spectral distribution name.
-    interpolator
-        Interpolator class type to use as interpolating function.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function.
     extrapolator
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function.
+    interpolator
+        Interpolator class type to use as interpolating function.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function.
+    name
+        Spectral distribution name.
     strict_name
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.
@@ -756,10 +753,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         ] = None,
         bandwidth_FWHM: Optional[Floating] = None,
         bandwidth_corrected: Optional[Boolean] = None,
-        **kwargs
+        **kwargs,
     ):
 
-        super(SpectralDistribution_IESTM2714, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         self._mapping: Structure = Structure(
             **{
@@ -782,8 +779,12 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     Element_Specification_IESTM2714(
                         "BandwidthCorrected",
                         "bandwidth_corrected",
-                        read_conversion=(lambda x: True if x == "true" else False),
-                        write_conversion=(lambda x: "true" if x is True else "False"),
+                        read_conversion=(
+                            lambda x: True if x == "true" else False
+                        ),
+                        write_conversion=(
+                            lambda x: "true" if x is True else "False"
+                        ),
                     ),
                 ),
                 "data": Element_Specification_IESTM2714(
@@ -879,7 +880,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format("path", value),
+                f'"path" property: "{value}" type is not "str"!',
             )
 
         self._path = value
@@ -910,9 +911,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         attest(
             isinstance(value, Header_IESTM2714),
-            '"{0}" property: "{1}" type is not a "Header_IESTM2714"!'.format(
-                "header", value
-            ),
+            f'"header" property: "{value}" type is not a "Header_IESTM2714"!',
         )
 
         self._header = value
@@ -979,9 +978,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "spectral_quantity", value
-                ),
+                f'"spectral_quantity" property: "{value}" type is not "str"!',
             )
 
         self._spectral_quantity = value
@@ -1048,9 +1045,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "reflection_geometry", value
-                ),
+                f'"reflection_geometry" property: "{value}" type is not "str"!',
             )
 
         self._reflection_geometry = value
@@ -1058,7 +1053,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @property
     def transmission_geometry(
         self,
-    ) -> Optional[Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]]:
+    ) -> Optional[
+        Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
+    ]:
         """
         Getter and setter property for the transmission geometry.
 
@@ -1078,7 +1075,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     @transmission_geometry.setter
     def transmission_geometry(
         self,
-        value: Optional[Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]],
+        value: Optional[
+            Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
+        ],
     ):
         """
         Setter for the **self.transmission_geometry** property.
@@ -1087,9 +1086,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "transmission_geometry", value
-                ),
+                f'"transmission_geometry" property: "{value}" type is not "str"!',
             )
 
         self._transmission_geometry = value
@@ -1121,9 +1118,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" property: "{1}" is not a "numeric"!'.format(
-                    "bandwidth_FWHM", value
-                ),
+                f'"bandwidth_FWHM" property: "{value}" is not a "numeric"!',
             )
 
             value = as_float_scalar(value)
@@ -1158,9 +1153,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 isinstance(value, bool),
-                '"{0}" property: "{1}" type is not "bool"!'.format(
-                    "bandwidth_corrected", value
-                ),
+                f'"bandwidth_corrected" property: "{value}" type is not "bool"!',
             )
 
         self._bandwidth_corrected = value
@@ -1226,9 +1219,11 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             wavelengths = []
             values = []
             for spectral_data in iterator(
-                "{{{0}}}{1}".format(namespace, self.mapping.data.element)
+                f"{{{namespace}}}{self.mapping.data.element}"
             ):
-                wavelengths.append(spectral_data.attrib[self.mapping.data.attribute])
+                wavelengths.append(
+                    spectral_data.attrib[self.mapping.data.attribute]
+                )
                 values.append(spectral_data.text)
 
             components = [
@@ -1240,7 +1235,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 )
                 if component is not None
             ]
-            self.name = "Undefined" if len(components) == 0 else " - ".join(components)
+            self.name = (
+                "Undefined" if len(components) == 0 else " - ".join(components)
+            )
 
             self.wavelengths = as_float_array(wavelengths)
             self.values = as_float_array(cast(ArrayLike, values))
@@ -1303,10 +1300,14 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 )
                 element_child.text = mapping.data.write_conversion(value)
                 element_child.attrib = {
-                    mapping.data.attribute: mapping.data.write_conversion(wavelength)
+                    mapping.data.attribute: mapping.data.write_conversion(
+                        wavelength
+                    )
                 }
 
-            xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()  # nosec
+            xml = minidom.parseString(
+                ElementTree.tostring(root)
+            ).toprettyxml()  # nosec
 
             with open(self._path, "w") as file:
                 file.write(xml)

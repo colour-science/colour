@@ -4,6 +4,11 @@ repos:
     hooks:
     -   id: flake8
         exclude: examples|setup\.py
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v2.31.0
+    hooks:
+    -   id: pyupgrade
+        args: [--py38-plus]
 -   repo: https://github.com/psf/black
     rev: stable
     hooks:

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 References
 ----------
@@ -72,14 +71,16 @@ __all__ += [
     "write_LUT_Cinespace",
 ]
 
-EXTENSION_TO_LUT_FORMAT_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        ".cube": "Iridas Cube",
-        ".spi1d": "Sony SPI1D",
-        ".spi3d": "Sony SPI3D",
-        ".spimtx": "Sony SPImtx",
-        ".csp": "Cinespace",
-    }
+EXTENSION_TO_LUT_FORMAT_MAPPING: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            ".cube": "Iridas Cube",
+            ".spi1d": "Sony SPI1D",
+            ".spi3d": "Sony SPI3D",
+            ".spimtx": "Sony SPImtx",
+            ".csp": "Cinespace",
+        }
+    )
 )
 """
 Extension to *LUT* format.
@@ -209,7 +210,9 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
 
     method = cast(
         str,
-        optional(method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]),
+        optional(
+            method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+        ),
     )
 
     method = validate_method(method, LUT_READ_METHODS)
@@ -330,7 +333,9 @@ def write_LUT(
 
     method = cast(
         str,
-        optional(method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]),
+        optional(
+            method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+        ),
     )
 
     method = validate_method(method, LUT_WRITE_METHODS)

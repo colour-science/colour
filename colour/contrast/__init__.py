@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 References
 ----------
@@ -76,33 +75,16 @@ def contrast_sensitivity_function(
     E
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Retinal illuminance :math:`E` in Trolands.
-    N_max
-        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
-        Maximum number of cycles :math:`N_{max}` over which the eye can
-        integrate the information.
-    T
-        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
-        Integration time :math:`T` in seconds of the eye.
-    X_0
-        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
-        Angular size :math:`X_0` in degrees of the object in the x direction.
-    Y_0
-        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
-        Angular size :math:`Y_0` in degrees of the object in the y direction.
-    X_max
-        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
-        Maximum angular size :math:`X_{max}` in degrees of the integration
-        area in the x direction.
-    Y_max
-        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
-        Maximum angular size :math:`Y_{max}` in degrees of the integration
-        area in the y direction.
     k
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Signal-to-noise (SNR) ratio :math:`k`.
     n
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Quantum efficiency of the eye :math:`n`.
+    N_max
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
+        Maximum number of cycles :math:`N_{max}` over which the eye can
+        integrate the information.
     p
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Photon conversion factor :math:`p` in
@@ -117,6 +99,9 @@ def contrast_sensitivity_function(
         Standard deviation :math:`\\sigma` of the line-spread function
         resulting from the convolution of the different elements of the
         convolution process.
+    T
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
+        Integration time :math:`T` in seconds of the eye.
     u
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Spatial frequency :math:`u`, the cycles per degree.
@@ -124,6 +109,20 @@ def contrast_sensitivity_function(
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Spatial frequency :math:`u_0` in :math:`cycles\\div degrees` above
         which the lateral inhibition ceases.
+    X_0
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
+        Angular size :math:`X_0` in degrees of the object in the x direction.
+    Y_0
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
+        Angular size :math:`Y_0` in degrees of the object in the y direction.
+    X_max
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
+        Maximum angular size :math:`X_{max}` in degrees of the integration
+        area in the x direction.
+    Y_max
+        {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
+        Maximum angular size :math:`Y_{max}` in degrees of the integration
+        area in the y direction.
 
     Returns
     -------

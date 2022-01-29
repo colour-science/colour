@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Cameras Sensitivities
 =====================
@@ -30,7 +29,7 @@ else:  # pragma: no cover
     Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -50,10 +49,10 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
     data
         Data to be stored in the multi-spectral distributions.
     domain
+        Values to initialise the multiple :class:`colour.SpectralDistribution`
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
-        Values to initialise the multiple :class:`colour.SpectralDistribution`
         :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
@@ -61,23 +60,24 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
 
     Other Parameters
     ----------------
-    name
-       Multi-spectral distributions name.
-    interpolator
-        Interpolator class type to use as interpolating function for the
-        :class:`colour.SpectralDistribution` class instances.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralDistribution` class instances.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
+    interpolator
+        Interpolator class type to use as interpolating function for the
+        :class:`colour.SpectralDistribution` class instances.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function
+        of the :class:`colour.SpectralDistribution` class instances.
+    name
+       Multi-spectral distributions name.
     strict_labels
         Multi-spectral distributions labels for figures, default to
-        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` property value.
+        :attr:`colour.colorimetry.RGB_CameraSensitivities.labels` property
+        value.
     """
 
     def __init__(
@@ -99,6 +99,6 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
         labels: Optional[Sequence] = None,
         **kwargs: Any
     ):
-        super(RGB_CameraSensitivities, self).__init__(
+        super().__init__(
             data, domain, labels=("red", "green", "blue"), **kwargs
         )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Nayatani (1995)* colour appearance model computations.
 """
@@ -17,12 +16,13 @@ Y_o = 20.0
 E_o = 5000.0
 E_or = 1000.0
 message_box(
-    (
-        'Converting to "Nayatani (1995)" colour appearance model '
-        "specification using given parameters:\n"
-        "\n\tXYZ: {0}\n\tXYZ_n: {1}\n\tY_o: {2}\n\tE_o: {3}"
-        "\n\tE_or: {4}".format(XYZ, XYZ_n, Y_o, E_o, E_or)
-    )
+    f'Converting to the "Nayatani (1995)" colour appearance model '
+    f"specification using given parameters:\n\n"
+    f"\tXYZ: {XYZ}\n"
+    f"\tXYZ_n: {XYZ_n}\n"
+    f"\tY_o: {Y_o}\n"
+    f"\tE_o: {E_o}\n"
+    f"\tE_or: {E_or}"
 )
 specification = colour.XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
 print(specification)
@@ -30,15 +30,13 @@ print(specification)
 print("\n")
 
 message_box(
-    (
-        'Broadcasting current output "Nayatani (1995)" colour appearance '
-        "model specification to reference specification.\n"
-        "The intent of this reference specification is to provide names "
-        'as closest as possible to "Mark D. Fairchild" reference.\n'
-        "The current output specification is meant to be consistent with "
-        "the other colour appearance model specification by using same "
-        "argument names for consistency wherever possible."
-    )
+    'Broadcasting the current output "Nayatani (1995)" colour appearance '
+    "model specification to the reference specification.\n"
+    "The intent of this reference specification is to provide names "
+    'as closest as possible to the "Mark D. Fairchild" reference.\n'
+    "The current output specification is meant to be consistent with "
+    "the other colour appearance model specification by using same "
+    "argument names for consistency wherever possible."
 )
 
-print(CAM_ReferenceSpecification_Nayatani95(*specification))
+print(CAM_ReferenceSpecification_Nayatani95(*specification.values))

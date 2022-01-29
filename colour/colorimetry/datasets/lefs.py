@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Distributions of the Luminous Efficiency Functions
 ===========================================================
@@ -51,7 +50,7 @@ from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping, LazyCaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -2356,29 +2355,39 @@ SDS_LEFS_PHOTOPIC: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
         ),
         "Judd Modified CIE 1951 Photopic Standard Observer": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC["Judd Modified CIE 1951 Photopic Standard Observer"],
+            DATA_LEFS_PHOTOPIC[
+                "Judd Modified CIE 1951 Photopic Standard Observer"
+            ],
             name="Judd Modified CIE 1951 Photopic Standard Observer",
         ),
         "Judd-Vos Modified CIE 1978 Photopic Standard Observer": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC["Judd-Vos Modified CIE 1978 Photopic Standard Observer"],
+            DATA_LEFS_PHOTOPIC[
+                "Judd-Vos Modified CIE 1978 Photopic Standard Observer"
+            ],
             name="Judd-Vos Modified CIE 1978 Photopic Standard Observer",
         ),
         "CIE 1964 Photopic 10 Degree Standard Observer": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC["CIE 1964 Photopic 10 Degree Standard Observer"],
+            DATA_LEFS_PHOTOPIC[
+                "CIE 1964 Photopic 10 Degree Standard Observer"
+            ],
             name="CIE 1964 Photopic 10 Degree Standard Observer",
             strict_name="CIE 1964 Photopic 10$^\\circ$ Standard Observer",
         ),
         "CIE 2008 2 Degree Physiologically Relevant LEF": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC["CIE 2008 2 Degree Physiologically Relevant LEF"],
+            DATA_LEFS_PHOTOPIC[
+                "CIE 2008 2 Degree Physiologically Relevant LEF"
+            ],
             name="CIE 2008 2 Degree Physiologically Relevant LEF",
             strict_name="CIE 2008 2$^\\circ$ Physiologically Relevant LEF",
         ),
         "CIE 2008 10 Degree Physiologically Relevant LEF": partial(
             SpectralDistribution,
-            DATA_LEFS_PHOTOPIC["CIE 2008 10 Degree Physiologically Relevant LEF"],
+            DATA_LEFS_PHOTOPIC[
+                "CIE 2008 10 Degree Physiologically Relevant LEF"
+            ],
             name="CIE 2008 10 Degree Physiologically Relevant LEF",
             strict_name="CIE 2008 10$^\\circ$ Physiologically Relevant LEF",
         ),
@@ -2829,9 +2838,13 @@ Aliases:
 
 -   'cie_1951': 'CIE 1951 Scotopic Standard Observer'
 """
-SDS_LEFS_SCOTOPIC["cie_1951"] = SDS_LEFS_SCOTOPIC["CIE 1951 Scotopic Standard Observer"]
+SDS_LEFS_SCOTOPIC["cie_1951"] = SDS_LEFS_SCOTOPIC[
+    "CIE 1951 Scotopic Standard Observer"
+]
 
-SDS_LEFS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(SDS_LEFS_PHOTOPIC)
+SDS_LEFS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    SDS_LEFS_PHOTOPIC
+)
 SDS_LEFS.__doc__ = """
 Spectral distributions of the luminous efficiency functions.
 

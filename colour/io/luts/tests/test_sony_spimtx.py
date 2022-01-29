@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.luts.sony_spimtx` module.
 """
@@ -14,7 +13,7 @@ import unittest
 from colour.io import read_LUT_SonySPImtx, write_LUT_SonySPImtx
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -61,7 +60,9 @@ class TestReadLUTSonySPImtx(unittest.TestCase):
         )
         self.assertEqual(LUT_1.name, "dt")
 
-        LUT_2 = read_LUT_SonySPImtx(os.path.join(LUTS_DIRECTORY, "p3_to_xyz16.spimtx"))
+        LUT_2 = read_LUT_SonySPImtx(
+            os.path.join(LUTS_DIRECTORY, "p3_to_xyz16.spimtx")
+        )
         np.testing.assert_almost_equal(
             LUT_2.matrix,
             np.array(
@@ -92,7 +93,9 @@ class TestReadLUTSonySPImtx(unittest.TestCase):
                 ]
             ),
         )
-        np.testing.assert_almost_equal(LUT_3.offset, np.array([0.0, 0.0, 1.0, 0.0]))
+        np.testing.assert_almost_equal(
+            LUT_3.offset, np.array([0.0, 0.0, 1.0, 0.0])
+        )
         self.assertEqual(LUT_3.name, "Matrix Offset")
 
 
@@ -122,7 +125,9 @@ class TestWriteLUTSonySPImtx(unittest.TestCase):
         definition.
         """
 
-        LUT_1_r = read_LUT_SonySPImtx(os.path.join(LUTS_DIRECTORY, "dt.spimtx"))
+        LUT_1_r = read_LUT_SonySPImtx(
+            os.path.join(LUTS_DIRECTORY, "dt.spimtx")
+        )
         write_LUT_SonySPImtx(
             LUT_1_r, os.path.join(self._temporary_directory, "dt.spimtx")
         )

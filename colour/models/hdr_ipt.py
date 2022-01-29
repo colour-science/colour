@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 hdr-IPT Colourspace
 ===================
@@ -63,7 +62,7 @@ from colour.utilities.documentation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -91,7 +90,9 @@ References
 def exponent_hdr_IPT(
     Y_s: FloatingOrArrayLike,
     Y_abs: FloatingOrArrayLike,
-    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+    method: Union[
+        Literal["Fairchild 2011", "Fairchild 2010"], str
+    ] = "Fairchild 2011",
 ) -> FloatingOrNDArray:
     """
     Computes *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
@@ -153,7 +154,9 @@ def XYZ_to_hdr_IPT(
     XYZ: ArrayLike,
     Y_s: FloatingOrArrayLike = 0.2,
     Y_abs: FloatingOrArrayLike = 100,
-    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+    method: Union[
+        Literal["Fairchild 2011", "Fairchild 2010"], str
+    ] = "Fairchild 2011",
 ) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *hdr-IPT* colourspace.
@@ -237,7 +240,9 @@ def hdr_IPT_to_XYZ(
     IPT_hdr: ArrayLike,
     Y_s: FloatingOrArrayLike = 0.2,
     Y_abs: FloatingOrArrayLike = 100,
-    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+    method: Union[
+        Literal["Fairchild 2011", "Fairchild 2010"], str
+    ] = "Fairchild 2011",
 ) -> NDArray:
     """
     Converts from *hdr-IPT* colourspace to *CIE XYZ* tristimulus values.

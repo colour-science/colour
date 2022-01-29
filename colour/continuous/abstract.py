@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Abstract Continuous Function
 ============================
@@ -44,7 +43,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -122,7 +121,7 @@ arithmetical_operation`
     """
 
     def __init__(self, name: Optional[str] = None):
-        self._name: str = "{0} ({1})".format(self.__class__.__name__, id(self))
+        self._name: str = f"{self.__class__.__name__} ({id(self)})"
         self.name = optional(name, self._name)
 
     @property
@@ -151,7 +150,7 @@ arithmetical_operation`
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+            f'"name" property: "{value}" type is not "str"!',
         )
 
         self._name = value
@@ -443,7 +442,9 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __getitem__(self, x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
+    def __getitem__(
+        self, x: Union[FloatingOrArrayLike, slice]
+    ) -> FloatingOrNDArray:
         """
         Returns the corresponding range variable :math:`y` for independent
         domain variable :math:`x`, must be reimplemented by sub-classes.
@@ -462,7 +463,9 @@ arithmetical_operation`
         ...  # pragma: no cover
 
     @abstractmethod
-    def __setitem__(self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike):
+    def __setitem__(
+        self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
+    ):
         """
         Sets the corresponding range variable :math:`y` for independent domain
         variable :math:`x`, must be reimplemented by sub-classes.
@@ -777,7 +780,9 @@ arithmetical_operation`
     @abstractmethod
     def fill_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ) -> AbstractContinuousFunction:
         """

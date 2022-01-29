@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE Illuminant D Series Correlated Colour Temperature
 =====================================================
@@ -38,7 +37,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -115,7 +114,10 @@ def xy_to_CCT_CIE_D(
     CCT = as_float_array(
         [
             minimize(
-                objective_function, x0=6500, args=(xy_i,), **optimisation_settings
+                objective_function,
+                x0=6500,
+                args=(xy_i,),
+                **optimisation_settings
             ).x
             for xy_i in as_float_array(xy)
         ]
@@ -159,10 +161,8 @@ def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 4000, CCT > 25000))]):
         usage_warning(
-            (
-                "Correlated colour temperature must be in domain "
-                "[4000, 25000], unpredictable results may occur!"
-            )
+            "Correlated colour temperature must be in domain "
+            "[4000, 25000], unpredictable results may occur!"
         )
 
     CCT_3 = CCT ** 3

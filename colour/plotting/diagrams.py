@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE Chromaticity Diagrams Plotting
 ==================================
@@ -80,7 +79,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -112,7 +111,7 @@ def plot_spectral_locus(
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Spectral Locus* according to given method.
@@ -155,7 +154,9 @@ def plot_spectral_locus(
         :alt: plot_spectral_locus
     """
 
-    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"])
+    method = validate_method(
+        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
 
     spectral_locus_colours = optional(
         spectral_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
@@ -166,7 +167,9 @@ def plot_spectral_locus(
 
     _figure, axes = artist(**settings)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
@@ -313,7 +316,9 @@ def plot_spectral_locus(
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = wavelengths[index] if index < len(wavelengths) else wavelengths[-1]
+        right = (
+            wavelengths[index] if index < len(wavelengths) else wavelengths[-1]
+        )
 
         dx = wl_ij[right][0] - wl_ij[left][0]
         dy = wl_ij[right][1] - wl_ij[left][1]
@@ -373,7 +378,7 @@ def plot_chromaticity_diagram_colours(
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Chromaticity Diagram* colours according to given method.
@@ -414,18 +419,24 @@ def plot_chromaticity_diagram_colours(
         :alt: plot_chromaticity_diagram_colours
     """
 
-    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"])
+    method = validate_method(
+        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
-    ii, jj = np.meshgrid(np.linspace(0, 1, samples), np.linspace(1, 0, samples))
+    ii, jj = np.meshgrid(
+        np.linspace(0, 1, samples), np.linspace(1, 0, samples)
+    )
     ij = tstack([ii, jj])
 
     # NOTE: Various values in the grid have potential to generate
@@ -440,12 +451,18 @@ def plot_chromaticity_diagram_colours(
             spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
         elif method == "cie 1976 ucs":
             XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
-            spectral_locus = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
+            spectral_locus = Luv_to_uv(
+                XYZ_to_Luv(cmfs.values, illuminant), illuminant
+            )
 
-    RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
+    RGB = normalise_maximum(
+        XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1
+    )
 
     polygon = Polygon(
-        spectral_locus if diagram_clipping_path is None else diagram_clipping_path,
+        spectral_locus
+        if diagram_clipping_path is None
+        else diagram_clipping_path,
         facecolor="none",
         edgecolor="none",
     )
@@ -479,7 +496,7 @@ def plot_chromaticity_diagram(
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Chromaticity Diagram* according to given method.
@@ -521,14 +538,18 @@ def plot_chromaticity_diagram(
         :alt: plot_chromaticity_diagram
     """
 
-    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"])
+    method = validate_method(
+        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     if show_diagram_colours:
         settings = {"axes": axes, "method": method}
@@ -556,7 +577,7 @@ def plot_chromaticity_diagram(
             "CIE v'",
         )
 
-    title = "{0} Chromaticity Diagram - {1}".format(method.upper(), cmfs.strict_name)
+    title = f"{method.upper()} Chromaticity Diagram - {cmfs.strict_name}"
 
     settings.update(
         {
@@ -582,7 +603,7 @@ def plot_chromaticity_diagram_CIE1931(
     ] = "CIE 1931 2 Degree Standard Observer",
     show_diagram_colours: Boolean = True,
     show_spectral_locus: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
@@ -638,7 +659,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
     ] = "CIE 1931 2 Degree Standard Observer",
     show_diagram_colours: Boolean = True,
     show_spectral_locus: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
@@ -694,7 +715,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
     ] = "CIE 1931 2 Degree Standard Observer",
     show_diagram_colours: Boolean = True,
     show_spectral_locus: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
@@ -758,7 +779,7 @@ def plot_sds_in_chromaticity_diagram(
     ] = "CIE 1931",
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -856,7 +877,9 @@ def plot_sds_in_chromaticity_diagram(
         :alt: plot_sds_in_chromaticity_diagram
     """
 
-    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"])
+    method = validate_method(
+        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
 
     sds_converted = sds_and_msds_to_sds(sds)
 
@@ -929,7 +952,7 @@ def plot_sds_in_chromaticity_diagram(
     plot_settings_collection = [
         {
             "color": CONSTANTS_COLOUR_STYLE.colour.brightest,
-            "label": "{0}".format(sd.strict_name),
+            "label": f"{sd.strict_name}",
             "marker": "o",
             "markeredgecolor": CONSTANTS_COLOUR_STYLE.colour.dark,
             "markeredgewidth": CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
@@ -961,7 +984,9 @@ def plot_sds_in_chromaticity_diagram(
         )
         illuminant = cast(
             SpectralDistribution,
-            first_item(filter_illuminants(plot_settings.pop("illuminant")).values()),
+            first_item(
+                filter_illuminants(plot_settings.pop("illuminant")).values()
+            ),
         )
         normalise_sd_colours = plot_settings.pop("normalise_sd_colours")
         use_sd_colours = plot_settings.pop("use_sd_colours")
@@ -973,7 +998,9 @@ def plot_sds_in_chromaticity_diagram(
             if normalise_sd_colours:
                 XYZ /= XYZ[..., 1]
 
-            plot_settings["color"] = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
+            plot_settings["color"] = np.clip(
+                XYZ_to_plotting_colourspace(XYZ), 0, 1
+            )
 
         ij = XYZ_to_ij(XYZ)
 
@@ -1007,7 +1034,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     ),
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -1099,7 +1126,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
         chromaticity_diagram_callable_CIE1931,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings
+        **settings,
     )
 
 
@@ -1119,7 +1146,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     ),
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -1212,7 +1239,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
         chromaticity_diagram_callable_CIE1960UCS,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings
+        **settings,
     )
 
 
@@ -1232,7 +1259,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     ),
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -1325,5 +1352,5 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
         chromaticity_diagram_callable_CIE1976UCS,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings
+        **settings,
     )

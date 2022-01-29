@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.quality.ssi` module.
 """
@@ -12,7 +11,7 @@ from colour.hints import Dict
 from colour.quality import spectral_similarity_index
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -569,7 +568,9 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
         """
 
         self.assertEqual(
-            spectral_similarity_index(SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"]),
+            spectral_similarity_index(
+                SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"]
+            ),
             94.0,
         )
         self.assertEqual(

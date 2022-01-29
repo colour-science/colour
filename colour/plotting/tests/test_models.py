@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.models` module.
 """
@@ -31,7 +30,7 @@ from colour.plotting.models import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -127,7 +126,9 @@ class TestPlotPointerGamut(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(ValueError, lambda: plot_pointer_gamut(method="Undefined"))
+        self.assertRaises(
+            ValueError, lambda: plot_pointer_gamut(method="Undefined")
+        )
 
 
 class TestPlotRGBColourspacesInChromaticityDiagram(unittest.TestCase):
@@ -191,7 +192,9 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931` definition.
         self.assertIsInstance(axes, Axes)
 
 
-class TestPlotRGBColourspacesInChromaticityDiagramCIE1960UCS(unittest.TestCase):
+class TestPlotRGBColourspacesInChromaticityDiagramCIE1960UCS(
+    unittest.TestCase
+):
     """
     Defines :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS` definition unit tests
@@ -204,7 +207,10 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS` definition unit tests
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
-        (figure, axes,) = plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
+        (
+            figure,
+            axes,
+        ) = plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
             ["ITU-R BT.709", "ACEScg", "S-Gamut"]
         )
 
@@ -212,7 +218,9 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS` definition.
         self.assertIsInstance(axes, Axes)
 
 
-class TestPlotRGBColourspacesInChromaticityDiagramCIE1976UCS(unittest.TestCase):
+class TestPlotRGBColourspacesInChromaticityDiagramCIE1976UCS(
+    unittest.TestCase
+):
     """
     Defines :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS` definition unit tests
@@ -225,7 +233,10 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS` definition unit tests
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS` definition.
         """
 
-        (figure, axes,) = plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
+        (
+            figure,
+            axes,
+        ) = plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
             ["ITU-R BT.709", "ACEScg", "S-Gamut"]
         )
 
@@ -274,7 +285,9 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931` definition.
         self.assertIsInstance(axes, Axes)
 
 
-class TestPlotRGBChromaticitiesInChromaticityDiagramCIE1960UCS(unittest.TestCase):
+class TestPlotRGBChromaticitiesInChromaticityDiagramCIE1960UCS(
+    unittest.TestCase
+):
     """
     Defines :func:`colour.plotting.models.\
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS` definition unit
@@ -287,7 +300,10 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS` definition unit
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
-        (figure, axes,) = plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
+        (
+            figure,
+            axes,
+        ) = plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
             np.random.random((128, 128, 3))
         )
 
@@ -295,7 +311,9 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS` definition.
         self.assertIsInstance(axes, Axes)
 
 
-class TestPlotRGBChromaticitiesInChromaticityDiagramCIE1976UCS(unittest.TestCase):
+class TestPlotRGBChromaticitiesInChromaticityDiagramCIE1976UCS(
+    unittest.TestCase
+):
     """
     Defines :func:`colour.plotting.models.\
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS` definition unit
@@ -308,7 +326,10 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS` definition unit
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS` definition.
         """
 
-        (figure, axes,) = plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
+        (
+            figure,
+            axes,
+        ) = plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
             np.random.random((128, 128, 3))
         )
 
@@ -329,7 +350,9 @@ class TestEllipsesMacAdam1942(unittest.TestCase):
 
         self.assertEqual(len(ellipses_MacAdam1942()), 25)
 
-        self.assertRaises(ValueError, lambda: ellipses_MacAdam1942(method="Undefined"))
+        self.assertRaises(
+            ValueError, lambda: ellipses_MacAdam1942(method="Undefined")
+        )
 
 
 class TestPlotEllipsesMacAdam1942InChromaticityDiagram(unittest.TestCase):
@@ -361,7 +384,9 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram` definition.
         self.assertIsInstance(axes, Axes)
 
 
-class TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1931(unittest.TestCase):
+class TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1931(
+    unittest.TestCase
+):
     """
     Defines :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931` definition unit
@@ -383,7 +408,9 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931` definition.
         self.assertIsInstance(axes, Axes)
 
 
-class TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1960UCS(unittest.TestCase):
+class TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1960UCS(
+    unittest.TestCase
+):
     """
     Defines :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS` definition unit
@@ -407,7 +434,9 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS` definition.
         self.assertIsInstance(axes, Axes)
 
 
-class TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1976UCS(unittest.TestCase):
+class TestPlotEllipsesMacAdam1942InChromaticityDiagramCIE1976UCS(
+    unittest.TestCase
+):
     """
     Defines :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS` definition unit

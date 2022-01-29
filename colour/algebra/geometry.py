@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Geometry
 ========
@@ -61,7 +60,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -138,7 +137,9 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
     451.7133019...
     """
 
-    return as_float(np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1))
+    return as_float(
+        np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
+    )
 
 
 def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
@@ -170,10 +171,14 @@ def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
     604.9396351...
     """
 
-    return as_float(np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1))
+    return as_float(
+        np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1)
+    )
 
 
-def extend_line_segment(a: ArrayLike, b: ArrayLike, distance: Floating = 1) -> NDArray:
+def extend_line_segment(
+    a: ArrayLike, b: ArrayLike, distance: Floating = 1
+) -> NDArray:
     """
     Extends the line segment defined by point arrays :math:`a` and :math:`b` by
     given distance and return the new end point.
@@ -326,11 +331,13 @@ def intersect_line_segments(
     r_1, c_1 = l_1.shape[0], l_1.shape[1]
     r_2, c_2 = l_2.shape[0], l_2.shape[1]
 
-    x_1, y_1, x_2, y_2 = [np.tile(l_1[:, i, np.newaxis], (1, r_2)) for i in range(c_1)]
+    x_1, y_1, x_2, y_2 = (
+        np.tile(l_1[:, i, np.newaxis], (1, r_2)) for i in range(c_1)
+    )
 
     l_2 = np.transpose(l_2)
 
-    x_3, y_3, x_4, y_4 = [np.tile(l_2[i, :], (r_1, 1)) for i in range(c_2)]
+    x_3, y_3, x_4, y_4 = (np.tile(l_2[i, :], (r_1, 1)) for i in range(c_2))
 
     x_4_x_3 = x_4 - x_3
     y_1_y_3 = y_1 - y_3
@@ -350,9 +357,13 @@ def intersect_line_segments(
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
     xy[~intersect] = np.nan
     parallel = denominator == 0
-    coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0, parallel))
+    coincident = np.logical_and.reduce(
+        (numerator_a == 0, numerator_b == 0, parallel)
+    )
 
-    return LineSegmentsIntersections_Specification(xy, intersect, parallel, coincident)
+    return LineSegmentsIntersections_Specification(
+        xy, intersect, parallel, coincident
+    )
 
 
 def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArray:
@@ -469,7 +480,9 @@ def ellipse_coefficients_canonical_form(coefficients: ArrayLike) -> NDArray:
     return np.array([x_c, y_c, a_a, a_b, theta])
 
 
-def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArray:
+def point_at_angle_on_ellipse(
+    phi: ArrayLike, coefficients: ArrayLike
+) -> NDArray:
     """
     Returns the coordinates of the point at angle :math:`\\phi` in degrees on
     the ellipse with given canonical form coefficients.

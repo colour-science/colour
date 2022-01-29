@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Rösch-MacAdam colour solid - Visible Spectrum Volume Computations
 =================================================================
@@ -49,7 +48,7 @@ from colour.volume import is_within_mesh_volume
 from colour.utilities import CACHE_REGISTRY, zeros, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -70,11 +69,11 @@ interval of 5.
 """
 
 _CACHE_OUTER_SURFACE_XYZ: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_OUTER_SURFACE_XYZ".format(__name__)
+    f"{__name__}._CACHE_OUTER_SURFACE_XYZ"
 )
 
 _CACHE_OUTER_SURFACE_XYZ_POINTS: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_OUTER_SURFACE_XYZ_POINTS".format(__name__)
+    f"{__name__}._CACHE_OUTER_SURFACE_XYZ_POINTS"
 )
 
 
@@ -220,9 +219,9 @@ def generate_pulse_waves(
     )
 
     square_waves = []
-    square_waves_basis = np.tril(np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE))[
-        0:-1, :
-    ]
+    square_waves_basis = np.tril(
+        np.ones((bins, bins), dtype=DEFAULT_FLOAT_DTYPE)
+    )[0:-1, :]
 
     if pulse_order.lower() == "bins":
         for square_wave_basis in square_waves_basis:
@@ -250,7 +249,7 @@ def XYZ_outer_surface(
     illuminant: Optional[SpectralDistribution] = None,
     point_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
     filter_jagged_points: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Generates the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
@@ -371,7 +370,9 @@ def XYZ_outer_surface(
             len(cmfs.wavelengths), point_order, filter_jagged_points
         )
         XYZ = (
-            msds_to_XYZ(pulse_waves, cmfs, illuminant, method="Integration", **settings)
+            msds_to_XYZ(
+                pulse_waves, cmfs, illuminant, method="Integration", **settings
+            )
             / 100
         )
 
@@ -388,7 +389,7 @@ def is_within_visible_spectrum(
     cmfs: Optional[MultiSpectralDistributions] = None,
     illuminant: Optional[SpectralDistribution] = None,
     tolerance: Optional[Floating] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Returns whether given *CIE XYZ* tristimulus values are within the visible

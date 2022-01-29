@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`\\Delta E^*_{ab}` - Delta E Colour Difference
 ====================================================
@@ -46,7 +45,7 @@ from colour.utilities.documentation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -351,7 +350,9 @@ def delta_E_CIE2000(
     delta_L_prime = L_2 - L_1
     delta_C_prime = c_2_prime - c_1_prime
     delta_H_prime = (
-        2 * np.sqrt(c_1_prime * c_2_prime) * np.sin(np.deg2rad(0.5 * delta_h_prime))
+        2
+        * np.sqrt(c_1_prime * c_2_prime)
+        * np.sin(np.deg2rad(0.5 * delta_h_prime))
     )
 
     s_L = 1 + (
@@ -361,7 +362,9 @@ def delta_E_CIE2000(
     s_C = 1 + 0.045 * c_bar_prime
     s_H = 1 + 0.015 * c_bar_prime * t
 
-    delta_theta = 30 * np.exp(-((h_bar_prime - 275) / 25) * ((h_bar_prime - 275) / 25))
+    delta_theta = 30 * np.exp(
+        -((h_bar_prime - 275) / 25) * ((h_bar_prime - 275) / 25)
+    )
 
     c_bar_prime7 = c_bar_prime ** 7
 

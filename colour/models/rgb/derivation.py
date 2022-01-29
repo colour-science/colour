@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 RGB Colourspace Derivation
 ==========================
@@ -42,7 +41,7 @@ from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import as_float, as_float_array, ones, tsplit
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -85,7 +84,9 @@ def xy_to_z(xy: ArrayLike) -> Floating:
     return z
 
 
-def normalised_primary_matrix(primaries: ArrayLike, whitepoint: ArrayLike) -> NDArray:
+def normalised_primary_matrix(
+    primaries: ArrayLike, whitepoint: ArrayLike
+) -> NDArray:
     """
     Computes the *Normalised Primary Matrix* (NPM) converting a *RGB*
     colourspace array to *CIE XYZ* tristimulus values using given *primaries*
@@ -269,7 +270,7 @@ def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
     'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 
-    return "Y = {0}(R) + {1}(G) + {2}(B)".format(
+    return "Y = {}(R) + {}(G) + {}(B)".format(
         *np.ravel(normalised_primary_matrix(primaries, whitepoint))[3:6]
     )
 
@@ -304,6 +305,8 @@ def RGB_luminance(
     0.1230145...
     """
 
-    Y = np.sum(normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
+    Y = np.sum(
+        normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1
+    )
 
     return as_float(Y)

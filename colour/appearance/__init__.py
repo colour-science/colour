@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .hunt import (
     InductionFactors_Hunt,
     VIEWING_CONDITIONS_HUNT,

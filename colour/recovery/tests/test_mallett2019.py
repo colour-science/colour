@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.recovery.mallett2019` module.
 """
@@ -30,7 +29,7 @@ from colour.recovery import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -59,7 +58,9 @@ class TestMixinMallett2019:
             SpectralShape(360, 780, 10),
         )
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+            "D65"
+        ]
 
     def check_basis_functions(self):
         """
@@ -94,13 +95,15 @@ class TestMixinMallett2019:
             )
 
             recovered_sd = RGB_to_sd_Mallett2019(RGB, self._basis)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
+            recovered_XYZ = (
+                sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
+            )
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
             if error > 4 * JND_CIE1976 / 100:  # pragma: no cover
-                self.fail('Delta E for "{0}" is {1}!'.format(name, error))
+                self.fail(f'Delta E for "{name}" is {error}!')
 
 
 class TestSpectralPrimaryDecompositionMallett2019(

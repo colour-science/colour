@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Luminous Efficiency Functions Spectral Distributions
 ====================================================
@@ -33,7 +32,7 @@ from colour.hints import (
 from colour.utilities import closest, optional, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -109,12 +108,15 @@ def mesopic_weighting_function(
     source = validate_method(
         source,
         ["Blue Heavy", "Red Heavy"],
-        '"{0}" light source colour temperature is invalid, ' "it must be one of {1}!",
+        '"{0}" light source colour temperature is invalid, '
+        "it must be one of {1}!",
     )
     method = validate_method(method, ["MOVE", "LRC"])
 
     mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
-    index = mesopic_x_luminance_values.index(closest(mesopic_x_luminance_values, L_p))
+    index = mesopic_x_luminance_values.index(
+        closest(mesopic_x_luminance_values, L_p)
+    )
     x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 
     V_m = (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
@@ -598,7 +600,7 @@ def sd_mesopic_luminous_efficiency_function(
             wavelengths, L_p, source, method, photopic_lef, scotopic_lef
         ),
         wavelengths,
-        name="{0} Lp Mesopic Luminous Efficiency Function".format(L_p),
+        name=f"{L_p} Lp Mesopic Luminous Efficiency Function",
     )
 
     return sd.normalise()

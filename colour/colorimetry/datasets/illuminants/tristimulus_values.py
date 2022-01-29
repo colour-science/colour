@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE XYZ Tristimulus Values of Illuminants
 =========================================
@@ -38,7 +37,7 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -117,5 +116,9 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-TVS_ILLUMINANTS["cie_2_1931"] = TVS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]
-TVS_ILLUMINANTS["cie_10_1964"] = TVS_ILLUMINANTS["CIE 1964 10 Degree Standard Observer"]
+TVS_ILLUMINANTS["cie_2_1931"] = TVS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+]
+TVS_ILLUMINANTS["cie_10_1964"] = TVS_ILLUMINANTS[
+    "CIE 1964 10 Degree Standard Observer"
+]

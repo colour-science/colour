@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
 ====================================================================
@@ -40,7 +39,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -58,9 +57,9 @@ __all__ = [
 
 def XYZ_to_xyY(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
 ) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
@@ -307,9 +306,9 @@ def xy_to_xyY(xy: ArrayLike, Y: Floating = 1) -> NDArray:
 
 def XYZ_to_xy(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
 ) -> NDArray:
     """
     Returns the *CIE xy* chromaticity coordinates from given *CIE XYZ*

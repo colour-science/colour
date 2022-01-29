@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.colorimetry.photometry` module.
 """
@@ -15,7 +14,7 @@ from colour.colorimetry import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -83,7 +82,9 @@ class TestLuminousEfficiency(unittest.TestCase):
         )
 
         self.assertAlmostEqual(
-            luminous_efficiency(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
+            luminous_efficiency(
+                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
+            ),
             0.51080919,
             places=7,
         )

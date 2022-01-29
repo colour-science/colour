@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
@@ -25,7 +24,7 @@ from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 from colour.utilities import CACHE_REGISTRY, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -36,11 +35,13 @@ __all__ = [
 ]
 
 _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ".format(__name__)
+    f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ"
 )
 
-_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS".format(__name__)
+_CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = (
+    CACHE_REGISTRY.register_cache(
+        f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS"
+    )
 )
 
 
@@ -72,10 +73,8 @@ def _XYZ_optimal_colour_stimuli(
 
     if optimal_colour_stimuli is None:
         raise KeyError(
-            '"{0}" not found in factory '
-            '"Optimal Colour Stimuli": "{1}".'.format(
-                illuminant, sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())
-            )
+            f'"{illuminant}" not found in factory "Optimal Colour Stimuli": '
+            f'"{sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())}".'
         )
 
     vertices = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ.get(illuminant)
@@ -131,7 +130,9 @@ def is_within_macadam_limits(
     """
 
     optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
-    triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(illuminant)
+    triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(
+        illuminant
+    )
 
     if triangulation is None:
         _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[

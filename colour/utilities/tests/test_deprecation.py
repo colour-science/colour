@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.utilities.deprecation` module.
 """
@@ -25,7 +24,7 @@ from colour.utilities.deprecation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -180,8 +179,12 @@ class TestObjectFutureAccessChange(unittest.TestCase):
 ObjectFutureAccessChange.__str__` method.
         """
 
-        self.assertIn("name", str(ObjectFutureAccessChange("name", "new_access")))
-        self.assertIn("new_access", str(ObjectFutureAccessChange("name", "new_access")))
+        self.assertIn(
+            "name", str(ObjectFutureAccessChange("name", "new_access"))
+        )
+        self.assertIn(
+            "new_access", str(ObjectFutureAccessChange("name", "new_access"))
+        )
 
 
 class TestObjectFutureAccessRemove(unittest.TestCase):
@@ -290,7 +293,9 @@ ArgumentFutureRename.__str__` method.
         """
 
         self.assertIn("name", str(ArgumentFutureRename("name", "new_name")))
-        self.assertIn("new_name", str(ArgumentFutureRename("name", "new_name")))
+        self.assertIn(
+            "new_name", str(ArgumentFutureRename("name", "new_name"))
+        )
 
 
 class TestArgumentFutureRemove(unittest.TestCase):
@@ -403,14 +408,20 @@ class TestGetAttribute(unittest.TestCase):
 
         from colour.utilities.array import as_float
 
-        self.assertIs(get_attribute("colour.utilities.array.as_float"), as_float)
+        self.assertIs(
+            get_attribute("colour.utilities.array.as_float"), as_float
+        )
 
         if "colour.utilities.tests.test_deprecated" in sys.modules:
             del sys.modules["colour.utilities.tests.test_deprecated"]
-        attribute = get_attribute("colour.utilities.tests.test_deprecated.NEW_NAME")
+        attribute = get_attribute(
+            "colour.utilities.tests.test_deprecated.NEW_NAME"
+        )
         import colour.utilities.tests.test_deprecated
 
-        self.assertIs(attribute, colour.utilities.tests.test_deprecated.NEW_NAME)
+        self.assertIs(
+            attribute, colour.utilities.tests.test_deprecated.NEW_NAME
+        )
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
 

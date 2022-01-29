@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Gamut Section Plotting
 ======================
@@ -72,7 +71,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -134,7 +133,7 @@ def plot_hull_section_colours(
     section_opacity: Floating = 1,
     convert_kwargs: Optional[Dict] = None,
     samples: Integer = 256,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the section colours of given *trimesh* hull along given axis and
@@ -214,7 +213,9 @@ def plot_hull_section_colours(
 
     section_colours = cast(
         ArrayLike,
-        optional(section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)),
+        optional(
+            section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
+        ),
     )
 
     convert_kwargs = optional(convert_kwargs, {})
@@ -225,7 +226,9 @@ def plot_hull_section_colours(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
+            model
+        ]
 
     hull.vertices = ijk_vertices
 
@@ -239,7 +242,9 @@ def plot_hull_section_colours(
 
     section = hull_section(hull, axis, origin, normalise)
 
-    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(
+        COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+    )
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -253,21 +258,27 @@ def plot_hull_section_colours(
             np.linspace(max_y, min_y, samples),
         )
         ij = tstack([ii, jj])
-        ijk_section = full((samples, samples, 3), np.median(section[..., index_origin]))
+        ijk_section = full(
+            (samples, samples, 3), np.median(section[..., index_origin])
+        )
         ijk_section[..., plane] = ij
-        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
+            model
+        ]
         XYZ_section = convert(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
             "CIE XYZ",
-            **convert_kwargs
+            **convert_kwargs,
         )
         RGB_section = XYZ_to_plotting_colourspace(XYZ_section)
     else:
         section_colours = np.hstack([section_colours, section_opacity])
 
     facecolor = "none" if is_section_colours_RGB else section_colours
-    polygon = Polygon(section[..., plane], facecolor=facecolor, edgecolor="none")
+    polygon = Polygon(
+        section[..., plane], facecolor=facecolor, edgecolor="none"
+    )
     axes.add_patch(polygon)
     if is_section_colours_RGB:
         image = axes.imshow(
@@ -327,7 +338,7 @@ def plot_hull_section_contour(
     contour_colours: Optional[Union[ArrayLike, str]] = None,
     contour_opacity: Floating = 1,
     convert_kwargs: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the section contour of given *trimesh* hull along given axis and
@@ -410,13 +421,17 @@ def plot_hull_section_contour(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[
+            model
+        ]
 
     hull.vertices = ijk_vertices
 
     plane = AXIS_TO_PLANE_MAPPING[axis]
 
-    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(
+        COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+    )
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -433,9 +448,11 @@ def plot_hull_section_contour(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
             "CIE XYZ",
-            **convert_kwargs
+            **convert_kwargs,
         )
-        contour_colours = np.clip(XYZ_to_plotting_colourspace(XYZ_section), 0, 1)
+        contour_colours = np.clip(
+            XYZ_to_plotting_colourspace(XYZ_section), 0, 1
+        )
 
     section = section[..., plane].reshape(-1, 1, 2)
     line_collection = LineCollection(
@@ -497,7 +514,7 @@ def plot_visible_spectrum_section(
     normalise: Boolean = True,
     show_section_colours: Boolean = True,
     show_section_contour: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the visible spectrum volume, i.e. *Rösch-MacAdam* colour solid,
@@ -585,19 +602,24 @@ def plot_visible_spectrum_section(
         settings.update(kwargs)
         settings["standalone"] = False
 
-        plot_hull_section_colours(hull, model, axis, origin, normalise, **settings)
+        plot_hull_section_colours(
+            hull, model, axis, origin, normalise, **settings
+        )
 
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
         settings["standalone"] = False
 
-        plot_hull_section_contour(hull, model, axis, origin, normalise, **settings)
+        plot_hull_section_contour(
+            hull, model, axis, origin, normalise, **settings
+        )
 
-    title = "Visible Spectrum Section - {0} - {1} - {2}".format(
-        "{0}%".format(origin * 100) if normalise else origin,
-        model,
-        cmfs.strict_name,
+    title = (
+        f"Visible Spectrum Section - "
+        f"{f'{origin * 100}%' if normalise else origin} - "
+        f"{model} - "
+        f"{cmfs.strict_name}"
     )
 
     plane = AXIS_TO_PLANE_MAPPING[axis]
@@ -624,7 +646,9 @@ def plot_visible_spectrum_section(
 @required("trimesh")
 @override_style()
 def plot_RGB_colourspace_section(
-    colourspace: Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]],
+    colourspace: Union[
+        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
+    ],
     model: Union[
         Literal[
             "CAM02LCD",
@@ -659,7 +683,7 @@ def plot_RGB_colourspace_section(
     normalise: Boolean = True,
     show_section_colours: Boolean = True,
     show_section_contour: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspace section colours along given axis and origin.
@@ -738,19 +762,23 @@ def plot_RGB_colourspace_section(
         settings.update(kwargs)
         settings["standalone"] = False
 
-        plot_hull_section_colours(hull, model, axis, origin, normalise, **settings)
+        plot_hull_section_colours(
+            hull, model, axis, origin, normalise, **settings
+        )
 
     if show_section_contour:
         settings = {"axes": axes}
         settings.update(kwargs)
         settings["standalone"] = False
 
-        plot_hull_section_contour(hull, model, axis, origin, normalise, **settings)
+        plot_hull_section_contour(
+            hull, model, axis, origin, normalise, **settings
+        )
 
-    title = "{0} Section - {1} - {2}".format(
-        colourspace.name,
-        "{0}%".format(origin * 100) if normalise else origin,
-        model,
+    title = (
+        f"{colourspace.name} Section - "
+        f"{f'{origin * 100}%' if normalise else origin} - "
+        f"{model}"
     )
 
     plane = AXIS_TO_PLANE_MAPPING[axis]

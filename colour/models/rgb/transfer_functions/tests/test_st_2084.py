@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.st_2084` module.
@@ -14,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -38,11 +37,17 @@ eotf_inverse_ST2084` definition unit tests methods.
 eotf_inverse_ST2084` definition.
         """
 
-        self.assertAlmostEqual(eotf_inverse_ST2084(0.0), 0.000000730955903, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_ST2084(0.0), 0.000000730955903, places=7
+        )
 
-        self.assertAlmostEqual(eotf_inverse_ST2084(100), 0.508078421517399, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_ST2084(100), 0.508078421517399, places=7
+        )
 
-        self.assertAlmostEqual(eotf_inverse_ST2084(400), 0.652578597563067, places=7)
+        self.assertAlmostEqual(
+            eotf_inverse_ST2084(400), 0.652578597563067, places=7
+        )
 
         self.assertAlmostEqual(eotf_inverse_ST2084(5000, 5000), 1.0, places=7)
 
@@ -90,7 +95,9 @@ eotf_inverse_ST2084` definition domain and range scale support.
 eotf_inverse_ST2084` definition nan support.
         """
 
-        eotf_inverse_ST2084(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_inverse_ST2084(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestEotf_ST2084(unittest.TestCase):

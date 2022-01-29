@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Multi-Spectral Distributions of the Colour Matching Functions
 =============================================================
@@ -75,7 +74,7 @@ from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -3208,7 +3207,9 @@ DATA_CMFS_STANDARD_OBSERVER: Dict = {
     },
 }
 
-MSDS_CMFS_STANDARD_OBSERVER: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+MSDS_CMFS_STANDARD_OBSERVER: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
     {
         "CIE 1931 2 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
@@ -3218,7 +3219,9 @@ MSDS_CMFS_STANDARD_OBSERVER: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveM
         ),
         "CIE 1964 10 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
-            DATA_CMFS_STANDARD_OBSERVER["CIE 1964 10 Degree Standard Observer"],
+            DATA_CMFS_STANDARD_OBSERVER[
+                "CIE 1964 10 Degree Standard Observer"
+            ],
             name="CIE 1964 10 Degree Standard Observer",
             strict_name="CIE 1964 10$^\\circ$ Standard Observer",
         ),
@@ -3230,7 +3233,9 @@ MSDS_CMFS_STANDARD_OBSERVER: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveM
         ),
         "CIE 2012 10 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
-            DATA_CMFS_STANDARD_OBSERVER["CIE 2012 10 Degree Standard Observer"],
+            DATA_CMFS_STANDARD_OBSERVER[
+                "CIE 2012 10 Degree Standard Observer"
+            ],
             name="CIE 2012 10 Degree Standard Observer",
             strict_name="CIE 2012 10$^\\circ$ Standard Observer",
         ),

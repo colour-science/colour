@@ -1,5 +1,4 @@
 # !/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.appearance.ciecam02` module.
 """
@@ -23,7 +22,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -68,7 +67,9 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
         L_A = 31.83
         np.testing.assert_allclose(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
-            np.array([65.96, 48.57, 19.6, 52.25, 152.67, 41.67, 399.6, np.nan]),
+            np.array(
+                [65.96, 48.57, 19.6, 52.25, 152.67, 41.67, 399.6, np.nan]
+            ),
             rtol=0.01,
             atol=0.01,
         )
@@ -78,7 +79,9 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
         L_A = 318.31
         np.testing.assert_allclose(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
-            np.array([21.79, 46.94, 177.1, 58.79, 141.17, 48.8, 220.4, np.nan]),
+            np.array(
+                [21.79, 46.94, 177.1, 58.79, 141.17, 48.8, 220.4, np.nan]
+            ),
             rtol=0.01,
             atol=0.01,
         )
@@ -87,7 +90,9 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
         L_A = 31.83
         np.testing.assert_allclose(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
-            np.array([42.53, 51.92, 248.9, 60.22, 122.83, 44.54, 305.8, np.nan]),
+            np.array(
+                [42.53, 51.92, 248.9, 60.22, 122.83, 44.54, 305.8, np.nan]
+            ),
             rtol=0.01,
             atol=0.01,
         )
@@ -399,7 +404,9 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
         self.assertRaises(
             ValueError,
             CIECAM02_to_XYZ,
-            CAM_Specification_CIECAM02(41.731091132513917, None, 219.04843265831178),
+            CAM_Specification_CIECAM02(
+                41.731091132513917, None, 219.04843265831178
+            ),
             np.array([95.05, 100.00, 108.88]),
             318.31,
             20.0,

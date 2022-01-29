@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ZCAM Colour Appearance Model
 ============================
@@ -51,7 +50,7 @@ from colour.hints import (
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     as_int_array,
@@ -67,7 +66,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -112,9 +111,15 @@ class InductionFactors_ZCAM(
 
 VIEWING_CONDITIONS_ZCAM: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
-        "Average": InductionFactors_ZCAM(0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]),
-        "Dim": InductionFactors_ZCAM(0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"]),
-        "Dark": InductionFactors_ZCAM(0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"]),
+        "Average": InductionFactors_ZCAM(
+            0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]
+        ),
+        "Dim": InductionFactors_ZCAM(
+            0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"]
+        ),
+        "Dark": InductionFactors_ZCAM(
+            0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"]
+        ),
     }
 )
 VIEWING_CONDITIONS_ZCAM.__doc__ = """
@@ -133,7 +138,7 @@ HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
 
 
 @dataclass
-class CAM_ReferenceSpecification_ZCAM(MixinDataclassArray):
+class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     """
     Defines the *ZCAM* colour appearance model reference specification.
 
@@ -184,7 +189,7 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_ZCAM(MixinDataclassArray):
+class CAM_Specification_ZCAM(MixinDataclassArithmetic):
     """
     Defines the *ZCAM* colour appearance model specification.
 
@@ -440,7 +445,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     )
 
     XYZ_D65 = chromatic_adaptation_Zhai2018(
-        XYZ, XYZ_w, TVS_D65, D, D, chromatic_adaptation_transform="CAT02"
+        XYZ, XYZ_w, TVS_D65, D, D, transform="CAT02"
     )
 
     # Step 1 (Forward) - Computing factors related with viewing conditions and
@@ -455,7 +460,9 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     # and yellowness-blueness (:math:`b_z`, :math:`b_{z,w}`).
     with domain_range_scale("ignore"):
         I_z, a_z, b_z = tsplit(XYZ_to_Izazbz(XYZ_D65, method="Safdar 2021"))
-        I_z_w, a_z_w, b_z_w = tsplit(XYZ_to_Izazbz(XYZ_w, method="Safdar 2021"))
+        I_z_w, a_z_w, b_z_w = tsplit(
+            XYZ_to_Izazbz(XYZ_w, method="Safdar 2021")
+        )
 
     # Step 3 (Forward) - Computing hue angle :math:`h_z`
     h_z = hue_angle(a_z, b_z)
@@ -478,7 +485,10 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     M_z = (
         100
         * (a_z ** 2 + b_z ** 2) ** 0.37
-        * ((spow(e_z, 0.068) * spow(F_L, 0.2)) / (F_b ** 0.1 * spow(I_z_w, 0.78)))
+        * (
+            (spow(e_z, 0.068) * spow(F_L, 0.2))
+            / (F_b ** 0.1 * spow(I_z_w, 0.78))
+        )
     )
 
     C_z = 100 * (M_z / Q_z_w)
@@ -636,7 +646,9 @@ def ZCAM_to_XYZ(
     array([ 185.,  206.,  163.])
     """
 
-    J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = astuple(specification)
+    J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = astuple(
+        specification
+    )
 
     J_z = to_domain_1(J_z)
     C_z = to_domain_1(C_z)
@@ -670,7 +682,9 @@ def ZCAM_to_XYZ(
     # redness-greenness (:math:`a_{z,w}`), and yellowness-blueness
     # (:math:`b_{z,w}`).
     with domain_range_scale("ignore"):
-        I_z_w, A_z_w, B_z_w = tsplit(XYZ_to_Izazbz(XYZ_w, method="Safdar 2021"))
+        I_z_w, A_z_w, B_z_w = tsplit(
+            XYZ_to_Izazbz(XYZ_w, method="Safdar 2021")
+        )
 
     # Step 1 (Inverse) - Computing achromatic response (:math:`I_z`).
     Q_z_p = (1.6 * F_s) / F_b ** 0.12
@@ -703,7 +717,8 @@ def ZCAM_to_XYZ(
     # C_z_p_e = 1.3514
     C_z_p_e = 50 / 37
     C_z_p = spow(
-        (M_z * spow(I_z_w, 0.78) * F_b ** 0.1) / (100 * e_z ** 0.068 * spow(F_L, 0.2)),
+        (M_z * spow(I_z_w, 0.78) * F_b ** 0.1)
+        / (100 * e_z ** 0.068 * spow(F_L, 0.2)),
         C_z_p_e,
     )
     a_z = C_z_p * np.cos(h_z_r)
@@ -714,7 +729,7 @@ def ZCAM_to_XYZ(
         XYZ_D65 = Izazbz_to_XYZ(tstack([I_z, a_z, b_z]), method="Safdar 2021")
 
     XYZ = chromatic_adaptation_Zhai2018(
-        XYZ_D65, TVS_D65, XYZ_w, D, D, chromatic_adaptation_transform="CAT02"
+        XYZ_D65, TVS_D65, XYZ_w, D, D, transform="CAT02"
     )
 
     return from_range_1(XYZ)
@@ -758,6 +773,8 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     h_ii1 = h_i[i + 1]
     e_ii1 = e_i[i + 1]
 
-    H = H_ii + ((100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
+    H = H_ii + (
+        (100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1)
+    )
 
     return as_float(H)

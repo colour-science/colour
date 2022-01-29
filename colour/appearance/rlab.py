@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 RLAB Colour Appearance Model
 ============================
@@ -45,7 +44,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -104,7 +103,9 @@ Aliases:
 """
 D_FACTOR_RLAB["hard_cp_img"] = D_FACTOR_RLAB["Hard Copy Images"]
 D_FACTOR_RLAB["soft_cp_img"] = D_FACTOR_RLAB["Soft Copy Images"]
-D_FACTOR_RLAB["projected_dark"] = D_FACTOR_RLAB["Projected Transparencies, Dark Room"]
+D_FACTOR_RLAB["projected_dark"] = D_FACTOR_RLAB[
+    "Projected Transparencies, Dark Room"
+]
 
 
 @dataclass
@@ -274,7 +275,9 @@ b=-52.6142956...)
     )
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
-    M = matrix_dot(matrix_dot(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE)
+    M = matrix_dot(
+        matrix_dot(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE
+    )
     XYZ_ref = vector_dot(M, XYZ)
 
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)

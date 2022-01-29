@@ -1,14 +1,11 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module.
 """
 
 import numpy as np
-import pickle
 import re
 import textwrap
 import unittest
-from copy import deepcopy
 from itertools import permutations
 
 from colour.models import (
@@ -23,169 +20,22 @@ from colour.models import (
     eotf_inverse_sRGB,
     eotf_sRGB,
 )
-from colour.utilities import as_int, domain_range_scale, ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "TestRGB_COLOURSPACES",
     "TestRGB_Colourspace",
     "TestXYZ_to_RGB",
     "TestRGB_to_XYZ",
     "TestMatrix_RGB_to_RGB",
     "TestRGB_to_RGB",
 ]
-
-
-class TestRGB_COLOURSPACES(unittest.TestCase):
-    """
-    Defines :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES`
-    attribute unit tests methods.
-    """
-
-    def test_transformation_matrices(self):
-        """
-        Tests the transformations matrices from the
-        :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
-        colourspace models.
-        """
-
-        tolerances = {
-            "Adobe RGB (1998)": 1e-5,
-            "ALEXA Wide Gamut": 1e-6,
-            "DJI D-Gamut": 1e-4,
-            "ERIMM RGB": 1e-3,
-            "ProPhoto RGB": 1e-3,
-            "REDWideGamutRGB": 1e-6,
-            "RIMM RGB": 1e-3,
-            "ROMM RGB": 1e-3,
-            "sRGB": 1e-4,
-            "V-Gamut": 1e-6,
-        }
-        XYZ_r = np.array([0.5, 0.5, 0.5]).reshape([3, 1])
-        for colourspace in RGB_COLOURSPACES.values():
-            M = normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
-
-            tolerance = tolerances.get(colourspace.name, 1e-7)
-            np.testing.assert_allclose(
-                colourspace.matrix_RGB_to_XYZ,
-                M,
-                rtol=tolerance,
-                atol=tolerance,
-                verbose=False,
-            )
-
-            RGB = np.dot(colourspace.matrix_XYZ_to_RGB, XYZ_r)
-            XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)
-            np.testing.assert_allclose(
-                XYZ_r, XYZ, rtol=tolerance, atol=tolerance, verbose=False
-            )
-
-            # Derived transformation matrices.
-            colourspace = deepcopy(colourspace)
-            colourspace.use_derived_transformation_matrices(True)
-            RGB = np.dot(colourspace.matrix_XYZ_to_RGB, XYZ_r)
-            XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)
-            np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
-
-    def test_cctf(self):
-        """
-        Tests colour component transfer functions from the
-        :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
-        colourspace models.
-        """
-
-        ignored_colourspaces = ("ACESproxy",)
-
-        decimals = {"DJI D-Gamut": 1, "F-Gamut": 4, "N-Gamut": 3}
-
-        samples = np.hstack(
-            [np.linspace(0, 1, as_int(1e5)), np.linspace(0, 65504, 65504 * 10)]
-        )
-
-        for colourspace in RGB_COLOURSPACES.values():
-            if colourspace.name in ignored_colourspaces:
-                continue
-
-            cctf_encoding_s = colourspace.cctf_encoding(samples)
-            cctf_decoding_s = colourspace.cctf_decoding(cctf_encoding_s)
-
-            np.testing.assert_almost_equal(
-                samples,
-                cctf_decoding_s,
-                decimal=decimals.get(colourspace.name, 7),
-            )
-
-    def test_n_dimensional_cctf(self):
-        """
-        Tests colour component transfer functions from the
-        :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
-        colourspace models n-dimensional arrays support.
-        """
-
-        decimals = {"DJI D-Gamut": 6, "F-Gamut": 4}
-
-        for colourspace in RGB_COLOURSPACES.values():
-            value_cctf_encoding = 0.5
-            value_cctf_decoding = colourspace.cctf_decoding(
-                colourspace.cctf_encoding(value_cctf_encoding)
-            )
-            np.testing.assert_almost_equal(
-                value_cctf_encoding,
-                value_cctf_decoding,
-                decimal=decimals.get(colourspace.name, 7),
-            )
-
-            value_cctf_encoding = np.tile(value_cctf_encoding, 6)
-            value_cctf_decoding = np.tile(value_cctf_decoding, 6)
-            np.testing.assert_almost_equal(
-                value_cctf_encoding,
-                value_cctf_decoding,
-                decimal=decimals.get(colourspace.name, 7),
-            )
-
-            value_cctf_encoding = np.reshape(value_cctf_encoding, (3, 2))
-            value_cctf_decoding = np.reshape(value_cctf_decoding, (3, 2))
-            np.testing.assert_almost_equal(
-                value_cctf_encoding,
-                value_cctf_decoding,
-                decimal=decimals.get(colourspace.name, 7),
-            )
-
-            value_cctf_encoding = np.reshape(value_cctf_encoding, (3, 2, 1))
-            value_cctf_decoding = np.reshape(value_cctf_decoding, (3, 2, 1))
-            np.testing.assert_almost_equal(
-                value_cctf_encoding,
-                value_cctf_decoding,
-                decimal=decimals.get(colourspace.name, 7),
-            )
-
-    @ignore_numpy_errors
-    def test_nan_cctf(self):
-        """
-        Tests colour component transfer functions from the
-        :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
-        colourspace models nan support.
-        """
-
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        for colourspace in RGB_COLOURSPACES.values():
-            for case in cases:
-                colourspace.cctf_encoding(case)
-                colourspace.cctf_decoding(case)
-
-    def test_pickle(self):
-        """
-        Tests the ability of colourspace models to be pickled.
-        """
-
-        for colourspace in RGB_COLOURSPACES:
-            pickle.dumps(colourspace)
 
 
 class TestRGB_Colourspace(unittest.TestCase):
@@ -406,14 +256,18 @@ chromatically_adapt` method.
 
         np.testing.assert_array_almost_equal(
             colourspace.matrix_RGB_to_XYZ,
-            normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint),
+            normalised_primary_matrix(
+                colourspace.primaries, colourspace.whitepoint
+            ),
             decimal=7,
         )
 
         np.testing.assert_array_almost_equal(
             colourspace.matrix_XYZ_to_RGB,
             np.linalg.inv(
-                normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
+                normalised_primary_matrix(
+                    colourspace.primaries, colourspace.whitepoint
+                )
             ),
             decimal=7,
         )
@@ -804,7 +658,9 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            matrix_RGB_to_RGB(aces_2065_1_colourspace, aces_cg_colourspace, "Bradford"),
+            matrix_RGB_to_RGB(
+                aces_2065_1_colourspace, aces_cg_colourspace, "Bradford"
+            ),
             np.array(
                 [
                     [1.45143932, -0.23651075, -0.21492857],
@@ -816,7 +672,9 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace, "Bradford"),
+            matrix_RGB_to_RGB(
+                aces_2065_1_colourspace, sRGB_colourspace, "Bradford"
+            ),
             np.array(
                 [
                     [2.52140089, -1.13399575, -0.38756186],

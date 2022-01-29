@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Distributions of Lenses
 ================================
@@ -31,7 +30,7 @@ from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -100,7 +99,9 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(SDS_LENSES_ISO)
+SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    SDS_LENSES_ISO
+)
 SDS_LENSES.__doc__ = """
 Spectral distributions of lenses.
 

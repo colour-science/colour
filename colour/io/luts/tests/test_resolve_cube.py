@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.luts.resolve_cube` module.
 """
@@ -14,7 +13,7 @@ import tempfile
 from colour.io import LUT1D, read_LUT_ResolveCube, write_LUT_ResolveCube
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -88,13 +87,17 @@ class TestReadLUTResolveCube(unittest.TestCase):
         )
         self.assertEqual(LUT_1.name, "ACES Proxy 10 to ACES")
         self.assertEqual(LUT_1.dimensions, 2)
-        np.testing.assert_array_equal(LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]]))
+        np.testing.assert_array_equal(
+            LUT_1.domain, np.array([[0, 0, 0], [1, 1, 1]])
+        )
         self.assertEqual(LUT_1.size, 32)
         self.assertListEqual(LUT_1.comments, [])
 
         LUT_2 = read_LUT_ResolveCube(os.path.join(LUTS_DIRECTORY, "Demo.cube"))
         self.assertListEqual(LUT_2.comments, ["Comments can't go anywhere"])
-        np.testing.assert_array_equal(LUT_2.domain, np.array([[0, 0, 0], [3, 3, 3]]))
+        np.testing.assert_array_equal(
+            LUT_2.domain, np.array([[0, 0, 0], [3, 3, 3]])
+        )
 
         LUT_3 = read_LUT_ResolveCube(
             os.path.join(LUTS_DIRECTORY, "Three_Dimensional_Table.cube")
@@ -102,7 +105,9 @@ class TestReadLUTResolveCube(unittest.TestCase):
         self.assertEqual(LUT_3.dimensions, 3)
         self.assertEqual(LUT_3.size, 2)
 
-        LUT_4 = read_LUT_ResolveCube(os.path.join(LUTS_DIRECTORY, "LogC_Video.cube"))
+        LUT_4 = read_LUT_ResolveCube(
+            os.path.join(LUTS_DIRECTORY, "LogC_Video.cube")
+        )
         np.testing.assert_almost_equal(
             LUT_4[0].table,
             np.array(
@@ -161,16 +166,22 @@ class TestWriteLUTResolveCube(unittest.TestCase):
 
         write_LUT_ResolveCube(
             LUT_1_r,
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            ),
         )
 
         LUT_1_t = read_LUT_ResolveCube(
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            )
         )
 
         self.assertEqual(LUT_1_r, LUT_1_t)
 
-        LUT_2_r = read_LUT_ResolveCube(os.path.join(LUTS_DIRECTORY, "Demo.cube"))
+        LUT_2_r = read_LUT_ResolveCube(
+            os.path.join(LUTS_DIRECTORY, "Demo.cube")
+        )
 
         write_LUT_ResolveCube(
             LUT_2_r, os.path.join(self._temporary_directory, "Demo.cube")
@@ -189,20 +200,28 @@ class TestWriteLUTResolveCube(unittest.TestCase):
 
         write_LUT_ResolveCube(
             LUT_3_r,
-            os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube"),
+            os.path.join(
+                self._temporary_directory, "Three_Dimensional_Table.cube"
+            ),
         )
 
         LUT_3_t = read_LUT_ResolveCube(
-            os.path.join(self._temporary_directory, "Three_Dimensional_Table.cube")
+            os.path.join(
+                self._temporary_directory, "Three_Dimensional_Table.cube"
+            )
         )
 
         self.assertEqual(LUT_3_r, LUT_3_t)
 
         LUT_4_r = read_LUT_ResolveCube(
-            os.path.join(LUTS_DIRECTORY, "Three_Dimensional_Table_With_Shaper.cube")
+            os.path.join(
+                LUTS_DIRECTORY, "Three_Dimensional_Table_With_Shaper.cube"
+            )
         )
 
-        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].as_LUT(LUT1D, force_conversion=True)
+        LUT_4_r.sequence[0] = LUT_4_r.sequence[0].as_LUT(
+            LUT1D, force_conversion=True
+        )
 
         write_LUT_ResolveCube(
             LUT_4_r,
@@ -220,7 +239,9 @@ class TestWriteLUTResolveCube(unittest.TestCase):
         )
 
         LUT_4_r = read_LUT_ResolveCube(
-            os.path.join(LUTS_DIRECTORY, "Three_Dimensional_Table_With_Shaper.cube")
+            os.path.join(
+                LUTS_DIRECTORY, "Three_Dimensional_Table_With_Shaper.cube"
+            )
         )
 
         self.assertEqual(LUT_4_r, LUT_4_t)
@@ -231,11 +252,15 @@ class TestWriteLUTResolveCube(unittest.TestCase):
 
         write_LUT_ResolveCube(
             LUT_5_r.as_LUT(LUT1D, force_conversion=True),
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            ),
         )
 
         LUT_5_t = read_LUT_ResolveCube(
-            os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube")
+            os.path.join(
+                self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"
+            )
         )
 
         self.assertEqual(LUT_5_r, LUT_5_t)

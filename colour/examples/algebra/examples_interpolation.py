@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases interpolation computations.
 """
@@ -14,10 +13,8 @@ from colour.utilities import message_box
 message_box("Interpolation Computations")
 
 message_box(
-    (
-        'Comparing "Sprague (1880)" and "Cubic Spline" recommended '
-        'interpolation methods to "Pchip" method.'
-    )
+    'Comparing the "Sprague (1880)" and "Cubic Spline" recommended '
+    'interpolation methods to the "Pchip" method.'
 )
 
 data_uniform = {
@@ -113,7 +110,9 @@ non_uniform_interpolated_sd.interpolate(
 shape = sd_base.shape
 x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 
-plt.plot(sd_base.wavelengths, sd_base.values, "ro-", label=sd_base.name, linewidth=1)
+plt.plot(
+    sd_base.wavelengths, sd_base.values, "ro-", label=sd_base.name, linewidth=1
+)
 plt.plot(
     uniform_interpolated_sd.wavelengths,
     uniform_interpolated_sd.values,
@@ -159,11 +158,9 @@ print("\n")
 
 V_xyz = np.random.random((6, 3))
 message_box(
-    (
-        'Performing "trilinear" interpolation of given "xyz" values:\n'
-        "\n{0}\n"
-        "\nusing given interpolation table.".format(V_xyz)
-    )
+    f'Performing "trilinear" interpolation of given "xyz" values:\n\n'
+    f"{V_xyz}\n\n"
+    f"using given interpolation table."
 )
 path = os.path.join(
     os.path.dirname(__file__),
@@ -183,11 +180,9 @@ print(colour.algebra.table_interpolation_trilinear(V_xyz, table))
 print("\n")
 
 message_box(
-    (
-        'Performing "tetrahedral" interpolation of given "xyz" values:\n'
-        "\n{0}\n"
-        "\nusing given interpolation table.".format(V_xyz)
-    )
+    f'Performing "tetrahedral" interpolation of given "xyz" values:\n\n'
+    f"{V_xyz}\n\n"
+    f"using given interpolation table."
 )
 print(colour.table_interpolation(V_xyz, table, method="Tetrahedral"))
 print(colour.algebra.table_interpolation_tetrahedral(V_xyz, table))

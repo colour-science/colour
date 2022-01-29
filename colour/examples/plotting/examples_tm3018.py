@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *ANSI/IES TM-30-18 Colour Rendition Report* plotting examples.
 """
@@ -21,7 +20,9 @@ plot_single_sd_colour_rendition_report(sd)
 
 print("\n")
 
-message_box('Plotting an intermediate "ANSI/IES TM-30-18 Colour Rendition Report".')
+message_box(
+    'Plotting an intermediate "ANSI/IES TM-30-18 Colour Rendition Report".'
+)
 plot_single_sd_colour_rendition_report(sd, "Intermediate")
 
 print("\n")

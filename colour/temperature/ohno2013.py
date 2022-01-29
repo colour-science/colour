@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Ohno (2013) Correlated Colour Temperature
 =========================================
@@ -41,7 +40,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -182,7 +181,9 @@ def planckian_table_minimal_distance_index(
     9
     """
 
-    return as_int_scalar(np.argmin(as_float_array([x.di for x in planckian_table_])))
+    return as_int_scalar(
+        np.argmin(as_float_array([x.di for x in planckian_table_]))
+    )
 
 
 def _uv_to_CCT_Ohno2013(
@@ -236,18 +237,14 @@ def _uv_to_CCT_Ohno2013(
         index = planckian_table_minimal_distance_index(table)
         if index == 0:
             runtime_warning(
-                (
-                    "Minimal distance index is on lowest planckian table bound, "
-                    "unpredictable results may occur!"
-                )
+                "Minimal distance index is on lowest planckian table bound, "
+                "unpredictable results may occur!"
             )
             index += 1
         elif index == len(table) - 1:
             runtime_warning(
-                (
-                    "Minimal distance index is on highest planckian table bound, "
-                    "unpredictable results may occur!"
-                )
+                "Minimal distance index is on highest planckian table bound, "
+                "unpredictable results may occur!"
             )
             index -= 1
 
@@ -275,7 +272,11 @@ def _uv_to_CCT_Ohno2013(
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
         b = (
-            -(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 * (di - dip))
+            -(
+                Tip ** 2 * (din - di)
+                + Ti ** 2 * (dip - din)
+                + Tin ** 2 * (di - dip)
+            )
             * X ** -1
         )
         c = (

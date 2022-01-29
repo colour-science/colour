@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Geometry / Hull Section
 =======================
@@ -31,7 +30,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -244,14 +243,16 @@ def hull_section(
     if normalise:
         vertices = hull.vertices * normal
         origin = as_float_scalar(
-            linear_conversion(origin, [0, 1], [np.min(vertices), np.max(vertices)])
+            linear_conversion(
+                origin, [0, 1], [np.min(vertices), np.max(vertices)]
+            )
         )
         plane[plane != 0] = origin
 
     section = trimesh.intersections.mesh_plane(hull, normal, plane)
     if len(section) == 0:
         raise ValueError(
-            'No section exists on "{0}" axis at {1} origin!'.format(axis, origin)
+            f'No section exists on "{axis}" axis at {origin} origin!'
         )
     section = close_chord(unique_vertices(edges_to_chord(section)))
 

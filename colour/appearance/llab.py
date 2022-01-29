@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`LLAB(l:c)` Colour Appearance Model
 =========================================
@@ -40,7 +39,7 @@ from colour.hints import (
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -50,7 +49,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -110,7 +109,9 @@ VIEWING_CONDITIONS_LLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "Television & VDU Displays, Dim Surround": (
             InductionFactors_LLAB(0.7, 3.5, 1, 1)
         ),
-        "Cut Sheet Transparency, Dim Surround": (InductionFactors_LLAB(1, 5, 1, 1.1)),
+        "Cut Sheet Transparency, Dim Surround": (
+            InductionFactors_LLAB(1, 5, 1, 1.1)
+        ),
         "35mm Projection Transparency, Dark Surround": (
             InductionFactors_LLAB(0.7, 4, 1, 1)
         ),
@@ -169,7 +170,7 @@ tristimulus values matrix.
 
 
 @dataclass
-class CAM_ReferenceSpecification_LLAB(MixinDataclassArray):
+class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
     """
     Defines the *:math:`LLAB(l:c)`* colour appearance model reference
     specification.
@@ -212,7 +213,7 @@ class CAM_ReferenceSpecification_LLAB(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_LLAB(MixinDataclassArray):
+class CAM_Specification_LLAB(MixinDataclassArithmetic):
     """
     Defines the *:math:`LLAB(l:c)`* colour appearance model specification.
 
@@ -563,7 +564,9 @@ def opponent_colour_dimensions(
     return Lab
 
 
-def hue_angle(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
+def hue_angle(
+    a: FloatingOrArrayLike, b: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *hue* angle :math:`h_L` in degrees.
 

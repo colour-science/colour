@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.utilities.common` module.
 """
@@ -28,7 +27,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -157,7 +156,9 @@ class TestCacheRegistry(unittest.TestCase):
 
         cache_registry = self._default_test_cache_registry()
         cache_registry.clear_all_caches()
-        self.assertDictEqual(cache_registry.registry, {"Cache A": {}, "Cache B": {}})
+        self.assertDictEqual(
+            cache_registry.registry, {"Cache A": {}, "Cache B": {}}
+        )
 
 
 class TestAttest(unittest.TestCase):
@@ -286,7 +287,7 @@ class TestIsString(unittest.TestCase):
         Tests :func:`colour.utilities.common.is_string` definition.
         """
 
-        self.assertTrue(is_string(str("Hello World!")))
+        self.assertTrue(is_string("Hello World!"))
 
         self.assertTrue(is_string("Hello World!"))
 
@@ -415,7 +416,9 @@ class TestFilterKwargs(unittest.TestCase):
 
         self.assertTupleEqual((1, 2), fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
 
-        self.assertTupleEqual((1, 2, 3), fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
+        self.assertTupleEqual(
+            (1, 2, 3), fn_c(1, **filter_kwargs(fn_c, b=2, c=3))
+        )
 
         self.assertDictEqual(filter_kwargs(partial(fn_c, b=1), b=1), {"b": 1})
 
@@ -520,7 +523,9 @@ class TestValidateMethod(unittest.TestCase):
         Tests :func:`colour.utilities.common.validate_method` definition.
         """
 
-        self.assertEqual(validate_method("Valid", ["Valid", "Yes", "Ok"]), "valid")
+        self.assertEqual(
+            validate_method("Valid", ["Valid", "Yes", "Ok"]), "valid"
+        )
 
     def test_raise_exception_validate_method(self):
         """

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Corresponding Chromaticities Prediction
 =======================================
@@ -32,6 +31,9 @@ References
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
     83-86). ISBN:978-0-470-66569-5
+-   :cite:`Zhai2018` : Zhai, Q., & Luo, M. R. (2018). Study of chromatic
+    adaptation via neutral white matches on different viewing media. Optics
+    Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
 from __future__ import annotations
@@ -44,12 +46,20 @@ from colour.adaptation import (
     chromatic_adaptation_CMCCAT2000,
     chromatic_adaptation_Fairchild1990,
     chromatic_adaptation_VonKries,
+    chromatic_adaptation_Zhai2018,
 )
 from colour.corresponding import (
     BRENEMAN_EXPERIMENTS,
     BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES,
 )
-from colour.hints import Any, Literal, Union, Tuple
+from colour.hints import (
+    Any,
+    ArrayLike,
+    FloatingOrArrayLike,
+    Literal,
+    Union,
+    Tuple,
+)
 from colour.models import (
     Luv_to_uv,
     Luv_uv_to_xy,
@@ -69,7 +79,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -83,6 +93,7 @@ __all__ = [
     "corresponding_chromaticities_prediction_CIE1994",
     "corresponding_chromaticities_prediction_CMCCAT2000",
     "corresponding_chromaticities_prediction_VonKries",
+    "corresponding_chromaticities_prediction_Zhai2018",
     "CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS",
     "corresponding_chromaticities_prediction",
 ]
@@ -226,8 +237,8 @@ def convert_experiment_results_Breneman1987(
     valid_experiment_results = [1, 2, 3, 4, 6, 8, 9, 11, 12]
     attest(
         experiment in valid_experiment_results,
-        '"Breneman (1987)" experiment result is invalid, '
-        'it must be one of "{0}"!'.format(valid_experiment_results),
+        f'"Breneman (1987)" experiment result is invalid, it must be one of '
+        f'"{valid_experiment_results}"!',
     )
 
     samples_luminance = [
@@ -247,7 +258,9 @@ def convert_experiment_results_Breneman1987(
 
     experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
     illuminant_chromaticities = experiment_results.pop(0)
-    Y_r = Y_t = as_float(BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y)
+    Y_r = Y_t = as_float(
+        BRENEMAN_EXPERIMENT_PRIMARIES_CHROMATICITIES[experiment].Y
+    )
     B_r = B_t = 0.3
 
     XYZ_t, XYZ_r = (
@@ -353,12 +366,10 @@ def corresponding_chromaticities_prediction_Fairchild1990(
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_r), xy_r)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 
@@ -423,16 +434,16 @@ def corresponding_chromaticities_prediction_CIE1994(
         E_o1, E_o2 = experiment_results.Y_t, experiment_results.Y_r
 
         XYZ_1 = experiment_results.XYZ_ct
-        XYZ_2 = chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_r, E_o1, E_o2)
+        XYZ_2 = chromatic_adaptation_CIE1994(
+            XYZ_1, xy_o1, xy_o2, Y_r, E_o1, E_o2
+        )
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_o2), xy_o2)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 
@@ -497,16 +508,16 @@ def corresponding_chromaticities_prediction_CMCCAT2000(
         L_A2 = experiment_results.Y_r
 
         XYZ_1 = experiment_results.XYZ_ct
-        XYZ_2 = chromatic_adaptation_CMCCAT2000(XYZ_1, XYZ_w, XYZ_wr, L_A1, L_A2)
+        XYZ_2 = chromatic_adaptation_CMCCAT2000(
+            XYZ_1, XYZ_w, XYZ_wr, L_A1, L_A2
+        )
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 
@@ -591,12 +602,101 @@ def corresponding_chromaticities_prediction_VonKries(
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
+        )
+
+
+def corresponding_chromaticities_prediction_Zhai2018(
+    experiment: Union[
+        Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
+    ] = 1,
+    D_b: FloatingOrArrayLike = 1,
+    D_d: FloatingOrArrayLike = 1,
+    XYZ_wo: ArrayLike = np.array([1, 1, 1]),
+    transform: Union[
+        Literal[
+            "CAT02",
+            "CAT16",
+        ],
+        str,
+    ] = "CAT02",
+) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
+    """
+    Returns the corresponding chromaticities prediction for
+    *Zhai and Luo (2018)* chromatic adaptation model using given transform.
+
+    Parameters
+    ----------
+    experiment
+        *Breneman (1987)* experiment number or
+        :class:`colour.CorrespondingColourDataset` class instance.
+    D_b
+        Degree of adaptation :math:`D_{\\beta}` of input illuminant
+        :math:`\\beta`.
+    D_d
+        Degree of adaptation :math:`D_{\\delta}` of output illuminant
+        :math:`\\delta`.
+    XYZ_wo
+        Baseline illuminant (:math:`BI`) :math:`o`.
+    transform
+        Chromatic adaptation transform.
+
+    Returns
+    -------
+    :class:`tuple`
+        Corresponding chromaticities prediction.
+
+    References
+    ----------
+    :cite:`Breneman1987b`, :cite:`Zhai2018`
+
+    Examples
+    --------
+    >>> from pprint import pprint
+    >>> pr = corresponding_chromaticities_prediction_Zhai2018(2)
+    >>> pr = [(p.uv_m, p.uv_p) for p in pr]
+    >>> pprint(pr)  # doctest: +ELLIPSIS
+    [(array([ 0.207,  0.486]), array([ 0.2082238...,  0.4727943...])),
+     (array([ 0.449,  0.511]), array([ 0.4474691...,  0.5076681...])),
+     (array([ 0.263,  0.505]), array([ 0.2640379...,  0.4954003...])),
+     (array([ 0.322,  0.545]), array([ 0.3336937...,  0.5435500...])),
+     (array([ 0.316,  0.537]), array([ 0.3238490...,  0.5359889...])),
+     (array([ 0.265,  0.553]), array([ 0.2724846...,  0.5506939...])),
+     (array([ 0.221,  0.538]), array([ 0.2267596...,  0.5295259...])),
+     (array([ 0.135,  0.532]), array([ 0.1443208...,  0.5190035...])),
+     (array([ 0.145,  0.472]), array([ 0.1500723...,  0.4561352...])),
+     (array([ 0.163,  0.331]), array([ 0.1570902...,  0.3245137...])),
+     (array([ 0.176,  0.431]), array([ 0.1763887...,  0.4146000...])),
+     (array([ 0.244,  0.349]), array([ 0.2267005...,  0.3551480...]))]
+    """
+
+    experiment_results = (
+        experiment
+        if isinstance(experiment, CorrespondingColourDataset)
+        else convert_experiment_results_Breneman1987(experiment)
+    )
+
+    with domain_range_scale("1"):
+        XYZ_w, XYZ_wr = experiment_results.XYZ_t, experiment_results.XYZ_r
+        xy_w, xy_wr = XYZ_to_xy([XYZ_w, XYZ_wr])
+
+        uv_t = Luv_to_uv(XYZ_to_Luv(experiment_results.XYZ_ct, xy_w), xy_w)
+        uv_m = Luv_to_uv(XYZ_to_Luv(experiment_results.XYZ_cr, xy_wr), xy_wr)
+
+        XYZ_1 = experiment_results.XYZ_ct
+        XYZ_2 = chromatic_adaptation_Zhai2018(
+            XYZ_1, XYZ_w, XYZ_wr, D_b, D_d, XYZ_wo, transform
+        )
+        uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
+
+        return tuple(
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 
@@ -606,6 +706,7 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping(
         "CMCCAT2000": corresponding_chromaticities_prediction_CMCCAT2000,
         "Fairchild 1990": corresponding_chromaticities_prediction_Fairchild1990,
         "Von Kries": corresponding_chromaticities_prediction_VonKries,
+        "Zhai 2018": corresponding_chromaticities_prediction_Zhai2018,
     }
 )
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.__doc__ = """
@@ -615,7 +716,7 @@ References
 ----------
 :cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
 :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
-:cite:`Westland2012k`
+:cite:`Westland2012k`, :cite:`Zhai2018`
 
 Aliases:
 
@@ -631,58 +732,81 @@ def corresponding_chromaticities_prediction(
         Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
     ] = 1,
     model: Union[
-        Literal["CIE 1994", "CMCCAT2000", "Fairchild 1990", "Von Kries"], str
+        Literal[
+            "CIE 1994",
+            "CMCCAT2000",
+            "Fairchild 1990",
+            "Von Kries",
+            "Zhai 2018",
+        ],
+        str,
     ] = "Von Kries",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for given chromatic
-    adaptation model.
+        Returns the corresponding chromaticities prediction for given chromatic
+        adaptation model.
 
-    Parameters
-    ----------
-    experiment
-        *Breneman (1987)* experiment number or
-        :class:`colour.CorrespondingColourDataset` class instance.
-    model
-        Chromatic adaptation model.
+        Parameters
+        ----------
+        experiment
+            *Breneman (1987)* experiment number or
+            :class:`colour.CorrespondingColourDataset` class instance.
+        model
+            Chromatic adaptation model.
 
-    Other Parameters
-    ----------------
-    transform
-        {:func:`colour.corresponding.\
-corresponding_chromaticities_prediction_VonKries`},
-        Chromatic adaptation transform.
+        Other Parameters
+        ----------------
+        D_b
+            {:func:`colour.corresponding.
+    corresponding_chromaticities_prediction_Zhai2018`},
+            Degree of adaptation :math:`D_{\\beta}` of input illuminant
+            :math:`\\beta`.
+        D_d
+            {:func:`colour.corresponding.
+    corresponding_chromaticities_prediction_Zhai2018`},
+            Degree of adaptation :math:`D_{\\delta}` of output illuminant
+            :math:`\\delta`.
+        transform
+            {:func:`colour.corresponding.
+    corresponding_chromaticities_prediction_VonKries`,
+            :func:`colour.corresponding.
+    corresponding_chromaticities_prediction_Zhai2018`},
+            Chromatic adaptation transform.
+        XYZ_wo
+            {:func:`colour.corresponding.
+    corresponding_chromaticities_prediction_Zhai2018`},
+            Baseline illuminant (:math:`BI`) :math:`o`.
 
-    Returns
-    -------
-    :class:`tuple`
-        Corresponding chromaticities prediction.
+        Returns
+        -------
+        :class:`tuple`
+            Corresponding chromaticities prediction.
 
-    References
-    ----------
-    :cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
-    :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
-    :cite:`Westland2012k`
+        References
+        ----------
+        :cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
+        :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
+        :cite:`Westland2012k`, :cite:`Zhai2018`
 
-    Examples
-    --------
-    >>> from pprint import pprint
-    >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
-    >>> pr = [(p.uv_m, p.uv_p) for p in pr]
-    >>> pprint(pr)  # doctest: +SKIP
-    [((0.207, 0.486), (0.2083210..., 0.4727168...)),
-     ((0.449, 0.511), (0.4459270..., 0.5077735...)),
-     ((0.263, 0.505), (0.2640262..., 0.4955361...)),
-     ((0.322, 0.545), (0.3316884..., 0.5431580...)),
-     ((0.316, 0.537), (0.3222624..., 0.5357624...)),
-     ((0.265, 0.553), (0.2710705..., 0.5501997...)),
-     ((0.221, 0.538), (0.2261826..., 0.5294740...)),
-     ((0.135, 0.532), (0.1439693..., 0.5190984...)),
-     ((0.145, 0.472), (0.1494835..., 0.4556760...)),
-     ((0.163, 0.331), (0.1563172..., 0.3164151...)),
-     ((0.176, 0.431), (0.1763199..., 0.4127589...)),
-     ((0.244, 0.349), (0.2287638..., 0.3499324...))]
+        Examples
+        --------
+        >>> from pprint import pprint
+        >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
+        >>> pr = [(p.uv_m, p.uv_p) for p in pr]
+        >>> pprint(pr)  # doctest: +SKIP
+        [((0.207, 0.486), (0.2083210..., 0.4727168...)),
+         ((0.449, 0.511), (0.4459270..., 0.5077735...)),
+         ((0.263, 0.505), (0.2640262..., 0.4955361...)),
+         ((0.322, 0.545), (0.3316884..., 0.5431580...)),
+         ((0.316, 0.537), (0.3222624..., 0.5357624...)),
+         ((0.265, 0.553), (0.2710705..., 0.5501997...)),
+         ((0.221, 0.538), (0.2261826..., 0.5294740...)),
+         ((0.135, 0.532), (0.1439693..., 0.5190984...)),
+         ((0.145, 0.472), (0.1494835..., 0.4556760...)),
+         ((0.163, 0.331), (0.1563172..., 0.3164151...)),
+         ((0.176, 0.431), (0.1763199..., 0.4127589...)),
+         ((0.244, 0.349), (0.2287638..., 0.3499324...))]
     """
 
     function = CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[model]

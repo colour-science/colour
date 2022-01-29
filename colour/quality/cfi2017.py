@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE 2017 Colour Fidelity Index
 ==============================
@@ -63,7 +62,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -88,13 +87,15 @@ Spectral shape for *CIE 2017 Colour Fidelity Index* (CFI)
 standard.
 """
 
-RESOURCES_DIRECTORY_CIE2017: str = os.path.join(os.path.dirname(__file__), "datasets")
+RESOURCES_DIRECTORY_CIE2017: str = os.path.join(
+    os.path.dirname(__file__), "datasets"
+)
 """
 *CIE 2017 Colour Fidelity Index* resources directory.
 """
 
 _CACHE_TCS_CIE2017: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_TCS_CIE2017".format(__name__)
+    f"{__name__}._CACHE_TCS_CIE2017"
 )
 
 
@@ -218,7 +219,9 @@ def colour_fidelity_index_CIE2017(
     # NOTE: All computations except CCT calculation use the
     # "CIE 1964 10 Degree Standard Observer".
     # pylint: disable=E1102
-    cmfs_10 = reshape_msds(MSDS_CMFS["CIE 1964 10 Degree Standard Observer"], shape)
+    cmfs_10 = reshape_msds(
+        MSDS_CMFS["CIE 1964 10 Degree Standard Observer"], shape
+    )
 
     # pylint: disable=E1102
     sds_tcs = reshape_msds(load_TCS_CIE2017(shape), shape)
@@ -287,7 +290,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
         "Spectral shape interval must be either 1nm or 5nm!",
     )
 
-    filename = "tcs_cfi2017_{0}_nm.csv.gz".format(as_int_scalar(interval))
+    filename = f"tcs_cfi2017_{as_int_scalar(interval)}_nm.csv.gz"
 
     if filename in _CACHE_TCS_CIE2017:
         return _CACHE_TCS_CIE2017[filename]
@@ -295,7 +298,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
     data = np.genfromtxt(
         str(os.path.join(RESOURCES_DIRECTORY_CIE2017, filename)), delimiter=","
     )
-    labels = ["TCS{0} (CIE 2017)".format(i) for i in range(99)]
+    labels = [f"TCS{i} (CIE 2017)" for i in range(99)]
 
     tcs = MultiSpectralDistributions(data[:, 1:], data[:, 0], labels)
 
@@ -405,8 +408,10 @@ def sd_reference_illuminant(
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
         values = linstep_function(m, sd_planckian.values, sd_daylight.values)
-        name = "{0}K Blackbody & CIE Illuminant D Series Mixture - {1:.1f}%".format(
-            as_int_scalar(CCT), as_float_scalar(100 * m)
+        name = (
+            f"{as_int_scalar(CCT)}K "
+            f"Blackbody & CIE Illuminant D Series Mixture - "
+            f"{as_float_scalar(100 * m):.1f}%"
         )
         sd_reference = SpectralDistribution(values, shape.range(), name=name)
     elif CCT > 5000:
@@ -459,7 +464,9 @@ def tcs_colorimetry_data(
         JMh = tstack([CAM.J, CAM.M, CAM.h])
         Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
 
-        tcs_data.append(TCS_ColorimetryData_CIE2017(sd_tcs.name, XYZ, CAM, JMh, Jpapbp))
+        tcs_data.append(
+            TCS_ColorimetryData_CIE2017(sd_tcs.name, XYZ, CAM, JMh, Jpapbp)
+        )
 
     return tuple(tcs_data)
 

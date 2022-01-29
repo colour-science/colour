@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.cie_uvw` module.
 """
@@ -11,7 +10,7 @@ from colour.models import UVW_to_XYZ, XYZ_to_UVW
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -91,15 +90,21 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         UVW = np.tile(UVW, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         UVW = np.reshape(UVW, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_UVW(self):
         """
@@ -202,15 +207,21 @@ class TestUVW_to_XYZ(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         UVW = np.tile(UVW, (6, 1))
-        np.testing.assert_almost_equal(UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         UVW = np.reshape(UVW, (2, 3, 3))
-        np.testing.assert_almost_equal(UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
+        np.testing.assert_almost_equal(
+            UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7
+        )
 
     def test_domain_range_scale_UVW_to_XYZ(self):
         """

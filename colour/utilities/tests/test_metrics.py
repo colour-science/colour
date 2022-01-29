@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.utilities.metrics` module.
 """
@@ -9,7 +8,7 @@ import unittest
 from colour.utilities import metric_mse, metric_psnr
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -36,10 +35,14 @@ class TestMetricMse(unittest.TestCase):
         self.assertEqual(metric_mse(a, a), 0)
 
         b = a * 0.9
-        self.assertAlmostEqual(metric_mse(a, b), 0.0012714955474297446, places=7)
+        self.assertAlmostEqual(
+            metric_mse(a, b), 0.0012714955474297446, places=7
+        )
 
         b = a * 1.1
-        self.assertAlmostEqual(metric_mse(a, b), 0.0012714955474297446, places=7)
+        self.assertAlmostEqual(
+            metric_mse(a, b), 0.0012714955474297446, places=7
+        )
 
 
 class TestMetricPsnr(unittest.TestCase):

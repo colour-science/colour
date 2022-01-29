@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Von Kries Chromatic Adaptation Model
 ====================================
@@ -30,7 +29,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -125,7 +124,8 @@ def matrix_chromatic_adaptation_VonKries(
     transform = validate_method(
         transform,
         CHROMATIC_ADAPTATION_TRANSFORMS,
-        '"{0}" chromatic adaptation transform is invalid, ' "it must be one of {1}!",
+        '"{0}" chromatic adaptation transform is invalid, '
+        "it must be one of {1}!",
     )
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from colour.utilities import is_matplotlib_installed
 
 is_matplotlib_installed(raise_exception=True)

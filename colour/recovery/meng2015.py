@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Meng et al. (2015) - Reflectance Recovery
 =========================================
@@ -32,7 +31,7 @@ from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -185,7 +184,9 @@ def XYZ_to_sd_Meng2015(
         """
 
         sd[:] = a
-        return sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
+        return (
+            sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
+        )
 
     wavelengths = sd.wavelengths
     bins = wavelengths.size
@@ -205,13 +206,12 @@ def XYZ_to_sd_Meng2015(
 
     if not result.success:
         raise RuntimeError(
-            'Optimization failed for {0} after {1} iterations: "{2}".'.format(
-                XYZ, result.nit, result.message
-            )
+            f"Optimization failed for {XYZ} after {result.nit} iterations: "
+            f'"{result.message}".'
         )
 
     return SpectralDistribution(
         from_range_100(result.x * 100),
         wavelengths,
-        name="{0} (XYZ) - Meng (2015)".format(XYZ),
+        name=f"{XYZ} (XYZ) - Meng (2015)",
     )

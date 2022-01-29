@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Academy Color Encoding System - Input Transform
 ===============================================
@@ -107,7 +106,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -258,7 +257,9 @@ def sd_to_aces_relative_exposure_values(
 
     if apply_chromatic_adaptation:
         xy = XYZ_to_xy(sd_to_XYZ(illuminant) / 100)
-        NPM = normalised_primary_matrix(RGB_COLOURSPACE_ACES2065_1.primaries, xy)
+        NPM = normalised_primary_matrix(
+            RGB_COLOURSPACE_ACES2065_1.primaries, xy
+        )
         XYZ = RGB_to_XYZ(
             E_rgb,
             xy,
@@ -384,7 +385,7 @@ def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
             CCT = i * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
             sd = sd_CIE_illuminant_D_series(xy)
-            sd.name = "D{0:d}".format(int(CCT / 100))
+            sd.name = f"D{int(CCT / 100):d}"
             illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
 
         # TODO: Remove when removing the "colour.sd_blackbody" definition
@@ -397,7 +398,9 @@ def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
 
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.
         sd = read_sds_from_csv_file(
-            os.path.join(RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv")
+            os.path.join(
+                RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv"
+            )
         )["iso7589"]
         illuminants.update({sd.name: sd})
 
@@ -445,7 +448,7 @@ def white_balance_multipliers(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -548,7 +551,7 @@ def normalise_illuminant(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -607,15 +610,13 @@ def training_data_sds_to_RGB(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{0}" training data shape to "{1}".'.format(
-                training_data.name, shape
-            )
+            f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)
@@ -623,7 +624,9 @@ def training_data_sds_to_RGB(
     RGB_w = white_balance_multipliers(sensitivities, illuminant)
 
     RGB = np.dot(
-        np.transpose(illuminant.values[..., np.newaxis] * training_data.values),
+        np.transpose(
+            illuminant.values[..., np.newaxis] * training_data.values
+        ),
         sensitivities.values,
     )
 
@@ -699,21 +702,21 @@ def training_data_sds_to_XYZ(
     shape = cmfs.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(illuminant.name, shape)
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{0}" training data shape to "{1}".'.format(
-                training_data.name, shape
-            )
+            f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)
 
     XYZ = np.dot(
-        np.transpose(illuminant.values[..., np.newaxis] * training_data.values),
+        np.transpose(
+            illuminant.values[..., np.newaxis] * training_data.values
+        ),
         cmfs.values,
     )
 
@@ -949,25 +952,23 @@ def matrix_idt(
     shape = cmfs.shape
     if sensitivities.shape != shape:
         runtime_warning(
-            'Aligning "{0}" sensitivities shape to "{1}".'.format(
-                sensitivities.name, shape
-            )
+            f'Aligning "{sensitivities.name}" sensitivities shape to "{shape}".'
         )
         # pylint: disable=E1102
         sensitivities = reshape_msds(sensitivities, shape)  # type: ignore[assignment]
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{0}" training data shape to "{1}".'.format(
-                training_data.name, shape
-            )
+            f'Aligning "{training_data.name}" training data shape to "{shape}".'
         )
         # pylint: disable=E1102
         training_data = reshape_msds(training_data, shape)
 
     illuminant = normalise_illuminant(illuminant, sensitivities)
 
-    RGB, RGB_w = training_data_sds_to_RGB(training_data, sensitivities, illuminant)
+    RGB, RGB_w = training_data_sds_to_RGB(
+        training_data, sensitivities, illuminant
+    )
 
     XYZ = training_data_sds_to_XYZ(
         training_data, cmfs, illuminant, chromatic_adaptation_transform
@@ -988,7 +989,7 @@ def matrix_idt(
         objective_function,
         np.ravel(np.identity(3)),
         (RGB, XYZ_to_optimization_colour_model(XYZ)),
-        **optimisation_settings
+        **optimisation_settings,
     ).x.reshape([3, 3])
 
     if additional_data:

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Krystek (1985) Correlated Colour Temperature
 ============================================
@@ -36,7 +35,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -119,7 +118,10 @@ def uv_to_CCT_Krystek1985(
     CCT = as_float_array(
         [
             minimize(
-                objective_function, x0=6500, args=(uv_i,), **optimisation_settings
+                objective_function,
+                x0=6500,
+                args=(uv_i,),
+                **optimisation_settings
             ).x
             for uv_i in as_float_array(uv)
         ]
@@ -162,11 +164,11 @@ def CCT_to_uv_Krystek1985(CCT: FloatingOrArrayLike) -> NDArray:
 
     T_2 = T ** 2
 
-    u = (0.860117757 + 1.54118254 * 10 ** -4 * T + 1.28641212 * 10 ** -7 * T_2) / (
-        1 + 8.42420235 * 10 ** -4 * T + 7.08145163 * 10 ** -7 * T_2
-    )
-    v = (0.317398726 + 4.22806245 * 10 ** -5 * T + 4.20481691 * 10 ** -8 * T_2) / (
-        1 - 2.89741816 * 10 ** -5 * T + 1.61456053 * 10 ** -7 * T_2
-    )
+    u = (
+        0.860117757 + 1.54118254 * 10 ** -4 * T + 1.28641212 * 10 ** -7 * T_2
+    ) / (1 + 8.42420235 * 10 ** -4 * T + 7.08145163 * 10 ** -7 * T_2)
+    v = (
+        0.317398726 + 4.22806245 * 10 ** -5 * T + 4.20481691 * 10 ** -8 * T_2
+    ) / (1 - 2.89741816 * 10 ** -5 * T + 1.61456053 * 10 ** -7 * T_2)
 
     return tstack([u, v])

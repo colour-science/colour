@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Blackbody - Planckian Radiator
 ==============================
@@ -26,7 +25,7 @@ from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float_array
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -107,7 +106,9 @@ def planck_law(
     l = as_float_array(wavelength)  # noqa
     t = as_float_array(temperature)
 
-    p = ((c1 * n ** -2 * l ** -5) / np.pi) * (np.exp(c2 / (n * l * t)) - 1) ** -1
+    p = ((c1 * n ** -2 * l ** -5) / np.pi) * (
+        np.exp(c2 / (n * l * t)) - 1
+    ) ** -1
 
     return p
 
@@ -593,5 +594,5 @@ def sd_blackbody(
     return SpectralDistribution(
         planck_law(wavelengths * 1e-9, temperature, c1, c2, n) * 1e-9,
         wavelengths,
-        name="{0}K Blackbody".format(temperature),
+        name=f"{temperature}K Blackbody",
     )

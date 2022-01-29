@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Nikon N-Log Log Encoding
 ========================
@@ -128,7 +127,9 @@ def log_encoding_NLog(
         c * np.log(in_r) + d,
     )
 
-    out_r_cv = out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
+    out_r_cv = (
+        out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
+    )
 
     return as_float(from_range_1(out_r_cv))
 
@@ -190,7 +191,9 @@ def log_decoding_NLog(
 
     out_r = to_domain_1(out_r)
 
-    out_r = out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
+    out_r = (
+        out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
+    )
 
     cut2 = constants.cut2
     a = constants.a

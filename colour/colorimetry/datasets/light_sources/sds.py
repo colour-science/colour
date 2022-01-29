@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Distributions of the Light Sources
 ===========================================
@@ -59,7 +58,7 @@ from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -746,7 +745,9 @@ DATA_LIGHT_SOURCES_RIT: Dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_RIT: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_RIT: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
     (
         key,
         partial(
@@ -2877,7 +2878,9 @@ DATA_LIGHT_SOURCES_NIST_LED: Dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_NIST_LED: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_NIST_LED: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
     (
         key,
         partial(
@@ -4948,7 +4951,9 @@ DATA_LIGHT_SOURCES_COMMON: Dict = {
     }
 }
 
-SDS_LIGHT_SOURCES_COMMON: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_COMMON: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
     {
         "Kinoton 75P": partial(
             SpectralDistribution,

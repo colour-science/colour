@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 GoPro Colourspaces
 ==================
@@ -39,7 +38,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -84,7 +83,9 @@ MATRIX_PROTUNE_NATIVE_TO_XYZ: NDArray = normalised_primary_matrix(
 *Protune Native* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_PROTUNE_NATIVE: NDArray = np.linalg.inv(MATRIX_PROTUNE_NATIVE_TO_XYZ)
+MATRIX_XYZ_TO_PROTUNE_NATIVE: NDArray = np.linalg.inv(
+    MATRIX_PROTUNE_NATIVE_TO_XYZ
+)
 """
 *CIE XYZ* tristimulus values to *Protune Native* colourspace matrix.
 """

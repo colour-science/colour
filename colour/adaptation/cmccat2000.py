@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CMCCAT2000 Chromatic Adaptation Model
 =====================================
@@ -45,7 +44,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -107,7 +106,9 @@ def chromatic_adaptation_forward_CMCCAT2000(
     XYZ_wr: ArrayLike,
     L_A1: FloatingOrArrayLike,
     L_A2: FloatingOrArrayLike,
-    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
+        "Average"
+    ],
 ) -> NDArray:
     """
     Adapts given stimulus *CIE XYZ* tristimulus values from test viewing
@@ -189,7 +190,9 @@ def chromatic_adaptation_forward_CMCCAT2000(
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB_c = RGB * (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis])
+    RGB_c = RGB * (
+        a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]
+    )
     XYZ_c = vector_dot(CAT_INVERSE_CMCCAT2000, RGB_c)
 
     return from_range_100(XYZ_c)
@@ -201,7 +204,9 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     XYZ_wr: ArrayLike,
     L_A1: FloatingOrArrayLike,
     L_A2: FloatingOrArrayLike,
-    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
+        "Average"
+    ],
 ) -> NDArray:
     """
     Adapts given stimulus corresponding colour *CIE XYZ* tristimulus values
@@ -284,7 +289,9 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB = RGB_c / (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis])
+    RGB = RGB_c / (
+        a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]
+    )
     XYZ = vector_dot(CAT_INVERSE_CMCCAT2000, RGB)
 
     return from_range_100(XYZ)
@@ -296,7 +303,9 @@ def chromatic_adaptation_CMCCAT2000(
     XYZ_wr: ArrayLike,
     L_A1: FloatingOrArrayLike,
     L_A2: FloatingOrArrayLike,
-    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
+    surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000[
+        "Average"
+    ],
     direction: Union[Literal["Forward", "Inverse"], str] = "Forward",
 ) -> NDArray:
     """

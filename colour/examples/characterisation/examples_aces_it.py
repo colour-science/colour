@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Academy Color Encoding System* *Input Transform* related
 computations.
@@ -12,12 +11,9 @@ from colour.utilities import message_box
 message_box('"ACES" "Input Transform" Computations')
 
 message_box(
-    (
-        'Computing "ACES" relative exposure '
-        "values for some colour rendition chart spectral "
-        "distributions:\n"
-        '\n\t("dark skin", \n\t"blue sky")'
-    )
+    'Computing "ACES" relative exposure values for some colour rendition '
+    "chart spectral distributions:\n\n"
+    '\t("dark skin", "blue sky")'
 )
 print(
     colour.sd_to_aces_relative_exposure_values(
@@ -33,11 +29,9 @@ print(
 print("\n")
 
 message_box(
-    (
-        'Computing "ACES" relative exposure values for various ideal '
-        "reflectors:\n"
-        '\n\t("18%", \n\t"100%")'
-    )
+    'Computing "ACES" relative exposure values for various ideal '
+    "reflectors:\n\n"
+    '\t("18%", "100%")'
 )
 wavelengths = colour.characterisation.MSDS_ACES_RICD.wavelengths
 gray_reflector = colour.SpectralDistribution(
@@ -53,8 +47,8 @@ print(colour.sd_to_aces_relative_exposure_values(perfect_reflector))
 print("\n")
 
 message_box(
-    'Computing an "ACES" input device transform for a '
-    '"CANON EOS 5DMark II" and and *CIE Illuminant D Series* *D55*:'
+    'Computing an "ACES" input device transform for a "CANON EOS 5DMark II" '
+    "and and *CIE Illuminant D Series* *D55*:"
 )
 
 path = os.path.join(

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Common RGB Colour Models Utilities
 ==================================
@@ -13,7 +12,7 @@ from colour.hints import ArrayLike, Boolean, Literal, NDArray, Union
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -27,9 +26,9 @@ __all__ = [
 
 def XYZ_to_sRGB(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
     chromatic_adaptation_transform: Union[
         Literal[
             "Bianco 2010",
@@ -106,9 +105,9 @@ def XYZ_to_sRGB(
 
 def sRGB_to_XYZ(
     RGB: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
     chromatic_adaptation_transform: Union[
         Literal[
             "Bianco 2010",

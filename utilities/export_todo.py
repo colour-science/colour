@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Export TODOs
 ============
@@ -11,7 +10,7 @@ import codecs
 import os
 from collections import OrderedDict
 
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -36,7 +35,7 @@ About
 -----
 
 | **Colour** by Colour Developers
-| Copyright © 2013-2021 – Colour Developers – \
+| Copyright © 2013-2022 – Colour Developers – \
 `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: \
 https://opensource.org/licenses/BSD-3-Clause
@@ -112,9 +111,9 @@ def export_todo_items(todo_items: OrderedDict, file_path: str):
 
     todo_rst = []
     for module, todo_items in todo_items.items():
-        todo_rst.append("-   {0}\n".format(module))
+        todo_rst.append(f"-   {module}\n")
         for line_numer, todo_item in todo_items:
-            todo_rst.append("    -   Line {0} : {1}".format(line_numer, todo_item))
+            todo_rst.append(f"    -   Line {line_numer} : {todo_item}")
 
         todo_rst.append("\n")
 

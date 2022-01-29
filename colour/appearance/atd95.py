@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ATD (1995) Colour Vision Model
 ==============================
@@ -39,7 +38,7 @@ from colour.hints import (
     Optional,
 )
 from colour.utilities import (
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -49,7 +48,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -67,7 +66,7 @@ __all__ = [
 
 
 @dataclass
-class CAM_ReferenceSpecification_ATD95(MixinDataclassArray):
+class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     """
     Defines the *ATD (1995)* colour vision model reference specification.
 
@@ -116,7 +115,7 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_ATD95(MixinDataclassArray):
+class CAM_Specification_ATD95(MixinDataclassArithmetic):
     """
     Defines the *ATD (1995)* colour vision model specification.
 

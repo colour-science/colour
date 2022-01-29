@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Barten (1999) Contrast Sensitivity Function
 ===========================================
@@ -37,7 +36,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -290,7 +289,9 @@ def maximum_angular_size_Barten1999(
     X_max = as_float_array(X_max)
     N_max = as_float_array(N_max)
 
-    return as_float((1 / X_0 ** 2 + 1 / X_max ** 2 + u ** 2 / N_max ** 2) ** -0.5)
+    return as_float(
+        (1 / X_0 ** 2 + 1 / X_max ** 2 + u ** 2 / N_max ** 2) ** -0.5
+    )
 
 
 def contrast_sensitivity_function_Barten1999(
@@ -484,7 +485,10 @@ def contrast_sensitivity_function_Barten1999(
     )
 
     S = (M_opt / k) / np.sqrt(
-        2 / T * M_as * (1 / (n * p * E) + phi_0 / (1 - np.exp(-((u / u_0) ** 2))))
+        2
+        / T
+        * M_as
+        * (1 / (n * p * E) + phi_0 / (1 - np.exp(-((u / u_0) ** 2))))
     )
 
     return as_float(S)

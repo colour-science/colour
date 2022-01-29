@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Common Plotting
 ===============
@@ -82,7 +81,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -694,7 +693,7 @@ def label_rectangles(
     rotation: Union[Literal["horizontal", "vertical"], str] = "vertical",
     text_size: Floating = 10,
     offset: Optional[ArrayLike] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Add labels above given rectangles.
@@ -788,13 +787,13 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     except NotImplementedError:  # pragma: no cover
         pass
 
-    extents = np.array([getattr(axes, "get_{}lim".format(axis))() for axis in "xyz"])
+    extents = np.array([getattr(axes, f"get_{axis}lim")() for axis in "xyz"])
 
     centers = np.mean(extents, axis=1)
     extent = np.max(np.abs(extents[..., 1] - extents[..., 0]))
 
     for center, axis in zip(centers, "xyz"):
-        getattr(axes, "set_{}lim".format(axis))(
+        getattr(axes, f"set_{axis}lim")(
             center - extent / 2, center + extent / 2
         )
 
@@ -895,17 +894,20 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
         non_siblings = [
             filterer
             for filterer in filterers
-            if filterer not in string_filterers and filterer not in object_filterers
+            if filterer not in string_filterers
+            and filterer not in object_filterers
         ]
 
         if non_siblings:
             runtime_warning(
-                'Non-sibling elements are passed-through: "{0}"'.format(non_siblings)
+                f'Non-sibling elements are passed-through: "{non_siblings}"'
             )
 
             object_filterers.extend(non_siblings)
 
-    filtered_mapping = filter_mapping(mapping, string_filterers, anchors, flags)
+    filtered_mapping = filter_mapping(
+        mapping, string_filterers, anchors, flags
+    )
 
     for filterer in object_filterers:
         # TODO: Consider using "MutableMapping" here.
@@ -927,7 +929,9 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
 
 def filter_RGB_colourspaces(
-    filterers: Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]],
+    filterers: Union[
+        RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]
+    ],
     anchors: Boolean = True,
     allow_non_siblings: Boolean = True,
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
@@ -999,7 +1003,9 @@ def filter_cmfs(
         Filtered colour matching functions.
     """
 
-    return filter_passthrough(MSDS_CMFS, filterers, anchors, allow_non_siblings, flags)
+    return filter_passthrough(
+        MSDS_CMFS, filterers, anchors, allow_non_siblings, flags
+    )
 
 
 def filter_illuminants(
@@ -1162,24 +1168,6 @@ def plot_single_colour_swatch(
         :func:`colour.plotting.plot_multi_colour_swatches`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
-    width
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Colour swatch width.
-    height
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Colour swatch height.
-    spacing
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Colour swatches spacing.
-    columns
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Colour swatches columns count.
-    text_kwargs
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Keyword arguments for the :func:`matplotlib.pyplot.text` definition.
-        The following special keywords can also be used:
-
-        -   ``offset``: Sets the text offset.
 
     Returns
     -------
@@ -1218,8 +1206,10 @@ def plot_multi_colour_swatches(
     direction: Union[Literal["+y", "-y"], str] = "+y",
     text_kwargs: Optional[Dict] = None,
     background_colour: ArrayLike = (1.0, 1.0, 1.0),
-    compare_swatches: Optional[Union[Literal["Diagonal", "Stacked"], str]] = None,
-    **kwargs: Any
+    compare_swatches: Optional[
+        Union[Literal["Diagonal", "Stacked"], str]
+    ] = None,
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given colours swatches.
@@ -1374,7 +1364,7 @@ def plot_multi_colour_swatches(
                 colour_swatch.name,
                 verticalalignment="bottom" if y == 1 else "top",
                 clip_on=True,
-                **text_settings
+                **text_settings,
             )
 
         offset_X += width + spacing
@@ -1417,7 +1407,7 @@ def plot_single_function(
     log_x: Optional[Integer] = None,
     log_y: Optional[Integer] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given function.
@@ -1469,7 +1459,7 @@ def plot_single_function(
         name = "Unnamed"
 
     settings: Dict[str, Any] = {
-        "title": "{0} - Function".format(name),
+        "title": f"{name} - Function",
         "legend": False,
     }
     settings.update(kwargs)
@@ -1486,7 +1476,7 @@ def plot_multi_functions(
     log_x: Optional[Integer] = None,
     log_y: Optional[Integer] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given functions.
@@ -1542,7 +1532,7 @@ def plot_multi_functions(
     _figure, axes = artist(**settings)
 
     plot_settings_collection = [
-        {"label": "{0}".format(name)} for name in functions.keys()
+        {"label": f"{name}"} for name in functions.keys()
     ]
 
     if plot_kwargs is not None:
@@ -1552,7 +1542,7 @@ def plot_multi_functions(
 
     # TODO: Remove when "Matplotlib" minimum version can be set to 3.5.0.
     matplotlib_3_5 = tuple(
-        [int(token) for token in matplotlib.__version__.split(".")[:2]]
+        int(token) for token in matplotlib.__version__.split(".")[:2]
     ) >= (3, 5)
 
     if log_x is not None and log_y is not None:
@@ -1585,22 +1575,24 @@ def plot_multi_functions(
     samples = cast(ArrayLike, optional(samples, np.linspace(0, 1, 1000)))
 
     for i, (_name, function) in enumerate(functions.items()):
-        plotting_function(samples, function(samples), **plot_settings_collection[i])
+        plotting_function(
+            samples, function(samples), **plot_settings_collection[i]
+        )
 
     x_label = (
-        "x - Log Base {0} Scale".format(log_x)
+        f"x - Log Base {log_x} Scale"
         if log_x is not None
         else "x - Linear Scale"
     )
     y_label = (
-        "y - Log Base {0} Scale".format(log_y)
+        f"y - Log Base {log_y} Scale"
         if log_y is not None
         else "y - Linear Scale"
     )
     settings = {
         "axes": axes,
         "legend": True,
-        "title": "{0} - Functions".format(", ".join(functions)),
+        "title": f"{', '.join(functions)} - Functions",
         "x_label": x_label,
         "y_label": y_label,
     }
@@ -1614,7 +1606,7 @@ def plot_image(
     image: ArrayLike,
     imshow_kwargs: Optional[Dict] = None,
     text_kwargs: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given image.
@@ -1690,7 +1682,7 @@ def plot_image(
             transform=axes.transAxes,
             ha="left",
             va="bottom",
-            **text_settings
+            **text_settings,
         )
 
     settings: Dict[str, Any] = {

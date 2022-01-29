@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`IC_TC_P` Colour Encoding
 ===============================
@@ -48,7 +47,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -102,7 +101,9 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP: NDArray = (
 :math:`IC_TC_P` colour encoding matrix.
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_ICTCP_LMS_P_TO_ICTCP)
+MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(
+    MATRIX_ICTCP_LMS_P_TO_ICTCP
+)
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
 normalised cone responses matrix.
@@ -253,7 +254,11 @@ def RGB_to_ICtCp(
     LMS = vector_dot(MATRIX_ICTCP_RGB_TO_LMS, RGB)
 
     with domain_range_scale("ignore"):
-        LMS_p = oetf_HLG_BT2100(LMS) if is_hlg_method else eotf_inverse_ST2084(LMS, L_p)
+        LMS_p = (
+            oetf_HLG_BT2100(LMS)
+            if is_hlg_method
+            else eotf_inverse_ST2084(LMS, L_p)
+        )
 
     ICtCp = (
         vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2, LMS_p)
@@ -390,7 +395,9 @@ def ICtCp_to_RGB(
 
     with domain_range_scale("ignore"):
         LMS = (
-            oetf_inverse_HLG_BT2100(LMS_p) if is_hlg_method else eotf_ST2084(LMS_p, L_p)
+            oetf_inverse_HLG_BT2100(LMS_p)
+            if is_hlg_method
+            else eotf_ST2084(LMS_p, L_p)
         )
 
     RGB = vector_dot(MATRIX_ICTCP_LMS_TO_RGB, LMS)

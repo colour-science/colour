@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Basic and Monitor-Curve Exponent Transfer Functions
 ===================================================
@@ -36,7 +35,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -175,9 +174,13 @@ def exponent_function_basic(
     elif style == "basicrev":
         return as_float(np.where(x >= 0, exponent_reverse(x), 0))
     elif style == "basicmirrorfwd":
-        return as_float(np.where(x >= 0, exponent_forward(x), -exponent_forward(-x)))
+        return as_float(
+            np.where(x >= 0, exponent_forward(x), -exponent_forward(-x))
+        )
     elif style == "basicmirrorrev":
-        return as_float(np.where(x >= 0, exponent_reverse(x), -exponent_reverse(-x)))
+        return as_float(
+            np.where(x >= 0, exponent_reverse(x), -exponent_reverse(-x))
+        )
     elif style == "basicpassthrufwd":
         return as_float(np.where(x >= 0, exponent_forward(x), x))
     else:  # style == 'basicpassthrurev'
@@ -277,7 +280,8 @@ def exponent_function_monitor_curve(
     with suppress_warnings(python_warnings=True):
         s = as_float_array(
             ((exponent - 1) / offset)
-            * ((exponent * offset) / ((exponent - 1) * (offset + 1))) ** exponent
+            * ((exponent * offset) / ((exponent - 1) * (offset + 1)))
+            ** exponent
         )
 
         s[np.isnan(s)] = 1
@@ -303,7 +307,9 @@ def exponent_function_monitor_curve(
         """
         Defines the *Monitor Curve Reverse* function.
         """
-        y_break = ((exponent * offset) / ((exponent - 1) * (1 + offset))) ** exponent
+        y_break = (
+            (exponent * offset) / ((exponent - 1) * (1 + offset))
+        ) ** exponent
 
         return np.where(
             y >= y_break,

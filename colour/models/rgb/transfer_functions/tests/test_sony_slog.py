@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.sony_slog` module.
@@ -18,7 +17,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -46,11 +45,17 @@ log_encoding_SLog` definition unit tests methods.
 log_encoding_SLog` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_SLog(0.0), 0.088251291513446, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog(0.0), 0.088251291513446, places=7
+        )
 
-        self.assertAlmostEqual(log_encoding_SLog(0.18), 0.384970815928670, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog(0.18), 0.384970815928670, places=7
+        )
 
-        self.assertAlmostEqual(log_encoding_SLog(0.18, 12), 0.384688786026891, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog(0.18, 12), 0.384688786026891, places=7
+        )
 
         self.assertAlmostEqual(
             log_encoding_SLog(0.18, 10, False), 0.376512722254600, places=7
@@ -62,7 +67,9 @@ log_encoding_SLog` definition.
             places=7,
         )
 
-        self.assertAlmostEqual(log_encoding_SLog(1.0), 0.638551684622532, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog(1.0), 0.638551684622532, places=7
+        )
 
     def test_n_dimensional_log_encoding_SLog(self):
         """
@@ -123,11 +130,17 @@ log_decoding_SLog` definition unit tests methods.
 log_decoding_SLog` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_SLog(0.088251291513446), 0.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog(0.088251291513446), 0.0, places=7
+        )
 
-        self.assertAlmostEqual(log_decoding_SLog(0.384970815928670), 0.18, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog(0.384970815928670), 0.18, places=7
+        )
 
-        self.assertAlmostEqual(log_decoding_SLog(0.384688786026891, 12), 0.18, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog(0.384688786026891, 12), 0.18, places=7
+        )
 
         self.assertAlmostEqual(
             log_decoding_SLog(0.376512722254600, 10, False), 0.18, places=7
@@ -139,7 +152,9 @@ log_decoding_SLog` definition.
             places=7,
         )
 
-        self.assertAlmostEqual(log_decoding_SLog(0.638551684622532), 1.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog(0.638551684622532), 1.0, places=7
+        )
 
     def test_n_dimensional_log_decoding_SLog(self):
         """
@@ -200,9 +215,13 @@ log_encoding_SLog2` definition unit tests methods.
 log_encoding_SLog2` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_SLog2(0.0), 0.088251291513446, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog2(0.0), 0.088251291513446, places=7
+        )
 
-        self.assertAlmostEqual(log_encoding_SLog2(0.18), 0.339532524633774, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog2(0.18), 0.339532524633774, places=7
+        )
 
         self.assertAlmostEqual(
             log_encoding_SLog2(0.18, 12), 0.339283782857486, places=7
@@ -218,7 +237,9 @@ log_encoding_SLog2` definition.
             places=7,
         )
 
-        self.assertAlmostEqual(log_encoding_SLog2(1.0), 0.585091059564112, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog2(1.0), 0.585091059564112, places=7
+        )
 
     def test_n_dimensional_log_encoding_SLog2(self):
         """
@@ -279,9 +300,13 @@ log_decoding_SLog2` definition unit tests methods.
 log_decoding_SLog2` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_SLog2(0.088251291513446), 0.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog2(0.088251291513446), 0.0, places=7
+        )
 
-        self.assertAlmostEqual(log_decoding_SLog2(0.339532524633774), 0.18, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog2(0.339532524633774), 0.18, places=7
+        )
 
         self.assertAlmostEqual(
             log_decoding_SLog2(0.339283782857486, 12), 0.18, places=7
@@ -297,7 +322,9 @@ log_decoding_SLog2` definition.
             places=7,
         )
 
-        self.assertAlmostEqual(log_decoding_SLog2(0.585091059564112), 1.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog2(0.585091059564112), 1.0, places=7
+        )
 
     def test_n_dimensional_log_decoding_SLog2(self):
         """
@@ -358,9 +385,13 @@ log_encoding_SLog3` definition unit tests methods.
 log_encoding_SLog3` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_SLog3(0.0), 0.092864125122190, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog3(0.0), 0.092864125122190, places=7
+        )
 
-        self.assertAlmostEqual(log_encoding_SLog3(0.18), 0.41055718475073, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog3(0.18), 0.41055718475073, places=7
+        )
 
         self.assertAlmostEqual(
             log_encoding_SLog3(0.18, 12), 0.410557184750733, places=7
@@ -376,7 +407,9 @@ log_encoding_SLog3` definition.
             places=7,
         )
 
-        self.assertAlmostEqual(log_encoding_SLog3(1.0), 0.596027343690123, places=7)
+        self.assertAlmostEqual(
+            log_encoding_SLog3(1.0), 0.596027343690123, places=7
+        )
 
     def test_n_dimensional_log_encoding_SLog3(self):
         """
@@ -437,9 +470,13 @@ log_decoding_SLog3` definition unit tests methods.
 log_decoding_SLog3` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_SLog3(0.092864125122190), 0.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog3(0.092864125122190), 0.0, places=7
+        )
 
-        self.assertAlmostEqual(log_decoding_SLog3(0.41055718475073), 0.18, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog3(0.41055718475073), 0.18, places=7
+        )
 
         self.assertAlmostEqual(
             log_decoding_SLog3(0.410557184750733, 12), 0.18, places=7
@@ -455,7 +492,9 @@ log_decoding_SLog3` definition.
             places=7,
         )
 
-        self.assertAlmostEqual(log_decoding_SLog3(0.596027343690123), 1.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_SLog3(0.596027343690123), 1.0, places=7
+        )
 
     def test_n_dimensional_log_decoding_SLog3(self):
         """

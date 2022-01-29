@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Mock for Colour
 ===============
@@ -20,7 +19,7 @@ from types import FunctionType, MethodType, ModuleType
 __author__ = "Sphinx Team, Colour Developers"
 __copyright__ = "Copyright 2007-2019 - Sphinx Team"
 __copyright__ += ", "
-__copyright__ += "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ += "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -74,7 +73,7 @@ class MockObject:
                     attributes=args[2],
                 )
 
-        return super(MockObject, cls).__new__(cls)
+        return super().__new__(cls)
 
     def __init__(self, *args, **kwargs):
         pass
@@ -206,7 +205,7 @@ class MockModule(ModuleType):
     __file__ = os.devnull
 
     def __init__(self, name):
-        super(MockModule, self).__init__(name)
+        super().__init__(name)
         self.__all__ = []
         self.__path__ = []
 

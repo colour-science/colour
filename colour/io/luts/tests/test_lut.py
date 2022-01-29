@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.luts.lut` module.
 """
@@ -34,7 +33,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -131,7 +130,7 @@ class AbstractLUTTest(unittest.TestCase):
             Arguments.
         """
 
-        super(AbstractLUTTest, self).__init__(*args)
+        super().__init__(*args)
 
         self._LUT_factory: Any = None
 
@@ -146,9 +145,13 @@ class AbstractLUTTest(unittest.TestCase):
         self._table_1_kwargs: Optional[Dict] = None
         self._table_2_kwargs: Optional[Dict] = None
         self._table_3_kwargs: Optional[Dict] = None
-        self._interpolator_1: Optional[Union[Callable, Type[TypeInterpolator]]] = None
+        self._interpolator_1: Optional[
+            Union[Callable, Type[TypeInterpolator]]
+        ] = None
         self._interpolator_kwargs_1: Dict = {}
-        self._interpolator_2: Optional[Union[Callable, Type[TypeInterpolator]]] = None
+        self._interpolator_2: Optional[
+            Union[Callable, Type[TypeInterpolator]]
+        ] = None
         self._interpolator_kwargs_2: Dict = {}
         self._invert_kwargs_1: Dict = {}
         self._invert_kwargs_2: Dict = {}
@@ -242,7 +245,7 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT = self._LUT_factory()
 
-        self.assertEqual(LUT.name, "Unity {0}".format(self._table_1.shape[0]))
+        self.assertEqual(LUT.name, f"Unity {self._table_1.shape[0]}")
 
     def test_domain(self):
         """
@@ -405,7 +408,9 @@ class AbstractLUTTest(unittest.TestCase):
 
         # pylint: disable=E1102
         self.assertTrue(
-            self._LUT_factory(self._table_3, domain=self._domain_3).is_domain_explicit()
+            self._LUT_factory(
+                self._table_3, domain=self._domain_3
+            ).is_domain_explicit()
         )
 
     def test_arithmetical_operation(self):
@@ -536,7 +541,9 @@ class AbstractLUTTest(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            spow(self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6),
+            spow(
+                self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6
+            ),
             self._table_3,
             decimal=7,
         )
@@ -648,7 +655,7 @@ class TestLUT1D(AbstractLUTTest):
             Arguments.
         """
 
-        super(TestLUT1D, self).__init__(*args)
+        super().__init__(*args)
 
         self._LUT_factory = LUT1D
 
@@ -786,7 +793,7 @@ class TestLUT3x1D(AbstractLUTTest):
             Arguments.
         """
 
-        super(TestLUT3x1D, self).__init__(*args)
+        super().__init__(*args)
 
         self._LUT_factory = LUT3x1D
 
@@ -955,7 +962,7 @@ class TestLUT3D(AbstractLUTTest):
             Arguments.
         """
 
-        super(TestLUT3D, self).__init__(*args)
+        super().__init__(*args)
 
         self._LUT_factory = LUT3D
 
@@ -1151,7 +1158,9 @@ class TestLUT_to_LUT(unittest.TestCase):
             LUT3x1D.linear_table(16) ** (1 / 2.2) * (1.0, 0.75, 0.5),
             domain=self._domain,
         )
-        self._LUT_3 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain)
+        self._LUT_3 = LUT3D(
+            LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain
+        )
 
     def test_LUT_to_LUT(self):
         """

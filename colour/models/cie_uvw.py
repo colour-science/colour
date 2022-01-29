@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE 1964 U*V*W* Colourspace
 ===========================
@@ -32,7 +31,7 @@ from colour.models import (
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -46,9 +45,9 @@ __all__ = [
 
 def XYZ_to_UVW(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
 ) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
@@ -120,9 +119,9 @@ def XYZ_to_UVW(
 
 def UVW_to_XYZ(
     UVW: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
 ) -> NDArray:
     """
     Converts *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus

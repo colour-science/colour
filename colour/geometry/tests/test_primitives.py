@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.geometry.primitives` module.
 """
@@ -13,7 +12,7 @@ from colour.geometry import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -78,7 +77,9 @@ class TestPrimitiveGrid(unittest.TestCase):
 
         np.testing.assert_equal(faces, np.array([[0, 2, 1], [2, 3, 1]]))
 
-        np.testing.assert_equal(outline, np.array([[0, 2], [2, 3], [3, 1], [1, 0]]))
+        np.testing.assert_equal(
+            outline, np.array([[0, 2], [2, 3], [3, 1], [1, 0]])
+        )
 
         vertices, faces, outline = primitive_grid(
             width=0.2,
@@ -179,7 +180,9 @@ class TestPrimitiveGrid(unittest.TestCase):
         for plane in PLANE_TO_AXIS_MAPPING.keys():
             np.testing.assert_almost_equal(
                 primitive_grid(axis=plane)[0]["position"],
-                primitive_grid(axis=PLANE_TO_AXIS_MAPPING[plane])[0]["position"],
+                primitive_grid(axis=PLANE_TO_AXIS_MAPPING[plane])[0][
+                    "position"
+                ],
                 decimal=7,
             )
 
@@ -785,7 +788,9 @@ class TestPrimitiveCube(unittest.TestCase):
         for plane in PLANE_TO_AXIS_MAPPING.keys():
             np.testing.assert_almost_equal(
                 primitive_cube(planes=[plane])[0]["position"],
-                primitive_cube(planes=[PLANE_TO_AXIS_MAPPING[plane]])[0]["position"],
+                primitive_cube(planes=[PLANE_TO_AXIS_MAPPING[plane]])[0][
+                    "position"
+                ],
                 decimal=7,
             )
 

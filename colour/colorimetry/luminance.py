@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Luminance :math:`Y`
 ===================
@@ -92,7 +91,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -469,7 +468,9 @@ def luminance_Fairchild2011(
 def luminance_Abebe2017(
     L: FloatingOrArrayLike,
     Y_n: FloatingOrArrayLike = 100,
-    method: Union[Literal["Michaelis-Menten", "Stevens"], str] = "Michaelis-Menten",
+    method: Union[
+        Literal["Michaelis-Menten", "Stevens"], str
+    ] = "Michaelis-Menten",
 ) -> FloatingOrNDArray:
     """
     Computes *luminance* :math:`Y` of *Lightness* :math:`L` using
@@ -612,7 +613,8 @@ def luminance(
     Other Parameters
     ----------------
     Y_n
-        {:func:`colour.colorimetry.luminance_CIE1976`},
+        {:func:`colour.colorimetry.luminance_Abebe2017`,
+        :func:`colour.colorimetry.luminance_CIE1976`},
         White reference *luminance* :math:`Y_n`.
     epsilon
         {:func:`colour.colorimetry.lightness_Fairchild2010`,

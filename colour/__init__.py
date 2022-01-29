@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour
 ======
@@ -451,7 +450,7 @@ else:
     globals()["plotting"] = MockPlotting()  # pragma: no cover
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -846,7 +845,9 @@ __application_name__ = "Colour"
 __major_version__ = "0"
 __minor_version__ = "3"
 __change_version__ = "16"
-__version__ = ".".join((__major_version__, __minor_version__, __change_version__))
+__version__ = ".".join(
+    (__major_version__, __minor_version__, __change_version__)
+)
 
 # TODO: Remove legacy printing support when deemed appropriate.
 try:
@@ -860,7 +861,7 @@ except TypeError:  # pragma: no cover
 # ----------------------------------------------------------------------------#
 class colour(ModuleAPI):
     def __getattr__(self, attribute) -> Any:
-        return super(colour, self).__getattr__(attribute)
+        return super().__getattr__(attribute)
 
 
 colour.__application_name__ = __application_name__  # type: ignore[attr-defined]

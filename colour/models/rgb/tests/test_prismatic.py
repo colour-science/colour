@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.rgb.prismatic` module.
 """
@@ -11,7 +10,7 @@ from colour.models.rgb import RGB_to_Prismatic, Prismatic_to_RGB
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -111,7 +110,9 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            Prismatic_to_RGB(np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])),
+            Prismatic_to_RGB(
+                np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
+            ),
             np.array([0.25, 0.50, 0.75]),
             decimal=7,
         )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.hunter_lab` module.
 """
@@ -17,7 +16,7 @@ from colour.models import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -77,11 +76,15 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         K_ab = np.tile(K_ab, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
-        np.testing.assert_almost_equal(XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_K_ab_HunterLab1966(self):
@@ -108,19 +111,25 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Lab(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
+            XYZ_to_Hunter_Lab(
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100
+            ),
             np.array([34.92452577, 47.06189858, 14.38615107]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Lab(np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
+            XYZ_to_Hunter_Lab(
+                np.array([0.14222010, 0.23042768, 0.10495772]) * 100
+            ),
             np.array([48.00288325, -28.98551622, 18.75564181]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Lab(np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
+            XYZ_to_Hunter_Lab(
+                np.array([0.07818780, 0.06157201, 0.28099326]) * 100
+            ),
             np.array([24.81370791, 14.38300039, -53.25539126]),
             decimal=7,
         )
@@ -243,19 +252,25 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Hunter_Lab_to_XYZ(np.array([34.92452577, 47.06189858, 14.38615107])),
+            Hunter_Lab_to_XYZ(
+                np.array([34.92452577, 47.06189858, 14.38615107])
+            ),
             np.array([20.65400800, 12.19722500, 5.13695200]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            Hunter_Lab_to_XYZ(np.array([48.00288325, -28.98551622, 18.75564181])),
+            Hunter_Lab_to_XYZ(
+                np.array([48.00288325, -28.98551622, 18.75564181])
+            ),
             np.array([14.22201000, 23.04276800, 10.49577200]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            Hunter_Lab_to_XYZ(np.array([24.81370791, 14.38300039, -53.25539126])),
+            Hunter_Lab_to_XYZ(
+                np.array([24.81370791, 14.38300039, -53.25539126])
+            ),
             np.array([7.81878000, 6.15720100, 28.09932601]),
             decimal=7,
         )

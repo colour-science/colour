@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.rgb.derivation` module.
 """
@@ -19,7 +18,7 @@ from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -105,7 +104,9 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             normalised_primary_matrix(
-                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array(
+                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
+                ),
                 np.array([0.32168, 0.33767]),
             ),
             np.array(
@@ -165,7 +166,9 @@ chromatically_adapted_primaries` definition.
 
         np.testing.assert_almost_equal(
             chromatically_adapted_primaries(
-                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array(
+                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
+                ),
                 np.array([0.32168, 0.33767]),
                 np.array([0.34570, 0.35850]),
             ),
@@ -259,7 +262,9 @@ class TestPrimariesWhitepoint(unittest.TestCase):
             ),
             decimal=7,
         )
-        np.testing.assert_almost_equal(W, np.array([0.32168, 0.33767]), decimal=7)
+        np.testing.assert_almost_equal(
+            W, np.array([0.32168, 0.33767]), decimal=7
+        )
 
         P, W = primaries_whitepoint(
             np.array(
@@ -281,7 +286,9 @@ class TestPrimariesWhitepoint(unittest.TestCase):
             ),
             decimal=7,
         )
-        np.testing.assert_almost_equal(W, np.array([0.31271591, 0.32900148]), decimal=7)
+        np.testing.assert_almost_equal(
+            W, np.array([0.31271591, 0.32900148]), decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_primaries_whitepoint(self):
@@ -311,7 +318,9 @@ class TestRGBLuminanceEquation(unittest.TestCase):
 
         self.assertIsInstance(
             RGB_luminance_equation(
-                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array(
+                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
+                ),
                 np.array([0.32168, 0.33767]),
             ),
             str,
@@ -348,7 +357,9 @@ class TestRGBLuminance(unittest.TestCase):
         self.assertAlmostEqual(
             RGB_luminance(
                 np.array([0.18, 0.18, 0.18]),
-                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array(
+                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
+                ),
                 np.array([0.32168, 0.33767]),
             ),
             0.18000000,
@@ -358,7 +369,9 @@ class TestRGBLuminance(unittest.TestCase):
         self.assertAlmostEqual(
             RGB_luminance(
                 np.array([0.21959402, 0.06986677, 0.04703877]),
-                np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+                np.array(
+                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
+                ),
                 np.array([0.32168, 0.33767]),
             ),
             0.123014562384318,
@@ -382,7 +395,9 @@ class TestRGBLuminance(unittest.TestCase):
         """
 
         RGB = (np.array([0.18, 0.18, 0.18]),)
-        P = (np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),)
+        P = (
+            np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
+        )
         W = np.array([0.32168, 0.33767])
         Y = RGB_luminance(RGB, P, W)
 

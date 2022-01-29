@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.luts.operator` module.
 """
@@ -11,7 +10,7 @@ from colour.io.luts import AbstractLUTSequenceOperator, LUTOperatorMatrix
 from colour.utilities import tstack, zeros
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -97,7 +96,9 @@ class TestLUTOperatorMatrix(unittest.TestCase):
         M = np.identity(3)
 
         lut_operator_matrix = LUTOperatorMatrix(M)
-        np.testing.assert_array_equal(lut_operator_matrix.matrix, np.identity(4))
+        np.testing.assert_array_equal(
+            lut_operator_matrix.matrix, np.identity(4)
+        )
 
     def test_offset(self):
         """
@@ -174,7 +175,9 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
         method.
         """
 
-        matrix = LUTOperatorMatrix(np.linspace(0, 1, 16).reshape([4, 4]) * 0.75)
+        matrix = LUTOperatorMatrix(
+            np.linspace(0, 1, 16).reshape([4, 4]) * 0.75
+        )
 
         self.assertNotEqual(self._lut_operator_matrix, matrix)
 

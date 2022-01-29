@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Invoke - Tasks
 ==============
@@ -19,7 +18,7 @@ from colour.hints import Boolean
 from colour.utilities import message_box
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -74,7 +73,9 @@ def _patch_invoke_annotations_support():
     org_task_argspec = invoke.tasks.Task.argspec
 
     def patched_task_argspec(*args, **kwargs):
-        with patch(target="inspect.getargspec", new=patched_inspect_getargspec):
+        with patch(
+            target="inspect.getargspec", new=patched_inspect_getargspec
+        ):
             return org_task_argspec(*args, **kwargs)
 
     invoke.tasks.Task.argspec = patched_task_argspec
@@ -127,7 +128,7 @@ def clean(
         patterns.append(".pytest_cache")
 
     for pattern in patterns:
-        ctx.run("rm -rf {}".format(pattern))
+        ctx.run(f"rm -rf {pattern}")
 
 
 @task
@@ -166,7 +167,9 @@ def formatting(
         message_box('Cleaning up "BibTeX" file...')
         bibtex_path = BIBLIOGRAPHY_NAME
         with open(bibtex_path) as bibtex_file:
-            entries = biblib.bib.Parser().parse(bibtex_file.read()).get_entries()
+            entries = (
+                biblib.bib.Parser().parse(bibtex_file.read()).get_entries()
+            )
 
         for entry in sorted(entries.values(), key=lambda x: x.key):
             try:
@@ -186,7 +189,7 @@ def formatting(
 @task
 def tests(ctx: Context):
     """
-    Runs the unit tests with *Nose* or *Pytest*.
+    Runs the unit tests with *Pytest*.
 
     Parameters
     ----------
@@ -227,18 +230,19 @@ def quality(
 
     if flake8:
         message_box('Checking codebase with "Flake8"...')
-        ctx.run("flake8 {0} --exclude=examples".format(PYTHON_PACKAGE_NAME))
+        ctx.run(f"flake8 {PYTHON_PACKAGE_NAME} --exclude=examples")
 
     if mypy:
         message_box('Checking codebase with "Mypy"...')
         ctx.run(
-            "mypy "
-            "--install-types "
-            "--non-interactive "
-            "--show-error-codes "
-            "--warn-unused-ignores "
-            "--warn-redundant-casts "
-            "-p {0}".format(PYTHON_PACKAGE_NAME)
+            f"mypy "
+            f"--install-types "
+            f"--non-interactive "
+            f"--show-error-codes "
+            f"--warn-unused-ignores "
+            f"--warn-redundant-casts "
+            f"-p {PYTHON_PACKAGE_NAME} "
+            f"|| true"
         )
 
     if rstlint:
@@ -268,12 +272,13 @@ def examples(ctx: Context, plots: Boolean = False):
         for filename in fnmatch.filter(filenames, "*.py"):
             if not plots and (
                 "plotting" in root
-                or "examples_interpolation" in filename
                 or "examples_contrast" in filename
+                or "examples_hke" in filename
+                or "examples_interpolation" in filename
             ):
                 continue
 
-            ctx.run("python {0}".format(os.path.join(root, filename)))
+            ctx.run(f"python {os.path.join(root, filename)}")
 
 
 @task(formatting, tests, quality, examples)
@@ -379,7 +384,9 @@ def build(ctx: Context):
 
     message_box("Building...")
     if "modified:   pyproject.toml" in ctx.run("git status").stdout:
-        raise RuntimeError('Please commit your changes to the "pyproject.toml" file!')
+        raise RuntimeError(
+            'Please commit your changes to the "pyproject.toml" file!'
+        )
 
     pyproject_content = toml.load("pyproject.toml")
     pyproject_content["tool"]["poetry"]["name"] = PYPI_PACKAGE_NAME
@@ -390,9 +397,11 @@ def build(ctx: Context):
         toml.dump(pyproject_content, pyproject_file)
 
     if "modified:   README.rst" in ctx.run("git status").stdout:
-        raise RuntimeError('Please commit your changes to the "README.rst" file!')
+        raise RuntimeError(
+            'Please commit your changes to the "README.rst" file!'
+        )
 
-    with open("README.rst", "r") as readme_file:
+    with open("README.rst") as readme_file:
         readme_content = readme_file.read()
 
     with open("README.rst", "w") as readme_file:
@@ -413,14 +422,10 @@ def build(ctx: Context):
     ctx.run("git checkout -- README.rst")
 
     with ctx.cd("dist"):
-        ctx.run(
-            "tar -xvf {0}-{1}.tar.gz".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION)
-        )
-        ctx.run(
-            "cp {0}-{1}/setup.py ../".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION)
-        )
+        ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
+        ctx.run(f"cp {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}/setup.py ../")
 
-        ctx.run("rm -rf {0}-{1}".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION))
+        ctx.run(f"rm -rf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}")
 
     with open("setup.py") as setup_file:
         source = setup_file.read()
@@ -479,20 +484,17 @@ def virtualise(ctx: Context, tests: Boolean = True):
         Whether to run tests on the virtual environment.
     """
 
-    unique_name = "{0}-{1}".format(PYPI_PACKAGE_NAME, uuid.uuid1())
+    unique_name = f"{PYPI_PACKAGE_NAME}-{uuid.uuid1()}"
     with ctx.cd("dist"):
-        ctx.run(
-            "tar -xvf {0}-{1}.tar.gz".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION)
-        )
-        ctx.run(
-            "mv {0}-{1} {2}".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION, unique_name)
-        )
+        ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
+        ctx.run(f"mv {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION} {unique_name}")
         with ctx.cd(unique_name):
             ctx.run("poetry env use 3")
             ctx.run('poetry install --extras "optional plotting"')
             ctx.run("source $(poetry env info -p)/bin/activate")
             ctx.run(
-                'python -c "import imageio;' 'imageio.plugins.freeimage.download()"'
+                'python -c "import imageio;'
+                'imageio.plugins.freeimage.download()"'
             )
             if tests:
                 ctx.run("poetry run nosetests", env={"MPLBACKEND": "AGG"})
@@ -540,16 +542,17 @@ def tag(ctx: Context):
         remote_tags = result.stdout.strip().split("\n")
         tags = set()
         for remote_tag in remote_tags:
-            tags.add(remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}"))
+            tags.add(
+                remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}")
+            )
         version_tags = sorted(list(tags))
-        assert (
-            "v{0}".format(version) not in version_tags
-        ), 'A "{0}" "v{1}" tag already exists in remote repository!'.format(
-            PYTHON_PACKAGE_NAME, version
+        assert f"v{version}" not in version_tags, (
+            f'A "{PYTHON_PACKAGE_NAME}" "v{version}" tag already exists in '
+            f"remote repository!"
         )
 
-        ctx.run("git flow release start v{0}".format(version))
-        ctx.run("git flow release finish v{0}".format(version))
+        ctx.run(f"git flow release start v{version}")
+        ctx.run(f"git flow release finish v{version}")
 
 
 @task(build)
@@ -582,4 +585,4 @@ def sha256(ctx: Context):
 
     message_box('Computing "sha256"...')
     with ctx.cd("dist"):
-        ctx.run("openssl sha256 {0}-*.tar.gz".format(PYPI_PACKAGE_NAME))
+        ctx.run(f"openssl sha256 {PYPI_PACKAGE_NAME}-*.tar.gz")

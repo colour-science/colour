@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Smits (1999) - Reflectance Recovery Dataset
 ===========================================
@@ -20,7 +19,7 @@ from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -122,8 +121,12 @@ SDS_SMITS1999: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
         "white": SpectralDistribution(DATA_SMITS1999["white"], name="white"),
         "cyan": SpectralDistribution(DATA_SMITS1999["cyan"], name="cyan"),
-        "magenta": SpectralDistribution(DATA_SMITS1999["magenta"], name="magenta"),
-        "yellow": SpectralDistribution(DATA_SMITS1999["yellow"], name="yellow"),
+        "magenta": SpectralDistribution(
+            DATA_SMITS1999["magenta"], name="magenta"
+        ),
+        "yellow": SpectralDistribution(
+            DATA_SMITS1999["yellow"], name="yellow"
+        ),
         "red": SpectralDistribution(DATA_SMITS1999["red"], name="red"),
         "green": SpectralDistribution(DATA_SMITS1999["green"], name="green"),
         "blue": SpectralDistribution(DATA_SMITS1999["blue"], name="blue"),

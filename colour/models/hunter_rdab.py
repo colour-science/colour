@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Hunter Rd,a,b Colour Scale
 ==========================
@@ -24,7 +23,7 @@ from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -38,12 +37,12 @@ __all__ = [
 
 def XYZ_to_Hunter_Rdab(
     XYZ: ArrayLike,
-    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].XYZ_n,
-    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].K_ab,
+    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"].XYZ_n,
+    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"].K_ab,
 ) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
@@ -103,7 +102,9 @@ def XYZ_to_Hunter_Rdab(
     X, Y, Z = tsplit(to_domain_100(XYZ))
     X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
     K_a, K_b = (
-        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
+        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
+        if K_ab is None
+        else tsplit(K_ab)
     )
 
     f = 0.51 * ((21 + 0.2 * Y) / (1 + 0.2 * Y))
@@ -120,12 +121,12 @@ def XYZ_to_Hunter_Rdab(
 
 def Hunter_Rdab_to_XYZ(
     R_d_ab: ArrayLike,
-    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].XYZ_n,
-    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].K_ab,
+    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"].XYZ_n,
+    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"].K_ab,
 ) -> NDArray:
     """
     Converts from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus values.
@@ -184,7 +185,9 @@ def Hunter_Rdab_to_XYZ(
     R_d, a_Rd, b_Rd = tsplit(to_domain_100(R_d_ab))
     X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
     K_a, K_b = (
-        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
+        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
+        if K_ab is None
+        else tsplit(K_ab)
     )
 
     f = 0.51 * ((21 + 0.2 * R_d) / (1 + 0.2 * R_d))

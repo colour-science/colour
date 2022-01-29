@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.cie_xyy` module.
 """
@@ -18,7 +17,7 @@ from colour.models import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -101,15 +100,21 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         xyY = np.tile(xyY, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         xyY = np.reshape(xyY, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_xyY(self):
         """
@@ -485,15 +490,21 @@ class TestXYZ_to_xy(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
+        )
 
         illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(xy, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
+        np.testing.assert_almost_equal(
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_xy(self):
         """
@@ -509,7 +520,9 @@ class TestXYZ_to_xy(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(XYZ_to_xy(XYZ * factor), xy, decimal=7)
+                np.testing.assert_almost_equal(
+                    XYZ_to_xy(XYZ * factor), xy, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_xy(self):

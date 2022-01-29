@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Automatic Colour Conversion Graph Plotting
 ==========================================
@@ -19,7 +18,7 @@ from colour.hints import Literal, Union
 from colour.utilities import required, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -33,9 +32,11 @@ __all__ = [
 @required("NetworkX")
 def plot_automatic_colour_conversion_graph(
     filename: str,
-    prog: Union[Literal["circo", "dot", "fdp", "neato", "nop", "twopi"], str] = "fdp",
+    prog: Union[
+        Literal["circo", "dot", "fdp", "neato", "nop", "twopi"], str
+    ] = "fdp",
     args: str = "",
-) -> "AGraph":  # type: ignore[name-defined]  # noqa
+) -> AGraph:  # type: ignore[name-defined]  # noqa
     """
     Plots *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org/>`__ and

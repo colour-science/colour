@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Lightness :math:`L`
 ===================
@@ -91,7 +90,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -459,7 +458,9 @@ def lightness_Fairchild2011(
 def lightness_Abebe2017(
     Y: FloatingOrArrayLike,
     Y_n: FloatingOrArrayLike = 100,
-    method: Union[Literal["Michaelis-Menten", "Stevens"], str] = "Michaelis-Menten",
+    method: Union[
+        Literal["Michaelis-Menten", "Stevens"], str
+    ] = "Michaelis-Menten",
 ) -> FloatingOrNDArray:
     """
     Computes *Lightness* :math:`L` of given *luminance* :math:`Y` using
@@ -674,7 +675,9 @@ def lightness(
 
     L = function(Y, **filter_kwargs(function, **kwargs))
 
-    if function in domain_undefined and (domain_range_reference or domain_range_100):
+    if function in domain_undefined and (
+        domain_range_reference or domain_range_100
+    ):
         L *= 100
 
     return L

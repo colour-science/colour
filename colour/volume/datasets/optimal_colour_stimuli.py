@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Optimal Colour Stimuli
 ======================
@@ -34,7 +33,7 @@ from colour.hints import NDArray
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -740,12 +739,14 @@ References
 :cite:`Wyszecki2000bh`
 """
 
-OPTIMAL_COLOUR_STIMULI_ILLUMINANTS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "A": OPTIMAL_COLOUR_STIMULI_A,
-        "C": OPTIMAL_COLOUR_STIMULI_C,
-        "D65": OPTIMAL_COLOUR_STIMULI_D65,
-    }
+OPTIMAL_COLOUR_STIMULI_ILLUMINANTS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "A": OPTIMAL_COLOUR_STIMULI_A,
+            "C": OPTIMAL_COLOUR_STIMULI_C,
+            "D65": OPTIMAL_COLOUR_STIMULI_D65,
+        }
+    )
 )
 OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.__doc__ = """
 Illuminants *Optimal Colour Stimuli*.

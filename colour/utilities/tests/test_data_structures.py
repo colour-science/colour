@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.utilities.data_structures` module.
 """
@@ -17,7 +16,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -115,7 +114,9 @@ class TestLookup(unittest.TestCase):
         """
 
         lookup = Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
-        self.assertListEqual(["Jane", "John"], sorted(lookup.keys_from_value("Doe")))
+        self.assertListEqual(
+            ["Jane", "John"], sorted(lookup.keys_from_value("Doe"))
+        )
 
         lookup = Lookup(
             A=np.array([0, 1, 2]), B=np.array([0, 1, 2]), C=np.array([1, 2, 3])
@@ -206,7 +207,9 @@ CaseInsensitiveMapping.__repr__` method.
         mapping = CaseInsensitiveMapping()
 
         mapping["John"] = "Doe"
-        self.assertEqual(repr(mapping), "CaseInsensitiveMapping({'John': 'Doe'})")
+        self.assertEqual(
+            repr(mapping), "CaseInsensitiveMapping({'John': 'Doe'})"
+        )
 
     def test__setitem__(self):
         """
@@ -278,7 +281,9 @@ CaseInsensitiveMapping.__iter__` method.
         """
 
         mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
-        self.assertListEqual(sorted([item for item in mapping]), ["Jane", "John"])
+        self.assertListEqual(
+            sorted(item for item in mapping), ["Jane", "John"]
+        )
 
     def test__len__(self):
         """
@@ -288,7 +293,9 @@ CaseInsensitiveMapping.__len__` method.
 
         self.assertEqual(len(CaseInsensitiveMapping()), 0)
 
-        self.assertEqual(len(CaseInsensitiveMapping(John="Doe", Jane="Doe")), 2)
+        self.assertEqual(
+            len(CaseInsensitiveMapping(John="Doe", Jane="Doe")), 2
+        )
 
     def test__eq__(self):
         """
@@ -363,7 +370,7 @@ CaseInsensitiveMapping.lower_items` method.
         mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
 
         self.assertListEqual(
-            sorted([item for item in mapping.lower_items()]),
+            sorted(item for item in mapping.lower_items()),
             [("jane", "Doe"), ("john", "Doe")],
         )
 
@@ -495,7 +502,9 @@ class TestNode(unittest.TestCase):
         Tests :attr:`colour.utilities.data_structures.Node.children` property.
         """
 
-        self.assertListEqual(self._node_a.children, [self._node_b, self._node_c])
+        self.assertListEqual(
+            self._node_a.children, [self._node_b, self._node_c]
+        )
 
     def test_id(self):
         """

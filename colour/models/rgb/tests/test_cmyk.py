@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.rgb.cmyk` module.
 """
@@ -16,7 +15,7 @@ from colour.models.rgb.cmyk import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -269,19 +268,25 @@ class TestCMYK_to_CMY(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            CMYK_to_CMY(np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])),
+            CMYK_to_CMY(
+                np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
+            ),
             np.array([0.54379481, 0.96918929, 0.95908048]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            CMYK_to_CMY(np.array([0.00000000, 1.00000000, 1.00000000, 0.15000000])),
+            CMYK_to_CMY(
+                np.array([0.00000000, 1.00000000, 1.00000000, 0.15000000])
+            ),
             np.array([0.15000000, 1.00000000, 1.00000000]),
             decimal=7,
         )
 
         np.testing.assert_almost_equal(
-            CMYK_to_CMY(np.array([0.15000000, 0.00000000, 0.00000000, 0.00000000])),
+            CMYK_to_CMY(
+                np.array([0.15000000, 0.00000000, 0.00000000, 0.00000000])
+            ),
             np.array([0.15000000, 0.00000000, 0.00000000]),
             decimal=7,
         )

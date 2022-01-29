@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Automatic Colour Conversion Graph
 =================================
@@ -193,7 +192,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -218,7 +217,9 @@ __all__ = [
 
 
 class Conversion_Specification(
-    namedtuple("Conversion_Specification", ("source", "target", "conversion_function"))
+    namedtuple(
+        "Conversion_Specification", ("source", "target", "conversion_function")
+    )
 ):
     """
     Conversion specification for *Colour* graph for automatic colour
@@ -235,7 +236,7 @@ class Conversion_Specification(
     """
 
     def __new__(cls, source: str, target: str, conversion_function: Callable):
-        return super(Conversion_Specification, cls).__new__(
+        return super().__new__(
             cls, source.lower(), target.lower(), conversion_function
         )
 
@@ -246,7 +247,7 @@ def sd_to_XYZ(
     illuminant: Optional[SpectralDistribution] = None,
     k: Optional[Number] = None,
     method: Union[Literal["ASTM E308", "Integration"], str] = "ASTM E308",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
 
     illuminant = cast(
@@ -542,9 +543,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
         "Hunter Lab",
         partial(
             XYZ_to_Hunter_Lab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
+                "CIE 1931 2 Degree Standard Observer"
+            ]["D65"].XYZ_n
             / 100,
         ),
     ),
@@ -553,9 +554,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
         "CIE XYZ",
         partial(
             Hunter_Lab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
+                "CIE 1931 2 Degree Standard Observer"
+            ]["D65"].XYZ_n
             / 100,
         ),
     ),
@@ -564,9 +565,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
         "Hunter Rdab",
         partial(
             XYZ_to_Hunter_Rdab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
+                "CIE 1931 2 Degree Standard Observer"
+            ]["D65"].XYZ_n
             / 100,
         ),
     ),
@@ -575,9 +576,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
         "CIE XYZ",
         partial(
             Hunter_Rdab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
+            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
+                "CIE 1931 2 Degree Standard Observer"
+            ]["D65"].XYZ_n
             / 100,
         ),
     ),
@@ -737,7 +738,9 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     (
         "CIE XYZ",
         "LLAB",
-        partial(XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80),
+        partial(
+            XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80
+        ),
     ),
     (
         "CIE XYZ",
@@ -819,7 +822,7 @@ CONVERSION_GRAPH_NODE_LABELS.update(
 
 
 @required("NetworkX")
-def _build_graph() -> "networkx.DiGraph":  # type: ignore[name-defined]  # noqa
+def _build_graph() -> networkx.DiGraph:  # type: ignore[name-defined]  # noqa
     """
     Builds the automatic colour conversion graph.
 
@@ -844,7 +847,7 @@ def _build_graph() -> "networkx.DiGraph":  # type: ignore[name-defined]  # noqa
 
 
 CONVERSION_GRAPH: (  # type: ignore[name-defined]
-    Optional["networkx.DiGraph"]  # noqa
+    Optional[networkx.DiGraph]  # noqa
 ) = None
 """
 Automatic colour conversion graph.
@@ -922,7 +925,7 @@ def describe_conversion_path(
     width: Integer = 79,
     padding: Integer = 3,
     print_callable: Callable = print,
-    **kwargs: Any
+    **kwargs: Any,
 ):
     """
     Describes the conversion path from source colour representation to target
@@ -939,7 +942,7 @@ def describe_conversion_path(
     mode
         Verbose mode: *Short* describes the conversion path, *Long* provides
         details about the arguments, definitions signatures and output values,
-        *Extended* appends the definitions documentation.
+        *Extended* appends the definitions' documentation.
     width
         Message box width.
     padding
@@ -982,10 +985,12 @@ def describe_conversion_path(
     conversion_path = _conversion_path(source, target)
 
     message_box(
-        "[ Conversion Path ]\n\n{0}".format(
+        "[ Conversion Path ]\n\n{}".format(
             " --> ".join(
                 [
-                    '"{0}"'.format(_lower_order_function(conversion_function).__name__)
+                    '"{}"'.format(
+                        _lower_order_function(conversion_function).__name__
+                    )
                     for conversion_function in conversion_path
                 ]
             )
@@ -996,7 +1001,9 @@ def describe_conversion_path(
     )
 
     for conversion_function in conversion_path:
-        conversion_function_name = _lower_order_function(conversion_function).__name__
+        conversion_function_name = _lower_order_function(
+            conversion_function
+        ).__name__
 
         # Filtering compatible keyword arguments passed directly and
         # irrespective of any conversion function name.
@@ -1009,27 +1016,28 @@ def describe_conversion_path(
         return_value = filtered_kwargs.pop("return", None)
 
         if mode in ("long", "extended"):
-            message = ('[ "{0}" ]' "\n\n[ Signature ]\n\n{1}").format(
+            message = ('[ "{}" ]' "\n\n[ Signature ]\n\n{}").format(
                 _lower_order_function(conversion_function).__name__,
                 pformat(
-                    signature_inspection(_lower_order_function(conversion_function))
+                    signature_inspection(
+                        _lower_order_function(conversion_function)
+                    )
                 ),
             )
 
             if filtered_kwargs:
-                message += "\n\n[ Filtered Arguments ]\n\n{0}".format(
-                    pformat(filtered_kwargs)
+                message += (
+                    f"\n\n[ Filtered Arguments ]\n\n{pformat(filtered_kwargs)}"
                 )
 
             if mode in ("extended",):
-                message += "\n\n[ Documentation ]\n\n{0}".format(
-                    textwrap.dedent(
-                        str(_lower_order_function(conversion_function).__doc__)
-                    ).strip()
-                )
+                docstring = textwrap.dedent(
+                    str(_lower_order_function(conversion_function).__doc__)
+                ).strip()
+                message += f"\n\n[ Documentation ]\n\n {docstring}"
 
             if return_value is not None:
-                message += "\n\n[ Conversion Output ]\n\n{0}".format(return_value)
+                message += f"\n\n[ Conversion Output ]\n\n{return_value}"
 
             message_box(message, width, padding, print_callable)
 
@@ -1241,7 +1249,9 @@ verbose={'mode': 'Long'})
 
     verbose_kwargs = copy(kwargs)
     for conversion_function in conversion_path:
-        conversion_function_name = _lower_order_function(conversion_function).__name__
+        conversion_function_name = _lower_order_function(
+            conversion_function
+        ).__name__
 
         # Filtering compatible keyword arguments passed directly and
         # irrespective of any conversion function name.

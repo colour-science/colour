@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.common` module.
 """
@@ -42,7 +41,7 @@ from colour.plotting import (
 from colour.utilities import attest
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -323,12 +322,10 @@ class TestFilterPassthrough(unittest.TestCase):
 
         self.assertListEqual(
             sorted(
-                [
-                    colourspace.name
-                    for colourspace in filter_passthrough(
-                        RGB_COLOURSPACES, ["^ACES.*"]
-                    ).values()
-                ]
+                colourspace.name
+                for colourspace in filter_passthrough(
+                    RGB_COLOURSPACES, ["^ACES.*"]
+                ).values()
             ),
             ["ACES2065-1", "ACEScc", "ACEScct", "ACEScg", "ACESproxy"],
         )
@@ -363,12 +360,10 @@ class TestFilterPassthrough(unittest.TestCase):
 
         self.assertListEqual(
             sorted(
-                [
-                    element
-                    for element in filter_passthrough(
-                        {"John": "Doe", "Luke": "Skywalker"}, ["John"]
-                    ).values()
-                ]
+                element
+                for element in filter_passthrough(
+                    {"John": "Doe", "Luke": "Skywalker"}, ["John"]
+                ).values()
             ),
             ["Doe", "John"],
         )
@@ -388,10 +383,10 @@ class TestFilterRgbColourspaces(unittest.TestCase):
 
         self.assertListEqual(
             sorted(
-                [
-                    colourspace.name
-                    for colourspace in filter_RGB_colourspaces(["^ACES.*"]).values()
-                ]
+                colourspace.name
+                for colourspace in filter_RGB_colourspaces(
+                    ["^ACES.*"]
+                ).values()
             ),
             ["ACES2065-1", "ACEScc", "ACEScct", "ACEScg", "ACESproxy"],
         )
@@ -409,7 +404,9 @@ class TestFilterCmfs(unittest.TestCase):
         """
 
         self.assertListEqual(
-            sorted([cmfs.name for cmfs in filter_cmfs([".*2 Degree.*"]).values()]),
+            sorted(
+                cmfs.name for cmfs in filter_cmfs([".*2 Degree.*"]).values()
+            ),
             [
                 "CIE 1931 2 Degree Standard Observer",
                 "CIE 2012 2 Degree Standard Observer",
@@ -450,10 +447,10 @@ class TestFilterColourCheckers(unittest.TestCase):
 
         self.assertListEqual(
             sorted(
-                [
-                    colour_checker.name
-                    for colour_checker in filter_colour_checkers([".*24.*"]).values()
-                ]
+                colour_checker.name
+                for colour_checker in filter_colour_checkers(
+                    [".*24.*"]
+                ).values()
             ),
             [
                 "ColorChecker24 - After November 2014",
@@ -559,7 +556,9 @@ class TestPlotSingleFunction(unittest.TestCase):
         Tests :func:`colour.plotting.common.plot_single_function` definition.
         """
 
-        figure, axes = plot_single_function(partial(gamma_function, exponent=1 / 2.2))
+        figure, axes = plot_single_function(
+            partial(gamma_function, exponent=1 / 2.2)
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

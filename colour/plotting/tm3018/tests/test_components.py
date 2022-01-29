@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.tm3018.components` module.
 """
@@ -25,7 +24,7 @@ from colour.plotting.tm3018.components import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -149,7 +148,9 @@ class TestPlotLocalColourFidelities(unittest.TestCase):
 plot_local_colour_fidelities` definition.
         """
 
-        figure, axes = plot_local_colour_fidelities(SPECIFICATION_ANSIIESTM3018)
+        figure, axes = plot_local_colour_fidelities(
+            SPECIFICATION_ANSIIESTM3018
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -167,7 +168,9 @@ plot_colour_fidelity_indexes` definition unit tests methods.
 plot_colour_fidelity_indexes` definition.
         """
 
-        figure, axes = plot_colour_fidelity_indexes(SPECIFICATION_ANSIIESTM3018)
+        figure, axes = plot_colour_fidelity_indexes(
+            SPECIFICATION_ANSIIESTM3018
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

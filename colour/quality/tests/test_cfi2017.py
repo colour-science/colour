@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.quality.CIE2017` module.
 
@@ -29,7 +28,7 @@ from colour.quality.cfi2017 import (
 from colour.utilities import ColourUsageWarning
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -551,7 +550,9 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
         """
 
         for sd in [SD_SAMPLE_5NM, SD_SAMPLE_1NM]:
-            specification = colour_fidelity_index_CIE2017(sd, additional_data=True)
+            specification = colour_fidelity_index_CIE2017(
+                sd, additional_data=True
+            )
             np.testing.assert_almost_equal(specification.R_f, 81.6, 1)
             np.testing.assert_almost_equal(
                 specification.R_s,

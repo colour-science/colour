@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Sony Colourspaces
 =================
@@ -60,7 +59,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -294,7 +293,9 @@ MATRIX_VENICE_S_GAMUT3_TO_XYZ: NDArray = normalised_primary_matrix(
 *Venice S-Gamut3* colourspace to *CIE XYZ* tristimulus values matrix.
 """
 
-MATRIX_XYZ_TO_VENICE_S_GAMUT3: NDArray = np.linalg.inv(MATRIX_VENICE_S_GAMUT3_TO_XYZ)
+MATRIX_XYZ_TO_VENICE_S_GAMUT3: NDArray = np.linalg.inv(
+    MATRIX_VENICE_S_GAMUT3_TO_XYZ
+)
 """
 *CIE XYZ* tristimulus values to *Venice S-Gamut3* colourspace matrix.
 """

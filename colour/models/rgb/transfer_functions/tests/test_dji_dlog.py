@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 dji_dlog` module.
@@ -14,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -40,7 +39,9 @@ log_encoding_DJIDLog` definition.
 
         self.assertAlmostEqual(log_encoding_DJIDLog(0.0), 0.0929, places=7)
 
-        self.assertAlmostEqual(log_encoding_DJIDLog(0.18), 0.398764556189331, places=7)
+        self.assertAlmostEqual(
+            log_encoding_DJIDLog(0.18), 0.398764556189331, places=7
+        )
 
         self.assertAlmostEqual(log_encoding_DJIDLog(1.0), 0.584555, places=7)
 
@@ -88,7 +89,9 @@ log_encoding_DJIDLog` definition domain and range scale support.
 log_encoding_DJIDLog` definition nan support.
         """
 
-        log_encoding_DJIDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_encoding_DJIDLog(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLogDecoding_DJIDLog(unittest.TestCase):
@@ -105,7 +108,9 @@ log_decoding_DJIDLog` definition.
 
         self.assertAlmostEqual(log_decoding_DJIDLog(0.0929), 0.0, places=7)
 
-        self.assertAlmostEqual(log_decoding_DJIDLog(0.398764556189331), 0.18, places=6)
+        self.assertAlmostEqual(
+            log_decoding_DJIDLog(0.398764556189331), 0.18, places=6
+        )
 
         self.assertAlmostEqual(log_decoding_DJIDLog(0.584555), 1.0, places=6)
 
@@ -153,7 +158,9 @@ log_decoding_DJIDLog` definition domain and range scale support.
 log_decoding_DJIDLog` definition nan support.
         """
 
-        log_decoding_DJIDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_decoding_DJIDLog(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 if __name__ == "__main__":

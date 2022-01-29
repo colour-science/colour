@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Chromaticity Coordinates of the Colour Checkers
 ===============================================
@@ -55,7 +54,7 @@ from colour.models import Lab_to_XYZ, XYZ_to_xyY
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = "Colour Developers, Danny Pascale "
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __copyright__ += ", "
 __copyright__ += (
     "BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale "
@@ -90,7 +89,9 @@ __all__ = [
 ]
 
 
-class ColourChecker(namedtuple("ColourChecker", ("name", "data", "illuminant"))):
+class ColourChecker(
+    namedtuple("ColourChecker", ("name", "data", "illuminant"))
+):
     """
     *Colour Checker* data.
 
@@ -313,7 +314,9 @@ DATA_COLORCHECKER24_BEFORE_NOV2014: Dict = dict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB.values()),
-                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
+                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+                    "ICC D50"
+                ],
             )
         ),
     )
@@ -376,7 +379,9 @@ DATA_COLORCHECKER24_AFTER_NOV2014: Dict = dict(
         XYZ_to_xyY(
             Lab_to_XYZ(
                 list(DATA_COLORCHECKER24_AFTER_NOV2014_CIE_LAB.values()),
-                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["ICC D50"],
+                CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+                    "ICC D50"
+                ],
             )
         ),
     )

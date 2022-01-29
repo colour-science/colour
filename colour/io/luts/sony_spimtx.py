@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Sony .spimtx LUT Format Input / Output Utilities
 ================================================
@@ -20,7 +19,7 @@ from colour.io.luts import LUTOperatorMatrix
 from colour.hints import Boolean
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -113,6 +112,6 @@ def write_LUT_SonySPImtx(
         ]
     )
 
-    np.savetxt(path, array, fmt="%.{0}f".format(decimals))
+    np.savetxt(path, array, fmt=f"%.{decimals}f")
 
     return True

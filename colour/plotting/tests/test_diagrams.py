@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.diagrams` module.
 """
@@ -28,7 +27,7 @@ from colour.plotting.diagrams import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -94,7 +93,9 @@ class TestPlotSpectralLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(ValueError, lambda: plot_spectral_locus(method="Undefined"))
+        self.assertRaises(
+            ValueError, lambda: plot_spectral_locus(method="Undefined")
+        )
 
 
 class TestPlotChromaticityDiagramColours(unittest.TestCase):
@@ -235,7 +236,10 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
         figure, axes = plot_sds_in_chromaticity_diagram(
             [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]],
             annotate_kwargs=[{"arrowprops": {"width": 10}}] * 2,
-            plot_kwargs=[{"normalise_sd_colours": True, "use_sd_colours": True}] * 2,
+            plot_kwargs=[
+                {"normalise_sd_colours": True, "use_sd_colours": True}
+            ]
+            * 2,
         )
 
         self.assertIsInstance(figure, Figure)

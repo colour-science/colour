@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.quality` module.
 """
@@ -22,7 +21,7 @@ from colour.plotting.quality import plot_colour_quality_bars
 from colour.quality import colour_quality_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -113,7 +112,9 @@ plot_single_sd_colour_quality_scale_bars` definition unit tests methods.
 plot_single_sd_colour_quality_scale_bars` definition.
         """
 
-        figure, axes = plot_single_sd_colour_quality_scale_bars(SDS_ILLUMINANTS["FL2"])
+        figure, axes = plot_single_sd_colour_quality_scale_bars(
+            SDS_ILLUMINANTS["FL2"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

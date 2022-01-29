@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Sony .spi3d LUT Format Input / Output Utilities
 ===============================================
@@ -26,7 +25,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -115,16 +114,20 @@ def read_LUT_SonySPI3D(path: str) -> LUT3D:
     attest(
         np.array_equal(
             indexes[sorting_indexes],
-            as_int_array(np.around(LUT3D.linear_table(size) * (size - 1))).reshape(
-                (-1, 3)
-            ),
+            as_int_array(
+                np.around(LUT3D.linear_table(size) * (size - 1))
+            ).reshape((-1, 3)),
         ),
         'Indexes do not match expected "LUT3D" indexes!',
     )
 
-    table = as_float_array(data_table)[sorting_indexes].reshape([size, size, size, 3])
+    table = as_float_array(data_table)[sorting_indexes].reshape(
+        [size, size, size, 3]
+    )
 
-    return LUT3D(table, title, np.vstack([domain_min, domain_max]), comments=comments)
+    return LUT3D(
+        table, title, np.vstack([domain_min, domain_max]), comments=comments
+    )
 
 
 def write_LUT_SonySPI3D(
@@ -167,9 +170,8 @@ def write_LUT_SonySPI3D(
 
     if isinstance(LUT, LUTSequence):
         usage_warning(
-            '"LUT" is a "LUTSequence" instance was passed, '
-            'using first sequence "LUT":\n'
-            "{0}".format(LUT)
+            f'"LUT" is a "LUTSequence" instance was passed, using first '
+            f'sequence "LUT":\n{LUT}'
         )
         LUTxD = LUT[0]
     else:
@@ -214,10 +216,10 @@ def write_LUT_SonySPI3D(
         table = LUTxD.table.reshape([-1, 3])
 
         for i, row in enumerate(indexes):
-            spi3d_file.write("{0}\n".format(_format_array(list(row) + list(table[i]))))
+            spi3d_file.write(f"{_format_array(list(row) + list(table[i]))}\n")
 
         if LUTxD.comments:
             for comment in LUTxD.comments:
-                spi3d_file.write("# {0}\n".format(comment))
+                spi3d_file.write(f"# {comment}\n")
 
     return True

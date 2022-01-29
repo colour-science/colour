@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Pivoted Log Encoding
 ====================
@@ -24,7 +23,7 @@ from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -94,7 +93,8 @@ def log_encoding_PivotedLog(
 
     y = (
         log_reference
-        + np.log10(x / linear_reference) / (density_per_code_value / negative_gamma)
+        + np.log10(x / linear_reference)
+        / (density_per_code_value / negative_gamma)
     ) / 1023
 
     return as_float(from_range_1(y))
@@ -157,7 +157,11 @@ def log_decoding_PivotedLog(
     y = to_domain_1(y)
 
     x = (
-        10 ** ((y * 1023 - log_reference) * (density_per_code_value / negative_gamma))
+        10
+        ** (
+            (y * 1023 - log_reference)
+            * (density_per_code_value / negative_gamma)
+        )
         * linear_reference
     )
 

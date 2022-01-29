@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Yellowness Index :math:`Y`
 ==========================
@@ -52,7 +51,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -184,21 +183,23 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(WI))
 
 
-YELLOWNESS_COEFFICIENTS_ASTME313: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "CIE 1931 2 Degree Standard Observer": CaseInsensitiveMapping(
-            {
-                "C": np.array([1.2769, 1.0592]),
-                "D65": np.array([1.2985, 1.1335]),
-            }
-        ),
-        "CIE 1964 10 Degree Standard Observer": CaseInsensitiveMapping(
-            {
-                "C": np.array([1.2871, 1.0781]),
-                "D65": np.array([1.3013, 1.1498]),
-            }
-        ),
-    }
+YELLOWNESS_COEFFICIENTS_ASTME313: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "CIE 1931 2 Degree Standard Observer": CaseInsensitiveMapping(
+                {
+                    "C": np.array([1.2769, 1.0592]),
+                    "D65": np.array([1.2985, 1.1335]),
+                }
+            ),
+            "CIE 1964 10 Degree Standard Observer": CaseInsensitiveMapping(
+                {
+                    "C": np.array([1.2871, 1.0781]),
+                    "D65": np.array([1.3013, 1.1498]),
+                }
+            ),
+        }
+    )
 )
 YELLOWNESS_COEFFICIENTS_ASTME313.__doc__ = """
 Coefficients :math:`C_X` and :math:`C_Z` for the *ASTM E313* *yellowness* index
@@ -213,12 +214,12 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-YELLOWNESS_COEFFICIENTS_ASTME313["cie_2_1931"] = YELLOWNESS_COEFFICIENTS_ASTME313[
-    "CIE 1931 2 Degree Standard Observer"
-]
-YELLOWNESS_COEFFICIENTS_ASTME313["cie_10_1964"] = YELLOWNESS_COEFFICIENTS_ASTME313[
-    "CIE 1964 10 Degree Standard Observer"
-]
+YELLOWNESS_COEFFICIENTS_ASTME313[
+    "cie_2_1931"
+] = YELLOWNESS_COEFFICIENTS_ASTME313["CIE 1931 2 Degree Standard Observer"]
+YELLOWNESS_COEFFICIENTS_ASTME313[
+    "cie_10_1964"
+] = YELLOWNESS_COEFFICIENTS_ASTME313["CIE 1964 10 Degree Standard Observer"]
 
 
 def yellowness_ASTME313(

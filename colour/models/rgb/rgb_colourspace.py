@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 RGB Colourspace and Transformations
 ===================================
@@ -59,7 +58,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -248,7 +247,7 @@ class RGB_Colourspace:
         self._derived_matrix_RGB_to_XYZ: NDArray = np.array([])
         self._derived_matrix_XYZ_to_RGB: NDArray = np.array([])
 
-        self._name: str = "{0} ({1})".format(self.__class__.__name__, id(self))
+        self._name: str = f"{self.__class__.__name__} ({id(self)})"
         self.name = name
         self._primaries: NDArray = np.array([])
         self.primaries = primaries  # type: ignore[assignment]
@@ -295,7 +294,7 @@ class RGB_Colourspace:
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+            f'"name" property: "{value}" type is not "str"!',
         )
 
         self._name = value
@@ -326,8 +325,8 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-            '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
-            'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
+            f'"matrix_XYZ_to_RGB" property: "{value!r}" is not a "tuple", '
+            f'"list", "ndarray" or "matrix" instance!',
         )
 
         value = as_float_array(value)
@@ -364,8 +363,8 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-            '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
-            'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
+            f'"matrix_XYZ_to_RGB" property: "{value!r}" is not a "tuple", '
+            f'"list", "ndarray" or "matrix" instance!',
         )
 
         value = as_float_array(value)
@@ -401,9 +400,7 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" property: "{1}" type is not "str"!'.format(
-                    "whitepoint_name", value
-                ),
+                f'"whitepoint_name" property: "{value}" type is not "str"!',
             )
 
         self._whitepoint_name = value
@@ -427,7 +424,10 @@ class RGB_Colourspace:
             values.
         """
 
-        if self._matrix_RGB_to_XYZ is None or self._use_derived_matrix_RGB_to_XYZ:
+        if (
+            self._matrix_RGB_to_XYZ is None
+            or self._use_derived_matrix_RGB_to_XYZ
+        ):
             return self._derived_matrix_RGB_to_XYZ
         else:
             return self._matrix_RGB_to_XYZ
@@ -441,8 +441,8 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-                '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
-                'or "matrix" instance!'.format("matrix_RGB_to_XYZ", value),
+                f'"matrix_RGB_to_XYZ" property: "{value!r}" is not a "tuple", '
+                f'"list", "ndarray" or "matrix" instance!',
             )
 
             value = as_float_array(value)
@@ -468,7 +468,10 @@ class RGB_Colourspace:
             colourspace.
         """
 
-        if self._matrix_XYZ_to_RGB is None or self._use_derived_matrix_XYZ_to_RGB:
+        if (
+            self._matrix_XYZ_to_RGB is None
+            or self._use_derived_matrix_XYZ_to_RGB
+        ):
             return self._derived_matrix_XYZ_to_RGB
         else:
             return self._matrix_XYZ_to_RGB
@@ -482,8 +485,8 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-                '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
-                'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
+                f'"matrix_XYZ_to_RGB" property: "{value!r}" is not a "tuple", '
+                f'"list", "ndarray" or "matrix" instance!',
             )
 
             value = as_float_array(value)
@@ -521,7 +524,7 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 hasattr(value, "__call__"),
-                '"{0}" property: "{1}" is not callable!'.format("cctf_encoding", value),
+                f'"cctf_encoding" property: "{value}" is not callable!',
             )
 
         self._cctf_encoding = value
@@ -557,7 +560,7 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 hasattr(value, "__call__"),
-                '"{0}" property: "{1}" is not callable!'.format("cctf_decoding", value),
+                f'"cctf_decoding" property: "{value}" is not callable!',
             )
 
         self._cctf_decoding = value
@@ -592,9 +595,8 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (bool, np.bool_)),
-            '"{0}" property: "{1}" is not a "bool"!'.format(
-                "use_derived_matrix_RGB_to_XYZ", value
-            ),
+            f'"use_derived_matrix_RGB_to_XYZ" property: "{value}" is not a '
+            f'"bool"!',
         )
 
         self._use_derived_matrix_RGB_to_XYZ = value
@@ -631,9 +633,8 @@ class RGB_Colourspace:
 
         attest(
             isinstance(value, (bool, np.bool_)),
-            '"{0}" property: "{1}" is not a "bool"!'.format(
-                "use_derived_matrix_XYZ_to_RGB", value
-            ),
+            f'"use_derived_matrix_XYZ_to_RGB" property: "{value}" is not a '
+            f'"bool"!',
         )
 
         self._use_derived_matrix_XYZ_to_RGB = value
@@ -700,19 +701,19 @@ class RGB_Colourspace:
             return str(a).replace(" [", " " * 22 + "[")
 
         return (
-            "{0}\n"
-            "{1}\n\n"
-            "Primaries          : {2}\n"
-            "Whitepoint         : {3}\n"
-            "Whitepoint Name    : {4}\n"
-            "Encoding CCTF      : {5}\n"
-            "Decoding CCTF      : {6}\n"
-            "NPM                : {7}\n"
-            "NPM -1             : {8}\n"
-            "Derived NPM        : {9}\n"
-            "Derived NPM -1     : {10}\n"
-            "Use Derived NPM    : {11}\n"
-            "Use Derived NPM -1 : {12}"
+            "{}\n"
+            "{}\n\n"
+            "Primaries          : {}\n"
+            "Whitepoint         : {}\n"
+            "Whitepoint Name    : {}\n"
+            "Encoding CCTF      : {}\n"
+            "Decoding CCTF      : {}\n"
+            "NPM                : {}\n"
+            "NPM -1             : {}\n"
+            "Derived NPM        : {}\n"
+            "Derived NPM -1     : {}\n"
+            "Use Derived NPM    : {}\n"
+            "Use Derived NPM -1 : {}"
         ).format(
             self.name,
             "-" * len(self.name),
@@ -775,7 +776,7 @@ class RGB_Colourspace:
             Indents given array evaluable string representation.
             """
 
-            representation = repr(a).replace(" [", "{0}[".format(" " * 11))
+            representation = repr(a).replace(" [", f"{' ' * 11}[")
             representation = representation.replace("array(", " " * 16)
             return representation.replace(")", "")
 
@@ -812,7 +813,9 @@ class RGB_Colourspace:
 
         if hasattr(self, "_primaries") and hasattr(self, "_whitepoint"):
             if self._primaries is not None and self._whitepoint is not None:
-                npm = normalised_primary_matrix(self._primaries, self._whitepoint)
+                npm = normalised_primary_matrix(
+                    self._primaries, self._whitepoint
+                )
 
                 self._derived_matrix_RGB_to_XYZ = npm
                 self._derived_matrix_XYZ_to_RGB = np.linalg.inv(npm)
@@ -921,8 +924,9 @@ class RGB_Colourspace:
         colourspace._derive_transformation_matrices()
         colourspace.use_derived_transformation_matrices()
 
-        colourspace.name = "{0} - Chromatically Adapted to {1!r}".format(
-            colourspace.name, cast(str, optional(whitepoint_name, whitepoint))
+        colourspace.name = (
+            f"{colourspace.name} - Chromatically Adapted to "
+            f"{cast(str, optional(whitepoint_name, whitepoint))!r}"
         )
 
         return colourspace
@@ -1245,7 +1249,7 @@ def RGB_to_RGB(
     ] = "CAT02",
     apply_cctf_decoding: Boolean = False,
     apply_cctf_encoding: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Converts given *RGB* colourspace array from given input *RGB* colourspace
@@ -1321,7 +1325,8 @@ def RGB_to_RGB(
     if apply_cctf_encoding and output_colourspace.cctf_encoding is not None:
         with domain_range_scale("ignore"):
             RGB = output_colourspace.cctf_encoding(
-                RGB, **filter_kwargs(output_colourspace.cctf_encoding, **kwargs)
+                RGB,
+                **filter_kwargs(output_colourspace.cctf_encoding, **kwargs),
             )
 
     return from_range_1(RGB)

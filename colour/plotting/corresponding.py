@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Corresponding Chromaticities Prediction Plotting
 ================================================
@@ -16,7 +15,7 @@ from colour.corresponding import (
     CorrespondingColourDataset,
     corresponding_chromaticities_prediction,
 )
-from colour.hints import Any, Dict, Literal, Tuple, Union
+from colour.hints import Any, Dict, Literal, Optional, Tuple, Union
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,
@@ -27,7 +26,7 @@ from colour.plotting import (
 from colour.utilities import is_numeric
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -44,26 +43,17 @@ def plot_corresponding_chromaticities_prediction(
         Literal[1, 2, 3, 4, 6, 8, 9, 11, 12], CorrespondingColourDataset
     ] = 1,
     model: Union[
-        Literal["CIE 1994", "CMCCAT2000", "Fairchild 1990", "Von Kries"], str
-    ] = "Von Kries",
-    chromatic_adaptation_transform: Union[
         Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
+            "CIE 1994",
             "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
+            "Fairchild 1990",
             "Von Kries",
-            "XYZ Scaling",
+            "Zhai 2018",
         ],
         str,
-    ] = "CAT02",
-    **kwargs: Any
+    ] = "Von Kries",
+    corresponding_chromaticities_prediction_kwargs: Optional[Dict] = None,
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given chromatic adaptation model corresponding chromaticities
@@ -76,8 +66,9 @@ def plot_corresponding_chromaticities_prediction(
         :class:`colour.CorrespondingColourDataset` class instance.
     model
         Corresponding chromaticities prediction model name.
-    chromatic_adaptation_transform
-        Transformation to use with *Von Kries* chromatic adaptation model.
+    corresponding_chromaticities_prediction_kwargs
+        Keyword arguments for the :func:`colour.\
+corresponding_chromaticities_prediction` definition.
 
     Other Parameters
     ----------------
@@ -94,7 +85,7 @@ def plot_corresponding_chromaticities_prediction(
 
     Examples
     --------
-    >>> plot_corresponding_chromaticities_prediction(1, 'Von Kries', 'CAT02')
+    >>> plot_corresponding_chromaticities_prediction(1, 'Von Kries')
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -104,27 +95,23 @@ Plot_Corresponding_Chromaticities_Prediction.png
         :alt: plot_corresponding_chromaticities_prediction
     """
 
+    if corresponding_chromaticities_prediction_kwargs is None:
+        corresponding_chromaticities_prediction_kwargs = {}
+
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
     name = (
-        "Experiment {0}".format(experiment)
+        f"Experiment {experiment}"
         if is_numeric(experiment)
         else experiment.name  # type: ignore[union-attr]
     )
     title = (
-        (
-            "Corresponding Chromaticities Prediction - {0} ({1}) - {2} - "
-            "CIE 1976 UCS Chromaticity Diagram"
-        ).format(model, chromatic_adaptation_transform, name)
-        if model.lower() in ("von kries", "vonkries")
-        else (
-            "Corresponding Chromaticities Prediction - {0} - {1} - "
-            "CIE 1976 UCS Chromaticity Diagram"
-        ).format(model, name)
-    )
+        "Corresponding Chromaticities Prediction - {} - {} - "
+        "CIE 1976 UCS Chromaticity Diagram"
+    ).format(model, name)
 
     settings = {"axes": axes, "title": title}
     settings.update(kwargs)
@@ -133,7 +120,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     plot_chromaticity_diagram_CIE1976UCS(**settings)
 
     results = corresponding_chromaticities_prediction(
-        experiment, transform=chromatic_adaptation_transform
+        experiment, model, **corresponding_chromaticities_prediction_kwargs
     )
 
     for result in results:
@@ -171,7 +158,9 @@ Plot_Corresponding_Chromaticities_Prediction.png
             ),
             markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
         )
-        axes.plot(uv_p[0], uv_p[1], "^", color=CONSTANTS_COLOUR_STYLE.colour.dark)
+        axes.plot(
+            uv_p[0], uv_p[1], "^", color=CONSTANTS_COLOUR_STYLE.colour.dark
+        )
 
     settings.update(
         {

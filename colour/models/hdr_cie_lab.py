@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 hdr-CIELAB Colourspace
 ======================
@@ -60,7 +59,7 @@ from colour.utilities.documentation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -88,7 +87,9 @@ References
 def exponent_hdr_CIELab(
     Y_s: FloatingOrArrayLike,
     Y_abs: FloatingOrArrayLike,
-    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+    method: Union[
+        Literal["Fairchild 2011", "Fairchild 2010"], str
+    ] = "Fairchild 2011",
 ) -> FloatingOrNDArray:
     """
     Computes *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon` exponent
@@ -148,12 +149,14 @@ def exponent_hdr_CIELab(
 
 def XYZ_to_hdr_CIELab(
     XYZ: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
     Y_s: FloatingOrArrayLike = 0.2,
     Y_abs: FloatingOrArrayLike = 100,
-    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+    method: Union[
+        Literal["Fairchild 2011", "Fairchild 2010"], str
+    ] = "Fairchild 2011",
 ) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
@@ -247,12 +250,14 @@ def XYZ_to_hdr_CIELab(
 
 def hdr_CIELab_to_XYZ(
     Lab_hdr: ArrayLike,
-    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ],
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
     Y_s: FloatingOrArrayLike = 0.2,
     Y_abs: FloatingOrArrayLike = 100,
-    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+    method: Union[
+        Literal["Fairchild 2011", "Fairchild 2010"], str
+    ] = "Fairchild 2011",
 ) -> NDArray:
     """
     Converts from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.

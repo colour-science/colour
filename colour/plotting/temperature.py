@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Temperature & Correlated Colour Temperature Plotting
 ===========================================================
@@ -54,7 +53,7 @@ from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import optional, tstack, validate_method, zeros
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -74,7 +73,7 @@ __all__ = [
 def plot_planckian_locus(
     planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
     method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* according to given method.
@@ -155,7 +154,7 @@ def plot_planckian_locus(
         i1, j1 = uv_to_ij(CCT_to_uv(np.array([i, D_uv]), "Robertson 1968"))
         axes.plot((i0, i1), (j0, j1), color=planckian_locus_colours)
         axes.annotate(
-            "{0}K".format(i),
+            f"{i}K",
             xy=(i0, j0),
             xytext=(0, -10),
             textcoords="offset points",
@@ -170,7 +169,8 @@ def plot_planckian_locus(
 
 @override_style()
 def plot_planckian_locus_CIE1931(
-    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None, **kwargs: Any
+    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* according to *CIE 1931* method.
@@ -209,7 +209,8 @@ def plot_planckian_locus_CIE1931(
 
 @override_style()
 def plot_planckian_locus_CIE1960UCS(
-    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None, **kwargs: Any
+    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* according to *CIE 1960 UCS* method.
@@ -256,7 +257,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* and given illuminants in the
@@ -357,8 +358,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy
@@ -368,8 +369,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
@@ -377,8 +378,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
     else:
         raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            "['CIE 1931', 'CIE 1960 UCS']".format(method)
+            f'Invalid method: "{method}", must be one of '
+            f'["CIE 1931", "CIE 1960 UCS"]'
         )
 
     annotate_settings_collection = [
@@ -401,7 +402,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
     plot_settings_collection = [
         {
             "color": CONSTANTS_COLOUR_STYLE.colour.brightest,
-            "label": "{0}".format(illuminant),
+            "label": f"{illuminant}",
             "marker": "o",
             "markeredgecolor": CONSTANTS_COLOUR_STYLE.colour.dark,
             "markeredgewidth": CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
@@ -433,14 +434,14 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
     title = (
         (
-            "{0} Illuminants - Planckian Locus\n"
-            "{1} Chromaticity Diagram - "
+            "{} Illuminants - Planckian Locus\n"
+            "{} Chromaticity Diagram - "
             "CIE 1931 2 Degree Standard Observer"
         ).format(", ".join(illuminants_filtered), method.upper())
         if illuminants_filtered
         else (
-            "Planckian Locus\n{0} Chromaticity Diagram - "
-            "CIE 1931 2 Degree Standard Observer".format(method.upper())
+            f"Planckian Locus\n{method.upper()} Chromaticity Diagram - "
+            f"CIE 1931 2 Degree Standard Observer"
         )
     )
 
@@ -466,7 +467,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     planckian_locus_callable_CIE1931: Callable = plot_planckian_locus_CIE1931,
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -537,7 +538,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
         planckian_locus_callable_CIE1931,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings
+        **settings,
     )
 
 
@@ -547,10 +548,12 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_chromaticity_diagram_CIE1960UCS  # type: ignore[has-type]
     ),
-    planckian_locus_callable_CIE1960UCS: Callable = plot_planckian_locus_CIE1960UCS,
+    planckian_locus_callable_CIE1960UCS: Callable = (
+        plot_planckian_locus_CIE1960UCS
+    ),
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -622,5 +625,5 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
         planckian_locus_callable_CIE1960UCS,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings
+        **settings,
     )

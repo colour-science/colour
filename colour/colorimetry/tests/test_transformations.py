@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.colorimetry.transformations`
 module.
@@ -18,7 +17,7 @@ from colour.colorimetry import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -70,15 +69,21 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
     @ignore_numpy_errors
     def test_nan_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
@@ -277,15 +282,21 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_almost_equal(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
+        np.testing.assert_almost_equal(
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ
+        )
 
     @ignore_numpy_errors
     def test_nan_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):

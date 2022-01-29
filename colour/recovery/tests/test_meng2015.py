@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.recovery.meng2015` module.
 """
@@ -18,7 +17,7 @@ from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -141,7 +140,9 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     sd_to_XYZ_integration(
-                        XYZ_to_sd_Meng2015(XYZ_i * factor_a, self._cmfs, self._sd_D65),
+                        XYZ_to_sd_Meng2015(
+                            XYZ_i * factor_a, self._cmfs, self._sd_D65
+                        ),
                         self._cmfs,
                         self._sd_D65,
                     ),

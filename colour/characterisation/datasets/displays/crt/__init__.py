@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .primaries import MSDS_DISPLAY_PRIMARIES_CRT
 
 __all__ = [

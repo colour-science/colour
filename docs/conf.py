@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # colour documentation build configuration file, created by
 # sphinx-quickstart on Tue Aug  5 14:31:53 2014.
@@ -18,7 +17,9 @@ import sys
 
 import colour as package  # noqa
 
-basename = re.sub("_(\\w)", lambda x: x.group(1).upper(), package.__name__.title())
+basename = re.sub(
+    "_(\\w)", lambda x: x.group(1).upper(), package.__name__.title()
+)
 
 if os.environ.get("READTHEDOCS") == "True":
     utilities_directory = os.path.join(
@@ -132,7 +133,7 @@ copyright = package.__copyright__.replace("Copyright (C)", "")
 # built documents.
 #
 # The short X.Y version.
-version = "{0}.{1}".format(package.__major_version__, package.__minor_version__)
+version = f"{package.__major_version__}.{package.__minor_version__}"
 # The full version, including alpha/beta/rc tags.
 release = package.__version__
 
@@ -258,7 +259,7 @@ html_static_path = ["_static"]
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "{0}Doc".format(basename)
+htmlhelp_basename = f"{basename}Doc"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -292,8 +293,8 @@ latex_elements = {
 latex_documents = [
     (
         "index",
-        "{0}.tex".format(basename),
-        u"{0} Documentation".format(package.__application_name__),
+        f"{basename}.tex",
+        f"{package.__application_name__} Documentation",
         package.__author__,
         "manual",
     ),
@@ -327,7 +328,7 @@ man_pages = [
     (
         "index",
         basename,
-        u"{0} Documentation".format(package.__application_name__),
+        f"{package.__application_name__} Documentation",
         [package.__author__],
         1,
     )
@@ -345,7 +346,7 @@ texinfo_documents = [
     (
         "index",
         basename,
-        u"{0} Documentation".format(package.__application_name__),
+        f"{package.__application_name__} Documentation",
         package.__author__,
         package.__application_name__,
         basename,

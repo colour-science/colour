@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *RGB* colourspace derivation.
 """
@@ -19,26 +18,22 @@ primaries = np.array(
 )
 whitepoint = np.array([0.32168, 0.33767])
 message_box(
-    (
-        'Computing the normalised primary matrix for "ACES2065-1" '
-        'colourspace transforming from "ACES2065-1" colourspace to '
-        '"CIE XYZ" tristimulus values using user defined primaries '
-        "matrix and whitepoint:\n"
-        "\n\t{0}\n\t{1}\n\t{2}\n\n\t{3}".format(
-            primaries[0], primaries[1], primaries[2], whitepoint
-        )
-    )
+    f'Computing the normalised primary matrix for the "ACES2065-1" colourspace '
+    f'transforming from the "ACES2065-1" colourspace to "CIE XYZ" tristimulus '
+    f"values using user defined primaries matrix and whitepoint:\n\n"
+    f"\t{primaries[0]}\n"
+    f"\t{primaries[1]}\n"
+    f"\t{primaries[2]}\n"
+    f"\t{whitepoint}"
 )
 print(colour.normalised_primary_matrix(primaries, whitepoint))
 
 print("\n")
 
 message_box(
-    (
-        'Computing the normalised primary matrix for "ACES2065-1" '
-        'colourspace transforming from "ACES2065-1" colourspace to '
-        '"CIE XYZ" tristimulus values using colour models dataset.'
-    )
+    'Computing the normalised primary matrix for the "ACES2065-1" colourspace '
+    'transforming from the "ACES2065-1" colourspace to "CIE XYZ" tristimulus '
+    "values using colour models dataset."
 )
 print(
     colour.normalised_primary_matrix(
@@ -50,11 +45,9 @@ print(
 print("\n")
 
 message_box(
-    (
-        'Computing the normalised primary matrix for "ACES2065-1" '
-        'colourspace transforming from "CIE XYZ" tristimulus values to '
-        '"ACES2065-1" colourspace using colour models dataset.'
-    )
+    'Computing the normalised primary matrix for the "ACES2065-1" colourspace '
+    'transforming from "CIE XYZ" tristimulus values to the "ACES2065-1" '
+    "colourspace using colour models dataset."
 )
 print(
     np.linalg.inv(
@@ -68,10 +61,8 @@ print(
 print("\n")
 
 message_box(
-    (
-        'Computing "sRGB" colourspace primaries chromatically adapted to '
-        '"CIE Standard Illuminant D50":\n'
-    )
+    'Computing the "sRGB" colourspace primaries chromatically adapted to the '
+    '"CIE Standard Illuminant D50":\n'
 )
 print(
     colour.chromatically_adapted_primaries(
@@ -91,20 +82,15 @@ npm = np.array(
     ]
 )
 message_box(
-    (
-        "Computing the primaries and whitepoint from given "
-        "normalised primary matrix:\n"
-        "\n{0}".format(npm)
-    )
+    f"Computing the primaries and whitepoint from given normalised primary "
+    f"matrix:\n\n{npm}"
 )
 print(colour.primaries_whitepoint(npm))
 
 print("\n")
 
 RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-message_box(
-    ('Computing "RGB" luminance of given "RGB" values:\n' "\n\t{0}".format(RGB))
-)
+message_box(f'Computing the "RGB" luminance of given "RGB" values:\n\n\t{RGB}')
 print(
     colour.RGB_luminance(
         RGB,
@@ -116,10 +102,7 @@ print(
 print("\n")
 
 message_box(
-    (
-        'Computing "RGB" luminance equation of given "RGB" values:\n'
-        "\n\t{0}".format(RGB)
-    )
+    f'Computing the "RGB" luminance equation of given "RGB" values:\n\n\t{RGB}'
 )
 print(
     colour.RGB_luminance(

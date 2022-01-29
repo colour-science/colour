@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Fujifilm F-Log Log Encoding
 ===========================
@@ -29,7 +28,7 @@ from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -139,7 +138,9 @@ def log_encoding_FLog(
         c * np.log10(a * in_r + b) + d,
     )
 
-    out_r_cv = out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
+    out_r_cv = (
+        out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
+    )
 
     return as_float(from_range_1(out_r_cv))
 
@@ -201,7 +202,9 @@ def log_decoding_FLog(
 
     out_r = to_domain_1(out_r)
 
-    out_r = out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
+    out_r = (
+        out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
+    )
 
     cut2 = constants.cut2
     a = constants.a

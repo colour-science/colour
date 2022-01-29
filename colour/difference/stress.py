@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Standardized Residual Sum of Squares (STRESS) Index
 ===================================================
@@ -32,7 +31,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -82,7 +81,9 @@ def index_stress_Garcia2007(
 
     F_1 = np.sum(d_E ** 2) / np.sum(d_E * d_V)
 
-    stress = np.sqrt(np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2))
+    stress = np.sqrt(
+        np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2)
+    )
 
     return as_float(stress)
 

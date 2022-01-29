@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Blindness Plotting
 =========================
@@ -29,7 +28,7 @@ from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
 from colour.utilities import optional
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,7 +47,7 @@ def plot_cvd_simulation_Machado2009(
     ] = "Protanomaly",
     severity: Floating = 0.5,
     M_a: Optional[ArrayLike] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Performs colour vision deficiency simulation on given *RGB* colourspace
@@ -94,16 +93,20 @@ def plot_cvd_simulation_Machado2009(
         :alt: plot_cvd_simulation_Machado2009
     """
 
-    M_a = cast(ArrayLike, optional(M_a, matrix_cvd_Machado2009(deficiency, severity)))
+    M_a = cast(
+        ArrayLike, optional(M_a, matrix_cvd_Machado2009(deficiency, severity))
+    )
 
     settings: Dict[str, Any] = {
         "text_kwargs": {
-            "text": "Deficiency: {0} - Severity: {1}".format(deficiency, severity)
+            "text": f"Deficiency: {deficiency} - Severity: {severity}"
         }
     }
     settings.update(kwargs)
 
     return plot_image(
-        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(vector_dot(M_a, RGB)),
-        **settings
+        CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
+            vector_dot(M_a, RGB)
+        ),
+        **settings,
     )

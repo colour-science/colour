@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases gamut section plotting examples.
 """
@@ -130,12 +129,12 @@ for i, RGB in zip(np.arange(0.5, 0.9, 0.1), section_colours):
         axes=axes,
         standalone=False,
     )
-    legend_lines.append(Line2D([0], [0], color=RGB, label="{0}%".format(i * 100)))
+    legend_lines.append(Line2D([0], [0], color=RGB, label=f"{i * 100}%"))
 
 axes.legend(handles=legend_lines)
 
 colour.plotting.render(
-    title="Visible Spectrum - 50% - sRGB Sections - {0}% -  DIN99".format(origins),
+    title=f"Visible Spectrum - 50% - sRGB Sections - {origins}% -  DIN99",
     axes=axes,
     bounding_box=bounding_box,
 )

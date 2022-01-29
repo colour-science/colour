@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Multi Signals
 =============
@@ -60,7 +59,7 @@ else:  # pragma: no cover
     Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -98,22 +97,22 @@ class MultiSignals(AbstractContinuousFunction):
 
     Other Parameters
     ----------------
-    name
-        multi-continuous signals name.
     dtype
         Floating point data type.
-    interpolator
-        Interpolator class type to use as interpolating function for the
-        :class:`colour.continuous.Signal` sub-class instances.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.continuous.Signal` sub-class instances.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.continuous.Signal` sub-class instances.
+    interpolator
+        Interpolator class type to use as interpolating function for the
+        :class:`colour.continuous.Signal` sub-class instances.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function
+        of the :class:`colour.continuous.Signal` sub-class instances.
+    name
+        multi-continuous signals name.
     signal_type
         The :class:`colour.continuous.Signal` sub-class type used for
         instances.
@@ -304,7 +303,7 @@ class MultiSignals(AbstractContinuousFunction):
                 ArrayLike,
                 DataFrame,
                 dict,
-                "MultiSignals",
+                MultiSignals,
                 Sequence,
                 Series,
                 Signal,
@@ -312,9 +311,9 @@ class MultiSignals(AbstractContinuousFunction):
         ] = None,
         domain: Optional[ArrayLike] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
-        super(MultiSignals, self).__init__(kwargs.get("name"))
+        super().__init__(kwargs.get("name"))
 
         self._signal_type: Type[Signal] = kwargs.get("signal_type", Signal)
 
@@ -579,7 +578,7 @@ class MultiSignals(AbstractContinuousFunction):
     def signals(
         self,
         value: Optional[
-            Union[ArrayLike, DataFrame, dict, "MultiSignals", Signal, Series]
+            Union[ArrayLike, DataFrame, dict, MultiSignals, Signal, Series]
         ],
     ):
         """
@@ -618,25 +617,22 @@ class MultiSignals(AbstractContinuousFunction):
 
         attest(
             is_iterable(value),
-            '"{0}" property: "{1}" is not an "iterable" like object!'.format(
-                "labels", value
-            ),
+            f'"labels" property: "{value}" is not an "iterable" like object!',
         )
 
         attest(
             len(set(value)) == len(value),
-            '"{0}" property: values must be unique!'.format("labels"),
+            '"labels" property: values must be unique!',
         )
 
         attest(
             len(value) == len(self.labels),
-            '"{0}" property: length must be "{1}"!'.format(
-                "labels", len(self._signals)
-            ),
+            f'"labels" property: length must be "{len(self._signals)}"!',
         )
 
         self._signals = {
-            str(value[i]): signal for i, signal in enumerate(self._signals.values())
+            str(value[i]): signal
+            for i, signal in enumerate(self._signals.values())
         }
 
     @property
@@ -684,7 +680,7 @@ class MultiSignals(AbstractContinuousFunction):
         try:
             return str(np.hstack([self.domain[:, np.newaxis], self.range]))
         except TypeError:
-            return super(MultiSignals, self).__str__()
+            return super().__str__()
 
     def __repr__(self) -> str:
         """
@@ -720,14 +716,18 @@ class MultiSignals(AbstractContinuousFunction):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
+            return f"{self.__class__.__name__}(name='{self.name}', ...)"
 
         try:
-            representation = repr(np.hstack([self.domain[:, np.newaxis], self.range]))
-            representation = representation.replace("array", self.__class__.__name__)
+            representation = repr(
+                np.hstack([self.domain[:, np.newaxis], self.range])
+            )
+            representation = representation.replace(
+                "array", self.__class__.__name__
+            )
             representation = representation.replace(
                 "       [",
-                "{0}[".format(" " * (len(self.__class__.__name__) + 2)),
+                f"{' ' * (len(self.__class__.__name__) + 2)}[",
             )
             representation = (
                 "{0},\n"
@@ -752,7 +752,7 @@ class MultiSignals(AbstractContinuousFunction):
 
             return representation
         except TypeError:
-            return super(MultiSignals, self).__repr__()
+            return super().__repr__()
 
     def __hash__(self) -> Integer:
         """
@@ -775,7 +775,9 @@ class MultiSignals(AbstractContinuousFunction):
             )
         )
 
-    def __getitem__(self, x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
+    def __getitem__(
+        self, x: Union[FloatingOrArrayLike, slice]
+    ) -> FloatingOrNDArray:
         """
         Returns the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
@@ -837,9 +839,13 @@ class MultiSignals(AbstractContinuousFunction):
 
         x_r, x_c = (x[0], x[1]) if isinstance(x, tuple) else (x, slice(None))
 
-        return tstack([signal[x_r] for signal in self._signals.values()])[..., x_c]
+        return tstack([signal[x_r] for signal in self._signals.values()])[
+            ..., x_c
+        ]
 
-    def __setitem__(self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike):
+    def __setitem__(
+        self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
+    ):
         """
         Sets the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -1228,7 +1234,9 @@ class MultiSignals(AbstractContinuousFunction):
                     'underlying "Signal" components!',
                 )
 
-                for signal, y in zip(multi_signals.signals.values(), tsplit(a)):
+                for signal, y in zip(
+                    multi_signals.signals.values(), tsplit(a)
+                ):
                     signal.arithmetical_operation(y, operation, True)
 
         return multi_signals
@@ -1240,7 +1248,7 @@ class MultiSignals(AbstractContinuousFunction):
                 ArrayLike,
                 DataFrame,
                 dict,
-                "MultiSignals",
+                MultiSignals,
                 Sequence,
                 Series,
                 Signal,
@@ -1250,7 +1258,7 @@ class MultiSignals(AbstractContinuousFunction):
         labels: Optional[Sequence] = None,
         dtype: Optional[Type[DTypeFloating]] = None,
         signal_type: Type[Signal] = Signal,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> Dict[str, Signal]:
         """
         Unpack given data for multi-continuous signals instantiation.
@@ -1275,20 +1283,20 @@ class MultiSignals(AbstractContinuousFunction):
 
         Other Parameters
         ----------------
-        name
-            multi-continuous signals name.
-        interpolator
-            Interpolator class type to use as interpolating function for the
-            :class:`colour.continuous.Signal` sub-class instances.
-        interpolator_kwargs
-            Arguments to use when instantiating the interpolating function
-            of the :class:`colour.continuous.Signal` sub-class instances.
         extrapolator
             Extrapolator class type to use as extrapolating function for the
             :class:`colour.continuous.Signal` sub-class instances.
         extrapolator_kwargs
             Arguments to use when instantiating the extrapolating function
             of the :class:`colour.continuous.Signal` sub-class instances.
+        interpolator
+            Interpolator class type to use as interpolating function for the
+            :class:`colour.continuous.Signal` sub-class instances.
+        interpolator_kwargs
+            Arguments to use when instantiating the interpolating function
+            of the :class:`colour.continuous.Signal` sub-class instances.
+        name
+            multi-continuous signals name.
 
         Returns
         -------
@@ -1469,7 +1477,10 @@ class MultiSignals(AbstractContinuousFunction):
             data_sequence = list(data)  # type: ignore[arg-type]
 
             is_signal = all(
-                [True if isinstance(i, Signal) else False for i in data_sequence]
+                [
+                    True if isinstance(i, Signal) else False
+                    for i in data_sequence
+                ]
             )
 
             if is_signal:
@@ -1488,7 +1499,9 @@ class MultiSignals(AbstractContinuousFunction):
                     data_array = data_array[np.newaxis, :]
 
                 for i, range_unpacked in enumerate(data_array):
-                    signals[str(i)] = signal_type(range_unpacked, domain, **settings)
+                    signals[str(i)] = signal_type(
+                        range_unpacked, domain, **settings
+                    )
         elif issubclass(type(data), Mapping) or isinstance(data, dict):
             data_mapping = dict(data)  # type: ignore[arg-type]
 
@@ -1505,7 +1518,9 @@ class MultiSignals(AbstractContinuousFunction):
                         signal.range, signal.domain, **settings
                     )
             else:
-                domain_unpacked, range_unpacked = zip(*sorted(data_mapping.items()))
+                domain_unpacked, range_unpacked = zip(
+                    *sorted(data_mapping.items())
+                )
                 for i, range_unpacked in enumerate(tsplit(range_unpacked)):
                     signals[str(i)] = signal_type(
                         range_unpacked, domain_unpacked, **settings
@@ -1516,7 +1531,9 @@ class MultiSignals(AbstractContinuousFunction):
             elif isinstance(data, DataFrame):
                 domain_unpacked = data.index.values
                 signals = {
-                    label: signal_type(data[label], domain_unpacked, **settings)
+                    label: signal_type(
+                        data[label], domain_unpacked, **settings
+                    )
                     for label in data
                 }
 
@@ -1537,11 +1554,13 @@ class MultiSignals(AbstractContinuousFunction):
         if labels is not None:
             attest(
                 len(labels) == len(signals),
-                'User "labels" length is not compatible with unpacked ' '"signals"!',
+                'User "labels" length is not compatible with unpacked '
+                '"signals"!',
             )
 
             signals = {
-                str(labels[i]): signal for i, signal in enumerate(signals.values())
+                str(labels[i]): signal
+                for i, signal in enumerate(signals.values())
             }
 
         for label in signals:
@@ -1554,7 +1573,9 @@ class MultiSignals(AbstractContinuousFunction):
 
     def fill_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ) -> AbstractContinuousFunction:
         """
@@ -1655,4 +1676,6 @@ class MultiSignals(AbstractContinuousFunction):
         9.0  100.0  110.0  120.0
         """
 
-        return DataFrame(data=self.range, index=self.domain, columns=self.labels)
+        return DataFrame(
+            data=self.range, index=self.domain, columns=self.labels
+        )

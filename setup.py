@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import codecs
 from setuptools import setup
 
@@ -71,6 +70,7 @@ packages = [
     "colour.geometry.tests",
     "colour.graph",
     "colour.graph.tests",
+    "colour.hints",
     "colour.io",
     "colour.io.luts",
     "colour.io.luts.tests",
@@ -79,6 +79,7 @@ packages = [
     "colour.models.datasets",
     "colour.models.rgb",
     "colour.models.rgb.datasets",
+    "colour.models.rgb.datasets.tests",
     "colour.models.rgb.tests",
     "colour.models.rgb.transfer_functions",
     "colour.models.rgb.transfer_functions.tests",
@@ -111,7 +112,6 @@ packages = [
 
 package_data = {
     "": ["*"],
-    "colour.appearance.tests": ["fixtures/*"],
     "colour.characterisation.datasets": ["rawtoaces/*"],
     "colour.examples.io": ["resources/*"],
     "colour.examples.plotting": ["resources/*"],
@@ -121,42 +121,46 @@ package_data = {
         "resources/resolve_cube/*",
         "resources/sony_spi1d/*",
         "resources/sony_spi3d/*",
+        "resources/sony_spimtx/*",
     ],
     "colour.io.tests": ["resources/*"],
     "colour.plotting.tm3018": ["resources/*"],
 }
 
-install_requires = ["imageio", "scipy>=1.1.0,<2.0.0", "six"]
+install_requires = ["imageio>=2,<3", "scipy>=1.5,<2"]
 
 extras_require = {
+    ':extra == "read-the-docs"': ["numpy>=1.19,<2"],
     "development": [
         "biblib-simple",
-        "coverage",
+        "black",
+        "coverage!=6.3",
         "coveralls",
         "flake8",
         "invoke",
         "jupyter",
-        "mock",
-        "nose",
+        "mypy",
         "pre-commit",
         "pytest",
+        "pytest-cov",
         "restructuredtext-lint",
-        "sphinx<=3.1.2",
+        "sphinx",
         "sphinx_rtd_theme",
         "sphinxcontrib-bibtex",
         "toml",
         "twine",
-        "yapf==0.23",
+        "typing-extensions",
     ],
     "graphviz": ["pygraphviz"],
-    "optional": ["networkx", "pandas", "tqdm"],
-    "plotting": ["matplotlib"],
+    "meshing": ["trimesh"],
+    "optional": ["networkx", "opencolorio", "pandas", "scikit-learn", "tqdm"],
+    "plotting": ["matplotlib>=3.2,!=3.5.0,!=3.5.1"],
     "read-the-docs": [
-        "mock",
+        "matplotlib>=3.2,!=3.5.0,!=3.5.1",
         "networkx",
-        "numpy",
         "pygraphviz",
         "sphinxcontrib-bibtex",
+        "trimesh",
     ],
 }
 
@@ -175,5 +179,5 @@ setup(
     package_data=package_data,
     install_requires=install_requires,
     extras_require=extras_require,
-    python_requires=">=3.6,<4.0",
+    python_requires=">=3.8,<3.11",
 )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Hexadecimal Notation
 ====================
@@ -25,7 +24,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -85,7 +84,7 @@ def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
 
         RGB = eotf_inverse_sRGB(normalise_maximum(eotf_sRGB(RGB)))
 
-    to_HEX = np.vectorize("{0:02x}".format)
+    to_HEX = np.vectorize("{:02x}".format)
 
     HEX = to_HEX(as_int_array(RGB * 255, dtype=np.uint8)).astype(object)
     HEX = np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]

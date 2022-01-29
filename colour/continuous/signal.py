@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Signal
 ======
@@ -71,7 +70,7 @@ else:  # pragma: no cover
     Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -113,18 +112,18 @@ class Signal(AbstractContinuousFunction):
 
     Other Parameters
     ----------------
-    name
-        Continuous signal name.
     dtype
         Floating point data type.
-    interpolator
-        Interpolator class type to use as interpolating function.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function.
     extrapolator
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function.
+    interpolator
+        Interpolator class type to use as interpolating function.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function.
+    name
+        Continuous signal name.
 
     Attributes
     ----------
@@ -245,11 +244,11 @@ class Signal(AbstractContinuousFunction):
 
     def __init__(
         self,
-        data: Optional[Union[ArrayLike, dict, Series, "Signal"]] = None,
+        data: Optional[Union[ArrayLike, dict, Series, Signal]] = None,
         domain: Optional[ArrayLike] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
-        super(Signal, self).__init__(kwargs.get("name"))
+        super().__init__(kwargs.get("name"))
 
         self._dtype: Type[DTypeFloating] = DEFAULT_FLOAT_DTYPE
         self._domain: NDArray = np.array([])
@@ -304,9 +303,8 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             value in np.sctypes["float"],
-            '"dtype" must be one of the following types: {0}'.format(
-                np.sctypes["float"]
-            ),
+            f'"dtype" must be one of the following types: '
+            f"{np.sctypes['float']}",
         )
 
         self._dtype = value
@@ -346,15 +344,15 @@ class Signal(AbstractContinuousFunction):
 
         if not np.all(np.isfinite(value)):
             runtime_warning(
-                '"{0}" new "domain" variable is not finite: {1}, '
-                "unpredictable results may occur!".format(self.name, value)
+                f'"{self.name}" new "domain" variable is not finite: {value}, '
+                f"unpredictable results may occur!"
             )
 
         if value.size != self._range.size:
             runtime_warning(
-                '"{0}" new "domain" and current "range" variables '
-                'have different size, "range" variable will be '
-                'resized to "domain" variable shape!'.format(self.name)
+                f'"{self.name}" new "domain" and current "range" variables '
+                f'have different size, "range" variable will be resized to '
+                f'"domain" variable shape!'
             )
             self._range = np.resize(self._range, value.shape)
 
@@ -391,8 +389,8 @@ class Signal(AbstractContinuousFunction):
 
         if not np.all(np.isfinite(value)):
             runtime_warning(
-                '"{0}" new "range" variable is not finite: {1}, '
-                "unpredictable results may occur!".format(self.name, value)
+                f'"{self.name}" new "range" variable is not finite: {value}, '
+                f"unpredictable results may occur!"
             )
 
         attest(
@@ -461,9 +459,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             isinstance(value, dict),
-            '"{0}" property: "{1}" type is not "dict"!'.format(
-                "interpolator_kwargs", value
-            ),
+            f'"interpolator_kwargs" property: "{value}" type is not "dict"!',
         )
 
         self._interpolator_kwargs = value
@@ -527,9 +523,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             isinstance(value, dict),
-            '"{0}" property: "{1}" type is not "dict"!'.format(
-                "extrapolator_kwargs", value
-            ),
+            f'"extrapolator_kwargs" property: "{value}" type is not "dict"!',
         )
 
         self._extrapolator_kwargs = value
@@ -576,7 +570,7 @@ class Signal(AbstractContinuousFunction):
         try:
             return str(tstack([self.domain, self.range]))
         except TypeError:
-            return super(Signal, self).__str__()
+            return super().__str__()
 
     def __repr__(self) -> str:
         """
@@ -608,14 +602,16 @@ class Signal(AbstractContinuousFunction):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
+            return f"{self.__class__.__name__}(name='{self.name}', ...)"
 
         try:
             representation = repr(tstack([self.domain, self.range]))
-            representation = representation.replace("array", self.__class__.__name__)
+            representation = representation.replace(
+                "array", self.__class__.__name__
+            )
             representation = representation.replace(
                 "       [",
-                "{0}[".format(" " * (len(self.__class__.__name__) + 2)),
+                f"{' ' * (len(self.__class__.__name__) + 2)}[",
             )
             representation = (
                 "{0},\n"
@@ -634,7 +630,7 @@ class Signal(AbstractContinuousFunction):
 
             return representation
         except TypeError:
-            return super(Signal, self).__repr__()
+            return super().__repr__()
 
     def __hash__(self) -> Integer:
         """
@@ -657,7 +653,9 @@ class Signal(AbstractContinuousFunction):
             )
         )
 
-    def __getitem__(self, x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
+    def __getitem__(
+        self, x: Union[FloatingOrArrayLike, slice]
+    ) -> FloatingOrNDArray:
         """
         Returns the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
@@ -703,7 +701,9 @@ class Signal(AbstractContinuousFunction):
         else:
             return self._function(x)
 
-    def __setitem__(self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike):
+    def __setitem__(
+        self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
+    ):
         """
         Sets the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -925,7 +925,7 @@ class Signal(AbstractContinuousFunction):
                 self._interpolator(
                     self.domain, self.range, **self._interpolator_kwargs
                 ),
-                **self._extrapolator_kwargs
+                **self._extrapolator_kwargs,
             )
         else:
 
@@ -955,7 +955,9 @@ class Signal(AbstractContinuousFunction):
 
     def _fill_domain_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ):
         """
@@ -981,7 +983,9 @@ class Signal(AbstractContinuousFunction):
 
     def _fill_range_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ):
         """
@@ -1232,7 +1236,9 @@ class Signal(AbstractContinuousFunction):
 
     def fill_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ) -> AbstractContinuousFunction:
         """

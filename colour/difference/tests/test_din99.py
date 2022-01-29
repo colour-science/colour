@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.difference.din99` module.
 """
@@ -12,7 +11,7 @@ from colour.difference import delta_E_DIN99
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -104,12 +103,16 @@ class TestDelta_E_DIN99(unittest.TestCase):
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
-        np.testing.assert_almost_equal(delta_E_DIN99(Lab_1, Lab_2), delta_E, decimal=7)
+        np.testing.assert_almost_equal(
+            delta_E_DIN99(Lab_1, Lab_2), delta_E, decimal=7
+        )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
-        np.testing.assert_almost_equal(delta_E_DIN99(Lab_1, Lab_2), delta_E, decimal=7)
+        np.testing.assert_almost_equal(
+            delta_E_DIN99(Lab_1, Lab_2), delta_E, decimal=7
+        )
 
     def test_domain_range_scale_delta_E_DIN99(self):
         """

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .munsell import (
     MUNSELL_COLOURS_ALL,
     MUNSELL_COLOURS_1929,

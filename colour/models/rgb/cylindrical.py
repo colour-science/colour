@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Cylindrical & Spherical Colour Models
 =====================================
@@ -54,7 +53,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -362,7 +361,9 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
     return from_range_1(RGB)
 
 
-def RGB_to_HCL(RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDArray:
+def RGB_to_HCL(
+    RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
+) -> NDArray:
     """
     Converts from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -449,7 +450,9 @@ def RGB_to_HCL(RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDAr
     return from_range_1(HCL)
 
 
-def HCL_to_RGB(HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDArray:
+def HCL_to_RGB(
+    HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
+) -> NDArray:
     """
     Converts from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.

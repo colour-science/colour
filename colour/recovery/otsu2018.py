@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Otsu, Yamamoto and Hachisuka (2018) - Reflectance Recovery
 ==========================================================
@@ -70,7 +69,7 @@ else:  # pragma: no cover
     tqdm = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -165,7 +164,9 @@ class Dataset_Otsu2018:
             means if means is None else as_float_array(means)
         )
         self._selector_array: Optional[NDArray] = (
-            selector_array if selector_array is None else as_float_array(selector_array)
+            selector_array
+            if selector_array is None
+            else as_float_array(selector_array)
         )
 
     @property
@@ -233,11 +234,12 @@ class Dataset_Otsu2018:
         """
 
         if self._basis_functions is not None:
-            return "{0}({1} basis functions)".format(
-                self.__class__.__name__, self._basis_functions.shape[0]
+            return (
+                f"{self.__class__.__name__}"
+                f"({self._basis_functions.shape[0]} basis functions)"
             )
         else:
-            return "{0}()".format(self.__class__.__name__)
+            return f"{self.__class__.__name__}()"
 
     def select(self, xy: ArrayLike) -> Integer:
         """
@@ -578,11 +580,10 @@ class PartitionAxis:
             Formatted string representation.
         """
 
-        return "{0}({1} partition at {2} = {3})".format(
-            self.__class__.__name__,
-            "horizontal" if self.direction else "vertical",
-            "y" if self.direction else "x",
-            self.origin,
+        return (
+            f"{self.__class__.__name__}"
+            f"({'horizontal' if self.direction else 'vertical'} partition "
+            f"at {'y' if self.direction else 'x'} = {self.origin})"
         )
 
 
@@ -749,7 +750,7 @@ class Data_Otsu2018:
             Formatted string representation.
         """
 
-        return "{0}({1} Reflectances)".format(self.__class__.__name__, len(self))
+        return f"{self.__class__.__name__}({len(self)} Reflectances)"
 
     def __len__(self) -> Integer:
         """
@@ -791,7 +792,9 @@ class Data_Otsu2018:
         else:
             raise ValueError('The "chromaticity coordinates" are undefined!')
 
-    def partition(self, axis: PartitionAxis) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
+    def partition(
+        self, axis: PartitionAxis
+    ) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
         Partitions the data using given partition axis.
 
@@ -848,7 +851,9 @@ class Data_Otsu2018:
             }
 
             self._mean = np.mean(self.reflectances, axis=0)
-            self._XYZ_mu = msds_to_XYZ_integration(self._mean, **settings) / 100
+            self._XYZ_mu = (
+                msds_to_XYZ_integration(self._mean, **settings) / 100
+            )
 
             matrix_data = self.reflectances - self._mean
             matrix_covariance = np.dot(np.transpose(matrix_data), matrix_data)
@@ -856,7 +861,8 @@ class Data_Otsu2018:
             self._basis_functions = np.transpose(eigenvectors[:, -3:])
 
             self._M = np.transpose(
-                msds_to_XYZ_integration(self._basis_functions, **settings) / 100
+                msds_to_XYZ_integration(self._basis_functions, **settings)
+                / 100
             )
 
     def reconstruct(self, XYZ: ArrayLike) -> SpectralDistribution:
@@ -973,11 +979,11 @@ class Node_Otsu2018(Node):
 
     def __init__(
         self,
-        parent: Optional["Node_Otsu2018"] = None,
+        parent: Optional[Node_Otsu2018] = None,
         children: Optional[List] = None,
         data: Optional[Data_Otsu2018] = None,
     ):
-        super(Node_Otsu2018, self).__init__(parent=parent, children=children, data=data)
+        super().__init__(parent=parent, children=children, data=data)
 
         self._partition_axis: Optional[PartitionAxis] = None
         self._best_partition: Optional[
@@ -1075,7 +1081,9 @@ class Node_Otsu2018(Node):
                 for i in range(len(self.data)):
                     progress.update()
 
-                    axis = PartitionAxis(self.data.origin(i, direction), direction)
+                    axis = PartitionAxis(
+                        self.data.origin(i, direction), direction
+                    )
                     data_lesser, data_greater = self.data.partition(axis)
 
                     if np.any(
@@ -1151,7 +1159,9 @@ class Node_Otsu2018(Node):
             return np.sum(
                 as_float_array(
                     [
-                        cast(Node_Otsu2018, child).branch_reconstruction_error()
+                        cast(
+                            Node_Otsu2018, child
+                        ).branch_reconstruction_error()
                         for child in self.children
                     ]
                 )
@@ -1279,7 +1289,7 @@ class Tree_Otsu2018(Node_Otsu2018):
         cmfs: Optional[MultiSpectralDistributions] = None,
         illuminant: Optional[SpectralDistribution] = None,
     ):
-        super(Tree_Otsu2018, self).__init__()
+        super().__init__()
 
         cmfs, illuminant = handle_spectral_arguments(
             cmfs, illuminant, shape_default=SPECTRAL_SHAPE_OTSU2018
@@ -1432,29 +1442,31 @@ the initial error.
             print_callable=print_callable,
         )
 
-        print_callable("Initial branch error is: {0}".format(initial_branch_error))
+        print_callable(f"Initial branch error is: {initial_branch_error}")
 
         best_leaf, best_partition, best_axis, partition_error = [None] * 4
 
         for i in range(iterations):
-            print_callable("\nIteration {0} of {1}:\n".format(i + 1, iterations))
+            print_callable(f"\nIteration {i + 1} of {iterations}:\n")
 
             total_error = self.branch_reconstruction_error()
             optimised_total_error = None
 
             for leaf in self.leaves:
-                print_callable('Optimising "{0}"...'.format(leaf))
+                print_callable(f'Optimising "{leaf}"...')
 
                 try:
                     partition, axis, partition_error = leaf.minimise(
                         minimum_cluster_size
                     )
                 except RuntimeError as error:
-                    print_callable("Optimisation failed: {0}".format(error))
+                    print_callable(f"Optimisation failed: {error}")
                     continue
 
                 new_total_error = (
-                    total_error - leaf.leaf_reconstruction_error() + partition_error
+                    total_error
+                    - leaf.leaf_reconstruction_error()
+                    + partition_error
                 )
 
                 if (
@@ -1468,28 +1480,23 @@ the initial error.
 
             if optimised_total_error is None:
                 print_callable(
-                    "\nNo further improvement is possible!\n"
-                    "Terminating at iteration {0}.\n".format(i)
+                    f"\nNo further improvement is possible!"
+                    f"\nTerminating at iteration {i}.\n"
                 )
                 break
 
             if best_partition is not None:
                 print_callable(
-                    '\nSplitting "{0}" into "{1}" and "{2}" along "{3}".'.format(
-                        best_leaf,
-                        best_partition[0],
-                        best_partition[1],
-                        best_axis,
-                    )
+                    f'\nSplitting "{best_leaf}" into "{best_partition[0]}" '
+                    f'and "{best_partition[1]}" along "{best_axis}".'
                 )
 
             print_callable(
-                "Error is reduced by {0} and is now {1}, "
-                "{2:.1f}% of the initial error.".format(
-                    leaf.leaf_reconstruction_error() - partition_error,
-                    optimised_total_error,
-                    100 * optimised_total_error / initial_branch_error,
-                )
+                f"Error is reduced by "
+                f"{leaf.leaf_reconstruction_error() - partition_error} and "
+                f"is now {optimised_total_error}, "
+                f"{100 * optimised_total_error / initial_branch_error:.1f}% "
+                f"of the initial error."
             )
 
             if best_leaf is not None:
@@ -1540,7 +1547,9 @@ the initial error.
 
                 data = cast(
                     Dict,
-                    optional(data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0}),
+                    optional(
+                        data, {"rows": [], "node_to_leaf_id": {}, "leaf_id": 0}
+                    ),
                 )
 
                 if node.is_leaf():

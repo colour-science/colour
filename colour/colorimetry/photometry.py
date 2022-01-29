@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Photometry
 ==========
@@ -28,7 +27,7 @@ from colour.hints import Floating, Optional, cast
 from colour.utilities import as_float_scalar, optional
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -79,7 +78,9 @@ def luminous_flux(
 
     lef = cast(
         SpectralDistribution,
-        optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]),
+        optional(
+            lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
+        ),
     )
 
     lef = reshape_sd(
@@ -127,7 +128,9 @@ def luminous_efficiency(
 
     lef = cast(
         SpectralDistribution,
-        optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]),
+        optional(
+            lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"]
+        ),
     )
 
     lef = reshape_sd(

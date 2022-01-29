@@ -45,25 +45,26 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">= 3.8, < 3.11"
 imageio = ">= 2, < 3"
-scipy = ">= 1.6, < 2"
+numpy = ">= 1.19, < 2"
+scipy = ">= 1.5, < 2"
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
 black = { version = "*", optional = true }  # Development dependency.
-coverage = { version = "*", optional = true }  # Development dependency.
+coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
 jupyter = { version = "*", optional = true }  # Development dependency.
-matplotlib = { version = "*", optional = true }
+matplotlib = { version = ">= 3.2, != 3.5.0, != 3.5.1", optional = true }
 mypy = { version = "*", optional = true }  # Development dependency.
 networkx = { version = "*", optional = true }
-numpy = { version = "*", optional = true }
 opencolorio = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
 pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
 pytest-cov = { version = "*", optional = true }  # Development dependency.
+pyupgrade = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 scikit-learn = { version = "*", optional = true }
 sphinx = { version = "*", optional = true }  # Development dependency.
@@ -78,7 +79,7 @@ typing-extensions = { version = "*", optional = true }  # Development dependency
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
 black = "*"
-coverage = "*"
+coverage = "!= 6.3"
 coveralls = "*"
 flake8 = "*"
 invoke = "*"
@@ -87,6 +88,7 @@ mypy = "*"
 pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
+pyupgrade = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
 sphinx_rtd_theme = "*"
@@ -108,6 +110,7 @@ development = [
     "pre-commit",
     "pytest",
     "pytest-cov",
+    "pyupgrade",
     "restructuredtext-lint",
     "sphinx",
     "sphinx_rtd_theme",
@@ -130,6 +133,7 @@ read-the-docs = [
 ]
 
 [tool.black]
+line-length = 79
 exclude = '''
 /(
     \.git

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.notation` module.
 """
@@ -12,7 +11,7 @@ from colour.plotting import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -54,7 +53,9 @@ class TestPlotMultiMunsellValueFunctions(unittest.TestCase):
 plot_multi_munsell_value_functions` definition.
         """
 
-        figure, axes = plot_multi_munsell_value_functions(["ASTM D1535", "McCamy 1987"])
+        figure, axes = plot_multi_munsell_value_functions(
+            ["ASTM D1535", "McCamy 1987"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

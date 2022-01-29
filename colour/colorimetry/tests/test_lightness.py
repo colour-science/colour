@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.colorimetry.lightness` module.
 """
@@ -19,7 +18,7 @@ from colour.colorimetry.lightness import lightness
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -106,7 +105,9 @@ class TestLightnessGlasser1958(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Glasser1958(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        lightness_Glasser1958(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLightnessWyszecki1963(unittest.TestCase):
@@ -178,7 +179,9 @@ class TestLightnessWyszecki1963(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Wyszecki1963(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        lightness_Wyszecki1963(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestIntermediateLightnessFunctionCIE1976(unittest.TestCase):
@@ -407,15 +410,21 @@ class TestLightnessFairchild2010(unittest.TestCase):
 
         Y = np.tile(Y, 6)
         L_hdr = np.tile(L_hdr, 6)
-        np.testing.assert_almost_equal(lightness_Fairchild2010(Y), L_hdr, decimal=7)
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2010(Y), L_hdr, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3))
         L_hdr = np.reshape(L_hdr, (2, 3))
-        np.testing.assert_almost_equal(lightness_Fairchild2010(Y), L_hdr, decimal=7)
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2010(Y), L_hdr, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3, 1))
         L_hdr = np.reshape(L_hdr, (2, 3, 1))
-        np.testing.assert_almost_equal(lightness_Fairchild2010(Y), L_hdr, decimal=7)
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2010(Y), L_hdr, decimal=7
+        )
 
     def test_domain_range_scale_lightness_Fairchild2010(self):
         """
@@ -441,7 +450,9 @@ class TestLightnessFairchild2010(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Fairchild2010(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        lightness_Fairchild2010(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLightnessFairchild2011(unittest.TestCase):
@@ -480,9 +491,13 @@ class TestLightnessFairchild2011(unittest.TestCase):
             places=7,
         )
 
-        self.assertAlmostEqual(lightness_Fairchild2011(1008), 234.72925682, places=7)
+        self.assertAlmostEqual(
+            lightness_Fairchild2011(1008), 234.72925682, places=7
+        )
 
-        self.assertAlmostEqual(lightness_Fairchild2011(100800), 245.5705978, places=7)
+        self.assertAlmostEqual(
+            lightness_Fairchild2011(100800), 245.5705978, places=7
+        )
 
     def test_n_dimensional_lightness_Fairchild2011(self):
         """
@@ -495,15 +510,21 @@ class TestLightnessFairchild2011(unittest.TestCase):
 
         Y = np.tile(Y, 6)
         L_hdr = np.tile(L_hdr, 6)
-        np.testing.assert_almost_equal(lightness_Fairchild2011(Y), L_hdr, decimal=7)
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2011(Y), L_hdr, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3))
         L_hdr = np.reshape(L_hdr, (2, 3))
-        np.testing.assert_almost_equal(lightness_Fairchild2011(Y), L_hdr, decimal=7)
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2011(Y), L_hdr, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3, 1))
         L_hdr = np.reshape(L_hdr, (2, 3, 1))
-        np.testing.assert_almost_equal(lightness_Fairchild2011(Y), L_hdr, decimal=7)
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2011(Y), L_hdr, decimal=7
+        )
 
     def test_domain_range_scale_lightness_Fairchild2011(self):
         """
@@ -529,7 +550,9 @@ class TestLightnessFairchild2011(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Fairchild2011(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        lightness_Fairchild2011(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        )
 
 
 class TestLightnessAbebe2017(unittest.TestCase):
@@ -613,7 +636,9 @@ class TestLightnessAbebe2017(unittest.TestCase):
         definition nan support.
         """
 
-        lightness_Abebe2017(*[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
+        lightness_Abebe2017(
+            *[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2
+        )
 
 
 class TestLightness(unittest.TestCase):

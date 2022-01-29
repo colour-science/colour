@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Whiteness Index :math:`W`
 =========================
@@ -67,7 +66,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -85,7 +84,9 @@ __all__ = [
 ]
 
 
-def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
+def whiteness_Berger1959(
+    XYZ: ArrayLike, XYZ_0: ArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *Berger (1959)* method.
@@ -578,6 +579,8 @@ def whiteness(
         from colour.models import XYZ_to_xy
 
         _X_0, Y_0, _Z_0 = tsplit(XYZ_0)
-        kwargs.update({"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)})
+        kwargs.update(
+            {"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)}
+        )
 
     return function(**filter_kwargs(function, **kwargs))

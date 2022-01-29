@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Kang, Moon, Hong, Lee, Cho and Kim (2002) Correlated Colour Temperature
 =======================================================================
@@ -36,7 +35,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -113,7 +112,10 @@ def xy_to_CCT_Kang2002(
     CCT = as_float_array(
         [
             minimize(
-                objective_function, x0=6500, args=(xy_i,), **optimisation_settings
+                objective_function,
+                x0=6500,
+                args=(xy_i,),
+                **optimisation_settings
             ).x
             for xy_i in as_float_array(xy)
         ]
@@ -156,10 +158,8 @@ def CCT_to_xy_Kang2002(CCT: FloatingOrArrayLike) -> NDArray:
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 1667, CCT > 25000))]):
         usage_warning(
-            (
-                "Correlated colour temperature must be in domain "
-                "[1667, 25000], unpredictable results may occur!"
-            )
+            "Correlated colour temperature must be in domain "
+            "[1667, 25000], unpredictable results may occur!"
         )
 
     CCT_3 = CCT ** 3

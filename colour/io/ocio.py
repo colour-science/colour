@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 OpenColorIO Processing
 ======================
@@ -16,7 +15,7 @@ from colour.hints import Any, ArrayLike, NDArray
 from colour.utilities import as_float_array, required
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -28,7 +27,9 @@ __all__ = [
 
 
 @required("OpenColorIO")
-def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
+def process_image_OpenColorIO(
+    a: ArrayLike, *args: Any, **kwargs: Any
+) -> NDArray:
     """
     Processes given image with *OpenColorIO*.
 
@@ -39,14 +40,14 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
 
     Other Parameters
     ----------------
-    args
-        Arguments for `Config.getProcessor` method.
-        See https://opencolorio.readthedocs.io/en/latest/api/config.html for
-        more information.
     config
         *OpenColorIO* config to use for processing. If not defined, the
         *OpenColorIO* set defined by the ``$OCIO`` environment variable is
         used.
+    args
+        Arguments for `Config.getProcessor` method.
+        See https://opencolorio.readthedocs.io/en/latest/api/config.html for
+        more information.
 
     Returns
     -------
@@ -55,14 +56,17 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
 
     Examples
     --------
+    # TODO: Reinstate when "Pypi" wheel compatible with "ARM" on "macOS" is
+    # released.
+
     >>> import os
-    >>> import PyOpenColorIO as ocio
+    >>> import PyOpenColorIO as ocio  # doctest: +SKIP
     >>> from colour.utilities import full
     >>> config = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources',
     ...     'config-aces-reference.ocio.yaml')
     >>> a = full([4, 2, 3], 0.18)
-    >>> process_image_OpenColorIO(  # doctest: +ELLIPSIS
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
     ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
     array([[[ 0.4135878...,  0.4135878...,  0.4135878...],
             [ 0.4135878...,  0.4135878...,  0.4135878...]],
@@ -75,7 +79,7 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
     <BLANKLINE>
            [[ 0.4135878...,  0.4135878...,  0.4135878...],
             [ 0.4135878...,  0.4135878...,  0.4135878...]]], dtype=float32)
-    >>> process_image_OpenColorIO(  # doctest: +ELLIPSIS
+    >>> process_image_OpenColorIO(  # doctest: +SKIP
     ...     a, 'ACES - ACES2065-1', 'Display - sRGB',
     ...     'Output - SDR Video - ACES 1.0', ocio.TRANSFORM_DIR_FORWARD,
     ...     config=config)

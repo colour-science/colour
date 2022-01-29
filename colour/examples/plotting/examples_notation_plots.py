@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases colour notation systems plotting examples.
 """

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases reflectance recovery computations using *Meng et al. (2015)* method.
 """
@@ -14,9 +13,8 @@ illuminant = colour.SDS_ILLUMINANTS["D65"]
 
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 message_box(
-    'Recovering reflectance using "Meng et al. (2015)" method from '
-    'given "XYZ" tristimulus values:\n'
-    "\n\tXYZ: {0}".format(XYZ)
+    f'Recovering reflectance using "Meng et al. (2015)" method from given '
+    f'"XYZ" tristimulus values:\n\n\tXYZ: {XYZ}'
 )
 sd = colour.XYZ_to_sd(XYZ, method="Meng 2015")
 print(sd)

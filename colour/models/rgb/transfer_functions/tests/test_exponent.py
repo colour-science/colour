@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.exponent` module.
@@ -14,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -105,7 +104,9 @@ exponent_function_basic` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(exponent_function_basic(a, 2.2), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            exponent_function_basic(a, 2.2), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
         )
@@ -115,7 +116,9 @@ exponent_function_basic` definition n-dimensional arrays support.
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(exponent_function_basic(a, 2.2), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            exponent_function_basic(a, 2.2), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
         )
@@ -125,7 +128,9 @@ exponent_function_basic` definition n-dimensional arrays support.
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(exponent_function_basic(a, 2.2), a_p, decimal=7)
+        np.testing.assert_almost_equal(
+            exponent_function_basic(a, 2.2), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
         )
@@ -204,7 +209,9 @@ exponent_function_monitor_curve` definition.
         )
 
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
             places=7,
         )
@@ -218,7 +225,9 @@ exponent_function_monitor_curve` definition.
         )
 
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
             places=7,
         )
@@ -231,7 +240,9 @@ exponent_function_monitor_curve` definition.
         )
 
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             -0.0232240466001,
             places=7,
         )
@@ -244,7 +255,9 @@ exponent_function_monitor_curve` definition.
         )
 
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             -0.0201036111565,
             places=7,
         )
@@ -264,7 +277,9 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
         )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
             decimal=7,
         )
@@ -275,7 +290,9 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
         )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
             decimal=7,
         )
@@ -286,7 +303,9 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
         )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
             decimal=7,
         )
@@ -302,7 +321,9 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             decimal=7,
         )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
             decimal=7,
         )
@@ -315,7 +336,9 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             decimal=7,
         )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
             decimal=7,
         )
@@ -328,7 +351,9 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
             decimal=7,
         )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
             decimal=7,
         )

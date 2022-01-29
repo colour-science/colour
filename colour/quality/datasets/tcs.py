@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Test Colour Samples Spectral Distributions
 ==========================================
@@ -25,7 +24,7 @@ from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -58,23 +57,25 @@ INDEXES_TO_NAMES_TCS: Dict = {
 Test colour samples indexes to names mapping.
 """
 
-APPROXIMATE_MUNSELL_NOTATIONS_TCS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "TCS01": "7.5 R 6/4",
-        "TCS02": "5 Y 6/4",
-        "TCS03": "5 GY 6/8",
-        "TCS04": "2.5 G 6/6",
-        "TCS05": "10 BG 6/4",
-        "TCS06": "5 PB 6/8",
-        "TCS07": "2.5 P 6/8",
-        "TCS08": "10 P 6/8",
-        "TCS09": "4.5 R 4/13",
-        "TCS10": "5 Y 8/10",
-        "TCS11": "4.5 G 5/8",
-        "TCS12": "3 PB 3/11",
-        "TCS13": "5 YR 8/4",
-        "TCS14": "5 GY 4/4",
-    }
+APPROXIMATE_MUNSELL_NOTATIONS_TCS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "TCS01": "7.5 R 6/4",
+            "TCS02": "5 Y 6/4",
+            "TCS03": "5 GY 6/8",
+            "TCS04": "2.5 G 6/6",
+            "TCS05": "10 BG 6/4",
+            "TCS06": "5 PB 6/8",
+            "TCS07": "2.5 P 6/8",
+            "TCS08": "10 P 6/8",
+            "TCS09": "4.5 R 4/13",
+            "TCS10": "5 Y 8/10",
+            "TCS11": "4.5 G 5/8",
+            "TCS12": "3 PB 3/11",
+            "TCS13": "5 YR 8/4",
+            "TCS14": "5 GY 4/4",
+        }
+    )
 )
 """
 Test colour samples *Munsell* colour approximations.
@@ -1442,9 +1443,10 @@ DATA_TCS: Dict = {
 }
 
 SDS_TCS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    dict(
-        (key, SpectralDistribution(value, name=key)) for key, value in DATA_TCS.items()
-    )
+    {
+        key: SpectralDistribution(value, name=key)
+        for key, value in DATA_TCS.items()
+    }
 )
 """
 Test colour samples spectral distributions.

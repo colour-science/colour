@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Common Log Encodings
 ====================
@@ -60,7 +59,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -215,27 +214,30 @@ def logarithmic_function_quasilog(
 
     if style == "lintolog":
         return as_float(
-            (
-                log_side_slope
-                * (
-                    np.log(np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN))
-                    / np.log(base)
+            log_side_slope
+            * (
+                np.log(
+                    np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN)
                 )
-                + log_side_offset
+                / np.log(base)
             )
+            + log_side_offset
         )
     else:  # style == 'logtolin'
         return as_float(
             (
-                (base ** ((x - log_side_offset) / log_side_slope) - lin_side_offset)
-                / lin_side_slope
+                base ** ((x - log_side_offset) / log_side_slope)
+                - lin_side_offset
             )
+            / lin_side_slope
         )
 
 
 def logarithmic_function_camera(
     x: FloatingOrArrayLike,
-    style: Union[Literal["cameraLinToLog", "cameraLogToLin"], str] = "cameraLinToLog",
+    style: Union[
+        Literal["cameraLinToLog", "cameraLogToLin"], str
+    ] = "cameraLinToLog",
     base: Integer = 2,
     log_side_slope: Floating = 1,
     lin_side_slope: Floating = 1,
@@ -304,7 +306,10 @@ def logarithmic_function_camera(
 
     log_side_break = (
         log_side_slope
-        * (np.log(lin_side_slope * lin_side_break + lin_side_offset) / np.log(base))
+        * (
+            np.log(lin_side_slope * lin_side_break + lin_side_offset)
+            / np.log(base)
+        )
         + log_side_offset
     )
 

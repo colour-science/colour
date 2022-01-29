@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.hdr_cie_lab` module.
 """
@@ -12,7 +11,7 @@ from colour.models.hdr_cie_lab import exponent_hdr_CIELab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -153,7 +152,9 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_CIELab(np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5),
+            XYZ_to_hdr_CIELab(
+                np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5
+            ),
             np.array([23.10388654, 59.31425004, 23.69960142]),
             decimal=7,
         )
@@ -252,7 +253,9 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            hdr_CIELab_to_XYZ(np.array([51.87002062, 60.47633850, 32.14551912])),
+            hdr_CIELab_to_XYZ(
+                np.array([51.87002062, 60.47633850, 32.14551912])
+            ),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7,
         )

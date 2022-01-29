@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 ==========================================================
@@ -43,7 +42,7 @@ from colour.hints import ArrayLike, Floating, Literal, NDArray, Union, cast
 from colour.utilities import as_float_array, tsplit, tstack, usage_warning
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -237,7 +236,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     LMS_a = tstack([L_a, M_a, S_a])
     cmfs[cmfs.wavelengths] = LMS_a
 
-    severity = "{0}, {1}, {2}".format(d_L, d_M, d_S)
+    severity = f"{d_L}, {d_M}, {d_S}"
     template = "{0} - Anomalous Trichromacy ({1})"
     cmfs.name = template.format(cmfs.name, severity)
     cmfs.strict_name = template.format(cmfs.strict_name, severity)
@@ -312,7 +311,9 @@ def matrix_anomalous_trichromacy_Machado2009(
 
 
 def matrix_cvd_Machado2009(
-    deficiency: Union[Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str],
+    deficiency: Union[
+        Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str
+    ],
     severity: Floating,
 ) -> NDArray:
     """

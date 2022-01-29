@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`\\Delta E'` - Delta E Colour Difference - Luo, Cui and Li (2006)
 =======================================================================
@@ -26,7 +25,7 @@ from colour.hints import ArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, tsplit
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -105,13 +104,17 @@ def delta_E_Luo2006(
     K_L, _c_1, _c_2 = tsplit(coefficients)
 
     d_E = np.sqrt(
-        ((J_p_1 - J_p_2) / K_L) ** 2 + (a_p_1 - a_p_2) ** 2 + (b_p_1 - b_p_2) ** 2
+        ((J_p_1 - J_p_2) / K_L) ** 2
+        + (a_p_1 - a_p_2) ** 2
+        + (b_p_1 - b_p_2) ** 2
     )
 
     return as_float(d_E)
 
 
-def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> FloatingOrNDArray:
+def delta_E_CAM02LCD(
+    Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E'` between two given
     *Luo et al. (2006)* *CAM02-LCD* colourspaces :math:`J'a'b'` arrays.
@@ -167,10 +170,14 @@ def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> FloatingOrNDAr
     14.0555464...
     """
 
-    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+    return delta_E_Luo2006(
+        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+    )
 
 
-def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> FloatingOrNDArray:
+def delta_E_CAM02SCD(
+    Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E'` between two given
     *Luo et al. (2006)* *CAM02-SCD* colourspaces :math:`J'a'b'` arrays.
@@ -226,10 +233,14 @@ def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> FloatingOrNDAr
     14.0551718...
     """
 
-    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"])
+    return delta_E_Luo2006(
+        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
+    )
 
 
-def delta_E_CAM02UCS(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> FloatingOrNDArray:
+def delta_E_CAM02UCS(
+    Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E'` between two given
     *Luo et al. (2006)* *CAM02-UCS* colourspaces :math:`J'a'b'` arrays.
@@ -285,4 +296,6 @@ def delta_E_CAM02UCS(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> FloatingOrNDAr
     14.0552982...
     """
 
-    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"])
+    return delta_E_Luo2006(
+        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
+    )

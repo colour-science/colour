@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Geometry Primitives
 ===================
@@ -48,7 +47,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -146,7 +145,9 @@ def primitive_grid(
     dtype_vertices = cast(
         Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
     )
-    dtype_indexes = cast(Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE))
+    dtype_indexes = cast(
+        Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE)
+    )
 
     x_grid = width_segments
     y_grid = height_segments
@@ -366,13 +367,17 @@ def primitive_cube(
     axis = (
         sorted(list(PLANE_TO_AXIS_MAPPING.values()))
         if planes is None
-        else [PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes]
+        else [
+            PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes
+        ]
     )
 
     dtype_vertices = cast(
         Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
     )
-    dtype_indexes = cast(Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE))
+    dtype_indexes = cast(
+        Type[DTypeInteger], optional(dtype_indexes, DEFAULT_INT_DTYPE)
+    )
 
     w_s, h_s, d_s = width_segments, height_segments, depth_segments
 
@@ -475,18 +480,41 @@ def primitive(
 
     Other Parameters
     ----------------
-    width
-        {:func:`colour.geometry.primitive_grid`,
-        :func:`colour.geometry.primitive_cube`},
-        Primitive width.
-    height
-        {:func:`colour.geometry.primitive_grid`,
-        :func:`colour.geometry.primitive_cube`},
-        Primitive height.
+    axis
+        {:func:`colour.geometry.primitive_grid`},
+        Axis the primitive will be normal to, or plane the primitive will be
+        co-planar with.
     depth
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
         Primitive depth.
+    depth_segments
+        {:func:`colour.geometry.primitive_grid`,
+        :func:`colour.geometry.primitive_cube`},
+        Primitive segments count along the depth.
+    dtype_indexes
+        {:func:`colour.geometry.primitive_grid`,
+        :func:`colour.geometry.primitive_cube`},
+        :class:`numpy.dtype` to use for the grid indexes, default to
+        the :class:`numpy.dtype` defined by the
+        :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+    dtype_vertices
+        {:func:`colour.geometry.primitive_grid`,
+        :func:`colour.geometry.primitive_cube`},
+        :class:`numpy.dtype` to use for the grid vertices, default to
+        the :class:`numpy.dtype` defined by the
+        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+    height
+        {:func:`colour.geometry.primitive_grid`,
+        :func:`colour.geometry.primitive_cube`},
+        Primitive height.
+    planes
+        {:func:`colour.geometry.primitive_cube`},
+        Included grid primitives in the cube construction.
+    width
+        {:func:`colour.geometry.primitive_grid`,
+        :func:`colour.geometry.primitive_cube`},
+        Primitive width.
     width_segments
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
@@ -495,32 +523,13 @@ def primitive(
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
         Primitive segments count along the height.
-    depth_segments
-        {:func:`colour.geometry.primitive_grid`,
-        :func:`colour.geometry.primitive_cube`},
-        Primitive segments count along the depth.
-    axis
-        {:func:`colour.geometry.primitive_grid`},
-        Axis the primitive will be normal to, or plane the primitive will be
-        co-planar with.
-    planes
-        {:func:`colour.geometry.primitive_cube`},
-        Included grid primitives in the cube construction.
-    dtype_vertices
-        {:func:`colour.geometry.primitive_grid`,
-        :func:`colour.geometry.primitive_cube`},
-        :class:`numpy.dtype` to use for the grid vertices, default to
-        the :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
-    dtype_indexes
-        {:func:`colour.geometry.primitive_grid`,
-        :func:`colour.geometry.primitive_cube`},
-        :class:`numpy.dtype` to use for the grid indexes, default to
-        the :class:`numpy.dtype` defined by the
-        :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
 
     Returns
     -------
+    :class:`tuple`
+        Tuple of primitive vertices, face indexes to produce a filled primitive
+        and outline indexes to produce an outline of the faces of the
+        primitive.
 
     References
     ----------

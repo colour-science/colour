@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases reflectance recovery computations using *Mallett et al. (2019)*
 method.
@@ -16,9 +15,8 @@ illuminant = colour.SDS_ILLUMINANTS["D65"]
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 RGB = colour.XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
 message_box(
-    'Recovering reflectance using "Mallett et al. (2019)" method '
-    'from given "XYZ" tristimulus values:\n'
-    "\n\tXYZ: {0}".format(XYZ)
+    f'Recovering reflectance using "Mallett et al. (2019)" method from given '
+    f'"XYZ" tristimulus values:\n\n\tXYZ: {XYZ}'
 )
 sd = colour.XYZ_to_sd(XYZ, method="Mallett 2019")
 print(sd)

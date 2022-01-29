@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.luts.__init__` module.
 """
@@ -14,7 +13,7 @@ import unittest
 from colour.io import LUTSequence, read_LUT, write_LUT
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -113,7 +112,9 @@ class TestReadLUT(unittest.TestCase):
         self.assertRaises(
             ValueError,
             read_LUT,
-            os.path.join(LUTS_DIRECTORY, "sony_spi1d", "Exception_Raising.spi1d"),
+            os.path.join(
+                LUTS_DIRECTORY, "sony_spi1d", "Exception_Raising.spi1d"
+            ),
         )
 
 

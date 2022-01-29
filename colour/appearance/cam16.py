@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CAM16 Colour Appearance Model
 =============================
@@ -61,7 +60,7 @@ from colour.hints import (
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_100,
@@ -74,7 +73,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -101,7 +100,9 @@ Inverse adaptation matrix :math:`M^{-1}_{16}`.
 """
 
 
-class InductionFactors_CAM16(namedtuple("InductionFactors_CAM16", ("F", "c", "N_c"))):
+class InductionFactors_CAM16(
+    namedtuple("InductionFactors_CAM16", ("F", "c", "N_c"))
+):
     """
     *CAM16* colour appearance model induction factors.
 
@@ -138,7 +139,7 @@ References
 
 
 @dataclass
-class CAM_Specification_CAM16(MixinDataclassArray):
+class CAM_Specification_CAM16(MixinDataclassArithmetic):
     """
     Defines the *CAM16* colour appearance model specification.
 
@@ -279,13 +280,21 @@ H=275.5949861..., HC=None)
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A
+    )
 
-    D_RGB = D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 - D[..., np.newaxis]
+    D_RGB = (
+        D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
+        + 1
+        - D[..., np.newaxis]
+    )
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(
+        RGB_wc, F_L
+    )
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -464,13 +473,21 @@ def CAM16_to_XYZ(
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+        Y_b, Y_w, L_A
+    )
 
-    D_RGB = D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 - D[..., np.newaxis]
+    D_RGB = (
+        D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
+        + 1
+        - D[..., np.newaxis]
+    )
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(
+        RGB_wc, F_L
+    )
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)

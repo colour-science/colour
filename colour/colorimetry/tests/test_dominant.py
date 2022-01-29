@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.colorimetry.dominant` module.
 """
@@ -22,7 +21,7 @@ from colour.models import XYZ_to_xy
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,9 +47,13 @@ closest_spectral_locus_wavelength` definition unit tests methods.
         Initialises common tests attributes.
         """
 
-        self._xy_s = XYZ_to_xy(MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].values)
+        self._xy_s = XYZ_to_xy(
+            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].values
+        )
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+            "D65"
+        ]
 
     def test_closest_spectral_locus_wavelength(self):
         """
@@ -131,7 +134,9 @@ class TestDominantWavelength(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+            "D65"
+        ]
 
     def test_dominant_wavelength(self):
         """
@@ -227,7 +232,9 @@ class TestComplementaryWavelength(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+            "D65"
+        ]
 
     def test_complementary_wavelength(self):
         """
@@ -323,7 +330,9 @@ class TestExcitationPurity(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+            "D65"
+        ]
 
     def test_excitation_purity(self):
         """
@@ -333,10 +342,14 @@ class TestExcitationPurity(unittest.TestCase):
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
 
-        self.assertAlmostEqual(excitation_purity(xy, xy_n), 0.622885671878446, places=7)
+        self.assertAlmostEqual(
+            excitation_purity(xy, xy_n), 0.622885671878446, places=7
+        )
 
         xy = np.array([0.37605506, 0.24452225])
-        self.assertAlmostEqual(excitation_purity(xy, xy_n), 0.438347859215887, places=7)
+        self.assertAlmostEqual(
+            excitation_purity(xy, xy_n), 0.438347859215887, places=7
+        )
 
     def test_n_dimensional_excitation_purity(self):
         """
@@ -351,12 +364,16 @@ class TestExcitationPurity(unittest.TestCase):
         xy = np.tile(xy, (6, 1))
         xy_n = np.tile(xy_n, (6, 1))
         P_e = np.tile(P_e, 6)
-        np.testing.assert_almost_equal(excitation_purity(xy, xy_n), P_e, decimal=7)
+        np.testing.assert_almost_equal(
+            excitation_purity(xy, xy_n), P_e, decimal=7
+        )
 
         xy = np.reshape(xy, (2, 3, 2))
         xy_n = np.reshape(xy_n, (2, 3, 2))
         P_e = np.reshape(P_e, (2, 3))
-        np.testing.assert_almost_equal(excitation_purity(xy, xy_n), P_e, decimal=7)
+        np.testing.assert_almost_equal(
+            excitation_purity(xy, xy_n), P_e, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_excitation_purity(self):
@@ -385,7 +402,9 @@ class TestColorimetricPurity(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
+        self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+            "D65"
+        ]
 
     def test_colorimetric_purity(self):
         """
@@ -418,12 +437,16 @@ class TestColorimetricPurity(unittest.TestCase):
         xy = np.tile(xy, (6, 1))
         xy_n = np.tile(xy_n, (6, 1))
         P_e = np.tile(P_e, 6)
-        np.testing.assert_almost_equal(colorimetric_purity(xy, xy_n), P_e, decimal=7)
+        np.testing.assert_almost_equal(
+            colorimetric_purity(xy, xy_n), P_e, decimal=7
+        )
 
         xy = np.reshape(xy, (2, 3, 2))
         xy_n = np.reshape(xy_n, (2, 3, 2))
         P_e = np.reshape(P_e, (2, 3))
-        np.testing.assert_almost_equal(colorimetric_purity(xy, xy_n), P_e, decimal=7)
+        np.testing.assert_almost_equal(
+            colorimetric_purity(xy, xy_n), P_e, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_colorimetric_purity(self):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Academy Spectral Similarity Index* (SSI) computations.
 """
@@ -9,8 +8,8 @@ from colour.utilities import message_box
 message_box("Academy Spectral Similarity Index Computations")
 
 message_box(
-    'Computing "CIE Illuminant B" "Academy Spectral Similarity Index (SSI)" '
-    'against "CIE Standard Illuminant D65".'
+    'Computing the "CIE Illuminant B" "Academy Spectral Similarity Index (SSI)" '
+    'with "CIE Standard Illuminant D65".'
 )
 print(
     colour.spectral_similarity_index(

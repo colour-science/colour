@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Kim, Weyrich and Kautz (2009) Colour Appearance Model
 =====================================================
@@ -49,7 +48,7 @@ from colour.hints import (
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_100,
@@ -63,7 +62,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -144,7 +143,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
         :class:`colour.appearance.MediaParameters_Kim2009` class.
         """
 
-        return super(MediaParameters_Kim2009, cls).__new__(cls, E)
+        return super().__new__(cls, E)
 
 
 MEDIA_PARAMETERS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(
@@ -173,15 +172,17 @@ Aliases:
 MEDIA_PARAMETERS_KIM2009["bright_lcd_display"] = MEDIA_PARAMETERS_KIM2009[
     "High-luminance LCD Display"
 ]
-MEDIA_PARAMETERS_KIM2009["advertising_transparencies"] = MEDIA_PARAMETERS_KIM2009[
-    "Transparent Advertising Media"
-]
+MEDIA_PARAMETERS_KIM2009[
+    "advertising_transparencies"
+] = MEDIA_PARAMETERS_KIM2009["Transparent Advertising Media"]
 MEDIA_PARAMETERS_KIM2009["crt"] = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
-MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009["Reflective Paper"]
+MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009[
+    "Reflective Paper"
+]
 
 
 @dataclass
-class CAM_Specification_Kim2009(MixinDataclassArray):
+class CAM_Specification_Kim2009(MixinDataclassArithmetic):
     """
     Defines the *Kim, Weyrich and Kautz (2009)* colour appearance model
     specification.
@@ -343,7 +344,9 @@ H=278.0602824..., HC=None)
     # Perceived *Lightness* :math:`J_p`.
     a_j, b_j, o_j, n_j = 0.89, 0.24, 0.65, 3.65
     A_A_w = A / A_w
-    J_p = spow((-(A_A_w - b_j) * spow(o_j, n_j)) / (A_A_w - b_j - a_j), 1 / n_j)
+    J_p = spow(
+        (-(A_A_w - b_j) * spow(o_j, n_j)) / (A_A_w - b_j - a_j), 1 / n_j
+    )
 
     # Computing the media dependent *Lightness* :math:`J`.
     J = 100 * (media.E * (J_p - 1) + 1)

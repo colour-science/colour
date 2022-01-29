@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Dominant Wavelength and Purity
 ==============================
@@ -48,7 +47,7 @@ from colour.models import XYZ_to_xy
 from colour.utilities import as_float_array
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -113,7 +112,11 @@ def closest_spectral_locus_wavelength(
     xy_n = np.resize(xy_n, xy.shape)
     xy_s = as_float_array(xy_s)
 
-    xy_e = extend_line_segment(xy, xy_n) if inverse else extend_line_segment(xy_n, xy)
+    xy_e = (
+        extend_line_segment(xy, xy_n)
+        if inverse
+        else extend_line_segment(xy_n, xy)
+    )
 
     # Closing horse-shoe shape to handle line of purples intersections.
     xy_s = np.vstack([xy_s, xy_s[0, :]])
@@ -125,9 +128,9 @@ def closest_spectral_locus_wavelength(
     xy_wl = xy_wl[~np.isnan(xy_wl).any(axis=-1)]
     if not len(xy_wl):
         raise ValueError(
-            "No closest spectral locus wavelength index and coordinates found "
-            'for "{0}" colour stimulus and "{1}" achromatic stimulus "xy" '
-            "chromaticity coordinates!".format(xy, xy_n)
+            f"No closest spectral locus wavelength index and coordinates "
+            f'found for "{xy}" colour stimulus and "{xy_n}" achromatic '
+            f'stimulus "xy" chromaticity coordinates!'
         )
 
     i_wl = np.argmin(scipy.spatial.distance.cdist(xy_wl, xy_s), axis=-1)
@@ -218,13 +221,19 @@ def dominant_wavelength(
     xy_cwl = xy_wl
     wl = cmfs.wavelengths[i_wl]
 
-    xy_e = extend_line_segment(xy, xy_n) if inverse else extend_line_segment(xy_n, xy)
+    xy_e = (
+        extend_line_segment(xy, xy_n)
+        if inverse
+        else extend_line_segment(xy_n, xy)
+    )
     intersect = intersect_line_segments(
         np.concatenate((xy_n, xy_e), -1), np.hstack([xy_s[0], xy_s[-1]])
     ).intersect
     intersect = np.reshape(intersect, wl.shape)
 
-    i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(xy, xy_n, xy_s, not inverse)
+    i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(
+        xy, xy_n, xy_s, not inverse
+    )
     wl_r = -cmfs.wavelengths[i_wl_r]
 
     wl = np.where(intersect, wl_r, wl)

@@ -1,5 +1,4 @@
 # !/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.adaptation.zhai2018` module.
 """
@@ -12,7 +11,7 @@ from colour.adaptation import chromatic_adaptation_Zhai2018
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -56,7 +55,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
                 D_b=0.9407,
                 D_d=0.9800,
                 XYZ_wo=np.array([100, 100, 100]),
-                chromatic_adaptation_transform="CAT16",
+                transform="CAT16",
             ),
             np.array([40.37398343, 43.69426311, 20.51733764]),
             decimal=7,
@@ -83,7 +82,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
                 D_b=0.6709,
                 D_d=0.5331,
                 XYZ_wo=np.array([97.079, 100, 141.798]),
-                chromatic_adaptation_transform="CAT16",
+                transform="CAT16",
             ),
             np.array([56.77130011, 58.81317888, 64.66922808]),
             decimal=7,
@@ -180,7 +179,9 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
             D_b = case[0]
             D_d = case[0]
             XYZ_wo = np.array(case)
-            chromatic_adaptation_Zhai2018(XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo)
+            chromatic_adaptation_Zhai2018(
+                XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo
+            )
 
 
 if __name__ == "__main__":

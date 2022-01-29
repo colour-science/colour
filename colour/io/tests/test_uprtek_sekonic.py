@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.io.uprtek_sekonic` module.
 """
@@ -18,7 +17,7 @@ from colour.io import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -50,7 +49,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
             Arguments.
         """
 
-        super(AbstractSpectralDistributionTest, self).__init__(*args)
+        super().__init__(*args)
 
         self._sd_factory: Any = None
         self._path: Optional[str] = None
@@ -95,7 +94,9 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         if self._sd_factory is None:
             return
 
-        sd = self._sd_factory(os.path.join(RESOURCES_DIRECTORY, self._path)).read()
+        sd = self._sd_factory(
+            os.path.join(RESOURCES_DIRECTORY, self._path)
+        ).read()
 
         sd_r = SpectralDistribution(self._spectral_data)
 
@@ -106,7 +107,9 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
             for specification in sd.header.mapping.elements:
                 if key == specification.element:
                     if key == "Comments":
-                        self.assertDictEqual(json.loads(sd.header.comments), value)
+                        self.assertDictEqual(
+                            json.loads(sd.header.comments), value
+                        )
                     else:
                         self.assertEqual(
                             getattr(sd.header, specification.attribute), value
@@ -129,7 +132,7 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
             Arguments.
         """
 
-        super(TestSpectralDistributionUprTek, self).__init__(*args)
+        super().__init__(*args)
 
         self._sd_factory = SpectralDistribution_UPRTek
         self._path = "ESPD2021_0104_231446.xls"
@@ -609,7 +612,7 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
             Arguments.
         """
 
-        super(TestSpectralDistributionSekonic, self).__init__(*args)
+        super().__init__(*args)
 
         self._sd_factory = SpectralDistribution_Sekonic
         self._path = "RANDOM_001_02._3262K.csv"

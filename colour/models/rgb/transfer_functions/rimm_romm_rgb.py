@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 RIMM, ROMM and ERIMM Encodings
 ==============================
@@ -50,7 +49,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -211,16 +210,20 @@ cctf_encoding_ProPhotoRGB = copy_definition(
 )
 # If-clause required for optimised python launch.
 if cctf_encoding_ProPhotoRGB.__doc__ is not None:
-    cctf_encoding_ProPhotoRGB.__doc__ = cctf_encoding_ProPhotoRGB.__doc__.replace(
-        "*ROMM RGB*", "*ProPhoto RGB*"
+    cctf_encoding_ProPhotoRGB.__doc__ = (
+        cctf_encoding_ProPhotoRGB.__doc__.replace(
+            "*ROMM RGB*", "*ProPhoto RGB*"
+        )
     )
 cctf_decoding_ProPhotoRGB = copy_definition(
     cctf_decoding_ROMMRGB, "cctf_decoding_ProPhotoRGB"
 )
 # If-clause required for optimised python launch.
 if cctf_decoding_ProPhotoRGB.__doc__ is not None:
-    cctf_decoding_ProPhotoRGB.__doc__ = cctf_decoding_ProPhotoRGB.__doc__.replace(
-        "*ROMM RGB*", "*ProPhoto RGB*"
+    cctf_decoding_ProPhotoRGB.__doc__ = (
+        cctf_decoding_ProPhotoRGB.__doc__.replace(
+            "*ROMM RGB*", "*ProPhoto RGB*"
+        )
     )
 
 
@@ -372,7 +375,8 @@ def cctf_decoding_RIMMRGB(
 
     with domain_range_scale("ignore"):
         X = np.where(
-            X_p / I_max < cctf_encoding_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
+            X_p / I_max
+            < cctf_encoding_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
             m / 4.5,
             spow((m + 0.099) / 1.099, 1 / 0.45),
         )
@@ -456,9 +460,13 @@ def log_encoding_ERIMMRGB(
         [
             0,
             I_max
-            * ((np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min)))
+            * (
+                (np.log(E_t) - np.log(E_min))
+                / (np.log(E_clip) - np.log(E_min))
+            )
             * (X / E_t),
-            I_max * ((np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
+            I_max
+            * ((np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
             I_max,
         ],
     )
@@ -540,10 +548,13 @@ def log_decoding_ERIMMRGB(
 
     X = np.where(
         X_p
-        <= I_max * ((np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
+        <= I_max
+        * ((np.log(E_t) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))),
         ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min)))
         * ((X_p * E_t) / I_max),
-        np.exp((X_p / I_max) * (np.log(E_clip) - np.log(E_min)) + np.log(E_min)),
+        np.exp(
+            (X_p / I_max) * (np.log(E_clip) - np.log(E_min)) + np.log(E_min)
+        ),
     )
 
     return as_float(from_range_1(X))

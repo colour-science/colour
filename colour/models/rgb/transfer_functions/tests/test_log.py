@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.log` module.
@@ -17,7 +16,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -164,7 +163,9 @@ logarithmic_function_quasilog` definition.
         )
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(-0.558545621172520, "logToLin", 10, 0.75),
+            logarithmic_function_quasilog(
+                -0.558545621172520, "logToLin", 10, 0.75
+            ),
             0.18,
             places=7,
         )
@@ -184,7 +185,9 @@ logarithmic_function_quasilog` definition.
         )
 
         self.assertAlmostEqual(
-            logarithmic_function_quasilog(0.18, "linToLog", 10, 0.75, 0.75, 0.001),
+            logarithmic_function_quasilog(
+                0.18, "linToLog", 10, 0.75, 0.75, 0.001
+            ),
             -0.651249673628745,
             places=7,
         )
@@ -313,7 +316,9 @@ logarithmic_function_camera` definition.
         )
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(-0.744727494896693, "cameraLogToLin", 10),
+            logarithmic_function_camera(
+                -0.744727494896693, "cameraLogToLin", 10
+            ),
             0.180000000000000,
             places=7,
         )
@@ -325,13 +330,17 @@ logarithmic_function_camera` definition.
         )
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(-0.186181873724173, "cameraLogToLin", 10, 0.25),
+            logarithmic_function_camera(
+                -0.186181873724173, "cameraLogToLin", 10, 0.25
+            ),
             0.180000000000000,
             places=7,
         )
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, "cameraLinToLog", 10, 0.25, 0.95),
+            logarithmic_function_camera(
+                0.18, "cameraLinToLog", 10, 0.25, 0.95
+            ),
             -0.191750972401961,
             places=7,
         )
@@ -345,7 +354,9 @@ logarithmic_function_camera` definition.
         )
 
         self.assertAlmostEqual(
-            logarithmic_function_camera(0.18, "cameraLinToLog", 10, 0.25, 0.95, 0.6),
+            logarithmic_function_camera(
+                0.18, "cameraLinToLog", 10, 0.25, 0.95, 0.6
+            ),
             0.408249027598038,
             places=7,
         )
@@ -482,7 +493,9 @@ log_encoding_Log2` definition.
 
         self.assertAlmostEqual(log_encoding_Log2(0.18), 0.5, places=7)
 
-        self.assertAlmostEqual(log_encoding_Log2(1.0), 0.690302399102493, places=7)
+        self.assertAlmostEqual(
+            log_encoding_Log2(1.0), 0.690302399102493, places=7
+        )
 
         self.assertAlmostEqual(
             log_encoding_Log2(0.18, 0.12), 0.544997115440089, places=7
@@ -559,11 +572,15 @@ log_decoding_Log2` definition unit tests methods.
 log_decoding_Log2` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_Log2(0.0), 0.001988737822087, places=7)
+        self.assertAlmostEqual(
+            log_decoding_Log2(0.0), 0.001988737822087, places=7
+        )
 
         self.assertAlmostEqual(log_decoding_Log2(0.5), 0.18, places=7)
 
-        self.assertAlmostEqual(log_decoding_Log2(0.690302399102493), 1.0, places=7)
+        self.assertAlmostEqual(
+            log_decoding_Log2(0.690302399102493), 1.0, places=7
+        )
 
         self.assertAlmostEqual(
             log_decoding_Log2(0.544997115440089, 0.12), 0.18, places=7

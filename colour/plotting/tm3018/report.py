@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ANSI/IES TM-30-18 Colour Rendition Report
 =========================================
@@ -39,7 +38,7 @@ from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
 from colour.utilities import describe_environment, optional, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -157,7 +156,8 @@ Report header content, i.e. the report title.
 """
 
 CONTENT_REPORT_FOOTER: str = (
-    "Colours are for visual orientation purposes only. " "Created with Colour{0}"
+    "Colours are for visual orientation purposes only. "
+    "Created with Colour{0}"
 )
 """
 Report footer content.
@@ -211,11 +211,10 @@ def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
     """
 
     try:
-        version = " {0}.".format(
-            describe_environment(print_callable=lambda x: x)["colour-science.org"][
-                "colour"
-            ]
-        )
+        describe = describe_environment(print_callable=lambda x: x)[
+            "colour-science.org"
+        ]["colour"]
+        version = f" {describe}."
     except Exception:  # pragma: no cover
         version = "."
 
@@ -241,7 +240,7 @@ def plot_single_sd_colour_rendition_report_full(
     report_size: Tuple = CONSTANT_REPORT_SIZE_FULL,
     report_row_height_ratios: Tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
     report_box_padding: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generates the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
@@ -305,7 +304,9 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
         :alt: plot_single_sd_colour_rendition_report_full
     """
 
-    report_box_padding = optional(report_box_padding, CONSTANT_REPORT_PADDING_FULL)
+    report_box_padding = optional(
+        report_box_padding, CONSTANT_REPORT_PADDING_FULL
+    )
 
     specification: ColourQuality_Specification_ANSIIESTM3018 = cast(
         ColourQuality_Specification_ANSIIESTM3018,
@@ -332,7 +333,9 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     settings["standalone"] = False
     settings["tight_layout"] = False
 
-    gridspec_report = figure.add_gridspec(5, 1, height_ratios=report_row_height_ratios)
+    gridspec_report = figure.add_gridspec(
+        5, 1, height_ratios=report_row_height_ratios
+    )
 
     # Title Row
     gridspec_title = gridspec_report[0].subgridspec(1, 1)
@@ -378,7 +381,9 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
         size="medium",
         weight="bold",
     )
-    axes_manufacturer_model.text(0.25, 2 / 3, manufacturer, va="center", size="medium")
+    axes_manufacturer_model.text(
+        0.25, 2 / 3, manufacturer, va="center", size="medium"
+    )
 
     axes_manufacturer_model.text(
         0.25,
@@ -389,7 +394,9 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
         size="medium",
         weight="bold",
     )
-    axes_manufacturer_model.text(0.25, 1 / 3, model, va="center", size="medium")
+    axes_manufacturer_model.text(
+        0.25, 1 / 3, model, va="center", size="medium"
+    )
 
     # Main Figures Rows & Columns
     gridspec_figures = gridspec_report[2].subgridspec(
@@ -399,10 +406,14 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     plot_spectra_ANSIIESTM3018(specification, axes=axes_spectra, **settings)
 
     axes_vector_graphics = figure.add_subplot(gridspec_figures[1:3, 0])
-    plot_colour_vector_graphic(specification, axes=axes_vector_graphics, **settings)
+    plot_colour_vector_graphic(
+        specification, axes=axes_vector_graphics, **settings
+    )
 
     axes_chroma_shifts = figure.add_subplot(gridspec_figures[0, 1])
-    plot_local_chroma_shifts(specification, axes=axes_chroma_shifts, **settings)
+    plot_local_chroma_shifts(
+        specification, axes=axes_chroma_shifts, **settings
+    )
 
     axes_hue_shifts = figure.add_subplot(gridspec_figures[1, 1])
     plot_local_hue_shifts(specification, axes=axes_hue_shifts, **settings)
@@ -432,7 +443,9 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
         weight="bold",
     )
     axes_notes.text(0.25, 1, notes, va="center", size="medium")
-    gridspec_chromaticities_CRI = gridspec_notes_chromaticities_CRI[1].subgridspec(1, 2)
+    gridspec_chromaticities_CRI = gridspec_notes_chromaticities_CRI[
+        1
+    ].subgridspec(1, 2)
 
     XYZ = sd_to_XYZ(specification.sd_test)
     xy = XYZ_to_xy(XYZ)
@@ -445,7 +458,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_chromaticities.text(
         0.5,
         4 / 5,
-        "$x$ {:.4f}".format(xy[0]),
+        f"$x$ {xy[0]:.4f}",
         ha="center",
         va="center",
         size="medium",
@@ -455,7 +468,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_chromaticities.text(
         0.5,
         3 / 5,
-        "$y$ {:.4f}".format(xy[1]),
+        f"$y$ {xy[1]:.4f}",
         ha="center",
         va="center",
         size="medium",
@@ -465,7 +478,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_chromaticities.text(
         0.5,
         2 / 5,
-        "$u'$ {:.4f}".format(uv_p[0]),
+        f"$u'$ {uv_p[0]:.4f}",
         ha="center",
         va="center",
         size="medium",
@@ -475,7 +488,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_chromaticities.text(
         0.5,
         1 / 5,
-        "$v'$ {:.4f}".format(uv_p[1]),
+        f"$v'$ {uv_p[1]:.4f}",
         ha="center",
         va="center",
         size="medium",
@@ -515,7 +528,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_CRI.text(
         0.5,
         2 / 5,
-        "$R_a$ {:.0f}".format(float(CRI_spec.Q_a)),
+        f"$R_a$ {float(CRI_spec.Q_a):.0f}",
         ha="center",
         va="center",
         size="medium",
@@ -525,7 +538,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_CRI.text(
         0.5,
         1 / 5,
-        "$R_9$ {:.0f}".format(float(CRI_spec.Q_as[8].Q_a)),
+        f"$R_9$ {float(CRI_spec.Q_as[8].Q_a):.0f}",
         ha="center",
         va="center",
         size="medium",
@@ -548,9 +561,11 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 def plot_single_sd_colour_rendition_report_intermediate(
     sd: SpectralDistribution,
     report_size: Tuple = CONSTANT_REPORT_SIZE_INTERMEDIATE,
-    report_row_height_ratios: Tuple = (CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE),
+    report_row_height_ratios: Tuple = (
+        CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE
+    ),
     report_box_padding: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generates the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
@@ -609,7 +624,9 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     settings["standalone"] = False
     settings["tight_layout"] = False
 
-    gridspec_report = figure.add_gridspec(3, 1, height_ratios=report_row_height_ratios)
+    gridspec_report = figure.add_gridspec(
+        3, 1, height_ratios=report_row_height_ratios
+    )
 
     # Title Row
     gridspec_title = gridspec_report[0].subgridspec(1, 1)
@@ -620,10 +637,14 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
     gridspec_figures = gridspec_report[1].subgridspec(2, 2)
 
     axes_vector_graphics = figure.add_subplot(gridspec_figures[0:2, 0])
-    plot_colour_vector_graphic(specification, axes=axes_vector_graphics, **settings)
+    plot_colour_vector_graphic(
+        specification, axes=axes_vector_graphics, **settings
+    )
 
     axes_chroma_shifts = figure.add_subplot(gridspec_figures[0, 1])
-    plot_local_chroma_shifts(specification, axes=axes_chroma_shifts, **settings)
+    plot_local_chroma_shifts(
+        specification, axes=axes_chroma_shifts, **settings
+    )
 
     axes_hue_shifts = figure.add_subplot(gridspec_figures[1, 1])
     plot_local_hue_shifts(
@@ -647,7 +668,7 @@ def plot_single_sd_colour_rendition_report_simple(
     report_size: Tuple = CONSTANT_REPORT_SIZE_SIMPLE,
     report_row_height_ratios: Tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE,
     report_box_padding: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generates the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
@@ -691,7 +712,9 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
         :alt: plot_single_sd_colour_rendition_report_simple
     """
 
-    report_box_padding = optional(report_box_padding, CONSTANT_REPORT_PADDING_SIMPLE)
+    report_box_padding = optional(
+        report_box_padding, CONSTANT_REPORT_PADDING_SIMPLE
+    )
 
     specification: ColourQuality_Specification_ANSIIESTM3018 = cast(
         ColourQuality_Specification_ANSIIESTM3018,
@@ -704,7 +727,9 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     settings["standalone"] = False
     settings["tight_layout"] = False
 
-    gridspec_report = figure.add_gridspec(3, 1, height_ratios=report_row_height_ratios)
+    gridspec_report = figure.add_gridspec(
+        3, 1, height_ratios=report_row_height_ratios
+    )
 
     # Title Row
     gridspec_title = gridspec_report[0].subgridspec(1, 1)
@@ -715,7 +740,9 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     gridspec_figures = gridspec_report[1].subgridspec(1, 1)
 
     axes_vector_graphics = figure.add_subplot(gridspec_figures[0, 0])
-    plot_colour_vector_graphic(specification, axes=axes_vector_graphics, **settings)
+    plot_colour_vector_graphic(
+        specification, axes=axes_vector_graphics, **settings
+    )
 
     gridspec_footer = gridspec_report[2].subgridspec(1, 1)
     axes_footer = figure.add_subplot(gridspec_footer[0])
@@ -732,7 +759,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 def plot_single_sd_colour_rendition_report(
     sd: SpectralDistribution,
     method: Union[Literal["Full", "Intermediate", "Simple"], str] = "Full",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generates the *ANSI/IES TM-30-18 Colour Rendition Report* for given
@@ -749,57 +776,12 @@ def plot_single_sd_colour_rendition_report(
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`,
+        :func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
+plot_single_sd_colour_rendition_report_intermediate`, \
+:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`}
         See the documentation of the previously listed definitions.
-    source
-        {:func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_full`},
-        Emission source name, defaults to
-        `colour.SpectralDistribution_IESTM2714.header.description` or
-        `colour.SpectralDistribution_IESTM2714.name` properties value.
-    date
-        {:func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_full`},
-        Emission source measurement date, defaults to
-        `colour.SpectralDistribution_IESTM2714.header.report_date` property
-        value.
-    manufacturer
-        {:func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_full`},
-        Emission source manufacturer, defaults to
-        `colour.SpectralDistribution_IESTM2714.header.manufacturer` property
-        value.
-    model
-        {:func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_full`},
-        Emission source model, defaults to
-        `colour.SpectralDistribution_IESTM2714.header.catalog_number` property
-        value.
-    notes
-        {:func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_full`},
-        Notes pertaining to the emission source, defaults to
-        `colour.SpectralDistribution_IESTM2714.header.comments` property
-        value.
-    report_size
-        {:func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_intermediate`, \
-:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`},
-        Report size, default to A4 paper size in inches.
-    report_row_height_ratios
-        {:func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_intermediate`, \
-:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`},
-        Report size row height ratios.
-    report_box_padding
-        {:func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_full`, :func:`colour.plotting.tm3018.\
-plot_single_sd_colour_rendition_report_intermediate`, \
-:func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`},
-        Report box padding, tries to define the padding around the figure and
-        in-between the axes.
 
     Returns
     -------
@@ -843,6 +825,8 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
     if method == "full":
         return plot_single_sd_colour_rendition_report_full(sd, **kwargs)
     elif method == "intermediate":
-        return plot_single_sd_colour_rendition_report_intermediate(sd, **kwargs)
+        return plot_single_sd_colour_rendition_report_intermediate(
+            sd, **kwargs
+        )
     else:  # method == 'simple'
         return plot_single_sd_colour_rendition_report_simple(sd, **kwargs)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Primaries of LCD Displays
 =========================
@@ -39,7 +38,7 @@ from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -136,14 +135,16 @@ DATA_DISPLAY_PRIMARIES_LCD: Dict = {
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_LCD: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    {
-        "Apple Studio Display": partial(
-            RGB_DisplayPrimaries,
-            DATA_DISPLAY_PRIMARIES_LCD["Apple Studio Display"],
-            name="Apple Studio Display",
-        )
-    }
+MSDS_DISPLAY_PRIMARIES_LCD: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        {
+            "Apple Studio Display": partial(
+                RGB_DisplayPrimaries,
+                DATA_DISPLAY_PRIMARIES_LCD["Apple Studio Display"],
+                name="Apple Studio Display",
+            )
+        }
+    )
 )
 """
 Primaries multi-spectral distributions of *LCD* displays.

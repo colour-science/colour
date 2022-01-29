@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases colour quality plotting examples.
 """
@@ -23,10 +22,8 @@ plot_single_sd_colour_rendering_index_bars(colour.SDS_ILLUMINANTS["FL2"])
 print("\n")
 
 message_box(
-    (
-        "Plotting various illuminants and light sources "
-        '"Colour Rendering Index (CRI)".'
-    )
+    "Plotting various illuminants and light sources "
+    '"Colour Rendering Index (CRI)".'
 )
 plot_multi_sds_colour_rendering_indexes_bars(
     (
@@ -44,7 +41,8 @@ plot_single_sd_colour_quality_scale_bars(colour.SDS_ILLUMINANTS["FL2"])
 print("\n")
 
 message_box(
-    ("Plotting various illuminants and light sources " '"Colour Quality Scale (CQS)".')
+    "Plotting various illuminants and light sources "
+    '"Colour Quality Scale (CQS)".'
 )
 plot_multi_sds_colour_quality_scales_bars(
     (

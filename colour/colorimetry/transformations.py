@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Matching Functions Transformations
 =========================================
@@ -46,7 +45,7 @@ from colour.hints import FloatingOrArrayLike, NDArray
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -122,7 +121,9 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
-    V = reshape_sd(SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"], cmfs.shape)
+    V = reshape_sd(
+        SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"], cmfs.shape
+    )
     L = V[wavelength]
 
     x_bar = x / y * L

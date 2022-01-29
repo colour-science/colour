@@ -1,5 +1,4 @@
 # !/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.adaptation.cmccat2000.
 """
@@ -16,7 +15,7 @@ from colour.adaptation.cmccat2000 import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -88,12 +87,16 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-        XYZ_c = chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+        XYZ_c = chromatic_adaptation_forward_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
+        )
 
         XYZ = np.tile(XYZ, (6, 1))
         XYZ_c = np.tile(XYZ_c, (6, 1))
         np.testing.assert_almost_equal(
-            chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            chromatic_adaptation_forward_CMCCAT2000(
+                XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
+            ),
             XYZ_c,
             decimal=7,
         )
@@ -103,7 +106,9 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
         L_A1 = np.tile(L_A1, 6)
         L_A2 = np.tile(L_A2, 6)
         np.testing.assert_almost_equal(
-            chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            chromatic_adaptation_forward_CMCCAT2000(
+                XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
+            ),
             XYZ_c,
             decimal=7,
         )
@@ -115,7 +120,9 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
         L_A2 = np.reshape(L_A2, (2, 3))
         XYZ_c = np.reshape(XYZ_c, (2, 3, 3))
         np.testing.assert_almost_equal(
-            chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2),
+            chromatic_adaptation_forward_CMCCAT2000(
+                XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
+            ),
             XYZ_c,
             decimal=7,
         )
@@ -132,7 +139,9 @@ chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-        XYZ_c = chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+        XYZ_c = chromatic_adaptation_forward_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
+        )
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
@@ -164,7 +173,9 @@ chromatic_adaptation_forward_CMCCAT2000` definition nan support.
             XYZ_wr = np.array(case)
             L_A1 = case[0]
             L_A2 = case[0]
-            chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+            chromatic_adaptation_forward_CMCCAT2000(
+                XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
+            )
 
 
 class TestChromaticAdaptationInverseCMCCAT2000(unittest.TestCase):
@@ -227,12 +238,16 @@ chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-        XYZ = chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
+        XYZ = chromatic_adaptation_inverse_CMCCAT2000(
+            XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
+        )
 
         XYZ_c = np.tile(XYZ_c, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2),
+            chromatic_adaptation_inverse_CMCCAT2000(
+                XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
+            ),
             XYZ,
             decimal=7,
         )
@@ -242,7 +257,9 @@ chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
         L_A1 = np.tile(L_A1, 6)
         L_A2 = np.tile(L_A2, 6)
         np.testing.assert_almost_equal(
-            chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2),
+            chromatic_adaptation_inverse_CMCCAT2000(
+                XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
+            ),
             XYZ,
             decimal=7,
         )
@@ -254,7 +271,9 @@ chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
         L_A2 = np.reshape(L_A2, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2),
+            chromatic_adaptation_inverse_CMCCAT2000(
+                XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
+            ),
             XYZ,
             decimal=7,
         )
@@ -271,7 +290,9 @@ chromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale
         XYZ_wr = np.array([94.81, 100.00, 107.30])
         L_A1 = 200
         L_A2 = 200
-        XYZ = chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
+        XYZ = chromatic_adaptation_inverse_CMCCAT2000(
+            XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
+        )
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
@@ -303,7 +324,9 @@ chromatic_adaptation_inverse_CMCCAT2000` definition nan support.
             XYZ_wr = np.array(case)
             L_A1 = case[0]
             L_A2 = case[0]
-            chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
+            chromatic_adaptation_inverse_CMCCAT2000(
+                XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
+            )
 
 
 if __name__ == "__main__":

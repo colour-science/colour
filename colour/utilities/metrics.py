@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Metrics
 =======
@@ -33,7 +32,7 @@ from colour.hints import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -83,7 +82,9 @@ def metric_mse(
     0.0012714...
     """
 
-    return as_float(np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis))
+    return as_float(
+        np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
+    )
 
 
 def metric_psnr(

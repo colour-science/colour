@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.rgb.ycbcr` module.
 """
@@ -19,7 +18,7 @@ from colour.models.rgb.ycbcr import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -391,19 +390,25 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
-        np.testing.assert_almost_equal(RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
+        np.testing.assert_almost_equal(
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
-        np.testing.assert_almost_equal(RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
+        np.testing.assert_almost_equal(
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
+        np.testing.assert_almost_equal(
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
+        )
 
     def test_domain_range_scale_RGB_to_YcCbcCrc(self):
         """
@@ -477,19 +482,25 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
-        np.testing.assert_almost_equal(YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
+        np.testing.assert_almost_equal(
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
-        np.testing.assert_almost_equal(YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
+        np.testing.assert_almost_equal(
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
+        )
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
+        np.testing.assert_almost_equal(
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
+        )
 
     def test_domain_range_scale_YcCbcCrc_to_RGB(self):
         """

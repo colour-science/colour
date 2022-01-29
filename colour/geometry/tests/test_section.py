@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.geometry.section` module.
 """
@@ -15,7 +14,7 @@ from colour.geometry import primitive_cube, hull_section
 from colour.utilities import is_trimesh_installed
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -139,7 +138,9 @@ class TestUniqueVertices(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             unique_vertices(
-                np.array([[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]),
+                np.array(
+                    [[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]
+                ),
                 1,
             ),
             np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),

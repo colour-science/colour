@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Notation Systems Plotting
 ================================
@@ -23,7 +22,7 @@ from colour.plotting import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -73,7 +72,7 @@ def plot_single_munsell_value_function(
     """
 
     settings: Dict[str, Any] = {
-        "title": "{0} - Munsell Value Function".format(function)
+        "title": f"{function} - Munsell Value Function"
     }
     settings.update(kwargs)
 
@@ -82,7 +81,8 @@ def plot_single_munsell_value_function(
 
 @override_style()
 def plot_multi_munsell_value_functions(
-    functions: Union[Callable, str, Sequence[Union[Callable, str]]], **kwargs: Any
+    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Munsell* value functions.
@@ -123,7 +123,7 @@ def plot_multi_munsell_value_functions(
     settings: Dict[str, Any] = {
         "bounding_box": (0, 100, 0, 10),
         "legend": True,
-        "title": "{0} - Munsell Functions".format(", ".join(functions_filtered)),
+        "title": f"{', '.join(functions_filtered)} - Munsell Functions",
         "x_label": "Luminance Y",
         "y_label": "Munsell Value V",
     }

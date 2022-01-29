@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 blackmagic_design` module.
@@ -14,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -70,15 +69,21 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition n-dimensional
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(oetf_BlackmagicFilmGeneration5(L), V, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_BlackmagicFilmGeneration5(L), V, decimal=7
+        )
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(oetf_BlackmagicFilmGeneration5(L), V, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_BlackmagicFilmGeneration5(L), V, decimal=7
+        )
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_BlackmagicFilmGeneration5(L), V, decimal=7)
+        np.testing.assert_almost_equal(
+            oetf_BlackmagicFilmGeneration5(L), V, decimal=7
+        )
 
     def test_domain_range_scale_oetf_BlackmagicFilmGeneration5(self):
         """

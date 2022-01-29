@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Hernandez-Andres, Lee and Romero (1999) Correlated Colour Temperature
 =====================================================================
@@ -38,7 +37,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tsplit, usage_warning
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -160,7 +159,9 @@ def CCT_to_xy_Hernandez1999(
         Objective function.
         """
 
-        objective = np.linalg.norm(xy_to_CCT_Hernandez1999(xy) - as_float_array(CCT))
+        objective = np.linalg.norm(
+            xy_to_CCT_Hernandez1999(xy) - as_float_array(CCT)
+        )
 
         return as_float(objective)
 
@@ -177,7 +178,9 @@ def CCT_to_xy_Hernandez1999(
         [
             minimize(
                 objective_function,
-                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
+                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+                    "D65"
+                ],
                 args=(CCT_i,),
                 **optimisation_settings
             ).x

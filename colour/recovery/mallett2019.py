@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================
@@ -33,7 +32,7 @@ from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -206,7 +205,7 @@ def spectral_primary_decomposition_Mallett2019(
     return MultiSpectralDistributions(
         basis_functions,
         cmfs.shape.range(),
-        name="Basis Functions - {0} - Mallett (2019)".format(colourspace.name),
+        name=f"Basis Functions - {colourspace.name} - Mallett (2019)",
         labels=("red", "green", "blue"),
     )
 
@@ -360,6 +359,6 @@ def RGB_to_sd_Mallett2019(
         np.dot(RGB, np.transpose(basis_functions.values)),
         basis_functions.wavelengths,
     )
-    sd.name = "{0} (RGB) - Mallett (2019)".format(RGB)
+    sd.name = f"{RGB} (RGB) - Mallett (2019)"
 
     return sd

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.colorimetry.illuminants` module.
 """
@@ -20,7 +19,7 @@ from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -219,11 +218,15 @@ class TestDaylightLocusFunction(unittest.TestCase):
 
         x_D = np.tile(x_D, (6, 1))
         y_D = np.tile(y_D, (6, 1))
-        np.testing.assert_almost_equal(daylight_locus_function(x_D), y_D, decimal=7)
+        np.testing.assert_almost_equal(
+            daylight_locus_function(x_D), y_D, decimal=7
+        )
 
         x_D = np.reshape(x_D, (2, 3, 1))
         y_D = np.reshape(y_D, (2, 3, 1))
-        np.testing.assert_almost_equal(daylight_locus_function(x_D), y_D, decimal=7)
+        np.testing.assert_almost_equal(
+            daylight_locus_function(x_D), y_D, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_daylight_locus_function(self):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Extrapolation
 =============
@@ -46,7 +45,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -191,12 +190,12 @@ class Extrapolator:
 
         attest(
             hasattr(value, "x"),
-            '"{0}" interpolator has no "x" attribute!'.format(value),
+            f'"{value}" interpolator has no "x" attribute!',
         )
 
         attest(
             hasattr(value, "y"),
-            '"{0}" interpolator has no "y" attribute!'.format(value),
+            f'"{value}" interpolator has no "y" attribute!',
         )
 
         self._interpolator = value
@@ -227,7 +226,7 @@ class Extrapolator:
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("method", value),
+            f'"method" property: "{value}" type is not "str"!',
         )
 
         value = validate_method(value, ["Linear", "Constant"])
@@ -261,7 +260,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" property: "{1}" is not a "numeric"!'.format("left", value),
+                f'"left" property: "{value}" is not a "numeric"!',
             )
 
             self._left = value
@@ -293,7 +292,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" property: "{1}" is not a "numeric"!'.format("right", value),
+                f'"right" property: "{value}" is not a "numeric"!',
             )
 
             self._right = value
@@ -343,9 +342,9 @@ class Extrapolator:
             y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) / (
                 xi[1] - xi[0]
             )
-            y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (yi[-1] - yi[-2]) / (
-                xi[-1] - xi[-2]
-            )
+            y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (
+                yi[-1] - yi[-2]
+            ) / (xi[-1] - xi[-2])
         elif self._method == "constant":
             y[x < xi[0]] = yi[0]
             y[x > xi[-1]] = yi[-1]

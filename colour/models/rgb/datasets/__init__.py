@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from __future__ import annotations
 
 from colour.utilities import CaseInsensitiveMapping
@@ -74,11 +72,9 @@ from colour.models.rgb import RGB_Colourspace
 RGB_COLOURSPACES: CaseInsensitiveMapping = CaseInsensitiveMapping(
     dict(
         sorted(
-            [
-                (colourspace.name, colourspace)
-                for colourspace in locals().values()
-                if isinstance(colourspace, RGB_Colourspace)
-            ]
+            (colourspace.name, colourspace)
+            for colourspace in locals().values()
+            if isinstance(colourspace, RGB_Colourspace)
         )
     )
 )
@@ -93,8 +89,12 @@ Aliases:
 """
 
 RGB_COLOURSPACES["aces"] = RGB_COLOURSPACES[RGB_COLOURSPACE_ACES2065_1.name]
-RGB_COLOURSPACES["adobe1998"] = RGB_COLOURSPACES[RGB_COLOURSPACE_ADOBE_RGB1998.name]
-RGB_COLOURSPACES["prophoto"] = RGB_COLOURSPACES[RGB_COLOURSPACE_PROPHOTO_RGB.name]
+RGB_COLOURSPACES["adobe1998"] = RGB_COLOURSPACES[
+    RGB_COLOURSPACE_ADOBE_RGB1998.name
+]
+RGB_COLOURSPACES["prophoto"] = RGB_COLOURSPACES[
+    RGB_COLOURSPACE_PROPHOTO_RGB.name
+]
 # yapf: enable
 
 __all__ = [

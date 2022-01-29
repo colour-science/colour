@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.volume.spectrum` module.
 """
@@ -21,7 +20,7 @@ from colour.volume import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -204,15 +203,21 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
         definition.
         """
 
-        self.assertTrue(is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.5100])))
+        self.assertTrue(
+            is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.5100]))
+        )
 
         self.assertFalse(
             is_within_visible_spectrum(np.array([-0.0005, 0.0031, 0.0010]))
         )
 
-        self.assertTrue(is_within_visible_spectrum(np.array([0.4325, 0.3788, 0.1034])))
+        self.assertTrue(
+            is_within_visible_spectrum(np.array([0.4325, 0.3788, 0.1034]))
+        )
 
-        self.assertFalse(is_within_visible_spectrum(np.array([0.0025, 0.0088, 0.0340])))
+        self.assertFalse(
+            is_within_visible_spectrum(np.array([0.0025, 0.0088, 0.0340]))
+        )
 
     def test_n_dimensional_is_within_visible_spectrum(self):
         """

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 =========================================================================
@@ -46,7 +45,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -96,7 +95,9 @@ COEFFICIENTS_UCS_LUO2006: CaseInsensitiveMapping = CaseInsensitiveMapping(
 """
 
 
-def JMh_CIECAM02_to_UCS_Luo2006(JMh: ArrayLike, coefficients: ArrayLike) -> NDArray:
+def JMh_CIECAM02_to_UCS_Luo2006(
+    JMh: ArrayLike, coefficients: ArrayLike
+) -> NDArray:
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to one of the
     *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
@@ -179,7 +180,9 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh: ArrayLike, coefficients: ArrayLike) -> NDAr
     return from_range_100(Jpapbp)
 
 
-def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp: ArrayLike, coefficients: ArrayLike) -> NDArray:
+def UCS_Luo2006_to_JMh_CIECAM02(
+    Jpapbp: ArrayLike, coefficients: ArrayLike
+) -> NDArray:
     """
     Converts from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
     *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIECAM02* :math:`JMh`

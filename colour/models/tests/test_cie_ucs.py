@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.models.cie_ucs` module.
 """
@@ -18,7 +17,7 @@ from colour.models import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -242,7 +241,9 @@ class TestUCS_to_uv(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(UCS_to_uv(UCS * factor), uv, decimal=7)
+                np.testing.assert_almost_equal(
+                    UCS_to_uv(UCS * factor), uv, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_UCS_to_uv(self):

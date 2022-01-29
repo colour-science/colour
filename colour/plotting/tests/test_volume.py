@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.volume` module.
 """
@@ -11,7 +10,7 @@ from colour.plotting import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 from colour.plotting.volume import nadir_grid, RGB_identity_cube
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -230,7 +229,9 @@ class TestPlotRGBScatter(unittest.TestCase):
         Tests :func:`colour.plotting.volume.plot_RGB_scatter` definition.
         """
 
-        figure, axes = plot_RGB_scatter(np.random.random((128, 128, 3)), "ITU-R BT.709")
+        figure, axes = plot_RGB_scatter(
+            np.random.random((128, 128, 3)), "ITU-R BT.709"
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

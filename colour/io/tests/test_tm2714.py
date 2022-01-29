@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.tm2714` module.
 """
@@ -17,7 +16,7 @@ from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from colour.utilities import optional
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -248,7 +247,9 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         np.testing.assert_almost_equal(sd_r.values, sd.values, decimal=7)
 
         test_read: List[
-            Tuple[Dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]]
+            Tuple[
+                Dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]
+            ]
         ] = [
             (FLUORESCENT_FILE_HEADER, sd.header),
             (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd),
@@ -257,7 +258,9 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             for key, value in test.items():
                 for specification in read.mapping.elements:
                     if key == specification.element:
-                        self.assertEquals(getattr(read, specification.attribute), value)
+                        self.assertEqual(
+                            getattr(read, specification.attribute), value
+                        )
 
     def test_raise_exception_read(self):
         """
@@ -288,7 +291,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         sd_t = SpectralDistribution_IESTM2714(sd_r.path).read()
 
         self.test_read(sd_t)
-        self.assertEquals(sd_r, sd_t)
+        self.assertEqual(sd_r, sd_t)
 
         for attribute in (
             "manufacturer",
@@ -303,7 +306,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             "document_creation_date",
             "comments",
         ):
-            self.assertEquals(
+            self.assertEqual(
                 getattr(sd_r.header, attribute),
                 getattr(sd_t.header, attribute),
             )
@@ -315,7 +318,9 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             "bandwidth_FWHM",
             "bandwidth_corrected",
         ):
-            self.assertEquals(getattr(sd_r, attribute), getattr(sd_t, attribute))
+            self.assertEqual(
+                getattr(sd_r, attribute), getattr(sd_t, attribute)
+            )
 
     def test_raise_exception_write(self):
         """

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import sys
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
@@ -39,7 +37,7 @@ __all__ += [
 # ----------------------------------------------------------------------------#
 class biochemistry(ModuleAPI):
     def __getattr__(self, attribute) -> Any:
-        return super(biochemistry, self).__getattr__(attribute)
+        return super().__getattr__(attribute)
 
 
 # v0.4.0
@@ -60,7 +58,9 @@ Defines the *colour.biochemistry* sub-package API changes.
 """
 
 if not is_documentation_building():
-    sys.modules["colour.biochemistry"] = biochemistry(  # type:ignore[assignment]
+    sys.modules[
+        "colour.biochemistry"
+    ] = biochemistry(  # type:ignore[assignment]
         sys.modules["colour.biochemistry"], build_API_changes(API_CHANGES)
     )
 

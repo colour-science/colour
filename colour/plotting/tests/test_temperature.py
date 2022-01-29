@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.temperature` module.
 """
@@ -18,7 +17,7 @@ from colour.plotting.temperature import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -51,7 +50,9 @@ class TestPlotPlanckianLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(ValueError, lambda: plot_planckian_locus(method="Undefined"))
+        self.assertRaises(
+            ValueError, lambda: plot_planckian_locus(method="Undefined")
+        )
 
 
 class TestPlotPlanckianLocusCIE1931(unittest.TestCase):

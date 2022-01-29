@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE 1994 Chromatic Adaptation Model
 ===================================
@@ -37,7 +36,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -151,10 +150,8 @@ def chromatic_adaptation_CIE1994(
 
     if np.any(Y_o < 18) or np.any(Y_o > 100):
         usage_warning(
-            (
-                '"Y_o" luminance factor must be in [18, 100] domain, '
-                "unpredictable results may occur!"
-            )
+            '"Y_o" luminance factor must be in [18, 100] domain, '
+            "unpredictable results may occur!"
         )
 
     RGB_1 = XYZ_to_RGB_CIE1994(XYZ_1)
@@ -170,7 +167,9 @@ def chromatic_adaptation_CIE1994(
 
     K = K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n)
 
-    RGB_2 = corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
+    RGB_2 = corresponding_colour(
+        RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n
+    )
     XYZ_2 = RGB_to_XYZ_CIE1994(RGB_2)
 
     return from_range_100(XYZ_2)
@@ -293,7 +292,9 @@ def effective_adapting_responses(
     Y_o = as_float_array(Y_o)
     E_o = as_float_array(E_o)
 
-    RGB_o = ((Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)) * xez
+    RGB_o = (
+        (Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)
+    ) * xez
 
     return RGB_o
 
@@ -343,7 +344,9 @@ def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     4.6522416...
     """
 
-    return 0.7844 * (8.414 + 8.091 * spow(x, 0.5128)) / (8.414 + spow(x, 0.5128))
+    return (
+        0.7844 * (8.414 + 8.091 * spow(x, 0.5128)) / (8.414 + spow(x, 0.5128))
+    )
 
 
 def exponential_factors(RGB_o: ArrayLike) -> NDArray:

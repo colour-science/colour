@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.quality.cqs` module.
 """
@@ -14,7 +13,7 @@ from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.quality.cqs import VS_ColorimetryData, VS_ColourQualityScaleData
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -43,7 +42,9 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         self.assertAlmostEqual(
-            colour_quality_scale(SDS_ILLUMINANTS["FL1"], method="NIST CQS 7.4"),
+            colour_quality_scale(
+                SDS_ILLUMINANTS["FL1"], method="NIST CQS 7.4"
+            ),
             75.377089740493290,
             places=7,
         )
@@ -55,7 +56,9 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         self.assertAlmostEqual(
-            colour_quality_scale(SDS_ILLUMINANTS["FL2"], method="NIST CQS 7.4"),
+            colour_quality_scale(
+                SDS_ILLUMINANTS["FL2"], method="NIST CQS 7.4"
+            ),
             64.774490832419872,
             places=7,
         )
@@ -76,7 +79,9 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         self.assertAlmostEqual(
-            colour_quality_scale(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
+            colour_quality_scale(
+                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
+            ),
             84.934929181986888,
             places=7,
         )
@@ -261,7 +266,9 @@ class TestColourQualityScale(unittest.TestCase):
                     VS_ColorimetryData(
                         name="VS5",
                         XYZ=np.array([0.18662999, 0.24708620, 0.40043676]),
-                        Lab=np.array([56.79040832, -23.15964295, -18.30798276]),
+                        Lab=np.array(
+                            [56.79040832, -23.15964295, -18.30798276]
+                        ),
                         C=29.522047597875542,
                     ),
                     VS_ColorimetryData(
@@ -347,13 +354,17 @@ class TestColourQualityScale(unittest.TestCase):
                     VS_ColorimetryData(
                         name="VS4",
                         XYZ=np.array([0.13144454, 0.16803553, 0.39315864]),
-                        Lab=np.array([48.01155296, -17.36604069, -32.56734417]),
+                        Lab=np.array(
+                            [48.01155296, -17.36604069, -32.56734417]
+                        ),
                         C=36.908146466038922,
                     ),
                     VS_ColorimetryData(
                         name="VS5",
                         XYZ=np.array([0.18145723, 0.25845953, 0.41319313]),
-                        Lab=np.array([57.89053983, -30.61152779, -17.92233237]),
+                        Lab=np.array(
+                            [57.89053983, -30.61152779, -17.92233237]
+                        ),
                         C=35.472181086008781,
                     ),
                     VS_ColorimetryData(
@@ -425,8 +436,14 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
-            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
+            [
+                data.Q_a
+                for _index, data in sorted(specification_r.Q_as.items())
+            ],
+            [
+                data.Q_a
+                for _index, data in sorted(specification_t.Q_as.items())
+            ],
             decimal=7,
         )
 
@@ -597,7 +614,9 @@ class TestColourQualityScale(unittest.TestCase):
                     VS_ColorimetryData(
                         name="VS9",
                         XYZ=np.array([0.18662998, 0.24708620, 0.40043672]),
-                        Lab=np.array([56.79040828, -23.15964795, -18.30797717]),
+                        Lab=np.array(
+                            [56.79040828, -23.15964795, -18.30797717]
+                        ),
                         C=29.522048055967336,
                     ),
                     VS_ColorimetryData(
@@ -689,13 +708,17 @@ class TestColourQualityScale(unittest.TestCase):
                     VS_ColorimetryData(
                         name="VS9",
                         XYZ=np.array([0.18145720, 0.25845953, 0.41319296]),
-                        Lab=np.array([57.89053974, -30.61154597, -17.92231311]),
+                        Lab=np.array(
+                            [57.89053974, -30.61154597, -17.92231311]
+                        ),
                         C=35.472187042106164,
                     ),
                     VS_ColorimetryData(
                         name="VS10",
                         XYZ=np.array([0.13144449, 0.16803553, 0.39315843]),
-                        Lab=np.array([48.01155280, -17.36606803, -32.56732004]),
+                        Lab=np.array(
+                            [48.01155280, -17.36606803, -32.56732004]
+                        ),
                         C=36.908138035180549,
                     ),
                     VS_ColorimetryData(
@@ -737,8 +760,14 @@ class TestColourQualityScale(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
-            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
+            [
+                data.Q_a
+                for _index, data in sorted(specification_r.Q_as.items())
+            ],
+            [
+                data.Q_a
+                for _index, data in sorted(specification_t.Q_as.items())
+            ],
             decimal=7,
         )
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Optical Phenomenon Plotting
 ===========================
@@ -50,7 +49,7 @@ from colour.plotting import (
 from colour.utilities import first_item
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -103,11 +102,6 @@ def plot_single_sd_rayleigh_scattering(
         :func:`colour.plotting.plot_single_sd`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
-    out_of_gamut_clipping
-        {:func:`colour.plotting.plot_single_sd`},
-        Whether to clip out of gamut colours otherwise, the colours will be
-        offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother.
 
     Returns
     -------
@@ -126,7 +120,9 @@ def plot_single_sd_rayleigh_scattering(
 
     title = "Rayleigh Scattering"
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     settings: Dict[str, Any] = {"title": title, "y_label": "Optical Depth"}
     settings.update(kwargs)
@@ -190,7 +186,9 @@ def plot_the_blue_sky(
 
     figure.subplots_adjust(hspace=CONSTANTS_COLOUR_STYLE.geometry.short / 2)
 
-    cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+    cmfs = cast(
+        MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
+    )
 
     ASTMG173_sd = cast(SpectralDistribution, SD_ASTMG173_ETR.copy())
     rayleigh_sd = sd_rayleigh_scattering()
@@ -203,7 +201,7 @@ def plot_the_blue_sky(
     settings: Dict[str, Any] = {
         "axes": axes,
         "title": "The Blue Sky - Synthetic Spectral Distribution",
-        "y_label": u"W / m-2 / nm-1",
+        "y_label": "W / m-2 / nm-1",
     }
     settings.update(kwargs)
     settings["standalone"] = False

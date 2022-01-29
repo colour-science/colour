@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Jakob and Hanika (2019) - Reflectance Recovery
 ==============================================
@@ -71,7 +70,7 @@ else:  # pragma: no cover
     tqdm = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -197,7 +196,7 @@ def sd_Jakob2019(
     U = c_0 * wl ** 2 + c_1 * wl + c_2
     R = 1 / 2 + U / (2 * np.sqrt(1 + U ** 2))
 
-    name = "{0!r} (COEFF) - Jakob (2019)".format(coefficients)
+    name = f"{coefficients!r} (COEFF) - Jakob (2019)"
 
     return SpectralDistribution(R, wl, name=name)
 
@@ -276,7 +275,11 @@ def error_function(
     dXYZ_f = np.where(
         XYZ_XYZ_n[..., np.newaxis] > (24 / 116) ** 3,
         1
-        / (3 * spow(XYZ_n[..., np.newaxis], 1 / 3) * spow(XYZ[..., np.newaxis], 2 / 3))
+        / (
+            3
+            * spow(XYZ_n[..., np.newaxis], 1 / 3)
+            * spow(XYZ[..., np.newaxis], 2 / 3)
+        )
         * dXYZ,
         (841 / 108) * dXYZ / XYZ_n[..., np.newaxis],
     )
@@ -305,7 +308,9 @@ def error_function(
         raise StopMinimizationEarly(coefficients, error)
 
     derror = (
-        np.sum(dLab_i * (Lab_i[..., np.newaxis] - target[..., np.newaxis]), axis=0)
+        np.sum(
+            dLab_i * (Lab_i[..., np.newaxis] - target[..., np.newaxis]), axis=0
+        )
         / error
     )
 
@@ -347,7 +352,9 @@ def dimensionalise_coefficients(
 
     c_0 = cp_0 / span ** 2
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span ** 2
-    c_2 = cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2
+    c_2 = (
+        cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2
+    )
 
     return np.array([c_0, c_1, c_2])
 
@@ -616,7 +623,7 @@ def XYZ_to_sd_Jakob2019(
         )
 
     sd = sd_Jakob2019(coefficients, cmfs.shape)
-    sd.name = "{0} (XYZ) - Jakob (2019)".format(XYZ)
+    sd.name = f"{XYZ} (XYZ) - Jakob (2019)"
 
     if additional_data:
         return sd, error
@@ -886,9 +893,9 @@ class LUT3D_Jakob2019:
         # First, create a list of all the fully bright colours with the order
         # matching cube_indexes.
         samples = np.linspace(0, 1, chroma_steps)
-        ij = np.transpose(np.meshgrid([1], samples, samples, indexing="ij")).reshape(
-            -1, 3
-        )
+        ij = np.transpose(
+            np.meshgrid([1], samples, samples, indexing="ij")
+        ).reshape(-1, 3)
         chromas = np.concatenate(
             [
                 as_float_array(ij),
@@ -902,7 +909,7 @@ class LUT3D_Jakob2019:
             print_callable=print_callable,
         )
 
-        print_callable("\nOptimising {0} coefficients...\n".format(total_coefficients))
+        print_callable(f"\nOptimising {total_coefficients} coefficients...\n")
 
         def optimize(ijkL: ArrayLike, coefficients_0: ArrayLike) -> NDArray:
             """
@@ -939,17 +946,23 @@ class LUT3D_Jakob2019:
                 # feedback works in "colour.recovery.\
                 # find_coefficients_Jakob2019" definition.
                 L_middle = lightness_steps // 3
-                coefficients_middle = optimize(np.hstack([ijk, L_middle]), zeros(3))
+                coefficients_middle = optimize(
+                    np.hstack([ijk, L_middle]), zeros(3)
+                )
 
                 # Down the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in reversed(range(0, L_middle)):
-                    coefficients_0 = optimize(np.hstack([ijk, L]), coefficients_0)
+                    coefficients_0 = optimize(
+                        np.hstack([ijk, L]), coefficients_0
+                    )
 
                 # Up the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in range(L_middle + 1, lightness_steps):
-                    coefficients_0 = optimize(np.hstack([ijk, L]), coefficients_0)
+                    coefficients_0 = optimize(
+                        np.hstack([ijk, L]), coefficients_0
+                    )
 
         self._size = size
         self._create_interpolator()
@@ -1098,7 +1111,7 @@ class LUT3D_Jakob2019:
         """
 
         sd = sd_Jakob2019(self.RGB_to_coefficients(RGB), shape)
-        sd.name = "{0!r} (RGB) - Jakob (2019)".format(RGB)
+        sd.name = f"{RGB!r} (RGB) - Jakob (2019)"
 
         return sd
 

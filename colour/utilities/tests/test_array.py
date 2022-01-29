@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.utilities.array` module.
 """
@@ -9,9 +8,12 @@ from dataclasses import dataclass, field, fields
 from copy import deepcopy
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.hints import NDArray, Type, Union
+from colour.hints import NDArray, Optional, Type, Union
 from colour.utilities import (
+    MixinDataclassFields,
+    MixinDataclassIterable,
     MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_array,
     as_int,
     as_float,
@@ -55,14 +57,17 @@ from colour.utilities import (
 from colour.utilities import is_networkx_installed
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestMixinDataclassFields",
+    "TestMixinDataclassIterable",
     "TestMixinDataclassArray",
+    "TestMixinDataclassArithmetic",
     "TestAsArray",
     "TestAsInt",
     "TestAsFloat",
@@ -105,10 +110,139 @@ __all__ = [
 ]
 
 
+class TestMixinDataclassFields(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.array.MixinDataclassFields` class unit
+    tests methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        @dataclass
+        class Data(MixinDataclassFields):
+            a: str
+            b: str
+            c: str
+
+        self._data: Data = Data(a="Foo", b="Bar", c="Baz")
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ("fields",)
+
+        for method in required_attributes:
+            self.assertIn(method, dir(MixinDataclassFields))
+
+    def test_fields(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable._fields`
+        method.
+        """
+
+        self.assertTupleEqual(
+            self._data.fields,
+            fields(self._data),
+        )
+
+
+class TestMixinDataclassIterable(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.array.MixinDataclassIterable` class unit
+    tests methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        @dataclass
+        class Data(MixinDataclassIterable):
+            a: str
+            b: str
+            c: str
+
+        self._data: Data = Data(a="Foo", b="Bar", c="Baz")
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = (
+            "keys",
+            "values",
+            "items",
+        )
+
+        for method in required_attributes:
+            self.assertIn(method, dir(MixinDataclassIterable))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ("__iter__",)
+
+        for method in required_methods:
+            self.assertIn(method, dir(MixinDataclassIterable))
+
+    def test__iter__(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable.__iter__`
+        method.
+        """
+
+        self.assertDictEqual(
+            {key: value for key, value in self._data},
+            {"a": "Foo", "b": "Bar", "c": "Baz"},
+        )
+
+    def test_keys(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable.keys`
+        method.
+        """
+
+        self.assertTupleEqual(
+            tuple(self._data.keys),
+            ("a", "b", "c"),
+        )
+
+    def test_values(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable.values`
+        method.
+        """
+
+        self.assertTupleEqual(
+            tuple(self._data.values),
+            ("Foo", "Bar", "Baz"),
+        )
+
+    def test_items(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable.items`
+        method.
+        """
+
+        self.assertTupleEqual(
+            tuple(self._data.items),
+            (("a", "Foo"), ("b", "Bar"), ("c", "Baz")),
+        )
+
+
 class TestMixinDataclassArray(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.array.MixinDataclassArray` class
-    unit tests methods.
+    Defines :class:`colour.utilities.array.MixinDataclassArray` class unit
+    tests methods.
     """
 
     def setUp(self):
@@ -118,15 +252,75 @@ class TestMixinDataclassArray(unittest.TestCase):
 
         @dataclass
         class Data(MixinDataclassArray):
-            a: Union[float, list, tuple, np.ndarray] = field(
+            a: Optional[Union[float, list, tuple, np.ndarray]] = field(
                 default_factory=lambda: None
             )
 
-            b: Union[float, list, tuple, np.ndarray] = field(
+            b: Optional[Union[float, list, tuple, np.ndarray]] = field(
                 default_factory=lambda: None
             )
 
-            c: Union[float, list, tuple, np.ndarray] = field(
+            c: Optional[Union[float, list, tuple, np.ndarray]] = field(
+                default_factory=lambda: None
+            )
+
+        self._data: Data = Data(
+            b=np.array([0.1, 0.2, 0.3]), c=np.array([0.4, 0.5, 0.6])
+        )
+        self._array: NDArray = np.array(
+            [
+                [np.nan, 0.1, 0.4],
+                [np.nan, 0.2, 0.5],
+                [np.nan, 0.3, 0.6],
+            ]
+        )
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ("__array__",)
+
+        for method in required_methods:
+            self.assertIn(method, dir(MixinDataclassArray))
+
+    def test__array__(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassArray.__array__`
+        method.
+        """
+
+        np.testing.assert_array_equal(np.array(self._data), self._array)
+
+        self.assertEqual(
+            np.array(self._data, dtype=DEFAULT_INT_DTYPE).dtype,
+            DEFAULT_INT_DTYPE,
+        )
+
+
+class TestMixinDataclassArithmetic(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.array.MixinDataclassArithmetic` class unit
+    tests methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        @dataclass
+        class Data(MixinDataclassArithmetic):
+            a: Optional[Union[float, list, tuple, np.ndarray]] = field(
+                default_factory=lambda: None
+            )
+
+            b: Optional[Union[float, list, tuple, np.ndarray]] = field(
+                default_factory=lambda: None
+            )
+
+            c: Optional[Union[float, list, tuple, np.ndarray]] = field(
                 default_factory=lambda: None
             )
 
@@ -148,7 +342,6 @@ class TestMixinDataclassArray(unittest.TestCase):
         """
 
         required_methods = (
-            "__array__",
             "__iadd__",
             "__add__",
             "__isub__",
@@ -163,24 +356,11 @@ class TestMixinDataclassArray(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(MixinDataclassArray))
-
-    def test__array__(self):
-        """
-        Tests :meth:`colour.utilities.array.MixinDataclassArray.__array__`
-        method.
-        """
-
-        np.testing.assert_array_equal(np.array(self._data), self._array)
-
-        self.assertEqual(
-            np.array(self._data, dtype=DEFAULT_INT_DTYPE).dtype,
-            DEFAULT_INT_DTYPE,
-        )
+            self.assertIn(method, dir(MixinDataclassArithmetic))
 
     def test_arithmetical_operation(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassArray.\
+        Tests :meth:`colour.utilities.array.MixinDataclassArithmetic.\
 arithmetical_operation` method.
         """
 
@@ -343,7 +523,9 @@ class TestAsInt(unittest.TestCase):
             as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3])
         )
 
-        self.assertEqual(as_int(np.array([1.0, 2.0, 3.0])).dtype, DEFAULT_INT_DTYPE)
+        self.assertEqual(
+            as_int(np.array([1.0, 2.0, 3.0])).dtype, DEFAULT_INT_DTYPE
+        )
 
         self.assertIsInstance(as_int(1), DEFAULT_INT_DTYPE)
 
@@ -367,7 +549,9 @@ class TestAsFloat(unittest.TestCase):
             as_float(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0])
         )
 
-        self.assertEqual(as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE)
+        self.assertEqual(
+            as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE
+        )
 
         self.assertIsInstance(as_float(1), DEFAULT_FLOAT_DTYPE)
 
@@ -383,7 +567,9 @@ class TestAsIntArray(unittest.TestCase):
         Tests :func:`colour.utilities.array.as_int_array` definition.
         """
 
-        np.testing.assert_equal(as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3]))
+        np.testing.assert_equal(
+            as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3])
+        )
 
         self.assertEqual(as_int_array([1, 2, 3]).dtype, DEFAULT_INT_DTYPE)
 
@@ -628,7 +814,9 @@ class TestSetDomainRangeScale(unittest.TestCase):
             set_domain_range_scale("Reference")
             self.assertEqual(get_domain_range_scale(), "reference")
 
-        self.assertRaises(ValueError, lambda: set_domain_range_scale("Invalid"))
+        self.assertRaises(
+            ValueError, lambda: set_domain_range_scale("Invalid")
+        )
 
 
 class TestDomainRangeScale(unittest.TestCase):
@@ -728,7 +916,9 @@ class TestToDomain1(unittest.TestCase):
             self.assertEqual(to_domain_1(1, np.pi), 1 / np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_1(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_1(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestToDomain10(unittest.TestCase):
@@ -755,7 +945,9 @@ class TestToDomain10(unittest.TestCase):
             self.assertEqual(to_domain_10(1, np.pi), 1 / np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_10(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_10(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestToDomain100(unittest.TestCase):
@@ -782,7 +974,9 @@ class TestToDomain100(unittest.TestCase):
             self.assertEqual(to_domain_100(1, np.pi), np.pi)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_100(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_100(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestToDomainDegrees(unittest.TestCase):
@@ -809,7 +1003,9 @@ class TestToDomainDegrees(unittest.TestCase):
             self.assertEqual(to_domain_degrees(1, np.pi), np.pi / 100)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_degrees(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_degrees(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestToDomainInt(unittest.TestCase):
@@ -836,7 +1032,9 @@ class TestToDomainInt(unittest.TestCase):
             self.assertEqual(to_domain_int(1, 10), 10.23)
 
         with domain_range_scale("100"):
-            self.assertEqual(to_domain_int(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                to_domain_int(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestFromRange1(unittest.TestCase):
@@ -959,7 +1157,9 @@ class TestFromRangeInt(unittest.TestCase):
             self.assertEqual(from_range_int(1, 10), 1 / (1023 / 100))
 
         with domain_range_scale("100"):
-            self.assertEqual(from_range_int(1, dtype=np.float16).dtype, np.float16)
+            self.assertEqual(
+                from_range_int(1, dtype=np.float16).dtype, np.float16
+            )
 
 
 class TestClosestIndexes(unittest.TestCase):
@@ -1042,7 +1242,9 @@ class TestInterval(unittest.TestCase):
         Tests :func:`colour.utilities.array.interval` definition.
         """
 
-        np.testing.assert_almost_equal(interval(range(0, 10, 2)), np.array([2]))
+        np.testing.assert_almost_equal(
+            interval(range(0, 10, 2)), np.array([2])
+        )
 
         np.testing.assert_almost_equal(
             interval(range(0, 10, 2), False), np.array([2, 2, 2, 2])
@@ -1123,7 +1325,9 @@ class TestInArray(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            in_array(np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)).shape,
+            in_array(
+                np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)
+            ).shape,
             np.array([2, 1]),
         )
 
@@ -1579,7 +1783,9 @@ class TestIndexAlongLastAxis(unittest.TestCase):
             ]
         )
 
-        indexes = np.array([[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1], [2, 0]]])
+        indexes = np.array(
+            [[[0, 1], [0, 1]], [[2, 1], [2, 1]], [[2, 1], [2, 0]]]
+        )
 
         np.testing.assert_equal(
             index_along_last_axis(a, indexes),

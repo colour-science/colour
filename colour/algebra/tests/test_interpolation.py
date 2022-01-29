@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.algebra.interpolation` module.
 
@@ -40,7 +39,7 @@ from colour.io import read_LUT
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -915,7 +914,9 @@ kernel_kwargs` property.
 
         x = y = np.linspace(0, 1, 10)
         kernel_kwargs = {"a": 1}
-        kernel_interpolator = KernelInterpolator(x, y, kernel_kwargs=kernel_kwargs)
+        kernel_interpolator = KernelInterpolator(
+            x, y, kernel_kwargs=kernel_kwargs
+        )
 
         self.assertDictEqual(kernel_interpolator.kernel_kwargs, kernel_kwargs)
 
@@ -927,9 +928,13 @@ padding_kwargs` property.
 
         x = y = np.linspace(0, 1, 10)
         padding_kwargs = {"pad_width": (3, 3), "mode": "mean"}
-        kernel_interpolator = KernelInterpolator(x, y, padding_kwargs=padding_kwargs)
+        kernel_interpolator = KernelInterpolator(
+            x, y, padding_kwargs=padding_kwargs
+        )
 
-        self.assertDictEqual(kernel_interpolator.padding_kwargs, padding_kwargs)
+        self.assertDictEqual(
+            kernel_interpolator.padding_kwargs, padding_kwargs
+        )
 
     def test_raise_exception___init__(self):
         """
@@ -1059,7 +1064,9 @@ padding_kwargs` property.
             decimal=7,
         )
 
-        kernel_interpolator = KernelInterpolator(x, y, window=1, kernel_kwargs={"a": 1})
+        kernel_interpolator = KernelInterpolator(
+            x, y, window=1, kernel_kwargs={"a": 1}
+        )
         np.testing.assert_almost_equal(
             kernel_interpolator(x_i),
             np.array(
@@ -1302,7 +1309,9 @@ class TestLinearInterpolator(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             try:
-                linear_interpolator = LinearInterpolator(np.array(case), np.array(case))
+                linear_interpolator = LinearInterpolator(
+                    np.array(case), np.array(case)
+                )
                 linear_interpolator(case[0])
             except ValueError:
                 pass
@@ -1586,7 +1595,9 @@ default` property.
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             try:
-                null_interpolator = NullInterpolator(np.array(case), np.array(case))
+                null_interpolator = NullInterpolator(
+                    np.array(case), np.array(case)
+                )
                 null_interpolator(case[0])
             except ValueError:
                 pass

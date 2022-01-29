@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Helmholtz—Kohlrausch Effect
 ===========================
@@ -44,7 +43,7 @@ from colour.utilities import (
 )
 
 __author__ = "Ilia Sibiryakov"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -175,7 +174,9 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
     return (
         0.4462
         * (
-            HelmholtzKohlrausch_effect_object_Nayatani1997(uv, uv_c, L_a, method)
+            HelmholtzKohlrausch_effect_object_Nayatani1997(
+                uv, uv_c, L_a, method
+            )
             + 0.3086
         )
         ** 3

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Correction
 =================
@@ -84,7 +83,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -154,9 +153,9 @@ def matrix_augmented_Cheung2004(
     closest_terms = as_int(closest(existing_terms, terms))
     if closest_terms != terms:
         raise ValueError(
-            '"Cheung et al. (2004)" method does not define '
-            "an augmented matrix with {0} terms, "
-            "closest augmented matrix has {1} terms!".format(terms, closest_terms)
+            f'"Cheung et al. (2004)" method does not define an augmented '
+            f"matrix with {terms} terms, closest augmented matrix has "
+            f"{closest_terms} terms!"
         )
 
     if terms == 3:
@@ -412,9 +411,9 @@ def polynomial_expansion_Finlayson2015(
     closest_degree = as_int(closest(existing_degrees, degree))
     if closest_degree != degree:
         raise ValueError(
-            '"Finlayson et al. (2015)" method does not define '
-            "a polynomial expansion for {0} degree, "
-            "closest polynomial expansion is {1} degree!".format(degree, closest_degree)
+            f'"Finlayson et al. (2015)" method does not define a polynomial '
+            f"expansion for {degree} degree, closest polynomial expansion is "
+            f"{closest_degree} degree!"
         )
 
     if degree == 1:
@@ -558,7 +557,9 @@ def polynomial_expansion_Finlayson2015(
             )
 
 
-def polynomial_expansion_Vandermonde(a: ArrayLike, degree: Integer = 1) -> NDArray:
+def polynomial_expansion_Vandermonde(
+    a: ArrayLike, degree: Integer = 1
+) -> NDArray:
     """
     Performs polynomial expansion of given :math:`a` array using *Vandermonde*
     method.
@@ -616,7 +617,7 @@ def polynomial_expansion(
     method: Union[
         Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
     ] = "Cheung 2004",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Performs polynomial expansion of given :math:`a` array.
@@ -636,12 +637,12 @@ def polynomial_expansion(
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial.
     root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
+    terms
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        Number of terms of the expanded polynomial.
 
     Returns
     -------
@@ -754,7 +755,9 @@ def matrix_colour_correction_Finlayson2015(
     """
 
     return least_square_mapping_MoorePenrose(
-        polynomial_expansion_Finlayson2015(M_T, degree, root_polynomial_expansion),
+        polynomial_expansion_Finlayson2015(
+            M_T, degree, root_polynomial_expansion
+        ),
         M_R,
     )
 
@@ -800,12 +803,14 @@ def matrix_colour_correction_Vandermonde(
     )
 
 
-MATRIX_COLOUR_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    {
-        "Cheung 2004": matrix_colour_correction_Cheung2004,
-        "Finlayson 2015": matrix_colour_correction_Finlayson2015,
-        "Vandermonde": matrix_colour_correction_Vandermonde,
-    }
+MATRIX_COLOUR_CORRECTION_METHODS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "Cheung 2004": matrix_colour_correction_Cheung2004,
+            "Finlayson 2015": matrix_colour_correction_Finlayson2015,
+            "Vandermonde": matrix_colour_correction_Vandermonde,
+        }
+    )
 )
 MATRIX_COLOUR_CORRECTION_METHODS.__doc__ = """
 Supported colour correction matrix methods.
@@ -823,7 +828,7 @@ def matrix_colour_correction(
     method: Union[
         Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
     ] = "Cheung 2004",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
@@ -851,12 +856,12 @@ def matrix_colour_correction(
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial.
     root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
+    terms
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        Number of terms of the expanded polynomial.
 
     Returns
     -------
@@ -1037,7 +1042,9 @@ def colour_correction_Finlayson2015(
 
     RGB = np.reshape(RGB, (-1, 3))
 
-    RGB_e = polynomial_expansion_Finlayson2015(RGB, degree, root_polynomial_expansion)
+    RGB_e = polynomial_expansion_Finlayson2015(
+        RGB, degree, root_polynomial_expansion
+    )
 
     CCM = matrix_colour_correction_Finlayson2015(
         M_T, M_R, degree, root_polynomial_expansion
@@ -1120,7 +1127,7 @@ def colour_correction(
     method: Union[
         Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
     ] = "Cheung 2004",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the
@@ -1146,12 +1153,12 @@ def colour_correction(
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial.
     root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
+    terms
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        Number of terms of the expanded polynomial.
 
     Returns
     -------

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Characterisation Plotting
 =========================
@@ -30,7 +29,7 @@ from colour.plotting import (
 from colour.utilities import attest
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -52,8 +51,10 @@ __all__ = [
     }
 )
 def plot_single_colour_checker(
-    colour_checker: Union[ColourChecker, str] = "ColorChecker24 - After November 2014",
-    **kwargs: Any
+    colour_checker: Union[
+        ColourChecker, str
+    ] = "ColorChecker24 - After November 2014",
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given colour checker.
@@ -101,8 +102,10 @@ def plot_single_colour_checker(
     }
 )
 def plot_multi_colour_checkers(
-    colour_checkers: Union[ColourChecker, str, Sequence[Union[ColourChecker, str]]],
-    **kwargs: Any
+    colour_checkers: Union[
+        ColourChecker, str, Sequence[Union[ColourChecker, str]]
+    ],
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots and compares given colour checkers.
@@ -138,7 +141,9 @@ def plot_multi_colour_checkers(
         :alt: plot_multi_colour_checkers
     """
 
-    filtered_colour_checkers = list(filter_colour_checkers(colour_checkers).values())
+    filtered_colour_checkers = list(
+        filter_colour_checkers(colour_checkers).values()
+    )
 
     attest(
         len(filtered_colour_checkers) <= 2,
@@ -194,9 +199,10 @@ def plot_multi_colour_checkers(
     axes.text(
         0.5,
         0.005,
-        "{0} - {1} - Colour Rendition Chart".format(
-            ", ".join(colour_checker_names),
-            CONSTANTS_COLOUR_STYLE.colour.colourspace.name,
+        (
+            f"{', '.join(colour_checker_names)} - "
+            f"{CONSTANTS_COLOUR_STYLE.colour.colourspace.name} - "
+            f"Colour Rendition Chart"
         ),
         transform=axes.transAxes,
         color=CONSTANTS_COLOUR_STYLE.colour.bright,

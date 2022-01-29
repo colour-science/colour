@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 LUT Operator
 ============
@@ -27,7 +26,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, attest, is_iterable
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -145,7 +144,8 @@ class LUTSequence(MutableSequence):
         for item in value:
             attest(
                 isinstance(item, TypeLUTSequenceItem),
-                '"value" items must implement the "TypeLUTSequenceItem" ' "protocol!",
+                '"value" items must implement the "TypeLUTSequenceItem" '
+                "protocol!",
             )
 
         self._sequence = list(value)
@@ -182,7 +182,8 @@ class LUTSequence(MutableSequence):
         for item in value if is_iterable(value) else [value]:
             attest(
                 isinstance(item, TypeLUTSequenceItem),
-                '"value" items must implement the "TypeLUTSequenceItem" ' "protocol!",
+                '"value" items must implement the "TypeLUTSequenceItem" '
+                "protocol!",
             )
 
         self._sequence[index] = value
@@ -233,9 +234,9 @@ class LUTSequence(MutableSequence):
             "LUT Sequence\n"
             "------------\n\n"
             "Overview\n\n"
-            "    {0}\n\n"
+            "    {}\n\n"
             "Operations\n\n"
-            "{1}"
+            "{}"
         ).format(
             " --> ".join([a.__class__.__name__ for a in self._sequence]),
             operations,
@@ -259,7 +260,7 @@ class LUTSequence(MutableSequence):
         )
         operations = re.sub("^\\s+$", "", operations, flags=re.MULTILINE)
 
-        return "{0}(\n{1}\n)".format(self.__class__.__name__, operations)
+        return f"{self.__class__.__name__}(\n{operations}\n)"
 
     def __eq__(self, other) -> bool:
         """
@@ -320,7 +321,8 @@ class LUTSequence(MutableSequence):
 
         attest(
             isinstance(item, TypeLUTSequenceItem),
-            '"value" items must implement the "TypeLUTSequenceItem" ' "protocol!",
+            '"value" items must implement the "TypeLUTSequenceItem" '
+            "protocol!",
         )
 
         self._sequence.insert(index, item)
@@ -375,7 +377,9 @@ class LUTSequence(MutableSequence):
 
         RGB_o = RGB
         for operator in self:
-            RGB_o = operator.apply(RGB_o, **kwargs.get(operator.__class__.__name__, {}))
+            RGB_o = operator.apply(
+                RGB_o, **kwargs.get(operator.__class__.__name__, {})
+            )
 
         return RGB_o
 

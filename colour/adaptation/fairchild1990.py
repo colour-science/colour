@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================
@@ -34,7 +33,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -136,7 +135,9 @@ def chromatic_adaptation_Fairchild1990(
     LMS_n = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_n)
     LMS_r = vector_dot(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_r)
 
-    p_LMS = degrees_of_adaptation(LMS_1, Y_n, discount_illuminant=discount_illuminant)
+    p_LMS = degrees_of_adaptation(
+        LMS_1, Y_n, discount_illuminant=discount_illuminant
+    )
 
     a_LMS_1 = p_LMS / LMS_n
     a_LMS_2 = p_LMS / LMS_r

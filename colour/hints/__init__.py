@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Annotation Type Hints
 =====================
@@ -52,7 +51,7 @@ except ImportError:  # pragma: no cover
     )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -188,7 +187,9 @@ else:
 if TYPE_CHECKING:  # pragma: no cover
     IntegerOrNDArray = Union[Integer, NDArray[DTypeInteger]]
     FloatingOrNDArray = Union[Floating, NDArray[DTypeFloating]]
-    NumberOrNDArray = Union[Number, NDArray[Union[DTypeInteger, DTypeFloating]]]
+    NumberOrNDArray = Union[
+        Number, NDArray[Union[DTypeInteger, DTypeFloating]]
+    ]
     ComplexOrNDArray = Union[Complex, NDArray[DTypeComplex]]
 
     BooleanOrNDArray = Union[Boolean, NDArray[DTypeBoolean]]
@@ -233,17 +234,19 @@ class TypeLUTSequenceItem(Protocol):
         ...  # pragma: no cover
 
 
-LiteralWarning = Literal["default", "error", "ignore", "always", "module", "once"]
+LiteralWarning = Literal[
+    "default", "error", "ignore", "always", "module", "once"
+]
 
 cast = cast
 
 
-def arraylike(a: Union[ArrayLike, NestedSequence[ArrayLike]]) -> NDArray:
+def arraylike(a: ArrayLike | NestedSequence[ArrayLike]) -> NDArray:
     ...
 
 
 def number_or_arraylike(
-    a: Union[NumberOrArrayLike, NestedSequence[ArrayLike]]
+    a: NumberOrArrayLike | NestedSequence[ArrayLike],
 ) -> NDArray:
     ...
 

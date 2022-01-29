@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 UPRTek and Sekonic Spectral Data
 ================================
@@ -23,7 +22,7 @@ from colour.hints import Any, Dict, List, cast
 from colour.utilities import as_float_array
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -126,7 +125,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     """
 
     def __init__(self, path: str, **kwargs: Any):
-        super(SpectralDistribution_UPRTek, self).__init__(path, **kwargs)
+        super().__init__(path, **kwargs)
 
         self._delimiter: str = "\t"
         self._spectral_section: str = "380"
@@ -236,7 +235,9 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                     if wavelength == self._spectral_section:
                         spectral_section += 1
 
-                    spectral_sections[spectral_section].append([wavelength, value])
+                    spectral_sections[spectral_section].append(
+                        [wavelength, value]
+                    )
                 else:
                     for method in (int, float, as_array):
                         try:
@@ -340,7 +341,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     """
 
     def __init__(self, path: str, **kwargs: Any):
-        super(SpectralDistribution_Sekonic, self).__init__(path, **kwargs)
+        super().__init__(path, **kwargs)
 
         self._delimiter: str = ","
         self._spectral_section: str = "380"
@@ -407,7 +408,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
          [  7.80000000e+02   3.55755470e-05]]
         """
 
-        super(SpectralDistribution_Sekonic, self).read()
+        super().read()
 
         self.header.report_date = self._metadata.get("Date Saved")
         self.header.manufacturer = "Sekonic"

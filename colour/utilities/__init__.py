@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from __future__ import annotations
 
 import sys
@@ -66,7 +64,10 @@ from .verbose import (
     describe_environment,
 )
 from .array import (
+    MixinDataclassFields,
+    MixinDataclassIterable,
     MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_array,
     as_int,
     as_float,
@@ -179,7 +180,10 @@ __all__ += [
     "describe_environment",
 ]
 __all__ += [
+    "MixinDataclassFields",
+    "MixinDataclassIterable",
     "MixinDataclassArray",
+    "MixinDataclassArithmetic",
     "as_array",
     "as_int",
     "as_float",
@@ -236,7 +240,7 @@ __all__ += [
 # ----------------------------------------------------------------------------#
 class utilities(ModuleAPI):
     def __getattr__(self, attribute) -> Any:
-        return super(utilities, self).__getattr__(attribute)
+        return super().__getattr__(attribute)
 
 
 # v0.4.0

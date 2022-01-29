@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.colorimetry` module.
 """
@@ -24,7 +23,7 @@ from colour.plotting import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -128,7 +127,10 @@ class TestPlotMultiSds(unittest.TestCase):
 
         figure, axes = plot_multi_sds(
             [sd_1, sd_2],
-            plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 2,
+            plot_kwargs=[
+                {"use_sd_colours": True, "normalise_sd_colours": True}
+            ]
+            * 2,
         )
 
         self.assertIsInstance(figure, Figure)
@@ -211,7 +213,10 @@ class TestPlotMultiIlluminantSds(unittest.TestCase):
 
         figure, axes = plot_multi_illuminant_sds(
             ["A", "B", "C"],
-            plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 3,
+            plot_kwargs=[
+                {"use_sd_colours": True, "normalise_sd_colours": True}
+            ]
+            * 3,
         )
 
         self.assertIsInstance(figure, Figure)
@@ -266,7 +271,9 @@ class TestPlotMultiLightnessFunctions(unittest.TestCase):
 plot_multi_lightness_functions` definition.
         """
 
-        figure, axes = plot_multi_lightness_functions(["CIE 1976", "Wyszecki 1963"])
+        figure, axes = plot_multi_lightness_functions(
+            ["CIE 1976", "Wyszecki 1963"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -302,7 +309,9 @@ class TestPlotMultiLuminanceFunctions(unittest.TestCase):
 plot_multi_luminance_functions` definition.
         """
 
-        figure, axes = plot_multi_luminance_functions(["CIE 1976", "Newhall 1943"])
+        figure, axes = plot_multi_luminance_functions(
+            ["CIE 1976", "Newhall 1943"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)

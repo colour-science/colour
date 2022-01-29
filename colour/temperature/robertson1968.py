@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Robertson (1968) Correlated Colour Temperature
 ==============================================
@@ -43,7 +42,7 @@ from colour.hints import ArrayLike, Floating, List, NDArray, Tuple
 from colour.utilities import as_float_array, tsplit
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"

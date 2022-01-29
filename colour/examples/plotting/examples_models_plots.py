@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases colour models plotting examples.
 """
@@ -24,7 +23,9 @@ message_box("Colour Models Plots")
 
 colour_style()
 
-message_box('Plotting "RGB" colourspaces in "CIE 1931 Chromaticity Diagram".')
+message_box(
+    'Plotting "RGB" colourspaces in the ' '"CIE 1931 Chromaticity Diagram".'
+)
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     ["ITU-R BT.709", "ACEScg", "S-Gamut"], show_pointer_gamut=True
@@ -32,7 +33,10 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
 
 print("\n")
 
-message_box(('Plotting "RGB" colourspaces in ' '"CIE 1960 UCS Chromaticity Diagram".'))
+message_box(
+    'Plotting "RGB" colourspaces in the '
+    '"CIE 1960 UCS Chromaticity Diagram".'
+)
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     ["ITU-R BT.709", "ACEScg", "S-Gamut"], show_pointer_gamut=True
@@ -40,7 +44,10 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
 
 print("\n")
 
-message_box(('Plotting "RGB" colourspaces in ' '"CIE 1976 UCS Chromaticity Diagram".'))
+message_box(
+    'Plotting "RGB" colourspaces in the '
+    '"CIE 1976 UCS Chromaticity Diagram".'
+)
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     ["ITU-R BT.709", "ACEScg", "S-Gamut"], show_pointer_gamut=True
@@ -51,7 +58,8 @@ print("\n")
 RGB = np.random.random((32, 32, 3))
 
 message_box(
-    'Plotting "RGB" chromaticity coordinates in ' '"CIE 1931 Chromaticity Diagram".'
+    'Plotting "RGB" chromaticity coordinates in the '
+    '"CIE 1931 Chromaticity Diagram".'
 )
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     RGB,
@@ -63,7 +71,8 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
 print("\n")
 
 message_box(
-    'Plotting "RGB" chromaticity coordinates in ' '"CIE 1960 UCS Chromaticity Diagram".'
+    'Plotting "RGB" chromaticity coordinates in the '
+    '"CIE 1960 UCS Chromaticity Diagram".'
 )
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     RGB,
@@ -75,7 +84,8 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
 print("\n")
 
 message_box(
-    'Plotting "RGB" chromaticity coordinates in ' '"CIE 1976 UCS Chromaticity Diagram".'
+    'Plotting "RGB" chromaticity coordinates in the '
+    '"CIE 1976 UCS Chromaticity Diagram".'
 )
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     RGB,
@@ -87,10 +97,8 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
 print("\n")
 
 message_box(
-    (
-        'Plotting a single custom "RGB" colourspace in '
-        '"CIE 1931 Chromaticity Diagram".'
-    )
+    'Plotting a single custom "RGB" colourspace in the '
+    '"CIE 1931 Chromaticity Diagram".'
 )
 AWFUL_RGB = colour.RGB_Colourspace(
     "Awful RGB",
@@ -104,32 +112,28 @@ AWFUL_RGB = colour.RGB_Colourspace(
     whitepoint=np.array([1.0 / 3.0, 1.0 / 3.0]),
 )
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
-plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(["ITU-R BT.709", AWFUL_RGB])
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
+    ["ITU-R BT.709", AWFUL_RGB]
+)
 
 print("\n")
 
 message_box(
-    (
-        'Plotting a single "RGB" colourspace encoding colour component '
-        "transfer function."
-    )
+    'Plotting a single "RGB" colourspace encoding colour component transfer '
+    "function."
 )
 plot_single_cctf("ITU-R BT.709")
 
 print("\n")
 
 message_box(
-    (
-        'Plotting multiple "RGB" colourspaces encoding colour component '
-        "transfer functions."
-    )
+    'Plotting multiple "RGB" colourspaces encoding colour component transfer '
+    "functions."
 )
 plot_multi_cctfs(["ITU-R BT.709", "sRGB"])
 
 message_box(
-    (
-        'Plotting multiple "RGB" colourspaces decoding colour component '
-        "transfer functions."
-    )
+    'Plotting multiple "RGB" colourspaces decoding colour component transfer '
+    "functions."
 )
 plot_multi_cctfs(["ACES2065-1", "ProPhoto RGB"], cctf_decoding=True)

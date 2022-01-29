@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectrum
 ========
@@ -87,7 +86,7 @@ else:  # pragma: no cover
     Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -105,7 +104,7 @@ __all__ = [
 ]
 
 _CACHE_SHAPE_RANGE: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_SHAPE_RANGE".format(__name__)
+    f"{__name__}._CACHE_SHAPE_RANGE"
 )
 
 
@@ -182,13 +181,13 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" property: "{1}" is not a "numeric"!'.format("start", value),
+            f'"start" property: "{value}" is not a "numeric"!',
         )
 
         attest(
             bool(value < self._end),
-            '"{0}" attribute value must be strictly less than '
-            '"{1}"!'.format("start", self._end),
+            f'"start" attribute value must be strictly less than '
+            f'"{self._end}"!',
         )
 
         self._start = value
@@ -219,13 +218,13 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" property: "{1}" is not a "numeric"!'.format("end", value),
+            f'"end" property: "{value}" is not a "numeric"!',
         )
 
         attest(
             bool(value > self._start),
-            '"{0}" attribute value must be strictly greater than '
-            '"{1}"!'.format("end", self._start),
+            f'"end" attribute value must be strictly greater than '
+            f'"{self._start}"!',
         )
 
         self._end = value
@@ -256,7 +255,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" property: "{1}" is not a "numeric"!'.format("interval", value),
+            f'"interval" property: "{value}" is not a "numeric"!',
         )
 
         self._interval = value
@@ -289,8 +288,8 @@ class SpectralShape:
 
         attest(
             value.size == 2,
-            '"{0}" property: "{1}" must have exactly '
-            "two elements!".format("boundaries", value),
+            f'"boundaries" property: "{value}" must have exactly two '
+            f"elements!",
         )
 
         self.start, self.end = value
@@ -305,7 +304,7 @@ class SpectralShape:
             Formatted string representation.
         """
 
-        return "({0}, {1}, {2})".format(self._start, self._end, self._interval)
+        return f"({self._start}, {self._end}, {self._interval})"
 
     def __repr__(self) -> str:
         """
@@ -317,11 +316,7 @@ class SpectralShape:
             Evaluable string representation.
         """
 
-        return "SpectralShape({0}, {1}, {2})".format(
-            self._start,
-            self._end,
-            self._interval,
-        )
+        return f"SpectralShape({self._start}, {self._end}, {self._interval})"
 
     def __hash__(self) -> Integer:
         """
@@ -506,7 +501,7 @@ class SpectralShape:
 
         dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        hash_key = tuple([hash(arg) for arg in (self, dtype)])
+        hash_key = tuple(hash(arg) for arg in (self, dtype))
         if hash_key in _CACHE_SHAPE_RANGE:
             return _CACHE_SHAPE_RANGE[hash_key].copy()
 
@@ -526,7 +521,7 @@ class SpectralShape:
         if interval_effective != self._interval:
             self._interval = interval_effective
             runtime_warning(
-                ('"{0}" shape could not be honoured, using ' '"{1}"!').format(
+                ('"{}" shape could not be honoured, using ' '"{}"!').format(
                     (self._start, self._end, self._interval), self
                 )
             )
@@ -570,16 +565,16 @@ class SpectralDistribution(Signal):
 
     Other Parameters
     ----------------
-    name
-        Spectral distribution name.
+    extrapolator
+        Extrapolator class type to use as extrapolating function.
+    extrapolator_kwargs
+        Arguments to use when instantiating the extrapolating function.
     interpolator
         Interpolator class type to use as interpolating function.
     interpolator_kwargs
         Arguments to use when instantiating the interpolating function.
-    extrapolator
-        Extrapolator class type to use as extrapolating function.
-    extrapolator_kwargsl
-        Arguments to use when instantiating the extrapolating function.
+    name
+        Spectral distribution name.
     strict_name
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.
@@ -667,12 +662,14 @@ class SpectralDistribution(Signal):
     def __init__(
         self,
         data: Optional[
-            Union[ArrayLike, dict, Series, Signal, "SpectralDistribution"]
+            Union[ArrayLike, dict, Series, Signal, SpectralDistribution]
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
-        domain = domain.range() if isinstance(domain, SpectralShape) else domain
+        domain = (
+            domain.range() if isinstance(domain, SpectralShape) else domain
+        )
         domain_unpacked, range_unpacked = self.signal_unpack_data(data, domain)
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
@@ -691,9 +688,7 @@ class SpectralDistribution(Signal):
             {"method": "Constant", "left": None, "right": None},
         )
 
-        super(SpectralDistribution, self).__init__(
-            range_unpacked, domain_unpacked, **kwargs
-        )
+        super().__init__(range_unpacked, domain_unpacked, **kwargs)
 
         self._strict_name: str = self.name
         self.strict_name = kwargs.get("strict_name", self._strict_name)
@@ -724,7 +719,7 @@ class SpectralDistribution(Signal):
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("strict_name", value),
+            f'"strict_name" property: "{value}" type is not "str"!',
         )
 
         self._strict_name = value
@@ -827,10 +822,8 @@ class SpectralDistribution(Signal):
         wavelengths_interval = interval(self.wavelengths)
         if wavelengths_interval.size != 1:
             runtime_warning(
-                (
-                    '"{0}" spectral distribution is not uniform, '
-                    "using minimum interval!".format(self.name)
-                )
+                f'"{self.name}" spectral distribution is not uniform, using '
+                f"minimum interval!"
             )
 
         return SpectralShape(
@@ -1157,8 +1150,13 @@ class SpectralDistribution(Signal):
 
         # Defining proper interpolation bounds.
         # TODO: Provide support for fractional interval like 0.1, etc...
-        if np.around(shape_start) != shape_start or np.around(shape_end) != shape_end:
-            runtime_warning("Fractional bound encountered, rounding will occur!")
+        if (
+            np.around(shape_start) != shape_start
+            or np.around(shape_end) != shape_end
+        ):
+            runtime_warning(
+                "Fractional bound encountered, rounding will occur!"
+            )
 
         shape.start = max([shape.start, np.ceil(shape_start)])
         shape.end = min([shape.end, np.floor(shape_end)])
@@ -1191,7 +1189,9 @@ class SpectralDistribution(Signal):
 
         self.domain = shape.range()
         self.range = as_float_array(
-            interpolator(wavelengths, values, **interpolator_kwargs)(self.domain)
+            interpolator(wavelengths, values, **interpolator_kwargs)(
+                self.domain
+            )
         )
 
         return self
@@ -1270,7 +1270,8 @@ class SpectralDistribution(Signal):
         wavelengths = np.hstack(
             [
                 np.arange(shape.start, shape_start, shape_interval),
-                np.arange(shape_end, shape.end, shape_interval) + shape_interval,
+                np.arange(shape_end, shape.end, shape_interval)
+                + shape_interval,
             ]
         )
 
@@ -1532,7 +1533,9 @@ class SpectralDistribution(Signal):
         start = max([shape.start, self.shape.start])
         end = min([shape.end, self.shape.end])
 
-        indexes = np.where(np.logical_and(self.domain >= start, self.domain <= end))
+        indexes = np.where(
+            np.logical_and(self.domain >= start, self.domain <= end)
+        )
 
         wavelengths = self.wavelengths[indexes]
         values = self.values[indexes]
@@ -1618,20 +1621,20 @@ class MultiSpectralDistributions(MultiSignals):
 
     Other Parameters
     ----------------
-    name
-       Multi-spectral distributions name.
-    interpolator
-        Interpolator class type to use as interpolating function for the
-        :class:`colour.SpectralDistribution` class instances.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function of the
-        :class:`colour.SpectralDistribution` class instances.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function of the
         :class:`colour.SpectralDistribution` class instances.
+    interpolator
+        Interpolator class type to use as interpolating function for the
+        :class:`colour.SpectralDistribution` class instances.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function of the
+        :class:`colour.SpectralDistribution` class instances.
+    name
+       Multi-spectral distributions name.
     strict_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.MultiSpectralDistributions.labels` property value.
@@ -1748,7 +1751,7 @@ class MultiSpectralDistributions(MultiSignals):
                 DataFrame,
                 dict,
                 MultiSignals,
-                "MultiSpectralDistributions",
+                MultiSpectralDistributions,
                 Sequence,
                 Series,
                 Signal,
@@ -1757,9 +1760,11 @@ class MultiSpectralDistributions(MultiSignals):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
-        domain = domain.range() if isinstance(domain, SpectralShape) else domain
+        domain = (
+            domain.range() if isinstance(domain, SpectralShape) else domain
+        )
         signals = self.multi_signals_unpack_data(data, domain, labels)
 
         domain = signals[list(signals.keys())[0]].domain if signals else None
@@ -1779,7 +1784,7 @@ class MultiSpectralDistributions(MultiSignals):
             {"method": "Constant", "left": None, "right": None},
         )
 
-        super(MultiSpectralDistributions, self).__init__(
+        super().__init__(
             signals, domain, signal_type=SpectralDistribution, **kwargs
         )
 
@@ -1815,7 +1820,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("strict_name", value),
+            f'"strict_name" property: "{value}" type is not "str"!',
         )
 
         self._strict_name = value
@@ -1847,26 +1852,24 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_iterable(value),
-            '"{0}" property: "{1}" is not an "iterable" like object!'.format(
-                "strict_labels", value
-            ),
+            f'"strict_labels" property: "{value}" is not an "iterable" like object!',
         )
 
         attest(
             len(set(value)) == len(value),
-            '"{0}" property: values must be unique!'.format("strict_labels"),
+            '"strict_labels" property: values must be unique!',
         )
 
         attest(
             len(value) == len(self.labels),
-            '"{0}" property: length must be "{1}"!'.format(
-                "strict_labels", len(self.labels)
-            ),
+            f'"strict_labels" property: length must be "{len(self.labels)}"!',
         )
 
         self._strict_labels = [str(label) for label in value]
         for i, signal in enumerate(self.signals.values()):
-            cast(SpectralDistribution, signal).strict_name = self._strict_labels[i]
+            cast(
+                SpectralDistribution, signal
+            ).strict_name = self._strict_labels[i]
 
     @property
     def wavelengths(self) -> NDArray:
@@ -2608,7 +2611,7 @@ class MultiSpectralDistributions(MultiSignals):
 
 
 _CACHE_RESHAPED_SDS_AND_MSDS: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_RESHAPED_SDS_AND_MSDS".format(__name__)
+    f"{__name__}._CACHE_RESHAPED_SDS_AND_MSDS"
 )
 
 
@@ -2618,7 +2621,7 @@ def reshape_sd(
     method: Union[
         Literal["Align", "Extrapolate", "Interpolate", "Trim"], str
     ] = "Align",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Reshape given spectral distribution with given spectral shape.
@@ -2663,13 +2666,17 @@ def reshape_sd(
         if isinstance(value, Mapping):
             kwargs_items[i] = (keyword, tuple(value.items()))
 
-    hash_key = tuple([hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))])
+    hash_key = tuple(
+        hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))
+    )
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         return _CACHE_RESHAPED_SDS_AND_MSDS[hash_key].copy()
 
     function = getattr(sd, method)
 
-    reshaped_sd = getattr(sd.copy(), method)(shape, **filter_kwargs(function, **kwargs))
+    reshaped_sd = getattr(sd.copy(), method)(
+        shape, **filter_kwargs(function, **kwargs)
+    )
 
     _CACHE_RESHAPED_SDS_AND_MSDS[hash_key] = reshaped_sd
 
@@ -2682,7 +2689,7 @@ def reshape_msds(
     method: Union[
         Literal["Align", "Extrapolate", "Interpolate", "Trim"], str
     ] = "Align",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
     Reshape given multi-spectral distributions with given spectral shape.
@@ -2777,7 +2784,9 @@ def sds_and_msds_to_sds(
         sds_converted = []
         for sd in sds:
             sds_converted += (
-                sd.to_sds() if isinstance(sd, MultiSpectralDistributions) else [sd]
+                sd.to_sds()
+                if isinstance(sd, MultiSpectralDistributions)
+                else [sd]
             )
 
     return sds_converted
@@ -2871,11 +2880,11 @@ def sds_and_msds_to_msds(
     else:
         sds_converted = sds_and_msds_to_sds(sds)
 
-        shapes = tuple(set([sd.shape for sd in sds_converted]))
+        shapes = tuple({sd.shape for sd in sds_converted})
         shape = SpectralShape(
-            max([shape.start for shape in shapes]),
-            min([shape.end for shape in shapes]),
-            min([shape.interval for shape in shapes]),
+            max(shape.start for shape in shapes),
+            min(shape.end for shape in shapes),
+            min(shape.interval for shape in shapes),
         )
 
         values = []
@@ -2887,14 +2896,12 @@ def sds_and_msds_to_msds(
 
             values.append(sd.values)
             labels.append(
-                sd.name
-                if sd.name not in labels
-                else "{0} ({1})".format(sd.name, id(sd))
+                sd.name if sd.name not in labels else f"{sd.name} ({id(sd)})"
             )
             strict_labels.append(
                 sd.strict_name
                 if sd.strict_name not in strict_labels
-                else "{0} ({1})".format(sd.strict_name, id(sd))
+                else f"{sd.strict_name} ({id(sd)})"
             )
 
         msds_converted = MultiSpectralDistributions(

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .aces_it import MSDS_ACES_RICD
 from .cameras import MSDS_CAMERA_SENSITIVITIES
 from .colour_checkers import (

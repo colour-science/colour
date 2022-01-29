@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Distributions of the Colour Checkers
 =============================================
@@ -53,7 +52,7 @@ from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping, LazyCaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __copyright__ += ", "
 __copyright__ += (
     "BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale "
@@ -1061,9 +1060,11 @@ DATA_BABELCOLOR_AVERAGE: Dict = dict(
     ]
 )
 
-SDS_BABELCOLOR_AVERAGE: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    (key, partial(SpectralDistribution, value, name=key))
-    for key, value in DATA_BABELCOLOR_AVERAGE.items()
+SDS_BABELCOLOR_AVERAGE: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        (key, partial(SpectralDistribution, value, name=key))
+        for key, value in DATA_BABELCOLOR_AVERAGE.items()
+    )
 )
 """
 Average data derived from measurements of 30 *ColorChecker Classic* charts.
@@ -3142,9 +3143,11 @@ DATA_COLORCHECKER_N_OHTA = dict(
     ]
 )
 
-SDS_COLORCHECKER_N_OHTA: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    (key, partial(SpectralDistribution, value, name=key))
-    for key, value in DATA_COLORCHECKER_N_OHTA.items()
+SDS_COLORCHECKER_N_OHTA: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        (key, partial(SpectralDistribution, value, name=key))
+        for key, value in DATA_COLORCHECKER_N_OHTA.items()
+    )
 )
 """
 *ColorChecker Classic* data Measured by *Ohta (1997)*.

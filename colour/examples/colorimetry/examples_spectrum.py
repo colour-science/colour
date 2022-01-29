@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases colour spectrum computations.
 """
@@ -107,13 +106,11 @@ print(sd_sample.is_uniform())
 print("\n")
 
 message_box(
-    (
-        "Sample spectral distribution cloning:\n"
-        '\n\t("Original Id", "Clone Id")\n'
-        "\nCloning is a convenient way to get a copy of the spectral "
-        "distribution, this an important feature because some "
-        "operations happen in place."
-    )
+    "Sample spectral distribution cloning:\n\n"
+    '\t("Original Id", "Clone Id")\n'
+    "\nCloning is a convenient way to get a copy of the spectral "
+    "distribution, this an important feature because some operations happen "
+    "in place."
 )
 sd_clone = sd_sample.copy()
 print(id(sd_sample), id(sd_clone))
@@ -132,7 +129,9 @@ print((sd_clone + np.linspace(0, 1, len(sd_clone.wavelengths))).values)
 
 print("\n")
 
-message_box("Regular arithmetical operation: adding a spectral " "distribution.")
+message_box(
+    "Regular arithmetical operation: adding a spectral " "distribution."
+)
 print((sd_clone + sd_clone).values)
 
 print("\n")
@@ -149,7 +148,9 @@ print(sd_clone.values)
 
 print("\n")
 
-message_box("In-place arithmetical operation: adding a spectral " "distribution.")
+message_box(
+    "In-place arithmetical operation: adding a spectral " "distribution."
+)
 sd_clone += sd_clone
 print(sd_clone.values)
 

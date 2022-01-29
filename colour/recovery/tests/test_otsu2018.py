@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.recovery.jakob2019` module.
 """
@@ -34,7 +33,7 @@ from colour.recovery.otsu2018 import (
 from colour.utilities import domain_range_scale, metric_mse
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -65,7 +64,9 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
         self._temporary_directory = tempfile.mkdtemp()
 
-        self._path = os.path.join(self._temporary_directory, "Test_Otsu2018.npz")
+        self._path = os.path.join(
+            self._temporary_directory, "Test_Otsu2018.npz"
+        )
         self._dataset.write(self._path)
 
     def tearDown(self):
@@ -143,7 +144,9 @@ class TestDataset_Otsu2018(unittest.TestCase):
         Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.__str__` method.
         """
 
-        self.assertEqual(str(self._dataset), "Dataset_Otsu2018(8 basis functions)")
+        self.assertEqual(
+            str(self._dataset), "Dataset_Otsu2018(8 basis functions)"
+        )
 
         self.assertEqual(str(Dataset_Otsu2018()), "Dataset_Otsu2018()")
 
@@ -160,7 +163,9 @@ class TestDataset_Otsu2018(unittest.TestCase):
         raised exception.
         """
 
-        self.assertRaises(ValueError, Dataset_Otsu2018().select, np.array([0, 0]))
+        self.assertRaises(
+            ValueError, Dataset_Otsu2018().select, np.array([0, 0])
+        )
 
     def test_cluster(self):
         """
@@ -177,7 +182,9 @@ class TestDataset_Otsu2018(unittest.TestCase):
         raised exception.
         """
 
-        self.assertRaises(ValueError, Dataset_Otsu2018().cluster, np.array([0, 0]))
+        self.assertRaises(
+            ValueError, Dataset_Otsu2018().cluster, np.array([0, 0])
+        )
 
     def test_read(self):
         """
@@ -228,7 +235,9 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape
+        )
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
         self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
@@ -242,8 +251,12 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
             Lab = XYZ_to_Lab(XYZ, self._xy_D65)
 
-            recovered_sd = XYZ_to_sd_Otsu2018(XYZ, self._cmfs, self._sd_D65, clip=False)
-            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
+            recovered_sd = XYZ_to_sd_Otsu2018(
+                XYZ, self._cmfs, self._sd_D65, clip=False
+            )
+            recovered_XYZ = (
+                sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
+            )
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = metric_mse(
@@ -288,7 +301,9 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     sd_to_XYZ(
-                        XYZ_to_sd_Otsu2018(XYZ_i * factor_a, self._cmfs, self._sd_D65),
+                        XYZ_to_sd_Otsu2018(
+                            XYZ_i * factor_a, self._cmfs, self._sd_D65
+                        ),
                         self._cmfs,
                         self._sd_D65,
                     ),
@@ -309,7 +324,9 @@ class TestData_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape
+        )
 
         self._reflectances = np.transpose(
             reshape_msds(
@@ -320,7 +337,9 @@ class TestData_Otsu2018(unittest.TestCase):
             ).values
         )
 
-        self._data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
+        self._data = Data_Otsu2018(
+            self._reflectances, self._cmfs, self._sd_D65
+        )
 
     def test_required_attributes(self):
         """
@@ -426,7 +445,9 @@ class TestData_Otsu2018(unittest.TestCase):
         Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method.
         """
 
-        self.assertAlmostEqual(self._data.origin(4, 1), 0.255284008578559, places=7)
+        self.assertAlmostEqual(
+            self._data.origin(4, 1), 0.255284008578559, places=7
+        )
 
     def test_raise_exception_origin(self):
         """
@@ -722,7 +743,9 @@ reconstruction_error` method.
 
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
 
-        self.assertAlmostEqual(data.reconstruction_error(), 2.753352549148681, places=7)
+        self.assertAlmostEqual(
+            data.reconstruction_error(), 2.753352549148681, places=7
+        )
 
     def test_raise_exception_reconstruction_error(self):
         """
@@ -748,7 +771,9 @@ class TestNode_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape
+        )
 
         self._reflectances = sds_and_msds_to_msds(
             SDS_COLOURCHECKERS["ColorChecker N Ohta"].values()
@@ -891,21 +916,27 @@ class TestTree_Otsu2018(unittest.TestCase):
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
+        self._cmfs, self._sd_D65 = handle_spectral_arguments(
+            shape_default=self._shape
+        )
 
         self._reflectances = sds_and_msds_to_msds(
             list(SDS_COLOURCHECKERS["ColorChecker N Ohta"].values())
             + list(SDS_COLOURCHECKERS["BabelColor Average"].values())
         )
 
-        self._tree = Tree_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
+        self._tree = Tree_Otsu2018(
+            self._reflectances, self._cmfs, self._sd_D65
+        )
 
         self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
         self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
         self._temporary_directory = tempfile.mkdtemp()
 
-        self._path = os.path.join(self._temporary_directory, "Test_Otsu2018.npz")
+        self._path = os.path.join(
+            self._temporary_directory, "Test_Otsu2018.npz"
+        )
 
     def tearDown(self):
         """
@@ -986,7 +1017,9 @@ class TestTree_Otsu2018(unittest.TestCase):
             recovered_sd = XYZ_to_sd_Otsu2018(
                 XYZ, self._cmfs, self._sd_D65, dataset, False
             )
-            recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
+            recovered_XYZ = (
+                sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
+            )
             recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
 
             error = metric_mse(

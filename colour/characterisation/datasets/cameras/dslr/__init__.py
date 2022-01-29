@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .sensitivities import MSDS_CAMERA_SENSITIVITIES_DSLR
 
 __all__ = [
