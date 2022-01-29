@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Array Utilities
 ===============
@@ -600,7 +599,7 @@ def as_int(
     args = getattr(DTypeInteger, "__args__")
     attest(
         dtype in args,
-        '"dtype" must be one of the following types: {0}'.format(args),
+        f'"dtype" must be one of the following types: {args}',
     )
 
     # TODO: Reassess implementation when and if
@@ -643,7 +642,7 @@ def as_float(
     args = getattr(DTypeFloating, "__args__")
     attest(
         dtype in args,
-        '"dtype" must be one of the following types: {0}'.format(args),
+        f'"dtype" must be one of the following types: {args}',
     )
 
     return dtype(a)  # type: ignore[arg-type, return-value]
@@ -681,7 +680,7 @@ def as_int_array(
     args = getattr(DTypeInteger, "__args__")
     attest(
         dtype in args,
-        '"dtype" must be one of the following types: {0}'.format(args),
+        f'"dtype" must be one of the following types: {args}',
     )
 
     return as_array(a, dtype)
@@ -718,7 +717,7 @@ def as_float_array(
 
     attest(
         dtype in np.sctypes["float"],
-        '"dtype" must be one of the following types: {0}'.format(
+        '"dtype" must be one of the following types: {}'.format(
             np.sctypes["float"]
         ),
     )
@@ -755,7 +754,7 @@ def as_int_scalar(
 
     a = np.squeeze(as_int_array(a, dtype))
 
-    attest(a.ndim == 0, '"{0}" cannot be converted to "int" scalar!'.format(a))
+    attest(a.ndim == 0, f'"{a}" cannot be converted to "int" scalar!')
 
     return cast(Integer, as_int(a, dtype))
 
@@ -789,9 +788,7 @@ def as_float_scalar(
 
     a = np.squeeze(as_float_array(a, dtype))
 
-    attest(
-        a.ndim == 0, '"{0}" cannot be converted to "float" scalar!'.format(a)
-    )
+    attest(a.ndim == 0, f'"{a}" cannot be converted to "float" scalar!')
 
     return cast(Floating, as_float(a, dtype))
 
@@ -2530,7 +2527,7 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
 
     if a.shape[:-1] != indexes.shape:
         raise ValueError(
-            "Array and indexes have incompatible shapes: {0} and {1}".format(
+            "Array and indexes have incompatible shapes: {} and {}".format(
                 a.shape, indexes.shape
             )
         )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================
@@ -206,7 +205,7 @@ def spectral_primary_decomposition_Mallett2019(
     return MultiSpectralDistributions(
         basis_functions,
         cmfs.shape.range(),
-        name="Basis Functions - {0} - Mallett (2019)".format(colourspace.name),
+        name=f"Basis Functions - {colourspace.name} - Mallett (2019)",
         labels=("red", "green", "blue"),
     )
 
@@ -360,6 +359,6 @@ def RGB_to_sd_Mallett2019(
         np.dot(RGB, np.transpose(basis_functions.values)),
         basis_functions.wavelengths,
     )
-    sd.name = "{0} (RGB) - Mallett (2019)".format(RGB)
+    sd.name = f"{RGB} (RGB) - Mallett (2019)"
 
     return sd

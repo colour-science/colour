@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases colour models volume and gamut plotting examples.
 """
@@ -17,10 +16,8 @@ message_box("Colour Models Volume and Gamut Plots")
 colour_style()
 
 message_box(
-    (
-        'Plotting "ITU-R BT.709" RGB colourspace volume in "CIE xyY" '
-        "colourspace."
-    )
+    'Plotting "ITU-R BT.709" RGB colourspace volume in "CIE xyY" '
+    "colourspace."
 )
 plot_RGB_colourspaces_gamuts(
     ("ITU-R BT.709",), reference_colourspace="CIE xyY"
@@ -29,10 +26,8 @@ plot_RGB_colourspaces_gamuts(
 print("\n")
 
 message_box(
-    (
-        'Comparing "ITU-R BT.709" and "ACEScg" RGB colourspaces volume '
-        'in "CIE L*a*b*" colourspace.'
-    )
+    'Comparing "ITU-R BT.709" and "ACEScg" RGB colourspaces volume '
+    'in "CIE L*a*b*" colourspace.'
 )
 plot_RGB_colourspaces_gamuts(
     ("ITU-R BT.709", "ACEScg"),
@@ -46,7 +41,7 @@ plot_RGB_colourspaces_gamuts(
 print("\n")
 
 message_box(
-    ('Plotting "ACEScg" colourspaces values in "CIE L*a*b*" ' "colourspace.")
+    'Plotting "ACEScg" colourspaces values in "CIE L*a*b*" ' "colourspace."
 )
 
 RGB = np.random.random((32, 32, 3))

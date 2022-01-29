@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ITU-R BT.2020 Colourspace
 =========================

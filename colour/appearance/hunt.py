@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Hunt Colour Appearance Model
 ============================
@@ -120,9 +119,7 @@ class InductionFactors_Hunt(
         :class:`colour.appearance.InductionFactors_Hunt` class.
         """
 
-        return super(InductionFactors_Hunt, cls).__new__(
-            cls, N_c, N_b, N_cb, N_bb
-        )
+        return super().__new__(cls, N_c, N_b, N_cb, N_bb)
 
 
 VIEWING_CONDITIONS_HUNT: CaseInsensitiveMapping = CaseInsensitiveMapping(
@@ -409,13 +406,13 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         N_cb = 0.725 * spow(Y_w / Y_b, 0.2)
         usage_warning(
             'Unspecified "N_cb" argument, using approximation: '
-            '"{0}"'.format(N_cb)
+            '"{}"'.format(N_cb)
         )
     if surround.N_bb is None:
         N_bb = 0.725 * spow(Y_w / Y_b, 0.2)
         usage_warning(
             'Unspecified "N_bb" argument, using approximation: '
-            '"{0}"'.format(N_bb)
+            '"{}"'.format(N_bb)
         )
 
     if L_AS is None and CCT_w is None:
@@ -428,7 +425,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         L_AS = illuminant_scotopic_luminance(L_A, CCT_w)
         usage_warning(
             'Unspecified "L_AS" argument, using approximation from "CCT": '
-            '"{0}"'.format(L_AS)
+            '"{}"'.format(L_AS)
         )
 
     if (S is None and S_w is not None) or (S is not None and S_w is None):
@@ -443,7 +440,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         usage_warning(
             'Unspecified stimulus scotopic response "S" and reference '
             'white scotopic response "S_w" arguments, using '
-            'approximation: "{0}", "{1}"'.format(S, S_w)
+            'approximation: "{}", "{}"'.format(S, S_w)
         )
 
     if p is None:
@@ -1239,7 +1236,7 @@ def achromatic_signal(
     A_S = (f_n(F_LS * S / S_w) * 3.05 * B_S) + 0.3
 
     # Computing achromatic signal :math:`A`.
-    A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt((1 + (0.3 ** 2))))
+    A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt(1 + (0.3 ** 2)))
 
     return as_float(A)
 

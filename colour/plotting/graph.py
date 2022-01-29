@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Automatic Colour Conversion Graph Plotting
 ==========================================
@@ -37,7 +36,7 @@ def plot_automatic_colour_conversion_graph(
         Literal["circo", "dot", "fdp", "neato", "nop", "twopi"], str
     ] = "fdp",
     args: str = "",
-) -> "AGraph":  # type: ignore[name-defined]  # noqa
+) -> AGraph:  # type: ignore[name-defined]  # noqa
     """
     Plots *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org/>`__ and

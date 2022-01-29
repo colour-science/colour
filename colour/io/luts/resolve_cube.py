@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Resolve .cube LUT Format Input / Output Utilities
 =================================================
@@ -190,12 +189,12 @@ def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
         LUT = LUTSequence(
             LUT3x1D(
                 table_1D,
-                "{0} - Shaper".format(title),
+                f"{title} - Shaper",
                 domain_3x1D,
             ),
             LUT3D(
                 table_3D,
-                "{0} - Cube".format(title),
+                f"{title} - Cube",
                 domain_3D,
                 comments=comments,
             ),
@@ -301,7 +300,7 @@ def write_LUT_ResolveCube(
         if isinstance(LUT[0], LUT1D):
             LUT[0] = LUT[0].as_LUT(LUT3x1D)
 
-        name = "{0} - {1}".format(LUT[0].name, LUT[1].name)
+        name = f"{LUT[0].name} - {LUT[1].name}"
         has_3x1D = True
         has_3D = True
     elif isinstance(LUT, LUT1D):
@@ -358,25 +357,25 @@ def write_LUT_ResolveCube(
         return "{1:0.{0}f} {2:0.{0}f}".format(decimals, *array)
 
     with open(path, "w") as cube_file:
-        cube_file.write('TITLE "{0}"\n'.format(name))
+        cube_file.write(f'TITLE "{name}"\n')
 
         if LUT[0].comments:
             for comment in LUT[0].comments:
-                cube_file.write("# {0}\n".format(comment))
+                cube_file.write(f"# {comment}\n")
 
         if LUT[1].comments:
             for comment in LUT[1].comments:
-                cube_file.write("# {0}\n".format(comment))
+                cube_file.write(f"# {comment}\n")
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
 
         if has_3x1D:
             cube_file.write(
-                "{0} {1}\n".format("LUT_1D_SIZE", LUT[0].table.shape[0])
+                "{} {}\n".format("LUT_1D_SIZE", LUT[0].table.shape[0])
             )
             if not np.array_equal(LUT[0].domain, default_domain):
                 cube_file.write(
-                    "LUT_1D_INPUT_RANGE {0}\n".format(
+                    "LUT_1D_INPUT_RANGE {}\n".format(
                         _format_tuple(
                             [LUT[0].domain[0][0], LUT[0].domain[1][0]]
                         )
@@ -385,11 +384,11 @@ def write_LUT_ResolveCube(
 
         if has_3D:
             cube_file.write(
-                "{0} {1}\n".format("LUT_3D_SIZE", LUT[1].table.shape[0])
+                "{} {}\n".format("LUT_3D_SIZE", LUT[1].table.shape[0])
             )
             if not np.array_equal(LUT[1].domain, default_domain):
                 cube_file.write(
-                    "LUT_3D_INPUT_RANGE {0}\n".format(
+                    "LUT_3D_INPUT_RANGE {}\n".format(
                         _format_tuple(
                             [LUT[1].domain[0][0], LUT[1].domain[1][0]]
                         )
@@ -399,12 +398,12 @@ def write_LUT_ResolveCube(
         if has_3x1D:
             table = LUT[0].table
             for row in table:
-                cube_file.write("{0}\n".format(_format_array(row)))
+                cube_file.write(f"{_format_array(row)}\n")
             cube_file.write("\n")
 
         if has_3D:
             table = LUT[1].table.reshape([-1, 3], order="F")
             for row in table:
-                cube_file.write("{0}\n".format(_format_array(row)))
+                cube_file.write(f"{_format_array(row)}\n")
 
     return True

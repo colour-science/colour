@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.utilities.deprecation` module.
 """

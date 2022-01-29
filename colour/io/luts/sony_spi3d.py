@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Sony .spi3d LUT Format Input / Output Utilities
 ===============================================
@@ -173,7 +172,7 @@ def write_LUT_SonySPI3D(
         usage_warning(
             '"LUT" is a "LUTSequence" instance was passed, '
             'using first sequence "LUT":\n'
-            "{0}".format(LUT)
+            "{}".format(LUT)
         )
         LUTxD = LUT[0]
     else:
@@ -218,12 +217,10 @@ def write_LUT_SonySPI3D(
         table = LUTxD.table.reshape([-1, 3])
 
         for i, row in enumerate(indexes):
-            spi3d_file.write(
-                "{0}\n".format(_format_array(list(row) + list(table[i])))
-            )
+            spi3d_file.write(f"{_format_array(list(row) + list(table[i]))}\n")
 
         if LUTxD.comments:
             for comment in LUTxD.comments:
-                spi3d_file.write("# {0}\n".format(comment))
+                spi3d_file.write(f"# {comment}\n")
 
     return True

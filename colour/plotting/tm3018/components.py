@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ANSI/IES TM-30-18 Colour Rendition Report Components
 ====================================================
@@ -324,7 +323,7 @@ def plot_colour_vector_graphic(
     _figure, axes = plot_image(
         background_image,
         imshow_kwargs={"extent": [-1.5, 1.5, -1.5, 1.5]},
-        **settings
+        **settings,
     )
 
     # Lines dividing the hues in 16 equal parts along with bin numbers.
@@ -438,17 +437,13 @@ def plot_colour_vector_graphic(
             size="small",
         )
 
+    corner_label_and_text("$R_f$", f"{specification.R_f:.0f}", "left", "top")
+    corner_label_and_text("$R_g$", f"{specification.R_g:.0f}", "right", "top")
     corner_label_and_text(
-        "$R_f$", "{0:.0f}".format(specification.R_f), "left", "top"
+        "CCT", f"{specification.CCT:.0f} K", "left", "bottom"
     )
     corner_label_and_text(
-        "$R_g$", "{0:.0f}".format(specification.R_g), "right", "top"
-    )
-    corner_label_and_text(
-        "CCT", "{0:.0f} K".format(specification.CCT), "left", "bottom"
-    )
-    corner_label_and_text(
-        "$D_{uv}$", "{0:.4f}".format(specification.D_uv), "right", "bottom"
+        "$D_{uv}$", f"{specification.D_uv:.4f}", "right", "bottom"
     )
 
     settings = {"standalone": True}
@@ -464,7 +459,7 @@ def plot_16_bin_bars(
     label_orientation: Union[
         Literal["Horizontal", "Vertical"], str
     ] = "Vertical",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the 16 bin bars for given values according to
@@ -560,7 +555,7 @@ def plot_16_bin_bars(
 def plot_local_chroma_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the local chroma shifts according to
@@ -607,7 +602,7 @@ def plot_local_chroma_shifts(
 
     ticks = np.arange(-40, 41, 10)
     axes.set_yticks(ticks)
-    axes.set_yticklabels(["{0}%".format(value) for value in ticks])
+    axes.set_yticklabels([f"{value}%" for value in ticks])
 
     settings = {"standalone": True}
     settings.update(kwargs)
@@ -618,7 +613,7 @@ def plot_local_chroma_shifts(
 def plot_local_hue_shifts(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the local hue shifts according to
@@ -672,7 +667,7 @@ def plot_local_hue_shifts(
 def plot_local_colour_fidelities(
     specification: ColourQuality_Specification_ANSIIESTM3018,
     x_ticker: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the local colour fidelities according to
@@ -777,8 +772,7 @@ def plot_colour_fidelity_indexes(
     axes.set_xticks(ticks)
 
     labels = [
-        "CES{0:02d}".format(i) if i % 3 == 1 else ""
-        for i in range(1, bar_count + 1)
+        f"CES{i:02d}" if i % 3 == 1 else "" for i in range(1, bar_count + 1)
     ]
     axes.set_xticklabels(labels, rotation=90)
 

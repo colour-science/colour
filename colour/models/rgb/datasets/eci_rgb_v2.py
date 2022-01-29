@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ECI RGB v2 Colourspace
 ======================

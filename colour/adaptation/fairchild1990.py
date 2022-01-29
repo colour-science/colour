@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.image` module.
 """
@@ -417,7 +416,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
 
             attest(
                 attribute_exists,
-                '"{0}" attribute was not found on image!'.format(
+                '"{}" attribute was not found on image!'.format(
                     write_attribute.name
                 ),
             )

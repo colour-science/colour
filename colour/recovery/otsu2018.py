@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Otsu, Yamamoto and Hachisuka (2018) - Reflectance Recovery
 ==========================================================
@@ -235,11 +234,11 @@ class Dataset_Otsu2018:
         """
 
         if self._basis_functions is not None:
-            return "{0}({1} basis functions)".format(
+            return "{}({} basis functions)".format(
                 self.__class__.__name__, self._basis_functions.shape[0]
             )
         else:
-            return "{0}()".format(self.__class__.__name__)
+            return f"{self.__class__.__name__}()"
 
     def select(self, xy: ArrayLike) -> Integer:
         """
@@ -580,7 +579,7 @@ class PartitionAxis:
             Formatted string representation.
         """
 
-        return "{0}({1} partition at {2} = {3})".format(
+        return "{}({} partition at {} = {})".format(
             self.__class__.__name__,
             "horizontal" if self.direction else "vertical",
             "y" if self.direction else "x",
@@ -751,9 +750,7 @@ class Data_Otsu2018:
             Formatted string representation.
         """
 
-        return "{0}({1} Reflectances)".format(
-            self.__class__.__name__, len(self)
-        )
+        return f"{self.__class__.__name__}({len(self)} Reflectances)"
 
     def __len__(self) -> Integer:
         """
@@ -982,13 +979,11 @@ class Node_Otsu2018(Node):
 
     def __init__(
         self,
-        parent: Optional["Node_Otsu2018"] = None,
+        parent: Optional[Node_Otsu2018] = None,
         children: Optional[List] = None,
         data: Optional[Data_Otsu2018] = None,
     ):
-        super(Node_Otsu2018, self).__init__(
-            parent=parent, children=children, data=data
-        )
+        super().__init__(parent=parent, children=children, data=data)
 
         self._partition_axis: Optional[PartitionAxis] = None
         self._best_partition: Optional[
@@ -1294,7 +1289,7 @@ class Tree_Otsu2018(Node_Otsu2018):
         cmfs: Optional[MultiSpectralDistributions] = None,
         illuminant: Optional[SpectralDistribution] = None,
     ):
-        super(Tree_Otsu2018, self).__init__()
+        super().__init__()
 
         cmfs, illuminant = handle_spectral_arguments(
             cmfs, illuminant, shape_default=SPECTRAL_SHAPE_OTSU2018
@@ -1447,29 +1442,25 @@ the initial error.
             print_callable=print_callable,
         )
 
-        print_callable(
-            "Initial branch error is: {0}".format(initial_branch_error)
-        )
+        print_callable(f"Initial branch error is: {initial_branch_error}")
 
         best_leaf, best_partition, best_axis, partition_error = [None] * 4
 
         for i in range(iterations):
-            print_callable(
-                "\nIteration {0} of {1}:\n".format(i + 1, iterations)
-            )
+            print_callable(f"\nIteration {i + 1} of {iterations}:\n")
 
             total_error = self.branch_reconstruction_error()
             optimised_total_error = None
 
             for leaf in self.leaves:
-                print_callable('Optimising "{0}"...'.format(leaf))
+                print_callable(f'Optimising "{leaf}"...')
 
                 try:
                     partition, axis, partition_error = leaf.minimise(
                         minimum_cluster_size
                     )
                 except RuntimeError as error:
-                    print_callable("Optimisation failed: {0}".format(error))
+                    print_callable(f"Optimisation failed: {error}")
                     continue
 
                 new_total_error = (
@@ -1490,13 +1481,13 @@ the initial error.
             if optimised_total_error is None:
                 print_callable(
                     "\nNo further improvement is possible!\n"
-                    "Terminating at iteration {0}.\n".format(i)
+                    "Terminating at iteration {}.\n".format(i)
                 )
                 break
 
             if best_partition is not None:
                 print_callable(
-                    '\nSplitting "{0}" into "{1}" and "{2}" along "{3}".'.format(
+                    '\nSplitting "{}" into "{}" and "{}" along "{}".'.format(
                         best_leaf,
                         best_partition[0],
                         best_partition[1],
@@ -1505,8 +1496,8 @@ the initial error.
                 )
 
             print_callable(
-                "Error is reduced by {0} and is now {1}, "
-                "{2:.1f}% of the initial error.".format(
+                "Error is reduced by {} and is now {}, "
+                "{:.1f}% of the initial error.".format(
                     leaf.leaf_reconstruction_error() - partition_error,
                     optimised_total_error,
                     100 * optimised_total_error / initial_branch_error,

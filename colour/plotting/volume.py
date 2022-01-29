@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Models Volume Plotting
 =============================
@@ -80,7 +79,7 @@ def nadir_grid(
     segments: Integer = 10,
     labels: Optional[Sequence[str]] = None,
     axes: Optional[plt.Axes] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
     Returns a grid on *CIE xy* plane made of quad geometric elements and its
@@ -283,7 +282,7 @@ def nadir_grid(
                 )
 
                 tick = as_int_scalar(tick) if is_integer(tick) else tick
-                c = settings["{0}_ticks_colour".format(axis)]
+                c = settings[f"{axis}_ticks_colour"]
 
                 axes.text(
                     x,
@@ -313,7 +312,7 @@ def nadir_grid(
                 else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10)
             )
 
-            c = settings["{0}_label_colour".format(axis)]
+            c = settings[f"{axis}_label_colour"]
 
             axes.text(
                 x,
@@ -478,7 +477,7 @@ def plot_RGB_colourspaces_gamuts(
     ] = "CIE 1931 2 Degree Standard Observer",
     chromatically_adapt: Boolean = False,
     convert_kwargs: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspaces gamuts in given reference colourspace.
@@ -553,7 +552,7 @@ def plot_RGB_colourspaces_gamuts(
 
     count_c = len(colourspaces)
 
-    title = "{0} - {1} Reference Colourspace".format(
+    title = "{} - {} Reference Colourspace".format(
         ", ".join([colourspace.name for colourspace in colourspaces]),
         reference_colourspace,
     )
@@ -672,7 +671,7 @@ def plot_RGB_colourspaces_gamuts(
         for i, axis in enumerate("xyz"):
             min_a = np.minimum(np.min(quads[..., i]), np.min(points[..., i]))
             max_a = np.maximum(np.max(quads[..., i]), np.max(points[..., i]))
-            getattr(axes, "set_{}lim".format(axis))((min_a, max_a))
+            getattr(axes, f"set_{axis}lim")((min_a, max_a))
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[reference_colourspace])[
         as_int_array(
@@ -680,7 +679,7 @@ def plot_RGB_colourspaces_gamuts(
         )
     ]
     for i, axis in enumerate("xyz"):
-        getattr(axes, "set_{}label".format(axis))(labels[i])
+        getattr(axes, f"set_{axis}label")(labels[i])
 
     if show_grid:
         limits = np.array([[-1.5, 1.5], [-1.5, 1.5]])
@@ -757,7 +756,7 @@ def plot_RGB_scatter(
     ] = "CIE 1931 2 Degree Standard Observer",
     chromatically_adapt: Boolean = False,
     convert_kwargs: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspace array in a scatter plot.
@@ -853,7 +852,7 @@ def plot_RGB_scatter(
         spectral_locus_colour=spectral_locus_colour,
         cmfs=cmfs,
         chromatically_adapt=chromatically_adapt,
-        **settings
+        **settings,
     )
 
     XYZ = RGB_to_XYZ(

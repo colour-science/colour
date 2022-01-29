@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *ZCAM* colour appearance model computations.
 """
@@ -20,8 +19,8 @@ message_box(
     (
         'Converting to "ZCAM" colour appearance model specification '
         "using given parameters:\n"
-        "\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tL_A: {2}\n\tY_b: {3}"
-        "\n\tSurround: {4}"
+        "\n\tXYZ: {}\n\tXYZ_w: {}\n\tL_A: {}\n\tY_b: {}"
+        "\n\tSurround: {}"
     ).format(XYZ, XYZ_w, L_A, Y_b, surround)
 )
 specification = colour.XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b, surround)
@@ -30,10 +29,8 @@ print(specification)
 print("\n")
 
 message_box(
-    (
-        'Broadcasting current output "ZCAM" colour appearance '
-        "model specification to the reference specification."
-    )
+    'Broadcasting current output "ZCAM" colour appearance '
+    "model specification to the reference specification."
 )
 
 print(CAM_ReferenceSpecification_ZCAM(*specification.values))
@@ -48,8 +45,8 @@ specification = colour.CAM_Specification_ZCAM(J, C, h)
 message_box(
     (
         'Converting to "CIE XYZ" tristimulus values using given parameters:\n'
-        "\n\tJ: {0}\n\tC: {1}\n\th: {2}\n\tXYZ_w: {3}\n\tL_A: {4}\n\tY_b: {5}"
-        "\n\tSurround: {6}"
+        "\n\tJ: {}\n\tC: {}\n\th: {}\n\tXYZ_w: {}\n\tL_A: {}\n\tY_b: {}"
+        "\n\tSurround: {}"
     ).format(J, C, h, XYZ_w, L_A, Y_b, surround)
 )
 print(colour.ZCAM_to_XYZ(specification, XYZ_w, L_A, Y_b, surround))

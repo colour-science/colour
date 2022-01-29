@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 LUT Operator
 ============
@@ -76,7 +75,7 @@ class AbstractLUTSequenceOperator(ABC):
         name: Optional[str] = None,
         comments: Optional[Sequence[str]] = None,
     ):
-        self._name = "LUT Sequence Operator {0}".format(id(self))
+        self._name = f"LUT Sequence Operator {id(self)}"
         self.name = optional(name, self._name)
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
         # is resolved.
@@ -109,7 +108,7 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+            '"{}" property: "{}" type is not "str"!'.format("name", value),
         )
 
         self._name = value
@@ -140,7 +139,7 @@ class AbstractLUTSequenceOperator(ABC):
 
         attest(
             is_iterable(value),
-            '"{0}" property: "{1}" must be a sequence!'.format(
+            '"{}" property: "{}" must be a sequence!'.format(
                 "comments", value
             ),
         )
@@ -249,9 +248,9 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         matrix: Optional[ArrayLike] = None,
         offset: Optional[ArrayLike] = None,
         *args: Any,
-        **kwargs: Any
+        **kwargs: Any,
     ):
-        super(LUTOperatorMatrix, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
         # is resolved.
@@ -296,7 +295,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         attest(
             value.shape in [(3, 3), (4, 4)],
-            '"{0}" property: "{1}" shape is not (3, 3) or (4, 4)!'.format(
+            '"{}" property: "{}" shape is not (3, 3) or (4, 4)!'.format(
                 "matrix", value
             ),
         )
@@ -336,7 +335,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         attest(
             value.shape in [(3,), (4,)],
-            '"{0}" property: "{1}" shape is not (3, ) or (4, )!'.format(
+            '"{}" property: "{}" shape is not (3, ) or (4, )!'.format(
                 "offset", value
             ),
         )
@@ -376,17 +375,17 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             return str(a).replace(" [", " " * 14 + "[")
 
         return (
-            "{0} - {1}\n"
-            "{2}\n\n"
-            "Matrix     : {3}\n"
-            "Offset     : {4}"
-            "{5}".format(
+            "{} - {}\n"
+            "{}\n\n"
+            "Matrix     : {}\n"
+            "Offset     : {}"
+            "{}".format(
                 self.__class__.__name__,
                 self._name,
                 "-" * (len(self.__class__.__name__) + 3 + len(self._name)),
                 _indent_array(self._matrix),
                 _indent_array(self._offset),
-                "\n\n{0}".format("\n".join(self._comments))
+                "\n\n{}".format("\n".join(self._comments))
                 if self._comments
                 else "",
             )
@@ -420,7 +419,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             "array", self.__class__.__name__
         )
         representation = representation.replace(
-            "       [", "{0}[".format(" " * (len(self.__class__.__name__) + 2))
+            "       [", "{}[".format(" " * (len(self.__class__.__name__) + 2))
         )
 
         indentation = " " * (len(self.__class__.__name__) + 1)
@@ -429,7 +428,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             indentation,
             repr(self._offset).replace("array(", "").replace(")", ""),
             self._name,
-            ",\n{0}comments={1}".format(indentation, repr(self._comments))
+            f",\n{indentation}comments={repr(self._comments)}"
             if self._comments
             else "",
         )

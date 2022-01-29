@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *CIE XYZ* tristimulus values computations.
 """
@@ -100,30 +99,24 @@ cmfs = colour.MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 illuminant = colour.SDS_ILLUMINANTS["A"]
 
 message_box(
-    (
-        "Computing *CIE XYZ* tristimulus values for sample spectral "
-        'distribution and "CIE Standard Illuminant A".'
-    )
+    "Computing *CIE XYZ* tristimulus values for sample spectral "
+    'distribution and "CIE Standard Illuminant A".'
 )
 print(colour.sd_to_XYZ(sd_sample, cmfs, illuminant))
 
 print("\n")
 
 message_box(
-    (
-        'Computing "CIE Standard Illuminant A" chromaticity coordinates '
-        "from its spectral distribution."
-    )
+    'Computing "CIE Standard Illuminant A" chromaticity coordinates '
+    "from its spectral distribution."
 )
 print(colour.XYZ_to_xy(colour.sd_to_XYZ(illuminant, cmfs) / 100))
 
 print("\n")
 
 message_box(
-    (
-        "Computing *CIE XYZ* tristimulus values for a single given "
-        "wavelength in nm."
-    )
+    "Computing *CIE XYZ* tristimulus values for a single given "
+    "wavelength in nm."
 )
 print(
     colour.wavelength_to_XYZ(
@@ -132,10 +125,8 @@ print(
 )
 
 message_box(
-    (
-        "Computing *CIE XYZ* tristimulus values from given "
-        "multi-spectral image with shape (4, 3, 6)."
-    )
+    "Computing *CIE XYZ* tristimulus values from given "
+    "multi-spectral image with shape (4, 3, 6)."
 )
 msds = np.array(
     [

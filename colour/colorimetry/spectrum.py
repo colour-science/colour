@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectrum
 ========
@@ -105,7 +104,7 @@ __all__ = [
 ]
 
 _CACHE_SHAPE_RANGE: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_SHAPE_RANGE".format(__name__)
+    f"{__name__}._CACHE_SHAPE_RANGE"
 )
 
 
@@ -182,13 +181,13 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" property: "{1}" is not a "numeric"!'.format("start", value),
+            '"{}" property: "{}" is not a "numeric"!'.format("start", value),
         )
 
         attest(
             bool(value < self._end),
-            '"{0}" attribute value must be strictly less than '
-            '"{1}"!'.format("start", self._end),
+            '"{}" attribute value must be strictly less than '
+            '"{}"!'.format("start", self._end),
         )
 
         self._start = value
@@ -219,13 +218,13 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" property: "{1}" is not a "numeric"!'.format("end", value),
+            '"{}" property: "{}" is not a "numeric"!'.format("end", value),
         )
 
         attest(
             bool(value > self._start),
-            '"{0}" attribute value must be strictly greater than '
-            '"{1}"!'.format("end", self._start),
+            '"{}" attribute value must be strictly greater than '
+            '"{}"!'.format("end", self._start),
         )
 
         self._end = value
@@ -256,7 +255,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{0}" property: "{1}" is not a "numeric"!'.format(
+            '"{}" property: "{}" is not a "numeric"!'.format(
                 "interval", value
             ),
         )
@@ -291,7 +290,7 @@ class SpectralShape:
 
         attest(
             value.size == 2,
-            '"{0}" property: "{1}" must have exactly '
+            '"{}" property: "{}" must have exactly '
             "two elements!".format("boundaries", value),
         )
 
@@ -307,7 +306,7 @@ class SpectralShape:
             Formatted string representation.
         """
 
-        return "({0}, {1}, {2})".format(self._start, self._end, self._interval)
+        return f"({self._start}, {self._end}, {self._interval})"
 
     def __repr__(self) -> str:
         """
@@ -319,7 +318,7 @@ class SpectralShape:
             Evaluable string representation.
         """
 
-        return "SpectralShape({0}, {1}, {2})".format(
+        return "SpectralShape({}, {}, {})".format(
             self._start,
             self._end,
             self._interval,
@@ -508,7 +507,7 @@ class SpectralShape:
 
         dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        hash_key = tuple([hash(arg) for arg in (self, dtype)])
+        hash_key = tuple(hash(arg) for arg in (self, dtype))
         if hash_key in _CACHE_SHAPE_RANGE:
             return _CACHE_SHAPE_RANGE[hash_key].copy()
 
@@ -528,7 +527,7 @@ class SpectralShape:
         if interval_effective != self._interval:
             self._interval = interval_effective
             runtime_warning(
-                ('"{0}" shape could not be honoured, using ' '"{1}"!').format(
+                ('"{}" shape could not be honoured, using ' '"{}"!').format(
                     (self._start, self._end, self._interval), self
                 )
             )
@@ -669,10 +668,10 @@ class SpectralDistribution(Signal):
     def __init__(
         self,
         data: Optional[
-            Union[ArrayLike, dict, Series, Signal, "SpectralDistribution"]
+            Union[ArrayLike, dict, Series, Signal, SpectralDistribution]
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         domain = (
             domain.range() if isinstance(domain, SpectralShape) else domain
@@ -695,9 +694,7 @@ class SpectralDistribution(Signal):
             {"method": "Constant", "left": None, "right": None},
         )
 
-        super(SpectralDistribution, self).__init__(
-            range_unpacked, domain_unpacked, **kwargs
-        )
+        super().__init__(range_unpacked, domain_unpacked, **kwargs)
 
         self._strict_name: str = self.name
         self.strict_name = kwargs.get("strict_name", self._strict_name)
@@ -728,7 +725,7 @@ class SpectralDistribution(Signal):
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format(
+            '"{}" property: "{}" type is not "str"!'.format(
                 "strict_name", value
             ),
         )
@@ -833,10 +830,8 @@ class SpectralDistribution(Signal):
         wavelengths_interval = interval(self.wavelengths)
         if wavelengths_interval.size != 1:
             runtime_warning(
-                (
-                    '"{0}" spectral distribution is not uniform, '
-                    "using minimum interval!".format(self.name)
-                )
+                '"{}" spectral distribution is not uniform, '
+                "using minimum interval!".format(self.name)
             )
 
         return SpectralShape(
@@ -1764,7 +1759,7 @@ class MultiSpectralDistributions(MultiSignals):
                 DataFrame,
                 dict,
                 MultiSignals,
-                "MultiSpectralDistributions",
+                MultiSpectralDistributions,
                 Sequence,
                 Series,
                 Signal,
@@ -1773,7 +1768,7 @@ class MultiSpectralDistributions(MultiSignals):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         domain = (
             domain.range() if isinstance(domain, SpectralShape) else domain
@@ -1797,7 +1792,7 @@ class MultiSpectralDistributions(MultiSignals):
             {"method": "Constant", "left": None, "right": None},
         )
 
-        super(MultiSpectralDistributions, self).__init__(
+        super().__init__(
             signals, domain, signal_type=SpectralDistribution, **kwargs
         )
 
@@ -1833,7 +1828,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format(
+            '"{}" property: "{}" type is not "str"!'.format(
                 "strict_name", value
             ),
         )
@@ -1867,19 +1862,19 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_iterable(value),
-            '"{0}" property: "{1}" is not an "iterable" like object!'.format(
+            '"{}" property: "{}" is not an "iterable" like object!'.format(
                 "strict_labels", value
             ),
         )
 
         attest(
             len(set(value)) == len(value),
-            '"{0}" property: values must be unique!'.format("strict_labels"),
+            '"{}" property: values must be unique!'.format("strict_labels"),
         )
 
         attest(
             len(value) == len(self.labels),
-            '"{0}" property: length must be "{1}"!'.format(
+            '"{}" property: length must be "{}"!'.format(
                 "strict_labels", len(self.labels)
             ),
         )
@@ -2630,7 +2625,7 @@ class MultiSpectralDistributions(MultiSignals):
 
 
 _CACHE_RESHAPED_SDS_AND_MSDS: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_RESHAPED_SDS_AND_MSDS".format(__name__)
+    f"{__name__}._CACHE_RESHAPED_SDS_AND_MSDS"
 )
 
 
@@ -2640,7 +2635,7 @@ def reshape_sd(
     method: Union[
         Literal["Align", "Extrapolate", "Interpolate", "Trim"], str
     ] = "Align",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Reshape given spectral distribution with given spectral shape.
@@ -2686,7 +2681,7 @@ def reshape_sd(
             kwargs_items[i] = (keyword, tuple(value.items()))
 
     hash_key = tuple(
-        [hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))]
+        hash(arg) for arg in (sd, shape, method, tuple(kwargs_items))
     )
     if hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         return _CACHE_RESHAPED_SDS_AND_MSDS[hash_key].copy()
@@ -2708,7 +2703,7 @@ def reshape_msds(
     method: Union[
         Literal["Align", "Extrapolate", "Interpolate", "Trim"], str
     ] = "Align",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
     Reshape given multi-spectral distributions with given spectral shape.
@@ -2899,11 +2894,11 @@ def sds_and_msds_to_msds(
     else:
         sds_converted = sds_and_msds_to_sds(sds)
 
-        shapes = tuple(set([sd.shape for sd in sds_converted]))
+        shapes = tuple({sd.shape for sd in sds_converted})
         shape = SpectralShape(
-            max([shape.start for shape in shapes]),
-            min([shape.end for shape in shapes]),
-            min([shape.interval for shape in shapes]),
+            max(shape.start for shape in shapes),
+            min(shape.end for shape in shapes),
+            min(shape.interval for shape in shapes),
         )
 
         values = []
@@ -2915,14 +2910,12 @@ def sds_and_msds_to_msds(
 
             values.append(sd.values)
             labels.append(
-                sd.name
-                if sd.name not in labels
-                else "{0} ({1})".format(sd.name, id(sd))
+                sd.name if sd.name not in labels else f"{sd.name} ({id(sd)})"
             )
             strict_labels.append(
                 sd.strict_name
                 if sd.strict_name not in strict_labels
-                else "{0} ({1})".format(sd.strict_name, id(sd))
+                else f"{sd.strict_name} ({id(sd)})"
             )
 
         msds_converted = MultiSpectralDistributions(

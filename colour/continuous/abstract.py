@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Abstract Continuous Function
 ============================
@@ -122,7 +121,7 @@ arithmetical_operation`
     """
 
     def __init__(self, name: Optional[str] = None):
-        self._name: str = "{0} ({1})".format(self.__class__.__name__, id(self))
+        self._name: str = f"{self.__class__.__name__} ({id(self)})"
         self.name = optional(name, self._name)
 
     @property
@@ -151,7 +150,7 @@ arithmetical_operation`
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+            '"{}" property: "{}" type is not "str"!'.format("name", value),
         )
 
         self._name = value

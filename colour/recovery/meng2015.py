@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Meng et al. (2015) - Reflectance Recovery
 =========================================
@@ -207,7 +206,7 @@ def XYZ_to_sd_Meng2015(
 
     if not result.success:
         raise RuntimeError(
-            'Optimization failed for {0} after {1} iterations: "{2}".'.format(
+            'Optimization failed for {} after {} iterations: "{}".'.format(
                 XYZ, result.nit, result.message
             )
         )
@@ -215,5 +214,5 @@ def XYZ_to_sd_Meng2015(
     return SpectralDistribution(
         from_range_100(result.x * 100),
         wavelengths,
-        name="{0} (XYZ) - Meng (2015)".format(XYZ),
+        name=f"{XYZ} (XYZ) - Meng (2015)",
     )

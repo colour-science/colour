@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Colour Quality Scale* (CQS) computations.
 """
@@ -16,10 +15,8 @@ print(colour.colour_quality_scale(colour.SDS_ILLUMINANTS["FL2"]))
 print("\n")
 
 message_box(
-    (
-        'Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
-        "with detailed output data."
-    )
+    'Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
+    "with detailed output data."
 )
 pprint(
     colour.colour_quality_scale(

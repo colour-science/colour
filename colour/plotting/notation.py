@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Notation Systems Plotting
 ================================
@@ -73,7 +72,7 @@ def plot_single_munsell_value_function(
     """
 
     settings: Dict[str, Any] = {
-        "title": "{0} - Munsell Value Function".format(function)
+        "title": f"{function} - Munsell Value Function"
     }
     settings.update(kwargs)
 
@@ -83,7 +82,7 @@ def plot_single_munsell_value_function(
 @override_style()
 def plot_multi_munsell_value_functions(
     functions: Union[Callable, str, Sequence[Union[Callable, str]]],
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *Munsell* value functions.
@@ -124,7 +123,7 @@ def plot_multi_munsell_value_functions(
     settings: Dict[str, Any] = {
         "bounding_box": (0, 100, 0, 10),
         "legend": True,
-        "title": "{0} - Munsell Functions".format(
+        "title": "{} - Munsell Functions".format(
             ", ".join(functions_filtered)
         ),
         "x_label": "Luminance Y",

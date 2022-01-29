@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE Chromaticity Diagrams Plotting
 ==================================
@@ -112,7 +111,7 @@ def plot_spectral_locus(
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Spectral Locus* according to given method.
@@ -379,7 +378,7 @@ def plot_chromaticity_diagram_colours(
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Chromaticity Diagram* colours according to given method.
@@ -497,7 +496,7 @@ def plot_chromaticity_diagram(
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Chromaticity Diagram* according to given method.
@@ -578,7 +577,7 @@ def plot_chromaticity_diagram(
             "CIE v'",
         )
 
-    title = "{0} Chromaticity Diagram - {1}".format(
+    title = "{} Chromaticity Diagram - {}".format(
         method.upper(), cmfs.strict_name
     )
 
@@ -606,7 +605,7 @@ def plot_chromaticity_diagram_CIE1931(
     ] = "CIE 1931 2 Degree Standard Observer",
     show_diagram_colours: Boolean = True,
     show_spectral_locus: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
@@ -662,7 +661,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
     ] = "CIE 1931 2 Degree Standard Observer",
     show_diagram_colours: Boolean = True,
     show_spectral_locus: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
@@ -718,7 +717,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
     ] = "CIE 1931 2 Degree Standard Observer",
     show_diagram_colours: Boolean = True,
     show_spectral_locus: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
@@ -782,7 +781,7 @@ def plot_sds_in_chromaticity_diagram(
     ] = "CIE 1931",
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -955,7 +954,7 @@ def plot_sds_in_chromaticity_diagram(
     plot_settings_collection = [
         {
             "color": CONSTANTS_COLOUR_STYLE.colour.brightest,
-            "label": "{0}".format(sd.strict_name),
+            "label": f"{sd.strict_name}",
             "marker": "o",
             "markeredgecolor": CONSTANTS_COLOUR_STYLE.colour.dark,
             "markeredgewidth": CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
@@ -1037,7 +1036,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     ),
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -1129,7 +1128,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1931.png
         chromaticity_diagram_callable_CIE1931,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings
+        **settings,
     )
 
 
@@ -1149,7 +1148,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     ),
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -1242,7 +1241,7 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1960UCS.png
         chromaticity_diagram_callable_CIE1960UCS,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings
+        **settings,
     )
 
 
@@ -1262,7 +1261,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     ),
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given spectral distribution chromaticity coordinates into the
@@ -1355,5 +1354,5 @@ Plot_SDS_In_Chromaticity_Diagram_CIE1976UCS.png
         chromaticity_diagram_callable_CIE1976UCS,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings
+        **settings,
     )

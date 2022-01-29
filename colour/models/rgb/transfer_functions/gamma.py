@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Gamma Colour Component Transfer Function
 ========================================

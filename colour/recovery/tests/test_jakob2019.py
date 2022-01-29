@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.recovery.jakob2019` module.
 """
@@ -174,7 +173,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
             )
 
             if error > JND_CIE1976 / 100:  # pragma: no cover
-                self.fail("Delta E for '{0}' is {1}!".format(name, error))
+                self.fail(f"Delta E for '{name}' is {error}!")
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
         """
@@ -338,7 +337,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
             if error > 2 * JND_CIE1976 / 100:  # pragma: no cover
                 self.fail(
-                    "Delta E for RGB={0} in colourspace {1} is {2}!".format(
+                    "Delta E for RGB={} in colourspace {} is {}!".format(
                         RGB, self._RGB_colourspace.name, error
                     )
                 )

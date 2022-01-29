@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Extrapolation
 =============
@@ -191,12 +190,12 @@ class Extrapolator:
 
         attest(
             hasattr(value, "x"),
-            '"{0}" interpolator has no "x" attribute!'.format(value),
+            f'"{value}" interpolator has no "x" attribute!',
         )
 
         attest(
             hasattr(value, "y"),
-            '"{0}" interpolator has no "y" attribute!'.format(value),
+            f'"{value}" interpolator has no "y" attribute!',
         )
 
         self._interpolator = value
@@ -227,7 +226,7 @@ class Extrapolator:
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("method", value),
+            '"{}" property: "{}" type is not "str"!'.format("method", value),
         )
 
         value = validate_method(value, ["Linear", "Constant"])
@@ -261,7 +260,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" property: "{1}" is not a "numeric"!'.format(
+                '"{}" property: "{}" is not a "numeric"!'.format(
                     "left", value
                 ),
             )
@@ -295,7 +294,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" property: "{1}" is not a "numeric"!'.format(
+                '"{}" property: "{}" is not a "numeric"!'.format(
                     "right", value
                 ),
             )

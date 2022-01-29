@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Cameras Sensitivities
 =====================
@@ -100,6 +99,6 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
         labels: Optional[Sequence] = None,
         **kwargs: Any
     ):
-        super(RGB_CameraSensitivities, self).__init__(
+        super().__init__(
             data, domain, labels=("red", "green", "blue"), **kwargs
         )

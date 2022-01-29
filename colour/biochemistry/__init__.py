@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import sys
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
@@ -39,7 +37,7 @@ __all__ += [
 # ----------------------------------------------------------------------------#
 class biochemistry(ModuleAPI):
     def __getattr__(self, attribute) -> Any:
-        return super(biochemistry, self).__getattr__(attribute)
+        return super().__getattr__(attribute)
 
 
 # v0.4.0

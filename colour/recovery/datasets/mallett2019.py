@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Sony .spimtx LUT Format Input / Output Utilities
 ================================================
@@ -113,6 +112,6 @@ def write_LUT_SonySPImtx(
         ]
     )
 
-    np.savetxt(path, array, fmt="%.{0}f".format(decimals))
+    np.savetxt(path, array, fmt=f"%.{decimals}f")
 
     return True

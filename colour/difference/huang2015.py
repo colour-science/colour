@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Huang et al. (2015) Power-Functions
 ===================================

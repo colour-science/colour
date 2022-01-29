@@ -1,5 +1,4 @@
 # !/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.appearance.kim2009` module.
 """

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Hernandez-Andres, Lee and Romero (1999) Correlated Colour Temperature
 =====================================================================

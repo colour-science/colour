@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .coordinates import *  # noqa
 from . import coordinates
 from .common import (

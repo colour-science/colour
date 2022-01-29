@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Rayleigh Optical Depth - Scattering in the Atmosphere
 =====================================================
@@ -1208,6 +1207,6 @@ def sd_rayleigh_scattering(
         wavelengths,
         name=(
             "Rayleigh Scattering - "
-            "{0!r} ppm, {1!r} K, {2!r} Pa, {3!r} Degrees, {4!r} m"
+            "{!r} ppm, {!r} K, {!r} Pa, {!r} Degrees, {!r} m"
         ).format(CO2_concentration, temperature, pressure, latitude, altitude),
     )

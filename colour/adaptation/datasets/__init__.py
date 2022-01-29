@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .cat import CHROMATIC_ADAPTATION_TRANSFORMS
 from .cat import (
     CAT_XYZ_SCALING,

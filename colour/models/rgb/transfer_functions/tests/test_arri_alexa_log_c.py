@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.arri_alexa_log_c` module.

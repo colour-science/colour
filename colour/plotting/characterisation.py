@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Characterisation Plotting
 =========================
@@ -200,7 +199,7 @@ def plot_multi_colour_checkers(
     axes.text(
         0.5,
         0.005,
-        "{0} - {1} - Colour Rendition Chart".format(
+        "{} - {} - Colour Rendition Chart".format(
             ", ".join(colour_checker_names),
             CONSTANTS_COLOUR_STYLE.colour.colourspace.name,
         ),

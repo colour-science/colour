@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 LUT Operator
 ============
@@ -235,9 +234,9 @@ class LUTSequence(MutableSequence):
             "LUT Sequence\n"
             "------------\n\n"
             "Overview\n\n"
-            "    {0}\n\n"
+            "    {}\n\n"
             "Operations\n\n"
-            "{1}"
+            "{}"
         ).format(
             " --> ".join([a.__class__.__name__ for a in self._sequence]),
             operations,
@@ -261,7 +260,7 @@ class LUTSequence(MutableSequence):
         )
         operations = re.sub("^\\s+$", "", operations, flags=re.MULTILINE)
 
-        return "{0}(\n{1}\n)".format(self.__class__.__name__, operations)
+        return f"{self.__class__.__name__}(\n{operations}\n)"
 
     def __eq__(self, other) -> bool:
         """

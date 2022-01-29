@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Optical Society of America Uniform Colour Scales (OSA UCS)
 ==========================================================

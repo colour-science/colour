@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CSV Tabular Data Input / Output
 ===============================
@@ -128,7 +127,7 @@ def read_spectral_data_from_csv_file(
         if settings.get("delimiter") is not None:
             del settings["delimiter"]
 
-        with open(path, "r") as csv_file:
+        with open(path) as csv_file:
             content = zip(*csv.reader(csv_file, delimiter=delimiter))
 
         transposed_csv_file = tempfile.NamedTemporaryFile(
@@ -328,9 +327,7 @@ def write_sds_to_csv_file(
 
         for wavelength in wavelengths:
             row = {"wavelength": wavelength}
-            row.update(
-                dict((field, sds[field][wavelength]) for field in fields)
-            )
+            row.update({field: sds[field][wavelength] for field in fields})
             writer.writerow(row)
 
     return True

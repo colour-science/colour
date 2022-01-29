@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
 =============================================================

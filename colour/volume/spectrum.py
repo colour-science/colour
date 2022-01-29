@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Rösch-MacAdam colour solid - Visible Spectrum Volume Computations
 =================================================================
@@ -70,11 +69,11 @@ interval of 5.
 """
 
 _CACHE_OUTER_SURFACE_XYZ: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_OUTER_SURFACE_XYZ".format(__name__)
+    f"{__name__}._CACHE_OUTER_SURFACE_XYZ"
 )
 
 _CACHE_OUTER_SURFACE_XYZ_POINTS: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_OUTER_SURFACE_XYZ_POINTS".format(__name__)
+    f"{__name__}._CACHE_OUTER_SURFACE_XYZ_POINTS"
 )
 
 
@@ -250,7 +249,7 @@ def XYZ_outer_surface(
     illuminant: Optional[SpectralDistribution] = None,
     point_order: Union[Literal["Bins", "Pulse Wave Width"], str] = "Bins",
     filter_jagged_points: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Generates the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
@@ -390,7 +389,7 @@ def is_within_visible_spectrum(
     cmfs: Optional[MultiSpectralDistributions] = None,
     illuminant: Optional[SpectralDistribution] = None,
     tolerance: Optional[Floating] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Returns whether given *CIE XYZ* tristimulus values are within the visible

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 P3-D65 Colourspace
 ==================

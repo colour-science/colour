@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .primitives import PLANE_TO_AXIS_MAPPING, primitive_grid, primitive_cube
 from .primitives import PRIMITIVE_METHODS, primitive
 from .section import hull_section

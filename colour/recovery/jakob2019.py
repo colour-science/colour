@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Jakob and Hanika (2019) - Reflectance Recovery
 ==============================================
@@ -197,7 +196,7 @@ def sd_Jakob2019(
     U = c_0 * wl ** 2 + c_1 * wl + c_2
     R = 1 / 2 + U / (2 * np.sqrt(1 + U ** 2))
 
-    name = "{0!r} (COEFF) - Jakob (2019)".format(coefficients)
+    name = f"{coefficients!r} (COEFF) - Jakob (2019)"
 
     return SpectralDistribution(R, wl, name=name)
 
@@ -624,7 +623,7 @@ def XYZ_to_sd_Jakob2019(
         )
 
     sd = sd_Jakob2019(coefficients, cmfs.shape)
-    sd.name = "{0} (XYZ) - Jakob (2019)".format(XYZ)
+    sd.name = f"{XYZ} (XYZ) - Jakob (2019)"
 
     if additional_data:
         return sd, error
@@ -910,9 +909,7 @@ class LUT3D_Jakob2019:
             print_callable=print_callable,
         )
 
-        print_callable(
-            "\nOptimising {0} coefficients...\n".format(total_coefficients)
-        )
+        print_callable(f"\nOptimising {total_coefficients} coefficients...\n")
 
         def optimize(ijkL: ArrayLike, coefficients_0: ArrayLike) -> NDArray:
             """
@@ -1114,7 +1111,7 @@ class LUT3D_Jakob2019:
         """
 
         sd = sd_Jakob2019(self.RGB_to_coefficients(RGB), shape)
-        sd.name = "{0!r} (RGB) - Jakob (2019)".format(RGB)
+        sd.name = f"{RGB!r} (RGB) - Jakob (2019)"
 
         return sd
 

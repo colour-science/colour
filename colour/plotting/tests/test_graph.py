@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.plotting.graph` module.
 """
@@ -40,7 +39,7 @@ plot_automatic_colour_conversion_graph` definition.
             return
 
         plot_automatic_colour_conversion_graph(  # pragma: no cover
-            "{0}.png".format(tempfile.mkstemp()[-1])
+            f"{tempfile.mkstemp()[-1]}.png"
         )
 
 

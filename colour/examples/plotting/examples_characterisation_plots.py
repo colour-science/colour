@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases characterisation plotting examples.
 """
@@ -29,10 +28,8 @@ plot_single_colour_checker("ColorChecker 2005", text_kwargs={"visible": False})
 print("\n")
 
 message_box(
-    (
-        'Plotting "BabelColor Average" colour rendition charts spectral '
-        "distributions."
-    )
+    'Plotting "BabelColor Average" colour rendition charts spectral '
+    "distributions."
 )
 plot_multi_sds(
     colour.SDS_COLOURCHECKERS["BabelColor Average"].values(),

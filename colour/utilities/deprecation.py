@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Deprecation Utilities
 =====================
@@ -63,7 +62,7 @@ class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
             Formatted string representation.
         """
 
-        return '"{0}" object has been renamed to "{1}".'.format(
+        return '"{}" object has been renamed to "{}".'.format(
             self.name, self.new_name
         )
 
@@ -88,7 +87,7 @@ class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
             Formatted string representation.
         """
 
-        return '"{0}" object has been removed from the API.'.format(self.name)
+        return f'"{self.name}" object has been removed from the API.'
 
 
 class ObjectFutureRename(
@@ -117,7 +116,7 @@ class ObjectFutureRename(
         """
 
         return (
-            '"{0}" object is deprecated and will be renamed to "{1}" '
+            '"{}" object is deprecated and will be renamed to "{}" '
             "in a future release.".format(self.name, self.new_name)
         )
 
@@ -143,7 +142,7 @@ class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
         """
 
         return (
-            '"{0}" object is deprecated and will be removed '
+            '"{}" object is deprecated and will be removed '
             "in a future release.".format(self.name)
         )
 
@@ -174,8 +173,8 @@ class ObjectFutureAccessChange(
         """
 
         return (
-            '"{0}" object access is deprecated and will change to '
-            '"{1}" in a future release.'.format(self.access, self.new_access)
+            '"{}" object access is deprecated and will change to '
+            '"{}" in a future release.'.format(self.access, self.new_access)
         )
 
 
@@ -203,7 +202,7 @@ class ObjectFutureAccessRemove(
         """
 
         return (
-            '"{0}" object access will be removed in a future release.'.format(
+            '"{}" object access will be removed in a future release.'.format(
                 self.name
             )
         )
@@ -231,7 +230,7 @@ class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
             Formatted string representation.
         """
 
-        return '"{0}" argument has been renamed to "{1}".'.format(
+        return '"{}" argument has been renamed to "{}".'.format(
             self.name, self.new_name
         )
 
@@ -256,9 +255,7 @@ class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
             Formatted string representation.
         """
 
-        return '"{0}" argument has been removed from the API.'.format(
-            self.name
-        )
+        return f'"{self.name}" argument has been removed from the API.'
 
 
 class ArgumentFutureRename(
@@ -287,7 +284,7 @@ class ArgumentFutureRename(
         """
 
         return (
-            '"{0}" argument is deprecated and will be renamed to "{1}" '
+            '"{}" argument is deprecated and will be renamed to "{}" '
             "in a future release.".format(self.name, self.new_name)
         )
 
@@ -313,7 +310,7 @@ class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
         """
 
         return (
-            '"{0}" argument is deprecated and will be removed '
+            '"{}" argument is deprecated and will be removed '
             "in a future release.".format(self.name)
         )
 
@@ -431,7 +428,7 @@ def get_attribute(attribute: str) -> Any:
 
     attest(
         module is not None,
-        '"{0}" module does not exists or cannot be imported!'.format(
+        '"{}" module does not exists or cannot be imported!'.format(
             module_name
         ),
     )

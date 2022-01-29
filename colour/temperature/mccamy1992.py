@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 McCamy (1992) Correlated Colour Temperature
 ===========================================

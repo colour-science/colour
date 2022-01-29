@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .cie import CONSTANT_K_M, CONSTANT_KP_M
 from .codata import (
     CONSTANT_AVOGADRO,

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Signal
 ======
@@ -245,11 +244,11 @@ class Signal(AbstractContinuousFunction):
 
     def __init__(
         self,
-        data: Optional[Union[ArrayLike, dict, Series, "Signal"]] = None,
+        data: Optional[Union[ArrayLike, dict, Series, Signal]] = None,
         domain: Optional[ArrayLike] = None,
         **kwargs: Any
     ):
-        super(Signal, self).__init__(kwargs.get("name"))
+        super().__init__(kwargs.get("name"))
 
         self._dtype: Type[DTypeFloating] = DEFAULT_FLOAT_DTYPE
         self._domain: NDArray = np.array([])
@@ -304,7 +303,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             value in np.sctypes["float"],
-            '"dtype" must be one of the following types: {0}'.format(
+            '"dtype" must be one of the following types: {}'.format(
                 np.sctypes["float"]
             ),
         )
@@ -346,13 +345,13 @@ class Signal(AbstractContinuousFunction):
 
         if not np.all(np.isfinite(value)):
             runtime_warning(
-                '"{0}" new "domain" variable is not finite: {1}, '
+                '"{}" new "domain" variable is not finite: {}, '
                 "unpredictable results may occur!".format(self.name, value)
             )
 
         if value.size != self._range.size:
             runtime_warning(
-                '"{0}" new "domain" and current "range" variables '
+                '"{}" new "domain" and current "range" variables '
                 'have different size, "range" variable will be '
                 'resized to "domain" variable shape!'.format(self.name)
             )
@@ -391,7 +390,7 @@ class Signal(AbstractContinuousFunction):
 
         if not np.all(np.isfinite(value)):
             runtime_warning(
-                '"{0}" new "range" variable is not finite: {1}, '
+                '"{}" new "range" variable is not finite: {}, '
                 "unpredictable results may occur!".format(self.name, value)
             )
 
@@ -461,7 +460,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             isinstance(value, dict),
-            '"{0}" property: "{1}" type is not "dict"!'.format(
+            '"{}" property: "{}" type is not "dict"!'.format(
                 "interpolator_kwargs", value
             ),
         )
@@ -527,7 +526,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             isinstance(value, dict),
-            '"{0}" property: "{1}" type is not "dict"!'.format(
+            '"{}" property: "{}" type is not "dict"!'.format(
                 "extrapolator_kwargs", value
             ),
         )
@@ -576,7 +575,7 @@ class Signal(AbstractContinuousFunction):
         try:
             return str(tstack([self.domain, self.range]))
         except TypeError:
-            return super(Signal, self).__str__()
+            return super().__str__()
 
     def __repr__(self) -> str:
         """
@@ -608,7 +607,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{0}(name='{1}', ...)".format(
+            return "{}(name='{}', ...)".format(
                 self.__class__.__name__, self.name
             )
 
@@ -619,7 +618,7 @@ class Signal(AbstractContinuousFunction):
             )
             representation = representation.replace(
                 "       [",
-                "{0}[".format(" " * (len(self.__class__.__name__) + 2)),
+                "{}[".format(" " * (len(self.__class__.__name__) + 2)),
             )
             representation = (
                 "{0},\n"
@@ -638,7 +637,7 @@ class Signal(AbstractContinuousFunction):
 
             return representation
         except TypeError:
-            return super(Signal, self).__repr__()
+            return super().__repr__()
 
     def __hash__(self) -> Integer:
         """

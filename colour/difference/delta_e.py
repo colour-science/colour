@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`\\Delta E^*_{ab}` - Delta E Colour Difference
 ====================================================

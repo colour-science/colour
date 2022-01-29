@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Basic and Monitor-Curve Exponent Transfer Functions
 ===================================================

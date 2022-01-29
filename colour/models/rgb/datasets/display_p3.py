@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Display P3 Colourspace
 ======================

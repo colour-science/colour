@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE Illuminant D Series :math:`S_n(\\lambda)` Distributions
 ===========================================================

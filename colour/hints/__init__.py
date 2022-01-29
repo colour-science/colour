@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Annotation Type Hints
 =====================
@@ -242,12 +241,12 @@ LiteralWarning = Literal[
 cast = cast
 
 
-def arraylike(a: Union[ArrayLike, NestedSequence[ArrayLike]]) -> NDArray:
+def arraylike(a: ArrayLike | NestedSequence[ArrayLike]) -> NDArray:
     ...
 
 
 def number_or_arraylike(
-    a: Union[NumberOrArrayLike, NestedSequence[ArrayLike]]
+    a: NumberOrArrayLike | NestedSequence[ArrayLike],
 ) -> NDArray:
     ...
 

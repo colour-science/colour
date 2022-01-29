@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 RGB Display Primaries
 =====================
@@ -102,6 +101,6 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
         labels: Optional[Sequence] = None,
         **kwargs: Any
     ):
-        super(RGB_DisplayPrimaries, self).__init__(
+        super().__init__(
             data, domain, labels=("red", "green", "blue"), **kwargs
         )

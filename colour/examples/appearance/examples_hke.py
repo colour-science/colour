@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases Helmholtz—Kohlrausch effect estimation computations.
 """
@@ -20,7 +19,7 @@ swatches = [
 ]
 swatches_XYZ = []
 for patch in swatches:
-    in_XYZ = colour.Luv_to_XYZ((colour.uv_to_Luv(patch)))
+    in_XYZ = colour.Luv_to_XYZ(colour.uv_to_Luv(patch))
     swatches_XYZ.append(in_XYZ * (average_luminance / in_XYZ[1]))
 
 # Adapting Luminance, 250 cd/m^2 represents a typical modern computer

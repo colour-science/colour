@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Luminous Efficiency Functions Spectral Distributions
 ====================================================
@@ -601,7 +600,7 @@ def sd_mesopic_luminous_efficiency_function(
             wavelengths, L_p, source, method, photopic_lef, scotopic_lef
         ),
         wavelengths,
-        name="{0} Lp Mesopic Luminous Efficiency Function".format(L_p),
+        name=f"{L_p} Lp Mesopic Luminous Efficiency Function",
     )
 
     return sd.normalise()

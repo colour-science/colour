@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases colour models plotting examples.
 """
@@ -33,7 +32,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
 print("\n")
 
 message_box(
-    ('Plotting "RGB" colourspaces in ' '"CIE 1960 UCS Chromaticity Diagram".')
+    'Plotting "RGB" colourspaces in ' '"CIE 1960 UCS Chromaticity Diagram".'
 )
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
@@ -43,7 +42,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
 print("\n")
 
 message_box(
-    ('Plotting "RGB" colourspaces in ' '"CIE 1976 UCS Chromaticity Diagram".')
+    'Plotting "RGB" colourspaces in ' '"CIE 1976 UCS Chromaticity Diagram".'
 )
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
@@ -94,10 +93,8 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
 print("\n")
 
 message_box(
-    (
-        'Plotting a single custom "RGB" colourspace in '
-        '"CIE 1931 Chromaticity Diagram".'
-    )
+    'Plotting a single custom "RGB" colourspace in '
+    '"CIE 1931 Chromaticity Diagram".'
 )
 AWFUL_RGB = colour.RGB_Colourspace(
     "Awful RGB",
@@ -118,27 +115,21 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
 print("\n")
 
 message_box(
-    (
-        'Plotting a single "RGB" colourspace encoding colour component '
-        "transfer function."
-    )
+    'Plotting a single "RGB" colourspace encoding colour component '
+    "transfer function."
 )
 plot_single_cctf("ITU-R BT.709")
 
 print("\n")
 
 message_box(
-    (
-        'Plotting multiple "RGB" colourspaces encoding colour component '
-        "transfer functions."
-    )
+    'Plotting multiple "RGB" colourspaces encoding colour component '
+    "transfer functions."
 )
 plot_multi_cctfs(["ITU-R BT.709", "sRGB"])
 
 message_box(
-    (
-        'Plotting multiple "RGB" colourspaces decoding colour component '
-        "transfer functions."
-    )
+    'Plotting multiple "RGB" colourspaces decoding colour component '
+    "transfer functions."
 )
 plot_multi_cctfs(["ACES2065-1", "ProPhoto RGB"], cctf_decoding=True)

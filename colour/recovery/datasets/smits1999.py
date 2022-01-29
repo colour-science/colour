@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Smits (1999) - Reflectance Recovery Dataset
 ===========================================

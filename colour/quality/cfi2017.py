@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE 2017 Colour Fidelity Index
 ==============================
@@ -96,7 +95,7 @@ RESOURCES_DIRECTORY_CIE2017: str = os.path.join(
 """
 
 _CACHE_TCS_CIE2017: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_TCS_CIE2017".format(__name__)
+    f"{__name__}._CACHE_TCS_CIE2017"
 )
 
 
@@ -291,7 +290,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
         "Spectral shape interval must be either 1nm or 5nm!",
     )
 
-    filename = "tcs_cfi2017_{0}_nm.csv.gz".format(as_int_scalar(interval))
+    filename = f"tcs_cfi2017_{as_int_scalar(interval)}_nm.csv.gz"
 
     if filename in _CACHE_TCS_CIE2017:
         return _CACHE_TCS_CIE2017[filename]
@@ -299,7 +298,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
     data = np.genfromtxt(
         str(os.path.join(RESOURCES_DIRECTORY_CIE2017, filename)), delimiter=","
     )
-    labels = ["TCS{0} (CIE 2017)".format(i) for i in range(99)]
+    labels = [f"TCS{i} (CIE 2017)" for i in range(99)]
 
     tcs = MultiSpectralDistributions(data[:, 1:], data[:, 0], labels)
 
@@ -409,8 +408,10 @@ def sd_reference_illuminant(
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
         values = linstep_function(m, sd_planckian.values, sd_daylight.values)
-        name = "{0}K Blackbody & CIE Illuminant D Series Mixture - {1:.1f}%".format(
-            as_int_scalar(CCT), as_float_scalar(100 * m)
+        name = (
+            "{}K Blackbody & CIE Illuminant D Series Mixture - {:.1f}%".format(
+                as_int_scalar(CCT), as_float_scalar(100 * m)
+            )
         )
         sd_reference = SpectralDistribution(values, shape.range(), name=name)
     elif CCT > 5000:

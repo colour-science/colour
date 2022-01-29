@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Zhai and Luo (2018) Chromatic Adaptation Model
 ==============================================

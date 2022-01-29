@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .datasets import (
     MUNSELL_COLOURS_ALL,
     MUNSELL_COLOURS_1929,

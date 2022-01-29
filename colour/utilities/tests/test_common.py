@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.utilities.common` module.
 """
@@ -288,7 +287,7 @@ class TestIsString(unittest.TestCase):
         Tests :func:`colour.utilities.common.is_string` definition.
         """
 
-        self.assertTrue(is_string(str("Hello World!")))
+        self.assertTrue(is_string("Hello World!"))
 
         self.assertTrue(is_string("Hello World!"))
 

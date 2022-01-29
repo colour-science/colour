@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`\\Delta E_{99}` DIN99 - Colour Difference Formula
 ========================================================

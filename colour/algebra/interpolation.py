@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Interpolation
 =============
@@ -592,7 +591,7 @@ class KernelInterpolator:
 
         attest(
             hasattr(value, "__call__"),
-            '"{0}" property: "{1}" is not callable!'.format("kernel", value),
+            '"{}" property: "{}" is not callable!'.format("kernel", value),
         )
 
         self._kernel = value
@@ -623,7 +622,7 @@ class KernelInterpolator:
 
         attest(
             isinstance(value, dict),
-            '"{0}" property: "{1}" type is not "dict"!'.format(
+            '"{}" property: "{}" type is not "dict"!'.format(
                 "kernel_kwargs", value
             ),
         )
@@ -656,7 +655,7 @@ class KernelInterpolator:
 
         attest(
             isinstance(value, Mapping),
-            '"{0}" property: "{1}" type is not a "Mapping" instance!'.format(
+            '"{}" property: "{}" type is not a "Mapping" instance!'.format(
                 "padding_kwargs", value
             ),
         )
@@ -723,7 +722,7 @@ class KernelInterpolator:
                 x[:, np.newaxis] / x_interval
                 - windows
                 - min(self._x_p) / x_interval,
-                **self._kernel_kwargs
+                **self._kernel_kwargs,
             ),
             axis=-1,
         )
@@ -737,7 +736,7 @@ class KernelInterpolator:
             raise ValueError(
                 (
                     '"x" independent and "y" dependent variables have different '
-                    'dimensions: "{0}", "{1}"'
+                    'dimensions: "{}", "{}"'
                 ).format(len(self._x), len(self._y))
             )
 
@@ -750,10 +749,10 @@ class KernelInterpolator:
         above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError('"{0}" is below interpolation range.'.format(x))
+            raise ValueError(f'"{x}" is below interpolation range.')
 
         if above_interpolation_range.any():
-            raise ValueError('"{0}" is above interpolation range.'.format(x))
+            raise ValueError(f'"{x}" is above interpolation range.')
 
 
 class NearestNeighbourInterpolator(KernelInterpolator):
@@ -786,7 +785,7 @@ class NearestNeighbourInterpolator(KernelInterpolator):
         if "kernel_kwargs" in kwargs:
             del kwargs["kernel_kwargs"]
 
-        super(NearestNeighbourInterpolator, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class LinearInterpolator:
@@ -973,7 +972,7 @@ class LinearInterpolator:
             raise ValueError(
                 (
                     '"x" independent and "y" dependent variables have different '
-                    'dimensions: "{0}", "{1}"'
+                    'dimensions: "{}", "{}"'
                 ).format(len(self._x), len(self._y))
             )
 
@@ -986,10 +985,10 @@ class LinearInterpolator:
         above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError('"{0}" is below interpolation range.'.format(x))
+            raise ValueError(f'"{x}" is below interpolation range.')
 
         if above_interpolation_range.any():
-            raise ValueError('"{0}" is above interpolation range.'.format(x))
+            raise ValueError(f'"{x}" is above interpolation range.')
 
 
 class SpragueInterpolator:
@@ -1318,7 +1317,7 @@ class SpragueInterpolator:
             raise ValueError(
                 (
                     '"x" independent and "y" dependent variables have different '
-                    'dimensions: "{0}", "{1}"'
+                    'dimensions: "{}", "{}"'
                 ).format(len(self._x), len(self._y))
             )
 
@@ -1331,10 +1330,10 @@ class SpragueInterpolator:
         above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError('"{0}" is below interpolation range.'.format(x))
+            raise ValueError(f'"{x}" is below interpolation range.')
 
         if above_interpolation_range.any():
-            raise ValueError('"{0}" is above interpolation range.'.format(x))
+            raise ValueError(f'"{x}" is above interpolation range.')
 
 
 class CubicSplineInterpolator(scipy.interpolate.interp1d):
@@ -1351,9 +1350,7 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
 
     def __init__(self, *args: Any, **kwargs: Any):
-        super(CubicSplineInterpolator, self).__init__(
-            kind="cubic", *args, **kwargs
-        )
+        super().__init__(kind="cubic", *args, **kwargs)
 
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):
@@ -1376,7 +1373,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     """
 
     def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any):
-        super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
+        super().__init__(x, y, *args, **kwargs)
 
         self._y: NDArray = as_float_array(y)
 
@@ -1695,7 +1692,7 @@ class NullInterpolator:
             raise ValueError(
                 (
                     '"x" independent and "y" dependent variables have different '
-                    'dimensions: "{0}", "{1}"'
+                    'dimensions: "{}", "{}"'
                 ).format(len(self._x), len(self._y))
             )
 
@@ -1708,10 +1705,10 @@ class NullInterpolator:
         above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
-            raise ValueError('"{0}" is below interpolation range.'.format(x))
+            raise ValueError(f'"{x}" is below interpolation range.')
 
         if above_interpolation_range.any():
-            raise ValueError('"{0}" is above interpolation range.'.format(x))
+            raise ValueError(f'"{x}" is above interpolation range.')
 
 
 def lagrange_coefficients(r: Floating, n: Integer = 4) -> NDArray:
@@ -1907,7 +1904,7 @@ def table_interpolation_trilinear(
     vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
 
     vertices = np.moveaxis(vertices, 0, 1)
-    x, y, z = [f[:, np.newaxis] for f in tsplit(V_xyzr)]
+    x, y, z = (f[:, np.newaxis] for f in tsplit(V_xyzr))
 
     weights = np.moveaxis(
         np.transpose(
@@ -1981,7 +1978,7 @@ def table_interpolation_tetrahedral(
 
     vertices = np.moveaxis(vertices, 0, -1)
     V000, V001, V010, V011, V100, V101, V110, V111 = tsplit(vertices)
-    x, y, z = [r[:, np.newaxis] for r in tsplit(V_xyzr)]
+    x, y, z = (r[:, np.newaxis] for r in tsplit(V_xyzr))
 
     xyz_o = np.select(
         [

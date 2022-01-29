@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases colour correction computations.
 """
@@ -68,12 +67,10 @@ M_R = np.array(
 )
 
 message_box(
-    (
-        'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
-        'colour rendition chart to a "M_R" one using '
-        '"Cheung, Westland, Connah and Ripamonti (2004)" method '
-        "with 3 terms polynomial."
-    )
+    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'colour rendition chart to a "M_R" one using '
+    '"Cheung, Westland, Connah and Ripamonti (2004)" method '
+    "with 3 terms polynomial."
 )
 
 print(colour.characterisation.matrix_colour_correction_Cheung2004(M_T, M_R))
@@ -82,12 +79,10 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Cheung 2004"))
 print("\n")
 
 message_box(
-    (
-        'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
-        'colour rendition chart to a "M_R" one using '
-        '"Cheung, Westland, Connah and Ripamonti (2004)" method '
-        "with 7 terms polynomial."
-    )
+    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'colour rendition chart to a "M_R" one using '
+    '"Cheung, Westland, Connah and Ripamonti (2004)" method '
+    "with 7 terms polynomial."
 )
 
 print(colour.characterisation.matrix_colour_correction_Cheung2004(M_T, M_R, 7))
@@ -96,12 +91,10 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Cheung 2004", terms=7))
 print("\n")
 
 message_box(
-    (
-        'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
-        'colour rendition chart to a "M_R" one using '
-        '"Finlayson, MacKiewicz and Hurlbert (2015)" method '
-        "with polynomial of degree 1."
-    )
+    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'colour rendition chart to a "M_R" one using '
+    '"Finlayson, MacKiewicz and Hurlbert (2015)" method '
+    "with polynomial of degree 1."
 )
 
 print(colour.characterisation.matrix_colour_correction_Finlayson2015(M_T, M_R))
@@ -110,12 +103,10 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Finlayson 2015"))
 print("\n")
 
 message_box(
-    (
-        'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
-        'colour rendition chart to a "M_R" one using '
-        '"Finlayson, MacKiewicz and Hurlbert (2015)" method '
-        "with polynomial of degree 3."
-    )
+    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'colour rendition chart to a "M_R" one using '
+    '"Finlayson, MacKiewicz and Hurlbert (2015)" method '
+    "with polynomial of degree 3."
 )
 
 print(
@@ -130,11 +121,9 @@ print(
 print("\n")
 
 message_box(
-    (
-        'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
-        'colour rendition chart to a "M_R" one using '
-        '"Vandermonde" method with polynomial of degree 1.'
-    )
+    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'colour rendition chart to a "M_R" one using '
+    '"Vandermonde" method with polynomial of degree 1.'
 )
 
 print(colour.characterisation.matrix_colour_correction_Vandermonde(M_T, M_R))
@@ -143,11 +132,9 @@ print(colour.matrix_colour_correction(M_T, M_R, method="Vandermonde"))
 print("\n")
 
 message_box(
-    (
-        'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
-        'colour rendition chart to a "M_R" one using '
-        '"Vandermonde" method with polynomial of degree 3.'
-    )
+    'Computing the colour correction matrix correcting a "M_T" "ColorChecker"'
+    'colour rendition chart to a "M_R" one using '
+    '"Vandermonde" method with polynomial of degree 3.'
 )
 
 print(
@@ -162,12 +149,10 @@ print("\n")
 RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
 message_box(
-    (
-        'Colour correct given "RGB" colourspace array with matrix mapping a '
-        '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
-        '"Cheung, Westland, Connah and Ripamonti (2004)" method with 3 terms '
-        "polynomial."
-    )
+    'Colour correct given "RGB" colourspace array with matrix mapping a '
+    '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
+    '"Cheung, Westland, Connah and Ripamonti (2004)" method with 3 terms '
+    "polynomial."
 )
 
 print(colour.characterisation.colour_correction_Cheung2004(RGB, M_T, M_R))
@@ -176,12 +161,10 @@ print(colour.colour_correction(RGB, M_T, M_R, method="Cheung 2004"))
 print("\n")
 
 message_box(
-    (
-        'Colour correct given "RGB" colourspace array with matrix mapping a '
-        '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
-        '"Cheung, Westland, Connah and Ripamonti (2004)" method with 7 terms '
-        "polynomial."
-    )
+    'Colour correct given "RGB" colourspace array with matrix mapping a '
+    '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
+    '"Cheung, Westland, Connah and Ripamonti (2004)" method with 7 terms '
+    "polynomial."
 )
 
 print(colour.characterisation.colour_correction_Cheung2004(RGB, M_T, M_R, 7))
@@ -190,12 +173,10 @@ print(colour.colour_correction(RGB, M_T, M_R, method="Cheung 2004", terms=7))
 print("\n")
 
 message_box(
-    (
-        'Colour correct given "RGB" colourspace array with matrix mapping a '
-        '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
-        '"Finlayson, MacKiewicz and Hurlbert (2015)" method with polynomial of '
-        "degree 1."
-    )
+    'Colour correct given "RGB" colourspace array with matrix mapping a '
+    '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
+    '"Finlayson, MacKiewicz and Hurlbert (2015)" method with polynomial of '
+    "degree 1."
 )
 
 print(colour.characterisation.colour_correction_Finlayson2015(RGB, M_T, M_R))
@@ -204,12 +185,10 @@ print(colour.colour_correction(RGB, M_T, M_R, method="Finlayson 2015"))
 print("\n")
 
 message_box(
-    (
-        'Colour correct given "RGB" colourspace array with matrix mapping a '
-        '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
-        '"Finlayson, MacKiewicz and Hurlbert (2015)" method with polynomial of '
-        "degree 3."
-    )
+    'Colour correct given "RGB" colourspace array with matrix mapping a '
+    '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
+    '"Finlayson, MacKiewicz and Hurlbert (2015)" method with polynomial of '
+    "degree 3."
 )
 
 print(
@@ -222,11 +201,9 @@ print(
 print("\n")
 
 message_box(
-    (
-        'Colour correct given "RGB" colourspace array with matrix mapping a '
-        '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
-        '"Vandermonde" method with polynomial of degree 1.'
-    )
+    'Colour correct given "RGB" colourspace array with matrix mapping a '
+    '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
+    '"Vandermonde" method with polynomial of degree 1.'
 )
 
 print(colour.characterisation.colour_correction_Vandermonde(RGB, M_T, M_R))
@@ -235,11 +212,9 @@ print(colour.colour_correction(RGB, M_T, M_R, method="Vandermonde"))
 print("\n")
 
 message_box(
-    (
-        'Colour correct given "RGB" colourspace array with matrix mapping a '
-        '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
-        '"Vandermonde" method with polynomial of degree 3.'
-    )
+    'Colour correct given "RGB" colourspace array with matrix mapping a '
+    '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
+    '"Vandermonde" method with polynomial of degree 3.'
 )
 print(colour.characterisation.colour_correction_Vandermonde(RGB, M_T, M_R, 3))
 print(colour.colour_correction(RGB, M_T, M_R, method="Vandermonde", degree=3))

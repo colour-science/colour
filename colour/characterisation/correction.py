@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Correction
 =================
@@ -155,8 +154,8 @@ def matrix_augmented_Cheung2004(
     if closest_terms != terms:
         raise ValueError(
             '"Cheung et al. (2004)" method does not define '
-            "an augmented matrix with {0} terms, "
-            "closest augmented matrix has {1} terms!".format(
+            "an augmented matrix with {} terms, "
+            "closest augmented matrix has {} terms!".format(
                 terms, closest_terms
             )
         )
@@ -415,8 +414,8 @@ def polynomial_expansion_Finlayson2015(
     if closest_degree != degree:
         raise ValueError(
             '"Finlayson et al. (2015)" method does not define '
-            "a polynomial expansion for {0} degree, "
-            "closest polynomial expansion is {1} degree!".format(
+            "a polynomial expansion for {} degree, "
+            "closest polynomial expansion is {} degree!".format(
                 degree, closest_degree
             )
         )

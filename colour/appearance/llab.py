@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`LLAB(l:c)` Colour Appearance Model
 =========================================

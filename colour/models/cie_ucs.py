@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE 1960 UCS Colourspace
 ========================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE L*a*b* Colourspace
 ======================

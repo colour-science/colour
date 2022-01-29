@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Colour Fidelity Index* (CFI) computations.
 """
@@ -34,10 +33,8 @@ print(
 print("\n")
 
 message_box(
-    (
-        'Computing "F2" illuminant "Colour Fidelity Index" (CFI) with '
-        "detailed output data."
-    )
+    'Computing "F2" illuminant "Colour Fidelity Index" (CFI) with '
+    "detailed output data."
 )
 pprint(
     colour.colour_fidelity_index(

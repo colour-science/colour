@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Pointer's Gamut Volume Computations
 ===================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Corresponding Chromaticities Prediction Plotting
 ================================================
@@ -54,7 +53,7 @@ def plot_corresponding_chromaticities_prediction(
         str,
     ] = "Von Kries",
     corresponding_chromaticities_prediction_kwargs: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given chromatic adaptation model corresponding chromaticities
@@ -105,12 +104,12 @@ Plot_Corresponding_Chromaticities_Prediction.png
     _figure, axes = artist(**settings)
 
     name = (
-        "Experiment {0}".format(experiment)
+        f"Experiment {experiment}"
         if is_numeric(experiment)
         else experiment.name  # type: ignore[union-attr]
     )
     title = (
-        "Corresponding Chromaticities Prediction - {0} - {1} - "
+        "Corresponding Chromaticities Prediction - {} - {} - "
         "CIE 1976 UCS Chromaticity Diagram"
     ).format(model, name)
 

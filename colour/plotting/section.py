@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Gamut Section Plotting
 ======================
@@ -134,7 +133,7 @@ def plot_hull_section_colours(
     section_opacity: Floating = 1,
     convert_kwargs: Optional[Dict] = None,
     samples: Integer = 256,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the section colours of given *trimesh* hull along given axis and
@@ -270,7 +269,7 @@ def plot_hull_section_colours(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
             "CIE XYZ",
-            **convert_kwargs
+            **convert_kwargs,
         )
         RGB_section = XYZ_to_plotting_colourspace(XYZ_section)
     else:
@@ -339,7 +338,7 @@ def plot_hull_section_contour(
     contour_colours: Optional[Union[ArrayLike, str]] = None,
     contour_opacity: Floating = 1,
     convert_kwargs: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the section contour of given *trimesh* hull along given axis and
@@ -449,7 +448,7 @@ def plot_hull_section_contour(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
             "CIE XYZ",
-            **convert_kwargs
+            **convert_kwargs,
         )
         contour_colours = np.clip(
             XYZ_to_plotting_colourspace(XYZ_section), 0, 1
@@ -515,7 +514,7 @@ def plot_visible_spectrum_section(
     normalise: Boolean = True,
     show_section_colours: Boolean = True,
     show_section_contour: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the visible spectrum volume, i.e. *Rösch-MacAdam* colour solid,
@@ -616,8 +615,8 @@ def plot_visible_spectrum_section(
             hull, model, axis, origin, normalise, **settings
         )
 
-    title = "Visible Spectrum Section - {0} - {1} - {2}".format(
-        "{0}%".format(origin * 100) if normalise else origin,
+    title = "Visible Spectrum Section - {} - {} - {}".format(
+        f"{origin * 100}%" if normalise else origin,
         model,
         cmfs.strict_name,
     )
@@ -683,7 +682,7 @@ def plot_RGB_colourspace_section(
     normalise: Boolean = True,
     show_section_colours: Boolean = True,
     show_section_contour: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspace section colours along given axis and origin.
@@ -775,9 +774,9 @@ def plot_RGB_colourspace_section(
             hull, model, axis, origin, normalise, **settings
         )
 
-    title = "{0} Section - {1} - {2}".format(
+    title = "{} Section - {} - {}".format(
         colourspace.name,
-        "{0}%".format(origin * 100) if normalise else origin,
+        f"{origin * 100}%" if normalise else origin,
         model,
     )
 

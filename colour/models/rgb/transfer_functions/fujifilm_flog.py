@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Fujifilm F-Log Log Encoding
 ===========================

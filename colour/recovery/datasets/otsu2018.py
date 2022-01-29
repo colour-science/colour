@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Otsu et al. (2018) - Reflectance Recovery
 =========================================

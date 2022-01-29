@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Cinespace .csp LUT Format Input / Output Utilities
 ==================================================
@@ -117,7 +116,7 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
         Parses the domain at given lines.
         """
 
-        pre_LUT_size = max([int(lines[i]) for i in [0, 3, 6]])
+        pre_LUT_size = max(int(lines[i]) for i in [0, 3, 6])
         pre_LUT = [
             as_float_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]
         ]
@@ -215,8 +214,8 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
     elif is_3D:
         pre_domain = tstack((pre_LUT[0], pre_LUT[2], pre_LUT[4]))
         pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
-        shaper_name = "{0} - Shaper".format(title)
-        cube_name = "{0} - Cube".format(title)
+        shaper_name = f"{title} - Shaper"
+        cube_name = f"{title} - Cube"
         table = table.reshape([size[0], size[1], size[2], 3], order="F")
 
         LUT = LUTSequence(
@@ -236,8 +235,8 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
             LUT = LUT3x1D(pre_table, title, pre_domain, comments=comments)
         else:
-            pre_name = "{0} - PreLUT".format(title)
-            table_name = "{0} - Table".format(title)
+            pre_name = f"{title} - PreLUT"
+            table_name = f"{title} - Table"
 
             LUT = LUTSequence(
                 LUT3x1D(pre_table, pre_name, pre_domain),
@@ -308,7 +307,7 @@ def write_LUT_Cinespace(
         LUT[0] = (
             LUT[0].as_LUT(LUT3x1D) if isinstance(LUT[0], LUT1D) else LUT[0]
         )
-        name = "{0} - {1}".format(LUT[0].name, LUT[1].name)
+        name = f"{LUT[0].name} - {LUT[1].name}"
         has_3x1D = True
         has_3D = True
 
@@ -377,15 +376,15 @@ def write_LUT_Cinespace(
             csp_file.write("1D\n\n")
 
         csp_file.write("BEGIN METADATA\n")
-        csp_file.write("{0}\n".format(name))
+        csp_file.write(f"{name}\n")
 
         if LUT[0].comments:
             for comment in LUT[0].comments:
-                csp_file.write("{0}\n".format(comment))
+                csp_file.write(f"{comment}\n")
 
         if LUT[1].comments:
             for comment in LUT[1].comments:
-                csp_file.write("{0}\n".format(comment))
+                csp_file.write(f"{comment}\n")
 
         csp_file.write("END METADATA\n\n")
 
@@ -398,7 +397,7 @@ def write_LUT_Cinespace(
                         else LUT[0].size
                     )
 
-                    csp_file.write("{0}\n".format(size))
+                    csp_file.write(f"{size}\n")
 
                     for j in range(size):
                         entry = (
@@ -425,7 +424,7 @@ def write_LUT_Cinespace(
                 for i in range(3):
                     csp_file.write("2\n")
                     csp_file.write(
-                        "{0}\n".format(
+                        "{}\n".format(
                             _format_tuple(
                                 [LUT[1].domain[0][i], LUT[1].domain[1][i]]
                             )
@@ -436,7 +435,7 @@ def write_LUT_Cinespace(
                     )
 
             csp_file.write(
-                "\n{0} {1} {2}\n".format(
+                "\n{} {} {}\n".format(
                     LUT[1].table.shape[0],
                     LUT[1].table.shape[1],
                     LUT[1].table.shape[2],
@@ -445,22 +444,22 @@ def write_LUT_Cinespace(
             table = LUT[1].table.reshape([-1, 3], order="F")
 
             for row in table:
-                csp_file.write("{0}\n".format(_format_array(row)))
+                csp_file.write(f"{_format_array(row)}\n")
         else:
             for i in range(3):
                 csp_file.write("2\n")
                 csp_file.write(
-                    "{0}\n".format(
+                    "{}\n".format(
                         _format_tuple(
                             [LUT[0].domain[0][i], LUT[0].domain[1][i]]
                         )
                     )
                 )
                 csp_file.write("0.0 1.0\n")
-            csp_file.write("\n{0}\n".format(LUT[0].size))
+            csp_file.write(f"\n{LUT[0].size}\n")
             table = LUT[0].table
 
             for row in table:
-                csp_file.write("{0}\n".format(_format_array(row)))
+                csp_file.write(f"{_format_array(row)}\n")
 
     return True

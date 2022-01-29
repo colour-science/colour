@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Hunt* colour appearance model computations.
 """
@@ -18,13 +17,11 @@ L_A = 318.31
 surround = colour.VIEWING_CONDITIONS_HUNT["Normal Scenes"]
 CCT_w = 6504.0
 message_box(
-    (
-        'Converting to "Hunt" colour appearance model '
-        "specification using given parameters:\n"
-        "\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tXYZ_b: {2}\n\tL_A: {3}"
-        "\n\tsurround: {4}\n\tCCT_w: {5}".format(
-            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w
-        )
+    'Converting to "Hunt" colour appearance model '
+    "specification using given parameters:\n"
+    "\n\tXYZ: {}\n\tXYZ_w: {}\n\tXYZ_b: {}\n\tL_A: {}"
+    "\n\tsurround: {}\n\tCCT_w: {}".format(
+        XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w
     )
 )
 
@@ -36,15 +33,13 @@ print(specification)
 print("\n")
 
 message_box(
-    (
-        'Broadcasting current output "Hunt" colour appearance '
-        "model specification to the reference specification.\n"
-        "The intent of this reference specification is to provide names "
-        'as closest as possible to "Mark D. Fairchild" reference.\n'
-        "The current output specification is meant to be consistent with "
-        "the other colour appearance model specification by using same "
-        "argument names for consistency wherever possible."
-    )
+    'Broadcasting current output "Hunt" colour appearance '
+    "model specification to the reference specification.\n"
+    "The intent of this reference specification is to provide names "
+    'as closest as possible to "Mark D. Fairchild" reference.\n'
+    "The current output specification is meant to be consistent with "
+    "the other colour appearance model specification by using same "
+    "argument names for consistency wherever possible."
 )
 
 print(CAM_ReferenceSpecification_Hunt(*specification.values))

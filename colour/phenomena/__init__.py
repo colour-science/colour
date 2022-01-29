@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .rayleigh import (
     scattering_cross_section,
     rayleigh_optical_depth,

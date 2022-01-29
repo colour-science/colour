@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Hexadecimal Notation
 ====================
@@ -85,7 +84,7 @@ def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
 
         RGB = eotf_inverse_sRGB(normalise_maximum(eotf_sRGB(RGB)))
 
-    to_HEX = np.vectorize("{0:02x}".format)
+    to_HEX = np.vectorize("{:02x}".format)
 
     HEX = to_HEX(as_int_array(RGB * 255, dtype=np.uint8)).astype(object)
     HEX = np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]

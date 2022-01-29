@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Optical Phenomenon Plotting
 ===========================
@@ -202,7 +201,7 @@ def plot_the_blue_sky(
     settings: Dict[str, Any] = {
         "axes": axes,
         "title": "The Blue Sky - Synthetic Spectral Distribution",
-        "y_label": u"W / m-2 / nm-1",
+        "y_label": "W / m-2 / nm-1",
     }
     settings.update(kwargs)
     settings["standalone"] = False

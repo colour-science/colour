@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.utilities.data_structures` module.
 """
@@ -283,7 +282,7 @@ CaseInsensitiveMapping.__iter__` method.
 
         mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
         self.assertListEqual(
-            sorted([item for item in mapping]), ["Jane", "John"]
+            sorted(item for item in mapping), ["Jane", "John"]
         )
 
     def test__len__(self):
@@ -371,7 +370,7 @@ CaseInsensitiveMapping.lower_items` method.
         mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
 
         self.assertListEqual(
-            sorted([item for item in mapping.lower_items()]),
+            sorted(item for item in mapping.lower_items()),
             [("jane", "Doe"), ("john", "Doe")],
         )
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from __future__ import annotations
 
 from colour.utilities import CaseInsensitiveMapping
@@ -74,11 +72,9 @@ from colour.models.rgb import RGB_Colourspace
 RGB_COLOURSPACES: CaseInsensitiveMapping = CaseInsensitiveMapping(
     dict(
         sorted(
-            [
-                (colourspace.name, colourspace)
-                for colourspace in locals().values()
-                if isinstance(colourspace, RGB_Colourspace)
-            ]
+            (colourspace.name, colourspace)
+            for colourspace in locals().values()
+            if isinstance(colourspace, RGB_Colourspace)
         )
     )
 )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
@@ -36,12 +35,12 @@ __all__ = [
 ]
 
 _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ".format(__name__)
+    f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ"
 )
 
 _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = (
     CACHE_REGISTRY.register_cache(
-        "{0}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS".format(__name__)
+        f"{__name__}._CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS"
     )
 )
 
@@ -74,8 +73,8 @@ def _XYZ_optimal_colour_stimuli(
 
     if optimal_colour_stimuli is None:
         raise KeyError(
-            '"{0}" not found in factory '
-            '"Optimal Colour Stimuli": "{1}".'.format(
+            '"{}" not found in factory '
+            '"Optimal Colour Stimuli": "{}".'.format(
                 illuminant, sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())
             )
         )

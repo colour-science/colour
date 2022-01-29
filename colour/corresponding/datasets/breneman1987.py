@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Breneman Corresponding Chromaticities Dataset
 =============================================
@@ -84,7 +83,7 @@ class BrenemanExperimentResult(
 BrenemanExperimentResult` class.
         """
 
-        return super(BrenemanExperimentResult, cls).__new__(
+        return super().__new__(
             cls,
             name,
             np.array(uv_t),
@@ -129,7 +128,7 @@ class PrimariesChromaticityCoordinates(
 PrimariesChromaticityCoordinates` class.
         """
 
-        return super(PrimariesChromaticityCoordinates, cls).__new__(
+        return super().__new__(
             cls,
             experiment,
             np.array(illuminants),

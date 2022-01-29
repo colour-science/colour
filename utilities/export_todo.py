@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Export TODOs
 ============
@@ -112,11 +111,9 @@ def export_todo_items(todo_items: OrderedDict, file_path: str):
 
     todo_rst = []
     for module, todo_items in todo_items.items():
-        todo_rst.append("-   {0}\n".format(module))
+        todo_rst.append(f"-   {module}\n")
         for line_numer, todo_item in todo_items:
-            todo_rst.append(
-                "    -   Line {0} : {1}".format(line_numer, todo_item)
-            )
+            todo_rst.append(f"    -   Line {line_numer} : {todo_item}")
 
         todo_rst.append("\n")
 

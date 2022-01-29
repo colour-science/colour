@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Academy Color Encoding System - Input Transform
 ===============================================
@@ -386,7 +385,7 @@ def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
             CCT = i * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
             sd = sd_CIE_illuminant_D_series(xy)
-            sd.name = "D{0:d}".format(int(CCT / 100))
+            sd.name = f"D{int(CCT / 100):d}"
             illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
 
         # TODO: Remove when removing the "colour.sd_blackbody" definition
@@ -449,7 +448,7 @@ def white_balance_multipliers(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(
+            'Aligning "{}" illuminant shape to "{}".'.format(
                 illuminant.name, shape
             )
         )
@@ -554,7 +553,7 @@ def normalise_illuminant(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(
+            'Aligning "{}" illuminant shape to "{}".'.format(
                 illuminant.name, shape
             )
         )
@@ -615,7 +614,7 @@ def training_data_sds_to_RGB(
     shape = sensitivities.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(
+            'Aligning "{}" illuminant shape to "{}".'.format(
                 illuminant.name, shape
             )
         )
@@ -623,7 +622,7 @@ def training_data_sds_to_RGB(
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{0}" training data shape to "{1}".'.format(
+            'Aligning "{}" training data shape to "{}".'.format(
                 training_data.name, shape
             )
         )
@@ -711,7 +710,7 @@ def training_data_sds_to_XYZ(
     shape = cmfs.shape
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}".'.format(
+            'Aligning "{}" illuminant shape to "{}".'.format(
                 illuminant.name, shape
             )
         )
@@ -719,7 +718,7 @@ def training_data_sds_to_XYZ(
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{0}" training data shape to "{1}".'.format(
+            'Aligning "{}" training data shape to "{}".'.format(
                 training_data.name, shape
             )
         )
@@ -965,7 +964,7 @@ def matrix_idt(
     shape = cmfs.shape
     if sensitivities.shape != shape:
         runtime_warning(
-            'Aligning "{0}" sensitivities shape to "{1}".'.format(
+            'Aligning "{}" sensitivities shape to "{}".'.format(
                 sensitivities.name, shape
             )
         )
@@ -974,7 +973,7 @@ def matrix_idt(
 
     if training_data.shape != shape:
         runtime_warning(
-            'Aligning "{0}" training data shape to "{1}".'.format(
+            'Aligning "{}" training data shape to "{}".'.format(
                 training_data.name, shape
             )
         )
@@ -1006,7 +1005,7 @@ def matrix_idt(
         objective_function,
         np.ravel(np.identity(3)),
         (RGB, XYZ_to_optimization_colour_model(XYZ)),
-        **optimisation_settings
+        **optimisation_settings,
     ).x.reshape([3, 3])
 
     if additional_data:

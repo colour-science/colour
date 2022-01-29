@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Robertson (1968) Correlated Colour Temperature
 ==============================================

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .spectrum import (
     SpectralShape,
     SPECTRAL_SHAPE_DEFAULT,

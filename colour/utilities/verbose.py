@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Verbose
 =======
@@ -229,7 +228,7 @@ def show_warning(
         traceback.print_stack(frame, frame_out, file)
 
         file.write(formatwarning(message, category, filename, lineno, line))
-    except (IOError, UnicodeError):
+    except (OSError, UnicodeError):
         pass
 
 
@@ -509,7 +508,7 @@ def describe_environment(
     development_packages: Boolean = False,
     extras_packages: Boolean = False,
     print_environment: Boolean = True,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> defaultdict:
     """
     Describes *Colour* running environment, i.e. interpreter, runtime and
@@ -740,7 +739,7 @@ def describe_environment(
         environment["Extras"].update(ANCILLARY_EXTRAS_PACKAGES)
 
     if print_environment:
-        message = str()
+        message = ""
         for category in (
             "Interpreter",
             "colour-science.org",
@@ -752,13 +751,13 @@ def describe_environment(
             if not elements:
                 continue
 
-            message += "{0} :\n".format(category)
+            message += f"{category} :\n"
             for key, value in elements.items():
                 lines = value.split("\n")
-                message += "    {0} : {1}\n".format(key, lines.pop(0))
-                indentation = len("    {0} : ".format(key))
+                message += f"    {key} : {lines.pop(0)}\n"
+                indentation = len(f"    {key} : ")
                 for line in lines:
-                    message += "{0}{1}\n".format(" " * indentation, line)
+                    message += "{}{}\n".format(" " * indentation, line)
 
             message += "\n"
 

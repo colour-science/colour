@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Kim, Weyrich and Kautz (2009) Colour Appearance Model
 =====================================================
@@ -144,7 +143,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
         :class:`colour.appearance.MediaParameters_Kim2009` class.
         """
 
-        return super(MediaParameters_Kim2009, cls).__new__(cls, E)
+        return super().__new__(cls, E)
 
 
 MEDIA_PARAMETERS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Distributions of the Light Sources
 ===========================================

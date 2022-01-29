@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================

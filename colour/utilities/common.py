@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Common Utilities
 ================
@@ -155,7 +154,7 @@ class CacheRegistry:
 
         return pformat(
             {
-                name: "{0} item(s)".format(len(self._registry[name]))
+                name: f"{len(self._registry[name])} item(s)"
                 for name in sorted(self._registry)
             }
         )
@@ -585,7 +584,7 @@ def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
             raise ImportError(
                 (
                     '"Matplotlib" related API features are not available: '
-                    '"{0}".\nSee the installation guide for more information: '
+                    '"{}".\nSee the installation guide for more information: '
                     "https://www.colour-science.org/installation-guide/"
                 ).format(error)
             )
@@ -622,7 +621,7 @@ def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
             raise ImportError(
                 (
                     '"NetworkX" related API features, e.g. the automatic colour '
-                    'conversion graph, are not available: "{0}".\nPlease refer '
+                    'conversion graph, are not available: "{}".\nPlease refer '
                     "to the installation guide for more information: "
                     "https://www.colour-science.org/installation-guide/"
                 ).format(error)
@@ -660,7 +659,7 @@ def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
             raise ImportError(
                 (
                     '"OpenColorIO" related API features are not available: '
-                    '"{0}".\nSee the installation guide for more information: '
+                    '"{}".\nSee the installation guide for more information: '
                     "https://www.colour-science.org/installation-guide/"
                 ).format(error)
             )
@@ -697,7 +696,7 @@ def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
             raise ImportError(
                 (
                     '"OpenImageIO" related API features are not available: '
-                    '"{0}".\nSee the installation guide for more information: '
+                    '"{}".\nSee the installation guide for more information: '
                     "https://www.colour-science.org/installation-guide/"
                 ).format(error)
             )
@@ -733,7 +732,7 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
         if raise_exception:
             raise ImportError(
                 (
-                    '"Pandas" related API features are not available: "{0}".\n'
+                    '"Pandas" related API features are not available: "{}".\n'
                     "See the installation guide for more information: "
                     "https://www.colour-science.org/installation-guide/"
                 ).format(error)
@@ -772,7 +771,7 @@ def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
             raise ImportError(
                 (
                     '"Scikit-Learn" related API features are not available: '
-                    '"{0}".\n'
+                    '"{}".\n'
                     "See the installation guide for more information: "
                     "https://www.colour-science.org/installation-guide/"
                 ).format(error)
@@ -809,7 +808,7 @@ def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
         if raise_exception:
             raise ImportError(
                 (
-                    '"tqdm" related API features are not available: "{0}".\n'
+                    '"tqdm" related API features are not available: "{}".\n'
                     "See the installation guide for more information: "
                     "https://www.colour-science.org/installation-guide/"
                 ).format(error)
@@ -847,7 +846,7 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
             raise ImportError(
                 (
                     '"Trimesh" related API features are not available: '
-                    '"{0}".\nSee the installation guide for more information: '
+                    '"{}".\nSee the installation guide for more information: '
                     "https://www.colour-science.org/installation-guide/"
                 ).format(error)
             )
@@ -1055,7 +1054,7 @@ def is_sibling(element: Any, mapping: Mapping) -> Boolean:
     """
 
     return isinstance(
-        element, tuple(set(type(element) for element in mapping.values()))
+        element, tuple({type(element) for element in mapping.values()})
     )
 
 
@@ -1182,7 +1181,7 @@ def filter_mapping(
         """
 
         if anchors:
-            filterer = "^{0}$".format(filterer)
+            filterer = f"^{filterer}$"
             filterer = filterer.replace("^^", "^").replace("$$", "$")
 
         elements = [

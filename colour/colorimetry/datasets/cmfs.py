@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Multi-Spectral Distributions of the Colour Matching Functions
 =============================================================

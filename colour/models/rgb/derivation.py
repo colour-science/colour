@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 RGB Colourspace Derivation
 ==========================
@@ -271,7 +270,7 @@ def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
     'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 
-    return "Y = {0}(R) + {1}(G) + {2}(B)".format(
+    return "Y = {}(R) + {}(G) + {}(B)".format(
         *np.ravel(normalised_primary_matrix(primaries, whitepoint))[3:6]
     )
 

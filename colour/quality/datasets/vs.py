@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 NIST CQS Test Colour Samples Spectral Distributions
 ===================================================
@@ -2980,10 +2979,10 @@ DATA_VS: Dict = {
 
 SDS_VS: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
-        key: dict(
-            (name, SpectralDistribution(data, name=name))
+        key: {
+            name: SpectralDistribution(data, name=name)
             for name, data in value.items()
-        )
+        }
         for key, value in DATA_VS.items()
     }
 )

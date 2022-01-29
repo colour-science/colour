@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE Illuminant D Series Correlated Colour Temperature
 =====================================================
@@ -162,10 +161,8 @@ def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 4000, CCT > 25000))]):
         usage_warning(
-            (
-                "Correlated colour temperature must be in domain "
-                "[4000, 25000], unpredictable results may occur!"
-            )
+            "Correlated colour temperature must be in domain "
+            "[4000, 25000], unpredictable results may occur!"
         )
 
     CCT_3 = CCT ** 3

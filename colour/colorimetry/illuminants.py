@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Illuminants
 ===========
@@ -132,10 +131,8 @@ def sd_CIE_standard_illuminant_A(
         100
         * (560 / wavelengths) ** 5
         * (
-            (
-                (np.exp((1.435 * 10 ** 7) / (2848 * 560)) - 1)
-                / (np.exp((1.435 * 10 ** 7) / (2848 * wavelengths)) - 1)
-            )
+            (np.exp((1.435 * 10 ** 7) / (2848 * 560)) - 1)
+            / (np.exp((1.435 * 10 ** 7) / (2848 * wavelengths)) - 1)
         )
     )
 
@@ -319,7 +316,7 @@ def sd_CIE_illuminant_D_series(
     return SpectralDistribution(
         distribution,
         S0.wavelengths,
-        name="CIE xy ({0}, {1}) - CIE Illuminant D Series".format(*xy),
+        name="CIE xy ({}, {}) - CIE Illuminant D Series".format(*xy),
         interpolator=LinearInterpolator,
     )
 

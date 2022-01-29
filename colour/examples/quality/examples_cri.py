@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Colour Rendering Index* (CRI) computations.
 """
@@ -16,10 +15,8 @@ print(colour.colour_rendering_index(colour.SDS_ILLUMINANTS["FL2"]))
 print("\n")
 
 message_box(
-    (
-        'Computing "F2" illuminant "Colour Rendering Index" (CRI) with '
-        "detailed output data."
-    )
+    'Computing "F2" illuminant "Colour Rendering Index" (CRI) with '
+    "detailed output data."
 )
 pprint(
     colour.colour_rendering_index(

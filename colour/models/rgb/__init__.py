@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .derivation import (
     normalised_primary_matrix,
     chromatically_adapted_primaries,

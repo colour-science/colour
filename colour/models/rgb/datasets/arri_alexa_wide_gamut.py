@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ARRI ALEXA Wide Gamut Colourspace
 =================================

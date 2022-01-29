@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 UPRTek and Sekonic Spectral Data
 ================================
@@ -126,7 +125,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     """
 
     def __init__(self, path: str, **kwargs: Any):
-        super(SpectralDistribution_UPRTek, self).__init__(path, **kwargs)
+        super().__init__(path, **kwargs)
 
         self._delimiter: str = "\t"
         self._spectral_section: str = "380"
@@ -342,7 +341,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     """
 
     def __init__(self, path: str, **kwargs: Any):
-        super(SpectralDistribution_Sekonic, self).__init__(path, **kwargs)
+        super().__init__(path, **kwargs)
 
         self._delimiter: str = ","
         self._spectral_section: str = "380"
@@ -409,7 +408,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
          [  7.80000000e+02   3.55755470e-05]]
         """
 
-        super(SpectralDistribution_Sekonic, self).read()
+        super().read()
 
         self.header.report_date = self._metadata.get("Date Saved")
         self.header.manufacturer = "Sekonic"

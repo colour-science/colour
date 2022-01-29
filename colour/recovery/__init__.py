@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 References
 ----------
@@ -523,7 +522,7 @@ __all__ += [
 # ----------------------------------------------------------------------------#
 class recovery(ModuleAPI):
     def __getattr__(self, attribute) -> Any:
-        return super(recovery, self).__getattr__(attribute)
+        return super().__getattr__(attribute)
 
 
 # v0.4.0

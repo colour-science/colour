@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Krystek (1985) Correlated Colour Temperature
 ============================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Blindness Plotting
 =========================
@@ -100,7 +99,7 @@ def plot_cvd_simulation_Machado2009(
 
     settings: Dict[str, Any] = {
         "text_kwargs": {
-            "text": "Deficiency: {0} - Severity: {1}".format(
+            "text": "Deficiency: {} - Severity: {}".format(
                 deficiency, severity
             )
         }

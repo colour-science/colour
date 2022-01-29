@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ANSI/IES TM-30-18 Colour Fidelity Index
 =======================================

@@ -64,6 +64,7 @@ pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
 pytest-cov = { version = "*", optional = true }  # Development dependency.
+pyupgrade = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 scikit-learn = { version = "*", optional = true }
 sphinx = { version = "*", optional = true }  # Development dependency.
@@ -87,6 +88,7 @@ mypy = "*"
 pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
+pyupgrade = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
 sphinx_rtd_theme = "*"
@@ -108,6 +110,7 @@ development = [
     "pre-commit",
     "pytest",
     "pytest-cov",
+    "pyupgrade",
     "restructuredtext-lint",
     "sphinx",
     "sphinx_rtd_theme",

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Smits (1999) - Reflectance Recovery
 ===================================
@@ -164,7 +163,7 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
 
     R, G, B = to_domain_1(RGB)
     sd = white_sd.copy() * 0
-    sd.name = "Smits (1999) - {0!r}".format(RGB)
+    sd.name = f"Smits (1999) - {RGB!r}"
 
     if R <= G and R <= B:
         sd += white_sd * R

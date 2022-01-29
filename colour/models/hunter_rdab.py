@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Hunter Rd,a,b Colour Scale
 ==========================

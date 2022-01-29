@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Munsell Renotation System
 =========================
@@ -228,7 +227,7 @@ __all__ = [
     "munsell_specification_to_xy",
 ]
 
-MUNSELL_GRAY_PATTERN: str = "N(?P<value>{0})".format(
+MUNSELL_GRAY_PATTERN: str = "N(?P<value>{})".format(
     FLOATING_POINT_NUMBER_PATTERN
 )
 MUNSELL_COLOUR_PATTERN: str = (
@@ -265,16 +264,16 @@ CCS_ILLUMINANT_MUNSELL: NDArray = CCS_ILLUMINANTS[
 ][ILLUMINANT_NAME_MUNSELL]
 
 _MUNSELL_SPECIFICATIONS_CACHE: Dict = CACHE_REGISTRY.register_cache(
-    "{0}._MUNSELL_SPECIFICATIONS_CACHE".format(__name__)
+    f"{__name__}._MUNSELL_SPECIFICATIONS_CACHE"
 )
 _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE: Dict = (
     CACHE_REGISTRY.register_cache(
-        "{0}._MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE".format(__name__)
+        f"{__name__}._MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE"
     )
 )
 _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE: Dict = (
     CACHE_REGISTRY.register_cache(
-        "{0}._MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE".format(__name__)
+        f"{__name__}._MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE"
     )
 )
 
@@ -886,14 +885,14 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
 
         attest(
             0 <= hue <= 10,
-            '"{0}" specification hue must be normalised to domain [0, 10]!'.format(
+            '"{}" specification hue must be normalised to domain [0, 10]!'.format(
                 specification
             ),
         )
 
         attest(
             0 <= value <= 10,
-            '"{0}" specification value must be normalised to domain [0, 10]!'.format(
+            '"{}" specification value must be normalised to domain [0, 10]!'.format(
                 specification
             ),
         )
@@ -1082,8 +1081,8 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
     if not is_within_macadam_limits(xyY, ILLUMINANT_NAME_MUNSELL):
         usage_warning(
-            '"{0!r}" is not within "MacAdam" limits for illuminant '
-            '"{1}"!'.format(xyY, ILLUMINANT_NAME_MUNSELL)
+            '"{!r}" is not within "MacAdam" limits for illuminant '
+            '"{}"!'.format(xyY, ILLUMINANT_NAME_MUNSELL)
         )
 
     with domain_range_scale("ignore"):
@@ -1182,10 +1181,8 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
                 # path, it is kept for consistency with the reference
                 # implementation.
                 raise RuntimeError(  # pragma: no cover
-                    (
-                        "Maximum inner iterations count reached without "
-                        "convergence!"
-                    )
+                    "Maximum inner iterations count reached without "
+                    "convergence!"
                 )
 
             hue_angle_inner = (
@@ -1538,7 +1535,7 @@ def parse_munsell_colour(munsell_colour: str) -> NDArray:
 
     raise ValueError(
         (
-            '"{0}" is not a valid "Munsell Renotation System" colour '
+            '"{}" is not a valid "Munsell Renotation System" colour '
             "specification!"
         ).format(munsell_colour)
     )
@@ -1687,21 +1684,21 @@ def munsell_specification_to_munsell_colour(
         hue = round(hue, hue_decimals)
         attest(
             0 <= hue <= 10,
-            '"{0!r}" specification hue must be normalised '
+            '"{!r}" specification hue must be normalised '
             "to domain [0, 10]!".format(specification),
         )
 
         value = round(value, value_decimals)
         attest(
             0 <= value <= 10,
-            '"{0!r}" specification value must be normalised '
+            '"{!r}" specification value must be normalised '
             "to domain [0, 10]!".format(specification),
         )
 
         chroma = round(chroma, chroma_decimals)
         attest(
             2 <= chroma <= 50,
-            '"{0!r}" specification chroma must be normalised '
+            '"{!r}" specification chroma must be normalised '
             "to domain [2, 50]!".format(specification),
         )
 
@@ -1709,7 +1706,7 @@ def munsell_specification_to_munsell_colour(
         code = round(code, 1)
         attest(
             code in code_values,
-            '"{0!r}" specification code must one of "{1}"!'.format(
+            '"{!r}" specification code must one of "{}"!'.format(
                 specification, code_values
             ),
         )
@@ -1768,7 +1765,7 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArray:
     except Exception:
         raise ValueError(
             (
-                '"{0}" specification does not exists in '
+                '"{}" specification does not exists in '
                 '"Munsell Renotation System" data!'
             ).format(specification)
         )
@@ -2050,14 +2047,14 @@ def interpolation_method_from_renotation_ovoid(
 
         attest(
             0 <= value <= 10,
-            '"{0}" specification value must be normalised to domain [0, 10]!'.format(
+            '"{}" specification value must be normalised to domain [0, 10]!'.format(
                 specification
             ),
         )
 
         attest(
             is_integer(value),
-            '"{0}" specification value must be an integer!'.format(
+            '"{}" specification value must be an integer!'.format(
                 specification
             ),
         )
@@ -2066,14 +2063,14 @@ def interpolation_method_from_renotation_ovoid(
 
         attest(
             2 <= chroma <= 50,
-            '"{0}" specification chroma must be normalised to domain [2, 50]!'.format(
+            '"{}" specification chroma must be normalised to domain [2, 50]!'.format(
                 specification
             ),
         )
 
         attest(
             abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
-            '"{0}" specification chroma must be an integer and multiple of 2!'.format(
+            '"{}" specification chroma must be an integer and multiple of 2!'.format(
                 specification
             ),
         )
@@ -2364,14 +2361,14 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
         attest(
             1 <= value <= 9,
-            '"{0}" specification value must be normalised to domain [1, 9]!'.format(
+            '"{}" specification value must be normalised to domain [1, 9]!'.format(
                 specification
             ),
         )
 
         attest(
             is_integer(value),
-            '"{0}" specification value must be an integer!'.format(
+            '"{}" specification value must be an integer!'.format(
                 specification
             ),
         )
@@ -2380,14 +2377,14 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
         attest(
             2 <= chroma <= 50,
-            '"{0}" specification chroma must be normalised to domain [2, 50]!'.format(
+            '"{}" specification chroma must be normalised to domain [2, 50]!'.format(
                 specification
             ),
         )
 
         attest(
             abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
-            '"{0}" specification chroma must be an integer and multiple of 2!'.format(
+            '"{}" specification chroma must be an integer and multiple of 2!'.format(
                 specification
             ),
         )
@@ -2453,7 +2450,7 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
         attest(
             interpolation_method is not None,
-            'Interpolation method must be one of : "{0}"'.format(
+            'Interpolation method must be one of : "{}"'.format(
                 ", ".join(["Linear", "Radial"])
             ),
         )
@@ -2593,7 +2590,7 @@ def maximum_chroma_from_renotation(
 
     attest(
         1 <= value <= 10,
-        '"{0}" value must be normalised to domain [1, 10]!'.format(value),
+        f'"{value}" value must be normalised to domain [1, 10]!',
     )
 
     if value % 1 == 0:
@@ -2684,14 +2681,14 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArray:
 
         attest(
             0 <= value <= 10,
-            '"{0}" specification value must be normalised to domain [0, 10]!'.format(
+            '"{}" specification value must be normalised to domain [0, 10]!'.format(
                 specification
             ),
         )
 
         attest(
             is_integer(value),
-            '"{0}" specification value must be an integer!'.format(
+            '"{}" specification value must be an integer!'.format(
                 specification
             ),
         )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases contrast sensitivity computations.
 """
@@ -18,11 +17,9 @@ message_box("Contrast Sensitivity Computations")
 colour_style()
 
 message_box(
-    (
-        'Computing the contrast sensitivity for a spatial frequency "u" '
-        'of 4, an angular size "X_0" of 60 and a retinal illuminance "E" '
-        'of 65 using "Barten (1999)" method.'
-    )
+    'Computing the contrast sensitivity for a spatial frequency "u" '
+    'of 4, an angular size "X_0" of 60 and a retinal illuminance "E" '
+    'of 65 using "Barten (1999)" method.'
 )
 pprint(colour.contrast_sensitivity_function(u=4, X_0=60, E=65))
 pprint(
@@ -32,11 +29,9 @@ pprint(
 print("\n")
 
 message_box(
-    (
-        "Computing the minimum detectable contrast with the assumed "
-        'conditions for UHDTV applications as given in "ITU-R BT.2246-4"'
-        '"Figure 31" and using "Barten (1999)" method.'
-    )
+    "Computing the minimum detectable contrast with the assumed "
+    'conditions for UHDTV applications as given in "ITU-R BT.2246-4"'
+    '"Figure 31" and using "Barten (1999)" method.'
 )
 
 settings_BT2246 = {

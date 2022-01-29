@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE 1994 Chromatic Adaptation Model
 ===================================
@@ -151,10 +150,8 @@ def chromatic_adaptation_CIE1994(
 
     if np.any(Y_o < 18) or np.any(Y_o > 100):
         usage_warning(
-            (
-                '"Y_o" luminance factor must be in [18, 100] domain, '
-                "unpredictable results may occur!"
-            )
+            '"Y_o" luminance factor must be in [18, 100] domain, '
+            "unpredictable results may occur!"
         )
 
     RGB_1 = XYZ_to_RGB_CIE1994(XYZ_1)

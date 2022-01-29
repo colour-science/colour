@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Generation
 ===================
@@ -127,7 +126,7 @@ def sd_constant(
     100.0
     """
 
-    settings = {"name": "{0} Constant".format(k)}
+    settings = {"name": f"{k} Constant"}
     settings.update(kwargs)
 
     wavelengths = shape.range()
@@ -218,7 +217,7 @@ def msds_constant(
     k: Floating,
     labels: Sequence,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
     Returns the multi-spectral distributions with given labels and given
@@ -261,7 +260,7 @@ def msds_constant(
     ['a', 'b', 'c']
     """
 
-    settings = {"name": "{0} Constant".format(k)}
+    settings = {"name": f"{k} Constant"}
     settings.update(kwargs)
 
     wavelengths = shape.range()
@@ -275,7 +274,7 @@ def msds_constant(
 def msds_zeros(
     labels: Sequence,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
     Returns the multi-spectral distributionss with given labels and given
@@ -322,7 +321,7 @@ def msds_zeros(
 def msds_ones(
     labels: Sequence,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
     Returns the multi-spectral distributionss with given labels and given
@@ -370,7 +369,7 @@ def sd_gaussian_normal(
     mu: Floating,
     sigma: Floating,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Returns a gaussian spectral distribution of given spectral shape at
@@ -413,7 +412,7 @@ def sd_gaussian_normal(
     0.6065306...
     """
 
-    settings = {"name": "{0}nm - {1} Sigma - Gaussian".format(mu, sigma)}
+    settings = {"name": f"{mu}nm - {sigma} Sigma - Gaussian"}
     settings.update(kwargs)
 
     wavelengths = shape.range()
@@ -427,7 +426,7 @@ def sd_gaussian_fwhm(
     peak_wavelength: Floating,
     fwhm: Floating,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Returns a gaussian spectral distribution of given spectral shape at given
@@ -471,9 +470,7 @@ def sd_gaussian_fwhm(
     0.3678794...
     """
 
-    settings = {
-        "name": "{0}nm - {1} FWHM - Gaussian".format(peak_wavelength, fwhm)
-    }
+    settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Gaussian"}
     settings.update(kwargs)
 
     wavelengths = shape.range()
@@ -496,7 +493,7 @@ def sd_gaussian(
     sigma_fwhm: Floating,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Union[Literal["Normal", "FWHM"], str] = "Normal",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Returns a gaussian spectral distribution of given spectral shape using
@@ -563,7 +560,7 @@ def sd_single_led_Ohno2005(
     peak_wavelength: Floating,
     fwhm: Floating,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Returns a single *LED* spectral distribution of given spectral shape at
@@ -611,7 +608,7 @@ def sd_single_led_Ohno2005(
     """
 
     settings = {
-        "name": "{0}nm - {1} FWHM LED - Ohno (2005)".format(
+        "name": "{}nm - {} FWHM LED - Ohno (2005)".format(
             peak_wavelength, fwhm
         )
     }
@@ -639,7 +636,7 @@ def sd_single_led(
     fwhm: Floating,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Union[Literal["Ohno 2005"], str] = "Ohno 2005",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Returns a single *LED* spectral distribution of given spectral shape at
@@ -700,7 +697,7 @@ def sd_multi_leds_Ohno2005(
     fwhm: ArrayLike,
     peak_power_ratios: Optional[ArrayLike] = None,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Returns a multi *LED* spectral distribution of given spectral shape at
@@ -786,7 +783,7 @@ def sd_multi_leds_Ohno2005(
         return ", ".join([str(e) for e in a])
 
     sd.name = (
-        "{0}nm - {1}FWHM - {2} Peak Power Ratios - LED - Ohno (2005)".format(
+        "{}nm - {}FWHM - {} Peak Power Ratios - LED - Ohno (2005)".format(
             _format_array(peak_wavelengths),
             _format_array(fwhm),
             _format_array(peak_power_ratios),
@@ -812,7 +809,7 @@ def sd_multi_leds(
     peak_power_ratios: Optional[ArrayLike] = None,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Union[Literal["Ohno 2005"], str] = "Ohno 2005",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Returns a multi *LED* spectral distribution of given spectral shape at

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CMYK Colour Transformations
 ===========================

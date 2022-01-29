@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Digital Cinema Distribution Master (DCDM) XYZ Colourspace
 =========================================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 FilmLight E-Gamut Colourspace
 =============================

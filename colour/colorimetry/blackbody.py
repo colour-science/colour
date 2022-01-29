@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Blackbody - Planckian Radiator
 ==============================
@@ -595,5 +594,5 @@ def sd_blackbody(
     return SpectralDistribution(
         planck_law(wavelengths * 1e-9, temperature, c1, c2, n) * 1e-9,
         wavelengths,
-        name="{0}K Blackbody".format(temperature),
+        name=f"{temperature}K Blackbody",
     )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ANSI/IES TM-30-18 Colour Rendition Report
 =========================================
@@ -212,7 +211,7 @@ def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
     """
 
     try:
-        version = " {0}.".format(
+        version = " {}.".format(
             describe_environment(print_callable=lambda x: x)[
                 "colour-science.org"
             ]["colour"]
@@ -242,7 +241,7 @@ def plot_single_sd_colour_rendition_report_full(
     report_size: Tuple = CONSTANT_REPORT_SIZE_FULL,
     report_row_height_ratios: Tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
     report_box_padding: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generates the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
@@ -460,7 +459,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_chromaticities.text(
         0.5,
         4 / 5,
-        "$x$ {:.4f}".format(xy[0]),
+        f"$x$ {xy[0]:.4f}",
         ha="center",
         va="center",
         size="medium",
@@ -470,7 +469,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_chromaticities.text(
         0.5,
         3 / 5,
-        "$y$ {:.4f}".format(xy[1]),
+        f"$y$ {xy[1]:.4f}",
         ha="center",
         va="center",
         size="medium",
@@ -480,7 +479,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_chromaticities.text(
         0.5,
         2 / 5,
-        "$u'$ {:.4f}".format(uv_p[0]),
+        f"$u'$ {uv_p[0]:.4f}",
         ha="center",
         va="center",
         size="medium",
@@ -490,7 +489,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_chromaticities.text(
         0.5,
         1 / 5,
-        "$v'$ {:.4f}".format(uv_p[1]),
+        f"$v'$ {uv_p[1]:.4f}",
         ha="center",
         va="center",
         size="medium",
@@ -530,7 +529,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_CRI.text(
         0.5,
         2 / 5,
-        "$R_a$ {:.0f}".format(float(CRI_spec.Q_a)),
+        f"$R_a$ {float(CRI_spec.Q_a):.0f}",
         ha="center",
         va="center",
         size="medium",
@@ -540,7 +539,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_CRI.text(
         0.5,
         1 / 5,
-        "$R_9$ {:.0f}".format(float(CRI_spec.Q_as[8].Q_a)),
+        f"$R_9$ {float(CRI_spec.Q_as[8].Q_a):.0f}",
         ha="center",
         va="center",
         size="medium",
@@ -567,7 +566,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
         CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE
     ),
     report_box_padding: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generates the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
@@ -670,7 +669,7 @@ def plot_single_sd_colour_rendition_report_simple(
     report_size: Tuple = CONSTANT_REPORT_SIZE_SIMPLE,
     report_row_height_ratios: Tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE,
     report_box_padding: Optional[Dict] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generates the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
@@ -761,7 +760,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 def plot_single_sd_colour_rendition_report(
     sd: SpectralDistribution,
     method: Union[Literal["Full", "Intermediate", "Simple"], str] = "Full",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Generates the *ANSI/IES TM-30-18 Colour Rendition Report* for given

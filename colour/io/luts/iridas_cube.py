@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Iridas .cube LUT Format Input / Output Utilities
 ================================================
@@ -226,7 +225,7 @@ def write_LUT_IridasCube(
         usage_warning(
             '"LUT" is a "LUTSequence" instance was passed, '
             'using first sequence "LUT":\n'
-            "{0}".format(LUT)
+            "{}".format(LUT)
         )
         LUTxD = LUT[0]
     elif isinstance(LUT, LUT1D):
@@ -257,14 +256,14 @@ def write_LUT_IridasCube(
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
     with open(path, "w") as cube_file:
-        cube_file.write('TITLE "{0}"\n'.format(LUTxD.name))
+        cube_file.write(f'TITLE "{LUTxD.name}"\n')
 
         if LUTxD.comments:
             for comment in LUTxD.comments:
-                cube_file.write("# {0}\n".format(comment))
+                cube_file.write(f"# {comment}\n")
 
         cube_file.write(
-            "{0} {1}\n".format(
+            "{} {}\n".format(
                 "LUT_1D_SIZE" if is_3x1D else "LUT_3D_SIZE",
                 LUTxD.table.shape[0],
             )
@@ -272,12 +271,8 @@ def write_LUT_IridasCube(
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
         if not np.array_equal(LUTxD.domain, default_domain):
-            cube_file.write(
-                "DOMAIN_MIN {0}\n".format(_format_array(LUTxD.domain[0]))
-            )
-            cube_file.write(
-                "DOMAIN_MAX {0}\n".format(_format_array(LUTxD.domain[1]))
-            )
+            cube_file.write(f"DOMAIN_MIN {_format_array(LUTxD.domain[0])}\n")
+            cube_file.write(f"DOMAIN_MAX {_format_array(LUTxD.domain[1])}\n")
 
         if not is_3x1D:
             table = LUTxD.table.reshape([-1, 3], order="F")
@@ -285,6 +280,6 @@ def write_LUT_IridasCube(
             table = LUTxD.table
 
         for row in table:
-            cube_file.write("{0}\n".format(_format_array(row)))
+            cube_file.write(f"{_format_array(row)}\n")
 
     return True

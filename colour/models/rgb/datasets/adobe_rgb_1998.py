@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Adobe RGB (1998) Colourspace
 ============================

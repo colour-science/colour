@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Automatic Colour Conversion Graph* computations.
 """
@@ -30,11 +29,9 @@ print("\n")
 
 RGB = np.array([0.45675795, 0.30986982, 0.24861924])
 message_box(
-    (
-        'Converting to "CAM16-UCS" colourspace from given '
-        '"Output-Referred" "sRGB" colourspace values:\n'
-        "\n\t{0}".format(RGB)
-    )
+    'Converting to "CAM16-UCS" colourspace from given '
+    '"Output-Referred" "sRGB" colourspace values:\n'
+    "\n\t{}".format(RGB)
 )
 print(colour.convert(RGB, "Output-Referred RGB", "CAM16UCS"))
 specification = colour.XYZ_to_CAM16(
@@ -63,11 +60,9 @@ print("\n")
 
 Jpapbp = np.array([0.39994811, 0.09206558, 0.0812752])
 message_box(
-    (
-        'Converting to "Output-Referred" "sRGB" colourspace from given '
-        '"CAM16-UCS" colourspace colourspace values:\n'
-        "\n\t{0}".format(RGB)
-    )
+    'Converting to "Output-Referred" "sRGB" colourspace from given '
+    '"CAM16-UCS" colourspace colourspace values:\n'
+    "\n\t{}".format(RGB)
 )
 print(
     colour.convert(

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases illuminants datasets.
 """
@@ -17,15 +16,13 @@ print("\n")
 
 message_box("Illuminants chromaticity coordinates dataset.")
 # Filtering aliases.
-observers = dict(
-    (
-        (observer, dataset)
-        for observer, dataset in sorted(colour.CCS_ILLUMINANTS.items())
-        if " " in observer
-    )
-)
+observers = {
+    observer: dataset
+    for observer, dataset in sorted(colour.CCS_ILLUMINANTS.items())
+    if " " in observer
+}
 for observer, illuminants in observers.items():
-    print('"{0}".'.format(observer))
+    print(f'"{observer}".')
     for illuminant, xy in sorted(illuminants.items()):
-        print('\t"{0}": {1}'.format(illuminant, xy))
+        print(f'\t"{illuminant}": {xy}')
     print("\n")

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.io.uprtek_sekonic` module.
 """
@@ -50,7 +49,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
             Arguments.
         """
 
-        super(AbstractSpectralDistributionTest, self).__init__(*args)
+        super().__init__(*args)
 
         self._sd_factory: Any = None
         self._path: Optional[str] = None
@@ -133,7 +132,7 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
             Arguments.
         """
 
-        super(TestSpectralDistributionUprTek, self).__init__(*args)
+        super().__init__(*args)
 
         self._sd_factory = SpectralDistribution_UPRTek
         self._path = "ESPD2021_0104_231446.xls"
@@ -613,7 +612,7 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
             Arguments.
         """
 
-        super(TestSpectralDistributionSekonic, self).__init__(*args)
+        super().__init__(*args)
 
         self._sd_factory = SpectralDistribution_Sekonic
         self._path = "RANDOM_001_02._3262K.csv"

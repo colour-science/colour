@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Academy Spectral Similarity Index (SSI)
 =======================================

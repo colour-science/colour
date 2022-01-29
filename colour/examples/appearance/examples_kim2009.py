@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Kim, Weyrich and Kautz (2009)* colour appearance model computations.
 """
@@ -21,8 +20,8 @@ message_box(
     (
         'Converting to "Kim, Weyrich and Kautz (2009)" colour appearance model '
         "specification using given parameters:\n"
-        "\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tL_A: {2}\n\tMedia: {3}"
-        "\n\tSurround: {4}"
+        "\n\tXYZ: {}\n\tXYZ_w: {}\n\tL_A: {}\n\tMedia: {}"
+        "\n\tSurround: {}"
     ).format(XYZ, XYZ_w, L_A, media, surround)
 )
 specification = colour.XYZ_to_Kim2009(XYZ, XYZ_w, L_A, media, surround)
@@ -38,8 +37,8 @@ message_box(
     (
         'Converting to "CIE XYZ" tristimulus values using given '
         "parameters:\n"
-        "\n\tJ: {0}\n\tC: {1}\n\th: {2}\n\tXYZ_w: {3}\n\tL_A: {4}\n\tMedia: {5}"
-        "\n\tSurround: {6}"
+        "\n\tJ: {}\n\tC: {}\n\th: {}\n\tXYZ_w: {}\n\tL_A: {}\n\tMedia: {}"
+        "\n\tSurround: {}"
     ).format(J, C, h, XYZ_w, L_A, media, surround)
 )
 print(colour.Kim2009_to_XYZ(specification, XYZ_w, L_A, media, surround))

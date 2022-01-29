@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 LUT Processing
 ==============
@@ -155,11 +154,7 @@ class AbstractLUT(ABC):
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
     ):
-        self._name: str = (
-            "Unity {0!r}".format(size)
-            if table is None
-            else "{0}".format(id(self))
-        )
+        self._name: str = f"Unity {size!r}" if table is None else f"{id(self)}"
         self.name = optional(name, self._name)
         self._dimensions = optional(dimensions, 0)
         self._table: NDArray = self.linear_table(
@@ -232,7 +227,7 @@ class AbstractLUT(ABC):
 
         attest(
             is_string(value),
-            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+            '"{}" property: "{}" type is not "str"!'.format("name", value),
         )
 
         self._name = value
@@ -316,7 +311,7 @@ class AbstractLUT(ABC):
 
         attest(
             is_iterable(value),
-            '"{0}" property: "{1}" must be a sequence!'.format(
+            '"{}" property: "{}" must be a sequence!'.format(
                 "comments", value
             ),
         )
@@ -341,16 +336,16 @@ class AbstractLUT(ABC):
             return str(a).replace(" [", " " * 14 + "[")
 
         comments = [
-            "Comment {0} : {1}".format(str(i + 1).zfill(2), comment)
+            f"Comment {str(i + 1).zfill(2)} : {comment}"
             for i, comment in enumerate(self.comments)
         ]
 
         return (
-            "{0} - {1}\n"
-            "{2}\n\n"
-            "Dimensions : {3}\n"
-            "Domain     : {4}\n"
-            "Size       : {5!s}{6}"
+            "{} - {}\n"
+            "{}\n\n"
+            "Dimensions : {}\n"
+            "Domain     : {}\n"
+            "Size       : {!s}{}"
         ).format(
             self.__class__.__name__,
             self.name,
@@ -358,7 +353,7 @@ class AbstractLUT(ABC):
             self.dimensions,
             _indent_array(self.domain),
             str(self.table.shape).replace("L", ""),
-            "\n{0}".format("\n".join(comments)) if comments else "",
+            "\n{}".format("\n".join(comments)) if comments else "",
         )
 
     def __repr__(self) -> str:
@@ -376,12 +371,12 @@ class AbstractLUT(ABC):
             "array", self.__class__.__name__
         )
         representation = representation.replace(
-            "       [", "{0}[".format(" " * (len(self.__class__.__name__) + 2))
+            "       [", "{}[".format(" " * (len(self.__class__.__name__) + 2))
         )
 
         domain = repr(self.domain).replace("array(", "").replace(")", "")
         domain = domain.replace(
-            "       [", "{0}[".format(" " * (len(self.__class__.__name__) + 9))
+            "       [", "{}[".format(" " * (len(self.__class__.__name__) + 9))
         )
 
         indentation = " " * (len(self.__class__.__name__) + 1)
@@ -392,7 +387,7 @@ class AbstractLUT(ABC):
             indentation,
             self.name,
             domain,
-            ",\n{0}comments={1}".format(indentation, repr(self.comments))
+            f",\n{indentation}comments={repr(self.comments)}"
             if self.comments
             else "",
         )
@@ -845,7 +840,7 @@ class AbstractLUT(ABC):
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> AbstractLUT:
         """
         Converts the *LUT* to given ``cls`` class instance.
@@ -969,7 +964,7 @@ class LUT1D(AbstractLUT):
         )
         size = cast(Integer, optional(size, 10))
 
-        super(LUT1D, self).__init__(table, name, 1, domain, size, comments)
+        super().__init__(table, name, 1, domain, size, comments)
 
     def _validate_table(self, table: ArrayLike) -> NDArray:
         """
@@ -1132,7 +1127,7 @@ class LUT1D(AbstractLUT):
 
         LUT_i = LUT1D(
             table=domain,
-            name="{0} - Inverse".format(self.name),
+            name=f"{self.name} - Inverse",
             domain=self.table,
         )
 
@@ -1204,7 +1199,7 @@ class LUT1D(AbstractLUT):
 
         RGB_interpolator = extrapolator(
             interpolator(samples, LUT.table, **interpolator_kwargs),
-            **extrapolator_kwargs
+            **extrapolator_kwargs,
         )
 
         return RGB_interpolator(RGB)
@@ -1213,7 +1208,7 @@ class LUT1D(AbstractLUT):
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> AbstractLUT:
         """
         Converts the *LUT* to given ``cls`` class instance.
@@ -1368,7 +1363,7 @@ class LUT3x1D(AbstractLUT):
         )
         size = cast(Integer, optional(size, 10))
 
-        super(LUT3x1D, self).__init__(table, name, 2, domain, size, comments)
+        super().__init__(table, name, 2, domain, size, comments)
 
     def _validate_table(self, table: ArrayLike) -> NDArray:
         """
@@ -1626,7 +1621,7 @@ class LUT3x1D(AbstractLUT):
 
         LUT_i = LUT3x1D(
             table=tstack(domain),
-            name="{0} - Inverse".format(self.name),
+            name=f"{self.name} - Inverse",
             domain=self.table,
         )
 
@@ -1708,10 +1703,10 @@ class LUT3x1D(AbstractLUT):
                 axes[: (~np.isnan(axes)).cumsum().argmax() + 1]
                 for axes in np.transpose(LUT.domain)
             ]
-            R_t, G_t, B_t = [
+            R_t, G_t, B_t = (
                 axes[: len(samples[i])]
                 for i, axes in enumerate(np.transpose(LUT.table))
-            ]
+            )
         else:
             domain_min, domain_max = LUT.domain
             samples = [
@@ -1725,7 +1720,7 @@ class LUT3x1D(AbstractLUT):
         RGB_i = [
             extrapolator(
                 interpolator(a[0], a[1], **interpolator_kwargs),
-                **extrapolator_kwargs
+                **extrapolator_kwargs,
             )(a[2])
             for a in zip((s_R, s_G, s_B), (R_t, G_t, B_t), (R, G, B))
         ]
@@ -1736,7 +1731,7 @@ class LUT3x1D(AbstractLUT):
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> AbstractLUT:
         """
         Converts the *LUT* to given ``cls`` class instance.
@@ -1890,7 +1885,7 @@ class LUT3D(AbstractLUT):
         )
         size = cast(Integer, optional(size, 33))
 
-        super(LUT3D, self).__init__(table, name, 3, domain, size, comments)
+        super().__init__(table, name, 3, domain, size, comments)
 
     def _validate_table(self, table: ArrayLike) -> NDArray:
         """
@@ -2258,7 +2253,7 @@ class LUT3D(AbstractLUT):
         LUT_i = LUT3D(size=target_size, domain=LUT.domain)
         LUT_i.table = LUT_q.apply(LUT_i.table, interpolator=interpolator)
 
-        LUT_i.name = "{0} - Inverse".format(self.name)
+        LUT_i.name = f"{self.name} - Inverse"
 
         return LUT_i
 
@@ -2344,7 +2339,7 @@ class LUT3D(AbstractLUT):
             usage_warning(
                 '"LUT" was defined with an explicit domain but requires '
                 "an implicit domain to be applied. The following domain "
-                "will be used: {0}".format(np.vstack([domain_min, domain_max]))
+                "will be used: {}".format(np.vstack([domain_min, domain_max]))
             )
         else:
             domain_min, domain_max = LUT.domain
@@ -2362,7 +2357,7 @@ class LUT3D(AbstractLUT):
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> AbstractLUT:
         """
         Converts the *LUT* to given ``cls`` class instance.
@@ -2435,7 +2430,7 @@ def LUT_to_LUT(
     LUT,
     cls: Type[AbstractLUT],
     force_conversion: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> AbstractLUT:
     """
     Converts given *LUT* to given ``cls`` class instance.
@@ -2504,19 +2499,19 @@ def LUT_to_LUT(
     ranks = {LUT1D: 1, LUT3x1D: 2, LUT3D: 3}
     path = (ranks[LUT.__class__], ranks[cls])
     path_verbose = [
-        "{0}D".format(element) if element != 2 else "3x1D" for element in path
+        f"{element}D" if element != 2 else "3x1D" for element in path
     ]
     if path in ((1, 3), (2, 1), (2, 3), (3, 1), (3, 2)):
         if not force_conversion:
             raise ValueError(
-                'Conversion of a "LUT" {0} to a "LUT" {1} is destructive, '
+                'Conversion of a "LUT" {} to a "LUT" {} is destructive, '
                 'please use the "force_conversion" argument to proceed.'.format(
                     *path_verbose
                 )
             )
 
-    suffix = " - Converted {0} to {1}".format(*path_verbose)
-    name = "{0}{1}".format(LUT.name, suffix)
+    suffix = " - Converted {} to {}".format(*path_verbose)
+    name = f"{LUT.name}{suffix}"
 
     # Same dimension conversion, returning a copy.
     if len(set(path)) == 1:

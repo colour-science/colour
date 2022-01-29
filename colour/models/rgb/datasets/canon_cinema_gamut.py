@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Canon Cinema Gamut Colourspace
 ==============================

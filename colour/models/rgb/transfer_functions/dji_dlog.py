@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 DJI D-Log Log Encoding
 ======================

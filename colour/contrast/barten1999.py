@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Barten (1999) Contrast Sensitivity Function
 ===========================================

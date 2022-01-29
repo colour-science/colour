@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour
 ======
@@ -862,7 +861,7 @@ except TypeError:  # pragma: no cover
 # ----------------------------------------------------------------------------#
 class colour(ModuleAPI):
     def __getattr__(self, attribute) -> Any:
-        return super(colour, self).__getattr__(attribute)
+        return super().__getattr__(attribute)
 
 
 colour.__application_name__ = __application_name__  # type: ignore[attr-defined]

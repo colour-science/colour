@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Automatic Colour Conversion Graph
 =================================
@@ -237,7 +236,7 @@ class Conversion_Specification(
     """
 
     def __new__(cls, source: str, target: str, conversion_function: Callable):
-        return super(Conversion_Specification, cls).__new__(
+        return super().__new__(
             cls, source.lower(), target.lower(), conversion_function
         )
 
@@ -823,7 +822,7 @@ CONVERSION_GRAPH_NODE_LABELS.update(
 
 
 @required("NetworkX")
-def _build_graph() -> "networkx.DiGraph":  # type: ignore[name-defined]  # noqa
+def _build_graph() -> networkx.DiGraph:  # type: ignore[name-defined]  # noqa
     """
     Builds the automatic colour conversion graph.
 
@@ -848,7 +847,7 @@ def _build_graph() -> "networkx.DiGraph":  # type: ignore[name-defined]  # noqa
 
 
 CONVERSION_GRAPH: (  # type: ignore[name-defined]
-    Optional["networkx.DiGraph"]  # noqa
+    Optional[networkx.DiGraph]  # noqa
 ) = None
 """
 Automatic colour conversion graph.
@@ -986,10 +985,10 @@ def describe_conversion_path(
     conversion_path = _conversion_path(source, target)
 
     message_box(
-        "[ Conversion Path ]\n\n{0}".format(
+        "[ Conversion Path ]\n\n{}".format(
             " --> ".join(
                 [
-                    '"{0}"'.format(
+                    '"{}"'.format(
                         _lower_order_function(conversion_function).__name__
                     )
                     for conversion_function in conversion_path
@@ -1017,7 +1016,7 @@ def describe_conversion_path(
         return_value = filtered_kwargs.pop("return", None)
 
         if mode in ("long", "extended"):
-            message = ('[ "{0}" ]' "\n\n[ Signature ]\n\n{1}").format(
+            message = ('[ "{}" ]' "\n\n[ Signature ]\n\n{}").format(
                 _lower_order_function(conversion_function).__name__,
                 pformat(
                     signature_inspection(
@@ -1027,19 +1026,19 @@ def describe_conversion_path(
             )
 
             if filtered_kwargs:
-                message += "\n\n[ Filtered Arguments ]\n\n{0}".format(
+                message += "\n\n[ Filtered Arguments ]\n\n{}".format(
                     pformat(filtered_kwargs)
                 )
 
             if mode in ("extended",):
-                message += "\n\n[ Documentation ]\n\n{0}".format(
+                message += "\n\n[ Documentation ]\n\n{}".format(
                     textwrap.dedent(
                         str(_lower_order_function(conversion_function).__doc__)
                     ).strip()
                 )
 
             if return_value is not None:
-                message += "\n\n[ Conversion Output ]\n\n{0}".format(
+                message += "\n\n[ Conversion Output ]\n\n{}".format(
                     return_value
                 )
 

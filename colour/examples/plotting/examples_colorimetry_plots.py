@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases colorimetry plotting examples.
 """
@@ -41,10 +40,8 @@ plot_multi_illuminant_sds(
 print("\n")
 
 message_box(
-    (
-        'Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
-        "normalised colours."
-    )
+    'Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
+    "normalised colours."
 )
 plot_multi_illuminant_sds(
     ["A", "B", "C"],
@@ -54,10 +51,8 @@ plot_multi_illuminant_sds(
 print("\n")
 
 message_box(
-    (
-        'Plotting "CIE Standard Illuminant D Series" "S" spectral '
-        "distributions."
-    )
+    'Plotting "CIE Standard Illuminant D Series" "S" spectral '
+    "distributions."
 )
 plot_multi_sds(
     [
@@ -941,11 +936,9 @@ plot_multi_sds(
 print("\n")
 
 message_box(
-    (
-        "Plotting a mesopic luminous efficiency function with given "
-        "photopic luminance value:\n"
-        "\n\t0.2"
-    )
+    "Plotting a mesopic luminous efficiency function with given "
+    "photopic luminance value:\n"
+    "\n\t0.2"
 )
 sd_mesopic_luminous_efficiency_function = (
     colour.sd_mesopic_luminous_efficiency_function(0.2)

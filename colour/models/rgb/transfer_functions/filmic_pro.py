@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 FiLMiC Pro 6 Encoding
 =====================

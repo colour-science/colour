@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .cmfs import (
     MSDS_CMFS,
     MSDS_CMFS_LMS,

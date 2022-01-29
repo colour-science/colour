@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *ANSI/IES TM-30-18 Colour Rendition Report* plotting examples.
 """

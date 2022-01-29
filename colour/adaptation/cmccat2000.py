@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CMCCAT2000 Chromatic Adaptation Model
 =====================================

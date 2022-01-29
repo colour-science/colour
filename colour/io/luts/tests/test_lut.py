@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.luts.lut` module.
 """
@@ -131,7 +130,7 @@ class AbstractLUTTest(unittest.TestCase):
             Arguments.
         """
 
-        super(AbstractLUTTest, self).__init__(*args)
+        super().__init__(*args)
 
         self._LUT_factory: Any = None
 
@@ -246,7 +245,7 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT = self._LUT_factory()
 
-        self.assertEqual(LUT.name, "Unity {0}".format(self._table_1.shape[0]))
+        self.assertEqual(LUT.name, f"Unity {self._table_1.shape[0]}")
 
     def test_domain(self):
         """
@@ -656,7 +655,7 @@ class TestLUT1D(AbstractLUTTest):
             Arguments.
         """
 
-        super(TestLUT1D, self).__init__(*args)
+        super().__init__(*args)
 
         self._LUT_factory = LUT1D
 
@@ -794,7 +793,7 @@ class TestLUT3x1D(AbstractLUTTest):
             Arguments.
         """
 
-        super(TestLUT3x1D, self).__init__(*args)
+        super().__init__(*args)
 
         self._LUT_factory = LUT3x1D
 
@@ -963,7 +962,7 @@ class TestLUT3D(AbstractLUTTest):
             Arguments.
         """
 
-        super(TestLUT3D, self).__init__(*args)
+        super().__init__(*args)
 
         self._LUT_factory = LUT3D
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`J_za_zb_z` Colourspace
 =============================

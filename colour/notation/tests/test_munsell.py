@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.notation.munsell` module.
 """
@@ -128,7 +127,7 @@ def _generate_unit_tests_specifications() -> Tuple:  # pragma: no cover
 
     specifications, specifications_r = [], []
     for i in indexes:
-        munsell_colour = "{0} {1}/{2}".format(*MUNSELL_COLOURS["real"][i][0])
+        munsell_colour = "{} {}/{}".format(*MUNSELL_COLOURS["real"][i][0])
 
         try:
             specification = munsell_colour_to_munsell_specification(

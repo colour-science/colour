@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases reflectance recovery computations using *Mallett et al. (2019)*
 method.
@@ -18,7 +17,7 @@ RGB = colour.XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
 message_box(
     'Recovering reflectance using "Mallett et al. (2019)" method '
     'from given "XYZ" tristimulus values:\n'
-    "\n\tXYZ: {0}".format(XYZ)
+    "\n\tXYZ: {}".format(XYZ)
 )
 sd = colour.XYZ_to_sd(XYZ, method="Mallett 2019")
 print(sd)

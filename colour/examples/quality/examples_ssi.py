@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases *Academy Spectral Similarity Index* (SSI) computations.
 """

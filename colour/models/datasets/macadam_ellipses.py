@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 MacAdam (1942) Ellipses (Observer PGN)
 ======================================

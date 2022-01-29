@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import sys
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
@@ -706,7 +704,7 @@ __all__ += ["RGB_to_ICtCp", "ICtCp_to_RGB", "XYZ_to_ICtCp", "ICtCp_to_XYZ"]
 # ----------------------------------------------------------------------------#
 class models(ModuleAPI):
     def __getattr__(self, attribute) -> Any:
-        return super(models, self).__getattr__(attribute)
+        return super().__getattr__(attribute)
 
 
 # v0.4.0

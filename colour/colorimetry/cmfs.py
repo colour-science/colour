@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Matching Functions
 =========================
@@ -108,7 +107,7 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         labels: Optional[Sequence] = None,
         **kwargs: Any
     ):
-        super(LMS_ConeFundamentals, self).__init__(
+        super().__init__(
             data,
             domain,
             labels=("l_bar", "m_bar", "s_bar"),
@@ -176,7 +175,7 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         labels: Optional[Sequence] = None,
         **kwargs: Any
     ):
-        super(RGB_ColourMatchingFunctions, self).__init__(
+        super().__init__(
             data,
             domain,
             labels=("r_bar", "g_bar", "b_bar"),
@@ -245,7 +244,7 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
         labels: Optional[Sequence] = None,
         **kwargs: Any
     ):
-        super(XYZ_ColourMatchingFunctions, self).__init__(
+        super().__init__(
             data,
             domain,
             labels=("x_bar", "y_bar", "z_bar"),

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Common Log Encodings
 ====================
@@ -215,28 +214,22 @@ def logarithmic_function_quasilog(
 
     if style == "lintolog":
         return as_float(
-            (
-                log_side_slope
-                * (
-                    np.log(
-                        np.maximum(
-                            lin_side_slope * x + lin_side_offset, FLT_MIN
-                        )
-                    )
-                    / np.log(base)
+            log_side_slope
+            * (
+                np.log(
+                    np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN)
                 )
-                + log_side_offset
+                / np.log(base)
             )
+            + log_side_offset
         )
     else:  # style == 'logtolin'
         return as_float(
             (
-                (
-                    base ** ((x - log_side_offset) / log_side_slope)
-                    - lin_side_offset
-                )
-                / lin_side_slope
+                base ** ((x - log_side_offset) / log_side_slope)
+                - lin_side_offset
             )
+            / lin_side_slope
         )
 
 

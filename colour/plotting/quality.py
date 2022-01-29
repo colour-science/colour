@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Quality Plotting
 =======================
@@ -80,7 +79,7 @@ def plot_colour_quality_bars(
     labels: Boolean = True,
     hatching: Optional[Boolean] = None,
     hatching_repeat: Integer = 2,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the colour quality data of given illuminants or light sources colour
@@ -194,7 +193,7 @@ def plot_colour_quality_bars(
 
         if labels:
             label_rectangles(
-                ["{0:.1f}".format(y_v) for y_v in y],
+                [f"{y_v:.1f}" for y_v in y],
                 bars,
                 rotation="horizontal" if count_s == 1 else "vertical",
                 offset=(
@@ -223,8 +222,7 @@ def plot_colour_quality_bars(
         + (count_s * bar_width / 2)
     )
     axes.set_xticklabels(
-        ["Qa"]
-        + ["Q{0}".format(index + 1) for index in range(0, count_Q_as, 1)]
+        ["Qa"] + [f"Q{index + 1}" for index in range(0, count_Q_as, 1)]
     )
     axes.set_yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
@@ -298,7 +296,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
         Sequence[Union[SpectralDistribution, MultiSpectralDistributions]],
         MultiSpectralDistributions,
     ],
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Colour Rendering Index* (CRI) of given illuminants or light
@@ -367,7 +365,7 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
 
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
-    title = "Colour Rendering Index - {0}".format(
+    title = "Colour Rendering Index - {}".format(
         ", ".join([sd.strict_name for sd in sds_converted])
     )
 
@@ -383,7 +381,7 @@ def plot_single_sd_colour_quality_scale_bars(
     method: Union[
         Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
     ] = "NIST CQS 9.0",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
@@ -438,7 +436,7 @@ def plot_multi_sds_colour_quality_scales_bars(
     method: Union[
         Literal["NIST CQS 7.4", "NIST CQS 9.0"], str
     ] = "NIST CQS 9.0",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminants or light
@@ -498,7 +496,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
 
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
-    title = "Colour Quality Scale - {0}".format(
+    title = "Colour Quality Scale - {}".format(
         ", ".join([sd.strict_name for sd in sds_converted])
     )
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Multi Signals
 =============
@@ -304,7 +303,7 @@ class MultiSignals(AbstractContinuousFunction):
                 ArrayLike,
                 DataFrame,
                 dict,
-                "MultiSignals",
+                MultiSignals,
                 Sequence,
                 Series,
                 Signal,
@@ -314,7 +313,7 @@ class MultiSignals(AbstractContinuousFunction):
         labels: Optional[Sequence] = None,
         **kwargs: Any
     ):
-        super(MultiSignals, self).__init__(kwargs.get("name"))
+        super().__init__(kwargs.get("name"))
 
         self._signal_type: Type[Signal] = kwargs.get("signal_type", Signal)
 
@@ -579,7 +578,7 @@ class MultiSignals(AbstractContinuousFunction):
     def signals(
         self,
         value: Optional[
-            Union[ArrayLike, DataFrame, dict, "MultiSignals", Signal, Series]
+            Union[ArrayLike, DataFrame, dict, MultiSignals, Signal, Series]
         ],
     ):
         """
@@ -618,19 +617,19 @@ class MultiSignals(AbstractContinuousFunction):
 
         attest(
             is_iterable(value),
-            '"{0}" property: "{1}" is not an "iterable" like object!'.format(
+            '"{}" property: "{}" is not an "iterable" like object!'.format(
                 "labels", value
             ),
         )
 
         attest(
             len(set(value)) == len(value),
-            '"{0}" property: values must be unique!'.format("labels"),
+            '"{}" property: values must be unique!'.format("labels"),
         )
 
         attest(
             len(value) == len(self.labels),
-            '"{0}" property: length must be "{1}"!'.format(
+            '"{}" property: length must be "{}"!'.format(
                 "labels", len(self._signals)
             ),
         )
@@ -685,7 +684,7 @@ class MultiSignals(AbstractContinuousFunction):
         try:
             return str(np.hstack([self.domain[:, np.newaxis], self.range]))
         except TypeError:
-            return super(MultiSignals, self).__str__()
+            return super().__str__()
 
     def __repr__(self) -> str:
         """
@@ -721,7 +720,7 @@ class MultiSignals(AbstractContinuousFunction):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{0}(name='{1}', ...)".format(
+            return "{}(name='{}', ...)".format(
                 self.__class__.__name__, self.name
             )
 
@@ -734,7 +733,7 @@ class MultiSignals(AbstractContinuousFunction):
             )
             representation = representation.replace(
                 "       [",
-                "{0}[".format(" " * (len(self.__class__.__name__) + 2)),
+                "{}[".format(" " * (len(self.__class__.__name__) + 2)),
             )
             representation = (
                 "{0},\n"
@@ -759,7 +758,7 @@ class MultiSignals(AbstractContinuousFunction):
 
             return representation
         except TypeError:
-            return super(MultiSignals, self).__repr__()
+            return super().__repr__()
 
     def __hash__(self) -> Integer:
         """
@@ -1255,7 +1254,7 @@ class MultiSignals(AbstractContinuousFunction):
                 ArrayLike,
                 DataFrame,
                 dict,
-                "MultiSignals",
+                MultiSignals,
                 Sequence,
                 Series,
                 Signal,

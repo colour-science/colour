@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Test Colour Samples Spectral Distributions
 ==========================================
@@ -1444,10 +1443,10 @@ DATA_TCS: Dict = {
 }
 
 SDS_TCS: CaseInsensitiveMapping = CaseInsensitiveMapping(
-    dict(
-        (key, SpectralDistribution(value, name=key))
+    {
+        key: SpectralDistribution(value, name=key)
         for key, value in DATA_TCS.items()
-    )
+    }
 )
 """
 Test colour samples spectral distributions.

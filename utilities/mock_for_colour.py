@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Mock for Colour
 ===============
@@ -74,7 +73,7 @@ class MockObject:
                     attributes=args[2],
                 )
 
-        return super(MockObject, cls).__new__(cls)
+        return super().__new__(cls)
 
     def __init__(self, *args, **kwargs):
         pass
@@ -206,7 +205,7 @@ class MockModule(ModuleType):
     __file__ = os.devnull
 
     def __init__(self, name):
-        super(MockModule, self).__init__(name)
+        super().__init__(name)
         self.__all__ = []
         self.__path__ = []
 

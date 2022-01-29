@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ITU-R BT.470 Colourspaces
 =========================

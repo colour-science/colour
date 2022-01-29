@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Corresponding Chromaticities Prediction
 =======================================
@@ -239,7 +238,7 @@ def convert_experiment_results_Breneman1987(
     attest(
         experiment in valid_experiment_results,
         '"Breneman (1987)" experiment result is invalid, '
-        'it must be one of "{0}"!'.format(valid_experiment_results),
+        'it must be one of "{}"!'.format(valid_experiment_results),
     )
 
     samples_luminance = [
@@ -367,12 +366,10 @@ def corresponding_chromaticities_prediction_Fairchild1990(
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_r), xy_r)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 
@@ -443,12 +440,10 @@ def corresponding_chromaticities_prediction_CIE1994(
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_o2), xy_o2)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 
@@ -519,12 +514,10 @@ def corresponding_chromaticities_prediction_CMCCAT2000(
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 
@@ -609,12 +602,10 @@ def corresponding_chromaticities_prediction_VonKries(
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 
@@ -702,12 +693,10 @@ def corresponding_chromaticities_prediction_Zhai2018(
         uv_p = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
 
         return tuple(
-            [
-                CorrespondingChromaticitiesPrediction(
-                    experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
-                )
-                for i in range(len(uv_t))
-            ]
+            CorrespondingChromaticitiesPrediction(
+                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+            )
+            for i in range(len(uv_t))
         )
 
 

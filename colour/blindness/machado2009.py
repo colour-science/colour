@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 ==========================================================
@@ -237,7 +236,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     LMS_a = tstack([L_a, M_a, S_a])
     cmfs[cmfs.wavelengths] = LMS_a
 
-    severity = "{0}, {1}, {2}".format(d_L, d_M, d_S)
+    severity = f"{d_L}, {d_M}, {d_S}"
     template = "{0} - Anomalous Trichromacy ({1})"
     cmfs.name = template.format(cmfs.name, severity)
     cmfs.strict_name = template.format(cmfs.strict_name, severity)

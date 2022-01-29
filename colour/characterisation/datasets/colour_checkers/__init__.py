@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .chromaticity_coordinates import CCS_COLOURCHECKERS, ColourChecker
 from .sds import SDS_COLOURCHECKERS
 

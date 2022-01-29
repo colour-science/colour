@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Don RGB 4 Colourspace
 =====================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Pre-Computed Matrices for simulation of CVD - Machado (2009)
 ============================================================

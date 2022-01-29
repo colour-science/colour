@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Dominant Wavelength and Purity
 ==============================
@@ -130,7 +129,7 @@ def closest_spectral_locus_wavelength(
     if not len(xy_wl):
         raise ValueError(
             "No closest spectral locus wavelength index and coordinates found "
-            'for "{0}" colour stimulus and "{1}" achromatic stimulus "xy" '
+            'for "{}" colour stimulus and "{}" achromatic stimulus "xy" '
             "chromaticity coordinates!".format(xy, xy_n)
         )
 

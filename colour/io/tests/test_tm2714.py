@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.io.tm2714` module.
 """
@@ -259,7 +258,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             for key, value in test.items():
                 for specification in read.mapping.elements:
                     if key == specification.element:
-                        self.assertEquals(
+                        self.assertEqual(
                             getattr(read, specification.attribute), value
                         )
 
@@ -292,7 +291,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         sd_t = SpectralDistribution_IESTM2714(sd_r.path).read()
 
         self.test_read(sd_t)
-        self.assertEquals(sd_r, sd_t)
+        self.assertEqual(sd_r, sd_t)
 
         for attribute in (
             "manufacturer",
@@ -307,7 +306,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             "document_creation_date",
             "comments",
         ):
-            self.assertEquals(
+            self.assertEqual(
                 getattr(sd_r.header, attribute),
                 getattr(sd_t.header, attribute),
             )
@@ -319,7 +318,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             "bandwidth_FWHM",
             "bandwidth_corrected",
         ):
-            self.assertEquals(
+            self.assertEqual(
                 getattr(sd_r, attribute), getattr(sd_t, attribute)
             )
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Image Input / Output Utilities
 ==============================
@@ -98,7 +97,7 @@ class ImageAttribute_Specification:
 
     name: str
     value: Any
-    type_: Optional["OpenImageIO.TypeDesc"] = field(  # type: ignore[name-defined] # noqa
+    type_: Optional[OpenImageIO.TypeDesc] = field(  # type: ignore[name-defined] # noqa
         default_factory=lambda: None
     )
 
@@ -181,14 +180,14 @@ def convert_bit_depth(
 
     attest(
         bit_depth in bit_depths,
-        'Incorrect bit depth was specified, it must be one of: "{0}"!'.format(
+        'Incorrect bit depth was specified, it must be one of: "{}"!'.format(
             bit_depths
         ),
     )
 
     attest(
         str(a.dtype) in bit_depths,
-        'Image bit depth must be one of: "{0}"!'.format(bit_depths),
+        f'Image bit depth must be one of: "{bit_depths}"!',
     )
 
     source_dtype = str(a.dtype)
@@ -299,7 +298,7 @@ def read_image_Imageio(
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Reads the image at given path using *Imageio*.
@@ -364,7 +363,7 @@ def read_image(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Reads the image at given path using given method.
@@ -552,7 +551,7 @@ def write_image_Imageio(
     bit_depth: Literal[
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Boolean:
     """
     Writes given image at given path using *Imageio*.
@@ -616,7 +615,7 @@ def write_image(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Boolean:
     """
     Writes given image at given path using given method.

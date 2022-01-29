@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import sys
 
 from colour.hints import Any
@@ -12,7 +10,7 @@ from colour.utilities.deprecation import (
 
 class deprecated(ModuleAPI):
     def __getattr__(self, attribute) -> Any:
-        return super(deprecated, self).__getattr__(attribute)
+        return super().__getattr__(attribute)
 
 
 NAME: Any = None

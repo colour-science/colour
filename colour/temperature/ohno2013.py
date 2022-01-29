@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Ohno (2013) Correlated Colour Temperature
 =========================================
@@ -238,18 +237,14 @@ def _uv_to_CCT_Ohno2013(
         index = planckian_table_minimal_distance_index(table)
         if index == 0:
             runtime_warning(
-                (
-                    "Minimal distance index is on lowest planckian table bound, "
-                    "unpredictable results may occur!"
-                )
+                "Minimal distance index is on lowest planckian table bound, "
+                "unpredictable results may occur!"
             )
             index += 1
         elif index == len(table) - 1:
             runtime_warning(
-                (
-                    "Minimal distance index is on highest planckian table bound, "
-                    "unpredictable results may occur!"
-                )
+                "Minimal distance index is on highest planckian table bound, "
+                "unpredictable results may occur!"
             )
             index -= 1
 

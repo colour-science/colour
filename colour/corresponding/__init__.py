@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .datasets import *  # noqa
 from . import datasets
 from .prediction import (

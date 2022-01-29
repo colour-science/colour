@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Unicode to ASCII Utility
 ========================
@@ -10,7 +9,6 @@ from __future__ import annotations
 import codecs
 import os
 import unicodedata
-from typing import Dict
 
 __copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
@@ -23,7 +21,7 @@ __all__ = [
     "unicode_to_ascii",
 ]
 
-SUBSTITUTIONS: Dict = {
+SUBSTITUTIONS: dict[str, str] = {
     "–": "-",
     "“": '"',
     "”": '"',

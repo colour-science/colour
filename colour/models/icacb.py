@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`IC_AC_B` Colourspace
 ===========================

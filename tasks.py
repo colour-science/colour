@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Invoke - Tasks
 ==============
@@ -129,7 +128,7 @@ def clean(
         patterns.append(".pytest_cache")
 
     for pattern in patterns:
-        ctx.run("rm -rf {}".format(pattern))
+        ctx.run(f"rm -rf {pattern}")
 
 
 @task
@@ -231,7 +230,7 @@ def quality(
 
     if flake8:
         message_box('Checking codebase with "Flake8"...')
-        ctx.run("flake8 {0} --exclude=examples".format(PYTHON_PACKAGE_NAME))
+        ctx.run(f"flake8 {PYTHON_PACKAGE_NAME} --exclude=examples")
 
     if mypy:
         message_box('Checking codebase with "Mypy"...')
@@ -242,7 +241,7 @@ def quality(
             "--show-error-codes "
             "--warn-unused-ignores "
             "--warn-redundant-casts "
-            "-p {0} "
+            "-p {} "
             "|| true".format(PYTHON_PACKAGE_NAME)
         )
 
@@ -279,7 +278,7 @@ def examples(ctx: Context, plots: Boolean = False):
             ):
                 continue
 
-            ctx.run("python {0}".format(os.path.join(root, filename)))
+            ctx.run(f"python {os.path.join(root, filename)}")
 
 
 @task(formatting, tests, quality, examples)
@@ -402,7 +401,7 @@ def build(ctx: Context):
             'Please commit your changes to the "README.rst" file!'
         )
 
-    with open("README.rst", "r") as readme_file:
+    with open("README.rst") as readme_file:
         readme_content = readme_file.read()
 
     with open("README.rst", "w") as readme_file:
@@ -424,19 +423,17 @@ def build(ctx: Context):
 
     with ctx.cd("dist"):
         ctx.run(
-            "tar -xvf {0}-{1}.tar.gz".format(
+            "tar -xvf {}-{}.tar.gz".format(
                 PYPI_PACKAGE_NAME, APPLICATION_VERSION
             )
         )
         ctx.run(
-            "cp {0}-{1}/setup.py ../".format(
+            "cp {}-{}/setup.py ../".format(
                 PYPI_PACKAGE_NAME, APPLICATION_VERSION
             )
         )
 
-        ctx.run(
-            "rm -rf {0}-{1}".format(PYPI_PACKAGE_NAME, APPLICATION_VERSION)
-        )
+        ctx.run(f"rm -rf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}")
 
     with open("setup.py") as setup_file:
         source = setup_file.read()
@@ -495,15 +492,15 @@ def virtualise(ctx: Context, tests: Boolean = True):
         Whether to run tests on the virtual environment.
     """
 
-    unique_name = "{0}-{1}".format(PYPI_PACKAGE_NAME, uuid.uuid1())
+    unique_name = f"{PYPI_PACKAGE_NAME}-{uuid.uuid1()}"
     with ctx.cd("dist"):
         ctx.run(
-            "tar -xvf {0}-{1}.tar.gz".format(
+            "tar -xvf {}-{}.tar.gz".format(
                 PYPI_PACKAGE_NAME, APPLICATION_VERSION
             )
         )
         ctx.run(
-            "mv {0}-{1} {2}".format(
+            "mv {}-{} {}".format(
                 PYPI_PACKAGE_NAME, APPLICATION_VERSION, unique_name
             )
         )
@@ -566,13 +563,13 @@ def tag(ctx: Context):
             )
         version_tags = sorted(list(tags))
         assert (
-            "v{0}".format(version) not in version_tags
-        ), 'A "{0}" "v{1}" tag already exists in remote repository!'.format(
+            f"v{version}" not in version_tags
+        ), 'A "{}" "v{}" tag already exists in remote repository!'.format(
             PYTHON_PACKAGE_NAME, version
         )
 
-        ctx.run("git flow release start v{0}".format(version))
-        ctx.run("git flow release finish v{0}".format(version))
+        ctx.run(f"git flow release start v{version}")
+        ctx.run(f"git flow release finish v{version}")
 
 
 @task(build)
@@ -605,4 +602,4 @@ def sha256(ctx: Context):
 
     message_box('Computing "sha256"...')
     with ctx.cd("dist"):
-        ctx.run("openssl sha256 {0}-*.tar.gz".format(PYPI_PACKAGE_NAME))
+        ctx.run(f"openssl sha256 {PYPI_PACKAGE_NAME}-*.tar.gz")

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Academy Color Encoding System - Log Encodings
 =============================================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Geometry
 ========
@@ -332,13 +331,13 @@ def intersect_line_segments(
     r_1, c_1 = l_1.shape[0], l_1.shape[1]
     r_2, c_2 = l_2.shape[0], l_2.shape[1]
 
-    x_1, y_1, x_2, y_2 = [
+    x_1, y_1, x_2, y_2 = (
         np.tile(l_1[:, i, np.newaxis], (1, r_2)) for i in range(c_1)
-    ]
+    )
 
     l_2 = np.transpose(l_2)
 
-    x_3, y_3, x_4, y_4 = [np.tile(l_2[i, :], (r_1, 1)) for i in range(c_2)]
+    x_3, y_3, x_4, y_4 = (np.tile(l_2[i, :], (r_1, 1)) for i in range(c_2))
 
     x_4_x_3 = x_4 - x_3
     y_1_y_3 = y_1 - y_3

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Defines the unit tests for the :mod:`colour.recovery.mallett2019` module.
 """
@@ -104,7 +103,7 @@ class TestMixinMallett2019:
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
             if error > 4 * JND_CIE1976 / 100:  # pragma: no cover
-                self.fail('Delta E for "{0}" is {1}!'.format(name, error))
+                self.fail(f'Delta E for "{name}" is {error}!')
 
 
 class TestSpectralPrimaryDecompositionMallett2019(

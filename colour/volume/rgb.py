@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 RGB Colourspace Volume Computation
 ==================================

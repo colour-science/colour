@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 ASTM G-173 Solar Spectral Irradiance
 ====================================

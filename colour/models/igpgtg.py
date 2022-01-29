@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 :math:`I_GP_GT_G` Colourspace
 =============================

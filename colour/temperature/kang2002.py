@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Kang, Moon, Hong, Lee, Cho and Kim (2002) Correlated Colour Temperature
 =======================================================================
@@ -159,10 +158,8 @@ def CCT_to_xy_Kang2002(CCT: FloatingOrArrayLike) -> NDArray:
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 1667, CCT > 25000))]):
         usage_warning(
-            (
-                "Correlated colour temperature must be in domain "
-                "[1667, 25000], unpredictable results may occur!"
-            )
+            "Correlated colour temperature must be in domain "
+            "[1667, 25000], unpredictable results may occur!"
         )
 
     CCT_3 = CCT ** 3

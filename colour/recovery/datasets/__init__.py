@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from .mallett2019 import (
     SPECTRAL_SHAPE_sRGB_MALLETT2019,
     MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,

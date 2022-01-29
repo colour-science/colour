@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Standardized Residual Sum of Squares (STRESS) Index
 ===================================================

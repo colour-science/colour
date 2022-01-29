@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Showcases corresponding chromaticities prediction plotting examples.
 """
