@@ -23,27 +23,27 @@ from colour.plotting import (
     plot_blackbody_colours,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotSingleSd',
-    'TestPlotMultiSds',
-    'TestPlotSingleCmfs',
-    'TestPlotMultiCmfs',
-    'TestPlotSingleIlluminantSd',
-    'TestPlotMultiIlluminantSds',
-    'TestPlotVisibleSpectrum',
-    'TestPlotSingleLightnessFunction',
-    'TestPlotMultiLightnessFunctions',
-    'TestPlotSingleLuminanceFunction',
-    'TestPlotMultiLuminanceFunctions',
-    'TestPlotBlackbodySpectralRadiance',
-    'TestPlotBlackbodyColours',
+    "TestPlotSingleSd",
+    "TestPlotMultiSds",
+    "TestPlotSingleCmfs",
+    "TestPlotMultiCmfs",
+    "TestPlotSingleIlluminantSd",
+    "TestPlotMultiIlluminantSds",
+    "TestPlotVisibleSpectrum",
+    "TestPlotSingleLightnessFunction",
+    "TestPlotMultiLightnessFunctions",
+    "TestPlotSingleLuminanceFunction",
+    "TestPlotMultiLuminanceFunctions",
+    "TestPlotBlackbodySpectralRadiance",
+    "TestPlotBlackbodyColours",
 ]
 
 
@@ -66,15 +66,17 @@ class TestPlotSingleSd(unittest.TestCase):
                 530: 0.165500,
                 540: 0.290400,
                 550: 0.433450,
-                560: 0.594500
+                560: 0.594500,
             },
-            name='Custom 1')
+            name="Custom 1",
+        )
 
         figure, axes = plot_single_sd(
             sd,
             out_of_gamut_clipping=False,
             modulate_colours_with_sd_amplitude=True,
-            equalize_sd_amplitude=True)
+            equalize_sd_amplitude=True,
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -99,9 +101,10 @@ class TestPlotMultiSds(unittest.TestCase):
                 530: 0.165500,
                 540: 0.290400,
                 550: 0.433450,
-                560: 0.594500
+                560: 0.594500,
             },
-            name='Custom 1')
+            name="Custom 1",
+        )
         sd_2 = SpectralDistribution(
             {
                 500: 0.323000,
@@ -110,26 +113,23 @@ class TestPlotMultiSds(unittest.TestCase):
                 530: 0.862000,
                 540: 0.954000,
                 550: 0.994950,
-                560: 0.995000
+                560: 0.995000,
             },
-            name='Custom 2')
+            name="Custom 2",
+        )
 
         figure, axes = plot_multi_sds(
             [sd_1, sd_2],
-            plot_kwargs={
-                'use_sd_colours': True,
-                'normalise_sd_colours': True
-            })
+            plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_multi_sds(
             [sd_1, sd_2],
-            plot_kwargs=[{
-                'use_sd_colours': True,
-                'normalise_sd_colours': True
-            }] * 2)
+            plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 2,
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -163,10 +163,12 @@ class TestPlotMultiCmfs(unittest.TestCase):
         Tests :func:`colour.plotting.colorimetry.plot_multi_cmfs` definition.
         """
 
-        figure, axes = plot_multi_cmfs([
-            'CIE 1931 2 Degree Standard Observer',
-            'CIE 1964 10 Degree Standard Observer',
-        ])
+        figure, axes = plot_multi_cmfs(
+            [
+                "CIE 1931 2 Degree Standard Observer",
+                "CIE 1964 10 Degree Standard Observer",
+            ]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -184,7 +186,7 @@ class TestPlotSingleIlluminantSd(unittest.TestCase):
         definition.
         """
 
-        figure, axes = plot_single_illuminant_sd('A')
+        figure, axes = plot_single_illuminant_sd("A")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -202,17 +204,15 @@ class TestPlotMultiIlluminantSds(unittest.TestCase):
         definition.
         """
 
-        figure, axes = plot_multi_illuminant_sds(['A', 'B', 'C'])
+        figure, axes = plot_multi_illuminant_sds(["A", "B", "C"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_multi_illuminant_sds(
-            ['A', 'B', 'C'],
-            plot_kwargs=[{
-                'use_sd_colours': True,
-                'normalise_sd_colours': True
-            }] * 3)
+            ["A", "B", "C"],
+            plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 3,
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -248,7 +248,7 @@ class TestPlotSingleLightnessFunction(unittest.TestCase):
 plot_single_lightness_function` definition.
         """
 
-        figure, axes = plot_single_lightness_function('CIE 1976')
+        figure, axes = plot_single_lightness_function("CIE 1976")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -266,8 +266,7 @@ class TestPlotMultiLightnessFunctions(unittest.TestCase):
 plot_multi_lightness_functions` definition.
         """
 
-        figure, axes = plot_multi_lightness_functions(
-            ['CIE 1976', 'Wyszecki 1963'])
+        figure, axes = plot_multi_lightness_functions(["CIE 1976", "Wyszecki 1963"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -285,7 +284,7 @@ class TestPlotSingleLuminanceFunction(unittest.TestCase):
 plot_single_luminance_function` definition.
         """
 
-        figure, axes = plot_single_luminance_function('CIE 1976')
+        figure, axes = plot_single_luminance_function("CIE 1976")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -303,8 +302,7 @@ class TestPlotMultiLuminanceFunctions(unittest.TestCase):
 plot_multi_luminance_functions` definition.
         """
 
-        figure, axes = plot_multi_luminance_functions(
-            ['CIE 1976', 'Newhall 1943'])
+        figure, axes = plot_multi_luminance_functions(["CIE 1976", "Newhall 1943"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -346,5 +344,5 @@ class TestPlotBlackbodyColours(unittest.TestCase):
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

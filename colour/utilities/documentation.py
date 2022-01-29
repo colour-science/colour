@@ -6,22 +6,26 @@ Documentation
 Defines the documentation related objects.
 """
 
+from __future__ import annotations
+
+from colour.hints import Boolean
+
 import os
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DocstringDict',
-    'DocstringFloat',
-    'DocstringInt',
-    'DocstringText',
-    'DocstringTuple',
-    'is_documentation_building',
+    "DocstringDict",
+    "DocstringFloat",
+    "DocstringInt",
+    "DocstringText",
+    "DocstringTuple",
+    "is_documentation_building",
 ]
 
 
@@ -45,8 +49,8 @@ class DocstringFloat(float):
 
 class DocstringInt(int):
     """
-    A :class:`int` sub-class that allows settings a docstring to
-    :class:`int` instances.
+    A :class:`numpy.integer` sub-class that allows settings a docstring to
+    :class:`numpy.integer` instances.
     """
 
     pass
@@ -70,7 +74,7 @@ class DocstringTuple(tuple):
     pass
 
 
-def is_documentation_building():
+def is_documentation_building() -> Boolean:
     """
     Returns whether the documentation is being built by checking whether the
     *READTHEDOCS* or *COLOUR_SCIENCE__DOCUMENTATION_BUILD* environment
@@ -78,7 +82,7 @@ def is_documentation_building():
 
     Returns
     -------
-    bool
+    :class:`bool`
         Whether the documentation is being built.
 
     Examples
@@ -101,5 +105,6 @@ def is_documentation_building():
     """
 
     return bool(
-        os.environ.get('READTHEDOCS') or
-        os.environ.get('COLOUR_SCIENCE__DOCUMENTATION_BUILD'))
+        os.environ.get("READTHEDOCS")
+        or os.environ.get("COLOUR_SCIENCE__DOCUMENTATION_BUILD")
+    )

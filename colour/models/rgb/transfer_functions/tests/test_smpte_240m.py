@@ -10,16 +10,16 @@ import unittest
 from colour.models.rgb.transfer_functions import oetf_SMPTE240M, eotf_SMPTE240M
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestOetf_SMPTE240M',
-    'TestEotf_SMPTE240M',
+    "TestOetf_SMPTE240M",
+    "TestEotf_SMPTE240M",
 ]
 
 
@@ -37,11 +37,9 @@ oetf_SMPTE240M` definition.
 
         self.assertAlmostEqual(oetf_SMPTE240M(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            oetf_SMPTE240M(0.02), 0.080000000000000, places=7)
+        self.assertAlmostEqual(oetf_SMPTE240M(0.02), 0.080000000000000, places=7)
 
-        self.assertAlmostEqual(
-            oetf_SMPTE240M(0.18), 0.402285796753870, places=7)
+        self.assertAlmostEqual(oetf_SMPTE240M(0.18), 0.402285796753870, places=7)
 
         self.assertAlmostEqual(oetf_SMPTE240M(1.0), 1.0, places=7)
 
@@ -75,11 +73,12 @@ oetf_SMPTE240M` definition domain and range scale support.
         L_c = 0.18
         V_c = oetf_SMPTE240M(L_c)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    oetf_SMPTE240M(L_c * factor), V_c * factor, decimal=7)
+                    oetf_SMPTE240M(L_c * factor), V_c * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_oetf_SMPTE240M(self):
@@ -105,11 +104,9 @@ eotf_SMPTE240M` definition.
 
         self.assertAlmostEqual(eotf_SMPTE240M(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            eotf_SMPTE240M(0.080000000000000), 0.02, places=7)
+        self.assertAlmostEqual(eotf_SMPTE240M(0.080000000000000), 0.02, places=7)
 
-        self.assertAlmostEqual(
-            eotf_SMPTE240M(0.402285796753870), 0.18, places=7)
+        self.assertAlmostEqual(eotf_SMPTE240M(0.402285796753870), 0.18, places=7)
 
         self.assertAlmostEqual(eotf_SMPTE240M(1.0), 1.0, places=7)
 
@@ -143,11 +140,12 @@ eotf_SMPTE240M` definition domain and range scale support.
         V_r = 0.402285796753870
         L_r = eotf_SMPTE240M(V_r)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    eotf_SMPTE240M(V_r * factor), L_r * factor, decimal=7)
+                    eotf_SMPTE240M(V_r * factor), L_r * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_eotf_SMPTE240M(self):
@@ -159,5 +157,5 @@ eotf_SMPTE240M` definition nan support.
         eotf_SMPTE240M(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

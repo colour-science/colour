@@ -15,66 +15,70 @@ References
     Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
 """
 
+from __future__ import annotations
+
 import numpy as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import (
+    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
     handle_spectral_arguments,
     sd_ones,
     sd_to_XYZ_integration,
 )
+from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
 from colour.utilities import to_domain_1, from_range_100
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'SPECTRAL_SHAPE_MENG2015',
-    'XYZ_to_sd_Meng2015',
+    "SPECTRAL_SHAPE_MENG2015",
+    "XYZ_to_sd_Meng2015",
 ]
 
-SPECTRAL_SHAPE_MENG2015 = SpectralShape(360, 780, 5)
+SPECTRAL_SHAPE_MENG2015: SpectralShape = SpectralShape(360, 780, 5)
 """
 Spectral shape according to *ASTM E308-15* practise shape but using an interval
 of 5.
-
-SPECTRAL_SHAPE_MENG2015 : SpectralShape
 """
 
 
-def XYZ_to_sd_Meng2015(XYZ,
-                       cmfs=None,
-                       illuminant=None,
-                       optimisation_kwargs=None):
+def XYZ_to_sd_Meng2015(
+    XYZ: ArrayLike,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    optimisation_kwargs: Optional[Dict] = None,
+) -> SpectralDistribution:
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ
         *CIE XYZ* tristimulus values to recover the spectral distribution from.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions. The wavelength
         :math:`\\lambda_{i}` range interval of the colour matching functions
         affects directly the time the computations take. The current default
         interval of 5 is a good compromise between precision and time spent,
         default to the *CIE 1931 2 Degree Standard Observer*.
-    illuminant : SpectralDistribution, optional
+    illuminant
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Recovered spectral distribution.
 
     Notes
@@ -163,38 +167,35 @@ def XYZ_to_sd_Meng2015(XYZ,
     XYZ = to_domain_1(XYZ)
 
     cmfs, illuminant = handle_spectral_arguments(
-        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_MENG2015)
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_MENG2015
+    )
 
     sd = sd_ones(cmfs.shape)
 
-    def objective_function(a):
+    def objective_function(a: ArrayLike) -> FloatingOrNDArray:
         """
         Objective function.
         """
 
         return np.sum(np.diff(a) ** 2)
 
-    def constraint_function(a):
+    def constraint_function(a: ArrayLike) -> NDArray:
         """
         Function defining the constraint.
         """
 
         sd[:] = a
-        return sd_to_XYZ_integration(
-            sd, cmfs=cmfs, illuminant=illuminant) - XYZ
+        return sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
 
     wavelengths = sd.wavelengths
     bins = wavelengths.size
 
     optimisation_settings = {
-        'method': 'SLSQP',
-        'constraints': {
-            'type': 'eq',
-            'fun': constraint_function
-        },
-        'bounds': np.tile(np.array([0, 1000]), (bins, 1)),
-        'options': {
-            'ftol': 1e-10,
+        "method": "SLSQP",
+        "constraints": {"type": "eq", "fun": constraint_function},
+        "bounds": np.tile(np.array([0, 1000]), (bins, 1)),
+        "options": {
+            "ftol": 1e-10,
         },
     }
     if optimisation_kwargs is not None:
@@ -205,9 +206,12 @@ def XYZ_to_sd_Meng2015(XYZ,
     if not result.success:
         raise RuntimeError(
             'Optimization failed for {0} after {1} iterations: "{2}".'.format(
-                XYZ, result.nit, result.message))
+                XYZ, result.nit, result.message
+            )
+        )
 
     return SpectralDistribution(
         from_range_100(result.x * 100),
         wavelengths,
-        name='{0} (XYZ) - Meng (2015)'.format(XYZ))
+        name="{0} (XYZ) - Meng (2015)".format(XYZ),
+    )

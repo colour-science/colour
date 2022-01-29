@@ -17,6 +17,9 @@ References
     https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf
 """
 
+from __future__ import annotations
+
+from colour.hints import FloatingOrNDArray, Literal, Union
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
@@ -33,17 +36,19 @@ from .barten1999 import (
 )
 
 __all__ = [
-    'optical_MTF_Barten1999',
-    'pupil_diameter_Barten1999',
-    'sigma_Barten1999',
-    'retinal_illuminance_Barten1999',
-    'maximum_angular_size_Barten1999',
-    'contrast_sensitivity_function_Barten1999',
+    "optical_MTF_Barten1999",
+    "pupil_diameter_Barten1999",
+    "sigma_Barten1999",
+    "retinal_illuminance_Barten1999",
+    "maximum_angular_size_Barten1999",
+    "contrast_sensitivity_function_Barten1999",
 ]
 
-CONTRAST_SENSITIVITY_METHODS = CaseInsensitiveMapping({
-    'Barten 1999': contrast_sensitivity_function_Barten1999,
-})
+CONTRAST_SENSITIVITY_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Barten 1999": contrast_sensitivity_function_Barten1999,
+    }
+)
 CONTRAST_SENSITIVITY_METHODS.__doc__ = """
 Supported contrast sensitivity methods.
 
@@ -51,80 +56,78 @@ References
 ----------
 :cite:`Barten1999`, :cite:`Barten2003`, :cite:`Cowan2004`,
 :cite:`InternationalTelecommunicationUnion2015`,
-
-CONTRAST_SENSITIVITY_METHODS : CaseInsensitiveMapping
-    **{'Barten 1999'}**
 """
 
 
-def contrast_sensitivity_function(method='Barten 1999', **kwargs):
+def contrast_sensitivity_function(
+    method: Union[Literal["Barten 1999"], str] = "Barten 1999", **kwargs
+) -> FloatingOrNDArray:
     """
     Returns the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by given method.
 
     Parameters
     ----------
-    method : str, optional
-        **{'Barten 1999'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    E : numeric or array_like, optional
+    E
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Retinal illuminance :math:`E` in Trolands.
-    N_max : numeric or array_like, optional
+    N_max
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Maximum number of cycles :math:`N_{max}` over which the eye can
         integrate the information.
-    T : numeric or array_like, optional
+    T
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Integration time :math:`T` in seconds of the eye.
-    X_0 : numeric or array_like, optional
+    X_0
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Angular size :math:`X_0` in degrees of the object in the x direction.
-    Y_0 : numeric or array_like, optional
+    Y_0
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Angular size :math:`Y_0` in degrees of the object in the y direction.
-    X_max : numeric or array_like, optional
+    X_max
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Maximum angular size :math:`X_{max}` in degrees of the integration
         area in the x direction.
-    Y_max : numeric or array_like, optional
+    Y_max
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Maximum angular size :math:`Y_{max}` in degrees of the integration
         area in the y direction.
-    k : numeric or array_like, optional
+    k
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Signal-to-noise (SNR) ratio :math:`k`.
-    n : numeric or array_like, optional
+    n
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Quantum efficiency of the eye :math:`n`.
-    p : numeric or array_like, optional
+    p
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Photon conversion factor :math:`p` in
         :math:`photons\\div seconds\\div degrees^2\\div Trolands` that
         depends on the light source.
-    phi_0 : numeric or array_like, optional
+    phi_0
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Spectral density :math:`\\phi_0` in :math:`seconds degrees^2` of the
         neural noise.
-    sigma : numeric or array_like, optional
+    sigma
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Standard deviation :math:`\\sigma` of the line-spread function
         resulting from the convolution of the different elements of the
         convolution process.
-    u : numeric
+    u
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Spatial frequency :math:`u`, the cycles per degree.
-    u_0 : numeric or array_like, optional
+    u_0
         {:func:`colour.contrast.contrast_sensitivity_function_Barten1999`},
         Spatial frequency :math:`u_0` in :math:`cycles\\div degrees` above
         which the lateral inhibition ceases.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Contrast sensitivity :math:`S`.
 
     References
@@ -150,6 +153,6 @@ def contrast_sensitivity_function(method='Barten 1999', **kwargs):
 
 
 __all__ += [
-    'CONTRAST_SENSITIVITY_METHODS',
-    'contrast_sensitivity_function',
+    "CONTRAST_SENSITIVITY_METHODS",
+    "contrast_sensitivity_function",
 ]

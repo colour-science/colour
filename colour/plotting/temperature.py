@@ -12,9 +12,26 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931`
 plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 """
 
+from __future__ import annotations
+
+import matplotlib.pyplot as plt
 import numpy as np
 
 from colour.colorimetry import MSDS_CMFS, CCS_ILLUMINANTS
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Callable,
+    Dict,
+    List,
+    Literal,
+    NDArray,
+    Optional,
+    Sequence,
+    Tuple,
+    Union,
+    cast,
+)
 from colour.models import (
     UCS_uv_to_xy,
     XYZ_to_UCS,
@@ -34,49 +51,50 @@ from colour.plotting import (
     update_settings_collection,
 )
 from colour.plotting.diagrams import plot_chromaticity_diagram
-from colour.utilities import tstack, zeros, validate_method
+from colour.utilities import optional, tstack, validate_method, zeros
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'plot_planckian_locus',
-    'plot_planckian_locus_CIE1931',
-    'plot_planckian_locus_CIE1960UCS',
-    'plot_planckian_locus_in_chromaticity_diagram',
-    'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
-    'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS',
+    "plot_planckian_locus",
+    "plot_planckian_locus_CIE1931",
+    "plot_planckian_locus_CIE1960UCS",
+    "plot_planckian_locus_in_chromaticity_diagram",
+    "plot_planckian_locus_in_chromaticity_diagram_CIE1931",
+    "plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS",
 ]
 
 
 @override_style()
-def plot_planckian_locus(planckian_locus_colours=None,
-                         method='CIE 1931',
-                         **kwargs):
+def plot_planckian_locus(
+    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* according to given method.
 
     Parameters
     ----------
-    planckian_locus_colours : array_like or str, optional
+    planckian_locus_colours
         *Planckian Locus* colours.
-    method : str, optional
-        **{'CIE 1931', 'CIE 1960 UCS'}**,
+    method
         *Chromaticity Diagram* method.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -89,19 +107,21 @@ def plot_planckian_locus(planckian_locus_colours=None,
         :alt: plot_planckian_locus
     """
 
-    method = validate_method(method, ['CIE 1931', 'CIE 1960 UCS'])
+    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS"])
 
-    if planckian_locus_colours is None:
-        planckian_locus_colours = CONSTANTS_COLOUR_STYLE.colour.dark
+    planckian_locus_colours = cast(
+        Union[ArrayLike, str],
+        optional(planckian_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark),
+    )
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    if method == 'cie 1931':
+    if method == "cie 1931":
 
-        def uv_to_ij(uv):
+        def uv_to_ij(uv: NDArray) -> NDArray:
             """
             Converts given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
@@ -111,9 +131,9 @@ def plot_planckian_locus(planckian_locus_colours=None,
 
         D_uv = 0.025
 
-    elif method == 'cie 1960 ucs':
+    elif method == "cie 1960 ucs":
 
-        def uv_to_ij(uv):
+        def uv_to_ij(uv: NDArray) -> NDArray:
             """
             Converts given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
@@ -126,46 +146,49 @@ def plot_planckian_locus(planckian_locus_colours=None,
     start, end = 1667, 100000
     CCT = np.arange(start, end + 250, 250)
     CCT_D_uv = tstack([CCT, zeros(CCT.shape)])
-    ij = uv_to_ij(CCT_to_uv(CCT_D_uv, 'Robertson 1968'))
+    ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
 
     axes.plot(ij[..., 0], ij[..., 1], color=planckian_locus_colours)
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
-        i0, j0 = uv_to_ij(CCT_to_uv(np.array([i, -D_uv]), 'Robertson 1968'))
-        i1, j1 = uv_to_ij(CCT_to_uv(np.array([i, D_uv]), 'Robertson 1968'))
+        i0, j0 = uv_to_ij(CCT_to_uv(np.array([i, -D_uv]), "Robertson 1968"))
+        i1, j1 = uv_to_ij(CCT_to_uv(np.array([i, D_uv]), "Robertson 1968"))
         axes.plot((i0, i1), (j0, j1), color=planckian_locus_colours)
         axes.annotate(
-            '{0}K'.format(i),
+            "{0}K".format(i),
             xy=(i0, j0),
             xytext=(0, -10),
-            textcoords='offset points',
-            size='x-small')
+            textcoords="offset points",
+            size="x-small",
+        )
 
-    settings = {'axes': axes}
+    settings = {"axes": axes}
     settings.update(kwargs)
 
     return render(**settings)
 
 
 @override_style()
-def plot_planckian_locus_CIE1931(planckian_locus_colours=None, **kwargs):
+def plot_planckian_locus_CIE1931(
+    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None, **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* according to *CIE 1931* method.
 
     Parameters
     ----------
-    planckian_locus_colours : array_like or str, optional
+    planckian_locus_colours
         *Planckian Locus* colours.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -179,30 +202,32 @@ def plot_planckian_locus_CIE1931(planckian_locus_colours=None, **kwargs):
     """
 
     settings = dict(kwargs)
-    settings.update({'method': 'CIE 1931'})
+    settings.update({"method": "CIE 1931"})
 
     return plot_planckian_locus(planckian_locus_colours, **settings)
 
 
 @override_style()
-def plot_planckian_locus_CIE1960UCS(planckian_locus_colours=None, **kwargs):
+def plot_planckian_locus_CIE1960UCS(
+    planckian_locus_colours: Optional[Union[ArrayLike, str]] = None, **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* according to *CIE 1960 UCS* method.
 
     Parameters
     ----------
-    planckian_locus_colours : array_like or str, optional
+    planckian_locus_colours
         *Planckian Locus* colours.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -216,65 +241,68 @@ def plot_planckian_locus_CIE1960UCS(planckian_locus_colours=None, **kwargs):
     """
 
     settings = dict(kwargs)
-    settings.update({'method': 'CIE 1960 UCS'})
+    settings.update({"method": "CIE 1960 UCS"})
 
     return plot_planckian_locus(planckian_locus_colours, **settings)
 
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram(
-        illuminants,
-        chromaticity_diagram_callable=plot_chromaticity_diagram,
-        planckian_locus_callable=plot_planckian_locus,
-        method='CIE 1931',
-        annotate_kwargs=None,
-        plot_kwargs=None,
-        **kwargs):
+    illuminants: Union[str, Sequence[str]],
+    chromaticity_diagram_callable: Callable = (
+        plot_chromaticity_diagram  # type: ignore[has-type]
+    ),
+    planckian_locus_callable: Callable = plot_planckian_locus,
+    method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
+    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* and given illuminants in the
     *Chromaticity Diagram* according to given method.
 
     Parameters
     ----------
-    illuminants : str or object or array_like
+    illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
-    chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
-    planckian_locus_callable : callable, optional
+    planckian_locus_callable
         Callable responsible for drawing the *Planckian Locus*.
-    method : str, optional
-        **{'CIE 1931', 'CIE 1960 UCS'}**,
+    method
         *Chromaticity Diagram* method.
-    annotate_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.annotate` definition, used to
-        annotate the resulting chromaticity coordinates with their respective
-        illuminant names. ``annotate_kwargs`` can be either a single dictionary
-        applied to all the arrows with same settings or a sequence of
-        dictionaries with different settings for each illuminant.
-        The following special keyword arguments can also be used:
-
-        -   *annotate* : bool, whether to annotate the illuminants.
-    plot_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.plot` definition, used to control
-        the style of the plotted illuminants. ``plot_kwargs`` can be either a
-        single dictionary applied to all the plotted illuminants with same
+    annotate_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.annotate`
+        definition, used to annotate the resulting chromaticity coordinates
+        with their respective spectral distribution names. ``annotate_kwargs``
+        can be either a single dictionary applied to all the arrows with same
         settings or a sequence of dictionaries with different settings for each
-        plotted illuminant.
+        spectral distribution. The following special keyword arguments can also
+        be used:
+
+        -   ``annotate`` : Whether to annotate the spectral distributions.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
+        used to control the style of the plotted illuminants. ``plot_kwargs``
+        can be either a single dictionary applied to all the plotted
+        illuminants with the same settings or a sequence of dictionaries with
+        different settings for eachplotted illuminant.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -304,108 +332,126 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """
 
-    cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 
-    illuminants = filter_passthrough(
-        CCS_ILLUMINANTS.get(cmfs.name), illuminants)
+    illuminants_filtered = filter_passthrough(
+        CCS_ILLUMINANTS.get(cmfs.name), illuminants  # type: ignore[arg-type]
+    )
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
     method = method.upper()
 
-    settings = {'axes': axes, 'method': method}
+    settings = {"axes": axes, "method": method}
     settings.update(kwargs)
-    settings['standalone'] = False
+    settings["standalone"] = False
 
     chromaticity_diagram_callable(**settings)
 
     planckian_locus_callable(**settings)
 
-    if method == 'CIE 1931':
+    if method == "CIE 1931":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
             """
 
             return xy
 
         bounding_box = (-0.1, 0.9, -0.1, 0.9)
-    elif method == 'CIE 1960 UCS':
+    elif method == "CIE 1960 UCS":
 
-        def xy_to_ij(xy):
+        def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
-            chromaticity coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
             """
 
             return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
 
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
     else:
-        raise ValueError('Invalid method: "{0}", must be one of '
-                         '[\'CIE 1931\', \'CIE 1960 UCS\']'.format(method))
+        raise ValueError(
+            'Invalid method: "{0}", must be one of '
+            "['CIE 1931', 'CIE 1960 UCS']".format(method)
+        )
 
-    annotate_settings_collection = [{
-        'annotate': True,
-        'xytext': (-50, 30),
-        'textcoords': 'offset points',
-        'arrowprops': CONSTANTS_ARROW_STYLE,
-    } for _ in range(len(illuminants))]
+    annotate_settings_collection = [
+        {
+            "annotate": True,
+            "xytext": (-50, 30),
+            "textcoords": "offset points",
+            "arrowprops": CONSTANTS_ARROW_STYLE,
+        }
+        for _ in range(len(illuminants_filtered))
+    ]
 
     if annotate_kwargs is not None:
-        update_settings_collection(annotate_settings_collection,
-                                   annotate_kwargs, len(illuminants))
+        update_settings_collection(
+            annotate_settings_collection,
+            annotate_kwargs,
+            len(illuminants_filtered),
+        )
 
-    plot_settings_collection = [{
-        'color':
-            CONSTANTS_COLOUR_STYLE.colour.brightest,
-        'label':
-            '{0}'.format(illuminant),
-        'marker':
-            'o',
-        'markeredgecolor':
-            CONSTANTS_COLOUR_STYLE.colour.dark,
-        'markeredgewidth':
-            CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
-        'markersize': (CONSTANTS_COLOUR_STYLE.geometry.short * 6 +
-                       CONSTANTS_COLOUR_STYLE.geometry.short * 0.75),
-    } for illuminant in illuminants]
+    plot_settings_collection = [
+        {
+            "color": CONSTANTS_COLOUR_STYLE.colour.brightest,
+            "label": "{0}".format(illuminant),
+            "marker": "o",
+            "markeredgecolor": CONSTANTS_COLOUR_STYLE.colour.dark,
+            "markeredgewidth": CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
+            "markersize": (
+                CONSTANTS_COLOUR_STYLE.geometry.short * 6
+                + CONSTANTS_COLOUR_STYLE.geometry.short * 0.75
+            ),
+        }
+        for illuminant in illuminants_filtered
+    ]
 
     if plot_kwargs is not None:
-        update_settings_collection(plot_settings_collection, plot_kwargs,
-                                   len(illuminants))
+        update_settings_collection(
+            plot_settings_collection, plot_kwargs, len(illuminants_filtered)
+        )
 
-    for i, (illuminant, xy) in enumerate(illuminants.items()):
+    for i, (illuminant, xy) in enumerate(illuminants_filtered.items()):
         plot_settings = plot_settings_collection[i]
 
         ij = xy_to_ij(xy)
 
         axes.plot(ij[0], ij[1], **plot_settings)
 
-        if annotate_settings_collection[i]['annotate']:
+        if annotate_settings_collection[i]["annotate"]:
             annotate_settings = annotate_settings_collection[i]
-            annotate_settings.pop('annotate')
+            annotate_settings.pop("annotate")
 
             axes.annotate(illuminant, xy=ij, **annotate_settings)
 
-    title = (('{0} Illuminants - Planckian Locus\n'
-              '{1} Chromaticity Diagram - '
-              'CIE 1931 2 Degree Standard Observer').format(
-                  ', '.join(illuminants), method.upper()) if illuminants else
-             ('Planckian Locus\n{0} Chromaticity Diagram - '
-              'CIE 1931 2 Degree Standard Observer'.format(method.upper())))
+    title = (
+        (
+            "{0} Illuminants - Planckian Locus\n"
+            "{1} Chromaticity Diagram - "
+            "CIE 1931 2 Degree Standard Observer"
+        ).format(", ".join(illuminants_filtered), method.upper())
+        if illuminants_filtered
+        else (
+            "Planckian Locus\n{0} Chromaticity Diagram - "
+            "CIE 1931 2 Degree Standard Observer".format(method.upper())
+        )
+    )
 
-    settings.update({
-        'axes': axes,
-        'standalone': True,
-        'bounding_box': bounding_box,
-        'title': title,
-    })
+    settings.update(
+        {
+            "axes": axes,
+            "standalone": True,
+            "bounding_box": bounding_box,
+            "title": title,
+        }
+    )
     settings.update(kwargs)
 
     return render(**settings)
@@ -413,58 +459,61 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-        illuminants,
-        chromaticity_diagram_callable_CIE1931=(
-            plot_chromaticity_diagram_CIE1931),
-        planckian_locus_callable_CIE1931=plot_planckian_locus_CIE1931,
-        annotate_kwargs=None,
-        plot_kwargs=None,
-        **kwargs):
+    illuminants: Union[str, Sequence[str]],
+    chromaticity_diagram_callable_CIE1931: Callable = (
+        plot_chromaticity_diagram_CIE1931  # type: ignore[has-type]
+    ),
+    planckian_locus_callable_CIE1931: Callable = plot_planckian_locus_CIE1931,
+    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* and given illuminants in
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
-    illuminants : str or object or array_like
+    illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
-    chromaticity_diagram_callable_CIE1931 : callable, optional
+    chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
-    planckian_locus_callable_CIE1931 : callable, optional
+    planckian_locus_callable_CIE1931
         Callable responsible for drawing the *Planckian Locus* according to
         *CIE 1931* method.
-    annotate_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.annotate` definition, used to
-        annotate the resulting chromaticity coordinates with their respective
-        illuminant names. ``annotate_kwargs`` can be either a single dictionary
-        applied to all the arrows with same settings or a sequence of
-        dictionaries with different settings for each illuminant.
-        The following special keyword arguments can also be used:
-
-        -   *annotate* : bool, whether to annotate the illuminants.
-    plot_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.plot` definition, used to control
-        the style of the plotted illuminants. ``plot_kwargs`` can be either a
-        single dictionary applied to all the plotted illuminants with same
+    annotate_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.annotate`
+        definition, used to annotate the resulting chromaticity coordinates
+        with their respective spectral distribution names. ``annotate_kwargs``
+        can be either a single dictionary applied to all the arrows with same
         settings or a sequence of dictionaries with different settings for each
-        plotted illuminant.
+        spectral distribution. The following special keyword arguments can also
+        be used:
+
+        -   ``annotate`` : Whether to annotate the spectral distributions.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
+        used to control the style of the plotted illuminants. ``plot_kwargs``
+        can be either a single dictionary applied to all the plotted
+        illuminants with the same settings or a sequence of dictionaries with
+        different settings for eachplotted illuminant.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -480,7 +529,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
     """
 
     settings = dict(kwargs)
-    settings.update({'method': 'CIE 1931'})
+    settings.update({"method": "CIE 1931"})
 
     return plot_planckian_locus_in_chromaticity_diagram(
         illuminants,
@@ -488,64 +537,68 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
         planckian_locus_callable_CIE1931,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings)
+        **settings
+    )
 
 
 @override_style()
 def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-        illuminants,
-        chromaticity_diagram_callable_CIE1960UCS=(
-            plot_chromaticity_diagram_CIE1960UCS),
-        planckian_locus_callable_CIE1960UCS=plot_planckian_locus_CIE1960UCS,
-        annotate_kwargs=None,
-        plot_kwargs=None,
-        **kwargs):
+    illuminants: Union[str, Sequence[str]],
+    chromaticity_diagram_callable_CIE1960UCS: Callable = (
+        plot_chromaticity_diagram_CIE1960UCS  # type: ignore[has-type]
+    ),
+    planckian_locus_callable_CIE1960UCS: Callable = plot_planckian_locus_CIE1960UCS,
+    annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the *Planckian Locus* and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    illuminants : str or object or array_like
+    illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
-    chromaticity_diagram_callable_CIE1960UCS : callable, optional
+    chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
-    planckian_locus_callable_CIE1960UCS : callable, optional
+    planckian_locus_callable_CIE1960UCS
         Callable responsible for drawing the *Planckian Locus* according to
         *CIE 1960 UCS* method.
-    annotate_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.annotate` definition, used to
-        annotate the resulting chromaticity coordinates with their respective
-        illuminant names. ``annotate_kwargs`` can be either a single dictionary
-        applied to all the arrows with same settings or a sequence of
-        dictionaries with different settings for each illuminant.
-        The following special keyword arguments can also be used:
-
-        -   *annotate* : bool, whether to annotate the illuminants.
-    plot_kwargs : dict or array_like, optional
-        Keyword arguments for the :func:`plt.plot` definition, used to control
-        the style of the plotted illuminants. ``plot_kwargs`` can be either a
-        single dictionary applied to all the plotted illuminants with same
+    annotate_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.annotate`
+        definition, used to annotate the resulting chromaticity coordinates
+        with their respective spectral distribution names. ``annotate_kwargs``
+        can be either a single dictionary applied to all the arrows with same
         settings or a sequence of dictionaries with different settings for each
-        plotted illuminant.
+        spectral distribution. The following special keyword arguments can also
+        be used:
+
+        -   ``annotate`` : Whether to annotate the spectral distributions.
+    plot_kwargs
+        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
+        used to control the style of the plotted illuminants. ``plot_kwargs``
+        can be either a single dictionary applied to all the plotted
+        illuminants with the same settings or a sequence of dictionaries with
+        different settings for eachplotted illuminant.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -561,7 +614,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
     """
 
     settings = dict(kwargs)
-    settings.update({'method': 'CIE 1960 UCS'})
+    settings.update({"method": "CIE 1960 UCS"})
 
     return plot_planckian_locus_in_chromaticity_diagram(
         illuminants,
@@ -569,4 +622,5 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
         planckian_locus_callable_CIE1960UCS,
         annotate_kwargs=annotate_kwargs,
         plot_kwargs=plot_kwargs,
-        **settings)
+        **settings
+    )

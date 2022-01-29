@@ -3,31 +3,34 @@
 Defines unit tests for :mod:`colour.io.uprtek_sekonic` module.
 """
 
+from __future__ import annotations
+
 import json
 import numpy as np
 import os
 import unittest
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Any, Dict, Optional
 from colour.io import (
     SpectralDistribution_UPRTek,
     SpectralDistribution_Sekonic,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 __all__ = [
-    'RESOURCES_DIRECTORY',
-    'AbstractSpectralDistributionTest',
-    'TestSpectralDistributionUprTek',
-    'TestSpectralDistributionSekonic',
+    "RESOURCES_DIRECTORY",
+    "AbstractSpectralDistributionTest",
+    "TestSpectralDistributionUprTek",
+    "TestSpectralDistributionSekonic",
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
 class AbstractSpectralDistributionTest(unittest.TestCase):
@@ -37,31 +40,38 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
     methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
         super(AbstractSpectralDistributionTest, self).__init__(*args)
 
-        self._sd_factory = None
-        self._path = None
-        self._spectral_data = None
+        self._sd_factory: Any = None
+        self._path: Optional[str] = None
+        self._spectral_data: Optional[Dict] = None
 
     def test_required_attributes(self):
         """
         Tests presence of required attributes.
         """
 
-        required_attributes = ('mapping', 'path', 'header',
-                               'spectral_quantity', 'reflection_geometry',
-                               'transmission_geometry', 'bandwidth_FWHM',
-                               'bandwidth_corrected', 'metadata')
+        required_attributes = (
+            "mapping",
+            "path",
+            "header",
+            "spectral_quantity",
+            "reflection_geometry",
+            "transmission_geometry",
+            "bandwidth_FWHM",
+            "bandwidth_corrected",
+            "metadata",
+        )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralDistribution_UPRTek))
@@ -71,7 +81,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', 'read', 'write')
+        required_methods = ("__init__", "read", "write")
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution_UPRTek))
@@ -85,8 +95,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         if self._sd_factory is None:
             return
 
-        sd = self._sd_factory(os.path.join(RESOURCES_DIRECTORY,
-                                           self._path)).read()
+        sd = self._sd_factory(os.path.join(RESOURCES_DIRECTORY, self._path)).read()
 
         sd_r = SpectralDistribution(self._spectral_data)
 
@@ -96,12 +105,12 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         for key, value in self._header.items():
             for specification in sd.header.mapping.elements:
                 if key == specification.element:
-                    if key == 'Comments':
-                        self.assertDictEqual(
-                            json.loads(sd.header.comments), value)
+                    if key == "Comments":
+                        self.assertDictEqual(json.loads(sd.header.comments), value)
                     else:
                         self.assertEqual(
-                            getattr(sd.header, specification.attribute), value)
+                            getattr(sd.header, specification.attribute), value
+                        )
 
 
 class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
@@ -110,20 +119,20 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
     methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
         super(TestSpectralDistributionUprTek, self).__init__(*args)
 
         self._sd_factory = SpectralDistribution_UPRTek
-        self._path = 'ESPD2021_0104_231446.xls'
+        self._path = "ESPD2021_0104_231446.xls"
         self._spectral_data = {
             380: 0.030267,
             381: 0.030267,
@@ -529,58 +538,58 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
         }
 
         self._header = {
-            'Manufacturer': 'UPRTek',
-            'CatalogNumber': None,
-            'Description': None,
-            'DocumentCreator': None,
-            'UniqueIdentifier': None,
-            'MeasurementEquipment': 'CV600',
-            'Laboratory': None,
-            'ReportNumber': None,
-            'ReportDate': '2021/01/04_23:14:46',
-            'DocumentCreationDate': None,
-            'Comments': {
-                'Model Name': 'CV600',
-                'Serial Number': '19J00789',
-                'Time': '2021/01/04_23:14:46',
-                'Memo': [],
-                'LUX': 695.154907,
-                'fc': 64.605476,
-                'CCT': 5198.0,
-                'Duv': -0.00062,
-                'I-Time': 12000.0,
-                'X': 682.470886,
-                'Y': 695.154907,
-                'Z': 631.635071,
-                'x': 0.339663,
-                'y': 0.345975,
+            "Manufacturer": "UPRTek",
+            "CatalogNumber": None,
+            "Description": None,
+            "DocumentCreator": None,
+            "UniqueIdentifier": None,
+            "MeasurementEquipment": "CV600",
+            "Laboratory": None,
+            "ReportNumber": None,
+            "ReportDate": "2021/01/04_23:14:46",
+            "DocumentCreationDate": None,
+            "Comments": {
+                "Model Name": "CV600",
+                "Serial Number": "19J00789",
+                "Time": "2021/01/04_23:14:46",
+                "Memo": [],
+                "LUX": 695.154907,
+                "fc": 64.605476,
+                "CCT": 5198.0,
+                "Duv": -0.00062,
+                "I-Time": 12000.0,
+                "X": 682.470886,
+                "Y": 695.154907,
+                "Z": 631.635071,
+                "x": 0.339663,
+                "y": 0.345975,
                 "u'": 0.209915,
                 "v'": 0.481087,
-                'LambdaP': 456.0,
-                'LambdaPValue': 18.404581,
-                'CRI': 92.956993,
-                'R1': 91.651062,
-                'R2': 93.014732,
-                'R3': 97.032013,
-                'R4': 93.513229,
-                'R5': 92.48259,
-                'R6': 91.48687,
-                'R7': 93.016129,
-                'R8': 91.459312,
-                'R9': 77.613075,
-                'R10': 86.981613,
-                'R11': 94.841324,
-                'R12': 74.139542,
-                'R13': 91.073837,
-                'R14': 97.064323,
-                'R15': 88.615669,
-                'TLCI': 97.495056,
-                'TLMF-A': 1.270032,
-                'SSI-A': 44.881924,
-                'Rf': 87.234917,
-                'Rg': 98.510712,
-                'IRR': 2.607891
-            }
+                "LambdaP": 456.0,
+                "LambdaPValue": 18.404581,
+                "CRI": 92.956993,
+                "R1": 91.651062,
+                "R2": 93.014732,
+                "R3": 97.032013,
+                "R4": 93.513229,
+                "R5": 92.48259,
+                "R6": 91.48687,
+                "R7": 93.016129,
+                "R8": 91.459312,
+                "R9": 77.613075,
+                "R10": 86.981613,
+                "R11": 94.841324,
+                "R12": 74.139542,
+                "R13": 91.073837,
+                "R14": 97.064323,
+                "R15": 88.615669,
+                "TLCI": 97.495056,
+                "TLMF-A": 1.270032,
+                "SSI-A": 44.881924,
+                "Rf": 87.234917,
+                "Rg": 98.510712,
+                "IRR": 2.607891,
+            },
         }
 
 
@@ -590,20 +599,20 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
     methods.
     """
 
-    def __init__(self, *args):
+    def __init__(self, *args: Any):
         """
         Create an instance of the class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
         """
 
         super(TestSpectralDistributionSekonic, self).__init__(*args)
 
         self._sd_factory = SpectralDistribution_Sekonic
-        self._path = 'RANDOM_001_02._3262K.csv'
+        self._path = "RANDOM_001_02._3262K.csv"
         self._spectral_data = {
             380: 0.000000000000,
             381: 0.000000000000,
@@ -1008,129 +1017,87 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
             780: 0.000035575547,
         }
         self._header = {
-            'Manufacturer': 'Sekonic',
-            'CatalogNumber': None,
-            'Description': None,
-            'DocumentCreator': None,
-            'UniqueIdentifier': None,
-            'MeasurementEquipment': None,
-            'Laboratory': None,
-            'ReportNumber': None,
-            'ReportDate': '15/03/2021 3:44:14 p.m.',
-            'DocumentCreationDate': None,
-            'Comments': {
-                'Date Saved':
-                    '15/03/2021 3:44:14 p.m.',
-                'Title':
-                    'RANDOM_001_02°_3262K',
-                'Measuring Mode':
-                    'Ambient',
-                'Viewing Angle [°]':
-                    2,
-                'Tcp [K]':
-                    3262,
-                '⊿uv':
-                    -0.0029,
-                'Illuminance [lx]':
-                    30.1,
-                'Illuminance [fc]':
-                    2.79,
-                'Peak Wavelength [nm]':
-                    608,
-                'Tristimulus Value X':
-                    32.1626,
-                'Tristimulus Value Y':
-                    30.0794,
-                'Tristimulus Value Z':
-                    15.0951,
-                'CIE1931 x':
-                    0.4159,
-                'CIE1931 y':
-                    0.3889,
-                'CIE1931 z':
-                    0.1952,
-                "CIE1976 u'":
-                    0.2434,
-                "CIE1976 v'":
-                    0.5121,
-                'Dominant Wavelength [nm]':
-                    583,
-                'Purity [%]':
-                    41.5,
-                'PPFD [umolm⁻²s⁻¹]':
-                    0.4,
-                'CRI Ra':
-                    87.5,
-                'CRI R1':
-                    87.6,
-                'CRI R2':
-                    94.5,
-                'CRI R3':
-                    96.8,
-                'CRI R4':
-                    85.8,
-                'CRI R5':
-                    87.3,
-                'CRI R6':
-                    92.3,
-                'CRI R7':
-                    86.4,
-                'CRI R8':
-                    69.8,
-                'CRI R9':
-                    31.2,
-                'CRI R10':
-                    85.6,
-                'CRI R11':
-                    85.1,
-                'CRI R12':
-                    75.6,
-                'CRI R13':
-                    89.6,
-                'CRI R14':
-                    98.8,
-                'CRI R15':
-                    82.5,
-                'TM-30 Rf':
-                    87,
-                'TM-30 Rg':
-                    98,
-                'SSIt':
-                    76,
-                'SSId':
-                    59,
-                'SSI1':
-                    '---',
-                'SSI2':
-                    '---',
-                'TLCI':
-                    79,
-                'TLMF':
-                    '---',
-                'TM-30 Color Vector Graphic': [
-                    'Reference Illuminant x', 'Reference Illuminant y',
-                    'Measured Illuminant x', 'Measured Illuminant y'
+            "Manufacturer": "Sekonic",
+            "CatalogNumber": None,
+            "Description": None,
+            "DocumentCreator": None,
+            "UniqueIdentifier": None,
+            "MeasurementEquipment": None,
+            "Laboratory": None,
+            "ReportNumber": None,
+            "ReportDate": "15/03/2021 3:44:14 p.m.",
+            "DocumentCreationDate": None,
+            "Comments": {
+                "Date Saved": "15/03/2021 3:44:14 p.m.",
+                "Title": "RANDOM_001_02°_3262K",
+                "Measuring Mode": "Ambient",
+                "Viewing Angle [°]": 2,
+                "Tcp [K]": 3262,
+                "⊿uv": -0.0029,
+                "Illuminance [lx]": 30.1,
+                "Illuminance [fc]": 2.79,
+                "Peak Wavelength [nm]": 608,
+                "Tristimulus Value X": 32.1626,
+                "Tristimulus Value Y": 30.0794,
+                "Tristimulus Value Z": 15.0951,
+                "CIE1931 x": 0.4159,
+                "CIE1931 y": 0.3889,
+                "CIE1931 z": 0.1952,
+                "CIE1976 u'": 0.2434,
+                "CIE1976 v'": 0.5121,
+                "Dominant Wavelength [nm]": 583,
+                "Purity [%]": 41.5,
+                "PPFD [umolm⁻²s⁻¹]": 0.4,
+                "CRI Ra": 87.5,
+                "CRI R1": 87.6,
+                "CRI R2": 94.5,
+                "CRI R3": 96.8,
+                "CRI R4": 85.8,
+                "CRI R5": 87.3,
+                "CRI R6": 92.3,
+                "CRI R7": 86.4,
+                "CRI R8": 69.8,
+                "CRI R9": 31.2,
+                "CRI R10": 85.6,
+                "CRI R11": 85.1,
+                "CRI R12": 75.6,
+                "CRI R13": 89.6,
+                "CRI R14": 98.8,
+                "CRI R15": 82.5,
+                "TM-30 Rf": 87,
+                "TM-30 Rg": 98,
+                "SSIt": 76,
+                "SSId": 59,
+                "SSI1": "---",
+                "SSI2": "---",
+                "TLCI": 79,
+                "TLMF": "---",
+                "TM-30 Color Vector Graphic": [
+                    "Reference Illuminant x",
+                    "Reference Illuminant y",
+                    "Measured Illuminant x",
+                    "Measured Illuminant y",
                 ],
-                'bin1': [0.9764469, 0.2157578, 0.8882475, 0.2021859],
-                'bin2': [0.7906278, 0.6122971, 0.7113284, 0.6248878],
-                'bin3': [0.5509713, 0.8345242, 0.4676899, 0.8666077],
-                'bin4': [0.1428891, 0.9897387, 0.0935279, 1.002316],
-                'bin5': [-0.176162, 0.9843612, -0.2043247, 0.9795201],
-                'bin6': [-0.5853095, 0.81081, -0.5838909, 0.8375309],
-                'bin7': [-0.7960986, 0.6051669, -0.7457092, 0.6149487],
-                'bin8': [-0.951027, 0.309108, -0.9191595, 0.309686],
-                'bin9': [-0.9854512, -0.1699584, -0.9329426, -0.2097975],
-                'bin10': [-0.8461911, -0.5328795, -0.7660208, -0.6001526],
-                'bin11': [-0.5824577, -0.812861, -0.4902966, -0.8897363],
-                'bin12': [-0.2939128, -0.9558322, -0.2872024, -1.03006],
-                'bin13': [0.1462545, -0.989247, 0.1026697, -1.040349],
-                'bin14': [0.508388, -0.8611281, 0.4397461, -0.9682071],
-                'bin15': [0.8469644, -0.5316497, 0.7729813, -0.6153884],
-                'bin16': [0.9788596, -0.2045332, 0.9110764, -0.2976203]
+                "bin1": [0.9764469, 0.2157578, 0.8882475, 0.2021859],
+                "bin2": [0.7906278, 0.6122971, 0.7113284, 0.6248878],
+                "bin3": [0.5509713, 0.8345242, 0.4676899, 0.8666077],
+                "bin4": [0.1428891, 0.9897387, 0.0935279, 1.002316],
+                "bin5": [-0.176162, 0.9843612, -0.2043247, 0.9795201],
+                "bin6": [-0.5853095, 0.81081, -0.5838909, 0.8375309],
+                "bin7": [-0.7960986, 0.6051669, -0.7457092, 0.6149487],
+                "bin8": [-0.951027, 0.309108, -0.9191595, 0.309686],
+                "bin9": [-0.9854512, -0.1699584, -0.9329426, -0.2097975],
+                "bin10": [-0.8461911, -0.5328795, -0.7660208, -0.6001526],
+                "bin11": [-0.5824577, -0.812861, -0.4902966, -0.8897363],
+                "bin12": [-0.2939128, -0.9558322, -0.2872024, -1.03006],
+                "bin13": [0.1462545, -0.989247, 0.1026697, -1.040349],
+                "bin14": [0.508388, -0.8611281, 0.4397461, -0.9682071],
+                "bin15": [0.8469644, -0.5316497, 0.7729813, -0.6153884],
+                "bin16": [0.9788596, -0.2045332, 0.9110764, -0.2976203],
             },
-            'SpectralQuantity': 'Irradiance',
+            "SpectralQuantity": "Irradiance",
         }
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

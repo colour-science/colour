@@ -19,24 +19,24 @@ from colour.colorimetry.generation import (
     sd_multi_leds_Ohno2005,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestSdConstant',
-    'TestSdZeros',
-    'TestSdOnes',
-    'TestMsdsConstant',
-    'TestMsdsZeros',
-    'TestMsdsOnes',
-    'TestSdGaussianNormal',
-    'TestSdGaussianFwhm',
-    'TestSdSingleLedOhno2005',
-    'TestSdMultiLedsOhno2005',
+    "TestSdConstant",
+    "TestSdZeros",
+    "TestSdOnes",
+    "TestMsdsConstant",
+    "TestMsdsZeros",
+    "TestMsdsOnes",
+    "TestSdGaussianNormal",
+    "TestSdGaussianFwhm",
+    "TestSdSingleLedOhno2005",
+    "TestSdMultiLedsOhno2005",
 ]
 
 
@@ -112,16 +112,19 @@ class TestMsdsConstant(unittest.TestCase):
         Tests :func:`colour.colorimetry.generation.msds_constant` definition.
         """
 
-        msds = msds_constant(np.pi, labels=['a', 'b', 'c'])
+        msds = msds_constant(np.pi, labels=["a", "b", "c"])
 
         np.testing.assert_almost_equal(
-            msds[360], np.array([np.pi, np.pi, np.pi]), decimal=7)
+            msds[360], np.array([np.pi, np.pi, np.pi]), decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            msds[555], np.array([np.pi, np.pi, np.pi]), decimal=7)
+            msds[555], np.array([np.pi, np.pi, np.pi]), decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            msds[780], np.array([np.pi, np.pi, np.pi]), decimal=7)
+            msds[780], np.array([np.pi, np.pi, np.pi]), decimal=7
+        )
 
 
 class TestMsdsZeros(unittest.TestCase):
@@ -136,7 +139,7 @@ class TestMsdsZeros(unittest.TestCase):
         definition.
         """
 
-        msds = msds_zeros(labels=['a', 'b', 'c'])
+        msds = msds_zeros(labels=["a", "b", "c"])
 
         np.testing.assert_equal(msds[360], np.array([0, 0, 0]))
 
@@ -156,7 +159,7 @@ class TestMsdsOnes(unittest.TestCase):
         Tests :func:`colour.colorimetry.generation.msds_ones` definition.
         """
 
-        msds = msds_ones(labels=['a', 'b', 'c'])
+        msds = msds_ones(labels=["a", "b", "c"])
 
         np.testing.assert_equal(msds[360], np.array([1, 1, 1]))
 
@@ -264,5 +267,5 @@ class TestSdMultiLedsOhno2005(unittest.TestCase):
         self.assertAlmostEqual(sd[640], 0.070140708922879, places=7)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

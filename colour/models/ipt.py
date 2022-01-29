@@ -18,82 +18,82 @@ References
     Color Appearance Models (3rd ed., pp. 6197-6223). Wiley. ISBN:B00DAYO8E2
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow, vector_dot
+from colour.hints import ArrayLike, FloatingOrNDArray, NDArray
 from colour.utilities import (
+    as_float,
     from_range_1,
     from_range_degrees,
     to_domain_1,
     tsplit,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_IPT_XYZ_TO_LMS',
-    'MATRIX_IPT_LMS_TO_XYZ',
-    'MATRIX_IPT_LMS_P_TO_IPT',
-    'MATRIX_IPT_IPT_TO_LMS_P',
-    'XYZ_to_IPT',
-    'IPT_to_XYZ',
-    'IPT_hue_angle',
+    "MATRIX_IPT_XYZ_TO_LMS",
+    "MATRIX_IPT_LMS_TO_XYZ",
+    "MATRIX_IPT_LMS_P_TO_IPT",
+    "MATRIX_IPT_IPT_TO_LMS_P",
+    "XYZ_to_IPT",
+    "IPT_to_XYZ",
+    "IPT_hue_angle",
 ]
 
-MATRIX_IPT_XYZ_TO_LMS = np.array([
-    [0.4002, 0.7075, -0.0807],
-    [-0.2280, 1.1500, 0.0612],
-    [0.0000, 0.0000, 0.9184],
-])
+MATRIX_IPT_XYZ_TO_LMS: NDArray = np.array(
+    [
+        [0.4002, 0.7075, -0.0807],
+        [-0.2280, 1.1500, 0.0612],
+        [0.0000, 0.0000, 0.9184],
+    ]
+)
 """
 *CIE XYZ* tristimulus values to normalised cone responses matrix.
-
-MATRIX_IPT_XYZ_TO_LMS : array_like, (3, 3)
 """
 
-MATRIX_IPT_LMS_TO_XYZ = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
+MATRIX_IPT_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
 """
 Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-
-MATRIX_IPT_LMS_TO_XYZ : array_like, (3, 3)
 """
 
-MATRIX_IPT_LMS_P_TO_IPT = np.array([
-    [0.4000, 0.4000, 0.2000],
-    [4.4550, -4.8510, 0.3960],
-    [0.8056, 0.3572, -1.1628],
-])
+MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
+    [
+        [0.4000, 0.4000, 0.2000],
+        [4.4550, -4.8510, 0.3960],
+        [0.8056, 0.3572, -1.1628],
+    ]
+)
 """
 Normalised non-linear cone responses to *IPT* colourspace matrix.
-
-MATRIX_IPT_LMS_P_TO_IPT : array_like, (3, 3)
 """
 
-MATRIX_IPT_IPT_TO_LMS_P = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
+MATRIX_IPT_IPT_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
 """
 *IPT* colourspace to normalised non-linear cone responses matrix.
-
-MATRIX_IPT_IPT_TO_LMS_P : array_like, (3, 3)
 """
 
 
-def XYZ_to_IPT(XYZ):
+def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *IPT* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *IPT* colourspace array.
 
     Notes
@@ -138,18 +138,18 @@ def XYZ_to_IPT(XYZ):
     return from_range_1(IPT)
 
 
-def IPT_to_XYZ(IPT):
+def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
     """
     Converts from *IPT* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    IPT : array_like
+    IPT
         *IPT* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
@@ -191,18 +191,18 @@ def IPT_to_XYZ(IPT):
     return from_range_1(XYZ)
 
 
-def IPT_hue_angle(IPT):
+def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:
     """
     Computes the hue angle in degrees from *IPT* colourspace.
 
     Parameters
     ----------
-    IPT : array_like
+    IPT
         *IPT* colourspace array.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Hue angle in degrees.
 
     Notes
@@ -239,4 +239,4 @@ def IPT_hue_angle(IPT):
 
     hue = np.degrees(np.arctan2(T, P)) % 360
 
-    return from_range_degrees(hue)
+    return as_float(from_range_degrees(hue))

@@ -22,6 +22,8 @@ References
     System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import vector_dot
@@ -30,6 +32,15 @@ from colour.colorimetry import (
     lightness_Fairchild2011,
     luminance_Fairchild2010,
     luminance_Fairchild2011,
+)
+from colour.hints import (
+    ArrayLike,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    NDArray,
+    Tuple,
+    Union,
 )
 from colour.models.ipt import (
     MATRIX_IPT_XYZ_TO_LMS,
@@ -51,21 +62,21 @@ from colour.utilities.documentation import (
     is_documentation_building,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'HDR_IPT_METHODS',
-    'exponent_hdr_IPT',
-    'XYZ_to_hdr_IPT',
-    'hdr_IPT_to_XYZ',
+    "HDR_IPT_METHODS",
+    "exponent_hdr_IPT",
+    "XYZ_to_hdr_IPT",
+    "hdr_IPT_to_XYZ",
 ]
 
-HDR_IPT_METHODS = ('Fairchild 2010', 'Fairchild 2011')
+HDR_IPT_METHODS: Tuple = ("Fairchild 2010", "Fairchild 2011")
 if is_documentation_building():  # pragma: no cover
     HDR_IPT_METHODS = DocstringTuple(HDR_IPT_METHODS)
     HDR_IPT_METHODS.__doc__ = """
@@ -74,31 +85,31 @@ Supported *hdr-IPT* colourspace computation methods.
 References
 ----------
 :cite:`Fairchild2010`, :cite:`Fairchild2011`
-
-HDR_IPT_METHODS : tuple
-    **{'Fairchild 2011', 'Fairchild 2010'}**
 """
 
 
-def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
+def exponent_hdr_IPT(
+    Y_s: FloatingOrArrayLike,
+    Y_abs: FloatingOrArrayLike,
+    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+) -> FloatingOrNDArray:
     """
     Computes *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
     *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
 
     Parameters
     ----------
-    Y_s : numeric or array_like
+    Y_s
         Relative luminance :math:`Y_s` of the surround.
-    Y_abs : numeric or array_like
+    Y_abs
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : str, optional
-        **{'Fairchild 2011', 'Fairchild 2010'}**,
+    method
         Computation method.
 
     Returns
     -------
-    array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent.
 
     Notes
@@ -123,14 +134,14 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     Y_abs = as_float_array(Y_abs)
     method = validate_method(method, HDR_IPT_METHODS)
 
-    if method == 'fairchild 2010':
+    if method == "fairchild 2010":
         epsilon = 1.38
     else:
         epsilon = 0.59
 
     lf = np.log(318) / np.log(Y_abs)
     sf = 1.25 - 0.25 * (Y_s / 0.184)
-    if method == 'fairchild 2010':
+    if method == "fairchild 2010":
         epsilon *= sf * lf
     else:
         epsilon /= sf * lf
@@ -138,26 +149,30 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     return epsilon
 
 
-def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
+def XYZ_to_hdr_IPT(
+    XYZ: ArrayLike,
+    Y_s: FloatingOrArrayLike = 0.2,
+    Y_abs: FloatingOrArrayLike = 100,
+    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *hdr-IPT* colourspace.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    Y_s : numeric or array_like
+    Y_s
         Relative luminance :math:`Y_s` of the surround.
-    Y_abs : numeric or array_like
+    Y_abs
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : str, optional
-        **{'Fairchild 2011', 'Fairchild 2010'}**,
+    method
         Computation method.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *hdr-IPT* colourspace array.
 
     Notes
@@ -200,17 +215,17 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     XYZ = to_domain_1(XYZ)
     method = validate_method(method, HDR_IPT_METHODS)
 
-    if method == 'fairchild 2010':
+    if method == "fairchild 2010":
         lightness_callable = lightness_Fairchild2010
     else:
         lightness_callable = lightness_Fairchild2011
 
-    e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
+    e = as_float_array(exponent_hdr_IPT(Y_s, Y_abs, method))[..., np.newaxis]
 
     LMS = vector_dot(MATRIX_IPT_XYZ_TO_LMS, XYZ)
 
-    # Domain and range scaling has already be handled.
-    with domain_range_scale('ignore'):
+    # Domain and range scaling has already been handled.
+    with domain_range_scale("ignore"):
         LMS_prime = np.sign(LMS) * np.abs(lightness_callable(LMS, e))
 
     IPT_hdr = vector_dot(MATRIX_IPT_LMS_P_TO_IPT, LMS_prime)
@@ -218,26 +233,30 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     return from_range_100(IPT_hdr)
 
 
-def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
+def hdr_IPT_to_XYZ(
+    IPT_hdr: ArrayLike,
+    Y_s: FloatingOrArrayLike = 0.2,
+    Y_abs: FloatingOrArrayLike = 100,
+    method: Union[Literal["Fairchild 2011", "Fairchild 2010"], str] = "Fairchild 2011",
+) -> NDArray:
     """
     Converts from *hdr-IPT* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    IPT_hdr : array_like
+    IPT_hdr
         *hdr-IPT* colourspace array.
-    Y_s : numeric or array_like
+    Y_s
         Relative luminance :math:`Y_s` of the surround.
-    Y_abs : numeric or array_like
+    Y_abs
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
-    method : str, optional
-        **{'Fairchild 2011', 'Fairchild 2010'}**,
+    method
         Computation method.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
@@ -279,17 +298,17 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     IPT_hdr = to_domain_100(IPT_hdr)
     method = validate_method(method, HDR_IPT_METHODS)
 
-    if method == 'fairchild 2010':
+    if method == "fairchild 2010":
         luminance_callable = luminance_Fairchild2010
     else:
         luminance_callable = luminance_Fairchild2011
 
-    e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
+    e = as_float_array(exponent_hdr_IPT(Y_s, Y_abs, method))[..., np.newaxis]
 
     LMS = vector_dot(MATRIX_IPT_IPT_TO_LMS_P, IPT_hdr)
 
     # Domain and range scaling has already be handled.
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         LMS_prime = np.sign(LMS) * np.abs(luminance_callable(LMS, e))
 
     XYZ = vector_dot(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)

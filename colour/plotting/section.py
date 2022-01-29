@@ -11,16 +11,39 @@ Defines the gamut section plotting objects:
 -   :func:`colour.plotting.plot_RGB_colourspace_section`
 """
 
+from __future__ import annotations
+
+import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
-from colour.colorimetry import SpectralShape, reshape_msds
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    SpectralShape,
+    reshape_msds,
+)
 from colour.geometry import hull_section, primitive_cube
 from colour.graph import convert
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    Dict,
+    Floating,
+    Integer,
+    Literal,
+    Optional,
+    Sequence,
+    Tuple,
+    Union,
+    cast,
+)
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS,
     COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
+    RGB_Colourspace,
     RGB_to_XYZ,
 )
 from colour.notation import HEX_to_RGB
@@ -41,90 +64,116 @@ from colour.utilities import (
     as_int_array,
     first_item,
     full,
+    optional,
     required,
     suppress_warnings,
     tstack,
+    validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'AXIS_TO_PLANE_MAPPING',
-    'plot_hull_section_colours',
-    'plot_hull_section_contour',
-    'plot_visible_spectrum_section',
-    'plot_RGB_colourspace_section',
+    "AXIS_TO_PLANE_MAPPING",
+    "plot_hull_section_colours",
+    "plot_hull_section_contour",
+    "plot_visible_spectrum_section",
+    "plot_RGB_colourspace_section",
 ]
 
-AXIS_TO_PLANE_MAPPING = CaseInsensitiveMapping({
-    '+x': (1, 2),
-    '+y': (0, 2),
-    '+z': (0, 1)
-})
+AXIS_TO_PLANE_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {"+x": (1, 2), "+y": (0, 2), "+z": (0, 1)}
+)
 AXIS_TO_PLANE_MAPPING.__doc__ = """
 Axis to plane mapping.
-
-AXIS_TO_PLANE_MAPPING : CaseInsensitiveMapping
-    **{'+x', '+y', '+z'}**
 """
 
 
-@required('trimesh')
+@required("trimesh")
 @override_style()
-def plot_hull_section_colours(hull,
-                              model='CIE xyY',
-                              axis='+z',
-                              origin=0.5,
-                              normalise=True,
-                              section_colours=None,
-                              section_opacity=1.0,
-                              convert_kwargs=None,
-                              samples=256,
-                              **kwargs):
+def plot_hull_section_colours(
+    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
+    model: Union[
+        Literal[
+            "CAM02LCD",
+            "CAM02SCD",
+            "CAM02UCS",
+            "CAM16LCD",
+            "CAM16SCD",
+            "CAM16UCS",
+            "CIE XYZ",
+            "CIE xyY",
+            "CIE Lab",
+            "CIE Luv",
+            "CIE UCS",
+            "CIE UVW",
+            "DIN99",
+            "Hunter Lab",
+            "Hunter Rdab",
+            "ICaCb",
+            "ICtCp",
+            "IPT",
+            "IgPgTg",
+            "Jzazbz",
+            "OSA UCS",
+            "Oklab",
+            "hdr-CIELAB",
+            "hdr-IPT",
+        ],
+        str,
+    ] = "CIE xyY",
+    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
+    origin: Floating = 0.5,
+    normalise: Boolean = True,
+    section_colours: Optional[Union[ArrayLike, str]] = None,
+    section_opacity: Floating = 1,
+    convert_kwargs: Optional[Dict] = None,
+    samples: Integer = 256,
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the section colours of given *trimesh* hull along given axis and
     origin.
 
     Parameters
     ----------
-    hull : Trimesh
+    hull
         *Trimesh* hull.
-    model : str, optional
+    model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    axis : str, optional
-        **{'+z', '+x', '+y'}**,
+    axis
         Axis the hull section will be normal to.
-    origin : numeric, optional
+    origin
         Coordinate along ``axis`` at which to plot the hull section.
-    normalise : bool, optional
+    normalise
         Whether to normalise ``axis`` to the extent of the hull along it.
-    section_colours : array_like or str, optional
+    section_colours
         Colours of the hull section, if ``section_colours`` is set to *RGB*,
         the colours will be computed according to the corresponding
         coordinates.
-    section_opacity : numeric, optional
+    section_opacity
         Opacity of the hull section colours.
-    convert_kwargs : dict, optional
+    convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
-    samples : numeric, optional
+    samples
         Samples count when computing the hull section colours.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -150,135 +199,172 @@ def plot_hull_section_colours(hull,
         :alt: plot_hull_section_colours
     """
 
+    axis = validate_method(
+        axis,
+        ["+z", "+x", "+y"],
+        '"{0}" axis is invalid, it must be one of {1}!',
+    )
+
     hull = hull.copy()
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    if section_colours is None:
-        section_colours = HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
+    section_colours = cast(
+        ArrayLike,
+        optional(section_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)),
+    )
 
-    if convert_kwargs is None:
-        convert_kwargs = {}
+    convert_kwargs = optional(convert_kwargs, {})
 
     # Luminance / Lightness reordered along "z" axis.
     with suppress_warnings(python_warnings=True):
         ijk_vertices = colourspace_model_axis_reorder(
-            convert(hull.vertices, 'CIE XYZ', model, **convert_kwargs), model)
+            convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
+        )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= (
-            COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
 
     hull.vertices = ijk_vertices
 
-    if axis == '+x':
+    if axis == "+x":
         index_origin = 0
-    elif axis == '+y':
+    elif axis == "+y":
         index_origin = 1
-    elif axis == '+z':
+    elif axis == "+z":
         index_origin = 2
     plane = AXIS_TO_PLANE_MAPPING[axis]
 
     section = hull_section(hull, axis, origin, normalise)
 
-    padding = 0.1 * np.mean(
-        COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
     max_y = np.max(ijk_vertices[..., plane[1]]) + padding
     extent = (min_x, max_x, min_y, max_y)
 
-    is_section_colours_RGB = str(section_colours).upper() == 'RGB'
+    is_section_colours_RGB = str(section_colours).upper() == "RGB"
     if is_section_colours_RGB:
         ii, jj = np.meshgrid(
             np.linspace(min_x, max_x, samples),
-            np.linspace(max_y, min_y, samples))
+            np.linspace(max_y, min_y, samples),
+        )
         ij = tstack([ii, jj])
-        ijk_section = full([samples, samples, 3],
-                           np.median(section[..., index_origin]))
+        ijk_section = full((samples, samples, 3), np.median(section[..., index_origin]))
         ijk_section[..., plane] = ij
-        ijk_section /= (
-            COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
         XYZ_section = convert(
-            colourspace_model_axis_reorder(ijk_section, model, 'Inverse'),
-            model, 'CIE XYZ', **convert_kwargs)
+            colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
+            model,
+            "CIE XYZ",
+            **convert_kwargs
+        )
         RGB_section = XYZ_to_plotting_colourspace(XYZ_section)
     else:
         section_colours = np.hstack([section_colours, section_opacity])
 
-    facecolor = 'none' if is_section_colours_RGB else section_colours
-    polygon = Polygon(
-        section[..., plane], facecolor=facecolor, edgecolor='none')
+    facecolor = "none" if is_section_colours_RGB else section_colours
+    polygon = Polygon(section[..., plane], facecolor=facecolor, edgecolor="none")
     axes.add_patch(polygon)
     if is_section_colours_RGB:
         image = axes.imshow(
             np.clip(RGB_section, 0, 1),
-            interpolation='bilinear',
+            interpolation="bilinear",
             extent=extent,
             clip_path=None,
-            alpha=section_opacity)
+            alpha=section_opacity,
+        )
         image.set_clip_path(polygon)
 
     settings = {
-        'axes': axes,
-        'bounding_box': extent,
+        "axes": axes,
+        "bounding_box": extent,
     }
     settings.update(kwargs)
 
     return render(**settings)
 
 
-@required('trimesh')
+@required("trimesh")
 @override_style()
-def plot_hull_section_contour(hull,
-                              model='CIE xyY',
-                              axis='+z',
-                              origin=0.5,
-                              normalise=True,
-                              contour_colours=None,
-                              contour_opacity=1,
-                              convert_kwargs=None,
-                              **kwargs):
+def plot_hull_section_contour(
+    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
+    model: Union[
+        Literal[
+            "CAM02LCD",
+            "CAM02SCD",
+            "CAM02UCS",
+            "CAM16LCD",
+            "CAM16SCD",
+            "CAM16UCS",
+            "CIE XYZ",
+            "CIE xyY",
+            "CIE Lab",
+            "CIE Luv",
+            "CIE UCS",
+            "CIE UVW",
+            "DIN99",
+            "Hunter Lab",
+            "Hunter Rdab",
+            "ICaCb",
+            "ICtCp",
+            "IPT",
+            "IgPgTg",
+            "Jzazbz",
+            "OSA UCS",
+            "Oklab",
+            "hdr-CIELAB",
+            "hdr-IPT",
+        ],
+        str,
+    ] = "CIE xyY",
+    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
+    origin: Floating = 0.5,
+    normalise: Boolean = True,
+    contour_colours: Optional[Union[ArrayLike, str]] = None,
+    contour_opacity: Floating = 1,
+    convert_kwargs: Optional[Dict] = None,
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the section contour of given *trimesh* hull along given axis and
     origin.
 
     Parameters
     ----------
-    hull : Trimesh
+    hull
         *Trimesh* hull.
-    model : str, optional
+    model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    axis : str, optional
-        **{'+z', '+x', '+y'}**,
+    axis
         Axis the hull section will be normal to.
-    origin : numeric, optional
+    origin
         Coordinate along ``axis`` at which to plot the hull section.
-    normalise : bool, optional
+    normalise
         Whether to normalise ``axis`` to the extent of the hull along it.
-    contour_colours : array_like or str, optional
+    contour_colours
         Colours of the hull section contour, if ``contour_colours`` is set to
         *RGB*, the colours will be computed according to the corresponding
         coordinates.
-    contour_opacity : numeric, optional
+    contour_opacity
         Opacity of the hull section contour.
-    convert_kwargs : dict, optional
+    convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -306,113 +392,153 @@ def plot_hull_section_contour(hull,
 
     hull = hull.copy()
 
-    if contour_colours is None:
-        contour_colours = CONSTANTS_COLOUR_STYLE.colour.dark
+    contour_colours = cast(
+        Union[ArrayLike, str],
+        optional(contour_colours, CONSTANTS_COLOUR_STYLE.colour.dark),
+    )
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    if convert_kwargs is None:
-        convert_kwargs = {}
+    convert_kwargs = optional(convert_kwargs, {})
 
     # Luminance / Lightness is re-ordered along "z-up" axis.
     with suppress_warnings(python_warnings=True):
         ijk_vertices = colourspace_model_axis_reorder(
-            convert(hull.vertices, 'CIE XYZ', model, **convert_kwargs), model)
+            convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
+        )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= (
-            COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
 
     hull.vertices = ijk_vertices
 
     plane = AXIS_TO_PLANE_MAPPING[axis]
 
-    padding = 0.1 * np.mean(
-        COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
     max_y = np.max(ijk_vertices[..., plane[1]]) + padding
     extent = (min_x, max_x, min_y, max_y)
 
-    contour_colours_RGB = str(contour_colours).upper() == 'RGB'
+    contour_colours_RGB = str(contour_colours).upper() == "RGB"
     section = hull_section(hull, axis, origin, normalise)
     if contour_colours_RGB:
         ijk_section = section / (
-            COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+            COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        )
         XYZ_section = convert(
-            colourspace_model_axis_reorder(ijk_section, model, 'Inverse'),
-            model, 'CIE XYZ', **convert_kwargs)
-        contour_colours = np.clip(
-            XYZ_to_plotting_colourspace(XYZ_section), 0, 1)
+            colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
+            model,
+            "CIE XYZ",
+            **convert_kwargs
+        )
+        contour_colours = np.clip(XYZ_to_plotting_colourspace(XYZ_section), 0, 1)
 
     section = section[..., plane].reshape(-1, 1, 2)
     line_collection = LineCollection(
         np.concatenate([section[:-1], section[1:]], axis=1),
         colors=contour_colours,
-        alpha=contour_opacity)
+        alpha=contour_opacity,
+    )
     axes.add_collection(line_collection)
 
     settings = {
-        'axes': axes,
-        'bounding_box': extent,
+        "axes": axes,
+        "bounding_box": extent,
     }
     settings.update(kwargs)
 
     return render(**settings)
 
 
-@required('trimesh')
+@required("trimesh")
 @override_style()
-def plot_visible_spectrum_section(cmfs='CIE 1931 2 Degree Standard Observer',
-                                  illuminant='D65',
-                                  model='CIE xyY',
-                                  axis='+z',
-                                  origin=0.5,
-                                  normalise=True,
-                                  show_section_colours=True,
-                                  show_section_contour=True,
-                                  **kwargs):
+def plot_visible_spectrum_section(
+    cmfs: Union[
+        MultiSpectralDistributions,
+        str,
+        Sequence[Union[MultiSpectralDistributions, str]],
+    ] = "CIE 1931 2 Degree Standard Observer",
+    illuminant: Union[SpectralDistribution, str] = "D65",
+    model: Union[
+        Literal[
+            "CAM02LCD",
+            "CAM02SCD",
+            "CAM02UCS",
+            "CAM16LCD",
+            "CAM16SCD",
+            "CAM16UCS",
+            "CIE XYZ",
+            "CIE xyY",
+            "CIE Lab",
+            "CIE Luv",
+            "CIE UCS",
+            "CIE UVW",
+            "DIN99",
+            "Hunter Lab",
+            "Hunter Rdab",
+            "ICaCb",
+            "ICtCp",
+            "IPT",
+            "IgPgTg",
+            "Jzazbz",
+            "OSA UCS",
+            "Oklab",
+            "hdr-CIELAB",
+            "hdr-IPT",
+        ],
+        str,
+    ] = "CIE xyY",
+    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
+    origin: Floating = 0.5,
+    normalise: Boolean = True,
+    show_section_colours: Boolean = True,
+    show_section_contour: Boolean = True,
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots the visible spectrum volume, i.e. *Rösch-MacAdam* colour solid,
     section colours along given axis and origin.
 
     Parameters
     ----------
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
-        *CIE 1931 2 Degree Standard Observer*.
-    illuminant : SpectralDistribution, optional
+        *CIE 1931 2 Degree Standard Observer*.  ``cmfs`` can be of any type or
+        form supported by the :func:`colour.plotting.filter_cmfs` definition.
+    illuminant
         Illuminant spectral distribution, default to *CIE Illuminant D65*.
-    model : str, optional
+        ``illuminant`` can be of any type or form supported by the
+        :func:`colour.plotting.filter_illuminants` definition.
+    model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    axis : str, optional
-        **{'+z', '+x', '+y'}**,
+    axis
         Axis the hull section will be normal to.
-    origin : numeric, optional
+    origin
         Coordinate along ``axis`` at which to plot the hull section.
-    normalise : bool, optional
+    normalise
         Whether to normalise ``axis`` to the extent of the hull along it.
-    show_section_colours : bool, optional
+    show_section_colours
         Whether to show the hull section colours.
-    show_section_contour : bool, optional
+    show_section_contour
         Whether to show the hull section contour.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.render`,
         :func:`colour.plotting.section.plot_hull_section_colours`
         :func:`colour.plotting.section.plot_hull_section_contour`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -431,109 +557,145 @@ def plot_visible_spectrum_section(cmfs='CIE 1931 2 Degree Standard Observer',
 
     import trimesh
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
     # pylint: disable=E1102
     cmfs = reshape_msds(
-        first_item(filter_cmfs(cmfs).values()), SpectralShape(360, 780, 1))
-    illuminant = first_item(filter_illuminants(illuminant).values())
+        first_item(filter_cmfs(cmfs).values()), SpectralShape(360, 780, 1)
+    )
+    illuminant = cast(
+        SpectralDistribution,
+        first_item(filter_illuminants(illuminant).values()),
+    )
 
     vertices = solid_RoschMacAdam(
         cmfs,
         illuminant,
-        point_order='Pulse Wave Width',
+        point_order="Pulse Wave Width",
         filter_jagged_points=True,
     )
     mesh = trimesh.Trimesh(vertices)
     hull = trimesh.convex.convex_hull(mesh)
 
     if show_section_colours:
-        settings = {'axes': axes}
+        settings = {"axes": axes}
         settings.update(kwargs)
-        settings['standalone'] = False
+        settings["standalone"] = False
 
-        plot_hull_section_colours(hull, model, axis, origin, normalise,
-                                  **settings)
+        plot_hull_section_colours(hull, model, axis, origin, normalise, **settings)
 
     if show_section_contour:
-        settings = {'axes': axes}
+        settings = {"axes": axes}
         settings.update(kwargs)
-        settings['standalone'] = False
+        settings["standalone"] = False
 
-        plot_hull_section_contour(hull, model, axis, origin, normalise,
-                                  **settings)
+        plot_hull_section_contour(hull, model, axis, origin, normalise, **settings)
 
-    title = 'Visible Spectrum Section - {0} - {1} - {2}'.format(
-        '{0}%'.format(origin * 100)
-        if normalise else origin, model, cmfs.strict_name)
+    title = "Visible Spectrum Section - {0} - {1} - {2}".format(
+        "{0}%".format(origin * 100) if normalise else origin,
+        model,
+        cmfs.strict_name,
+    )
 
     plane = AXIS_TO_PLANE_MAPPING[axis]
 
-    labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[as_int_array(
-        colourspace_model_axis_reorder([0, 1, 2], model))]
+    labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[
+        as_int_array(colourspace_model_axis_reorder([0, 1, 2], model))
+    ]
     x_label, y_label = labels[plane[0]], labels[plane[1]]
 
-    settings.update({
-        'axes': axes,
-        'standalone': True,
-        'title': title,
-        'x_label': x_label,
-        'y_label': y_label,
-    })
+    settings.update(
+        {
+            "axes": axes,
+            "standalone": True,
+            "title": title,
+            "x_label": x_label,
+            "y_label": y_label,
+        }
+    )
     settings.update(kwargs)
 
     return render(**settings)
 
 
-@required('trimesh')
+@required("trimesh")
 @override_style()
-def plot_RGB_colourspace_section(colourspace,
-                                 model='CIE xyY',
-                                 axis='+z',
-                                 origin=0.5,
-                                 normalise=True,
-                                 show_section_colours=True,
-                                 show_section_contour=True,
-                                 **kwargs):
+def plot_RGB_colourspace_section(
+    colourspace: Union[RGB_Colourspace, str, Sequence[Union[RGB_Colourspace, str]]],
+    model: Union[
+        Literal[
+            "CAM02LCD",
+            "CAM02SCD",
+            "CAM02UCS",
+            "CAM16LCD",
+            "CAM16SCD",
+            "CAM16UCS",
+            "CIE XYZ",
+            "CIE xyY",
+            "CIE Lab",
+            "CIE Luv",
+            "CIE UCS",
+            "CIE UVW",
+            "DIN99",
+            "Hunter Lab",
+            "Hunter Rdab",
+            "ICaCb",
+            "ICtCp",
+            "IPT",
+            "IgPgTg",
+            "Jzazbz",
+            "OSA UCS",
+            "Oklab",
+            "hdr-CIELAB",
+            "hdr-IPT",
+        ],
+        str,
+    ] = "CIE xyY",
+    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
+    origin: Floating = 0.5,
+    normalise: Boolean = True,
+    show_section_colours: Boolean = True,
+    show_section_contour: Boolean = True,
+    **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given *RGB* colourspace section colours along given axis and origin.
 
     Parameters
     ----------
-    colourspace : str or RGB_Colourspace, optional
+    colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
         :func:`colour.plotting.filter_RGB_colourspaces` definition.
-    model : str, optional
+    model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
-    axis : str, optional
-        **{'+z', '+x', '+y'}**,
+    axis
         Axis the hull section will be normal to.
-    origin : numeric, optional
+    origin
         Coordinate along ``axis`` at which to plot the hull section.
-    normalise : bool, optional
+    normalise
         Whether to normalise ``axis`` to the extent of the hull along it.
-    show_section_colours : bool, optional
+    show_section_colours
         Whether to show the hull section colours.
-    show_section_contour : bool, optional
+    show_section_contour
         Whether to show the hull section contour.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.render`,
         :func:`colour.plotting.section.plot_hull_section_colours`
         :func:`colour.plotting.section.plot_hull_section_contour`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -552,16 +714,19 @@ def plot_RGB_colourspace_section(colourspace,
 
     import trimesh
 
-    settings = {'uniform': True}
+    settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
 
     _figure, axes = artist(**settings)
 
-    colourspace = first_item(filter_RGB_colourspaces(colourspace).values())
+    colourspace = cast(
+        RGB_Colourspace,
+        first_item(filter_RGB_colourspaces(colourspace).values()),
+    )
 
     vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     XYZ_vertices = RGB_to_XYZ(
-        vertices['position'] + 0.5,
+        vertices["position"] + 0.5,
         colourspace.whitepoint,
         colourspace.whitepoint,
         colourspace.matrix_RGB_to_XYZ,
@@ -569,38 +734,41 @@ def plot_RGB_colourspace_section(colourspace,
     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
 
     if show_section_colours:
-        settings = {'axes': axes}
+        settings = {"axes": axes}
         settings.update(kwargs)
-        settings['standalone'] = False
+        settings["standalone"] = False
 
-        plot_hull_section_colours(hull, model, axis, origin, normalise,
-                                  **settings)
+        plot_hull_section_colours(hull, model, axis, origin, normalise, **settings)
 
     if show_section_contour:
-        settings = {'axes': axes}
+        settings = {"axes": axes}
         settings.update(kwargs)
-        settings['standalone'] = False
+        settings["standalone"] = False
 
-        plot_hull_section_contour(hull, model, axis, origin, normalise,
-                                  **settings)
+        plot_hull_section_contour(hull, model, axis, origin, normalise, **settings)
 
-    title = '{0} Section - {1} - {2}'.format(
-        colourspace.name, '{0}%'.format(origin * 100)
-        if normalise else origin, model)
+    title = "{0} Section - {1} - {2}".format(
+        colourspace.name,
+        "{0}%".format(origin * 100) if normalise else origin,
+        model,
+    )
 
     plane = AXIS_TO_PLANE_MAPPING[axis]
 
-    labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[as_int_array(
-        colourspace_model_axis_reorder([0, 1, 2], model))]
+    labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[
+        as_int_array(colourspace_model_axis_reorder([0, 1, 2], model))
+    ]
     x_label, y_label = labels[plane[0]], labels[plane[1]]
 
-    settings.update({
-        'axes': axes,
-        'standalone': True,
-        'title': title,
-        'x_label': x_label,
-        'y_label': y_label,
-    })
+    settings.update(
+        {
+            "axes": axes,
+            "standalone": True,
+            "title": title,
+            "x_label": x_label,
+            "y_label": y_label,
+        }
+    )
     settings.update(kwargs)
 
     return render(**settings)

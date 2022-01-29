@@ -31,6 +31,9 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
 """
 
+from __future__ import annotations
+
+from colour.hints import Any, ArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
@@ -51,47 +54,49 @@ from .huang2015 import power_function_Huang2015
 from .stress import index_stress_Garcia2007, INDEX_STRESS_METHODS, index_stress
 
 __all__ = [
-    'delta_E_CAM02LCD',
-    'delta_E_CAM02SCD',
-    'delta_E_CAM02UCS',
+    "delta_E_CAM02LCD",
+    "delta_E_CAM02SCD",
+    "delta_E_CAM02UCS",
 ]
 __all__ += [
-    'delta_E_CAM16LCD',
-    'delta_E_CAM16SCD',
-    'delta_E_CAM16UCS',
+    "delta_E_CAM16LCD",
+    "delta_E_CAM16SCD",
+    "delta_E_CAM16UCS",
 ]
 __all__ += [
-    'JND_CIE1976',
-    'delta_E_CIE1976',
-    'delta_E_CIE1994',
-    'delta_E_CIE2000',
-    'delta_E_CMC',
+    "JND_CIE1976",
+    "delta_E_CIE1976",
+    "delta_E_CIE1994",
+    "delta_E_CIE2000",
+    "delta_E_CMC",
 ]
 __all__ += [
-    'delta_E_DIN99',
+    "delta_E_DIN99",
 ]
 __all__ += [
-    'power_function_Huang2015',
+    "power_function_Huang2015",
 ]
 __all__ += [
-    'index_stress_Garcia2007',
-    'INDEX_STRESS_METHODS',
-    'index_stress',
+    "index_stress_Garcia2007",
+    "INDEX_STRESS_METHODS",
+    "index_stress",
 ]
 
-DELTA_E_METHODS = CaseInsensitiveMapping({
-    'CIE 1976': delta_E_CIE1976,
-    'CIE 1994': delta_E_CIE1994,
-    'CIE 2000': delta_E_CIE2000,
-    'CMC': delta_E_CMC,
-    'CAM02-LCD': delta_E_CAM02LCD,
-    'CAM02-SCD': delta_E_CAM02SCD,
-    'CAM02-UCS': delta_E_CAM02UCS,
-    'CAM16-LCD': delta_E_CAM16LCD,
-    'CAM16-SCD': delta_E_CAM16SCD,
-    'CAM16-UCS': delta_E_CAM16UCS,
-    'DIN99': delta_E_DIN99,
-})
+DELTA_E_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "CIE 1976": delta_E_CIE1976,
+        "CIE 1994": delta_E_CIE1994,
+        "CIE 2000": delta_E_CIE2000,
+        "CMC": delta_E_CMC,
+        "CAM02-LCD": delta_E_CAM02LCD,
+        "CAM02-SCD": delta_E_CAM02SCD,
+        "CAM02-UCS": delta_E_CAM02UCS,
+        "CAM16-LCD": delta_E_CAM16LCD,
+        "CAM16-SCD": delta_E_CAM16SCD,
+        "CAM16-UCS": delta_E_CAM16UCS,
+        "DIN99": delta_E_DIN99,
+    }
+)
 DELTA_E_METHODS.__doc__ = """
 Supported :math:`\\Delta E_{ab}` computation methods.
 
@@ -101,40 +106,54 @@ References
 :cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`, :cite:`Lindbloom2009f`,
 :cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
 
-DELTA_E_METHODS : CaseInsensitiveMapping
-    **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
-    'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD', 'CAM16-UCS', 'DIN99'}**
-
 Aliases:
 
 -   'cie1976': 'CIE 1976'
 -   'cie1994': 'CIE 1994'
 -   'cie2000': 'CIE 2000'
 """
-DELTA_E_METHODS['cie1976'] = DELTA_E_METHODS['CIE 1976']
-DELTA_E_METHODS['cie1994'] = DELTA_E_METHODS['CIE 1994']
-DELTA_E_METHODS['cie2000'] = DELTA_E_METHODS['CIE 2000']
+DELTA_E_METHODS["cie1976"] = DELTA_E_METHODS["CIE 1976"]
+DELTA_E_METHODS["cie1994"] = DELTA_E_METHODS["CIE 1994"]
+DELTA_E_METHODS["cie2000"] = DELTA_E_METHODS["CIE 2000"]
 
 
-def delta_E(a, b, method='CIE 2000', **kwargs):
+def delta_E(
+    a: ArrayLike,
+    b: ArrayLike,
+    method: Union[
+        Literal[
+            "CIE 1976",
+            "CIE 1994",
+            "CIE 2000",
+            "CMC",
+            "CAM02-LCD",
+            "CAM02-SCD",
+            "CAM02-UCS",
+            "CAM16-LCD",
+            "CAM16-SCD",
+            "CAM16-UCS",
+            "DIN99",
+        ],
+        str,
+    ] = "CIE 2000",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Returns the difference :math:`\\Delta E_{ab}` between two given
     *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace arrays using given method.
 
     Parameters
     ----------
-    a : array_like
+    a
         *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace array :math:`a`.
-    b : array_like
+    b
         *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace array :math:`b`.
-    method : str, optional
-        **{'CIE 2000', 'CIE 1976', 'CIE 1994', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
-        'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD', 'CAM16-UCS', 'DIN99'}**
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    textiles : bool, optional
+    textiles
         {:func:`colour.difference.delta_E_CIE1994`,
         :func:`colour.difference.delta_E_CIE2000`,
         :func:`colour.difference.delta_E_DIN99`},
@@ -142,16 +161,16 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
         :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\
 \\ k_CH=0.5` weights are used instead of
         :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_CH=1.0`.
-    l : numeric, optional
+    l
         {:func:`colour.difference.delta_E_CIE2000`},
         Lightness weighting factor.
-    c : numeric, optional
+    c
         {:func:`colour.difference.delta_E_CIE2000`},
         Chroma weighting factor.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{ab}`.
 
     References
@@ -194,6 +213,6 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
 
 
 __all__ += [
-    'DELTA_E_METHODS',
-    'delta_E',
+    "DELTA_E_METHODS",
+    "delta_E",
 ]

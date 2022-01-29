@@ -13,16 +13,16 @@ from colour.models.rgb.transfer_functions import (
 )
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestLogEncoding_DJIDLog',
-    'TestLogDecoding_DJIDLog',
+    "TestLogEncoding_DJIDLog",
+    "TestLogDecoding_DJIDLog",
 ]
 
 
@@ -40,8 +40,7 @@ log_encoding_DJIDLog` definition.
 
         self.assertAlmostEqual(log_encoding_DJIDLog(0.0), 0.0929, places=7)
 
-        self.assertAlmostEqual(
-            log_encoding_DJIDLog(0.18), 0.398764556189331, places=7)
+        self.assertAlmostEqual(log_encoding_DJIDLog(0.18), 0.398764556189331, places=7)
 
         self.assertAlmostEqual(log_encoding_DJIDLog(1.0), 0.584555, places=7)
 
@@ -75,11 +74,12 @@ log_encoding_DJIDLog` definition domain and range scale support.
         x = 0.18
         y = log_encoding_DJIDLog(x)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_encoding_DJIDLog(x * factor), y * factor, decimal=7)
+                    log_encoding_DJIDLog(x * factor), y * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_log_encoding_DLog(self):
@@ -88,8 +88,7 @@ log_encoding_DJIDLog` definition domain and range scale support.
 log_encoding_DJIDLog` definition nan support.
         """
 
-        log_encoding_DJIDLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_encoding_DJIDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_DJIDLog(unittest.TestCase):
@@ -106,8 +105,7 @@ log_decoding_DJIDLog` definition.
 
         self.assertAlmostEqual(log_decoding_DJIDLog(0.0929), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            log_decoding_DJIDLog(0.398764556189331), 0.18, places=6)
+        self.assertAlmostEqual(log_decoding_DJIDLog(0.398764556189331), 0.18, places=6)
 
         self.assertAlmostEqual(log_decoding_DJIDLog(0.584555), 1.0, places=6)
 
@@ -141,11 +139,12 @@ log_decoding_DJIDLog` definition domain and range scale support.
         y = 0.398764556189331
         x = log_decoding_DJIDLog(y)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_decoding_DJIDLog(y * factor), x * factor, decimal=7)
+                    log_decoding_DJIDLog(y * factor), x * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_log_decoding_DLog(self):
@@ -154,9 +153,8 @@ log_decoding_DJIDLog` definition domain and range scale support.
 log_decoding_DJIDLog` definition nan support.
         """
 
-        log_decoding_DJIDLog(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        log_decoding_DJIDLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

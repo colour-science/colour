@@ -10,16 +10,16 @@ from itertools import permutations
 from colour.models.rgb import RGB_to_YCoCg, YCoCg_to_RGB
 from colour.utilities import ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Development'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Development"
 
 __all__ = [
-    'TestRGB_to_YCoCg',
-    'TestYCoCg_to_RGB',
+    "TestRGB_to_YCoCg",
+    "TestYCoCg_to_RGB",
 ]
 
 
@@ -36,15 +36,18 @@ class TestRGB_to_YCoCg(unittest.TestCase):
 
         np.testing.assert_array_equal(
             RGB_to_YCoCg(np.array([0.75, 0.75, 0.0])),
-            np.array([0.5625, 0.375, 0.1875]))
+            np.array([0.5625, 0.375, 0.1875]),
+        )
 
         np.testing.assert_array_equal(
             RGB_to_YCoCg(np.array([0.25, 0.5, 0.75])),
-            np.array([0.5, -0.25, 0.0]))
+            np.array([0.5, -0.25, 0.0]),
+        )
 
         np.testing.assert_array_equal(
             RGB_to_YCoCg(np.array([0.0, 0.75, 0.75])),
-            np.array([0.5625, -0.375, 0.1875]))
+            np.array([0.5625, -0.375, 0.1875]),
+        )
 
     def test_n_dimensional_RGB_to_YCoCg(self):
         """
@@ -100,15 +103,18 @@ class TestYCoCg_to_RGB(unittest.TestCase):
 
         np.testing.assert_array_equal(
             YCoCg_to_RGB(np.array([0.5625, 0.375, 0.1875])),
-            np.array([0.75, 0.75, 0.0]))
+            np.array([0.75, 0.75, 0.0]),
+        )
 
         np.testing.assert_array_equal(
             YCoCg_to_RGB(np.array([0.5, -0.25, 0.0])),
-            np.array([0.25, 0.5, 0.75]))
+            np.array([0.25, 0.5, 0.75]),
+        )
 
         np.testing.assert_array_equal(
             YCoCg_to_RGB(np.array([0.5625, -0.375, 0.1875])),
-            np.array([0.0, 0.75, 0.75]))
+            np.array([0.0, 0.75, 0.75]),
+        )
 
     def test_n_dimensional_YCoCg_to_RGB(self):
         """
@@ -151,5 +157,5 @@ class TestYCoCg_to_RGB(unittest.TestCase):
             YCoCg_to_RGB(YCoCg)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

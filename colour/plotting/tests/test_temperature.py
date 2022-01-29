@@ -17,20 +17,20 @@ from colour.plotting.temperature import (
     plot_planckian_locus_in_chromaticity_diagram,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotPlanckianLocus',
-    'TestPlotPlanckianLocusCIE1931',
-    'TestPlotPlanckianLocusCIE1960UCS',
-    'TestPlotPlanckianLocusInChromaticityDiagram',
-    'TestPlotPlanckianLocusInChromaticityDiagramCIE1931',
-    'TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS',
+    "TestPlotPlanckianLocus",
+    "TestPlotPlanckianLocusCIE1931",
+    "TestPlotPlanckianLocusCIE1960UCS",
+    "TestPlotPlanckianLocusInChromaticityDiagram",
+    "TestPlotPlanckianLocusInChromaticityDiagramCIE1931",
+    "TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS",
 ]
 
 
@@ -51,8 +51,7 @@ class TestPlotPlanckianLocus(unittest.TestCase):
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
-        self.assertRaises(
-            ValueError, lambda: plot_planckian_locus(method='Undefined'))
+        self.assertRaises(ValueError, lambda: plot_planckian_locus(method="Undefined"))
 
 
 class TestPlotPlanckianLocusCIE1931(unittest.TestCase):
@@ -104,37 +103,39 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
-            ['A', 'B', 'C'],
-            annotate_kwargs={'arrowprops': {
-                'width': 10
-            }},
+            ["A", "B", "C"],
+            annotate_kwargs={"arrowprops": {"width": 10}},
             plot_kwargs={
-                'markersize': 15,
-            })
+                "markersize": 15,
+            },
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
-            ['A', 'B', 'C'],
-            annotate_kwargs=[{
-                'arrowprops': {
-                    'width': 10
+            ["A", "B", "C"],
+            annotate_kwargs=[{"arrowprops": {"width": 10}}] * 3,
+            plot_kwargs=[
+                {
+                    "markersize": 15,
                 }
-            }] * 3,
-            plot_kwargs=[{
-                'markersize': 15,
-            }] * 3)
+            ]
+            * 3,
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         self.assertRaises(
-            ValueError, lambda: plot_planckian_locus_in_chromaticity_diagram(
-                ['A', 'B', 'C'],
+            ValueError,
+            lambda: plot_planckian_locus_in_chromaticity_diagram(
+                ["A", "B", "C"],
                 chromaticity_diagram_callable=lambda **x: x,
                 planckian_locus_callable=lambda **x: x,
-                method='Undefined'))
+                method="Undefined",
+            ),
+        )
 
 
 class TestPlotPlanckianLocusInChromaticityDiagramCIE1931(unittest.TestCase):
@@ -151,7 +152,8 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-            ['A', 'B', 'C'])
+            ["A", "B", "C"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -171,11 +173,12 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-            ['A', 'B', 'C'])
+            ["A", "B", "C"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

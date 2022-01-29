@@ -27,6 +27,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
+        sudo apt-get update
         sudo apt-get --yes install graphviz graphviz-dev latexmk texlive-full
     - name: Install Poetry
       run: |

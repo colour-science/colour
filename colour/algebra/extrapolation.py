@@ -17,26 +17,43 @@ References
     ed., p. 38). ISBN:978-0-470-66569-5
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.algebra import NullInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.hints import (
+    DTypeNumber,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    NDArray,
+    Number,
+    Optional,
+    Type,
+    TypeInterpolator,
+    Union,
+    cast,
+)
 from colour.utilities import (
     as_float,
     attest,
     is_numeric,
     is_string,
+    optional,
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'Extrapolator',
+    "Extrapolator",
 ]
 
 
@@ -60,16 +77,15 @@ class Extrapolator:
 
     Parameters
     ----------
-    interpolator : object
+    interpolator
         Interpolator object.
-    method : str, optional
-        **{'Linear', 'Constant'}**,
+    method
         Extrapolation method.
-    left : numeric, optional
+    left
         Value to return for x < xi[0].
-    right : numeric, optional
+    right
         Value to return for x > xi[-1].
-    dtype : type
+    dtype
         Data type used for internal conversions.
 
     Methods
@@ -79,7 +95,7 @@ class Extrapolator:
 
     Notes
     -----
-    -   The interpolator must define *x* and *y* attributes.
+    -   The interpolator must define ``x`` and ``y`` properties.
 
     References
     ----------
@@ -97,7 +113,7 @@ class Extrapolator:
     >>> extrapolator(1)
     -1.0
 
-    Extrapolating an *array_like* variable:
+    Extrapolating an `ArrayLike` variable:
 
     >>> extrapolator(np.array([6, 7 , 8]))
     array([ 4.,  5.,  6.])
@@ -121,117 +137,123 @@ class Extrapolator:
     array([ 0.,  0.,  3.,  3.])
     """
 
-    def __init__(self,
-                 interpolator=None,
-                 method='Linear',
-                 left=None,
-                 right=None,
-                 dtype=None):
-        if dtype is None:
-            dtype = DEFAULT_FLOAT_DTYPE
+    def __init__(
+        self,
+        interpolator: Optional[TypeInterpolator] = None,
+        method: Union[Literal["Linear", "Constant"], str] = "Linear",
+        left: Optional[Number] = None,
+        right: Optional[Number] = None,
+        dtype: Optional[Type[DTypeNumber]] = None,
+    ):
+        dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        self._interpolator = None
-        self.interpolator = interpolator
-        self._method = None
-        self.method = method
-        self._right = None
+        self._interpolator: TypeInterpolator = NullInterpolator(
+            np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf])
+        )
+        self.interpolator = optional(interpolator, self._interpolator)
+        self._method: Union[Literal["Linear", "Constant"], str] = "Linear"
+        self.method = cast(
+            Union[Literal["Linear", "Constant"], str],
+            optional(method, self._method),
+        )
+        self._right: Optional[Number] = None
         self.right = right
-        self._left = None
+        self._left: Optional[Number] = None
         self.left = left
 
-        self._dtype = dtype
+        self._dtype: Type[DTypeNumber] = dtype
 
     @property
-    def interpolator(self):
+    def interpolator(self) -> TypeInterpolator:
         """
         Getter and setter property for the *Colour* or *scipy* interpolator
         class instance.
 
         Parameters
         ----------
-        value : callable
+        value
             Value to set the *Colour* or *scipy* interpolator class instance
             with.
 
         Returns
         -------
-        callable
+        TypeInterpolator
             *Colour* or *scipy* interpolator class instance.
         """
 
         return self._interpolator
 
     @interpolator.setter
-    def interpolator(self, value):
+    def interpolator(self, value: TypeInterpolator):
         """
         Setter for the **self.interpolator** property.
         """
 
-        if value is not None:
-            attest(
-                hasattr(value, 'x'),
-                '"{0}" interpolator has no "x" attribute!'.format(value))
+        attest(
+            hasattr(value, "x"),
+            '"{0}" interpolator has no "x" attribute!'.format(value),
+        )
 
-            attest(
-                hasattr(value, 'y'),
-                '"{0}" interpolator has no "y" attribute!'.format(value))
+        attest(
+            hasattr(value, "y"),
+            '"{0}" interpolator has no "y" attribute!'.format(value),
+        )
 
         self._interpolator = value
 
     @property
-    def method(self):
+    def method(self) -> Union[Literal["Linear", "Constant"], str]:
         """
         Getter and setter property for the extrapolation method.
 
         Parameters
         ----------
-        value : str
+        value
             Value to set the extrapolation method. with.
 
         Returns
         -------
-        str
+        :class:`str`
             Extrapolation method.
         """
 
         return self._method
 
     @method.setter
-    def method(self, value):
+    def method(self, value: Union[Literal["Linear", "Constant"], str]):
         """
         Setter for the **self.method** property.
         """
 
-        if value is not None:
-            attest(
-                is_string(value),
-                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
-                    'method', value))
+        attest(
+            is_string(value),
+            '"{0}" property: "{1}" type is not "str"!'.format("method", value),
+        )
 
-            value = validate_method(value, ['Linear', 'Constant'])
+        value = validate_method(value, ["Linear", "Constant"])
 
         self._method = value
 
     @property
-    def left(self):
+    def left(self) -> Optional[Number]:
         """
         Getter and setter property for left value to return for x < xi[0].
 
         Parameters
         ----------
-        value : numeric
+        value
             Left value to return for x < xi[0].
 
         Returns
         -------
-        numeric
+        :py:data:`None` or Number
             Left value to return for x < xi[0].
         """
 
         return self._left
 
     @left.setter
-    def left(self, value):
+    def left(self, value: Optional[Number]):
         """
         Setter for the **self.left** property.
         """
@@ -239,31 +261,31 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
-                    'left', value))
+                '"{0}" property: "{1}" is not a "numeric"!'.format("left", value),
+            )
 
-        self._left = value
+            self._left = value
 
     @property
-    def right(self):
+    def right(self) -> Optional[Number]:
         """
         Getter and setter property for right value to return for x > xi[-1].
 
         Parameters
         ----------
-        value : numeric
+        value
             Right value to return for x > xi[-1].
 
         Returns
         -------
-        numeric
+        :py:data:`None` or Number
             Right value to return for x > xi[-1].
         """
 
         return self._right
 
     @right.setter
-    def right(self, value):
+    def right(self, value: Optional[Number]):
         """
         Setter for the **self.right** property.
         """
@@ -271,23 +293,23 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
-                    'right', value))
+                '"{0}" property: "{1}" is not a "numeric"!'.format("right", value),
+            )
 
-        self._right = value
+            self._right = value
 
-    def __call__(self, x):
+    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
         Evaluates the Extrapolator at given point(s).
 
         Parameters
         ----------
-        x : numeric or array_like
+        x
             Point(s) to evaluate the Extrapolator at.
 
         Returns
         -------
-        float or ndarray
+        :class:`numpy.floating` or :class:`numpy.ndarray`
             Extrapolated points value(s).
         """
 
@@ -297,18 +319,18 @@ class Extrapolator:
 
         return xe
 
-    def _evaluate(self, x):
+    def _evaluate(self, x: NDArray) -> NDArray:
         """
         Performs the extrapolating evaluation at given points.
 
         Parameters
         ----------
-        x : ndarray
+        x
             Points to evaluate the Extrapolator at.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             Extrapolated points values.
         """
 
@@ -317,12 +339,14 @@ class Extrapolator:
 
         y = np.empty_like(x)
 
-        if self._method == 'linear':
-            y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) /
-                            (xi[1] - xi[0]))
-            y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
-                             (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
-        elif self._method == 'constant':
+        if self._method == "linear":
+            y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) / (
+                xi[1] - xi[0]
+            )
+            y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (yi[-1] - yi[-2]) / (
+                xi[-1] - xi[-2]
+            )
+        elif self._method == "constant":
             y[x < xi[0]] = yi[0]
             y[x > xi[-1]] = yi[-1]
 

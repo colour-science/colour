@@ -6,39 +6,45 @@ Mesh Volume Computation Helpers
 Defines the helpers objects related to volume computations.
 """
 
+from __future__ import annotations
+
 import numpy as np
 from scipy.spatial import Delaunay
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+from colour.hints import ArrayLike, Floating, NDArray, Optional
+
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'is_within_mesh_volume',
+    "is_within_mesh_volume",
 ]
 
 
-def is_within_mesh_volume(points, mesh, tolerance=None):
+def is_within_mesh_volume(
+    points: ArrayLike, mesh: ArrayLike, tolerance: Optional[Floating] = None
+) -> NDArray:
     """
-    Returns if given points are within given mesh volume using Delaunay
+    Returns whether given points are within given mesh volume using Delaunay
     triangulation.
 
     Parameters
     ----------
-    points : array_like
+    points
         Points to check if they are within ``mesh`` volume.
-    mesh : array_like
+    mesh
         Points of the volume used to generate the Delaunay triangulation.
-    tolerance : numeric, optional
+    tolerance
         Tolerance allowed in the inside-triangle check.
 
     Returns
     -------
-    bool
-        Is within mesh volume.
+    :class:`numpy.ndarray`
+        Whether given points are within given mesh volume.
 
     Examples
     --------

@@ -16,6 +16,8 @@ References
     on Rendering - DL-Only and Industry Track, 7 pages. doi:10.2312/SR.20191216
 """
 
+from __future__ import annotations
+
 import numpy as np
 from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
@@ -25,57 +27,61 @@ from colour.colorimetry import (
     SpectralDistribution,
     handle_spectral_arguments,
 )
+from colour.models import RGB_Colourspace
+from colour.hints import ArrayLike, Callable, Dict, Optional, Tuple
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'spectral_primary_decomposition_Mallett2019',
-    'RGB_to_sd_Mallett2019',
+    "spectral_primary_decomposition_Mallett2019",
+    "RGB_to_sd_Mallett2019",
 ]
 
 
-def spectral_primary_decomposition_Mallett2019(colourspace,
-                                               cmfs=None,
-                                               illuminant=None,
-                                               metric=np.linalg.norm,
-                                               metric_args=tuple(),
-                                               optimisation_kwargs=None):
+def spectral_primary_decomposition_Mallett2019(
+    colourspace: RGB_Colourspace,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    metric: Callable = np.linalg.norm,
+    metric_args: Tuple = tuple(),
+    optimisation_kwargs: Optional[Dict] = None,
+) -> MultiSpectralDistributions:
     """
     Performs the spectral primary decomposition as described in *Mallett and
     Yuksel (2019)* for given *RGB* colourspace.
 
     Parameters
     ----------
-    colourspace: RGB_Colourspace
+    colourspace
         *RGB* colourspace.
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-    illuminant : SpectralDistribution, optional
+    illuminant
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    metric : str, optional
+    metric
         Function to be minimised, i.e. the objective function.
 
             ``metric(basis, *metric_args) -> float``
 
         where ``basis`` is three reflectances concatenated together, each
         with a shape matching ``shape``.
-    metric_args : tuple, optional
+    metric_args
         Additional arguments passed to ``metric``.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
-    MultiSpectralDistributions
+    :class:`colour.MultiSpectralDistributions`
         Basis functions for given *RGB* colourspace.
 
     References
@@ -159,8 +165,11 @@ def spectral_primary_decomposition_Mallett2019(colourspace,
 
     N = len(cmfs.shape)
 
-    R_to_XYZ = np.transpose(illuminant.values[..., np.newaxis] * cmfs.values /
-                            (np.sum(cmfs.values[:, 1] * illuminant.values)))
+    R_to_XYZ = np.transpose(
+        illuminant.values[..., np.newaxis]
+        * cmfs.values
+        / (np.sum(cmfs.values[:, 1] * illuminant.values))
+    )
     R_to_RGB = np.dot(colourspace.matrix_XYZ_to_RGB, R_to_XYZ)
     basis_to_RGB = block_diag(R_to_RGB, R_to_RGB, R_to_RGB)
 
@@ -177,47 +186,51 @@ def spectral_primary_decomposition_Mallett2019(colourspace,
     sum_constraint = LinearConstraint(sum_matrix, np.zeros(N), np.ones(N))
 
     optimisation_settings = {
-        'method': 'SLSQP',
-        'constraints': [colour_match, sum_constraint],
-        'bounds': energy_conservation,
-        'options': {
-            'ftol': 1e-10,
-        }
+        "method": "SLSQP",
+        "constraints": [colour_match, sum_constraint],
+        "bounds": energy_conservation,
+        "options": {
+            "ftol": 1e-10,
+        },
     }
 
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
     result = minimize(
-        metric, args=metric_args, x0=np.zeros(3 * N), **optimisation_settings)
+        metric, args=metric_args, x0=np.zeros(3 * N), **optimisation_settings
+    )
 
     basis_functions = np.transpose(result.x.reshape(3, N))
 
     return MultiSpectralDistributions(
         basis_functions,
         cmfs.shape.range(),
-        name='Basis Functions - {0} - Mallett (2019)'.format(colourspace.name),
-        labels=('red', 'green', 'blue'))
+        name="Basis Functions - {0} - Mallett (2019)".format(colourspace.name),
+        labels=("red", "green", "blue"),
+    )
 
 
 def RGB_to_sd_Mallett2019(
-        RGB, basis_functions=MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019):
+    RGB: ArrayLike,
+    basis_functions: MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
+) -> SpectralDistribution:
     """
     Recovers the spectral distribution of given *RGB* colourspace array using
     *Mallett and Yuksel (2019)* method.
 
     Parameters
     ----------
-    RGB : array_like, (3,)
+    RGB
         *RGB* colourspace array.
-    basis_functions : MultiSpectralDistributions
+    basis_functions
         Basis functions for the method. The default is to use the built-in
         *sRGB* basis functions, i.e.
         :attr:`colour.recovery.MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019`.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Recovered reflectance.
 
     References
@@ -345,7 +358,8 @@ def RGB_to_sd_Mallett2019(
 
     sd = SpectralDistribution(
         np.dot(RGB, np.transpose(basis_functions.values)),
-        basis_functions.wavelengths)
-    sd.name = '{0} (RGB) - Mallett (2019)'.format(RGB)
+        basis_functions.wavelengths,
+    )
+    sd.name = "{0} (RGB) - Mallett (2019)".format(RGB)
 
     return sd

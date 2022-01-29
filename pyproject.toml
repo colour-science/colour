@@ -43,26 +43,27 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-imageio = "*"
-six = "*"
-scipy = "^1.1.0"
+python = ">= 3.8, < 3.11"
+imageio = ">= 2, < 3"
+scipy = ">= 1.6, < 2"
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
+black = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "*", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
 jupyter = { version = "*", optional = true }  # Development dependency.
 matplotlib = { version = "*", optional = true }
+mypy = { version = "*", optional = true }  # Development dependency.
 networkx = { version = "*", optional = true }
-nose = { version = "*", optional = true }  # Development dependency.
 numpy = { version = "*", optional = true }
 opencolorio = { version = "*", optional = true }
 pandas = { version = "*", optional = true }
 pre-commit = { version = "*", optional = true }  # Development dependency.
 pygraphviz = { version = "*", optional = true }
 pytest = { version = "*", optional = true }  # Development dependency.
+pytest-cov = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 scikit-learn = { version = "*", optional = true }
 sphinx = { version = "*", optional = true }  # Development dependency.
@@ -72,57 +73,75 @@ toml = { version = "*", optional = true }  # Development dependency.
 tqdm = { version = "*", optional = true }
 trimesh = { version = "*", optional = true }
 twine = { version = "*", optional = true }  # Development dependency.
-yapf = { version = "0.23", optional = true }  # Development dependency.
+typing-extensions = { version = "*", optional = true }  # Development dependency.
 
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
+black = "*"
 coverage = "*"
 coveralls = "*"
 flake8 = "*"
 invoke = "*"
 jupyter = "*"
-nose = "*"
+mypy = "*"
 pre-commit = "*"
 pytest = "*"
+pytest-cov = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
 sphinx_rtd_theme = "*"
 sphinxcontrib-bibtex = "*"
 toml = "*"
 twine = "*"
-yapf = "0.23"
+typing-extensions = "*"
 
 [tool.poetry.extras]
 development = [
     "biblib-simple",
+    "black",
     "coverage",
     "coveralls",
     "flake8",
     "invoke",
     "jupyter",
-    "nose",
+    "mypy",
     "pre-commit",
     "pytest",
+    "pytest-cov",
     "restructuredtext-lint",
     "sphinx",
     "sphinx_rtd_theme",
     "sphinxcontrib-bibtex",
     "toml",
     "twine",
-    "yapf"
+    "typing-extensions",
 ]
 graphviz = [ "pygraphviz" ]
 meshing = [ "trimesh" ]
 optional = [ "networkx", "opencolorio", "pandas", "scikit-learn", "tqdm" ]
 plotting = [ "matplotlib" ]
 read-the-docs = [
-    "networkx",
     "matplotlib",
+    "networkx",
     "numpy",
     "pygraphviz",
     "sphinxcontrib-bibtex",
     "trimesh"
 ]
+
+[tool.black]
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+plugins = "numpy.typing.mypy_plugin"
+ignore_missing_imports = true
 
 [build-system]
 requires = [ "poetry>=0.12" ]

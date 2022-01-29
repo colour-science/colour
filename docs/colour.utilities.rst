@@ -61,18 +61,9 @@ Common
     filter_kwargs
     filter_mapping
     first_item
-    to_domain_1
-    to_domain_10
-    to_domain_100
-    to_domain_degrees
-    to_domain_int
-    from_range_1
-    from_range_10
-    from_range_100
-    from_range_degrees
-    from_range_int
     copy_definition
     validate_method
+    optional
 
 Array
 -----
@@ -83,16 +74,32 @@ Array
 
 .. autosummary::
     :toctree: generated/
+    :template: class.rst
 
     MixinDataclassArray
+
+.. autosummary::
+    :toctree: generated/
+
     as_array
-    as_int_array
-    as_float_array
-    as_numeric
     as_int
     as_float
+    as_int_array
+    as_float_array
+    as_int_scalar
+    as_float_scalar
     set_float_precision
     set_int_precision
+    to_domain_1
+    to_domain_10
+    to_domain_100
+    to_domain_degrees
+    to_domain_int
+    from_range_1
+    from_range_10
+    from_range_100
+    from_range_degrees
+    from_range_int
     closest_indexes
     closest
     interval
@@ -109,6 +116,7 @@ Array
     zeros
     ones
     full
+    index_along_last_axis
 
 Metrics
 -------

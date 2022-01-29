@@ -16,36 +16,40 @@ References
     doi:10.1109/TIP.2015.2405336
 """
 
+from __future__ import annotations
+
 import numpy as np
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+from colour.hints import ArrayLike, NDArray
+
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'least_square_mapping_MoorePenrose',
+    "least_square_mapping_MoorePenrose",
 ]
 
 
-def least_square_mapping_MoorePenrose(y, x):
+def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArray:
     """
     Computes the *least-squares* mapping from dependent variable :math:`y` to
     independent variable :math:`x` using *Moore-Penrose* inverse.
 
     Parameters
     ----------
-    y : array_like
+    y
         Dependent and already known :math:`y` variable.
-    x : array_like, optional
+    x
         Independent :math:`x` variable(s) values corresponding with :math:`y`
         variable.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Least-squares* mapping.
 
     References

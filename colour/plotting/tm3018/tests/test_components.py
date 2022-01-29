@@ -3,11 +3,17 @@
 Defines the unit tests for the :mod:`colour.plotting.tm3018.components` module.
 """
 
+from __future__ import annotations
+
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
 from colour.colorimetry import SDS_ILLUMINANTS
-from colour.quality import colour_fidelity_index_ANSIIESTM3018
+from colour.hints import cast
+from colour.quality import (
+    ColourQuality_Specification_ANSIIESTM3018,
+    colour_fidelity_index_ANSIIESTM3018,
+)
 from colour.plotting.tm3018.components import (
     plot_spectra_ANSIIESTM3018,
     plot_colour_vector_graphic,
@@ -18,31 +24,33 @@ from colour.plotting.tm3018.components import (
     plot_colour_fidelity_indexes,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotSpectraANSIIESTM3018',
-    'TestPlotColourVectorGraphic',
-    'TestPlot16BinBars',
-    'TestPlotLocalChromaShifts',
-    'TestPlotLocalHueShifts',
-    'TestPlotLocalColourFidelities',
-    'TestPlotColourFidelityIndexes',
+    "TestPlotSpectraANSIIESTM3018",
+    "TestPlotColourVectorGraphic",
+    "TestPlot16BinBars",
+    "TestPlotLocalChromaShifts",
+    "TestPlotLocalHueShifts",
+    "TestPlotLocalColourFidelities",
+    "TestPlotColourFidelityIndexes",
 ]
 
-SPECIFICATION_ANSIIESTM3018 = colour_fidelity_index_ANSIIESTM3018(
-    SDS_ILLUMINANTS['FL2'], True)
+SPECIFICATION_ANSIIESTM3018: ColourQuality_Specification_ANSIIESTM3018 = cast(
+    ColourQuality_Specification_ANSIIESTM3018,
+    colour_fidelity_index_ANSIIESTM3018(SDS_ILLUMINANTS["FL2"], True),
+)
 
 
 class TestPlotSpectraANSIIESTM3018(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.components.
-plot_spectra_ANSIIESTM3018` definition unit tests methods.
+        Defines :func:`colour.plotting.tm3018.components.
+    plot_spectra_ANSIIESTM3018` definition unit tests methods.
     """
 
     def test_plot_spectra_ANSIIESTM3018(self):
@@ -87,7 +95,7 @@ class TestPlot16BinBars(unittest.TestCase):
         definition.
         """
 
-        figure, axes = plot_16_bin_bars(range(16), '{0}')
+        figure, axes = plot_16_bin_bars(range(16), "{0}")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -131,8 +139,8 @@ plot_local_hue_shifts` definition.
 
 class TestPlotLocalColourFidelities(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.components.
-plot_local_colour_fidelities` definition unit tests methods.
+        Defines :func:`colour.plotting.tm3018.components.
+    plot_local_colour_fidelities` definition unit tests methods.
     """
 
     def test_plot_local_colour_fidelities(self):
@@ -141,8 +149,7 @@ plot_local_colour_fidelities` definition unit tests methods.
 plot_local_colour_fidelities` definition.
         """
 
-        figure, axes = plot_local_colour_fidelities(
-            SPECIFICATION_ANSIIESTM3018)
+        figure, axes = plot_local_colour_fidelities(SPECIFICATION_ANSIIESTM3018)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -160,12 +167,11 @@ plot_colour_fidelity_indexes` definition unit tests methods.
 plot_colour_fidelity_indexes` definition.
         """
 
-        figure, axes = plot_colour_fidelity_indexes(
-            SPECIFICATION_ANSIIESTM3018)
+        figure, axes = plot_colour_fidelity_indexes(SPECIFICATION_ANSIIESTM3018)
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -4,7 +4,7 @@ DaVinci Intermediate
 ====================
 
 Defines the *DaVinci Intermediate* opto-electrical transfer function
-(OETF / OECF) and its inverse:
+(OETF) and its inverse:
 
 -   :func:`colour.models.oetf_DaVinciIntermediate`
 -   :func:`colour.models.oetf_inverse_DaVinciIntermediate`
@@ -17,51 +17,56 @@ References
 DaVinci_Resolve_17_Wide_Gamut_Intermediate.pdf?_v=1607414410000
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_DAVINCI_INTERMEDIATE',
-    'oetf_DaVinciIntermediate',
-    'oetf_inverse_DaVinciIntermediate',
+    "CONSTANTS_DAVINCI_INTERMEDIATE",
+    "oetf_DaVinciIntermediate",
+    "oetf_inverse_DaVinciIntermediate",
 ]
 
-CONSTANTS_DAVINCI_INTERMEDIATE = Structure(
+CONSTANTS_DAVINCI_INTERMEDIATE: Structure = Structure(
     DI_A=0.0075,
     DI_B=7.0,
     DI_C=0.07329248,
     DI_M=10.44426855,
     DI_LIN_CUT=0.00262409,
-    DI_LOG_CUT=0.02740668)
+    DI_LOG_CUT=0.02740668,
+)
 """
 *DaVinci Intermediate* colour component transfer functions constants.
-
-CONSTANTS_DAVINCI_INTERMEDIATE : Structure
 """
 
 
-def oetf_DaVinciIntermediate(L, constants=CONSTANTS_DAVINCI_INTERMEDIATE):
+def oetf_DaVinciIntermediate(
+    L: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
+) -> FloatingOrNDArray:
     """
     Defines the *DaVinci Intermediate* opto-electronic transfer function.
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         Linear light value :math`L`.
-    constants : Structure, optional
+    constants
         *DaVinci Intermediate* colour component transfer function constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Encoded value :math:`V`.
 
     Notes
@@ -106,22 +111,24 @@ def oetf_DaVinciIntermediate(L, constants=CONSTANTS_DAVINCI_INTERMEDIATE):
     return as_float(from_range_1(V_out))
 
 
-def oetf_inverse_DaVinciIntermediate(V,
-                                     constants=CONSTANTS_DAVINCI_INTERMEDIATE):
+def oetf_inverse_DaVinciIntermediate(
+    V: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
+) -> FloatingOrNDArray:
     """
     Defines the *DaVinci Intermediate* inverse opto-electronic transfer
-    function (OETF / OECF).
+    function (OETF).
 
     Parameters
     ----------
-    V : numeric or ndarray
-        Ecoded value :math:`V`.
-    constants : Structure, optional
+    V
+        Encoded value :math:`V`.
+    constants
         *DaVinci Intermediate* colour component transfer function constants.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear light value :math`L`.
 
     Notes

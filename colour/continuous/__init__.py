@@ -6,11 +6,11 @@ from .multi_signals import MultiSignals
 
 __all__ = []
 __all__ += [
-    'AbstractContinuousFunction',
+    "AbstractContinuousFunction",
 ]
 __all__ += [
-    'Signal',
+    "Signal",
 ]
 __all__ += [
-    'MultiSignals',
+    "MultiSignals",
 ]

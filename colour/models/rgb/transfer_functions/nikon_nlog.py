@@ -16,65 +16,74 @@ References
 N-Log_Specification_(En)01.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import (
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+)
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2020 - Colour Developers"
+__license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'NLOG_CONSTANTS',
-    'log_encoding_NLog',
-    'log_decoding_NLog',
+    "NLOG_CONSTANTS",
+    "log_encoding_NLog",
+    "log_decoding_NLog",
 ]
 
-NLOG_CONSTANTS = Structure(
+NLOG_CONSTANTS: Structure = Structure(
     cut1=0.328,
     cut2=(452 / 1023),
     a=(650 / 1023),
     b=0.0075,
     c=(150 / 1023),
-    d=(619 / 1023))
+    d=(619 / 1023),
+)
 """
 *Nikon N-Log* colourspace constants.
-
-NLOG_CONSTANTS : Structure
 """
 
 
-def log_encoding_NLog(in_r,
-                      bit_depth=10,
-                      out_normalised_code_value=True,
-                      in_reflection=True,
-                      constants=NLOG_CONSTANTS):
+def log_encoding_NLog(
+    in_r: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    out_normalised_code_value: Boolean = True,
+    in_reflection: Boolean = True,
+    constants: Structure = NLOG_CONSTANTS,
+) -> FloatingOrNDArray:
     """
     Defines the *Nikon N-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    in_r : numeric or array_like
+    in_r
         Linear reflection data :math`in`.
-    bit_depth : int, optional
+    bit_depth
         Bit depth used for conversion.
-    out_normalised_code_value : bool, optional
+    out_normalised_code_value
         Whether the non-linear *Nikon N-Log* data :math:`out` is encoded as
         normalised code values.
-    in_reflection : bool, optional
+    in_reflection
         Whether the light level :math`in` to a camera is reflection.
-    constants : Structure, optional
+    constants
         *Nikon N-Log* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`out`.
 
     Notes
@@ -119,38 +128,39 @@ def log_encoding_NLog(in_r,
         c * np.log(in_r) + d,
     )
 
-    out_r = (out_r
-             if out_normalised_code_value else legal_to_full(out_r, bit_depth))
+    out_r_cv = out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
 
-    return as_float(from_range_1(out_r))
+    return as_float(from_range_1(out_r_cv))
 
 
-def log_decoding_NLog(out_r,
-                      bit_depth=10,
-                      in_normalised_code_value=True,
-                      out_reflection=True,
-                      constants=NLOG_CONSTANTS):
+def log_decoding_NLog(
+    out_r: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    in_normalised_code_value: Boolean = True,
+    out_reflection: Boolean = True,
+    constants: Structure = NLOG_CONSTANTS,
+) -> FloatingOrNDArray:
     """
     Defines the *Nikon N-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    out_r : numeric or array_like
+    out_r
         Non-linear data :math:`out`.
-    bit_depth : int, optional
+    bit_depth
         Bit depth used for conversion.
-    in_normalised_code_value : bool, optional
+    in_normalised_code_value
         Whether the non-linear *Nikon N-Log* data :math:`out` is encoded as
         normalised code values.
-    out_reflection : bool, optional
+    out_reflection
         Whether the light level :math`in` to a camera is reflection.
-    constants : Structure, optional
+    constants
         *Nikon N-Log* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear reflection data :math`in`.
 
     Notes
@@ -180,8 +190,7 @@ def log_decoding_NLog(out_r,
 
     out_r = to_domain_1(out_r)
 
-    out_r = (out_r
-             if in_normalised_code_value else full_to_legal(out_r, bit_depth))
+    out_r = out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
 
     cut2 = constants.cut2
     a = constants.a

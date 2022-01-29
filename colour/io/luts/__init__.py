@@ -12,11 +12,15 @@ References
     https://sourceforge.net/projects/cinespacelutlib/
 """
 
+from __future__ import annotations
+
 import os
 
+from colour.hints import Any, Boolean, Integer, Literal, Optional, Union, cast
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
+    optional,
     validate_method,
 )
 
@@ -31,97 +35,110 @@ from .sony_spimtx import read_LUT_SonySPImtx, write_LUT_SonySPImtx
 from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 
 __all__ = [
-    'LUT1D',
-    'LUT3x1D',
-    'LUT3D',
-    'LUT_to_LUT',
+    "LUT1D",
+    "LUT3x1D",
+    "LUT3D",
+    "LUT_to_LUT",
 ]
 __all__ += [
-    'AbstractLUTSequenceOperator',
-    'LUTOperatorMatrix',
+    "AbstractLUTSequenceOperator",
+    "LUTOperatorMatrix",
 ]
 __all__ += [
-    'LUTSequence',
+    "LUTSequence",
 ]
 __all__ += [
-    'read_LUT_IridasCube',
-    'write_LUT_IridasCube',
+    "read_LUT_IridasCube",
+    "write_LUT_IridasCube",
 ]
 __all__ += [
-    'read_LUT_ResolveCube',
-    'write_LUT_ResolveCube',
+    "read_LUT_ResolveCube",
+    "write_LUT_ResolveCube",
 ]
 __all__ += [
-    'read_LUT_SonySPI1D',
-    'write_LUT_SonySPI1D',
+    "read_LUT_SonySPI1D",
+    "write_LUT_SonySPI1D",
 ]
 __all__ += [
-    'read_LUT_SonySPI3D',
-    'write_LUT_SonySPI3D',
+    "read_LUT_SonySPI3D",
+    "write_LUT_SonySPI3D",
 ]
 __all__ += [
-    'read_LUT_SonySPImtx',
-    'write_LUT_SonySPImtx',
+    "read_LUT_SonySPImtx",
+    "write_LUT_SonySPImtx",
 ]
 __all__ += [
-    'read_LUT_Cinespace',
-    'write_LUT_Cinespace',
+    "read_LUT_Cinespace",
+    "write_LUT_Cinespace",
 ]
 
-EXTENSION_TO_LUT_FORMAT_MAPPING = CaseInsensitiveMapping({
-    '.cube': 'Iridas Cube',
-    '.spi1d': 'Sony SPI1D',
-    '.spi3d': 'Sony SPI3D',
-    '.spimtx': 'Sony SPImtx',
-    '.csp': 'Cinespace'
-})
+EXTENSION_TO_LUT_FORMAT_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        ".cube": "Iridas Cube",
+        ".spi1d": "Sony SPI1D",
+        ".spi3d": "Sony SPI3D",
+        ".spimtx": "Sony SPImtx",
+        ".csp": "Cinespace",
+    }
+)
 """
 Extension to *LUT* format.
-
-EXTENSION_TO_LUT_FORMAT_MAPPING : CaseInsensitiveMapping
-    **{'.cube', '.spi1d', '.spi3d', '.spimtx', '.csp'}**
 """
 
-LUT_READ_METHODS = CaseInsensitiveMapping({
-    'Cinespace': read_LUT_Cinespace,
-    'Iridas Cube': read_LUT_IridasCube,
-    'Resolve Cube': read_LUT_ResolveCube,
-    'Sony SPI1D': read_LUT_SonySPI1D,
-    'Sony SPI3D': read_LUT_SonySPI3D,
-    'Sony SPImtx': read_LUT_SonySPImtx,
-})
+LUT_READ_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Cinespace": read_LUT_Cinespace,
+        "Iridas Cube": read_LUT_IridasCube,
+        "Resolve Cube": read_LUT_ResolveCube,
+        "Sony SPI1D": read_LUT_SonySPI1D,
+        "Sony SPI3D": read_LUT_SonySPI3D,
+        "Sony SPImtx": read_LUT_SonySPImtx,
+    }
+)
 LUT_READ_METHODS.__doc__ = """
 Supported *LUT* reading methods.
 
 References
 ----------
 :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
-
-LUT_READ_METHODS : CaseInsensitiveMapping
-    **{'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
-    'Sony SPI3D', 'Sony SPImtx'}**
 """
 
 
-def read_LUT(path, method=None, **kwargs):
+def read_LUT(
+    path: str,
+    method: Optional[
+        Union[
+            Literal[
+                "Cinespace",
+                "Iridas Cube",
+                "Resolve Cube",
+                "Sony SPI1D",
+                "Sony SPI3D",
+                "Sony SPImtx",
+            ],
+            str,
+        ]
+    ] = None,
+    **kwargs: Any
+) -> Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix]:
     """
     Reads given *LUT* file using given method.
 
     Parameters
     ----------
-    path : str
+    path
         *LUT* path.
-    method : str, optional
-        **{None, 'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
-        'Sony SPI3D', 'Sony SPImtx'}**,
+    method
         Reading method, if *None*, the method will be auto-detected according
         to extension.
 
     Returns
     -------
-    LUT1D or LUT3x1D or LUT3D or LUTOperatorMatrix
-        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or :class:`Matrix`
-        class instance.
+    :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or :class:`colour.LUT3D` \
+or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
+        :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or
+        :class:`colour.LUT3D` or :class:`colour.LUTSequence` or
+        :class:`colour.LUTOperatorMatrix` class instance.
 
     References
     ----------
@@ -190,8 +207,10 @@ def read_LUT(path, method=None, **kwargs):
     Offset     : [ 0.  0.  0.  0.]
     """
 
-    if method is None:
-        method = EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+    method = cast(
+        str,
+        optional(method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]),
+    )
 
     method = validate_method(method, LUT_READ_METHODS)
 
@@ -202,56 +221,72 @@ def read_LUT(path, method=None, **kwargs):
     except ValueError as error:
         # Case where a "Resolve Cube" with "LUT3x1D" shaper was read as an
         # "Iridas Cube" "LUT".
-        if method == 'iridas cube':
-            function = LUT_READ_METHODS['Resolve Cube']
+        if method == "iridas cube":
+            function = LUT_READ_METHODS["Resolve Cube"]
             return function(path, **filter_kwargs(function, **kwargs))
         else:
             raise error
 
 
-LUT_WRITE_METHODS = CaseInsensitiveMapping({
-    'Cinespace': write_LUT_Cinespace,
-    'Iridas Cube': write_LUT_IridasCube,
-    'Resolve Cube': write_LUT_ResolveCube,
-    'Sony SPI1D': write_LUT_SonySPI1D,
-    'Sony SPI3D': write_LUT_SonySPI3D,
-    'Sony SPImtx': write_LUT_SonySPImtx,
-})
+LUT_WRITE_METHODS = CaseInsensitiveMapping(
+    {
+        "Cinespace": write_LUT_Cinespace,
+        "Iridas Cube": write_LUT_IridasCube,
+        "Resolve Cube": write_LUT_ResolveCube,
+        "Sony SPI1D": write_LUT_SonySPI1D,
+        "Sony SPI3D": write_LUT_SonySPI3D,
+        "Sony SPImtx": write_LUT_SonySPImtx,
+    }
+)
 LUT_WRITE_METHODS.__doc__ = """
 Supported *LUT* reading methods.
 
 References
 ----------
 :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
-
-LUT_WRITE_METHODS : CaseInsensitiveMapping
-    **{'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
-    'Sony SPI3D', 'Sony SPImtx'}**
 """
 
 
-def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
+def write_LUT(
+    LUT: Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix],
+    path: str,
+    decimals: Integer = 7,
+    method: Optional[
+        Union[
+            Literal[
+                "Cinespace",
+                "Iridas Cube",
+                "Resolve Cube",
+                "Sony SPI1D",
+                "Sony SPI3D",
+                "Sony SPImtx",
+            ],
+            str,
+        ]
+    ] = None,
+    **kwargs: Any
+) -> Boolean:
     """
     Writes given *LUT* to given file using given method.
 
     Parameters
     ----------
-    LUT : LUT1D or LUT3x1D or LUT3D or LUTOperatorMatrix
-        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or :class:`Matrix`
-        class instance to write at given path.
-    path : str
+    LUT
+        :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or
+        :class:`colour.LUT3D` or :class:`colour.LUTSequence` or
+        :class:`colour.LUTOperatorMatrix` class instance to write at given
+        path.
+    path
         *LUT* path.
-    decimals : int, optional
+    decimals
         Formatting decimals.
-    method : str, optional
-        **{None, 'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
-        'Sony SPI3D', 'Sony SPImtx'}**,
+    method
         Writing method, if *None*, the method will be auto-detected according
         to extension.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Definition success.
 
     References
@@ -293,13 +328,15 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     >>> write_LUT(LUT, 'My_LUT.cube')  # doctest: +SKIP
     """
 
-    if method is None:
-        method = EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+    method = cast(
+        str,
+        optional(method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]),
+    )
 
     method = validate_method(method, LUT_WRITE_METHODS)
 
-    if method == 'iridas cube' and isinstance(LUT, LUTSequence):
-        method = 'resolve cube'
+    if method == "iridas cube" and isinstance(LUT, LUTSequence):
+        method = "resolve cube"
 
     function = LUT_WRITE_METHODS[method]
 
@@ -307,8 +344,8 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
 
 __all__ += [
-    'LUT_READ_METHODS',
-    'read_LUT',
-    'LUT_WRITE_METHODS',
-    'write_LUT',
+    "LUT_READ_METHODS",
+    "read_LUT",
+    "LUT_WRITE_METHODS",
+    "write_LUT",
 ]

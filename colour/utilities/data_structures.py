@@ -7,10 +7,11 @@ Defines various data structures classes:
 
 -   :class:`colour.utilities.Structure`: An object similar to C/C++ structured
     type.
--   :class:`colour.utilities.Lookup`: A *dict* sub-class acting as a lookup to
-    retrieve keys by values.
--   :class:`colour.utilities.CaseInsensitiveMapping`: A case insensitive
-    mapping allowing values retrieving from keys while ignoring the key case.
+-   :class:`colour.utilities.Lookup`: A :class:`dict` sub-class acting as a
+    lookup to retrieve keys by values.
+-   :class:`CaseInsensitiveMapping`: A case insensitive
+    :class:`dict`-like object allowing values retrieving from keys while
+    ignoring the key case.
 -   :class:`colour.utilities.LazyCaseInsensitiveMapping`: Another case
     insensitive mapping allowing lazy values retrieving from keys while
     ignoring the key case.
@@ -22,34 +23,50 @@ References
 -   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup.
     https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
 data_structures.py
--   :cite:`Mansencald` : Mansencal, T. (n.d.). Structure.
-    https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
-data_structures.py
+-   :cite:`Rakotoarison2017` : Rakotoarison, H. (2017). Bunch. Retrieved
+    December 4, 2021, from https://github.com/scikit-learn/scikit-learn/blob/\
+0d378913b/sklearn/utils/__init__.py#L83
 -   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict.
     https://github.com/kennethreitz/requests/blob/v1.2.3/requests/\
 structures.py#L37
 """
 
-from collections.abc import Mapping, MutableMapping, Sequence
+from __future__ import annotations
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+from collections.abc import MutableMapping
+
+from colour.hints import (
+    Any,
+    Boolean,
+    Dict,
+    Generator,
+    Integer,
+    Iterable,
+    List,
+    Mapping,
+    Optional,
+    Union,
+)
+from colour.utilities.documentation import is_documentation_building
+
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'attest',
-    'Structure',
-    'Lookup',
-    'CaseInsensitiveMapping',
-    'LazyCaseInsensitiveMapping',
-    'Node',
+    "attest",
+    "Structure",
+    "Lookup",
+    "CaseInsensitiveMapping",
+    "LazyCaseInsensitiveMapping",
+    "Node",
 ]
 
 
-def attest(condition, message=str()):
+def attest(condition: Boolean, message: str = ""):
     """
     A replacement for `assert` that is not removed by optimised Python
     execution.
@@ -58,7 +75,7 @@ def attest(condition, message=str()):
 
     Notes
     -----
-    -   This definition name is duplicated to avoid import circular dependency.
+    -   This definition is duplicated to avoid import circular dependency.
     """
 
     # Avoiding circular dependency.
@@ -69,22 +86,28 @@ def attest(condition, message=str()):
 
 class Structure(dict):
     """
-    Defines a dict-like object allowing to access key values using dot syntax.
+    Defines a :class:`dict`-like object allowing to access key values using dot
+    syntax.
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments.
-    \\**kwargs : dict, optional
+    kwargs
         Key / Value pairs.
 
     Methods
     -------
     -   :meth:`~colour.utilities.Structure.__init__`
+    -   :meth:`~colour.utilities.Structure.__setattr__`
+    -   :meth:`~colour.utilities.Structure.__delattr__`
+    -   :meth:`~colour.utilities.Structure.__dir__`
+    -   :meth:`~colour.utilities.Structure.__getattr__`
+    -   :meth:`~colour.utilities.Structure.__setstate__`
 
     References
     ----------
-    :cite:`Mansencald`
+    :cite:`Rakotoarison2017`
 
     Examples
     --------
@@ -97,14 +120,83 @@ class Structure(dict):
     'male'
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any):
         super(Structure, self).__init__(*args, **kwargs)
-        self.__dict__ = self
+
+    def __setattr__(self, name: str, value: Any):
+        """
+        Assigns given value to the attribute with given name.
+
+        Parameters
+        ----------
+        name
+            Name of the attribute to assign the ``value`` to.
+        value
+            Value to assign to the attribute.
+        """
+
+        self[name] = value
+
+    def __delattr__(self, name: str):
+        """
+        Deletes the attribute with given name.
+
+        Parameters
+        ----------
+        name
+            Name of the attribute to delete.
+        """
+
+        del self[name]
+
+    def __dir__(self) -> Iterable:
+        """
+        Called when :func:`dir` is called on the :class:`dict`-like object
+        and returns a list of valid attributes for the :class:`dict`-like
+        object.
+
+        Returns
+        -------
+        :class:`list`
+            List of valid attributes for the :class:`dict`-like object.
+        """
+
+        return self.keys()
+
+    def __getattr__(self, name: str) -> Any:
+        """
+        Returns the value from the attribute with given name.
+
+        Parameters
+        ----------
+        name
+            Name of the attribute to get the value from.
+
+        Returns
+        -------
+        :class:`object`
+
+        Raises
+        -----
+        AttributeError
+            If the attribute is not defined.
+        """
+
+        try:
+            return self[name]
+        except KeyError:
+            raise AttributeError(name)
+
+    def __setstate__(self, state):
+        # See https://github.com/scikit-learn/scikit-learn/issues/6196 for more
+        # information.
+
+        pass
 
 
 class Lookup(dict):
     """
-    Extends *dict* type to provide a lookup by value(s).
+    Extends :class:`dict` type to provide a lookup by value(s).
 
     Methods
     -------
@@ -125,18 +217,19 @@ class Lookup(dict):
     ['Jane', 'John']
     """
 
-    def keys_from_value(self, value):
+    def keys_from_value(self, value: Any) -> List:
         """
-        Gets the keys with given value.
+        Gets the keys associated with given value.
 
         Parameters
         ----------
-        value : object
-            Value.
+        value
+            Value to find the associated keys.
+
         Returns
         -------
-        object
-            Keys.
+        :class:`list`
+            Keys associated with given value.
         """
 
         keys = []
@@ -146,25 +239,26 @@ class Lookup(dict):
                 matching = all(matching)
 
             except TypeError:
-                matching = all((matching, ))
+                matching = all((matching,))
 
             if matching:
                 keys.append(key)
 
         return keys
 
-    def first_key_from_value(self, value):
+    def first_key_from_value(self, value: Any) -> Any:
         """
-        Gets the first key with given value.
+        Gets the first key associated with given value.
 
         Parameters
         ----------
-        value : object
-            Value.
+        value
+            Value to find the associated first key.
+
         Returns
         -------
-        object
-            Key.
+        :class:`object`
+            First key associated with given value.
         """
 
         return self.keys_from_value(value)[0]
@@ -172,20 +266,21 @@ class Lookup(dict):
 
 class CaseInsensitiveMapping(MutableMapping):
     """
-    Implements a case-insensitive mutable mapping / *dict* object.
+    Implements a case-insensitive :class:`dict`-like object.
 
     Allows values retrieving from keys while ignoring the key case.
-    The keys are expected to be str or string-like objects supporting the
+    The keys are expected to be str or :class:`str`-like objects supporting the
     :meth:`str.lower` method.
 
     Parameters
     ----------
-    data : dict
-        *dict* of data to store into the mapping at initialisation.
+    data
+        Data to store into the case-insensitive :class:`dict`-like object at
+        initialisation.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         Key / Value pairs to store into the mapping at initialisation.
 
     Attributes
@@ -207,10 +302,6 @@ class CaseInsensitiveMapping(MutableMapping):
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
 
-    Warnings
-    --------
-    The keys are expected to be str or string-like objects.
-
     References
     ----------
     :cite:`Reitza`
@@ -222,197 +313,257 @@ class CaseInsensitiveMapping(MutableMapping):
     1
     """
 
-    def __init__(self, data=None, **kwargs):
-        self._data = dict()
+    def __init__(self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any):
+        self._data: Dict = dict()
 
         self.update({} if data is None else data, **kwargs)
 
     @property
-    def data(self):
+    def data(self) -> Dict:
         """
-        Getter property for the data.
+        Getter property for the case-insensitive :class:`dict`-like object
+        data.
 
         Returns
         -------
-        dict
+        :class:`dict`
             Data.
         """
 
         return self._data
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
-        Returns the mapping representation with the original item names.
+        Returns an evaluable string representation of the case-insensitive
+        :class:`dict`-like object.
 
         Returns
         -------
-        str
-            Mapping representation.
+        :class:`str`
+            Evaluable string representation.
         """
 
-        return '{0}({1})'.format(self.__class__.__name__, dict(self.items()))
+        if is_documentation_building():  # pragma: no cover
+            return "{0}({1})".format(
+                self.__class__.__name__,
+                repr(dict(zip(self.keys(), ["..."] * len(self)))).replace(
+                    "'...'", "..."
+                ),
+            )
+        else:
+            return "{0}({1})".format(self.__class__.__name__, dict(self.items()))
 
-    def __setitem__(self, item, value):
+    def __setitem__(self, item: Union[str, Any], value: Any):
         """
-        Sets given item with given value.
-
-        The item is stored as lower in the mapping while the original name and
-        its value are stored together as the value in a *tuple*:
-
-        {"item.lower()": ("item", value)}
+        Sets given item with given value in the case-insensitive
+        :class:`dict`-like object.
 
         Parameters
         ----------
-        item : object
-            Attribute.
-        value : object
-            Value.
+        item
+            Item to set in the case-insensitive :class:`dict`-like object.
+        value
+            Value to store in the case-insensitive :class:`dict`-like object.
+
+        Notes
+        -----
+        -   The item is stored as lower-case while the original name and its
+            value are stored together as the value in a *tuple*::
+
+            {"item.lower()": ("item", value)}
         """
 
-        self._data[item.lower()] = (item, value)
+        self._data[self._lower_key(item)] = (item, value)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: Union[str, Any]) -> Any:
         """
-        Returns the value of given item.
-
-        The item value is retrieved using its lower name in the mapping.
+        Returns the value of given item from the case-insensitive
+        :class:`dict`-like object.
 
         Parameters
         ----------
-        item : str
-            Item name.
+        item
+            Item to retrieve the value of from the case-insensitive
+            :class:`dict`-like object.
 
         Returns
         -------
-        object
+        :class:`object`
             Item value.
+
+        Notes
+        -----
+        -   The item value is retrieved by using its lower-case variant.
         """
 
-        return self._data[item.lower()][1]
+        return self._data[self._lower_key(item)][1]
 
-    def __delitem__(self, item):
+    def __delitem__(self, item: Union[str, Any]):
         """
-        Deletes the item with given name.
-
-        The item is deleted from the mapping using its lower name.
+        Deletes given item from the case-insensitive :class:`dict`-like object.
 
         Parameters
         ----------
-        item : str
-            Item name.
+        item
+            Item to delete from the case-insensitive :class:`dict`-like object.
+
+        Notes
+        -----
+        -   The item is deleted by using its lower-case variant.
         """
 
-        del self._data[item.lower()]
+        del self._data[self._lower_key(item)]
 
-    def __contains__(self, item):
+    def __contains__(self, item: Union[str, Any]) -> bool:
         """
-        Returns if the mapping contains given item.
+        Returns whether the case-insensitive :class:`dict`-like object contains
+        given item.
 
         Parameters
         ----------
-        item : str
-            Item name.
+        item
+            Item to find whether it is in the case-insensitive
+            :class:`dict`-like object.
 
         Returns
         -------
-        bool
-            Is item in mapping.
+        :class:`bool`
+            Whether given item is in the case-insensitive :class:`dict`-like
+            object.
         """
 
-        return item.lower() in self._data
+        return self._lower_key(item) in self._data
 
-    def __iter__(self):
+    def __iter__(self) -> Generator:
         """
-        Iterates over the items names in the mapping.
+        Iterates over the items of the case-insensitive :class:`dict`-like
+        object.
 
-        The item names returned are the original input ones.
+        Yields
+        ------
+        Generator
+            Item generator.
 
-        Returns
-        -------
-        generator
-            Item names.
+        Notes
+        -----
+        -   The iterated items are the original items.
         """
 
         return (item for item, value in self._data.values())
 
-    def __len__(self):
+    def __len__(self) -> Integer:
         """
         Returns the items count.
 
         Returns
         -------
-        int
+        :class:`numpy.integer`
             Items count.
         """
 
         return len(self._data)
 
-    def __eq__(self, item):
+    def __eq__(self, other: Any) -> bool:
         """
-        Returns the equality with given object.
+        Returns whether the case-insensitive :class:`dict`-like object is equal
+        to given other object.
 
         Parameters
         ----------
-        item
-            Object item.
+        other
+            Object to test whether it is equal to the case-insensitive
+            :class:`dict`-like object
 
         Returns
         -------
-        bool
-            Equality.
+        :class:`bool`
+            Whether given object is equal to the case-insensitive
+            :class:`dict`-like object.
         """
 
-        if isinstance(item, Mapping):
-            item_mapping = CaseInsensitiveMapping(item)
+        if isinstance(other, Mapping):
+            other_mapping = CaseInsensitiveMapping(other)
         else:
             raise ValueError(
                 'Impossible to test equality with "{0}" class type!'.format(
-                    item.__class__.__name__))
+                    other.__class__.__name__
+                )
+            )
 
-        return dict(self.lower_items()) == dict(item_mapping.lower_items())
+        return dict(self.lower_items()) == dict(other_mapping.lower_items())
 
-    def __ne__(self, item):
+    def __ne__(self, other: Any) -> bool:
         """
-        Returns the inequality with given object.
+        Returns whether the case-insensitive :class:`dict`-like object is not
+        equal to given other object.
 
         Parameters
         ----------
-        item
-            Object item.
+        other
+            Object to test whether it is not equal to the case-insensitive
+            :class:`dict`-like object
 
         Returns
         -------
-        bool
-            Inequality.
+        :class:`bool`
+            Whether given object is not equal to the case-insensitive
+            :class:`dict`-like object.
         """
 
-        return not (self == item)
+        return not (self == other)
 
-    def copy(self):
+    @staticmethod
+    def _lower_key(key: Union[str, Any]) -> Union[str, Any]:
         """
-        Returns a copy of the mapping.
+        Returns the lower-case variant of given key, if the key cannot be
+        lower-cased, it is passed unmodified.
+
+        Parameters
+        ----------
+        key
+            Key to return the lower-case variant.
 
         Returns
         -------
-        CaseInsensitiveMapping
-            Mapping copy.
+        :class:`str` or :class:`object`
+            Key lower-case variant.
+        """
+
+        try:
+            return key.lower()
+        except AttributeError:
+            return key
+
+    def copy(self) -> "CaseInsensitiveMapping":
+        """
+        Returns a copy of the case-insensitive :class:`dict`-like object.
+
+        Returns
+        -------
+        :class:`CaseInsensitiveMapping`
+            Case-insensitive :class:`dict`-like object copy.
+
+        Warnings
+        --------
+        -   The :class:`CaseInsensitiveMapping` class copy returned is a
+            *copy* of the object not a *deepcopy*!
+        """
+
+        return CaseInsensitiveMapping(dict(self._data.values()))
+
+    def lower_items(self) -> Generator:
+        """
+        Iterates over the lower-case items of the case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
 
         Notes
         -----
-        -   The :class:`colour.utilities.CaseInsensitiveMapping` class copy
-            returned is a simple *copy* not a *deepcopy*.
-        """
-
-        return CaseInsensitiveMapping(self._data.values())
-
-    def lower_items(self):
-        """
-        Iterates over the lower items names.
-
-        Returns
-        -------
-        generator
-            Lower item names.
+        -   The iterated items are the lower-case items.
         """
 
         return ((item, value[1]) for (item, value) in self._data.items())
@@ -420,32 +571,31 @@ class CaseInsensitiveMapping(MutableMapping):
 
 class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     """
-    Implements a lazy case-insensitive mutable mapping / *dict* object by
-    inheriting from :class:`colour.utilities.CaseInsensitiveMapping` class.
+    Implements a lazy case-insensitive :class:`dict`-like object inheriting
+    from :class:`CaseInsensitiveMapping` class.
 
-    Allows lazy values retrieving from keys while ignoring the key case.
-    The keys are expected to be str or string-like objects supporting the
-    :meth:`str.lower` method. The lazy retrieval is performed as follows:
-    If the value is a callable, then it is evaluated and its return value is
-    stored in place of the current value.
+    Allows lay values retrieving from keys while ignoring the key case.
+    The keys are expected to be str or :class:`str`-like objects supporting the
+    :meth:`str.lower` method.
+
+    The lazy retrieval is performed as follows: If the value is a callable,
+    then it is evaluated and its return value is stored in place of the current
+    value.
 
     Parameters
     ----------
-    data : dict
-        *dict* of data to store into the mapping at initialisation.
+    data
+        Data to store into the lazy case-insensitive :class:`dict`-like object
+        at initialisation.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         Key / Value pairs to store into the mapping at initialisation.
 
     Methods
     -------
     -   :meth:`~colour.utilities.LazyCaseInsensitiveMapping.__getitem__`
-
-    Warnings
-    --------
-    The keys are expected to be str or string-like objects.
 
     Examples
     --------
@@ -461,30 +611,32 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     2
     """
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: Union[str, Any]) -> Any:
         """
-        Returns the value of given item.
-
-        The item value is retrieved using its lower name in the mapping. If
-        the value is a callable, then it is evaluated and its return value is
-        stored in place of the current value.
+        Returns the value of given item from the case-insensitive
+        :class:`dict`-like object.
 
         Parameters
         ----------
-        item : str
-            Item name.
+        item
+            Item to retrieve the value of from the case-insensitive
+            :class:`dict`-like object.
 
         Returns
         -------
-        object
+        :class:`object`
             Item value.
+
+        Notes
+        -----
+        -   The item value is retrieved by using its lower-case variant.
         """
 
         import colour
 
         value = super(LazyCaseInsensitiveMapping, self).__getitem__(item)
 
-        if callable(value) and hasattr(colour, '__disable_lazy_load__'):
+        if callable(value) and hasattr(colour, "__disable_lazy_load__"):
             value = value()
             super(LazyCaseInsensitiveMapping, self).__setitem__(item, value)
 
@@ -497,11 +649,13 @@ class Node:
 
     Parameters
     ----------
-    parent : Node, optional
+    name
+        Node name.
+    parent
         Parent of the node.
-    children : Node, optional
+    children
         Children of the node.
-    data : object
+    data
         The data belonging to this node.
 
     Attributes
@@ -545,101 +699,103 @@ class Node:
     7
     """
 
-    _INSTANCE_ID = 1
+    _INSTANCE_ID: Integer = 1
     """
     Node id counter.
 
-    _INSTANCE_ID : int
+    _INSTANCE_ID
     """
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> Node:
         """
         Constructor of the class.
 
         Other Parameters
         ----------
-        \\*args : list, optional
+        args
             Arguments.
-        \\**kwargs : dict, optional
+        kwargs
             Keywords arguments.
 
         Returns
         -------
-        Node
+        :class:`Node`
             Class instance.
         """
 
         instance = super(Node, cls).__new__(cls)
 
-        instance._id = Node._INSTANCE_ID
+        instance._id = Node._INSTANCE_ID  # type: ignore[attr-defined]
         Node._INSTANCE_ID += 1
 
         return instance
 
-    def __init__(self, name=None, parent=None, children=None, data=None):
-        self._name = '{0}#{1}'.format(self.__class__.__name__, self._id)
-        self.name = name
-
-        self._parent = None
+    def __init__(
+        self,
+        name: Optional[str] = None,
+        parent: Optional[Node] = None,
+        children: Optional[List[Node]] = None,
+        data: Optional[Any] = None,
+    ):
+        self._name: str = "{0}#{1}".format(self.__class__.__name__, self.id)
+        self.name = self._name if name is None else name
+        self._parent: Optional[Node] = None
         self.parent = parent
-
-        self._children = None
-        self._children = [] if children is None else children
-
-        self._data = data
+        self._children: List[Node] = []
+        self.children = self._children if children is None else children
+        self._data: Optional[Any] = data
 
     @property
-    def name(self):
+    def name(self) -> str:
         """
         Getter and setter property for the name.
 
         Parameters
         ----------
-        value : str
+        value
             Value to set the name with.
 
         Returns
         -------
-        str
+        :class:`str`
             Node name.
         """
 
         return self._name
 
     @name.setter
-    def name(self, value):
+    def name(self, value: str):
         """
         Setter for the **self.name** property.
         """
 
-        if value is not None:
-            attest(
-                isinstance(value, str),
-                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
-                    'name', value))
+        attest(
+            isinstance(value, str),
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+        )
 
-            self._name = value
+        self._name = value
 
     @property
-    def parent(self):
+    def parent(self) -> Optional[Node]:
         """
         Getter and setter property for the node parent.
 
         Parameters
         ----------
-        value : Node
+        value
             Parent to set the node with.
 
         Returns
         -------
-        Node
+        :class:`Node` or :py:data:`None`
             Node parent.
         """
 
         return self._parent
 
     @parent.setter
-    def parent(self, value):
+    def parent(self, value: Optional[Node]):
         """
         Setter for the **self.parent** property.
         """
@@ -647,75 +803,80 @@ class Node:
         if value is not None:
             attest(
                 issubclass(value.__class__, Node),
-                '"{0}" attribute: "{1}" is not a "{2}" subclass!'.format(
-                    'parent', value, Node.__class__.__name__))
+                '"{0}" property: "{1}" is not a "{2}" subclass!'.format(
+                    "parent", value, Node.__class__.__name__
+                ),
+            )
 
             value.children.append(self)
 
-            self._parent = value
+        self._parent = value
 
     @property
-    def children(self):
+    def children(self) -> List[Node]:
         """
         Getter and setter property for the node children.
 
         Parameters
         ----------
-        value : list
+        value
             Children to set the node with.
 
         Returns
         -------
-        list
+        :class:`list`
             Node children.
         """
 
         return self._children
 
     @children.setter
-    def children(self, value):
+    def children(self, value: List[Node]):
         """
         Setter for the **self.children** property.
         """
 
-        if value is not None:
+        attest(
+            isinstance(value, list),
+            '"{0}" property: "{1}" type is not a "list" instance!'.format(
+                "children", value
+            ),
+        )
+
+        for element in value:
             attest(
-                isinstance(value, Sequence) and not isinstance(value, str),
-                '"{0}" attribute: "{1}" type is not a "Sequence" instance!'
-                .format('children', value))
+                issubclass(element.__class__, Node),
+                '"{0}" property: A "{1}" element is not a "{2}" subclass!'.format(
+                    "children", element, Node.__class__.__name__
+                ),
+            )
 
-            for element in value:
-                attest(
-                    issubclass(element.__class__, Node),
-                    '"{0}" attribute: A "{1}" element is not a "{2}" subclass!'
-                    .format('children', element, Node.__class__.__name__))
+        for node in value:
+            node.parent = self
 
-            for node in value:
-                node.parent = self
-
-            self._children = list(value)
+        self._children = value
 
     @property
-    def id(self):
+    def id(self) -> Integer:
         """
         Getter property for the node id.
 
         Returns
         -------
-        int
+        :class:`numpy.integer`
             Node id.
         """
 
-        return self._id
+        return self._id  # type: ignore[attr-defined]
 
     @property
-    def root(self):
+    def root(self) -> Node:
         """
         Getter property for the node tree.
 
         Returns
         -------
-        Node
+        :class:`Node`
             Node root.
         """
 
@@ -725,91 +886,89 @@ class Node:
             return list(self.walk(ascendants=True))[-1]
 
     @property
-    def leaves(self):
+    def leaves(self) -> Generator:
         """
         Getter property for the node leaves.
 
-        Returns
-        -------
-        generator
+        Yields
+        ------
+        Generator
             Node leaves.
         """
 
         if self.is_leaf():
-            return (node for node in (self, ))
+            return (node for node in (self,))
         else:
             return (node for node in self.walk() if node.is_leaf())
 
     @property
-    def siblings(self):
+    def siblings(self) -> Generator:
         """
         Getter property for the node siblings.
 
         Returns
         -------
-        list
+        Generator
             Node siblings.
         """
 
         if self.parent is None:
-            return (sibling for sibling in ())
+            return (sibling for sibling in ())  # type: ignore[var-annotated]
         else:
-            return (sibling for sibling in self.parent.children
-                    if sibling is not self)
+            return (sibling for sibling in self.parent.children if sibling is not self)
 
     @property
-    def data(self):
+    def data(self) -> Any:
         """
         Getter property for the node data.
 
         Returns
         -------
-        Data
+        :class:`object`
             Node data.
         """
 
         return self._data
 
     @data.setter
-    def data(self, value):
+    def data(self, value: Any):
         """
         Setter for the **self.data** property.
         """
 
         self._data = value
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the node.
 
         Returns
         -------
-        str
+        :class`str`
             Formatted string representation.
         """
 
-        return '{0}#{1}({2})'.format(self.__class__.__name__, self._id,
-                                     self._data)
+        return "{0}#{1}({2})".format(self.__class__.__name__, self.id, self._data)
 
-    def __len__(self):
+    def __len__(self) -> Integer:
         """
         Returns the number of children of the node.
 
         Returns
         -------
-        int
+        :class:`numpy.integer`
             Number of children of the node.
         """
 
         return len(list(self.walk()))
 
-    def is_root(self):
+    def is_root(self) -> Boolean:
         """
         Returns whether the node is a root node.
 
         Returns
         -------
-        bool
+        :class:`bool`
             Whether the node is a root node.
 
         Examples
@@ -825,13 +984,13 @@ class Node:
 
         return self.parent is None
 
-    def is_inner(self):
+    def is_inner(self) -> Boolean:
         """
         Returns whether the node is an inner node.
 
         Returns
         -------
-        bool
+        :class:`bool`
             Whether the node is an inner node.
 
         Examples
@@ -847,13 +1006,13 @@ class Node:
 
         return all([not self.is_root(), not self.is_leaf()])
 
-    def is_leaf(self):
+    def is_leaf(self) -> Boolean:
         """
         Returns whether the node is a leaf node.
 
         Returns
         -------
-        bool
+        :class:`bool`
             Whether the node is a leaf node.
 
         Examples
@@ -869,20 +1028,20 @@ class Node:
 
         return len(self._children) == 0
 
-    def walk(self, ascendants=False):
+    def walk(self, ascendants: Boolean = False) -> Generator:
         """
         Returns a generator used to walk into :class:`colour.utilities.Node`
         trees.
 
         Parameters
         ----------
-        ascendants : bool, optional
+        ascendants
             Whether to walk up the node tree.
 
-        Returns
-        -------
-        generator
-            Node tree walker
+        Yields
+        ------
+        Generator
+            Node tree walker.
 
         Examples
         --------
@@ -905,7 +1064,7 @@ class Node:
         Node C
         """
 
-        attribute = 'children' if not ascendants else 'parent'
+        attribute = "children" if not ascendants else "parent"
 
         nodes = getattr(self, attribute)
         nodes = nodes if isinstance(nodes, list) else [nodes]
@@ -919,18 +1078,18 @@ class Node:
             for relative in node.walk(ascendants=ascendants):
                 yield relative
 
-    def render(self, tab_level=0):
+    def render(self, tab_level: Integer = 0):
         """
         Renders the current node and its children as a string.
 
         Parameters
         ----------
-        tab_level : int, optional
+        tab_level
             Initial indentation level
 
         Returns
         ------
-        str
+        :class:`str`
             Rendered node tree.
 
         Examples
@@ -945,10 +1104,10 @@ class Node:
         <BLANKLINE>
         """
 
-        output = ''
+        output = ""
 
         for i in range(tab_level):
-            output += '    '
+            output += "    "
 
         tab_level += 1
 

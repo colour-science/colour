@@ -22,26 +22,29 @@ References
     daylight, incandescent tungsten and printer.
 """
 
+from __future__ import annotations
+
 from functools import partial
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import LazyCaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_FILTERS_ISO',
-    'SDS_FILTERS_ISO',
-    'SDS_FILTERS',
+    "DATA_FILTERS_ISO",
+    "SDS_FILTERS_ISO",
+    "SDS_FILTERS",
 ]
 
-DATA_FILTERS_ISO = {
-    'ISO 7589 Diffuser': {
+DATA_FILTERS_ISO: Dict = {
+    "ISO 7589 Diffuser": {
         350: 0.00,
         360: 0.00,
         370: 0.00,
@@ -67,30 +70,28 @@ DATA_FILTERS_ISO = {
     }
 }
 
-SDS_FILTERS_ISO = LazyCaseInsensitiveMapping({
-    'ISO 7589 Diffuser':
-        partial(
+SDS_FILTERS_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    {
+        "ISO 7589 Diffuser": partial(
             SpectralDistribution,
-            DATA_FILTERS_ISO['ISO 7589 Diffuser'],
-            name='ISO 7589 Diffuser'),
-})
+            DATA_FILTERS_ISO["ISO 7589 Diffuser"],
+            name="ISO 7589 Diffuser",
+        ),
+    }
+)
 SDS_FILTERS_ISO.__doc__ = """
 Spectral distributions of *ISO* filters.
 
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-SDS_FILTERS_ISO : CaseInsensitiveMapping
 """
 
-SDS_FILTERS = LazyCaseInsensitiveMapping(SDS_FILTERS_ISO)
+SDS_FILTERS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(SDS_FILTERS_ISO)
 SDS_FILTERS.__doc__ = """
 Spectral distributions of filters.
 
 References
 ----------
 :cite:`InternationalOrganizationforStandardization2002`
-
-SDS_FILTERS : LazyCaseInsensitiveMapping
 """

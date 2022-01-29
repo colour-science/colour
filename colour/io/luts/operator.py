@@ -9,29 +9,41 @@ Defines the *LUT* operator classes:
 -   :class:`colour.LUTOperatorMatrix`
 """
 
+from __future__ import annotations
+
 import numpy as np
 from abc import ABC, abstractmethod
 
 from colour.algebra import vector_dot
+from colour.hints import (
+    Any,
+    ArrayLike,
+    List,
+    NDArray,
+    Optional,
+    Sequence,
+    cast,
+)
 from colour.utilities import (
     as_float_array,
     attest,
     is_iterable,
     is_string,
     ones,
+    optional,
     zeros,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'AbstractLUTSequenceOperator',
-    'LUTOperatorMatrix',
+    "AbstractLUTSequenceOperator",
+    "LUTOperatorMatrix",
 ]
 
 
@@ -44,9 +56,9 @@ class AbstractLUTSequenceOperator(ABC):
 
     Parameters
     ----------
-    name : str, optional
+    name
         *LUT* sequence operator name.
-    comments : array_like, optional
+    comments
         Comments to add to the *LUT* sequence operator.
 
     Attributes
@@ -59,96 +71,100 @@ class AbstractLUTSequenceOperator(ABC):
     -   :meth:`~colour.io.AbstractLUTSequenceOperator.apply`
     """
 
-    def __init__(self, name=None, comments=None):
-        self._name = 'LUT Sequence Operator {0}'.format(id(self))
-        self.name = name
-        self._comments = []
-        self.comments = comments
+    def __init__(
+        self,
+        name: Optional[str] = None,
+        comments: Optional[Sequence[str]] = None,
+    ):
+        self._name = "LUT Sequence Operator {0}".format(id(self))
+        self.name = optional(name, self._name)
+        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
+        # is resolved.
+        self._comments: List[str] = []
+        self.comments = optional(comments, self._comments)  # type: ignore[arg-type]
 
     @property
-    def name(self):
+    def name(self) -> str:
         """
         Getter and setter property for the *LUT* name.
 
         Parameters
         ----------
-        value : str
+        value
             Value to set the *LUT* name with.
 
         Returns
         -------
-        str
+        :class:`str`
             *LUT* name.
         """
 
         return self._name
 
     @name.setter
-    def name(self, value):
+    def name(self, value: str):
         """
-        Setter for **self.name** property.
+        Setter for the **self.name** property.
         """
 
-        if value is not None:
-            attest(
-                is_string(value),
-                ('"{0}" attribute: "{1}" type is not "str" or "str"!').format(
-                    'name', value))
+        attest(
+            is_string(value),
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+        )
 
-            self._name = value
+        self._name = value
 
     @property
-    def comments(self):
+    def comments(self) -> List[str]:
         """
         Getter and setter property for the *LUT* comments.
 
         Parameters
         ----------
-        value : str
+        value
             Value to set the *LUT* comments with.
 
         Returns
         -------
-        str
+        :class:`list`
             *LUT* comments.
         """
 
         return self._comments
 
     @comments.setter
-    def comments(self, value):
+    def comments(self, value: Sequence[str]):
         """
-        Setter for **self.comments** property.
+        Setter for the **self.comments** property.
         """
 
-        if value is not None:
-            attest(
-                is_iterable(value),
-                '"{0}" attribute: "{1}" must be an array like!'.format(
-                    'comments', value))
+        attest(
+            is_iterable(value),
+            '"{0}" property: "{1}" must be a sequence!'.format("comments", value),
+        )
 
-            self._comments = value
+        self._comments = list(value)
 
     @abstractmethod
-    def apply(self, RGB, *args, **kwargs):
+    def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
         """
         Applies the *LUT* sequence operator to given *RGB* colourspace array.
 
         Parameters
         ----------
-        RGB : array_like
+        RGB
             *RGB* colourspace array to apply the *LUT* sequence operator onto.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
-        \\**kwargs : dict, optional
+        kwargs
             Keywords arguments.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             Processed *RGB* colourspace array.
         """
 
@@ -162,13 +178,13 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     Parameters
     ----------
-    matrix : array_like, optional
+    matrix
         3x3 or 4x4 matrix for the operator.
-    offset : array_like, optional
+    offset
         Offset for the operator.
-    name : str, optional
+    name
         *LUT* operator name.
-    comments : array_like, optional
+    comments
         Comments to add to the *LUT* operator.
 
     Attributes
@@ -187,7 +203,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     Notes
     -----
     -   The internal :attr:`colour.io.Matrix.matrix` and
-        :attr:`colour.io.Matrix.offset` attributes are reshaped to (4, 4) and
+        :attr:`colour.io.Matrix.offset` properties are reshaped to (4, 4) and
         (4, ) respectively.
 
     Examples
@@ -226,102 +242,115 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     A second comment.
     """
 
-    def __init__(self, matrix=None, offset=None, *args, **kwargs):
+    def __init__(
+        self,
+        matrix: Optional[ArrayLike] = None,
+        offset: Optional[ArrayLike] = None,
+        *args: Any,
+        **kwargs: Any
+    ):
         super(LUTOperatorMatrix, self).__init__(*args, **kwargs)
 
-        self._matrix = np.diag(ones(4))
-        self.matrix = matrix
-
-        self._offset = zeros(4)
-        self.offset = offset
+        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
+        # is resolved.
+        self._matrix: NDArray = np.diag(ones(4))
+        self.matrix = cast(
+            ArrayLike, optional(matrix, self._matrix)
+        )  # type: ignore[assignment]
+        self._offset: NDArray = zeros(4)
+        self.offset = cast(
+            ArrayLike, optional(offset, self._offset)
+        )  # type: ignore[assignment]
 
     @property
-    def matrix(self):
+    def matrix(self) -> NDArray:
         """
         Getter and setter property for the *LUT* operator matrix.
 
         Parameters
         ----------
-        value : str
+        value
             Value to set the *LUT* operator matrix with.
 
         Returns
         -------
-        str
+        :class:`numpy.ndarray`
             Operator matrix.
         """
 
         return self._matrix
 
     @matrix.setter
-    def matrix(self, value):
+    def matrix(self, value: ArrayLike):
         """
-        Setter for **self.matrix** property.
+        Setter for the **self.matrix** property.
         """
 
-        if value is not None:
-            value = as_float_array(value)
+        value = as_float_array(value)
 
-            shape_t = value.shape[-1]
+        shape_t = value.shape[-1]
 
-            value = value.reshape([shape_t, shape_t])
+        value = value.reshape([shape_t, shape_t])
 
-            attest(
-                value.shape in [(3, 3), (4, 4)],
-                '"{0}" attribute: "{1}" shape is not (3, 3) or (4, 4)!'.format(
-                    'matrix', value))
+        attest(
+            value.shape in [(3, 3), (4, 4)],
+            '"{0}" property: "{1}" shape is not (3, 3) or (4, 4)!'.format(
+                "matrix", value
+            ),
+        )
 
-            M = np.identity(4)
-            M[:shape_t, :shape_t] = value
+        M = np.identity(4)
+        M[:shape_t, :shape_t] = value
 
-            self._matrix = M
+        self._matrix = M
 
     @property
-    def offset(self):
+    def offset(self) -> NDArray:
         """
         Getter and setter property for the *LUT* operator offset.
 
         Parameters
         ----------
-        value : str
+        value
             Value to set the *LUT* operator offset with.
 
         Returns
         -------
-        str
+        :class:`numpy.ndarray`
             Operator offset.
         """
 
         return self._offset
 
     @offset.setter
-    def offset(self, value):
+    def offset(self, value: ArrayLike):
         """
-        Setter for **self.offset** property.
+        Setter for the **self.offset** property.
         """
 
-        if value is not None:
-            value = as_float_array(value)
+        value = as_float_array(value)
 
-            shape_t = value.shape[-1]
+        shape_t = value.shape[-1]
 
-            attest(
-                value.shape in [(3, ), (4, )],
-                '"{0}" attribute: "{1}" shape is not (3, ) or (4, )!'.format(
-                    'offset', value))
+        attest(
+            value.shape in [(3,), (4,)],
+            '"{0}" property: "{1}" shape is not (3, ) or (4, )!'.format(
+                "offset", value
+            ),
+        )
 
-            offset = zeros(4)
-            offset[:shape_t] = value
+        offset = zeros(4)
+        offset[:shape_t] = value
 
-            self._offset = offset
+        self._offset = offset
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the *LUT* operator.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
 
         Examples
@@ -337,31 +366,35 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Offset     : [ 0.  0.  0.  0.]
         """
 
-        def _indent_array(a):
+        def _indent_array(a: ArrayLike) -> str:
             """
             Indents given array string representation.
             """
 
-            return str(a).replace(' [', ' ' * 14 + '[')
+            return str(a).replace(" [", " " * 14 + "[")
 
-        return ('{0} - {1}\n'
-                '{2}\n\n'
-                'Matrix     : {3}\n'
-                'Offset     : {4}'
-                '{5}'.format(
-                    self.__class__.__name__, self._name,
-                    '-' * (len(self.__class__.__name__) + 3 + len(self._name)),
-                    _indent_array(self._matrix), _indent_array(self._offset),
-                    '\n\n{0}'.format('\n'.join(self._comments))
-                    if self._comments else ''))
+        return (
+            "{0} - {1}\n"
+            "{2}\n\n"
+            "Matrix     : {3}\n"
+            "Offset     : {4}"
+            "{5}".format(
+                self.__class__.__name__,
+                self._name,
+                "-" * (len(self.__class__.__name__) + 3 + len(self._name)),
+                _indent_array(self._matrix),
+                _indent_array(self._offset),
+                "\n\n{0}".format("\n".join(self._comments)) if self._comments else "",
+            )
+        )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Returns an evaluable string representation of the *LUT* operator.
 
         Returns
         -------
-        str
+        :class:`str`
             Evaluable string representation.
 
         Examples
@@ -379,39 +412,37 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         representation = repr(self._matrix)
-        representation = representation.replace('array',
-                                                self.__class__.__name__)
+        representation = representation.replace("array", self.__class__.__name__)
         representation = representation.replace(
-            '       [',
-            '{0}['.format(' ' * (len(self.__class__.__name__) + 2)))
+            "       [", "{0}[".format(" " * (len(self.__class__.__name__) + 2))
+        )
 
-        indentation = ' ' * (len(self.__class__.__name__) + 1)
-        representation = ('{0},\n'
-                          '{1}{2},\n'
-                          '{1}name=\'{3}\''
-                          '{4})').format(
-                              representation[:-1], indentation,
-                              repr(self._offset).replace('array(', '').replace(
-                                  ')', ''), self._name,
-                              ',\n{0}comments={1}'.format(
-                                  indentation, repr(self._comments))
-                              if self._comments else '')
+        indentation = " " * (len(self.__class__.__name__) + 1)
+        representation = ("{0},\n" "{1}{2},\n" "{1}name='{3}'" "{4})").format(
+            representation[:-1],
+            indentation,
+            repr(self._offset).replace("array(", "").replace(")", ""),
+            self._name,
+            ",\n{0}comments={1}".format(indentation, repr(self._comments))
+            if self._comments
+            else "",
+        )
 
         return representation
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         """
         Returns whether the *LUT* operator is equal to given other object.
 
         Parameters
         ----------
-        other : object
+        other
             Object to test whether it is equal to the *LUT* operator.
 
         Returns
         -------
-        bool
-            Is given object equal to the *LUT* operator.
+        :class:`bool`
+            Whether given object equal to the *LUT* operator.
 
         Examples
         --------
@@ -420,27 +451,29 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         if isinstance(other, LUTOperatorMatrix):
-            if all([
+            if all(
+                [
                     np.array_equal(self._matrix, other._matrix),
-                    np.array_equal(self._offset, other._offset)
-            ]):
+                    np.array_equal(self._offset, other._offset),
+                ]
+            ):
                 return True
 
         return False
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         """
         Returns whether the *LUT* operator is not equal to given other object.
 
         Parameters
         ----------
-        other : object
+        other
             Object to test whether it is not equal to the *LUT* operator.
 
         Returns
         -------
-        bool
-            Is given object not equal to the *LUT* operator.
+        :class:`bool`
+            Whether given object is not equal to the *LUT* operator.
 
         Examples
         --------
@@ -451,20 +484,23 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         return not (self == other)
 
-    def apply(self, RGB, apply_offset_first=False):
+    def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
         """
         Applies the *LUT* operator to given *RGB* array.
 
         Parameters
         ----------
-        RGB : array_like
+        RGB
             *RGB* array to apply the *LUT* operator transform to.
-        apply_offset_first : bool, optional
+
+        Other Parameters
+        ----------------
+        apply_offset_first
             Whether to apply the offset first and then the matrix.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             Transformed *RGB* array.
 
         Examples
@@ -479,6 +515,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         RGB = as_float_array(RGB)
+        apply_offset_first = kwargs.get("apply_offset_first", False)
 
         has_alpha_channel = RGB.shape[-1] == 4
         M = self._matrix

@@ -62,6 +62,8 @@ References
     ISBN:978-0-471-39918-6
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
@@ -69,11 +71,17 @@ from colour.biochemistry import (
     substrate_concentration_MichaelisMenten_Michaelis1913,
     substrate_concentration_MichaelisMenten_Abebe2017,
 )
+from colour.hints import (
+    Any,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
-    as_float_array,
     as_float,
-    as_numeric,
+    as_float_array,
     filter_kwargs,
     from_range_1,
     from_range_100,
@@ -83,40 +91,40 @@ from colour.utilities import (
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'luminance_Newhall1943',
-    'luminance_ASTMD1535',
-    'intermediate_luminance_function_CIE1976',
-    'luminance_CIE1976',
-    'luminance_Fairchild2010',
-    'luminance_Fairchild2011',
-    'luminance_Abebe2017',
-    'LUMINANCE_METHODS',
-    'luminance',
+    "luminance_Newhall1943",
+    "luminance_ASTMD1535",
+    "intermediate_luminance_function_CIE1976",
+    "luminance_CIE1976",
+    "luminance_Fairchild2010",
+    "luminance_Fairchild2011",
+    "luminance_Abebe2017",
+    "LUMINANCE_METHODS",
+    "luminance",
 ]
 
 
-def luminance_Newhall1943(V):
+def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
     using *Newhall et al. (1943)* method.
 
     Parameters
     ----------
-    V : numeric or array_like
+    V
         *Munsell* value :math:`V`.
 
     Returns
     -------
-    numeric or array_like
-        *luminance* :math:`R_Y`.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Luminance* :math:`R_Y`.
 
     Notes
     -----
@@ -145,26 +153,31 @@ def luminance_Newhall1943(V):
 
     V = to_domain_10(V)
 
-    R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) -
-           0.021009 * (V ** 4) + 0.0008404 * (V ** 5))
+    R_Y = (
+        1.2219 * V
+        - 0.23111 * (V * V)
+        + 0.23951 * (V ** 3)
+        - 0.021009 * (V ** 4)
+        + 0.0008404 * (V ** 5)
+    )
 
-    return from_range_100(R_Y)
+    return as_float(from_range_100(R_Y))
 
 
-def luminance_ASTMD1535(V):
+def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *ASTM D1535-08e1* method.
 
     Parameters
     ----------
-    V : numeric or array_like
+    V
         *Munsell* value :math:`V`.
 
     Returns
     -------
-    numeric or array_like
-        *luminance* :math:`Y`.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Luminance* :math:`Y`.
 
     Notes
     -----
@@ -193,13 +206,20 @@ def luminance_ASTMD1535(V):
 
     V = to_domain_10(V)
 
-    Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) -
-         0.020484 * (V ** 4) + 0.00081939 * (V ** 5))
+    Y = (
+        1.1914 * V
+        - 0.22533 * (V ** 2)
+        + 0.23352 * (V ** 3)
+        - 0.020484 * (V ** 4)
+        + 0.00081939 * (V ** 5)
+    )
 
-    return from_range_100(Y)
+    return as_float(from_range_100(Y))
 
 
-def intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n=100):
+def intermediate_luminance_function_CIE1976(
+    f_Y_Y_n: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
+) -> FloatingOrNDArray:
     """
     Returns the *luminance* :math:`Y` in the *luminance* :math:`Y`
     computation for given intermediate value :math:`f(Y/Yn)` using given
@@ -207,15 +227,15 @@ def intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n=100):
 
     Parameters
     ----------
-    f_Y_Y_n : numeric or array_like
+    f_Y_Y_n
         Intermediate value :math:`f(Y/Yn)`.
-    Y_n : numeric or array_like
+    Y_n
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
-    numeric or array_like
-        *luminance* :math:`Y`.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Luminance* :math:`Y`.
 
     Notes
     -----
@@ -249,32 +269,33 @@ def intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n=100):
     f_Y_Y_n = as_float_array(f_Y_Y_n)
     Y_n = as_float_array(Y_n)
 
-    Y = as_float(
-        np.where(
-            f_Y_Y_n > 24 / 116,
-            Y_n * f_Y_Y_n ** 3,
-            Y_n * (f_Y_Y_n - 16 / 116) * (108 / 841),
-        ))
+    Y = np.where(
+        f_Y_Y_n > 24 / 116,
+        Y_n * f_Y_Y_n ** 3,
+        Y_n * (f_Y_Y_n - 16 / 116) * (108 / 841),
+    )
 
-    return Y
+    return as_float(Y)
 
 
-def luminance_CIE1976(L_star, Y_n=100):
+def luminance_CIE1976(
+    L_star: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
+) -> FloatingOrNDArray:
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
 
     Parameters
     ----------
-    L_star : numeric or array_like
+    L_star
         *Lightness* :math:`L^*`
-    Y_n : numeric or array_like
+    Y_n
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
-    numeric or array_like
-        *luminance* :math:`Y`.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Luminance* :math:`Y`.
 
     Notes
     -----
@@ -310,10 +331,12 @@ def luminance_CIE1976(L_star, Y_n=100):
 
     Y = intermediate_luminance_function_CIE1976(f_Y_Y_n, Y_n)
 
-    return from_range_100(Y)
+    return as_float(from_range_100(Y))
 
 
-def luminance_Fairchild2010(L_hdr, epsilon=1.836):
+def luminance_Fairchild2010(
+    L_hdr: FloatingOrArrayLike, epsilon: FloatingOrArrayLike = 1.836
+) -> FloatingOrNDArray:
     """
     Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
@@ -321,15 +344,15 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
 
     Parameters
     ----------
-    L_hdr : array_like
+    L_hdr
         *Lightness* :math:`L_{hdr}`.
-    epsilon : numeric or array_like, optional
+    epsilon
         :math:`\\epsilon` exponent.
 
     Returns
     -------
-    array_like
-        *luminance* :math:`Y`.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Luminance* :math:`Y`.
 
     Notes
     -----
@@ -362,12 +385,20 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
     Y = np.exp(
         np.log(
             substrate_concentration_MichaelisMenten_Michaelis1913(
-                L_hdr - 0.02, 100, 0.184 ** epsilon)) / epsilon)
+                L_hdr - 0.02, 100, spow(0.184, epsilon)
+            )
+        )
+        / epsilon
+    )
 
-    return from_range_1(Y)
+    return as_float(from_range_1(Y))
 
 
-def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
+def luminance_Fairchild2011(
+    L_hdr: FloatingOrArrayLike,
+    epsilon: FloatingOrArrayLike = 0.474,
+    method: Union[Literal["hdr-CIELAB", "hdr-IPT"], str] = "hdr-CIELAB",
+) -> FloatingOrNDArray:
     """
     Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
@@ -375,18 +406,17 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
 
     Parameters
     ----------
-    L_hdr : array_like
+    L_hdr
         *Lightness* :math:`L_{hdr}`.
-    epsilon : numeric or array_like, optional
+    epsilon
         :math:`\\epsilon` exponent.
-    method : str, optional
-        **{'hdr-CIELAB', 'hdr-IPT'}**,
+    method
         *Lightness* :math:`L_{hdr}` computation method.
 
     Returns
     -------
-    array_like
-        *luminance* :math:`Y`.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Luminance* :math:`Y`.
 
     Notes
     -----
@@ -417,9 +447,9 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
     """
 
     L_hdr = to_domain_100(L_hdr)
-    method = validate_method(method, ['hdr-CIELAB', 'hdr-IPT'])
+    method = validate_method(method, ["hdr-CIELAB", "hdr-IPT"])
 
-    if method == 'hdr-cielab':
+    if method == "hdr-cielab":
         maximum_perception = 247
     else:
         maximum_perception = 246
@@ -427,12 +457,20 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
     Y = np.exp(
         np.log(
             substrate_concentration_MichaelisMenten_Michaelis1913(
-                L_hdr - 0.02, maximum_perception, 2 ** epsilon)) / epsilon)
+                L_hdr - 0.02, maximum_perception, spow(2, epsilon)
+            )
+        )
+        / epsilon
+    )
 
-    return from_range_1(Y)
+    return as_float(from_range_1(Y))
 
 
-def luminance_Abebe2017(L, Y_n=100, method='Michaelis-Menten'):
+def luminance_Abebe2017(
+    L: FloatingOrArrayLike,
+    Y_n: FloatingOrArrayLike = 100,
+    method: Union[Literal["Michaelis-Menten", "Stevens"], str] = "Michaelis-Menten",
+) -> FloatingOrNDArray:
     """
     Computes *luminance* :math:`Y` of *Lightness* :math:`L` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
@@ -440,17 +478,16 @@ def luminance_Abebe2017(L, Y_n=100, method='Michaelis-Menten'):
 
     Parameters
     ----------
-    L : array_like
+    L
         *Lightness* :math:`L`.
-    Y_n : numeric or array_like, optional
+    Y_n
         Adapting luminance :math:`Y_n` in :math:`cd/m^2`.
-    method : str, optional
-        **{'Michaelis-Menten', 'Stevens'}**,
+    method
         *Luminance* :math:`Y` computation method.
 
     Returns
     -------
-    array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Luminance* :math:`Y` in :math:`cd/m^2`.
 
     Notes
@@ -490,9 +527,9 @@ def luminance_Abebe2017(L, Y_n=100, method='Michaelis-Menten'):
 
     L = as_float_array(L)
     Y_n = as_float_array(Y_n)
-    method = validate_method(method, ['Michaelis-Menten', 'Stevens'])
+    method = validate_method(method, ["Michaelis-Menten", "Stevens"])
 
-    if method == 'stevens':
+    if method == "stevens":
         Y = np.where(
             Y_n <= 100,
             spow((L + 0.226) / 1.226, 1 / 0.266),
@@ -503,24 +540,32 @@ def luminance_Abebe2017(L, Y_n=100, method='Michaelis-Menten'):
             Y_n <= 100,
             spow(
                 substrate_concentration_MichaelisMenten_Abebe2017(
-                    L, 1.448, 0.635, 0.813), 1 / 0.582),
+                    L, 1.448, 0.635, 0.813
+                ),
+                1 / 0.582,
+            ),
             spow(
                 substrate_concentration_MichaelisMenten_Abebe2017(
-                    L, 1.680, 1.584, 0.096), 1 / 0.293),
+                    L, 1.680, 1.584, 0.096
+                ),
+                1 / 0.293,
+            ),
         )
     Y = Y * Y_n
 
-    return as_numeric(Y)
+    return as_float(Y)
 
 
-LUMINANCE_METHODS = CaseInsensitiveMapping({
-    'Newhall 1943': luminance_Newhall1943,
-    'ASTM D1535': luminance_ASTMD1535,
-    'CIE 1976': luminance_CIE1976,
-    'Fairchild 2010': luminance_Fairchild2010,
-    'Fairchild 2011': luminance_Fairchild2011,
-    'Abebe 2017': luminance_Abebe2017
-})
+LUMINANCE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Newhall 1943": luminance_Newhall1943,
+        "ASTM D1535": luminance_ASTMD1535,
+        "CIE 1976": luminance_CIE1976,
+        "Fairchild 2010": luminance_Fairchild2010,
+        "Fairchild 2011": luminance_Fairchild2011,
+        "Abebe 2017": luminance_Abebe2017,
+    }
+)
 LUMINANCE_METHODS.__doc__ = """
 Supported *luminance* computation methods.
 
@@ -529,47 +574,55 @@ References
 :cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`, :cite:`Fairchild2010`,
 :cite:`Fairchild2011`, :cite:`Newhall1943a`, :cite:`Wyszecki2000bd`
 
-LUMINANCE_METHODS : CaseInsensitiveMapping
-    **{'Newhall 1943', 'ASTM D1535', 'CIE 1976', 'Fairchild 2010',
-    'Fairchild 2011', 'Abebe 2017'}**
-
 Aliases:
 
 -   'astm2008': 'ASTM D1535'
 -   'cie1976': 'CIE 1976'
 """
-LUMINANCE_METHODS['astm2008'] = (LUMINANCE_METHODS['ASTM D1535'])
-LUMINANCE_METHODS['cie1976'] = (LUMINANCE_METHODS['CIE 1976'])
+LUMINANCE_METHODS["astm2008"] = LUMINANCE_METHODS["ASTM D1535"]
+LUMINANCE_METHODS["cie1976"] = LUMINANCE_METHODS["CIE 1976"]
 
 
-def luminance(LV, method='CIE 1976', **kwargs):
+def luminance(
+    LV: FloatingOrArrayLike,
+    method: Union[
+        Literal[
+            "Abebe 2017",
+            "CIE 1976",
+            "Glasser 1958",
+            "Fairchild 2010",
+            "Fairchild 2011",
+            "Wyszecki 1963",
+        ],
+        str,
+    ] = "CIE 1976",
+    **kwargs: Any
+) -> FloatingOrNDArray:
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
 
     Parameters
     ----------
-    LV : numeric or array_like
+    LV
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
-    method : str, optional
-        **{'CIE 1976', 'Newhall 1943', 'ASTM D1535', 'Fairchild 2010',
-        'Fairchild 2011', 'Abebe 2017'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    Y_n : numeric or array_like, optional
+    Y_n
         {:func:`colour.colorimetry.luminance_CIE1976`},
         White reference *luminance* :math:`Y_n`.
-    epsilon : numeric or array_like, optional
+    epsilon
         {:func:`colour.colorimetry.lightness_Fairchild2010`,
         :func:`colour.colorimetry.lightness_Fairchild2011`},
         :math:`\\epsilon` exponent.
 
     Returns
     -------
-    numeric or array_like
-        *luminance* :math:`Y`.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *Luminance* :math:`Y`.
 
     Notes
     -----
@@ -619,12 +672,12 @@ def luminance(LV, method='CIE 1976', **kwargs):
     # NOTE: "Abebe et al. (2017)" uses absolute luminance levels and has
     # undefined domain-range scale, yet we modify its behaviour consistency
     # with the other methods.
-    domain_range_reference = get_domain_range_scale() == 'reference'
-    domain_range_1 = get_domain_range_scale() == '1'
+    domain_range_reference = get_domain_range_scale() == "reference"
+    domain_range_1 = get_domain_range_scale() == "1"
 
     domain_1 = (luminance_Fairchild2010, luminance_Fairchild2011)
     domain_10 = (luminance_Newhall1943, luminance_ASTMD1535)
-    domain_undefined = (luminance_Abebe2017, )
+    domain_undefined = (luminance_Abebe2017,)
 
     if function in domain_10 and domain_range_reference:
         LV = LV / 10

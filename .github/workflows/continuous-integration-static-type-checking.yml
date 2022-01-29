@@ -1,0 +1,32 @@
+name: Continuous Integration - Static Type Checking
+
+on: [push, pull_request]
+
+jobs:
+  continuous-integration-package:
+    name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
+    strategy:
+      matrix:
+        os: [macOS-latest]
+        python-version: [3.9]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Environment Variables
+      run: |
+        echo "CI_PACKAGE=colour" >> $GITHUB_ENV
+      shell: bash
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies (macOS)
+      run: |
+        brew install gnu-sed graphviz
+        ln -s /usr/local/bin/gsed /usr/local/bin/sed
+      shell: bash
+    - name: Static Type Checking
+      run: |
+        pip install -r requirements.txt
+        mypy --install-types --non-interactive --show-error-codes --warn-unused-ignores --warn-redundant-casts -p $CI_PACKAGE

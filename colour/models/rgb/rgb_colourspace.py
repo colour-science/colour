@@ -24,11 +24,24 @@ References
     http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 from copy import deepcopy
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import matrix_dot, vector_dot
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Boolean,
+    Callable,
+    Literal,
+    NDArray,
+    Optional,
+    Union,
+    cast,
+)
 from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
 from colour.models.rgb import (
     chromatically_adapted_primaries,
@@ -40,23 +53,24 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     from_range_1,
+    optional,
     to_domain_1,
     is_string,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RGB_Colourspace',
-    'XYZ_to_RGB',
-    'RGB_to_XYZ',
-    'matrix_RGB_to_RGB',
-    'RGB_to_RGB',
+    "RGB_Colourspace",
+    "XYZ_to_RGB",
+    "RGB_to_XYZ",
+    "matrix_RGB_to_RGB",
+    "RGB_to_RGB",
 ]
 
 
@@ -115,32 +129,32 @@ class RGB_Colourspace:
 
     Parameters
     ----------
-    name : str
+    name
         *RGB* colourspace name.
-    primaries : array_like
+    primaries
         *RGB* colourspace primaries.
-    whitepoint : array_like
+    whitepoint
         *RGB* colourspace whitepoint.
-    whitepoint_name : str, optional
+    whitepoint_name
         *RGB* colourspace whitepoint name.
-    matrix_RGB_to_XYZ : array_like, optional
+    matrix_RGB_to_XYZ
         Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
-    matrix_XYZ_to_RGB : array_like, optional
+    matrix_XYZ_to_RGB
         Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
-    cctf_encoding : object, optional
+    cctf_encoding
         Encoding colour component transfer function (Encoding CCTF) /
-        opto-electronic transfer function (OETF / OECF) that maps estimated
+        opto-electronic transfer function (OETF) that maps estimated
         tristimulus values in a scene to :math:`R'G'B'` video component signal
         value.
-    cctf_decoding : object, optional
+    cctf_decoding
         Decoding colour component transfer function (Decoding CCTF) /
-        electro-optical transfer function (EOTF / EOCF) that maps an
+        electro-optical transfer function (EOTF) that maps an
         :math:`R'G'B'` video component signal value to tristimulus values at
         the display.
-    use_derived_matrix_RGB_to_XYZ : bool, optional
+    use_derived_matrix_RGB_to_XYZ
         Whether to use the instantiation time normalised primary matrix or to
         use a computed derived normalised primary matrix.
-    use_derived_matrix_XYZ_to_RGB : bool, optional
+    use_derived_matrix_XYZ_to_RGB
         Whether to use the instantiation time inverse normalised primary
         matrix or to use a computed derived inverse normalised primary matrix.
 
@@ -169,7 +183,7 @@ class RGB_Colourspace:
     Notes
     -----
     -   The normalised primary matrix defined by
-        :attr:`colour.RGB_Colourspace.matrix_RGB_to_XYZ` attribute is treated
+        :attr:`colour.RGB_Colourspace.matrix_RGB_to_XYZ` property is treated
         as the prime matrix from which the inverse will be calculated as
         required by the internal derivation mechanism. This behaviour has been
         chosen in accordance with literature where commonly a *RGB* colourspace
@@ -198,7 +212,6 @@ class RGB_Colourspace:
            [ 0.,  1.,  0.],
            [ 0.,  0.,  1.]])
     >>> colourspace.use_derived_transformation_matrices(True)
-    True
     >>> colourspace.matrix_RGB_to_XYZ  # doctest: +ELLIPSIS
     array([[  9.5255239...e-01,   0.0000000...e+00,   9.3678631...e-05],
            [  3.4396645...e-01,   7.2816609...e-01,  -7.2132546...e-02],
@@ -219,158 +232,168 @@ class RGB_Colourspace:
            [ 0.,  0.,  1.]])
     """
 
-    def __init__(self,
-                 name,
-                 primaries,
-                 whitepoint,
-                 whitepoint_name=None,
-                 matrix_RGB_to_XYZ=None,
-                 matrix_XYZ_to_RGB=None,
-                 cctf_encoding=None,
-                 cctf_decoding=None,
-                 use_derived_matrix_RGB_to_XYZ=False,
-                 use_derived_matrix_XYZ_to_RGB=False):
-        self._derived_matrix_RGB_to_XYZ = None
-        self._derived_matrix_XYZ_to_RGB = None
+    def __init__(
+        self,
+        name: str,
+        primaries: ArrayLike,
+        whitepoint: ArrayLike,
+        whitepoint_name: Optional[str] = None,
+        matrix_RGB_to_XYZ: Optional[ArrayLike] = None,
+        matrix_XYZ_to_RGB: Optional[ArrayLike] = None,
+        cctf_encoding: Optional[Callable] = None,
+        cctf_decoding: Optional[Callable] = None,
+        use_derived_matrix_RGB_to_XYZ: Boolean = False,
+        use_derived_matrix_XYZ_to_RGB: Boolean = False,
+    ):
+        self._derived_matrix_RGB_to_XYZ: NDArray = np.array([])
+        self._derived_matrix_XYZ_to_RGB: NDArray = np.array([])
 
-        self._name = None
+        self._name: str = "{0} ({1})".format(self.__class__.__name__, id(self))
         self.name = name
-        self._primaries = None
-        self.primaries = primaries
-        self._whitepoint = None
-        self.whitepoint = whitepoint
-        self._whitepoint_name = None
+        self._primaries: NDArray = np.array([])
+        self.primaries = primaries  # type: ignore[assignment]
+        self._whitepoint: NDArray = np.array([])
+        self.whitepoint = whitepoint  # type: ignore[assignment]
+        self._whitepoint_name: Optional[str] = None
         self.whitepoint_name = whitepoint_name
-        self._matrix_RGB_to_XYZ = None
-        self.matrix_RGB_to_XYZ = matrix_RGB_to_XYZ
-        self._matrix_XYZ_to_RGB = None
-        self.matrix_XYZ_to_RGB = matrix_XYZ_to_RGB
-        self._cctf_encoding = None
+        self._matrix_RGB_to_XYZ: Optional[NDArray] = None
+        self.matrix_RGB_to_XYZ = matrix_RGB_to_XYZ  # type: ignore[assignment]
+        self._matrix_XYZ_to_RGB: Optional[NDArray] = None
+        self.matrix_XYZ_to_RGB = matrix_XYZ_to_RGB  # type: ignore[assignment]
+        self._cctf_encoding: Optional[Callable] = None
         self.cctf_encoding = cctf_encoding
-        self._cctf_decoding = None
+        self._cctf_decoding: Optional[Callable] = None
         self.cctf_decoding = cctf_decoding
-        self._use_derived_matrix_RGB_to_XYZ = False
+        self._use_derived_matrix_RGB_to_XYZ: Boolean = False
         self.use_derived_matrix_RGB_to_XYZ = use_derived_matrix_RGB_to_XYZ
-        self._use_derived_matrix_XYZ_to_RGB = False
+        self._use_derived_matrix_XYZ_to_RGB: Boolean = False
         self.use_derived_matrix_XYZ_to_RGB = use_derived_matrix_XYZ_to_RGB
 
     @property
-    def name(self):
+    def name(self) -> str:
         """
         Getter and setter property for the name.
 
         Parameters
         ----------
-        value : str
+        value
             Value to set the name with.
 
         Returns
         -------
-        str
+        :class:`str`
             *RGB* colourspace name.
         """
 
         return self._name
 
     @name.setter
-    def name(self, value):
+    def name(self, value: str):
         """
         Setter for the **self.name** property.
         """
 
-        if value is not None:
-            attest(
-                is_string(value),
-                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
-                    'name', value))
+        attest(
+            is_string(value),
+            '"{0}" property: "{1}" type is not "str"!'.format("name", value),
+        )
 
         self._name = value
 
     @property
-    def primaries(self):
+    def primaries(self) -> NDArray:
         """
         Getter and setter property for the primaries.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the primaries with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             *RGB* colourspace primaries.
         """
 
         return self._primaries
 
     @primaries.setter
-    def primaries(self, value):
+    def primaries(self, value: ArrayLike):
         """
         Setter for the **self.primaries** property.
         """
 
-        if value is not None:
-            value = np.reshape(value, (3, 2))
+        attest(
+            isinstance(value, (tuple, list, np.ndarray, np.matrix)),
+            '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
+            'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
+        )
+
+        value = as_float_array(value)
+
+        value = np.reshape(value, (3, 2))
+
         self._primaries = value
 
         self._derive_transformation_matrices()
 
     @property
-    def whitepoint(self):
+    def whitepoint(self) -> NDArray:
         """
         Getter and setter property for the whitepoint.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the whitepoint with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             *RGB* colourspace whitepoint.
         """
 
         return self._whitepoint
 
     @whitepoint.setter
-    def whitepoint(self, value):
+    def whitepoint(self, value: ArrayLike):
         """
         Setter for the **self.whitepoint** property.
         """
 
-        if value is not None:
-            attest(
-                isinstance(value, (tuple, list, np.ndarray, np.matrix)),
-                '"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
-                'or "matrix" instance!'.format('whitepoint', value))
-            value = as_float_array(value)
+        attest(
+            isinstance(value, (tuple, list, np.ndarray, np.matrix)),
+            '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
+            'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
+        )
+
+        value = as_float_array(value)
 
         self._whitepoint = value
 
         self._derive_transformation_matrices()
 
     @property
-    def whitepoint_name(self):
+    def whitepoint_name(self) -> Optional[str]:
         """
         Getter and setter property for the whitepoint_name.
 
         Parameters
         ----------
-        value : str
+        value
             Value to set the whitepoint_name with.
 
         Returns
         -------
-        str
+        :py:data:`None` or :class:`str`
             *RGB* colourspace whitepoint name.
         """
 
         return self._whitepoint_name
 
     @whitepoint_name.setter
-    def whitepoint_name(self, value):
+    def whitepoint_name(self, value: Optional[str]):
         """
         Setter for the **self.whitepoint_name** property.
         """
@@ -378,155 +401,169 @@ class RGB_Colourspace:
         if value is not None:
             attest(
                 is_string(value),
-                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
-                    'whitepoint_name', value))
+                '"{0}" property: "{1}" type is not "str"!'.format(
+                    "whitepoint_name", value
+                ),
+            )
 
         self._whitepoint_name = value
 
     @property
-    def matrix_RGB_to_XYZ(self):
+    def matrix_RGB_to_XYZ(self) -> NDArray:
         """
         Getter and setter property for the transformation matrix from
         colourspace to *CIE XYZ* tristimulus values.
 
         Parameters
         ----------
-        value : array_like
+        value
             Transformation matrix from colourspace to *CIE XYZ* tristimulus
             values.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Transformation matrix from colourspace to *CIE XYZ* tristimulus
             values.
         """
 
-        if self._use_derived_matrix_RGB_to_XYZ:
+        if self._matrix_RGB_to_XYZ is None or self._use_derived_matrix_RGB_to_XYZ:
             return self._derived_matrix_RGB_to_XYZ
         else:
             return self._matrix_RGB_to_XYZ
 
     @matrix_RGB_to_XYZ.setter
-    def matrix_RGB_to_XYZ(self, value):
+    def matrix_RGB_to_XYZ(self, value: Optional[ArrayLike]):
         """
         Setter for the **self.matrix_RGB_to_XYZ** property.
         """
 
         if value is not None:
+            attest(
+                isinstance(value, (tuple, list, np.ndarray, np.matrix)),
+                '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
+                'or "matrix" instance!'.format("matrix_RGB_to_XYZ", value),
+            )
+
             value = as_float_array(value)
 
         self._matrix_RGB_to_XYZ = value
 
     @property
-    def matrix_XYZ_to_RGB(self):
+    def matrix_XYZ_to_RGB(self) -> NDArray:
         """
         Getter and setter property for the transformation matrix from *CIE XYZ*
         tristimulus values to colourspace.
 
         Parameters
         ----------
-        value : array_like
+        value
             Transformation matrix from *CIE XYZ* tristimulus values to
             colourspace.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Transformation matrix from *CIE XYZ* tristimulus values to
             colourspace.
         """
 
-        if self._use_derived_matrix_XYZ_to_RGB:
+        if self._matrix_XYZ_to_RGB is None or self._use_derived_matrix_XYZ_to_RGB:
             return self._derived_matrix_XYZ_to_RGB
         else:
             return self._matrix_XYZ_to_RGB
 
     @matrix_XYZ_to_RGB.setter
-    def matrix_XYZ_to_RGB(self, value):
+    def matrix_XYZ_to_RGB(self, value: Optional[ArrayLike]):
         """
         Setter for the **self.matrix_XYZ_to_RGB** property.
         """
 
         if value is not None:
+            attest(
+                isinstance(value, (tuple, list, np.ndarray, np.matrix)),
+                '"{0}" property: "{1!r}" is not a "tuple", "list", "ndarray" '
+                'or "matrix" instance!'.format("matrix_XYZ_to_RGB", value),
+            )
+
             value = as_float_array(value)
 
         self._matrix_XYZ_to_RGB = value
 
     @property
-    def cctf_encoding(self):
+    def cctf_encoding(self) -> Optional[Callable]:
         """
         Getter and setter property for the encoding colour component transfer
         function (Encoding CCTF) / opto-electronic transfer function
-        (OETF / OECF).
+        (OETF).
 
         Parameters
         ----------
-        value : callable
+        value
             Encoding colour component transfer function (Encoding CCTF) /
-            opto-electronic transfer function (OETF / OECF).
+            opto-electronic transfer function (OETF).
 
         Returns
         -------
-        callable
+        :py:data:`None` or Callable
             Encoding colour component transfer function (Encoding CCTF) /
-            opto-electronic transfer function (OETF / OECF).
+            opto-electronic transfer function (OETF).
         """
 
         return self._cctf_encoding
 
     @cctf_encoding.setter
-    def cctf_encoding(self, value):
+    def cctf_encoding(self, value: Optional[Callable]):
         """
         Setter for the **self.cctf_encoding** property.
         """
 
         if value is not None:
             attest(
-                hasattr(value, '__call__'),
-                '"{0}" attribute: "{1}" is not callable!'.format(
-                    'cctf_encoding', value))
+                hasattr(value, "__call__"),
+                '"{0}" property: "{1}" is not callable!'.format("cctf_encoding", value),
+            )
 
         self._cctf_encoding = value
 
     @property
-    def cctf_decoding(self):
+    def cctf_decoding(self) -> Optional[Callable]:
         """
         Getter and setter property for the decoding colour component transfer
         function (Decoding CCTF) / electro-optical transfer function
-        (EOTF / EOCF).
+        (EOTF).
 
         Parameters
         ----------
-        value : callable
+        value
             Decoding colour component transfer function (Decoding CCTF) /
-            electro-optical transfer function (EOTF / EOCF).
+            electro-optical transfer function (EOTF).
 
         Returns
         -------
-        callable
+        :py:data:`None` or Callable
             Decoding colour component transfer function (Decoding CCTF) /
-            electro-optical transfer function (EOTF / EOCF).
+            electro-optical transfer function (EOTF).
         """
 
         return self._cctf_decoding
 
     @cctf_decoding.setter
-    def cctf_decoding(self, value):
+    def cctf_decoding(self, value: Optional[Callable]):
         """
         Setter for the **self.cctf_decoding** property.
         """
 
         if value is not None:
             attest(
-                hasattr(value, '__call__'),
-                '"{0}" attribute: "{1}" is not callable!'.format(
-                    'cctf_decoding', value))
+                hasattr(value, "__call__"),
+                '"{0}" property: "{1}" is not callable!'.format("cctf_decoding", value),
+            )
 
         self._cctf_decoding = value
 
     @property
-    def use_derived_matrix_RGB_to_XYZ(self):
+    def use_derived_matrix_RGB_to_XYZ(self) -> Boolean:
         """
         Getter and setter property for whether to use the instantiation time
         normalised primary matrix or to use a computed derived normalised
@@ -534,13 +571,13 @@ class RGB_Colourspace:
 
         Parameters
         ----------
-        value : bool
+        value
             Whether to use the instantiation time normalised primary matrix or
             to use a computed derived normalised primary matrix.
 
         Returns
         -------
-        bool
+        :class:`bool`
             Whether to use the instantiation time normalised primary matrix or
             to use a computed derived normalised primary matrix.
         """
@@ -548,16 +585,22 @@ class RGB_Colourspace:
         return self._use_derived_matrix_RGB_to_XYZ
 
     @use_derived_matrix_RGB_to_XYZ.setter
-    def use_derived_matrix_RGB_to_XYZ(self, value):
+    def use_derived_matrix_RGB_to_XYZ(self, value: Boolean):
         """
         Setter for the **self.use_derived_matrix_RGB_to_XYZ** property.
         """
 
-        # TODO: Revisit for potential behaviour / type checking.
+        attest(
+            isinstance(value, (bool, np.bool_)),
+            '"{0}" property: "{1}" is not a "bool"!'.format(
+                "use_derived_matrix_RGB_to_XYZ", value
+            ),
+        )
+
         self._use_derived_matrix_RGB_to_XYZ = value
 
     @property
-    def use_derived_matrix_XYZ_to_RGB(self):
+    def use_derived_matrix_XYZ_to_RGB(self) -> Boolean:
         """
         Getter and setter property for Whether to use the instantiation time
         inverse normalised primary matrix or to use a computed derived inverse
@@ -565,14 +608,14 @@ class RGB_Colourspace:
 
         Parameters
         ----------
-        value : bool
+        value
             Whether to use the instantiation time inverse normalised primary
             matrix or to use a computed derived inverse normalised primary
             matrix.
 
         Returns
         -------
-        bool
+        :class:`bool`
             Whether to use the instantiation time inverse normalised primary
             matrix or to use a computed derived inverse normalised primary
             matrix.
@@ -581,21 +624,27 @@ class RGB_Colourspace:
         return self._use_derived_matrix_XYZ_to_RGB
 
     @use_derived_matrix_XYZ_to_RGB.setter
-    def use_derived_matrix_XYZ_to_RGB(self, value):
+    def use_derived_matrix_XYZ_to_RGB(self, value: Boolean):
         """
         Setter for the **self.use_derived_matrix_XYZ_to_RGB** property.
         """
 
-        # TODO: Revisit for potential behaviour / type checking.
+        attest(
+            isinstance(value, (bool, np.bool_)),
+            '"{0}" property: "{1}" is not a "bool"!'.format(
+                "use_derived_matrix_XYZ_to_RGB", value
+            ),
+        )
+
         self._use_derived_matrix_XYZ_to_RGB = value
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a formatted string representation of the *RGB* colourspace.
 
         Returns
         -------
-        str
+        :class:`str`
             Formatted string representation.
 
         Examples
@@ -643,49 +692,51 @@ class RGB_Colourspace:
         Use Derived NPM -1 : False
         """
 
-        def _indent_array(a):
+        def _indent_array(a: Optional[NDArray]) -> str:
             """
             Indents given array string representation.
             """
 
-            return str(a).replace(' [', ' ' * 22 + '[')
+            return str(a).replace(" [", " " * 22 + "[")
 
-        return ('{0}\n'
-                '{1}\n\n'
-                'Primaries          : {2}\n'
-                'Whitepoint         : {3}\n'
-                'Whitepoint Name    : {4}\n'
-                'Encoding CCTF      : {5}\n'
-                'Decoding CCTF      : {6}\n'
-                'NPM                : {7}\n'
-                'NPM -1             : {8}\n'
-                'Derived NPM        : {9}\n'
-                'Derived NPM -1     : {10}\n'
-                'Use Derived NPM    : {11}\n'
-                'Use Derived NPM -1 : {12}').format(
-                    self.name,
-                    '-' * len(self.name),
-                    _indent_array(self.primaries),
-                    self.whitepoint,
-                    self.whitepoint_name,
-                    self.cctf_encoding,
-                    self.cctf_decoding,
-                    _indent_array(self._matrix_RGB_to_XYZ),
-                    _indent_array(self._matrix_XYZ_to_RGB),
-                    _indent_array(self._derived_matrix_RGB_to_XYZ),
-                    _indent_array(self._derived_matrix_XYZ_to_RGB),
-                    self.use_derived_matrix_RGB_to_XYZ,
-                    self.use_derived_matrix_XYZ_to_RGB,
-                )
+        return (
+            "{0}\n"
+            "{1}\n\n"
+            "Primaries          : {2}\n"
+            "Whitepoint         : {3}\n"
+            "Whitepoint Name    : {4}\n"
+            "Encoding CCTF      : {5}\n"
+            "Decoding CCTF      : {6}\n"
+            "NPM                : {7}\n"
+            "NPM -1             : {8}\n"
+            "Derived NPM        : {9}\n"
+            "Derived NPM -1     : {10}\n"
+            "Use Derived NPM    : {11}\n"
+            "Use Derived NPM -1 : {12}"
+        ).format(
+            self.name,
+            "-" * len(self.name),
+            _indent_array(self.primaries),
+            self.whitepoint,
+            self.whitepoint_name,
+            self.cctf_encoding,
+            self.cctf_decoding,
+            _indent_array(self._matrix_RGB_to_XYZ),
+            _indent_array(self._matrix_XYZ_to_RGB),
+            _indent_array(self._derived_matrix_RGB_to_XYZ),
+            _indent_array(self._derived_matrix_XYZ_to_RGB),
+            self.use_derived_matrix_RGB_to_XYZ,
+            self.use_derived_matrix_XYZ_to_RGB,
+        )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Returns an (almost) evaluable string representation of the *RGB*
         colourspace.
 
         Returns
         -------
-        str
+        :class`str`
             (Almost) evaluable string representation.
 
         Examples
@@ -719,37 +770,39 @@ class RGB_Colourspace:
                         False)
         """
 
-        def _indent_array(a):
+        def _indent_array(a: Optional[NDArray]) -> str:
             """
             Indents given array evaluable string representation.
             """
 
-            representation = repr(a).replace(' [', '{0}['.format(' ' * 11))
-            representation = representation.replace('array(', ' ' * 16)
-            return representation.replace(')', '')
+            representation = repr(a).replace(" [", "{0}[".format(" " * 11))
+            representation = representation.replace("array(", " " * 16)
+            return representation.replace(")", "")
 
-        return ('RGB_Colourspace({0},\n'
-                '{2},\n'
-                '{3},\n'
-                '{1}{4},\n'
-                '{5},\n'
-                '{6},\n'
-                '{1}{7},\n'
-                '{1}{8},\n'
-                '{1}{9},\n'
-                '{1}{10})').format(
-                    self.name,
-                    ' ' * 16,
-                    _indent_array(self.primaries),
-                    _indent_array(self.whitepoint),
-                    self.whitepoint_name,
-                    _indent_array(self.matrix_RGB_to_XYZ),
-                    _indent_array(self.matrix_XYZ_to_RGB),
-                    self.cctf_encoding,
-                    self.cctf_decoding,
-                    self.use_derived_matrix_RGB_to_XYZ,
-                    self.use_derived_matrix_XYZ_to_RGB,
-                )
+        return (
+            "RGB_Colourspace({0},\n"
+            "{2},\n"
+            "{3},\n"
+            "{1}{4},\n"
+            "{5},\n"
+            "{6},\n"
+            "{1}{7},\n"
+            "{1}{8},\n"
+            "{1}{9},\n"
+            "{1}{10})"
+        ).format(
+            self.name,
+            " " * 16,
+            _indent_array(self.primaries),
+            _indent_array(self.whitepoint),
+            self.whitepoint_name,
+            _indent_array(self.matrix_RGB_to_XYZ),
+            _indent_array(self.matrix_XYZ_to_RGB),
+            self.cctf_encoding,
+            self.cctf_decoding,
+            self.use_derived_matrix_RGB_to_XYZ,
+            self.use_derived_matrix_XYZ_to_RGB,
+        )
 
     def _derive_transformation_matrices(self):
         """
@@ -757,15 +810,14 @@ class RGB_Colourspace:
         matrix and its inverse.
         """
 
-        if hasattr(self, '_primaries') and hasattr(self, '_whitepoint'):
+        if hasattr(self, "_primaries") and hasattr(self, "_whitepoint"):
             if self._primaries is not None and self._whitepoint is not None:
-                npm = normalised_primary_matrix(self._primaries,
-                                                self._whitepoint)
+                npm = normalised_primary_matrix(self._primaries, self._whitepoint)
 
                 self._derived_matrix_RGB_to_XYZ = npm
                 self._derived_matrix_XYZ_to_RGB = np.linalg.inv(npm)
 
-    def use_derived_transformation_matrices(self, usage=True):
+    def use_derived_transformation_matrices(self, usage: Boolean = True):
         """
         Enables or disables usage of both derived transformations matrices,
         the normalised primary matrix and its inverse in subsequent
@@ -773,24 +825,35 @@ class RGB_Colourspace:
 
         Parameters
         ----------
-        usage : bool, optional
+        usage
             Whether to use the derived transformations matrices.
-
-        Returns
-        -------
-        bool
-            Definition success.
         """
 
         self.use_derived_matrix_RGB_to_XYZ = usage
         self.use_derived_matrix_XYZ_to_RGB = usage
 
-        return True
-
-    def chromatically_adapt(self,
-                            whitepoint,
-                            whitepoint_name=None,
-                            chromatic_adaptation_transform='CAT02'):
+    def chromatically_adapt(
+        self,
+        whitepoint: ArrayLike,
+        whitepoint_name: Optional[str] = None,
+        chromatic_adaptation_transform: Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ] = "CAT02",
+    ) -> RGB_Colourspace:
         """
         Chromatically adapts the *RGB* colourspace *primaries* :math:`xy`
         chromaticity coordinates from *RGB* colourspace whitepoint to reference
@@ -798,20 +861,18 @@ class RGB_Colourspace:
 
         Parameters
         ----------
-        whitepoint : array_like
+        whitepoint
             Reference illuminant / whitepoint :math:`xy` chromaticity
             coordinates.
-        whitepoint_name : str, optional
+        whitepoint_name
             Reference illuminant / whitepoint name.
-        chromatic_adaptation_transform : str, optional
-            **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-            'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-            'Bianco 2010', 'Bianco PC 2010'}**,
+        chromatic_adaptation_transform
             *Chromatic adaptation* transform.
 
         Returns
         -------
-        Chromatically adapted *RGB* colourspace.
+        :class:`colour.RGB_Colourspace`
+            Chromatically adapted *RGB* colourspace.
 
         Examples
         --------
@@ -822,8 +883,8 @@ class RGB_Colourspace:
         >>> colourspace = RGB_Colourspace('RGB Colourspace', p, w_t, 'D65')
         >>> print(colourspace.chromatically_adapt(w_r, 'D50', 'Bradford'))
         ... # doctest: +ELLIPSIS
-        RGB Colourspace - Chromatically Adapted to D50
-        ----------------------------------------------
+        RGB Colourspace - Chromatically Adapted to 'D50'
+        ------------------------------------------------
         <BLANKLINE>
         Primaries          : [[ 0.73485524  0.26422533]
                               [-0.00617091  1.01131496]
@@ -847,9 +908,12 @@ class RGB_Colourspace:
         colourspace = self.copy()
 
         colourspace.primaries = chromatically_adapted_primaries(
-            colourspace.primaries, colourspace.whitepoint, whitepoint,
-            chromatic_adaptation_transform)
-        colourspace.whitepoint = whitepoint
+            colourspace.primaries,
+            colourspace.whitepoint,
+            whitepoint,
+            chromatic_adaptation_transform,
+        )
+        colourspace.whitepoint = whitepoint  # type: ignore[assignment]
         colourspace.whitepoint_name = whitepoint_name
 
         colourspace._matrix_RGB_to_XYZ = None
@@ -857,60 +921,75 @@ class RGB_Colourspace:
         colourspace._derive_transformation_matrices()
         colourspace.use_derived_transformation_matrices()
 
-        colourspace.name = '{0} - Chromatically Adapted to {1}'.format(
-            colourspace.name, whitepoint
-            if whitepoint_name is None else whitepoint_name)
+        colourspace.name = "{0} - Chromatically Adapted to {1!r}".format(
+            colourspace.name, cast(str, optional(whitepoint_name, whitepoint))
+        )
 
         return colourspace
 
-    def copy(self):
+    def copy(self) -> RGB_Colourspace:
         """
         Returns a copy of the *RGB* colourspace.
 
         Returns
         -------
-        RGB_Colourspace
+        :class:`colour.RGB_Colourspace`
             *RGB* colourspace copy.
         """
 
         return deepcopy(self)
 
 
-def XYZ_to_RGB(XYZ,
-               illuminant_XYZ,
-               illuminant_RGB,
-               matrix_XYZ_to_RGB,
-               chromatic_adaptation_transform='CAT02',
-               cctf_encoding=None):
+def XYZ_to_RGB(
+    XYZ: ArrayLike,
+    illuminant_XYZ: ArrayLike,
+    illuminant_RGB: ArrayLike,
+    matrix_XYZ_to_RGB: ArrayLike,
+    chromatic_adaptation_transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+    cctf_encoding: Optional[Callable] = None,
+) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *RGB* colourspace array.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant_XYZ : array_like
+    illuminant_XYZ
         *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
         *illuminant* for the input *CIE XYZ* tristimulus values.
-    illuminant_RGB : array_like
+    illuminant_RGB
         *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
         *illuminant* for the output *RGB* colourspace array.
-    matrix_XYZ_to_RGB : array_like
+    matrix_XYZ_to_RGB
         Matrix converting the *CIE XYZ* tristimulus values to *RGB* colourspace
         array, i.e. the inverse *Normalised Primary Matrix* (NPM).
-    chromatic_adaptation_transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010', None}**,
+    chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    cctf_encoding : object, optional
+    cctf_encoding
         Encoding colour component transfer function (Encoding CCTF) or
-        opto-electronic transfer function (OETF / OECF).
+        opto-electronic transfer function (OETF).
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes
@@ -954,54 +1033,70 @@ def XYZ_to_RGB(XYZ,
         M_CAT = matrix_chromatic_adaptation_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
             xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
-            transform=chromatic_adaptation_transform)
+            transform=chromatic_adaptation_transform,
+        )
 
         XYZ = vector_dot(M_CAT, XYZ)
 
     RGB = vector_dot(matrix_XYZ_to_RGB, XYZ)
 
     if cctf_encoding is not None:
-        with domain_range_scale('ignore'):
+        with domain_range_scale("ignore"):
             RGB = cctf_encoding(RGB)
 
     return from_range_1(RGB)
 
 
-def RGB_to_XYZ(RGB,
-               illuminant_RGB,
-               illuminant_XYZ,
-               matrix_RGB_to_XYZ,
-               chromatic_adaptation_transform='CAT02',
-               cctf_decoding=None):
+def RGB_to_XYZ(
+    RGB: ArrayLike,
+    illuminant_RGB: ArrayLike,
+    illuminant_XYZ: ArrayLike,
+    matrix_RGB_to_XYZ: ArrayLike,
+    chromatic_adaptation_transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+    cctf_decoding: Optional[Callable] = None,
+) -> NDArray:
     """
     Converts given *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
-    illuminant_RGB : array_like
+    illuminant_RGB
         *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
         *illuminant* for the input *RGB* colourspace array.
-    illuminant_XYZ : array_like
+    illuminant_XYZ
         *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array of the
         *illuminant* for the output *CIE XYZ* tristimulus values.
-    matrix_RGB_to_XYZ : array_like
+    matrix_RGB_to_XYZ
         Matrix converting the *RGB* colourspace array to *CIE XYZ* tristimulus
         values, i.e. the *Normalised Primary Matrix* (NPM).
-    chromatic_adaptation_transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010', None}**,
+    chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    cctf_decoding : object, optional
+    cctf_decoding
         Decoding colour component transfer function (Decoding CCTF) or
-        electro-optical transfer function (EOTF / EOCF).
+        electro-optical transfer function (EOTF).
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
@@ -1042,7 +1137,7 @@ def RGB_to_XYZ(RGB,
     RGB = to_domain_1(RGB)
 
     if cctf_decoding is not None:
-        with domain_range_scale('ignore'):
+        with domain_range_scale("ignore"):
             RGB = cctf_decoding(RGB)
 
     XYZ = vector_dot(matrix_RGB_to_XYZ, RGB)
@@ -1051,16 +1146,35 @@ def RGB_to_XYZ(RGB,
         M_CAT = matrix_chromatic_adaptation_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
             xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
-            transform=chromatic_adaptation_transform)
+            transform=chromatic_adaptation_transform,
+        )
 
         XYZ = vector_dot(M_CAT, XYZ)
 
     return from_range_1(XYZ)
 
 
-def matrix_RGB_to_RGB(input_colourspace,
-                      output_colourspace,
-                      chromatic_adaptation_transform='CAT02'):
+def matrix_RGB_to_RGB(
+    input_colourspace: RGB_Colourspace,
+    output_colourspace: RGB_Colourspace,
+    chromatic_adaptation_transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+) -> NDArray:
     """
     Computes the matrix :math:`M` converting from given input *RGB*
     colourspace to output *RGB* colourspace using given *chromatic
@@ -1068,20 +1182,17 @@ def matrix_RGB_to_RGB(input_colourspace,
 
     Parameters
     ----------
-    input_colourspace : RGB_Colourspace
+    input_colourspace
         *RGB* input colourspace.
-    output_colourspace : RGB_Colourspace
+    output_colourspace
         *RGB* output colourspace.
-    chromatic_adaptation_transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010', None}**,
+    chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Conversion matrix :math:`M`.
 
     Examples
@@ -1101,7 +1212,8 @@ def matrix_RGB_to_RGB(input_colourspace,
         M_CAT = matrix_chromatic_adaptation_VonKries(
             xy_to_XYZ(input_colourspace.whitepoint),
             xy_to_XYZ(output_colourspace.whitepoint),
-            chromatic_adaptation_transform)
+            chromatic_adaptation_transform,
+        )
 
         M = matrix_dot(M_CAT, input_colourspace.matrix_RGB_to_XYZ)
 
@@ -1110,46 +1222,61 @@ def matrix_RGB_to_RGB(input_colourspace,
     return M
 
 
-def RGB_to_RGB(RGB,
-               input_colourspace,
-               output_colourspace,
-               chromatic_adaptation_transform='CAT02',
-               apply_cctf_decoding=False,
-               apply_cctf_encoding=False,
-               **kwargs):
+def RGB_to_RGB(
+    RGB: ArrayLike,
+    input_colourspace: RGB_Colourspace,
+    output_colourspace: RGB_Colourspace,
+    chromatic_adaptation_transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+    apply_cctf_decoding: Boolean = False,
+    apply_cctf_encoding: Boolean = False,
+    **kwargs: Any
+) -> NDArray:
     """
     Converts given *RGB* colourspace array from given input *RGB* colourspace
     to output *RGB* colourspace using given *chromatic adaptation* method.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
-    input_colourspace : RGB_Colourspace
+    input_colourspace
         *RGB* input colourspace.
-    output_colourspace : RGB_Colourspace
+    output_colourspace
         *RGB* output colourspace.
-    chromatic_adaptation_transform : str, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008', 'CAT16',
-        'Bianco 2010', 'Bianco PC 2010', None}**,
+    chromatic_adaptation_transform
         *Chromatic adaptation* transform, if *None* no chromatic adaptation is
         performed.
-    apply_cctf_decoding : bool, optional
+    apply_cctf_decoding
         Apply input colourspace decoding colour component transfer function /
         electro-optical transfer function.
-    apply_cctf_encoding : bool, optional
+    apply_cctf_encoding
         Apply output colourspace encoding colour component transfer function /
         opto-electronic transfer function.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments for the colour component transfer functions.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes
@@ -1179,21 +1306,22 @@ def RGB_to_RGB(RGB,
 
     RGB = to_domain_1(RGB)
 
-    if apply_cctf_decoding:
-        with domain_range_scale('ignore'):
+    if apply_cctf_decoding and input_colourspace.cctf_decoding is not None:
+        with domain_range_scale("ignore"):
             RGB = input_colourspace.cctf_decoding(
-                RGB, **filter_kwargs(input_colourspace.cctf_decoding,
-                                     **kwargs))
+                RGB, **filter_kwargs(input_colourspace.cctf_decoding, **kwargs)
+            )
 
-    M = matrix_RGB_to_RGB(input_colourspace, output_colourspace,
-                          chromatic_adaptation_transform)
+    M = matrix_RGB_to_RGB(
+        input_colourspace, output_colourspace, chromatic_adaptation_transform
+    )
 
     RGB = vector_dot(M, RGB)
 
-    if apply_cctf_encoding:
-        with domain_range_scale('ignore'):
+    if apply_cctf_encoding and output_colourspace.cctf_encoding is not None:
+        with domain_range_scale("ignore"):
             RGB = output_colourspace.cctf_encoding(
-                RGB, **filter_kwargs(output_colourspace.cctf_encoding,
-                                     **kwargs))
+                RGB, **filter_kwargs(output_colourspace.cctf_encoding, **kwargs)
+            )
 
     return from_range_1(RGB)

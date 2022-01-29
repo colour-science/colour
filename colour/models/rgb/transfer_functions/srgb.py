@@ -3,7 +3,7 @@
 sRGB
 ====
 
-Defines the *sRGB* electro-optical transfer function (EOTF / EOCF) and its
+Defines the *sRGB* electro-optical transfer function (EOTF) and its
 inverse:
 
 -   :func:`colour.models.eotf_inverse_sRGB`
@@ -24,9 +24,12 @@ References
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import (
     as_float,
     domain_range_scale,
@@ -34,32 +37,32 @@ from colour.utilities import (
     to_domain_1,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'eotf_inverse_sRGB',
-    'eotf_sRGB',
+    "eotf_inverse_sRGB",
+    "eotf_sRGB",
 ]
 
 
-def eotf_inverse_sRGB(L):
+def eotf_inverse_sRGB(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
-    function (EOTF / EOCF).
+    function (EOTF).
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         *Luminance* :math:`L` of the image.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Corresponding electrical signal :math:`V`.
 
     Notes
@@ -95,19 +98,19 @@ def eotf_inverse_sRGB(L):
     return as_float(from_range_1(V))
 
 
-def eotf_sRGB(V):
+def eotf_sRGB(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
-    (EOTF / EOCF).
+    (EOTF).
 
     Parameters
     ----------
-    V : numeric or array_like
+    V
         Electrical signal :math:`V`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L` of the image.
 
     Notes
@@ -138,7 +141,7 @@ def eotf_sRGB(V):
 
     V = to_domain_1(V)
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         L = np.where(
             V <= eotf_inverse_sRGB(0.0031308),
             V / 12.92,

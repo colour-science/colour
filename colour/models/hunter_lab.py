@@ -19,26 +19,29 @@ References
 an02_02.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
+from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'XYZ_to_K_ab_HunterLab1966',
-    'XYZ_to_Hunter_Lab',
-    'Hunter_Lab_to_XYZ',
+    "XYZ_to_K_ab_HunterLab1966",
+    "XYZ_to_Hunter_Lab",
+    "Hunter_Lab_to_XYZ",
 ]
 
 
-def XYZ_to_K_ab_HunterLab1966(XYZ):
+def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArray:
     """
     Converts from *whitepoint* *CIE XYZ* tristimulus values to
     *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
@@ -46,12 +49,12 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *Whitepoint* *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
         coefficients.
 
@@ -76,28 +79,32 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
     return K_ab
 
 
-def XYZ_to_Hunter_Lab(XYZ,
-                      XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                          'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
-                      K_ab=TVS_ILLUMINANTS_HUNTERLAB[
-                          'CIE 1931 2 Degree Standard Observer']['D65'].K_ab):
+def XYZ_to_Hunter_Lab(
+    XYZ: ArrayLike,
+    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].XYZ_n,
+    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].K_ab,
+) -> NDArray:
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    XYZ_n : array_like, optional
+    XYZ_n
         Reference *illuminant* tristimulus values.
-    K_ab : array_like, optional
+    K_ab
         Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
         *None* it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Hunter L,a,b* colour scale array.
 
     Notes
@@ -136,8 +143,9 @@ def XYZ_to_Hunter_Lab(XYZ,
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
     X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
-    K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-                if K_ab is None else tsplit(K_ab))
+    K_a, K_b = (
+        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
+    )
 
     Y_Y_n = Y / Y_n
     sqrt_Y_Y_n = np.sqrt(Y_Y_n)
@@ -151,28 +159,32 @@ def XYZ_to_Hunter_Lab(XYZ,
     return from_range_100(Lab)
 
 
-def Hunter_Lab_to_XYZ(Lab,
-                      XYZ_n=TVS_ILLUMINANTS_HUNTERLAB[
-                          'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
-                      K_ab=TVS_ILLUMINANTS_HUNTERLAB[
-                          'CIE 1931 2 Degree Standard Observer']['D65'].K_ab):
+def Hunter_Lab_to_XYZ(
+    Lab: ArrayLike,
+    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].XYZ_n,
+    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ].K_ab,
+) -> NDArray:
     """
     Converts from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    Lab : array_like
+    Lab
         *Hunter L,a,b* colour scale array.
-    XYZ_n : array_like, optional
+    XYZ_n
         Reference *illuminant* tristimulus values.
-    K_ab : array_like, optional
+    K_ab
         Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
         *None* it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
@@ -211,8 +223,9 @@ def Hunter_Lab_to_XYZ(Lab,
 
     L, a, b = tsplit(to_domain_100(Lab))
     X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
-    K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-                if K_ab is None else tsplit(K_ab))
+    K_a, K_b = (
+        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
+    )
 
     L_100 = L / 100
     L_100_2 = L_100 ** 2

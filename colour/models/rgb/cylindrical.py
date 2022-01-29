@@ -40,8 +40,11 @@ References
     April 4, 2021, from https://en.wikipedia.org/wiki/HCL_color_space
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import ArrayLike, Floating, NDArray
 from colour.utilities import (
     as_float_array,
     from_range_1,
@@ -50,35 +53,35 @@ from colour.utilities import (
     tstack,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RGB_to_HSV',
-    'HSV_to_RGB',
-    'RGB_to_HSL',
-    'HSL_to_RGB',
-    'RGB_to_HCL',
-    'HCL_to_RGB',
+    "RGB_to_HSV",
+    "HSV_to_RGB",
+    "RGB_to_HSL",
+    "HSL_to_RGB",
+    "RGB_to_HCL",
+    "HCL_to_RGB",
 ]
 
 
-def RGB_to_HSV(RGB):
+def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
     """
     Converts from *RGB* colourspace to *HSV* colourspace.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *HSV* array.
 
     Notes
@@ -135,18 +138,18 @@ def RGB_to_HSV(RGB):
     return from_range_1(HSV)
 
 
-def HSV_to_RGB(HSV):
+def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
     """
     Converts from *HSV* colourspace to *RGB* colourspace.
 
     Parameters
     ----------
-    HSV : array_like
+    HSV
         *HSV* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes
@@ -197,24 +200,24 @@ def HSV_to_RGB(HSV):
             tstack([l, j, V]),
             tstack([V, j, k]),
         ],
-        mode='clip',
+        mode="clip",
     )
 
     return from_range_1(RGB)
 
 
-def RGB_to_HSL(RGB):
+def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
     """
     Converts from *RGB* colourspace to *HSL* colourspace.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *HSL* array.
 
     Notes
@@ -276,18 +279,18 @@ def RGB_to_HSL(RGB):
     return from_range_1(HSL)
 
 
-def HSL_to_RGB(HSL):
+def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
     """
     Converts from *HSL* colourspace to *RGB* colourspace.
 
     Parameters
     ----------
-    HSL : array_like
+    HSL
         *HSL* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes
@@ -318,7 +321,7 @@ def HSL_to_RGB(HSL):
 
     H, S, L = tsplit(to_domain_1(HSL))
 
-    def H_to_RGB(vi, vj, vH):
+    def H_to_RGB(vi: NDArray, vj: NDArray, vH: NDArray) -> NDArray:
         """
         Converts *hue* value to *RGB* colourspace.
         """
@@ -359,23 +362,23 @@ def HSL_to_RGB(HSL):
     return from_range_1(RGB)
 
 
-def RGB_to_HCL(RGB, gamma=3, Y_0=100):
+def RGB_to_HCL(RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDArray:
     """
     Converts from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
-    gamma : numeric, optional
+    gamma
         Non-linear lightness exponent matching *Lightness* :math:`L^*`.
-    Y_0 : numeric, optional
+    Y_0
         White reference luminance :math:`Y_0`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *HCL* array.
 
     Notes
@@ -446,23 +449,23 @@ def RGB_to_HCL(RGB, gamma=3, Y_0=100):
     return from_range_1(HCL)
 
 
-def HCL_to_RGB(HCL, gamma=3, Y_0=100):
+def HCL_to_RGB(HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100) -> NDArray:
     """
     Converts from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
 
     Parameters
     ----------
-    HCL : array_like
+    HCL
         *HCL* colourspace array.
-    gamma : numeric, optional
+    gamma
         Non-linear lightness exponent matching *Lightness* :math:`L^*`.
-    Y_0 : numeric, optional
+    Y_0
         White reference luminance :math:`Y_0`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes
@@ -498,7 +501,7 @@ def HCL_to_RGB(HCL, gamma=3, Y_0=100):
     Min = (4 * L - 3 * C) / (4 * Q - 2)
     Max = Min + (3 * C) / (2 * Q)
 
-    def _1_2_3(a):
+    def _1_2_3(a: ArrayLike) -> NDArray:
         """
         Tail-stack given :math:`a` array as a *bool* dtype.
         """
@@ -520,36 +523,48 @@ def HCL_to_RGB(HCL, gamma=3, Y_0=100):
             _1_2_3(np.logical_and(-np.pi < H, H < np.radians(-120))),
         ],
         [
-            tstack([
-                Max,
-                (Max * tan_3_2_H + Min) / (1 + tan_3_2_H),
-                Min,
-            ]),
-            tstack([
-                (Max * (1 + tan_3_4_H_MP) - Min) / tan_3_4_H_MP,
-                Max,
-                Min,
-            ]),
-            tstack([
-                Min,
-                Max,
-                Max * (1 + tan_3_4_H_MP) - Min * tan_3_4_H_MP,
-            ]),
-            tstack([
-                Max,
-                Min,
-                Min * (1 + tan_3_4_H) - Max * tan_3_4_H,
-            ]),
-            tstack([
-                (Min * (1 + tan_3_4_H) - Max) / tan_3_4_H,
-                Min,
-                Max,
-            ]),
-            tstack([
-                Min,
-                (Min * tan_3_2_H_PP + Max) / (1 + tan_3_2_H_PP),
-                Max,
-            ]),
+            tstack(
+                [
+                    Max,
+                    (Max * tan_3_2_H + Min) / (1 + tan_3_2_H),
+                    Min,
+                ]
+            ),
+            tstack(
+                [
+                    (Max * (1 + tan_3_4_H_MP) - Min) / tan_3_4_H_MP,
+                    Max,
+                    Min,
+                ]
+            ),
+            tstack(
+                [
+                    Min,
+                    Max,
+                    Max * (1 + tan_3_4_H_MP) - Min * tan_3_4_H_MP,
+                ]
+            ),
+            tstack(
+                [
+                    Max,
+                    Min,
+                    Min * (1 + tan_3_4_H) - Max * tan_3_4_H,
+                ]
+            ),
+            tstack(
+                [
+                    (Min * (1 + tan_3_4_H) - Max) / tan_3_4_H,
+                    Min,
+                    Max,
+                ]
+            ),
+            tstack(
+                [
+                    Min,
+                    (Min * tan_3_2_H_PP + Max) / (1 + tan_3_2_H_PP),
+                    Max,
+                ]
+            ),
         ],
     )
 

@@ -15,53 +15,57 @@ References
 1FF5WO2nvI9GEWb4_EntrBoV9ZIuFToZd/view
 """
 
+from __future__ import annotations
+
 import numpy as np
 
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_BLACKMAGIC_FILM_GENERATION_5',
-    'oetf_BlackmagicFilmGeneration5',
-    'oetf_inverse_BlackmagicFilmGeneration5',
+    "CONSTANTS_BLACKMAGIC_FILM_GENERATION_5",
+    "oetf_BlackmagicFilmGeneration5",
+    "oetf_inverse_BlackmagicFilmGeneration5",
 ]
 
-CONSTANTS_BLACKMAGIC_FILM_GENERATION_5 = Structure(
+CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
     A=0.08692876065491224,
     B=0.005494072432257808,
     C=0.5300133392291939,
     D=8.283605932402494,
     E=0.09246575342465753,
-    LIN_CUT=0.005)
+    LIN_CUT=0.005,
+)
 """
 *Blackmagic Film Generation 5* colour component transfer functions constants.
-
-CONSTANTS_BLACKMAGIC_FILM_GENERATION_5 : Structure
 """
 
 
 def oetf_BlackmagicFilmGeneration5(
-        x, constants=CONSTANTS_BLACKMAGIC_FILM_GENERATION_5):
+    x: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
+) -> FloatingOrNDArray:
     """
     Defines the *Blackmagic Film Generation 5* opto-electronic transfer
     function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear light value :math`x`.
-    constants : Structure, optional
+    constants
         *Blackmagic Film Generation 5* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Encoded value :math:`y`.
 
     Notes
@@ -108,21 +112,23 @@ def oetf_BlackmagicFilmGeneration5(
 
 
 def oetf_inverse_BlackmagicFilmGeneration5(
-        y, constants=CONSTANTS_BLACKMAGIC_FILM_GENERATION_5):
+    y: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
+) -> FloatingOrNDArray:
     """
     Defines the *Blackmagic Film Generation 5* inverse opto-electronic transfer
-    function (OETF / OECF).
+    function (OETF).
 
     Parameters
     ----------
-    y : numeric or ndarray
-        Ecoded value :math:`V`.
-    constants : Structure, optional
+    y
+        Encoded value :math:`y`.
+    constants
         *Blackmagic Film Generation 5* constants.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear light value :math`x`.
 
     Notes

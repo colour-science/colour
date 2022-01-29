@@ -10,16 +10,16 @@ from itertools import permutations
 from colour.models import Jab_to_JCh, JCh_to_Jab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestJab_to_JCh',
-    'TestJCh_to_Jab',
+    "TestJab_to_JCh",
+    "TestJCh_to_Jab",
 ]
 
 
@@ -37,17 +37,20 @@ class TestJab_to_JCh(unittest.TestCase):
         np.testing.assert_almost_equal(
             Jab_to_JCh(np.array([41.52787529, 52.63858304, 26.92317922])),
             np.array([41.52787529, 59.12425901, 27.08848784]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             Jab_to_JCh(np.array([55.11636304, -41.08791787, 30.91825778])),
             np.array([55.11636304, 51.42135412, 143.03889556]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             Jab_to_JCh(np.array([29.80565520, 20.01830466, -48.34913874])),
             np.array([29.80565520, 52.32945383, 292.49133666]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_n_dimensional_Jab_to_JCh(self):
         """
@@ -75,12 +78,16 @@ class TestJab_to_JCh(unittest.TestCase):
         Lab = np.array([41.52787529, 52.63858304, 26.92317922])
         LCHab = Jab_to_JCh(Lab)
 
-        d_r = (('reference', 1, 1), (1, 0.01, np.array([0.01, 0.01, 1 / 360])),
-               (100, 1, np.array([1, 1, 1 / 3.6])))
+        d_r = (
+            ("reference", 1, 1),
+            ("1", 0.01, np.array([0.01, 0.01, 1 / 360])),
+            ("100", 1, np.array([1, 1, 1 / 3.6])),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    Jab_to_JCh(Lab * factor_a), LCHab * factor_b, decimal=7)
+                    Jab_to_JCh(Lab * factor_a), LCHab * factor_b, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_Jab_to_JCh(self):
@@ -109,17 +116,20 @@ class TestJCh_to_Jab(unittest.TestCase):
         np.testing.assert_almost_equal(
             JCh_to_Jab(np.array([41.52787529, 59.12425901, 27.08848784])),
             np.array([41.52787529, 52.63858304, 26.92317922]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             JCh_to_Jab(np.array([55.11636304, 51.42135412, 143.03889556])),
             np.array([55.11636304, -41.08791787, 30.91825778]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             JCh_to_Jab(np.array([29.80565520, 52.32945383, 292.49133666])),
             np.array([29.80565520, 20.01830466, -48.34913874]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_n_dimensional_JCh_to_Jab(self):
         """
@@ -147,12 +157,16 @@ class TestJCh_to_Jab(unittest.TestCase):
         LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
         Lab = JCh_to_Jab(LCHab)
 
-        d_r = (('reference', 1, 1), (1, np.array([0.01, 0.01, 1 / 360]), 0.01),
-               (100, np.array([1, 1, 1 / 3.6]), 1))
+        d_r = (
+            ("reference", 1, 1),
+            ("1", np.array([0.01, 0.01, 1 / 360]), 0.01),
+            ("100", np.array([1, 1, 1 / 3.6]), 1),
+        )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    JCh_to_Jab(LCHab * factor_a), Lab * factor_b, decimal=7)
+                    JCh_to_Jab(LCHab * factor_a), Lab * factor_b, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_JCh_to_Jab(self):
@@ -167,5 +181,5 @@ class TestJCh_to_Jab(unittest.TestCase):
             JCh_to_Jab(LCHab)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -24,11 +24,8 @@ Primaries multi-spectral distributions of displays.
 References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
-
-MSDS_DISPLAY_PRIMARIES : LazyCaseInsensitiveMapping
-    **{Apple Studio Display, Typical CRT Brainard 1997}**
 """
 
 __all__ = [
-    'MSDS_DISPLAY_PRIMARIES',
+    "MSDS_DISPLAY_PRIMARIES",
 ]

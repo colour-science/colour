@@ -8,41 +8,57 @@ Defines various objects to compute hull sections:
 -   :func:`colour.geometry.hull_section`
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import linear_conversion
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import as_float_array, required
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    Floating,
+    Integer,
+    Literal,
+    NDArray,
+    Union,
+)
+from colour.utilities import (
+    as_float_array,
+    as_float_scalar,
+    required,
+    validate_method,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'edges_to_chord',
-    'unique_vertices',
-    'close_chord',
-    'hull_section',
+    "edges_to_chord",
+    "unique_vertices",
+    "close_chord",
+    "hull_section",
 ]
 
 
-def edges_to_chord(edges, index=0):
+def edges_to_chord(edges: ArrayLike, index: Integer = 0) -> NDArray:
     """
     Converts given edges to a chord, starting at given index.
 
     Parameters
     ----------
-    edges : array_like
+    edges
         Edges to convert to a chord.
-    index : int, optional
+    index
         Index to start forming the chord at.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Chord.
 
     Examples
@@ -76,40 +92,39 @@ def edges_to_chord(edges, index=0):
            [-0. , -0.5,  0. ]])
     """
 
-    edges = as_float_array(edges)
-    edges = edges.tolist()
+    edge_list = as_float_array(edges).tolist()
 
-    ordered_edges = [edges.pop(index)]
-    segment = np.array(ordered_edges[0][1])
+    edges_ordered = [edge_list.pop(index)]
+    segment = np.array(edges_ordered[0][1])
 
-    while len(edges) > 0:
-        array_edges = np.array(edges)
-        d_0 = np.linalg.norm(array_edges[:, 0, :] - segment, axis=1)
-        d_1 = np.linalg.norm(array_edges[:, 1, :] - segment, axis=1)
+    while len(edge_list) > 0:
+        edges_array = np.array(edge_list)
+        d_0 = np.linalg.norm(edges_array[:, 0, :] - segment, axis=1)
+        d_1 = np.linalg.norm(edges_array[:, 1, :] - segment, axis=1)
         d_0_argmin, d_1_argmin = d_0.argmin(), d_1.argmin()
 
         if d_0[d_0_argmin] < d_1[d_1_argmin]:
-            ordered_edges.append(edges.pop(d_0_argmin))
-            segment = np.array(ordered_edges[-1][1])
+            edges_ordered.append(edge_list.pop(d_0_argmin))
+            segment = np.array(edges_ordered[-1][1])
         else:
-            ordered_edges.append(edges.pop(d_1_argmin))
-            segment = np.array(ordered_edges[-1][0])
+            edges_ordered.append(edge_list.pop(d_1_argmin))
+            segment = np.array(edges_ordered[-1][0])
 
-    return as_float_array(ordered_edges).reshape([-1, segment.shape[-1]])
+    return as_float_array(edges_ordered).reshape([-1, segment.shape[-1]])
 
 
-def close_chord(vertices):
+def close_chord(vertices: ArrayLike) -> NDArray:
     """
     Closes the chord.
 
     Parameters
     ----------
-    vertices : array_like
+    vertices
         Vertices of the chord to close.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Closed chord.
 
     Examples
@@ -120,24 +135,28 @@ def close_chord(vertices):
            [ 0. ,  0.5,  0. ]])
     """
 
+    vertices = as_float_array(vertices)
+
     return np.vstack([vertices, vertices[0]])
 
 
-def unique_vertices(vertices,
-                    decimals=np.finfo(DEFAULT_FLOAT_DTYPE).precision - 1):
+def unique_vertices(
+    vertices: ArrayLike,
+    decimals: Integer = np.finfo(DEFAULT_FLOAT_DTYPE).precision - 1,
+) -> NDArray:
     """
     Returns the unique vertices from given vertices.
 
     Parameters
     ----------
-    vertices : array_like
+    vertices
         Vertices to return the unique vertices from.
-    decimals : int, optional
+    decimals
         Decimals used when rounding the vertices prior to comparison.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Unique vertices.
 
     Notes
@@ -154,32 +173,37 @@ def unique_vertices(vertices,
 
     vertices = as_float_array(vertices)
 
-    vertices, indexes = np.unique(
-        vertices.round(decimals=decimals), axis=0, return_index=True)
+    unique, indexes = np.unique(
+        vertices.round(decimals=decimals), axis=0, return_index=True
+    )
 
-    return vertices[np.argsort(indexes)]
+    return unique[np.argsort(indexes)]
 
 
-@required('trimesh')
-def hull_section(hull, axis='+z', origin=0.5, normalise=False):
+@required("trimesh")
+def hull_section(
+    hull: trimesh.Trimesh,  # type: ignore[name-defined]  # noqa
+    axis: Union[Literal["+z", "+x", "+y"], str] = "+z",
+    origin: Floating = 0.5,
+    normalise: Boolean = False,
+) -> NDArray:
     """
     Computes the hull section for given axis at given origin.
 
     Parameters
     ----------
-    hull : Trimesh
+    hull
         *Trimesh* hull.
-    axis : str, optional
-        **{'+z', '+x', '+y'}**,
+    axis
         Axis the hull section will be normal to.
-    origin : numeric, optional
+    origin
         Coordinate along ``axis`` at which to plot the hull section.
-    normalise : bool, optional
+    normalise
         Whether to normalise ``axis`` to the extent of the hull along it.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Hull section vertices.
 
     Examples
@@ -204,25 +228,31 @@ def hull_section(hull, axis='+z', origin=0.5, normalise=False):
 
     import trimesh
 
-    if axis == '+x':
+    axis = validate_method(
+        axis,
+        ["+z", "+x", "+y"],
+        '"{0}" axis is invalid, it must be one of {1}!',
+    )
+
+    if axis == "+x":
         normal, plane = np.array([1, 0, 0]), np.array([origin, 0, 0])
-    elif axis == '+y':
+    elif axis == "+y":
         normal, plane = np.array([0, 1, 0]), np.array([0, origin, 0])
-    elif axis == '+z':
+    elif axis == "+z":
         normal, plane = np.array([0, 0, 1]), np.array([0, 0, origin])
 
     if normalise:
         vertices = hull.vertices * normal
-        origin = linear_conversion(
-            origin, [0, 1],
-            [np.min(vertices), np.max(vertices)])
+        origin = as_float_scalar(
+            linear_conversion(origin, [0, 1], [np.min(vertices), np.max(vertices)])
+        )
         plane[plane != 0] = origin
 
     section = trimesh.intersections.mesh_plane(hull, normal, plane)
     if len(section) == 0:
         raise ValueError(
-            'No section exists on "{0}" axis at {1} origin!'.format(
-                axis, origin))
+            'No section exists on "{0}" axis at {1} origin!'.format(axis, origin)
+        )
     section = close_chord(unique_vertices(edges_to_chord(section)))
 
     return section

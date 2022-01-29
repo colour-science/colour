@@ -16,48 +16,53 @@ References
 nuke-default/make.py
 """
 
+from __future__ import annotations
+
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
+from colour.utilities import as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'log_encoding_PivotedLog',
-    'log_decoding_PivotedLog',
+    "log_encoding_PivotedLog",
+    "log_decoding_PivotedLog",
 ]
 
 
-def log_encoding_PivotedLog(x,
-                            log_reference=445,
-                            linear_reference=0.18,
-                            negative_gamma=0.6,
-                            density_per_code_value=0.002):
+def log_encoding_PivotedLog(
+    x: FloatingOrArrayLike,
+    log_reference: Floating = 445,
+    linear_reference: Floating = 0.18,
+    negative_gamma: Floating = 0.6,
+    density_per_code_value: Floating = 0.002,
+) -> FloatingOrNDArray:
     """
     Defines the *Josh Pines* style *Pivoted Log* log encoding curve /
     opto-electronic transfer function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
-    log_reference : numeric or array_like
+    log_reference
         Log reference.
-    linear_reference : numeric or array_like
+    linear_reference
         Linear reference.
-    negative_gamma : numeric or array_like
+    negative_gamma
         Negative gamma.
-    density_per_code_value : numeric or array_like
+    density_per_code_value
         Density per code value.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -87,37 +92,41 @@ def log_encoding_PivotedLog(x,
 
     x = to_domain_1(x)
 
-    y = ((log_reference + np.log10(x / linear_reference) /
-          (density_per_code_value / negative_gamma)) / 1023)
+    y = (
+        log_reference
+        + np.log10(x / linear_reference) / (density_per_code_value / negative_gamma)
+    ) / 1023
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
-def log_decoding_PivotedLog(y,
-                            log_reference=445,
-                            linear_reference=0.18,
-                            negative_gamma=0.6,
-                            density_per_code_value=0.002):
+def log_decoding_PivotedLog(
+    y: FloatingOrArrayLike,
+    log_reference: Floating = 445,
+    linear_reference: Floating = 0.18,
+    negative_gamma: Floating = 0.6,
+    density_per_code_value: Floating = 0.002,
+) -> FloatingOrNDArray:
     """
     Defines the *Josh Pines* style *Pivoted Log* log decoding curve /
     electro-optical transfer function.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
-    log_reference : numeric or array_like
+    log_reference
         Log reference.
-    linear_reference : numeric or array_like
+    linear_reference
         Linear reference.
-    negative_gamma : numeric or array_like
+    negative_gamma
         Negative gamma.
-    density_per_code_value : numeric or array_like
+    density_per_code_value
         Density per code value.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
@@ -147,7 +156,9 @@ def log_decoding_PivotedLog(y,
 
     y = to_domain_1(y)
 
-    x = (10 ** ((y * 1023 - log_reference) *
-                (density_per_code_value / negative_gamma)) * linear_reference)
+    x = (
+        10 ** ((y * 1023 - log_reference) * (density_per_code_value / negative_gamma))
+        * linear_reference
+    )
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))

@@ -10,17 +10,17 @@ from itertools import permutations
 from colour.models import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestXYZ_to_IPT',
-    'TestIPT_to_XYZ',
-    'TestIPTHueAngle',
+    "TestXYZ_to_IPT",
+    "TestIPT_to_XYZ",
+    "TestIPTHueAngle",
 ]
 
 
@@ -37,17 +37,20 @@ class TestXYZ_to_IPT(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_IPT(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.38426191, 0.38487306, 0.18886838]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             XYZ_to_IPT(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.49437481, -0.19251742, 0.18080304]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             XYZ_to_IPT(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.35167774, -0.07525627, -0.30921279]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_n_dimensional_XYZ_to_IPT(self):
         """
@@ -75,11 +78,12 @@ class TestXYZ_to_IPT(unittest.TestCase):
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         IPT = XYZ_to_IPT(XYZ)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    XYZ_to_IPT(XYZ * factor), IPT * factor, decimal=7)
+                    XYZ_to_IPT(XYZ * factor), IPT * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_IPT(self):
@@ -108,17 +112,20 @@ class TestIPT_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             IPT_to_XYZ(np.array([0.38426191, 0.38487306, 0.18886838])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             IPT_to_XYZ(np.array([0.49437481, -0.19251742, 0.18080304])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             IPT_to_XYZ(np.array([0.35167774, -0.07525627, -0.30921279])),
             np.array([0.07818780, 0.06157201, 0.28099326]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_n_dimensional_IPT_to_XYZ(self):
         """
@@ -146,11 +153,12 @@ class TestIPT_to_XYZ(unittest.TestCase):
         IPT = np.array([0.38426191, 0.38487306, 0.18886838])
         XYZ = IPT_to_XYZ(IPT)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    IPT_to_XYZ(IPT * factor), XYZ * factor, decimal=7)
+                    IPT_to_XYZ(IPT * factor), XYZ * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_IPT_to_XYZ(self):
@@ -179,17 +187,20 @@ class TestIPTHueAngle(unittest.TestCase):
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.20654008, 0.12197225, 0.05136952])),
             22.838754548625527,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.14222010, 0.23042768, 0.10495772])),
             24.488834912466245,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.07818780, 0.06157201, 0.28099326])),
             77.640533743711813,
-            decimal=7)
+            decimal=7,
+        )
 
     def test_n_dimensional_IPT_hue_angle(self):
         """
@@ -217,11 +228,12 @@ class TestIPTHueAngle(unittest.TestCase):
         IPT = np.array([0.20654008, 0.12197225, 0.05136952])
         hue = IPT_hue_angle(IPT)
 
-        d_r = (('reference', 1, 1), (1, 1, 1 / 360), (100, 100, 1 / 3.6))
+        d_r = (("reference", 1, 1), ("1", 1, 1 / 360), ("100", 100, 1 / 3.6))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    IPT_hue_angle(IPT * factor_a), hue * factor_b, decimal=7)
+                    IPT_hue_angle(IPT * factor_a), hue * factor_b, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_IPT_hue_angle(self):
@@ -236,5 +248,5 @@ class TestIPTHueAngle(unittest.TestCase):
             IPT_hue_angle(IPT)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

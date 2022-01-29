@@ -14,18 +14,18 @@ from colour.plotting.tm3018.report import (
     plot_single_sd_colour_rendition_report,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotSingleSdColourRenditionReportFull',
-    'TestPlotSingleSdColourRenditionReportIntermediate',
-    'TestPlotSingleSdColourRenditionReportSimple',
-    'TestPlotSingleSdColourRenditionReport',
+    "TestPlotSingleSdColourRenditionReportFull",
+    "TestPlotSingleSdColourRenditionReportIntermediate",
+    "TestPlotSingleSdColourRenditionReportSimple",
+    "TestPlotSingleSdColourRenditionReport",
 ]
 
 
@@ -42,7 +42,8 @@ plot_single_sd_colour_rendition_report_full` definition.
         """
 
         figure, axes = plot_single_sd_colour_rendition_report_full(
-            SDS_ILLUMINANTS['FL2'])
+            SDS_ILLUMINANTS["FL2"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -62,7 +63,8 @@ plot_single_sd_colour_rendition_report_intermediate` definition.
         """
 
         figure, axes = plot_single_sd_colour_rendition_report_intermediate(
-            SDS_ILLUMINANTS['FL2'])
+            SDS_ILLUMINANTS["FL2"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -81,7 +83,8 @@ plot_single_sd_colour_rendition_report_simple` definition.
         """
 
         figure, axes = plot_single_sd_colour_rendition_report_simple(
-            SDS_ILLUMINANTS['FL2'])
+            SDS_ILLUMINANTS["FL2"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -99,12 +102,11 @@ plot_single_sd_colour_rendition_report` definition unit tests methods.
 plot_single_sd_colour_rendition_report` definition.
         """
 
-        figure, axes = plot_single_sd_colour_rendition_report(
-            SDS_ILLUMINANTS['FL2'])
+        figure, axes = plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS["FL2"])
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

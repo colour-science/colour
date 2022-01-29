@@ -9,42 +9,46 @@ Defines the objects for hexadecimal notation:
 -   :func:`colour.notation.HEX_to_RGB`
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import normalise_maximum
+from colour.hints import ArrayLike, List, NDArray, StrOrArrayLike, StrOrNDArray
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import (
     as_float_array,
+    as_int_array,
     from_range_1,
     to_domain_1,
     usage_warning,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RGB_to_HEX',
-    'HEX_to_RGB',
+    "RGB_to_HEX",
+    "HEX_to_RGB",
 ]
 
 
-def RGB_to_HEX(RGB):
+def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
     """
     Converts from *RGB* colourspace to hexadecimal representation.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
 
     Returns
     -------
-    str
+    :class:`str` or :class:`numpy.array`
         Hexadecimal representation.
 
     Notes
@@ -68,37 +72,39 @@ def RGB_to_HEX(RGB):
     if np.any(RGB < 0):
         usage_warning(
             '"RGB" array contains negative values, those will be clipped, '
-            'unpredictable results may occur!')
+            "unpredictable results may occur!"
+        )
 
-        RGB = np.clip(RGB, 0, np.inf)
+        RGB = as_float_array(np.clip(RGB, 0, np.inf))
 
     if np.any(RGB > 1):
         usage_warning(
             '"RGB" array contains values over 1 and will be normalised, '
-            'unpredictable results may occur!')
+            "unpredictable results may occur!"
+        )
 
         RGB = eotf_inverse_sRGB(normalise_maximum(eotf_sRGB(RGB)))
 
-    to_HEX = np.vectorize('{0:02x}'.format)
+    to_HEX = np.vectorize("{0:02x}".format)
 
-    HEX = to_HEX((RGB * 255).astype(np.uint8)).astype(object)
-    HEX = np.asarray('#') + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
+    HEX = to_HEX(as_int_array(RGB * 255, dtype=np.uint8)).astype(object)
+    HEX = np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 
     return HEX
 
 
-def HEX_to_RGB(HEX):
+def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
     """
     Converts from hexadecimal representation to *RGB* colourspace.
 
     Parameters
     ----------
-    HEX : str or array_like
+    HEX
         Hexadecimal representation.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.array`
         *RGB* colourspace array.
 
     Notes
@@ -117,15 +123,19 @@ def HEX_to_RGB(HEX):
     array([ 0.6666666...,  0.8666666...,  1.        ])
     """
 
-    HEX = np.core.defchararray.lstrip(HEX, '#')
+    HEX = np.core.defchararray.lstrip(HEX, "#")  # type: ignore[arg-type]
 
-    def to_RGB(x):
+    def to_RGB(x: List) -> List:
         """
         Converts given hexadecimal representation to *RGB*.
         """
 
         l_x = len(x)
-        return [int(x[i:i + l_x // 3], 16) for i in range(0, l_x, l_x // 3)]
+
+        return [
+            int(x[i : i + l_x // 3], 16)  # type: ignore[call-overload]
+            for i in range(0, l_x, l_x // 3)
+        ]
 
     to_RGB_v = np.vectorize(to_RGB, otypes=[np.ndarray])
 

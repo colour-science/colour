@@ -14,37 +14,44 @@ References
     Revision 1 (pp. 1-46). http://www.filmicpro.com/FilmicProUserManualv6.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import Extrapolator, LinearInterpolator
-from colour.utilities import from_range_1, to_domain_1
+from colour.hints import (
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Optional,
+)
+from colour.utilities import as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'log_encoding_FilmicPro6',
-    'log_decoding_FilmicPro6',
+    "log_encoding_FilmicPro6",
+    "log_decoding_FilmicPro6",
 ]
 
 
-def log_encoding_FilmicPro6(t):
+def log_encoding_FilmicPro6(t: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    t : numeric or array_like
+    t
         Linear data :math:`t`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
@@ -86,20 +93,20 @@ def log_encoding_FilmicPro6(t):
 
     y = 0.371 * (np.sqrt(t) + 0.28257 * np.log(t) + 1.69542)
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
-_LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE = None
+_LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE: Optional[Extrapolator] = None
 
 
-def _log_decoding_FilmicPro6_interpolator():
+def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
     """
     Returns the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
     function interpolator and caches it if not existing.
 
     Returns
     -------
-    Extrapolator
+    :class:`colour.Extrapolator`
         *FiLMiC Pro 6* log decoding curve / electro-optical transfer
         function interpolator.
     """
@@ -109,24 +116,25 @@ def _log_decoding_FilmicPro6_interpolator():
     t = np.arange(0, 1, 0.0001)
     if _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE is None:
         _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE = Extrapolator(
-            LinearInterpolator(log_encoding_FilmicPro6(t), t))
+            LinearInterpolator(log_encoding_FilmicPro6(t), t)
+        )
 
     return _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE
 
 
-def log_decoding_FilmicPro6(y):
+def log_decoding_FilmicPro6(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Defines the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`t`.
 
     Notes
@@ -166,4 +174,4 @@ def log_decoding_FilmicPro6(y):
 
     t = _log_decoding_FilmicPro6_interpolator()(y)
 
-    return from_range_1(t)
+    return as_float(from_range_1(t))

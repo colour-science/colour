@@ -19,14 +19,16 @@ References
     42(6), 703-718. doi:10.1002/col.22131
 """
 
+from __future__ import annotations
+
 import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
-from typing import Union
 
 from colour.algebra import spow, vector_dot
 from colour.adaptation import CAT_CAT16
 from colour.appearance.ciecam02 import (
+    InductionFactors_CIECAM02,
     VIEWING_CONDITIONS_CIECAM02,
     P,
     achromatic_response_forward,
@@ -48,9 +50,19 @@ from colour.appearance.ciecam02 import (
     temporary_magnitude_quantity_inverse,
     viewing_condition_dependent_parameters,
 )
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+    Union,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
     MixinDataclassArray,
+    as_float,
     as_float_array,
     from_range_100,
     from_range_degrees,
@@ -61,50 +73,45 @@ from colour.utilities import (
     tsplit,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_16',
-    'MATRIX_INVERSE_16',
-    'InductionFactors_CAM16',
-    'VIEWING_CONDITIONS_CAM16',
-    'CAM_Specification_CAM16',
-    'XYZ_to_CAM16',
-    'CAM16_to_XYZ',
+    "MATRIX_16",
+    "MATRIX_INVERSE_16",
+    "InductionFactors_CAM16",
+    "VIEWING_CONDITIONS_CAM16",
+    "CAM_Specification_CAM16",
+    "XYZ_to_CAM16",
+    "CAM16_to_XYZ",
 ]
 
-MATRIX_16 = CAT_CAT16
+MATRIX_16: NDArray = CAT_CAT16
 """
 Adaptation matrix :math:`M_{16}`.
-
-MATRIX_16 : array_like, (3, 3)
 """
 
-MATRIX_INVERSE_16 = np.linalg.inv(MATRIX_16)
+MATRIX_INVERSE_16: NDArray = np.linalg.inv(MATRIX_16)
 """
 Inverse adaptation matrix :math:`M^{-1}_{16}`.
-
-MATRIX_INVERSE_16 : array_like, (3, 3)
 """
 
 
-class InductionFactors_CAM16(
-        namedtuple('InductionFactors_CAM16', ('F', 'c', 'N_c'))):
+class InductionFactors_CAM16(namedtuple("InductionFactors_CAM16", ("F", "c", "N_c"))):
     """
     *CAM16* colour appearance model induction factors.
 
     Parameters
     ----------
-    F : numeric or array_like
+    F
         Maximum degree of adaptation :math:`F`.
-    c : numeric or array_like
+    c
         Exponential non-linearity :math:`c`.
-    N_c : numeric or array_like
+    N_c
         Chromatic induction factor :math:`N_c`.
 
     Notes
@@ -118,16 +125,15 @@ class InductionFactors_CAM16(
     """
 
 
-VIEWING_CONDITIONS_CAM16 = CaseInsensitiveMapping(VIEWING_CONDITIONS_CIECAM02)
+VIEWING_CONDITIONS_CAM16: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    VIEWING_CONDITIONS_CIECAM02
+)
 VIEWING_CONDITIONS_CAM16.__doc__ = """
 Reference *CAM16* colour appearance model viewing conditions.
 
 References
 ----------
 :cite:`Li2017`
-
-VIEWING_CONDITIONS_CAM16 : CaseInsensitiveMapping
-    **{'Average', 'Dim', 'Dark'}**
 """
 
 
@@ -138,21 +144,21 @@ class CAM_Specification_CAM16(MixinDataclassArray):
 
     Parameters
     ----------
-    J : numeric or array_like
+    J
         Correlate of *Lightness* :math:`J`.
-    C : numeric or array_like
+    C
         Correlate of *chroma* :math:`C`.
-    h : numeric or array_like
+    h
         *Hue* angle :math:`h` in degrees.
-    s : numeric or array_like
+    s
         Correlate of *saturation* :math:`s`.
-    Q : numeric or array_like
+    Q
         Correlate of *brightness* :math:`Q`.
-    M : numeric or array_like
+    M
         Correlate of *colourfulness* :math:`M`.
-    H : numeric or array_like
+    H
         *Hue* :math:`h` quadrature :math:`H`.
-    HC : numeric or array_like
+    HC
         *Hue* :math:`h` composition :math:`H^C`.
 
     References
@@ -160,58 +166,54 @@ class CAM_Specification_CAM16(MixinDataclassArray):
     :cite:`Li2017`
     """
 
-    J: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    C: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    h: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    s: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    Q: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    M: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    H: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
-    HC: Union[float, list, tuple, np.ndarray] = field(
-        default_factory=lambda: None)
+    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
-def XYZ_to_CAM16(XYZ,
-                 XYZ_w,
-                 L_A,
-                 Y_b,
-                 surround=VIEWING_CONDITIONS_CAM16['Average'],
-                 discount_illuminant=False):
+def XYZ_to_CAM16(
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    Y_b: FloatingOrArrayLike,
+    surround: Union[
+        InductionFactors_CIECAM02, InductionFactors_CAM16
+    ] = VIEWING_CONDITIONS_CAM16["Average"],
+    discount_illuminant: Boolean = False,
+) -> CAM_Specification_CAM16:
     """
     Computes the *CAM16* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of test sample / stimulus.
-    XYZ_w : array_like
+    XYZ_w
         *CIE XYZ* tristimulus values of reference white.
-    L_A : numeric or array_like
+    L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
-    Y_b : numeric or array_like
+    Y_b
         Luminous factor of background :math:`Y_b` such as
         :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
         viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
         approximate an :math:`L^*` of 50 is used.
-    surround : InductionFactors_CAM16, optional
+    surround
         Surround viewing conditions induction factors.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
-    CAM_Specification_CAM16
+    :class:`colour.CAM_Specification_CAM16`
         *CAM16* colour appearance model specification.
 
     Notes
@@ -271,19 +273,19 @@ H=275.5949861..., HC=None)
     RGB_w = vector_dot(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-         if not discount_illuminant else ones(L_A.shape))
+    D = (
+        np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
+        if not discount_illuminant
+        else ones(L_A.shape)
+    )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
-        Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
 
-    D_RGB = (D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 -
-             D[..., np.newaxis])
+    D_RGB = D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 - D[..., np.newaxis]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -337,17 +339,27 @@ H=275.5949861..., HC=None)
     s = saturation_correlate(M, Q)
 
     return CAM_Specification_CAM16(
-        from_range_100(J), from_range_100(C), from_range_degrees(h),
-        from_range_100(s), from_range_100(Q), from_range_100(M),
-        from_range_degrees(H, 400), None)
+        as_float(from_range_100(J)),
+        as_float(from_range_100(C)),
+        as_float(from_range_degrees(h)),
+        as_float(from_range_100(s)),
+        as_float(from_range_100(Q)),
+        as_float(from_range_100(M)),
+        as_float(from_range_degrees(H, 400)),
+        None,
+    )
 
 
-def CAM16_to_XYZ(specification,
-                 XYZ_w,
-                 L_A,
-                 Y_b,
-                 surround=VIEWING_CONDITIONS_CAM16['Average'],
-                 discount_illuminant=False):
+def CAM16_to_XYZ(
+    specification: CAM_Specification_CAM16,
+    XYZ_w: ArrayLike,
+    L_A: FloatingOrArrayLike,
+    Y_b: FloatingOrArrayLike,
+    surround: Union[
+        InductionFactors_CIECAM02, InductionFactors_CAM16
+    ] = VIEWING_CONDITIONS_CAM16["Average"],
+    discount_illuminant: Boolean = False,
+) -> NDArray:
     """
     Converts from *CAM16* specification to *CIE XYZ* tristimulus values.
 
@@ -358,26 +370,26 @@ def CAM16_to_XYZ(specification,
         *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
         specified, e.g. :math:`JCh` or :math:`JMh`.
-    XYZ_w : array_like
+    XYZ_w
         *CIE XYZ* tristimulus values of reference white.
-    L_A : numeric or array_like
+    L_A
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
-    Y_b : numeric or array_like
+    Y_b
         Luminous factor of background :math:`Y_b` such as
         :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
         light source and :math:`L_b` is the luminance of the background. For
         viewing images, :math:`Y_b` can be the average :math:`Y` value for the
         pixels in the entire image, or frequently, a :math:`Y` value of 20,
         approximate an :math:`L^*` of 50 is used.
-    surround : InductionFactors_CAM16, optional
+    surround
         Surround viewing conditions.
-    discount_illuminant : bool, optional
+    discount_illuminant
         Discount the illuminant.
 
     Returns
     -------
-    XYZ : ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Raises
@@ -446,19 +458,19 @@ def CAM16_to_XYZ(specification,
     RGB_w = vector_dot(MATRIX_16, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-         if not discount_illuminant else ones(L_A.shape))
+    D = (
+        np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
+        if not discount_illuminant
+        else ones(L_A.shape)
+    )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
-        Y_b, Y_w, L_A)
+    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
 
-    D_RGB = (D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 -
-             D[..., np.newaxis])
+    D_RGB = D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 - D[..., np.newaxis]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(
-        RGB_wc, F_L)
+    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
 
     # Computing achromatic responses for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
@@ -467,8 +479,10 @@ def CAM16_to_XYZ(specification,
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
     elif has_only_nan(C):
-        raise ValueError('Either "C" or "M" correlate must be defined in '
-                         'the "CAM_Specification_CAM16" argument!')
+        raise ValueError(
+            'Either "C" or "M" correlate must be defined in '
+            'the "CAM_Specification_CAM16" argument!'
+        )
 
     # Step 2
     # Computing temporary magnitude quantity :math:`t`.

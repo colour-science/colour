@@ -17,15 +17,15 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal
 from colour.utilities import ColourRuntimeWarning, attest, is_pandas_installed
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestSignal',
+    "TestSignal",
 ]
 
 
@@ -49,9 +49,16 @@ class TestSignal(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('dtype', 'domain', 'range', 'interpolator',
-                               'interpolator_kwargs', 'extrapolator',
-                               'extrapolator_kwargs', 'function')
+        required_attributes = (
+            "dtype",
+            "domain",
+            "range",
+            "interpolator",
+            "interpolator_kwargs",
+            "extrapolator",
+            "extrapolator_kwargs",
+            "function",
+        )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Signal))
@@ -61,11 +68,22 @@ class TestSignal(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__init__', '__str__', '__repr__', '__hash__',
-                            '__getitem__', '__setitem__', '__contains__',
-                            '__eq__', '__ne__', 'arithmetical_operation',
-                            'signal_unpack_data', 'fill_nan',
-                            'domain_distance', 'to_series')
+        required_methods = (
+            "__init__",
+            "__str__",
+            "__repr__",
+            "__hash__",
+            "__getitem__",
+            "__setitem__",
+            "__contains__",
+            "__eq__",
+            "__ne__",
+            "arithmetical_operation",
+            "signal_unpack_data",
+            "fill_nan",
+            "domain_distance",
+            "to_series",
+        )
 
         for method in required_methods:
             self.assertIn(method, dir(Signal))
@@ -91,7 +109,8 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_almost_equal(
             signal[np.array([0, 1, 2])],
             np.array([10.0, 20.0, 30.0]),
-            decimal=7)
+            decimal=7,
+        )
 
         signal.domain = np.arange(0, 10, 1) * 10
 
@@ -100,7 +119,8 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_almost_equal(
             signal[np.array([0, 1, 2]) * 10],
             np.array([10.0, 20.0, 30.0]),
-            decimal=7)
+            decimal=7,
+        )
 
         domain = np.linspace(0, 1, 10)
         domain[0] = -np.inf
@@ -124,7 +144,8 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_almost_equal(
             signal[np.array([0, 1, 2])],
             np.array([10.0, 20.0, 30.0]),
-            decimal=7)
+            decimal=7,
+        )
 
         signal.range = self._range * 10
 
@@ -133,7 +154,8 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_almost_equal(
             signal[np.array([0, 1, 2])],
             np.array([10.0, 20.0, 30.0]) * 10,
-            decimal=7)
+            decimal=7,
+        )
 
     def test_interpolator(self):
         """
@@ -144,17 +166,25 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             signal[np.linspace(0, 5, 5)],
-            np.array([
-                10.00000000, 22.83489024, 34.80044921, 47.55353925, 60.00000000
-            ]),
-            decimal=7)
+            np.array(
+                [
+                    10.00000000,
+                    22.83489024,
+                    34.80044921,
+                    47.55353925,
+                    60.00000000,
+                ]
+            ),
+            decimal=7,
+        )
 
         signal.interpolator = CubicSplineInterpolator
 
         np.testing.assert_almost_equal(
             signal[np.linspace(0, 5, 5)],
             np.array([10.0, 22.5, 35.0, 47.5, 60.0]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_interpolator_kwargs(self):
         """
@@ -166,19 +196,33 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             signal[np.linspace(0, 5, 5)],
-            np.array([
-                10.00000000, 22.83489024, 34.80044921, 47.55353925, 60.00000000
-            ]),
-            decimal=7)
+            np.array(
+                [
+                    10.00000000,
+                    22.83489024,
+                    34.80044921,
+                    47.55353925,
+                    60.00000000,
+                ]
+            ),
+            decimal=7,
+        )
 
-        signal.interpolator_kwargs = {'window': 1, 'kernel_kwargs': {'a': 1}}
+        signal.interpolator_kwargs = {"window": 1, "kernel_kwargs": {"a": 1}}
 
         np.testing.assert_almost_equal(
             signal[np.linspace(0, 5, 5)],
-            np.array([
-                10.00000000, 18.91328761, 28.36993142, 44.13100443, 60.00000000
-            ]),
-            decimal=7)
+            np.array(
+                [
+                    10.00000000,
+                    18.91328761,
+                    28.36993142,
+                    44.13100443,
+                    60.00000000,
+                ]
+            ),
+            decimal=7,
+        )
 
     def test_extrapolator(self):
         """
@@ -198,20 +242,21 @@ class TestSignal(unittest.TestCase):
         attest(np.all(np.isnan(signal[np.array([-1000, 1000])])))
 
         signal.extrapolator_kwargs = {
-            'method': 'Linear',
+            "method": "Linear",
         }
 
         np.testing.assert_almost_equal(
             signal[np.array([-1000, 1000])],
             np.array([-9990.0, 10010.0]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_function(self):
         """
         Tests :func:`colour.continuous.signal.Signal.function` property.
         """
 
-        attest(hasattr(self._signal.function, '__call__'))
+        attest(hasattr(self._signal.function, "__call__"))
 
     def test_raise_exception_function(self):
         """
@@ -219,7 +264,7 @@ class TestSignal(unittest.TestCase):
         exception.
         """
 
-        self.assertRaises(RuntimeError, Signal().function, 0)
+        self.assertRaises(ValueError, Signal().function, 0)
 
     def test__init__(self):
         """
@@ -263,7 +308,8 @@ class TestSignal(unittest.TestCase):
 
         self.assertEqual(
             str(self._signal),
-            textwrap.dedent("""
+            textwrap.dedent(
+                """
                 [[   0.   10.]
                  [   1.   20.]
                  [   2.   30.]
@@ -273,7 +319,9 @@ class TestSignal(unittest.TestCase):
                  [   6.   70.]
                  [   7.   80.]
                  [   8.   90.]
-                 [   9.  100.]]""")[1:])
+                 [   9.  100.]]"""
+            )[1:],
+        )
 
         self.assertIsInstance(str(Signal()), str)
 
@@ -283,9 +331,13 @@ class TestSignal(unittest.TestCase):
         """
 
         self.assertEqual(
-            re.sub(r'extrapolator_kwargs={.*}', 'extrapolator_kwargs={...}',
-                   repr(self._signal)),
-            textwrap.dedent("""
+            re.sub(
+                r"extrapolator_kwargs={.*}",
+                "extrapolator_kwargs={...}",
+                repr(self._signal),
+            ),
+            textwrap.dedent(
+                """
                 Signal([[   0.,   10.],
                         [   1.,   20.],
                         [   2.,   30.],
@@ -299,7 +351,9 @@ class TestSignal(unittest.TestCase):
                        interpolator=KernelInterpolator,
                        interpolator_kwargs={},
                        extrapolator=Extrapolator,
-                       extrapolator_kwargs={...})""")[1:])
+                       extrapolator_kwargs={...})"""
+            )[1:],
+        )
 
         self.assertIsInstance(repr(Signal()), str)
 
@@ -313,31 +367,41 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_almost_equal(
             self._signal[np.array([0, 1, 2])],
             np.array([10.0, 20.0, 30.0]),
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
             self._signal[np.linspace(0, 5, 5)],
-            np.array([
-                10.00000000, 22.83489024, 34.80044921, 47.55353925, 60.00000000
-            ]),
-            decimal=7)
+            np.array(
+                [
+                    10.00000000,
+                    22.83489024,
+                    34.80044921,
+                    47.55353925,
+                    60.00000000,
+                ]
+            ),
+            decimal=7,
+        )
 
         attest(np.all(np.isnan(self._signal[np.array([-1000, 1000])])))
 
         signal = self._signal.copy()
         signal.extrapolator_kwargs = {
-            'method': 'Linear',
+            "method": "Linear",
         }
-        np.testing.assert_array_equal(signal[np.array([-1000, 1000])],
-                                      np.array([-9990.0, 10010.0]))
+        np.testing.assert_array_equal(
+            signal[np.array([-1000, 1000])], np.array([-9990.0, 10010.0])
+        )
 
         signal.extrapolator_kwargs = {
-            'method': 'Constant',
-            'left': 0,
-            'right': 1
+            "method": "Constant",
+            "left": 0,
+            "right": 1,
         }
-        np.testing.assert_array_equal(signal[np.array([-1000, 1000])],
-                                      np.array([0.0, 1.0]))
+        np.testing.assert_array_equal(
+            signal[np.array([-1000, 1000])], np.array([0.0, 1.0])
+        )
 
     def test__setitem__(self):
         """
@@ -349,47 +413,89 @@ class TestSignal(unittest.TestCase):
         signal[0] = 20
         np.testing.assert_almost_equal(
             signal.range,
-            np.array(
-                [20.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]))
+            np.array([20.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
+        )
 
         signal[np.array([0, 1, 2])] = 30
         np.testing.assert_almost_equal(
             signal.range,
-            np.array(
-                [30.0, 30.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
-            decimal=7)
+            np.array([30.0, 30.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
+            decimal=7,
+        )
 
         signal[0:3] = 40
         np.testing.assert_almost_equal(
             signal.range,
-            np.array(
-                [40.0, 40.0, 40.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
-            decimal=7)
+            np.array([40.0, 40.0, 40.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
+            decimal=7,
+        )
 
         signal[np.linspace(0, 5, 5)] = 50
         np.testing.assert_almost_equal(
             signal.domain,
-            np.array([
-                0.00, 1.00, 1.25, 2.00, 2.50, 3.00, 3.75, 4.00, 5.00, 6.00,
-                7.00, 8.00, 9.00
-            ]),
-            decimal=7)
+            np.array(
+                [
+                    0.00,
+                    1.00,
+                    1.25,
+                    2.00,
+                    2.50,
+                    3.00,
+                    3.75,
+                    4.00,
+                    5.00,
+                    6.00,
+                    7.00,
+                    8.00,
+                    9.00,
+                ]
+            ),
+            decimal=7,
+        )
         np.testing.assert_almost_equal(
             signal.range,
-            np.array([
-                50.0, 40.0, 50.0, 40.0, 50.0, 40.0, 50.0, 50.0, 50.0, 70.0,
-                80.0, 90.0, 100.0
-            ]),
-            decimal=7)
+            np.array(
+                [
+                    50.0,
+                    40.0,
+                    50.0,
+                    40.0,
+                    50.0,
+                    40.0,
+                    50.0,
+                    50.0,
+                    50.0,
+                    70.0,
+                    80.0,
+                    90.0,
+                    100.0,
+                ]
+            ),
+            decimal=7,
+        )
 
         signal[np.array([0, 1, 2])] = np.array([10, 20, 30])
         np.testing.assert_almost_equal(
             signal.range,
-            np.array([
-                10.0, 20.0, 50.0, 30.0, 50.0, 40.0, 50.0, 50.0, 50.0, 70.0,
-                80.0, 90.0, 100.0
-            ]),
-            decimal=7)
+            np.array(
+                [
+                    10.0,
+                    20.0,
+                    50.0,
+                    30.0,
+                    50.0,
+                    40.0,
+                    50.0,
+                    50.0,
+                    50.0,
+                    70.0,
+                    80.0,
+                    90.0,
+                    100.0,
+                ]
+            ),
+            decimal=7,
+        )
 
     def test__contains__(self):
         """
@@ -437,7 +543,7 @@ class TestSignal(unittest.TestCase):
         signal_2.interpolator = KernelInterpolator
         self.assertEqual(signal_1, signal_2)
 
-        signal_2.interpolator_kwargs = {'window': 1}
+        signal_2.interpolator_kwargs = {"window": 1}
         self.assertNotEqual(signal_1, signal_2)
 
         signal_2.interpolator_kwargs = {}
@@ -460,9 +566,9 @@ class TestSignal(unittest.TestCase):
         self.assertNotEqual(signal_1, signal_2)
 
         signal_2.extrapolator_kwargs = {
-            'method': 'Constant',
-            'left': np.nan,
-            'right': np.nan
+            "method": "Constant",
+            "left": np.nan,
+            "right": np.nan,
         }
         self.assertEqual(signal_1, signal_2)
 
@@ -473,83 +579,100 @@ class TestSignal(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            self._signal.arithmetical_operation(10, '+', False).range,
+            self._signal.arithmetical_operation(10, "+", False).range,
             self._range + 10,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            self._signal.arithmetical_operation(10, '-', False).range,
+            self._signal.arithmetical_operation(10, "-", False).range,
             self._range - 10,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            self._signal.arithmetical_operation(10, '*', False).range,
+            self._signal.arithmetical_operation(10, "*", False).range,
             self._range * 10,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            self._signal.arithmetical_operation(10, '/', False).range,
+            self._signal.arithmetical_operation(10, "/", False).range,
             self._range / 10,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            self._signal.arithmetical_operation(10, '**', False).range,
+            self._signal.arithmetical_operation(10, "**", False).range,
             self._range ** 10,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            (self._signal + 10).range, self._range + 10, decimal=7)
+            (self._signal + 10).range, self._range + 10, decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            (self._signal - 10).range, self._range - 10, decimal=7)
+            (self._signal - 10).range, self._range - 10, decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            (self._signal * 10).range, self._range * 10, decimal=7)
+            (self._signal * 10).range, self._range * 10, decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            (self._signal / 10).range, self._range / 10, decimal=7)
+            (self._signal / 10).range, self._range / 10, decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            (self._signal ** 10).range, self._range ** 10, decimal=7)
+            (self._signal ** 10).range, self._range ** 10, decimal=7
+        )
 
         signal = self._signal.copy()
 
         np.testing.assert_almost_equal(
-            signal.arithmetical_operation(10, '+', True).range,
+            signal.arithmetical_operation(10, "+", True).range,
             self._range + 10,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            signal.arithmetical_operation(10, '-', True).range,
+            signal.arithmetical_operation(10, "-", True).range,
             self._range,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            signal.arithmetical_operation(10, '*', True).range,
+            signal.arithmetical_operation(10, "*", True).range,
             self._range * 10,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            signal.arithmetical_operation(10, '/', True).range,
+            signal.arithmetical_operation(10, "/", True).range,
             self._range,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            signal.arithmetical_operation(10, '**', True).range,
+            signal.arithmetical_operation(10, "**", True).range,
             self._range ** 10,
-            decimal=7)
+            decimal=7,
+        )
 
         signal = self._signal.copy()
 
         np.testing.assert_almost_equal(
-            signal.arithmetical_operation(self._range, '+', False).range,
+            signal.arithmetical_operation(self._range, "+", False).range,
             signal.range + self._range,
-            decimal=7)
+            decimal=7,
+        )
 
         np.testing.assert_almost_equal(
-            signal.arithmetical_operation(signal, '+', False).range,
+            signal.arithmetical_operation(signal, "+", False).range,
             signal.range + signal._range,
-            decimal=7)
+            decimal=7,
+        )
 
     def test_is_uniform(self):
         """
@@ -585,17 +708,15 @@ class TestSignal(unittest.TestCase):
         np.testing.assert_array_equal(domain, self._domain)
 
         domain, range_ = Signal.signal_unpack_data(
-            self._range,
-            dict(zip(self._domain, self._range)).keys())
+            self._range, dict(zip(self._domain, self._range)).keys()
+        )
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(
-            dict(zip(self._domain, self._range)))
+        domain, range_ = Signal.signal_unpack_data(dict(zip(self._domain, self._range)))
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
-        domain, range_ = Signal.signal_unpack_data(
-            Signal(self._range, self._domain))
+        domain, range_ = Signal.signal_unpack_data(Signal(self._range, self._domain))
         np.testing.assert_array_equal(range_, self._range)
         np.testing.assert_array_equal(domain, self._domain)
 
@@ -603,7 +724,8 @@ class TestSignal(unittest.TestCase):
             from pandas import Series
 
             domain, range_ = Signal.signal_unpack_data(
-                Series(dict(zip(self._domain, self._range))))
+                Series(dict(zip(self._domain, self._range)))
+            )
             np.testing.assert_array_equal(range_, self._range)
             np.testing.assert_array_equal(domain, self._domain)
 
@@ -618,30 +740,30 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             signal.fill_nan().range,
-            np.array(
-                [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
-            decimal=7)
+            np.array([10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]),
+            decimal=7,
+        )
 
         signal[3:7] = np.nan
 
         np.testing.assert_almost_equal(
-            signal.fill_nan(method='Constant').range,
-            np.array([10.0, 20.0, 30.0, 0.0, 0.0, 0.0, 0.0, 80.0, 90.0,
-                      100.0]),
-            decimal=7)
+            signal.fill_nan(method="Constant").range,
+            np.array([10.0, 20.0, 30.0, 0.0, 0.0, 0.0, 0.0, 80.0, 90.0, 100.0]),
+            decimal=7,
+        )
 
     def test_domain_distance(self):
         """
         Tests :func:`colour.continuous.signal.Signal.domain_distance` method.
         """
 
-        self.assertAlmostEqual(
-            self._signal.domain_distance(0.5), 0.5, places=7)
+        self.assertAlmostEqual(self._signal.domain_distance(0.5), 0.5, places=7)
 
         np.testing.assert_almost_equal(
             self._signal.domain_distance(np.linspace(0, 9, 10) + 0.5),
             np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
-            decimal=7)
+            decimal=7,
+        )
 
     def test_to_series(self):
         """
@@ -653,8 +775,9 @@ class TestSignal(unittest.TestCase):
 
             self.assertEqual(
                 Signal(self._range, self._domain).to_series().all(),
-                Series(dict(zip(self._domain, self._range))).all())
+                Series(dict(zip(self._domain, self._range))).all(),
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -8,15 +8,15 @@ from matplotlib.pyplot import Axes, Figure
 
 from colour.plotting import plot_corresponding_chromaticities_prediction
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotCorrespondingChromaticitiesPrediction',
+    "TestPlotCorrespondingChromaticitiesPrediction",
 ]
 
 
@@ -38,5 +38,5 @@ plot_corresponding_chromaticities_prediction` definition.
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -58,68 +58,90 @@ References
     October 14, 2017, from https://en.wikipedia.org/wiki/Lanczos_resampling
 """
 
+from __future__ import annotations
+
 import itertools
 import numpy as np
 import scipy.interpolate
 from collections.abc import Mapping
 from functools import reduce
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Callable,
+    Dict,
+    DTypeNumber,
+    Floating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+    Literal,
+    NDArray,
+    Optional,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_array,
     as_float_array,
     as_float,
+    as_int_array,
     attest,
     closest_indexes,
     interval,
-    is_integer,
     is_numeric,
+    optional,
     runtime_warning,
     tsplit,
     validate_method,
 )
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'kernel_nearest_neighbour',
-    'kernel_linear',
-    'kernel_sinc',
-    'kernel_lanczos',
-    'kernel_cardinal_spline',
-    'KernelInterpolator',
-    'NearestNeighbourInterpolator',
-    'LinearInterpolator',
-    'SpragueInterpolator',
-    'CubicSplineInterpolator',
-    'PchipInterpolator',
-    'NullInterpolator',
-    'lagrange_coefficients',
-    'vertices_and_relative_coordinates',
-    'table_interpolation_trilinear',
-    'table_interpolation_tetrahedral',
-    'TABLE_INTERPOLATION_METHODS',
-    'table_interpolation',
+    "kernel_nearest_neighbour",
+    "kernel_linear",
+    "kernel_sinc",
+    "kernel_lanczos",
+    "kernel_cardinal_spline",
+    "KernelInterpolator",
+    "NearestNeighbourInterpolator",
+    "LinearInterpolator",
+    "SpragueInterpolator",
+    "CubicSplineInterpolator",
+    "PchipInterpolator",
+    "NullInterpolator",
+    "lagrange_coefficients",
+    "vertices_and_relative_coordinates",
+    "table_interpolation_trilinear",
+    "table_interpolation_tetrahedral",
+    "TABLE_INTERPOLATION_METHODS",
+    "table_interpolation",
 ]
 
 
-def kernel_nearest_neighbour(x):
+def kernel_nearest_neighbour(x: ArrayLike) -> NDArray:
     """
     Returns the *nearest-neighbour* kernel evaluated at given samples.
 
     Parameters
     ----------
-    x : array_like
+    x
         Samples at which to evaluate the *nearest-neighbour* kernel.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         The *nearest-neighbour* kernel evaluated at given samples.
 
     References
@@ -135,18 +157,18 @@ def kernel_nearest_neighbour(x):
     return np.where(np.abs(x) < 0.5, 1, 0)
 
 
-def kernel_linear(x):
+def kernel_linear(x: ArrayLike) -> NDArray:
     """
     Returns the *linear* kernel evaluated at given samples.
 
     Parameters
     ----------
-    x : array_like
+    x
         Samples at which to evaluate the *linear* kernel.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         The *linear* kernel evaluated at given samples.
 
     References
@@ -165,20 +187,20 @@ def kernel_linear(x):
     return np.where(np.abs(x) < 1, 1 - np.abs(x), 0)
 
 
-def kernel_sinc(x, a=3):
+def kernel_sinc(x: ArrayLike, a: Floating = 3) -> NDArray:
     """
     Returns the *sinc* kernel evaluated at given samples.
 
     Parameters
     ----------
-    x : array_like
+    x
         Samples at which to evaluate the *sinc* kernel.
-    a : int, optional
+    a
         Size of the *sinc* kernel.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         The *sinc* kernel evaluated at given samples.
 
     References
@@ -194,25 +216,27 @@ def kernel_sinc(x, a=3):
              3.8981718...e-17])
     """
 
-    attest(a >= 1, '"a" must be equal or superior to 1!')
+    x = as_float_array(x)
+
+    attest(bool(a >= 1), '"a" must be equal or superior to 1!')
 
     return np.where(np.abs(x) < a, np.sinc(x), 0)
 
 
-def kernel_lanczos(x, a=3):
+def kernel_lanczos(x: ArrayLike, a: Floating = 3) -> NDArray:
     """
     Returns the *lanczos* kernel evaluated at given samples.
 
     Parameters
     ----------
-    x : array_like
+    x
         Samples at which to evaluate the *lanczos* kernel.
-    a : int, optional
+    a
         Size of the *lanczos* kernel.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         The *lanczos* kernel evaluated at given samples.
 
     References
@@ -228,12 +252,16 @@ def kernel_lanczos(x, a=3):
              3.2237621...e-17])
     """
 
-    attest(a >= 1, '"a" must be equal or superior to 1!')
+    x = as_float_array(x)
+
+    attest(bool(a >= 1), '"a" must be equal or superior to 1!')
 
     return np.where(np.abs(x) < a, np.sinc(x) * np.sinc(x / a), 0)
 
 
-def kernel_cardinal_spline(x, a=0.5, b=0.0):
+def kernel_cardinal_spline(
+    x: ArrayLike, a: Floating = 0.5, b: Floating = 0.0
+) -> NDArray:
     """
     Returns the *cardinal spline* kernel evaluated at given samples.
 
@@ -245,16 +273,16 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
 
     Parameters
     ----------
-    x : array_like
+    x
         Samples at which to evaluate the *cardinal spline* kernel.
-    a : int, optional
+    a
         :math:`a` control parameter.
-    b : int, optional
+    b
         :math:`b` control parameter.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         The *cardinal spline* kernel evaluated at given samples.
 
     References
@@ -270,13 +298,20 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
 0.0781893...,  0.        ])
     """
 
+    x = as_float_array(x)
+
     x_abs = np.abs(x)
     y = np.where(
         x_abs < 1,
-        (-6 * a - 9 * b + 12) * x_abs ** 3 + (6 * a + 12 * b - 18) * x_abs ** 2
-        - 2 * b + 6,
-        (-6 * a - b) * x_abs ** 3 + (30 * a + 6 * b) * x_abs ** 2 +
-        (-48 * a - 12 * b) * x_abs + 24 * a + 8 * b,
+        (-6 * a - 9 * b + 12) * x_abs ** 3
+        + (6 * a + 12 * b - 18) * x_abs ** 2
+        - 2 * b
+        + 6,
+        (-6 * a - b) * x_abs ** 3
+        + (30 * a + 6 * b) * x_abs ** 2
+        + (-48 * a - 12 * b) * x_abs
+        + 24 * a
+        + 8 * b,
     )
     y[x_abs >= 2] = 0
 
@@ -290,29 +325,29 @@ class KernelInterpolator:
     The reconstruction of a continuous signal can be described as a linear
     convolution operation. Interpolation can be expressed as a convolution of
     the given discrete function :math:`g(x)` with some continuous interpolation
-    kernel :math:`k(w)`:
+    kernel :math:`k(w)`::
 
-    :math:`\\hat{g}(w_0) = [k * g](w_0) = \
+        :math:`\\hat{g}(w_0) = [k * g](w_0) = \
 \\sum_{x=-\\infty}^{\\infty}k(w_0 - x)\\cdot g(x)`
 
     Parameters
     ----------
-    x : array_like
+    x
         Independent :math:`x` variable values corresponding with :math:`y`
         variable.
-    y : array_like
+    y
         Dependent and already known :math:`y` variable values to
         interpolate.
-    window : int, optional
+    window
         Width of the window in samples on each side.
-    kernel : callable, optional
+    kernel
         Kernel to use for interpolation.
-    kernel_kwargs : dict, optional
+    kernel_kwargs
          Arguments to use when calling the kernel.
-    padding_kwargs : dict, optional
+    padding_kwargs
          Arguments to use when padding :math:`y` variable values with the
          :func:`np.pad` definition.
-    dtype : type
+    dtype
         Data type used for internal conversions.
 
     Attributes
@@ -344,7 +379,7 @@ class KernelInterpolator:
     >>> f(0.5)  # doctest: +ELLIPSIS
     6.9411400...
 
-    Interpolating an *array_like* variable:
+    Interpolating an `ArrayLike` variable:
 
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
     array([ 6.1806208...,  8.0823848...])
@@ -367,277 +402,279 @@ class KernelInterpolator:
     array([ 5.3961792...,  5.6521093...])
     """
 
-    def __init__(self,
-                 x,
-                 y,
-                 window=3,
-                 kernel=kernel_lanczos,
-                 kernel_kwargs=None,
-                 padding_kwargs=None,
-                 dtype=None):
-        if dtype is None:
-            dtype = DEFAULT_FLOAT_DTYPE
+    def __init__(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        window: Floating = 3,
+        kernel: Callable = kernel_lanczos,
+        kernel_kwargs: Optional[Dict] = None,
+        padding_kwargs: Optional[Dict] = None,
+        dtype: Optional[Type[DTypeNumber]] = None,
+    ):
+        dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        self._x_p = None
-        self._y_p = None
+        self._x_p: NDArray = np.array([])
+        self._y_p: NDArray = np.array([])
 
-        self._x = None
-        self._y = None
-        self._window = None
-        self._padding_kwargs = {
-            'pad_width': (window, window),
-            'mode': 'reflect'
+        self._x: NDArray = np.array([])
+        self._y: NDArray = np.array([])
+        self._window: Floating = 3
+        self._padding_kwargs: Dict = {
+            "pad_width": (window, window),
+            "mode": "reflect",
         }
-        self._dtype = dtype
+        self._kernel: Callable = kernel_lanczos
+        self._kernel_kwargs: Dict = {}
+        self._dtype: Type[DTypeNumber] = dtype
 
-        self.x = x
-        self.y = y
+        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
+        # is resolved.
+        self.x = x  # type: ignore[assignment]
+        self.y = y  # type: ignore[assignment]
         self.window = window
-        self.padding_kwargs = padding_kwargs
-
-        self._kernel = None
+        self.padding_kwargs = optional(padding_kwargs, self._padding_kwargs)
         self.kernel = kernel
-        self._kernel_kwargs = {}
-        self.kernel_kwargs = kernel_kwargs
+        self.kernel_kwargs = optional(kernel_kwargs, self._kernel_kwargs)
 
         self._validate_dimensions()
 
     @property
-    def x(self):
+    def x(self) -> NDArray:
         """
         Getter and setter property for the independent :math:`x` variable.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the independent :math:`x` variable with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Independent :math:`x` variable.
         """
 
         return self._x
 
     @x.setter
-    def x(self, value):
+    def x(self, value: ArrayLike):
         """
         Setter for the **self.x** property.
         """
 
-        if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+        value = np.atleast_1d(value).astype(self._dtype)
 
-            attest(
-                value.ndim == 1,
-                '"x" independent variable must have exactly one dimension!')
+        attest(
+            value.ndim == 1,
+            '"x" independent variable must have exactly one dimension!',
+        )
 
-            value_interval = interval(value)
+        value_interval = interval(value)
 
-            if value_interval.size != 1:
-                runtime_warning('"x" independent variable is not uniform, '
-                                'unpredictable results may occur!')
+        if value_interval.size != 1:
+            runtime_warning(
+                '"x" independent variable is not uniform, '
+                "unpredictable results may occur!"
+            )
 
-            self._x = value
+        self._x = as_array(value, self._dtype)
 
-            if self._window is not None:
-                self._x_p = np.pad(
-                    self._x, (self._window, self._window),
-                    'linear_ramp',
-                    end_values=(
-                        np.min(self._x) - self._window * value_interval[0],
-                        np.max(self._x) + self._window * value_interval[0]))
+        self._x_p = np.pad(
+            self._x,
+            as_int_array([self._window, self._window]),
+            "linear_ramp",
+            end_values=(
+                np.min(self._x) - self._window * value_interval[0],
+                np.max(self._x) + self._window * value_interval[0],
+            ),
+        )
 
     @property
-    def y(self):
+    def y(self) -> NDArray:
         """
         Getter and setter property for the dependent and already known
         :math:`y` variable.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the dependent and already known :math:`y` variable
             with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Dependent and already known :math:`y` variable.
         """
 
         return self._y
 
     @y.setter
-    def y(self, value):
+    def y(self, value: ArrayLike):
         """
         Setter for the **self.y** property.
         """
 
-        if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+        value = np.atleast_1d(value).astype(self._dtype)
 
-            attest(value.ndim == 1,
-                   '"y" dependent variable must have exactly one dimension!')
+        attest(
+            value.ndim == 1,
+            '"y" dependent variable must have exactly one dimension!',
+        )
 
-            self._y = value
+        self._y = as_array(value, self._dtype)
 
-            if self._window is not None:
-                self._y_p = np.pad(self._y, **self._padding_kwargs)
+        if self._window is not None:
+            self._y_p = np.pad(self._y, **self._padding_kwargs)
 
     @property
-    def window(self):
+    def window(self) -> Floating:
         """
         Getter and setter property for the window.
 
         Parameters
         ----------
-        value : int
+        value
             Value to set the window with.
 
         Returns
         -------
-        int
+        :class:`numpy.floating`
             Window.
         """
 
         return self._window
 
     @window.setter
-    def window(self, value):
+    def window(self, value: Floating):
         """
         Setter for the **self.window** property.
         """
 
-        if value is not None:
-            attest(is_integer(value), '"window" must be an integer!')
+        attest(bool(value >= 1), '"window" must be equal to or greater than 1!')
 
-            attest(value >= 1,
-                   '"window" must be equal to or or greater than 1!')
+        self._window = value
 
-            self._window = value
+        # Triggering "self._x_p" update.
+        if self._x is not None:
+            self.x = self._x
 
-            # Triggering "self._x_p" update.
-            if self._x is not None:
-                self.x = self._x
-
-            # Triggering "self._y_p" update.
-            if self._y is not None:
-                self.y = self._y
+        # Triggering "self._y_p" update.
+        if self._y is not None:
+            self.y = self._y
 
     @property
-    def kernel(self):
+    def kernel(self) -> Callable:
         """
         Getter and setter property for the kernel callable.
 
         Parameters
         ----------
-        value : callable
+        value
             Value to set the kernel callable.
 
         Returns
         -------
-        callable
+        Callable
             Kernel callable.
         """
 
         return self._kernel
 
     @kernel.setter
-    def kernel(self, value):
+    def kernel(self, value: Callable):
         """
         Setter for the **self.kernel** property.
         """
 
-        if value is not None:
-            attest(
-                hasattr(value, '__call__'),
-                '"{0}" attribute: "{1}" is not callable!'.format(
-                    'kernel', value))
+        attest(
+            hasattr(value, "__call__"),
+            '"{0}" property: "{1}" is not callable!'.format("kernel", value),
+        )
 
-            self._kernel = value
+        self._kernel = value
 
     @property
-    def kernel_kwargs(self):
+    def kernel_kwargs(self) -> Dict:
         """
         Getter and setter property for the kernel call time arguments.
 
         Parameters
         ----------
-        value : dict
+        value
             Value to call the interpolation kernel with.
 
         Returns
         -------
-        dict
+        :class:`dict`
             Kernel call time arguments.
         """
 
         return self._kernel_kwargs
 
     @kernel_kwargs.setter
-    def kernel_kwargs(self, value):
+    def kernel_kwargs(self, value: Dict):
         """
         Setter for the **self.kernel_kwargs** property.
         """
 
-        if value is not None:
-            attest(
-                isinstance(value, dict),
-                '"{0}" attribute: "{1}" type is not "dict"!'.format(
-                    'kernel_kwargs', value))
+        attest(
+            isinstance(value, dict),
+            '"{0}" property: "{1}" type is not "dict"!'.format("kernel_kwargs", value),
+        )
 
-            self._kernel_kwargs = value
+        self._kernel_kwargs = value
 
     @property
-    def padding_kwargs(self):
+    def padding_kwargs(self) -> Dict:
         """
         Getter and setter property for the kernel call time arguments.
 
         Parameters
         ----------
-        value : dict
+        value
             Value to call the interpolation kernel with.
 
         Returns
         -------
-        dict
+        :class:`dict`
             Kernel call time arguments.
         """
 
         return self._padding_kwargs
 
     @padding_kwargs.setter
-    def padding_kwargs(self, value):
+    def padding_kwargs(self, value: Dict):
         """
         Setter for the **self.padding_kwargs** property.
         """
 
-        if value is not None:
-            attest(
-                isinstance(value, Mapping),
-                '"{0}" attribute: "{1}" type is not a "Mapping" instance!'
-                .format('padding_kwargs', value))
+        attest(
+            isinstance(value, Mapping),
+            '"{0}" property: "{1}" type is not a "Mapping" instance!'.format(
+                "padding_kwargs", value
+            ),
+        )
 
-            self._padding_kwargs = value
+        self._padding_kwargs = value
 
-            # Triggering "self._y_p" update.
-            if self._y is not None:
-                self.y = self._y
+        # Triggering "self._y_p" update.
+        if self._y is not None:
+            self.y = self._y
 
-    def __call__(self, x):
+    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
         Evaluates the interpolator at given point(s).
 
         Parameters
         ----------
-        x : numeric or array_like
+        x
             Point(s) to evaluate the interpolant at.
 
         Returns
         -------
-        float or ndarray
+        :class:`numpy.floating` or :class:`numpy.ndarray`
             Interpolated value(s).
         """
 
@@ -647,18 +684,18 @@ class KernelInterpolator:
 
         return xi
 
-    def _evaluate(self, x):
+    def _evaluate(self, x: NDArray) -> NDArray:
         """
         Performs the interpolator evaluation at given points.
 
         Parameters
         ----------
-        x : ndarray
+        x
             Points to evaluate the interpolant at.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             Interpolated points values.
         """
 
@@ -668,18 +705,20 @@ class KernelInterpolator:
         x_interval = interval(self._x)[0]
         x_f = np.floor(x / x_interval)
 
-        windows = (x_f[:, np.newaxis] + np.arange(-self._window + 1,
-                                                  self._window + 1))
+        windows = x_f[:, np.newaxis] + np.arange(-self._window + 1, self._window + 1)
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
-        windows = np.around(windows).astype(DEFAULT_INT_DTYPE)
+        windows = as_int_array(np.around(windows))
 
         return np.sum(
-            self._y_p[windows] * self._kernel(
-                x[:, np.newaxis] / x_interval - windows -
-                min(self._x_p) / x_interval, **self._kernel_kwargs),
-            axis=-1)
+            self._y_p[windows]
+            * self._kernel(
+                x[:, np.newaxis] / x_interval - windows - min(self._x_p) / x_interval,
+                **self._kernel_kwargs
+            ),
+            axis=-1,
+        )
 
     def _validate_dimensions(self):
         """
@@ -688,11 +727,13 @@ class KernelInterpolator:
 
         if len(self._x) != len(self._y):
             raise ValueError(
-                ('"x" independent and "y" dependent variables have different '
-                 'dimensions: "{0}", "{1}"').format(
-                     len(self._x), len(self._y)))
+                (
+                    '"x" independent and "y" dependent variables have different '
+                    'dimensions: "{0}", "{1}"'
+                ).format(len(self._x), len(self._y))
+            )
 
-    def _validate_interpolation_range(self, x):
+    def _validate_interpolation_range(self, x: NDArray):
         """
         Validates given point to be in interpolation range.
         """
@@ -713,18 +754,18 @@ class NearestNeighbourInterpolator(KernelInterpolator):
 
     Other Parameters
     ----------------
-    x : array_like
+    x
         Independent :math:`x` variable values corresponding with :math:`y`
         variable.
-    y : array_like
+    y
         Dependent and already known :math:`y` variable values to
         interpolate.
-    window : int, optional
+    window
         Width of the window in samples on each side.
-    padding_kwargs : dict, optional
+    padding_kwargs
          Arguments to use when padding :math:`y` variable values with the
          :func:`np.pad` definition.
-    dtype : type
+    dtype
         Data type used for internal conversions.
 
     Methods
@@ -732,10 +773,10 @@ class NearestNeighbourInterpolator(KernelInterpolator):
     -   :meth:`~colour.NearestNeighbourInterpolator.__init__`
     """
 
-    def __init__(self, *args, **kwargs):
-        kwargs['kernel'] = kernel_nearest_neighbour
-        if 'kernel_kwargs' in kwargs:
-            del kwargs['kernel_kwargs']
+    def __init__(self, *args: Any, **kwargs: Any):
+        kwargs["kernel"] = kernel_nearest_neighbour
+        if "kernel_kwargs" in kwargs:
+            del kwargs["kernel_kwargs"]
 
         super(NearestNeighbourInterpolator, self).__init__(*args, **kwargs)
 
@@ -746,13 +787,13 @@ class LinearInterpolator:
 
     Parameters
     ----------
-    x : array_like
+    x
         Independent :math:`x` variable values corresponding with :math:`y`
         variable.
-    y : array_like
+    y
         Dependent and already known :math:`y` variable values to
         interpolate.
-    dtype : type
+    dtype
         Data type used for internal conversions.
 
     Attributes
@@ -780,105 +821,112 @@ class LinearInterpolator:
     >>> f(0.5)  # doctest: +ELLIPSIS
     7.64...
 
-    Interpolating an *array_like* variable:
+    Interpolating an `ArrayLike` variable:
 
     >>> f([0.25, 0.75])
     array([ 6.7825,  8.5075])
     """
 
-    def __init__(self, x, y, dtype=None):
-        if dtype is None:
-            dtype = DEFAULT_FLOAT_DTYPE
+    def __init__(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        dtype: Optional[Type[DTypeNumber]] = None,
+    ):
+        dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        self._x = None
-        self._y = None
-        self._dtype = dtype
+        self._x: NDArray = np.array([])
+        self._y: NDArray = np.array([])
+        self._dtype: Type[DTypeNumber] = dtype
 
-        self.x = x
-        self.y = y
+        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
+        # is resolved.
+        self.x = x  # type: ignore[assignment]
+        self.y = y  # type: ignore[assignment]
 
         self._validate_dimensions()
 
     @property
-    def x(self):
+    def x(self) -> NDArray:
         """
         Getter and setter property for the independent :math:`x` variable.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the independent :math:`x` variable with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Independent :math:`x` variable.
         """
 
         return self._x
 
     @x.setter
-    def x(self, value):
+    def x(self, value: ArrayLike):
         """
         Setter for the **self.x** property.
         """
 
-        if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+        value = np.atleast_1d(value).astype(self._dtype)
 
-            attest(
-                value.ndim == 1,
-                '"x" independent variable must have exactly one dimension!')
+        attest(
+            value.ndim == 1,
+            '"x" independent variable must have exactly one dimension!',
+        )
 
         self._x = value
 
     @property
-    def y(self):
+    def y(self) -> NDArray:
         """
         Getter and setter property for the dependent and already known
         :math:`y` variable.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the dependent and already known :math:`y` variable
             with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Dependent and already known :math:`y` variable.
         """
 
         return self._y
 
     @y.setter
-    def y(self, value):
+    def y(self, value: ArrayLike):
         """
         Setter for the **self.y** property.
         """
 
-        if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+        value = np.atleast_1d(value).astype(self._dtype)
 
-            attest(value.ndim == 1,
-                   '"y" dependent variable must have exactly one dimension!')
+        attest(
+            value.ndim == 1,
+            '"y" dependent variable must have exactly one dimension!',
+        )
 
         self._y = value
 
-    def __call__(self, x):
+    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
         Evaluates the interpolating polynomial at given point(s).
 
 
         Parameters
         ----------
-        x : numeric or array_like
+        x
             Point(s) to evaluate the interpolant at.
 
         Returns
         -------
-        float or ndarray
+        :class:`numpy.floating` or :class:`numpy.ndarray`
             Interpolated value(s).
         """
 
@@ -888,18 +936,18 @@ class LinearInterpolator:
 
         return xi
 
-    def _evaluate(self, x):
+    def _evaluate(self, x: NDArray) -> NDArray:
         """
         Performs the interpolating polynomial evaluation at given points.
 
         Parameters
         ----------
-        x : ndarray
+        x
             Points to evaluate the interpolant at.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             Interpolated points values.
         """
 
@@ -915,11 +963,13 @@ class LinearInterpolator:
 
         if len(self._x) != len(self._y):
             raise ValueError(
-                ('"x" independent and "y" dependent variables have different '
-                 'dimensions: "{0}", "{1}"').format(
-                     len(self._x), len(self._y)))
+                (
+                    '"x" independent and "y" dependent variables have different '
+                    'dimensions: "{0}", "{1}"'
+                ).format(len(self._x), len(self._y))
+            )
 
-    def _validate_interpolation_range(self, x):
+    def _validate_interpolation_range(self, x: NDArray):
         """
         Validates given point to be in interpolation range.
         """
@@ -944,13 +994,13 @@ class SpragueInterpolator:
 
     Parameters
     ----------
-    x : array_like
+    x
         Independent :math:`x` variable values corresponding with :math:`y`
         variable.
-    y : array_like
+    y
         Dependent and already known :math:`y` variable values to
         interpolate.
-    dtype : type
+    dtype
         Data type used for internal conversions.
 
     Attributes
@@ -983,174 +1033,222 @@ class SpragueInterpolator:
     >>> f(0.5)  # doctest: +ELLIPSIS
     7.2185025...
 
-    Interpolating an *array_like* variable:
+    Interpolating an `ArrayLike` variable:
 
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
     array([ 6.7295161...,  7.8140625...])
     """
 
-    SPRAGUE_C_COEFFICIENTS = np.array([
-        [884, -1960, 3033, -2648, 1080, -180],
-        [508, -540, 488, -367, 144, -24],
-        [-24, 144, -367, 488, -540, 508],
-        [-180, 1080, -2648, 3033, -1960, 884],
-    ])
+    SPRAGUE_C_COEFFICIENTS = np.array(
+        [
+            [884, -1960, 3033, -2648, 1080, -180],
+            [508, -540, 488, -367, 144, -24],
+            [-24, 144, -367, 488, -540, 508],
+            [-180, 1080, -2648, 3033, -1960, 884],
+        ]
+    )
     """
     Defines the coefficients used to generate extra points for boundaries
     interpolation.
 
-    SPRAGUE_C_COEFFICIENTS : array_like, (4, 6)
+    SPRAGUE_C_COEFFICIENTS, (4, 6)
 
     References
     ----------
     :cite:`CIETC1-382005h`
     """
 
-    def __init__(self, x, y, dtype=None):
-        if dtype is None:
-            dtype = DEFAULT_FLOAT_DTYPE
+    def __init__(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        dtype: Optional[Type[DTypeNumber]] = None,
+    ):
+        dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        self._xp = None
-        self._yp = None
+        self._xp: NDArray = np.array([])
+        self._yp: NDArray = np.array([])
 
-        self._x = None
-        self._y = None
-        self._dtype = dtype
+        self._x: NDArray = np.array([])
+        self._y: NDArray = np.array([])
+        self._dtype: Type[DTypeNumber] = dtype
 
-        self.x = x
-        self.y = y
+        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
+        # is resolved.
+        self.x = x  # type: ignore[assignment]
+        self.y = y  # type: ignore[assignment]
 
         self._validate_dimensions()
 
     @property
-    def x(self):
+    def x(self) -> NDArray:
         """
         Getter and setter property for the independent :math:`x` variable.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the independent :math:`x` variable with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Independent :math:`x` variable.
         """
 
         return self._x
 
     @x.setter
-    def x(self, value):
+    def x(self, value: ArrayLike):
         """
         Setter for the **self.x** property.
         """
 
-        if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+        value = as_array(np.atleast_1d(value), self._dtype)
 
-            attest(
-                value.ndim == 1,
-                '"x" independent variable must have exactly one dimension!')
-
-            value_interval = interval(value)[0]
-
-            xp1 = value[0] - value_interval * 2
-            xp2 = value[0] - value_interval
-            xp3 = value[-1] + value_interval
-            xp4 = value[-1] + value_interval * 2
-
-            self._xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
+        attest(
+            value.ndim == 1,
+            '"x" independent variable must have exactly one dimension!',
+        )
 
         self._x = value
 
+        value_interval = interval(self._x)[0]
+
+        xp1 = self._x[0] - value_interval * 2
+        xp2 = self._x[0] - value_interval
+        xp3 = self._x[-1] + value_interval
+        xp4 = self._x[-1] + value_interval * 2
+
+        self._xp = np.concatenate(
+            [
+                as_array([xp1, xp2], self._dtype),
+                value,
+                as_array([xp3, xp4], self._dtype),
+            ]
+        )
+
     @property
-    def y(self):
+    def y(self) -> NDArray:
         """
         Getter and setter property for the dependent and already known
         :math:`y` variable.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the dependent and already known :math:`y` variable
             with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Dependent and already known :math:`y` variable.
         """
 
         return self._y
 
     @y.setter
-    def y(self, value):
+    def y(self, value: ArrayLike):
         """
         Setter for the **self.y** property.
         """
 
-        if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+        value = as_array(np.atleast_1d(value), self._dtype)
 
-            attest(value.ndim == 1,
-                   '"y" dependent variable must have exactly one dimension!')
+        attest(
+            value.ndim == 1,
+            '"y" dependent variable must have exactly one dimension!',
+        )
 
-            attest(
-                len(value) >= 6,
-                '"y" dependent variable values count must be equal to or '
-                'greater than 6!')
-
-            yp1 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
-                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
-            yp2 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[1],
-                        np.array(value[0:6]).reshape([6, 1]))) / 209)[0]
-            yp3 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[2],
-                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
-            yp4 = np.ravel(
-                (np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
-                        np.array(value[-6:]).reshape([6, 1]))) / 209)[0]
-
-            self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
+        attest(
+            len(value) >= 6,
+            '"y" dependent variable values count must be equal to or '
+            "greater than 6!",
+        )
 
         self._y = value
 
-    def __call__(self, x):
+        yp1 = np.ravel(
+            (
+                np.dot(
+                    self.SPRAGUE_C_COEFFICIENTS[0],
+                    np.array(value[0:6]).reshape([6, 1]),
+                )
+            )
+            / 209
+        )[0]
+        yp2 = np.ravel(
+            (
+                np.dot(
+                    self.SPRAGUE_C_COEFFICIENTS[1],
+                    np.array(value[0:6]).reshape([6, 1]),
+                )
+            )
+            / 209
+        )[0]
+        yp3 = np.ravel(
+            (
+                np.dot(
+                    self.SPRAGUE_C_COEFFICIENTS[2],
+                    np.array(value[-6:]).reshape([6, 1]),
+                )
+            )
+            / 209
+        )[0]
+        yp4 = np.ravel(
+            (
+                np.dot(
+                    self.SPRAGUE_C_COEFFICIENTS[3],
+                    np.array(value[-6:]).reshape([6, 1]),
+                )
+            )
+            / 209
+        )[0]
+
+        self._yp = np.concatenate(
+            [
+                as_array([yp1, yp2], self._dtype),
+                value,
+                as_array([yp3, yp4], self._dtype),
+            ]
+        )
+
+    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
         Evaluates the interpolating polynomial at given point(s).
 
         Parameters
         ----------
-        x : numeric or array_like
+        x
             Point(s) to evaluate the interpolant at.
 
         Returns
         -------
-        numeric or ndarray
+        :class:`numpy.floating` or :class:`numpy.ndarray`
             Interpolated value(s).
         """
 
-        return self._evaluate(x)
+        x = np.atleast_1d(x).astype(self._dtype)
 
-    def _evaluate(self, x):
+        xi = as_float(self._evaluate(x))
+
+        return xi
+
+    def _evaluate(self, x: NDArray) -> NDArray:
         """
         Performs the interpolating polynomial evaluation at given point.
 
         Parameters
         ----------
-        x : numeric
+        x
             Point to evaluate the interpolant at.
 
         Returns
         -------
-        float
+        :class:`numpy.ndarray`
             Interpolated point values.
         """
-
-        x = as_float_array(x)
 
         self._validate_dimensions()
         self._validate_interpolation_range(x)
@@ -1161,19 +1259,34 @@ class SpragueInterpolator:
         r = self._yp
 
         a0p = r[i]
-        a1p = ((2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] -
-                2 * r[i + 2]) / 24)  # yapf: disable
-        a2p = ((-r[i - 2] + 16 * r[i - 1] - 30 * r[i] + 16 * r[i + 1] -
-                r[i + 2]) / 24)  # yapf: disable
-        a3p = ((-9 * r[i - 2] + 39 * r[i - 1] - 70 * r[i] + 66 * r[i + 1] -
-                33 * r[i + 2] + 7 * r[i + 3]) / 24)
-        a4p = ((13 * r[i - 2] - 64 * r[i - 1] + 126 * r[i] - 124 * r[i + 1] +
-                61 * r[i + 2] - 12 * r[i + 3]) / 24)
-        a5p = ((-5 * r[i - 2] + 25 * r[i - 1] - 50 * r[i] + 50 * r[i + 1] -
-                25 * r[i + 2] + 5 * r[i + 3]) / 24)
+        a1p = (2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 * r[i + 2]) / 24
+        a2p = (-r[i - 2] + 16 * r[i - 1] - 30 * r[i] + 16 * r[i + 1] - r[i + 2]) / 24
+        a3p = (
+            -9 * r[i - 2]
+            + 39 * r[i - 1]
+            - 70 * r[i]
+            + 66 * r[i + 1]
+            - 33 * r[i + 2]
+            + 7 * r[i + 3]
+        ) / 24
+        a4p = (
+            13 * r[i - 2]
+            - 64 * r[i - 1]
+            + 126 * r[i]
+            - 124 * r[i + 1]
+            + 61 * r[i + 2]
+            - 12 * r[i + 3]
+        ) / 24
+        a5p = (
+            -5 * r[i - 2]
+            + 25 * r[i - 1]
+            - 50 * r[i]
+            + 50 * r[i + 1]
+            - 25 * r[i + 2]
+            + 5 * r[i + 3]
+        ) / 24
 
-        y = (a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 +
-             a5p * X ** 5)
+        y = a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 + a5p * X ** 5
 
         return y
 
@@ -1184,11 +1297,13 @@ class SpragueInterpolator:
 
         if len(self._x) != len(self._y):
             raise ValueError(
-                ('"x" independent and "y" dependent variables have different '
-                 'dimensions: "{0}", "{1}"').format(
-                     len(self._x), len(self._y)))
+                (
+                    '"x" independent and "y" dependent variables have different '
+                    'dimensions: "{0}", "{1}"'
+                ).format(len(self._x), len(self._y))
+            )
 
-    def _validate_interpolation_range(self, x):
+    def _validate_interpolation_range(self, x: NDArray):
         """
         Validates given point to be in interpolation range.
         """
@@ -1216,9 +1331,8 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     -   This class is a wrapper around *scipy.interpolate.interp1d* class.
     """
 
-    def __init__(self, *args, **kwargs):
-        super(CubicSplineInterpolator, self).__init__(
-            kind='cubic', *args, **kwargs)
+    def __init__(self, *args: Any, **kwargs: Any):
+        super(CubicSplineInterpolator, self).__init__(kind="cubic", *args, **kwargs)
 
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):
@@ -1240,20 +1354,20 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         class.
     """
 
-    def __init__(self, x, y, *args, **kwargs):
+    def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any):
         super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
 
-        self._y = y
+        self._y: NDArray = as_float_array(y)
 
     @property
-    def y(self):
+    def y(self) -> NDArray:
         """
         Getter property for the dependent and already known :math:`y`
         variable.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Dependent and already known :math:`y` variable.
         """
 
@@ -1268,19 +1382,19 @@ class NullInterpolator:
 
     Parameters
     ----------
-    x : ndarray
+    x
         Independent :math:`x` variable values corresponding with :math:`y`
         variable.
-    y : ndarray
+    y
         Dependent and already known :math:`y` variable values to
         interpolate.
-    absolute_tolerance : numeric, optional
+    absolute_tolerance
         Absolute tolerance.
-    relative_tolerance : numeric, optional
+    relative_tolerance
         Relative tolerance.
-    default : numeric, optional
+    default
         Default value for interpolation outside tolerances.
-    dtype : type
+    dtype
         Data type used for internal conversions.
 
     Attributes
@@ -1311,25 +1425,28 @@ class NullInterpolator:
     9.3699999...
     """
 
-    def __init__(self,
-                 x,
-                 y,
-                 absolute_tolerance=10e-7,
-                 relative_tolerance=10e-7,
-                 default=np.nan,
-                 dtype=None):
-        if dtype is None:
-            dtype = DEFAULT_FLOAT_DTYPE
+    def __init__(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        absolute_tolerance: Floating = 10e-7,
+        relative_tolerance: Floating = 10e-7,
+        default: Floating = np.nan,
+        dtype: Optional[Type[DTypeNumber]] = None,
+    ):
+        dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        self._x = None
-        self._y = None
-        self._absolute_tolerance = None
-        self._relative_tolerance = None
-        self._default = None
-        self._dtype = dtype
+        self._x: NDArray = np.array([])
+        self._y: NDArray = np.array([])
+        self._absolute_tolerance: float = 10e-7
+        self._relative_tolerance: float = 10e-7
+        self._default: Floating = np.nan
+        self._dtype: Type[DTypeNumber] = dtype
 
-        self.x = x
-        self.y = y
+        # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
+        # is resolved.
+        self.x = x  # type: ignore[assignment]
+        self.y = y  # type: ignore[assignment]
         self.absolute_tolerance = absolute_tolerance
         self.relative_tolerance = relative_tolerance
         self.default = default
@@ -1337,178 +1454,177 @@ class NullInterpolator:
         self._validate_dimensions()
 
     @property
-    def x(self):
+    def x(self) -> NDArray:
         """
         Getter and setter property for the independent :math:`x` variable.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the independent :math:`x` variable with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Independent :math:`x` variable.
         """
 
         return self._x
 
     @x.setter
-    def x(self, value):
+    def x(self, value: ArrayLike):
         """
         Setter for the **self.x** property.
         """
 
-        if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+        value = np.atleast_1d(value).astype(self._dtype)
 
-            attest(
-                value.ndim == 1,
-                '"x" independent variable must have exactly one dimension!')
+        attest(
+            value.ndim == 1,
+            '"x" independent variable must have exactly one dimension!',
+        )
 
         self._x = value
 
     @property
-    def y(self):
+    def y(self) -> NDArray:
         """
         Getter and setter property for the dependent and already known
         :math:`y` variable.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the dependent and already known :math:`y` variable
             with.
 
         Returns
         -------
-        array_like
+        :class:`numpy.ndarray`
             Dependent and already known :math:`y` variable.
         """
 
         return self._y
 
     @y.setter
-    def y(self, value):
+    def y(self, value: ArrayLike):
         """
         Setter for the **self.y** property.
         """
 
-        if value is not None:
-            value = np.atleast_1d(value).astype(self._dtype)
+        value = np.atleast_1d(value).astype(self._dtype)
 
-            attest(value.ndim == 1,
-                   '"y" dependent variable must have exactly one dimension!')
+        attest(
+            value.ndim == 1,
+            '"y" dependent variable must have exactly one dimension!',
+        )
 
         self._y = value
 
     @property
-    def relative_tolerance(self):
+    def relative_tolerance(self) -> Floating:
         """
         Getter and setter property for the relative tolerance.
 
         Parameters
         ----------
-        value : numeric
+        value
             Value to set the relative tolerance with.
 
         Returns
         -------
-        numeric
+        :class:`numpy.floating`
             Relative tolerance.
         """
 
         return self._relative_tolerance
 
     @relative_tolerance.setter
-    def relative_tolerance(self, value):
+    def relative_tolerance(self, value: Floating):
         """
         Setter for the **self.relative_tolerance** property.
         """
 
-        if value is not None:
-            attest(
-                is_numeric(value),
-                '"relative_tolerance" variable must be a "numeric"!')
+        attest(
+            is_numeric(value),
+            '"relative_tolerance" variable must be a "numeric"!',
+        )
 
-        self._relative_tolerance = value
+        self._relative_tolerance = float(value)
 
     @property
-    def absolute_tolerance(self):
+    def absolute_tolerance(self) -> Floating:
         """
         Getter and setter property for the absolute tolerance.
 
         Parameters
         ----------
-        value : numeric
+        value
             Value to set the absolute tolerance with.
 
         Returns
         -------
-        numeric
+        :class:`numpy.floating`
             Absolute tolerance.
         """
 
         return self._absolute_tolerance
 
     @absolute_tolerance.setter
-    def absolute_tolerance(self, value):
+    def absolute_tolerance(self, value: Floating):
         """
         Setter for the **self.absolute_tolerance** property.
         """
 
-        if value is not None:
-            attest(
-                is_numeric(value),
-                '"absolute_tolerance" variable must be a "numeric"!')
+        attest(
+            is_numeric(value),
+            '"absolute_tolerance" variable must be a "numeric"!',
+        )
 
-        self._absolute_tolerance = value
+        self._absolute_tolerance = float(value)
 
     @property
-    def default(self):
+    def default(self) -> Floating:
         """
         Getter and setter property for the default value for call outside
         tolerances.
 
         Parameters
         ----------
-        value : numeric
+        value
             Value to set the default value with.
 
         Returns
         -------
-        numeric
+        :class:`numpy.floating`
             Default value.
         """
 
         return self._default
 
     @default.setter
-    def default(self, value):
+    def default(self, value: Floating):
         """
         Setter for the **self.default** property.
         """
 
-        if value is not None:
-            attest(
-                is_numeric(value), '"default" variable must be a "numeric"!')
+        attest(is_numeric(value), '"default" variable must be a "numeric"!')
 
         self._default = value
 
-    def __call__(self, x):
+    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
         Evaluates the interpolator at given point(s).
 
 
         Parameters
         ----------
-        x : numeric or array_like
+        x
             Point(s) to evaluate the interpolant at.
 
         Returns
         -------
-        float or ndarray
+        :class:`numpy.floating` or :class:`numpy.ndarray`
             Interpolated value(s).
         """
 
@@ -1518,18 +1634,18 @@ class NullInterpolator:
 
         return xi
 
-    def _evaluate(self, x):
+    def _evaluate(self, x: NDArray) -> NDArray:
         """
         Performs the interpolator evaluation at given points.
 
         Parameters
         ----------
-        x : ndarray
+        x
             Points to evaluate the interpolant at.
 
         Returns
         -------
-        ndarray
+        :class:`numpy.ndarray`
             Interpolated points values.
         """
 
@@ -1538,11 +1654,14 @@ class NullInterpolator:
 
         indexes = closest_indexes(self._x, x)
         values = self._y[indexes]
-        values[~np.isclose(
-            self._x[indexes],
-            x,
-            rtol=self._absolute_tolerance,
-            atol=self._relative_tolerance)] = self._default
+        values[
+            ~np.isclose(
+                self._x[indexes],
+                x,
+                rtol=self._absolute_tolerance,
+                atol=self._relative_tolerance,
+            )
+        ] = self._default
 
         return values
 
@@ -1553,11 +1672,13 @@ class NullInterpolator:
 
         if len(self._x) != len(self._y):
             raise ValueError(
-                ('"x" independent and "y" dependent variables have different '
-                 'dimensions: "{0}", "{1}"').format(
-                     len(self._x), len(self._y)))
+                (
+                    '"x" independent and "y" dependent variables have different '
+                    'dimensions: "{0}", "{1}"'
+                ).format(len(self._x), len(self._y))
+            )
 
-    def _validate_interpolation_range(self, x):
+    def _validate_interpolation_range(self, x: NDArray):
         """
         Validates given point to be in interpolation range.
         """
@@ -1572,21 +1693,21 @@ class NullInterpolator:
             raise ValueError('"{0}" is above interpolation range.'.format(x))
 
 
-def lagrange_coefficients(r, n=4):
+def lagrange_coefficients(r: Floating, n: Integer = 4) -> NDArray:
     """
     Computes the *Lagrange Coefficients* at given point :math:`r` for degree
     :math:`n`.
 
     Parameters
     ----------
-    r : numeric
+    r
         Point to get the *Lagrange Coefficients* at.
-    n : int, optional
+    n
         Degree of the *Lagrange Coefficients* being calculated.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
 
     References
     ----------
@@ -1601,29 +1722,30 @@ def lagrange_coefficients(r, n=4):
     r_i = np.arange(n)
     L_n = []
     for j in range(len(r_i)):
-        basis = [(r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i))
-                 if i != j]
+        basis = [(r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i)) if i != j]
         L_n.append(reduce(lambda x, y: x * y, basis))  # noqa
 
     return np.array(L_n)
 
 
-def vertices_and_relative_coordinates(V_xyz, table):
+def vertices_and_relative_coordinates(
+    V_xyz: ArrayLike, table: ArrayLike
+) -> Tuple[NDArray, NDArray]:
     """
     Computes the vertices coordinates and indexes relative :math:`V_{xyzr}`
     coordinates from given :math:`V_{xyzr}` values and interpolation table.
 
     Parameters
     ----------
-    V_xyz : array_like
+    V_xyz
         :math:`V_{xyz}` values to transform to indexes relative
         :math:`V_{xyzr}` values.
-    table : array_like
+    table
         4-Dimensional (NxNxNx3) interpolation table.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Vertices coordinates and indexes relative :math:`V_{xyzr}` coordinates.
 
     Examples
@@ -1689,7 +1811,7 @@ def vertices_and_relative_coordinates(V_xyz, table):
     # table axis, ``i_f`` and ``i_c`` respectively the floor and ceiling
     # indexes encompassing a given V_xyz value.
     i_m = np.array(table.shape[0:-1]) - 1
-    i_f = np.floor(V_xyz * i_m).astype(DEFAULT_INT_DTYPE)
+    i_f = as_int_array(np.floor(V_xyz * i_m))
     i_f = np.clip(i_f, 0, i_m)
     i_c = np.clip(i_f + 1, 0, i_m)
 
@@ -1701,29 +1823,31 @@ def vertices_and_relative_coordinates(V_xyz, table):
     # Vertices computations by indexing ``table`` with the ``i_f`` and ``i_c``
     # indexes. 8 encompassing vertices are computed for a given V_xyz value
     # forming a cube around it:
-    vertices = np.array([
-        table[i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]]
-        for i in itertools.product(*zip([0, 0, 0], [1, 1, 1]))
-    ])
+    vertices = np.array(
+        [
+            table[i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]]
+            for i in itertools.product(*zip([0, 0, 0], [1, 1, 1]))
+        ]
+    )
 
     return vertices, V_xyzr
 
 
-def table_interpolation_trilinear(V_xyz, table):
+def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray:
     """
     Performs trilinear interpolation of given :math:`V_{xyz}` values using
     given interpolation table.
 
     Parameters
     ----------
-    V_xyz : array_like
+    V_xyz
         :math:`V_{xyz}` values to interpolate.
-    table : array_like
+    table
         4-Dimensional (NxNxNx3) interpolation table.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Interpolated :math:`V_{xyz}` values.
 
     References
@@ -1759,37 +1883,42 @@ def table_interpolation_trilinear(V_xyz, table):
     x, y, z = [f[:, np.newaxis] for f in tsplit(V_xyzr)]
 
     weights = np.moveaxis(
-        np.transpose([
-            (1 - x) * (1 - y) * (1 - z),
-            (1 - x) * (1 - y) * z,
-            (1 - x) * y * (1 - z),
-            (1 - x) * y * z,
-            x * (1 - y) * (1 - z),
-            x * (1 - y) * z,
-            x * y * (1 - z),
-            x * y * z,
-        ]), 0, -1)
+        np.transpose(
+            [
+                (1 - x) * (1 - y) * (1 - z),
+                (1 - x) * (1 - y) * z,
+                (1 - x) * y * (1 - z),
+                (1 - x) * y * z,
+                x * (1 - y) * (1 - z),
+                x * (1 - y) * z,
+                x * y * (1 - z),
+                x * y * z,
+            ]
+        ),
+        0,
+        -1,
+    )
 
     xyz_o = np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
 
     return xyz_o
 
 
-def table_interpolation_tetrahedral(V_xyz, table):
+def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArray:
     """
     Performs tetrahedral interpolation of given :math:`V_{xyz}` values using
     given interpolation table.
 
     Parameters
     ----------
-    V_xyz : array_like
+    V_xyz
         :math:`V_{xyz}` values to interpolate.
-    table : array_like
+    table
         4-Dimensional (NxNxNx3) interpolation table.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Interpolated :math:`V_{xyz}` values.
 
     References
@@ -1849,40 +1978,42 @@ def table_interpolation_tetrahedral(V_xyz, table):
     return xyz_o
 
 
-TABLE_INTERPOLATION_METHODS = CaseInsensitiveMapping({
-    'Trilinear': table_interpolation_trilinear,
-    'Tetrahedral': table_interpolation_tetrahedral,
-})
+TABLE_INTERPOLATION_METHODS = CaseInsensitiveMapping(
+    {
+        "Trilinear": table_interpolation_trilinear,
+        "Tetrahedral": table_interpolation_tetrahedral,
+    }
+)
 TABLE_INTERPOLATION_METHODS.__doc__ = """
 Supported table interpolation methods.
 
 References
 ----------
 :cite:`Bourkeb`, :cite:`Kirk2006`
-
-TABLE_INTERPOLATION_METHODS : CaseInsensitiveMapping
-    **{'Trilinear', 'Tetrahedral'}**
 """
 
 
-def table_interpolation(V_xyz, table, method='Trilinear'):
+def table_interpolation(
+    V_xyz: ArrayLike,
+    table: ArrayLike,
+    method: Union[Literal["Trilinear", "Tetrahedral"], str] = "Trilinear",
+) -> NDArray:
     """
     Performs interpolation of given :math:`V_{xyz}` values using given
     interpolation table.
 
     Parameters
     ----------
-    V_xyz : array_like
+    V_xyz
         :math:`V_{xyz}` values to interpolate.
-    table : array_like
+    table
         4-Dimensional (NxNxNx3) interpolation table.
-    method : str, optional
-        **{'Trilinear', 'Tetrahedral'}**,
+    method
         Interpolation method.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Interpolated :math:`V_{xyz}` values.
 
     References

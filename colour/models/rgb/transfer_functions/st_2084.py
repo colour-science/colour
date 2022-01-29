@@ -4,7 +4,7 @@ SMPTE ST 2084:2014
 ==================
 
 Defines the *SMPTE ST 2084:2014* opto-electrical transfer function
-(OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
+(OETF) and electro-optical transfer function (EOTF):
 
 -   :func:`colour.models.eotf_ST2084`
 -   :func:`colour.models.eotf_inverse_ST2084`
@@ -21,58 +21,64 @@ References
     Displays (pp. 1-14). doi:10.5594/SMPTE.ST2084.2014
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import Structure, from_range_1, to_domain_1
+from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
+from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2021 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANTS_ST2084',
-    'eotf_inverse_ST2084',
-    'eotf_ST2084',
+    "CONSTANTS_ST2084",
+    "eotf_inverse_ST2084",
+    "eotf_ST2084",
 ]
 
-CONSTANTS_ST2084 = Structure(
+CONSTANTS_ST2084: Structure = Structure(
     m_1=2610 / 4096 * (1 / 4),
     m_2=2523 / 4096 * 128,
     c_1=3424 / 4096,
     c_2=2413 / 4096 * 32,
-    c_3=2392 / 4096 * 32)
+    c_3=2392 / 4096 * 32,
+)
 """
 Constants for *SMPTE ST 2084:2014* inverse electro-optical transfer function
-(EOTF / EOCF) and electro-optical transfer function (EOTF / EOCF).
-
-CONSTANTS_ST2084 : Structure
+(EOTF) and electro-optical transfer function (EOTF).
 """
 
 
-def eotf_inverse_ST2084(C, L_p=10000, constants=CONSTANTS_ST2084):
+def eotf_inverse_ST2084(
+    C: FloatingOrArrayLike,
+    L_p: Floating = 10000,
+    constants: Structure = CONSTANTS_ST2084,
+) -> FloatingOrNDArray:
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
-    transfer function (EOTF / EOCF).
+    transfer function (EOTF).
 
     Parameters
     ----------
-    C : numeric or array_like
+    C
         Target optical output :math:`C` in :math:`cd/m^2` of the ideal
         reference display.
-    L_p : numeric, optional
+    L_p
         System peak luminance :math:`cd/m^2`, this parameter should stay at its
         default :math:`10000 cd/m^2` value for practical applications. It is
         exposed so that the definition can be used as a fitting function.
-    constants : Structure, optional
+    constants
         *SMPTE ST 2084:2014* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Color value abbreviated as :math:`N`, that is directly proportional to
         the encoded signal representation, and which is not directly
         proportional to the optical output of a display device.
@@ -88,7 +94,7 @@ def eotf_inverse_ST2084(C, L_p=10000, constants=CONSTANTS_ST2084):
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.
         The effective domain of *SMPTE ST 2084:2014* inverse electro-optical
-        transfer function (EOTF / EOCF) is [0.0001, 10000].
+        transfer function (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
@@ -117,36 +123,42 @@ def eotf_inverse_ST2084(C, L_p=10000, constants=CONSTANTS_ST2084):
 
     Y_p = spow(C / L_p, constants.m_1)
 
-    N = spow((constants.c_1 + constants.c_2 * Y_p) / (constants.c_3 * Y_p + 1),
-             constants.m_2)
+    N = spow(
+        (constants.c_1 + constants.c_2 * Y_p) / (constants.c_3 * Y_p + 1),
+        constants.m_2,
+    )
 
-    return from_range_1(N)
+    return as_float(from_range_1(N))
 
 
-def eotf_ST2084(N, L_p=10000, constants=CONSTANTS_ST2084):
+def eotf_ST2084(
+    N: FloatingOrArrayLike,
+    L_p: Floating = 10000,
+    constants: Structure = CONSTANTS_ST2084,
+) -> FloatingOrNDArray:
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
-    function (EOTF / EOCF).
+    function (EOTF).
 
     This perceptual quantizer (PQ) has been modeled by Dolby Laboratories
     using *Barten (1999)* contrast sensitivity function.
 
     Parameters
     ----------
-    N : numeric or array_like
+    N
         Color value abbreviated as :math:`N`, that is directly proportional to
         the encoded signal representation, and which is not directly
         proportional to the optical output of a display device.
-    L_p : numeric, optional
+    L_p
         System peak luminance :math:`cd/m^2`, this parameter should stay at its
         default :math:`10000 cd/m^2` value for practical applications. It is
         exposed so that the definition can be used as a fitting function.
-    constants : Structure, optional
+    constants
         *SMPTE ST 2084:2014* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
           Target optical output :math:`C` in :math:`cd/m^2` of the ideal
           reference display.
 
@@ -198,4 +210,4 @@ def eotf_ST2084(N, L_p=10000, constants=CONSTANTS_ST2084):
     L = spow((n / (constants.c_2 - constants.c_3 * V_p)), m_1_d)
     C = L_p * L
 
-    return from_range_1(C)
+    return as_float(from_range_1(C))
