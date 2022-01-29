@@ -21,34 +21,23 @@ from typing import (
     Iterable,
     Iterator,
     List,
+    Literal,
     Mapping,
     NewType,
     Optional,
+    Protocol,
     Union,
     Sequence,
+    SupportsIndex,
     TextIO,
     Tuple,
     TYPE_CHECKING,
     Type,
+    TypedDict,
     TypeVar,
+    runtime_checkable,
     cast,
 )
-from typing_extensions import runtime_checkable
-
-try:
-    from typing import (
-        Literal,
-        Protocol,
-        SupportsIndex,
-        TypedDict,
-    )
-except ImportError:  # pragma: no cover
-    from typing_extensions import (  # type: ignore[misc]
-        Literal,
-        Protocol,
-        SupportsIndex,
-        TypedDict,
-    )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
