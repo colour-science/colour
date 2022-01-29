@@ -140,7 +140,7 @@ def formatting(
 ):
     """
     Formats the codebase with *Black*, converts unicode characters to ASCII and
-    cleanup the "BibTeX" file.
+    cleanup the *BibTeX* file.
 
     Parameters
     ----------
