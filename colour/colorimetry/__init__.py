@@ -8,7 +8,13 @@ from .spectrum import (
     sds_and_msds_to_sds,
     sds_and_msds_to_msds,
 )
-from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
+from .blackbody import (
+    sd_blackbody,
+    blackbody_spectral_radiance,
+    planck_law,
+    rayleigh_jeans_law,
+    sd_rayleigh_jeans,
+)
 from .cmfs import (
     LMS_ConeFundamentals,
     RGB_ColourMatchingFunctions,
@@ -133,6 +139,8 @@ __all__ += [
     "sd_blackbody",
     "blackbody_spectral_radiance",
     "planck_law",
+    "rayleigh_jeans_law",
+    "sd_rayleigh_jeans",
 ]
 __all__ += [
     "LMS_ConeFundamentals",
