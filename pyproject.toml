@@ -47,6 +47,7 @@ python = ">= 3.8, < 3.11"
 imageio = ">= 2, < 3"
 numpy = ">= 1.19, < 2"
 scipy = ">= 1.5, < 2"
+typing-extensions = ">= 4, < 5"
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
 black = { version = "*", optional = true }  # Development dependency.
@@ -74,7 +75,6 @@ toml = { version = "*", optional = true }  # Development dependency.
 tqdm = { version = "*", optional = true }
 trimesh = { version = "*", optional = true }
 twine = { version = "*", optional = true }  # Development dependency.
-typing-extensions = { version = "*", optional = true }  # Development dependency.
 
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
@@ -95,7 +95,6 @@ sphinx_rtd_theme = "*"
 sphinxcontrib-bibtex = "*"
 toml = "*"
 twine = "*"
-typing-extensions = "*"
 
 [tool.poetry.extras]
 development = [
@@ -117,7 +116,6 @@ development = [
     "sphinxcontrib-bibtex",
     "toml",
     "twine",
-    "typing-extensions",
 ]
 graphviz = [ "pygraphviz" ]
 meshing = [ "trimesh" ]
