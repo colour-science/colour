@@ -134,7 +134,7 @@ extras_require = {
     "development": [
         "biblib-simple",
         "black",
-        "coverage",
+        "coverage!=6.3",
         "coveralls",
         "flake8",
         "invoke",

@@ -50,7 +50,7 @@ scipy = ">= 1.5, < 2"
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
 black = { version = "*", optional = true }  # Development dependency.
-coverage = { version = "*", optional = true }  # Development dependency.
+coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
@@ -79,7 +79,7 @@ typing-extensions = { version = "*", optional = true }  # Development dependency
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
 black = "*"
-coverage = "*"
+coverage = "!= 6.3"
 coveralls = "*"
 flake8 = "*"
 invoke = "*"
