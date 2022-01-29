@@ -29,11 +29,7 @@ print(f"Measurement Equipment: {sd_tm2714.header.measurement_equipment}")
 print(f"Laboratory: {sd_tm2714.header.laboratory}")
 print(f"Report Number: {sd_tm2714.header.report_number}")
 print(f"Report Date: {sd_tm2714.header.report_date}")
-print(
-    "Document Creation Date: {}".format(
-        sd_tm2714.header.document_creation_date
-    )
-)
+print(f"Document Creation Date: {sd_tm2714.header.document_creation_date}")
 print(f"Comments: {sd_tm2714.header.comments}")
 
 print("\n")

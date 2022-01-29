@@ -16,10 +16,7 @@ Y_b = 20.0
 L = 318.31
 surround = colour.VIEWING_CONDITIONS_LLAB["ref_average_4_minus"]
 message_box(
-    'Converting to "LLAB(l:c)" colour appearance model '
-    "specification using given parameters:\n"
-    "\n\tXYZ: {}\n\tXYZ_0: {}\n\tY_b: {}\n\tL: {}"
-    "\n\tsurround: {}".format(XYZ, XYZ_0, Y_b, L, surround)
+    f'Converting to "LLAB(l:c)" colour appearance model specification using given parameters:\n\n\tXYZ: {XYZ}\n\tXYZ_0: {XYZ_0}\n\tY_b: {Y_b}\n\tL: {L}\n\tsurround: {surround}'
 )
 specification = colour.XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
 print(specification)

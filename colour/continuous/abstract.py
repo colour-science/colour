@@ -150,7 +150,7 @@ arithmetical_operation`
 
         attest(
             is_string(value),
-            '"{}" property: "{}" type is not "str"!'.format("name", value),
+            f'"name" property: "{value}" type is not "str"!',
         )
 
         self._name = value

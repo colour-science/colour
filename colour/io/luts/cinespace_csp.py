@@ -423,23 +423,18 @@ def write_LUT_Cinespace(
             else:
                 for i in range(3):
                     csp_file.write("2\n")
-                    csp_file.write(
-                        "{}\n".format(
-                            _format_tuple(
-                                [LUT[1].domain[0][i], LUT[1].domain[1][i]]
-                            )
-                        )
+                    domain = _format_tuple(
+                        [LUT[1].domain[0][i], LUT[1].domain[1][i]]
                     )
+                    csp_file.write(f"{domain}\n")
                     csp_file.write(
                         "{0:.{2}f} {1:.{2}f}\n".format(0, 1, decimals)
                     )
 
             csp_file.write(
-                "\n{} {} {}\n".format(
-                    LUT[1].table.shape[0],
-                    LUT[1].table.shape[1],
-                    LUT[1].table.shape[2],
-                )
+                f"\n{LUT[1].table.shape[0]} "
+                f"{LUT[1].table.shape[1]} "
+                f"{LUT[1].table.shape[2]}\n"
             )
             table = LUT[1].table.reshape([-1, 3], order="F")
 
@@ -448,13 +443,10 @@ def write_LUT_Cinespace(
         else:
             for i in range(3):
                 csp_file.write("2\n")
-                csp_file.write(
-                    "{}\n".format(
-                        _format_tuple(
-                            [LUT[0].domain[0][i], LUT[0].domain[1][i]]
-                        )
-                    )
+                domain = _format_tuple(
+                    [LUT[0].domain[0][i], LUT[0].domain[1][i]]
                 )
+                csp_file.write(f"{domain}\n")
                 csp_file.write("0.0 1.0\n")
             csp_file.write(f"\n{LUT[0].size}\n")
             table = LUT[0].table

@@ -62,9 +62,7 @@ class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
             Formatted string representation.
         """
 
-        return '"{}" object has been renamed to "{}".'.format(
-            self.name, self.new_name
-        )
+        return f'"{self.name}" object has been renamed to "{self.new_name}".'
 
 
 class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
@@ -116,8 +114,8 @@ class ObjectFutureRename(
         """
 
         return (
-            '"{}" object is deprecated and will be renamed to "{}" '
-            "in a future release.".format(self.name, self.new_name)
+            f'"{self.name}" object is deprecated and will be renamed to '
+            f'"{self.new_name}" in a future release.'
         )
 
 
@@ -142,8 +140,8 @@ class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
         """
 
         return (
-            '"{}" object is deprecated and will be removed '
-            "in a future release.".format(self.name)
+            f'"{self.name}" object is deprecated and will be removed in '
+            f"a future release."
         )
 
 
@@ -173,8 +171,8 @@ class ObjectFutureAccessChange(
         """
 
         return (
-            '"{}" object access is deprecated and will change to '
-            '"{}" in a future release.'.format(self.access, self.new_access)
+            f'"{self.access}" object access is deprecated and will change '
+            f'to "{self.new_access}" in a future release.'
         )
 
 
@@ -202,9 +200,7 @@ class ObjectFutureAccessRemove(
         """
 
         return (
-            '"{}" object access will be removed in a future release.'.format(
-                self.name
-            )
+            f'"{self.name}" object access will be removed in a future release.'
         )
 
 
@@ -230,9 +226,7 @@ class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
             Formatted string representation.
         """
 
-        return '"{}" argument has been renamed to "{}".'.format(
-            self.name, self.new_name
-        )
+        return f'"{self.name}" argument has been renamed to "{self.new_name}".'
 
 
 class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
@@ -284,8 +278,8 @@ class ArgumentFutureRename(
         """
 
         return (
-            '"{}" argument is deprecated and will be renamed to "{}" '
-            "in a future release.".format(self.name, self.new_name)
+            f'"{self.name}" argument is deprecated and will be renamed to '
+            f'"{self.new_name}" in a future release.'
         )
 
 
@@ -310,8 +304,8 @@ class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
         """
 
         return (
-            '"{}" argument is deprecated and will be removed '
-            "in a future release.".format(self.name)
+            f'"{self.name}" argument is deprecated and will be removed in '
+            f"a future release."
         )
 
 
@@ -428,9 +422,7 @@ def get_attribute(attribute: str) -> Any:
 
     attest(
         module is not None,
-        '"{}" module does not exists or cannot be imported!'.format(
-            module_name
-        ),
+        f'"{module_name}" module does not exists or cannot be imported!',
     )
 
     return attrgetter(attribute)(module)

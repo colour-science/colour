@@ -16,13 +16,7 @@ D_b = 0.9407
 D_d = 0.9800
 XYZ_wo = np.array([1, 1, 1])
 message_box(
-    'Computing chromatic adaptation using "Zhai and Luo (2018)" '
-    "chromatic adaptation model.\n"
-    '\n\t"XYZ_b":\n\t\t{}\n\t"XYZ_wb":\n\t\t{}'
-    '\n\t"XYZ_wd":\n\t\t{}\n\t"D_b":\n\t\t{}'
-    '\n\t"D_d":\n\t\t{}\n\t"XYZ_wo":\n\t\t{}'.format(
-        XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo
-    )
+    f'Computing chromatic adaptation using "Zhai and Luo (2018)" chromatic adaptation model.\n\n\t"XYZ_b":\n\t\t{XYZ_b}\n\t"XYZ_wb":\n\t\t{XYZ_wb}\n\t"XYZ_wd":\n\t\t{XYZ_wd}\n\t"D_b":\n\t\t{D_b}\n\t"D_d":\n\t\t{D_d}\n\t"XYZ_wo":\n\t\t{XYZ_wo}'
 )
 print(
     colour.chromatic_adaptation(

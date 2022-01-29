@@ -17,12 +17,7 @@ L_A = 318.31
 surround = colour.VIEWING_CONDITIONS_HUNT["Normal Scenes"]
 CCT_w = 6504.0
 message_box(
-    'Converting to "Hunt" colour appearance model '
-    "specification using given parameters:\n"
-    "\n\tXYZ: {}\n\tXYZ_w: {}\n\tXYZ_b: {}\n\tL_A: {}"
-    "\n\tsurround: {}\n\tCCT_w: {}".format(
-        XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w
-    )
+    f'Converting to "Hunt" colour appearance model specification using given parameters:\n\n\tXYZ: {XYZ}\n\tXYZ_w: {XYZ_w}\n\tXYZ_b: {XYZ_b}\n\tL_A: {L_A}\n\tsurround: {surround}\n\tCCT_w: {CCT_w}'
 )
 
 specification = colour.XYZ_to_Hunt(

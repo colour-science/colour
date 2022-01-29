@@ -12,9 +12,7 @@ message_box('"Von Kries" Chromatic Adaptation Model Computations')
 XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
 XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
 message_box(
-    "Computing the chromatic adaptation matrix from two source "
-    '"CIE XYZ" tristimulus values arrays, default CAT is "CAT02".\n'
-    '\n\t"XYZ_w":\n\t\t{}\n\t"XYZ_wr":\n\t\t{}'.format(XYZ_w, XYZ_wr)
+    f'Computing the chromatic adaptation matrix from two source "CIE XYZ" tristimulus values arrays, default CAT is "CAT02".\n\n\t"XYZ_w":\n\t\t{XYZ_w}\n\t"XYZ_wr":\n\t\t{XYZ_wr}'
 )
 print(colour.adaptation.matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr))
 
@@ -46,10 +44,7 @@ print("\n")
 
 XYZ = np.array([1.14176346, 1.00000000, 0.49815206])
 message_box(
-    'Adapting given "CIE XYZ" tristimulus values from '
-    '"CIE Standard Illuminant A" to '
-    '"CIE Standard Illuminant D Series D65" using "Sharp" CAT.\n'
-    '\n\t"XYZ":\n\t\t{}'.format(XYZ)
+    f'Adapting given "CIE XYZ" tristimulus values from "CIE Standard Illuminant A" to "CIE Standard Illuminant D Series D65" using "Sharp" CAT.\n\n\t"XYZ":\n\t\t{XYZ}'
 )
 print(
     colour.chromatic_adaptation(

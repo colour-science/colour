@@ -54,7 +54,7 @@ def plot_single_colour_checker(
     colour_checker: Union[
         ColourChecker, str
     ] = "ColorChecker24 - After November 2014",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots given colour checker.
@@ -105,7 +105,7 @@ def plot_multi_colour_checkers(
     colour_checkers: Union[
         ColourChecker, str, Sequence[Union[ColourChecker, str]]
     ],
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plots and compares given colour checkers.
@@ -199,9 +199,10 @@ def plot_multi_colour_checkers(
     axes.text(
         0.5,
         0.005,
-        "{} - {} - Colour Rendition Chart".format(
-            ", ".join(colour_checker_names),
-            CONSTANTS_COLOUR_STYLE.colour.colourspace.name,
+        (
+            f"{', '.join(colour_checker_names)} - "
+            f"{CONSTANTS_COLOUR_STYLE.colour.colourspace.name} - "
+            f"Colour Rendition Chart"
         ),
         transform=axes.transAxes,
         color=CONSTANTS_COLOUR_STYLE.colour.bright,

@@ -153,11 +153,9 @@ def matrix_augmented_Cheung2004(
     closest_terms = as_int(closest(existing_terms, terms))
     if closest_terms != terms:
         raise ValueError(
-            '"Cheung et al. (2004)" method does not define '
-            "an augmented matrix with {} terms, "
-            "closest augmented matrix has {} terms!".format(
-                terms, closest_terms
-            )
+            f'"Cheung et al. (2004)" method does not define an augmented '
+            f"matrix with {terms} terms, closest augmented matrix has "
+            f"{closest_terms} terms!"
         )
 
     if terms == 3:
@@ -413,11 +411,9 @@ def polynomial_expansion_Finlayson2015(
     closest_degree = as_int(closest(existing_degrees, degree))
     if closest_degree != degree:
         raise ValueError(
-            '"Finlayson et al. (2015)" method does not define '
-            "a polynomial expansion for {} degree, "
-            "closest polynomial expansion is {} degree!".format(
-                degree, closest_degree
-            )
+            f'"Finlayson et al. (2015)" method does not define a polynomial '
+            f"expansion for {degree} degree, closest polynomial expansion is "
+            f"{closest_degree} degree!"
         )
 
     if degree == 1:
@@ -621,7 +617,7 @@ def polynomial_expansion(
     method: Union[
         Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
     ] = "Cheung 2004",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Performs polynomial expansion of given :math:`a` array.
@@ -832,7 +828,7 @@ def matrix_colour_correction(
     method: Union[
         Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
     ] = "Cheung 2004",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Computes a colour correction matrix from given :math:`M_T` colour array to
@@ -1131,7 +1127,7 @@ def colour_correction(
     method: Union[
         Literal["Cheung 2004", "Finlayson 2015", "Vandermonde"], str
     ] = "Cheung 2004",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Performs colour correction of given *RGB* colourspace array using the

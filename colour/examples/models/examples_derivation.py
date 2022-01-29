@@ -18,13 +18,7 @@ primaries = np.array(
 )
 whitepoint = np.array([0.32168, 0.33767])
 message_box(
-    'Computing the normalised primary matrix for "ACES2065-1" '
-    'colourspace transforming from "ACES2065-1" colourspace to '
-    '"CIE XYZ" tristimulus values using user defined primaries '
-    "matrix and whitepoint:\n"
-    "\n\t{}\n\t{}\n\t{}\n\n\t{}".format(
-        primaries[0], primaries[1], primaries[2], whitepoint
-    )
+    f'Computing the normalised primary matrix for "ACES2065-1" colourspace transforming from "ACES2065-1" colourspace to "CIE XYZ" tristimulus values using user defined primaries matrix and whitepoint:\n\n\t{primaries[0]}\n\t{primaries[1]}\n\t{primaries[2]}\n\n\t{whitepoint}'
 )
 print(colour.normalised_primary_matrix(primaries, whitepoint))
 
@@ -82,18 +76,14 @@ npm = np.array(
     ]
 )
 message_box(
-    "Computing the primaries and whitepoint from given "
-    "normalised primary matrix:\n"
-    "\n{}".format(npm)
+    f"Computing the primaries and whitepoint from given normalised primary matrix:\n\n{npm}"
 )
 print(colour.primaries_whitepoint(npm))
 
 print("\n")
 
 RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-message_box(
-    'Computing "RGB" luminance of given "RGB" values:\n' "\n\t{}".format(RGB)
-)
+message_box(f'Computing "RGB" luminance of given "RGB" values:\n\n\t{RGB}')
 print(
     colour.RGB_luminance(
         RGB,
@@ -105,8 +95,7 @@ print(
 print("\n")
 
 message_box(
-    'Computing "RGB" luminance equation of given "RGB" values:\n'
-    "\n\t{}".format(RGB)
+    f'Computing "RGB" luminance equation of given "RGB" values:\n\n\t{RGB}'
 )
 print(
     colour.RGB_luminance(

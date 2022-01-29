@@ -181,13 +181,13 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{}" property: "{}" is not a "numeric"!'.format("start", value),
+            f'"start" property: "{value}" is not a "numeric"!',
         )
 
         attest(
             bool(value < self._end),
-            '"{}" attribute value must be strictly less than '
-            '"{}"!'.format("start", self._end),
+            f'"start" attribute value must be strictly less than '
+            f'"{self._end}"!',
         )
 
         self._start = value
@@ -218,13 +218,13 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{}" property: "{}" is not a "numeric"!'.format("end", value),
+            f'"end" property: "{value}" is not a "numeric"!',
         )
 
         attest(
             bool(value > self._start),
-            '"{}" attribute value must be strictly greater than '
-            '"{}"!'.format("end", self._start),
+            f'"end" attribute value must be strictly greater than '
+            f'"{self._start}"!',
         )
 
         self._end = value
@@ -255,9 +255,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            '"{}" property: "{}" is not a "numeric"!'.format(
-                "interval", value
-            ),
+            f'"interval" property: "{value}" is not a "numeric"!',
         )
 
         self._interval = value
@@ -290,8 +288,8 @@ class SpectralShape:
 
         attest(
             value.size == 2,
-            '"{}" property: "{}" must have exactly '
-            "two elements!".format("boundaries", value),
+            f'"boundaries" property: "{value}" must have exactly two '
+            f"elements!",
         )
 
         self.start, self.end = value
@@ -318,11 +316,7 @@ class SpectralShape:
             Evaluable string representation.
         """
 
-        return "SpectralShape({}, {}, {})".format(
-            self._start,
-            self._end,
-            self._interval,
-        )
+        return f"SpectralShape({self._start}, {self._end}, {self._interval})"
 
     def __hash__(self) -> Integer:
         """
@@ -725,9 +719,7 @@ class SpectralDistribution(Signal):
 
         attest(
             is_string(value),
-            '"{}" property: "{}" type is not "str"!'.format(
-                "strict_name", value
-            ),
+            f'"strict_name" property: "{value}" type is not "str"!',
         )
 
         self._strict_name = value
@@ -830,8 +822,8 @@ class SpectralDistribution(Signal):
         wavelengths_interval = interval(self.wavelengths)
         if wavelengths_interval.size != 1:
             runtime_warning(
-                '"{}" spectral distribution is not uniform, '
-                "using minimum interval!".format(self.name)
+                f'"{self.name}" spectral distribution is not uniform, using '
+                f"minimum interval!"
             )
 
         return SpectralShape(
@@ -1828,9 +1820,7 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_string(value),
-            '"{}" property: "{}" type is not "str"!'.format(
-                "strict_name", value
-            ),
+            f'"strict_name" property: "{value}" type is not "str"!',
         )
 
         self._strict_name = value
@@ -1862,21 +1852,17 @@ class MultiSpectralDistributions(MultiSignals):
 
         attest(
             is_iterable(value),
-            '"{}" property: "{}" is not an "iterable" like object!'.format(
-                "strict_labels", value
-            ),
+            f'"strict_labels" property: "{value}" is not an "iterable" like object!',
         )
 
         attest(
             len(set(value)) == len(value),
-            '"{}" property: values must be unique!'.format("strict_labels"),
+            '"strict_labels" property: values must be unique!',
         )
 
         attest(
             len(value) == len(self.labels),
-            '"{}" property: length must be "{}"!'.format(
-                "strict_labels", len(self.labels)
-            ),
+            f'"strict_labels" property: length must be "{len(self.labels)}"!',
         )
 
         self._strict_labels = [str(label) for label in value]

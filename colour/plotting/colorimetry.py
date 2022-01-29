@@ -551,9 +551,7 @@ def plot_multi_cmfs(
                 cmfs_i.wavelengths,
                 values,
                 color=RGB,
-                label="{} - {}".format(
-                    cmfs_i.strict_labels[j], cmfs_i.strict_name
-                ),
+                label=f"{cmfs_i.strict_labels[j]} - {cmfs_i.strict_name}",
             )
 
     bounding_box = (
@@ -562,9 +560,8 @@ def plot_multi_cmfs(
         min(y_limit_min) - np.abs(np.min(y_limit_min)) * 0.05,
         max(y_limit_max) + np.abs(np.max(y_limit_max)) * 0.05,
     )
-    title = "{} - Colour Matching Functions".format(
-        ", ".join([cmfs_i.strict_name for cmfs_i in cmfs])
-    )
+    cmfs_strict_names = ", ".join([cmfs_i.strict_name for cmfs_i in cmfs])
+    title = f"{cmfs_strict_names} - Colour Matching Functions"
 
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -698,9 +695,10 @@ def plot_multi_illuminant_sds(
         list(filter_illuminants(illuminants).values()),
     )
 
-    title = "{} - Illuminants Spectral Distributions".format(
-        ", ".join([illuminant.strict_name for illuminant in illuminants])
+    illuminant_strict_names = ", ".join(
+        [illuminant.strict_name for illuminant in illuminants]
     )
+    title = f"{illuminant_strict_names} - Illuminants Spectral Distributions"
 
     settings: Dict[str, Any] = {"title": title, "y_label": "Relative Power"}
     settings.update(kwargs)
@@ -882,9 +880,7 @@ def plot_multi_lightness_functions(
     settings: Dict[str, Any] = {
         "bounding_box": (0, 1, 0, 1),
         "legend": True,
-        "title": "{} - Lightness Functions".format(
-            ", ".join(functions_filtered)
-        ),
+        "title": f"{', '.join(functions_filtered)} - Lightness Functions",
         "x_label": "Normalised Relative Luminance Y",
         "y_label": "Normalised Lightness",
     }
@@ -979,9 +975,7 @@ def plot_multi_luminance_functions(
     settings: Dict[str, Any] = {
         "bounding_box": (0, 1, 0, 1),
         "legend": True,
-        "title": "{} - Luminance Functions".format(
-            ", ".join(functions_filtered)
-        ),
+        "title": f"{', '.join(functions_filtered)} - Luminance Functions",
         "x_label": "Normalised Munsell Value / Lightness",
         "y_label": "Normalised Relative Luminance Y",
     }

@@ -358,8 +358,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return xy
@@ -369,8 +369,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij* chromaticity
-            coordinates.
+            Converts given *CIE xy* chromaticity coordinates to *ij*
+            chromaticity coordinates.
             """
 
             return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
@@ -378,8 +378,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
     else:
         raise ValueError(
-            'Invalid method: "{}", must be one of '
-            "['CIE 1931', 'CIE 1960 UCS']".format(method)
+            f'Invalid method: "{method}", must be one of '
+            f'["CIE 1931", "CIE 1960 UCS"]'
         )
 
     annotate_settings_collection = [
@@ -440,8 +440,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         ).format(", ".join(illuminants_filtered), method.upper())
         if illuminants_filtered
         else (
-            "Planckian Locus\n{} Chromaticity Diagram - "
-            "CIE 1931 2 Degree Standard Observer".format(method.upper())
+            f"Planckian Locus\n{method.upper()} Chromaticity Diagram - "
+            f"CIE 1931 2 Degree Standard Observer"
         )
     )
 
@@ -548,7 +548,9 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     chromaticity_diagram_callable_CIE1960UCS: Callable = (
         plot_chromaticity_diagram_CIE1960UCS  # type: ignore[has-type]
     ),
-    planckian_locus_callable_CIE1960UCS: Callable = plot_planckian_locus_CIE1960UCS,
+    planckian_locus_callable_CIE1960UCS: Callable = (
+        plot_planckian_locus_CIE1960UCS
+    ),
     annotate_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     plot_kwargs: Optional[Union[Dict, List[Dict]]] = None,
     **kwargs: Any,

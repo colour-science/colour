@@ -227,9 +227,7 @@ __all__ = [
     "munsell_specification_to_xy",
 ]
 
-MUNSELL_GRAY_PATTERN: str = "N(?P<value>{})".format(
-    FLOATING_POINT_NUMBER_PATTERN
-)
+MUNSELL_GRAY_PATTERN: str = f"N(?P<value>{FLOATING_POINT_NUMBER_PATTERN})"
 MUNSELL_COLOUR_PATTERN: str = (
     "(?P<hue>{0})\\s*"
     "(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\\s*"
@@ -885,16 +883,14 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
 
         attest(
             0 <= hue <= 10,
-            '"{}" specification hue must be normalised to domain [0, 10]!'.format(
-                specification
-            ),
+            f'"{specification}" specification hue must be normalised to '
+            f"domain [0, 10]!",
         )
 
         attest(
             0 <= value <= 10,
-            '"{}" specification value must be normalised to domain [0, 10]!'.format(
-                specification
-            ),
+            f'"{specification}" specification value must be normalised to '
+            f"domain [0, 10]!",
         )
 
     with domain_range_scale("ignore"):
@@ -1081,8 +1077,8 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
     if not is_within_macadam_limits(xyY, ILLUMINANT_NAME_MUNSELL):
         usage_warning(
-            '"{!r}" is not within "MacAdam" limits for illuminant '
-            '"{}"!'.format(xyY, ILLUMINANT_NAME_MUNSELL)
+            f'"{xyY!r}" is not within "MacAdam" limits for illuminant '
+            f'"{ILLUMINANT_NAME_MUNSELL}"!'
         )
 
     with domain_range_scale("ignore"):
@@ -1684,31 +1680,30 @@ def munsell_specification_to_munsell_colour(
         hue = round(hue, hue_decimals)
         attest(
             0 <= hue <= 10,
-            '"{!r}" specification hue must be normalised '
-            "to domain [0, 10]!".format(specification),
+            f'"{specification!r}" specification hue must be normalised to '
+            f"domain [0, 10]!",
         )
 
         value = round(value, value_decimals)
         attest(
             0 <= value <= 10,
-            '"{!r}" specification value must be normalised '
-            "to domain [0, 10]!".format(specification),
+            f'"{specification!r}" specification value must be normalised to '
+            f"domain [0, 10]!",
         )
 
         chroma = round(chroma, chroma_decimals)
         attest(
             2 <= chroma <= 50,
-            '"{!r}" specification chroma must be normalised '
-            "to domain [2, 50]!".format(specification),
+            f'"{specification!r}" specification chroma must be normalised to '
+            f"domain [2, 50]!",
         )
 
         code_values = MUNSELL_HUE_LETTER_CODES.values()
         code = round(code, 1)
         attest(
             code in code_values,
-            '"{!r}" specification code must one of "{}"!'.format(
-                specification, code_values
-            ),
+            f'"{specification!r}" specification code must one of '
+            f'"{code_values}"!',
         )
 
         if value == 0:
@@ -2047,32 +2042,27 @@ def interpolation_method_from_renotation_ovoid(
 
         attest(
             0 <= value <= 10,
-            '"{}" specification value must be normalised to domain [0, 10]!'.format(
-                specification
-            ),
+            f'"{specification}" specification value must be normalised to '
+            f"domain [0, 10]!",
         )
 
         attest(
             is_integer(value),
-            '"{}" specification value must be an integer!'.format(
-                specification
-            ),
+            f'"{specification}" specification value must be an integer!',
         )
 
         value = round(value)
 
         attest(
             2 <= chroma <= 50,
-            '"{}" specification chroma must be normalised to domain [2, 50]!'.format(
-                specification
-            ),
+            f'"{specification}" specification chroma must be normalised to '
+            f"domain [2, 50]!",
         )
 
         attest(
             abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
-            '"{}" specification chroma must be an integer and multiple of 2!'.format(
-                specification
-            ),
+            f'"{specification}" specification chroma must be an integer and '
+            f"multiple of 2!",
         )
 
         chroma = 2 * round(chroma / 2)
@@ -2361,32 +2351,27 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
         attest(
             1 <= value <= 9,
-            '"{}" specification value must be normalised to domain [1, 9]!'.format(
-                specification
-            ),
+            f'"{specification}" specification value must be normalised to '
+            f"domain [1, 9]!",
         )
 
         attest(
             is_integer(value),
-            '"{}" specification value must be an integer!'.format(
-                specification
-            ),
+            f'"{specification}" specification value must be an integer!',
         )
 
         value = round(value)
 
         attest(
             2 <= chroma <= 50,
-            '"{}" specification chroma must be normalised to domain [2, 50]!'.format(
-                specification
-            ),
+            f'"{specification}" specification chroma must be normalised to '
+            f"domain [2, 50]!",
         )
 
         attest(
             abs(2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD,
-            '"{}" specification chroma must be an integer and multiple of 2!'.format(
-                specification
-            ),
+            f'"{specification}" specification chroma must be an integer and '
+            f"multiple of 2!",
         )
 
         chroma = 2 * round(chroma / 2)
@@ -2450,9 +2435,8 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArray:
 
         attest(
             interpolation_method is not None,
-            'Interpolation method must be one of : "{}"'.format(
-                ", ".join(["Linear", "Radial"])
-            ),
+            f"Interpolation method must be one of: "
+            f"\"{', '.join(['Linear', 'Radial'])}\"",
         )
 
         hue_angle_lower_upper = np.squeeze(
@@ -2681,16 +2665,13 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArray:
 
         attest(
             0 <= value <= 10,
-            '"{}" specification value must be normalised to domain [0, 10]!'.format(
-                specification
-            ),
+            f'"{specification}" specification value must be normalised to '
+            f"domain [0, 10]!",
         )
 
         attest(
             is_integer(value),
-            '"{}" specification value must be an integer!'.format(
-                specification
-            ),
+            f'"{specification}" specification value must be an integer!',
         )
 
         value = round(value)

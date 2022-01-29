@@ -757,7 +757,7 @@ def describe_environment(
                 message += f"    {key} : {lines.pop(0)}\n"
                 indentation = len(f"    {key} : ")
                 for line in lines:
-                    message += "{}{}\n".format(" " * indentation, line)
+                    message += f"{' ' * indentation}{line}\n"
 
             message += "\n"
 

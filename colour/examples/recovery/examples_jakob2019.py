@@ -13,9 +13,7 @@ illuminant = colour.SDS_ILLUMINANTS["D65"]
 
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 message_box(
-    'Recovering reflectance using "Jakob et al. (2019)" method from '
-    'given "XYZ" tristimulus values:\n'
-    "\n\tXYZ: {}".format(XYZ)
+    f'Recovering reflectance using "Jakob et al. (2019)" method from given "XYZ" tristimulus values:\n\n\tXYZ: {XYZ}'
 )
 sd = colour.XYZ_to_sd(XYZ, method="Jakob 2019")
 print(sd)

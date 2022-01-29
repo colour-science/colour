@@ -25,17 +25,13 @@ print(
     ).format(colourspace.matrix_RGB_to_XYZ)
 )
 print(
-    '\nNormalised primary matrix to "ACES2065-1":\n{}'.format(
-        colourspace.matrix_XYZ_to_RGB
-    )
+    f'\nNormalised primary matrix to "ACES2065-1":\n{colourspace.matrix_XYZ_to_RGB}'
 )
 print(
-    "\nOpto-electronic transfer function from "
-    "linear to colourspace:\n{}".format(colourspace.cctf_encoding)
+    f"\nOpto-electronic transfer function from linear to colourspace:\n{colourspace.cctf_encoding}"
 )
 print(
-    "\nElectro-optical transfer function from "
-    "colourspace to linear:\n{}".format(colourspace.cctf_decoding)
+    f"\nElectro-optical transfer function from colourspace to linear:\n{colourspace.cctf_decoding}"
 )
 
 print("\n")
@@ -59,9 +55,7 @@ print("\n")
 
 RGB = np.array([0.45620519, 0.03081071, 0.04091952])
 message_box(
-    'Converting from "ITU-R BT.709" colourspace to "ACEScg" colourspace '
-    'given "RGB" values:\n'
-    "\n\t{}".format(RGB)
+    f'Converting from "ITU-R BT.709" colourspace to "ACEScg" colourspace given "RGB" values:\n\n\t{RGB}'
 )
 print(
     colour.RGB_to_RGB(

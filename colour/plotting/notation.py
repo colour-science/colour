@@ -123,9 +123,7 @@ def plot_multi_munsell_value_functions(
     settings: Dict[str, Any] = {
         "bounding_box": (0, 100, 0, 10),
         "legend": True,
-        "title": "{} - Munsell Functions".format(
-            ", ".join(functions_filtered)
-        ),
+        "title": f"{', '.join(functions_filtered)} - Munsell Functions",
         "x_label": "Luminance Y",
         "y_label": "Munsell Value V",
     }

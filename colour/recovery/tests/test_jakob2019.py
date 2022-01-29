@@ -337,9 +337,8 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
             if error > 2 * JND_CIE1976 / 100:  # pragma: no cover
                 self.fail(
-                    "Delta E for RGB={} in colourspace {} is {}!".format(
-                        RGB, self._RGB_colourspace.name, error
-                    )
+                    f"Delta E for RGB={RGB} in colourspace "
+                    f"{self._RGB_colourspace.name} is {error}!"
                 )
 
     def test_raise_exception_RGB_to_coefficients(self):

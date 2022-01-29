@@ -717,9 +717,7 @@ def as_float_array(
 
     attest(
         dtype in np.sctypes["float"],
-        '"dtype" must be one of the following types: {}'.format(
-            np.sctypes["float"]
-        ),
+        f"\"dtype\" must be one of the following types: {np.sctypes['float']}",
     )
 
     return as_array(a, dtype)
@@ -2527,9 +2525,7 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
 
     if a.shape[:-1] != indexes.shape:
         raise ValueError(
-            "Array and indexes have incompatible shapes: {} and {}".format(
-                a.shape, indexes.shape
-            )
+            f"Array and indexes have incompatible shapes: {a.shape} and {indexes.shape}"
         )
 
     return np.take_along_axis(a, indexes[..., np.newaxis], axis=-1).squeeze(

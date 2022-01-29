@@ -211,11 +211,10 @@ def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
     """
 
     try:
-        version = " {}.".format(
-            describe_environment(print_callable=lambda x: x)[
-                "colour-science.org"
-            ]["colour"]
-        )
+        describe = describe_environment(print_callable=lambda x: x)[
+            "colour-science.org"
+        ]["colour"]
+        version = f" {describe}."
     except Exception:  # pragma: no cover
         version = "."
 

@@ -191,8 +191,8 @@ SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
 
     if illuminant.shape != cmfs.shape:
         issue_runtime_warnings and runtime_warning(
-            'Aligning "{}" illuminant shape to "{}" colour matching '
-            "functions shape.".format(illuminant.name, cmfs.name)
+            f'Aligning "{illuminant.name}" illuminant shape to "{cmfs.name}" '
+            f"colour matching functions shape."
         )
 
         illuminant = reshape_sd(illuminant, cmfs.shape)
@@ -641,9 +641,7 @@ def sd_to_XYZ_integration(
 
         if sd.shape != shape:
             runtime_warning(
-                'Aligning "{}" spectral data shape to "{}".'.format(
-                    sd.name, shape
-                )
+                f'Aligning "{sd.name}" spectral data shape to "{shape}".'
             )
 
             sd = (
@@ -671,8 +669,8 @@ def sd_to_XYZ_integration(
 
         attest(
             wl_c_r == wl_c,
-            "Spectral data array with {} wavelengths is not compatible with "
-            "spectral shape with {} wavelengths!".format(wl_c_r, wl_c),
+            f"Spectral data array with {wl_c_r} wavelengths is not compatible "
+            f"with spectral shape with {wl_c} wavelengths!",
         )
 
         if cmfs.shape != shape:
@@ -682,9 +680,7 @@ def sd_to_XYZ_integration(
 
     if illuminant.shape != shape:
         runtime_warning(
-            'Aligning "{}" illuminant shape to "{}".'.format(
-                illuminant.name, shape
-            )
+            f'Aligning "{illuminant.name}" illuminant shape to "{shape}".'
         )
         illuminant = reshape_sd(illuminant, shape)
 
@@ -797,17 +793,15 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
     if illuminant.shape != cmfs.shape:
         runtime_warning(
-            'Aligning "{}" illuminant shape to "{}" colour matching '
-            "functions shape.".format(illuminant.name, cmfs.name)
+            f'Aligning "{illuminant.name}" illuminant shape to "{cmfs.name}" '
+            f"colour matching functions shape."
         )
         illuminant = reshape_sd(illuminant, cmfs.shape)
 
     if sd.shape.boundaries != cmfs.shape.boundaries:
         runtime_warning(
-            'Trimming "{}" spectral distribution shape to "{}" '
-            "colour matching functions shape.".format(
-                illuminant.name, cmfs.name
-            )
+            f'Trimming "{illuminant.name}" spectral distribution shape to '
+            f'"{cmfs.name}" colour matching functions shape.'
         )
         sd = reshape_sd(sd, cmfs.shape, "Trim")
 
@@ -956,10 +950,8 @@ def sd_to_XYZ_ASTME308(
         sd = cast(SpectralDistribution, sd.copy())
         if sd.shape.boundaries != cmfs.shape.boundaries:
             runtime_warning(
-                'Trimming "{}" spectral distribution shape to "{}" '
-                "colour matching functions shape.".format(
-                    illuminant.name, cmfs.name
-                )
+                f'Trimming "{illuminant.name}" spectral distribution shape to '
+                f'"{cmfs.name}" colour matching functions shape.'
             )
             sd.trim(cmfs.shape)
 
@@ -1738,9 +1730,8 @@ def wavelength_to_XYZ(
     shape = cmfs.shape
     if np.min(wavelength) < shape.start or np.max(wavelength) > shape.end:
         raise ValueError(
-            '"{}nm" wavelength is not in "[{}, {}]" domain!'.format(
-                wavelength, shape.start, shape.end
-            )
+            f'"{wavelength}nm" wavelength is not in '
+            f'"[{shape.start}, {shape.end}]" domain!'
         )
 
     XYZ = np.reshape(

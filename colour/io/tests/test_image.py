@@ -416,9 +416,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
 
             attest(
                 attribute_exists,
-                '"{}" attribute was not found on image!'.format(
-                    write_attribute.name
-                ),
+                f'"{write_attribute.name}" attribute was not found on image!',
             )
 
 

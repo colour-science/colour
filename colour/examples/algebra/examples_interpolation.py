@@ -158,9 +158,7 @@ print("\n")
 
 V_xyz = np.random.random((6, 3))
 message_box(
-    'Performing "trilinear" interpolation of given "xyz" values:\n'
-    "\n{}\n"
-    "\nusing given interpolation table.".format(V_xyz)
+    f'Performing "trilinear" interpolation of given "xyz" values:\n\n{V_xyz}\n\nusing given interpolation table.'
 )
 path = os.path.join(
     os.path.dirname(__file__),
@@ -180,9 +178,7 @@ print(colour.algebra.table_interpolation_trilinear(V_xyz, table))
 print("\n")
 
 message_box(
-    'Performing "tetrahedral" interpolation of given "xyz" values:\n'
-    "\n{}\n"
-    "\nusing given interpolation table.".format(V_xyz)
+    f'Performing "tetrahedral" interpolation of given "xyz" values:\n\n{V_xyz}\n\nusing given interpolation table.'
 )
 print(colour.table_interpolation(V_xyz, table, method="Tetrahedral"))
 print(colour.algebra.table_interpolation_tetrahedral(V_xyz, table))

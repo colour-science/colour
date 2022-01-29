@@ -13,9 +13,7 @@ message_box('"Smits (1999)" - Reflectance Recovery Computations')
 XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 RGB = XYZ_to_RGB_Smits1999(XYZ)
 message_box(
-    'Recovering reflectance using "Smits (1999)" method from '
-    'given "RGB" colourspace array:\n'
-    "\n\tRGB: {}".format(RGB)
+    f'Recovering reflectance using "Smits (1999)" method from given "RGB" colourspace array:\n\n\tRGB: {RGB}'
 )
 sd = colour.XYZ_to_sd(XYZ, method="Smits 1999")
 print(sd)

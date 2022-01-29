@@ -12,10 +12,7 @@ message_box('"Whiteness" Computations')
 XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
 XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
 message_box(
-    'Computing "whiteness" using "Berger (1959)" method for '
-    'given sample and reference white "CIE XYZ" tristimulus values '
-    "matrices:\n"
-    "\n\t{}\n\t{}".format(XYZ, XYZ_0)
+    f'Computing "whiteness" using "Berger (1959)" method for given sample and reference white "CIE XYZ" tristimulus values matrices:\n\n\t{XYZ}\n\t{XYZ_0}'
 )
 print(colour.whiteness(XYZ, XYZ_0, method="Berger 1959"))
 print(colour.colorimetry.whiteness_Berger1959(XYZ, XYZ_0))
@@ -23,10 +20,7 @@ print(colour.colorimetry.whiteness_Berger1959(XYZ, XYZ_0))
 print("\n")
 
 message_box(
-    'Computing "whiteness" using "Taube (1960)" method for '
-    'given sample and reference white "CIE XYZ" tristimulus values '
-    "matrices:\n"
-    "\n\t{}\n\t{}".format(XYZ, XYZ_0)
+    f'Computing "whiteness" using "Taube (1960)" method for given sample and reference white "CIE XYZ" tristimulus values matrices:\n\n\t{XYZ}\n\t{XYZ_0}'
 )
 print(colour.whiteness(XYZ, XYZ_0, method="Taube 1960"))
 print(colour.colorimetry.whiteness_Taube1960(XYZ, XYZ_0))
@@ -35,9 +29,7 @@ print("\n")
 
 Lab = colour.XYZ_to_Lab(XYZ / 100, colour.XYZ_to_xy(XYZ_0 / 100))
 message_box(
-    'Computing "whiteness" using "Stensby (1968)" method for '
-    'given sample "CIE L*a*b*" colourspace array:\n'
-    "\n\t{}".format(Lab)
+    f'Computing "whiteness" using "Stensby (1968)" method for given sample "CIE L*a*b*" colourspace array:\n\n\t{Lab}'
 )
 print(colour.whiteness(XYZ, XYZ_0, method="Stensby 1968"))
 print(colour.colorimetry.whiteness_Stensby1968(Lab))
@@ -45,9 +37,7 @@ print(colour.colorimetry.whiteness_Stensby1968(Lab))
 print("\n")
 
 message_box(
-    'Computing "whiteness" using "ASTM E313" method for '
-    'given sample "CIE XYZ" tristimulus values:\n'
-    "\n\t{}".format(XYZ)
+    f'Computing "whiteness" using "ASTM E313" method for given sample "CIE XYZ" tristimulus values:\n\n\t{XYZ}'
 )
 print(colour.whiteness(XYZ, XYZ_0, method="ASTM E313"))
 print(colour.colorimetry.whiteness_ASTME313(XYZ))
@@ -57,10 +47,7 @@ print("\n")
 xy = colour.XYZ_to_xy(XYZ / 100)
 Y = 100
 message_box(
-    'Computing "whiteness" using "Ganz and Griesser (1979)" method '
-    'for given sample "xy" chromaticity coordinates, "Y" tristimulus '
-    "value:\n"
-    "\n\t{}\n\t{}".format(xy, Y)
+    f'Computing "whiteness" using "Ganz and Griesser (1979)" method for given sample "xy" chromaticity coordinates, "Y" tristimulus value:\n\n\t{xy}\n\t{Y}'
 )
 print(colour.whiteness(XYZ, XYZ_0, method="Ganz 1979"))
 print(colour.colorimetry.whiteness_Ganz1979(xy, Y))
@@ -71,10 +58,7 @@ xy = colour.XYZ_to_xy(XYZ / 100)
 Y = 100
 xy_n = colour.XYZ_to_xy(XYZ_0 / 100)
 message_box(
-    'Computing "whiteness" using "CIE 2004" method for '
-    'given sample "xy" chromaticity coordinates, "Y" tristimulus '
-    'value and "xy_n" chromaticity coordinates of perfect diffuser:\n'
-    "\n\t{}\n\t{}\n\t{}".format(xy, Y, xy_n)
+    f'Computing "whiteness" using "CIE 2004" method for given sample "xy" chromaticity coordinates, "Y" tristimulus value and "xy_n" chromaticity coordinates of perfect diffuser:\n\n\t{xy}\n\t{Y}\n\t{xy_n}'
 )
 print(colour.whiteness(XYZ, XYZ_0, xy_n=xy_n))
 print(colour.colorimetry.whiteness_CIE2004(xy, Y, xy_n))

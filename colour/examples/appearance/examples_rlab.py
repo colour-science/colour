@@ -16,10 +16,7 @@ Y_n = 31.83
 sigma = colour.VIEWING_CONDITIONS_RLAB["Average"]
 D = colour.appearance.D_FACTOR_RLAB["Hard Copy Images"]
 message_box(
-    'Converting to "RLAB" colour appearance model '
-    "specification using given parameters:\n"
-    "\n\tXYZ: {}\n\tXYZ_n: {}\n\tY_n: {}\n\tsigma: {}"
-    "\n\tD: {}".format(XYZ, XYZ_n, Y_n, sigma, D)
+    f'Converting to "RLAB" colour appearance model specification using given parameters:\n\n\tXYZ: {XYZ}\n\tXYZ_n: {XYZ_n}\n\tY_n: {Y_n}\n\tsigma: {sigma}\n\tD: {D}'
 )
 specification = colour.XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)
 print(specification)

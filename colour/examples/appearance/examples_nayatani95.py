@@ -16,10 +16,7 @@ Y_o = 20.0
 E_o = 5000.0
 E_or = 1000.0
 message_box(
-    'Converting to "Nayatani (1995)" colour appearance model '
-    "specification using given parameters:\n"
-    "\n\tXYZ: {}\n\tXYZ_n: {}\n\tY_o: {}\n\tE_o: {}"
-    "\n\tE_or: {}".format(XYZ, XYZ_n, Y_o, E_o, E_or)
+    f'Converting to "Nayatani (1995)" colour appearance model specification using given parameters:\n\n\tXYZ: {XYZ}\n\tXYZ_n: {XYZ_n}\n\tY_o: {Y_o}\n\tE_o: {E_o}\n\tE_or: {E_or}'
 )
 specification = colour.XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
 print(specification)

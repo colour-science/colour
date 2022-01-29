@@ -246,7 +246,7 @@ class Signal(AbstractContinuousFunction):
         self,
         data: Optional[Union[ArrayLike, dict, Series, Signal]] = None,
         domain: Optional[ArrayLike] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(kwargs.get("name"))
 
@@ -303,9 +303,8 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             value in np.sctypes["float"],
-            '"dtype" must be one of the following types: {}'.format(
-                np.sctypes["float"]
-            ),
+            f'"dtype" must be one of the following types: '
+            f"{np.sctypes['float']}",
         )
 
         self._dtype = value
@@ -345,15 +344,15 @@ class Signal(AbstractContinuousFunction):
 
         if not np.all(np.isfinite(value)):
             runtime_warning(
-                '"{}" new "domain" variable is not finite: {}, '
-                "unpredictable results may occur!".format(self.name, value)
+                f'"{self.name}" new "domain" variable is not finite: {value}, '
+                f"unpredictable results may occur!"
             )
 
         if value.size != self._range.size:
             runtime_warning(
-                '"{}" new "domain" and current "range" variables '
-                'have different size, "range" variable will be '
-                'resized to "domain" variable shape!'.format(self.name)
+                f'"{self.name}" new "domain" and current "range" variables '
+                f'have different size, "range" variable will be resized to '
+                f'"domain" variable shape!'
             )
             self._range = np.resize(self._range, value.shape)
 
@@ -390,8 +389,8 @@ class Signal(AbstractContinuousFunction):
 
         if not np.all(np.isfinite(value)):
             runtime_warning(
-                '"{}" new "range" variable is not finite: {}, '
-                "unpredictable results may occur!".format(self.name, value)
+                f'"{self.name}" new "range" variable is not finite: {value}, '
+                f"unpredictable results may occur!"
             )
 
         attest(
@@ -460,9 +459,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             isinstance(value, dict),
-            '"{}" property: "{}" type is not "dict"!'.format(
-                "interpolator_kwargs", value
-            ),
+            f'"interpolator_kwargs" property: "{value}" type is not "dict"!',
         )
 
         self._interpolator_kwargs = value
@@ -526,9 +523,7 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             isinstance(value, dict),
-            '"{}" property: "{}" type is not "dict"!'.format(
-                "extrapolator_kwargs", value
-            ),
+            f'"extrapolator_kwargs" property: "{value}" type is not "dict"!',
         )
 
         self._extrapolator_kwargs = value
@@ -607,9 +602,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{}(name='{}', ...)".format(
-                self.__class__.__name__, self.name
-            )
+            return f"{self.__class__.__name__}(name='{self.name}', ...)"
 
         try:
             representation = repr(tstack([self.domain, self.range]))
@@ -618,7 +611,7 @@ class Signal(AbstractContinuousFunction):
             )
             representation = representation.replace(
                 "       [",
-                "{}[".format(" " * (len(self.__class__.__name__) + 2)),
+                f"{' ' * (len(self.__class__.__name__) + 2)}[",
             )
             representation = (
                 "{0},\n"
@@ -932,7 +925,7 @@ class Signal(AbstractContinuousFunction):
                 self._interpolator(
                     self.domain, self.range, **self._interpolator_kwargs
                 ),
-                **self._extrapolator_kwargs
+                **self._extrapolator_kwargs,
             )
         else:
 

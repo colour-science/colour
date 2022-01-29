@@ -615,10 +615,11 @@ def plot_visible_spectrum_section(
             hull, model, axis, origin, normalise, **settings
         )
 
-    title = "Visible Spectrum Section - {} - {} - {}".format(
-        f"{origin * 100}%" if normalise else origin,
-        model,
-        cmfs.strict_name,
+    title = (
+        f"Visible Spectrum Section - "
+        f"{f'{origin * 100}%' if normalise else origin} - "
+        f"{model} - "
+        f"{cmfs.strict_name}"
     )
 
     plane = AXIS_TO_PLANE_MAPPING[axis]
@@ -774,10 +775,10 @@ def plot_RGB_colourspace_section(
             hull, model, axis, origin, normalise, **settings
         )
 
-    title = "{} Section - {} - {}".format(
-        colourspace.name,
-        f"{origin * 100}%" if normalise else origin,
-        model,
+    title = (
+        f"{colourspace.name} Section - "
+        f"{f'{origin * 100}%' if normalise else origin} - "
+        f"{model}"
     )
 
     plane = AXIS_TO_PLANE_MAPPING[axis]

@@ -180,9 +180,7 @@ def convert_bit_depth(
 
     attest(
         bit_depth in bit_depths,
-        'Incorrect bit depth was specified, it must be one of: "{}"!'.format(
-            bit_depths
-        ),
+        f'Incorrect bit depth was specified, it must be one of: "{bit_depths}"!',
     )
 
     attest(

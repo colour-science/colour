@@ -128,9 +128,9 @@ def closest_spectral_locus_wavelength(
     xy_wl = xy_wl[~np.isnan(xy_wl).any(axis=-1)]
     if not len(xy_wl):
         raise ValueError(
-            "No closest spectral locus wavelength index and coordinates found "
-            'for "{}" colour stimulus and "{}" achromatic stimulus "xy" '
-            "chromaticity coordinates!".format(xy, xy_n)
+            f"No closest spectral locus wavelength index and coordinates "
+            f'found for "{xy}" colour stimulus and "{xy_n}" achromatic '
+            f'stimulus "xy" chromaticity coordinates!'
         )
 
     i_wl = np.argmin(scipy.spatial.distance.cdist(xy_wl, xy_s), axis=-1)

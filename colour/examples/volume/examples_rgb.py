@@ -20,8 +20,7 @@ if __name__ == "__main__":
 
     samples = 10e4
     message_box(
-        'Computing "ProPhoto RGB" RGB colourspace volume using '
-        "{} samples.".format(samples)
+        f'Computing "ProPhoto RGB" RGB colourspace volume using {samples} samples.'
     )
     print(
         colour.RGB_colourspace_volume_MonteCarlo(
@@ -34,8 +33,7 @@ if __name__ == "__main__":
     print("\n")
 
     message_box(
-        'Computing "ProPhoto RGB" RGB colourspace coverage of Pointer\'s '
-        "Gamut using {} samples.".format(samples)
+        f'Computing "ProPhoto RGB" RGB colourspace coverage of Pointer\'s Gamut using {samples} samples.'
     )
     print(
         colour.RGB_colourspace_pointer_gamut_coverage_MonteCarlo(

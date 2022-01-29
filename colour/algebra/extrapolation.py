@@ -226,7 +226,7 @@ class Extrapolator:
 
         attest(
             is_string(value),
-            '"{}" property: "{}" type is not "str"!'.format("method", value),
+            f'"method" property: "{value}" type is not "str"!',
         )
 
         value = validate_method(value, ["Linear", "Constant"])
@@ -260,9 +260,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{}" property: "{}" is not a "numeric"!'.format(
-                    "left", value
-                ),
+                f'"left" property: "{value}" is not a "numeric"!',
             )
 
             self._left = value
@@ -294,9 +292,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                '"{}" property: "{}" is not a "numeric"!'.format(
-                    "right", value
-                ),
+                f'"right" property: "{value}" is not a "numeric"!',
             )
 
             self._right = value

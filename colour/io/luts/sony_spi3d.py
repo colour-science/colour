@@ -170,9 +170,8 @@ def write_LUT_SonySPI3D(
 
     if isinstance(LUT, LUTSequence):
         usage_warning(
-            '"LUT" is a "LUTSequence" instance was passed, '
-            'using first sequence "LUT":\n'
-            "{}".format(LUT)
+            f'"LUT" is a "LUTSequence" instance was passed, using first '
+            f'sequence "LUT":\n{LUT}'
         )
         LUTxD = LUT[0]
     else:

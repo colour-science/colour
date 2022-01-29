@@ -47,7 +47,7 @@ def plot_cvd_simulation_Machado2009(
     ] = "Protanomaly",
     severity: Floating = 0.5,
     M_a: Optional[ArrayLike] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Performs colour vision deficiency simulation on given *RGB* colourspace
@@ -99,9 +99,7 @@ def plot_cvd_simulation_Machado2009(
 
     settings: Dict[str, Any] = {
         "text_kwargs": {
-            "text": "Deficiency: {} - Severity: {}".format(
-                deficiency, severity
-            )
+            "text": f"Deficiency: {deficiency} - Severity: {severity}"
         }
     }
     settings.update(kwargs)
@@ -110,5 +108,5 @@ def plot_cvd_simulation_Machado2009(
         CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
             vector_dot(M_a, RGB)
         ),
-        **settings
+        **settings,
     )

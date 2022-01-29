@@ -16,11 +16,7 @@ Y_o = 20
 E_o1 = 1000
 E_o2 = 1000
 message_box(
-    'Computing chromatic adaptation using "CIE 1994" chromatic '
-    "adaptation model.\n"
-    '\n\t"XYZ_1":\n\t\t{}\n\t"xy_o1":\n\t\t{}\n\t"xy_o2":\n\t\t{}'
-    '\n\t"Y_o":\n\t\t{}\n\t"E_o1":\n\t\t{}'
-    '\n\t"E_o2":\n\t\t{}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    f'Computing chromatic adaptation using "CIE 1994" chromatic adaptation model.\n\n\t"XYZ_1":\n\t\t{XYZ_1}\n\t"xy_o1":\n\t\t{xy_o1}\n\t"xy_o2":\n\t\t{xy_o2}\n\t"Y_o":\n\t\t{Y_o}\n\t"E_o1":\n\t\t{E_o1}\n\t"E_o2":\n\t\t{E_o2}'
 )
 print(
     colour.chromatic_adaptation(
