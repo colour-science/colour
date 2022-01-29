@@ -53,6 +53,7 @@ Spectral Data Generation
     sd_blackbody
     sd_constant
     sd_ones
+    sd_rayleigh_jeans
     sd_zeros
     msds_constant
     msds_ones
