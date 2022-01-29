@@ -51,7 +51,7 @@ from colour.hints import (
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     as_int_array,
@@ -139,7 +139,7 @@ HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
 
 
 @dataclass
-class CAM_ReferenceSpecification_ZCAM(MixinDataclassArray):
+class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     """
     Defines the *ZCAM* colour appearance model reference specification.
 
@@ -190,7 +190,7 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_ZCAM(MixinDataclassArray):
+class CAM_Specification_ZCAM(MixinDataclassArithmetic):
     """
     Defines the *ZCAM* colour appearance model specification.
 

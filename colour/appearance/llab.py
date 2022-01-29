@@ -40,7 +40,7 @@ from colour.hints import (
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -171,7 +171,7 @@ tristimulus values matrix.
 
 
 @dataclass
-class CAM_ReferenceSpecification_LLAB(MixinDataclassArray):
+class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
     """
     Defines the *:math:`LLAB(l:c)`* colour appearance model reference
     specification.
@@ -214,7 +214,7 @@ class CAM_ReferenceSpecification_LLAB(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_LLAB(MixinDataclassArray):
+class CAM_Specification_LLAB(MixinDataclassArithmetic):
     """
     Defines the *:math:`LLAB(l:c)`* colour appearance model specification.
 

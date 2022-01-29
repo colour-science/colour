@@ -9,9 +9,12 @@ from dataclasses import dataclass, field, fields
 from copy import deepcopy
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.hints import NDArray, Type, Union
+from colour.hints import NDArray, Optional, Type, Union
 from colour.utilities import (
+    MixinDataclassFields,
+    MixinDataclassIterable,
     MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_array,
     as_int,
     as_float,
@@ -62,7 +65,10 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestMixinDataclassFields",
+    "TestMixinDataclassIterable",
     "TestMixinDataclassArray",
+    "TestMixinDataclassArithmetic",
     "TestAsArray",
     "TestAsInt",
     "TestAsFloat",
@@ -105,10 +111,139 @@ __all__ = [
 ]
 
 
+class TestMixinDataclassFields(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.array.MixinDataclassFields` class unit
+    tests methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        @dataclass
+        class Data(MixinDataclassFields):
+            a: str
+            b: str
+            c: str
+
+        self._data: Data = Data(a="Foo", b="Bar", c="Baz")
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ("fields",)
+
+        for method in required_attributes:
+            self.assertIn(method, dir(MixinDataclassFields))
+
+    def test_fields(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable._fields`
+        method.
+        """
+
+        self.assertTupleEqual(
+            self._data.fields,
+            fields(self._data),
+        )
+
+
+class TestMixinDataclassIterable(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.array.MixinDataclassIterable` class unit
+    tests methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        @dataclass
+        class Data(MixinDataclassIterable):
+            a: str
+            b: str
+            c: str
+
+        self._data: Data = Data(a="Foo", b="Bar", c="Baz")
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = (
+            "keys",
+            "values",
+            "items",
+        )
+
+        for method in required_attributes:
+            self.assertIn(method, dir(MixinDataclassIterable))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ("__iter__",)
+
+        for method in required_methods:
+            self.assertIn(method, dir(MixinDataclassIterable))
+
+    def test__iter__(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable.__iter__`
+        method.
+        """
+
+        self.assertDictEqual(
+            {key: value for key, value in self._data},
+            {"a": "Foo", "b": "Bar", "c": "Baz"},
+        )
+
+    def test_keys(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable.keys`
+        method.
+        """
+
+        self.assertTupleEqual(
+            tuple(self._data.keys),
+            ("a", "b", "c"),
+        )
+
+    def test_values(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable.values`
+        method.
+        """
+
+        self.assertTupleEqual(
+            tuple(self._data.values),
+            ("Foo", "Bar", "Baz"),
+        )
+
+    def test_items(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassIterable.items`
+        method.
+        """
+
+        self.assertTupleEqual(
+            tuple(self._data.items),
+            (("a", "Foo"), ("b", "Bar"), ("c", "Baz")),
+        )
+
+
 class TestMixinDataclassArray(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.array.MixinDataclassArray` class
-    unit tests methods.
+    Defines :class:`colour.utilities.array.MixinDataclassArray` class unit
+    tests methods.
     """
 
     def setUp(self):
@@ -118,15 +253,75 @@ class TestMixinDataclassArray(unittest.TestCase):
 
         @dataclass
         class Data(MixinDataclassArray):
-            a: Union[float, list, tuple, np.ndarray] = field(
+            a: Optional[Union[float, list, tuple, np.ndarray]] = field(
                 default_factory=lambda: None
             )
 
-            b: Union[float, list, tuple, np.ndarray] = field(
+            b: Optional[Union[float, list, tuple, np.ndarray]] = field(
                 default_factory=lambda: None
             )
 
-            c: Union[float, list, tuple, np.ndarray] = field(
+            c: Optional[Union[float, list, tuple, np.ndarray]] = field(
+                default_factory=lambda: None
+            )
+
+        self._data: Data = Data(
+            b=np.array([0.1, 0.2, 0.3]), c=np.array([0.4, 0.5, 0.6])
+        )
+        self._array: NDArray = np.array(
+            [
+                [np.nan, 0.1, 0.4],
+                [np.nan, 0.2, 0.5],
+                [np.nan, 0.3, 0.6],
+            ]
+        )
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ("__array__",)
+
+        for method in required_methods:
+            self.assertIn(method, dir(MixinDataclassArray))
+
+    def test__array__(self):
+        """
+        Tests :meth:`colour.utilities.array.MixinDataclassArray.__array__`
+        method.
+        """
+
+        np.testing.assert_array_equal(np.array(self._data), self._array)
+
+        self.assertEqual(
+            np.array(self._data, dtype=DEFAULT_INT_DTYPE).dtype,
+            DEFAULT_INT_DTYPE,
+        )
+
+
+class TestMixinDataclassArithmetic(unittest.TestCase):
+    """
+    Defines :class:`colour.utilities.array.MixinDataclassArithmetic` class unit
+    tests methods.
+    """
+
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        @dataclass
+        class Data(MixinDataclassArithmetic):
+            a: Optional[Union[float, list, tuple, np.ndarray]] = field(
+                default_factory=lambda: None
+            )
+
+            b: Optional[Union[float, list, tuple, np.ndarray]] = field(
+                default_factory=lambda: None
+            )
+
+            c: Optional[Union[float, list, tuple, np.ndarray]] = field(
                 default_factory=lambda: None
             )
 
@@ -148,7 +343,6 @@ class TestMixinDataclassArray(unittest.TestCase):
         """
 
         required_methods = (
-            "__array__",
             "__iadd__",
             "__add__",
             "__isub__",
@@ -163,24 +357,11 @@ class TestMixinDataclassArray(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(MixinDataclassArray))
-
-    def test__array__(self):
-        """
-        Tests :meth:`colour.utilities.array.MixinDataclassArray.__array__`
-        method.
-        """
-
-        np.testing.assert_array_equal(np.array(self._data), self._array)
-
-        self.assertEqual(
-            np.array(self._data, dtype=DEFAULT_INT_DTYPE).dtype,
-            DEFAULT_INT_DTYPE,
-        )
+            self.assertIn(method, dir(MixinDataclassArithmetic))
 
     def test_arithmetical_operation(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassArray.\
+        Tests :meth:`colour.utilities.array.MixinDataclassArithmetic.\
 arithmetical_operation` method.
         """
 

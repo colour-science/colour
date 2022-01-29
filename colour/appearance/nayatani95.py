@@ -41,7 +41,7 @@ from colour.hints import (
 )
 from colour.models import XYZ_to_xy
 from colour.utilities import (
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -90,7 +90,7 @@ responses matrix.
 
 
 @dataclass
-class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArray):
+class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArithmetic):
     """
     Defines the *Nayatani (1995)* colour appearance model reference
     specification.
@@ -136,7 +136,7 @@ class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_Nayatani95(MixinDataclassArray):
+class CAM_Specification_Nayatani95(MixinDataclassArithmetic):
     """
     Defines the *Nayatani (1995)* colour appearance model specification.
 

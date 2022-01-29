@@ -76,7 +76,10 @@ Array
     :toctree: generated/
     :template: class.rst
 
+    MixinDataclassFields
+    MixinDataclassIterable
     MixinDataclassArray
+    MixinDataclassArithmetic
 
 .. autosummary::
     :toctree: generated/

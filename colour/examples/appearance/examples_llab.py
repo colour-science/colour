@@ -32,7 +32,7 @@ print("\n")
 message_box(
     (
         'Broadcasting current output "LLAB(l:c)" colour appearance '
-        "model specification to reference specification.\n"
+        "model specification to the reference specification.\n"
         "The intent of this reference specification is to provide names "
         'as closest as possible to "Mark D. Fairchild" reference.\n'
         "The current output specification is meant to be consistent with "
@@ -41,4 +41,4 @@ message_box(
     )
 )
 
-print(CAM_ReferenceSpecification_LLAB(*specification))
+print(CAM_ReferenceSpecification_LLAB(*specification.values))

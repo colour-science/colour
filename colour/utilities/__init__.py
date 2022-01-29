@@ -66,7 +66,10 @@ from .verbose import (
     describe_environment,
 )
 from .array import (
+    MixinDataclassFields,
+    MixinDataclassIterable,
     MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_array,
     as_int,
     as_float,
@@ -179,7 +182,10 @@ __all__ += [
     "describe_environment",
 ]
 __all__ += [
+    "MixinDataclassFields",
+    "MixinDataclassIterable",
     "MixinDataclassArray",
+    "MixinDataclassArithmetic",
     "as_array",
     "as_int",
     "as_float",

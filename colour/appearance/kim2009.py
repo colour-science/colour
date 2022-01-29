@@ -49,7 +49,7 @@ from colour.hints import (
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_100,
@@ -183,7 +183,7 @@ MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009[
 
 
 @dataclass
-class CAM_Specification_Kim2009(MixinDataclassArray):
+class CAM_Specification_Kim2009(MixinDataclassArithmetic):
     """
     Defines the *Kim, Weyrich and Kautz (2009)* colour appearance model
     specification.

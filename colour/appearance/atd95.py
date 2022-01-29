@@ -39,7 +39,7 @@ from colour.hints import (
     Optional,
 )
 from colour.utilities import (
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -67,7 +67,7 @@ __all__ = [
 
 
 @dataclass
-class CAM_ReferenceSpecification_ATD95(MixinDataclassArray):
+class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     """
     Defines the *ATD (1995)* colour vision model reference specification.
 
@@ -116,7 +116,7 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_ATD95(MixinDataclassArray):
+class CAM_Specification_ATD95(MixinDataclassArithmetic):
     """
     Defines the *ATD (1995)* colour vision model specification.
 

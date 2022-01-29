@@ -6,6 +6,7 @@ Showcases *ZCAM* colour appearance model computations.
 import numpy as np
 
 import colour
+from colour.appearance.zcam import CAM_ReferenceSpecification_ZCAM
 from colour.utilities import message_box
 
 message_box('"ZCAM" Colour Appearance Model Computations')
@@ -25,6 +26,18 @@ message_box(
 )
 specification = colour.XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b, surround)
 print(specification)
+
+print("\n")
+
+message_box(
+    (
+        'Broadcasting current output "ZCAM" colour appearance '
+        "model specification to the reference specification."
+    )
+)
+
+print(CAM_ReferenceSpecification_ZCAM(*specification.values))
+
 
 print("\n")
 

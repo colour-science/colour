@@ -61,7 +61,7 @@ from colour.hints import (
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_100,
@@ -140,7 +140,7 @@ References
 
 
 @dataclass
-class CAM_Specification_CAM16(MixinDataclassArray):
+class CAM_Specification_CAM16(MixinDataclassArithmetic):
     """
     Defines the *CAM16* colour appearance model specification.
 

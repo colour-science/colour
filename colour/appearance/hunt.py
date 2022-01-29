@@ -37,7 +37,7 @@ from colour.hints import (
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     from_range_degrees,
@@ -193,7 +193,7 @@ MATRIX_HPE_TO_XYZ: NDArray = np.linalg.inv(MATRIX_XYZ_TO_HPE)
 
 
 @dataclass
-class CAM_ReferenceSpecification_Hunt(MixinDataclassArray):
+class CAM_ReferenceSpecification_Hunt(MixinDataclassArithmetic):
     """
     Defines the *Hunt* colour appearance model reference specification.
 
@@ -235,7 +235,7 @@ class CAM_ReferenceSpecification_Hunt(MixinDataclassArray):
 
 
 @dataclass
-class CAM_Specification_Hunt(MixinDataclassArray):
+class CAM_Specification_Hunt(MixinDataclassArithmetic):
     """
     Defines the *Hunt* colour appearance model specification.
 

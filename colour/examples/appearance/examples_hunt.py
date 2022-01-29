@@ -38,7 +38,7 @@ print("\n")
 message_box(
     (
         'Broadcasting current output "Hunt" colour appearance '
-        "model specification to reference specification.\n"
+        "model specification to the reference specification.\n"
         "The intent of this reference specification is to provide names "
         'as closest as possible to "Mark D. Fairchild" reference.\n'
         "The current output specification is meant to be consistent with "
@@ -47,4 +47,4 @@ message_box(
     )
 )
 
-print(CAM_ReferenceSpecification_Hunt(*specification))
+print(CAM_ReferenceSpecification_Hunt(*specification.values))

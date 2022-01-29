@@ -59,7 +59,7 @@ from colour.hints import (
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CaseInsensitiveMapping,
-    MixinDataclassArray,
+    MixinDataclassArithmetic,
     as_float,
     as_float_array,
     as_int_array,
@@ -195,7 +195,7 @@ References
 
 
 @dataclass
-class CAM_Specification_CIECAM02(MixinDataclassArray):
+class CAM_Specification_CIECAM02(MixinDataclassArithmetic):
     """
     Defines the *CIECAM02* colour appearance model specification.
 

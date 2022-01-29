@@ -72,7 +72,10 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "MixinDataclassFields",
+    "MixinDataclassIterable",
     "MixinDataclassArray",
+    "MixinDataclassArithmetic",
     "as_array",
     "as_int",
     "as_float",
@@ -115,31 +118,131 @@ __all__ = [
 ]
 
 
-class MixinDataclassArray:
+class MixinDataclassFields:
     """
-    A mixin providing conversion methods for :class:`dataclass` conversion to
-    :class:`numpy.ndarray` class and mathematical operations.
+    A mixin providing fields introspection for the :class:`dataclass`-like
+    class fields.
+
+    Attributes
+    ----------
+    -   :meth:`~colour.utilities.MixinDataclassFields.fields`
+    """
+
+    @property
+    def fields(self) -> Tuple:
+        """
+        Getter property for the fields of the :class:`dataclass`-like class.
+
+        Returns
+        ------
+        :class:`tuple`
+           Tuple of :class:`dataclass`-like class fields.
+        """
+
+        return fields(self)
+
+
+class MixinDataclassIterable(MixinDataclassFields):
+    """
+    A mixin providing iteration capabilities over the :class:`dataclass`-like
+    class fields.
+
+    Attributes
+    ----------
+    -   :meth:`~colour.utilities.MixinDataclassIterable.keys`
+    -   :meth:`~colour.utilities.MixinDataclassIterable.values`
+    -   :meth:`~colour.utilities.MixinDataclassIterable.items`
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.MixinDataclassIterable.__iter__`
+
+    Notes
+    -----
+    -   The :class:`colour.utilities.MixinDataclassIterable` class inherits the
+        methods from the following class:
+
+        -   :class:`colour.utilities.MixinDataclassFields`
+    """
+
+    @property
+    def keys(self) -> Tuple:
+        """
+        Getter property for the :class:`dataclass`-like class keys, i.e. the
+        field names.
+
+        Returns
+        -------
+        :class:`tuple`
+           :class:`dataclass`-like class keys.
+        """
+
+        return tuple(field for field, _value in self)
+
+    @property
+    def values(self) -> Tuple:
+        """
+        Getter property for the :class:`dataclass`-like class values, i.e. the
+        field values.
+
+        Returns
+        -------
+        :class:`tuple`
+           :class:`dataclass`-like class values.
+        """
+
+        return tuple(value for _field, value in self)
+
+    @property
+    def items(self) -> Tuple:
+        """
+        Getter property for  the :class:`dataclass`-like class items, i.e. the
+        field names and values.
+
+        Returns
+        -------
+        :class:`tuple`
+           :class:`dataclass`-like class items.
+        """
+
+        return tuple((field, value) for field, value in self)
+
+    def __iter__(self) -> Generator:
+        """
+        Returns a generator for the :class:`dataclass`-like class fields.
+
+        Yields
+        ------
+        Generator
+           :class:`dataclass`-like class field generator.
+        """
+
+        yield from {
+            field.name: getattr(self, field.name) for field in self.fields
+        }.items()
+
+
+class MixinDataclassArray(MixinDataclassIterable):
+    """
+    A mixin providing conversion methods for :class:`dataclass`-like class
+    conversion to :class:`numpy.ndarray` class.
 
     Methods
     -------
     -   :meth:`~colour.utilities.MixinDataclassArray.__array__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__iadd__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__add__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__isub__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__sub__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__imul__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__mul__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__idiv__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__div__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__ipow__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.__pow__`
-    -   :meth:`~colour.utilities.MixinDataclassArray.arithmetical_operation`
 
+    Notes
+    -----
+    -   The :class:`colour.utilities.MixinDataclassArray` class inherits the
+        methods from the following classes:
+
+        -   :class:`colour.utilities.MixinDataclassIterable`
+        -   :class:`colour.utilities.MixinDataclassFields`
     """
 
     def __array__(self, dtype: Optional[Type[DTypeNumber]] = None) -> NDArray:
         """
-        Implements support for :class:`Dataclass` conversion to
+        Implements support for :class:`dataclass`-like class conversion to
         :class:`numpy.ndarray` class.
 
         A field set to *None* will be filled with `np.nan` according to the
@@ -155,28 +258,51 @@ class MixinDataclassArray:
         Returns
         -------
         :class:`numpy.ndarray`
-            :class:`Dataclass` converted to :class:`numpy.ndarray`.
+            :class:`dataclass`-like class converted to :class:`numpy.ndarray`.
         """
 
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        field_values = {
-            field.name: getattr(self, field.name) for field in fields(self)
-        }
-
         default = None
-        for field, value in field_values.items():
+        for field, value in self:
             if value is not None:
                 default = full(as_float_array(value).shape, np.nan)
                 break
 
         return tstack(
-            [
-                value if value is not None else default
-                for value in field_values.values()
-            ],
+            [value if value is not None else default for value in self.values],
             dtype=dtype,
         )
+
+
+class MixinDataclassArithmetic(MixinDataclassArray):
+    """
+    A mixin providing mathematical operations for :class:`dataclass`-like
+    class.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.MixinDataclassArray.__iadd__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__add__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__isub__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__sub__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__imul__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__mul__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__idiv__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__div__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__ipow__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.__pow__`
+    -   :meth:`~colour.utilities.MixinDataclassArray.arithmetical_operation`
+
+    Notes
+    -----
+    -   The :class:`colour.utilities.MixinDataclassArithmetic` class inherits
+        the methods from the following classes:
+
+        -   :class:`colour.utilities.MixinDataclassArray`
+        -   :class:`colour.utilities.MixinDataclassIterable`
+        -   :class:`colour.utilities.MixinDataclassFields`
+    """
 
     def __add__(self, a: Any) -> Dataclass:
         """
@@ -189,8 +315,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            Variable added :class:`Dataclass`.
+        :class:`dataclass`
+            Variable added :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "+")
@@ -206,8 +332,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            In-place variable added :class:`Dataclass`.
+        :class:`dataclass`
+            In-place variable added :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "+", True)
@@ -223,8 +349,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            Variable subtracted :class:`Dataclass`.
+        :class:`dataclass`
+            Variable subtracted :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "-")
@@ -240,8 +366,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            In-place variable subtracted :class:`Dataclass`.
+        :class:`dataclass`
+            In-place variable subtracted :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "-", True)
@@ -257,8 +383,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            Variable multiplied :class:`Dataclass`.
+        :class:`dataclass`
+            Variable multiplied :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "*")
@@ -274,8 +400,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            In-place variable multiplied :class:`Dataclass`.
+        :class:`dataclass`
+            In-place variable multiplied :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "*", True)
@@ -291,8 +417,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            Variable divided :class:`Dataclass`.
+        :class:`dataclass`
+            Variable divided :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "/")
@@ -308,8 +434,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            In-place variable divided :class:`Dataclass`.
+        :class:`dataclass`
+            In-place variable divided :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "/", True)
@@ -328,8 +454,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            Variable exponentiated :class:`Dataclass`.
+        :class:`dataclass`
+            Variable exponentiated :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "**")
@@ -345,8 +471,8 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            In-place variable exponentiated :class:`Dataclass`.
+        :class:`dataclass`
+            In-place variable exponentiated :class:`dataclass`-like class.
         """
 
         return self.arithmetical_operation(a, "**", True)
@@ -356,7 +482,7 @@ class MixinDataclassArray:
     ) -> Dataclass:
         """
         Performs given arithmetical operation with :math:`a` operand on the
-        :class:`Dataclass`.
+        :class:`dataclass`-like class.
 
         Parameters
         ----------
@@ -369,8 +495,9 @@ class MixinDataclassArray:
 
         Returns
         -------
-        :class:`Dataclass`
-            :class:`Dataclass` with arithmetical operation performed.
+        :class:`dataclass`
+            :class:`dataclass`-like class with arithmetical operation
+            performed.
         """
 
         callable_operation = {
@@ -385,18 +512,16 @@ class MixinDataclassArray:
             a = as_float_array(a)
 
         values = tsplit(callable_operation(as_float_array(self), a))
-        field_values = {
-            field.name: values[i] for i, field in enumerate(fields(self))
-        }
+        field_values = {field: values[i] for i, field in enumerate(self.keys)}
         field_values.update(
-            {field.name: None for field in fields(self) if field is None}
+            {field: None for field, value in self if value is None}
         )
 
         dataclass = replace(self, **field_values)
 
         if in_place:
-            for field in fields(self):
-                setattr(self, field.name, getattr(dataclass, field.name))
+            for field in self.keys:
+                setattr(self, field, getattr(dataclass, field))
             return self
         else:
             return dataclass
