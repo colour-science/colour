@@ -221,7 +221,7 @@ class CAM_Specification_ZCAM(MixinDataclassArray):
         an open-end scale with all neutral colours to have saturation of zero.
         For example, the red bricks in a building would exhibit different
         colours when illuminated by daylight. Those (directly) under daylight
-        will appear to be bright and colourful, and those under shadow will
+        will appear to be bright and colourful and those under shadow will
         appear darker and less colourful. However, the two areas have the same
         saturation.
     Q
