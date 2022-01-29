@@ -642,12 +642,12 @@ def polynomial_expansion(
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial.
     root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
+    terms
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        Number of terms of the expanded polynomial.
 
     Returns
     -------
@@ -861,12 +861,12 @@ def matrix_colour_correction(
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial.
     root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
+    terms
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        Number of terms of the expanded polynomial.
 
     Returns
     -------
@@ -1158,12 +1158,12 @@ def colour_correction(
         Expanded polynomial degree, must be one of *[1, 2, 3, 4]* for
         :func:`colour.characterisation.polynomial_expansion_Finlayson2015`
         definition.
-    terms
-        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
-        Number of terms of the expanded polynomial.
     root_polynomial_expansion
         {:func:`colour.characterisation.polynomial_expansion_Finlayson2015`},
         Whether to use the root-polynomials set for the expansion.
+    terms
+        {:func:`colour.characterisation.matrix_augmented_Cheung2004`},
+        Number of terms of the expanded polynomial.
 
     Returns
     -------

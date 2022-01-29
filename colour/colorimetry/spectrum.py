@@ -572,16 +572,16 @@ class SpectralDistribution(Signal):
 
     Other Parameters
     ----------------
-    name
-        Spectral distribution name.
-    interpolator
-        Interpolator class type to use as interpolating function.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function.
     extrapolator
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function.
+    interpolator
+        Interpolator class type to use as interpolating function.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function.
+    name
+        Spectral distribution name.
     strict_name
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.
@@ -1634,20 +1634,20 @@ class MultiSpectralDistributions(MultiSignals):
 
     Other Parameters
     ----------------
-    name
-       Multi-spectral distributions name.
-    interpolator
-        Interpolator class type to use as interpolating function for the
-        :class:`colour.SpectralDistribution` class instances.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function of the
-        :class:`colour.SpectralDistribution` class instances.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function of the
         :class:`colour.SpectralDistribution` class instances.
+    interpolator
+        Interpolator class type to use as interpolating function for the
+        :class:`colour.SpectralDistribution` class instances.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function of the
+        :class:`colour.SpectralDistribution` class instances.
+    name
+       Multi-spectral distributions name.
     strict_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.MultiSpectralDistributions.labels` property value.

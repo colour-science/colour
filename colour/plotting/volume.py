@@ -100,35 +100,35 @@ def nadir_grid(
 
     Other Parameters
     ----------------
-    grid_face_colours
-        Grid face colours array such as
-        `grid_face_colours = (0.25, 0.25, 0.25)`.
+    grid_edge_alpha
+        Grid edge opacity value such as `grid_edge_alpha = 0.5`.
     grid_edge_colours
         Grid edge colours array such as
         `grid_edge_colours = (0.25, 0.25, 0.25)`.
     grid_face_alpha
         Grid face opacity value such as `grid_face_alpha = 0.1`.
-    grid_edge_alpha
-        Grid edge opacity value such as `grid_edge_alpha = 0.5`.
-    x_axis_colour
-        *X* axis colour array such as `x_axis_colour = (0.0, 0.0, 0.0, 1.0)`.
-    y_axis_colour
-        *Y* axis colour array such as `y_axis_colour = (0.0, 0.0, 0.0, 1.0)`.
-    x_ticks_colour
-        *X* axis ticks colour array such as
-        `x_ticks_colour = (0.0, 0.0, 0.0, 0.85)`.
-    y_ticks_colour
-        *Y* axis ticks colour array such as
-        `y_ticks_colour = (0.0, 0.0, 0.0, 0.85)`.
-    x_label_colour
-        *X* axis label colour array such as
-        `x_label_colour = (0.0, 0.0, 0.0, 0.85)`.
-    y_label_colour
-        *Y* axis label colour array such as
-        `y_label_colour = (0.0, 0.0, 0.0, 0.85)`.
+    grid_face_colours
+        Grid face colours array such as
+        `grid_face_colours = (0.25, 0.25, 0.25)`.
     ticks_and_label_location
         Location of the *X* and *Y* axis ticks and labels such as
         `ticks_and_label_location = ('-x', '-y')`.
+    x_axis_colour
+        *X* axis colour array such as `x_axis_colour = (0.0, 0.0, 0.0, 1.0)`.
+    x_label_colour
+        *X* axis label colour array such as
+        `x_label_colour = (0.0, 0.0, 0.0, 0.85)`.
+    x_ticks_colour
+        *X* axis ticks colour array such as
+        `x_ticks_colour = (0.0, 0.0, 0.0, 0.85)`.
+    y_axis_colour
+        *Y* axis colour array such as `y_axis_colour = (0.0, 0.0, 0.0, 1.0)`.
+    y_label_colour
+        *Y* axis label colour array such as
+        `y_label_colour = (0.0, 0.0, 0.0, 0.85)`.
+    y_ticks_colour
+        *Y* axis ticks colour array such as
+        `y_ticks_colour = (0.0, 0.0, 0.0, 0.85)`.
 
     Returns
     -------
@@ -515,18 +515,18 @@ def plot_RGB_colourspaces_gamuts(
 
     Other Parameters
     ----------------
+    edge_colours
+        Edge colours array such as `edge_colours = (None, (0.5, 0.5, 1.0))`.
+    edge_alpha
+        Edge opacity value such as `edge_alpha = (0.0, 1.0)`.
+    face_alpha
+        Face opacity value such as `face_alpha = (0.5, 1.0)`.
+    face_colours
+        Face colours array such as `face_colours = (None, (0.5, 0.5, 1.0))`.
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.volume.nadir_grid`},
         See the documentation of the previously listed definitions.
-    face_colours
-        Face colours array such as `face_colours = (None, (0.5, 0.5, 1.0))`.
-    edge_colours
-        Edge colours array such as `edge_colours = (None, (0.5, 0.5, 1.0))`.
-    face_alpha
-        Face opacity value such as `face_alpha = (0.5, 1.0)`.
-    edge_alpha
-        Edge opacity value such as `edge_alpha = (0.0, 1.0)`.
 
     Returns
     -------

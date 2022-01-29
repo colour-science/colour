@@ -94,7 +94,7 @@ class Structure(dict):
     args
         Arguments.
     kwargs
-        Key / Value pairs.
+        Key / value pairs.
 
     Methods
     -------
@@ -281,7 +281,7 @@ class CaseInsensitiveMapping(MutableMapping):
     Other Parameters
     ----------------
     kwargs
-        Key / Value pairs to store into the mapping at initialisation.
+        Key / value pairs to store into the mapping at initialisation.
 
     Attributes
     ----------
@@ -595,7 +595,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     Other Parameters
     ----------------
     kwargs
-        Key / Value pairs to store into the mapping at initialisation.
+        Key / value pairs to store into the mapping at initialisation.
 
     Methods
     -------

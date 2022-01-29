@@ -153,6 +153,12 @@ def delta_E(
 
     Other Parameters
     ----------------
+    c
+        {:func:`colour.difference.delta_E_CIE2000`},
+        Chroma weighting factor.
+    l
+        {:func:`colour.difference.delta_E_CIE2000`},
+        Lightness weighting factor.
     textiles
         {:func:`colour.difference.delta_E_CIE1994`,
         :func:`colour.difference.delta_E_CIE2000`,
@@ -161,12 +167,6 @@ def delta_E(
         :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\
 \\ k_CH=0.5` weights are used instead of
         :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_CH=1.0`.
-    l
-        {:func:`colour.difference.delta_E_CIE2000`},
-        Lightness weighting factor.
-    c
-        {:func:`colour.difference.delta_E_CIE2000`},
-        Chroma weighting factor.
 
     Returns
     -------

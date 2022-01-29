@@ -113,18 +113,18 @@ class Signal(AbstractContinuousFunction):
 
     Other Parameters
     ----------------
-    name
-        Continuous signal name.
     dtype
         Floating point data type.
-    interpolator
-        Interpolator class type to use as interpolating function.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function.
     extrapolator
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function.
+    interpolator
+        Interpolator class type to use as interpolating function.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function.
+    name
+        Continuous signal name.
 
     Attributes
     ----------

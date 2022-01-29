@@ -140,21 +140,21 @@ def uv_to_CCT(
     cmfs
         {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Standard observer colour matching functions.
-    start
-        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
-        Temperature range start in kelvins.
-    end
-        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
-        Temperature range end in kelvins.
     count
         {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Temperatures count in the planckian tables.
+    end
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
+        Temperature range end in kelvins.
     iterations
         {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Number of planckian tables to generate.
     optimisation_kwargs
         {:func:`colour.temperature.uv_to_CCT_Krystek1985`},
         Parameters for :func:`scipy.optimize.minimize` definition.
+    start
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
+        Temperature range start in kelvins.
 
     Returns
     -------

@@ -659,16 +659,16 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         If both ``data`` and ``domain`` arguments are defined, the latter will
         be used to initialise the
         :attr:`colour.SpectralDistribution.wavelength` property.
-    name
-        Spectral distribution name.
-    interpolator
-        Interpolator class type to use as interpolating function.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function.
     extrapolator
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function.
+    interpolator
+        Interpolator class type to use as interpolating function.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function.
+    name
+        Spectral distribution name.
     strict_name
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.

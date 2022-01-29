@@ -501,12 +501,6 @@ def primitive_vertices(
 
     Other Parameters
     ----------------
-    origin
-        {:func:`colour.geometry.primitive_vertices_quad_mpl`,
-        :func:`colour.geometry.primitive_vertices_grid_mpl`,
-        :func:`colour.geometry.primitive_vertices_cube_mpl`,
-        :func:`colour.geometry.primitive_vertices_sphere`},
-        Primitive origin on the construction plane.
     axis
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
@@ -514,26 +508,41 @@ def primitive_vertices(
         **{'+z', '+x', '+y', 'yz', 'xz', 'xy'}**,
         Axis the primitive will be normal to, or plane the primitive will be
         co-planar with.
-    planes
-        {:func:`colour.geometry.primitive_vertices_cube_mpl`},
-        **{'-x', '+x', '-y', '+y', '-z', '+z',
-        'xy', 'xz', 'yz', 'yx', 'zx', 'zy'}**,
-        Included grid primitives in the cube construction.
-    width
-        {:func:`colour.geometry.primitive_vertices_quad_mpl`,
-        :func:`colour.geometry.primitive_vertices_grid_mpl`,
-        :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive width.
-    height
-        {:func:`colour.geometry.primitive_vertices_quad_mpl`,
-        :func:`colour.geometry.primitive_vertices_grid_mpl`,
-        :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive height.
     depth
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
         Primitive depth.
+    depth_segments
+        {:func:`colour.geometry.primitive_vertices_grid_mpl`,
+        :func:`colour.geometry.primitive_vertices_cube_mpl`},
+        Primitive depth segments, quad primitive counts along the depth.
+    height
+        {:func:`colour.geometry.primitive_vertices_quad_mpl`,
+        :func:`colour.geometry.primitive_vertices_grid_mpl`,
+        :func:`colour.geometry.primitive_vertices_cube_mpl`},
+        Primitive height.
+    height_segments
+        {:func:`colour.geometry.primitive_vertices_grid_mpl`,
+        :func:`colour.geometry.primitive_vertices_cube_mpl`},
+        Primitive height segments, quad primitive counts along the height.
+    intermediate
+        {:func:`colour.geometry.primitive_vertices_sphere`},
+        Whether to generate the sphere vertices at the center of the faces
+        outlined by the segments of a regular sphere generated without
+        the ``intermediate`` argument set to *True*. The resulting sphere is
+        inscribed on the regular sphere faces but possesses the same poles.
+    origin
+        {:func:`colour.geometry.primitive_vertices_quad_mpl`,
+        :func:`colour.geometry.primitive_vertices_grid_mpl`,
+        :func:`colour.geometry.primitive_vertices_cube_mpl`,
+        :func:`colour.geometry.primitive_vertices_sphere`},
+        Primitive origin on the construction plane.
+    planes
+        {:func:`colour.geometry.primitive_vertices_cube_mpl`},
+        **{'-x', '+x', '-y', '+y', '-z', '+z',
+        'xy', 'xz', 'yz', 'yx', 'zx', 'zy'}**,
+        Included grid primitives in the cube construction.
     radius
         {:func:`colour.geometry.primitive_vertices_sphere`},
         Sphere radius.
@@ -541,24 +550,15 @@ def primitive_vertices(
         {:func:`colour.geometry.primitive_vertices_sphere`},
         Latitude-longitude segments, if the ``intermediate`` argument is
         *True*, then the sphere will have one less segment along its longitude.
-    intermediate
-        {:func:`colour.geometry.primitive_vertices_sphere`},
-        Whether to generate the sphere vertices at the center of the faces
-        outlined by the segments of a regular sphere generated without
-        the ``intermediate`` argument set to *True*. The resulting sphere is
-        inscribed on the regular sphere faces but possesses the same poles.
+    width
+        {:func:`colour.geometry.primitive_vertices_quad_mpl`,
+        :func:`colour.geometry.primitive_vertices_grid_mpl`,
+        :func:`colour.geometry.primitive_vertices_cube_mpl`},
+        Primitive width.
     width_segments
         {:func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
         Primitive width segments, quad primitive counts along the width.
-    height_segments
-        {:func:`colour.geometry.primitive_vertices_grid_mpl`,
-        :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive height segments, quad primitive counts along the height.
-    depth_segments
-        {:func:`colour.geometry.primitive_vertices_grid_mpl`,
-        :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive depth segments, quad primitive counts along the depth.
 
     Returns
     -------

@@ -162,31 +162,31 @@ def chromatic_adaptation(
     E_o2
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Reference illuminance :math:`E_{o2}` in :math:`cd/m^2`.
+    n
+        {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
+        Noise component in fundamental primary system.
     Y_o
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Luminance factor :math:`Y_o` of achromatic background normalised to
         domain [0.18, 1] in **'Reference'** domain-range scale.
-    n
-        {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
-        Noise component in fundamental primary system.
+    direction
+        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
+        Chromatic adaptation direction.
     L_A1
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
     L_A2
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
-    direction
-        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        Chromatic adaptation direction.
     surround
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Surround viewing conditions induction factors.
-    Y_n
-        {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
-        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     discount_illuminant
         {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
         Truth value indicating if the illuminant should be discounted.
+    Y_n
+        {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
+        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     D_b
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\beta` of input illuminant
@@ -195,13 +195,13 @@ def chromatic_adaptation(
         {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Degree of adaptation :math:`D_\\Delta` of output illuminant
         :math:`\\Delta`.
-    XYZ_wo
-        {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
-        Baseline illuminant (:math:`BI`) :math:`o`.
     transform
         {:func:`colour.adaptation.chromatic_adaptation_VonKries`,
         :func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Chromatic adaptation transform.
+    XYZ_wo
+        {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
+        Baseline illuminant (:math:`BI`) :math:`o`.
 
     Returns
     -------

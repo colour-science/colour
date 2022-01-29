@@ -610,11 +610,6 @@ def plot_single_illuminant_sd(
         :func:`colour.plotting.plot_single_sd`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
-    out_of_gamut_clipping
-        {:func:`colour.plotting.plot_single_sd`},
-        Whether to clip out of gamut colours otherwise, the colours will be
-        offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother.
 
     Returns
     -------

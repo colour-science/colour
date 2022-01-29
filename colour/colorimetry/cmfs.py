@@ -58,10 +58,10 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
     data
         Data to be stored in the multi-spectral distributions.
     domain
+        Values to initialise the multiple :class:`colour.SpectralDistribution`
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
-        Values to initialise the multiple :class:`colour.SpectralDistribution`
         :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
@@ -69,23 +69,24 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
 
     Other Parameters
     ----------------
-    name
-       Multi-spectral distributions name.
-    interpolator
-        Interpolator class type to use as interpolating function for the
-        :class:`colour.SpectralDistribution` class instances.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralDistribution` class instances.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
+    interpolator
+        Interpolator class type to use as interpolating function for the
+        :class:`colour.SpectralDistribution` class instances.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function
+        of the :class:`colour.SpectralDistribution` class instances.
+    name
+       Multi-spectral distributions name.
     strict_labels
         Multi-spectral distributions labels for figures, default to
-        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` property value.
+        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` property
+        value.
     """
 
     def __init__(
@@ -126,7 +127,7 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         Data to be stored in the multi-spectral distributions.
     domain
         Values to initialise the multiple :class:`colour.SpectralDistribution`
-        class instances :attr:`colour.continuous.Signal.wavelengths` property
+        class instances :attr:`colour.continuous.Signal.wavelengths` attribute
         with. If both ``data`` and ``domain`` arguments are defined, the latter
         will be used to initialise the
         :attr:`colour.continuous.Signal.wavelengths` property.
@@ -136,23 +137,23 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
 
     Other Parameters
     ----------------
-    name
-       Multi-spectral distributions name.
-    interpolator
-        Interpolator class type to use as interpolating function for the
-        :class:`colour.SpectralDistribution` class instances.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralDistribution` class instances.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
+    interpolator
+        Interpolator class type to use as interpolating function for the
+        :class:`colour.SpectralDistribution` class instances.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function
+        of the :class:`colour.SpectralDistribution` class instances.
+    name
+       Multi-spectral distributions name.
     strict_labels
         Multi-spectral distributions labels for figures, default to
-        :attr:`colour.colorimetry.RGB_ColourMatchingFunctions.labels` attribute
+        :attr:`colour.colorimetry.RGB_ColourMatchingFunctions.labels` property
         value.
     """
 
@@ -205,23 +206,23 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
 
     Other Parameters
     ----------------
-    name
-       Multi-spectral distributions name.
-    interpolator
-        Interpolator class type to use as interpolating function for the
-        :class:`colour.SpectralDistribution` class instances.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.SpectralDistribution` class instances.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.SpectralDistribution` class instances.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.SpectralDistribution` class instances.
+    interpolator
+        Interpolator class type to use as interpolating function for the
+        :class:`colour.SpectralDistribution` class instances.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function
+        of the :class:`colour.SpectralDistribution` class instances.
+    name
+       Multi-spectral distributions name.
     strict_labels
         Multi-spectral distributions labels for figures, default to
-        :attr:`colour.colorimetry.XYZ_ColourMatchingFunctions.labels` attribute
+        :attr:`colour.colorimetry.XYZ_ColourMatchingFunctions.labels` property
         value.
     """
 

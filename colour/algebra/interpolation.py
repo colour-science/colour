@@ -762,19 +762,19 @@ class NearestNeighbourInterpolator(KernelInterpolator):
 
     Other Parameters
     ----------------
+    dtype
+        Data type used for internal conversions.
+    padding_kwargs
+         Arguments to use when padding :math:`y` variable values with the
+         :func:`np.pad` definition.
+    window
+        Width of the window in samples on each side.
     x
         Independent :math:`x` variable values corresponding with :math:`y`
         variable.
     y
         Dependent and already known :math:`y` variable values to
         interpolate.
-    window
-        Width of the window in samples on each side.
-    padding_kwargs
-         Arguments to use when padding :math:`y` variable values with the
-         :func:`np.pad` definition.
-    dtype
-        Data type used for internal conversions.
 
     Methods
     -------

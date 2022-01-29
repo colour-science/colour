@@ -821,15 +821,15 @@ class AbstractLUT(ABC):
         direction
             Whether the *LUT* should be applied in the forward or inverse
             direction.
-        interpolator
-            Interpolator class type or object to use as interpolating function.
-        interpolator_kwargs
-            Arguments to use when instantiating or calling the interpolating
-            function.
         extrapolator
             Extrapolator class type or object to use as extrapolating function.
         extrapolator_kwargs
             Arguments to use when instantiating or calling the extrapolating
+            function.
+        interpolator
+            Interpolator class type or object to use as interpolating function.
+        interpolator_kwargs
+            Arguments to use when instantiating or calling the interpolating
             function.
 
         Returns
@@ -1152,15 +1152,15 @@ class LUT1D(AbstractLUT):
         direction
             Whether the *LUT* should be applied in the forward or inverse
             direction.
-        interpolator
-            Interpolator class type to use as interpolating function.
-        interpolator_kwargs
-            Arguments to use when instantiating the interpolating function.
         extrapolator
             Extrapolator class type or object to use as extrapolating function.
         extrapolator_kwargs
             Arguments to use when instantiating or calling the extrapolating
             function.
+        interpolator
+            Interpolator class type to use as interpolating function.
+        interpolator_kwargs
+            Arguments to use when instantiating the interpolating function.
 
         Returns
         -------
@@ -1646,15 +1646,15 @@ class LUT3x1D(AbstractLUT):
         direction
             Whether the *LUT* should be applied in the forward or inverse
             direction.
-        interpolator
-            Interpolator class type to use as interpolating function.
-        interpolator_kwargs
-            Arguments to use when instantiating the interpolating function.
         extrapolator
             Extrapolator class type or object to use as extrapolating function.
         extrapolator_kwargs
             Arguments to use when instantiating or calling the extrapolating
             function.
+        interpolator
+            Interpolator class type to use as interpolating function.
+        interpolator_kwargs
+            Arguments to use when instantiating the interpolating function.
 
         Returns
         -------
@@ -2158,21 +2158,21 @@ class LUT3D(AbstractLUT):
 
         Other Parameters
         ----------------
-        interpolator
-            Interpolator class type or object to use as interpolating function.
-        size
-            Size of the inverse *LUT*. With the given implementation, it is
-            good practise to double the size of the inverse *LUT* to provide a
-            smoother result. If ``size`` is not given,
-            :math:`2^{\\sqrt{size_{LUT}} + 1} + 1` will be used instead.
         extrapolate
             Whether to extrapolate the *LUT* when computing its inverse.
             Extrapolation is performed by reflecting the *LUT* cube along its 8
             faces. Note that the domain is extended beyond [0, 1], thus the
             *LUT* might not be handled properly in other software.
+        interpolator
+            Interpolator class type or object to use as interpolating function.
         query_size
             Number of points to query in the KDTree, their mean is computed,
             resulting in a smoother result.
+        size
+            Size of the inverse *LUT*. With the given implementation, it is
+            good practise to double the size of the inverse *LUT* to provide a
+            smoother result. If ``size`` is not given,
+            :math:`2^{\\sqrt{size_{LUT}} + 1} + 1` will be used instead.
 
         Returns
         -------
@@ -2276,22 +2276,22 @@ class LUT3D(AbstractLUT):
         direction
             Whether the *LUT* should be applied in the forward or inverse
             direction.
+        extrapolate
+            Whether to extrapolate the *LUT* when computing its inverse.
+            Extrapolation is performed by reflecting the *LUT* cube along its 8
+            faces.
         interpolator
             Interpolator object to use as interpolating function.
         interpolator_kwargs
             Arguments to use when calling the interpolating function.
+        query_size
+            Number of points to query in the KDTree, their mean is computed,
+            resulting in a smoother result.
         size
             Size of the inverse *LUT*. With the given implementation, it is
             good practise to double the size of the inverse *LUT* to provide a
             smoother result. If ``size`` is not given,
             :math:`2^{\\sqrt{size_{LUT}} + 1} + 1` will be used instead.
-        extrapolate
-            Whether to extrapolate the *LUT* when computing its inverse.
-            Extrapolation is performed by reflecting the *LUT* cube along its 8
-            faces.
-        query_size
-            Number of points to query in the KDTree, their mean is computed,
-            resulting in a smoother result.
 
         Returns
         -------
@@ -2449,15 +2449,15 @@ def LUT_to_LUT(
 
     Other Parameters
     ----------------
+    channel_weights
+        Channel weights in case of a downcast from a :class:`LUT3x1D` or
+        :class:`LUT3D` class instance.
     interpolator
         Interpolator class type to use as interpolating function.
     interpolator_kwargs
         Arguments to use when instantiating the interpolating function.
     size
         Expected table size in case of an upcast to or a downcast from a
-        :class:`LUT3D` class instance.
-    channel_weights
-        Channel weights in case of a downcast from a :class:`LUT3x1D` or
         :class:`LUT3D` class instance.
 
     Returns

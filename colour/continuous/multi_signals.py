@@ -98,22 +98,22 @@ class MultiSignals(AbstractContinuousFunction):
 
     Other Parameters
     ----------------
-    name
-        multi-continuous signals name.
     dtype
         Floating point data type.
-    interpolator
-        Interpolator class type to use as interpolating function for the
-        :class:`colour.continuous.Signal` sub-class instances.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function
-        of the :class:`colour.continuous.Signal` sub-class instances.
     extrapolator
         Extrapolator class type to use as extrapolating function for the
         :class:`colour.continuous.Signal` sub-class instances.
     extrapolator_kwargs
         Arguments to use when instantiating the extrapolating function
         of the :class:`colour.continuous.Signal` sub-class instances.
+    interpolator
+        Interpolator class type to use as interpolating function for the
+        :class:`colour.continuous.Signal` sub-class instances.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function
+        of the :class:`colour.continuous.Signal` sub-class instances.
+    name
+        multi-continuous signals name.
     signal_type
         The :class:`colour.continuous.Signal` sub-class type used for
         instances.
@@ -1290,20 +1290,20 @@ class MultiSignals(AbstractContinuousFunction):
 
         Other Parameters
         ----------------
-        name
-            multi-continuous signals name.
-        interpolator
-            Interpolator class type to use as interpolating function for the
-            :class:`colour.continuous.Signal` sub-class instances.
-        interpolator_kwargs
-            Arguments to use when instantiating the interpolating function
-            of the :class:`colour.continuous.Signal` sub-class instances.
         extrapolator
             Extrapolator class type to use as extrapolating function for the
             :class:`colour.continuous.Signal` sub-class instances.
         extrapolator_kwargs
             Arguments to use when instantiating the extrapolating function
             of the :class:`colour.continuous.Signal` sub-class instances.
+        interpolator
+            Interpolator class type to use as interpolating function for the
+            :class:`colour.continuous.Signal` sub-class instances.
+        interpolator_kwargs
+            Arguments to use when instantiating the interpolating function
+            of the :class:`colour.continuous.Signal` sub-class instances.
+        name
+            multi-continuous signals name.
 
         Returns
         -------

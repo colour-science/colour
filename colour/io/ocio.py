@@ -41,14 +41,14 @@ def process_image_OpenColorIO(
 
     Other Parameters
     ----------------
-    args
-        Arguments for `Config.getProcessor` method.
-        See https://opencolorio.readthedocs.io/en/latest/api/config.html for
-        more information.
     config
         *OpenColorIO* config to use for processing. If not defined, the
         *OpenColorIO* set defined by the ``$OCIO`` environment variable is
         used.
+    args
+        Arguments for `Config.getProcessor` method.
+        See https://opencolorio.readthedocs.io/en/latest/api/config.html for
+        more information.
 
     Returns
     -------

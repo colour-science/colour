@@ -1173,24 +1173,6 @@ def plot_single_colour_swatch(
         :func:`colour.plotting.plot_multi_colour_swatches`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
-    width
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Colour swatch width.
-    height
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Colour swatch height.
-    spacing
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Colour swatches spacing.
-    columns
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Colour swatches columns count.
-    text_kwargs
-        {:func:`colour.plotting.plot_multi_colour_swatches`},
-        Keyword arguments for the :func:`matplotlib.pyplot.text` definition.
-        The following special keywords can also be used:
-
-        -   ``offset``: Sets the text offset.
 
     Returns
     -------

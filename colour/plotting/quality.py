@@ -269,15 +269,6 @@ def plot_single_sd_colour_rendering_index_bars(
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
-    labels
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Add labels above bars.
-    hatching
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Use hatching for the bars.
-    hatching_repeat
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Hatching pattern repeat.
 
     Returns
     -------
@@ -329,15 +320,6 @@ def plot_multi_sds_colour_rendering_indexes_bars(
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
-    labels
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Add labels above bars.
-    hatching
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Use hatching for the bars.
-    hatching_repeat
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Hatching pattern repeat.
 
     Returns
     -------
@@ -422,15 +404,6 @@ def plot_single_sd_colour_quality_scale_bars(
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
-    labels
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Add labels above bars.
-    hatching
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Use hatching for the bars.
-    hatching_repeat
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Hatching pattern repeat.
 
     Returns
     -------
@@ -489,15 +462,6 @@ def plot_multi_sds_colour_quality_scales_bars(
         :func:`colour.plotting.quality.plot_colour_quality_bars`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
-    labels
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Add labels above bars.
-    hatching
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Use hatching for the bars.
-    hatching_repeat
-        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
-        Hatching pattern repeat.
 
     Returns
     -------

@@ -614,7 +614,8 @@ def luminance(
     Other Parameters
     ----------------
     Y_n
-        {:func:`colour.colorimetry.luminance_CIE1976`},
+        {:func:`colour.colorimetry.luminance_Abebe2017`,
+        :func:`colour.colorimetry.luminance_CIE1976`},
         White reference *luminance* :math:`Y_n`.
     epsilon
         {:func:`colour.colorimetry.lightness_Fairchild2010`,

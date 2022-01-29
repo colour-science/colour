@@ -1080,14 +1080,14 @@ def sd_to_XYZ(
         20 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
+    shape
+        Spectral shape of the spectral distribution, ``cmfs`` and
+        ``illuminant`` will be aligned to it if ``sd`` is an `ArrayLike`.
     use_practice_range
         {:func:`colour.colorimetry.sd_to_XYZ_ASTME308`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
         appropriately.
-    shape
-        Spectral shape of the spectral distribution, ``cmfs`` and
-        ``illuminant`` will be aligned to it if ``sd`` is an `ArrayLike`.
 
     Returns
     -------
@@ -1564,11 +1564,6 @@ def msds_to_XYZ(
 
     Other Parameters
     ----------------
-    use_practice_range
-        {:func:`colour.colorimetry.msds_to_XYZ_ASTME308`},
-        Practise *ASTM E308-15* working wavelengths range is [360, 780],
-        if *True* this argument will trim the colour matching functions
-        appropriately.
     mi_5nm_omission_method
         {:func:`colour.colorimetry.msds_to_XYZ_ASTME308`},
         5 nm measurement intervals multi-spectral distributions conversion to
@@ -1583,6 +1578,11 @@ def msds_to_XYZ(
         {:func:`colour.colorimetry.msds_to_XYZ_integration`},
         Spectral shape of the multi-spectral distributions array :math:`msds`,
         ``cmfs`` and ``illuminant`` will be aligned to it.
+    use_practice_range
+        {:func:`colour.colorimetry.msds_to_XYZ_ASTME308`},
+        Practise *ASTM E308-15* working wavelengths range is [360, 780],
+        if *True* this argument will trim the colour matching functions
+        appropriately.
 
     Returns
     -------
