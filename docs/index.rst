@@ -619,6 +619,14 @@ OSA UCS Colourspace
     >>> colour.XYZ_to_OSA_UCS(XYZ)
     array([-3.0049979 ,  2.99713697, -9.66784231])
 
+ProLab Colourspace
+******************
+
+.. code-block:: python
+
+    >>> colour.XYZ_to_ProLab([0.51634019, 0.15469500, 0.06289579])
+    array([1.24610688, 2.39525236, 0.41902126])
+
 Jzazbz Colourspace
 ******************
 
