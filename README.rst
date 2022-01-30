@@ -182,13 +182,13 @@ If you'd like to join them, please consider
             <tr>
                 <td align="center" valign="middle">
                     <a href="https://www.artstation.com/monsieur_lixm" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1006611034088595462/HNQh_FZQ.jpg">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1469781977280786433/NncWAxCW.jpg">
                     </a>
                     <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="http://antlerpost.com/" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1469781977280786433/NncWAxCW.jpg">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1394284009329504257/CZxrhA6x.jpg">
                     </a>
                     <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
                 </td>
