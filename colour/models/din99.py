@@ -248,14 +248,14 @@ def DIN99_to_Lab(
     h_99 = np.arctan2(b_99, a_99) - np.radians(c_7)
 
     C_99 = np.sqrt(a_99 ** 2 + b_99 ** 2)
-    G = (np.exp((c_8 / c_5) * (C_99) * k_CH * k_E) - 1) / c_6
+    G = np.expm1((c_8 / c_5) * (C_99) * k_CH * k_E) / c_6
 
     e = G * np.cos(h_99)
     f = G * np.sin(h_99)
 
     a = e * cos - (f / c_4) * sin
     b = e * sin + (f / c_4) * cos
-    L = (np.exp(L_99 * k_E / c_1) - 1) / c_2
+    L = np.expm1(L_99 * k_E / c_1) / c_2
 
     Lab = tstack([L, a, b])
 

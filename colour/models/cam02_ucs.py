@@ -241,7 +241,7 @@ def UCS_Luo2006_to_JMh_CIECAM02(
 
     M_p, h = tsplit(cartesian_to_polar(tstack([a_p, b_p])))
 
-    M = (np.exp(M_p / (1 / c_2)) - 1) / c_2
+    M = np.expm1(M_p / (1 / c_2)) / c_2
 
     JMh = tstack(
         [
