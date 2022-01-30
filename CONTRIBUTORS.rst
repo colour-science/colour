@@ -54,6 +54,17 @@ Google Summer of Code
 
     The Need for Speed.
 
+2021
+~~~~
+
+-   **Cédric Dollet**, *Student @ CY Tech, France*
+
+    New Colour Appearance Models.
+
+-   **Geetansh Saxena**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    New Colour Models.
+
 Development & Technical Support
 -------------------------------
 
@@ -141,13 +152,25 @@ Development & Technical Support
 
     DaVinci Intermediate OETF implementation.
 
--   **Geetansh Saxena**, *Student @ Cluster Innovation Centre, University of Delhi*
-
-    Technical support.
-
 -   **Saransh Chopra**, *Student @ Cluster Innovation Centre, University of Delhi*
 
     HCL colourspace implementation.
+
+-   **Ilia Sibiryakov**, *Student @ University of Portsmouth*
+
+    Helmholtz—Kohlrausch effect implementation.
+
+-   **Tim Gates**
+
+    Documentation improvements.
+
+-   **Gajendra Pal**
+
+    Documentation improvements.
+
+-   **Nicolas Tessore**
+
+    Technical support.
 
 Acknowledgements
 ----------------
@@ -204,7 +227,12 @@ Issues & Discussions
 -   Vishal Vashistha
 -   Vlad Enache
 -   @aarondemolder
+-   @abnormally-distributed
+-   @ademmler
+-   @ahemberger
 -   @alban-sol
+-   @alianoroozi
+-   @Alt-Shivam
 -   @Ampersandme
 -   @AndersAtEndian
 -   @anshulxyz
@@ -222,6 +250,7 @@ Issues & Discussions
 -   @chesschi
 -   @ChunHsinWang
 -   @codycuellar
+-   @daviesj
 -   @dfoxfranke
 -   @dtbulmerJRs
 -   @Edwardlin-zlt
@@ -230,15 +259,19 @@ Issues & Discussions
 -   @Floschoe
 -   @foutoucour
 -   @goofy2k
+-   @gutenzwerg
 -   @habemus-papadum
 -   @hajimen
+-   @heinemannj
 -   @henczati
 -   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
+-   @Jerry2001
 -   @JoshuaEbenezer
 -   @KOLANICH
+-   @KrisKennaway
 -   @kunal9922
 -   @Kunkka1988
 -   @lavrovd
@@ -246,44 +279,62 @@ Issues & Discussions
 -   @Legendin
 -   @leklbk
 -   @lensz
+-   @lishichengyan
 -   @MarcusCalhoun-Lopez
 -   @matthiasbirkich
 -   @meshing
 -   @mokincha
 -   @monkeywithacupcake
+-   @MrColourBlind
 -   @Myndex
 -   @naavis
 -   @nadersadoughi
+-   @Naughty-Monkey
 -   @NekoAlosama
 -   @NoRoKr
 -   @nschloe
+-   @parthxtripathi
+-   @Patil2099
+-   @Paul-Sims
 -   @peteroupc
 -   @pfk-beta
 -   @priikone
 -   @Queuecumber
+-   @ramparvathaneni
 -   @Rob-Welch
 -   @robbuckley
 -   @romanovar
 -   @Ron024
 -   @rsnitsch
+-   @RutNij
+-   @sdbbs
 -   @senyai
 -   @shanest
 -   @shirubana
+-   @shpurdikhub
 -   @spicymatt
+-   @ssh4net
 -   @stakemura
+-   @starkcolour
+-   @starkfan007
 -   @tashdor
 -   @TFiFiE
 -   @thunders82
 -   @tingeman
+-   @tospe
 -   @totyped
+-   @ujjayants
 -   @ValZapod
 -   @vidakDK
 -   @volkerjaenisch
 -   @vvclin-git
 -   @Wagyx
+-   @whornsby
 -   @Willingo
 -   @willSmallHD
+-   @wuuawu
 -   @xjossy
+-   @yuhao
 -   @zachlewis
 
 About
