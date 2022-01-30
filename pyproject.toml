@@ -53,6 +53,7 @@ black = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
+flynt = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
 jupyter = { version = "*", optional = true }  # Development dependency.
 matplotlib = { version = ">= 3.2, != 3.5.0, != 3.5.1", optional = true }
@@ -68,13 +69,12 @@ pyupgrade = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 scikit-learn = { version = "*", optional = true }
 sphinx = { version = "*", optional = true }  # Development dependency.
-sphinx_rtd_theme = { version = "*", optional = true }  # Development dependency.
+sphinx-rtd-theme = { version = "*", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
 toml = { version = "*", optional = true }  # Development dependency.
 tqdm = { version = "*", optional = true }
 trimesh = { version = "*", optional = true }
 twine = { version = "*", optional = true }  # Development dependency.
-typing-extensions = { version = "*", optional = true }  # Development dependency.
 
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
@@ -82,6 +82,7 @@ black = "*"
 coverage = "!= 6.3"
 coveralls = "*"
 flake8 = "*"
+flynt = "*"
 invoke = "*"
 jupyter = "*"
 mypy = "*"
@@ -91,11 +92,10 @@ pytest-cov = "*"
 pyupgrade = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
-sphinx_rtd_theme = "*"
+sphinx-rtd-theme = "*"
 sphinxcontrib-bibtex = "*"
 toml = "*"
 twine = "*"
-typing-extensions = "*"
 
 [tool.poetry.extras]
 development = [
@@ -104,6 +104,7 @@ development = [
     "coverage",
     "coveralls",
     "flake8",
+    "flynt",
     "invoke",
     "jupyter",
     "mypy",
@@ -113,11 +114,10 @@ development = [
     "pyupgrade",
     "restructuredtext-lint",
     "sphinx",
-    "sphinx_rtd_theme",
+    "sphinx-rtd-theme",
     "sphinxcontrib-bibtex",
     "toml",
     "twine",
-    "typing-extensions",
 ]
 graphviz = [ "pygraphviz" ]
 meshing = [ "trimesh" ]
@@ -142,6 +142,9 @@ exclude = '''
   | dist
 )/
 '''
+
+[tool.flynt]
+line_length=999
 
 [tool.mypy]
 plugins = "numpy.typing.mypy_plugin"

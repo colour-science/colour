@@ -157,12 +157,12 @@ def Lab_to_DIN99(
     G = spow(e ** 2 + f ** 2, 0.5)
     h_ef = np.arctan2(f, e) + np.radians(c_7)
 
-    C_99 = c_5 * (np.log(1 + c_6 * G)) / (c_8 * k_CH * k_E)
+    C_99 = c_5 * (np.log1p(c_6 * G)) / (c_8 * k_CH * k_E)
     # Hue angle is unused currently.
     # h_99 = np.degrees(h_ef)
     a_99 = C_99 * np.cos(h_ef)
     b_99 = C_99 * np.sin(h_ef)
-    L_99 = c_1 * (np.log(1 + c_2 * L)) * k_E
+    L_99 = c_1 * (np.log1p(c_2 * L)) * k_E
 
     Lab_99 = tstack([L_99, a_99, b_99])
 
@@ -248,14 +248,14 @@ def DIN99_to_Lab(
     h_99 = np.arctan2(b_99, a_99) - np.radians(c_7)
 
     C_99 = np.sqrt(a_99 ** 2 + b_99 ** 2)
-    G = (np.exp((c_8 / c_5) * (C_99) * k_CH * k_E) - 1) / c_6
+    G = np.expm1((c_8 / c_5) * (C_99) * k_CH * k_E) / c_6
 
     e = G * np.cos(h_99)
     f = G * np.sin(h_99)
 
     a = e * cos - (f / c_4) * sin
     b = e * sin + (f / c_4) * cos
-    L = (np.exp(L_99 * k_E / c_1) - 1) / c_2
+    L = np.expm1(L_99 * k_E / c_1) / c_2
 
     Lab = tstack([L, a, b])
 

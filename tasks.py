@@ -31,6 +31,7 @@ __all__ = [
     "PYPI_PACKAGE_NAME",
     "BIBLIOGRAPHY_NAME",
     "clean",
+    "upgrade",
     "formatting",
     "tests",
     "quality",
@@ -132,6 +133,34 @@ def clean(
 
 
 @task
+def upgrade(
+    ctx: Context,
+    pyupgrade: Boolean = True,
+    flynt: Boolean = True,
+):
+    """
+    Upgrade the codebase with *pyupgrade* and *flynt*.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    pyupgrade
+        Whether to upgrade the codebase with *pyupgrade*.
+    flynt
+        Whether to upgrade the codebase with *flynt*.
+    """
+
+    if pyupgrade:
+        message_box('Upgrading codebase with "pyupgrade"...')
+        ctx.run("pre-commit run pyupgrade --all-files")
+
+    if flynt:
+        message_box('Upgrading codebase with "flynt"...')
+        ctx.run("flynt .")
+
+
+@task
 def formatting(
     ctx: Context,
     black: Boolean = True,
@@ -140,7 +169,7 @@ def formatting(
 ):
     """
     Formats the codebase with *Black*, converts unicode characters to ASCII and
-    cleanup the "BibTeX" file.
+    cleanup the *BibTeX* file.
 
     Parameters
     ----------
@@ -281,7 +310,7 @@ def examples(ctx: Context, plots: Boolean = False):
             ctx.run(f"python {os.path.join(root, filename)}")
 
 
-@task(formatting, tests, quality, examples)
+@task(upgrade, formatting, tests, quality, examples)
 def preflight(ctx: Context):
     """
     Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and

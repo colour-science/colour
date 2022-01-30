@@ -131,8 +131,8 @@ def sd_CIE_standard_illuminant_A(
         100
         * (560 / wavelengths) ** 5
         * (
-            (np.exp((1.435 * 10 ** 7) / (2848 * 560)) - 1)
-            / (np.exp((1.435 * 10 ** 7) / (2848 * wavelengths)) - 1)
+            np.expm1((1.435 * 10 ** 7) / (2848 * 560))
+            / np.expm1((1.435 * 10 ** 7) / (2848 * wavelengths))
         )
     )
 
