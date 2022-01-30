@@ -175,8 +175,8 @@ def formatting(
     ----------
     ctx
         Context.
-    yapf
-        Whether to format the codebase with *Yapf*.
+    black
+        Whether to format the codebase with *Black*.
     asciify
         Whether to convert unicode characters to ASCII.
     bibtex
