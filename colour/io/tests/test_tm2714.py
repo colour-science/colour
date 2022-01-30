@@ -176,9 +176,11 @@ class TestIES_TM2714_Header(unittest.TestCase):
         Tests :meth:`colour.io.tm2714.Header_IESTM2714.__eq__ method.
         """
 
-        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c', document_creator='d',
-                              unique_identifier='e', measurement_equipment='f', laboratory='g', report_number='h',
-                              report_date='i', document_creation_date='j', comments='k')
+        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
+                              document_creator='d', unique_identifier='e',
+                              measurement_equipment='f', laboratory='g',
+                              report_number='h', report_date='i',
+                              document_creation_date='j', comments='k')
 
         h1 = deepcopy(h0)
         self.assertEqual(h0, h1)
@@ -188,9 +190,11 @@ class TestIES_TM2714_Header(unittest.TestCase):
         Tests :meth:`colour.io.tm2714.Header_IESTM2714.__ne__ method.
         """
 
-        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c', document_creator='d',
-                              unique_identifier='e', measurement_equipment='f', laboratory='g', report_number='h',
-                              report_date='i', document_creation_date='j', comments='k')
+        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
+                              document_creator='d', unique_identifier='e',
+                              measurement_equipment='f', laboratory='g',
+                              report_number='h', report_date='i',
+                              document_creation_date='j', comments='k')
         h1 = deepcopy(h0)
 
         h1.manufacturer = 'aa'
@@ -203,11 +207,14 @@ class TestIES_TM2714_Header(unittest.TestCase):
         Tests :meth:`colour.io.tm2714.Header_IESTM2714.__hash__ method.
         """
 
-        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c', document_creator='d',
-                              unique_identifier='e', measurement_equipment='f', laboratory='g', report_number='h',
-                              report_date='i', document_creation_date='j', comments='k')
+        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
+                              document_creator='d', unique_identifier='e',
+                              measurement_equipment='f', laboratory='g',
+                              report_number='h', report_date='i',
+                              document_creation_date='j', comments='k')
 
         self.assertIsInstance(hash(h0), int)
+
 
 class TestIES_TM2714_Sd(unittest.TestCase):
     """

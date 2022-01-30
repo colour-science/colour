@@ -623,9 +623,11 @@ class Header_IESTM2714:
         return not self == other
 
     def __hash__(self):
-        return hash((self._manufacturer, self._catalog_number, self._description, self._document_creator,
-                     self._unique_identifier, self._measurement_equipment, self._laboratory,
-                     self._report_number, self._report_date, self._document_creation_date, self._comments))
+        return hash((self._manufacturer, self._catalog_number, self._description,
+                     self._document_creator, self._unique_identifier,
+                     self._measurement_equipment, self._laboratory,
+                     self._report_number, self._report_date,
+                     self._document_creation_date, self._comments))
 
 
 class SpectralDistribution_IESTM2714(SpectralDistribution):
