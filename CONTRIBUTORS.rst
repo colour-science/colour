@@ -6,29 +6,29 @@ The Colour Developers
 
 -   **Thomas Mansencal**, *Visual Effects Artist @ Weta Digital*
 
-    Project coordination, overall development.
+    Maintainer, project coordination, overall development.
 
 -   **Michael Mauderer**, *HCI Researcher @ University of Dundee*
 
-    Colour appearance models, overall development.
-
--   **Michael Parsons**, *Colour Scientist @ The Moving Picture Company*
-
-    Continuous technical support.
+    Maintainer, colour appearance models, overall development.
 
 -   **Nick Shaw**, *Workflow Consultant @ Antler Post*
 
-    Y'CbCr Colour Encoding, RED Colourspaces Derivation.
+    Maintainer, Y'CbCr colour encoding, RED colourspaces derivation, LUT IO, continuous technical support.
 
--   **Luke Canavan**
+-   **Zach Lewis**, *Technical Director @ Method Studios*
 
-    Colour Quality Scale, Luminous Flux.
+    Maintainer, CLF, technical support.
 
--   **Sean Cooper**, *Colour Scientist*
+-   **Michael Parsons**, *Colour Scientist @ The Moving Picture Company*
+
+    Maintainer, technical support.
+
+-   **Kevin Wheatley**, *Head of Imaging @ Framestore*
 
     Technical support.
 
--   **Kevin Wheatley**, *Head of Imaging @ Framestore*
+-   **Sean Cooper**, *Colour Scientist*
 
     Technical support.
 
@@ -67,6 +67,10 @@ Google Summer of Code
 
 Development & Technical Support
 -------------------------------
+
+-   **Luke Canavan**
+
+    Colour Quality Scale, luminous flux.
 
 -   **Katherine Crowson**
 
@@ -335,7 +339,6 @@ Issues & Discussions
 -   @wuuawu
 -   @xjossy
 -   @yuhao
--   @zachlewis
 
 About
 -----
