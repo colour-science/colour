@@ -106,9 +106,7 @@ def planck_law(
     l = as_float_array(wavelength)  # noqa
     t = as_float_array(temperature)
 
-    p = ((c1 * n ** -2 * l ** -5) / np.pi) * (
-        np.exp(c2 / (n * l * t)) - 1
-    ) ** -1
+    p = ((c1 * n ** -2 * l ** -5) / np.pi) * (np.expm1(c2 / (n * l * t))) ** -1
 
     return p
 
