@@ -175,8 +175,8 @@ def formatting(
     ----------
     ctx
         Context.
-    yapf
-        Whether to format the codebase with *Yapf*.
+    black
+        Whether to format the codebase with *Black*.
     asciify
         Whether to convert unicode characters to ASCII.
     bibtex
@@ -228,8 +228,11 @@ def tests(ctx: Context):
 
     message_box('Running "Pytest"...')
     ctx.run(
-        "py.test --disable-warnings --doctest-modules "
-        "--ignore={0}/examples {0}".format(PYTHON_PACKAGE_NAME),
+        "py.test "
+        "--disable-warnings "
+        "--doctest-modules "
+        f"--ignore={PYTHON_PACKAGE_NAME}/examples "
+        f"{PYTHON_PACKAGE_NAME}",
         env={"MPLBACKEND": "AGG"},
     )
 
