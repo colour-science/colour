@@ -491,4 +491,4 @@ def delta_E_to_R_f(delta_E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     c_f = 6.73
 
-    return as_float(10 * np.log(np.exp((100 - c_f * delta_E) / 10) + 1))
+    return as_float(10 * np.log1p(np.exp((100 - c_f * delta_E) / 10)))

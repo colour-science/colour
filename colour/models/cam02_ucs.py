@@ -171,7 +171,7 @@ def JMh_CIECAM02_to_UCS_Luo2006(
     _K_L, c_1, c_2 = tsplit(coefficients)
 
     J_p = ((1 + 100 * c_1) * J) / (1 + c_1 * J)
-    M_p = (1 / c_2) * np.log(1 + c_2 * M)
+    M_p = (1 / c_2) * np.log1p(c_2 * M)
 
     a_p, b_p = tsplit(polar_to_cartesian(tstack([M_p, np.radians(h)])))
 

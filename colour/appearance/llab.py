@@ -626,7 +626,7 @@ def chroma_correlate(
     b = as_float_array(b)
 
     c = spow(a ** 2 + b ** 2, 0.5)
-    Ch_L = 25 * np.log(1 + 0.05 * c)
+    Ch_L = 25 * np.log1p(0.05 * c)
 
     return as_float(Ch_L)
 

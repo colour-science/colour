@@ -77,7 +77,7 @@ def log_encoding_Protune(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     x = to_domain_1(x)
 
-    y = np.log(x * 112 + 1) / np.log(113)
+    y = np.log1p(x * 112) / np.log(113)
 
     return as_float(from_range_1(y))
 

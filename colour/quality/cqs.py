@@ -498,7 +498,7 @@ def scale_conversion(
         *Colour Quality Scale* (CQS).
     """
 
-    Q_a = 10 * np.log(np.exp((100 - scaling_f * D_E_ab) / 10) + 1) * CCT_f
+    Q_a = 10 * np.log1p(np.exp((100 - scaling_f * D_E_ab) / 10)) * CCT_f
 
     return Q_a
 
