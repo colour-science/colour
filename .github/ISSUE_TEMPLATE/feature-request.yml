@@ -1,0 +1,18 @@
+name: Feature Request
+description: Suggest a new feature to implement.
+title: "[FEATURE]: << Please use a comprehensive title... >>"
+labels: [ Feature ]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for taking the time to file a feature request. Before continuing, please take some time to check the existing [issues](https://github.com/colour-science/colour/issues) and also the [draft release notes](https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d).
+
+  - type: textarea
+    attributes:
+      label: "Description"
+      description: >
+        Please describe the new feature in a few short sentences.
+    validations:
+      required: true
