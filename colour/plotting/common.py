@@ -1286,12 +1286,13 @@ def plot_multi_colour_swatches(
 
     # Handling case where `colour_swatches` is a regular *ArrayLike*.
     colour_swatches = list(colour_swatches)
+    colour_swatches_converted = []
     if not isinstance(first_item(colour_swatches), ColourSwatch):
         for i, colour_swatch in enumerate(
             as_float_array(cast(ArrayLike, colour_swatches)).reshape([-1, 3])
         ):
-            colour_swatches[i] = ColourSwatch(colour_swatch)
-    colour_swatches = cast(List[ColourSwatch], colour_swatches)
+            colour_swatches_converted.append(ColourSwatch(colour_swatch))
+    colour_swatches = cast(List[ColourSwatch], colour_swatches_converted)
 
     if compare_swatches is not None:
         attest(
