@@ -622,7 +622,7 @@ class Header_IESTM2714:
     def __ne__(self, other: Any) -> bool:
         return not (self == other)
 
-    def __hash__(self) -> bool:
+    def __hash__(self) -> int:
         return hash((self._manufacturer, self._catalog_number, self._description,
                      self._document_creator, self._unique_identifier,
                      self._measurement_equipment, self._laboratory,
