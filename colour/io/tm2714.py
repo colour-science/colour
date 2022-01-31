@@ -601,7 +601,7 @@ class Header_IESTM2714:
 
         self._comments = value
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, Header_IESTM2714):
             comps = [
                 self._manufacturer == other.manufacturer,
@@ -619,10 +619,10 @@ class Header_IESTM2714:
             return all(comps)
         return False
 
-    def __ne__(self, other):
-        return not self == other
+    def __ne__(self, other: Any) -> bool:
+        return not (self == other)
 
-    def __hash__(self):
+    def __hash__(self) -> bool:
         return hash((self._manufacturer, self._catalog_number, self._description,
                      self._document_creator, self._unique_identifier,
                      self._measurement_equipment, self._laboratory,

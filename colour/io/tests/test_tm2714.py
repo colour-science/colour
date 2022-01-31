@@ -3,13 +3,13 @@ Defines the unit tests for the :mod:`colour.io.tm2714` module.
 """
 
 from __future__ import annotations
-from copy import deepcopy
 
 import numpy as np
 import os
 import shutil
 import unittest
 import tempfile
+from copy import deepcopy
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict, List, Optional, Tuple, Union, cast
@@ -173,7 +173,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
 
     def test__eq__(self):
         """
-        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__eq__ method.
+        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__eq__` method.
         """
 
         h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
@@ -187,7 +187,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
 
     def test__ne__(self):
         """
-        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__ne__ method.
+        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method.
         """
 
         h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
@@ -204,7 +204,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
 
     def test__hash__(self):
         """
-        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__hash__ method.
+        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__hash__` method.
         """
 
         h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
