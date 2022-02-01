@@ -31,10 +31,10 @@ __all__ = [
     "PYPI_PACKAGE_NAME",
     "BIBLIOGRAPHY_NAME",
     "clean",
-    "upgrade",
     "formatting",
-    "tests",
     "quality",
+    "precommit",
+    "tests",
     "examples",
     "preflight",
     "docs",
@@ -133,59 +133,23 @@ def clean(
 
 
 @task
-def upgrade(
-    ctx: Context,
-    pyupgrade: Boolean = True,
-    flynt: Boolean = True,
-):
-    """
-    Upgrade the codebase with *pyupgrade* and *flynt*.
-
-    Parameters
-    ----------
-    ctx
-        Context.
-    pyupgrade
-        Whether to upgrade the codebase with *pyupgrade*.
-    flynt
-        Whether to upgrade the codebase with *flynt*.
-    """
-
-    if pyupgrade:
-        message_box('Upgrading codebase with "pyupgrade"...')
-        ctx.run("pre-commit run pyupgrade --all-files")
-
-    if flynt:
-        message_box('Upgrading codebase with "flynt"...')
-        ctx.run("flynt .")
-
-
-@task
 def formatting(
     ctx: Context,
-    black: Boolean = True,
     asciify: Boolean = True,
     bibtex: Boolean = True,
 ):
     """
-    Formats the codebase with *Black*, converts unicode characters to ASCII and
-    cleanup the *BibTeX* file.
+    Converts unicode characters to ASCII and cleanup the *BibTeX* file.
 
     Parameters
     ----------
     ctx
         Context.
-    black
-        Whether to format the codebase with *Black*.
     asciify
         Whether to convert unicode characters to ASCII.
     bibtex
         Whether to cleanup the *BibTeX* file.
     """
-
-    if black:
-        message_box('Formatting codebase with "Black"...')
-        ctx.run("black .")
 
     if asciify:
         message_box("Converting unicode characters to ASCII...")
@@ -216,6 +180,61 @@ def formatting(
 
 
 @task
+def quality(
+    ctx: Context,
+    mypy: Boolean = True,
+    rstlint: Boolean = True,
+):
+    """
+    Checks the codebase with *Mypy* and lints various *restructuredText*
+    files with *rst-lint*.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    flake8
+        Whether to check the codebase with *Flake8*.
+    mypy
+        Whether to check the codebase with *Mypy*.
+    rstlint
+        Whether to lint various *restructuredText* files with *rst-lint*.
+    """
+
+    if mypy:
+        message_box('Checking codebase with "Mypy"...')
+        ctx.run(
+            f"mypy "
+            f"--install-types "
+            f"--non-interactive "
+            f"--show-error-codes "
+            f"--warn-unused-ignores "
+            f"--warn-redundant-casts "
+            f"-p {PYTHON_PACKAGE_NAME} "
+            f"|| true"
+        )
+
+    if rstlint:
+        message_box('Linting "README.rst" file...')
+        ctx.run("rst-lint README.rst")
+
+
+@task
+def precommit(ctx: Context):
+    """
+    Runs the "pre-commit" hooks on the codebase.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    """
+
+    message_box('Running "pre-commit" hooks on the codebase...')
+    ctx.run("pre-commit run --all-files")
+
+
+@task
 def tests(ctx: Context):
     """
     Runs the unit tests with *Pytest*.
@@ -235,51 +254,6 @@ def tests(ctx: Context):
         f"{PYTHON_PACKAGE_NAME}",
         env={"MPLBACKEND": "AGG"},
     )
-
-
-@task
-def quality(
-    ctx: Context,
-    flake8: Boolean = True,
-    mypy: Boolean = True,
-    rstlint: Boolean = True,
-):
-    """
-    Checks the codebase with *Flake8* and lints various *restructuredText*
-    files with *rst-lint*.
-
-    Parameters
-    ----------
-    ctx
-        Context.
-    flake8
-        Whether to check the codebase with *Flake8*.
-    mypy
-        Whether to check the codebase with *Mypy*.
-    rstlint
-        Whether to lint various *restructuredText* files with *rst-lint*.
-    """
-
-    if flake8:
-        message_box('Checking codebase with "Flake8"...')
-        ctx.run(f"flake8 {PYTHON_PACKAGE_NAME} --exclude=examples")
-
-    if mypy:
-        message_box('Checking codebase with "Mypy"...')
-        ctx.run(
-            f"mypy "
-            f"--install-types "
-            f"--non-interactive "
-            f"--show-error-codes "
-            f"--warn-unused-ignores "
-            f"--warn-redundant-casts "
-            f"-p {PYTHON_PACKAGE_NAME} "
-            f"|| true"
-        )
-
-    if rstlint:
-        message_box('Linting "README.rst" file...')
-        ctx.run("rst-lint README.rst")
 
 
 @task
@@ -313,7 +287,7 @@ def examples(ctx: Context, plots: Boolean = False):
             ctx.run(f"python {os.path.join(root, filename)}")
 
 
-@task(upgrade, formatting, tests, quality, examples)
+@task(formatting, quality, precommit, tests, examples)
 def preflight(ctx: Context):
     """
     Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
