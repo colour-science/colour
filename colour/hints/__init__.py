@@ -42,6 +42,7 @@ try:
         SupportsIndex,
         TypedDict,
     )
+# TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
 except ImportError:  # pragma: no cover
     from typing_extensions import (  # type: ignore[misc]
         Literal,
