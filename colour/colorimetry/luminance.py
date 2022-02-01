@@ -127,7 +127,6 @@ def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -180,7 +179,6 @@ def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -238,7 +236,6 @@ def intermediate_luminance_function_CIE1976(
 
     Notes
     -----
-
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
@@ -298,7 +295,6 @@ def luminance_CIE1976(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -355,7 +351,6 @@ def luminance_Fairchild2010(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -419,7 +414,6 @@ def luminance_Fairchild2011(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -493,7 +487,6 @@ def luminance_Abebe2017(
 
     Notes
     -----
-
     -   *Abebe, Pouli, Larabi and Reinhard (2017)* method uses absolute
         luminance levels, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -628,7 +621,6 @@ def luminance(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

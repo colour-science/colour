@@ -418,7 +418,6 @@ def munsell_value_Priest1920(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -465,7 +464,6 @@ def munsell_value_Munsell1933(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -513,7 +511,6 @@ def munsell_value_Moon1943(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -560,7 +557,6 @@ def munsell_value_Saunderson1944(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -607,7 +603,6 @@ def munsell_value_Ladd1955(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -654,7 +649,6 @@ def munsell_value_McCamy1987(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -711,7 +705,6 @@ def munsell_value_ASTMD1535(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -802,7 +795,6 @@ def munsell_value(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -950,7 +942,6 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +-------------------+-----------------------+---------------+
     | **Domain**        | **Scale - Reference** | **Scale - 1** |
     +===================+=======================+===============+
@@ -1012,7 +1003,6 @@ def munsell_colour_to_xyY(munsell_colour: StrOrArrayLike) -> NDArray:
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -1373,7 +1363,6 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +-------------------+-----------------------+---------------+
     | **Domain**        | **Scale - Reference** | **Scale - 1** |
     +===================+=======================+===============+
@@ -1442,7 +1431,6 @@ def xyY_to_munsell_colour(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

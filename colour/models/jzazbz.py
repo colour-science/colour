@@ -213,7 +213,6 @@ def XYZ_to_Izazbz(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -313,7 +312,6 @@ def Izazbz_to_XYZ(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -407,7 +405,6 @@ def XYZ_to_Jzazbz(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -485,7 +482,6 @@ def Jzazbz_to_XYZ(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by

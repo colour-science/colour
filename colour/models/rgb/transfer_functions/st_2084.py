@@ -88,7 +88,6 @@ def eotf_inverse_ST2084(
 
     Notes
     -----
-
     -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.
@@ -167,7 +166,6 @@ def eotf_ST2084(
 
     Notes
     -----
-
     -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.

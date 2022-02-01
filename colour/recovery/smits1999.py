@@ -109,7 +109,6 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

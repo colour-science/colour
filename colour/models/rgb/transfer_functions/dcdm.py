@@ -69,7 +69,6 @@ def eotf_inverse_DCDM(
 
     Notes
     -----
-
     -   *DCDM* is an absolute transfer function, thus the domain and range
         values for the *Reference* and *1* scales are only indicative that the
         data is not affected by scale transformations.
@@ -137,7 +136,6 @@ def eotf_DCDM(
 
     Notes
     -----
-
     -   *DCDM* is an absolute transfer function, thus the domain and range
         values for the *Reference* and *1* scales are only indicative that the
         data is not affected by scale transformations.

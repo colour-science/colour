@@ -334,7 +334,6 @@ def ICtCp_to_RGB(
 
     Notes
     -----
-
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
         for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
@@ -492,7 +491,6 @@ def XYZ_to_ICtCp(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
@@ -631,7 +629,6 @@ def ICtCp_to_XYZ(
 
     Notes
     -----
-
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
         for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
