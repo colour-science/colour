@@ -181,7 +181,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            f'"start" property: "{value}" is not a "numeric"!',
+            f'"start" property: "{value}" is not a "number"!',
         )
 
         attest(
@@ -218,7 +218,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            f'"end" property: "{value}" is not a "numeric"!',
+            f'"end" property: "{value}" is not a "number"!',
         )
 
         attest(
@@ -255,7 +255,7 @@ class SpectralShape:
 
         attest(
             is_numeric(value),
-            f'"interval" property: "{value}" is not a "numeric"!',
+            f'"interval" property: "{value}" is not a "number"!',
         )
 
         self._interval = value

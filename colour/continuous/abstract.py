@@ -80,6 +80,7 @@ class AbstractContinuousFunction(ABC):
     Attributes
     ----------
     -   :attr:`~colour.continuous.AbstractContinuousFunction.name`
+    -   :attr:`~colour.continuous.AbstractContinuousFunction.dtype`
     -   :attr:`~colour.continuous.AbstractContinuousFunction.domain`
     -   :attr:`~colour.continuous.AbstractContinuousFunction.range`
     -   :attr:`~colour.continuous.AbstractContinuousFunction.interpolator`
