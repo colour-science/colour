@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Blackbody - Planckian Radiator
 ==============================
@@ -602,6 +601,7 @@ def sd_blackbody(
         name="{0}K Blackbody".format(temperature),
     )
 
+
 """
 Rayleigh-Jeans spectral distribution
 ==============================
@@ -611,6 +611,7 @@ the spectral radiance of electromagnetic radiation as a function of
 wavelength from a black body at a given temperature through
 classical arguments.
 """
+
 
 def rayleigh_jeans_law(
     wavelength,
@@ -629,8 +630,8 @@ def rayleigh_jeans_law(
 
     Returns
     -------
-    Spectral radiance, the power emitted per unit emitting area, 
-    per steradian, per unit wavelength.
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Radiance in *watts per steradian per square metre* (:math:`W/sr/m^2`).
 
     Notes
     -----
@@ -644,7 +645,7 @@ def rayleigh_jeans_law(
     >>> rayleigh_jeans_law(900 * 1e-9, 4800) # doctest: +ELLIPSIS
     6.05627372126...
     """
-    
+
     λ = as_float_array(wavelength)
     T = as_float_array(temperature)
 
@@ -652,7 +653,7 @@ def rayleigh_jeans_law(
     k_B = CONSTANT_BOLTZMANN
 
     B = (2 * c * k_B * T) / (λ ** 4)
-    
+
     return B
 
 
@@ -1112,7 +1113,7 @@ def sd_rayleigh_jeans(
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
     """
-    
+
     wavelengths = shape.range()
     return SpectralDistribution(
         rayleigh_jeans_law(wavelengths * 1e-9, temperature) * 1e-9,
