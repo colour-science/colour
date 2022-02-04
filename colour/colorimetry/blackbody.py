@@ -1120,3 +1120,4 @@ def sd_rayleigh_jeans(
         wavelengths,
         name='{0}K Rayleigh-Jeans'.format(temperature),
     )
+    
