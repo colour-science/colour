@@ -28,6 +28,7 @@ from colour.hints import (
     Boolean,
     Callable,
     Floating,
+    Integer,
     Literal,
     Optional,
     cast,
