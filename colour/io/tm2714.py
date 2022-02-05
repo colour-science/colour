@@ -911,7 +911,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         attest(
             isinstance(value, Header_IESTM2714),
-            f'"header" property: "{value}" type is not a "Header_IESTM2714"!',
+            f'"header" property: "{value}" type is not "Header_IESTM2714"!',
         )
 
         self._header = value
@@ -1118,7 +1118,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         if value is not None:
             attest(
                 is_numeric(value),
-                f'"bandwidth_FWHM" property: "{value}" is not a "numeric"!',
+                f'"bandwidth_FWHM" property: "{value}" is not a "number"!',
             )
 
             value = as_float_scalar(value)
@@ -1138,7 +1138,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         Returns
         -------
-        :class:`bool`
+        :py:data:`None` or :class:`bool`
             Whether bandwidth correction has been applied to the measured data.
         """
 
@@ -1166,6 +1166,11 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         -------
         :class:`colour.SpectralDistribution_IESTM2714`
             *IES TM-27-14* spectral distribution.
+
+        Raises
+        ------
+        ValueError
+            If the *IES TM-27-14* spectral distribution path is undefined.
 
         Examples
         --------

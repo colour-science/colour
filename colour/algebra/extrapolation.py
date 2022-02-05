@@ -260,7 +260,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                f'"left" property: "{value}" is not a "numeric"!',
+                f'"left" property: "{value}" is not a "number"!',
             )
 
             self._left = value
@@ -292,7 +292,7 @@ class Extrapolator:
         if value is not None:
             attest(
                 is_numeric(value),
-                f'"right" property: "{value}" is not a "numeric"!',
+                f'"right" property: "{value}" is not a "number"!',
             )
 
             self._right = value
