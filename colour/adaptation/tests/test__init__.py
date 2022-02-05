@@ -23,13 +23,13 @@ __all__ = [
 
 class TestChromaticAdaptation(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.chromatic_adaptation` definition unit
+    Define :func:`colour.adaptation.chromatic_adaptation` definition unit
     tests methods.
     """
 
     def test_chromatic_adaptation(self):
         """
-        Tests :func:`colour.adaptation.chromatic_adaptation` definition.
+        Test :func:`colour.adaptation.chromatic_adaptation` definition.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -77,7 +77,7 @@ class TestChromaticAdaptation(unittest.TestCase):
 
     def test_domain_range_scale_chromatic_adaptation(self):
         """
-        Tests :func:`colour.adaptation.chromatic_adaptation` definition domain
+        Test :func:`colour.adaptation.chromatic_adaptation` definition domain
         and range scale support.
         """
 

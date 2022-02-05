@@ -25,13 +25,13 @@ __all__ = [
 
 class TestPlotSingleColourChecker(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.characterisation.plot_single_colour_checker`
+    Define :func:`colour.plotting.characterisation.plot_single_colour_checker`
     definition unit tests methods.
     """
 
     def test_plot_single_colour_checker(self):
         """
-        Tests :func:`colour.plotting.characterisation.\
+        Test :func:`colour.plotting.characterisation.\
 plot_single_colour_checker` definition.
         """
 
@@ -43,13 +43,13 @@ plot_single_colour_checker` definition.
 
 class TestPlotMultiColourCheckers(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.characterisation.plot_multi_colour_checkers`
+    Define :func:`colour.plotting.characterisation.plot_multi_colour_checkers`
     definition unit tests methods.
     """
 
     def test_plot_multi_colour_checkers(self):
         """
-        Tests :func:`colour.plotting.characterisation.\
+        Test :func:`colour.plotting.characterisation.\
 plot_multi_colour_checkers` definition.
         """
 

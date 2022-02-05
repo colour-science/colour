@@ -29,13 +29,13 @@ __all__ = [
 
 class TestShowWarning(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.verbose.show_warning` definition unit tests
+    Define :func:`colour.utilities.verbose.show_warning` definition unit tests
     methods.
     """
 
     def test_show_warning(self):
         """
-        Tests :func:`colour.utilities.verbose.show_warning` definition.
+        Test :func:`colour.utilities.verbose.show_warning` definition.
         """
 
         show_warning("This is a unit test warning!", Warning, None, None)
@@ -55,13 +55,13 @@ class TestShowWarning(unittest.TestCase):
 
 class TestSuppressWarnings(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.verbose.suppress_warnings` definition unit
+    Define :func:`colour.utilities.verbose.suppress_warnings` definition unit
     tests methods.
     """
 
     def test_suppress_warnings(self):
         """
-        Tests :func:`colour.utilities.verbose.suppress_warnings` definition.
+        Test :func:`colour.utilities.verbose.suppress_warnings` definition.
         """
 
         with suppress_warnings():
@@ -70,13 +70,13 @@ class TestSuppressWarnings(unittest.TestCase):
 
 class TestDescribeEnvironment(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.verbose.describe_environment` definition
+    Define :func:`colour.utilities.verbose.describe_environment` definition
     unit tests methods.
     """
 
     def test_describe_environment(self):
         """
-        Tests :func:`colour.utilities.verbose.describe_environment` definition.
+        Test :func:`colour.utilities.verbose.describe_environment` definition.
         """
 
         environment = describe_environment()

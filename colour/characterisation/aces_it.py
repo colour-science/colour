@@ -166,7 +166,7 @@ def sd_to_aces_relative_exposure_values(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Converts given spectral distribution to *ACES2065-1* colourspace relative
+    Convert given spectral distribution to *ACES2065-1* colourspace relative
     exposure values.
 
     Parameters
@@ -235,7 +235,7 @@ def sd_to_aces_relative_exposure_values(
 
     def k(x: NDArray, y: NDArray) -> NDArray:
         """
-        Computes the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors.
+        Compute the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors.
         """
 
         return 1 / np.sum(x * y)
@@ -301,7 +301,7 @@ _TRAINING_DATA_RAWTOACES_V1: Optional[MultiSpectralDistributions] = None
 
 def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     """
-    Reads the *RAW to ACES* v1 190 patches.
+    Read the *RAW to ACES* v1 190 patches.
 
     Returns
     -------
@@ -338,7 +338,7 @@ _ILLUMINANTS_RAWTOACES_V1: Optional[CaseInsensitiveMapping] = None
 
 def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
     """
-    Generates a series of illuminants according to *RAW to ACES* v1:
+    Generate a series of illuminants according to *RAW to ACES* v1:
 
     -   *CIE Illuminant D Series* in range [4000, 25000] kelvin degrees.
     -   *Blackbodies* in range [1000, 3500] kelvin degrees.
@@ -412,7 +412,7 @@ def white_balance_multipliers(
     sensitivities: RGB_CameraSensitivities, illuminant: SpectralDistribution
 ) -> NDArray:
     """
-    Computes the *RGB* white balance multipliers for given camera *RGB*
+    Compute the *RGB* white balance multipliers for given camera *RGB*
     spectral sensitivities and illuminant.
 
     Parameters
@@ -514,7 +514,7 @@ def normalise_illuminant(
     illuminant: SpectralDistribution, sensitivities: RGB_CameraSensitivities
 ) -> SpectralDistribution:
     """
-    Normalises given illuminant with given camera *RGB* spectral sensitivities.
+    Normalise given illuminant with given camera *RGB* spectral sensitivities.
 
     The multiplicative inverse scaling factor :math:`k` is computed by
     multiplying the illuminant by the sensitivies channel with the maximum
@@ -566,7 +566,7 @@ def training_data_sds_to_RGB(
     illuminant: SpectralDistribution,
 ) -> Tuple[NDArray, NDArray]:
     """
-    Converts given training data to *RGB* tristimulus values using given
+    Convert given training data to *RGB* tristimulus values using given
     illuminant and given camera *RGB* spectral sensitivities.
 
     Parameters
@@ -657,7 +657,7 @@ def training_data_sds_to_XYZ(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Converts given training data to *CIE XYZ* tristimulus values using given
+    Convert given training data to *CIE XYZ* tristimulus values using given
     illuminant and given standard observer colour matching functions.
 
     Parameters
@@ -865,7 +865,7 @@ def matrix_idt(
     additional_data: Boolean = False,
 ) -> Union[Tuple[NDArray, NDArray, NDArray, NDArray], Tuple[NDArray, NDArray]]:
     """
-    Computes an *Input Device Transform* (IDT) matrix for given camera *RGB*
+    Compute an *Input Device Transform* (IDT) matrix for given camera *RGB*
     spectral sensitivities, illuminant, training data, standard observer colour
     matching functions and optimization settings according to *RAW to ACES* v1
     and *P-2013-001* procedures.
@@ -1005,7 +1005,7 @@ def camera_RGB_to_ACES2065_1(
     clip: Boolean = False,
 ) -> NDArray:
     """
-    Converts given camera *RGB* colourspace array to *ACES2065-1* colourspace
+    Convert given camera *RGB* colourspace array to *ACES2065-1* colourspace
     using the *Input Device Transform* (IDT) matrix :math:`B`, the white
     balance multipliers :math:`b` and the exposure factor :math:`k` according
     to *P-2013-001* procedure.

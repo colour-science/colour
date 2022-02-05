@@ -381,7 +381,7 @@ def log_encoding(
     **kwargs: Any
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Encodes *scene-referred* exposure values to :math:`R'G'B'` video component
+    Encode *scene-referred* exposure values to :math:`R'G'B'` video component
     signal value using given *log* encoding function.
 
     Parameters
@@ -525,7 +525,7 @@ def log_decoding(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Decodes :math:`R'G'B'` video component signal value to *scene-referred*
+    Decode :math:`R'G'B'` video component signal value to *scene-referred*
     exposure values using given *log* decoding function.
 
     Parameters
@@ -642,7 +642,7 @@ def oetf(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
+    Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given opto-electronic transfer function
     (OETF).
 
@@ -721,7 +721,7 @@ def oetf_inverse(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Decodes :math:`R'G'B'` video component signal value to tristimulus values
+    Decode :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given inverse opto-electronic transfer function
     (OETF).
 
@@ -807,7 +807,7 @@ def eotf(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Decodes :math:`R'G'B'` video component signal value to tristimulus values
+    Decode :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given electro-optical transfer function (EOTF).
 
     Parameters
@@ -892,7 +892,7 @@ def eotf_inverse(
     **kwargs
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
+    Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
     component signal value using given inverse electro-optical transfer
     function (EOTF).
 
@@ -1042,7 +1042,7 @@ def cctf_encoding(
     **kwargs: Any
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Encodes linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
+    Encode linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
     given encoding colour component transfer function (Encoding CCTF).
 
     Parameters
@@ -1196,7 +1196,7 @@ def cctf_decoding(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Decodes non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
+    Decode non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
     given decoding colour component transfer function (Decoding CCTF).
 
     Parameters
@@ -1285,7 +1285,7 @@ def ootf(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Maps relative scene linear light to display linear light using given
+    Map relative scene linear light to display linear light using given
     opto-optical transfer function (OOTF / OOCF).
 
     Parameters
@@ -1343,7 +1343,7 @@ def ootf_inverse(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Maps relative display linear light to scene linear light using given
+    Map relative display linear light to scene linear light using given
     inverse opto-optical transfer function (OOTF / OOCF).
 
     Parameters

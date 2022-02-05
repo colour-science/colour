@@ -576,13 +576,13 @@ TVS_D65_ASTME308_K1_MSDS: NDArray = np.array(
 
 class TestHandleSpectralArguments(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.\
+    Define :func:`colour.colorimetry.tristimulus_values.\
 handle_spectral_arguments` definition unit tests methods.
     """
 
     def test_handle_spectral_arguments(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 handle_spectral_arguments` definition.
         """
 
@@ -617,13 +617,13 @@ handle_spectral_arguments` definition.
 
 class TestLagrangeCoefficientsASTME2022(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.\
+    Define :func:`colour.colorimetry.tristimulus_values.\
 lagrange_coefficients_ASTME2022` definition unit tests methods.
     """
 
     def test_lagrange_coefficients_ASTME2022(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 lagrange_coefficients_ASTME2022` definition.
         """
 
@@ -657,13 +657,13 @@ lagrange_coefficients_ASTME2022` definition.
 
 class TestTristimulusWeightingFactorsASTME2022(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.\
+    Define :func:`colour.colorimetry.tristimulus_values.\
 tristimulus_weighting_factors_ASTME2022` definition unit tests methods.
     """
 
     def test_tristimulus_weighting_factors_ASTME2022(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 tristimulus_weighting_factors_ASTME2022` definition.
 
         Notes
@@ -736,7 +736,7 @@ tristimulus_weighting_factors_ASTME2022` definition.
 
     def test_raise_exception_tristimulus_weighting_factors_ASTME2022(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 tristimulus_weighting_factors_ASTME2022` definition raised exception.
         """
 
@@ -766,13 +766,13 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
 
 class TestAdjustTristimulusWeightingFactorsASTME308(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.\
+    Define :func:`colour.colorimetry.tristimulus_values.\
 adjust_tristimulus_weighting_factors_ASTME308` definition unit tests methods.
     """
 
     def test_adjust_tristimulus_weighting_factors_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 adjust_tristimulus_weighting_factors_ASTME308` definition.
         """
 
@@ -789,13 +789,13 @@ adjust_tristimulus_weighting_factors_ASTME308` definition.
 
 class TestSd_to_XYZ_integration(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_integration`
+    Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_integration`
     definition unit tests methods.
     """
 
     def test_sd_to_XYZ_integration(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_integration` definition.
         """
 
@@ -840,7 +840,7 @@ sd_to_XYZ_integration` definition.
 
     def test_domain_range_scale_sd_to_XYZ_integration(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_integration` definition domain and range scale support.
         """
 
@@ -861,14 +861,14 @@ sd_to_XYZ_integration` definition domain and range scale support.
 
 class TestSd_to_XYZ_tristimulus_weighting_factors_ASTME308(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.\
+    Define :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
     definition unit tests methods.
     """
 
     def test_sd_to_XYZ_tristimulus_weighting_factors_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
         definition.
         """
@@ -948,7 +948,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 
     def test_domain_range_scale_sd_to_XYZ_twf_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
 range scale support.
         """
@@ -972,13 +972,13 @@ range scale support.
 
 class TestSd_to_XYZ_ASTME308(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
+    Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
     definition unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._sd = SD_SAMPLE.copy()
@@ -987,7 +987,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
 
     def test_sd_to_XYZ_ASTME308_mi_1nm(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
+        Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition for 1 nm measurement intervals.
         """
 
@@ -1044,7 +1044,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
 
     def test_sd_to_XYZ_ASTME308_mi_5nm(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
+        Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition for 5 nm measurement intervals.
         """
 
@@ -1149,7 +1149,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
 
     def test_sd_to_XYZ_ASTME308_mi_10nm(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
+        Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition for 10 nm measurement intervals.
         """
 
@@ -1208,7 +1208,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
 
     def test_sd_to_XYZ_ASTME308_mi_20nm(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
+        Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition for 20 nm measurement intervals.
         """
 
@@ -1313,7 +1313,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
 
     def test_raise_exception_sd_to_XYZ_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
+        Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ_ASTME308`
         definition raised exception.
         """
 
@@ -1326,13 +1326,13 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
 
 class TestSd_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ` definition
+    Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ` definition
     unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -1341,7 +1341,7 @@ class TestSd_to_XYZ(unittest.TestCase):
 
     def test_sd_to_XYZ(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ`
+        Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ`
         definition.
         """
 
@@ -1363,13 +1363,13 @@ class TestSd_to_XYZ(unittest.TestCase):
 
 class TestMsds_to_XYZ_integration(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.\
+    Define :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition unit tests methods.
     """
 
     def test_msds_to_XYZ_integration(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition.
         """
 
@@ -1405,7 +1405,7 @@ msds_to_XYZ_integration` definition.
 
     def test_domain_range_scale_msds_to_XYZ_integration(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition domain and range scale support.
         """
 
@@ -1427,13 +1427,13 @@ msds_to_XYZ_integration` definition domain and range scale support.
 
 class TestMsds_to_XYZ_ASTME308(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.msds_to_XYZ_ASTME308`
+    Define :func:`colour.colorimetry.tristimulus_values.msds_to_XYZ_ASTME308`
     definition unit tests methods.
     """
 
     def test_msds_to_XYZ_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_ASTME308` definition.
         """
 
@@ -1454,7 +1454,7 @@ msds_to_XYZ_ASTME308` definition.
 
     def test_domain_range_scale_msds_to_XYZ_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_ASTME308` definition domain and range scale support.
         """
 
@@ -1475,7 +1475,7 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
 
     def test_raise_exception_msds_to_XYZ_ASTME308(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.\
+        Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_ASTME308` definition raise exception.
         """
 
@@ -1484,13 +1484,13 @@ msds_to_XYZ_ASTME308` definition raise exception.
 
 class TestWavelength_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
+    Define :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
     definition unit tests methods.
     """
 
     def test_wavelength_to_XYZ(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
+        Test :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
         definition.
         """
 
@@ -1520,7 +1520,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
     def test_raise_exception_wavelength_to_XYZ(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
+        Test :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
         definition raised exception.
         """
 
@@ -1530,7 +1530,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_wavelength_to_XYZ(self):
         """
-        Tests :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
+        Test :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
         definition n-dimensional arrays support.
         """
 

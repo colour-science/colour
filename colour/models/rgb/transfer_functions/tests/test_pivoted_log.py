@@ -27,13 +27,13 @@ __all__ = [
 
 class TestLogEncoding_PivotedLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+    Define :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition unit tests methods.
     """
 
     def test_log_encoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+        Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition.
         """
 
@@ -49,7 +49,7 @@ log_encoding_PivotedLog` definition.
 
     def test_n_dimensional_log_encoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+        Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition n-dimensional arrays support.
         """
 
@@ -76,7 +76,7 @@ log_encoding_PivotedLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+        Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition domain and range scale support.
         """
 
@@ -93,7 +93,7 @@ log_encoding_PivotedLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+        Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition nan support.
         """
 
@@ -104,13 +104,13 @@ log_encoding_PivotedLog` definition nan support.
 
 class TestLogDecoding_PivotedLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+    Define :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition unit tests methods.
     """
 
     def test_log_decoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+        Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition.
         """
 
@@ -126,7 +126,7 @@ log_decoding_PivotedLog` definition.
 
     def test_n_dimensional_log_decoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+        Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition n-dimensional arrays support.
         """
 
@@ -153,7 +153,7 @@ log_decoding_PivotedLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+        Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition domain and range scale support.
         """
 
@@ -170,7 +170,7 @@ log_decoding_PivotedLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
+        Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition nan support.
         """
 

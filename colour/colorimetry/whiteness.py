@@ -88,7 +88,7 @@ def whiteness_Berger1959(
     XYZ: ArrayLike, XYZ_0: ArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
+    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *Berger (1959)* method.
 
     Parameters
@@ -145,7 +145,7 @@ def whiteness_Berger1959(
 
 def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
+    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *Taube (1960)* method.
 
     Parameters
@@ -202,7 +202,7 @@ def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
 
 def whiteness_Stensby1968(Lab: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE L\\*a\\*b\\**
+    Return the *whiteness* index :math:`WI` of given sample *CIE L\\*a\\*b\\**
     colourspace array using *Stensby (1968)* method.
 
     Parameters
@@ -257,7 +257,7 @@ def whiteness_Stensby1968(Lab: ArrayLike) -> FloatingOrNDArray:
 
 def whiteness_ASTME313(XYZ: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
+    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *ASTM E313* method.
 
     Parameters
@@ -305,7 +305,7 @@ def whiteness_ASTME313(XYZ: ArrayLike) -> FloatingOrNDArray:
 
 def whiteness_Ganz1979(xy: ArrayLike, Y: FloatingOrNDArray) -> NDArray:
     """
-    Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
+    Return the *whiteness* index :math:`W` and *tint* :math:`T` of given
     sample *CIE xy* chromaticity coordinates using *Ganz and Griesser (1979)*
     method.
 
@@ -378,7 +378,7 @@ def whiteness_CIE2004(
     ] = ("CIE 1931 2 Degree Standard Observer"),
 ) -> NDArray:
     """
-    Returns the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
+    Return the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
     or :math:`T_{10}` of given sample *CIE xy* chromaticity coordinates using
     *CIE 2004* method.
 
@@ -492,7 +492,7 @@ def whiteness(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* :math:`W` using given method.
+    Return the *whiteness* :math:`W` using given method.
 
     Parameters
     ----------

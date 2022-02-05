@@ -27,13 +27,13 @@ __all__ = [
 
 class TestLogEncoding_ViperLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.viper_log.\
+    Define :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition unit tests methods.
     """
 
     def test_log_encoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
+        Test :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition.
         """
 
@@ -47,7 +47,7 @@ log_encoding_ViperLog` definition.
 
     def test_n_dimensional_log_encoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
+        Test :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition n-dimensional arrays support.
         """
 
@@ -68,7 +68,7 @@ log_encoding_ViperLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
+        Test :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition domain and range scale support.
         """
 
@@ -85,7 +85,7 @@ log_encoding_ViperLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
+        Test :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition nan support.
         """
 
@@ -96,13 +96,13 @@ log_encoding_ViperLog` definition nan support.
 
 class TestLogDecoding_ViperLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.viper_log.\
+    Define :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition unit tests methods.
     """
 
     def test_log_decoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
+        Test :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition.
         """
 
@@ -116,7 +116,7 @@ log_decoding_ViperLog` definition.
 
     def test_n_dimensional_log_decoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
+        Test :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition n-dimensional arrays support.
         """
 
@@ -137,7 +137,7 @@ log_decoding_ViperLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
+        Test :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition domain and range scale support.
         """
 
@@ -154,7 +154,7 @@ log_decoding_ViperLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
+        Test :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition nan support.
         """
 

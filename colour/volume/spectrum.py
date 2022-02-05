@@ -83,7 +83,7 @@ def generate_pulse_waves(
     filter_jagged_pulses: Boolean = False,
 ) -> NDArray:
     """
-    Generates the pulse waves of given number of bins necessary to totally
+    Generate the pulse waves of given number of bins necessary to totally
     stimulate the colour matching functions and produce the *Rösch-MacAdam*
     colour solid.
 
@@ -252,7 +252,7 @@ def XYZ_outer_surface(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Generates the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
+    Generate the *Rösch-MacAdam* colour solid, i.e. *CIE XYZ* colourspace
     outer surface, for given colour matching functions using multi-spectral
     conversion of pulse waves to *CIE XYZ* tristimulus values.
 
@@ -392,7 +392,7 @@ def is_within_visible_spectrum(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Returns whether given *CIE XYZ* tristimulus values are within the visible
+    Return whether given *CIE XYZ* tristimulus values are within the visible
     spectrum volume, i.e. *Rösch-MacAdam* colour solid, for given colour
     matching functions and illuminant.
 

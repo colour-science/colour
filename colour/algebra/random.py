@@ -42,7 +42,7 @@ def random_triplet_generator(
     random_state: np.random.RandomState = RANDOM_STATE,
 ) -> NDArray:
     """
-    Returns a generator yielding random triplets.
+    Return a generator yielding random triplets.
 
     Parameters
     ----------

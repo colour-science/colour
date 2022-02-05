@@ -25,13 +25,13 @@ __all__ = [
 
 class TestPlotSingleMunsellValueFunction(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.notation.plot_single_munsell_value_function`
+    Define :func:`colour.plotting.notation.plot_single_munsell_value_function`
     definition unit tests methods.
     """
 
     def test_plot_single_munsell_value_function(self):
         """
-        Tests :func:`colour.plotting.notation.\
+        Test :func:`colour.plotting.notation.\
 plot_single_munsell_value_function` definition.
         """
 
@@ -43,13 +43,13 @@ plot_single_munsell_value_function` definition.
 
 class TestPlotMultiMunsellValueFunctions(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.notation.plot_multi_munsell_value_functions`
+    Define :func:`colour.plotting.notation.plot_multi_munsell_value_functions`
     definition unit tests methods.
     """
 
     def test_plot_multi_munsell_value_functions(self):
         """
-        Tests :func:`colour.plotting.notation.\
+        Test :func:`colour.plotting.notation.\
 plot_multi_munsell_value_functions` definition.
         """
 

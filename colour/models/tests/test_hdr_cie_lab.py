@@ -26,13 +26,13 @@ __all__ = [
 
 class TestExponent_hdr_CIELab(unittest.TestCase):
     """
-    Defines :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
+    Define :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
     definition unit tests methods.
     """
 
     def test_exponent_hdr_CIELab(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
+        Test :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
         definition.
         """
 
@@ -56,7 +56,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
 
     def test_n_dimensional_exponent_hdr_CIELab(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
+        Test :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
         definition n-dimensional arrays support.
         """
 
@@ -87,7 +87,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
 
     def test_domain_range_scale_exponent_hdr_CIELab(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab` definition
+        Test :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab` definition
         domain and range scale support.
         """
 
@@ -107,7 +107,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_exponent_hdr_CIELab(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
+        Test :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
         definition nan support.
         """
 
@@ -117,13 +117,13 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
 
 class TestXYZ_to_hdr_CIELab(unittest.TestCase):
     """
-    Defines :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition unit
+    Define :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition unit
     tests methods.
     """
 
     def test_XYZ_to_hdr_CIELab(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition.
+        Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -169,7 +169,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_hdr_CIELab(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
+        Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
         n-dimensional support.
         """
 
@@ -203,7 +203,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_hdr_CIELab(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
+        Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
         domain and range scale support.
         """
 
@@ -227,7 +227,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_hdr_CIELab(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
+        Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
         nan support.
         """
 
@@ -243,13 +243,13 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
 
 class TestHdr_CIELab_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition unit
+    Define :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition unit
     tests methods.
     """
 
     def test_hdr_CIELab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition.
+        Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -297,7 +297,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_hdr_CIELab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
+        Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -331,7 +331,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_hdr_CIELab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
+        Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
         domain and range scale support.
         """
 
@@ -355,7 +355,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_hdr_CIELab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
+        Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
         nan support.
         """
 

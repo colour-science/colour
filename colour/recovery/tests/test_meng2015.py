@@ -30,13 +30,13 @@ __all__ = [
 
 class TestXYZ_to_sd_Meng2015(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition unit
+    Define :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         # pylint: disable=E1102
@@ -49,7 +49,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
     def test_XYZ_to_sd_Meng2015(self):
         """
-        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition.
+        Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -109,7 +109,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
     def test_raise_exception_XYZ_to_sd_Meng2015(self):
         """
-        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
+        Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
         definition raised exception.
         """
 
@@ -124,7 +124,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_sd_Meng2015(self):
         """
-        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
+        Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
         domain and range scale support.
         """
 

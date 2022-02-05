@@ -4512,13 +4512,13 @@ DATA_BLACKBODY: NDArray = np.array(
 
 class TestPlanckLaw(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.planck_law` definition unit
+    Define :func:`colour.colorimetry.blackbody.planck_law` definition unit
     tests methods.
     """
 
     def test_planck_law(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.planck_law` definition.
+        Test :func:`colour.colorimetry.blackbody.planck_law` definition.
         """
 
         for temperature, wavelengths in sorted(DATA_PLANCK_LAW.items()):
@@ -4533,7 +4533,7 @@ class TestPlanckLaw(unittest.TestCase):
 
     def test_n_dimensional_planck_law(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.planck_law` definition
+        Test :func:`colour.colorimetry.blackbody.planck_law` definition
         n-dimensional arrays support.
         """
 
@@ -4555,7 +4555,7 @@ class TestPlanckLaw(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_planck_law(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.planck_law` definition
+        Test :func:`colour.colorimetry.blackbody.planck_law` definition
         nan support.
         """
 
@@ -4567,13 +4567,13 @@ class TestPlanckLaw(unittest.TestCase):
 
 class TestSdBlackbody(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.sd_blackbody` definition unit
+    Define :func:`colour.colorimetry.blackbody.sd_blackbody` definition unit
     tests methods.
     """
 
     def test_sd_blackbody(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.sd_blackbody` definition.
+        Test :func:`colour.colorimetry.blackbody.sd_blackbody` definition.
         """
 
         np.testing.assert_allclose(

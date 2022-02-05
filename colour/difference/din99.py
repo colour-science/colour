@@ -37,7 +37,7 @@ def delta_E_DIN99(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{DIN99}` between two given
+    Return the difference :math:`\\Delta E_{DIN99}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *DIN99* formula.
 
     Parameters

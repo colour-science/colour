@@ -82,7 +82,7 @@ def plot_colour_quality_bars(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the colour quality data of given illuminants or light sources colour
+    Plot the colour quality data of given illuminants or light sources colour
     quality specifications.
 
     Parameters
@@ -251,7 +251,7 @@ def plot_single_sd_colour_rendering_index_bars(
     sd: SpectralDistribution, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Colour Rendering Index* (CRI) of given illuminant or light
+    Plot the *Colour Rendering Index* (CRI) of given illuminant or light
     source spectral distribution.
 
     Parameters
@@ -299,7 +299,7 @@ def plot_multi_sds_colour_rendering_indexes_bars(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Colour Rendering Index* (CRI) of given illuminants or light
+    Plot the *Colour Rendering Index* (CRI) of given illuminants or light
     sources spectral distributions.
 
     Parameters
@@ -385,7 +385,7 @@ def plot_single_sd_colour_quality_scale_bars(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
+    Plot the *Colour Quality Scale* (CQS) of given illuminant or light source
     spectral distribution.
 
     Parameters
@@ -440,7 +440,7 @@ def plot_multi_sds_colour_quality_scales_bars(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Colour Quality Scale* (CQS) of given illuminants or light
+    Plot the *Colour Quality Scale* (CQS) of given illuminants or light
     sources spectral distributions.
 
     Parameters

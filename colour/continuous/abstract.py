@@ -56,7 +56,7 @@ __all__ = [
 
 class AbstractContinuousFunction(ABC):
     """
-    Defines the base class for abstract continuous function.
+    Define the base class for abstract continuous function.
 
     This is an :class:`ABCMeta` abstract class that must be inherited by
     sub-classes.
@@ -404,7 +404,7 @@ arithmetical_operation`
     @abstractmethod
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the abstract continuous
+        Return a formatted string representation of the abstract continuous
         function, must be reimplemented by sub-classes.
 
         Returns
@@ -418,7 +418,7 @@ arithmetical_operation`
     @abstractmethod
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the abstract continuous
+        Return an evaluable string representation of the abstract continuous
         function, must be reimplemented by sub-classes.
 
         Returns
@@ -432,7 +432,7 @@ arithmetical_operation`
     @abstractmethod
     def __hash__(self) -> Integer:
         """
-        Returns the abstract continuous function hash.
+        Return the abstract continuous function hash.
 
         Returns
         -------
@@ -447,7 +447,7 @@ arithmetical_operation`
         self, x: Union[FloatingOrArrayLike, slice]
     ) -> FloatingOrNDArray:
         """
-        Returns the corresponding range variable :math:`y` for independent
+        Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`, must be reimplemented by sub-classes.
 
         Parameters
@@ -468,7 +468,7 @@ arithmetical_operation`
         self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
     ):
         """
-        Sets the corresponding range variable :math:`y` for independent domain
+        Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`, must be reimplemented by sub-classes.
 
         Parameters
@@ -484,7 +484,7 @@ arithmetical_operation`
     @abstractmethod
     def __contains__(self, x: Union[FloatingOrArrayLike, slice]) -> bool:
         """
-        Returns whether the abstract continuous function contains given
+        Return whether the abstract continuous function contains given
         independent domain variable :math:`x`, must be reimplemented by
         sub-classes.
 
@@ -503,7 +503,7 @@ arithmetical_operation`
 
     def __len__(self) -> Integer:
         """
-        Returns the abstract continuous function independent domain :math:`x`
+        Return the abstract continuous function independent domain :math:`x`
         variable elements count.
 
 
@@ -518,7 +518,7 @@ arithmetical_operation`
     @abstractmethod
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the abstract continuous function is equal to given
+        Return whether the abstract continuous function is equal to given
         other object, must be reimplemented by sub-classes.
 
         Parameters
@@ -538,7 +538,7 @@ arithmetical_operation`
     @abstractmethod
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the abstract continuous function is not equal to given
+        Return whether the abstract continuous function is not equal to given
         other object, must be reimplemented by sub-classes.
 
         Parameters
@@ -560,7 +560,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for addition.
+        Implement support for addition.
 
         Parameters
         ----------
@@ -579,7 +579,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place addition.
+        Implement support for in-place addition.
 
         Parameters
         ----------
@@ -598,7 +598,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for subtraction.
+        Implement support for subtraction.
 
         Parameters
         ----------
@@ -617,7 +617,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place subtraction.
+        Implement support for in-place subtraction.
 
         Parameters
         ----------
@@ -636,7 +636,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for multiplication.
+        Implement support for multiplication.
 
         Parameters
         ----------
@@ -655,7 +655,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place multiplication.
+        Implement support for in-place multiplication.
 
         Parameters
         ----------
@@ -674,7 +674,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for division.
+        Implement support for division.
 
         Parameters
         ----------
@@ -693,7 +693,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place division.
+        Implement support for in-place division.
 
         Parameters
         ----------
@@ -715,7 +715,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for exponentiation.
+        Implement support for exponentiation.
 
         Parameters
         ----------
@@ -734,7 +734,7 @@ arithmetical_operation`
         self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
     ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place exponentiation.
+        Implement support for in-place exponentiation.
 
         Parameters
         ----------
@@ -757,7 +757,7 @@ arithmetical_operation`
         in_place: Boolean = False,
     ) -> AbstractContinuousFunction:
         """
-        Performs given arithmetical operation with operand :math:`a`, the
+        Perform given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place, must be
         reimplemented by sub-classes.
 
@@ -809,7 +809,7 @@ arithmetical_operation`
 
     def domain_distance(self, a: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Returns the euclidean distance between given array and independent
+        Return the euclidean distance between given array and independent
         domain :math:`x` closest element.
 
         Parameters
@@ -831,7 +831,7 @@ arithmetical_operation`
 
     def is_uniform(self) -> Boolean:
         """
-        Returns if independent domain variable :math:`x` is uniform.
+        Return if independent domain variable :math:`x` is uniform.
 
         Returns
         -------
@@ -843,7 +843,7 @@ arithmetical_operation`
 
     def copy(self) -> AbstractContinuousFunction:
         """
-        Returns a copy of the sub-class instance.
+        Return a copy of the sub-class instance.
 
         Returns
         -------

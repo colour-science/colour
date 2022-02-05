@@ -40,13 +40,13 @@ __all__ = [
 
 class TestRGB_Colourspace(unittest.TestCase):
     """
-    Defines :class:`colour.colour.models.RGB_Colourspace` class unit
+    Define :class:`colour.colour.models.RGB_Colourspace` class unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
@@ -66,7 +66,7 @@ class TestRGB_Colourspace(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -87,7 +87,7 @@ class TestRGB_Colourspace(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -104,7 +104,7 @@ class TestRGB_Colourspace(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.__str__`
+        Test :meth:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.__str__`
         method.
         """
 
@@ -141,7 +141,7 @@ class TestRGB_Colourspace(unittest.TestCase):
 
     def test__repr__(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
 __repr__` method.
         """
 
@@ -170,7 +170,7 @@ __repr__` method.
 
     def test_use_derived_transformation_matrices(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
 use_derived_transformation_matrices` method.
         """
 
@@ -217,7 +217,7 @@ use_derived_transformation_matrices` method.
 
     def test_chromatically_adapt(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
 chromatically_adapt` method.
         """
 
@@ -274,7 +274,7 @@ chromatically_adapt` method.
 
     def test_copy(self):
         """
-        Tests :meth:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.copy`
+        Test :meth:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.copy`
         method.
         """
 
@@ -283,13 +283,13 @@ chromatically_adapt` method.
 
 class TestXYZ_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
+    Define :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
     unit tests methods.
     """
 
     def test_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition.
+        Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -366,7 +366,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
         n-dimensional support.
         """
 
@@ -410,7 +410,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
         domain and range scale support.
         """
 
@@ -438,7 +438,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
         nan support.
         """
 
@@ -454,13 +454,13 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
 class TestRGB_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
+    Define :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
     unit tests methods.
     """
 
     def test_RGB_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition.
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -537,7 +537,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -575,7 +575,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
         domain and range scale support.
         """
 
@@ -603,7 +603,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
         nan support.
         """
 
@@ -619,13 +619,13 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
 class TestMatrix_RGB_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.rgb_colourspace.matrix_RGB_to_RGB`
+    Define :func:`colour.models.rgb.rgb_colourspace.matrix_RGB_to_RGB`
     definition unit tests methods.
     """
 
     def test_matrix_RGB_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.matrix_RGB_to_RGB`
+        Test :func:`colour.models.rgb.rgb_colourspace.matrix_RGB_to_RGB`
         definition.
         """
 
@@ -700,13 +700,13 @@ class TestMatrix_RGB_to_RGB(unittest.TestCase):
 
 class TestRGB_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
+    Define :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
     unit tests methods.
     """
 
     def test_RGB_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition.
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition.
         """
 
         aces_2065_1_colourspace = RGB_COLOURSPACES["ACES2065-1"]
@@ -794,7 +794,7 @@ class TestRGB_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
         n-dimensional support.
         """
 
@@ -821,7 +821,7 @@ class TestRGB_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
         domain and range scale support.
         """
 
@@ -846,7 +846,7 @@ class TestRGB_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
+        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
         nan support.
         """
 

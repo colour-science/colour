@@ -287,7 +287,7 @@ def plot_pointer_gamut(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots *Pointer's Gamut* according to given method.
+    Plot *Pointer's Gamut* according to given method.
 
     Parameters
     ----------
@@ -328,7 +328,7 @@ def plot_pointer_gamut(
 
         def XYZ_to_ij(XYZ: NDArray, *args: Any) -> NDArray:
             """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
             """
 
@@ -336,7 +336,7 @@ def plot_pointer_gamut(
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -346,7 +346,7 @@ def plot_pointer_gamut(
 
         def XYZ_to_ij(XYZ: NDArray, *args: Any) -> NDArray:
             """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
             """
 
@@ -354,7 +354,7 @@ def plot_pointer_gamut(
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -364,7 +364,7 @@ def plot_pointer_gamut(
 
         def XYZ_to_ij(XYZ: NDArray, *args: Any) -> NDArray:
             """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
             """
 
@@ -372,7 +372,7 @@ def plot_pointer_gamut(
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -432,7 +432,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspaces in the *Chromaticity Diagram* according
+    Plot given *RGB* colourspaces in the *Chromaticity Diagram* according
     to given method.
 
     Parameters
@@ -536,7 +536,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -549,7 +549,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -562,7 +562,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -668,7 +668,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
+    Plot given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -758,7 +758,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
+    Plot given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -849,7 +849,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
+    Plot given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -936,7 +936,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspace array in the *Chromaticity Diagram* according
+    Plot given *RGB* colourspace array in the *Chromaticity Diagram* according
     to given method.
 
     Parameters
@@ -1073,7 +1073,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
+    Plot given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -1146,7 +1146,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspace array in the
+    Plot given *RGB* colourspace array in the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1221,7 +1221,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspace array in the
+    Plot given *RGB* colourspace array in the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1289,7 +1289,7 @@ def ellipses_MacAdam1942(
     ] = "CIE 1931"
 ) -> List[NDArray]:
     """
-    Returns *MacAdam (1942) Ellipses (Observer PGN)* coefficients according to
+    Return *MacAdam (1942) Ellipses (Observer PGN)* coefficients according to
     given method.
 
     Parameters
@@ -1317,7 +1317,7 @@ def ellipses_MacAdam1942(
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -1327,7 +1327,7 @@ def ellipses_MacAdam1942(
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -1337,7 +1337,7 @@ def ellipses_MacAdam1942(
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -1373,7 +1373,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
+    Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *Chromaticity Diagram* according to given method.
 
     Parameters
@@ -1492,7 +1492,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
+    Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
@@ -1556,7 +1556,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
+    Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1621,7 +1621,7 @@ def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
+    Plot *MacAdam (1942) Ellipses (Observer PGN)* in the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1681,7 +1681,7 @@ def plot_single_cctf(
     cctf: Union[Callable, str], cctf_decoding: Boolean = False, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colourspace colour component transfer function.
+    Plot given colourspace colour component transfer function.
 
     Parameters
     ----------
@@ -1730,7 +1730,7 @@ def plot_multi_cctfs(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colour component transfer functions.
+    Plot given colour component transfer functions.
 
     Parameters
     ----------
@@ -1821,7 +1821,7 @@ def plot_constant_hue_loci(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given constant hue loci colour matches data such as that from
+    Plot given constant hue loci colour matches data such as that from
     :cite:`Hung1995` or :cite:`Ebner1998` that are easily loaded with
     `Colour - Datasets <https://github.com/colour-science/colour-datasets>`__.
 
@@ -1991,7 +1991,7 @@ def plot_constant_hue_loci(
 
         def _linear_equation(x: NDArray, a: NDArray, b: NDArray) -> NDArray:
             """
-            Defines the canonical linear equation for a line.
+            Define the canonical linear equation for a line.
             """
 
             return a * x + b
@@ -2010,7 +2010,7 @@ def plot_constant_hue_loci(
 
             def _XYZ_to_RGB(XYZ: NDArray) -> NDArray:
                 """
-                Converts given *CIE XYZ* tristimulus values to
+                Convert given *CIE XYZ* tristimulus values to
                 ``colour.plotting`` *RGB* colourspace.
                 """
 

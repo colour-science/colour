@@ -56,7 +56,7 @@ def optical_MTF_Barten1999(
     u: FloatingOrArrayLike, sigma: FloatingOrArrayLike = 0.01
 ) -> FloatingOrNDArray:
     """
-    Returns the optical modulation transfer function (MTF) :math:`M_{opt}` of
+    Return the optical modulation transfer function (MTF) :math:`M_{opt}` of
     the eye using *Barten (1999)* method.
 
     Parameters
@@ -96,7 +96,7 @@ def pupil_diameter_Barten1999(
     Y_0: Optional[FloatingOrArrayLike] = None,
 ) -> FloatingOrNDArray:
     """
-    Returns the pupil diameter for given luminance and object or stimulus
+    Return the pupil diameter for given luminance and object or stimulus
     angular size using *Barten (1999)* method.
 
     Parameters
@@ -137,7 +137,7 @@ def sigma_Barten1999(
     d: FloatingOrArrayLike = 2.1,
 ) -> FloatingOrNDArray:
     """
-    Returns the standard deviation :math:`\\sigma` of the line-spread function
+    Return the standard deviation :math:`\\sigma` of the line-spread function
     resulting from the convolution of the different elements of the convolution
     process using *Barten (1999)* method.
 
@@ -196,7 +196,7 @@ def retinal_illuminance_Barten1999(
     apply_stiles_crawford_effect_correction: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Returns the retinal illuminance :math:`E` in Trolands for given average
+    Return the retinal illuminance :math:`E` in Trolands for given average
     luminance :math:`L` and pupil diameter :math:`d` using *Barten (1999)*
     method.
 
@@ -252,7 +252,7 @@ def maximum_angular_size_Barten1999(
     N_max: FloatingOrArrayLike = 15,
 ) -> FloatingOrNDArray:
     """
-    Returns the maximum angular size :math:`X` of the object considered using
+    Return the maximum angular size :math:`X` of the object considered using
     *Barten (1999)* method.
 
     Parameters
@@ -311,7 +311,7 @@ def contrast_sensitivity_function_Barten1999(
     u_0: FloatingOrArrayLike = 7,
 ) -> FloatingOrNDArray:
     """
-    Returns the contrast sensitivity :math:`S` of the human eye according to
+    Return the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by *Barten (1999)*.
 
     Contrast sensitivity is defined as the inverse of the modulation threshold

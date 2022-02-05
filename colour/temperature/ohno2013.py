@@ -81,7 +81,7 @@ def planckian_table(
     count: Integer,
 ) -> List[Tuvd_PlanckianTable]:
     """
-    Returns a planckian table from given *CIE UCS* colourspace *uv*
+    Return a planckian table from given *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
     using *Ohno (2013)* method.
 
@@ -154,7 +154,7 @@ def planckian_table_minimal_distance_index(
     planckian_table_: List[Tuvd_PlanckianTable],
 ) -> Integer:
     """
-    Returns the shortest distance index in given planckian table using
+    Return the shortest distance index in given planckian table using
     *Ohno (2013)* method.
 
     Parameters
@@ -195,7 +195,7 @@ def _uv_to_CCT_Ohno2013(
     iterations: Integer = CCT_CALCULATION_ITERATIONS,
 ) -> NDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` and
+    Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
@@ -304,7 +304,7 @@ def uv_to_CCT_Ohno2013(
     iterations: Integer = CCT_CALCULATION_ITERATIONS,
 ) -> NDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` and
+    Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
@@ -365,7 +365,7 @@ def _CCT_to_uv_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: Optional[MultiSpectralDistributions] = None
 ) -> NDArray:
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
     colour matching functions using *Ohno (2013)* method.
 
@@ -417,7 +417,7 @@ def CCT_to_uv_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: Optional[MultiSpectralDistributions] = None
 ) -> NDArray:
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
     colour matching functions using *Ohno (2013)* method.
 

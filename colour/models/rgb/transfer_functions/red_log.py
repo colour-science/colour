@@ -89,7 +89,7 @@ def log_encoding_REDLog(
     black_offset: FloatingOrArrayLike = 10 ** ((0 - 1023) / 511),
 ) -> FloatingOrNDArray:
     """
-    Defines the *REDLog* log encoding curve / opto-electronic transfer
+    Define the *REDLog* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -141,7 +141,7 @@ def log_decoding_REDLog(
     black_offset: FloatingOrArrayLike = 10 ** ((0 - 1023) / 511),
 ) -> FloatingOrNDArray:
     """
-    Defines the *REDLog* log decoding curve / electro-optical transfer
+    Define the *REDLog* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -193,7 +193,7 @@ def log_encoding_REDLogFilm(
     black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
 ) -> FloatingOrNDArray:
     """
-    Defines the *REDLogFilm* log encoding curve / opto-electronic transfer
+    Define the *REDLogFilm* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -240,7 +240,7 @@ def log_decoding_REDLogFilm(
     black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
 ) -> FloatingOrNDArray:
     """
-    Defines the *REDLogFilm* log decoding curve / electro-optical transfer
+    Define the *REDLogFilm* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -284,7 +284,7 @@ def log_decoding_REDLogFilm(
 
 def log_encoding_Log3G10_v1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Log3G10* *v1* log encoding curve / opto-electronic transfer
+    Define the *Log3G10* *v1* log encoding curve / opto-electronic transfer
     function, the curve used in *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
 
     Parameters
@@ -330,7 +330,7 @@ def log_encoding_Log3G10_v1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_Log3G10_v1(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Log3G10* *v1* log decoding curve / electro-optical transfer
+    Define the *Log3G10* *v1* log decoding curve / electro-optical transfer
     function, the curve used in *REDCINE-X PRO Beta 42* and *Resolve 12.5.2*.
 
     Parameters
@@ -376,7 +376,7 @@ def log_decoding_Log3G10_v1(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_encoding_Log3G10_v2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Log3G10* *v2* log encoding curve / opto-electronic transfer
+    Define the *Log3G10* *v2* log encoding curve / opto-electronic transfer
     function, the current curve in *REDCINE-X PRO*.
 
     Parameters
@@ -426,7 +426,7 @@ def log_encoding_Log3G10_v2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_Log3G10_v2(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Log3G10* *v2* log decoding curve / electro-optical transfer
+    Define the *Log3G10* *v2* log decoding curve / electro-optical transfer
     function, the current curve in *REDCINE-X PRO*.
 
     Parameters
@@ -472,7 +472,7 @@ def log_decoding_Log3G10_v2(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_encoding_Log3G10_v3(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Log3G10* *v3* log encoding curve / opto-electronic transfer
+    Define the *Log3G10* *v3* log encoding curve / opto-electronic transfer
     function, the curve described in the *RedLog3G10* Whitepaper.
 
     Parameters
@@ -527,7 +527,7 @@ def log_encoding_Log3G10_v3(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_Log3G10_v3(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Log3G10* *v3* log decoding curve / electro-optical transfer
+    Define the *Log3G10* *v3* log decoding curve / electro-optical transfer
     function, the curve described in the *RedLog3G10* whitepaper.
 
     Parameters
@@ -602,7 +602,7 @@ def log_encoding_Log3G10(
     method: Union[Literal["v1", "v2", "v3"], str] = "v3",
 ) -> FloatingOrNDArray:
     """
-    Defines the *Log3G10* log encoding curve / opto-electronic transfer
+    Define the *Log3G10* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -699,7 +699,7 @@ def log_decoding_Log3G10(
     y, method: Union[Literal["v1", "v2", "v3"], str] = "v3"
 ) -> FloatingOrNDArray:
     """
-    Defines the *Log3G10* log decoding curve / electro-optical transfer
+    Define the *Log3G10* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -747,7 +747,7 @@ def log_decoding_Log3G10(
 
 def log_encoding_Log3G12(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Log3G12* log encoding curve / opto-electronic transfer
+    Define the *Log3G12* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -793,7 +793,7 @@ def log_encoding_Log3G12(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_Log3G12(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Log3G12* log decoding curve / electro-optical transfer
+    Define the *Log3G12* log decoding curve / electro-optical transfer
     function.
 
     Parameters

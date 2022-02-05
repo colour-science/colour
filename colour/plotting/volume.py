@@ -82,7 +82,7 @@ def nadir_grid(
     **kwargs: Any,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Returns a grid on *CIE xy* plane made of quad geometric elements and its
+    Return a grid on *CIE xy* plane made of quad geometric elements and its
     associated faces and edges colours. Ticks and labels are added to the
     given axes according to the extended grid settings.
 
@@ -356,7 +356,7 @@ def RGB_identity_cube(
     ] = None,
 ) -> Tuple[NDArray, NDArray]:
     """
-    Returns an *RGB* identity cube made of quad geometric elements and its
+    Return an *RGB* identity cube made of quad geometric elements and its
     associated *RGB* colours.
 
     Parameters
@@ -480,7 +480,7 @@ def plot_RGB_colourspaces_gamuts(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspaces gamuts in given reference colourspace.
+    Plot given *RGB* colourspaces gamuts in given reference colourspace.
 
     Parameters
     ----------
@@ -759,7 +759,7 @@ def plot_RGB_scatter(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspace array in a scatter plot.
+    Plot given *RGB* colourspace array in a scatter plot.
 
     Parameters
     ----------

@@ -37,7 +37,7 @@ __all__ = [
 
 def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *DJI D-Log* log encoding curve.
+    Define the *DJI D-Log* log encoding curve.
 
     Parameters
     ----------
@@ -86,7 +86,7 @@ def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_DJIDLog(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *DJI D-Log* log decoding curve.
+    Define the *DJI D-Log* log decoding curve.
 
     Parameters
     ----------

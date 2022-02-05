@@ -28,7 +28,7 @@ def is_within_mesh_volume(
     points: ArrayLike, mesh: ArrayLike, tolerance: Optional[Floating] = None
 ) -> NDArray:
     """
-    Returns whether given points are within given mesh volume using Delaunay
+    Return whether given points are within given mesh volume using Delaunay
     triangulation.
 
     Parameters

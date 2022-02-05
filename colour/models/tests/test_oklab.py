@@ -24,13 +24,13 @@ __all__ = [
 
 class TestXYZ_to_Oklab(unittest.TestCase):
     """
-    Defines :func:`colour.models.oklab.TestXYZ_to_Oklab` definition unit
+    Define :func:`colour.models.oklab.TestXYZ_to_Oklab` definition unit
     tests methods.
     """
 
     def test_XYZ_to_Oklab(self):
         """
-        Tests :func:`colour.models.oklab.XYZ_to_Oklab` definition.
+        Test :func:`colour.models.oklab.XYZ_to_Oklab` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -53,7 +53,7 @@ class TestXYZ_to_Oklab(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Oklab(self):
         """
-        Tests :func:`colour.models.oklab.XYZ_to_Oklab` definition
+        Test :func:`colour.models.oklab.XYZ_to_Oklab` definition
         n-dimensional support.
         """
 
@@ -70,7 +70,7 @@ class TestXYZ_to_Oklab(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_Oklab(self):
         """
-        Tests :func:`colour.models.oklab.XYZ_to_Oklab` definition domain and
+        Test :func:`colour.models.oklab.XYZ_to_Oklab` definition domain and
         range scale support.
         """
 
@@ -87,7 +87,7 @@ class TestXYZ_to_Oklab(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_Oklab(self):
         """
-        Tests :func:`colour.models.oklab.XYZ_to_Oklab` definition nan
+        Test :func:`colour.models.oklab.XYZ_to_Oklab` definition nan
         support.
         """
 
@@ -100,13 +100,13 @@ class TestXYZ_to_Oklab(unittest.TestCase):
 
 class TestOklab_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.oklab.Oklab_to_XYZ` definition unit tests
+    Define :func:`colour.models.oklab.Oklab_to_XYZ` definition unit tests
     methods.
     """
 
     def test_Oklab_to_XYZ(self):
         """
-        Tests :func:`colour.models.oklab.Oklab_to_XYZ` definition.
+        Test :func:`colour.models.oklab.Oklab_to_XYZ` definition.
         """
 
         np.testing.assert_allclose(
@@ -132,7 +132,7 @@ class TestOklab_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_Oklab_to_XYZ(self):
         """
-        Tests :func:`colour.models.oklab.Oklab_to_XYZ` definition
+        Test :func:`colour.models.oklab.Oklab_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -153,7 +153,7 @@ class TestOklab_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_Oklab_to_XYZ(self):
         """
-        Tests :func:`colour.models.oklab.Oklab_to_XYZ` definition domain and
+        Test :func:`colour.models.oklab.Oklab_to_XYZ` definition domain and
         range scale support.
         """
 
@@ -173,7 +173,7 @@ class TestOklab_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Oklab_to_XYZ(self):
         """
-        Tests :func:`colour.models.oklab.Oklab_to_XYZ` definition nan
+        Test :func:`colour.models.oklab.Oklab_to_XYZ` definition nan
         support.
         """
 

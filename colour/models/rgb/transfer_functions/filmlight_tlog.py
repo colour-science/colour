@@ -40,7 +40,7 @@ def log_encoding_FilmLightTLog(
     o: Floating = 0.075,
 ) -> FloatingOrNDArray:
     """
-    Defines the *FilmLight T-Log* log encoding curve.
+    Define the *FilmLight T-Log* log encoding curve.
 
     Parameters
     ----------
@@ -134,7 +134,7 @@ def log_decoding_FilmLightTLog(
     o: Floating = 0.075,
 ) -> FloatingOrNDArray:
     """
-    Defines the *FilmLight T-Log* log decoding curve.
+    Define the *FilmLight T-Log* log decoding curve.
 
     Parameters
     ----------

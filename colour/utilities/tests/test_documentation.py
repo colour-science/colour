@@ -21,13 +21,13 @@ __all__ = [
 
 class TestIsDocumentationBuilding(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.documentation.is_documentation_building`
+    Define :func:`colour.utilities.documentation.is_documentation_building`
     definition unit tests methods.
     """
 
     def test_is_documentation_building(self):
         """
-        Tests :func:`colour.utilities.documentation.is_documentation_building`
+        Test :func:`colour.utilities.documentation.is_documentation_building`
         definition.
         """
 

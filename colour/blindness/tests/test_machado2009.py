@@ -31,13 +31,13 @@ __all__ = [
 
 class TestMsdsCmfsAnomalousTrichromacyMachado2009(unittest.TestCase):
     """
-    Defines :func:`colour.blindness.machado2009.\
+    Define :func:`colour.blindness.machado2009.\
 msds_cmfs_anomalous_trichromacy_Machado2009` definition unit tests methods.
     """
 
     def test_msds_cmfs_anomalous_trichromacy_Machado2009(self):
         """
-        Tests :func:`colour.blindness.machado2009.\
+        Test :func:`colour.blindness.machado2009.\
 msds_cmfs_anomalous_trichromacy_Machado2009` definition.
         """
 
@@ -122,13 +122,13 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
 
 class TestMatrixAnomalousTrichromacyMachado2009(unittest.TestCase):
     """
-    Defines :func:`colour.blindness.machado2009.\
+    Define :func:`colour.blindness.machado2009.\
 matrix_anomalous_trichromacy_Machado2009` definition unit tests methods.
     """
 
     def test_matrix_anomalous_trichromacy_Machado2009(self):
         """
-        Tests :func:`colour.blindness.machado2009.\
+        Test :func:`colour.blindness.machado2009.\
 matrix_anomalous_trichromacy_Machado2009` definition.
         """
 
@@ -199,13 +199,13 @@ matrix_anomalous_trichromacy_Machado2009` definition.
 
 class TestMatrixCvdMachado2009(unittest.TestCase):
     """
-    Defines :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
+    Define :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
     definition unit tests methods.
     """
 
     def test_matrix_cvd_Machado2009(self):
         """
-        Tests :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
+        Test :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
         definition.
         """
 
@@ -260,7 +260,7 @@ class TestMatrixCvdMachado2009(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_matrix_cvd_Machado2009(self):
         """
-        Tests :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
+        Test :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
         definition nan support.
         """
 

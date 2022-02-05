@@ -145,7 +145,7 @@ def sd_CIE_illuminant_D_series(
     xy: ArrayLike, M1_M2_rounding: Boolean = True
 ) -> SpectralDistribution:
     """
-    Returns the spectral distribution of given *CIE Illuminant D Series* using
+    Return the spectral distribution of given *CIE Illuminant D Series* using
     given *CIE xy* chromaticity coordinates.
 
     Parameters
@@ -323,7 +323,7 @@ def sd_CIE_illuminant_D_series(
 
 def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the daylight locus as *CIE xy* chromaticity coordinates.
+    Return the daylight locus as *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------

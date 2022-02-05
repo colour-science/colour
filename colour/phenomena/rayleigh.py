@@ -92,7 +92,7 @@ def air_refraction_index_Penndorf1957(
     wavelength: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the air refraction index :math:`n_s` from given wavelength
+    Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in  micrometers (:math:`\\mu m`) using *Penndorf (1957)*
     method.
 
@@ -125,7 +125,7 @@ def air_refraction_index_Edlen1966(
     wavelength: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the air refraction index :math:`n_s` from given wavelength
+    Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using *Edlen (1966)*
     method.
 
@@ -158,7 +158,7 @@ def air_refraction_index_Peck1972(
     wavelength: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the air refraction index :math:`n_s` from given wavelength
+    Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
     *Peck and Reeder (1972)* method.
 
@@ -196,7 +196,7 @@ def air_refraction_index_Bodhaine1999(
     CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> FloatingOrNDArray:
     """
-    Returns the air refraction index :math:`n_s` from given wavelength
+    Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
     *Bodhaine, Wood, Dutton and Slusser (1999)* method.
 
@@ -230,7 +230,7 @@ def air_refraction_index_Bodhaine1999(
 
 def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the depolarisation of nitrogen :math:`N_2` as function of
+    Return the depolarisation of nitrogen :math:`N_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
@@ -258,7 +258,7 @@ def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the depolarisation of oxygen :math:`O_2` as function of
+    Return the depolarisation of oxygen :math:`O_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
@@ -288,7 +288,7 @@ def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+    Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Penndorf (1957)* method.
 
     Parameters
@@ -320,7 +320,7 @@ def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+    Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Young (1981)* method.
 
     Parameters
@@ -352,7 +352,7 @@ def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+    Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
     (:math:`\\mu m`) using *Bates (1984)* method.
 
@@ -389,7 +389,7 @@ def F_air_Bodhaine1999(
     CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> FloatingOrNDArray:
     """
-    Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+    Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
     (:math:`\\mu m`) and :math:`CO_2` concentration in parts per million (ppm)
     using *Bodhaine, Wood, Dutton and Slusser (1999)* method.
@@ -428,7 +428,7 @@ def molecular_density(
     avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
 ) -> FloatingOrNDArray:
     """
-    Returns the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
+    Return the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
     as function of air temperature :math:`T[K]` in kelvin degrees.
 
     Parameters
@@ -470,7 +470,7 @@ def mean_molecular_weights(
     CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> FloatingOrNDArray:
     """
-    Returns the mean molecular weights :math:`m_a` for dry air as function of
+    Return the mean molecular weights :math:`m_a` for dry air as function of
     :math:`CO_2` concentration in parts per million (ppm).
 
     Parameters
@@ -502,7 +502,7 @@ def gravity_List1968(
     altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
 ) -> FloatingOrNDArray:
     """
-    Returns the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
+    Return the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
     altitude using *List (1968)* method.
 
@@ -558,7 +558,7 @@ def scattering_cross_section(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> FloatingOrNDArray:
     """
-    Returns the scattering cross section per molecule :math:`\\sigma` of dry
+    Return the scattering cross section per molecule :math:`\\sigma` of dry
     air as function of wavelength :math:`\\lambda` in centimeters (cm) using
     given :math:`CO_2` concentration in parts per million (ppm) and temperature
     :math:`T[K]` in kelvin degrees following *Van de Hulst (1957)* method.
@@ -639,7 +639,7 @@ def rayleigh_optical_depth(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> FloatingOrNDArray:
     """
-    Returns the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
+    Return the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
     wavelength :math:`\\lambda` in centimeters (cm).
 
     Parameters
@@ -725,7 +725,7 @@ def sd_rayleigh_scattering(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> SpectralDistribution:
     """
-    Returns the *Rayleigh* spectral distribution for given spectral shape.
+    Return the *Rayleigh* spectral distribution for given spectral shape.
 
     Parameters
     ----------

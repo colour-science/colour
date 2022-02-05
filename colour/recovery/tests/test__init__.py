@@ -31,13 +31,13 @@ __all__ = [
 
 class TestXYZ_to_sd(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.XYZ_to_sd` definition unit tests
+    Define :func:`colour.recovery.XYZ_to_sd` definition unit tests
     methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         # pylint: disable=E1102
@@ -50,7 +50,7 @@ class TestXYZ_to_sd(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_sd(self):
         """
-        Tests :func:`colour.recovery.XYZ_to_sd` definition domain
+        Test :func:`colour.recovery.XYZ_to_sd` definition domain
         and range scale support.
         """
 

@@ -87,7 +87,7 @@ __all__ = [
 
 def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_: Callable) -> str:
     """
-    Converts given *Luo et al. (2006)* callable docstring to
+    Convert given *Luo et al. (2006)* callable docstring to
     *Li et al. (2017)* docstring.
 
     Parameters
@@ -178,7 +178,7 @@ def XYZ_to_UCS_Li2017(
     XYZ: ArrayLike, coefficients: ArrayLike, **kwargs: Any
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to one of the *Li et al. (2017)*
+    Convert from *CIE XYZ* tristimulus values to one of the *Li et al. (2017)*
     *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces :math:`J'a'b'` array.
 
     Parameters
@@ -266,7 +266,7 @@ def UCS_Li2017_to_XYZ(
     Jpapbp: ArrayLike, coefficients: ArrayLike, **kwargs: Any
 ) -> NDArray:
     """
-    Converts from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
+    Convert from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
     *CAM16-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus
     values.
 

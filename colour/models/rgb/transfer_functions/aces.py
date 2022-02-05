@@ -139,7 +139,7 @@ def log_encoding_ACESproxy(
     constants: Dict = CONSTANTS_ACES_PROXY,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
+    Define the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
 
     Parameters
@@ -201,7 +201,7 @@ def log_encoding_ACESproxy(
 
     def float_2_cv(x: Floating) -> Floating:
         """
-        Converts given numeric to code value.
+        Convert given numeric to code value.
         """
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
@@ -229,7 +229,7 @@ def log_decoding_ACESproxy(
     constants: Dict = CONSTANTS_ACES_PROXY,
 ) -> FloatingOrNDArray:
     """
-    Defines the *ACESproxy* colourspace log decoding curve / electro-optical
+    Define the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
 
     Parameters
@@ -299,7 +299,7 @@ def log_decoding_ACESproxy(
 
 def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *ACEScc* colourspace log encoding / opto-electronic transfer
+    Define the *ACEScc* colourspace log encoding / opto-electronic transfer
     function.
 
     Parameters
@@ -357,7 +357,7 @@ def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *ACEScc* colourspace log decoding / electro-optical transfer
+    Define the *ACEScc* colourspace log decoding / electro-optical transfer
     function.
 
     Parameters
@@ -418,7 +418,7 @@ def log_encoding_ACEScct(
     lin_AP1: FloatingOrArrayLike, constants: Structure = CONSTANTS_ACES_CCT
 ) -> FloatingOrNDArray:
     """
-    Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
+    Define the *ACEScct* colourspace log encoding / opto-electronic transfer
     function.
 
     Parameters
@@ -476,7 +476,7 @@ def log_decoding_ACEScct(
     ACEScct: FloatingOrArrayLike, constants: Structure = CONSTANTS_ACES_CCT
 ) -> FloatingOrNDArray:
     """
-    Defines the *ACEScct* colourspace log decoding / electro-optical transfer
+    Define the *ACEScct* colourspace log decoding / electro-optical transfer
     function.
 
     Parameters

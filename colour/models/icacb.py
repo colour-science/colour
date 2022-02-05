@@ -80,7 +80,7 @@ MATRIX_ICACB_LMS_TO_XYZ_2: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_2)
 
 def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
+    Convert from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
 
     Parameters
     ----------
@@ -135,7 +135,7 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
 
 def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
     """
-    Converts from :math:`IC_AC_B` tristimulus values to *CIE XYZ* colourspace.
+    Convert from :math:`IC_AC_B` tristimulus values to *CIE XYZ* colourspace.
 
     Parameters
     ----------

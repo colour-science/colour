@@ -24,13 +24,13 @@ __all__ = [
 
 class TestDelta_E_DIN99(unittest.TestCase):
     """
-    Defines :func:`colour.difference.din99.delta_E_DIN99` definition unit
+    Define :func:`colour.difference.din99.delta_E_DIN99` definition unit
     tests methods.
     """
 
     def test_delta_E_DIN99(self):
         """
-        Tests :func:`colour.difference.din99.delta_E_DIN99` definition.
+        Test :func:`colour.difference.din99.delta_E_DIN99` definition.
         """
 
         self.assertAlmostEqual(
@@ -92,7 +92,7 @@ class TestDelta_E_DIN99(unittest.TestCase):
 
     def test_n_dimensional_delta_E_DIN99(self):
         """
-        Tests :func:`colour.difference.din99.delta_E_DIN99` definition
+        Test :func:`colour.difference.din99.delta_E_DIN99` definition
         n-dimensional arrays support.
         """
 
@@ -116,7 +116,7 @@ class TestDelta_E_DIN99(unittest.TestCase):
 
     def test_domain_range_scale_delta_E_DIN99(self):
         """
-        Tests :func:`colour.difference.din99.delta_E_DIN99` definition
+        Test :func:`colour.difference.din99.delta_E_DIN99` definition
         domain and range scale support.
         """
 
@@ -136,7 +136,7 @@ class TestDelta_E_DIN99(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_delta_E_DIN99(self):
         """
-        Tests :func:`colour.difference.din99.delta_E_DIN99` definition nan
+        Test :func:`colour.difference.din99.delta_E_DIN99` definition nan
         support.
         """
 

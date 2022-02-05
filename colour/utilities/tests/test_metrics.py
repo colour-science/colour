@@ -22,13 +22,13 @@ __all__ = [
 
 class TestMetricMse(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.metrics.metric_mse` definition unit tests
+    Define :func:`colour.utilities.metrics.metric_mse` definition unit tests
     methods.
     """
 
     def test_metric_mse(self):
         """
-        Tests :func:`colour.utilities.metrics.metric_mse` definition.
+        Test :func:`colour.utilities.metrics.metric_mse` definition.
         """
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])
@@ -47,13 +47,13 @@ class TestMetricMse(unittest.TestCase):
 
 class TestMetricPsnr(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.metrics.metric_psnr` definition unit tests
+    Define :func:`colour.utilities.metrics.metric_psnr` definition unit tests
     methods.
     """
 
     def test_metric_psnr(self):
         """
-        Tests :func:`colour.utilities.metrics.metric_psnr` definition.
+        Test :func:`colour.utilities.metrics.metric_psnr` definition.
         """
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])

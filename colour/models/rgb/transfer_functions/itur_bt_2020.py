@@ -73,7 +73,7 @@ def eotf_inverse_BT2020(
     constants: Structure = CONSTANTS_BT2020,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2020* inverse electro-optical transfer
+    Define *Recommendation ITU-R BT.2020* inverse electro-optical transfer
     function (EOTF).
 
     Parameters
@@ -132,7 +132,7 @@ def eotf_BT2020(
     constants: Structure = CONSTANTS_BT2020,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
+    Define *Recommendation ITU-R BT.2020* electro-optical transfer function
     (EOTF).
 
     Parameters

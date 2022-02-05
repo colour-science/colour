@@ -49,7 +49,7 @@ __all__ = [
 
 class LMS_ConeFundamentals(MultiSpectralDistributions):
     """
-    Implements support for the Stockman and Sharpe *LMS* cone fundamentals
+    Implement support for the Stockman and Sharpe *LMS* cone fundamentals
     colour matching functions.
 
     Parameters
@@ -118,7 +118,7 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
 
 class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
     """
-    Implements support for the *CIE RGB* colour matching functions.
+    Implement support for the *CIE RGB* colour matching functions.
 
     Parameters
     ----------
@@ -186,7 +186,7 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
 
 class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
     """
-    Implements support for the *CIE* Standard Observers *XYZ* colour matching
+    Implement support for the *CIE* Standard Observers *XYZ* colour matching
     functions.
 
     Parameters

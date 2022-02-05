@@ -23,13 +23,13 @@ __all__ = [
 
 class TestGammaFunction(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.gamma.gamma_function`
+    Define :func:`colour.models.rgb.transfer_functions.gamma.gamma_function`
     definition unit tests methods.
     """
 
     def test_gamma_function(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gamma.\
+        Test :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition.
         """
 
@@ -75,7 +75,7 @@ gamma_function` definition.
 
     def test_n_dimensional_gamma_function(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gamma.\
+        Test :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition n-dimensional arrays support.
         """
 
@@ -169,7 +169,7 @@ gamma_function` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_gamma_function(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gamma.\
+        Test :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition nan support.
         """
 

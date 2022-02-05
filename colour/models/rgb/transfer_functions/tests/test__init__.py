@@ -38,13 +38,13 @@ __all__ = [
 
 class TestCctfEncoding(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.cctf_encoding`
+    Define :func:`colour.models.rgb.transfer_functions.cctf_encoding`
     definition unit tests methods.
     """
 
     def test_raise_exception_cctf_encoding(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.aces.\
+        Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition raised exception.
         """
 
@@ -64,13 +64,13 @@ log_encoding_ACESproxy` definition raised exception.
 
 class TestCctfDecoding(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.cctf_decoding`
+    Define :func:`colour.models.rgb.transfer_functions.cctf_decoding`
     definition unit tests methods.
     """
 
     def test_raise_exception_cctf_decoding(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.aces.\
+        Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition raised exception.
         """
 
@@ -90,12 +90,12 @@ log_encoding_ACESproxy` definition raised exception.
 
 class TestTransferFunctions(unittest.TestCase):
     """
-    Defines transfer functions unit tests methods.
+    Define the transfer functions unit tests methods.
     """
 
     def test_transfer_functions(self):
         """
-        Tests transfer functions reciprocity.
+        Test the transfer functions reciprocity.
         """
 
         ignored_transfer_functions = (

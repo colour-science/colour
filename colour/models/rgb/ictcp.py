@@ -148,7 +148,7 @@ def RGB_to_ICtCp(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
+    Convert from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
 
     Parameters
@@ -284,7 +284,7 @@ def ICtCp_to_RGB(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
+    Convert from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
     colourspace.
 
     Parameters
@@ -437,7 +437,7 @@ def XYZ_to_ICtCp(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
+    Convert from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
 
     Parameters
@@ -575,7 +575,7 @@ def ICtCp_to_XYZ(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
+    Convert from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
     values.
 
     Parameters

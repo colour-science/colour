@@ -52,7 +52,7 @@ def oetf_BlackmagicFilmGeneration5(
     constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Blackmagic Film Generation 5* opto-electronic transfer
+    Define the *Blackmagic Film Generation 5* opto-electronic transfer
     function.
 
     Parameters
@@ -114,7 +114,7 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Blackmagic Film Generation 5* inverse opto-electronic transfer
+    Define the *Blackmagic Film Generation 5* inverse opto-electronic transfer
     function (OETF).
 
     Parameters

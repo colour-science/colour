@@ -22,13 +22,13 @@ __all__ = [
 
 class TestPlotAutomaticColourConversionGraph(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.graph.\
+    Define :func:`colour.plotting.graph.\
 plot_automatic_colour_conversion_graph` definition unit tests methods.
     """
 
     def test_plot_automatic_colour_conversion_graph(self):
         """
-        Tests :func:`colour.plotting.graph.\
+        Test :func:`colour.plotting.graph.\
 plot_automatic_colour_conversion_graph` definition.
         """
 

@@ -38,7 +38,7 @@ __all__ = [
 
 def oetf_BT709(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.709-6* opto-electronic transfer function
+    Define *Recommendation ITU-R BT.709-6* opto-electronic transfer function
     (OETF).
 
     Parameters
@@ -80,7 +80,7 @@ def oetf_BT709(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def oetf_inverse_BT709(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.709-6* inverse opto-electronic transfer
+    Define *Recommendation ITU-R BT.709-6* inverse opto-electronic transfer
     function (OETF).
 
     Parameters

@@ -51,7 +51,7 @@ __all__ = [
 
 def xy_to_CCT_Hernandez1999(xy: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` from given
+    Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *Hernandez-Andres et al. (1999)*
     method.
 
@@ -103,7 +103,7 @@ def CCT_to_xy_Hernandez1999(
     CCT: FloatingOrArrayLike, optimisation_kwargs: Optional[Dict] = None
 ) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *Hernandez-Andres et al. (1999)* method.
 
     Parameters

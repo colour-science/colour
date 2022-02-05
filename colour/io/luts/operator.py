@@ -48,7 +48,7 @@ __all__ = [
 
 class AbstractLUTSequenceOperator(ABC):
     """
-    Defines the base class for *LUT* sequence operators.
+    Define the base class for *LUT* sequence operators.
 
     This is an :class:`ABCMeta` abstract class that must be inherited by
     sub-classes.
@@ -147,7 +147,7 @@ class AbstractLUTSequenceOperator(ABC):
     @abstractmethod
     def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* sequence operator to given *RGB* colourspace array.
+        Apply the *LUT* sequence operator to given *RGB* colourspace array.
 
         Parameters
         ----------
@@ -172,7 +172,7 @@ class AbstractLUTSequenceOperator(ABC):
 
 class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     """
-    Defines the *LUT* operator supporting a 3x3 or 4x4 matrix and an offset
+    Define the *LUT* operator supporting a 3x3 or 4x4 matrix and an offset
     vector.
 
     Parameters
@@ -341,7 +341,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the *LUT* operator.
+        Return a formatted string representation of the *LUT* operator.
 
         Returns
         -------
@@ -363,7 +363,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         def _indent_array(a: ArrayLike) -> str:
             """
-            Indents given array string representation.
+            Indent given array string representation.
             """
 
             return str(a).replace(" [", " " * 14 + "[")
@@ -387,7 +387,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the *LUT* operator.
+        Return an evaluable string representation of the *LUT* operator.
 
         Returns
         -------
@@ -431,7 +431,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the *LUT* operator is equal to given other object.
+        Return whether the *LUT* operator is equal to given other object.
 
         Parameters
         ----------
@@ -462,7 +462,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the *LUT* operator is not equal to given other object.
+        Return whether the *LUT* operator is not equal to given other object.
 
         Parameters
         ----------
@@ -485,7 +485,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* operator to given *RGB* array.
+        Apply the *LUT* operator to given *RGB* array.
 
         Parameters
         ----------

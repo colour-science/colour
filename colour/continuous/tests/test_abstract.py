@@ -20,13 +20,13 @@ __all__ = [
 
 class TestAbstractContinuousFunction(unittest.TestCase):
     """
-    Defines :class:`colour.continuous.abstract.AbstractContinuousFunction`
+    Define :class:`colour.continuous.abstract.AbstractContinuousFunction`
     class unit tests methods.
     """
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -45,7 +45,7 @@ class TestAbstractContinuousFunction(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (

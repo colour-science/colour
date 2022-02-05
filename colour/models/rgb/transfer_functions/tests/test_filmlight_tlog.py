@@ -27,13 +27,13 @@ __all__ = [
 
 class TestLogEncoding_FilmLightTLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+    Define :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_encoding_FilmLightTLog` definition unit tests methods.
     """
 
     def test_log_encoding_FilmLightTLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+        Test :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_encoding_FilmLightTLog` definition.
         """
 
@@ -51,7 +51,7 @@ log_encoding_FilmLightTLog` definition.
 
     def test_n_dimensional_log_encoding_TLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+        Test :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_encoding_FilmLightTLog` definition n-dimensional arrays support.
         """
 
@@ -78,7 +78,7 @@ log_encoding_FilmLightTLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_TLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+        Test :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_encoding_FilmLightTLog` definition domain and range scale support.
         """
 
@@ -97,7 +97,7 @@ log_encoding_FilmLightTLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_TLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+        Test :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_encoding_FilmLightTLog` definition nan support.
         """
 
@@ -108,13 +108,13 @@ log_encoding_FilmLightTLog` definition nan support.
 
 class TestLogDecoding_FilmLightTLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+    Define :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_decoding_FilmLightTLog` definition unit tests methods.
     """
 
     def test_log_decoding_FilmLightTLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+        Test :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_decoding_FilmLightTLog` definition.
         """
 
@@ -132,7 +132,7 @@ log_decoding_FilmLightTLog` definition.
 
     def test_n_dimensional_log_decoding_TLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+        Test :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_decoding_FilmLightTLog` definition n-dimensional arrays support.
         """
 
@@ -159,7 +159,7 @@ log_decoding_FilmLightTLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_TLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+        Test :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_decoding_FilmLightTLog` definition domain and range scale support.
         """
 
@@ -178,7 +178,7 @@ log_decoding_FilmLightTLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_TLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
+        Test :func:`colour.models.rgb.transfer_functions.filmlight_tlog.\
 log_decoding_FilmLightTLog` definition nan support.
         """
 

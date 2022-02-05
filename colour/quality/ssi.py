@@ -49,7 +49,7 @@ def spectral_similarity_index(
     sd_test: SpectralDistribution, sd_reference: SpectralDistribution
 ) -> NDArray:
     """
-    Returns the *Academy Spectral Similarity Index* (SSI) of given test
+    Return the *Academy Spectral Similarity Index* (SSI) of given test
     spectral distribution with given reference spectral distribution.
 
     Parameters

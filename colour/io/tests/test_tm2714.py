@@ -143,13 +143,13 @@ FLUORESCENT_FILE_SPECTRAL_DATA: Dict = {
 
 class TestIES_TM2714_Header(unittest.TestCase):
     """
-    Defines :class:`colour.io.tm2714.Header_IESTM2714` class unit tests
+    Define :class:`colour.io.tm2714.Header_IESTM2714` class unit tests
     methods.
     """
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -173,13 +173,13 @@ class TestIES_TM2714_Header(unittest.TestCase):
 
 class TestIES_TM2714_Sd(unittest.TestCase):
     """
-    Defines :class:`colour.io.tm2714.SpectralDistribution_IESTM2714` class unit
+    Define :class:`colour.io.tm2714.SpectralDistribution_IESTM2714` class unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -193,7 +193,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -212,7 +212,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__init__", "read", "write")
@@ -222,7 +222,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_read(self, sd: Optional[SpectralDistribution] = None):
         """
-        Tests :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
+        Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
 
         Parameters
@@ -264,7 +264,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_raise_exception_read(self):
         """
-        Tests :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
+        Test :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method raised exception.
         """
 
@@ -278,7 +278,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_write(self):
         """
-        Tests :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
+        Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method.
         """
 
@@ -324,7 +324,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_raise_exception_write(self):
         """
-        Tests :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
+        Test :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method raised exception.
         """
 

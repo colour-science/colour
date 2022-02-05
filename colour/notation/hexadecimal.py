@@ -38,7 +38,7 @@ __all__ = [
 
 def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
     """
-    Converts from *RGB* colourspace to hexadecimal representation.
+    Convert from *RGB* colourspace to hexadecimal representation.
 
     Parameters
     ----------
@@ -93,7 +93,7 @@ def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
 
 def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
     """
-    Converts from hexadecimal representation to *RGB* colourspace.
+    Convert from hexadecimal representation to *RGB* colourspace.
 
     Parameters
     ----------
@@ -124,7 +124,7 @@ def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
 
     def to_RGB(x: List) -> List:
         """
-        Converts given hexadecimal representation to *RGB*.
+        Convert given hexadecimal representation to *RGB*.
         """
 
         l_x = len(x)

@@ -32,13 +32,13 @@ __all__ = [
 
 class TestXYZ_to_Hunt(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.hunt.XYZ_to_Hunt` definition unit tests
+    Define :func:`colour.appearance.hunt.XYZ_to_Hunt` definition unit tests
     methods.
     """
 
     def test_XYZ_to_Hunt(self):
         """
-        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition.
+        Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition.
 
         Notes
         -----
@@ -97,7 +97,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Hunt(self):
         """
-        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition
+        Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition
         n-dimensional support.
         """
 
@@ -139,7 +139,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_Hunt(self):
         """
-        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition domain
+        Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition domain
         and range scale support.
         """
 
@@ -176,7 +176,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
     @ignore_numpy_errors
     def test_raise_exception_XYZ_to_Hunt(self):
         """
-        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition raised
+        Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition raised
         exception.
         """
 
@@ -206,7 +206,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
     @ignore_numpy_errors
     def test_XYZ_p_XYZ_to_Hunt(self):
         """
-        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition *XYZ_p*
+        Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition *XYZ_p*
         argument handling.
         """
 
@@ -245,7 +245,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_Hunt(self):
         """
-        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition
+        Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition
         nan support.
         """
 

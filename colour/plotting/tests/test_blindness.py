@@ -22,13 +22,13 @@ __all__ = [
 
 class TestPlotCvdSimulationMachado2009(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.blindness.plot_cvd_simulation_Machado2009`
+    Define :func:`colour.plotting.blindness.plot_cvd_simulation_Machado2009`
     definition unit tests methods.
     """
 
     def test_plot_cvd_simulation_Machado2009(self):
         """
-        Tests :func:`colour.plotting.blindness.plot_cvd_simulation_Machado2009`
+        Test :func:`colour.plotting.blindness.plot_cvd_simulation_Machado2009`
         definition.
         """
 

@@ -29,13 +29,13 @@ __all__ = [
 
 class TestDelta_E_Luo2006(unittest.TestCase):
     """
-    Defines :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition unit
+    Define :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition unit
     tests methods.
     """
 
     def test_delta_E_Luo2006(self):
         """
-        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition.
+        Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition.
         """
 
         self.assertAlmostEqual(
@@ -89,7 +89,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
 
     def test_n_dimensional_delta_E_Luo2006(self):
         """
-        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition
+        Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition
         n-dimensional arrays support.
         """
 
@@ -124,7 +124,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_delta_E_Luo2006(self):
         """
-        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006`
+        Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006`
         definition nan support.
         """
 

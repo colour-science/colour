@@ -56,7 +56,7 @@ def log_encoding_VLog(
     constants: Structure = CONSTANTS_VLOG,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
+    Define the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -148,7 +148,7 @@ def log_decoding_VLog(
     constants: Structure = CONSTANTS_VLOG,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer
+    Define the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters

@@ -92,7 +92,7 @@ def exponent_hdr_CIELab(
     ] = "Fairchild 2011",
 ) -> FloatingOrNDArray:
     """
-    Computes *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon` exponent
+    Compute *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon` exponent
     using *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
 
     Parameters
@@ -158,7 +158,7 @@ def XYZ_to_hdr_CIELab(
     ] = "Fairchild 2011",
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
 
     Parameters
     ----------
@@ -258,7 +258,7 @@ def hdr_CIELab_to_XYZ(
     ] = "Fairchild 2011",
 ) -> NDArray:
     """
-    Converts from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------

@@ -113,7 +113,7 @@ def matrix_augmented_Cheung2004(
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
-    Performs polynomial expansion of given *RGB* colourspace array using
+    Perform polynomial expansion of given *RGB* colourspace array using
     *Cheung et al. (2004)* method.
 
     Parameters
@@ -372,7 +372,7 @@ def polynomial_expansion_Finlayson2015(
     root_polynomial_expansion: Boolean = True,
 ) -> NDArray:
     """
-    Performs polynomial expansion of given *RGB* colourspace array using
+    Perform polynomial expansion of given *RGB* colourspace array using
     *Finlayson et al. (2015)* method.
 
     Parameters
@@ -561,7 +561,7 @@ def polynomial_expansion_Vandermonde(
     a: ArrayLike, degree: Integer = 1
 ) -> NDArray:
     """
-    Performs polynomial expansion of given :math:`a` array using *Vandermonde*
+    Perform polynomial expansion of given :math:`a` array using *Vandermonde*
     method.
 
     Parameters
@@ -620,7 +620,7 @@ def polynomial_expansion(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Performs polynomial expansion of given :math:`a` array.
+    Perform polynomial expansion of given :math:`a` array.
 
     Parameters
     ----------
@@ -676,7 +676,7 @@ def matrix_colour_correction_Cheung2004(
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
-    Computes a colour correction matrix from given :math:`M_T` colour array to
+    Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
     Parameters
@@ -720,7 +720,7 @@ def matrix_colour_correction_Finlayson2015(
     root_polynomial_expansion: Boolean = True,
 ) -> NDArray:
     """
-    Computes a colour correction matrix from given :math:`M_T` colour array to
+    Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
     Parameters
@@ -766,7 +766,7 @@ def matrix_colour_correction_Vandermonde(
     M_T: ArrayLike, M_R: ArrayLike, degree: Integer = 1
 ) -> NDArray:
     """
-    Computes a colour correction matrix from given :math:`M_T` colour array to
+    Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
 
     Parameters
@@ -831,7 +831,7 @@ def matrix_colour_correction(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Computes a colour correction matrix from given :math:`M_T` colour array to
+    Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
 
     The resulting colour correction matrix is computed using multiple linear or
@@ -947,7 +947,7 @@ def colour_correction_Cheung2004(
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
-    Performs colour correction of given *RGB* colourspace array using the
+    Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
@@ -1001,7 +1001,7 @@ def colour_correction_Finlayson2015(
     root_polynomial_expansion: Boolean = True,
 ) -> NDArray:
     """
-    Performs colour correction of given *RGB* colourspace array using the
+    Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
@@ -1057,7 +1057,7 @@ def colour_correction_Vandermonde(
     RGB: ArrayLike, M_T: ArrayLike, M_R: ArrayLike, degree: Integer = 1
 ) -> NDArray:
     """
-    Performs colour correction of given *RGB* colourspace array using the
+    Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
 
@@ -1130,7 +1130,7 @@ def colour_correction(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Performs colour correction of given *RGB* colourspace array using the
+    Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
 

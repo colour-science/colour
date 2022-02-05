@@ -47,13 +47,13 @@ RANDOM_TRIPLETS: NDArray = np.array(
 
 class TestRandomTripletGenerator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.random.random_triplet_generator` definition
+    Define :func:`colour.algebra.random.random_triplet_generator` definition
     unit tests methods.
     """
 
     def test_random_triplet_generator(self):
         """
-        Tests :func:`colour.algebra.random.random_triplet_generator`
+        Test :func:`colour.algebra.random.random_triplet_generator`
         definition.
 
         Notes

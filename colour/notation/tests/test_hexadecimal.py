@@ -27,13 +27,13 @@ __all__ = [
 
 class TestRGB_to_HEX(unittest.TestCase):
     """
-    Defines :func:`colour.notation.hexadecimal.RGB_to_HEX` definition unit
+    Define :func:`colour.notation.hexadecimal.RGB_to_HEX` definition unit
     tests methods.
     """
 
     def test_RGB_to_HEX(self):
         """
-        Tests :func:`colour.notation.hexadecimal.RGB_to_HEX` definition.
+        Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition.
         """
 
         self.assertEqual(
@@ -66,7 +66,7 @@ class TestRGB_to_HEX(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_HEX(self):
         """
-        Tests :func:`colour.notation.hexadecimal.RGB_to_HEX` definition
+        Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition
         n-dimensional arrays support.
         """
 
@@ -83,7 +83,7 @@ class TestRGB_to_HEX(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_HEX(self):
         """
-        Tests :func:`colour.notation.hexadecimal.RGB_to_HEX` definition domain
+        Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition domain
         and range scale support.
         """
 
@@ -98,7 +98,7 @@ class TestRGB_to_HEX(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_HEX(self):
         """
-        Tests :func:`colour.notation.hexadecimal.RGB_to_HEX` definition
+        Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition
         nan support.
         """
 
@@ -111,13 +111,13 @@ class TestRGB_to_HEX(unittest.TestCase):
 
 class TestHEX_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.notation.hexadecimal.HEX_to_RGB` definition unit
+    Define :func:`colour.notation.hexadecimal.HEX_to_RGB` definition unit
     tests methods.
     """
 
     def test_HEX_to_RGB(self):
         """
-        Tests :func:`colour.notation.hexadecimal.HEX_to_RGB` definition.
+        Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -140,7 +140,7 @@ class TestHEX_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_HEX_to_RGB(self):
         """
-        Tests :func:`colour.notation.hexadecimal.HEX_to_RGB` definition
+        Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition
         n-dimensional arrays support.
         """
 
@@ -157,7 +157,7 @@ class TestHEX_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_HEX_to_RGB(self):
         """
-        Tests :func:`colour.notation.hexadecimal.HEX_to_RGB` definition domain
+        Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition domain
         and range scale support.
         """
 

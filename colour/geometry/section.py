@@ -46,7 +46,7 @@ __all__ = [
 
 def edges_to_chord(edges: ArrayLike, index: Integer = 0) -> NDArray:
     """
-    Converts given edges to a chord, starting at given index.
+    Convert given edges to a chord, starting at given index.
 
     Parameters
     ----------
@@ -114,7 +114,7 @@ def edges_to_chord(edges: ArrayLike, index: Integer = 0) -> NDArray:
 
 def close_chord(vertices: ArrayLike) -> NDArray:
     """
-    Closes the chord.
+    Close the chord.
 
     Parameters
     ----------
@@ -144,7 +144,7 @@ def unique_vertices(
     decimals: Integer = np.finfo(DEFAULT_FLOAT_DTYPE).precision - 1,
 ) -> NDArray:
     """
-    Returns the unique vertices from given vertices.
+    Return the unique vertices from given vertices.
 
     Parameters
     ----------
@@ -187,7 +187,7 @@ def hull_section(
     normalise: Boolean = False,
 ) -> NDArray:
     """
-    Computes the hull section for given axis at given origin.
+    Compute the hull section for given axis at given origin.
 
     Parameters
     ----------

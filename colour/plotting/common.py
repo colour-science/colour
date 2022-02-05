@@ -196,7 +196,7 @@ Annotation arrow settings used across the plotting sub-package.
 
 def colour_style(use_style: Boolean = True) -> Dict:
     """
-    Returns *Colour* plotting style.
+    Return *Colour* plotting style.
 
     Parameters
     ----------
@@ -351,7 +351,7 @@ def XYZ_to_plotting_colourspace(
     apply_cctf_encoding: Boolean = True,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to the default plotting
+    Convert from *CIE XYZ* tristimulus values to the default plotting
     colourspace.
 
     Parameters
@@ -394,7 +394,7 @@ def XYZ_to_plotting_colourspace(
 @dataclass
 class ColourSwatch:
     """
-    Defines a data structure for a colour swatch.
+    Define a data structure for a colour swatch.
 
     Parameters
     ----------
@@ -410,7 +410,7 @@ class ColourSwatch:
 
 def colour_cycle(**kwargs: Any) -> itertools.cycle:
     """
-    Returns a colour cycle iterator using given colour map.
+    Return a colour cycle iterator using given colour map.
 
     Other Parameters
     ----------------
@@ -444,7 +444,7 @@ def colour_cycle(**kwargs: Any) -> itertools.cycle:
 
 class KwargsArtist(TypedDict):
     """
-    Defines the keyword argument types for the :func:`colour.plotting.artist`
+    Define the keyword argument types for the :func:`colour.plotting.artist`
     definition.
 
     Parameters
@@ -461,7 +461,7 @@ class KwargsArtist(TypedDict):
 
 def artist(**kwargs: Union[KwargsArtist, Any]) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Returns the current figure and its axes or creates a new one.
+    Return the current figure and its axes or creates a new one.
 
     Other Parameters
     ----------------
@@ -490,7 +490,7 @@ def artist(**kwargs: Union[KwargsArtist, Any]) -> Tuple[plt.Figure, plt.Axes]:
 
 class KwargsCamera(TypedDict):
     """
-    Defines the keyword argument types for the :func:`colour.plotting.camera`
+    Define the keyword argument types for the :func:`colour.plotting.camera`
     definition.
 
     Parameters
@@ -516,7 +516,7 @@ class KwargsCamera(TypedDict):
 
 def camera(**kwargs: Union[KwargsCamera, Any]) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Sets the camera settings.
+    Set the camera settings.
 
     Other Parameters
     ----------------
@@ -548,7 +548,7 @@ def camera(**kwargs: Union[KwargsCamera, Any]) -> Tuple[plt.Figure, plt.Axes]:
 
 class KwargsRender(TypedDict):
     """
-    Defines the keyword argument types for the :func:`colour.plotting.render`
+    Define the keyword argument types for the :func:`colour.plotting.render`
     definition.
 
     Parameters
@@ -613,7 +613,7 @@ class KwargsRender(TypedDict):
 
 def render(**kwargs: Union[KwargsRender, Any]) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Renders the current figure while adjusting various settings such as the
+    Render the current figure while adjusting various settings such as the
     bounding box, the title or background transparency.
 
     Other Parameters
@@ -762,7 +762,7 @@ def label_rectangles(
 
 def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Sets equal aspect ratio to given 3d axes.
+    Set equal aspect ratio to given 3d axes.
 
     Other Parameters
     ----------------
@@ -808,7 +808,7 @@ def filter_passthrough(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict:
     """
-    Returns mapping objects matching given filterers while passing through
+    Return mapping objects matching given filterers while passing through
     class instances whose type is one of the mapping element types.
 
     This definition allows passing custom but compatible objects to the various
@@ -937,7 +937,7 @@ def filter_RGB_colourspaces(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, RGB_Colourspace]:
     """
-    Returns the *RGB* colourspaces matching given filterers.
+    Return the *RGB* colourspaces matching given filterers.
 
     Parameters
     ----------
@@ -977,7 +977,7 @@ def filter_cmfs(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
-    Returns the colour matching functions matching given filterers.
+    Return the colour matching functions matching given filterers.
 
     Parameters
     ----------
@@ -1017,7 +1017,7 @@ def filter_illuminants(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, SpectralDistribution]:
     """
-    Returns the illuminants matching given filterers.
+    Return the illuminants matching given filterers.
 
     Parameters
     ----------
@@ -1065,7 +1065,7 @@ def filter_colour_checkers(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, ColourChecker]:
     """
-    Returns the colour checkers matching given filterers.
+    Return the colour checkers matching given filterers.
 
     Parameters
     ----------
@@ -1100,7 +1100,7 @@ def update_settings_collection(
     expected_count: Integer,
 ):
     """
-    Updates given settings collection, *in-place*, with given keyword arguments
+    Update given settings collection, *in-place*, with given keyword arguments
     and expected count of settings collection elements.
 
     Parameters
@@ -1153,7 +1153,7 @@ def plot_single_colour_swatch(
     colour_swatch: Union[ArrayLike, ColourSwatch], **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colour swatch.
+    Plot given colour swatch.
 
     Parameters
     ----------
@@ -1212,7 +1212,7 @@ def plot_multi_colour_swatches(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colours swatches.
+    Plot given colours swatches.
 
     Parameters
     ----------
@@ -1411,7 +1411,7 @@ def plot_single_function(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given function.
+    Plot given function.
 
     Parameters
     ----------
@@ -1480,7 +1480,7 @@ def plot_multi_functions(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given functions.
+    Plot given functions.
 
     Parameters
     ----------
@@ -1610,7 +1610,7 @@ def plot_image(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given image.
+    Plot given image.
 
     Parameters
     ----------

@@ -76,7 +76,7 @@ def plot_planckian_locus(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Planckian Locus* according to given method.
+    Plot the *Planckian Locus* according to given method.
 
     Parameters
     ----------
@@ -122,7 +122,7 @@ def plot_planckian_locus(
 
         def uv_to_ij(uv: NDArray) -> NDArray:
             """
-            Converts given *uv* chromaticity coordinates to *ij* chromaticity
+            Convert given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
             """
 
@@ -134,7 +134,7 @@ def plot_planckian_locus(
 
         def uv_to_ij(uv: NDArray) -> NDArray:
             """
-            Converts given *uv* chromaticity coordinates to *ij* chromaticity
+            Convert given *uv* chromaticity coordinates to *ij* chromaticity
             coordinates.
             """
 
@@ -173,7 +173,7 @@ def plot_planckian_locus_CIE1931(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Planckian Locus* according to *CIE 1931* method.
+    Plot the *Planckian Locus* according to *CIE 1931* method.
 
     Parameters
     ----------
@@ -213,7 +213,7 @@ def plot_planckian_locus_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Planckian Locus* according to *CIE 1960 UCS* method.
+    Plot the *Planckian Locus* according to *CIE 1960 UCS* method.
 
     Parameters
     ----------
@@ -260,7 +260,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Planckian Locus* and given illuminants in the
+    Plot the *Planckian Locus* and given illuminants in the
     *Chromaticity Diagram* according to given method.
 
     Parameters
@@ -358,7 +358,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -369,7 +369,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
 
         def xy_to_ij(xy: NDArray) -> NDArray:
             """
-            Converts given *CIE xy* chromaticity coordinates to *ij*
+            Convert given *CIE xy* chromaticity coordinates to *ij*
             chromaticity coordinates.
             """
 
@@ -470,7 +470,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Planckian Locus* and given illuminants in
+    Plot the *Planckian Locus* and given illuminants in
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
@@ -556,7 +556,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Planckian Locus* and given illuminants in
+    Plot the *Planckian Locus* and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters

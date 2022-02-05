@@ -67,7 +67,7 @@ def primitive_vertices_quad_mpl(
     axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
-    Returns the vertices of a quad primitive for use with *Matplotlib*
+    Return the vertices of a quad primitive for use with *Matplotlib*
     :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection` class.
 
     Parameters
@@ -140,7 +140,7 @@ def primitive_vertices_grid_mpl(
     axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
-    Returns the vertices of a grid primitive made of quad primitives for use
+    Return the vertices of a grid primitive made of quad primitives for use
     with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
     class.
 
@@ -233,7 +233,7 @@ def primitive_vertices_cube_mpl(
     ] = None,
 ) -> NDArray:
     """
-    Returns the vertices of a cube primitive made of grid primitives for use
+    Return the vertices of a cube primitive made of grid primitives for use
     with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
     class.
 
@@ -358,7 +358,7 @@ def primitive_vertices_sphere(
     axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
-    Returns the vertices of a latitude-longitude sphere primitive.
+    Return the vertices of a latitude-longitude sphere primitive.
 
     Parameters
     ----------
@@ -491,7 +491,7 @@ def primitive_vertices(
     **kwargs: Any
 ) -> NDArray:
     """
-    Returns the vertices of a geometry primitive using given method.
+    Return the vertices of a geometry primitive using given method.
 
     Parameters
     ----------

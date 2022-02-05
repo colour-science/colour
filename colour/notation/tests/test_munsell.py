@@ -107,7 +107,7 @@ __all__ = [
 
 def _generate_unit_tests_specifications() -> Tuple:  # pragma: no cover
     """
-    Generates the unit tests specifications.
+    Generate the unit tests specifications.
 
     Returns
     -------
@@ -1110,13 +1110,13 @@ MUNSELL_XY_FROM_RENOTATION_OVOID: List = [
 
 class TestMunsellValuePriest1920(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_value_Priest1920` definition
+    Define :func:`colour.notation.munsell.munsell_value_Priest1920` definition
     unit tests methods.
     """
 
     def test_munsell_value_Priest1920(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Priest1920`
+        Test :func:`colour.notation.munsell.munsell_value_Priest1920`
         definition.
         """
 
@@ -1134,7 +1134,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
 
     def test_n_dimensional_munsell_value_Priest1920(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Priest1920`
+        Test :func:`colour.notation.munsell.munsell_value_Priest1920`
         definition n-dimensional arrays support.
         """
 
@@ -1161,7 +1161,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
 
     def test_domain_range_scale_munsell_value_Priest1920(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Priest1920`
+        Test :func:`colour.notation.munsell.munsell_value_Priest1920`
         definition domain and range scale support.
         """
 
@@ -1180,7 +1180,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_munsell_value_Priest1920(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Priest1920`
+        Test :func:`colour.notation.munsell.munsell_value_Priest1920`
         definition nan support.
         """
 
@@ -1191,13 +1191,13 @@ class TestMunsellValuePriest1920(unittest.TestCase):
 
 class TestMunsellValueMunsell1933(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_value_Munsell1933`
+    Define :func:`colour.notation.munsell.munsell_value_Munsell1933`
     definition unit tests methods.
     """
 
     def test_munsell_value_Munsell1933(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Munsell1933`
+        Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
         definition.
         """
 
@@ -1219,7 +1219,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
 
     def test_n_dimensional_munsell_value_Munsell1933(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Munsell1933`
+        Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
         definition n-dimensional arrays support.
         """
 
@@ -1246,7 +1246,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
 
     def test_domain_range_scale_munsell_value_Munsell1933(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Munsell1933`
+        Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
         definition domain and range scale support.
         """
 
@@ -1265,7 +1265,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_munsell_value_Munsell1933(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Munsell1933`
+        Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
         definition nan support.
         """
 
@@ -1276,13 +1276,13 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
 
 class TestMunsellValueMoon1943(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_value_Moon1943` definition
+    Define :func:`colour.notation.munsell.munsell_value_Moon1943` definition
     unit tests methods.
     """
 
     def test_munsell_value_Moon1943(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Moon1943`
+        Test :func:`colour.notation.munsell.munsell_value_Moon1943`
         definition.
         """
 
@@ -1300,7 +1300,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
 
     def test_n_dimensional_munsell_value_Moon1943(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Moon1943`
+        Test :func:`colour.notation.munsell.munsell_value_Moon1943`
         definition n-dimensional arrays support.
         """
 
@@ -1321,7 +1321,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
 
     def test_domain_range_scale_munsell_value_Moon1943(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Moon1943`
+        Test :func:`colour.notation.munsell.munsell_value_Moon1943`
         definition domain and range scale support.
         """
 
@@ -1340,7 +1340,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_munsell_value_Moon1943(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Moon1943`
+        Test :func:`colour.notation.munsell.munsell_value_Moon1943`
         definition nan support.
         """
 
@@ -1351,13 +1351,13 @@ class TestMunsellValueMoon1943(unittest.TestCase):
 
 class TestMunsellValueSaunderson1944(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_value_Saunderson1944`
+    Define :func:`colour.notation.munsell.munsell_value_Saunderson1944`
     definition unit tests methods.
     """
 
     def test_munsell_value_Saunderson1944(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Saunderson1944`
+        Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
         definition.
         """
 
@@ -1381,7 +1381,7 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
 
     def test_n_dimensional_munsell_value_Saunderson1944(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Saunderson1944`
+        Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
         definition n-dimensional arrays support.
         """
 
@@ -1408,7 +1408,7 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
 
     def test_domain_range_scale_munsell_value_Saunderson1944(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Saunderson1944`
+        Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
         definition domain and range scale support.
         """
 
@@ -1427,7 +1427,7 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_munsell_value_Saunderson1944(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Saunderson1944`
+        Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
         definition nan support.
         """
 
@@ -1438,13 +1438,13 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
 
 class TestMunsellValueLadd1955(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_value_Ladd1955` definition
+    Define :func:`colour.notation.munsell.munsell_value_Ladd1955` definition
     unit tests methods.
     """
 
     def test_munsell_value_Ladd1955(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Ladd1955`
+        Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
         definition.
         """
 
@@ -1462,7 +1462,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
 
     def test_n_dimensional_munsell_value_Ladd1955(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Ladd1955`
+        Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
         definition n-dimensional arrays support.
         """
 
@@ -1483,7 +1483,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
 
     def test_domain_range_scale_munsell_value_Ladd1955(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Ladd1955`
+        Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
         definition domain and range scale support.
         """
 
@@ -1502,7 +1502,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_munsell_value_Ladd1955(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_Ladd1955`
+        Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
         definition nan support.
         """
 
@@ -1513,13 +1513,13 @@ class TestMunsellValueLadd1955(unittest.TestCase):
 
 class TestMunsellValueMcCamy1992(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_value_McCamy1987` definition
+    Define :func:`colour.notation.munsell.munsell_value_McCamy1987` definition
     unit tests methods.
     """
 
     def test_munsell_value_McCamy1987(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_McCamy1987`
+        Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
         definition.
         """
 
@@ -1537,7 +1537,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
 
     def test_n_dimensional_munsell_value_McCamy1987(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_McCamy1987`
+        Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
         definition n-dimensional arrays support.
         """
 
@@ -1564,7 +1564,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
 
     def test_domain_range_scale_munsell_value_McCamy1987(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_McCamy1987`
+        Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
         definition domain and range scale support.
         """
 
@@ -1583,7 +1583,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_munsell_value_McCamy1987(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_McCamy1987`
+        Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
         definition nan support.
         """
 
@@ -1594,13 +1594,13 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
 
 class TestMunsellValueASTMD1535(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_value_ASTMD1535`
+    Define :func:`colour.notation.munsell.munsell_value_ASTMD1535`
     definition unit tests methods.
     """
 
     def test_munsell_value_ASTMD1535(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTMD1535`
+        Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition.
         """
 
@@ -1618,7 +1618,7 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
 
     def test_n_dimensional_munsell_value_ASTMD1535(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTMD1535`
+        Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition n-dimensional arrays support.
         """
 
@@ -1645,7 +1645,7 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
 
     def test_domain_range_scale_munsell_value_ASTMD1535(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTMD1535`
+        Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition domain and range scale support.
         """
 
@@ -1664,7 +1664,7 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_munsell_value_ASTMD1535(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_value_ASTMD1535`
+        Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
         definition nan support.
         """
 
@@ -1675,13 +1675,13 @@ class TestMunsellValueASTMD1535(unittest.TestCase):
 
 class TestMunsellSpecification_to_xyY(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_specification_to_xyY`
+    Define :func:`colour.notation.munsell.munsell_specification_to_xyY`
     definition unit tests methods.
     """
 
     def test_munsell_specification_to_xyY(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
         definition.
         """
 
@@ -1709,7 +1709,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
 
     def test_n_dimensional_munsell_specification_to_xyY(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
         definition n-dimensional arrays support.
         """
 
@@ -1747,7 +1747,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
 
     def test_domain_range_scale_munsell_specification_to_xyY(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
         definition domain and range scale support.
         """
 
@@ -1772,7 +1772,7 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_munsell_specification_to_xyY(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
         definition nan support.
         """
 
@@ -1788,13 +1788,13 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
 
 class TestMunsellColour_to_xyY(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
+    Define :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
     unit tests methods.
     """
 
     def test_domain_range_scale_munsell_colour_to_xyY(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
+        Test :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
         domain and range scale support.
         """
 
@@ -1816,7 +1816,7 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
 
     def test_n_dimensional_munsell_colour_to_xyY(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
+        Test :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
         n-dimensional arrays support.
         """
 
@@ -1853,13 +1853,13 @@ class TestMunsellColour_to_xyY(unittest.TestCase):
 
 class TestxyY_to_munsell_specification(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.xyY_to_munsell_specification`
+    Define :func:`colour.notation.munsell.xyY_to_munsell_specification`
     definition unit tests methods.
     """
 
     def test_xyY_to_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition.
         """
 
@@ -1894,7 +1894,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
 
     def test_n_dimensional_xyY_to_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition n-dimensional arrays support.
         """
 
@@ -1915,7 +1915,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
 
     def test_raise_exception_xyY_to_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition raised exception.
         """
 
@@ -1927,7 +1927,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
 
     def test_domain_range_scale_xyY_to_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition domain and range scale support.
         """
 
@@ -1951,7 +1951,7 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xyY_to_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition nan support.
         """
 
@@ -1967,13 +1967,13 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
 
 class TestxyY_to_munsell_colour(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
+    Define :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
     unit tests methods.
     """
 
     def test_domain_range_scale_xyY_to_munsell_colour(self):
         """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
+        Test :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
         domain and range scale support.
         """
 
@@ -1993,7 +1993,7 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
 
     def test_n_dimensional_xyY_to_munsell_colour(self):
         """
-        Tests :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
+        Test :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
         n-dimensional arrays support.
         """
 
@@ -2022,13 +2022,13 @@ class TestxyY_to_munsell_colour(unittest.TestCase):
 
 class TestParseMunsellColour(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.parse_munsell_colour` definition
+    Define :func:`colour.notation.munsell.parse_munsell_colour` definition
     unit tests methods.
     """
 
     def test_parse_munsell_colour(self):
         """
-        Tests :func:`colour.notation.munsell.is_grey_munsell_colour`
+        Test :func:`colour.notation.munsell.is_grey_munsell_colour`
         definition.
         """
 
@@ -2052,7 +2052,7 @@ class TestParseMunsellColour(unittest.TestCase):
 
     def test_raise_exception_parse_munsell_colour(self):
         """
-        Tests :func:`colour.notation.munsell.is_grey_munsell_colour`
+        Test :func:`colour.notation.munsell.is_grey_munsell_colour`
         definition raised exception.
         """
 
@@ -2061,13 +2061,13 @@ class TestParseMunsellColour(unittest.TestCase):
 
 class TestIsGreyMunsellColour(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.is_grey_munsell_colour` definition
+    Define :func:`colour.notation.munsell.is_grey_munsell_colour` definition
     unit tests methods.
     """
 
     def test_is_grey_munsell_colour(self):
         """
-        Tests :func:`colour.notation.munsell.is_grey_munsell_colour`
+        Test :func:`colour.notation.munsell.is_grey_munsell_colour`
         definition.
         """
 
@@ -2084,13 +2084,13 @@ class TestIsGreyMunsellColour(unittest.TestCase):
 
 class TestNormaliseMunsellSpecification(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.normalise_munsell_specification`
+    Define :func:`colour.notation.munsell.normalise_munsell_specification`
     definition unit tests methods.
     """
 
     def test_normalise_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.normalise_munsell_specification`
+        Test :func:`colour.notation.munsell.normalise_munsell_specification`
         definition.
         """
 
@@ -2121,13 +2121,13 @@ class TestNormaliseMunsellSpecification(unittest.TestCase):
 
 class TestMunsellColourToMunsellSpecification(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.\
+    Define :func:`colour.notation.munsell.\
 munsell_colour_to_munsell_specification` definition unit tests methods.
     """
 
     def test_munsell_colour_to_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.\
+        Test :func:`colour.notation.munsell.\
 munsell_colour_to_munsell_specification` definition.
         """
 
@@ -2164,13 +2164,13 @@ munsell_colour_to_munsell_specification` definition.
 
 class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.\
+    Define :func:`colour.notation.munsell.\
 munsell_specification_to_munsell_colour` definition unit tests methods.
     """
 
     def test_munsell_specification_to_munsell_colour(self):
         """
-        Tests :func:`colour.notation.munsell.\
+        Test :func:`colour.notation.munsell.\
 munsell_specification_to_munsell_colour` definition.
         """
 
@@ -2219,13 +2219,13 @@ munsell_specification_to_munsell_colour` definition.
 
 class Test_xyY_fromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.xyY_from_renotation` definition
+    Define :func:`colour.notation.munsell.xyY_from_renotation` definition
     unit tests methods.
     """
 
     def test_xyY_from_renotation(self):
         """
-        Tests :func:`colour.notation.munsell.xyY_from_renotation`
+        Test :func:`colour.notation.munsell.xyY_from_renotation`
         definition.
         """
 
@@ -2247,13 +2247,13 @@ class Test_xyY_fromRenotation(unittest.TestCase):
 
 class TestIsSpecificationInRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.is_specification_in_renotation`
+    Define :func:`colour.notation.munsell.is_specification_in_renotation`
     definition unit tests methods.
     """
 
     def test_is_specification_in_renotation(self):
         """
-        Tests :func:`colour.notation.munsell.is_specification_in_renotation`
+        Test :func:`colour.notation.munsell.is_specification_in_renotation`
         definition.
         """
 
@@ -2272,13 +2272,13 @@ class TestIsSpecificationInRenotation(unittest.TestCase):
 
 class TestBoundingHuesFromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.bounding_hues_from_renotation`
+    Define :func:`colour.notation.munsell.bounding_hues_from_renotation`
     definition unit tests methods.
     """
 
     def test_bounding_hues_from_renotation(self):
         """
-        Tests :func:`colour.notation.munsell.bounding_hues_from_renotation`
+        Test :func:`colour.notation.munsell.bounding_hues_from_renotation`
         definition.
         """
 
@@ -2292,13 +2292,13 @@ class TestBoundingHuesFromRenotation(unittest.TestCase):
 
 class TestHueToHueAngle(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.hue_to_hue_angle` definition unit
+    Define :func:`colour.notation.munsell.hue_to_hue_angle` definition unit
     tests methods.
     """
 
     def test_hue_to_hue_angle(self):
         """
-        Tests :func:`colour.notation.munsell.hue_to_hue_angle` definition.
+        Test :func:`colour.notation.munsell.hue_to_hue_angle` definition.
         """
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
@@ -2307,13 +2307,13 @@ class TestHueToHueAngle(unittest.TestCase):
 
 class TestHueAngleToHue(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.hue_angle_to_hue` definition unit
+    Define :func:`colour.notation.munsell.hue_angle_to_hue` definition unit
     tests methods.
     """
 
     def test_hue_angle_to_hue(self):
         """
-        Tests :func:`colour.notation.munsell.hue_angle_to_hue` definition.
+        Test :func:`colour.notation.munsell.hue_angle_to_hue` definition.
         """
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
@@ -2322,13 +2322,13 @@ class TestHueAngleToHue(unittest.TestCase):
 
 class TestHueTo_ASTM_hue(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.hue_to_ASTM_hue` definition unit
+    Define :func:`colour.notation.munsell.hue_to_ASTM_hue` definition unit
     tests methods.
     """
 
     def test_hue_to_ASTM_hue(self):
         """
-        Tests :func:`colour.notation.munsell.hue_to_ASTM_hue` definition.
+        Test :func:`colour.notation.munsell.hue_to_ASTM_hue` definition.
         """
 
         for hue, code, angle in MUNSELL_HUE_TO_ASTM_HUE:
@@ -2337,13 +2337,13 @@ class TestHueTo_ASTM_hue(unittest.TestCase):
 
 class TestInterpolationMethodFromRenotationOvoid(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.\
+    Define :func:`colour.notation.munsell.\
 interpolation_method_from_renotation_ovoid` definition unit tests methods.
     """
 
     def test_interpolation_method_from_renotation_ovoid(self):
         """
-        Tests :func:`colour.notation.munsell.\
+        Test :func:`colour.notation.munsell.\
 interpolation_method_from_renotation_ovoid` definition.
         """
 
@@ -2368,13 +2368,13 @@ interpolation_method_from_renotation_ovoid` definition.
 
 class Test_xy_fromRenotationOvoid(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.xy_from_renotation_ovoid` definition
+    Define :func:`colour.notation.munsell.xy_from_renotation_ovoid` definition
     unit tests methods.
     """
 
     def test_xy_from_renotation_ovoid(self):
         """
-        Tests :func:`colour.notation.munsell.xy_from_renotation_ovoid`
+        Test :func:`colour.notation.munsell.xy_from_renotation_ovoid`
         definition.
         """
 
@@ -2389,13 +2389,13 @@ class Test_xy_fromRenotationOvoid(unittest.TestCase):
 
 class TestLCHabToMunsellSpecification(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.LCHab_to_munsell_specification`
+    Define :func:`colour.notation.munsell.LCHab_to_munsell_specification`
     definition unit tests methods.
     """
 
     def test_LCHab_to_munsell_specification(self):
         """
-        Tests :func:`colour.notation.munsell.LCHab_to_munsell_specification`
+        Test :func:`colour.notation.munsell.LCHab_to_munsell_specification`
         definition.
         """
 
@@ -2442,13 +2442,13 @@ class TestLCHabToMunsellSpecification(unittest.TestCase):
 
 class TestMaximumChromaFromRenotation(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.maximum_chroma_from_renotation`
+    Define :func:`colour.notation.munsell.maximum_chroma_from_renotation`
     definition unit tests methods.
     """
 
     def test_maximum_chroma_from_renotation(self):
         """
-        Tests :func:`colour.notation.munsell.maximum_chroma_from_renotation`
+        Test :func:`colour.notation.munsell.maximum_chroma_from_renotation`
         definition.
         """
 
@@ -2465,13 +2465,13 @@ class TestMaximumChromaFromRenotation(unittest.TestCase):
 
 class TestMunsellSpecification_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.munsell_specification_to_xy`
+    Define :func:`colour.notation.munsell.munsell_specification_to_xy`
     definition unit tests methods.
     """
 
     def test_munsell_specification_to_xy(self):
         """
-        Tests :func:`colour.notation.munsell.munsell_specification_to_xy`
+        Test :func:`colour.notation.munsell.munsell_specification_to_xy`
         definition.
         """
 

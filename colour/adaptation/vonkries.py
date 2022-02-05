@@ -63,7 +63,7 @@ def matrix_chromatic_adaptation_VonKries(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Computes the *chromatic adaptation* matrix from test viewing conditions
+    Compute the *chromatic adaptation* matrix from test viewing conditions
     to reference viewing conditions.
 
     Parameters
@@ -165,7 +165,7 @@ def chromatic_adaptation_VonKries(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Adapts given stimulus from test viewing conditions to reference viewing
+    Adapt given stimulus from test viewing conditions to reference viewing
     conditions.
 
     Parameters

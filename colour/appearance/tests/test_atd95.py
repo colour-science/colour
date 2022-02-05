@@ -28,13 +28,13 @@ __all__ = [
 
 class TestXYZ_to_ATD95(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.atd95.XYZ_to_ATD95` definition unit
+    Define :func:`colour.appearance.atd95.XYZ_to_ATD95` definition unit
     tests methods.
     """
 
     def test_XYZ_to_ATD95(self):
         """
-        Tests :func:`colour.appearance.atd95.XYZ_to_ATD95` definition.
+        Test :func:`colour.appearance.atd95.XYZ_to_ATD95` definition.
 
         Notes
         -----
@@ -134,7 +134,7 @@ class TestXYZ_to_ATD95(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_ATD95(self):
         """
-        Tests :func:`colour.appearance.atd95.XYZ_to_ATD95` definition
+        Test :func:`colour.appearance.atd95.XYZ_to_ATD95` definition
         n-dimensional support.
         """
 
@@ -173,7 +173,7 @@ class TestXYZ_to_ATD95(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_XYZ_to_ATD95(self):
         """
-        Tests :func:`colour.appearance.atd95.XYZ_to_ATD95` definition domain
+        Test :func:`colour.appearance.atd95.XYZ_to_ATD95` definition domain
         and range scale support.
         """
 
@@ -202,7 +202,7 @@ class TestXYZ_to_ATD95(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_ATD95(self):
         """
-        Tests :func:`colour.appearance.atd95.XYZ_to_ATD95` definition nan
+        Test :func:`colour.appearance.atd95.XYZ_to_ATD95` definition nan
         support.
         """
 

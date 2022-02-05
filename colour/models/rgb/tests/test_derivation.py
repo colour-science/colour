@@ -36,13 +36,13 @@ __all__ = [
 
 class Testxy_to_z(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.xy_to_z` definition unit
+    Define :func:`colour.models.rgb.derivation.xy_to_z` definition unit
     tests methods.
     """
 
     def test_xy_to_z(self):
         """
-        Tests :func:`colour.models.rgb.derivation.xy_to_z` definition.
+        Test :func:`colour.models.rgb.derivation.xy_to_z` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -59,7 +59,7 @@ class Testxy_to_z(unittest.TestCase):
 
     def test_n_dimensional_xy_to_z(self):
         """
-        Tests :func:`colour.models.rgb.derivation.xy_to_z` definition
+        Test :func:`colour.models.rgb.derivation.xy_to_z` definition
         n-dimensional arrays support.
         """
 
@@ -80,7 +80,7 @@ class Testxy_to_z(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_z(self):
         """
-        Tests :func:`colour.models.rgb.derivation.xy_to_z` definition nan
+        Test :func:`colour.models.rgb.derivation.xy_to_z` definition nan
         support.
         """
 
@@ -92,13 +92,13 @@ class Testxy_to_z(unittest.TestCase):
 
 class TestNormalisedPrimaryMatrix(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.normalised_primary_matrix`
+    Define :func:`colour.models.rgb.derivation.normalised_primary_matrix`
     definition unit tests methods.
     """
 
     def test_normalised_primary_matrix(self):
         """
-        Tests :func:`colour.models.rgb.derivation.normalised_primary_matrix`
+        Test :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition.
         """
 
@@ -137,7 +137,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_normalised_primary_matrix(self):
         """
-        Tests :func:`colour.models.rgb.derivation.normalised_primary_matrix`
+        Test :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition nan support.
         """
 
@@ -154,13 +154,13 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
 
 class TestChromaticallyAdaptedPrimaries(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.\
+    Define :func:`colour.models.rgb.derivation.\
 chromatically_adapted_primaries` definition unit tests methods.
     """
 
     def test_chromatically_adapted_primaries(self):
         """
-        Tests :func:`colour.models.rgb.derivation.\
+        Test :func:`colour.models.rgb.derivation.\
 chromatically_adapted_primaries` definition.
         """
 
@@ -218,7 +218,7 @@ chromatically_adapted_primaries` definition.
     @ignore_numpy_errors
     def test_nan_chromatically_adapted_primaries(self):
         """
-        Tests :func:`colour.models.rgb.derivation.\
+        Test :func:`colour.models.rgb.derivation.\
 chromatically_adapted_primaries` definition nan support.
         """
 
@@ -232,13 +232,13 @@ chromatically_adapted_primaries` definition nan support.
 
 class TestPrimariesWhitepoint(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.primaries_whitepoint`
+    Define :func:`colour.models.rgb.derivation.primaries_whitepoint`
     definition unit tests methods.
     """
 
     def test_primaries_whitepoint(self):
         """
-        Tests :func:`colour.models.rgb.derivation.primaries_whitepoint`
+        Test :func:`colour.models.rgb.derivation.primaries_whitepoint`
         definition.
         """
 
@@ -293,7 +293,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_primaries_whitepoint(self):
         """
-        Tests :func:`colour.models.rgb.derivation.primaries_whitepoint`
+        Test :func:`colour.models.rgb.derivation.primaries_whitepoint`
         definition nan support.
         """
 
@@ -306,13 +306,13 @@ class TestPrimariesWhitepoint(unittest.TestCase):
 
 class TestRGBLuminanceEquation(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.RGB_luminance_equation`
+    Define :func:`colour.models.rgb.derivation.RGB_luminance_equation`
     definition unit tests methods.
     """
 
     def test_RGB_luminance_equation(self):
         """
-        Tests :func:`colour.models.rgb.derivation.RGB_luminance_equation`
+        Test :func:`colour.models.rgb.derivation.RGB_luminance_equation`
         definition.
         """
 
@@ -344,13 +344,13 @@ class TestRGBLuminanceEquation(unittest.TestCase):
 
 class TestRGBLuminance(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.derivation.RGB_luminance` definition
+    Define :func:`colour.models.rgb.derivation.RGB_luminance` definition
     unit tests methods.
     """
 
     def test_RGB_luminance(self):
         """
-        Tests :func:`colour.models.rgb.derivation.RGB_luminance`
+        Test :func:`colour.models.rgb.derivation.RGB_luminance`
         definition.
         """
 
@@ -390,7 +390,7 @@ class TestRGBLuminance(unittest.TestCase):
 
     def test_n_dimensional_RGB_luminance(self):
         """
-        Tests :func:`colour.models.rgb.derivation.RGB_luminance` definition
+        Test :func:`colour.models.rgb.derivation.RGB_luminance` definition
         n_dimensional arrays support.
         """
 
@@ -412,7 +412,7 @@ class TestRGBLuminance(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_luminance(self):
         """
-        Tests :func:`colour.models.rgb.derivation.RGB_luminance`
+        Test :func:`colour.models.rgb.derivation.RGB_luminance`
         definition nan support.
         """
 

@@ -88,7 +88,7 @@ def _scale_domain_0_100_range_0_1(
     a: FloatingOrArrayLike, callable_: Callable
 ) -> FloatingOrNDArray:
     """
-    Scales the input domain of given *luminance* :math:`Y` or *Lightness*
+    Scale the input domain of given *luminance* :math:`Y` or *Lightness*
     :math:`L^*` array to [0, 100], call the given callable, and
     scales the output range to [0, 1].
 

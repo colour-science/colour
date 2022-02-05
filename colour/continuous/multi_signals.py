@@ -72,7 +72,7 @@ __all__ = [
 
 class MultiSignals(AbstractContinuousFunction):
     """
-    Defines the base class for multi-continuous signals, a container for
+    Define the base class for multi-continuous signals, a container for
     multiple :class:`colour.continuous.Signal` sub-class instances.
 
     .. important::
@@ -651,7 +651,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the multi-continuous
+        Return a formatted string representation of the multi-continuous
         signals.
 
         Returns
@@ -684,7 +684,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the multi-continuous
+        Return an evaluable string representation of the multi-continuous
         signals.
 
         Returns
@@ -756,7 +756,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __hash__(self) -> Integer:
         """
-        Returns the abstract continuous function hash.
+        Return the abstract continuous function hash.
 
         Returns
         -------
@@ -779,7 +779,7 @@ class MultiSignals(AbstractContinuousFunction):
         self, x: Union[FloatingOrArrayLike, slice]
     ) -> FloatingOrNDArray:
         """
-        Returns the corresponding range variable :math:`y` for independent
+        Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
 
         Parameters
@@ -847,7 +847,7 @@ class MultiSignals(AbstractContinuousFunction):
         self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
     ):
         """
-        Sets the corresponding range variable :math:`y` for independent domain
+        Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
 
         Parameters
@@ -976,7 +976,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __contains__(self, x: Union[FloatingOrArrayLike, slice]) -> bool:
         """
-        Returns whether the multi-continuous signals contains given independent
+        Return whether the multi-continuous signals contains given independent
         domain variable :math:`x`.
 
         Parameters
@@ -1005,7 +1005,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the multi-continuous signals is equal to given other
+        Return whether the multi-continuous signals is equal to given other
         object.
 
         Parameters
@@ -1054,7 +1054,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the multi-continuous signals is not equal to given
+        Return whether the multi-continuous signals is not equal to given
         other object.
 
         Parameters
@@ -1096,7 +1096,7 @@ class MultiSignals(AbstractContinuousFunction):
         in_place: Boolean = False,
     ) -> AbstractContinuousFunction:
         """
-        Performs given arithmetical operation with operand :math:`a`, the
+        Perform given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
 
         Parameters
@@ -1646,7 +1646,7 @@ class MultiSignals(AbstractContinuousFunction):
     @required("Pandas")
     def to_dataframe(self) -> DataFrame:
         """
-        Converts the continuous signal to a *Pandas* :class:`pandas.DataFrame`
+        Convert the continuous signal to a *Pandas* :class:`pandas.DataFrame`
         class instance.
 
         Returns

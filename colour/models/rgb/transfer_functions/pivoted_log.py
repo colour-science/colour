@@ -43,7 +43,7 @@ def log_encoding_PivotedLog(
     density_per_code_value: Floating = 0.002,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Josh Pines* style *Pivoted Log* log encoding curve /
+    Define the *Josh Pines* style *Pivoted Log* log encoding curve /
     opto-electronic transfer function.
 
     Parameters
@@ -107,7 +107,7 @@ def log_decoding_PivotedLog(
     density_per_code_value: Floating = 0.002,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Josh Pines* style *Pivoted Log* log decoding curve /
+    Define the *Josh Pines* style *Pivoted Log* log decoding curve /
     electro-optical transfer function.
 
     Parameters

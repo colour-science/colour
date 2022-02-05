@@ -75,7 +75,7 @@ class DocstringTuple(tuple):
 
 def is_documentation_building() -> Boolean:
     """
-    Returns whether the documentation is being built by checking whether the
+    Return whether the documentation is being built by checking whether the
     *READTHEDOCS* or *COLOUR_SCIENCE__DOCUMENTATION_BUILD* environment
     variables are defined, their value is not accounted for.
 

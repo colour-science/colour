@@ -42,7 +42,7 @@ __all__ = [
 
 def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *whitepoint* *CIE XYZ* tristimulus values to
+    Convert from *whitepoint* *CIE XYZ* tristimulus values to
     *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
     coefficients.
 
@@ -88,7 +88,7 @@ def XYZ_to_Hunter_Lab(
     ]["D65"].K_ab,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
+    Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
     Parameters
     ----------
@@ -169,7 +169,7 @@ def Hunter_Lab_to_XYZ(
     ]["D65"].K_ab,
 ) -> NDArray:
     """
-    Converts from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
+    Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------

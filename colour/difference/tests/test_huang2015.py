@@ -21,13 +21,13 @@ __all__ = [
 
 class TestPowerFunctionHuang2015(unittest.TestCase):
     """
-    Defines :func:`colour.difference.huang2015.power_function_Huang2015`
+    Define :func:`colour.difference.huang2015.power_function_Huang2015`
     definition unit tests methods.
     """
 
     def test_power_function_Huang2015(self):
         """
-        Tests :func:`colour.difference.huang2015.power_function_Huang2015`
+        Test :func:`colour.difference.huang2015.power_function_Huang2015`
         definition.
         """
 

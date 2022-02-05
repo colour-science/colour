@@ -50,7 +50,7 @@ def metric_mse(
     axis: Optional[Union[Integer, Tuple[Integer]]] = None,
 ) -> FloatingOrNDArray:
     """
-    Computes the mean squared error (MSE) or mean squared deviation (MSD)
+    Compute the mean squared error (MSE) or mean squared deviation (MSD)
     between given variables :math:`a` and :math:`b`.
 
     Parameters
@@ -94,7 +94,7 @@ def metric_psnr(
     axis: Optional[Union[Integer, Tuple[Integer]]] = None,
 ) -> FloatingOrNDArray:
     """
-    Computes the peak signal-to-noise ratio (PSNR) between given variables
+    Compute the peak signal-to-noise ratio (PSNR) between given variables
     :math:`a` and :math:`b`.
 
     Parameters

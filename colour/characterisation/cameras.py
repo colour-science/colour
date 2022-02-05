@@ -42,7 +42,7 @@ __all__ = [
 
 class RGB_CameraSensitivities(MultiSpectralDistributions):
     """
-    Implements support for a camera *RGB* sensitivities.
+    Implement support for a camera *RGB* sensitivities.
 
     Parameters
     ----------

@@ -36,13 +36,13 @@ __all__ = [
 
 class TestXYZ_to_CAM16(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.cam16.XYZ_to_CAM16` definition unit
+    Define :func:`colour.appearance.cam16.XYZ_to_CAM16` definition unit
     tests methods.
     """
 
     def test_XYZ_to_CAM16(self):
         """
-        Tests :func:`colour.appearance.cam16.XYZ_to_CAM16` definition.
+        Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition.
         """
 
         XYZ = np.array([19.01, 20.00, 21.78])
@@ -147,7 +147,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_CAM16(self):
         """
-        Tests :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
+        Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
         n-dimensional support.
         """
 
@@ -185,7 +185,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_XYZ_to_CAM16(self):
         """
-        Tests :func:`colour.appearance.cam16.XYZ_to_CAM16` definition domain
+        Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition domain
         and range scale support.
         """
 
@@ -233,7 +233,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_CAM16(self):
         """
-        Tests :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
+        Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
         nan support.
         """
 
@@ -250,13 +250,13 @@ class TestXYZ_to_CAM16(unittest.TestCase):
 
 class TestCAM16_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.cam16.CAM16_to_XYZ` definition unit tests
+    Define :func:`colour.appearance.cam16.CAM16_to_XYZ` definition unit tests
     methods.
     """
 
     def test_CAM16_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition.
+        Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition.
         """
 
         specification = CAM_Specification_CAM16(
@@ -316,7 +316,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_CAM16_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition
+        Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -359,7 +359,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_CAM16_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition domain
+        Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition domain
         and range scale support.
         """
 
@@ -412,7 +412,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_raise_exception_CAM16_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition raised
+        Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition raised
         exception.
         """
 
@@ -431,7 +431,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CAM16_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.cam16.CAM16_to_XYZ` definition nan
+        Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition nan
         support.
         """
 

@@ -49,13 +49,13 @@ __all__ = [
 
 class TestLogEncoding_REDLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition unit tests methods.
     """
 
     def test_log_encoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition.
         """
 
@@ -69,7 +69,7 @@ log_encoding_REDLog` definition.
 
     def test_n_dimensional_log_encoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition n-dimensional arrays support.
         """
 
@@ -90,7 +90,7 @@ log_encoding_REDLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition domain and range scale support.
         """
 
@@ -107,7 +107,7 @@ log_encoding_REDLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition nan support.
         """
 
@@ -118,13 +118,13 @@ log_encoding_REDLog` definition nan support.
 
 class TestLogDecoding_REDLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition unit tests methods.
     """
 
     def test_log_decoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition.
         """
 
@@ -138,7 +138,7 @@ log_decoding_REDLog` definition.
 
     def test_n_dimensional_log_decoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition n-dimensional arrays support.
         """
 
@@ -159,7 +159,7 @@ log_decoding_REDLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition domain and range scale support.
         """
 
@@ -176,7 +176,7 @@ log_decoding_REDLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition nan support.
         """
 
@@ -187,13 +187,13 @@ log_decoding_REDLog` definition nan support.
 
 class TestLogEncoding_REDLogFilm(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition unit tests methods.
     """
 
     def test_log_encoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition.
         """
 
@@ -211,7 +211,7 @@ log_encoding_REDLogFilm` definition.
 
     def test_n_dimensional_log_encoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition n-dimensional arrays support.
         """
 
@@ -238,7 +238,7 @@ log_encoding_REDLogFilm` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition domain and range scale support.
         """
 
@@ -255,7 +255,7 @@ log_encoding_REDLogFilm` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition nan support.
         """
 
@@ -266,13 +266,13 @@ log_encoding_REDLogFilm` definition nan support.
 
 class TestLogDecoding_REDLogFilm(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition unit tests methods.
     """
 
     def test_log_decoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition.
         """
 
@@ -290,7 +290,7 @@ log_decoding_REDLogFilm` definition.
 
     def test_n_dimensional_log_decoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition n-dimensional arrays support.
         """
 
@@ -317,7 +317,7 @@ log_decoding_REDLogFilm` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition domain and range scale support.
         """
 
@@ -334,7 +334,7 @@ log_decoding_REDLogFilm` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition nan support.
         """
 
@@ -345,13 +345,13 @@ log_decoding_REDLogFilm` definition nan support.
 
 class TestLogEncoding_Log3G10_v1(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v1` definition unit tests methods.
     """
 
     def test_log_encoding_Log3G10_v1(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v1` definition.
         """
 
@@ -367,7 +367,7 @@ log_encoding_Log3G10_v1` definition.
 
     def test_n_dimensional_log_encoding_Log3G10_v1(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v1` definition n-dimensional arrays support.
         """
 
@@ -394,7 +394,7 @@ log_encoding_Log3G10_v1` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_Log3G10_v1(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v1` definition domain and range scale support.
         """
 
@@ -411,7 +411,7 @@ log_encoding_Log3G10_v1` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_Log3G10_v1(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v1` definition nan support.
         """
 
@@ -422,13 +422,13 @@ log_encoding_Log3G10_v1` definition nan support.
 
 class TestLogDecoding_Log3G10_v1(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v1` definition unit tests methods.
     """
 
     def test_log_decoding_Log3G10_v1(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v1` definition.
         """
 
@@ -444,7 +444,7 @@ log_decoding_Log3G10_v1` definition.
 
     def test_n_dimensional_log_decoding_Log3G10_v1(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v1` definition n-dimensional arrays support.
         """
 
@@ -471,7 +471,7 @@ log_decoding_Log3G10_v1` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_Log3G10_v1(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v1` definition domain and range scale support.
         """
 
@@ -488,7 +488,7 @@ log_decoding_Log3G10_v1` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_Log3G10_v1(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v1` definition nan support.
         """
 
@@ -499,13 +499,13 @@ log_decoding_Log3G10_v1` definition nan support.
 
 class TestLogEncoding_Log3G10_v2(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v2` definition unit tests methods.
     """
 
     def test_log_encoding_Log3G10_v2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v2` definition.
         """
 
@@ -523,7 +523,7 @@ log_encoding_Log3G10_v2` definition.
 
     def test_n_dimensional_log_encoding_Log3G10_v2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v2` definition n-dimensional arrays support.
         """
 
@@ -550,7 +550,7 @@ log_encoding_Log3G10_v2` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_Log3G10_v2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v2` definition domain and range scale support.
         """
 
@@ -567,7 +567,7 @@ log_encoding_Log3G10_v2` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_Log3G10_v2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v2` definition nan support.
         """
 
@@ -578,13 +578,13 @@ log_encoding_Log3G10_v2` definition nan support.
 
 class TestLogDecoding_Log3G10_v2(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v2` definition unit tests methods.
     """
 
     def test_log_decoding_Log3G10_v2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v2` definition.
         """
 
@@ -602,7 +602,7 @@ log_decoding_Log3G10_v2` definition.
 
     def test_n_dimensional_log_decoding_Log3G10_v2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v2` definition n-dimensional arrays support.
         """
 
@@ -629,7 +629,7 @@ log_decoding_Log3G10_v2` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_Log3G10_v2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v2` definition domain and range scale support.
         """
 
@@ -646,7 +646,7 @@ log_decoding_Log3G10_v2` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_Log3G10_v2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v2` definition nan support.
         """
 
@@ -657,13 +657,13 @@ log_decoding_Log3G10_v2` definition nan support.
 
 class TestLogEncoding_Log3G10_v3(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v3` definition unit tests methods.
     """
 
     def test_log_encoding_Log3G10_v3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v3` definition.
         """
 
@@ -681,7 +681,7 @@ log_encoding_Log3G10_v3` definition.
 
     def test_n_dimensional_log_encoding_Log3G10_v3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v3` definition n-dimensional arrays support.
         """
 
@@ -708,7 +708,7 @@ log_encoding_Log3G10_v3` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_Log3G10_v3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v3` definition domain and range scale support.
         """
 
@@ -725,7 +725,7 @@ log_encoding_Log3G10_v3` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_Log3G10_v3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G10_v3` definition nan support.
         """
 
@@ -736,13 +736,13 @@ log_encoding_Log3G10_v3` definition nan support.
 
 class TestLogDecoding_Log3G10_v3(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v3` definition unit tests methods.
     """
 
     def test_log_decoding_Log3G10_v3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v3` definition.
         """
 
@@ -760,7 +760,7 @@ log_decoding_Log3G10_v3` definition.
 
     def test_n_dimensional_log_decoding_Log3G10_v3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v3` definition n-dimensional arrays support.
         """
 
@@ -787,7 +787,7 @@ log_decoding_Log3G10_v3` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_Log3G10_v3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v3` definition domain and range scale support.
         """
 
@@ -804,7 +804,7 @@ log_decoding_Log3G10_v3` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_Log3G10_v3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G10_v3` definition nan support.
         """
 
@@ -815,13 +815,13 @@ log_decoding_Log3G10_v3` definition nan support.
 
 class TestLogEncoding_Log3G12(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G12` definition unit tests methods.
     """
 
     def test_log_encoding_Log3G12(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G12` definition.
         """
 
@@ -841,7 +841,7 @@ log_encoding_Log3G12` definition.
 
     def test_n_dimensional_log_encoding_Log3G12(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G12` definition n-dimensional arrays support.
         """
 
@@ -862,7 +862,7 @@ log_encoding_Log3G12` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_Log3G12(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G12` definition domain and range scale support.
         """
 
@@ -879,7 +879,7 @@ log_encoding_Log3G12` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_Log3G12(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_Log3G12` definition nan support.
         """
 
@@ -890,13 +890,13 @@ log_encoding_Log3G12` definition nan support.
 
 class TestLogDecoding_Log3G12(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
+    Define :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G12` definition unit tests methods.
     """
 
     def test_log_decoding_Log3G12(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G12` definition.
         """
 
@@ -916,7 +916,7 @@ log_decoding_Log3G12` definition.
 
     def test_n_dimensional_log_decoding_Log3G12(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G12` definition n-dimensional arrays support.
         """
 
@@ -937,7 +937,7 @@ log_decoding_Log3G12` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_Log3G12(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G12` definition domain and range scale support.
         """
 
@@ -954,7 +954,7 @@ log_decoding_Log3G12` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_Log3G12(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
+        Test :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_Log3G12` definition nan support.
         """
 

@@ -112,7 +112,7 @@ __all__ = [
 
 def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
+    Return the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
     using *Newhall et al. (1943)* method.
 
     Parameters
@@ -164,7 +164,7 @@ def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
+    Return the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *ASTM D1535-08e1* method.
 
     Parameters
@@ -218,7 +218,7 @@ def intermediate_luminance_function_CIE1976(
     f_Y_Y_n: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
 ) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` in the *luminance* :math:`Y`
+    Return the *luminance* :math:`Y` in the *luminance* :math:`Y`
     computation for given intermediate value :math:`f(Y/Yn)` using given
     reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
 
@@ -278,7 +278,7 @@ def luminance_CIE1976(
     L_star: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
 ) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
+    Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
 
     Parameters
@@ -333,7 +333,7 @@ def luminance_Fairchild2010(
     L_hdr: FloatingOrArrayLike, epsilon: FloatingOrArrayLike = 1.836
 ) -> FloatingOrNDArray:
     """
-    Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
+    Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -394,7 +394,7 @@ def luminance_Fairchild2011(
     method: Union[Literal["hdr-CIELAB", "hdr-IPT"], str] = "hdr-CIELAB",
 ) -> FloatingOrNDArray:
     """
-    Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
+    Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -467,7 +467,7 @@ def luminance_Abebe2017(
     ] = "Michaelis-Menten",
 ) -> FloatingOrNDArray:
     """
-    Computes *luminance* :math:`Y` of *Lightness* :math:`L` using
+    Compute *luminance* :math:`Y` of *Lightness* :math:`L` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
     *Michaelis-Menten* kinetics or *Stevens's Power Law*.
 
@@ -593,7 +593,7 @@ def luminance(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
+    Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
 
     Parameters

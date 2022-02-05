@@ -34,13 +34,13 @@ __all__ = [
 
 class TestPlotHullSectionColours(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.section.plot_hull_section_colours`
+    Define :func:`colour.plotting.section.plot_hull_section_colours`
     definition unit tests methods.
     """
 
     def test_plot_hull_section_colours(self):
         """
-        Tests :func:`colour.plotting.section.plot_hull_section_colours`
+        Test :func:`colour.plotting.section.plot_hull_section_colours`
         definition.
         """
 
@@ -76,13 +76,13 @@ class TestPlotHullSectionColours(unittest.TestCase):
 
 class TestPlotHullSectionContour(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.section.plot_hull_section_contour`
+    Define :func:`colour.plotting.section.plot_hull_section_contour`
     definition unit tests methods.
     """
 
     def test_plot_hull_section_contour(self):
         """
-        Tests :func:`colour.plotting.section.plot_hull_section_contour`
+        Test :func:`colour.plotting.section.plot_hull_section_contour`
         definition.
         """
 
@@ -108,13 +108,13 @@ class TestPlotHullSectionContour(unittest.TestCase):
 
 class TestPlotVisibleSpectrumSection(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.section.plot_visible_spectrum_section`
+    Define :func:`colour.plotting.section.plot_visible_spectrum_section`
     definition unit tests methods.
     """
 
     def test_plot_visible_spectrum_section(self):
         """
-        Tests :func:`colour.plotting.section.plot_visible_spectrum_section`
+        Test :func:`colour.plotting.section.plot_visible_spectrum_section`
         definition.
         """
 
@@ -129,13 +129,13 @@ class TestPlotVisibleSpectrumSection(unittest.TestCase):
 
 class TestPlotRGBColourspaceSection(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.section.plot_RGB_colourspace_section`
+    Define :func:`colour.plotting.section.plot_RGB_colourspace_section`
     definition unit tests methods.
     """
 
     def test_plot_RGB_colourspace_section(self):
         """
-        Tests :func:`colour.plotting.section.plot_RGB_colourspace_section`
+        Test :func:`colour.plotting.section.plot_RGB_colourspace_section`
         definition.
         """
 

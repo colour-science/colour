@@ -39,7 +39,7 @@ __all__ = [
 
 def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
     """
-    Reads given *Resolve* *.cube* *LUT* file.
+    Read given *Resolve* *.cube* *LUT* file.
 
     Parameters
     ----------
@@ -217,7 +217,7 @@ def write_LUT_ResolveCube(
     decimals: Integer = 7,
 ) -> Boolean:
     """
-    Writes given *LUT* to given  *Resolve* *.cube* *LUT* file.
+    Write given *LUT* to given  *Resolve* *.cube* *LUT* file.
 
     Parameters
     ----------
@@ -343,14 +343,14 @@ def write_LUT_ResolveCube(
 
     def _format_array(array: Union[List, Tuple]) -> str:
         """
-        Formats given array as a *Resolve* *.cube* data row.
+        Format given array as a *Resolve* *.cube* data row.
         """
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
     def _format_tuple(array: Union[List, Tuple]) -> str:
         """
-        Formats given array as 2 space separated values to *decimals*
+        Format given array as 2 space separated values to *decimals*
         precision.
         """
 

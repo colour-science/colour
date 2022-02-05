@@ -32,13 +32,13 @@ LUTS_DIRECTORY: str = os.path.join(
 
 class TestReadLUTSonySPImtx(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.sony_spimtx.read_LUT_SonySPImtx` definition
+    Define :func:`colour.io.luts.sony_spimtx.read_LUT_SonySPImtx` definition
     unit tests methods.
     """
 
     def test_read_LUT_SonySPImtx(self):
         """
-        Tests :func:`colour.io.luts.sony_spimtx.read_LUT_SonySPImtx`
+        Test :func:`colour.io.luts.sony_spimtx.read_LUT_SonySPImtx`
         definition.
         """
 
@@ -101,13 +101,13 @@ class TestReadLUTSonySPImtx(unittest.TestCase):
 
 class TestWriteLUTSonySPImtx(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.sony_spimtx.write_LUT_SonySPImtx` definition
+    Define :func:`colour.io.luts.sony_spimtx.write_LUT_SonySPImtx` definition
     unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -121,7 +121,7 @@ class TestWriteLUTSonySPImtx(unittest.TestCase):
 
     def test_write_LUT_SonySPImtx(self):
         """
-        Tests :func:`colour.io.luts.sony_spimtx.write_LUT_SonySPImtx`
+        Test :func:`colour.io.luts.sony_spimtx.write_LUT_SonySPImtx`
         definition.
         """
 

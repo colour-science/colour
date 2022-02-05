@@ -51,7 +51,7 @@ def xy_to_CCT_Kang2002(
     xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
 ) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` from given
+    Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *Kang et al. (2002)* method.
 
     Parameters
@@ -126,7 +126,7 @@ def xy_to_CCT_Kang2002(
 
 def CCT_to_xy_Kang2002(CCT: FloatingOrArrayLike) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *Kang et al. (2002)* method.
 
     Parameters

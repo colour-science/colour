@@ -186,7 +186,7 @@ def XYZ_to_Izazbz(
     ] = "Safdar 2017",
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
+    Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
     colourspace.
 
     Parameters
@@ -285,7 +285,7 @@ def Izazbz_to_XYZ(
     ] = "Safdar 2017",
 ) -> NDArray:
     """
-    Converts from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
+    Convert from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -380,7 +380,7 @@ def XYZ_to_Jzazbz(
     XYZ_D65: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
+    Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
     colourspace.
 
     Parameters
@@ -457,7 +457,7 @@ def Jzazbz_to_XYZ(
     Jzazbz: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArray:
     """
-    Converts from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
+    Convert from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters

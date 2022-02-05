@@ -26,13 +26,13 @@ __all__ = [
 
 class TestXYZ_to_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.XYZ_to_Lab` definition unit tests
+    Define :func:`colour.models.cie_lab.XYZ_to_Lab` definition unit tests
     methods.
     """
 
     def test_XYZ_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition.
+        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -82,7 +82,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition n-dimensional
+        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition n-dimensional
         support.
         """
 
@@ -110,7 +110,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition
+        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition
         domain and range scale support.
         """
 
@@ -130,7 +130,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
+        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -143,13 +143,13 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
 class TestLab_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.Lab_to_XYZ` definition unit tests
+    Define :func:`colour.models.cie_lab.Lab_to_XYZ` definition unit tests
     methods.
     """
 
     def test_Lab_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition.
+        Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -199,7 +199,7 @@ class TestLab_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_Lab_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition n-dimensional
+        Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition n-dimensional
         support.
         """
 
@@ -227,7 +227,7 @@ class TestLab_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_Lab_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition
+        Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition
         domain and range scale support.
         """
 
@@ -247,7 +247,7 @@ class TestLab_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Lab_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition nan support.
+        Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -260,13 +260,13 @@ class TestLab_to_XYZ(unittest.TestCase):
 
 class TestLab_to_LCHab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.Lab_to_LCHab` definition unit tests
+    Define :func:`colour.models.cie_lab.Lab_to_LCHab` definition unit tests
     methods.
     """
 
     def test_Lab_to_LCHab(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition.
+        Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -289,7 +289,7 @@ class TestLab_to_LCHab(unittest.TestCase):
 
     def test_n_dimensional_Lab_to_LCHab(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition
+        Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition
         n-dimensional arrays support.
         """
 
@@ -306,7 +306,7 @@ class TestLab_to_LCHab(unittest.TestCase):
 
     def test_domain_range_scale_Lab_to_LCHab(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition domain and
+        Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition domain and
         range scale support.
         """
 
@@ -327,7 +327,7 @@ class TestLab_to_LCHab(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Lab_to_LCHab(self):
         """
-        Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition nan
+        Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition nan
         support.
         """
 
@@ -340,13 +340,13 @@ class TestLab_to_LCHab(unittest.TestCase):
 
 class TestLCHab_to_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_lab.LCHab_to_Lab` definition unit tests
+    Define :func:`colour.models.cie_lab.LCHab_to_Lab` definition unit tests
     methods.
     """
 
     def test_LCHab_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition.
+        Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -369,7 +369,7 @@ class TestLCHab_to_Lab(unittest.TestCase):
 
     def test_n_dimensional_LCHab_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition
+        Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition
         n-dimensional arrays support.
         """
 
@@ -386,7 +386,7 @@ class TestLCHab_to_Lab(unittest.TestCase):
 
     def test_domain_range_scale_LCHab_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition domain and
+        Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition domain and
         range scale support.
         """
 
@@ -407,7 +407,7 @@ class TestLCHab_to_Lab(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_LCHab_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition nan
+        Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition nan
         support.
         """
 

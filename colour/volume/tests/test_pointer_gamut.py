@@ -23,13 +23,13 @@ __all__ = [
 
 class TestIsWithinPointerGamut(unittest.TestCase):
     """
-    Defines :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
+    Define :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
     definition unit tests methods.
     """
 
     def test_is_within_pointer_gamut(self):
         """
-        Tests :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
+        Test :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
         definition.
         """
 
@@ -51,7 +51,7 @@ class TestIsWithinPointerGamut(unittest.TestCase):
 
     def test_n_dimensional_is_within_pointer_gamut(self):
         """
-        Tests :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
+        Test :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
         definition n-dimensional arrays support.
         """
 
@@ -69,7 +69,7 @@ class TestIsWithinPointerGamut(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_is_within_pointer_gamut(self):
         """
-        Tests :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
+        Test :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
         definition nan support.
         """
 

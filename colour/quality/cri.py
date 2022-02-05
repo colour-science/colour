@@ -67,7 +67,7 @@ __all__ = [
 @dataclass
 class TCS_ColorimetryData:
     """
-    Defines the class storing *test colour samples* colorimetry data.
+    Define the class storing *test colour samples* colorimetry data.
     """
 
     name: str
@@ -79,7 +79,7 @@ class TCS_ColorimetryData:
 @dataclass
 class TCS_ColourQualityScaleData:
     """
-    Defines the class storing *test colour samples* colour rendering
+    Define the class storing *test colour samples* colour rendering
     index data.
     """
 
@@ -90,7 +90,7 @@ class TCS_ColourQualityScaleData:
 @dataclass()
 class ColourRendering_Specification_CRI:
     """
-    Defines the *Colour Rendering Index* (CRI) colour quality specification.
+    Define the *Colour Rendering Index* (CRI) colour quality specification.
 
     Parameters
     ----------
@@ -120,7 +120,7 @@ def colour_rendering_index(
     sd_test: SpectralDistribution, additional_data: Boolean = False
 ) -> Union[Floating, ColourRendering_Specification_CRI]:
     """
-    Returns the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
+    Return the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
     distribution.
 
     Parameters
@@ -208,7 +208,7 @@ def tcs_colorimetry_data(
     chromatic_adaptation: Boolean = False,
 ) -> Tuple[TCS_ColorimetryData, ...]:
     """
-    Returns the *test colour samples* colorimetry data.
+    Return the *test colour samples* colorimetry data.
 
     Parameters
     ----------
@@ -251,7 +251,7 @@ def tcs_colorimetry_data(
                 x: FloatingOrNDArray, y: FloatingOrNDArray
             ) -> FloatingOrNDArray:
                 """
-                Computes the :math:`c` term.
+                Compute the :math:`c` term.
                 """
 
                 return (4 - x - 10 * y) / y
@@ -260,7 +260,7 @@ def tcs_colorimetry_data(
                 x: FloatingOrNDArray, y: FloatingOrNDArray
             ) -> FloatingOrNDArray:
                 """
-                Computes the :math:`d` term.
+                Compute the :math:`d` term.
                 """
 
                 return (1.708 * y + 0.404 - 1.481 * x) / y
@@ -293,7 +293,7 @@ def colour_rendering_indexes(
     reference_data: Tuple[TCS_ColorimetryData, ...],
 ) -> Dict[Integer, TCS_ColourQualityScaleData]:
     """
-    Returns the *test colour samples* rendering indexes :math:`Q_a`.
+    Return the *test colour samples* rendering indexes :math:`Q_a`.
 
     Parameters
     ----------

@@ -26,13 +26,13 @@ __all__ = [
 
 class TestPrimitiveGrid(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.primitives.primitive_grid`
+    Define :func:`colour.geometry.primitives.primitive_grid`
     definition unit tests methods.
     """
 
     def test_primitive_grid(self):
         """
-        Tests :func:`colour.geometry.primitives.primitive_grid`
+        Test :func:`colour.geometry.primitives.primitive_grid`
         definition.
         """
 
@@ -189,13 +189,13 @@ class TestPrimitiveGrid(unittest.TestCase):
 
 class TestPrimitiveCube(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.primitives.primitive_cube`
+    Define :func:`colour.geometry.primitives.primitive_cube`
     definition unit tests methods.
     """
 
     def test_primitive_cube(self):
         """
-        Tests :func:`colour.geometry.primitives.primitive_cube`
+        Test :func:`colour.geometry.primitives.primitive_cube`
         definition.
         """
 

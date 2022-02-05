@@ -24,13 +24,13 @@ __all__ = [
 
 class TestXy_to_CCT_Kang2002(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
+    Define :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
     definition unit tests methods.
     """
 
     def test_xy_to_CCT_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
+        Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition.
         """
 
@@ -66,7 +66,7 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
 
     def test_n_dimensional_xy_to_CCT_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
+        Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition n-dimensional arrays support.
         """
 
@@ -84,7 +84,7 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
+        Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition nan support.
         """
 
@@ -96,13 +96,13 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
 
 class TestCCT_to_xy_Kang2002(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
+    Define :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
     unit tests methods.
     """
 
     def test_CCT_to_xy_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002`
+        Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002`
         definition.
         """
 
@@ -126,7 +126,7 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
 
     def test_n_dimensional_CCT_to_xy_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
+        Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
         n-dimensional arrays support.
         """
 
@@ -144,7 +144,7 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
+        Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
         nan support.
         """
 

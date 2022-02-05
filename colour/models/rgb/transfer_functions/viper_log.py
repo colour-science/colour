@@ -37,7 +37,7 @@ __all__ = [
 
 def log_encoding_ViperLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Viper Log* log encoding curve / opto-electronic transfer
+    Define the *Viper Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -83,7 +83,7 @@ def log_encoding_ViperLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_ViperLog(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Viper Log* log decoding curve / electro-optical transfer
+    Define the *Viper Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters

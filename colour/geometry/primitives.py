@@ -88,7 +88,7 @@ def primitive_grid(
     dtype_indexes: Optional[Type[DTypeInteger]] = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Generates vertices and indexes for a filled and outlined grid primitive.
+    Generate vertices and indexes for a filled and outlined grid primitive.
 
     Parameters
     ----------
@@ -263,7 +263,7 @@ def primitive_cube(
     dtype_indexes: Optional[Type[DTypeInteger]] = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Generates vertices and indexes for a filled and outlined cube primitive.
+    Generate vertices and indexes for a filled and outlined cube primitive.
 
     Parameters
     ----------
@@ -471,7 +471,7 @@ def primitive(
     method: Union[Literal["Cube", "Grid"], str] = "Cube", **kwargs: Any
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Returns a geometry primitive using given method.
+    Return a geometry primitive using given method.
 
     Parameters
     ----------

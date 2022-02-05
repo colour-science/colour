@@ -62,7 +62,7 @@ def contrast_sensitivity_function(
     method: Union[Literal["Barten 1999"], str] = "Barten 1999", **kwargs
 ) -> FloatingOrNDArray:
     """
-    Returns the contrast sensitivity :math:`S` of the human eye according to
+    Return the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by given method.
 
     Parameters

@@ -35,13 +35,13 @@ __all__ = [
 
 class TestCctfEncoding_ROMMRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+    Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_ROMMRGB` definition unit tests methods.
     """
 
     def test_cctf_encoding_ROMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_ROMMRGB` definition.
         """
 
@@ -61,7 +61,7 @@ cctf_encoding_ROMMRGB` definition.
 
     def test_n_dimensional_cctf_encoding_ROMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_ROMMRGB` definition n-dimensional arrays support.
         """
 
@@ -88,7 +88,7 @@ cctf_encoding_ROMMRGB` definition n-dimensional arrays support.
 
     def test_domain_range_scale_cctf_encoding_ROMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_ROMMRGB` definition domain and range scale support.
         """
 
@@ -105,7 +105,7 @@ cctf_encoding_ROMMRGB` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_cctf_encoding_ROMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_ROMMRGB` definition nan support.
         """
 
@@ -116,13 +116,13 @@ cctf_encoding_ROMMRGB` definition nan support.
 
 class TestCctfDecoding_ROMMRGB(unittest.TestCase):
     """
-        Defines :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
+        Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
     cctf_decoding_ROMMRGB` definition unit tests methods.
     """
 
     def test_cctf_decoding_ROMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_decoding_ROMMRGB` definition.
         """
 
@@ -150,7 +150,7 @@ cctf_decoding_ROMMRGB` definition.
 
     def test_n_dimensional_cctf_decoding_ROMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_decoding_ROMMRGB` definition n-dimensional arrays support.
         """
 
@@ -177,7 +177,7 @@ cctf_decoding_ROMMRGB` definition n-dimensional arrays support.
 
     def test_domain_range_scale_cctf_decoding_ROMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_decoding_ROMMRGB` definition domain and range scale support.
         """
 
@@ -194,7 +194,7 @@ cctf_decoding_ROMMRGB` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_cctf_decoding_ROMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_decoding_ROMMRGB` definition nan support.
         """
 
@@ -205,13 +205,13 @@ cctf_decoding_ROMMRGB` definition nan support.
 
 class TestCctfEncoding_RIMMRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+    Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_RIMMRGB` definition unit tests methods.
     """
 
     def test_cctf_encoding_RIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_RIMMRGB` definition.
         """
 
@@ -233,7 +233,7 @@ cctf_encoding_RIMMRGB` definition.
 
     def test_n_dimensional_cctf_encoding_RIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_RIMMRGB` definition n-dimensional arrays support.
         """
 
@@ -260,7 +260,7 @@ cctf_encoding_RIMMRGB` definition n-dimensional arrays support.
 
     def test_domain_range_scale_cctf_encoding_RIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_RIMMRGB` definition domain and range scale support.
         """
 
@@ -277,7 +277,7 @@ cctf_encoding_RIMMRGB` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_cctf_encoding_RIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_encoding_RIMMRGB` definition nan support.
         """
 
@@ -288,13 +288,13 @@ cctf_encoding_RIMMRGB` definition nan support.
 
 class TestCctfDecoding_RIMMRGB(unittest.TestCase):
     """
-        Defines :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
+        Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
     cctf_decoding_RIMMRGB` definition unit tests methods.
     """
 
     def test_cctf_decoding_RIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_decoding_RIMMRGB` definition.
         """
 
@@ -324,7 +324,7 @@ cctf_decoding_RIMMRGB` definition.
 
     def test_n_dimensional_cctf_decoding_RIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_decoding_RIMMRGB` definition n-dimensional arrays support.
         """
 
@@ -351,7 +351,7 @@ cctf_decoding_RIMMRGB` definition n-dimensional arrays support.
 
     def test_domain_range_scale_cctf_decoding_RIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_decoding_RIMMRGB` definition domain and range scale support.
         """
 
@@ -368,7 +368,7 @@ cctf_decoding_RIMMRGB` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_cctf_decoding_RIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 cctf_decoding_RIMMRGB` definition nan support.
         """
 
@@ -379,13 +379,13 @@ cctf_decoding_RIMMRGB` definition nan support.
 
 class TestLog_encoding_ERIMMRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+    Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_encoding_ERIMMRGB` definition unit tests methods.
     """
 
     def test_log_encoding_ERIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_encoding_ERIMMRGB` definition.
         """
 
@@ -407,7 +407,7 @@ log_encoding_ERIMMRGB` definition.
 
     def test_n_dimensional_log_encoding_ERIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_encoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
@@ -434,7 +434,7 @@ log_encoding_ERIMMRGB` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_ERIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_encoding_ERIMMRGB` definition domain and range scale support.
         """
 
@@ -451,7 +451,7 @@ log_encoding_ERIMMRGB` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_ERIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_encoding_ERIMMRGB` definition nan support.
         """
 
@@ -462,13 +462,13 @@ log_encoding_ERIMMRGB` definition nan support.
 
 class TestLog_decoding_ERIMMRGB(unittest.TestCase):
     """
-        Defines :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
+        Define :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.
     log_decoding_ERIMMRGB` definition unit tests methods.
     """
 
     def test_log_decoding_ERIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_decoding_ERIMMRGB` definition.
         """
 
@@ -498,7 +498,7 @@ log_decoding_ERIMMRGB` definition.
 
     def test_n_dimensional_log_decoding_ERIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_decoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
@@ -525,7 +525,7 @@ log_decoding_ERIMMRGB` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_ERIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_decoding_ERIMMRGB` definition domain and range scale support.
         """
 
@@ -542,7 +542,7 @@ log_decoding_ERIMMRGB` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_ERIMMRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
+        Test :func:`colour.models.rgb.transfer_functions.rimm_romm_rgb.\
 log_decoding_ERIMMRGB` definition nan support.
         """
 

@@ -63,7 +63,7 @@ colourspace.
 
 def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values under the
+    Convert from *CIE XYZ* tristimulus values under the
     *CIE 1964 10 Degree Standard Observer* to *OSA UCS* colourspace.
 
     The lightness axis, *L* is usually in range [-9, 5] and centered around
@@ -148,7 +148,7 @@ def OSA_UCS_to_XYZ(
     Ljg: ArrayLike, optimisation_kwargs: Optional[Dict] = None
 ) -> NDArray:
     """
-    Converts from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
+    Convert from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
 
     Parameters

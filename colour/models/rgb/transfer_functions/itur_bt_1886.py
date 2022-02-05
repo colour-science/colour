@@ -42,7 +42,7 @@ def eotf_inverse_BT1886(
     L: FloatingOrArrayLike, L_B: Floating = 0, L_W: Floating = 1
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.1886* inverse electro-optical transfer
+    Define *Recommendation ITU-R BT.1886* inverse electro-optical transfer
     function (EOTF).
 
     Parameters
@@ -102,7 +102,7 @@ def eotf_BT1886(
     V: FloatingOrArrayLike, L_B: Floating = 0, L_W: Floating = 1
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
+    Define *Recommendation ITU-R BT.1886* electro-optical transfer function
     (EOTF).
 
     Parameters

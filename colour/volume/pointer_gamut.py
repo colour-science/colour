@@ -32,7 +32,7 @@ def is_within_pointer_gamut(
     XYZ: ArrayLike, tolerance: Optional[Floating] = None
 ) -> NDArray:
     """
-    Returns whether given *CIE XYZ* tristimulus values are within Pointer's
+    Return whether given *CIE XYZ* tristimulus values are within Pointer's
     Gamut volume.
 
     Parameters

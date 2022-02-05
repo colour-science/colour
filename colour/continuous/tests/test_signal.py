@@ -30,12 +30,12 @@ __all__ = [
 
 class TestSignal(unittest.TestCase):
     """
-    Defines :class:`colour.continuous.signal.Signal` class unit tests methods.
+    Define :class:`colour.continuous.signal.Signal` class unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._range = np.linspace(10, 100, 10)
@@ -45,7 +45,7 @@ class TestSignal(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -64,7 +64,7 @@ class TestSignal(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -89,7 +89,7 @@ class TestSignal(unittest.TestCase):
 
     def test_dtype(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.dtype` property.
+        Test :func:`colour.continuous.signal.Signal.dtype` property.
         """
 
         self.assertEqual(self._signal.dtype, DEFAULT_FLOAT_DTYPE)
@@ -100,7 +100,7 @@ class TestSignal(unittest.TestCase):
 
     def test_domain(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.domain` property.
+        Test :func:`colour.continuous.signal.Signal.domain` property.
         """
 
         signal = self._signal.copy()
@@ -135,7 +135,7 @@ class TestSignal(unittest.TestCase):
 
     def test_range(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.range` property.
+        Test :func:`colour.continuous.signal.Signal.range` property.
         """
 
         signal = self._signal.copy()
@@ -158,7 +158,7 @@ class TestSignal(unittest.TestCase):
 
     def test_interpolator(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.interpolator` property.
+        Test :func:`colour.continuous.signal.Signal.interpolator` property.
         """
 
         signal = self._signal.copy()
@@ -187,7 +187,7 @@ class TestSignal(unittest.TestCase):
 
     def test_interpolator_kwargs(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.interpolator_kwargs`
+        Test :func:`colour.continuous.signal.Signal.interpolator_kwargs`
         property.
         """
 
@@ -225,14 +225,14 @@ class TestSignal(unittest.TestCase):
 
     def test_extrapolator(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.extrapolator` property.
+        Test :func:`colour.continuous.signal.Signal.extrapolator` property.
         """
 
         self.assertIsInstance(self._signal.extrapolator(), Extrapolator)
 
     def test_extrapolator_kwargs(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.extrapolator_kwargs`
+        Test :func:`colour.continuous.signal.Signal.extrapolator_kwargs`
         property.
         """
 
@@ -252,14 +252,14 @@ class TestSignal(unittest.TestCase):
 
     def test_function(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.function` property.
+        Test :func:`colour.continuous.signal.Signal.function` property.
         """
 
         attest(hasattr(self._signal.function, "__call__"))
 
     def test_raise_exception_function(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.function` property raised
+        Test :func:`colour.continuous.signal.Signal.function` property raised
         exception.
         """
 
@@ -267,7 +267,7 @@ class TestSignal(unittest.TestCase):
 
     def test__init__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__init__` method.
+        Test :func:`colour.continuous.signal.Signal.__init__` method.
         """
 
         signal = Signal(self._range)
@@ -295,14 +295,14 @@ class TestSignal(unittest.TestCase):
 
     def test__hash__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__hash__` method.
+        Test :func:`colour.continuous.signal.Signal.__hash__` method.
         """
 
         self.assertIsInstance(hash(self._signal), int)
 
     def test__str__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__str__` method.
+        Test :func:`colour.continuous.signal.Signal.__str__` method.
         """
 
         self.assertEqual(
@@ -326,7 +326,7 @@ class TestSignal(unittest.TestCase):
 
     def test__repr__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__repr__` method.
+        Test :func:`colour.continuous.signal.Signal.__repr__` method.
         """
 
         self.assertEqual(
@@ -358,7 +358,7 @@ class TestSignal(unittest.TestCase):
 
     def test__getitem__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__getitem__` method.
+        Test :func:`colour.continuous.signal.Signal.__getitem__` method.
         """
 
         self.assertEqual(self._signal[0], 10.0)
@@ -404,7 +404,7 @@ class TestSignal(unittest.TestCase):
 
     def test__setitem__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__setitem__` method.
+        Test :func:`colour.continuous.signal.Signal.__setitem__` method.
         """
 
         signal = self._signal.copy()
@@ -504,7 +504,7 @@ class TestSignal(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__contains__` method.
+        Test :func:`colour.continuous.signal.Signal.__contains__` method.
         """
 
         self.assertIn(0, self._signal)
@@ -513,14 +513,14 @@ class TestSignal(unittest.TestCase):
 
     def test__len__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__len__` method.
+        Test :func:`colour.continuous.signal.Signal.__len__` method.
         """
 
         self.assertEqual(len(self._signal), 10)
 
     def test__eq__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__eq__` method.
+        Test :func:`colour.continuous.signal.Signal.__eq__` method.
         """
 
         signal_1 = self._signal.copy()
@@ -530,7 +530,7 @@ class TestSignal(unittest.TestCase):
 
     def test__ne__(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.__ne__` method.
+        Test :func:`colour.continuous.signal.Signal.__ne__` method.
         """
 
         signal_1 = self._signal.copy()
@@ -579,7 +579,7 @@ class TestSignal(unittest.TestCase):
 
     def test_arithmetical_operation(self):
         """
-        Tests :meth:`colour.continuous.signal.Signal.arithmetical_operation`
+        Test :meth:`colour.continuous.signal.Signal.arithmetical_operation`
         method.
         """
 
@@ -681,7 +681,7 @@ class TestSignal(unittest.TestCase):
 
     def test_is_uniform(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.is_uniform` method.
+        Test :func:`colour.continuous.signal.Signal.is_uniform` method.
         """
 
         self.assertTrue(self._signal.is_uniform())
@@ -692,7 +692,7 @@ class TestSignal(unittest.TestCase):
 
     def test_copy(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.copy` method.
+        Test :func:`colour.continuous.signal.Signal.copy` method.
         """
 
         self.assertIsNot(self._signal, self._signal.copy())
@@ -700,7 +700,7 @@ class TestSignal(unittest.TestCase):
 
     def test_signal_unpack_data(self):
         """
-        Tests :meth:`colour.continuous.signal.Signal.signal_unpack_data`
+        Test :meth:`colour.continuous.signal.Signal.signal_unpack_data`
         method.
         """
 
@@ -740,7 +740,7 @@ class TestSignal(unittest.TestCase):
 
     def test_fill_nan(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.fill_nan` method.
+        Test :func:`colour.continuous.signal.Signal.fill_nan` method.
         """
 
         signal = self._signal.copy()
@@ -767,7 +767,7 @@ class TestSignal(unittest.TestCase):
 
     def test_domain_distance(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.domain_distance` method.
+        Test :func:`colour.continuous.signal.Signal.domain_distance` method.
         """
 
         self.assertAlmostEqual(
@@ -782,7 +782,7 @@ class TestSignal(unittest.TestCase):
 
     def test_to_series(self):
         """
-        Tests :func:`colour.continuous.signal.Signal.to_series` method.
+        Test :func:`colour.continuous.signal.Signal.to_series` method.
         """
 
         if is_pandas_installed():

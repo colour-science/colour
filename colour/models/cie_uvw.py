@@ -50,7 +50,7 @@ def XYZ_to_UVW(
     ]["D65"],
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
+    Convert from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
 
     Parameters
@@ -123,7 +123,7 @@ def UVW_to_XYZ(
     ]["D65"],
 ) -> NDArray:
     """
-    Converts *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
+    Convert *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters

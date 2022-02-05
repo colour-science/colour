@@ -49,7 +49,7 @@ def _XYZ_optimal_colour_stimuli(
     illuminant: Union[Literal["A", "C", "D65"], str] = "D65"
 ) -> NDArray:
     """
-    Returns given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
+    Return given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
 
     Parameters
@@ -93,7 +93,7 @@ def is_within_macadam_limits(
     tolerance: Optional[Floating] = None,
 ) -> NDArray:
     """
-    Returns whether given *CIE xyY* colourspace array is within MacAdam limits
+    Return whether given *CIE xyY* colourspace array is within MacAdam limits
     of given illuminant.
 
     Parameters

@@ -111,7 +111,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
     ],
 ) -> NDArray:
     """
-    Adapts given stimulus *CIE XYZ* tristimulus values from test viewing
+    Adapt given stimulus *CIE XYZ* tristimulus values from test viewing
     conditions to reference viewing conditions using *CMCCAT2000* forward
     chromatic adaptation model.
 
@@ -208,7 +208,7 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     ],
 ) -> NDArray:
     """
-    Adapts given stimulus corresponding colour *CIE XYZ* tristimulus values
+    Adapt given stimulus corresponding colour *CIE XYZ* tristimulus values
     from reference viewing conditions to test viewing conditions using
     *CMCCAT2000* inverse chromatic adaptation model.
 
@@ -307,7 +307,7 @@ def chromatic_adaptation_CMCCAT2000(
     direction: Union[Literal["Forward", "Inverse"], str] = "Forward",
 ) -> NDArray:
     """
-    Adapts given stimulus *CIE XYZ* tristimulus values using given viewing
+    Adapt given stimulus *CIE XYZ* tristimulus values using given viewing
     conditions.
 
     This definition is a convenient wrapper around

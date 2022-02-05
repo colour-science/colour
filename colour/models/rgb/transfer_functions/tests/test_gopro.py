@@ -27,13 +27,13 @@ __all__ = [
 
 class TestLogEncoding_Protune(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.gopro.\
+    Define :func:`colour.models.rgb.transfer_functions.gopro.\
 log_encoding_Protune` definition unit tests methods.
     """
 
     def test_log_encoding_Protune(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+        Test :func:`colour.models.rgb.transfer_functions.gopro.\
 log_encoding_Protune` definition.
         """
 
@@ -47,7 +47,7 @@ log_encoding_Protune` definition.
 
     def test_n_dimensional_log_encoding_Protune(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+        Test :func:`colour.models.rgb.transfer_functions.gopro.\
 log_encoding_Protune` definition n-dimensional arrays support.
         """
 
@@ -68,7 +68,7 @@ log_encoding_Protune` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_Protune(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+        Test :func:`colour.models.rgb.transfer_functions.gopro.\
 log_encoding_Protune` definition domain and range scale support.
         """
 
@@ -85,7 +85,7 @@ log_encoding_Protune` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_Protune(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+        Test :func:`colour.models.rgb.transfer_functions.gopro.\
 log_encoding_Protune` definition nan support.
         """
 
@@ -96,13 +96,13 @@ log_encoding_Protune` definition nan support.
 
 class TestLogDecoding_Protune(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.gopro.\
+    Define :func:`colour.models.rgb.transfer_functions.gopro.\
 log_decoding_Protune` definition unit tests methods.
     """
 
     def test_log_decoding_Protune(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+        Test :func:`colour.models.rgb.transfer_functions.gopro.\
 log_decoding_Protune` definition.
         """
 
@@ -116,7 +116,7 @@ log_decoding_Protune` definition.
 
     def test_n_dimensional_log_decoding_Protune(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+        Test :func:`colour.models.rgb.transfer_functions.gopro.\
 log_decoding_Protune` definition n-dimensional arrays support.
         """
 
@@ -137,7 +137,7 @@ log_decoding_Protune` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_Protune(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+        Test :func:`colour.models.rgb.transfer_functions.gopro.\
 log_decoding_Protune` definition domain and range scale support.
         """
 
@@ -154,7 +154,7 @@ log_decoding_Protune` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_Protune(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+        Test :func:`colour.models.rgb.transfer_functions.gopro.\
 log_decoding_Protune` definition nan support.
         """
 

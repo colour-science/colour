@@ -138,7 +138,7 @@ __all__ = [
 
 def generate_documentation_plots(output_directory: str):
     """
-    Generates documentation plots.
+    Generate documentation plots.
 
     Parameters
     ----------

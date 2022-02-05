@@ -91,7 +91,7 @@ def sd_constant(
     k: Floating, shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
 ) -> SpectralDistribution:
     """
-    Returns a spectral distribution of given spectral shape filled with
+    Return a spectral distribution of given spectral shape filled with
     constant :math:`k` values.
 
     Parameters
@@ -139,7 +139,7 @@ def sd_zeros(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
 ) -> SpectralDistribution:
     """
-    Returns a spectral distribution of given spectral shape filled with zeros.
+    Return a spectral distribution of given spectral shape filled with zeros.
 
     Parameters
     ----------
@@ -178,7 +178,7 @@ def sd_ones(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
 ) -> SpectralDistribution:
     """
-    Returns a spectral distribution of given spectral shape filled with ones.
+    Return a spectral distribution of given spectral shape filled with ones.
 
     Parameters
     ----------
@@ -220,7 +220,7 @@ def msds_constant(
     **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
-    Returns the multi-spectral distributions with given labels and given
+    Return the multi-spectral distributions with given labels and given
     spectral shape filled with constant :math:`k` values.
 
     Parameters
@@ -277,7 +277,7 @@ def msds_zeros(
     **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
-    Returns the multi-spectral distributionss with given labels and given
+    Return the multi-spectral distributionss with given labels and given
     spectral shape filled with zeros.
 
     Parameters
@@ -324,7 +324,7 @@ def msds_ones(
     **kwargs: Any,
 ) -> MultiSpectralDistributions:
     """
-    Returns the multi-spectral distributionss with given labels and given
+    Return the multi-spectral distributionss with given labels and given
     spectral shape filled with ones.
 
     Parameters
@@ -372,7 +372,7 @@ def sd_gaussian_normal(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Returns a gaussian spectral distribution of given spectral shape at
+    Return a gaussian spectral distribution of given spectral shape at
     given mean wavelength :math:`\\mu` and standard deviation :math:`sigma`.
 
     Parameters
@@ -429,7 +429,7 @@ def sd_gaussian_fwhm(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Returns a gaussian spectral distribution of given spectral shape at given
+    Return a gaussian spectral distribution of given spectral shape at given
     peak wavelength and full width at half maximum.
 
     Parameters
@@ -496,7 +496,7 @@ def sd_gaussian(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Returns a gaussian spectral distribution of given spectral shape using
+    Return a gaussian spectral distribution of given spectral shape using
     given method.
 
     Parameters
@@ -563,7 +563,7 @@ def sd_single_led_Ohno2005(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Returns a single *LED* spectral distribution of given spectral shape at
+    Return a single *LED* spectral distribution of given spectral shape at
     given peak wavelength and full width at half maximum according to
     *Ohno (2005)* method.
 
@@ -635,7 +635,7 @@ def sd_single_led(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Returns a single *LED* spectral distribution of given spectral shape at
+    Return a single *LED* spectral distribution of given spectral shape at
     given peak wavelength and full width at half maximum according to given
     method.
 
@@ -696,7 +696,7 @@ def sd_multi_leds_Ohno2005(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Returns a multi *LED* spectral distribution of given spectral shape at
+    Return a multi *LED* spectral distribution of given spectral shape at
     given peak wavelengths and full widths at half maximum according to
     *Ohno (2005)* method.
 
@@ -773,7 +773,7 @@ def sd_multi_leds_Ohno2005(
 
     def _format_array(a: NDArray) -> str:
         """
-        Formats given array :math:`a`.
+        Format given array :math:`a`.
         """
 
         return ", ".join([str(e) for e in a])
@@ -807,7 +807,7 @@ def sd_multi_leds(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Returns a multi *LED* spectral distribution of given spectral shape at
+    Return a multi *LED* spectral distribution of given spectral shape at
     given peak wavelengths and full widths at half maximum according to given
     method.
 

@@ -23,12 +23,12 @@ __all__ = [
 
 class TestDelta_E(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_E` definition unit tests methods.
+    Define :func:`colour.difference.delta_E` definition unit tests methods.
     """
 
     def test_domain_range_scale_delta_E(self):
         """
-        Tests :func:`colour.difference.delta_E` definition domain and range
+        Test :func:`colour.difference.delta_E` definition domain and range
         scale support.
         """
 

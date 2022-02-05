@@ -34,7 +34,7 @@ RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
 class AbstractSpectralDistributionTest(unittest.TestCase):
     """
-    Defines :class:`colour.SpectralDistribution_UPRTek`,
+    Define :class:`colour.SpectralDistribution_UPRTek`,
     :class:`colour.SpectralDistribution_Sekonic` classes common unit tests
     methods.
     """
@@ -57,7 +57,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -77,7 +77,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__init__", "read", "write")
@@ -87,7 +87,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
 
     def test_read(self):
         """
-        Tests :meth:`colour.SpectralDistribution_UPRTek.read` and
+        Test :meth:`colour.SpectralDistribution_UPRTek.read` and
         :meth:`colour.SpectralDistribution_Sekonic.read` methods.
         """
 
@@ -118,7 +118,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
 
 class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
     """
-    Defines :class:`colour.SpectralDistribution_UPRTek` class unit tests
+    Define :class:`colour.SpectralDistribution_UPRTek` class unit tests
     methods.
     """
 
@@ -598,7 +598,7 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
 
 class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
     """
-    Defines :class:`colour.SpectralDistribution_Sekonic` class unit tests
+    Define :class:`colour.SpectralDistribution_Sekonic` class unit tests
     methods.
     """
 

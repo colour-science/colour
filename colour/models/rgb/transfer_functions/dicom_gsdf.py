@@ -88,7 +88,7 @@ def eotf_inverse_DICOMGSDF(
     constants: Structure = CONSTANTS_DICOMGSDF,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *DICOM - Grayscale Standard Display Function* inverse
+    Define the *DICOM - Grayscale Standard Display Function* inverse
     electro-optical transfer function (EOTF).
 
     Parameters
@@ -170,7 +170,7 @@ def eotf_DICOMGSDF(
     constants: Structure = CONSTANTS_DICOMGSDF,
 ) -> FloatingOrNDArray:
     """
-    Defines the *DICOM - Grayscale Standard Display Function* electro-optical
+    Define the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF).
 
     Parameters

@@ -76,7 +76,7 @@ def plot_single_sd_rayleigh_scattering(
     **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots a single *Rayleigh* scattering spectral distribution.
+    Plot a single *Rayleigh* scattering spectral distribution.
 
     Parameters
     ----------
@@ -149,7 +149,7 @@ def plot_the_blue_sky(
     **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the blue sky.
+    Plot the blue sky.
 
     Parameters
     ----------

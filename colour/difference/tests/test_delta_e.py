@@ -40,7 +40,7 @@ __all__ = [
 
 class TestDelta_E_CIE1976(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE1976` definition unit
+    Define :func:`colour.difference.delta_e.delta_E_CIE1976` definition unit
     tests methods.
 
     Notes
@@ -52,7 +52,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
 
     def test_delta_E_CIE1976(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition.
+        Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition.
         """
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
@@ -68,7 +68,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
 
     def test_n_dimensional_delta_E_CIE1976(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition
+        Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition
         n-dimensional arrays support.
         """
 
@@ -76,7 +76,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
 
     def test_domain_range_scale_delta_E_CIE1976(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition
+        Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition
         domain and range scale support.
         """
 
@@ -95,7 +95,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_delta_E_CIE1976(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition nan
+        Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition nan
         support.
         """
 
@@ -104,13 +104,13 @@ class TestDelta_E_CIE1976(unittest.TestCase):
 
 class TestDelta_E_CIE1994(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE1994` definition unit
+    Define :func:`colour.difference.delta_e.delta_E_CIE1994` definition unit
     tests methods.
     """
 
     def test_delta_E_CIE1994(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1994` definition.
+        Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition.
         """
 
         self.assertAlmostEqual(
@@ -172,7 +172,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
 
     def test_n_dimensional_delta_E_CIE1994(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1994` definition
+        Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition
         n-dimensional arrays support.
         """
 
@@ -196,7 +196,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
 
     def test_domain_range_scale_delta_E_CIE1994(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1994` definition
+        Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition
         domain and range scale support.
         """
 
@@ -216,7 +216,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_delta_E_CIE1994(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE1994` definition nan
+        Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition nan
         support.
         """
 
@@ -230,13 +230,13 @@ class TestDelta_E_CIE1994(unittest.TestCase):
 
 class TestDelta_E_CIE2000(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CIE2000` definition unit
+    Define :func:`colour.difference.delta_e.delta_E_CIE2000` definition unit
     tests methods.
     """
 
     def test_delta_E_CIE2000(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition.
+        Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition.
         """
 
         self.assertAlmostEqual(
@@ -298,7 +298,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
     def test_n_dimensional_delta_E_CIE2000(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition
+        Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition
         n-dimensional arrays support.
         """
 
@@ -322,7 +322,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
     def test_domain_range_scale_delta_E_CIE2000(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition
+        Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition
         domain and range scale support.
         """
 
@@ -342,7 +342,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_delta_E_CIE2000(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition nan
+        Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition nan
         support.
         """
 
@@ -355,7 +355,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
     def test_delta_E_CIE2000_Sharma2004(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition
+        Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition
         using Sharma (2004) dataset.
 
         References
@@ -487,13 +487,13 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
 class TestDelta_E_CMC(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e.delta_E_CMC` definition unit
+    Define :func:`colour.difference.delta_e.delta_E_CMC` definition unit
     tests methods.
     """
 
     def test_delta_E_CMC(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CMC` definition.
+        Test :func:`colour.difference.delta_e.delta_E_CMC` definition.
         """
 
         self.assertAlmostEqual(
@@ -555,7 +555,7 @@ class TestDelta_E_CMC(unittest.TestCase):
 
     def test_n_dimensional_delta_E_CMC(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CMC` definition
+        Test :func:`colour.difference.delta_e.delta_E_CMC` definition
         n-dimensional arrays support.
         """
 
@@ -579,7 +579,7 @@ class TestDelta_E_CMC(unittest.TestCase):
 
     def test_domain_range_scale_delta_E_CMC(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CMC` definition
+        Test :func:`colour.difference.delta_e.delta_E_CMC` definition
         domain and range scale support.
         """
 
@@ -599,7 +599,7 @@ class TestDelta_E_CMC(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_delta_E_CMC(self):
         """
-        Tests :func:`colour.difference.delta_e.delta_E_CMC` definition nan
+        Test :func:`colour.difference.delta_e.delta_E_CMC` definition nan
         support.
         """
 

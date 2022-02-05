@@ -85,7 +85,7 @@ def logarithmic_function_basic(
     base: Integer = 2,
 ) -> FloatingOrNDArray:
     """
-    Defines the basic logarithmic function.
+    Define the basic logarithmic function.
 
     Parameters
     ----------
@@ -162,7 +162,7 @@ def logarithmic_function_quasilog(
     lin_side_offset: Floating = 0,
 ) -> FloatingOrNDArray:
     """
-    Defines the quasilog logarithmic function.
+    Define the quasilog logarithmic function.
 
     Parameters
     ----------
@@ -247,7 +247,7 @@ def logarithmic_function_camera(
     linear_slope: Optional[Floating] = None,
 ) -> FloatingOrNDArray:
     """
-    Defines the camera logarithmic function.
+    Define the camera logarithmic function.
 
     Parameters
     ----------
@@ -373,7 +373,7 @@ def log_encoding_Log2(
     max_exposure: Floating = 6.5,
 ) -> FloatingOrNDArray:
     """
-    Defines the common *Log2* encoding function.
+    Define the common *Log2* encoding function.
 
     Parameters
     ----------
@@ -429,7 +429,7 @@ def log_decoding_Log2(
     max_exposure: Floating = 6.5,
 ) -> FloatingOrNDArray:
     """
-    Defines the common *Log2* decoding function.
+    Define the common *Log2* decoding function.
 
     Parameters
     ----------

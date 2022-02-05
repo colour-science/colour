@@ -24,13 +24,13 @@ __all__ = [
 
 class TestRGB_to_YCoCg(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition unit tests
+    Define :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition unit tests
     methods.
     """
 
     def test_RGB_to_YCoCg(self):
         """
-        Tests :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition.
+        Test :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition.
         """
 
         np.testing.assert_array_equal(
@@ -50,7 +50,7 @@ class TestRGB_to_YCoCg(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_YCoCg(self):
         """
-        Tests :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition
+        Test :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition
         n-dimensional arrays support.
         """
 
@@ -78,7 +78,7 @@ class TestRGB_to_YCoCg(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_YCoCg(self):
         """
-        Tests :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition nan
+        Test :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition nan
         support.
         """
 
@@ -91,13 +91,13 @@ class TestRGB_to_YCoCg(unittest.TestCase):
 
 class TestYCoCg_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition unit tests
+    Define :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition unit tests
     methods.
     """
 
     def test_YCoCg_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition.
+        Test :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition.
         """
 
         np.testing.assert_array_equal(
@@ -117,7 +117,7 @@ class TestYCoCg_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_YCoCg_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition
+        Test :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition
         n-dimensional arrays support.
         """
 
@@ -145,7 +145,7 @@ class TestYCoCg_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_YCoCg_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition nan
+        Test :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition nan
         support.
         """
 

@@ -21,13 +21,13 @@ __all__ = [
 
 class TestLeastSquareMappingMoorePenrose(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.regression.\
+    Define :func:`colour.algebra.regression.\
 least_square_mapping_MoorePenrose` definition unit tests methods.
     """
 
     def test_least_square_mapping_MoorePenrose(self):
         """
-        Tests :func:`colour.algebra.regression.\
+        Test :func:`colour.algebra.regression.\
 least_square_mapping_MoorePenrose` definition.
         """
 

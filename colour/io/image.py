@@ -63,7 +63,7 @@ __all__ = [
 @dataclass(frozen=True)
 class BitDepth_Specification:
     """
-    Defines a bit depth specification.
+    Define a bit depth specification.
 
     Parameters
     ----------
@@ -83,7 +83,7 @@ class BitDepth_Specification:
 @dataclass
 class ImageAttribute_Specification:
     """
-    Defines an image specification attribute.
+    Define an image specification attribute.
 
     Parameters
     ----------
@@ -143,7 +143,7 @@ def convert_bit_depth(
     ] = "float32",
 ) -> NDArray:
     """
-    Converts given array to given bit depth, the current bit depth of the array
+    Convert given array to given bit depth, the current bit depth of the array
     is used to determine the appropriate conversion path.
 
     Parameters
@@ -221,7 +221,7 @@ def read_image_OpenImageIO(
     attributes: Boolean = False,
 ) -> Union[NDArray, Tuple[NDArray, List]]:
     """
-    Reads the image at given path using *OpenImageIO*.
+    Read the image at given path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -299,7 +299,7 @@ def read_image_Imageio(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Reads the image at given path using *Imageio*.
+    Read the image at given path using *Imageio*.
 
     Parameters
     ----------
@@ -364,7 +364,7 @@ def read_image(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Reads the image at given path using given method.
+    Read the image at given path using given method.
 
     Parameters
     ----------
@@ -439,7 +439,7 @@ def write_image_OpenImageIO(
     attributes: Optional[Sequence] = None,
 ) -> Boolean:
     """
-    Writes given image at given path using *OpenImageIO*.
+    Write given image at given path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -552,7 +552,7 @@ def write_image_Imageio(
     **kwargs: Any,
 ) -> Boolean:
     """
-    Writes given image at given path using *Imageio*.
+    Write given image at given path using *Imageio*.
 
     Parameters
     ----------
@@ -616,7 +616,7 @@ def write_image(
     **kwargs: Any,
 ) -> Boolean:
     """
-    Writes given image at given path using given method.
+    Write given image at given path using given method.
 
     Parameters
     ----------

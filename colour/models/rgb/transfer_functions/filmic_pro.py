@@ -40,7 +40,7 @@ __all__ = [
 
 def log_encoding_FilmicPro6(t: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
+    Define the *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -99,7 +99,7 @@ _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE: Optional[Extrapolator] = None
 
 def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
     """
-    Returns the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
+    Return the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
     function interpolator and caches it if not existing.
 
     Returns
@@ -122,7 +122,7 @@ def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
 
 def log_decoding_FilmicPro6(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
+    Define the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
     function.
 
     Parameters

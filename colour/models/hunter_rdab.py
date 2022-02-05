@@ -45,7 +45,7 @@ def XYZ_to_Hunter_Rdab(
     ]["D65"].K_ab,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
+    Convert from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
 
     Parameters
     ----------
@@ -128,7 +128,7 @@ def Hunter_Rdab_to_XYZ(
     ]["D65"].K_ab,
 ) -> NDArray:
     """
-    Converts from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus values.
+    Convert from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------

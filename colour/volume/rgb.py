@@ -105,7 +105,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     random_state: np.random.RandomState = None,
 ) -> Integer:
     """
-    Randomly samples the *CIE L\\*a\\*b\\** colourspace volume and returns the
+    Randomly sample the *CIE L\\*a\\*b\\** colourspace volume and returns the
     ratio of samples within the given *RGB* colourspace volume.
 
     Parameters
@@ -172,7 +172,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 def RGB_colourspace_limits(colourspace: RGB_Colourspace) -> NDArray:
     """
-    Computes given *RGB* colourspace volume limits in *CIE L\\*a\\*b\\**
+    Compute given *RGB* colourspace volume limits in *CIE L\\*a\\*b\\**
     colourspace.
 
     Parameters
@@ -253,7 +253,7 @@ def RGB_colourspace_volume_MonteCarlo(
     random_state: np.random.RandomState = None,
 ) -> Floating:
     """
-    Performs given *RGB* colourspace volume computation using *Monte Carlo*
+    Perform given *RGB* colourspace volume computation using *Monte Carlo*
     method and multiprocessing.
 
     Parameters
@@ -336,7 +336,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     random_state: np.random.RandomState = None,
 ) -> Floating:
     """
-    Returns given *RGB* colourspace percentage coverage of an arbitrary volume.
+    Return given *RGB* colourspace percentage coverage of an arbitrary volume.
 
     Parameters
     ----------
@@ -397,7 +397,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     random_state: np.random.RandomState = None,
 ) -> Floating:
     """
-    Returns given *RGB* colourspace percentage coverage of Pointer's Gamut
+    Return given *RGB* colourspace percentage coverage of Pointer's Gamut
     volume using *Monte Carlo* method.
 
     Parameters
@@ -442,7 +442,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     random_state: np.random.RandomState = None,
 ) -> Floating:
     """
-    Returns given *RGB* colourspace percentage coverage of visible spectrum
+    Return given *RGB* colourspace percentage coverage of visible spectrum
     volume using *Monte Carlo* method.
 
     Parameters

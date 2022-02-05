@@ -21,13 +21,13 @@ __all__ = [
 
 class TestIndexStress(unittest.TestCase):
     """
-    Defines :func:`colour.difference.stress.index_stress_Garcia2007` definition
+    Define :func:`colour.difference.stress.index_stress_Garcia2007` definition
     unit tests methods.
     """
 
     def test_index_stress(self):
         """
-        Tests :func:`colour.difference.stress.index_stress_Garcia2007`
+        Test :func:`colour.difference.stress.index_stress_Garcia2007`
         definition.
         """
 

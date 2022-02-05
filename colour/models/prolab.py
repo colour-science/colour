@@ -57,7 +57,7 @@ Normalised cone responses to *ProLab* colourspace matrix.
 
 def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArray:
     """
-    Transforms given array :math:`a` with the projective transformation matrix
+    Transform given array :math:`a` with the projective transformation matrix
     :math:`Q`.
 
     Parameters
@@ -95,7 +95,7 @@ def XYZ_to_ProLab(
     ]["D65"],
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *ProLab* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *ProLab* colourspace.
 
     Parameters
     ----------
@@ -154,7 +154,7 @@ def ProLab_to_XYZ(
     ]["D65"],
 ) -> NDArray:
     """
-    Converts from *ProLab* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *ProLab* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------

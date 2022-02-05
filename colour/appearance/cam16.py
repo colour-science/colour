@@ -141,7 +141,7 @@ References
 @dataclass
 class CAM_Specification_CAM16(MixinDataclassArithmetic):
     """
-    Defines the *CAM16* colour appearance model specification.
+    Define the *CAM16* colour appearance model specification.
 
     Parameters
     ----------
@@ -188,7 +188,7 @@ def XYZ_to_CAM16(
     discount_illuminant: Boolean = False,
 ) -> CAM_Specification_CAM16:
     """
-    Computes the *CAM16* colour appearance model correlates from given
+    Compute the *CAM16* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
 
     Parameters
@@ -369,7 +369,7 @@ def CAM16_to_XYZ(
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
-    Converts from *CAM16* specification to *CIE XYZ* tristimulus values.
+    Convert from *CAM16* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------

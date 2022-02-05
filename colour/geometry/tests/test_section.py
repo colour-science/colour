@@ -30,13 +30,13 @@ __all__ = [
 
 class TestEdgesToChord(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.section.edges_to_chord` definition unit
+    Define :func:`colour.geometry.section.edges_to_chord` definition unit
     tests methods.
     """
 
     def test_edges_to_chord(self):
         """
-        Tests :func:`colour.geometry.section.edges_to_chord` definition.
+        Test :func:`colour.geometry.section.edges_to_chord` definition.
         """
 
         edges = np.array(
@@ -103,13 +103,13 @@ class TestEdgesToChord(unittest.TestCase):
 
 class TestCloseChord(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.section.close_chord` definition unit tests
+    Define :func:`colour.geometry.section.close_chord` definition unit tests
     methods.
     """
 
     def test_close_chord(self):
         """
-        Tests :func:`colour.geometry.section.close_chord` definition.
+        Test :func:`colour.geometry.section.close_chord` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -120,13 +120,13 @@ class TestCloseChord(unittest.TestCase):
 
 class TestUniqueVertices(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.section.unique_vertices` definition unit
+    Define :func:`colour.geometry.section.unique_vertices` definition unit
     tests methods.
     """
 
     def test_unique_vertices(self):
         """
-        Tests :func:`colour.geometry.section.unique_vertices` definition.
+        Test :func:`colour.geometry.section.unique_vertices` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -149,13 +149,13 @@ class TestUniqueVertices(unittest.TestCase):
 
 class TestHullSection(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.section.hull_section` definition unit tests
+    Define :func:`colour.geometry.section.hull_section` definition unit tests
     methods.
     """
 
     def test_hull_section(self):
         """
-        Tests :func:`colour.geometry.section.hull_section` definition.
+        Test :func:`colour.geometry.section.hull_section` definition.
         """
 
         if not is_trimesh_installed:  # pragma: no cover

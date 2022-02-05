@@ -58,7 +58,7 @@ __all__ = [
 
 class Extrapolator:
     """
-    Extrapolates the 1-D function of given interpolator.
+    Extrapolate the 1-D function of given interpolator.
 
     The :class:`colour.Extrapolator` class acts as a wrapper around a given
     *Colour* or *scipy* interpolator class instance with compatible signature.
@@ -299,7 +299,7 @@ class Extrapolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the Extrapolator at given point(s).
+        Evaluate the Extrapolator at given point(s).
 
         Parameters
         ----------
@@ -320,7 +320,7 @@ class Extrapolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the extrapolating evaluation at given points.
+        Perform the extrapolating evaluation at given points.
 
         Parameters
         ----------

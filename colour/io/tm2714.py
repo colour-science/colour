@@ -96,7 +96,7 @@ class Element_Specification_IESTM2714:
 
 class Header_IESTM2714:
     """
-    Defines the header object for a *IES TM-27-14* spectral distribution.
+    Define the header object for a *IES TM-27-14* spectral distribution.
 
     Parameters
     ----------
@@ -604,7 +604,7 @@ class Header_IESTM2714:
 
 class SpectralDistribution_IESTM2714(SpectralDistribution):
     """
-    Defines a *IES TM-27-14* spectral distribution.
+    Define a *IES TM-27-14* spectral distribution.
 
     This class can read and write *IES TM-27-14* spectral data *XML* files.
 
@@ -1160,7 +1160,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def read(self) -> SpectralDistribution_IESTM2714:
         """
-        Reads and parses the spectral data *XML* file path.
+        Read and parses the spectral data *XML* file path.
 
         Returns
         -------

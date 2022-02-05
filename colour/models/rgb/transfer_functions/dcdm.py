@@ -48,7 +48,7 @@ def eotf_inverse_DCDM(
     XYZ: FloatingOrArrayLike, out_int: Boolean = False
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *DCDM* inverse electro-optical transfer function (EOTF).
+    Define the *DCDM* inverse electro-optical transfer function (EOTF).
 
     Parameters
     ----------
@@ -115,7 +115,7 @@ def eotf_DCDM(
     in_int: Boolean = False,
 ) -> FloatingOrNDArray:
     """
-    Defines the *DCDM* electro-optical transfer function (EOTF).
+    Define the *DCDM* electro-optical transfer function (EOTF).
 
     Parameters
     ----------

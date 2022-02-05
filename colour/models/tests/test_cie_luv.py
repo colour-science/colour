@@ -39,13 +39,13 @@ __all__ = [
 
 class TestXYZ_to_Luv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.XYZ_to_Luv` definition unit tests
+    Define :func:`colour.models.cie_luv.XYZ_to_Luv` definition unit tests
     methods.
     """
 
     def test_XYZ_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.XYZ_to_Luv` definition.
+        Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -95,7 +95,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.XYZ_to_Luv` definition n-dimensional
+        Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition n-dimensional
         support.
         """
 
@@ -123,7 +123,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.XYZ_to_Luv` definition
+        Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition
         domain and range scale support.
         """
 
@@ -143,7 +143,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.XYZ_to_Luv` definition nan support.
+        Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -156,13 +156,13 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
 class TestLuv_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_XYZ` definition unit tests
+    Define :func:`colour.models.cie_luv.Luv_to_XYZ` definition unit tests
     methods.
     """
 
     def test_Luv_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_XYZ` definition.
+        Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -212,7 +212,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_Luv_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_XYZ` definition n-dimensional
+        Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition n-dimensional
         support.
         """
 
@@ -240,7 +240,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_Luv_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_XYZ` definition
+        Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition
         domain and range scale support.
         """
 
@@ -260,7 +260,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Luv_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_XYZ` definition nan support.
+        Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -273,13 +273,13 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
 class TestLuv_to_uv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_uv` definition unit tests
+    Define :func:`colour.models.cie_luv.Luv_to_uv` definition unit tests
     methods.
     """
 
     def test_Luv_to_uv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_uv` definition.
+        Test :func:`colour.models.cie_luv.Luv_to_uv` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -329,7 +329,7 @@ class TestLuv_to_uv(unittest.TestCase):
 
     def test_n_dimensional_Luv_to_uv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_uv` definition n-dimensional
+        Test :func:`colour.models.cie_luv.Luv_to_uv` definition n-dimensional
         support.
         """
 
@@ -357,7 +357,7 @@ class TestLuv_to_uv(unittest.TestCase):
 
     def test_domain_range_scale_Luv_to_uv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_uv` definition
+        Test :func:`colour.models.cie_luv.Luv_to_uv` definition
         domain and range scale support.
         """
 
@@ -375,7 +375,7 @@ class TestLuv_to_uv(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Luv_to_uv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_uv` definition nan support.
+        Test :func:`colour.models.cie_luv.Luv_to_uv` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -388,13 +388,13 @@ class TestLuv_to_uv(unittest.TestCase):
 
 class Testuv_to_Luv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.uv_to_Luv` definition unit tests
+    Define :func:`colour.models.cie_luv.uv_to_Luv` definition unit tests
     methods.
     """
 
     def test_uv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.uv_to_Luv` definition.
+        Test :func:`colour.models.cie_luv.uv_to_Luv` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -450,7 +450,7 @@ class Testuv_to_Luv(unittest.TestCase):
 
     def test_n_dimensional_uv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.uv_to_Luv` definition n-dimensional
+        Test :func:`colour.models.cie_luv.uv_to_Luv` definition n-dimensional
         support.
         """
 
@@ -478,7 +478,7 @@ class Testuv_to_Luv(unittest.TestCase):
 
     def test_domain_range_scale_uv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.uv_to_Luv` definition
+        Test :func:`colour.models.cie_luv.uv_to_Luv` definition
         domain and range scale support.
         """
 
@@ -499,7 +499,7 @@ class Testuv_to_Luv(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_uv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.uv_to_Luv` definition nan support.
+        Test :func:`colour.models.cie_luv.uv_to_Luv` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -512,13 +512,13 @@ class Testuv_to_Luv(unittest.TestCase):
 
 class TestLuv_uv_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_uv_to_xy` definition unit tests
+    Define :func:`colour.models.cie_luv.Luv_uv_to_xy` definition unit tests
     methods.
     """
 
     def test_Luv_uv_to_xy(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_uv_to_xy` definition.
+        Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -541,7 +541,7 @@ class TestLuv_uv_to_xy(unittest.TestCase):
 
     def test_n_dimensional_Luv_uv_to_xy(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_uv_to_xy` definition
+        Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition
         n-dimensional arrays support.
         """
 
@@ -559,7 +559,7 @@ class TestLuv_uv_to_xy(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Luv_uv_to_xy(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_uv_to_xy` definition nan
+        Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition nan
         support.
         """
 
@@ -572,13 +572,13 @@ class TestLuv_uv_to_xy(unittest.TestCase):
 
 class TestXy_to_Luv_uv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.xy_to_Luv_uv` definition unit tests
+    Define :func:`colour.models.cie_luv.xy_to_Luv_uv` definition unit tests
     methods.
     """
 
     def test_xy_to_Luv_uv(self):
         """
-        Tests :func:`colour.models.cie_luv.xy_to_Luv_uv` definition.
+        Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -601,7 +601,7 @@ class TestXy_to_Luv_uv(unittest.TestCase):
 
     def test_n_dimensional_xy_to_Luv_uv(self):
         """
-        Tests :func:`colour.models.cie_luv.xy_to_Luv_uv` definition
+        Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition
         n-dimensional arrays support.
         """
 
@@ -619,7 +619,7 @@ class TestXy_to_Luv_uv(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_Luv_uv(self):
         """
-        Tests :func:`colour.models.cie_luv.xy_to_Luv_uv` definition nan
+        Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition nan
         support.
         """
 
@@ -632,13 +632,13 @@ class TestXy_to_Luv_uv(unittest.TestCase):
 
 class TestLuv_to_LCHuv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.Luv_to_LCHuv` definition unit tests
+    Define :func:`colour.models.cie_luv.Luv_to_LCHuv` definition unit tests
     methods.
     """
 
     def test_Luv_to_LCHuv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_LCHuv` definition.
+        Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -661,7 +661,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
 
     def test_n_dimensional_Luv_to_LCHuv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_LCHuv` definition
+        Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition
         n-dimensional arrays support.
         """
 
@@ -678,7 +678,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
 
     def test_domain_range_scale_Luv_to_LCHuv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_LCHuv` definition domain and
+        Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition domain and
         range scale support.
         """
 
@@ -699,7 +699,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Luv_to_LCHuv(self):
         """
-        Tests :func:`colour.models.cie_luv.Luv_to_LCHuv` definition nan
+        Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition nan
         support.
         """
 
@@ -712,13 +712,13 @@ class TestLuv_to_LCHuv(unittest.TestCase):
 
 class TestLCHuv_to_Luv(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_luv.LCHuv_to_Luv` definition unit tests
+    Define :func:`colour.models.cie_luv.LCHuv_to_Luv` definition unit tests
     methods.
     """
 
     def test_LCHuv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.LCHuv_to_Luv` definition.
+        Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -741,7 +741,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
 
     def test_n_dimensional_LCHuv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.LCHuv_to_Luv` definition
+        Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition
         n-dimensional arrays support.
         """
 
@@ -758,7 +758,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
 
     def test_domain_range_scale_LCHuv_to_Lab(self):
         """
-        Tests :func:`colour.models.cie_luv.LCHuv_to_Luv` definition domain and
+        Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition domain and
         range scale support.
         """
 
@@ -779,7 +779,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_LCHuv_to_Luv(self):
         """
-        Tests :func:`colour.models.cie_luv.LCHuv_to_Luv` definition nan
+        Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition nan
         support.
         """
 

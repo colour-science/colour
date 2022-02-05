@@ -49,7 +49,7 @@ class TestMixinMallett2019:
 
     def __init__(self):
         """
-        Initialises common tests attributes for the mixin.
+        Initialise common tests attributes for the mixin.
         """
 
         # pylint: disable=E1102
@@ -64,7 +64,7 @@ class TestMixinMallett2019:
 
     def check_basis_functions(self):
         """
-        Tests :func:`colour.recovery.RGB_to_sd_Mallett2019` definition or the
+        Test :func:`colour.recovery.RGB_to_sd_Mallett2019` definition or the
         more specialised :func:`colour.recovery.RGB_to_sd_Mallett2019`
         definition.
         """
@@ -110,13 +110,13 @@ class TestSpectralPrimaryDecompositionMallett2019(
     unittest.TestCase, TestMixinMallett2019
 ):
     """
-    Defines :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`
+    Define :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`
     definition unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         TestMixinMallett2019.__init__(self)
@@ -125,7 +125,7 @@ class TestSpectralPrimaryDecompositionMallett2019(
 
     def test_spectral_primary_decomposition_Mallett2019(self):
         """
-        Tests :func:`colour.recovery.\
+        Test :func:`colour.recovery.\
 test_spectral_primary_decomposition_Mallett2019` definition.
         """
 
@@ -138,13 +138,13 @@ test_spectral_primary_decomposition_Mallett2019` definition.
 
 class TestRGB_to_sd_Mallett2019(unittest.TestCase, TestMixinMallett2019):
     """
-    Defines :func:`colour.recovery.RGB_to_sd_Mallett2019` definition unit
+    Define :func:`colour.recovery.RGB_to_sd_Mallett2019` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         TestMixinMallett2019.__init__(self)
@@ -154,7 +154,7 @@ class TestRGB_to_sd_Mallett2019(unittest.TestCase, TestMixinMallett2019):
 
     def test_RGB_to_sd_Mallett2019(self):
         """
-        Tests :func:`colour.recovery.RGB_to_sd_Mallett2019` definition.
+        Test :func:`colour.recovery.RGB_to_sd_Mallett2019` definition.
         """
 
         self.check_basis_functions()

@@ -228,14 +228,14 @@ DATA_PREDICTION_ZHAI2018: NDArray = np.array(
 
 class TestConvertExperimentResultsBreneman1987(unittest.TestCase):
     """
-    Defines :func:`colour.corresponding.prediction.\
+    Define :func:`colour.corresponding.prediction.\
 convert_experiment_results_Breneman1987` definition unit tests
     methods.
     """
 
     def test_convert_experiment_results_Breneman1987(self):
         """
-        Tests :func:`colour.corresponding.prediction.\
+        Test :func:`colour.corresponding.prediction.\
 convert_experiment_results_Breneman1987` definition.
         """
 
@@ -284,14 +284,14 @@ class TestCorrespondingChromaticitiesPredictionFairchild1990(
     unittest.TestCase
 ):  # noqa
     """
-    Defines :func:`colour.corresponding.prediction.\
+    Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Fairchild1990` definition unit tests
     methods.
     """
 
     def test_corresponding_chromaticities_prediction_Fairchild1990(self):
         """
-        Tests :func:`colour.corresponding.prediction.\
+        Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Fairchild1990` definition.
         """
 
@@ -309,13 +309,13 @@ corresponding_chromaticities_prediction_Fairchild1990` definition.
 
 class TestCorrespondingChromaticitiesPredictionCIE1994(unittest.TestCase):
     """
-    Defines :func:`colour.corresponding.prediction.\
+    Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CIE1994` definition unit tests methods.
     """
 
     def test_corresponding_chromaticities_prediction_CIE1994(self):
         """
-        Tests :func:`colour.corresponding.prediction.\
+        Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CIE1994` definition.
         """
 
@@ -333,14 +333,14 @@ corresponding_chromaticities_prediction_CIE1994` definition.
 
 class TestCorrespondingChromaticitiesPredictionCMCCAT2000(unittest.TestCase):
     """
-    Defines :func:`colour.corresponding.prediction.\
+    Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
     methods.
     """
 
     def test_corresponding_chromaticities_prediction_CMCCAT2000(self):
         """
-        Tests :func:`colour.corresponding.prediction.\
+        Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CMCCAT2000` definition.
         """
 
@@ -358,14 +358,14 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition.
 
 class TestCorrespondingChromaticitiesPredictionVonKries(unittest.TestCase):
     """
-    Defines :func:`colour.corresponding.prediction.\
+    Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_VonKries` definition unit tests
     methods.
     """
 
     def test_corresponding_chromaticities_prediction_VonKries(self):
         """
-        Tests :func:`colour.corresponding.prediction.\
+        Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_VonKries` definition.
         """
 
@@ -383,14 +383,14 @@ corresponding_chromaticities_prediction_VonKries` definition.
 
 class TestCorrespondingChromaticitiesPredictionZhai2018(unittest.TestCase):
     """
-    Defines :func:`colour.corresponding.prediction.\
+    Define :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Zhai2018` definition unit tests
     methods.
     """
 
     def test_corresponding_chromaticities_prediction_Zhai2018(self):
         """
-        Tests :func:`colour.corresponding.prediction.\
+        Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Zhai2018` definition.
         """
 

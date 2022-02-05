@@ -75,7 +75,7 @@ def XYZ_to_Luv(
     ]["D65"],
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
+    Convert from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
     colourspace.
 
     Parameters
@@ -148,7 +148,7 @@ def Luv_to_XYZ(
     ]["D65"],
 ) -> NDArray:
     """
-    Converts from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
+    Convert from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -232,7 +232,7 @@ def Luv_to_uv(
     ]["D65"],
 ) -> NDArray:
     """
-    Returns the :math:`uv^p` chromaticity coordinates from given
+    Return the :math:`uv^p` chromaticity coordinates from given
     *CIE L\\*u\\*v\\** colourspace array.
 
     Parameters
@@ -293,7 +293,7 @@ def uv_to_Luv(
     Y: Floating = 1,
 ) -> NDArray:
     """
-    Returns the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
+    Return the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
     chromaticity coordinates by extending the array last dimension with given
     :math:`L` *Lightness*.
 
@@ -353,7 +353,7 @@ def uv_to_Luv(
 
 def Luv_uv_to_xy(uv: ArrayLike) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
+    Return the *CIE xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
     colourspace :math:`uv^p` chromaticity coordinates.
 
     Parameters
@@ -388,7 +388,7 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArray:
 
 def xy_to_Luv_uv(xy: ArrayLike) -> NDArray:
     """
-    Returns the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
+    Return the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
     coordinates from given *CIE xy* chromaticity coordinates.
 
     Parameters
@@ -423,7 +423,7 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArray:
 
 def Luv_to_LCHuv(Luv: ArrayLike) -> NDArray:
     """
-    Converts from *CIE L\\*u\\*v\\** colourspace to *CIE L\\*C\\*Huv*
+    Convert from *CIE L\\*u\\*v\\** colourspace to *CIE L\\*C\\*Huv*
     colourspace.
 
     Parameters
@@ -475,7 +475,7 @@ def Luv_to_LCHuv(Luv: ArrayLike) -> NDArray:
 
 def LCHuv_to_Luv(LCHuv: ArrayLike) -> NDArray:
     """
-    Converts from *CIE L\\*C\\*Huv* colourspace to *CIE L\\*u\\*v\\**
+    Convert from *CIE L\\*C\\*Huv* colourspace to *CIE L\\*u\\*v\\**
     colourspace.
 
     Parameters

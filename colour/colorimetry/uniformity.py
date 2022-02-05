@@ -44,7 +44,7 @@ def spectral_uniformity(
     use_second_order_derivatives: Boolean = False,
 ) -> NDArray:
     """
-    Computes the *spectral uniformity* (or *spectral flatness*) of given
+    Compute the *spectral uniformity* (or *spectral flatness*) of given
     spectral distributions.
 
     Spectral uniformity :math:`(r')^2` is computed as follows:

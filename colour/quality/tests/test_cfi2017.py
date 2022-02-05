@@ -539,13 +539,13 @@ SD_SAMPLE_1NM: SpectralDistribution = SpectralDistribution(DATA_SD_SAMPLE_1NM)
 
 class TestColourFidelityIndexCIE2017(unittest.TestCase):
     """
-    Defines :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
+    Define :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
     definition unit tests methods.
     """
 
     def test_colour_fidelity_index_CIE2017(self):
         """
-        Tests :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
+        Test :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
         definition.
         """
 
@@ -882,7 +882,7 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
 
     def test_raise_exception_colour_fidelity_index_CFI2017(self):
         """
-        Tests :func:`colour.quality.CIE2017.colour_fidelity_index_CFI2017`
+        Test :func:`colour.quality.CIE2017.colour_fidelity_index_CFI2017`
         definition raised exception.
         """
 
@@ -895,13 +895,13 @@ class TestColourFidelityIndexCIE2017(unittest.TestCase):
 
 class TestCctReferenceIlluminant(unittest.TestCase):
     """
-    Defines :func:`colour.quality.CIE2017.CCT_reference_illuminant`
+    Define :func:`colour.quality.CIE2017.CCT_reference_illuminant`
     definition unit tests methods.
     """
 
     def test_CCT_reference_illuminant(self):
         """
-        Tests :func:`colour.quality.CIE2017.CCT_reference_illuminant`
+        Test :func:`colour.quality.CIE2017.CCT_reference_illuminant`
         definition.
         """
 
@@ -913,13 +913,13 @@ class TestCctReferenceIlluminant(unittest.TestCase):
 
 class TestSdReferenceIlluminant(unittest.TestCase):
     """
-    Defines :func:`colour.quality.CIE2017.sd_reference_illuminant`
+    Define :func:`colour.quality.CIE2017.sd_reference_illuminant`
     definition unit tests methods.
     """
 
     def test_sd_reference_illuminant(self):
         """
-        Tests :func:`colour.quality.CIE2017.sd_reference_illuminant`
+        Test :func:`colour.quality.CIE2017.sd_reference_illuminant`
         definition.
         """
 

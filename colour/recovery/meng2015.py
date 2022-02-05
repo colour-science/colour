@@ -56,7 +56,7 @@ def XYZ_to_sd_Meng2015(
     optimisation_kwargs: Optional[Dict] = None,
 ) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *CIE XYZ* tristimulus values
+    Recover the spectral distribution of given *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
 
     Parameters

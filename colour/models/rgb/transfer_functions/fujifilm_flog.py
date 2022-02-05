@@ -63,7 +63,7 @@ def log_encoding_FLog(
     constants: Structure = CONSTANTS_FLOG,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
+    Define the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -152,7 +152,7 @@ def log_decoding_FLog(
     constants: Structure = CONSTANTS_FLOG,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Fujifilm F-Log* log decoding curve / electro-optical transfer
+    Define the *Fujifilm F-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters

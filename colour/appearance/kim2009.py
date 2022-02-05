@@ -139,7 +139,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
 
     def __new__(cls, E):
         """
-        Returns a new instance of the
+        Return a new instance of the
         :class:`colour.appearance.MediaParameters_Kim2009` class.
         """
 
@@ -184,7 +184,7 @@ MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009[
 @dataclass
 class CAM_Specification_Kim2009(MixinDataclassArithmetic):
     """
-    Defines the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    Define the *Kim, Weyrich and Kautz (2009)* colour appearance model
     specification.
 
     Parameters
@@ -231,7 +231,7 @@ def XYZ_to_Kim2009(
     n_c: Floating = 0.57,
 ) -> CAM_Specification_Kim2009:
     """
-    Computes the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    Compute the *Kim, Weyrich and Kautz (2009)* colour appearance model
     correlates from given *CIE XYZ* tristimulus values.
 
     Parameters
@@ -397,7 +397,7 @@ def Kim2009_to_XYZ(
     n_c: Floating = 0.57,
 ) -> NDArray:
     """
-    Converts from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
+    Convert from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
     tristimulus values.
 
     Parameters

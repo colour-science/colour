@@ -26,13 +26,13 @@ __all__ = [
 
 class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
     """
-    Defines :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
+    Define :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
     unit tests methods.
     """
 
     def test_XYZ_to_Hunter_Rdab(self):
         """
-        Tests :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition.
+        Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -94,7 +94,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Hunter_Rdab(self):
         """
-        Tests :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
+        Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
         n-dimensional support.
         """
 
@@ -128,7 +128,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_Hunter_Rdab(self):
         """
-        Tests :func:`colour.models.hunter_lab.XYZ_to_Hunter_Rdab` definition
+        Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Rdab` definition
         domain and range scale support.
         """
 
@@ -152,7 +152,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_Hunter_Rdab(self):
         """
-        Tests :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
+        Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition
         nan support.
         """
 
@@ -167,13 +167,13 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
 
 class TestHunter_Rdab_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
+    Define :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
     unit tests methods.
     """
 
     def test_Hunter_Rdab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition.
+        Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -235,7 +235,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_Hunter_Rdab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
+        Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -269,7 +269,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_Hunter_Rdab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hunter_lab.Hunter_Rdab_to_XYZ` definition
+        Test :func:`colour.models.hunter_lab.Hunter_Rdab_to_XYZ` definition
         domain and range scale support.
         """
 
@@ -293,7 +293,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Hunter_Rdab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
+        Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition
         nan support.
         """
 

@@ -53,7 +53,7 @@ def chromatic_adaptation_Zhai2018(
     transform: Union[Literal["CAT02", "CAT16"], str] = "CAT02",
 ) -> NDArray:
     """
-    Adapts given sample colour :math:`XYZ_{\\beta}` tristimulus values from
+    Adapt given sample colour :math:`XYZ_{\\beta}` tristimulus values from
     input viewing conditions under :math:`\\beta` illuminant to output viewing
     conditions under :math:`\\delta` illuminant using *Zhai and Luo (2018)*
     chromatic adaptation model.

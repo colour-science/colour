@@ -52,7 +52,7 @@ __all__ = [
 
 def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
     """
-    Reads given *Cinespace* *.csp* *LUT* file.
+    Read given *Cinespace* *.csp* *LUT* file.
 
     Parameters
     ----------
@@ -106,14 +106,14 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
     def _parse_metadata_section(metadata: List) -> Tuple:
         """
-        Parses the metadata at given lines.
+        Parse the metadata at given lines.
         """
 
         return (metadata[0], metadata[1:]) if len(metadata) > 0 else ("", [])
 
     def _parse_domain_section(lines: List[str]) -> NDArray:
         """
-        Parses the domain at given lines.
+        Parse the domain at given lines.
         """
 
         pre_LUT_size = max(int(lines[i]) for i in [0, 3, 6])
@@ -139,7 +139,7 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
 
     def _parse_table_section(lines):
         """
-        Parses the table at given lines.
+        Parse the table at given lines.
         """
 
         size = as_int_array(lines[0].split())
@@ -250,7 +250,7 @@ def write_LUT_Cinespace(
     LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: Integer = 7
 ) -> Boolean:
     """
-    Writes given *LUT* to given  *Cinespace* *.csp* *LUT* file.
+    Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.
 
     Parameters
     ----------
@@ -354,14 +354,14 @@ def write_LUT_Cinespace(
 
     def _format_array(array: Union[List, Tuple]) -> str:
         """
-        Formats given array as a *Cinespace* *.cube* data row.
+        Format given array as a *Cinespace* *.cube* data row.
         """
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
     def _format_tuple(array: Union[List, Tuple]) -> str:
         """
-        Formats given array as 2 space separated values to *decimals*
+        Format given array as 2 space separated values to *decimals*
         precision.
         """
 

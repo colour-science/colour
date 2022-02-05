@@ -71,7 +71,7 @@ def cctf_encoding_ROMMRGB(
     X: FloatingOrArrayLike, bit_depth: Integer = 8, out_int: Boolean = False
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *ROMM RGB* encoding colour component transfer function
+    Define the *ROMM RGB* encoding colour component transfer function
     (Encoding CCTF).
 
     Parameters
@@ -138,7 +138,7 @@ def cctf_decoding_ROMMRGB(
     in_int: Boolean = False,
 ) -> FloatingOrNDArray:
     """
-    Defines the *ROMM RGB* decoding colour component transfer function
+    Define the *ROMM RGB* decoding colour component transfer function
     (Encoding CCTF).
 
     Parameters
@@ -232,7 +232,7 @@ def cctf_encoding_RIMMRGB(
     E_clip: Floating = 2.0,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *RIMM RGB* encoding colour component transfer function
+    Define the *RIMM RGB* encoding colour component transfer function
     (Encoding CCTF).
 
     *RIMM RGB* encoding non-linearity is based on that specified by
@@ -309,7 +309,7 @@ def cctf_decoding_RIMMRGB(
     E_clip: Floating = 2.0,
 ) -> FloatingOrNDArray:
     """
-    Defines the *RIMM RGB* decoding colour component transfer function
+    Define the *RIMM RGB* decoding colour component transfer function
     (Encoding CCTF).
 
     Parameters
@@ -388,7 +388,7 @@ def log_encoding_ERIMMRGB(
     E_clip: Floating = 316.2,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *ERIMM RGB* log encoding curve / opto-electronic transfer
+    Define the *ERIMM RGB* log encoding curve / opto-electronic transfer
     function (OETF).
 
     Parameters
@@ -480,7 +480,7 @@ def log_decoding_ERIMMRGB(
     E_clip: Floating = 316.2,
 ) -> FloatingOrNDArray:
     """
-    Defines the *ERIMM RGB* log decoding curve / electro-optical transfer
+    Define the *ERIMM RGB* log decoding curve / electro-optical transfer
     function (EOTF).
 
     Parameters

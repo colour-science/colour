@@ -31,13 +31,13 @@ __all__ = [
 
 class TestRGB_to_CMY(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition unit tests
+    Define :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition unit tests
     methods.
     """
 
     def test_RGB_to_CMY(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition.
+        Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -60,7 +60,7 @@ class TestRGB_to_CMY(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_CMY(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition
+        Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition
         n-dimensional arrays support.
         """
 
@@ -77,7 +77,7 @@ class TestRGB_to_CMY(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_CMY(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition domain and
+        Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition domain and
         range scale support.
         """
 
@@ -94,7 +94,7 @@ class TestRGB_to_CMY(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_CMY(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition nan
+        Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition nan
         support.
         """
 
@@ -107,13 +107,13 @@ class TestRGB_to_CMY(unittest.TestCase):
 
 class TestCMY_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition unit tests
+    Define :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition unit tests
     methods.
     """
 
     def test_CMY_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition.
+        Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -136,7 +136,7 @@ class TestCMY_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_CMY_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition
+        Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition
         n-dimensional arrays support.
         """
 
@@ -153,7 +153,7 @@ class TestCMY_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_CMY_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition domain and
+        Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition domain and
         range scale support.
         """
 
@@ -170,7 +170,7 @@ class TestCMY_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CMY_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition nan support.
+        Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -182,13 +182,13 @@ class TestCMY_to_RGB(unittest.TestCase):
 
 class TestCMY_to_CMYK(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition unit tests
+    Define :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition unit tests
     methods.
     """
 
     def test_CMY_to_CMYK(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition.
+        Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -211,7 +211,7 @@ class TestCMY_to_CMYK(unittest.TestCase):
 
     def test_n_dimensional_CMY_to_CMYK(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition
+        Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition
         n-dimensional arrays support.
         """
 
@@ -228,7 +228,7 @@ class TestCMY_to_CMYK(unittest.TestCase):
 
     def test_domain_range_scale_CMY_to_CMYK(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition domain and
+        Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition domain and
         range scale support.
         """
 
@@ -245,7 +245,7 @@ class TestCMY_to_CMYK(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CMY_to_CMYK(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition nan
+        Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition nan
         support.
         """
 
@@ -258,13 +258,13 @@ class TestCMY_to_CMYK(unittest.TestCase):
 
 class TestCMYK_to_CMY(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition unit tests
+    Define :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition unit tests
     methods.
     """
 
     def test_CMYK_to_CMY(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition.
+        Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -293,7 +293,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
 
     def test_n_dimensional_CMYK_to_CMY(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition
+        Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition
         n-dimensional arrays support.
         """
 
@@ -310,7 +310,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
 
     def test_domain_range_scale_CMYK_to_CMY(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition domain and
+        Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition domain and
         range scale support.
         """
 
@@ -327,7 +327,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CMYK_to_CMY(self):
         """
-        Tests :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition nan
+        Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition nan
         support.
         """
 

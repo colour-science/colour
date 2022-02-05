@@ -143,7 +143,7 @@ def sd_Jakob2019(
     coefficients: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
 ) -> SpectralDistribution:
     """
-    Returns a spectral distribution following the spectral model given by
+    Return a spectral distribution following the spectral model given by
     *Jakob and Hanika (2019)*.
 
     Parameters
@@ -213,7 +213,7 @@ def error_function(
     Tuple[Floating, NDArray, NDArray, NDArray, NDArray],
 ]:
     """
-    Computes :math:`\\Delta E_{76}` between the target colour and the colour
+    Compute :math:`\\Delta E_{76}` between the target colour and the colour
     defined by given spectral model, along with its gradient.
 
     Parameters
@@ -288,7 +288,7 @@ def error_function(
         XYZ_i: NDArray, offset: Optional[Floating] = 16
     ) -> NDArray:
         """
-        Returns the final intermediate value for the *CIE Lab* to *CIE XYZ*
+        Return the final intermediate value for the *CIE Lab* to *CIE XYZ*
         conversion.
         """
 
@@ -324,7 +324,7 @@ def dimensionalise_coefficients(
     coefficients: ArrayLike, shape: SpectralShape
 ) -> NDArray:
     """
-    Rescales the dimensionless coefficients to given spectral shape.
+    Rescale the dimensionless coefficients to given spectral shape.
 
     A dimensionless form of the reflectance spectral model is used in the
     optimisation process. Instead of the usual spectral shape, specified in
@@ -361,7 +361,7 @@ def dimensionalise_coefficients(
 
 def lightness_scale(steps: Integer) -> NDArray:
     """
-    Creates a non-linear lightness scale, as described in *Jakob and Hanika
+    Create a non-linear lightness scale, as described in *Jakob and Hanika
     (2019)*. The spacing between very dark and very bright (and saturated)
     colours is made smaller, because in those regions coefficients tend to
     change rapidly and a finer resolution is needed.
@@ -397,7 +397,7 @@ def find_coefficients_Jakob2019(
     dimensionalise: Boolean = True,
 ) -> Tuple[NDArray, Floating]:
     """
-    Computes the coefficients for *Jakob and Hanika (2019)* reflectance
+    Compute the coefficients for *Jakob and Hanika (2019)* reflectance
     spectral model.
 
     Parameters
@@ -449,7 +449,7 @@ def find_coefficients_Jakob2019(
         target_o: NDArray, coefficients_0_o: NDArray
     ) -> Tuple[NDArray, Floating]:
         """
-        Minimises the error function using *L-BFGS-B* method.
+        Minimise the error function using *L-BFGS-B* method.
         """
 
         try:
@@ -512,7 +512,7 @@ def XYZ_to_sd_Jakob2019(
     additional_data: Boolean = False,
 ) -> Union[Tuple[SpectralDistribution, Floating], SpectralDistribution]:
     """
-    Recovers the spectral distribution of given RGB colourspace array
+    Recover the spectral distribution of given RGB colourspace array
     using *Jakob and Hanika (2019)* method.
 
     Parameters
@@ -633,7 +633,7 @@ def XYZ_to_sd_Jakob2019(
 
 class LUT3D_Jakob2019:
     """
-    Class for working with pre-computed lookup tables for the
+    Clas for working with pre-computed lookup tables for the
     *Jakob and Hanika (2019)* spectral upsampling method. It allows significant
     time savings by performing the expensive numerical optimization ahead of
     time and storing the results in a file.
@@ -798,7 +798,7 @@ class LUT3D_Jakob2019:
 
     def _create_interpolator(self):
         """
-        Creates a :class:`scipy.interpolate.RegularGridInterpolator` class
+        Create a :class:`scipy.interpolate.RegularGridInterpolator` class
         instance for read or generated coefficients.
         """
 
@@ -818,7 +818,7 @@ class LUT3D_Jakob2019:
         print_callable: Callable = print,
     ):
         """
-        Generates the lookup table data for given *RGB* colourspace, colour
+        Generate the lookup table data for given *RGB* colourspace, colour
         matching functions, illuminant and given size.
 
         Parameters
@@ -913,7 +913,7 @@ class LUT3D_Jakob2019:
 
         def optimize(ijkL: ArrayLike, coefficients_0: ArrayLike) -> NDArray:
             """
-            Solves for a specific lightness and stores the result in the
+            Solve for a specific lightness and stores the result in the
             appropriate cell.
             """
 
@@ -1029,7 +1029,7 @@ class LUT3D_Jakob2019:
         self, RGB: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
     ) -> SpectralDistribution:
         """
-        Looks up a given *RGB* colourspace array and return the corresponding
+        Look up a given *RGB* colourspace array and return the corresponding
         spectral distribution.
 
         Parameters
@@ -1117,7 +1117,7 @@ class LUT3D_Jakob2019:
 
     def read(self, path: str):
         """
-        Loads a lookup table from a *\\*.coeff* file.
+        Load a lookup table from a *\\*.coeff* file.
 
         Parameters
         ----------
@@ -1166,7 +1166,7 @@ class LUT3D_Jakob2019:
 
     def write(self, path: str):
         """
-        Writes the lookup table to a *\\*.coeff* file.
+        Write the lookup table to a *\\*.coeff* file.
 
         Parameters
         ----------

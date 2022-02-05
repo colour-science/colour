@@ -28,13 +28,13 @@ __all__ = [
 
 class TestXYZ_to_Nayatani95(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
+    Define :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
     unit tests methods.
     """
 
     def test_XYZ_to_Nayatani95(self):
         """
-        Tests :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95`
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95`
         definition.
 
         Notes
@@ -90,7 +90,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Nayatani95(self):
         """
-        Tests :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         n-dimensional support.
         """
 
@@ -127,7 +127,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_Nayatani95(self):
         """
-        Tests :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         domain and range scale support.
         """
 
@@ -160,7 +160,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_Nayatani95(self):
         """
-        Tests :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         nan support.
         """
 

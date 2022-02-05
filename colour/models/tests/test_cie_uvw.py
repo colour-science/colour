@@ -24,13 +24,13 @@ __all__ = [
 
 class TestXYZ_to_UVW(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_uvw.XYZ_to_UVW` definition unit tests
+    Define :func:`colour.models.cie_uvw.XYZ_to_UVW` definition unit tests
     methods.
     """
 
     def test_XYZ_to_UVW(self):
         """
-        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition.
+        Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -80,7 +80,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_UVW(self):
         """
-        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition n-dimensional
+        Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition n-dimensional
         support.
         """
 
@@ -108,7 +108,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_UVW(self):
         """
-        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition domain and
+        Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition domain and
         range scale support.
         """
 
@@ -128,7 +128,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_UVW(self):
         """
-        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition nan support.
+        Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -141,13 +141,13 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
 class TestUVW_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_uvw.UVW_to_XYZ` definition unit tests
+    Define :func:`colour.models.cie_uvw.UVW_to_XYZ` definition unit tests
     methods.
     """
 
     def test_UVW_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_uvw.UVW_to_XYZ` definition.
+        Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -197,7 +197,7 @@ class TestUVW_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_UVW_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_uvw.UVW_to_XYZ` definition n-dimensional
+        Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition n-dimensional
         support.
         """
 
@@ -225,7 +225,7 @@ class TestUVW_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_UVW_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_uvw.UVW_to_XYZ` definition domain and
+        Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition domain and
         range scale support.
         """
 
@@ -245,7 +245,7 @@ class TestUVW_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_UVW_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_uvw.UVW_to_XYZ` definition nan support.
+        Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

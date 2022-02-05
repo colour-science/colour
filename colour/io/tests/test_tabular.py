@@ -121,13 +121,13 @@ COLOURCHECKER_N_OHTA_1: Dict = {
 
 class TestReadSpectralDataFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.read_spectral_data_from_csv_file`
+    Define :func:`colour.io.tabular.read_spectral_data_from_csv_file`
     definition unit tests methods.
     """
 
     def test_read_spectral_data_from_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.read_spectral_data_from_csv_file`
+        Test :func:`colour.io.tabular.read_spectral_data_from_csv_file`
         definition.
         """
 
@@ -175,13 +175,13 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
 
 class TestReadSdsFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.read_sds_from_csv_file` definition unit
+    Define :func:`colour.io.tabular.read_sds_from_csv_file` definition unit
     tests methods.
     """
 
     def test_read_sds_from_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.read_sds_from_csv_file` definition.
+        Test :func:`colour.io.tabular.read_sds_from_csv_file` definition.
         """
 
         colour_checker_n_ohta = os.path.join(
@@ -198,13 +198,13 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
 
 class TestWriteSdsToCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.write_sds_to_csv_file` definition unit
+    Define :func:`colour.io.tabular.write_sds_to_csv_file` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -218,7 +218,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
 
     def test_write_sds_to_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition.
+        Test :func:`colour.io.tabular.write_sds_to_csv_file` definition.
         """
 
         colour_checker_n_ohta = os.path.join(
@@ -235,7 +235,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
 
     def test_raise_exception_write_sds_to_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition
+        Test :func:`colour.io.tabular.write_sds_to_csv_file` definition
         raised exception.
         """
 

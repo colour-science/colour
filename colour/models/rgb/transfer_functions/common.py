@@ -39,7 +39,7 @@ def CV_range(
     bit_depth: Integer = 10, is_legal: Boolean = False, is_int: Boolean = False
 ) -> NDArray:
     """
-    Returns the code value :math:`CV` range for given bit depth, range legality
+    Return the code value :math:`CV` range for given bit depth, range legality
     and representation.
 
     Parameters
@@ -85,7 +85,7 @@ def legal_to_full(
     out_int: Boolean = False,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Converts given code value :math:`CV` or float equivalent of a code value at
+    Convert given code value :math:`CV` or float equivalent of a code value at
     a given bit depth from legal range (studio swing) to full range
     (full swing).
 
@@ -152,7 +152,7 @@ def full_to_legal(
     out_int: Boolean = False,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Converts given code value :math:`CV` or float equivalent of a code value at
+    Convert given code value :math:`CV` or float equivalent of a code value at
     a given bit depth from full range (full swing) to legal range
     (studio swing).
 

@@ -48,7 +48,7 @@ https://opensource.org/licenses/BSD-3-Clause
 
 def extract_todo_items(root_directory: str) -> OrderedDict:
     """
-    Extracts the TODO items from given directory.
+    Extract the TODO items from given directory.
 
     Parameters
     ----------
@@ -99,7 +99,7 @@ def extract_todo_items(root_directory: str) -> OrderedDict:
 
 def export_todo_items(todo_items: OrderedDict, file_path: str):
     """
-    Exports TODO items to given file.
+    Export TODO items to given file.
 
     Parameters
     ----------
