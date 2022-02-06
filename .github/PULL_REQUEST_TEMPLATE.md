@@ -24,7 +24,7 @@ is available to guide the process: https://www.colour-science.org/contributing/.
 **Documentation**
 
 - [ ] New features are documented along with examples if relevant.
-- [ ] The documentation is [Sphinx](https://www.sphinx-doc.org/en/master/) and [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html).
+- [ ] The documentation is [Sphinx](https://www.sphinx-doc.org/en/master/) and [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) compliant.
 
 <!--
 Thank you again!
