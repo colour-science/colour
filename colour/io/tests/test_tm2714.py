@@ -9,6 +9,7 @@ import os
 import shutil
 import unittest
 import tempfile
+from copy import deepcopy
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict, List, Optional, Tuple, Union, cast
@@ -169,6 +170,50 @@ class TestIES_TM2714_Header(unittest.TestCase):
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Header_IESTM2714))
+
+    def test__eq__(self):
+        """
+        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__eq__` method.
+        """
+
+        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
+                              document_creator='d', unique_identifier='e',
+                              measurement_equipment='f', laboratory='g',
+                              report_number='h', report_date='i',
+                              document_creation_date='j', comments='k')
+
+        h1 = deepcopy(h0)
+        self.assertEqual(h0, h1)
+
+    def test__ne__(self):
+        """
+        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method.
+        """
+
+        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
+                              document_creator='d', unique_identifier='e',
+                              measurement_equipment='f', laboratory='g',
+                              report_number='h', report_date='i',
+                              document_creation_date='j', comments='k')
+        h1 = deepcopy(h0)
+
+        h1.manufacturer = 'aa'
+        self.assertNotEqual(h0, h1)
+        h1.manufacturer = 'a'
+        self.assertEqual(h0, h1)
+
+    def test__hash__(self):
+        """
+        Tests :meth:`colour.io.tm2714.Header_IESTM2714.__hash__` method.
+        """
+
+        h0 = Header_IESTM2714(manufacturer='a', catalog_number='b', description='c',
+                              document_creator='d', unique_identifier='e',
+                              measurement_equipment='f', laboratory='g',
+                              report_number='h', report_date='i',
+                              document_creation_date='j', comments='k')
+
+        self.assertIsInstance(hash(h0), int)
 
 
 class TestIES_TM2714_Sd(unittest.TestCase):

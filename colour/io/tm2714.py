@@ -28,6 +28,7 @@ from colour.hints import (
     Boolean,
     Callable,
     Floating,
+    Integer,
     Literal,
     Optional,
     cast,
@@ -600,6 +601,34 @@ class Header_IESTM2714:
             )
 
         self._comments = value
+
+    def __eq__(self, other: Any) -> Boolean:
+        if isinstance(other, Header_IESTM2714):
+            comps = [
+                self._manufacturer == other.manufacturer,
+                self._catalog_number == other.catalog_number,
+                self._description == other.description,
+                self._document_creator == other.document_creator,
+                self._unique_identifier == other.unique_identifier,
+                self._measurement_equipment == other.measurement_equipment,
+                self._laboratory == other.laboratory,
+                self._report_number == other.report_number,
+                self._report_date == other.report_date,
+                self._document_creation_date == other.document_creation_date,
+                self._comments == other.comments
+            ]
+            return all(comps)
+        return False
+
+    def __ne__(self, other: Any) -> Boolean:
+        return not (self == other)
+
+    def __hash__(self) -> Integer:
+        return hash((self._manufacturer, self._catalog_number, self._description,
+                     self._document_creator, self._unique_identifier,
+                     self._measurement_equipment, self._laboratory,
+                     self._report_number, self._report_date,
+                     self._document_creation_date, self._comments))
 
 
 class SpectralDistribution_IESTM2714(SpectralDistribution):
