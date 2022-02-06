@@ -1292,6 +1292,9 @@ def plot_multi_colour_swatches(
             as_float_array(cast(ArrayLike, colour_swatches)).reshape([-1, 3])
         ):
             colour_swatches_converted.append(ColourSwatch(colour_swatch))
+    else:
+        colour_swatches_converted = cast(List[ColourSwatch], colour_swatches)
+
     colour_swatches = colour_swatches_converted
 
     if compare_swatches is not None:
