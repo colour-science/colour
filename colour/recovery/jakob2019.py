@@ -867,7 +867,7 @@ class LUT3D_Jakob2019:
         <BLANKLINE>
         >>> print(LUT.interpolator)
         ... # doctest: +ELLIPSIS
-        <scipy.interpolate.interpolate.RegularGridInterpolator object at 0x...>
+        <scipy.interpolate...RegularGridInterpolator object at 0x...>
         """
 
         cmfs, illuminant = handle_spectral_arguments(
