@@ -1,4 +1,4 @@
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.svg
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.png
 
 .. start-badges
 

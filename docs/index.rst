@@ -1,4 +1,4 @@
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.svg
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.png
 
 `Colour <https://github.com/colour-science/colour>`__ is an open-source
 `Python <https://www.python.org/>`__ package providing a comprehensive number
