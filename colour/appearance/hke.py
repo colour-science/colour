@@ -214,7 +214,8 @@ def coefficient_q_Nayatani1997(
 
     Examples
     --------
-    This recreates FIG. A-1.
+    This recreates *FIG. A-1*.
+
     >>> import matplotlib.pyplot as plt
     >>> angles = [(np.pi * 2 / 100 * i) for i in range(100)]
     >>> q_values = coefficient_q_Nayatani1997(angles)

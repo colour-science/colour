@@ -1,8 +1,6 @@
 Colour Characterisation
 =======================
 
-.. contents:: :local:
-
 ACES Spectral Conversion
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

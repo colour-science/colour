@@ -1,8 +1,6 @@
 Reflectance Recovery
 ====================
 
-.. contents:: :local:
-
 CIE XYZ Colourspace to Spectral
 -------------------------------
 

@@ -1,4 +1,4 @@
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.svg
 
 `Colour <https://github.com/colour-science/colour>`__ is an open-source
 `Python <https://www.python.org/>`__ package providing a comprehensive number
@@ -9,10 +9,6 @@ It is freely available under the
 
 **Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`__, a
 501(c)(3) nonprofit in the United States.
-
-.. contents:: Table of Contents
-    :local:
-    :depth: 3
 
 .. sectnum::
 

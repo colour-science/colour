@@ -81,7 +81,7 @@ autodoc_mock_imports = [
 autodoc_typehints = "both"
 autodoc_type_aliases = {
     "ArrayLike": "ArrayLike",
-    "Boolean": "Boolean",
+    "Boolean": "bool",
     "BooleanOrArrayLike": "BooleanOrArrayLike",
     "BooleanOrNDArray": "BooleanOrNDArray",
     "DType": "DType",
@@ -90,10 +90,10 @@ autodoc_type_aliases = {
     "DTypeFloating": "DTypeFloating",
     "DTypeInteger": "DTypeInteger",
     "DTypeNumber": "DTypeNumber",
-    "Floating": "Floating",
+    "Floating": "float",
     "FloatingOrArrayLike": "FloatingOrArrayLike",
     "FloatingOrNDArray": "FloatingOrNDArray",
-    "Integer": "Integer",
+    "Integer": "int",
     "IntegerOrArrayLike": "IntegerOrArrayLike",
     "IntegerOrNDArray": "IntegerOrNDArray",
     "NestedSequence": "NestedSequence",
@@ -104,6 +104,8 @@ autodoc_type_aliases = {
     "StrOrNDArray": "StrOrNDArray",
 }
 autodoc_preserve_defaults = True
+
+autoclass_content = "both"
 
 autosummary_generate = True
 
@@ -179,9 +181,15 @@ pygments_style = "lovelace"
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = "sphinx_rtd_theme"
-#
-# html_theme_options = {}
+html_theme = "furo"
+html_theme_options = {
+    "light_logo": "Logo_Light_001.svg",
+    "dark_logo": "Logo_Dark_001.svg",
+    "navigation_with_keys": True,
+    "sidebar_hide_name": True,
+}
+html_show_sphinx = True
+html_show_sourcelink = False
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -200,7 +208,7 @@ html_theme = "sphinx_rtd_theme"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "_static/Logo_Small_001.png"
+# html_logo = "_static/Logo_Small_001.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -435,8 +443,6 @@ epub_exclude_files = ["search.html"]
 # If false, no index is generated.
 # epub_use_index = True
 
-autoclass_content = "both"
-
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3.8", None),
     "matplotlib": ("http://matplotlib.org/stable", None),
@@ -456,5 +462,4 @@ def _autodoc_process_docstring(app, what, name, obj, options, lines):
 
 
 def setup(app):
-    app.add_css_file("custom.css")
     app.connect("autodoc-process-docstring", _autodoc_process_docstring)

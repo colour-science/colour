@@ -1,8 +1,6 @@
 Colour Appearance Models
 ========================
 
-.. contents:: :local:
-
 ATD (1995)
 ----------
 

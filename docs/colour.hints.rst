@@ -1,8 +1,6 @@
 Annotation Type Hints
 =====================
 
-.. contents:: :local:
-
 ``colour.hints``
 
 .. currentmodule:: colour.hints
@@ -29,7 +27,7 @@ Annotation Type Hints
     TypedDict
     TypeVar
     RegexFlag
-    DTypeBool
+    DTypeBoolean
     DTypeInteger
     DTypeFloating
     DTypeNumber

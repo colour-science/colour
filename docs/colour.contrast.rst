@@ -1,8 +1,6 @@
 Contrast Sensitivity
 ====================
 
-.. contents:: :local:
-
 Contrast Sensitivity
 --------------------
 

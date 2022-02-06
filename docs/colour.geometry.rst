@@ -1,8 +1,6 @@
 Geometry Primitives Generation
 ==============================
 
-.. contents:: :local:
-
 Primitives
 ----------
 

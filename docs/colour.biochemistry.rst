@@ -1,8 +1,6 @@
 Biochemistry
 ============
 
-.. contents:: :local:
-
 Michaelis–Menten Kinetics
 -------------------------
 

@@ -64,6 +64,7 @@ coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
 flynt = { version = "*", optional = true }  # Development dependency.
+furo = { version = "*", optional = true }  # Development dependency.
 invoke = { version = "*", optional = true }  # Development dependency.
 jupyter = { version = "*", optional = true }  # Development dependency.
 mypy = { version = "*", optional = true }  # Development dependency.
@@ -73,7 +74,6 @@ pytest-cov = { version = "*", optional = true }  # Development dependency.
 pyupgrade = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 sphinx = { version = "*", optional = true }  # Development dependency.
-sphinx-rtd-theme = { version = "*", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
 toml = { version = "*", optional = true }  # Development dependency.
 twine = { version = "*", optional = true }  # Development dependency.
@@ -85,6 +85,7 @@ coverage = "!= 6.3"
 coveralls = "*"
 flake8 = "*"
 flynt = "*"
+furo = "*"
 invoke = "*"
 jupyter = "*"
 mypy = "*"
@@ -94,7 +95,6 @@ pytest-cov = "*"
 pyupgrade = "*"
 restructuredtext-lint = "*"
 sphinx = "*"
-sphinx-rtd-theme = "*"
 sphinxcontrib-bibtex = "*"
 toml = "*"
 twine = "*"
@@ -107,6 +107,7 @@ development = [
     "coveralls",
     "flake8",
     "flynt",
+    "furo",
     "invoke",
     "jupyter",
     "mypy",
@@ -116,7 +117,6 @@ development = [
     "pyupgrade",
     "restructuredtext-lint",
     "sphinx",
-    "sphinx-rtd-theme",
     "sphinxcontrib-bibtex",
     "toml",
     "twine",
@@ -126,6 +126,7 @@ meshing = [ "trimesh" ]
 optional = [ "networkx", "opencolorio", "pandas", "scikit-learn", "tqdm" ]
 plotting = [ "matplotlib" ]
 read-the-docs = [
+    "furo",
     "matplotlib",
     "networkx",
     "numpy",
