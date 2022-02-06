@@ -6,6 +6,8 @@ is available to guide the process: https://www.colour-science.org/contributing/.
 
 # Summary
 
+<!-- Please write a summary describing the changes that this PR implements. -->
+
 # Preflight
 
 <!-- Please mark any checkboxes that do not apply to this pull request as [N/A]. -->
