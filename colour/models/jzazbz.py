@@ -78,10 +78,10 @@ __all__ = [
 ]
 
 CONSTANTS_JZAZBZ_SAFDAR2017: Structure = Structure(
-    b=1.15, g=0.66, d=-0.56, d_0=1.6295499532821566 * 10 ** -11
+    b=1.15, g=0.66, d=-0.56, d_0=1.6295499532821566 * 10**-11
 )
 CONSTANTS_JZAZBZ_SAFDAR2017.update(CONSTANTS_ST2084)
-CONSTANTS_JZAZBZ_SAFDAR2017.m_2 = 1.7 * 2523 / 2 ** 5
+CONSTANTS_JZAZBZ_SAFDAR2017.m_2 = 1.7 * 2523 / 2**5
 """
 Constants for :math:`J_za_zb_z` colourspace and its variant of the perceptual
 quantizer (PQ) from Dolby Laboratories.
@@ -95,7 +95,7 @@ Notes
 CONSTANTS_JZAZBZ_SAFDAR2021: Structure = Structure(
     **CONSTANTS_JZAZBZ_SAFDAR2017
 )
-CONSTANTS_JZAZBZ_SAFDAR2021.d_0 = 3.7035226210190005 * 10 ** -11
+CONSTANTS_JZAZBZ_SAFDAR2021.d_0 = 3.7035226210190005 * 10**-11
 """
 :math:`J_za_zb_z` colourspace constants for the *ZCAM* colour appearance model.
 """

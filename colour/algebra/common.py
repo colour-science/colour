@@ -455,7 +455,7 @@ def smoothstep_function(
 
     i = np.clip((x - a) / (b - a), 0, 1) if clip else x
 
-    return (i ** 2) * (3 - 2 * i)
+    return (i**2) * (3 - 2 * i)
 
 
 smooth = smoothstep_function

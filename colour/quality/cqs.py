@@ -571,7 +571,7 @@ def colour_quality_scales(
         )
 
         if D_C_ab > 0:
-            D_Ep_ab = np.sqrt(D_E_ab ** 2 - D_C_ab ** 2)
+            D_Ep_ab = np.sqrt(D_E_ab**2 - D_C_ab**2)
         else:
             D_Ep_ab = D_E_ab
 

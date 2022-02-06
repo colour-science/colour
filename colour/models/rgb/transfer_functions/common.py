@@ -70,10 +70,10 @@ def CV_range(
         ranges = np.array([16, 235])
         ranges *= 2 ** (bit_depth - 8)
     else:
-        ranges = np.array([0, 2 ** bit_depth - 1])
+        ranges = np.array([0, 2**bit_depth - 1])
 
     if not is_int:
-        ranges = as_float_array(ranges) / (2 ** bit_depth - 1)
+        ranges = as_float_array(ranges) / (2**bit_depth - 1)
 
     return ranges
 
@@ -131,7 +131,7 @@ def legal_to_full(
 
     CV = as_float_array(CV)
 
-    MV = 2 ** bit_depth - 1
+    MV = 2**bit_depth - 1
 
     CV_full = as_int_array(np.round(CV)) if in_int else CV * MV
 
@@ -198,7 +198,7 @@ def full_to_legal(
 
     CV = as_float_array(CV)
 
-    MV = 2 ** bit_depth - 1
+    MV = 2**bit_depth - 1
 
     CV_legal = as_int_array(np.round(CV / MV)) if in_int else CV
 

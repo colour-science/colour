@@ -207,7 +207,7 @@ def log_encoding_ACESproxy(
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
     ACESproxy = np.where(
-        lin_AP1 > 2 ** -9.72,
+        lin_AP1 > 2**-9.72,
         float_2_cv(
             (np.log2(lin_AP1) + mid_log_offset) * steps_per_stop
             + mid_CV_offset
@@ -218,7 +218,7 @@ def log_encoding_ACESproxy(
     if out_int:
         return as_int(np.round(ACESproxy))
     else:
-        return as_float(from_range_1(ACESproxy / (2 ** bit_depth - 1)))
+        return as_float(from_range_1(ACESproxy / (2**bit_depth - 1)))
 
 
 # pylint: disable=W0102
@@ -288,7 +288,7 @@ def log_decoding_ACESproxy(
     steps_per_stop = constants[bit_depth].steps_per_stop
 
     if not in_int:
-        ACESproxy = ACESproxy * (2 ** bit_depth - 1)
+        ACESproxy = ACESproxy * (2**bit_depth - 1)
 
     lin_AP1 = 2 ** (
         (ACESproxy - mid_CV_offset) / steps_per_stop - mid_log_offset
@@ -343,11 +343,11 @@ def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     ACEScc = np.where(
         lin_AP1 < 0,
-        (np.log2(2 ** -16) + 9.72) / 17.52,
-        (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52,
+        (np.log2(2**-16) + 9.72) / 17.52,
+        (np.log2(2**-16 + lin_AP1 * 0.5) + 9.72) / 17.52,
     )
     ACEScc = np.where(
-        lin_AP1 >= 2 ** -15,
+        lin_AP1 >= 2**-15,
         (np.log2(lin_AP1) + 9.72) / 17.52,
         ACEScc,
     )
@@ -401,7 +401,7 @@ def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     lin_AP1 = np.where(
         ACEScc < (9.72 - 15) / 17.52,
-        (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2,
+        (2 ** (ACEScc * 17.52 - 9.72) - 2**-16) * 2,
         2 ** (ACEScc * 17.52 - 9.72),
     )
     lin_AP1 = np.where(

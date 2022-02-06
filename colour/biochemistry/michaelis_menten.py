@@ -182,7 +182,7 @@ def reaction_rate_MichaelisMenten(
     method: Union[
         Literal["Michaelis 1913", "Abebe 2017"], str
     ] = "Michaelis 1913",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
     Describe the rate of enzymatic reactions, by relating reaction rate
@@ -354,7 +354,7 @@ def substrate_concentration_MichaelisMenten(
     method: Union[
         Literal["Michaelis 1913", "Abebe 2017"], str
     ] = "Michaelis 1913",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
     Describe the rate of enzymatic reactions, by relating concentration of a

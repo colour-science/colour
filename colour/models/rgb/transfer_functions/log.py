@@ -141,15 +141,15 @@ def logarithmic_function_basic(
     if style == "log10":
         return as_float(np.where(x >= FLT_MIN, np.log10(x), np.log10(FLT_MIN)))
     elif style == "antilog10":
-        return as_float(10 ** x)
+        return as_float(10**x)
     elif style == "log2":
         return as_float(np.where(x >= FLT_MIN, np.log2(x), np.log2(FLT_MIN)))
     elif style == "antilog2":
-        return as_float(2 ** x)
+        return as_float(2**x)
     elif style == "logb":
         return as_float(np.log(x) / np.log(base))
     else:  # style == 'antilogb'
-        return as_float(base ** x)
+        return as_float(base**x)
 
 
 def logarithmic_function_quasilog(
@@ -473,6 +473,6 @@ def log_decoding_Log2(
     log_norm = to_domain_1(log_norm)
 
     lg2 = log_norm * (max_exposure - min_exposure) + min_exposure
-    lin = (2 ** lg2) * middle_grey
+    lin = (2**lg2) * middle_grey
 
     return as_float(from_range_1(lin))

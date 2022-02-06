@@ -135,7 +135,7 @@ def delta_E(
         ],
         str,
     ] = "CIE 2000",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
     Return the difference :math:`\\Delta E_{ab}` between two given

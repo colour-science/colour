@@ -258,10 +258,10 @@ T_2=0.0205377..., D_2=0.0107584...)
     A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(opponent_colour_dimensions(LMS_g))
 
     # Computing the correlate of *brightness* :math:`Br`.
-    Br = spow(A_1 ** 2 + T_1 ** 2 + D_1 ** 2, 0.5)
+    Br = spow(A_1**2 + T_1**2 + D_1**2, 0.5)
 
     # Computing the correlate of *saturation* :math:`C`.
-    C = spow(T_2 ** 2 + D_2 ** 2, 0.5) / A_2
+    C = spow(T_2**2 + D_2**2, 0.5) / A_2
 
     # Computing the *hue* :math:`H`. Note that the reference does not take the
     # modulus of the :math:`H`, thus :math:`H` can exceed 360 degrees.

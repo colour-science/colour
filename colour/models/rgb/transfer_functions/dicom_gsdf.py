@@ -149,13 +149,13 @@ def eotf_inverse_DICOMGSDF(
     J = (
         A
         + B * L_lg
-        + C * L_lg ** 2
-        + D * L_lg ** 3
-        + E * L_lg ** 4
-        + F * L_lg ** 5
-        + G * L_lg ** 6
-        + H * L_lg ** 7
-        + I * L_lg ** 8
+        + C * L_lg**2
+        + D * L_lg**3
+        + E * L_lg**4
+        + F * L_lg**5
+        + G * L_lg**6
+        + H * L_lg**7
+        + I * L_lg**8
     )
 
     if out_int:
@@ -231,14 +231,14 @@ def eotf_DICOMGSDF(
     m = constants.m
 
     J_ln = np.log(J)
-    J_ln2 = J_ln ** 2
-    J_ln3 = J_ln ** 3
-    J_ln4 = J_ln ** 4
-    J_ln5 = J_ln ** 5
+    J_ln2 = J_ln**2
+    J_ln3 = J_ln**3
+    J_ln4 = J_ln**4
+    J_ln5 = J_ln**5
 
     L = (a + c * J_ln + e * J_ln2 + g * J_ln3 + m * J_ln4) / (
         1 + b * J_ln + d * J_ln2 + f * J_ln3 + h * J_ln4 + k * J_ln5
     )
-    L = 10 ** L
+    L = 10**L
 
     return as_float(from_range_1(L))

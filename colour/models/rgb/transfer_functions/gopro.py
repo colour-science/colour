@@ -122,6 +122,6 @@ def log_decoding_Protune(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     y = to_domain_1(y)
 
-    x = (113 ** y - 1) / 112
+    x = (113**y - 1) / 112
 
     return as_float(from_range_1(x))

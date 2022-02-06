@@ -836,7 +836,7 @@ log_encoding_Log3G12` definition.
         )
 
         self.assertAlmostEqual(
-            log_encoding_Log3G12(0.18 * 2 ** 12), 0.999997986792394, places=7
+            log_encoding_Log3G12(0.18 * 2**12), 0.999997986792394, places=7
         )
 
     def test_n_dimensional_log_encoding_Log3G12(self):

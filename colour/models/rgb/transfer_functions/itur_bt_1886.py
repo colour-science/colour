@@ -89,9 +89,9 @@ def eotf_inverse_BT1886(
     gamma = 2.40
     gamma_d = 1 / gamma
 
-    n = L_W ** gamma_d - L_B ** gamma_d
-    a = n ** gamma
-    b = L_B ** gamma_d / n
+    n = L_W**gamma_d - L_B**gamma_d
+    a = n**gamma
+    b = L_B**gamma_d / n
 
     V = (L / a) ** gamma_d - b
 
@@ -152,9 +152,9 @@ def eotf_BT1886(
     gamma = 2.40
     gamma_d = 1 / gamma
 
-    n = L_W ** gamma_d - L_B ** gamma_d
-    a = n ** gamma
-    b = L_B ** gamma_d / n
+    n = L_W**gamma_d - L_B**gamma_d
+    a = n**gamma
+    b = L_B**gamma_d / n
     L = a * np.maximum(V + b, 0) ** gamma
 
     return as_float(from_range_1(L))

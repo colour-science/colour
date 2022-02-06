@@ -260,24 +260,24 @@ def _uv_to_CCT_Ohno2013(
 
     # Triangular solution.
     l = np.hypot(uin - uip, vin - vip)  # noqa
-    x = (dip ** 2 - din ** 2 + l ** 2) / (2 * l)
+    x = (dip**2 - din**2 + l**2) / (2 * l)
     T = Tip + (Tin - Tip) * (x / l)
 
     vtx = vip + (vin - vip) * (x / l)
     sign = 1 if vx - vtx >= 0 else -1
-    D_uv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
+    D_uv = (dip**2 - x**2) ** (1 / 2) * sign
 
     # Parabolic solution.
     if np.abs(D_uv) >= 0.002:
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
-        a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
+        a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X**-1
         b = (
             -(
-                Tip ** 2 * (din - di)
-                + Ti ** 2 * (dip - din)
-                + Tin ** 2 * (di - dip)
+                Tip**2 * (din - di)
+                + Ti**2 * (dip - din)
+                + Tin**2 * (di - dip)
             )
-            * X ** -1
+            * X**-1
         )
         c = (
             -(
@@ -285,12 +285,12 @@ def _uv_to_CCT_Ohno2013(
                 + di * (Tip - Tin) * Tip * Tin
                 + din * (Ti - Tip) * Tip * Ti
             )
-            * X ** -1
+            * X**-1
         )
 
         T = -b / (2 * a)
 
-        D_uv = sign * (a * T ** 2 + b * T + c)
+        D_uv = sign * (a * T**2 + b * T + c)
 
     return np.array([T, D_uv])
 

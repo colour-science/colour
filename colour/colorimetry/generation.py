@@ -417,7 +417,7 @@ def sd_gaussian_normal(
 
     wavelengths = shape.range()
 
-    values = np.exp(-((wavelengths - mu) ** 2) / (2 * sigma ** 2))
+    values = np.exp(-((wavelengths - mu) ** 2) / (2 * sigma**2))
 
     return SpectralDistribution(values, wavelengths, **settings)
 
@@ -612,7 +612,7 @@ def sd_single_led_Ohno2005(
 
     sd = sd_gaussian_fwhm(peak_wavelength, fwhm, shape, **kwargs)
 
-    sd.values = (sd.values + 2 * sd.values ** 5) / 3
+    sd.values = (sd.values + 2 * sd.values**5) / 3
 
     return sd
 

@@ -302,7 +302,7 @@ def yellowness(
     method: Union[
         Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"], str
     ] = "ASTM E313",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
     Return the *yellowness* :math:`W` using given method.
