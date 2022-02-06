@@ -558,7 +558,7 @@ def log_encoding_ALEXALogC(
     ] = 800,
 ) -> FloatingOrNDArray:
     """
-    Defines the *ARRI ALEXA Log C* log encoding curve / opto-electronic
+    Define the *ARRI ALEXA Log C* log encoding curve / opto-electronic
     transfer function.
 
     Parameters
@@ -583,7 +583,6 @@ def log_encoding_ALEXALogC(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -629,7 +628,7 @@ def log_decoding_ALEXALogC(
     ] = 800,
 ) -> FloatingOrNDArray:
     """
-    Defines the *ARRI ALEXA Log C* log decoding curve / electro-optical
+    Define the *ARRI ALEXA Log C* log decoding curve / electro-optical
     transfer function.
 
     Parameters
@@ -650,7 +649,6 @@ def log_decoding_ALEXALogC(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

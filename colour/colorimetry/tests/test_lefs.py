@@ -432,13 +432,13 @@ DATA_MESOPIC_LEF: Tuple = (
 
 class TestMesopicWeightingFunction(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lefs.mesopic_weighting_function`
+    Define :func:`colour.colorimetry.lefs.mesopic_weighting_function`
     definition unit tests methods.
     """
 
     def test_mesopic_weighting_function(self):
         """
-        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function`
+        Test :func:`colour.colorimetry.lefs.mesopic_weighting_function`
         definition.
         """
 
@@ -464,7 +464,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
     def test_n_dimensional_mesopic_weighting_function(self):
         """
-        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function`
+        Test :func:`colour.colorimetry.lefs.mesopic_weighting_function`
         definition n-dimensional arrays support.
         """
 
@@ -486,7 +486,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_mesopic_weighting_function(self):
         """
-        Tests :func:`colour.colorimetry.lefs.mesopic_weighting_function`
+        Test :func:`colour.colorimetry.lefs.mesopic_weighting_function`
         definition nan support.
         """
 
@@ -497,13 +497,13 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
 class TestSdMesopicLuminousEfficiencyFunction(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lefs.\
+    Define :func:`colour.colorimetry.lefs.\
 sd_mesopic_luminous_efficiency_function` definition unit tests methods.
     """
 
     def test_sd_mesopic_luminous_efficiency_function(self):
         """
-        Tests :func:`colour.colorimetry.lefs.\
+        Test :func:`colour.colorimetry.lefs.\
 sd_mesopic_luminous_efficiency_function` definition.
         """
 

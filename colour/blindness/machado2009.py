@@ -73,7 +73,7 @@ def matrix_RGB_to_WSYBRG(
     cmfs: LMS_ConeFundamentals, primaries: RGB_DisplayPrimaries
 ) -> NDArray:
     """
-    Computes the matrix transforming from *RGB* colourspace to opponent-colour
+    Compute the matrix transforming from *RGB* colourspace to opponent-colour
     space using *Machado et al. (2009)* method.
 
     Parameters
@@ -148,7 +148,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     cmfs: LMS_ConeFundamentals, d_LMS: ArrayLike
 ) -> LMS_ConeFundamentals:
     """
-    Shifts given *LMS* cone fundamentals colour matching functions with given
+    Shift given *LMS* cone fundamentals colour matching functions with given
     :math:`\\Delta_{LMS}` shift amount in nanometers to simulate anomalous
     trichromacy using *Machado et al. (2009)* method.
 
@@ -221,7 +221,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
 
     def alpha(x: NDArray) -> NDArray:
         """
-        Computes :math:`alpha` factor.
+        Compute :math:`alpha` factor.
         """
 
         return (20 - x) / 20
@@ -250,7 +250,7 @@ def matrix_anomalous_trichromacy_Machado2009(
     d_LMS: ArrayLike,
 ) -> NDArray:
     """
-    Computes the *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
+    Compute the *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
     distributions with given :math:`\\Delta_{LMS}` shift amount in nanometers
     to simulate anomalous trichromacy.
@@ -317,7 +317,7 @@ def matrix_cvd_Machado2009(
     severity: Floating,
 ) -> NDArray:
     """
-    Computes *Machado et al. (2009)* *CVD* matrix for given deficiency and
+    Compute *Machado et al. (2009)* *CVD* matrix for given deficiency and
     severity using the pre-computed matrices dataset.
 
     Parameters

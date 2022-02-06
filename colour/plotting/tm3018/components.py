@@ -215,7 +215,7 @@ def plot_spectra_ANSIIESTM3018(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots a comparison of the spectral distributions of a test emission source
+    Plot a comparison of the spectral distributions of a test emission source
     and a reference illuminant for *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
@@ -283,7 +283,7 @@ def plot_colour_vector_graphic(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots *Color Vector Graphic* according to
+    Plot *Color Vector Graphic* according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
@@ -410,7 +410,7 @@ def plot_colour_vector_graphic(
 
     def corner_label_and_text(label: str, text: str, ha: str, va: str):
         """
-        Draws a label and text in given corner.
+        Draw a label and text in given corner.
         """
 
         x = -1.45 if ha == "left" else 1.45
@@ -462,7 +462,7 @@ def plot_16_bin_bars(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the 16 bin bars for given values according to
+    Plot the 16 bin bars for given values according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
@@ -558,7 +558,7 @@ def plot_local_chroma_shifts(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the local chroma shifts according to
+    Plot the local chroma shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
@@ -616,7 +616,7 @@ def plot_local_hue_shifts(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the local hue shifts according to
+    Plot the local hue shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
@@ -670,7 +670,7 @@ def plot_local_colour_fidelities(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the local colour fidelities according to
+    Plot the local colour fidelities according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters
@@ -722,7 +722,7 @@ def plot_colour_fidelity_indexes(
     specification: ColourQuality_Specification_ANSIIESTM3018, **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the local chroma shifts according to
+    Plot the local chroma shifts according to
     *ANSI/IES TM-30-18 Colour Rendition Report*.
 
     Parameters

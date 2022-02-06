@@ -51,7 +51,7 @@ __all__ = [
 
 def RGB_to_CMY(RGB: ArrayLike) -> NDArray:
     """
-    Converts from *RGB* colourspace to *CMY* colourspace.
+    Convert from *RGB* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
@@ -65,7 +65,6 @@ def RGB_to_CMY(RGB: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -96,7 +95,7 @@ def RGB_to_CMY(RGB: ArrayLike) -> NDArray:
 
 def CMY_to_RGB(CMY: ArrayLike) -> NDArray:
     """
-    Converts from *CMY* colourspace to *CMY* colourspace.
+    Convert from *CMY* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
@@ -110,7 +109,6 @@ def CMY_to_RGB(CMY: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -141,7 +139,7 @@ def CMY_to_RGB(CMY: ArrayLike) -> NDArray:
 
 def CMY_to_CMYK(CMY: ArrayLike) -> NDArray:
     """
-    Converts from *CMY* colourspace to *CMYK* colourspace.
+    Convert from *CMY* colourspace to *CMYK* colourspace.
 
     Parameters
     ----------
@@ -155,7 +153,6 @@ def CMY_to_CMYK(CMY: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -200,7 +197,7 @@ def CMY_to_CMYK(CMY: ArrayLike) -> NDArray:
 
 def CMYK_to_CMY(CMYK: ArrayLike) -> NDArray:
     """
-    Converts from *CMYK* colourspace to *CMY* colourspace.
+    Convert from *CMYK* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
@@ -214,7 +211,6 @@ def CMYK_to_CMY(CMYK: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

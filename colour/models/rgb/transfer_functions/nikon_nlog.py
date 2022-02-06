@@ -63,7 +63,7 @@ def log_encoding_NLog(
     constants: Structure = NLOG_CONSTANTS,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Nikon N-Log* log encoding curve / opto-electronic transfer
+    Define the *Nikon N-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -87,7 +87,6 @@ def log_encoding_NLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -142,7 +141,7 @@ def log_decoding_NLog(
     constants: Structure = NLOG_CONSTANTS,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Nikon N-Log* log decoding curve / electro-optical transfer
+    Define the *Nikon N-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -166,7 +165,6 @@ def log_decoding_NLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

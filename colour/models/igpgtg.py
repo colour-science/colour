@@ -75,7 +75,7 @@ MATRIX_IGPGTG_IGPGTG_TO_LMS_P: NDArray = np.linalg.inv(
 
 def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`I_GP_GT_G`
+    Convert from *CIE XYZ* tristimulus values to :math:`I_GP_GT_G`
     colourspace.
 
     Parameters
@@ -90,7 +90,6 @@ def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -132,7 +131,7 @@ def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:
 
 def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArray:
     """
-    Converts from :math:`I_GP_GT_G` colourspace to *CIE XYZ* tristimulus
+    Convert from :math:`I_GP_GT_G` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -147,7 +146,6 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+

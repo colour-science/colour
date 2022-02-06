@@ -38,7 +38,7 @@ def plot_automatic_colour_conversion_graph(
     args: str = "",
 ) -> AGraph:  # type: ignore[name-defined]  # noqa
     """
-    Plots *Colour* automatic colour conversion graph using
+    Plot *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org/>`__ and
     `pyraphviz <https://pygraphviz.github.io>`__.
 

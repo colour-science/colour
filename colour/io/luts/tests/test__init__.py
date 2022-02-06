@@ -30,13 +30,13 @@ LUTS_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
 class TestReadLUT(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.__init__.read_LUT` definition unit tests
+    Define :func:`colour.io.luts.__init__.read_LUT` definition unit tests
     methods.
     """
 
     def test_read_LUT(self):
         """
-        Tests :func:`colour.io.luts.__init__.read_LUT` definition.
+        Test :func:`colour.io.luts.__init__.read_LUT` definition.
         """
 
         LUT_1 = read_LUT(
@@ -105,7 +105,7 @@ class TestReadLUT(unittest.TestCase):
 
     def test_raise_exception_read_LUT(self):
         """
-        Tests :func:`colour.io.luts.__init__.read_LUT` definition raised
+        Test :func:`colour.io.luts.__init__.read_LUT` definition raised
         exception.
         """
 
@@ -120,13 +120,13 @@ class TestReadLUT(unittest.TestCase):
 
 class TestWriteLUT(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.__init__.write_LUT` definition unit tests
+    Define :func:`colour.io.luts.__init__.write_LUT` definition unit tests
     methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -140,7 +140,7 @@ class TestWriteLUT(unittest.TestCase):
 
     def test_write_LUT(self):
         """
-        Tests :func:`colour.io.luts.__init__.write_LUT` definition.
+        Test :func:`colour.io.luts.__init__.write_LUT` definition.
         """
 
         LUT_1_r = read_LUT(

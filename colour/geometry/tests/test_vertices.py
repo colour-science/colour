@@ -30,13 +30,13 @@ __all__ = [
 
 class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
+    Define :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
     definition unit tests methods.
     """
 
     def test_primitive_vertices_quad_mpl(self):
         """
-        Tests :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
+        Test :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
         definition.
         """
 
@@ -110,13 +110,13 @@ class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
 
 class TestPrimitiveVerticesGridMpl(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
+    Define :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
     definition unit tests methods.
     """
 
     def test_primitive_vertices_grid_mpl(self):
         """
-        Tests :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
+        Test :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
         definition.
         """
 
@@ -199,13 +199,13 @@ class TestPrimitiveVerticesGridMpl(unittest.TestCase):
 
 class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
+    Define :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
     definition unit tests methods.
     """
 
     def test_primitive_vertices_cube_mpl(self):
         """
-        Tests :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
+        Test :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
         definition.
         """
 
@@ -600,13 +600,13 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
 
 class TestPrimitiveVerticesSphere(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.vertices.primitive_vertices_sphere`
+    Define :func:`colour.geometry.vertices.primitive_vertices_sphere`
     definition unit tests methods.
     """
 
     def test_primitive_vertices_sphere(self):
         """
-        Tests :func:`colour.geometry.vertices.primitive_vertices_sphere`
+        Test :func:`colour.geometry.vertices.primitive_vertices_sphere`
         definition.
         """
 

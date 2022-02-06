@@ -102,7 +102,7 @@ _CACHE_TCS_CIE2017: Dict = CACHE_REGISTRY.register_cache(
 @dataclass
 class TCS_ColorimetryData_CIE2017:
     """
-    Defines the class storing *test colour samples* colorimetry data.
+    Define the class storing *test colour samples* colorimetry data.
     """
 
     name: str
@@ -115,7 +115,7 @@ class TCS_ColorimetryData_CIE2017:
 @dataclass
 class ColourRendering_Specification_CIE2017:
     """
-    Defines the *CIE 2017 Colour Fidelity Index* (CFI) colour quality
+    Define the *CIE 2017 Colour Fidelity Index* (CFI) colour quality
     specification.
 
     Parameters
@@ -155,7 +155,7 @@ def colour_fidelity_index_CIE2017(
     sd_test: SpectralDistribution, additional_data: Boolean = False
 ) -> Union[Floating, ColourRendering_Specification_CIE2017]:
     """
-    Returns the *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` of given
+    Return the *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` of given
     spectral distribution.
 
     Parameters
@@ -258,7 +258,7 @@ def colour_fidelity_index_CIE2017(
 
 def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
     """
-    Loads the *CIE 2017 Test Colour Samples* dataset appropriate for the given
+    Load the *CIE 2017 Test Colour Samples* dataset appropriate for the given
     spectral shape.
 
     The datasets are cached and won't be loaded again on subsequent calls to
@@ -309,7 +309,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
 
 def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArray:
     """
-    Computes the reference illuminant correlated colour temperature
+    Compute the reference illuminant correlated colour temperature
     :math:`T_{cp}` and :math:`\\Delta_{uv}` for given test spectral
     distribution using *Ohno (2013)* method.
 
@@ -340,7 +340,7 @@ def sd_reference_illuminant(
     CCT: Floating, shape: SpectralShape
 ) -> SpectralDistribution:
     """
-    Computes the reference illuminant for a given correlated colour temperature
+    Compute the reference illuminant for a given correlated colour temperature
     :math:`T_{cp}` for use in *CIE 2017 Colour Fidelity Index* (CFI)
     computation.
 
@@ -426,7 +426,7 @@ def tcs_colorimetry_data(
     cmfs: MultiSpectralDistributions,
 ) -> Tuple[TCS_ColorimetryData_CIE2017, ...]:
     """
-    Returns the *test colour samples* colorimetry data under given test light
+    Return the *test colour samples* colorimetry data under given test light
     source or reference illuminant spectral distribution for the
     *CIE 2017 Colour Fidelity Index* (CFI) computations.
 
@@ -473,7 +473,7 @@ def tcs_colorimetry_data(
 
 def delta_E_to_R_f(delta_E: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Converts from colour-appearance difference to
+    Convert from colour-appearance difference to
     *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` value.
 
     Parameters

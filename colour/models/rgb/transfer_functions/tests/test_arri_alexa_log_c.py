@@ -27,13 +27,13 @@ __all__ = [
 
 class TestLogEncoding_ALEXALogC(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+    Define :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_encoding_ALEXALogC` definition unit tests methods.
     """
 
     def test_log_encoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+        Test :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_encoding_ALEXALogC` definition.
         """
 
@@ -51,7 +51,7 @@ log_encoding_ALEXALogC` definition.
 
     def test_n_dimensional_log_encoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+        Test :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_encoding_ALEXALogC` definition n-dimensional arrays support.
         """
 
@@ -72,7 +72,7 @@ log_encoding_ALEXALogC` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+        Test :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_encoding_ALEXALogC` definition domain and range scale support.
         """
 
@@ -89,7 +89,7 @@ log_encoding_ALEXALogC` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+        Test :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_encoding_ALEXALogC` definition nan support.
         """
 
@@ -100,13 +100,13 @@ log_encoding_ALEXALogC` definition nan support.
 
 class TestLogDecoding_ALEXALogC(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+    Define :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_decoding_ALEXALogC` definition unit tests methods.
     """
 
     def test_log_decoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+        Test :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_decoding_ALEXALogC` definition.
         """
 
@@ -122,7 +122,7 @@ log_decoding_ALEXALogC` definition.
 
     def test_n_dimensional_log_decoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+        Test :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_decoding_ALEXALogC` definition n-dimensional arrays support.
         """
 
@@ -143,7 +143,7 @@ log_decoding_ALEXALogC` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+        Test :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_decoding_ALEXALogC` definition domain and range scale support.
         """
 
@@ -160,7 +160,7 @@ log_decoding_ALEXALogC` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
+        Test :func:`colour.models.rgb.transfer_functions.arri_alexa_log_c.\
 log_decoding_ALEXALogC` definition nan support.
         """
 

@@ -27,13 +27,13 @@ __all__ = [
 
 class TestEotf_inverse_BT1886(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+    Define :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_inverse_BT1886` definition unit tests methods.
     """
 
     def test_eotf_inverse_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_inverse_BT1886` definition.
         """
 
@@ -47,7 +47,7 @@ eotf_inverse_BT1886` definition.
 
     def test_n_dimensional_eotf_inverse_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_inverse_BT1886` definition n-dimensional arrays support.
         """
 
@@ -68,7 +68,7 @@ eotf_inverse_BT1886` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_inverse_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_inverse_BT1886` definition domain and range scale support.
         """
 
@@ -85,7 +85,7 @@ eotf_inverse_BT1886` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_inverse_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_inverse_BT1886` definition nan support.
         """
 
@@ -96,13 +96,13 @@ eotf_inverse_BT1886` definition nan support.
 
 class TestEotf_BT1886(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+    Define :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition unit tests methods.
     """
 
     def test_eotf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition.
         """
 
@@ -114,7 +114,7 @@ eotf_BT1886` definition.
 
     def test_n_dimensional_eotf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition n-dimensional arrays support.
         """
 
@@ -135,7 +135,7 @@ eotf_BT1886` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition domain and range scale support.
         """
 
@@ -152,7 +152,7 @@ eotf_BT1886` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition nan support.
         """
 

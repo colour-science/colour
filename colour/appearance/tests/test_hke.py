@@ -32,13 +32,13 @@ __all__ = [
 
 class TestHelmholtzKohlrauschEffectObjectNayatani1997(unittest.TestCase):
     """
-    Defines :func:`colour.colour.appearance.hke.\
+    Define :func:`colour.colour.appearance.hke.\
 HelmholtzKohlrausch_effect_object_Nayatani1997` definition unit tests methods.
     """
 
     def test_HelmholtzKohlrausch_effect_object_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.\
+        Test :func:`colour.appearance.hke.\
 HelmholtzKohlrausch_effect_object_Nayatani1997` definition.
         """
 
@@ -68,7 +68,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition.
         self,
     ):
         """
-        Tests :func:`colour.appearance.hke.\
+        Test :func:`colour.appearance.hke.\
 HelmholtzKohlrausch_effect_object_Nayatani1997` definition n_dimensional
         arrays support.
         """
@@ -129,7 +129,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition n_dimensional
     @ignore_numpy_errors
     def test_nan_HelmholtzKohlrausch_effect_object_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.\
+        Test :func:`colour.appearance.hke.\
 HelmholtzKohlrausch_effect_object_Nayatani1997` definition nan support.
         """
 
@@ -141,14 +141,14 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition nan support.
 
 class TestHelmholtzKohlrauschEffectLuminousNayatani1997(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.hke.\
+    Define :func:`colour.appearance.hke.\
 HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition unit tests
     methods.
     """
 
     def test_HelmholtzKohlrausch_effect_luminous_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.\
+        Test :func:`colour.appearance.hke.\
 HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition.
         """
 
@@ -178,7 +178,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition.
         self,
     ):
         """
-        Tests :func:`colour.appearance.hke.\
+        Test :func:`colour.appearance.hke.\
 HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition n_dimensional
         arrays support.
         """
@@ -239,7 +239,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition n_dimensional
     @ignore_numpy_errors
     def test_nan_HelmholtzKohlrausch_effect_luminous_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.\
+        Test :func:`colour.appearance.hke.\
 HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition nan support.
         """
 
@@ -253,13 +253,13 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition nan support.
 
 class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
+    Define :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
     definition unit tests methods.
     """
 
     def test_coefficient_K_Br_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
+        Test :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
         definition.
         """
 
@@ -289,7 +289,7 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
 
     def test_n_dimensional_coefficient_K_Br_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
+        Test :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
         definition n_dimensional arrays support.
         """
 
@@ -317,7 +317,7 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_coefficient_K_Br_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
+        Test :func:`colour.appearance.hke.coefficient_K_Br_Nayatani1997`
         definition nan support.
         """
 
@@ -328,13 +328,13 @@ class TestCoefficient_K_Br_Nayatani1997(unittest.TestCase):
 
 class TestCoefficient_q_Nayatani1997(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
+    Define :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
     definition unit tests methods.
     """
 
     def test_coefficient_q_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
+        Test :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
         definition.
         """
 
@@ -358,7 +358,7 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
 
     def test_n_dimensional_coefficient_q_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
+        Test :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
         definition n_dimensional arrays support.
         """
 
@@ -386,7 +386,7 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_coefficient_q_Nayatani1997(self):
         """
-        Tests :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
+        Test :func:`colour.appearance.hke.coefficient_q_Nayatani1997`
         definition nan support.
         """
 

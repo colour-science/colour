@@ -26,13 +26,13 @@ __all__ = [
 
 class TestColourQualityScale(unittest.TestCase):
     """
-    Defines :func:`colour.quality.cqs.colour_quality_scale` definition unit
+    Define :func:`colour.quality.cqs.colour_quality_scale` definition unit
     tests methods.
     """
 
     def test_colour_quality_scale(self):
         """
-        Tests :func:`colour.quality.cqs.colour_quality_scale` definition.
+        Test :func:`colour.quality.cqs.colour_quality_scale` definition.
         """
 
         self.assertAlmostEqual(

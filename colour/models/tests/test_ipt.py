@@ -25,12 +25,12 @@ __all__ = [
 
 class TestXYZ_to_IPT(unittest.TestCase):
     """
-    Defines :func:`colour.models.ipt.XYZ_to_IPT` definition unit tests methods.
+    Define :func:`colour.models.ipt.XYZ_to_IPT` definition unit tests methods.
     """
 
     def test_XYZ_to_IPT(self):
         """
-        Tests :func:`colour.models.ipt.XYZ_to_IPT` definition.
+        Test :func:`colour.models.ipt.XYZ_to_IPT` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -53,7 +53,7 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_IPT(self):
         """
-        Tests :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensional
+        Test :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensional
         support.
         """
 
@@ -70,7 +70,7 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_IPT(self):
         """
-        Tests :func:`colour.models.ipt.XYZ_to_IPT` definition domain and
+        Test :func:`colour.models.ipt.XYZ_to_IPT` definition domain and
         range scale support.
         """
 
@@ -87,7 +87,7 @@ class TestXYZ_to_IPT(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_IPT(self):
         """
-        Tests :func:`colour.models.ipt.XYZ_to_IPT` definition nan support.
+        Test :func:`colour.models.ipt.XYZ_to_IPT` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -99,13 +99,13 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
 class TestIPT_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.ipt.IPT_to_XYZ` definition unit tests
+    Define :func:`colour.models.ipt.IPT_to_XYZ` definition unit tests
     methods.
     """
 
     def test_IPT_to_XYZ(self):
         """
-        Tests :func:`colour.models.ipt.IPT_to_XYZ` definition.
+        Test :func:`colour.models.ipt.IPT_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -128,7 +128,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_IPT_to_XYZ(self):
         """
-        Tests :func:`colour.models.ipt.IPT_to_XYZ` definition n-dimensional
+        Test :func:`colour.models.ipt.IPT_to_XYZ` definition n-dimensional
         support.
         """
 
@@ -145,7 +145,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_IPT_to_XYZ(self):
         """
-        Tests :func:`colour.models.ipt.IPT_to_XYZ` definition domain and
+        Test :func:`colour.models.ipt.IPT_to_XYZ` definition domain and
         range scale support.
         """
 
@@ -162,7 +162,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_IPT_to_XYZ(self):
         """
-        Tests :func:`colour.models.ipt.IPT_to_XYZ` definition nan support.
+        Test :func:`colour.models.ipt.IPT_to_XYZ` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -174,13 +174,13 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
 class TestIPTHueAngle(unittest.TestCase):
     """
-    Defines :func:`colour.models.ipt.IPT_hue_angle` definition unit tests
+    Define :func:`colour.models.ipt.IPT_hue_angle` definition unit tests
     methods.
     """
 
     def test_IPT_hue_angle(self):
         """
-        Tests :func:`colour.models.ipt.IPT_hue_angle` definition.
+        Test :func:`colour.models.ipt.IPT_hue_angle` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -203,7 +203,7 @@ class TestIPTHueAngle(unittest.TestCase):
 
     def test_n_dimensional_IPT_hue_angle(self):
         """
-        Tests :func:`colour.models.ipt.IPT_hue_angle` definition n-dimensional
+        Test :func:`colour.models.ipt.IPT_hue_angle` definition n-dimensional
         support.
         """
 
@@ -220,7 +220,7 @@ class TestIPTHueAngle(unittest.TestCase):
 
     def test_domain_range_scale_IPT_hue_angle(self):
         """
-        Tests :func:`colour.models.ipt.IPT_hue_angle` definition domain and
+        Test :func:`colour.models.ipt.IPT_hue_angle` definition domain and
         range scale support.
         """
 
@@ -237,7 +237,7 @@ class TestIPTHueAngle(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_IPT_hue_angle(self):
         """
-        Tests :func:`colour.models.ipt.IPT_hue_angle` definition nan support.
+        Test :func:`colour.models.ipt.IPT_hue_angle` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

@@ -28,13 +28,13 @@ RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
 class TestProcessImageOpenColorIO(unittest.TestCase):
     """
-    Defines :func:`colour.io.ocio.process_image_OpenColorIO` definition unit
+    Define :func:`colour.io.ocio.process_image_OpenColorIO` definition unit
     tests methods.
     """
 
     def test_process_image_OpenColorIO(self):
         """
-        Tests :func:`colour.io.ocio.process_image_OpenColorIO` definition.
+        Test :func:`colour.io.ocio.process_image_OpenColorIO` definition.
         """
 
         # TODO: Remove when "Pypi" wheel compatible with "ARM" on "macOS" is

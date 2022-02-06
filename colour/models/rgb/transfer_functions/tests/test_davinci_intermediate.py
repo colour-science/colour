@@ -27,13 +27,13 @@ __all__ = [
 
 class TestOetf_DaVinciIntermediate(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.davinci_intermediate.\
+    Define :func:`colour.models.rgb.transfer_functions.davinci_intermediate.\
 oetf_DaVinciIntermediate` definition unit tests methods.
     """
 
     def test_oetf_DaVinciIntermediate(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_DaVinciIntermediate` definition.
         """
 
@@ -57,7 +57,7 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition.
 
     def test_n_dimensional_oetf_DaVinciIntermediate(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_DaVinciIntermediate` definition n-dimensional arrays
         support.
         """
@@ -85,7 +85,7 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition n-dimensional arrays
 
     def test_domain_range_scale_oetf_DaVinciIntermediate(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_DaVinciIntermediate` definition domain and range
         scale support.
         """
@@ -103,7 +103,7 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition domain and range
     @ignore_numpy_errors
     def test_nan_oetf_DaVinciIntermediate(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_DaVinciIntermediate` definition nan support.
         """
 
@@ -114,14 +114,14 @@ davinci_intermediate.oetf_DaVinciIntermediate` definition nan support.
 
 class TestOetf_inverse_DaVinciIntermediate(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.\
+    Define :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition unit tests
     methods.
     """
 
     def test_oetf_inverse_DaVinciIntermediate(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition.
         """
 
@@ -151,7 +151,7 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition.
 
     def test_n_dimensional_oetf_inverse_DaVinciIntermediate(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition n-dimensional
         arrays support.
         """
@@ -179,7 +179,7 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition n-dimensional
 
     def test_domain_range_scale_oetf_inverse_DaVinciIntermediate(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition domain and
         range scale support.
         """
@@ -199,7 +199,7 @@ davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition domain and
     @ignore_numpy_errors
     def test_nan_oetf_inverse_DaVinciIntermediate(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 davinci_intermediate.oetf_inverse_DaVinciIntermediate` definition nan support.
         """
 

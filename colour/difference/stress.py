@@ -48,7 +48,7 @@ def index_stress_Garcia2007(
     d_E: FloatingOrArrayLike, d_V: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Computes the
+    Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
     index according to *García, Huertas, Melgosa and Cui (2007)* method.
 
@@ -108,7 +108,7 @@ def index_stress(
     method: Union[Literal["Garcia 2007"], str] = "Garcia 2007",
 ) -> FloatingOrNDArray:
     """
-    Computes the
+    Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
     index according to given method.
 

@@ -138,7 +138,7 @@ def chromatic_adaptation(
     **kwargs: Any
 ) -> NDArray:
     """
-    Adapts given stimulus from test viewing conditions to reference viewing
+    Adapt given stimulus from test viewing conditions to reference viewing
     conditions.
 
     Parameters
@@ -209,7 +209,6 @@ def chromatic_adaptation(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

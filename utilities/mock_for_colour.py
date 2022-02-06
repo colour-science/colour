@@ -53,7 +53,7 @@ class MockObject:
 
     def __new__(cls, *args, **kwargs):
         """
-        Returns a new instance of the :class:`MockObject` class.
+        Return a new instance of the :class:`MockObject` class.
 
         Other Parameters
         ----------------
@@ -80,14 +80,14 @@ class MockObject:
 
     def __len__(self):
         """
-        Returns the length of the :class:`MockObject` class instance, i.e. 0.
+        Return the length of the :class:`MockObject` class instance, i.e. 0.
         """
 
         return 0
 
     def __contains__(self, key):
         """
-        Returns whether the :class:`MockObject` class instance contains given
+        Return whether the :class:`MockObject` class instance contains given
         key.
 
         Parameters
@@ -101,7 +101,7 @@ class MockObject:
 
     def __iter__(self):
         """
-        Iterates over the :class:`MockObject` class instance.
+        Iterate over the :class:`MockObject` class instance.
         """
 
         return iter([])
@@ -116,7 +116,7 @@ class MockObject:
 
     def __getitem__(self, key):
         """
-        Returns the value at given key from the :class:`MockObject` class
+        Return the value at given key from the :class:`MockObject` class
         instance.
 
         Parameters
@@ -129,7 +129,7 @@ class MockObject:
 
     def __getattr__(self, key):
         """
-        Returns the attribute at given key from the :class:`MockObject` class
+        Return the attribute at given key from the :class:`MockObject` class
         instance.
 
         Parameters
@@ -142,7 +142,7 @@ class MockObject:
 
     def __call__(self, *args, **kwargs):
         """
-        Calls the :class:`MockObject` class instance.
+        Call the :class:`MockObject` class instance.
 
         Other Parameters
         ----------------
@@ -159,7 +159,7 @@ class MockObject:
 
     def __repr__(self):
         """
-        Returns an evaluable string representation of the :class:`MockObject`
+        Return an evaluable string representation of the :class:`MockObject`
         class instance.
         """
 
@@ -211,7 +211,7 @@ class MockModule(ModuleType):
 
     def __getattr__(self, name):
         """
-        Returns the attribute at given name from the :class:`MockModule` class
+        Return the attribute at given name from the :class:`MockModule` class
         instance.
 
         Parameters
@@ -224,7 +224,7 @@ class MockModule(ModuleType):
 
     def __repr__(self):
         """
-        Returns an evaluable string representation of the :class:`MockModule`
+        Return an evaluable string representation of the :class:`MockModule`
         class instance.
         """
 
@@ -233,7 +233,7 @@ class MockModule(ModuleType):
 
 def mock_scipy_for_colour():
     """
-    Mocks *Scipy* for *Colour*.
+    Mock *Scipy* for *Colour*.
     """
 
     import sys

@@ -111,7 +111,7 @@ __all__ = [
 
 def lightness_Glasser1958(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
+    Return the *Lightness* :math:`L` of given *luminance* :math:`Y` using
     *Glasser et al. (1958)* method.
 
     Parameters
@@ -126,7 +126,6 @@ def lightness_Glasser1958(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -158,7 +157,7 @@ def lightness_Glasser1958(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def lightness_Wyszecki1963(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
+    Return the *Lightness* :math:`W` of given *luminance* :math:`Y` using
     *Wyszecki (1963)* method.
 
 
@@ -174,7 +173,6 @@ def lightness_Wyszecki1963(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -214,7 +212,7 @@ def intermediate_lightness_function_CIE1976(
     Y: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
 ) -> FloatingOrNDArray:
     """
-    Returns the intermediate value :math:`f(Y/Yn)` in the *Lightness*
+    Return the intermediate value :math:`f(Y/Yn)` in the *Lightness*
     :math:`L^*` computation for given *luminance* :math:`Y` using given
     reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
 
@@ -232,7 +230,6 @@ def intermediate_lightness_function_CIE1976(
 
     Notes
     -----
-
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
@@ -277,7 +274,7 @@ def lightness_CIE1976(
     Y: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
 ) -> FloatingOrNDArray:
     """
-    Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
+    Return the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
     given reference white *luminance* :math:`Y_n` as per *CIE 1976*
     recommendation.
 
@@ -295,7 +292,6 @@ def lightness_CIE1976(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -330,7 +326,7 @@ def lightness_Fairchild2010(
     Y: FloatingOrArrayLike, epsilon: FloatingOrArrayLike = 1.836
 ) -> FloatingOrNDArray:
     """
-    Computes *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
+    Compute *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -348,7 +344,6 @@ def lightness_Fairchild2010(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -391,7 +386,7 @@ def lightness_Fairchild2011(
     method: Union[Literal["hdr-CIELAB", "hdr-IPT"], str] = "hdr-CIELAB",
 ) -> FloatingOrNDArray:
     """
-    Computes *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
+    Compute *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
     *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -411,7 +406,6 @@ def lightness_Fairchild2011(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -463,7 +457,7 @@ def lightness_Abebe2017(
     ] = "Michaelis-Menten",
 ) -> FloatingOrNDArray:
     """
-    Computes *Lightness* :math:`L` of given *luminance* :math:`Y` using
+    Compute *Lightness* :math:`L` of given *luminance* :math:`Y` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
     *Michaelis-Menten* kinetics or *Stevens's Power Law*.
 
@@ -483,7 +477,6 @@ def lightness_Abebe2017(
 
     Notes
     -----
-
     -   *Abebe, Pouli, Larabi and Reinhard (2017)* method uses absolute
         luminance levels, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -582,7 +575,7 @@ def lightness(
     **kwargs: Any
 ) -> FloatingOrNDArray:
     """
-    Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
+    Return the *Lightness* :math:`L` of given *luminance* :math:`Y` using
     given method.
 
     Parameters
@@ -610,7 +603,6 @@ def lightness(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

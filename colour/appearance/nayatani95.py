@@ -91,7 +91,7 @@ responses matrix.
 @dataclass
 class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArithmetic):
     """
-    Defines the *Nayatani (1995)* colour appearance model reference
+    Define the *Nayatani (1995)* colour appearance model reference
     specification.
 
     This specification has field names consistent with *Fairchild (2013)*
@@ -137,7 +137,7 @@ class CAM_ReferenceSpecification_Nayatani95(MixinDataclassArithmetic):
 @dataclass
 class CAM_Specification_Nayatani95(MixinDataclassArithmetic):
     """
-    Defines the *Nayatani (1995)* colour appearance model specification.
+    Define the *Nayatani (1995)* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
     appearance models in :mod:`colour.appearance` but diverge from
@@ -193,7 +193,7 @@ def XYZ_to_Nayatani95(
     n: FloatingOrArrayLike = 1,
 ) -> CAM_Specification_Nayatani95:
     """
-    Computes the *Nayatani (1995)* colour appearance model correlates.
+    Compute the *Nayatani (1995)* colour appearance model correlates.
 
     Parameters
     ----------
@@ -219,7 +219,6 @@ def XYZ_to_Nayatani95(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -352,7 +351,7 @@ def illuminance_to_luminance(
     E: FloatingOrArrayLike, Y_f: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Converts given *illuminance* :math:`E` value in lux to *luminance* in
+    Convert given *illuminance* :math:`E` value in lux to *luminance* in
     :math:`cd/m^2`.
 
     Parameters
@@ -381,7 +380,7 @@ def illuminance_to_luminance(
 
 def XYZ_to_RGB_Nayatani95(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to cone responses.
+    Convert from *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
@@ -407,7 +406,7 @@ def scaling_coefficient(
     x: FloatingOrArrayLike, y: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the scaling coefficient :math:`e(R)` or :math:`e(G)`.
+    Return the scaling coefficient :math:`e(R)` or :math:`e(G)`.
 
     Parameters
     ----------
@@ -445,7 +444,7 @@ def achromatic_response(
     n: FloatingOrArrayLike = 1,
 ) -> FloatingOrNDArray:
     """
-    Returns the achromatic response :math:`Q` from given stimulus cone
+    Return the achromatic response :math:`Q` from given stimulus cone
     responses.
 
     Parameters
@@ -504,7 +503,7 @@ def tritanopic_response(
     RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike, n: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the tritanopic response :math:`t` from given stimulus cone
+    Return the tritanopic response :math:`t` from given stimulus cone
     responses.
 
     Parameters
@@ -549,7 +548,7 @@ def protanopic_response(
     RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike, n: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the protanopic response :math:`p` from given stimulus cone
+    Return the protanopic response :math:`p` from given stimulus cone
     responses.
 
     Parameters
@@ -594,7 +593,7 @@ def brightness_correlate(
     bRGB_o: ArrayLike, bL_or: FloatingOrArrayLike, Q: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *brightness* correlate :math:`B_r`.
+    Return the *brightness* correlate :math:`B_r`.
 
     Parameters
     ----------
@@ -636,7 +635,7 @@ def ideal_white_brightness_correlate(
     n: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the ideal white *brightness* correlate :math:`B_{rw}`.
+    Return the ideal white *brightness* correlate :math:`B_{rw}`.
 
     Parameters
     ----------
@@ -684,7 +683,7 @@ def achromatic_lightness_correlate(
     Q: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the *achromatic Lightness* correlate :math:`L_p^\\star`.
+    Return the *achromatic Lightness* correlate :math:`L_p^\\star`.
 
     Parameters
     ----------
@@ -712,7 +711,7 @@ def normalised_achromatic_lightness_correlate(
     B_r: FloatingOrArrayLike, B_rw: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *normalised achromatic Lightness* correlate :math:`L_n^\\star`.
+    Return the *normalised achromatic Lightness* correlate :math:`L_n^\\star`.
 
     Parameters
     ----------
@@ -745,7 +744,7 @@ def hue_angle(
     p: FloatingOrArrayLike, t: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *hue* angle :math:`h` in degrees.
+    Return the *hue* angle :math:`h` in degrees.
 
     Parameters
     ----------
@@ -779,7 +778,7 @@ def chromatic_strength_function(
     theta: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Defines the chromatic strength function :math:`E_s(\\theta)` used to
+    Define the chromatic strength function :math:`E_s(\\theta)` used to
     correct saturation scale as function of hue angle :math:`\\theta` in
     degrees.
 
@@ -822,7 +821,7 @@ def saturation_components(
     p: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Returns the *saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
+    Return the *saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
 
     Parameters
     ----------
@@ -867,7 +866,7 @@ def saturation_correlate(
     S_RG: FloatingOrArrayLike, S_YB: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the correlate of *saturation* :math:`S`.
+    Return the correlate of *saturation* :math:`S`.
 
     Parameters
     ----------
@@ -903,7 +902,7 @@ def chroma_components(
     S_YB: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Returns the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
+    Return the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
 
     Parameters
     ----------
@@ -942,7 +941,7 @@ def chroma_correlate(
     L_star_P: FloatingOrArrayLike, S: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the correlate of *chroma* :math:`C`.
+    Return the correlate of *chroma* :math:`C`.
 
     Parameters
     ----------
@@ -978,7 +977,7 @@ def colourfulness_components(
     B_rw: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Returns the *colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
+    Return the *colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
 
     Parameters
     ----------
@@ -1017,7 +1016,7 @@ def colourfulness_correlate(
     C: FloatingOrArrayLike, B_rw: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the correlate of *colourfulness* :math:`M`.
+    Return the correlate of *colourfulness* :math:`M`.
 
     Parameters
     ----------

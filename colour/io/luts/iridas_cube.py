@@ -43,7 +43,7 @@ __all__ = [
 
 def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
     """
-    Reads given *Iridas* *.cube* *LUT* file.
+    Read given *Iridas* *.cube* *LUT* file.
 
     Parameters
     ----------
@@ -171,7 +171,7 @@ def write_LUT_IridasCube(
     LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: Integer = 7
 ) -> Boolean:
     """
-    Writes given *LUT* to given  *Iridas* *.cube* *LUT* file.
+    Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
 
     Parameters
     ----------
@@ -249,7 +249,7 @@ def write_LUT_IridasCube(
 
     def _format_array(array: Union[List, Tuple]) -> str:
         """
-        Formats given array as an *Iridas* *.cube* data row.
+        Format given array as an *Iridas* *.cube* data row.
         """
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)

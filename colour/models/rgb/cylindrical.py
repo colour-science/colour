@@ -71,7 +71,7 @@ __all__ = [
 
 def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
     """
-    Converts from *RGB* colourspace to *HSV* colourspace.
+    Convert from *RGB* colourspace to *HSV* colourspace.
 
     Parameters
     ----------
@@ -85,7 +85,6 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -139,7 +138,7 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArray:
 
 def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
     """
-    Converts from *HSV* colourspace to *RGB* colourspace.
+    Convert from *HSV* colourspace to *RGB* colourspace.
 
     Parameters
     ----------
@@ -153,7 +152,6 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -207,7 +205,7 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArray:
 
 def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
     """
-    Converts from *RGB* colourspace to *HSL* colourspace.
+    Convert from *RGB* colourspace to *HSL* colourspace.
 
     Parameters
     ----------
@@ -221,7 +219,6 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -280,7 +277,7 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArray:
 
 def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
     """
-    Converts from *HSL* colourspace to *RGB* colourspace.
+    Convert from *HSL* colourspace to *RGB* colourspace.
 
     Parameters
     ----------
@@ -294,7 +291,6 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -322,7 +318,7 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArray:
 
     def H_to_RGB(vi: NDArray, vj: NDArray, vH: NDArray) -> NDArray:
         """
-        Converts *hue* value to *RGB* colourspace.
+        Convert *hue* value to *RGB* colourspace.
         """
 
         vH = as_float_array(vH)
@@ -365,7 +361,7 @@ def RGB_to_HCL(
     RGB: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
 ) -> NDArray:
     """
-    Converts from *RGB* colourspace to *HCL* colourspace according to
+    Convert from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
 
     Parameters
@@ -384,7 +380,6 @@ def RGB_to_HCL(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -454,7 +449,7 @@ def HCL_to_RGB(
     HCL: ArrayLike, gamma: Floating = 3, Y_0: Floating = 100
 ) -> NDArray:
     """
-    Converts from *HCL* colourspace to *RGB* colourspace according to
+    Convert from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
 
     Parameters
@@ -473,7 +468,6 @@ def HCL_to_RGB(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

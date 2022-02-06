@@ -105,7 +105,7 @@ Gamut area for *CIE Illuminant D Series D65*.
 @dataclass
 class VS_ColorimetryData:
     """
-    Defines the class storing *VS test colour samples* colorimetry data.
+    Define the class storing *VS test colour samples* colorimetry data.
     """
 
     name: str
@@ -117,7 +117,7 @@ class VS_ColorimetryData:
 @dataclass
 class VS_ColourQualityScaleData:
     """
-    Defines the class storing *VS test colour samples* colour quality scale
+    Define the class storing *VS test colour samples* colour quality scale
     data.
     """
 
@@ -131,7 +131,7 @@ class VS_ColourQualityScaleData:
 @dataclass
 class ColourRendering_Specification_CQS:
     """
-    Defines the *Colour Quality Scale* (CQS) colour rendering (quality)
+    Define the *Colour Quality Scale* (CQS) colour rendering (quality)
     specification.
 
     Parameters
@@ -200,7 +200,7 @@ def colour_quality_scale(
     ] = "NIST CQS 9.0",
 ) -> Union[Floating, ColourRendering_Specification_CQS]:
     """
-    Returns the *Colour Quality Scale* (CQS) of given spectral distribution
+    Return the *Colour Quality Scale* (CQS) of given spectral distribution
     using given method.
 
     Parameters
@@ -330,7 +330,7 @@ def colour_quality_scale(
 
 def gamut_area(Lab: ArrayLike) -> Floating:
     """
-    Returns the gamut area :math:`G` covered by given *CIE L\\*a\\*b\\**
+    Return the gamut area :math:`G` covered by given *CIE L\\*a\\*b\\**
     matrices.
 
     Parameters
@@ -389,7 +389,7 @@ def vs_colorimetry_data(
     chromatic_adaptation: Boolean = False,
 ) -> Tuple[VS_ColorimetryData, ...]:
     """
-    Returns the *VS test colour samples* colorimetry data.
+    Return the *VS test colour samples* colorimetry data.
 
     Parameters
     ----------
@@ -441,7 +441,7 @@ def CCT_factor(
     reference_data: Tuple[VS_ColorimetryData, ...], XYZ_r: ArrayLike
 ) -> Floating:
     """
-    Returns the correlated colour temperature factor penalizing lamps with
+    Return the correlated colour temperature factor penalizing lamps with
     extremely low correlated colour temperatures.
 
     Parameters
@@ -480,7 +480,7 @@ def scale_conversion(
     D_E_ab: Floating, CCT_f: Floating, scaling_f: Floating
 ) -> Floating:
     """
-    Returns the *Colour Quality Scale* (CQS) for given :math:`\\Delta E_{ab}`
+    Return the *Colour Quality Scale* (CQS) for given :math:`\\Delta E_{ab}`
     value and given correlated colour temperature penalizing factor.
 
     Parameters
@@ -507,7 +507,7 @@ def delta_E_RMS(
     CQS_data: Dict[Integer, VS_ColourQualityScaleData], attribute: str
 ) -> Floating:
     """
-    Computes the root-mean-square average for given *Colour Quality Scale*
+    Compute the root-mean-square average for given *Colour Quality Scale*
     (CQS) data.
 
     Parameters
@@ -543,7 +543,7 @@ def colour_quality_scales(
     CCT_f: Floating,
 ) -> Dict[Integer, VS_ColourQualityScaleData]:
     """
-    Returns the *VS test colour samples* rendering scales.
+    Return the *VS test colour samples* rendering scales.
 
     Parameters
     ----------

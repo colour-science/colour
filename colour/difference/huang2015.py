@@ -97,7 +97,7 @@ def power_function_Huang2015(
     ] = "CIE 2000",
 ) -> FloatingOrNDArray:
     """
-    Improves the performance of the :math:`\\Delta E` value for given
+    Improve the performance of the :math:`\\Delta E` value for given
     coefficients using
     *Huang, Cui, Melgosa, Sanchez-Maranon, Li, Luo and Liu (2015)*
     power-function: :math:`d_E^{\\prime}=a*d_{E^b}`.

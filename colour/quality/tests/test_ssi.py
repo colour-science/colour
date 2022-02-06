@@ -558,13 +558,13 @@ DATA_HMI: Dict = {
 
 class TestSpectralSimilarityIndex(unittest.TestCase):
     """
-    Defines :func:`colour.quality.ssi.spectral_similarity_index`
+    Define :func:`colour.quality.ssi.spectral_similarity_index`
     definition unit tests methods.
     """
 
     def test_spectral_similarity_index(self):
         """
-        Tests :func:`colour.quality.ssi.spectral_similarity_index` definition.
+        Test :func:`colour.quality.ssi.spectral_similarity_index` definition.
         """
 
         self.assertEqual(

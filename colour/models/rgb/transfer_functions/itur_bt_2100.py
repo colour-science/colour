@@ -135,7 +135,7 @@ __all__ = [
 
 def oetf_PQ_BT2100(E: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* opto-electrical
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* opto-electrical
     transfer function (OETF).
 
     The OETF maps relative scene linear light into the non-linear *PQ* signal
@@ -155,7 +155,6 @@ def oetf_PQ_BT2100(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -183,7 +182,7 @@ def oetf_PQ_BT2100(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def oetf_inverse_PQ_BT2100(E_p: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* inverse
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* inverse
     opto-electrical transfer function (OETF).
 
     Parameters
@@ -200,7 +199,6 @@ def oetf_inverse_PQ_BT2100(E_p: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -228,7 +226,7 @@ def oetf_inverse_PQ_BT2100(E_p: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def eotf_PQ_BT2100(E_p: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* electro-optical
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* electro-optical
     transfer function (EOTF).
 
     The EOTF maps the non-linear *PQ* signal into display light.
@@ -248,7 +246,6 @@ def eotf_PQ_BT2100(E_p: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -276,7 +273,7 @@ def eotf_PQ_BT2100(E_p: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def eotf_inverse_PQ_BT2100(F_D: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* inverse
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* inverse
     electro-optical transfer function (EOTF).
 
     Parameters
@@ -294,7 +291,6 @@ def eotf_inverse_PQ_BT2100(F_D: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -322,7 +318,7 @@ def eotf_inverse_PQ_BT2100(F_D: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def ootf_PQ_BT2100(E: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* opto-optical transfer
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* opto-optical transfer
     function (OOTF / OOCF).
 
     The OOTF maps relative scene linear light to display linear light.
@@ -341,7 +337,6 @@ def ootf_PQ_BT2100(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -371,7 +366,7 @@ def ootf_PQ_BT2100(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def ootf_inverse_PQ_BT2100(F_D: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* inverse opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* inverse opto-optical
     transfer function (OOTF / OOCF).
 
     Parameters
@@ -388,7 +383,6 @@ def ootf_inverse_PQ_BT2100(F_D: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -439,7 +433,7 @@ References
 
 def gamma_function_HLG_BT2100(L_W: Floating = 1000) -> Floating:
     """
-    Returns the *Reference HLG* system gamma value for given display nominal
+    Return the *Reference HLG* system gamma value for given display nominal
     peak luminance.
 
     Parameters
@@ -472,7 +466,7 @@ def oetf_HLG_BT2100(
     E: FloatingOrArrayLike, constants: Structure = CONSTANTS_BT2100_HLG
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
     transfer function (OETF).
 
     The OETF maps relative scene linear light into the non-linear *HLG* signal
@@ -494,7 +488,6 @@ def oetf_HLG_BT2100(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -526,7 +519,7 @@ def oetf_inverse_HLG_BT2100(
     E_p: FloatingOrArrayLike, constants: Structure = CONSTANTS_BT2100_HLG
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     opto-electrical transfer function (OETF).
 
     Parameters
@@ -545,7 +538,6 @@ def oetf_inverse_HLG_BT2100(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -575,7 +567,7 @@ def black_level_lift_HLG_BT2100(
     L_B: Floating = 0, L_W: Floating = 1000, gamma: Optional[Floating] = None
 ) -> Floating:
     """
-    Returns the *Reference HLG* black level lift :math:`\\beta` for given
+    Return the *Reference HLG* black level lift :math:`\\beta` for given
     display luminance for black, nominal peak luminance and system gamma value.
 
     Parameters
@@ -621,7 +613,7 @@ def eotf_HLG_BT2100_1(
     constants: Structure = CONSTANTS_BT2100_HLG,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF) as given in *ITU-R BT.2100-1*.
 
     The EOTF maps the non-linear *HLG* signal into display light.
@@ -651,7 +643,6 @@ def eotf_HLG_BT2100_1(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -689,7 +680,7 @@ def eotf_HLG_BT2100_2(
     constants: Structure = CONSTANTS_BT2100_HLG,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF) as given in *ITU-R BT.2100-2* with the
     modified black level behaviour.
 
@@ -720,7 +711,6 @@ def eotf_HLG_BT2100_2(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -785,7 +775,7 @@ def eotf_HLG_BT2100(
     ] = "ITU-R BT.2100-2",
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF).
 
     The EOTF maps the non-linear *HLG* signal into display light.
@@ -817,7 +807,6 @@ def eotf_HLG_BT2100(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -860,7 +849,7 @@ def eotf_inverse_HLG_BT2100_1(
     constants: Structure = CONSTANTS_BT2100_HLG,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF) as given in
     *ITU-R BT.2100-1*.
 
@@ -889,7 +878,6 @@ def eotf_inverse_HLG_BT2100_1(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -929,7 +917,7 @@ def eotf_inverse_HLG_BT2100_2(
     constants: Structure = CONSTANTS_BT2100_HLG,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF) as given in
     *ITU-R BT.2100-2* with the modified black level behaviour.
 
@@ -958,7 +946,6 @@ def eotf_inverse_HLG_BT2100_2(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1025,7 +1012,7 @@ def eotf_inverse_HLG_BT2100(
     ] = "ITU-R BT.2100-2",
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF).
 
     Parameters
@@ -1055,7 +1042,6 @@ def eotf_inverse_HLG_BT2100(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1098,7 +1084,7 @@ def ootf_HLG_BT2100_1(
     gamma: Optional[Floating] = None,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
 
     The OOTF maps relative scene linear light to display linear light.
@@ -1126,7 +1112,6 @@ def ootf_HLG_BT2100_1(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1190,7 +1175,7 @@ def ootf_HLG_BT2100_2(
     gamma: Optional[Floating] = None,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
 
     The OOTF maps relative scene linear light to display linear light.
@@ -1216,7 +1201,6 @@ def ootf_HLG_BT2100_2(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1297,7 +1281,7 @@ def ootf_HLG_BT2100(
     ] = "ITU-R BT.2100-2",
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF).
 
     The OOTF maps relative scene linear light to display linear light.
@@ -1327,7 +1311,6 @@ def ootf_HLG_BT2100(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1370,7 +1353,7 @@ def ootf_inverse_HLG_BT2100_1(
     gamma: Optional[Floating] = None,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
 
     Parameters
@@ -1396,7 +1379,6 @@ def ootf_inverse_HLG_BT2100_1(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1474,7 +1456,7 @@ def ootf_inverse_HLG_BT2100_2(
     gamma: Optional[Floating] = None,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
 
     Parameters
@@ -1498,7 +1480,6 @@ def ootf_inverse_HLG_BT2100_2(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1595,7 +1576,7 @@ def ootf_inverse_HLG_BT2100(
     ] = "ITU-R BT.2100-2",
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF).
 
     Parameters
@@ -1623,7 +1604,6 @@ def ootf_inverse_HLG_BT2100(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

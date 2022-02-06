@@ -24,13 +24,13 @@ __all__ = [
 
 class TestXYZ_to_ICaCb(unittest.TestCase):
     """
-    Defines :func:`colour.models.icacb.XYZ_to_ICaCb` definition unit tests
+    Define :func:`colour.models.icacb.XYZ_to_ICaCb` definition unit tests
     methods.
     """
 
     def test_XYZ_to_ICaCb(self):
         """
-        Tests :func:`colour.models.icacb.XYZ_to_ICaCb` definition.
+        Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -59,7 +59,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_ICaCb(self):
         """
-        Tests :func:`colour.models.icacb.XYZ_to_ICaCb` definition
+        Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition
         n-dimensional support.
         """
 
@@ -76,7 +76,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_ICaCb(self):
         """
-        Tests :func:`colour.models.icacb.XYZ_to_ICaCb` definition domain and
+        Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition domain and
         range scale support.
         """
 
@@ -93,7 +93,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_ICaCb(self):
         """
-        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
+        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -105,7 +105,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
 
 class TestICaCb_to_XYZ(unittest.TestCase):
     """
-    Tests :func:`colour.models.icacb.ICaCb_to_XYZ` definition.
+    Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition.
     """
 
     def test_XYZ_to_ICaCb(self):
@@ -138,7 +138,7 @@ class TestICaCb_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_ICaCb_to_XYZ(self):
         """
-        Tests :func:`colour.models.icacb.ICaCb_to_XYZ` definition
+        Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -155,7 +155,7 @@ class TestICaCb_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_ICaCb_to_XYZ(self):
         """
-        Tests :func:`colour.models.icacb.ICaCb_to_XYZ` definition domain and
+        Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition domain and
         range scale support.
         """
 
@@ -172,7 +172,7 @@ class TestICaCb_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_ICaCb_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
+        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

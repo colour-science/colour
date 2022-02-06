@@ -196,7 +196,7 @@ References
 @dataclass
 class CAM_Specification_CIECAM02(MixinDataclassArithmetic):
     """
-    Defines the *CIECAM02* colour appearance model specification.
+    Define the *CIECAM02* colour appearance model specification.
 
     Parameters
     ----------
@@ -244,7 +244,7 @@ def XYZ_to_CIECAM02(
     discount_illuminant: Boolean = False,
 ) -> CAM_Specification_CIECAM02:
     """
-    Computes the *CIECAM02* colour appearance model correlates from given
+    Compute the *CIECAM02* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
 
     Parameters
@@ -275,7 +275,6 @@ def XYZ_to_CIECAM02(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -428,7 +427,7 @@ def CIECAM02_to_XYZ(
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
-    Converts from *CIECAM02* specification to *CIE XYZ* tristimulus values.
+    Convert from *CIECAM02* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -467,7 +466,6 @@ def CIECAM02_to_XYZ(
 
     Notes
     -----
-
     +----------------------------------+-----------------------\
 +---------------+
     | **Domain**                       | **Scale - Reference** \
@@ -614,7 +612,7 @@ def CIECAM02_to_XYZ(
 
 def chromatic_induction_factors(n: FloatingOrArrayLike) -> NDArray:
     """
-    Returns the chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`.
+    Return the chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`.
 
     Parameters
     ----------
@@ -644,7 +642,7 @@ def base_exponential_non_linearity(
     n: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the base exponential non-linearity :math:`n`.
+    Return the base exponential non-linearity :math:`n`.
 
     Parameters
     ----------
@@ -681,7 +679,7 @@ def viewing_condition_dependent_parameters(
     FloatingOrNDArray,
 ]:
     """
-    Returns the viewing condition dependent parameters.
+    Return the viewing condition dependent parameters.
 
     Parameters
     ----------
@@ -720,7 +718,7 @@ def degree_of_adaptation(
     F: FloatingOrArrayLike, L_A: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the degree of adaptation :math:`D` from given surround maximum
+    Return the degree of adaptation :math:`D` from given surround maximum
     degree of adaptation :math:`F` and adapting field *luminance* :math:`L_A`
     in :math:`cd/m^2`.
 
@@ -757,7 +755,7 @@ def full_chromatic_adaptation_forward(
     D: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Applies full chromatic adaptation to given *CMCCAT2000* transform sharpened
+    Apply full chromatic adaptation to given *CMCCAT2000* transform sharpened
     *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
     *RGB_w* array.
 
@@ -809,7 +807,7 @@ def full_chromatic_adaptation_inverse(
     D: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Reverts full chromatic adaptation of given *CMCCAT2000* transform sharpened
+    Revert full chromatic adaptation of given *CMCCAT2000* transform sharpened
     *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
     *RGB_w* array.
 
@@ -855,7 +853,7 @@ def full_chromatic_adaptation_inverse(
 
 def RGB_to_rgb(RGB: ArrayLike) -> NDArray:
     """
-    Converts given *RGB* array to *Hunt-Pointer-Estevez*
+    Convert given *RGB* array to *Hunt-Pointer-Estevez*
     :math:`\\rho\\gamma\\beta` colourspace.
 
     Parameters
@@ -882,7 +880,7 @@ def RGB_to_rgb(RGB: ArrayLike) -> NDArray:
 
 def rgb_to_RGB(rgb: ArrayLike) -> NDArray:
     """
-    Converts given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    Convert given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
     colourspace array to *RGB* array.
 
     Parameters
@@ -911,7 +909,7 @@ def post_adaptation_non_linear_response_compression_forward(
     RGB: ArrayLike, F_L: FloatingOrArrayLike
 ) -> NDArray:
     """
-    Returns given *CMCCAT2000* transform sharpened *RGB* array with post
+    Return given *CMCCAT2000* transform sharpened *RGB* array with post
     adaptation non-linear response compression.
 
     Parameters
@@ -953,7 +951,7 @@ def post_adaptation_non_linear_response_compression_inverse(
     RGB: ArrayLike, F_L: FloatingOrArrayLike
 ) -> NDArray:
     """
-    Returns given *CMCCAT2000* transform sharpened *RGB* array without post
+    Return given *CMCCAT2000* transform sharpened *RGB* array without post
     adaptation non-linear response compression.
 
     Parameters
@@ -994,7 +992,7 @@ def post_adaptation_non_linear_response_compression_inverse(
 
 def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArray:
     """
-    Returns opponent colour dimensions from given compressed *CMCCAT2000*
+    Return opponent colour dimensions from given compressed *CMCCAT2000*
     transform sharpened *RGB* array for forward *CIECAM02* implementation.
 
     Parameters
@@ -1028,7 +1026,7 @@ def opponent_colour_dimensions_inverse(
     P_n: ArrayLike, h: FloatingOrArrayLike
 ) -> NDArray:
     """
-    Returns opponent colour dimensions from given points :math:`P_n` and hue
+    Return opponent colour dimensions from given points :math:`P_n` and hue
     :math:`h` in degrees for inverse *CIECAM02* implementation.
 
     Parameters
@@ -1117,7 +1115,7 @@ def hue_angle(
     a: FloatingOrArrayLike, b: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *hue* angle :math:`h` in degrees.
+    Return the *hue* angle :math:`h` in degrees.
 
     Parameters
     ----------
@@ -1149,7 +1147,7 @@ def hue_angle(
 
 def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the hue quadrature from given hue :math:`h` angle in degrees.
+    Return the hue quadrature from given hue :math:`h` angle in degrees.
 
     Parameters
     ----------
@@ -1206,7 +1204,7 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def eccentricity_factor(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the eccentricity factor :math:`e_t` from given hue :math:`h` angle
+    Return the eccentricity factor :math:`e_t` from given hue :math:`h` angle
     in degrees for forward *CIECAM02* implementation.
 
     Parameters
@@ -1236,7 +1234,7 @@ def achromatic_response_forward(
     RGB: ArrayLike, N_bb: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the achromatic response :math:`A` from given compressed
+    Return the achromatic response :math:`A` from given compressed
     *CMCCAT2000* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
     induction factor for forward *CIECAM02* implementation.
 
@@ -1274,7 +1272,7 @@ def achromatic_response_inverse(
     z: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the achromatic response :math:`A` from given achromatic response
+    Return the achromatic response :math:`A` from given achromatic response
     :math:`A_w` for the whitepoint, *Lightness* correlate :math:`J`, surround
     exponential non-linearity :math:`c` and base exponential non-linearity
     :math:`z` for inverse *CIECAM02* implementation.
@@ -1322,7 +1320,7 @@ def lightness_correlate(
     z: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the *Lightness* correlate :math:`J`.
+    Return the *Lightness* correlate :math:`J`.
 
     Parameters
     ----------
@@ -1367,7 +1365,7 @@ def brightness_correlate(
     F_L: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the *brightness* correlate :math:`Q`.
+    Return the *brightness* correlate :math:`Q`.
 
     Parameters
     ----------
@@ -1414,7 +1412,7 @@ def temporary_magnitude_quantity_forward(
     RGB_a: ArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the temporary magnitude quantity :math:`t`. for forward *CIECAM02*
+    Return the temporary magnitude quantity :math:`t`. for forward *CIECAM02*
     implementation.
 
     Parameters
@@ -1470,7 +1468,7 @@ def temporary_magnitude_quantity_inverse(
     C: FloatingOrArrayLike, J: FloatingOrArrayLike, n: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the temporary magnitude quantity :math:`t`. for inverse *CIECAM02*
+    Return the temporary magnitude quantity :math:`t`. for inverse *CIECAM02*
     implementation.
 
     Parameters
@@ -1521,7 +1519,7 @@ def chroma_correlate(
     RGB_a: ArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the *chroma* correlate :math:`C`.
+    Return the *chroma* correlate :math:`C`.
 
     Parameters
     ----------
@@ -1575,7 +1573,7 @@ def colourfulness_correlate(
     C: FloatingOrArrayLike, F_L: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *colourfulness* correlate :math:`M`.
+    Return the *colourfulness* correlate :math:`M`.
 
     Parameters
     ----------
@@ -1609,7 +1607,7 @@ def saturation_correlate(
     M: FloatingOrArrayLike, Q: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *saturation* correlate :math:`s`.
+    Return the *saturation* correlate :math:`s`.
 
     Parameters
     ----------
@@ -1648,7 +1646,7 @@ def P(
     N_bb: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Returns the points :math:`P_1`, :math:`P_2` and :math:`P_3`.
+    Return the points :math:`P_1`, :math:`P_2` and :math:`P_3`.
 
     Parameters
     ----------
@@ -1702,7 +1700,7 @@ def matrix_post_adaptation_non_linear_response_compression(
     P_2: FloatingOrArrayLike, a: FloatingOrArrayLike, b: FloatingOrArrayLike
 ) -> NDArray:
     """
-    Applies the post-adaptation non-linear-response compression matrix.
+    Apply the post-adaptation non-linear-response compression matrix.
 
     Parameters
     ----------

@@ -27,7 +27,7 @@ __all__ = [
 
 def linear_function(a: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines a typical linear encoding / decoding function, essentially a
+    Define a typical linear encoding / decoding function, essentially a
     pass-through function.
 
     Parameters

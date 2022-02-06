@@ -110,7 +110,7 @@ _CACHE_SHAPE_RANGE: Dict = CACHE_REGISTRY.register_cache(
 
 class SpectralShape:
     """
-    Defines the base object for spectral distribution shape.
+    Define the base object for spectral distribution shape.
 
     Parameters
     ----------
@@ -296,7 +296,7 @@ class SpectralShape:
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the spectral shape.
+        Return a formatted string representation of the spectral shape.
 
         Returns
         -------
@@ -308,7 +308,7 @@ class SpectralShape:
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the spectral shape.
+        Return an evaluable string representation of the spectral shape.
 
         Returns
         -------
@@ -320,7 +320,7 @@ class SpectralShape:
 
     def __hash__(self) -> Integer:
         """
-        Returns the spectral shape hash.
+        Return the spectral shape hash.
 
         Returns
         -------
@@ -332,7 +332,7 @@ class SpectralShape:
 
     def __iter__(self) -> Generator:
         """
-        Returns a generator for the spectral shape data.
+        Return a generator for the spectral shape data.
 
         Yields
         ------
@@ -361,7 +361,7 @@ class SpectralShape:
 
     def __contains__(self, wavelength: FloatingOrArrayLike) -> bool:
         """
-        Returns if the spectral shape contains given wavelength
+        Return if the spectral shape contains given wavelength
         :math:`\\lambda`.
 
         Parameters
@@ -402,7 +402,7 @@ class SpectralShape:
 
     def __len__(self) -> Integer:
         """
-        Returns the spectral shape wavelength :math:`\\lambda_n` count.
+        Return the spectral shape wavelength :math:`\\lambda_n` count.
 
         Returns
         -------
@@ -419,7 +419,7 @@ class SpectralShape:
 
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the spectral shape is equal to given other object.
+        Return whether the spectral shape is equal to given other object.
 
         Parameters
         ----------
@@ -446,7 +446,7 @@ class SpectralShape:
 
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the spectral shape is not equal to given other object.
+        Return whether the spectral shape is not equal to given other object.
 
         Parameters
         ----------
@@ -470,7 +470,7 @@ class SpectralShape:
 
     def range(self, dtype: Optional[Type[DTypeFloating]] = None) -> NDArray:
         """
-        Returns an iterable range for the spectral shape.
+        Return an iterable range for the spectral shape.
 
         Parameters
         ----------
@@ -537,7 +537,7 @@ Default spectral shape according to *ASTM E308-15* practise shape.
 
 class SpectralDistribution(Signal):
     """
-    Defines the spectral distribution: the base object for spectral
+    Define the spectral distribution: the base object for spectral
     computations.
 
     The spectral distribution will be initialised according to *CIE 15:2004*
@@ -839,7 +839,7 @@ class SpectralDistribution(Signal):
         interpolator_kwargs: Optional[Dict] = None,
     ) -> SpectralDistribution:
         """
-        Interpolates the spectral distribution in-place according to
+        Interpolate the spectral distribution in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
         at instantiation time) or given interpolation arguments.
 
@@ -1203,7 +1203,7 @@ class SpectralDistribution(Signal):
         extrapolator_kwargs: Optional[Dict] = None,
     ) -> SpectralDistribution:
         """
-        Extrapolates the spectral distribution in-place according to
+        Extrapolate the spectral distribution in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
         arguments.
 
@@ -1305,7 +1305,7 @@ class SpectralDistribution(Signal):
         extrapolator_kwargs: Optional[Dict] = None,
     ) -> SpectralDistribution:
         """
-        Aligns the spectral distribution in-place to given spectral shape:
+        Align the spectral distribution in-place to given spectral shape:
         Interpolates first then extrapolates to fit the given range.
 
         Interpolation is performed according to *CIE 167:2005* recommendation
@@ -1439,7 +1439,7 @@ class SpectralDistribution(Signal):
 
     def trim(self, shape: SpectralShape) -> SpectralDistribution:
         """
-        Trims the spectral distribution wavelengths to given spectral shape.
+        Trim the spectral distribution wavelengths to given spectral shape.
 
         Parameters
         ----------
@@ -1547,7 +1547,7 @@ class SpectralDistribution(Signal):
 
     def normalise(self, factor: Number = 1) -> SpectralDistribution:
         """
-        Normalises the spectral distribution using given normalization factor.
+        Normalise the spectral distribution using given normalization factor.
 
         Parameters
         ----------
@@ -1588,7 +1588,7 @@ class SpectralDistribution(Signal):
 
 class MultiSpectralDistributions(MultiSignals):
     """
-    Defines the multi-spectral distributions: the base object for multi
+    Define the multi-spectral distributions: the base object for multi
     spectral computations. It is used to model colour matching functions,
     display primaries, camera sensitivities, etc...
 
@@ -1978,7 +1978,7 @@ class MultiSpectralDistributions(MultiSignals):
         interpolator_kwargs: Optional[Dict] = None,
     ) -> MultiSpectralDistributions:
         """
-        Interpolates the multi-spectral distributions in-place according to
+        Interpolate the multi-spectral distributions in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
         at instantiation time) or given interpolation arguments.
 
@@ -2200,7 +2200,7 @@ class MultiSpectralDistributions(MultiSignals):
         extrapolator_kwargs: Optional[Dict] = None,
     ) -> MultiSpectralDistributions:
         """
-        Extrapolates the multi-spectral distributions in-place according to
+        Extrapolate the multi-spectral distributions in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
         arguments.
 
@@ -2288,7 +2288,7 @@ class MultiSpectralDistributions(MultiSignals):
         extrapolator_kwargs: Optional[Dict] = None,
     ) -> MultiSpectralDistributions:
         """
-        Aligns the multi-spectral distributions in-place to given spectral
+        Align the multi-spectral distributions in-place to given spectral
         shape: Interpolates first then extrapolates to fit the given range.
 
         Interpolation is performed according to *CIE 167:2005* recommendation
@@ -2429,7 +2429,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     def trim(self, shape: SpectralShape) -> MultiSpectralDistributions:
         """
-        Trims the multi-spectral distributions wavelengths to given shape.
+        Trim the multi-spectral distributions wavelengths to given shape.
 
         Parameters
         ----------
@@ -2508,7 +2508,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     def normalise(self, factor: Number = 1) -> MultiSpectralDistributions:
         """
-        Normalises the multi-spectral distributions with given normalization
+        Normalise the multi-spectral distributions with given normalization
         factor.
 
         Parameters
@@ -2557,7 +2557,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     def to_sds(self) -> List[SpectralDistribution]:
         """
-        Converts the multi-spectral distributions to a list of spectral
+        Convert the multi-spectral distributions to a list of spectral
         distributions.
 
         Returns
@@ -2737,7 +2737,7 @@ def sds_and_msds_to_sds(
     ]
 ) -> List[SpectralDistribution]:
     """
-    Converts given spectral and multi-spectral distributions to a list of
+    Convert given spectral and multi-spectral distributions to a list of
     spectral distributions.
 
     Parameters
@@ -2799,7 +2799,7 @@ def sds_and_msds_to_msds(
     ]
 ) -> MultiSpectralDistributions:
     """
-    Converts given spectral and multi-spectral distributions to
+    Convert given spectral and multi-spectral distributions to
     multi-spectral distributions.
 
     The spectral and multi-spectral distributions will be aligned to the

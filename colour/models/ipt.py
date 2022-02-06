@@ -83,7 +83,7 @@ MATRIX_IPT_IPT_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
 
 def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *IPT* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *IPT* colourspace.
 
     Parameters
     ----------
@@ -97,7 +97,6 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -139,7 +138,7 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
 
 def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
     """
-    Converts from *IPT* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *IPT* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -153,7 +152,6 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -192,7 +190,7 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
 
 def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:
     """
-    Computes the hue angle in degrees from *IPT* colourspace.
+    Compute the hue angle in degrees from *IPT* colourspace.
 
     Parameters
     ----------
@@ -206,7 +204,6 @@ def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+

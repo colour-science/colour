@@ -21,13 +21,13 @@ __all__ = [
 
 class TestPlotCorrespondingChromaticitiesPrediction(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.corresponding.\
+    Define :func:`colour.plotting.corresponding.\
 plot_corresponding_chromaticities_prediction` definition unit tests methods.
     """
 
     def test_plot_corresponding_chromaticities_prediction(self):
         """
-        Tests :func:`colour.plotting.corresponding.\
+        Test :func:`colour.plotting.corresponding.\
 plot_corresponding_chromaticities_prediction` definition.
         """
 

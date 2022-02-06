@@ -31,13 +31,13 @@ __all__ = [
 
 class TestRGB_to_ICtCp(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.ictcp.TestRGB_to_ICtCp` definition unit
+    Define :func:`colour.models.rgb.ictcp.TestRGB_to_ICtCp` definition unit
     tests methods.
     """
 
     def test_RGB_to_ICtCp(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition.
+        Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -100,7 +100,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_ICtCp(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition
+        Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition
         n-dimensional support.
         """
 
@@ -117,7 +117,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_ICtCp(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition domain
+        Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition domain
         and range scale support.
         """
 
@@ -134,7 +134,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_ICtCp(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition nan
+        Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition nan
         support.
         """
 
@@ -147,13 +147,13 @@ class TestRGB_to_ICtCp(unittest.TestCase):
 
 class TestICtCp_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition unit tests
+    Define :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition unit tests
     methods.
     """
 
     def test_ICtCp_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition.
+        Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -216,7 +216,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_ICtCp_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition
+        Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition
         n-dimensional support.
         """
 
@@ -233,7 +233,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_ICtCp_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition domain
+        Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition domain
         and range scale support.
         """
 
@@ -250,7 +250,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_ICtCp_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition nan
+        Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition nan
         support.
         """
 
@@ -263,13 +263,13 @@ class TestICtCp_to_RGB(unittest.TestCase):
 
 class TestXYZ_to_ICtCp(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.ictcp.TestXYZ_to_ICtCp` definition unit
+    Define :func:`colour.models.rgb.ictcp.TestXYZ_to_ICtCp` definition unit
     tests methods.
     """
 
     def test_XYZ_to_ICtCp(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition.
+        Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -351,7 +351,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_ICtCp(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition
+        Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition
         n-dimensional support.
         """
 
@@ -368,7 +368,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_ICtCp(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition domain
+        Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition domain
         and range scale support.
         """
 
@@ -385,7 +385,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_ICtCp(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition nan
+        Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition nan
         support.
         """
 
@@ -398,13 +398,13 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
 
 class TestICtCp_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition unit tests
+    Define :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition unit tests
     methods.
     """
 
     def test_ICtCp_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition.
+        Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -486,7 +486,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_ICtCp_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition
+        Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -503,7 +503,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_ICtCp_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition domain
+        Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition domain
         and range scale support.
         """
 
@@ -520,7 +520,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_ICtCp_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition nan
+        Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition nan
         support.
         """
 

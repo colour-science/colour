@@ -52,7 +52,7 @@ def bandpass_correction_Stearns1988(
     sd: SpectralDistribution,
 ) -> SpectralDistribution:
     """
-    Implements spectral bandpass dependence correction on given spectral
+    Implement spectral bandpass dependence correction on given spectral
     distribution using *Stearns and Stearns (1988)* method.
 
     Parameters
@@ -128,7 +128,7 @@ def bandpass_correction(
     method: Union[Literal["Stearns 1988"], str] = "Stearns 1988",
 ) -> SpectralDistribution:
     """
-    Implements spectral bandpass dependence correction on given spectral
+    Implement spectral bandpass dependence correction on given spectral
     distribution using given method.
 
     Parameters

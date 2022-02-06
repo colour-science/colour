@@ -59,7 +59,7 @@ def oetf_ARIBSTDB67(
     constants: Structure = CONSTANTS_ARIBSTDB67,
 ) -> FloatingOrNDArray:
     """
-    Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
+    Define *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
     function (OETF).
 
     Parameters
@@ -80,7 +80,6 @@ def oetf_ARIBSTDB67(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -127,7 +126,7 @@ def oetf_inverse_ARIBSTDB67(
     constants: Structure = CONSTANTS_ARIBSTDB67,
 ) -> FloatingOrNDArray:
     """
-    Defines *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
+    Define *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
     function (OETF).
 
     Parameters
@@ -148,7 +147,6 @@ def oetf_inverse_ARIBSTDB67(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

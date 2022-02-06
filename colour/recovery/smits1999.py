@@ -94,7 +94,7 @@ def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArray:
 
 def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *RGB* colourspace array using
+    Recover the spectral distribution of given *RGB* colourspace array using
     *Smits (1999)* method.
 
     Parameters
@@ -109,7 +109,6 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

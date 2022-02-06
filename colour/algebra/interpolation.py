@@ -131,7 +131,7 @@ __all__ = [
 
 def kernel_nearest_neighbour(x: ArrayLike) -> NDArray:
     """
-    Returns the *nearest-neighbour* kernel evaluated at given samples.
+    Return the *nearest-neighbour* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -158,7 +158,7 @@ def kernel_nearest_neighbour(x: ArrayLike) -> NDArray:
 
 def kernel_linear(x: ArrayLike) -> NDArray:
     """
-    Returns the *linear* kernel evaluated at given samples.
+    Return the *linear* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -188,7 +188,7 @@ def kernel_linear(x: ArrayLike) -> NDArray:
 
 def kernel_sinc(x: ArrayLike, a: Floating = 3) -> NDArray:
     """
-    Returns the *sinc* kernel evaluated at given samples.
+    Return the *sinc* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -224,7 +224,7 @@ def kernel_sinc(x: ArrayLike, a: Floating = 3) -> NDArray:
 
 def kernel_lanczos(x: ArrayLike, a: Floating = 3) -> NDArray:
     """
-    Returns the *lanczos* kernel evaluated at given samples.
+    Return the *lanczos* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -262,7 +262,7 @@ def kernel_cardinal_spline(
     x: ArrayLike, a: Floating = 0.5, b: Floating = 0.0
 ) -> NDArray:
     """
-    Returns the *cardinal spline* kernel evaluated at given samples.
+    Return the *cardinal spline* kernel evaluated at given samples.
 
     Notable *cardinal spline* :math:`a` and :math:`b` parameterizations:
 
@@ -664,7 +664,7 @@ class KernelInterpolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the interpolator at given point(s).
+        Evaluate the interpolator at given point(s).
 
         Parameters
         ----------
@@ -685,7 +685,7 @@ class KernelInterpolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the interpolator evaluation at given points.
+        Perform the interpolator evaluation at given points.
 
         Parameters
         ----------
@@ -725,7 +725,7 @@ class KernelInterpolator:
 
     def _validate_dimensions(self):
         """
-        Validates variables dimensions to be the same.
+        Validate that the variables dimensions are the same.
         """
 
         if len(self._x) != len(self._y):
@@ -738,7 +738,7 @@ class KernelInterpolator:
 
     def _validate_interpolation_range(self, x: NDArray):
         """
-        Validates given point to be in interpolation range.
+        Validate given point to be in interpolation range.
         """
 
         below_interpolation_range = x < self._x[0]
@@ -786,7 +786,7 @@ class NearestNeighbourInterpolator(KernelInterpolator):
 
 class LinearInterpolator:
     """
-    Linearly interpolates a 1-D function.
+    Interpolate linearly a 1-D function.
 
     Parameters
     ----------
@@ -919,7 +919,7 @@ class LinearInterpolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the interpolating polynomial at given point(s).
+        Evaluate the interpolating polynomial at given point(s).
 
 
         Parameters
@@ -941,7 +941,7 @@ class LinearInterpolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the interpolating polynomial evaluation at given points.
+        Perform the interpolating polynomial evaluation at given points.
 
         Parameters
         ----------
@@ -961,7 +961,7 @@ class LinearInterpolator:
 
     def _validate_dimensions(self):
         """
-        Validates variables dimensions to be the same.
+        Validate that the variables dimensions are the same.
         """
 
         if len(self._x) != len(self._y):
@@ -974,7 +974,7 @@ class LinearInterpolator:
 
     def _validate_interpolation_range(self, x: NDArray):
         """
-        Validates given point to be in interpolation range.
+        Validate given point to be in interpolation range.
         """
 
         below_interpolation_range = x < self._x[0]
@@ -989,7 +989,7 @@ class LinearInterpolator:
 
 class SpragueInterpolator:
     """
-    Constructs a fifth-order polynomial that passes through :math:`y` dependent
+    Construct a fifth-order polynomial that passes through :math:`y` dependent
     variable.
 
     *Sprague (1880)* method is recommended by the *CIE* for interpolating
@@ -1219,7 +1219,7 @@ class SpragueInterpolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the interpolating polynomial at given point(s).
+        Evaluate the interpolating polynomial at given point(s).
 
         Parameters
         ----------
@@ -1240,7 +1240,7 @@ class SpragueInterpolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the interpolating polynomial evaluation at given point.
+        Perform the interpolating polynomial evaluation at given point.
 
         Parameters
         ----------
@@ -1306,7 +1306,7 @@ class SpragueInterpolator:
 
     def _validate_dimensions(self):
         """
-        Validates variables dimensions to be the same.
+        Validate that the variables dimensions are the same.
         """
 
         if len(self._x) != len(self._y):
@@ -1319,7 +1319,7 @@ class SpragueInterpolator:
 
     def _validate_interpolation_range(self, x: NDArray):
         """
-        Validates given point to be in interpolation range.
+        Validate given point to be in interpolation range.
         """
 
         below_interpolation_range = x < self._x[0]
@@ -1334,7 +1334,7 @@ class SpragueInterpolator:
 
 class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
-    Interpolates a 1-D function using cubic spline interpolation.
+    Interpolate a 1-D function using cubic spline interpolation.
 
     Methods
     -------
@@ -1351,7 +1351,7 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     """
-    Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
+    Interpolate a 1-D function using Piecewise Cubic Hermite Interpolating
     Polynomial interpolation.
 
     Attributes
@@ -1390,7 +1390,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
 
 class NullInterpolator:
     """
-    Performs 1-D function null interpolation, i.e. a call within given
+    Perform 1-D function null interpolation, i.e. a call within given
     tolerances will return existing :math:`y` variable values and ``default``
     if outside tolerances.
 
@@ -1628,7 +1628,7 @@ class NullInterpolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the interpolator at given point(s).
+        Evaluate the interpolator at given point(s).
 
 
         Parameters
@@ -1650,7 +1650,7 @@ class NullInterpolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the interpolator evaluation at given points.
+        Perform the interpolator evaluation at given points.
 
         Parameters
         ----------
@@ -1681,7 +1681,7 @@ class NullInterpolator:
 
     def _validate_dimensions(self):
         """
-        Validates variables dimensions to be the same.
+        Validate that the variables dimensions are the same.
         """
 
         if len(self._x) != len(self._y):
@@ -1694,7 +1694,7 @@ class NullInterpolator:
 
     def _validate_interpolation_range(self, x: NDArray):
         """
-        Validates given point to be in interpolation range.
+        Validate given point to be in interpolation range.
         """
 
         below_interpolation_range = x < self._x[0]
@@ -1709,7 +1709,7 @@ class NullInterpolator:
 
 def lagrange_coefficients(r: Floating, n: Integer = 4) -> NDArray:
     """
-    Computes the *Lagrange Coefficients* at given point :math:`r` for degree
+    Compute the *Lagrange Coefficients* at given point :math:`r` for degree
     :math:`n`.
 
     Parameters
@@ -1748,7 +1748,7 @@ def vertices_and_relative_coordinates(
     V_xyz: ArrayLike, table: ArrayLike
 ) -> Tuple[NDArray, NDArray]:
     """
-    Computes the vertices coordinates and indexes relative :math:`V_{xyzr}`
+    Compute the vertices coordinates and indexes relative :math:`V_{xyzr}`
     coordinates from given :math:`V_{xyzr}` values and interpolation table.
 
     Parameters
@@ -1855,7 +1855,7 @@ def table_interpolation_trilinear(
     V_xyz: ArrayLike, table: ArrayLike
 ) -> NDArray:
     """
-    Performs trilinear interpolation of given :math:`V_{xyz}` values using
+    Perform the trilinear interpolation of given :math:`V_{xyz}` values using
     given interpolation table.
 
     Parameters
@@ -1928,7 +1928,7 @@ def table_interpolation_tetrahedral(
     V_xyz: ArrayLike, table: ArrayLike
 ) -> NDArray:
     """
-    Performs tetrahedral interpolation of given :math:`V_{xyz}` values using
+    Perform the tetrahedral interpolation of given :math:`V_{xyz}` values using
     given interpolation table.
 
     Parameters
@@ -2021,7 +2021,7 @@ def table_interpolation(
     method: Union[Literal["Trilinear", "Tetrahedral"], str] = "Trilinear",
 ) -> NDArray:
     """
-    Performs interpolation of given :math:`V_{xyz}` values using given
+    Perform interpolation of given :math:`V_{xyz}` values using given
     interpolation table.
 
     Parameters

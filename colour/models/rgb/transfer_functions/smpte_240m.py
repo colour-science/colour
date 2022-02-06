@@ -45,7 +45,7 @@ __all__ = [
 
 def oetf_SMPTE240M(L_c: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *SMPTE 240M* opto-electrical transfer function (OETF).
+    Define *SMPTE 240M* opto-electrical transfer function (OETF).
 
     Parameters
     ----------
@@ -61,7 +61,6 @@ def oetf_SMPTE240M(L_c: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -93,7 +92,7 @@ def oetf_SMPTE240M(L_c: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def eotf_SMPTE240M(V_r: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *SMPTE 240M* electro-optical transfer function (EOTF).
+    Define *SMPTE 240M* electro-optical transfer function (EOTF).
 
     Parameters
     ----------
@@ -109,7 +108,6 @@ def eotf_SMPTE240M(V_r: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

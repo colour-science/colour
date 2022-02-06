@@ -38,13 +38,13 @@ __all__ = [
 
 class TestLuminanceNewhall1943(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_Newhall1943`
+    Define :func:`colour.colorimetry.luminance.luminance_Newhall1943`
     definition unit tests methods.
     """
 
     def test_luminance_Newhall1943(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Newhall1943`
+        Test :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition.
         """
 
@@ -62,7 +62,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
 
     def test_n_dimensional_luminance_Newhall1943(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Newhall1943`
+        Test :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition n-dimensional arrays support.
         """
 
@@ -83,7 +83,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
 
     def test_domain_range_scale_luminance_Newhall1943(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Newhall1943`
+        Test :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition domain and range scale support.
         """
 
@@ -101,7 +101,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_luminance_Newhall1943(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Newhall1943`
+        Test :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition nan support.
         """
 
@@ -112,13 +112,13 @@ class TestLuminanceNewhall1943(unittest.TestCase):
 
 class TestLuminanceASTMD1535(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
+    Define :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
     definition unit tests methods.
     """
 
     def test_luminance_ASTMD1535(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
+        Test :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition.
         """
 
@@ -136,7 +136,7 @@ class TestLuminanceASTMD1535(unittest.TestCase):
 
     def test_n_dimensional_luminance_ASTMD1535(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
+        Test :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition n-dimensional arrays support.
         """
 
@@ -157,7 +157,7 @@ class TestLuminanceASTMD1535(unittest.TestCase):
 
     def test_domain_range_scale_luminance_ASTMD1535(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
+        Test :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition domain and range scale support.
         """
 
@@ -175,7 +175,7 @@ class TestLuminanceASTMD1535(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_luminance_ASTMD1535(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
+        Test :func:`colour.colorimetry.luminance.luminance_ASTMD1535`
         definition nan support.
         """
 
@@ -186,13 +186,13 @@ class TestLuminanceASTMD1535(unittest.TestCase):
 
 class TestIntermediateLuminanceFunctionCIE1976(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.\
+    Define :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition unit tests methods.
     """
 
     def test_intermediate_luminance_function_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.\
+        Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition.
         """
 
@@ -216,7 +216,7 @@ intermediate_luminance_function_CIE1976` definition.
 
     def test_n_dimensional_intermediate_luminance_function_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.\
+        Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition n-dimensional arrays
 support.
         """
@@ -244,7 +244,7 @@ support.
 
     def test_domain_range_scale_intermediate_luminance_function_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.\
+        Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition domain and range scale
 support.
         """
@@ -264,7 +264,7 @@ support.
     @ignore_numpy_errors
     def test_nan_intermediate_luminance_function_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.\
+        Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition nan support.
         """
 
@@ -275,13 +275,13 @@ intermediate_luminance_function_CIE1976` definition nan support.
 
 class TestLuminanceCIE1976(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_CIE1976` definition
+    Define :func:`colour.colorimetry.luminance.luminance_CIE1976` definition
     unit tests methods.
     """
 
     def test_luminance_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_CIE1976`
+        Test :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition.
         """
 
@@ -317,7 +317,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
 
     def test_n_dimensional_luminance_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_CIE1976`
+        Test :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition n-dimensional arrays support.
         """
 
@@ -338,7 +338,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
 
     def test_domain_range_scale_luminance_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_CIE1976`
+        Test :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition domain and range scale support.
         """
 
@@ -356,7 +356,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_luminance_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_CIE1976`
+        Test :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition nan support.
         """
 
@@ -365,13 +365,13 @@ class TestLuminanceCIE1976(unittest.TestCase):
 
 class TestLuminanceFairchild2010(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
+    Define :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
     definition unit tests methods.
     """
 
     def test_luminance_Fairchild2010(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
+        Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition.
         """
 
@@ -413,7 +413,7 @@ class TestLuminanceFairchild2010(unittest.TestCase):
 
     def test_n_dimensional_luminance_Fairchild2010(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
+        Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition n-dimensional arrays support.
         """
 
@@ -440,7 +440,7 @@ class TestLuminanceFairchild2010(unittest.TestCase):
 
     def test_domain_range_scale_luminance_Fairchild2010(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
+        Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition domain and range scale support.
         """
 
@@ -458,7 +458,7 @@ class TestLuminanceFairchild2010(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_luminance_Fairchild2010(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
+        Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition nan support.
         """
 
@@ -469,13 +469,13 @@ class TestLuminanceFairchild2010(unittest.TestCase):
 
 class TestLuminanceFairchild2011(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+    Define :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
     definition unit tests methods.
     """
 
     def test_luminance_Fairchild2011(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+        Test :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition.
         """
 
@@ -517,7 +517,7 @@ class TestLuminanceFairchild2011(unittest.TestCase):
 
     def test_n_dimensional_luminance_Fairchild2011(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+        Test :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition n-dimensional arrays support.
         """
 
@@ -544,7 +544,7 @@ class TestLuminanceFairchild2011(unittest.TestCase):
 
     def test_domain_range_scale_luminance_Fairchild2011(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+        Test :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition domain and range scale support.
         """
 
@@ -562,7 +562,7 @@ class TestLuminanceFairchild2011(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_luminance_Fairchild2011(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+        Test :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition nan support.
         """
 
@@ -573,13 +573,13 @@ class TestLuminanceFairchild2011(unittest.TestCase):
 
 class TestLuminanceAbebe2017(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+    Define :func:`colour.colorimetry.luminance.luminance_Abebe2017`
     definition unit tests methods.
     """
 
     def test_luminance_Abebe2017(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+        Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
         definition.
         """
 
@@ -615,7 +615,7 @@ class TestLuminanceAbebe2017(unittest.TestCase):
 
     def test_n_dimensional_luminance_Abebe2017(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+        Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
         definition n-dimensional arrays support.
         """
 
@@ -636,7 +636,7 @@ class TestLuminanceAbebe2017(unittest.TestCase):
 
     def test_domain_range_scale_luminance_Abebe2017(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+        Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
         definition domain and range scale support.
         """
 
@@ -656,7 +656,7 @@ class TestLuminanceAbebe2017(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_luminance_Abebe2017(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_Abebe2017`
+        Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
         definition nan support.
         """
 
@@ -667,13 +667,13 @@ class TestLuminanceAbebe2017(unittest.TestCase):
 
 class TestLuminance(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance` definition unit
+    Define :func:`colour.colorimetry.luminance.luminance` definition unit
     tests methods.
     """
 
     def test_domain_range_scale_luminance(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance` definition
+        Test :func:`colour.colorimetry.luminance.luminance` definition
         domain and range scale support.
         """
 

@@ -24,13 +24,13 @@ __all__ = [
 
 class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.hernandez1999.xy_to_CCT_Hernandez1999`
+    Define :func:`colour.temperature.hernandez1999.xy_to_CCT_Hernandez1999`
     definition unit tests methods.
     """
 
     def test_xy_to_CCT_Hernandez1999(self):
         """
-        Tests :func:`colour.temperature.hernandez1999.xy_to_CCT_McCamy1992`
+        Test :func:`colour.temperature.hernandez1999.xy_to_CCT_McCamy1992`
         definition.
         """
 
@@ -56,7 +56,7 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
 
     def test_n_dimensional_xy_to_CCT_Hernandez1999(self):
         """
-        Tests :func:`colour.temperature.hernandez1999.xy_to_CCT_Hernandez1999`
+        Test :func:`colour.temperature.hernandez1999.xy_to_CCT_Hernandez1999`
         definition n-dimensional arrays support.
         """
 
@@ -78,7 +78,7 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_Hernandez1999(self):
         """
-        Tests :func:`colour.temperature.hernandez1999.xy_to_CCT_Hernandez1999`
+        Test :func:`colour.temperature.hernandez1999.xy_to_CCT_Hernandez1999`
         definition nan support.
         """
 
@@ -90,13 +90,13 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
 
 class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
+    Define :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
     definition unit tests methods.
     """
 
     def test_CCT_to_xy_Hernandez1999(self):
         """
-        Tests :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
+        Test :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
         definition.
         """
 
@@ -120,7 +120,7 @@ class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
 
     def test_n_dimensional_CCT_to_xy_Hernandez1999(self):
         """
-        Tests :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
+        Test :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
         definition n-dimensional arrays support.
         """
 
@@ -142,7 +142,7 @@ class TestCCT_to_xy_Hernandez1999(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_Hernandez1999(self):
         """
-        Tests :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
+        Test :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
         definition nan support.
         """
 

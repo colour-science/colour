@@ -107,7 +107,7 @@ def XYZ_to_sd(
     **kwargs: Any
 ) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *CIE XYZ* tristimulus
+    Recover the spectral distribution of given *CIE XYZ* tristimulus
     values using given method.
 
     Parameters
@@ -168,7 +168,6 @@ def XYZ_to_sd(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

@@ -130,13 +130,13 @@ TEMPERATURE_DUV_TO_UV: Dict = {
 
 class Testuv_to_CCT_Robertson1968(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+    Define :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
     definition unit tests methods.
     """
 
     def test_uv_to_CCT_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition.
         """
 
@@ -147,7 +147,7 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
 
     def test_n_dimensional_uv_to_CCT_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition n-dimensional arrays support.
         """
 
@@ -169,7 +169,7 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_uv_to_CCT_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition nan support.
         """
 
@@ -182,13 +182,13 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
 
 class TestCCT_to_uv_Robertson1968(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+    Define :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
     definition unit tests methods.
     """
 
     def test_CCT_to_uv_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition.
         """
 
@@ -199,7 +199,7 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
 
     def test_n_dimensional_CCT_to_uv_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition n-dimensional arrays support.
         """
 
@@ -221,7 +221,7 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CCT_to_uv_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition nan support.
         """
 

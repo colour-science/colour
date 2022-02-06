@@ -58,7 +58,7 @@ enabled state.
 
 def is_spow_enabled() -> bool:
     """
-    Returns whether *Colour* safe / symmetrical power function is enabled.
+    Return whether *Colour* safe / symmetrical power function is enabled.
 
     Returns
     -------
@@ -80,7 +80,7 @@ def is_spow_enabled() -> bool:
 
 def set_spow_enable(enable: bool):
     """
-    Sets *Colour* safe / symmetrical power function enabled state.
+    Set *Colour* safe / symmetrical power function enabled state.
 
     Parameters
     ----------
@@ -136,7 +136,7 @@ class spow_enable:
 
     def __call__(self, function: Callable) -> Callable:
         """
-        Calls the wrapped definition.
+        Call the wrapped definition.
         """
 
         @functools.wraps(function)
@@ -149,7 +149,7 @@ class spow_enable:
 
 def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Raises given array :math:`a` to the power :math:`p` as follows:
+    Raise given array :math:`a` to the power :math:`p` as follows:
     :math:`sign(a) * |a|^p`.
 
     This definition avoids NaNs generation when array :math:`a` is negative and
@@ -199,7 +199,7 @@ def normalise_maximum(
     clip: Boolean = True,
 ) -> NDArray:
     """
-    Normalises given array :math:`a` values by :math:`a` maximum value and
+    Normalise given array :math:`a` values by :math:`a` maximum value and
     optionally clip them between.
 
     Parameters
@@ -338,7 +338,7 @@ def linear_conversion(
     a: ArrayLike, old_range: ArrayLike, new_range: ArrayLike
 ) -> NDArray:
     """
-    Performs a simple linear conversion of given array :math:`a` between the
+    Perform a simple linear conversion of given array :math:`a` between the
     old and new ranges.
 
     Parameters
@@ -377,7 +377,7 @@ def linstep_function(
     clip: Boolean = False,
 ) -> NDArray:
     """
-    Performs a simple linear interpolation between given array :math:`a` and
+    Perform a simple linear interpolation between given array :math:`a` and
     array :math:`b` using :math:`x` array.
 
     Parameters
@@ -424,7 +424,7 @@ def smoothstep_function(
     clip: Boolean = False,
 ) -> NDArray:
     """
-    Evaluates the *smoothstep* sigmoid-like function on array :math:`x`.
+    Evaluate the *smoothstep* sigmoid-like function on array :math:`x`.
 
     Parameters
     ----------
@@ -463,7 +463,7 @@ smooth = smoothstep_function
 
 def is_identity(a: ArrayLike) -> Boolean:
     """
-    Returns whether :math:`a` array is an identity matrix.
+    Return whether :math:`a` array is an identity matrix.
 
     Parameters
     ----------

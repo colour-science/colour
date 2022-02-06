@@ -61,7 +61,7 @@ MATRIX_YCOCG_TO_RGB: NDArray = np.array(
 
 def RGB_to_YCoCg(RGB: ArrayLike) -> NDArray:
     """
-    Converts an array of *R'G'B'* values to the corresponding *YCoCg* colour
+    Convert an array of *R'G'B'* values to the corresponding *YCoCg* colour
     encoding values array.
 
     Parameters
@@ -91,7 +91,7 @@ def RGB_to_YCoCg(RGB: ArrayLike) -> NDArray:
 
 def YCoCg_to_RGB(YCoCg: ArrayLike) -> NDArray:
     """
-    Converts an array of *YCoCg* colour encoding values to the corresponding
+    Convert an array of *YCoCg* colour encoding values to the corresponding
     *R'G'B'* values array.
 
     Parameters

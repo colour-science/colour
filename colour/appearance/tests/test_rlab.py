@@ -32,13 +32,13 @@ __all__ = [
 
 class TestXYZ_to_RLAB(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.rlab.XYZ_to_RLAB` definition unit
+    Define :func:`colour.appearance.rlab.XYZ_to_RLAB` definition unit
     tests methods.
     """
 
     def test_XYZ_to_RLAB(self):
         """
-        Tests :func:`colour.appearance.rlab.XYZ_to_RLAB` definition.
+        Test :func:`colour.appearance.rlab.XYZ_to_RLAB` definition.
 
         Notes
         -----
@@ -88,7 +88,7 @@ class TestXYZ_to_RLAB(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_RLAB(self):
         """
-        Tests :func:`colour.appearance.rlab.XYZ_to_RLAB` definition
+        Test :func:`colour.appearance.rlab.XYZ_to_RLAB` definition
         n-dimensional support.
         """
 
@@ -118,7 +118,7 @@ class TestXYZ_to_RLAB(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_RLAB(self):
         """
-        Tests :func:`colour.appearance.rlab.XYZ_to_RLAB` definition domain and
+        Test :func:`colour.appearance.rlab.XYZ_to_RLAB` definition domain and
         range scale support.
         """
 
@@ -147,7 +147,7 @@ class TestXYZ_to_RLAB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_RLAB(self):
         """
-        Tests :func:`colour.appearance.rlab.XYZ_to_RLAB` definition nan
+        Test :func:`colour.appearance.rlab.XYZ_to_RLAB` definition nan
         support.
         """
 

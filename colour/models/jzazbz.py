@@ -186,7 +186,7 @@ def XYZ_to_Izazbz(
     ] = "Safdar 2017",
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
+    Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
     colourspace.
 
     Parameters
@@ -213,7 +213,6 @@ def XYZ_to_Izazbz(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -286,7 +285,7 @@ def Izazbz_to_XYZ(
     ] = "Safdar 2017",
 ) -> NDArray:
     """
-    Converts from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
+    Convert from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -313,7 +312,6 @@ def Izazbz_to_XYZ(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -382,7 +380,7 @@ def XYZ_to_Jzazbz(
     XYZ_D65: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
+    Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
     colourspace.
 
     Parameters
@@ -407,7 +405,6 @@ def XYZ_to_Jzazbz(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -460,7 +457,7 @@ def Jzazbz_to_XYZ(
     Jzazbz: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArray:
     """
-    Converts from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
+    Convert from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -485,7 +482,6 @@ def Jzazbz_to_XYZ(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by

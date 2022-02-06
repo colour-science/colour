@@ -66,7 +66,7 @@ def closest_spectral_locus_wavelength(
     xy: ArrayLike, xy_n: ArrayLike, xy_s: ArrayLike, inverse: Boolean = False
 ) -> Tuple[NDArray, NDArray]:
     """
-    Returns the coordinates and closest spectral locus wavelength index to the
+    Return the coordinates and closest spectral locus wavelength index to the
     point where the line defined by the given achromatic stimulus :math:`xy_n`
     to colour stimulus :math:`xy_n` *CIE xy* chromaticity coordinates
     intersects the spectral locus.
@@ -148,7 +148,7 @@ def dominant_wavelength(
     inverse: bool = False,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Returns the *dominant wavelength* :math:`\\lambda_d` for given colour
+    Return the *dominant wavelength* :math:`\\lambda_d` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
     second intersection coordinates with the spectral locus.
 
@@ -248,7 +248,7 @@ def complementary_wavelength(
     cmfs: Optional[MultiSpectralDistributions] = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Returns the *complementary wavelength* :math:`\\lambda_c` for given colour
+    Return the *complementary wavelength* :math:`\\lambda_c` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
     second intersection coordinates with the spectral locus.
 
@@ -316,7 +316,7 @@ def excitation_purity(
     cmfs: Optional[MultiSpectralDistributions] = None,
 ) -> FloatingOrNDArray:
     """
-    Returns the *excitation purity* :math:`P_e` for given colour stimulus
+    Return the *excitation purity* :math:`P_e` for given colour stimulus
     :math:`xy`.
 
     Parameters
@@ -361,7 +361,7 @@ def colorimetric_purity(
     cmfs: Optional[MultiSpectralDistributions] = None,
 ) -> FloatingOrNDArray:
     """
-    Returns the *colorimetric purity* :math:`P_c` for given colour stimulus
+    Return the *colorimetric purity* :math:`P_c` for given colour stimulus
     :math:`xy`.
 
     Parameters

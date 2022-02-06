@@ -208,7 +208,7 @@ class MixinDataclassIterable(MixinDataclassFields):
 
     def __iter__(self) -> Generator:
         """
-        Returns a generator for the :class:`dataclass`-like class fields.
+        Return a generator for the :class:`dataclass`-like class fields.
 
         Yields
         ------
@@ -241,7 +241,7 @@ class MixinDataclassArray(MixinDataclassIterable):
 
     def __array__(self, dtype: Optional[Type[DTypeNumber]] = None) -> NDArray:
         """
-        Implements support for :class:`dataclass`-like class conversion to
+        Implement support for :class:`dataclass`-like class conversion to
         :class:`numpy.ndarray` class.
 
         A field set to *None* will be filled with `np.nan` according to the
@@ -305,7 +305,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __add__(self, a: Any) -> Dataclass:
         """
-        Implements support for addition.
+        Implement support for addition.
 
         Parameters
         ----------
@@ -322,7 +322,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __iadd__(self, a: Any) -> Dataclass:
         """
-        Implements support for in-place addition.
+        Implement support for in-place addition.
 
         Parameters
         ----------
@@ -339,7 +339,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __sub__(self, a: Any) -> Dataclass:
         """
-        Implements support for subtraction.
+        Implement support for subtraction.
 
         Parameters
         ----------
@@ -356,7 +356,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __isub__(self, a: Any) -> Dataclass:
         """
-        Implements support for in-place subtraction.
+        Implement support for in-place subtraction.
 
         Parameters
         ----------
@@ -373,7 +373,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __mul__(self, a: Any) -> Dataclass:
         """
-        Implements support for multiplication.
+        Implement support for multiplication.
 
         Parameters
         ----------
@@ -390,7 +390,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __imul__(self, a: Any) -> Dataclass:
         """
-        Implements support for in-place multiplication.
+        Implement support for in-place multiplication.
 
         Parameters
         ----------
@@ -407,7 +407,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __div__(self, a: Any) -> Dataclass:
         """
-        Implements support for division.
+        Implement support for division.
 
         Parameters
         ----------
@@ -424,7 +424,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __idiv__(self, a: Any) -> Dataclass:
         """
-        Implements support for in-place division.
+        Implement support for in-place division.
 
         Parameters
         ----------
@@ -444,7 +444,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __pow__(self, a: Any) -> Dataclass:
         """
-        Implements support for exponentiation.
+        Implement support for exponentiation.
 
         Parameters
         ----------
@@ -461,7 +461,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
     def __ipow__(self, a: Any) -> Dataclass:
         """
-        Implements support for in-place exponentiation.
+        Implement support for in-place exponentiation.
 
         Parameters
         ----------
@@ -480,7 +480,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         self, a: Any, operation: str, in_place: Boolean = False
     ) -> Dataclass:
         """
-        Performs given arithmetical operation with :math:`a` operand on the
+        Perform given arithmetical operation with :math:`a` operand on the
         :class:`dataclass`-like class.
 
         Parameters
@@ -531,7 +531,7 @@ def as_array(
     dtype: Optional[Type[DType]] = None,
 ) -> NDArray:
     """
-    Converts given variable :math:`a` to :class:`numpy.ndarray` using given
+    Convert given variable :math:`a` to :class:`numpy.ndarray` using given
     :class:`numpy.dtype`.
 
     Parameters
@@ -568,7 +568,7 @@ def as_int(
     a: NumberOrArrayLike, dtype: Optional[Type[DTypeInteger]] = None
 ) -> IntegerOrNDArray:
     """
-    Attempts to convert given variable :math:`a` to :class:`numpy.integer`
+    Attempt to convert given variable :math:`a` to :class:`numpy.integer`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
     0-dimensional, it is converted to :class:`numpy.ndarray`.
 
@@ -611,7 +611,7 @@ def as_float(
     a: NumberOrArrayLike, dtype: Optional[Type[DTypeFloating]] = None
 ) -> FloatingOrNDArray:
     """
-    Attempts to convert given variable :math:`a` to :class:`numpy.floating`
+    Attempt to convert given variable :math:`a` to :class:`numpy.floating`
     using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
     0-dimensional, it is converted to :class:`numpy.ndarray`.
 
@@ -652,7 +652,7 @@ def as_int_array(
     a: NumberOrArrayLike, dtype: Optional[Type[DTypeInteger]] = None
 ) -> NDArray:
     """
-    Converts given variable :math:`a` to :class:`numpy.ndarray` using given
+    Convert given variable :math:`a` to :class:`numpy.ndarray` using given
     :class:`numpy.dtype`.
 
     Parameters
@@ -690,7 +690,7 @@ def as_float_array(
     a: NumberOrArrayLike, dtype: Optional[Type[DTypeFloating]] = None
 ) -> NDArray:
     """
-    Converts given variable :math:`a` to :class:`numpy.ndarray` using given
+    Convert given variable :math:`a` to :class:`numpy.ndarray` using given
     :class:`numpy.dtype`.
 
     Parameters
@@ -727,7 +727,7 @@ def as_int_scalar(
     a: NumberOrArrayLike, dtype: Optional[Type[DTypeInteger]] = None
 ) -> Integer:
     """
-    Converts given :math:`a` variable to :class:`numpy.integer` using given
+    Convert given :math:`a` variable to :class:`numpy.integer` using given
     :class:`numpy.dtype`.
 
     Parameters
@@ -761,7 +761,7 @@ def as_float_scalar(
     a: NumberOrArrayLike, dtype: Optional[Type[DTypeFloating]] = None
 ) -> Floating:
     """
-    Converts given :math:`a` variable to :class:`numpy.floating` using given
+    Convert given :math:`a` variable to :class:`numpy.floating` using given
     :class:`numpy.dtype`.
 
     Parameters
@@ -795,7 +795,7 @@ def set_float_precision(
     dtype: Type[DTypeFloating] = DEFAULT_FLOAT_DTYPE,
 ) -> None:
     """
-    Sets *Colour* *float* precision by setting
+    Set *Colour* *float* precision by setting
     :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute with given
     :class:`numpy.dtype` wherever the attribute is imported.
 
@@ -841,7 +841,7 @@ def set_float_precision(
 
 def set_int_precision(dtype: Type[DTypeInteger] = DEFAULT_INT_DTYPE) -> None:
     """
-    Sets *Colour* *integer* precision by setting
+    Set *Colour* *integer* precision by setting
     :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute with given
     :class:`numpy.dtype` wherever the attribute is imported.
 
@@ -899,7 +899,7 @@ def get_domain_range_scale() -> Union[
     Literal["ignore", "reference", "1", "100"], str
 ]:
     """
-    Returns the current *Colour* domain-range scale. The following scales are
+    Return the current *Colour* domain-range scale. The following scales are
     available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
@@ -930,7 +930,7 @@ def set_domain_range_scale(
     ] = "reference"
 ):
     """
-    Sets the current *Colour* domain-range scale. The following scales are
+    Set the current *Colour* domain-range scale. The following scales are
     available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
@@ -1042,7 +1042,7 @@ class domain_range_scale:
 
     def __call__(self, function: Callable) -> Any:
         """
-        Calls the wrapped definition.
+        Call the wrapped definition.
         """
 
         @functools.wraps(function)
@@ -1059,7 +1059,7 @@ def to_domain_1(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` to domain **'1'**. The behaviour is as
+    Scale given array :math:`a` to domain **'1'**. The behaviour is as
     follows:
 
     -   If *Colour* domain-range scale is **'Reference'** or **'1'**, the
@@ -1121,7 +1121,7 @@ def to_domain_10(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` to domain **'10'**, used by
+    Scale given array :math:`a` to domain **'10'**, used by
     *Munsell Renotation System*. The behaviour is as follows:
 
     -   If *Colour* domain-range scale is **'Reference'**, the
@@ -1188,7 +1188,7 @@ def to_domain_100(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` to domain **'100'**. The behaviour is as
+    Scale given array :math:`a` to domain **'100'**. The behaviour is as
     follows:
 
     -   If *Colour* domain-range scale is **'Reference'** or **'100'**
@@ -1250,7 +1250,7 @@ def to_domain_degrees(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` to degrees domain. The behaviour is as
+    Scale given array :math:`a` to degrees domain. The behaviour is as
     follows:
 
     -   If *Colour* domain-range scale is **'Reference'**, the
@@ -1317,7 +1317,7 @@ def to_domain_int(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` to int domain. The behaviour is as follows:
+    Scale given array :math:`a` to int domain. The behaviour is as follows:
 
     -   If *Colour* domain-range scale is **'Reference'**, the
         definition is almost entirely by-passed and will conveniently convert
@@ -1389,7 +1389,7 @@ def from_range_1(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` from range **'1'**. The behaviour is as
+    Scale given array :math:`a` from range **'1'**. The behaviour is as
     follows:
 
     -   If *Colour* domain-range scale is **'Reference'** or **'1'**, the
@@ -1455,7 +1455,7 @@ def from_range_10(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` from range **'10'**, used by
+    Scale given array :math:`a` from range **'10'**, used by
     *Munsell Renotation System*. The behaviour is as follows:
 
     -   If *Colour* domain-range scale is **'Reference'**, the
@@ -1526,7 +1526,7 @@ def from_range_100(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` from range **'100'**. The behaviour is as
+    Scale given array :math:`a` from range **'100'**. The behaviour is as
     follows:
 
     -   If *Colour* domain-range scale is **'Reference'** or **'100'**
@@ -1592,7 +1592,7 @@ def from_range_degrees(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` from degrees range. The behaviour is as
+    Scale given array :math:`a` from degrees range. The behaviour is as
     follows:
 
     -   If *Colour* domain-range scale is **'Reference'**, the
@@ -1663,7 +1663,7 @@ def from_range_int(
     dtype: Optional[Type[DTypeFloating]] = None,
 ) -> NDArray:
     """
-    Scales given array :math:`a` from int range. The behaviour is as follows:
+    Scale given array :math:`a` from int range. The behaviour is as follows:
 
     -   If *Colour* domain-range scale is **'Reference'**, the
         definition is entirely by-passed.
@@ -1735,7 +1735,7 @@ def from_range_int(
 
 def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
-    Returns the array :math:`a` closest element indexes to the reference array
+    Return the array :math:`a` closest element indexes to the reference array
     :math:`b` elements.
 
     Parameters
@@ -1768,7 +1768,7 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
 
 def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
-    Returns the array :math:`a` closest elements to the reference array
+    Return the array :math:`a` closest elements to the reference array
     :math:`b` elements.
 
     Parameters
@@ -1800,7 +1800,7 @@ def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
 
 def interval(distribution: ArrayLike, unique: Boolean = True) -> NDArray:
     """
-    Returns the interval size of given distribution.
+    Return the interval size of given distribution.
 
     Parameters
     ----------
@@ -1846,7 +1846,7 @@ def interval(distribution: ArrayLike, unique: Boolean = True) -> NDArray:
 
 def is_uniform(distribution: ArrayLike) -> Boolean:
     """
-    Returns whether given distribution is uniform.
+    Return whether given distribution is uniform.
 
     Parameters
     ----------
@@ -1880,7 +1880,7 @@ def in_array(
     a: ArrayLike, b: ArrayLike, tolerance: Number = EPSILON
 ) -> NDArray:
     """
-    Returns whether each element of the array :math:`a` is also present in the
+    Return whether each element of the array :math:`a` is also present in the
     array :math:`b` within given tolerance.
 
     Parameters
@@ -1927,7 +1927,7 @@ def tstack(
     dtype: Optional[Union[Type[DTypeBoolean], Type[DTypeNumber]]] = None,
 ) -> NDArray:
     """
-    Stacks given array of arrays :math:`a` along the last axis (tail) to
+    Stack given array of arrays :math:`a` along the last axis (tail) to
     produce a stacked array.
 
     It is used to stack an array of arrays produced by the
@@ -1990,7 +1990,7 @@ def tsplit(
     dtype: Optional[Union[Type[DTypeBoolean], Type[DTypeNumber]]] = None,
 ) -> NDArray:
     """
-    Splits given stacked array :math:`a` along the last axis (tail) to produce
+    Split given stacked array :math:`a` along the last axis (tail) to produce
     an array of arrays.
 
     It is used to split a stacked array produced by the
@@ -2052,7 +2052,7 @@ def tsplit(
 
 def row_as_diagonal(a: ArrayLike) -> NDArray:
     """
-    Returns the rows of given array :math:`a` as diagonal matrices.
+    Return the rows of given array :math:`a` as diagonal matrices.
 
     Parameters
     ----------
@@ -2111,7 +2111,7 @@ def orient(
     orientation: Union[Literal["Flip", "Flop", "90 CW", "90 CCW", "180"], str],
 ) -> Union[NDArray, None]:
     """
-    Orients given array :math:`a` according to given orientation.
+    Orient given array :math:`a` according to given orientation.
 
     Parameters
     ----------
@@ -2168,7 +2168,7 @@ def orient(
 
 def centroid(a: ArrayLike) -> NDArray:
     """
-    Returns the centroid indexes of given array :math:`a`.
+    Return the centroid indexes of given array :math:`a`.
 
     Parameters
     ----------
@@ -2213,7 +2213,7 @@ def fill_nan(
     default: Number = 0,
 ) -> NDArray:
     """
-    Fills given array :math:`a` NaN values according to given method.
+    Fill given array :math:`a` NaN values according to given method.
 
     Parameters
     ----------
@@ -2256,7 +2256,7 @@ def fill_nan(
 
 def has_only_nan(a: ArrayLike) -> Boolean:
     """
-    Returns whether given array :math:`a` contains only NaN values.
+    Return whether given array :math:`a` contains only NaN values.
 
     Parameters
     ----------
@@ -2442,7 +2442,7 @@ def full(
 
 def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     """
-    Reduces the dimension of array :math:`a` by one, by using an array of
+    Reduce the dimension of array :math:`a` by one, by using an array of
     indexes to pick elements off the last axis.
 
     Parameters

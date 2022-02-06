@@ -24,13 +24,13 @@ __all__ = [
 
 class TestRGB_to_IHLS(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition unit
+    Define :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition unit
     tests methods.
     """
 
     def test_RGB_to_IHLS(self):
         """
-        Tests :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition.
+        Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -53,7 +53,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_IHLS(self):
         """
-        Tests :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
+        Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
         n-dimensional arrays support.
         """
 
@@ -70,7 +70,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_IHLS(self):
         """
-        Tests :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
+        Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
         domain and range scale support.
         """
 
@@ -87,7 +87,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_IHLS(self):
         """
-        Tests :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition nan
+        Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition nan
         support.
         """
 
@@ -100,13 +100,13 @@ class TestRGB_to_IHLS(unittest.TestCase):
 
 class TestIHLS_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition unit
+    Define :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition unit
     tests methods.
     """
 
     def test_IHLS_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition.
+        Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -129,7 +129,7 @@ class TestIHLS_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_IHLS_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition
+        Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition
         n-dimensional arrays support.
         """
 
@@ -146,7 +146,7 @@ class TestIHLS_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_IHLS_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition
+        Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition
         domain and range scale support.
         """
 
@@ -163,7 +163,7 @@ class TestIHLS_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_IHLS_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition nan
+        Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition nan
         support.
         """
 

@@ -64,8 +64,8 @@ HKE_NAYATANI1997_METHODS = CaseInsensitiveMapping(
     }
 )
 HKE_NAYATANI1997_METHODS.__doc__ = """
-Nayatani HKE computation methods, choice between variable achromatic colour
-('VAC') and variable chromatic colour ('VCC')
+*Nayatani (1997)* *HKE* computation methods, choice between variable achromatic
+colour ('VAC') and variable chromatic colour ('VCC')
 
 References
 ----------
@@ -80,7 +80,7 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
     method: Union[Literal["VAC", "VCC"], str] = "VCC",
 ) -> FloatingOrNDArray:
     """
-    Returns the HKE value for object colours using *Nayatani (1997)* method.
+    Return the *HKE* value for object colours using *Nayatani (1997)* method.
 
     Parameters
     ----------
@@ -135,7 +135,7 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
     method: Union[Literal["VAC", "VCC"], str] = "VCC",
 ) -> FloatingOrNDArray:
     """
-    Returns the HKE factor for luminous colours using *Nayatani (1997)* method.
+    Return the *HKE* factor for luminous colours using *Nayatani (1997)* method.
 
     Parameters
     ----------
@@ -187,7 +187,7 @@ def coefficient_q_Nayatani1997(
     theta: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the :math:`q(\\theta)` coefficient for *Nayatani (1997)* HKE
+    Return the :math:`q(\\theta)` coefficient for *Nayatani (1997)* *HKE*
     computations.
 
     The hue angle :math:`\\theta` can be computed as follows:
@@ -206,7 +206,7 @@ def coefficient_q_Nayatani1997(
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
-        :math:`q` coefficient for *Nayatani (1997)* HKE methods.
+        :math:`q` coefficient for *Nayatani (1997)* *HKE* methods.
 
     References
     ----------
@@ -245,7 +245,7 @@ def coefficient_K_Br_Nayatani1997(
     L_a: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the :math:`K_{Br}` coefficient for *Nayatani (1997)* HKE
+    Return the :math:`K_{Br}` coefficient for *Nayatani (1997)* *HKE*
     computations.
 
     Parameters
@@ -256,7 +256,7 @@ def coefficient_K_Br_Nayatani1997(
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
-        :math:`K_{Br}` coefficient for *Nayatani (1997)* HKE methods.
+        :math:`K_{Br}` coefficient for *Nayatani (1997)* *HKE* methods.
 
     Notes
     -----

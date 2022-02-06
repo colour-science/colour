@@ -27,13 +27,13 @@ __all__ = [
 
 class TestExponentFunctionBasic(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.exponent.\
+    Define :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition unit tests methods.
     """
 
     def test_exponent_function_basic(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition.
         """
 
@@ -95,7 +95,7 @@ exponent_function_basic` definition.
 
     def test_n_dimensional_exponent_function_basic(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition n-dimensional arrays support.
         """
 
@@ -180,7 +180,7 @@ exponent_function_basic` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_exponent_function_basic(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition nan support.
         """
 
@@ -192,13 +192,13 @@ exponent_function_basic` definition nan support.
 
 class TestExponentFunctionMonitorCurve(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.exponent.\
+    Define :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition unit tests methods.
     """
 
     def test_exponent_function_monitor_curve(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition.
         """
 
@@ -264,7 +264,7 @@ exponent_function_monitor_curve` definition.
 
     def test_n_dimensional_exponent_function_monitor_curve(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition n-dimensional arrays support.
         """
 
@@ -361,7 +361,7 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_exponent_function_monitor_curve(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition nan support.
         """
 

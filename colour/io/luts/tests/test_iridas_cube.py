@@ -37,13 +37,13 @@ LUTS_DIRECTORY: str = os.path.join(
 
 class TestReadLUTIridasCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube` definition
+    Define :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube` definition
     unit tests methods.
     """
 
     def test_read_LUT_IridasCube(self):
         """
-        Tests :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube`
+        Test :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube`
         definition.
         """
 
@@ -113,13 +113,13 @@ class TestReadLUTIridasCube(unittest.TestCase):
 
 class TestWriteLUTIridasCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube` definition
+    Define :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube` definition
     unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -133,7 +133,7 @@ class TestWriteLUTIridasCube(unittest.TestCase):
 
     def test_write_LUT_IridasCube(self):
         """
-        Tests :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube`
+        Test :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube`
         definition.
         """
 

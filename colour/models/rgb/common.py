@@ -49,7 +49,7 @@ def XYZ_to_sRGB(
     apply_cctf_encoding: Boolean = True,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *sRGB* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
     Parameters
     ----------
@@ -70,7 +70,6 @@ def XYZ_to_sRGB(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -128,7 +127,7 @@ def sRGB_to_XYZ(
     apply_cctf_decoding: Boolean = True,
 ) -> NDArray:
     """
-    Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -149,7 +148,6 @@ def sRGB_to_XYZ(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

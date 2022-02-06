@@ -70,7 +70,7 @@ def log_encoding_CanonLog(
     in_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Canon Log* log encoding curve / opto-electronic transfer
+    Define the *Canon Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -96,7 +96,6 @@ def log_encoding_CanonLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -150,7 +149,7 @@ def log_decoding_CanonLog(
     out_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Canon Log* log decoding curve / electro-optical transfer
+    Define the *Canon Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -172,7 +171,6 @@ def log_decoding_CanonLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -218,7 +216,7 @@ def log_encoding_CanonLog2(
     in_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Canon Log 2* log encoding curve / opto-electronic transfer
+    Define the *Canon Log 2* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -240,7 +238,6 @@ def log_encoding_CanonLog2(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -289,7 +286,7 @@ def log_decoding_CanonLog2(
     out_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Canon Log 2* log decoding curve / electro-optical transfer
+    Define the *Canon Log 2* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -311,7 +308,6 @@ def log_decoding_CanonLog2(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -359,7 +355,7 @@ def log_encoding_CanonLog3(
     in_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Canon Log 3* log encoding curve / opto-electronic transfer
+    Define the *Canon Log 3* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -452,7 +448,7 @@ def log_decoding_CanonLog3(
     out_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Canon Log 3* log decoding curve / electro-optical transfer
+    Define the *Canon Log 3* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -474,7 +470,6 @@ def log_decoding_CanonLog3(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

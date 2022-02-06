@@ -48,7 +48,7 @@ def eotf_inverse_DCDM(
     XYZ: FloatingOrArrayLike, out_int: Boolean = False
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *DCDM* inverse electro-optical transfer function (EOTF).
+    Define the *DCDM* inverse electro-optical transfer function (EOTF).
 
     Parameters
     ----------
@@ -69,7 +69,6 @@ def eotf_inverse_DCDM(
 
     Notes
     -----
-
     -   *DCDM* is an absolute transfer function, thus the domain and range
         values for the *Reference* and *1* scales are only indicative that the
         data is not affected by scale transformations.
@@ -116,7 +115,7 @@ def eotf_DCDM(
     in_int: Boolean = False,
 ) -> FloatingOrNDArray:
     """
-    Defines the *DCDM* electro-optical transfer function (EOTF).
+    Define the *DCDM* electro-optical transfer function (EOTF).
 
     Parameters
     ----------
@@ -137,7 +136,6 @@ def eotf_DCDM(
 
     Notes
     -----
-
     -   *DCDM* is an absolute transfer function, thus the domain and range
         values for the *Reference* and *1* scales are only indicative that the
         data is not affected by scale transformations.

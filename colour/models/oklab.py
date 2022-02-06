@@ -73,7 +73,7 @@ MATRIX_2_LAB_TO_LMS: NDArray = np.linalg.inv(MATRIX_2_LMS_TO_LAB)
 
 def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *Oklab* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *Oklab* colourspace.
 
     Parameters
     ----------
@@ -87,7 +87,6 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -129,7 +128,7 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
 
 def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
     """
-    Converts from *Oklab* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *Oklab* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -143,7 +142,6 @@ def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+

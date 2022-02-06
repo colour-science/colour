@@ -83,7 +83,7 @@ __all__ = [
 
 class Signal(AbstractContinuousFunction):
     """
-    Defines the base class for continuous signal.
+    Define the base class for continuous signal.
 
     The class implements the :meth:`Signal.function` method so that evaluating
     the function for any independent domain variable :math:`x \\in\\mathbb{R}`
@@ -544,7 +544,7 @@ class Signal(AbstractContinuousFunction):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the continuous signal.
+        Return a formatted string representation of the continuous signal.
 
         Returns
         -------
@@ -574,7 +574,7 @@ class Signal(AbstractContinuousFunction):
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the continuous signal.
+        Return an evaluable string representation of the continuous signal.
 
         Returns
         -------
@@ -634,7 +634,7 @@ class Signal(AbstractContinuousFunction):
 
     def __hash__(self) -> Integer:
         """
-        Returns the abstract continuous function hash.
+        Return the abstract continuous function hash.
 
         Returns
         -------
@@ -657,7 +657,7 @@ class Signal(AbstractContinuousFunction):
         self, x: Union[FloatingOrArrayLike, slice]
     ) -> FloatingOrNDArray:
         """
-        Returns the corresponding range variable :math:`y` for independent
+        Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
 
         Parameters
@@ -705,7 +705,7 @@ class Signal(AbstractContinuousFunction):
         self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
     ):
         """
-        Sets the corresponding range variable :math:`y` for independent domain
+        Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
 
         Parameters
@@ -795,7 +795,7 @@ class Signal(AbstractContinuousFunction):
 
     def __contains__(self, x: Union[FloatingOrArrayLike, slice]) -> bool:
         """
-        Returns whether the continuous signal contains given independent domain
+        Return whether the continuous signal contains given independent domain
         variable :math:`x`.
 
         Parameters
@@ -834,7 +834,7 @@ class Signal(AbstractContinuousFunction):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the continuous signal is equal to given other object.
+        Return whether the continuous signal is equal to given other object.
 
         Parameters
         ----------
@@ -881,7 +881,7 @@ class Signal(AbstractContinuousFunction):
 
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the continuous signal is not equal to given other
+        Return whether the continuous signal is not equal to given other
         object.
 
         Parameters
@@ -917,7 +917,7 @@ class Signal(AbstractContinuousFunction):
 
     def _create_function(self):
         """
-        Creates the continuous signal underlying function.
+        Create the continuous signal underlying function.
         """
 
         if self._domain.size != 0 and self._range.size != 0:
@@ -931,7 +931,7 @@ class Signal(AbstractContinuousFunction):
 
             def _undefined_function(*args: Any, **kwargs: Any):
                 """
-                Raises a :class:`ValueError` exception.
+                Raise a :class:`ValueError` exception.
 
                 Other Parameters
                 ----------------
@@ -1016,7 +1016,7 @@ class Signal(AbstractContinuousFunction):
         in_place: Boolean = False,
     ) -> AbstractContinuousFunction:
         """
-        Performs given arithmetical operation with operand :math:`a`, the
+        Perform given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
 
         Parameters
@@ -1309,7 +1309,7 @@ class Signal(AbstractContinuousFunction):
     @required("Pandas")
     def to_series(self) -> Series:
         """
-        Converts the continuous signal to a *Pandas* :class:`pandas.Series`
+        Convert the continuous signal to a *Pandas* :class:`pandas.Series`
         class instance.
 
         Returns

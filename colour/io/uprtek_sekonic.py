@@ -148,7 +148,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
     def read(self) -> SpectralDistribution_UPRTek:
         """
-        Reads and parses the spectral data from a given *UPRTek* *CSV* file.
+        Read and parses the spectral data from a given *UPRTek* *CSV* file.
 
         Returns
         -------
@@ -210,7 +210,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
         def as_array(a: Any) -> List:
             """
-            Inputs list of numbers and converts each element to
+            Input list of numbers and converts each element to
             float data type.
             """
 
@@ -349,7 +349,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     def read(self) -> SpectralDistribution_Sekonic:
         """
-        Reads and parses the spectral data from a given *Sekonic* *Pseudo-XLS*
+        Read and parses the spectral data from a given *Sekonic* *Pseudo-XLS*
         file.
 
         Returns

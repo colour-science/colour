@@ -37,7 +37,7 @@ __all__ = [
 
 def log_encoding_Protune(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Protune* log encoding curve / opto-electronic transfer
+    Define the *Protune* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -52,7 +52,6 @@ def log_encoding_Protune(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -84,7 +83,7 @@ def log_encoding_Protune(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_Protune(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Protune* log decoding curve / electro-optical transfer
+    Define the *Protune* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -99,7 +98,6 @@ def log_decoding_Protune(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

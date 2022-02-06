@@ -35,13 +35,13 @@ __all__ = [
 
 class TestPlotPlanckianLocus(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.plot_planckian_locus` definition
+    Define :func:`colour.plotting.temperature.plot_planckian_locus` definition
     unit tests methods.
     """
 
     def test_plot_planckian_locus(self):
         """
-        Tests :func:`colour.plotting.temperature.plot_planckian_locus`
+        Test :func:`colour.plotting.temperature.plot_planckian_locus`
         definition.
         """
 
@@ -57,13 +57,13 @@ class TestPlotPlanckianLocus(unittest.TestCase):
 
 class TestPlotPlanckianLocusCIE1931(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.plot_planckian_locus_CIE1931`
+    Define :func:`colour.plotting.temperature.plot_planckian_locus_CIE1931`
     definition unit tests methods.
     """
 
     def test_plot_planckian_locus(self):
         """
-        Tests :func:`colour.plotting.temperature.plot_planckian_locus_CIE1931`
+        Test :func:`colour.plotting.temperature.plot_planckian_locus_CIE1931`
         definition.
         """
 
@@ -75,13 +75,13 @@ class TestPlotPlanckianLocusCIE1931(unittest.TestCase):
 
 class TestPlotPlanckianLocusCIE1960UCS(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.plot_planckian_locus_CIE1960UCS`
+    Define :func:`colour.plotting.temperature.plot_planckian_locus_CIE1960UCS`
     definition unit tests methods.
     """
 
     def test_plot_planckian_locus(self):
         """
-        Tests :func:`colour.plotting.temperature.\
+        Test :func:`colour.plotting.temperature.\
 plot_planckian_locus_CIE1960UCS` definition.
         """
 
@@ -93,13 +93,13 @@ plot_planckian_locus_CIE1960UCS` definition.
 
 class TestPlotPlanckianLocusInChromaticityDiagram(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.\
+    Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram` definition unit tests methods.
     """
 
     def test_plot_planckian_locus_in_chromaticity_diagram(self):
         """
-        Tests :func:`colour.plotting.temperature.\
+        Test :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram` definition.
         """
 
@@ -141,14 +141,14 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
 
 class TestPlotPlanckianLocusInChromaticityDiagramCIE1931(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.\
+    Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition unit tests
     methods.
     """
 
     def test_plot_planckian_locus_in_chromaticity_diagram_CIE1931(self):
         """
-        Tests :func:`colour.plotting.temperature.\
+        Test :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition.
         """
 
@@ -162,14 +162,14 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition.
 
 class TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.\
+    Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition unit tests
     methods.
     """
 
     def test_plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(self):
         """
-        Tests :func:`colour.plotting.temperature.\
+        Test :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 

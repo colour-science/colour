@@ -24,13 +24,13 @@ __all__ = [
 
 class TestChromaticAdaptationZhai2018(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
+    Define :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
     definition unit tests methods.
     """
 
     def test_chromatic_adaptation_Zhai2018(self):
         """
-        Tests :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
+        Test :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
         definition.
         """
 
@@ -100,7 +100,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
 
     def test_n_dimensional_chromatic_adaptation_Zhai2018(self):
         """
-        Tests :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
+        Test :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
         definition n-dimensional arrays support.
         """
 
@@ -143,7 +143,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
 
     def test_domain_range_scale_chromatic_adaptation_Zhai2018(self):
         """
-        Tests :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
+        Test :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
         definition domain and range scale support.
         """
 
@@ -166,7 +166,7 @@ class TestChromaticAdaptationZhai2018(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_Zhai2018(self):
         """
-        Tests :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
+        Test :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
         definition nan support.
         """
 

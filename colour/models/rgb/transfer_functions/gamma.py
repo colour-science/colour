@@ -41,7 +41,7 @@ def gamma_function(
     ] = "Indeterminate",
 ) -> FloatingOrNDArray:
     """
-    Defines a typical gamma encoding / decoding function.
+    Define a typical gamma encoding / decoding function.
 
     Parameters
     ----------

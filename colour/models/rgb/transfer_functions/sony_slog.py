@@ -65,7 +65,7 @@ def log_encoding_SLog(
     in_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Sony S-Log* log encoding curve / opto-electronic transfer
+    Define the *Sony S-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -88,7 +88,6 @@ def log_encoding_SLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -143,7 +142,7 @@ def log_decoding_SLog(
     out_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Sony S-Log* log decoding curve / electro-optical transfer
+    Define the *Sony S-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -166,7 +165,6 @@ def log_decoding_SLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -213,7 +211,7 @@ def log_encoding_SLog2(
     in_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Sony S-Log2* log encoding curve / opto-electronic transfer
+    Define the *Sony S-Log2* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -236,7 +234,6 @@ def log_encoding_SLog2(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -282,7 +279,7 @@ def log_decoding_SLog2(
     out_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Sony S-Log2* log decoding curve / electro-optical transfer
+    Define the *Sony S-Log2* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -305,7 +302,6 @@ def log_decoding_SLog2(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -344,7 +340,7 @@ def log_encoding_SLog3(
     in_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Sony S-Log3* log encoding curve / opto-electronic transfer
+    Define the *Sony S-Log3* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -367,7 +363,6 @@ def log_encoding_SLog3(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -422,7 +417,7 @@ def log_decoding_SLog3(
     out_reflection: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Sony S-Log3* log decoding curve / electro-optical transfer
+    Define the *Sony S-Log3* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -445,7 +440,6 @@ def log_decoding_SLog3(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

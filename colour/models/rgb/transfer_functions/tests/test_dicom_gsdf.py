@@ -27,13 +27,13 @@ __all__ = [
 
 class TestEotf_inverse_DICOMGSDF(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+    Define :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition unit tests methods.
     """
 
     def test_eotf_inverse_DICOMGSDF(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+        Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition.
         """
 
@@ -55,7 +55,7 @@ eotf_inverse_DICOMGSDF` definition.
 
     def test_n_dimensional_eotf_inverse_DICOMGSDF(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+        Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition n-dimensional arrays support.
         """
 
@@ -76,7 +76,7 @@ eotf_inverse_DICOMGSDF` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_inverse_DICOMGSDF(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+        Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition domain and range scale support.
         """
 
@@ -93,7 +93,7 @@ eotf_inverse_DICOMGSDF` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_inverse_DICOMGSDF(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+        Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_inverse_DICOMGSDF` definition nan support.
         """
 
@@ -104,13 +104,13 @@ eotf_inverse_DICOMGSDF` definition nan support.
 
 class TestEotf_DICOMGSDF(unittest.TestCase):
     """
-        Defines :func:`colour.models.rgb.transfer_functions.dicom_gsdf.
+        Define :func:`colour.models.rgb.transfer_functions.dicom_gsdf.
     eotf_DICOMGSDF` definition unit tests methods.
     """
 
     def test_eotf_DICOMGSDF(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+        Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_DICOMGSDF` definition.
         """
 
@@ -132,7 +132,7 @@ eotf_DICOMGSDF` definition.
 
     def test_n_dimensional_eotf_DICOMGSDF(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+        Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_DICOMGSDF` definition n-dimensional arrays support.
         """
 
@@ -153,7 +153,7 @@ eotf_DICOMGSDF` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_DICOMGSDF(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+        Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_DICOMGSDF` definition domain and range scale support.
         """
 
@@ -170,7 +170,7 @@ eotf_DICOMGSDF` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_DICOMGSDF(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
+        Test :func:`colour.models.rgb.transfer_functions.dicom_gsdf.\
 eotf_DICOMGSDF` definition nan support.
         """
 

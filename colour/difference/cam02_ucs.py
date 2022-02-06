@@ -43,7 +43,7 @@ def delta_E_Luo2006(
     Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike, coefficients: ArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E'` between two given
+    Return the difference :math:`\\Delta E'` between two given
     *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
     :math:`J'a'b'` arrays.
 
@@ -72,7 +72,6 @@ def delta_E_Luo2006(
 
     Notes
     -----
-
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
@@ -116,7 +115,7 @@ def delta_E_CAM02LCD(
     Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E'` between two given
+    Return the difference :math:`\\Delta E'` between two given
     *Luo et al. (2006)* *CAM02-LCD* colourspaces :math:`J'a'b'` arrays.
 
     Parameters
@@ -141,7 +140,6 @@ def delta_E_CAM02LCD(
 
     Notes
     -----
-
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
@@ -179,7 +177,7 @@ def delta_E_CAM02SCD(
     Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E'` between two given
+    Return the difference :math:`\\Delta E'` between two given
     *Luo et al. (2006)* *CAM02-SCD* colourspaces :math:`J'a'b'` arrays.
 
     Parameters
@@ -204,7 +202,6 @@ def delta_E_CAM02SCD(
 
     Notes
     -----
-
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
@@ -242,7 +239,7 @@ def delta_E_CAM02UCS(
     Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E'` between two given
+    Return the difference :math:`\\Delta E'` between two given
     *Luo et al. (2006)* *CAM02-UCS* colourspaces :math:`J'a'b'` arrays.
 
     Parameters
@@ -267,7 +264,6 @@ def delta_E_CAM02UCS(
 
     Notes
     -----
-
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+

@@ -68,13 +68,13 @@ COLOURCHECKER_XRITE_1: Dict = {
 
 class TestReadSdsFromXRiteFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.xrite.read_sds_from_xrite_file` definition unit
+    Define :func:`colour.io.xrite.read_sds_from_xrite_file` definition unit
     tests methods.
     """
 
     def test_read_sds_from_xrite_file(self):
         """
-        Tests :func:`colour.io.xrite.read_sds_from_xrite_file` definition.
+        Test :func:`colour.io.xrite.read_sds_from_xrite_file` definition.
         """
 
         colour_checker_xrite = os.path.join(

@@ -86,7 +86,7 @@ References
 
 def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{76}` between two given
+    Return the difference :math:`\\Delta E_{76}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
@@ -103,7 +103,6 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
@@ -141,7 +140,7 @@ def delta_E_CIE1994(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{94}` between two given
+    Return the difference :math:`\\Delta E_{94}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
@@ -162,7 +161,6 @@ def delta_E_CIE1994(
 
     Notes
     -----
-
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
@@ -234,7 +232,7 @@ def delta_E_CIE2000(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{00}` between two given
+    Return the difference :math:`\\Delta E_{00}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
@@ -255,7 +253,6 @@ def delta_E_CIE2000(
 
     Notes
     -----
-
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
@@ -388,7 +385,7 @@ def delta_E_CMC(
     c: Floating = 1,
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{CMC}` between two given
+    Return the difference :math:`\\Delta E_{CMC}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*
     recommendation.
 
@@ -415,7 +412,6 @@ def delta_E_CMC(
 
     Notes
     -----
-
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+

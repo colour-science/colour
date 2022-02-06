@@ -48,7 +48,7 @@ settings_BT2246 = {
 
 def maximise_spatial_frequency(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Maximises the spatial frequency :math:`u` for given luminance value.
+    Maximise the spatial frequency :math:`u` for given luminance value.
 
     Parameters
     ----------

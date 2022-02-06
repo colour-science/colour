@@ -41,13 +41,13 @@ __all__ = [
 
 class TestNormaliseVector(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.normalise_vector` definition unit
+    Define :func:`colour.algebra.geometry.normalise_vector` definition unit
     tests methods.
     """
 
     def test_normalise_vector(self):
         """
-        Tests :func:`colour.algebra.geometry.normalise_vector` definition.
+        Test :func:`colour.algebra.geometry.normalise_vector` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -71,13 +71,13 @@ class TestNormaliseVector(unittest.TestCase):
 
 class TestEuclideanDistance(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.euclidean_distance` definition unit
+    Define :func:`colour.algebra.geometry.euclidean_distance` definition unit
     tests methods.
     """
 
     def test_euclidean_distance(self):
         """
-        Tests :func:`colour.algebra.geometry.euclidean_distance` definition.
+        Test :func:`colour.algebra.geometry.euclidean_distance` definition.
         """
 
         self.assertAlmostEqual(
@@ -109,7 +109,7 @@ class TestEuclideanDistance(unittest.TestCase):
 
     def test_n_dimensional_euclidean_distance(self):
         """
-        Tests :func:`colour.algebra.geometry.euclidean_distance` definition
+        Test :func:`colour.algebra.geometry.euclidean_distance` definition
         n-dimensional arrays support.
         """
 
@@ -134,7 +134,7 @@ class TestEuclideanDistance(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_euclidean_distance(self):
         """
-        Tests :func:`colour.algebra.geometry.euclidean_distance` definition nan
+        Test :func:`colour.algebra.geometry.euclidean_distance` definition nan
         support.
         """
 
@@ -148,13 +148,13 @@ class TestEuclideanDistance(unittest.TestCase):
 
 class TestManhattanDistance(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.manhattan_distance` definition unit
+    Define :func:`colour.algebra.geometry.manhattan_distance` definition unit
     tests methods.
     """
 
     def test_manhattan_distance(self):
         """
-        Tests :func:`colour.algebra.geometry.manhattan_distance` definition.
+        Test :func:`colour.algebra.geometry.manhattan_distance` definition.
         """
 
         self.assertAlmostEqual(
@@ -186,7 +186,7 @@ class TestManhattanDistance(unittest.TestCase):
 
     def test_n_dimensional_manhattan_distance(self):
         """
-        Tests :func:`colour.algebra.geometry.manhattan_distance` definition
+        Test :func:`colour.algebra.geometry.manhattan_distance` definition
         n-dimensional arrays support.
         """
 
@@ -211,7 +211,7 @@ class TestManhattanDistance(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_manhattan_distance(self):
         """
-        Tests :func:`colour.algebra.geometry.manhattan_distance` definition nan
+        Test :func:`colour.algebra.geometry.manhattan_distance` definition nan
         support.
         """
 
@@ -225,13 +225,13 @@ class TestManhattanDistance(unittest.TestCase):
 
 class TestExtendLineSegment(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.extend_line_segment` definition unit
+    Define :func:`colour.algebra.geometry.extend_line_segment` definition unit
     tests methods.
     """
 
     def test_extend_line_segment(self):
         """
-        Tests :func:`colour.algebra.geometry.extend_line_segment` definition.
+        Test :func:`colour.algebra.geometry.extend_line_segment` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -266,13 +266,13 @@ class TestExtendLineSegment(unittest.TestCase):
 
 class TestIntersectLineSegments(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.intersect_line_segments` definition
+    Define :func:`colour.algebra.geometry.intersect_line_segments` definition
     unit tests methods.
     """
 
     def test_intersect_line_segments(self):
         """
-        Tests :func:`colour.algebra.geometry.intersect_line_segments`
+        Test :func:`colour.algebra.geometry.intersect_line_segments`
         definition.
         """
 
@@ -336,13 +336,13 @@ class TestIntersectLineSegments(unittest.TestCase):
 
 class TestEllipseCoefficientsCanonicalForm(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.ellipse_coefficients_canonical_form`
+    Define :func:`colour.algebra.geometry.ellipse_coefficients_canonical_form`
     definition unit tests methods.
     """
 
     def test_ellipse_coefficients_canonical_form(self):
         """
-        Tests :func:`colour.algebra.geometry.\
+        Test :func:`colour.algebra.geometry.\
 ellipse_coefficients_canonical_form` definition.
         """
 
@@ -365,13 +365,13 @@ ellipse_coefficients_canonical_form` definition.
 
 class TestEllipseCoefficientsGeneralForm(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.ellipse_coefficients_general_form`
+    Define :func:`colour.algebra.geometry.ellipse_coefficients_general_form`
     definition unit tests methods.
     """
 
     def test_ellipse_coefficients_general_form(self):
         """
-        Tests :func:`colour.algebra.geometry.ellipse_coefficients_general_form`
+        Test :func:`colour.algebra.geometry.ellipse_coefficients_general_form`
         definition.
         """
 
@@ -390,13 +390,13 @@ class TestEllipseCoefficientsGeneralForm(unittest.TestCase):
 
 class TestPointAtAngleOnEllipse(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.point_at_angle_on_ellipse`
+    Define :func:`colour.algebra.geometry.point_at_angle_on_ellipse`
     definition unit tests methods.
     """
 
     def test_point_at_angle_on_ellipse(self):
         """
-        Tests :func:`colour.algebra.geometry.point_at_angle_on_ellipse`
+        Test :func:`colour.algebra.geometry.point_at_angle_on_ellipse`
         definition.
         """
 
@@ -432,13 +432,13 @@ class TestPointAtAngleOnEllipse(unittest.TestCase):
 
 class TestEllipseFittingHalir1998(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.ellipse_fitting_Halir1998`
+    Define :func:`colour.algebra.geometry.ellipse_fitting_Halir1998`
     definition unit tests methods.
     """
 
     def test_ellipse_fitting_Halir1998(self):
         """
-        Tests :func:`colour.algebra.geometry.ellipse_fitting_Halir1998`
+        Test :func:`colour.algebra.geometry.ellipse_fitting_Halir1998`
         definition.
         """
 

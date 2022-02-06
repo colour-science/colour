@@ -36,13 +36,13 @@ __all__ = [
 
 class TestMultiSignals(unittest.TestCase):
     """
-    Defines :class:`colour.continuous.multi_signals.MultiSignals` class unit
+    Define :class:`colour.continuous.multi_signals.MultiSignals` class unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._range_1 = np.linspace(10, 100, 10)
@@ -54,7 +54,7 @@ class TestMultiSignals(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -76,7 +76,7 @@ class TestMultiSignals(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -101,7 +101,7 @@ class TestMultiSignals(unittest.TestCase):
 
     def test_dtype(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.dtype`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.dtype`
         property.
         """
 
@@ -113,7 +113,7 @@ class TestMultiSignals(unittest.TestCase):
 
     def test_domain(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.domain`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.domain`
         property.
         """
 
@@ -155,7 +155,7 @@ class TestMultiSignals(unittest.TestCase):
 
     def test_range(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.range`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.range`
         property.
         """
 
@@ -199,7 +199,7 @@ class TestMultiSignals(unittest.TestCase):
 
     def test_interpolator(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.interpolator`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.interpolator`
         property.
         """
 
@@ -237,7 +237,7 @@ class TestMultiSignals(unittest.TestCase):
 
     def test_interpolator_kwargs(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.\
+        Test :func:`colour.continuous.multi_signals.MultiSignals.\
 interpolator_kwargs` property.
         """
 
@@ -278,7 +278,7 @@ interpolator_kwargs` property.
 
     def test_extrapolator(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.extrapolator`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.extrapolator`
         property.
         """
 
@@ -286,7 +286,7 @@ interpolator_kwargs` property.
 
     def test_extrapolator_kwargs(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.\
+        Test :func:`colour.continuous.multi_signals.MultiSignals.\
 extrapolator_kwargs` property.
         """
 
@@ -308,7 +308,7 @@ extrapolator_kwargs` property.
 
     def test_function(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.function`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.function`
         property.
         """
 
@@ -316,7 +316,7 @@ extrapolator_kwargs` property.
 
     def test_raise_exception_function(self):
         """
-        Tests :func:`colour.continuous.signal.multi_signals.MultiSignals.\
+        Test :func:`colour.continuous.signal.multi_signals.MultiSignals.\
 function` property raised exception.
         """
 
@@ -324,7 +324,7 @@ function` property raised exception.
 
     def test_signals(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.signals`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.signals`
         property.
         """
 
@@ -338,7 +338,7 @@ function` property raised exception.
 
     def test_labels(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.labels`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.labels`
         property.
         """
 
@@ -352,7 +352,7 @@ function` property raised exception.
 
     def test_signal_type(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.signal_type`
+        Test :func:`colour.continuous.multi_signals.MultiSignals.signal_type`
         property.
         """
 
@@ -362,7 +362,7 @@ function` property raised exception.
 
     def test__init__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__init__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__init__`
         method.
         """
 
@@ -422,7 +422,7 @@ function` property raised exception.
 
     def test__hash__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__hash__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__hash__`
         method.
         """
 
@@ -430,7 +430,7 @@ function` property raised exception.
 
     def test__str__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__str__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__str__`
         method.
         """
 
@@ -455,7 +455,7 @@ function` property raised exception.
 
     def test__repr__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__repr__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__repr__`
         method.
         """
 
@@ -489,7 +489,7 @@ function` property raised exception.
 
     def test__getitem__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__getitem__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__getitem__`
         method.
         """
 
@@ -590,7 +590,7 @@ function` property raised exception.
 
     def test__setitem__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__setitem__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__setitem__`
         method.
         """
 
@@ -746,7 +746,7 @@ function` property raised exception.
 
     def test__contains__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__contains__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__contains__`
         method.
         """
 
@@ -756,7 +756,7 @@ function` property raised exception.
 
     def test__len__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__len__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__len__`
         method.
         """
 
@@ -764,7 +764,7 @@ function` property raised exception.
 
     def test__eq__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__eq__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__eq__`
         method.
         """
 
@@ -777,7 +777,7 @@ function` property raised exception.
 
     def test__ne__(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.__ne__`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.__ne__`
         method.
         """
 
@@ -827,7 +827,7 @@ function` property raised exception.
 
     def test_arithmetical_operation(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.\
+        Test :func:`colour.continuous.multi_signals.MultiSignals.\
 arithmetical_operation` method.
         """
 
@@ -932,7 +932,7 @@ arithmetical_operation` method.
 
     def test_is_uniform(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.is_uniform`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.is_uniform`
         method.
         """
 
@@ -944,7 +944,7 @@ arithmetical_operation` method.
 
     def test_copy(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.copy` method.
+        Test :func:`colour.continuous.multi_signals.MultiSignals.copy` method.
         """
 
         self.assertIsNot(self._multi_signals, self._multi_signals.copy())
@@ -952,7 +952,7 @@ arithmetical_operation` method.
 
     def test_multi_signals_unpack_data(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.\
+        Test :func:`colour.continuous.multi_signals.MultiSignals.\
 multi_signals_unpack_data` method.
         """
 
@@ -1042,7 +1042,7 @@ multi_signals_unpack_data` method.
 
     def test_fill_nan(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.fill_nan`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.fill_nan`
         method.
         """
 
@@ -1092,7 +1092,7 @@ multi_signals_unpack_data` method.
 
     def test_domain_distance(self):
         """
-        Tests :func:`colour.continuous.multi_signals.MultiSignals.\
+        Test :func:`colour.continuous.multi_signals.MultiSignals.\
 domain_distance` method.
         """
 
@@ -1108,7 +1108,7 @@ domain_distance` method.
 
     def test_to_dataframe(self):
         """
-        Tests :meth:`colour.continuous.multi_signals.MultiSignals.to_dataframe`
+        Test :meth:`colour.continuous.multi_signals.MultiSignals.to_dataframe`
         method.
         """
 

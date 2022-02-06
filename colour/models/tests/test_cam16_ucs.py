@@ -28,7 +28,7 @@ __all__ = [
 
 class TestJMh_CAM16_to_UCS_Li2017(TestJMh_CIECAM02_to_UCS_Luo2006):
     """
-    Defines :func:`colour.models.cam16_ucs.JMh_CAM16_to_UCS_Li2017`
+    Define :func:`colour.models.cam16_ucs.JMh_CAM16_to_UCS_Li2017`
     definition unit tests methods.
 
     Notes
@@ -41,7 +41,7 @@ class TestJMh_CAM16_to_UCS_Li2017(TestJMh_CIECAM02_to_UCS_Luo2006):
 
 class TestUCS_Li2017_to_JMh_CAM16(TestUCS_Luo2006_to_JMh_CIECAM02):
     """
-    Defines :func:`colour.models.cam16_ucs.UCS_Li2017_to_JMh_CAM16`
+    Define :func:`colour.models.cam16_ucs.UCS_Li2017_to_JMh_CAM16`
     definition unit tests methods.
 
     Notes
@@ -54,7 +54,7 @@ class TestUCS_Li2017_to_JMh_CAM16(TestUCS_Luo2006_to_JMh_CIECAM02):
 
 class TestXYZ_to_UCS_Li2017(TestXYZ_to_UCS_Luo2006):
     """
-    Defines :func:`colour.models.cam16_ucs.XYZ_to_UCS_Li2017`
+    Define :func:`colour.models.cam16_ucs.XYZ_to_UCS_Li2017`
     definition unit tests methods.
     """
 
@@ -63,7 +63,7 @@ class TestXYZ_to_UCS_Li2017(TestXYZ_to_UCS_Luo2006):
 
 class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
     """
-    Defines :func:`colour.models.cam16_ucs.UCS_Li2017_to_XYZ`
+    Define :func:`colour.models.cam16_ucs.UCS_Li2017_to_XYZ`
     definition unit tests methods.
     """
 

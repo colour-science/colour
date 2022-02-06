@@ -75,7 +75,7 @@ __all__ = [
 
 class RGB_Colourspace:
     """
-    Implements support for the *RGB* colourspaces datasets from
+    Implement support for the *RGB* colourspaces datasets from
     :mod:`colour.models.datasets.aces_rgb`, etc....
 
     Colour science literature related to *RGB* colourspaces and encodings
@@ -641,7 +641,7 @@ class RGB_Colourspace:
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the *RGB* colourspace.
+        Return a formatted string representation of the *RGB* colourspace.
 
         Returns
         -------
@@ -695,7 +695,7 @@ class RGB_Colourspace:
 
         def _indent_array(a: Optional[NDArray]) -> str:
             """
-            Indents given array string representation.
+            Indent given array string representation.
             """
 
             return str(a).replace(" [", " " * 22 + "[")
@@ -732,7 +732,7 @@ class RGB_Colourspace:
 
     def __repr__(self) -> str:
         """
-        Returns an (almost) evaluable string representation of the *RGB*
+        Return an (almost) evaluable string representation of the *RGB*
         colourspace.
 
         Returns
@@ -773,7 +773,7 @@ class RGB_Colourspace:
 
         def _indent_array(a: Optional[NDArray]) -> str:
             """
-            Indents given array evaluable string representation.
+            Indent given array evaluable string representation.
             """
 
             representation = repr(a).replace(" [", f"{' ' * 11}[")
@@ -807,7 +807,7 @@ class RGB_Colourspace:
 
     def _derive_transformation_matrices(self):
         """
-        Computes the derived transformations matrices, the normalised primary
+        Compute the derived transformations matrices, the normalised primary
         matrix and its inverse.
         """
 
@@ -822,7 +822,7 @@ class RGB_Colourspace:
 
     def use_derived_transformation_matrices(self, usage: Boolean = True):
         """
-        Enables or disables usage of both derived transformations matrices,
+        Enable or disables usage of both derived transformations matrices,
         the normalised primary matrix and its inverse in subsequent
         computations.
 
@@ -858,7 +858,7 @@ class RGB_Colourspace:
         ] = "CAT02",
     ) -> RGB_Colourspace:
         """
-        Chromatically adapts the *RGB* colourspace *primaries* :math:`xy`
+        Chromatically adapt the *RGB* colourspace *primaries* :math:`xy`
         chromaticity coordinates from *RGB* colourspace whitepoint to reference
         ``whitepoint``.
 
@@ -933,7 +933,7 @@ class RGB_Colourspace:
 
     def copy(self) -> RGB_Colourspace:
         """
-        Returns a copy of the *RGB* colourspace.
+        Return a copy of the *RGB* colourspace.
 
         Returns
         -------
@@ -969,7 +969,7 @@ def XYZ_to_RGB(
     cctf_encoding: Optional[Callable] = None,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *RGB* colourspace array.
+    Convert from *CIE XYZ* tristimulus values to *RGB* colourspace array.
 
     Parameters
     ----------
@@ -998,7 +998,6 @@ def XYZ_to_RGB(
 
     Notes
     -----
-
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
@@ -1076,7 +1075,7 @@ def RGB_to_XYZ(
     cctf_decoding: Optional[Callable] = None,
 ) -> NDArray:
     """
-    Converts given *RGB* colourspace array to *CIE XYZ* tristimulus values.
+    Convert given *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -1105,7 +1104,6 @@ def RGB_to_XYZ(
 
     Notes
     -----
-
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
@@ -1180,7 +1178,7 @@ def matrix_RGB_to_RGB(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Computes the matrix :math:`M` converting from given input *RGB*
+    Compute the matrix :math:`M` converting from given input *RGB*
     colourspace to output *RGB* colourspace using given *chromatic
     adaptation* method.
 
@@ -1252,7 +1250,7 @@ def RGB_to_RGB(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Converts given *RGB* colourspace array from given input *RGB* colourspace
+    Convert given *RGB* colourspace array from given input *RGB* colourspace
     to output *RGB* colourspace using given *chromatic adaptation* method.
 
     Parameters
@@ -1285,7 +1283,6 @@ def RGB_to_RGB(
 
     Notes
     -----
-
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+

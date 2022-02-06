@@ -24,13 +24,13 @@ __all__ = [
 
 class TestRGB_to_sd_Smits1999(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
+    Define :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
     definition unit tests methods.
     """
 
     def test_RGB_to_sd_Smits1999(self):
         """
-        Tests :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
+        Test :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition.
         """
 
@@ -168,7 +168,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_sd_Smits1999(self):
         """
-        Tests :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
+        Test :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition domain and range scale support.
         """
 

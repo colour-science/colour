@@ -140,7 +140,7 @@ HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
 @dataclass
 class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     """
-    Defines the *ZCAM* colour appearance model reference specification.
+    Define the *ZCAM* colour appearance model reference specification.
 
     This specification has field names consistent with :cite:`Safdar2021`
     reference.
@@ -191,7 +191,7 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
 @dataclass
 class CAM_Specification_ZCAM(MixinDataclassArithmetic):
     """
-    Defines the *ZCAM* colour appearance model specification.
+    Define the *ZCAM* colour appearance model specification.
 
     Parameters
     ----------
@@ -318,7 +318,7 @@ def XYZ_to_ZCAM(
     discount_illuminant: Boolean = False,
 ) -> CAM_Specification_ZCAM:
     """
-    Computes the *ZCAM* colour appearance model correlates from given *CIE XYZ*
+    Compute the *ZCAM* colour appearance model correlates from given *CIE XYZ*
     tristimulus values.
 
     Parameters
@@ -527,7 +527,7 @@ def ZCAM_to_XYZ(
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
-    Converts from *ZCAM* specification to *CIE XYZ* tristimulus values.
+    Convert from *ZCAM* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -737,7 +737,7 @@ def ZCAM_to_XYZ(
 
 def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the hue quadrature from given hue :math:`h` angle in degrees.
+    Return the hue quadrature from given hue :math:`h` angle in degrees.
 
     Parameters
     ----------

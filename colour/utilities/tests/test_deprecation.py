@@ -50,13 +50,13 @@ __all__ = [
 
 class TestObjectRenamed(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ObjectRenamed` class unit
+    Define :class:`colour.utilities.deprecation.ObjectRenamed` class unit
     tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -66,7 +66,7 @@ class TestObjectRenamed(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.ObjectRenamed.__str__`
+        Test :meth:`colour.utilities.deprecation.ObjectRenamed.__str__`
         method.
         """
 
@@ -76,13 +76,13 @@ class TestObjectRenamed(unittest.TestCase):
 
 class TestObjectRemoved(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ObjectRemoved` class unit
+    Define :class:`colour.utilities.deprecation.ObjectRemoved` class unit
     tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -92,7 +92,7 @@ class TestObjectRemoved(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.ObjectRemoved.__str__`
+        Test :meth:`colour.utilities.deprecation.ObjectRemoved.__str__`
         method.
         """
 
@@ -101,13 +101,13 @@ class TestObjectRemoved(unittest.TestCase):
 
 class TestObjectFutureRename(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ObjectFutureRename` class unit
+    Define :class:`colour.utilities.deprecation.ObjectFutureRename` class unit
     tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -117,7 +117,7 @@ class TestObjectFutureRename(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.ObjectFutureRename.__str__`
+        Test :meth:`colour.utilities.deprecation.ObjectFutureRename.__str__`
         method.
         """
 
@@ -127,13 +127,13 @@ class TestObjectFutureRename(unittest.TestCase):
 
 class TestObjectFutureRemove(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ObjectFutureRemove` class unit
+    Define :class:`colour.utilities.deprecation.ObjectFutureRemove` class unit
     tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -143,7 +143,7 @@ class TestObjectFutureRemove(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.ObjectFutureRemove.__str__`
+        Test :meth:`colour.utilities.deprecation.ObjectFutureRemove.__str__`
         method.
         """
 
@@ -159,13 +159,13 @@ class TestObjectFutureRemove(unittest.TestCase):
 
 class TestObjectFutureAccessChange(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ObjectFutureAccessChange`
+    Define :class:`colour.utilities.deprecation.ObjectFutureAccessChange`
     class unit tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -175,7 +175,7 @@ class TestObjectFutureAccessChange(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.\
+        Test :meth:`colour.utilities.deprecation.\
 ObjectFutureAccessChange.__str__` method.
         """
 
@@ -189,13 +189,13 @@ ObjectFutureAccessChange.__str__` method.
 
 class TestObjectFutureAccessRemove(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ObjectFutureAccessRemove`
+    Define :class:`colour.utilities.deprecation.ObjectFutureAccessRemove`
     class unit tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -205,7 +205,7 @@ class TestObjectFutureAccessRemove(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.\
+        Test :meth:`colour.utilities.deprecation.\
 ObjectFutureAccessRemove.__str__` method.
         """
 
@@ -221,13 +221,13 @@ ObjectFutureAccessRemove.__str__` method.
 
 class TestArgumentRenamed(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ArgumentRenamed` class unit
+    Define :class:`colour.utilities.deprecation.ArgumentRenamed` class unit
     tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -237,7 +237,7 @@ class TestArgumentRenamed(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.ArgumentRenamed.__str__`
+        Test :meth:`colour.utilities.deprecation.ArgumentRenamed.__str__`
         method.
         """
 
@@ -247,13 +247,13 @@ class TestArgumentRenamed(unittest.TestCase):
 
 class TestArgumentRemoved(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ArgumentRemoved` class unit
+    Define :class:`colour.utilities.deprecation.ArgumentRemoved` class unit
     tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -263,7 +263,7 @@ class TestArgumentRemoved(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.ArgumentRemoved.__str__`
+        Test :meth:`colour.utilities.deprecation.ArgumentRemoved.__str__`
         method.
         """
 
@@ -272,13 +272,13 @@ class TestArgumentRemoved(unittest.TestCase):
 
 class TestArgumentFutureRename(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ArgumentFutureRename` class
+    Define :class:`colour.utilities.deprecation.ArgumentFutureRename` class
     unit tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -288,7 +288,7 @@ class TestArgumentFutureRename(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.\
+        Test :meth:`colour.utilities.deprecation.\
 ArgumentFutureRename.__str__` method.
         """
 
@@ -300,13 +300,13 @@ ArgumentFutureRename.__str__` method.
 
 class TestArgumentFutureRemove(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ArgumentFutureRemove` class
+    Define :class:`colour.utilities.deprecation.ArgumentFutureRemove` class
     unit tests methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__str__",)
@@ -316,7 +316,7 @@ class TestArgumentFutureRemove(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.\
+        Test :meth:`colour.utilities.deprecation.\
 ArgumentFutureRemove.__str__` method.
         """
 
@@ -332,13 +332,13 @@ ArgumentFutureRemove.__str__` method.
 
 class TestModuleAPI(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.deprecation.ModuleAPI` class unit tests
+    Define :class:`colour.utilities.deprecation.ModuleAPI` class unit tests
     methods.
     """
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__init__", "__getattr__", "__dir__")
@@ -348,7 +348,7 @@ class TestModuleAPI(unittest.TestCase):
 
     def test__getattr__(self):
         """
-        Tests :meth:`colour.utilities.deprecation.ModuleAPI.__getattr__`
+        Test :meth:`colour.utilities.deprecation.ModuleAPI.__getattr__`
         method.
         """
 
@@ -369,7 +369,7 @@ class TestModuleAPI(unittest.TestCase):
 
     def test_raise_exception__getattr__(self):
         """
-        Tests :func:`colour.utilities.deprecation.ModuleAPI.__getattr__`
+        Test :func:`colour.utilities.deprecation.ModuleAPI.__getattr__`
         method raised exception.
         """
 
@@ -387,13 +387,13 @@ class TestModuleAPI(unittest.TestCase):
 
 class TestGetAttribute(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.deprecation.get_attribute` definition unit
+    Define :func:`colour.utilities.deprecation.get_attribute` definition unit
     tests methods.
     """
 
     def test_get_attribute(self):
         """
-        Tests :func:`colour.utilities.deprecation.get_attribute` definition.
+        Test :func:`colour.utilities.deprecation.get_attribute` definition.
         """
 
         from colour import adaptation
@@ -427,13 +427,13 @@ class TestGetAttribute(unittest.TestCase):
 
 class TestBuildAPIChanges(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.deprecation.build_API_changes` definition
+    Define :func:`colour.utilities.deprecation.build_API_changes` definition
     unit tests methods.
     """
 
     def test_build_API_changes(self):
         """
-        Tests :func:`colour.utilities.deprecation.build_API_changes`
+        Test :func:`colour.utilities.deprecation.build_API_changes`
         definition.
         """
 
@@ -493,13 +493,13 @@ class TestBuildAPIChanges(unittest.TestCase):
 
 class TestHandleArgumentsDeprecation(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.deprecation.handle_arguments_deprecation`
+    Define :func:`colour.utilities.deprecation.handle_arguments_deprecation`
     definition unit tests methods.
     """
 
     def test_handle_arguments_deprecation(self):
         """
-        Tests :func:`colour.utilities.deprecation.handle_arguments_deprecation`
+        Test :func:`colour.utilities.deprecation.handle_arguments_deprecation`
         definition.
         """
 

@@ -134,7 +134,7 @@ def handle_spectral_arguments(
     issue_runtime_warnings: bool = True,
 ) -> Tuple[MultiSpectralDistributions, SpectralDistribution]:
     """
-    Handles the spectral arguments of various *Colour* definitions performing
+    Handle the spectral arguments of various *Colour* definitions performing
     spectral computations.
 
     -   If ``cmfs`` is not given, one is chosen according to ``cmfs_default``.
@@ -205,7 +205,7 @@ def lagrange_coefficients_ASTME2022(
     interval_type: Union[Literal["Boundary", "Inner"], str] = "Inner",
 ) -> NDArray:
     """
-    Computes the *Lagrange Coefficients* for given interval size using practise
+    Compute the *Lagrange Coefficients* for given interval size using practise
     *ASTM E2022-11* method.
 
     Parameters
@@ -283,7 +283,7 @@ def tristimulus_weighting_factors_ASTME2022(
     k: Optional[Number] = None,
 ) -> NDArray:
     """
-    Returns a table of tristimulus weighting factors for given colour matching
+    Return a table of tristimulus weighting factors for given colour matching
     functions and illuminant using practise *ASTM E2022-11* method.
 
     The computed table of tristimulus weighting factors should be used with
@@ -455,7 +455,7 @@ def adjust_tristimulus_weighting_factors_ASTME308(
     W: ArrayLike, shape_r: SpectralShape, shape_t: SpectralShape
 ) -> NDArray:
     """
-    Adjusts given table of tristimulus weighting factors to account for a
+    Adjust given table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
     reference spectral shape using practise  *ASTM E308-15* method:
     Weights at the wavelengths for which data are not available are added to
@@ -532,7 +532,7 @@ def sd_to_XYZ_integration(
     shape: Optional[SpectralShape] = None,
 ) -> NDArray:
     """
-    Converts given spectral distribution to *CIE XYZ* tristimulus values
+    Convert given spectral distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant according to classical
     integration method.
 
@@ -577,7 +577,6 @@ def sd_to_XYZ_integration(
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -704,7 +703,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     k: Optional[Number] = None,
 ) -> NDArray:
     """
-    Converts given spectral distribution to *CIE XYZ* tristimulus values
+    Convert given spectral distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table of
     tristimulus weighting factors according to practise *ASTM E308-15* method.
 
@@ -740,7 +739,6 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -833,7 +831,7 @@ def sd_to_XYZ_ASTME308(
     k: Optional[Number] = None,
 ) -> NDArray:
     """
-    Converts given spectral distribution to *CIE XYZ* tristimulus values using
+    Convert given spectral distribution to *CIE XYZ* tristimulus values using
     given colour matching functions and illuminant according to practise
     *ASTM E308-15* method.
 
@@ -881,7 +879,6 @@ def sd_to_XYZ_ASTME308(
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -1014,7 +1011,7 @@ def sd_to_XYZ(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Converts given spectral distribution to *CIE XYZ* tristimulus values using
+    Convert given spectral distribution to *CIE XYZ* tristimulus values using
     given colour matching functions, illuminant and method.
 
     If ``method`` is *Integration*, the spectral distribution can be either a
@@ -1079,7 +1076,6 @@ def sd_to_XYZ(
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -1179,7 +1175,7 @@ def msds_to_XYZ_integration(
     shape: Optional[SpectralShape] = None,
 ) -> NDArray:
     """
-    Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
+    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant.
 
     The multi-spectral distributions can be either a
@@ -1224,7 +1220,6 @@ def msds_to_XYZ_integration(
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -1327,7 +1322,7 @@ def msds_to_XYZ_ASTME308(
     k: Optional[Number] = None,
 ) -> NDArray:
     """
-    Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
+    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant according to practise
     *ASTM E308-15* method.
 
@@ -1375,7 +1370,6 @@ def msds_to_XYZ_ASTME308(
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -1508,7 +1502,7 @@ def msds_to_XYZ(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Converts given multi-spectral distributions to *CIE XYZ* tristimulus values
+    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant. For the *Integration*
     method, the multi-spectral distributions can be either a
     :class:`colour.MultiSpectralDistributions` class instance or an
@@ -1573,7 +1567,6 @@ def msds_to_XYZ(
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -1678,7 +1671,7 @@ def wavelength_to_XYZ(
     cmfs: Optional[MultiSpectralDistributions] = None,
 ) -> NDArray:
     """
-    Converts given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
+    Convert given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.
 
     If the wavelength :math:`\\lambda` is not available in the colour matching
@@ -1708,7 +1701,6 @@ def wavelength_to_XYZ(
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+

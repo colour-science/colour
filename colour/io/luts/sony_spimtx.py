@@ -33,7 +33,7 @@ __all__ = [
 
 def read_LUT_SonySPImtx(path: str) -> LUTOperatorMatrix:
     """
-    Reads given *Sony* *.spimtx* *LUT* file.
+    Read given *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------
@@ -76,7 +76,7 @@ def write_LUT_SonySPImtx(
     LUT: LUTOperatorMatrix, path: str, decimals: Integer = 7
 ) -> Boolean:
     """
-    Writes given *LUT* to given *Sony* *.spimtx* *LUT* file.
+    Write given *LUT* to given *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------

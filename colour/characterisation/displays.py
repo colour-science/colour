@@ -43,7 +43,7 @@ __all__ = [
 
 class RGB_DisplayPrimaries(MultiSpectralDistributions):
     """
-    Implements support for a *RGB* display (such as a *CRT* or *LCD*)
+    Implement support for a *RGB* display (such as a *CRT* or *LCD*)
     primaries multi-spectral distributions.
 
     Parameters

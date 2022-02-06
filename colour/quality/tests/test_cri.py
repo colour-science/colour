@@ -113,13 +113,13 @@ DATA_SAMPLE: Dict = {
 
 class TestColourRenderingIndex(unittest.TestCase):
     """
-    Defines :func:`colour.quality.cri.colour_rendering_index`
+    Define :func:`colour.quality.cri.colour_rendering_index`
     definition unit tests methods.
     """
 
     def test_colour_rendering_index(self):
         """
-        Tests :func:`colour.quality.cri.colour_rendering_index` definition.
+        Test :func:`colour.quality.cri.colour_rendering_index` definition.
         """
 
         self.assertAlmostEqual(

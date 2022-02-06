@@ -22,13 +22,13 @@ __all__ = [
 
 class TestXYZ_to_sRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.common.XYZ_to_sRGB` definition unit tests
+    Define :func:`colour.models.rgb.common.XYZ_to_sRGB` definition unit tests
     methods.
     """
 
     def test_XYZ_to_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.common.XYZ_to_sRGB` definition.
+        Test :func:`colour.models.rgb.common.XYZ_to_sRGB` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -83,13 +83,13 @@ class TestXYZ_to_sRGB(unittest.TestCase):
 
 class TestsRGB_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.common.sRGB_to_XYZ` definition unit tests
+    Define :func:`colour.models.rgb.common.sRGB_to_XYZ` definition unit tests
     methods.
     """
 
     def test_sRGB_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.common.sRGB_to_XYZ` definition.
+        Test :func:`colour.models.rgb.common.sRGB_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(

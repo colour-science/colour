@@ -32,7 +32,7 @@ XRITE_FILE_ENCODING: str = "utf-8"
 
 def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     """
-    Reads the spectral data from given *X-Rite* file and returns it as a
+    Read the spectral data from given *X-Rite* file and returns it as a
     *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters

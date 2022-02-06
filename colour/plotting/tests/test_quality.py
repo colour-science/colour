@@ -38,13 +38,13 @@ __all__ = [
 
 class TestPlotColourQualityBars(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.quality.plot_colour_quality_bars` definition
+    Define :func:`colour.plotting.quality.plot_colour_quality_bars` definition
     unit tests methods.
     """
 
     def test_plot_colour_quality_bars(self):
         """
-        Tests :func:`colour.plotting.quality.plot_colour_quality_bars`
+        Test :func:`colour.plotting.quality.plot_colour_quality_bars`
         definition.
         """
 
@@ -62,13 +62,13 @@ class TestPlotColourQualityBars(unittest.TestCase):
 
 class TestPlotSingleSdColourRenderingIndexBars(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.quality.\
+    Define :func:`colour.plotting.quality.\
 plot_single_sd_colour_rendering_index_bars` definition unit tests methods.
     """
 
     def test_plot_single_sd_colour_rendering_index_bars(self):
         """
-        Tests :func:`colour.plotting.quality.\
+        Test :func:`colour.plotting.quality.\
 plot_single_sd_colour_rendering_index_bars` definition.
         """
 
@@ -82,13 +82,13 @@ plot_single_sd_colour_rendering_index_bars` definition.
 
 class TestPlotMultiSdsColourRenderingIndexesBars(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.quality.\
+    Define :func:`colour.plotting.quality.\
 plot_multi_sds_colour_rendering_indexes_bars` definition unit tests methods.
     """
 
     def test_plot_multi_sds_colour_rendering_indexes_bars(self):
         """
-        Tests :func:`colour.plotting.quality.\
+        Test :func:`colour.plotting.quality.\
 plot_multi_sds_colour_rendering_indexes_bars` definition.
         """
 
@@ -102,13 +102,13 @@ plot_multi_sds_colour_rendering_indexes_bars` definition.
 
 class TestPlotSingleSdColourQualityScaleBars(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.quality.\
+    Define :func:`colour.plotting.quality.\
 plot_single_sd_colour_quality_scale_bars` definition unit tests methods.
     """
 
     def test_plot_single_sd_colour_quality_scale_bars(self):
         """
-        Tests :func:`colour.plotting.quality.\
+        Test :func:`colour.plotting.quality.\
 plot_single_sd_colour_quality_scale_bars` definition.
         """
 
@@ -122,13 +122,13 @@ plot_single_sd_colour_quality_scale_bars` definition.
 
 class TestPlotMultiSdsColourQualityScalesBars(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.quality.\
+    Define :func:`colour.plotting.quality.\
 plot_multi_sds_colour_quality_scales_bars` definition unit tests methods.
     """
 
     def test_plot_multi_sds_colour_quality_scales_bars(self):
         """
-        Tests :func:`colour.plotting.quality.\
+        Test :func:`colour.plotting.quality.\
 plot_multi_sds_colour_quality_scales_bars` definition.
         """
 

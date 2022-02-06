@@ -225,13 +225,13 @@ DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES: NDArray = np.array(
 
 class TestSpectralUniformity(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.uniformity.spectral_uniformity`
+    Define :func:`colour.colorimetry.uniformity.spectral_uniformity`
     definition unit tests methods.
     """
 
     def test_spectral_uniformity(self):
         """
-        Tests :func:`colour.colorimetry.uniformity.spectral_uniformity`
+        Test :func:`colour.colorimetry.uniformity.spectral_uniformity`
         definition.
         """
 

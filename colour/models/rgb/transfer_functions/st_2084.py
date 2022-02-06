@@ -60,7 +60,7 @@ def eotf_inverse_ST2084(
     constants: Structure = CONSTANTS_ST2084,
 ) -> FloatingOrNDArray:
     """
-    Defines *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
+    Define *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
     transfer function (EOTF).
 
     Parameters
@@ -88,7 +88,6 @@ def eotf_inverse_ST2084(
 
     Notes
     -----
-
     -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.
@@ -136,7 +135,7 @@ def eotf_ST2084(
     constants: Structure = CONSTANTS_ST2084,
 ) -> FloatingOrNDArray:
     """
-    Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
+    Define *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF).
 
     This perceptual quantizer (PQ) has been modeled by Dolby Laboratories
@@ -167,7 +166,6 @@ def eotf_ST2084(
 
     Notes
     -----
-
     -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.

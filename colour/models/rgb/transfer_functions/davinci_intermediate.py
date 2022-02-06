@@ -54,7 +54,7 @@ def oetf_DaVinciIntermediate(
     constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
 ) -> FloatingOrNDArray:
     """
-    Defines the *DaVinci Intermediate* opto-electronic transfer function.
+    Define the *DaVinci Intermediate* opto-electronic transfer function.
 
     Parameters
     ----------
@@ -70,7 +70,6 @@ def oetf_DaVinciIntermediate(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -115,7 +114,7 @@ def oetf_inverse_DaVinciIntermediate(
     constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
 ) -> FloatingOrNDArray:
     """
-    Defines the *DaVinci Intermediate* inverse opto-electronic transfer
+    Define the *DaVinci Intermediate* inverse opto-electronic transfer
     function (OETF).
 
     Parameters
@@ -132,7 +131,6 @@ def oetf_inverse_DaVinciIntermediate(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

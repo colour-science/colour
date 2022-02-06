@@ -117,7 +117,7 @@ class CorrespondingColourDataset(
     )
 ):
     """
-    Defines a corresponding colour dataset.
+    Define a corresponding colour dataset.
 
     Parameters
     ----------
@@ -163,7 +163,7 @@ class CorrespondingChromaticitiesPrediction(
     )
 ):
     """
-    Defines a chromatic adaptation model prediction.
+    Define a chromatic adaptation model prediction.
 
     Parameters
     ----------
@@ -182,7 +182,7 @@ def convert_experiment_results_Breneman1987(
     experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
 ) -> CorrespondingColourDataset:
     """
-    Converts *Breneman (1987)* experiment results to a
+    Convert *Breneman (1987)* experiment results to a
     :class:`colour.CorrespondingColourDataset` class instance.
 
     Parameters
@@ -308,7 +308,7 @@ def corresponding_chromaticities_prediction_Fairchild1990(
     ] = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for *Fairchild (1990)*
+    Return the corresponding chromaticities prediction for *Fairchild (1990)*
     chromatic adaptation model.
 
     Parameters
@@ -379,7 +379,7 @@ def corresponding_chromaticities_prediction_CIE1994(
     ] = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for *CIE 1994*
+    Return the corresponding chromaticities prediction for *CIE 1994*
     chromatic adaptation model.
 
     Parameters
@@ -453,7 +453,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(
     ] = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for *CMCCAT2000*
+    Return the corresponding chromaticities prediction for *CMCCAT2000*
     chromatic adaptation model.
 
     Parameters
@@ -544,7 +544,7 @@ def corresponding_chromaticities_prediction_VonKries(
     ] = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for *Von Kries*
+    Return the corresponding chromaticities prediction for *Von Kries*
     chromatic adaptation model using given transform.
 
     Parameters
@@ -625,7 +625,7 @@ def corresponding_chromaticities_prediction_Zhai2018(
     ] = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for
+    Return the corresponding chromaticities prediction for
     *Zhai and Luo (2018)* chromatic adaptation model using given transform.
 
     Parameters
@@ -744,7 +744,7 @@ def corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-        Returns the corresponding chromaticities prediction for given chromatic
+        Return the corresponding chromaticities prediction for given chromatic
         adaptation model.
 
         Parameters

@@ -91,7 +91,7 @@ __all__ = [
 
 class CacheRegistry:
     """
-    A registry for  mapping-based caches.
+    A registry for mapping-based caches.
 
     Attributes
     ----------
@@ -144,7 +144,7 @@ class CacheRegistry:
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the cache registry.
+        Return a formatted string representation of the cache registry.
 
         Returns
         -------
@@ -161,7 +161,7 @@ class CacheRegistry:
 
     def register_cache(self, name: str) -> Dict:
         """
-        Registers a new cache with given name in the registry.
+        Register a new cache with given name in the registry.
 
         Parameters
         ----------
@@ -191,7 +191,7 @@ class CacheRegistry:
 
     def unregister_cache(self, name: str):
         """
-        Unregisters cache with given name in the registry.
+        Unregister cache with given name in the registry.
 
         Parameters
         ----------
@@ -225,7 +225,7 @@ class CacheRegistry:
 
     def clear_cache(self, name: str):
         """
-        Clears the cache with given name.
+        Clear the cache with given name.
 
         Parameters
         ----------
@@ -248,7 +248,7 @@ class CacheRegistry:
 
     def clear_all_caches(self):
         """
-        Clears all the caches in the registry.
+        Clear all the caches in the registry.
 
         Examples
         --------
@@ -385,7 +385,7 @@ def attest(condition: Boolean, message: str = ""):
 
 def batch(sequence: Sequence, k: Union[Integer, Literal[3]] = 3) -> Generator:
     """
-    Returns a batch generator from given sequence.
+    Return a batch generator from given sequence.
 
     Parameters
     ----------
@@ -445,7 +445,7 @@ class disable_multiprocessing:
 
     def __call__(self, function: Callable) -> Callable:
         """
-        Calls the wrapped definition.
+        Call the wrapped definition.
         """
 
         @functools.wraps(function)
@@ -525,7 +525,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
 
         def map(self, func, iterable, chunksize=None):
             """
-            Applies given function to each element of given iterable.
+            Apply given function to each element of given iterable.
             """
 
             return [func(a) for a in iterable]
@@ -556,7 +556,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
 
 def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *Matplotlib* is installed and available.
+    Return whether *Matplotlib* is installed and available.
 
     Parameters
     ----------
@@ -593,7 +593,7 @@ def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *NetworkX* is installed and available.
+    Return whether *NetworkX* is installed and available.
 
     Parameters
     ----------
@@ -631,7 +631,7 @@ def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *OpenColorIO* is installed and available.
+    Return whether *OpenColorIO* is installed and available.
 
     Parameters
     ----------
@@ -668,7 +668,7 @@ def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *OpenImageIO* is installed and available.
+    Return whether *OpenImageIO* is installed and available.
 
     Parameters
     ----------
@@ -705,7 +705,7 @@ def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *Pandas* is installed and available.
+    Return whether *Pandas* is installed and available.
 
     Parameters
     ----------
@@ -742,7 +742,7 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *Scikit-Learn* (sklearn) is installed and available.
+    Return whether *Scikit-Learn* (sklearn) is installed and available.
 
     Parameters
     ----------
@@ -781,7 +781,7 @@ def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *tqdm* is installed and available.
+    Return whether *tqdm* is installed and available.
 
     Parameters
     ----------
@@ -818,7 +818,7 @@ def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *Trimesh* is installed and available.
+    Return whether *Trimesh* is installed and available.
 
     Parameters
     ----------
@@ -922,7 +922,7 @@ def required(
 
 def is_iterable(a: Any) -> Boolean:
     """
-    Returns whether given variable :math:`a` is iterable.
+    Return whether given variable :math:`a` is iterable.
 
     Parameters
     ----------
@@ -947,7 +947,7 @@ def is_iterable(a: Any) -> Boolean:
 
 def is_string(a: Any) -> Boolean:
     """
-    Returns whether given variable :math:`a` is a :class:`str`-like variable.
+    Return whether given variable :math:`a` is a :class:`str`-like variable.
 
     Parameters
     ----------
@@ -972,7 +972,7 @@ def is_string(a: Any) -> Boolean:
 
 def is_numeric(a: Any) -> Boolean:
     """
-    Returns whether given variable :math:`a` is a :class:`Number`-like
+    Return whether given variable :math:`a` is a :class:`Number`-like
     variable.
 
     Parameters
@@ -1007,7 +1007,7 @@ def is_numeric(a: Any) -> Boolean:
 
 def is_integer(a: Any) -> Boolean:
     """
-    Returns whether given variable :math:`a` is an :class:`numpy.integer`-like
+    Return whether given variable :math:`a` is an :class:`numpy.integer`-like
     variable under given threshold.
 
     Parameters
@@ -1038,7 +1038,7 @@ def is_integer(a: Any) -> Boolean:
 
 def is_sibling(element: Any, mapping: Mapping) -> Boolean:
     """
-    Returns whether given element type is present in given mapping types.
+    Return whether given element type is present in given mapping types.
 
     Parameters
     ----------
@@ -1060,7 +1060,7 @@ def is_sibling(element: Any, mapping: Mapping) -> Boolean:
 
 def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     """
-    Filters keyword arguments incompatible with the given function signature.
+    Filter keyword arguments incompatible with the given function signature.
 
     Parameters
     ----------
@@ -1113,7 +1113,7 @@ def filter_mapping(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict:
     """
-    Filters given mapping with given filterers.
+    Filter given mapping with given filterers.
 
     Parameters
     ----------
@@ -1160,7 +1160,7 @@ def filter_mapping(
         flags: Union[Integer, RegexFlag] = re.IGNORECASE,
     ) -> Dict:
         """
-        Filters given mapping with given filterer.
+        Filter given mapping with given filterer.
 
         Parameters
         ----------
@@ -1241,7 +1241,7 @@ def copy_definition(
     definition: Callable, name: Optional[str] = None
 ) -> Callable:
     """
-    Copies a definition with same code, globals, defaults, closure, and
+    Copie a definition with same code, globals, defaults, closure, and
     name.
 
     Parameters
@@ -1275,7 +1275,7 @@ def validate_method(
     message: str = '"{0}" method is invalid, it must be one of {1}!',
 ) -> str:
     """
-    Validates whether given method exists in the given valid methods and
+    Validate whether given method exists in the given valid methods and
     returns the method lower cased.
 
     Parameters
@@ -1319,7 +1319,7 @@ T = TypeVar("T")
 
 def optional(value: Optional[T], default: T) -> T:
     """
-    Handles optional argument value by providing a default value.
+    Handle optional argument value by providing a default value.
 
     Parameters
     ----------

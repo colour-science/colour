@@ -80,7 +80,7 @@ def chromatic_adaptation_CIE1994(
     n: FloatingOrArrayLike = 1,
 ) -> NDArray:
     """
-    Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
+    Adapt given stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *CIE 1994* chromatic
     adaptation model.
 
@@ -111,7 +111,6 @@ def chromatic_adaptation_CIE1994(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -177,7 +176,7 @@ def chromatic_adaptation_CIE1994(
 
 def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to cone responses.
+    Convert from *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
@@ -201,7 +200,7 @@ def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArray:
 
 def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArray:
     """
-    Converts from cone responses to *CIE XYZ* tristimulus values.
+    Convert from cone responses to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -225,7 +224,7 @@ def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArray:
 
 def intermediate_values(xy_o: ArrayLike) -> NDArray:
     """
-    Returns the intermediate values :math:`\\xi`, :math:`\\eta`,
+    Return the intermediate values :math:`\\xi`, :math:`\\eta`,
     :math:`\\zeta`.
 
     Parameters
@@ -261,7 +260,7 @@ def effective_adapting_responses(
     xez: ArrayLike, Y_o: FloatingOrArrayLike, E_o: FloatingOrArrayLike
 ) -> NDArray:
     """
-    Derives the effective adapting responses in the fundamental primary system
+    Derive the effective adapting responses in the fundamental primary system
     of the test or reference field.
 
     Parameters
@@ -301,7 +300,7 @@ def effective_adapting_responses(
 
 def beta_1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Computes the exponent :math:`\\beta_1` for the middle and long-wavelength
+    Compute the exponent :math:`\\beta_1` for the middle and long-wavelength
     sensitive cones.
 
     Parameters
@@ -325,7 +324,7 @@ def beta_1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Computes the exponent :math:`\\beta_2` for the short-wavelength sensitive
+    Compute the exponent :math:`\\beta_2` for the short-wavelength sensitive
     cones.
 
     Parameters
@@ -351,7 +350,7 @@ def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def exponential_factors(RGB_o: ArrayLike) -> NDArray:
     """
-    Returns the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
+    Return the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
     :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
 
     Parameters
@@ -392,7 +391,7 @@ def K_coefficient(
     n: FloatingOrArrayLike = 1,
 ) -> FloatingOrNDArray:
     """
-    Computes the coefficient :math:`K` for correcting the difference between
+    Compute the coefficient :math:`K` for correcting the difference between
     the test and references illuminances.
 
     Parameters
@@ -461,7 +460,7 @@ def corresponding_colour(
     n: FloatingOrArrayLike = 1,
 ) -> NDArray:
     """
-    Computes the corresponding colour cone responses of given test sample cone
+    Compute the corresponding colour cone responses of given test sample cone
     responses :math:`RGB_1`.
 
     Parameters
@@ -527,7 +526,7 @@ def corresponding_colour(
         n: NDArray,
     ) -> NDArray:
         """
-        Computes the corresponding colour cone responses component.
+        Compute the corresponding colour cone responses component.
         """
 
         return (Y_o * x_2 + n) * spow(K, 1 / y_2) * spow(

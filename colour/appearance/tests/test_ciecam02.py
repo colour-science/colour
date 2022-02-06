@@ -36,13 +36,13 @@ __all__ = [
 
 class TestXYZ_to_CIECAM02(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition unit
+    Define :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition unit
     tests methods.
     """
 
     def test_XYZ_to_CIECAM02(self):
         """
-        Tests :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition.
+        Test :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition.
 
         Notes
         -----
@@ -120,7 +120,7 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_CIECAM02(self):
         """
-        Tests :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
+        Test :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
         n-dimensional support.
         """
 
@@ -158,7 +158,7 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_XYZ_to_CIECAM02(self):
         """
-        Tests :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
+        Test :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
         domain and range scale support.
         """
 
@@ -206,7 +206,7 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_CIECAM02(self):
         """
-        Tests :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
+        Test :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
         nan support.
         """
 
@@ -223,13 +223,13 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
 
 class TestCIECAM02_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition unit
+    Define :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition unit
     tests methods.
     """
 
     def test_CIECAM02_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition.
+        Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition.
         """
 
         specification = CAM_Specification_CIECAM02(
@@ -301,7 +301,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_CIECAM02_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
+        Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -344,7 +344,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_CIECAM02_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
+        Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
         domain and range scale support.
         """
 
@@ -397,7 +397,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_raise_exception_CIECAM02_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
+        Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
         raised exception.
         """
 
@@ -416,7 +416,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CIECAM02_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
+        Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
         nan support.
         """
 

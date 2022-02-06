@@ -35,13 +35,13 @@ __all__ = [
 
 class TestXYZ_to_xyY(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.XYZ_to_xyY` definition unit tests
+    Define :func:`colour.models.cie_xyy.XYZ_to_xyY` definition unit tests
     methods.
     """
 
     def test_XYZ_to_xyY(self):
         """
-        Tests :func:`colour.models.cie_xyy.XYZ_to_xyY` definition.
+        Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -90,7 +90,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_xyY(self):
         """
-        Tests :func:`colour.models.cie_xyy.XYZ_to_xyY` definition n-dimensional
+        Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition n-dimensional
         support.
         """
 
@@ -118,7 +118,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_xyY(self):
         """
-        Tests :func:`colour.models.cie_xyy.XYZ_to_xyY` definition domain and
+        Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition domain and
         range scale support.
         """
 
@@ -141,7 +141,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_xyY(self):
         """
-        Tests :func:`colour.models.cie_xyy.XYZ_to_xyY` definition nan support.
+        Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -154,13 +154,13 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
 class TestxyY_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.xyY_to_XYZ` definition unit tests
+    Define :func:`colour.models.cie_xyy.xyY_to_XYZ` definition unit tests
     methods.
     """
 
     def test_xyY_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_xyy.xyY_to_XYZ` definition.
+        Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -209,7 +209,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_xyY_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_xyy.xyY_to_XYZ` definition n-dimensional
+        Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition n-dimensional
         support.
         """
 
@@ -226,7 +226,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_xyY_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_xyy.xyY_to_XYZ` definition domain and
+        Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition domain and
         range scale support.
         """
 
@@ -249,7 +249,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xyY_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_xyy.xyY_to_XYZ` definition nan support.
+        Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -261,13 +261,13 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
 class TestxyY_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.xyY_to_xy` definition unit tests
+    Define :func:`colour.models.cie_xyy.xyY_to_xy` definition unit tests
     methods.
     """
 
     def test_xyY_to_xy(self):
         """
-        Tests :func:`colour.models.cie_xyy.xyY_to_xy` definition.
+        Test :func:`colour.models.cie_xyy.xyY_to_xy` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -296,7 +296,7 @@ class TestxyY_to_xy(unittest.TestCase):
 
     def test_n_dimensional_xyY_to_xy(self):
         """
-        Tests :func:`colour.models.cie_xyy.xyY_to_xy` definition n-dimensional
+        Test :func:`colour.models.cie_xyy.xyY_to_xy` definition n-dimensional
         support.
         """
 
@@ -313,7 +313,7 @@ class TestxyY_to_xy(unittest.TestCase):
 
     def test_domain_range_scale_xyY_to_xy(self):
         """
-        Tests :func:`colour.models.cie_xyy.xyY_to_xy` definition domain and
+        Test :func:`colour.models.cie_xyy.xyY_to_xy` definition domain and
         range scale support.
         """
 
@@ -336,7 +336,7 @@ class TestxyY_to_xy(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xyY_to_xy(self):
         """
-        Tests :func:`colour.models.cie_xyy.xyY_to_xy` definition nan support.
+        Test :func:`colour.models.cie_xyy.xyY_to_xy` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -348,13 +348,13 @@ class TestxyY_to_xy(unittest.TestCase):
 
 class Testxy_to_xyY(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.xy_to_xyY` definition unit tests
+    Define :func:`colour.models.cie_xyy.xy_to_xyY` definition unit tests
     methods.
     """
 
     def test_xy_to_xyY(self):
         """
-        Tests :func:`colour.models.cie_xyy.xy_to_xyY` definition.
+        Test :func:`colour.models.cie_xyy.xy_to_xyY` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -389,7 +389,7 @@ class Testxy_to_xyY(unittest.TestCase):
 
     def test_n_dimensional_xy_to_xyY(self):
         """
-        Tests :func:`colour.models.cie_xyy.xy_to_xyY` definition n-dimensional
+        Test :func:`colour.models.cie_xyy.xy_to_xyY` definition n-dimensional
         support.
         """
 
@@ -406,7 +406,7 @@ class Testxy_to_xyY(unittest.TestCase):
 
     def test_domain_range_scale_xy_to_xyY(self):
         """
-        Tests :func:`colour.models.cie_xyy.xy_to_xyY` definition domain and
+        Test :func:`colour.models.cie_xyy.xy_to_xyY` definition domain and
         range scale support.
         """
 
@@ -433,7 +433,7 @@ class Testxy_to_xyY(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_xyY(self):
         """
-        Tests :func:`colour.models.cie_xyy.xy_to_xyY` definition nan support.
+        Test :func:`colour.models.cie_xyy.xy_to_xyY` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -445,13 +445,13 @@ class Testxy_to_xyY(unittest.TestCase):
 
 class TestXYZ_to_xy(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.XYZ_to_xy` definition unit tests
+    Define :func:`colour.models.cie_xyy.XYZ_to_xy` definition unit tests
     methods.
     """
 
     def test_XYZ_to_xy(self):
         """
-        Tests :func:`colour.models.cie_xyy.XYZ_to_xy` definition.
+        Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -480,7 +480,7 @@ class TestXYZ_to_xy(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_xy(self):
         """
-        Tests :func:`colour.models.cie_xyy.XYZ_to_xy` definition n-dimensional
+        Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition n-dimensional
         support.
         """
 
@@ -508,7 +508,7 @@ class TestXYZ_to_xy(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_xy(self):
         """
-        Tests :func:`colour.models.cie_xyy.XYZ_to_xy` definition domain and
+        Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition domain and
         range scale support.
         """
 
@@ -527,7 +527,7 @@ class TestXYZ_to_xy(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_xy(self):
         """
-        Tests :func:`colour.models.cie_xyy.XYZ_to_xy` definition nan support.
+        Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -540,13 +540,13 @@ class TestXYZ_to_xy(unittest.TestCase):
 
 class Testxy_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.cie_xyy.xy_to_XYZ` definition unit tests
+    Define :func:`colour.models.cie_xyy.xy_to_XYZ` definition unit tests
     methods.
     """
 
     def test_xy_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_xyy.xy_to_XYZ` definition.
+        Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -575,7 +575,7 @@ class Testxy_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_xy_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_xyy.xy_to_XYZ` definition n-dimensional
+        Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition n-dimensional
         support.
         """
 
@@ -592,7 +592,7 @@ class Testxy_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_xy_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_xyy.xy_to_XYZ` definition domain and
+        Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition domain and
         range scale support.
         """
 
@@ -615,7 +615,7 @@ class Testxy_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_XYZ(self):
         """
-        Tests :func:`colour.models.cie_xyy.xy_to_XYZ` definition nan support.
+        Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

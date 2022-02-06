@@ -25,13 +25,13 @@ __all__ = [
 
 class TestDescribeConversionPath(unittest.TestCase):
     """
-    Defines :func:`colour.graph.conversion.describe_conversion_path` definition
+    Define :func:`colour.graph.conversion.describe_conversion_path` definition
     unit tests methods.
     """
 
     def test_describe_conversion_path(self):
         """
-        Tests :func:`colour.graph.conversion.describe_conversion_path`
+        Test :func:`colour.graph.conversion.describe_conversion_path`
         definition.
         """
 
@@ -52,13 +52,13 @@ class TestDescribeConversionPath(unittest.TestCase):
 
 class TestConvert(unittest.TestCase):
     """
-    Defines :func:`colour.graph.conversion.convert` definition unit tests
+    Define :func:`colour.graph.conversion.convert` definition unit tests
     methods.
     """
 
     def test_convert(self):
         """
-        Tests :func:`colour.graph.conversion.convert` definition.
+        Test :func:`colour.graph.conversion.convert` definition.
         """
 
         RGB_a = convert(
@@ -131,7 +131,7 @@ class TestConvert(unittest.TestCase):
 
     def test_convert_direct_keyword_argument_passing(self):
         """
-        Tests :func:`colour.graph.conversion.convert` definition behaviour when
+        Test :func:`colour.graph.conversion.convert` definition behaviour when
         direct keyword arguments are passed.
         """
 

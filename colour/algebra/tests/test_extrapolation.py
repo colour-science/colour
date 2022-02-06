@@ -28,13 +28,13 @@ __all__ = [
 
 class TestExtrapolator(unittest.TestCase):
     """
-    Defines :class:`colour.algebra.extrapolation.Extrapolator` class unit
+    Define :class:`colour.algebra.extrapolation.Extrapolator` class unit
     tests methods.
     """
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = ("interpolator",)
@@ -44,7 +44,7 @@ class TestExtrapolator(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__init__",)
@@ -54,7 +54,7 @@ class TestExtrapolator(unittest.TestCase):
 
     def test_interpolator(self):
         """
-        Tests :attr:`colour.algebra.extrapolation.Extrapolator.interpolator`
+        Test :attr:`colour.algebra.extrapolation.Extrapolator.interpolator`
         property.
         """
 
@@ -65,7 +65,7 @@ class TestExtrapolator(unittest.TestCase):
 
     def test_method(self):
         """
-        Tests :attr:`colour.algebra.extrapolation.Extrapolator.method`
+        Test :attr:`colour.algebra.extrapolation.Extrapolator.method`
         property.
         """
 
@@ -82,7 +82,7 @@ class TestExtrapolator(unittest.TestCase):
 
     def test_left(self):
         """
-        Tests :attr:`colour.algebra.extrapolation.Extrapolator.left`
+        Test :attr:`colour.algebra.extrapolation.Extrapolator.left`
         property.
         """
 
@@ -94,7 +94,7 @@ class TestExtrapolator(unittest.TestCase):
 
     def test_right(self):
         """
-        Tests :attr:`colour.algebra.extrapolation.Extrapolator.right`
+        Test :attr:`colour.algebra.extrapolation.Extrapolator.right`
         property.
         """
 
@@ -106,7 +106,7 @@ class TestExtrapolator(unittest.TestCase):
 
     def test__call__(self):
         """
-        Tests :meth:`colour.algebra.extrapolation.Extrapolator.__call__`
+        Test :meth:`colour.algebra.extrapolation.Extrapolator.__call__`
         method.
         """
 
@@ -166,7 +166,7 @@ class TestExtrapolator(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests :method:`colour.algebra.extrapolation.Extrapolator.__call__`
+        Test :method:`colour.algebra.extrapolation.Extrapolator.__call__`
         method nan support.
         """
 

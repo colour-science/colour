@@ -49,7 +49,7 @@ __all__ = [
 
 def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` from given
+    Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *McCamy (1992)* method.
 
     Parameters
@@ -86,7 +86,7 @@ def CCT_to_xy_McCamy1992(
     CCT: FloatingOrArrayLike, optimisation_kwargs: Optional[Dict] = None
 ) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *McCamy (1992)* method.
 
     Parameters

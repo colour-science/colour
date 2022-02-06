@@ -123,7 +123,7 @@ def read_LUT(
     **kwargs: Any
 ) -> Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix]:
     """
-    Reads given *LUT* file using given method.
+    Read given *LUT* file using given method.
 
     Parameters
     ----------
@@ -270,7 +270,7 @@ def write_LUT(
     **kwargs: Any
 ) -> Boolean:
     """
-    Writes given *LUT* to given file using given method.
+    Write given *LUT* to given file using given method.
 
     Parameters
     ----------

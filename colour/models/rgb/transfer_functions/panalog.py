@@ -45,7 +45,7 @@ def log_encoding_Panalog(
     black_offset: FloatingOrArrayLike = 10 ** ((64 - 681) / 444),
 ) -> FloatingOrNDArray:
     """
-    Defines the *Panalog* log encoding curve / opto-electronic transfer
+    Define the *Panalog* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -67,7 +67,6 @@ def log_encoding_Panalog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -103,7 +102,7 @@ def log_decoding_Panalog(
     black_offset: FloatingOrArrayLike = 10 ** ((64 - 681) / 444),
 ) -> FloatingOrNDArray:
     """
-    Defines the *Panalog* log decoding curve / electro-optical transfer
+    Define the *Panalog* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -125,7 +124,6 @@ def log_decoding_Panalog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

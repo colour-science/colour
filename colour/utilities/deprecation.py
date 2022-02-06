@@ -54,7 +54,7 @@ class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the class.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -77,7 +77,7 @@ class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the class.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -105,7 +105,7 @@ class ObjectFutureRename(
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the deprecation type.
+        Return a formatted string representation of the deprecation type.
 
         Returns
         -------
@@ -131,7 +131,7 @@ class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the deprecation type.
+        Return a formatted string representation of the deprecation type.
 
         Returns
         -------
@@ -162,7 +162,7 @@ class ObjectFutureAccessChange(
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the deprecation type.
+        Return a formatted string representation of the deprecation type.
 
         Returns
         -------
@@ -191,7 +191,7 @@ class ObjectFutureAccessRemove(
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the deprecation type.
+        Return a formatted string representation of the deprecation type.
 
         Returns
         -------
@@ -218,7 +218,7 @@ class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the class.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -241,7 +241,7 @@ class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the class.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -269,7 +269,7 @@ class ArgumentFutureRename(
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the deprecation type.
+        Return a formatted string representation of the deprecation type.
 
         Returns
         -------
@@ -295,7 +295,7 @@ class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the deprecation type.
+        Return a formatted string representation of the deprecation type.
 
         Returns
         -------
@@ -338,7 +338,7 @@ class ModuleAPI:
 
     def __getattr__(self, attribute: str) -> Any:
         """
-        Returns given attribute value while handling deprecation.
+        Return given attribute value while handling deprecation.
 
         Parameters
         ----------
@@ -375,8 +375,8 @@ class ModuleAPI:
 
     def __dir__(self) -> List:
         """
-        Returns list of names in the module local scope filtered according to
-        the changes.
+        Return the list of names in the module local scope filtered according
+        to the changes.
 
         Returns
         -------
@@ -395,7 +395,7 @@ class ModuleAPI:
 
 def get_attribute(attribute: str) -> Any:
     """
-    Returns given attribute value.
+    Return given attribute value.
 
     Parameters
     ----------
@@ -430,7 +430,7 @@ def get_attribute(attribute: str) -> Any:
 
 def build_API_changes(changes: dict) -> Dict:
     """
-    Builds the effective API changes for a desired API changes mapping.
+    Build the effective API changes for a desired API changes mapping.
 
     Parameters
     ----------
@@ -501,7 +501,7 @@ name='module.object_6_access')}
 
 def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> Dict:
     """
-    Handles arguments deprecation according to desired API changes mapping.
+    Handle arguments deprecation according to desired API changes mapping.
 
     Parameters
     ----------

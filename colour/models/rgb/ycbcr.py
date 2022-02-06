@@ -161,7 +161,7 @@ def matrix_YCbCr(
     is_int: Boolean = False,
 ) -> NDArray:
     """
-    Computes the *R'G'B'* to *Y'CbCr* matrix for given weights, bit depth,
+    Compute the *R'G'B'* to *Y'CbCr* matrix for given weights, bit depth,
     range legality and representation.
 
     The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed with
@@ -245,7 +245,7 @@ def offset_YCbCr(
     bits: Integer = 8, is_legal: Boolean = False, is_int: Boolean = False
 ) -> NDArray:
     """
-    Computes the *R'G'B'* to *Y'CbCr* offsets for given bit depth, range
+    Compute the *R'G'B'* to *Y'CbCr* offsets for given bit depth, range
     legality and representation.
 
     The related *R'G'B'* to *Y'CbCr* matrix can be computed with the
@@ -294,7 +294,7 @@ def RGB_to_YCbCr(
     **kwargs: Any
 ) -> NDArray:
     """
-    Converts an array of *R'G'B'* values to the corresponding *Y'CbCr* colour
+    Convert an array of *R'G'B'* values to the corresponding *Y'CbCr* colour
     encoding values array.
 
     Parameters
@@ -352,7 +352,6 @@ def RGB_to_YCbCr(
 
     Notes
     -----
-
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
@@ -482,7 +481,7 @@ def YCbCr_to_RGB(
     **kwargs: Any
 ) -> NDArray:
     """
-    Converts an array of *Y'CbCr* colour encoding values to the corresponding
+    Convert an array of *Y'CbCr* colour encoding values to the corresponding
     *R'G'B'* values array.
 
     Parameters
@@ -533,7 +532,6 @@ def YCbCr_to_RGB(
 
     Notes
     -----
-
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
@@ -612,7 +610,7 @@ def RGB_to_YcCbcCrc(
     **kwargs: Any
 ) -> NDArray:
     """
-    Converts an array of *RGB* linear values to the corresponding *Yc'Cbc'Crc'*
+    Convert an array of *RGB* linear values to the corresponding *Yc'Cbc'Crc'*
     colour encoding values array.
 
     Parameters
@@ -648,7 +646,6 @@ def RGB_to_YcCbcCrc(
 
     Notes
     -----
-
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
@@ -721,7 +718,7 @@ def YcCbcCrc_to_RGB(
     **kwargs: Any
 ) -> NDArray:
     """
-    Converts an array of *Yc'Cbc'Crc'* colour encoding values to the
+    Convert an array of *Yc'Cbc'Crc'* colour encoding values to the
     corresponding *RGB* array of linear values.
 
     Parameters
@@ -756,7 +753,6 @@ def YcCbcCrc_to_RGB(
 
     Notes
     -----
-
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+

@@ -45,7 +45,7 @@ def log_encoding_Cineon(
     black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
 ) -> FloatingOrNDArray:
     """
-    Defines the *Cineon* log encoding curve / opto-electronic transfer
+    Define the *Cineon* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -62,7 +62,6 @@ def log_encoding_Cineon(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -98,7 +97,7 @@ def log_decoding_Cineon(
     black_offset: FloatingOrArrayLike = 10 ** ((95 - 685) / 300),
 ) -> FloatingOrNDArray:
     """
-    Defines the *Cineon* log decoding curve / electro-optical transfer
+    Define the *Cineon* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -115,7 +114,6 @@ def log_decoding_Cineon(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

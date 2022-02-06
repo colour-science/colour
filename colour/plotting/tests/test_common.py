@@ -73,13 +73,13 @@ __all__ = [
 
 class TestColourStyle(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.colour_style` definition unit tests
+    Define :func:`colour.plotting.common.colour_style` definition unit tests
     methods.
     """
 
     def test_colour_style(self):
         """
-        Tests :func:`colour.plotting.common.colour_style` definition.
+        Test :func:`colour.plotting.common.colour_style` definition.
         """
 
         self.assertIsInstance(colour_style(use_style=False), dict)
@@ -87,13 +87,13 @@ class TestColourStyle(unittest.TestCase):
 
 class TestOverrideStyle(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.override_style` definition unit tests
+    Define :func:`colour.plotting.common.override_style` definition unit tests
     methods.
     """
 
     def test_override_style(self):
         """
-        Tests :func:`colour.plotting.common.override_style` definition.
+        Test :func:`colour.plotting.common.override_style` definition.
         """
 
         text_color = plt.rcParams["text.color"]
@@ -102,7 +102,7 @@ class TestOverrideStyle(unittest.TestCase):
             @override_style(**{"text.color": "red"})
             def test_text_color_override():
                 """
-                Tests :func:`colour.plotting.common.override_style` definition.
+                Test :func:`colour.plotting.common.override_style` definition.
                 """
 
                 attest(plt.rcParams["text.color"] == "red")
@@ -114,13 +114,13 @@ class TestOverrideStyle(unittest.TestCase):
 
 class TestXyzToPlottingColourspace(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.XYZ_to_plotting_colourspace`
+    Define :func:`colour.plotting.common.XYZ_to_plotting_colourspace`
     definition unit tests methods.
     """
 
     def test_XYZ_to_plotting_colourspace(self):
         """
-        Tests :func:`colour.plotting.common.XYZ_to_plotting_colourspace`
+        Test :func:`colour.plotting.common.XYZ_to_plotting_colourspace`
         definition.
         """
 
@@ -132,13 +132,13 @@ class TestXyzToPlottingColourspace(unittest.TestCase):
 
 class TestColourCycle(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.colour_cycle` definition unit tests
+    Define :func:`colour.plotting.common.colour_cycle` definition unit tests
     methods.
     """
 
     def test_colour_cycle(self):
         """
-        Tests :func:`colour.plotting.common.colour_cycle` definition.
+        Test :func:`colour.plotting.common.colour_cycle` definition.
         """
 
         cycler = colour_cycle()
@@ -172,13 +172,13 @@ class TestColourCycle(unittest.TestCase):
 
 class TestArtist(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.artist` definition unit tests
+    Define :func:`colour.plotting.common.artist` definition unit tests
     methods.
     """
 
     def test_artist(self):
         """
-        Tests :func:`colour.plotting.common.artist` definition.
+        Test :func:`colour.plotting.common.artist` definition.
         """
 
         figure_1, axes_1 = artist()
@@ -195,13 +195,13 @@ class TestArtist(unittest.TestCase):
 
 class TestCamera(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.camera` definition unit tests
+    Define :func:`colour.plotting.common.camera` definition unit tests
     methods.
     """
 
     def test_camera(self):
         """
-        Tests :func:`colour.plotting.common.camera` definition.
+        Test :func:`colour.plotting.common.camera` definition.
         """
 
         figure, _axes = artist()
@@ -215,13 +215,13 @@ class TestCamera(unittest.TestCase):
 
 class TestRender(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.render` definition unit tests
+    Define :func:`colour.plotting.common.render` definition unit tests
     methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -235,7 +235,7 @@ class TestRender(unittest.TestCase):
 
     def test_render(self):
         """
-        Tests :func:`colour.plotting.common.render` definition.
+        Test :func:`colour.plotting.common.render` definition.
         """
 
         figure, axes = artist()
@@ -269,13 +269,13 @@ class TestRender(unittest.TestCase):
 
 class TestLabelRectangles(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.label_rectangles` definition unit
+    Define :func:`colour.plotting.common.label_rectangles` definition unit
     tests methods.
     """
 
     def test_label_rectangles(self):
         """
-        Tests :func:`colour.plotting.common.label_rectangles` definition.
+        Test :func:`colour.plotting.common.label_rectangles` definition.
         """
 
         figure, axes = artist()
@@ -291,13 +291,13 @@ class TestLabelRectangles(unittest.TestCase):
 
 class TestUniformAxes3d(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.uniform_axes3d` definition unit tests
+    Define :func:`colour.plotting.common.uniform_axes3d` definition unit tests
     methods.
     """
 
     def test_uniform_axes3d(self):
         """
-        Tests :func:`colour.plotting.common.uniform_axes3d` definition.
+        Test :func:`colour.plotting.common.uniform_axes3d` definition.
         """
 
         figure, _axes = artist()
@@ -311,13 +311,13 @@ class TestUniformAxes3d(unittest.TestCase):
 
 class TestFilterPassthrough(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.filter_passthrough` definition unit
+    Define :func:`colour.plotting.common.filter_passthrough` definition unit
     tests methods.
     """
 
     def test_filter_passthrough(self):
         """
-        Tests :func:`colour.plotting.common.filter_passthrough` definition.
+        Test :func:`colour.plotting.common.filter_passthrough` definition.
         """
 
         self.assertListEqual(
@@ -371,13 +371,13 @@ class TestFilterPassthrough(unittest.TestCase):
 
 class TestFilterRgbColourspaces(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.filter_RGB_colourspaces` definition
+    Define :func:`colour.plotting.common.filter_RGB_colourspaces` definition
     unit tests methods.
     """
 
     def test_filter_RGB_colourspaces(self):
         """
-        Tests :func:`colour.plotting.common.filter_RGB_colourspaces`
+        Test :func:`colour.plotting.common.filter_RGB_colourspaces`
         definition.
         """
 
@@ -394,13 +394,13 @@ class TestFilterRgbColourspaces(unittest.TestCase):
 
 class TestFilterCmfs(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.filter_cmfs` definition unit tests
+    Define :func:`colour.plotting.common.filter_cmfs` definition unit tests
     methods.
     """
 
     def test_filter_cmfs(self):
         """
-        Tests :func:`colour.plotting.common.filter_cmfs` definition.
+        Test :func:`colour.plotting.common.filter_cmfs` definition.
         """
 
         self.assertListEqual(
@@ -419,13 +419,13 @@ class TestFilterCmfs(unittest.TestCase):
 
 class TestFilterIlluminants(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.filter_illuminants` definition unit
+    Define :func:`colour.plotting.common.filter_illuminants` definition unit
     tests methods.
     """
 
     def test_filter_illuminants(self):
         """
-        Tests :func:`colour.plotting.common.filter_illuminants` definition.
+        Test :func:`colour.plotting.common.filter_illuminants` definition.
         """
 
         self.assertListEqual(
@@ -436,13 +436,13 @@ class TestFilterIlluminants(unittest.TestCase):
 
 class TestFilterColourCheckers(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.filter_colour_checkers` definition
+    Define :func:`colour.plotting.common.filter_colour_checkers` definition
     unit tests methods.
     """
 
     def test_filter_colour_checkers(self):
         """
-        Tests :func:`colour.plotting.common.filter_colour_checkers` definition.
+        Test :func:`colour.plotting.common.filter_colour_checkers` definition.
         """
 
         self.assertListEqual(
@@ -461,13 +461,13 @@ class TestFilterColourCheckers(unittest.TestCase):
 
 class TestUpdateSettingsCollection(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.update_settings_collection`
+    Define :func:`colour.plotting.common.update_settings_collection`
     definition unit tests methods.
     """
 
     def test_update_settings_collection(self):
         """
-        Tests :func:`colour.plotting.common.update_settings_collection`
+        Test :func:`colour.plotting.common.update_settings_collection`
         definition.
         """
 
@@ -484,13 +484,13 @@ class TestUpdateSettingsCollection(unittest.TestCase):
 
 class TestPlotSingleColourSwatch(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.plot_single_colour_swatch` definition
+    Define :func:`colour.plotting.common.plot_single_colour_swatch` definition
     unit tests methods.
     """
 
     def test_plot_single_colour_swatch(self):
         """
-        Tests :func:`colour.plotting.common.plot_single_colour_swatch`
+        Test :func:`colour.plotting.common.plot_single_colour_swatch`
         definition.
         """
 
@@ -511,13 +511,13 @@ class TestPlotSingleColourSwatch(unittest.TestCase):
 
 class TestPlotMultiColourSwatches(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.plot_multi_colour_swatches`
+    Define :func:`colour.plotting.common.plot_multi_colour_swatches`
     definition unit tests methods.
     """
 
     def test_plot_multi_colour_swatches(self):
         """
-        Tests :func:`colour.plotting.common.plot_multi_colour_swatches`
+        Test :func:`colour.plotting.common.plot_multi_colour_swatches`
         definition.
         """
 
@@ -547,13 +547,13 @@ class TestPlotMultiColourSwatches(unittest.TestCase):
 
 class TestPlotSingleFunction(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.plot_single_function` definition unit
+    Define :func:`colour.plotting.common.plot_single_function` definition unit
     tests methods.
     """
 
     def test_plot_single_function(self):
         """
-        Tests :func:`colour.plotting.common.plot_single_function` definition.
+        Test :func:`colour.plotting.common.plot_single_function` definition.
         """
 
         figure, axes = plot_single_function(
@@ -566,13 +566,13 @@ class TestPlotSingleFunction(unittest.TestCase):
 
 class TestPlotMultiFunctions(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.plot_multi_functions` definition unit
+    Define :func:`colour.plotting.common.plot_multi_functions` definition unit
     tests methods.
     """
 
     def test_plot_multi_functions(self):
         """
-        Tests :func:`colour.plotting.common.plot_multi_functions` definition.
+        Test :func:`colour.plotting.common.plot_multi_functions` definition.
         """
 
         functions = {
@@ -607,13 +607,13 @@ class TestPlotMultiFunctions(unittest.TestCase):
 
 class TestPlotImage(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.common.plot_image` definition unit tests
+    Define :func:`colour.plotting.common.plot_image` definition unit tests
     methods.
     """
 
     def test_plot_image(self):
         """
-        Tests :func:`colour.plotting.common.plot_image` definition.
+        Test :func:`colour.plotting.common.plot_image` definition.
         """
 
         path = os.path.join(

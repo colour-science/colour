@@ -25,7 +25,7 @@ __all__ = [
 
 def path_to_title(path: str) -> str:
     """
-    Converts given file path to title.
+    Convert given file path to title.
 
     Parameters
     ----------

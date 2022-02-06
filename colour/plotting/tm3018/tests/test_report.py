@@ -30,13 +30,13 @@ __all__ = [
 
 class TestPlotSingleSdColourRenditionReportFull(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.report.\
+    Define :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_full` definition unit tests methods.
     """
 
     def test_plot_single_sd_colour_rendition_report_full(self):
         """
-        Tests :func:`colour.plotting.tm3018.report.\
+        Test :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_full` definition.
         """
 
@@ -50,14 +50,14 @@ plot_single_sd_colour_rendition_report_full` definition.
 
 class TestPlotSingleSdColourRenditionReportIntermediate(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.report.\
+    Define :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_intermediate` definition unit tests
     methods.
     """
 
     def test_plot_single_sd_colour_rendition_report_intermediate(self):
         """
-        Tests :func:`colour.plotting.tm3018.report.\
+        Test :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_intermediate` definition.
         """
 
@@ -71,13 +71,13 @@ plot_single_sd_colour_rendition_report_intermediate` definition.
 
 class TestPlotSingleSdColourRenditionReportSimple(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.report.\
+    Define :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_simple` definition unit tests methods.
     """
 
     def test_plot_color_vector_graphic(self):
         """
-        Tests :func:`colour.plotting.tm3018.report.\
+        Test :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_simple` definition.
         """
 
@@ -91,13 +91,13 @@ plot_single_sd_colour_rendition_report_simple` definition.
 
 class TestPlotSingleSdColourRenditionReport(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.report.\
+    Define :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report` definition unit tests methods.
     """
 
     def test_plot_single_sd_colour_rendition_report(self):
         """
-        Tests :func:`colour.plotting.tm3018.report.\
+        Test :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report` definition.
         """
 

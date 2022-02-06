@@ -20,13 +20,13 @@ __all__ = [
 
 class TestPathToTitle(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.common.path_to_title` definition unit tests
+    Define :func:`colour.io.luts.common.path_to_title` definition unit tests
     methods.
     """
 
     def test_path_to_title(self):
         """
-        Tests :func:`colour.io.luts.common.path_to_title` definition.
+        Test :func:`colour.io.luts.common.path_to_title` definition.
         """
 
         self.assertEqual(

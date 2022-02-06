@@ -49,13 +49,13 @@ __all__ = [
 
 class TestPlotSpectralLocus(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.plot_spectral_locus` definition
+    Define :func:`colour.plotting.diagrams.plot_spectral_locus` definition
     unit tests methods.
     """
 
     def test_plot_spectral_locus(self):
         """
-        Tests :func:`colour.plotting.diagrams.plot_spectral_locus` definition.
+        Test :func:`colour.plotting.diagrams.plot_spectral_locus` definition.
         """
 
         figure, axes = plot_spectral_locus()
@@ -100,13 +100,13 @@ class TestPlotSpectralLocus(unittest.TestCase):
 
 class TestPlotChromaticityDiagramColours(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.plot_chromaticity_diagram_colours`
+    Define :func:`colour.plotting.diagrams.plot_chromaticity_diagram_colours`
     definition unit tests methods.
     """
 
     def test_plot_chromaticity_diagram_colours(self):
         """
-        Tests :func:`colour.plotting.diagrams.\
+        Test :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_colours` definition.
         """
 
@@ -123,13 +123,13 @@ plot_chromaticity_diagram_colours` definition.
 
 class TestPlotChromaticityDiagram(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.plot_chromaticity_diagram`
+    Define :func:`colour.plotting.diagrams.plot_chromaticity_diagram`
     definition unit tests methods.
     """
 
     def test_plot_chromaticity_diagram(self):
         """
-        Tests :func:`colour.plotting.diagrams.plot_chromaticity_diagram`
+        Test :func:`colour.plotting.diagrams.plot_chromaticity_diagram`
         definition.
         """
 
@@ -160,13 +160,13 @@ class TestPlotChromaticityDiagram(unittest.TestCase):
 
 class TestPlotChromaticityDiagramCIE1931(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.plot_chromaticity_diagram_CIE1931`
+    Define :func:`colour.plotting.diagrams.plot_chromaticity_diagram_CIE1931`
     definition unit tests methods.
     """
 
     def test_plot_chromaticity_diagram_CIE1931(self):
         """
-        Tests :func:`colour.plotting.diagrams.\
+        Test :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_CIE1931` definition.
         """
 
@@ -178,13 +178,13 @@ plot_chromaticity_diagram_CIE1931` definition.
 
 class TestPlotChromaticityDiagramCIE1960UCS(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.\
+    Define :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_CIE1960UCS` definition unit tests methods.
     """
 
     def test_plot_chromaticity_diagram_CIE1960UCS(self):
         """
-        Tests :func:`colour.plotting.diagrams.\
+        Test :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_CIE1960UCS` definition.
         """
 
@@ -196,13 +196,13 @@ plot_chromaticity_diagram_CIE1960UCS` definition.
 
 class TestPlotChromaticityDiagramCIE1976UCS(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.\
+    Define :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_CIE1976UCS` definition unit tests methods.
     """
 
     def test_plot_chromaticity_diagram_CIE1976UCS(self):
         """
-        Tests :func:`colour.plotting.diagrams.\
+        Test :func:`colour.plotting.diagrams.\
 plot_chromaticity_diagram_CIE1976UCS` definition.
         """
 
@@ -214,13 +214,13 @@ plot_chromaticity_diagram_CIE1976UCS` definition.
 
 class TestPlotSdsInChromaticityDiagram(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.\
+    Define :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram` definition unit tests methods.
     """
 
     def test_plot_sds_in_chromaticity_diagram(self):
         """
-        Tests :func:`colour.plotting.diagrams.plot_sds_in_chromaticity_diagram`
+        Test :func:`colour.plotting.diagrams.plot_sds_in_chromaticity_diagram`
         definition.
         """
 
@@ -257,13 +257,13 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
 
 class TestPlotSdsInChromaticityDiagramCIE1931(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.\
+    Define :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1931` definition unit tests methods.
     """
 
     def test_plot_sds_in_chromaticity_diagram_CIE1931(self):
         """
-        Tests :func:`colour.plotting.diagrams.\
+        Test :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1931` definition.
         """
 
@@ -277,13 +277,13 @@ plot_sds_in_chromaticity_diagram_CIE1931` definition.
 
 class TestPlotSdsInChromaticityDiagramCIE1960UCS(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.\
+    Define :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1960UCS` definition unit tests methods.
     """
 
     def test_plot_sds_in_chromaticity_diagram_CIE1960UCS(self):
         """
-        Tests :func:`colour.plotting.diagrams.\
+        Test :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
@@ -297,13 +297,13 @@ plot_sds_in_chromaticity_diagram_CIE1960UCS` definition.
 
 class TestPlotSdsInChromaticityDiagramCIE1976UCS(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.diagrams.\
+    Define :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1976UCS` definition unit tests methods.
     """
 
     def test_plot_sds_in_chromaticity_diagram_CIE1976UCS(self):
         """
-        Tests :func:`colour.plotting.diagrams.\
+        Test :func:`colour.plotting.diagrams.\
 plot_sds_in_chromaticity_diagram_CIE1976UCS` definition.
         """
 

@@ -24,13 +24,13 @@ __all__ = [
 
 class TestEotf_inverse_sRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sRGB.eotf_inverse_sRGB`
+    Define :func:`colour.models.rgb.transfer_functions.sRGB.eotf_inverse_sRGB`
     definition unit tests methods.
     """
 
     def test_eotf_inverse_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+        Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_inverse_sRGB` definition.
         """
 
@@ -44,7 +44,7 @@ eotf_inverse_sRGB` definition.
 
     def test_n_dimensional_eotf_inverse_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+        Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_inverse_sRGB` definition n-dimensional arrays support.
         """
 
@@ -65,7 +65,7 @@ eotf_inverse_sRGB` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_inverse_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+        Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_inverse_sRGB` definition domain and range scale support.
         """
 
@@ -82,7 +82,7 @@ eotf_inverse_sRGB` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_inverse_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+        Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_inverse_sRGB` definition nan support.
         """
 
@@ -91,13 +91,13 @@ eotf_inverse_sRGB` definition nan support.
 
 class TestEotf_sRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sRGB.eotf_sRGB`
+    Define :func:`colour.models.rgb.transfer_functions.sRGB.eotf_sRGB`
     definition unit tests methods.
     """
 
     def test_eotf_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+        Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_sRGB` definition.
         """
 
@@ -109,7 +109,7 @@ eotf_sRGB` definition.
 
     def test_n_dimensional_eotf_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+        Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_sRGB` definition n-dimensional arrays support.
         """
 
@@ -130,7 +130,7 @@ eotf_sRGB` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+        Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_sRGB` definition domain and range scale support.
         """
 
@@ -147,7 +147,7 @@ eotf_sRGB` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_sRGB(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+        Test :func:`colour.models.rgb.transfer_functions.sRGB.\
 eotf_sRGB` definition nan support.
         """
 

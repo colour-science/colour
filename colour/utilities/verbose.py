@@ -90,7 +90,7 @@ def message_box(
     print_callable: Callable = print,
 ):
     """
-    Prints a message inside a box.
+    Print a message inside a box.
 
     Parameters
     ----------
@@ -139,7 +139,7 @@ def message_box(
 
     def inner(text):
         """
-        Formats and pads inner text for the message box.
+        Format and pads inner text for the message box.
         """
 
         return "*{0}{1}{2}{0}*".format(
@@ -240,7 +240,7 @@ if os.environ.get(  # pragma: no cover
 
 def warning(*args: Any, **kwargs: Any):
     """
-    Issues a warning.
+    Issue a warning.
 
     Other Parameters
     ----------------
@@ -261,7 +261,7 @@ def warning(*args: Any, **kwargs: Any):
 
 def runtime_warning(*args: Any, **kwargs: Any):
     """
-    Issues a runtime warning.
+    Issue a runtime warning.
 
     Other Parameters
     ----------------
@@ -282,7 +282,7 @@ def runtime_warning(*args: Any, **kwargs: Any):
 
 def usage_warning(*args: Any, **kwargs: Any):
     """
-    Issues a usage warning.
+    Issue a usage warning.
 
     Other Parameters
     ----------------
@@ -308,7 +308,7 @@ def filter_warnings(
     python_warnings: Optional[Union[bool, LiteralWarning]] = None,
 ):
     """
-    Filters *Colour* and also optionally overall Python warnings.
+    Filter *Colour* and also optionally overall Python warnings.
 
     The possible values for all the actions, i.e. each argument, are as
     follows:
@@ -511,7 +511,7 @@ def describe_environment(
     **kwargs: Any,
 ) -> defaultdict:
     """
-    Describes *Colour* running environment, i.e. interpreter, runtime and
+    Describe *Colour* running environment, i.e. interpreter, runtime and
     development packages.
 
     Parameters
@@ -669,7 +669,7 @@ def describe_environment(
 
     def _get_package_version(package: str, mapping: Mapping) -> str:
         """
-        Returns given package version.
+        Return given package version.
         """
 
         namespace = __import__(package)

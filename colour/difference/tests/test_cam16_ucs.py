@@ -20,7 +20,7 @@ __all__ = [
 
 class TestDelta_E_Li2017(TestDelta_E_Luo2006):
     """
-    Defines :func:`colour.difference.cam16_ucs.delta_E_Li2017` definition unit
+    Define :func:`colour.difference.cam16_ucs.delta_E_Li2017` definition unit
     tests methods.
 
     Notes

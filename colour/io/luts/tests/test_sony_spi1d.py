@@ -32,13 +32,13 @@ LUTS_DIRECTORY: str = os.path.join(
 
 class TestReadLUTSonySPI1D(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.sony_spi1d.read_LUT_SonySPI1D` definition
+    Define :func:`colour.io.luts.sony_spi1d.read_LUT_SonySPI1D` definition
     unit tests methods.
     """
 
     def test_read_LUT_SonySPI1D(self):
         """
-        Tests :func:`colour.io.luts.sony_spi1d.read_LUT_SonySPI1D` definition.
+        Test :func:`colour.io.luts.sony_spi1d.read_LUT_SonySPI1D` definition.
         """
 
         LUT_1 = read_LUT_SonySPI1D(
@@ -91,13 +91,13 @@ class TestReadLUTSonySPI1D(unittest.TestCase):
 
 class TestWriteLUTSonySPI1D(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.sony_spi1d.write_LUT_SonySPI1D` definition
+    Define :func:`colour.io.luts.sony_spi1d.write_LUT_SonySPI1D` definition
     unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -111,7 +111,7 @@ class TestWriteLUTSonySPI1D(unittest.TestCase):
 
     def test_write_LUT_SonySPI1D(self):
         """
-        Tests :func:`colour.io.luts.sony_spi1d.write_LUT_SonySPI1D` definition.
+        Test :func:`colour.io.luts.sony_spi1d.write_LUT_SonySPI1D` definition.
         """
 
         LUT_1_r = read_LUT_SonySPI1D(

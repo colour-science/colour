@@ -50,13 +50,13 @@ __all__ = [
 
 class TestDataset_Otsu2018(unittest.TestCase):
     """
-    Defines :class:`colour.recovery.otsu2018.Dataset_Otsu2018` definition unit
+    Define :class:`colour.recovery.otsu2018.Dataset_Otsu2018` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._dataset = DATASET_REFERENCE_OTSU2018
@@ -78,7 +78,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -93,7 +93,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -110,14 +110,14 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_shape(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.shape` property.
+        Test :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.shape` property.
         """
 
         self.assertEqual(self._dataset.shape, SPECTRAL_SHAPE_OTSU2018)
 
     def test_basis_functions(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.basis_functions`
+        Test :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.basis_functions`
         property.
         """
 
@@ -125,7 +125,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_means(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.means`
+        Test :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.means`
         property.
         """
 
@@ -133,7 +133,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_selector_array(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.selector_array`
+        Test :attr:`colour.recovery.otsu2018.Dataset_Otsu2018.selector_array`
         property.
         """
 
@@ -141,7 +141,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.__str__` method.
+        Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.__str__` method.
         """
 
         self.assertEqual(
@@ -152,14 +152,14 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_select(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method.
+        Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method.
         """
 
         self.assertEqual(self._dataset.select(self._xy), 6)
 
     def test_raise_exception_select(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method
+        Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.select` method
         raised exception.
         """
 
@@ -169,7 +169,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_cluster(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method.
+        Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method.
         """
 
         basis_functions, means = self._dataset.cluster(self._xy)
@@ -178,7 +178,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_cluster(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method
+        Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method
         raised exception.
         """
 
@@ -188,7 +188,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_read(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.read` method.
+        Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.read` method.
         """
 
         dataset = Dataset_Otsu2018()
@@ -201,7 +201,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_write(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method.
+        Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method.
         """
 
         self._dataset.write(self._path)
@@ -216,7 +216,7 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_write(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method
+        Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.write` method
         raised exception.
         """
 
@@ -225,13 +225,13 @@ class TestDataset_Otsu2018(unittest.TestCase):
 
 class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition unit
+    Define :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
@@ -243,7 +243,7 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
 
     def test_XYZ_to_sd_Otsu2018(self):
         """
-        Tests :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition.
+        Test :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition.
         """
 
         # Tests the round-trip with values of a colour checker.
@@ -270,7 +270,7 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_XYZ_to_sd_Otsu2018(self):
         """
-        Tests :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
+        Test :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
         raised_exception.
         """
 
@@ -285,7 +285,7 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_sd_Otsu2018(self):
         """
-        Tests :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
+        Test :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
         domain and range scale support.
         """
 
@@ -314,13 +314,13 @@ class TestXYZ_to_sd_Otsu2018(unittest.TestCase):
 
 class TestData_Otsu2018(unittest.TestCase):
     """
-    Defines :class:`colour.recovery.otsu2018.Data_Otsu2018` definition unit
+    Define :class:`colour.recovery.otsu2018.Data_Otsu2018` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
@@ -343,7 +343,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -359,7 +359,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -378,7 +378,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_reflectances(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Data_Otsu2018.reflectances`
+        Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.reflectances`
         property.
         """
 
@@ -386,14 +386,14 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_cmfs(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Data_Otsu2018.cmfs` property.
+        Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.cmfs` property.
         """
 
         self.assertIs(self._data.cmfs, self._cmfs)
 
     def test_illuminant(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Data_Otsu2018.illuminant`
+        Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.illuminant`
         property.
         """
 
@@ -401,7 +401,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_basis_functions(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Data_Otsu2018.basis_functions`
+        Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.basis_functions`
         property.
         """
 
@@ -415,7 +415,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_mean(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Data_Otsu2018.mean` property.
+        Test :attr:`colour.recovery.otsu2018.Data_Otsu2018.mean` property.
         """
 
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
@@ -428,21 +428,21 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.__str__` method.
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.__str__` method.
         """
 
         self.assertEqual(str(self._data), "Data_Otsu2018(24 Reflectances)")
 
     def test__len__(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.__len__` method.
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.__len__` method.
         """
 
         self.assertEqual(len(self._data), 24)
 
     def test_origin(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method.
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method.
         """
 
         self.assertAlmostEqual(
@@ -451,7 +451,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_origin(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method
         raised exception.
         """
 
@@ -464,7 +464,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_partition(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method.
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method.
         """
 
         partition = self._data.partition(PartitionAxis(4, 1))
@@ -473,7 +473,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_partition(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method
         raised exception.
         """
 
@@ -485,7 +485,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_PCA(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.PCA` method.
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.PCA` method.
         """
 
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
@@ -662,7 +662,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_reconstruct(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct`
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct`
         method.
         """
 
@@ -725,7 +725,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_reconstruct(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct` method
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct` method
         raised exception.
         """
 
@@ -737,7 +737,7 @@ class TestData_Otsu2018(unittest.TestCase):
 
     def test_reconstruction_error(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.\
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.\
 reconstruction_error` method.
         """
 
@@ -749,7 +749,7 @@ reconstruction_error` method.
 
     def test_raise_exception_reconstruction_error(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Data_Otsu2018.\
+        Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.\
 reconstruction_error` method raised exception.
         """
 
@@ -761,13 +761,13 @@ reconstruction_error` method raised exception.
 
 class TestNode_Otsu2018(unittest.TestCase):
     """
-    Defines :class:`colour.recovery.otsu2018.Node_Otsu2018` definition unit
+    Define :class:`colour.recovery.otsu2018.Node_Otsu2018` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
@@ -798,7 +798,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = ("partition_axis", "row")
@@ -808,7 +808,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -824,7 +824,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_partition_axis(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Node_Otsu2018.partition_axis`
+        Test :attr:`colour.recovery.otsu2018.Node_Otsu2018.partition_axis`
         property.
         """
 
@@ -832,7 +832,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_row(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Node_Otsu2018.row` property.
+        Test :attr:`colour.recovery.otsu2018.Node_Otsu2018.row` property.
         """
 
         self.assertTupleEqual(
@@ -847,7 +847,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_raise_exception_row(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Node_Otsu2018.row` property
+        Test :attr:`colour.recovery.otsu2018.Node_Otsu2018.row` property
         raised exception.
         """
 
@@ -855,7 +855,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_split(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Node_Otsu2018.split` method.
+        Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.split` method.
         """
 
         node_a = Node_Otsu2018(self._tree, None)
@@ -867,7 +867,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_minimise(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Node_Otsu2018.minimise` method.
+        Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.minimise` method.
         """
 
         node = Node_Otsu2018(data=self._data_a)
@@ -881,7 +881,7 @@ class TestNode_Otsu2018(unittest.TestCase):
 
     def test_leaf_reconstruction_error(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Node_Otsu2018.\
+        Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.\
 leaf_reconstruction_error` method.
         """
 
@@ -893,7 +893,7 @@ leaf_reconstruction_error` method.
 
     def test_branch_reconstruction_error(self):
         """
-        Tests :meth:`colour.recovery.otsu2018.Node_Otsu2018.\
+        Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.\
 branch_reconstruction_error` method.
         """
 
@@ -906,13 +906,13 @@ branch_reconstruction_error` method.
 
 class TestTree_Otsu2018(unittest.TestCase):
     """
-    Defines :class:`colour.recovery.otsu2018.Tree_Otsu2018` definition unit
+    Define :class:`colour.recovery.otsu2018.Tree_Otsu2018` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._shape = SPECTRAL_SHAPE_OTSU2018
@@ -947,7 +947,7 @@ class TestTree_Otsu2018(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = ("reflectances", "cmfs", "illuminant")
@@ -957,7 +957,7 @@ class TestTree_Otsu2018(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = ("__init__", "__str__", "optimise", "to_dataset")
@@ -967,7 +967,7 @@ class TestTree_Otsu2018(unittest.TestCase):
 
     def test_reflectances(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Tree_Otsu2018.reflectances`
+        Test :attr:`colour.recovery.otsu2018.Tree_Otsu2018.reflectances`
         property.
         """
 
@@ -983,14 +983,14 @@ class TestTree_Otsu2018(unittest.TestCase):
 
     def test_cmfs(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Tree_Otsu2018.cmfs` property.
+        Test :attr:`colour.recovery.otsu2018.Tree_Otsu2018.cmfs` property.
         """
 
         self.assertIs(self._tree.cmfs, self._cmfs)
 
     def test_illuminant(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Tree_Otsu2018.illuminant`
+        Test :attr:`colour.recovery.otsu2018.Tree_Otsu2018.illuminant`
         property.
         """
 
@@ -998,7 +998,7 @@ class TestTree_Otsu2018(unittest.TestCase):
 
     def test_optimise(self):
         """
-        Tests :class:`colour.recovery.otsu2018.Tree_Otsu2018.optimise` method.
+        Test :class:`colour.recovery.otsu2018.Tree_Otsu2018.optimise` method.
         """
 
         node_tree = Tree_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
@@ -1033,7 +1033,7 @@ class TestTree_Otsu2018(unittest.TestCase):
 
     def test_to_dataset(self):
         """
-        Tests :attr:`colour.recovery.otsu2018.Tree_Otsu2018.to_dataset`
+        Test :attr:`colour.recovery.otsu2018.Tree_Otsu2018.to_dataset`
         method.
         """
 

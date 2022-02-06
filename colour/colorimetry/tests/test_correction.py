@@ -65,13 +65,13 @@ DATA_BANDPASS_CORRECTED: Tuple = (
 
 class TestBandpassCorrectionStearns1988(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.correction.\
+    Define :func:`colour.colorimetry.correction.\
 bandpass_correction_Stearns1988` definition unit tests methods.
     """
 
     def test_bandpass_correction_Stearns1988(self):
         """
-        Tests :func:`colour.colorimetry.correction.\
+        Test :func:`colour.colorimetry.correction.\
 bandpass_correction_Stearns1988` definition.
         """
 

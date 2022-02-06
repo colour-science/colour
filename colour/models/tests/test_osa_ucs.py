@@ -24,13 +24,13 @@ __all__ = [
 
 class TestXYZ_to_OSA_UCS(unittest.TestCase):
     """
-    Defines :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition unit tests
+    Define :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition unit tests
     methods.
     """
 
     def test_XYZ_to_OSA_UCS(self):
         """
-        Tests :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition.
+        Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -59,7 +59,7 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_OSA_UCS(self):
         """
-        Tests :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition
+        Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition
         n-dimensional support.
         """
 
@@ -76,7 +76,7 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_OSA_UCS(self):
         """
-        Tests :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition domain
+        Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition domain
         and range scale support.
         """
 
@@ -93,7 +93,7 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_OSA_UCS(self):
         """
-        Tests :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition nan
+        Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition nan
         support.
         """
 
@@ -105,13 +105,13 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
 
 class TestOSA_UCS_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition unit tests
+    Define :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition unit tests
     methods.
     """
 
     def test_OSA_UCS_to_XYZ(self):
         """
-        Tests :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition.
+        Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition.
         """
 
         np.testing.assert_allclose(
@@ -146,7 +146,7 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_OSA_UCS_to_XYZ(self):
         """
-        Tests :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition
+        Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -167,7 +167,7 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_OSA_UCS_to_XYZ(self):
         """
-        Tests :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition domain
+        Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition domain
         and range scale support.
         """
 
@@ -184,7 +184,7 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_OSA_UCS_to_XYZ(self):
         """
-        Tests :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition nan
+        Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition nan
         support.
         """
 

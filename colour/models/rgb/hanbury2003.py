@@ -60,7 +60,7 @@ MATRIX_YC_1_C_2_TO_RGB: NDArray = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
 
 def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
     """
-    Converts from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
+    Convert from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
 
     Parameters
     ----------
@@ -74,7 +74,6 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -118,7 +117,7 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
 
 def IHLS_to_RGB(HYS: ArrayLike) -> NDArray:
     """
-    Converts from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
+    Convert from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
 
     Parameters
     ----------
@@ -132,7 +131,6 @@ def IHLS_to_RGB(HYS: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

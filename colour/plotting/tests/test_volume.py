@@ -26,13 +26,13 @@ __all__ = [
 
 class TestNadirGrid(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.volume.nadir_grid` definition unit tests
+    Define :func:`colour.plotting.volume.nadir_grid` definition unit tests
     methods.
     """
 
     def test_nadir_grid(self):
         """
-        Tests :func:`colour.plotting.volume.nadir_grid` definition.
+        Test :func:`colour.plotting.volume.nadir_grid` definition.
         """
 
         quads, faces_colours, edges_colours = nadir_grid(segments=1)
@@ -123,13 +123,13 @@ class TestNadirGrid(unittest.TestCase):
 
 class TestRGBIdentityCube(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.volume.RGB_identity_cube` definition unit
+    Define :func:`colour.plotting.volume.RGB_identity_cube` definition unit
     tests methods.
     """
 
     def test_RGB_identity_cube(self):
         """
-        Tests :func:`colour.plotting.volume.RGB_identity_cube` definition.
+        Test :func:`colour.plotting.volume.RGB_identity_cube` definition.
         """
 
         vertices, RGB = RGB_identity_cube(1, 1, 1)
@@ -197,13 +197,13 @@ class TestRGBIdentityCube(unittest.TestCase):
 
 class TestPlotRGBColourspacesGamuts(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
+    Define :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
     definition unit tests methods.
     """
 
     def test_plot_RGB_colourspaces_gamuts(self):
         """
-        Tests :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
+        Test :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
         definition.
         """
 
@@ -220,13 +220,13 @@ class TestPlotRGBColourspacesGamuts(unittest.TestCase):
 
 class TestPlotRGBScatter(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.volume.plot_RGB_scatter` definition unit
+    Define :func:`colour.plotting.volume.plot_RGB_scatter` definition unit
     tests methods.
     """
 
     def test_plot_RGB_scatter(self):
         """
-        Tests :func:`colour.plotting.volume.plot_RGB_scatter` definition.
+        Test :func:`colour.plotting.volume.plot_RGB_scatter` definition.
         """
 
         figure, axes = plot_RGB_scatter(

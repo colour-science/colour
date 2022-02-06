@@ -57,7 +57,7 @@ def planck_law(
     n: Floating = CONSTANT_N,
 ) -> FloatingOrNDArray:
     """
-    Returns the spectral radiance of a blackbody at thermodynamic temperature
+    Return the spectral radiance of a blackbody at thermodynamic temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
 
     Parameters
@@ -122,7 +122,7 @@ def sd_blackbody(
     n: Floating = CONSTANT_N,
 ) -> SpectralDistribution:
     """
-    Returns the spectral distribution of the planckian radiator for given
+    Return the spectral distribution of the planckian radiator for given
     temperature :math:`T[K]` with values in
     *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`).
 

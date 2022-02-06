@@ -34,13 +34,13 @@ LUTS_DIRECTORY: str = os.path.join(
 
 class TestReadLUTCinespace(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace` definition
+    Define :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace` definition
     unit tests methods.
     """
 
     def test_read_LUT_Cinespace(self):
         """
-        Tests :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace`
+        Test :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace`
         definition.
         """
 
@@ -124,13 +124,13 @@ class TestReadLUTCinespace(unittest.TestCase):
 
 class TestWriteLUTCinespace(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace` definition
+    Define :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace` definition
     unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -144,7 +144,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
     def test_write_LUT_Cinespace(self):
         """
-        Tests :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
+        Test :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
         definition.
         """
 
@@ -285,7 +285,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
     def test_raise_exception_write_LUT_Cinespace(self):
         """
-        Tests :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
+        Test :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
         definition raised exception.
         """
 

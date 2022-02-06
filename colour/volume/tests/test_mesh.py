@@ -23,13 +23,13 @@ __all__ = [
 
 class TestIsWithinMeshVolume(unittest.TestCase):
     """
-    Defines :func:`colour.volume.mesh.is_within_mesh_volume` definition unit
+    Define :func:`colour.volume.mesh.is_within_mesh_volume` definition unit
     tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._mesh = np.array(
@@ -44,7 +44,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
 
     def test_is_within_mesh_volume(self):
         """
-        Tests :func:`colour.volume.mesh.is_within_mesh_volume` definition.
+        Test :func:`colour.volume.mesh.is_within_mesh_volume` definition.
         """
 
         self.assertTrue(
@@ -73,7 +73,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
 
     def test_n_dimensional_is_within_mesh_volume(self):
         """
-        Tests :func:`colour.volume.mesh.is_within_mesh_volume` definition
+        Test :func:`colour.volume.mesh.is_within_mesh_volume` definition
         n-dimensional arrays support.
         """
 
@@ -91,7 +91,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_is_within_mesh_volume(self):
         """
-        Tests :func:`colour.volume.mesh.is_within_mesh_volume` definition nan
+        Test :func:`colour.volume.mesh.is_within_mesh_volume` definition nan
         support.
         """
 

@@ -114,7 +114,7 @@ def plot_spectral_locus(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Spectral Locus* according to given method.
+    Plot the *Spectral Locus* according to given method.
 
     Parameters
     ----------
@@ -381,7 +381,7 @@ def plot_chromaticity_diagram_colours(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Chromaticity Diagram* colours according to given method.
+    Plot the *Chromaticity Diagram* colours according to given method.
 
     Parameters
     ----------
@@ -499,7 +499,7 @@ def plot_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *Chromaticity Diagram* according to given method.
+    Plot the *Chromaticity Diagram* according to given method.
 
     Parameters
     ----------
@@ -606,7 +606,7 @@ def plot_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *CIE 1931 Chromaticity Diagram*.
+    Plot the *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -662,7 +662,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *CIE 1960 UCS Chromaticity Diagram*.
+    Plot the *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -718,7 +718,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the *CIE 1976 UCS Chromaticity Diagram*.
+    Plot the *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
@@ -782,7 +782,7 @@ def plot_sds_in_chromaticity_diagram(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given spectral distribution chromaticity coordinates into the
+    Plot given spectral distribution chromaticity coordinates into the
     *Chromaticity Diagram* using given method.
 
     Parameters
@@ -903,7 +903,7 @@ def plot_sds_in_chromaticity_diagram(
 
         def XYZ_to_ij(XYZ: NDArray) -> NDArray:
             """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
             """
 
@@ -914,7 +914,7 @@ def plot_sds_in_chromaticity_diagram(
 
         def XYZ_to_ij(XYZ: NDArray) -> NDArray:
             """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
             """
 
@@ -926,7 +926,7 @@ def plot_sds_in_chromaticity_diagram(
 
         def XYZ_to_ij(XYZ: NDArray) -> NDArray:
             """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            Convert given *CIE XYZ* tristimulus values to *ij* chromaticity
             coordinates.
             """
 
@@ -1037,7 +1037,7 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given spectral distribution chromaticity coordinates into the
+    Plot given spectral distribution chromaticity coordinates into the
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
@@ -1149,7 +1149,7 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given spectral distribution chromaticity coordinates into the
+    Plot given spectral distribution chromaticity coordinates into the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
@@ -1262,7 +1262,7 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given spectral distribution chromaticity coordinates into the
+    Plot given spectral distribution chromaticity coordinates into the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters

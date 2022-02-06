@@ -27,13 +27,13 @@ __all__ = [
 
 class TestRGB_COLOURSPACES(unittest.TestCase):
     """
-    Defines :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES`
+    Define :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES`
     attribute unit tests methods.
     """
 
     def test_transformation_matrices(self):
         """
-        Tests the transformations matrices from the
+        Test the transformations matrices from the
         :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES` attribute
         colourspace models.
         """
@@ -80,7 +80,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
     def test_cctf(self):
         """
-        Tests colour component transfer functions from the
+        Test colour component transfer functions from the
         :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES` attribute
         colourspace models.
         """
@@ -108,7 +108,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
     def test_n_dimensional_cctf(self):
         """
-        Tests colour component transfer functions from the
+        Test colour component transfer functions from the
         :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES` attribute
         colourspace models n-dimensional arrays support.
         """
@@ -153,7 +153,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_cctf(self):
         """
-        Tests colour component transfer functions from the
+        Test colour component transfer functions from the
         :attr:`colour.models.rgb.datasets.RGB_COLOURSPACES` attribute
         colourspace models nan support.
         """
@@ -166,7 +166,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
     def test_pickle(self):
         """
-        Tests the "pickle-ability" of the *RGB* colourspaces.
+        Test the "pickle-ability" of the *RGB* colourspaces.
         """
 
         for colourspace in RGB_COLOURSPACES.values():

@@ -85,7 +85,7 @@ def Lab_to_DIN99(
     ] = "DIN99",
 ) -> NDArray:
     """
-    Converts from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
+    Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
     to *Cui et al. (2002)*.
 
@@ -110,7 +110,6 @@ def Lab_to_DIN99(
 
     Notes
     -----
-
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
@@ -178,7 +177,7 @@ def DIN99_to_Lab(
     ] = "DIN99",
 ) -> NDArray:
     """
-    Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
+    Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to
     *CIE L\\*a\\*b\\** colourspace.
 
@@ -203,7 +202,6 @@ def DIN99_to_Lab(
 
     Notes
     -----
-
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
@@ -274,7 +272,7 @@ def XYZ_to_DIN99(
     ] = "DIN99",
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *DIN99* colourspace or
+    Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
     to *Cui et al. (2002)*.
 
@@ -302,7 +300,6 @@ def XYZ_to_DIN99(
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -350,7 +347,7 @@ def DIN99_to_XYZ(
     ] = "DIN99",
 ) -> NDArray:
     """
-    Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
+    Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to *CIE XYZ*
     tristimulus values.
 
@@ -378,7 +375,6 @@ def DIN99_to_XYZ(
 
     Notes
     -----
-
     +----------------+------------------------+--------------------+
     | **Domain**     | **Scale - Reference**  | **Scale - 1**      |
     +================+========================+====================+

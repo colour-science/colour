@@ -1251,13 +1251,13 @@ DATA_MULTI_SAMPLE_ABRIDGED: Dict = {
 
 class TestSpectralShape(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.spectrum.SpectralShape` class unit tests
+    Define :class:`colour.colorimetry.spectrum.SpectralShape` class unit tests
     methods.
     """
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = ("start", "end", "interval", "boundaries")
@@ -1267,7 +1267,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -1288,7 +1288,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test_start(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.start`
+        Test :attr:`colour.colorimetry.spectrum.SpectralShape.start`
         attribute.
         """
 
@@ -1300,7 +1300,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test_end(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.end` property.
+        Test :attr:`colour.colorimetry.spectrum.SpectralShape.end` property.
         """
 
         self.assertEqual(SpectralShape(360, 830, 1).end, 830)
@@ -1311,7 +1311,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test_interval(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.interval`
+        Test :attr:`colour.colorimetry.spectrum.SpectralShape.interval`
         property.
         """
 
@@ -1319,7 +1319,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test_boundaries(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.boundaries`
+        Test :attr:`colour.colorimetry.spectrum.SpectralShape.boundaries`
         property.
         """
 
@@ -1331,7 +1331,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__hash__(self):
         """
-        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__hash__`
+        Test :meth:`colour.colorimetry.spectrum.SpectralShape.__hash__`
         method.
         """
 
@@ -1339,7 +1339,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__iter__(self):
         """
-        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__iter__`
+        Test :meth:`colour.colorimetry.spectrum.SpectralShape.__iter__`
         method.
         """
 
@@ -1350,7 +1350,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__contains__(self):
         """
-        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__contains__`
+        Test :meth:`colour.colorimetry.spectrum.SpectralShape.__contains__`
         method.
         """
 
@@ -1364,7 +1364,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__len__(self):
         """
-        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__len__`
+        Test :meth:`colour.colorimetry.spectrum.SpectralShape.__len__`
         method.
         """
 
@@ -1372,7 +1372,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__eq__(self):
         """
-        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__eq__`
+        Test :meth:`colour.colorimetry.spectrum.SpectralShape.__eq__`
         method.
         """
 
@@ -1381,7 +1381,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test__ne__(self):
         """
-        Tests :meth:`colour.colorimetry.spectrum.SpectralShape.__ne__`
+        Test :meth:`colour.colorimetry.spectrum.SpectralShape.__ne__`
         method.
         """
 
@@ -1391,7 +1391,7 @@ class TestSpectralShape(unittest.TestCase):
 
     def test_range(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.SpectralShape.range` method.
+        Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method.
         """
 
         np.testing.assert_almost_equal(
@@ -1402,13 +1402,13 @@ class TestSpectralShape(unittest.TestCase):
 
 class TestSpectralDistribution(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.spectrum.SpectralDistribution`
+    Define :class:`colour.colorimetry.spectrum.SpectralDistribution`
     class unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._sd = SpectralDistribution(DATA_SAMPLE, name="Sample")
@@ -1423,7 +1423,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = ("strict_name", "wavelengths", "values", "shape")
@@ -1433,7 +1433,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -1450,7 +1450,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_strict_name(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.strict_name`
+        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.strict_name`
         property.
         """
 
@@ -1461,7 +1461,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_wavelengths(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.wavelengths`
+        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.wavelengths`
         property.
         """
 
@@ -1473,7 +1473,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_values(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.values` property.
+        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.values` property.
         """
 
         np.testing.assert_array_equal(self._sd.values, self._sd.range)
@@ -1484,14 +1484,14 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_shape(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralDistribution.shape` property.
+        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.shape` property.
         """
 
         self.assertEqual(self._sd.shape, SpectralShape(340, 820, 20))
 
     def test__init__(self):
         """
-        Tests :meth:`colour.colorimetry.spectrum.SpectralDistribution.__init__`
+        Test :meth:`colour.colorimetry.spectrum.SpectralDistribution.__init__`
         method.
         """
 
@@ -1505,7 +1505,7 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_interpolate(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.interpolate` method.
         """
 
@@ -1542,7 +1542,7 @@ SpectralDistribution.interpolate` method.
 
     def test_extrapolate(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.extrapolate` method.
         """
 
@@ -1570,7 +1570,7 @@ SpectralDistribution.extrapolate` method.
 
     def test_align(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.align` method.
         """
 
@@ -1582,7 +1582,7 @@ SpectralDistribution.align` method.
 
     def test_trim(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.trim` method.
         """
 
@@ -1594,7 +1594,7 @@ SpectralDistribution.trim` method.
 
     def test_normalise(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.normalise` method.
         """
 
@@ -1605,13 +1605,13 @@ SpectralDistribution.normalise` method.
 
 class TestMultiSpectralDistributions(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.spectrum.MultiSpectralDistributions`
+    Define :class:`colour.colorimetry.spectrum.MultiSpectralDistributions`
     class unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._labels = ("x_bar", "y_bar", "z_bar")
@@ -1653,7 +1653,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 
     def test_required_attributes(self):
         """
-        Tests presence of required attributes.
+        Test the presence of required attributes.
         """
 
         required_attributes = (
@@ -1669,7 +1669,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 
     def test_required_methods(self):
         """
-        Tests presence of required methods.
+        Test the presence of required methods.
         """
 
         required_methods = (
@@ -1687,7 +1687,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 
     def test_strict_name(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.strict_name`
+        Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.strict_name`
         property.
         """
 
@@ -1699,7 +1699,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 
     def test_wavelengths(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.wavelengths`
+        Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.wavelengths`
         property.
         """
 
@@ -1713,7 +1713,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 
     def test_values(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.values`
+        Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.values`
         property.
         """
 
@@ -1725,7 +1725,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
 
     def test_strict_labels(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.\
+        Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.\
 strict_labels` property.
         """
 
@@ -1739,7 +1739,7 @@ strict_labels` property.
 
     def test_shape(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.shape`
+        Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.shape`
         property.
         """
 
@@ -1747,7 +1747,7 @@ strict_labels` property.
 
     def test__init__(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.__init__` method.
         """
 
@@ -1761,7 +1761,7 @@ MultiSpectralDistributions.__init__` method.
 
     def test_interpolate(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.interpolate` method.
         """
 
@@ -1804,7 +1804,7 @@ MultiSpectralDistributions.interpolate` method.
 
     def test_extrapolate(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.extrapolate` method.
         """
 
@@ -1839,7 +1839,7 @@ MultiSpectralDistributions.extrapolate` method.
 
     def test_align(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.align` method.
         """
 
@@ -1853,7 +1853,7 @@ MultiSpectralDistributions.align` method.
 
     def test_trim(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.trim` method.
         """
 
@@ -1865,7 +1865,7 @@ MultiSpectralDistributions.trim` method.
 
     def test_normalise(self):
         """
-                Tests :func:`colour.colorimetry.spectrum.
+                Test :func:`colour.colorimetry.spectrum.
         MultiSpectralDistributions.normalise` method.
         """
 
@@ -1876,7 +1876,7 @@ MultiSpectralDistributions.trim` method.
 
     def test_to_sds(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
+        Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.to_sds` method.
         """
 
@@ -1890,13 +1890,13 @@ MultiSpectralDistributions.to_sds` method.
 
 class TestReshapeSd(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.spectrum.reshape_sd` definition unit
+    Define :func:`colour.colorimetry.spectrum.reshape_sd` definition unit
     tests methods.
     """
 
     def test_reshape_sd(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.reshape_sd` definition.
+        Test :func:`colour.colorimetry.spectrum.reshape_sd` definition.
         """
 
         sd = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
@@ -1949,13 +1949,13 @@ class TestReshapeSd(unittest.TestCase):
 
 class TestSdsAndMdsToSds(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.spectrum.sds_and_msds_to_sds` definition
+    Define :func:`colour.colorimetry.spectrum.sds_and_msds_to_sds` definition
     unit tests methods.
     """
 
     def test_sds_and_msds_to_sds(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.sds_and_msds_to_sds`
+        Test :func:`colour.colorimetry.spectrum.sds_and_msds_to_sds`
         definition.
         """
 
@@ -1983,13 +1983,13 @@ class TestSdsAndMdsToSds(unittest.TestCase):
 
 class TestSdsAndMsdsToMsds(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.spectrum.sds_and_msds_to_msds`
+    Define :func:`colour.colorimetry.spectrum.sds_and_msds_to_msds`
     definition unit tests methods.
     """
 
     def test_sds_and_msds_to_msds(self):
         """
-        Tests :func:`colour.colorimetry.spectrum.sds_and_msds_to_msds`
+        Test :func:`colour.colorimetry.spectrum.sds_and_msds_to_msds`
         definition.
         """
 

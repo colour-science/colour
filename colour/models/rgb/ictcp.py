@@ -148,7 +148,7 @@ def RGB_to_ICtCp(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
+    Convert from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
 
     Parameters
@@ -284,7 +284,7 @@ def ICtCp_to_RGB(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
+    Convert from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
     colourspace.
 
     Parameters
@@ -334,7 +334,6 @@ def ICtCp_to_RGB(
 
     Notes
     -----
-
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
         for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
@@ -438,7 +437,7 @@ def XYZ_to_ICtCp(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
+    Convert from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
 
     Parameters
@@ -492,7 +491,6 @@ def XYZ_to_ICtCp(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
@@ -577,7 +575,7 @@ def ICtCp_to_XYZ(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
+    Convert from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -631,7 +629,6 @@ def ICtCp_to_XYZ(
 
     Notes
     -----
-
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
         for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute

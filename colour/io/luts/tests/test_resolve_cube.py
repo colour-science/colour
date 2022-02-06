@@ -32,13 +32,13 @@ LUTS_DIRECTORY: str = os.path.join(
 
 class TestReadLUTResolveCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube` definition
+    Define :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube` definition
     unit tests methods.
     """
 
     def test_read_LUT_ResolveCube(self):
         """
-        Tests :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube`
+        Test :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube`
         definition.
         """
 
@@ -136,13 +136,13 @@ class TestReadLUTResolveCube(unittest.TestCase):
 
 class TestWriteLUTResolveCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
+    Define :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
     definition unit tests methods.
     """
 
     def setUp(self):
         """
-        Initialises common tests attributes.
+        Initialise the common tests attributes.
         """
 
         self._temporary_directory = tempfile.mkdtemp()
@@ -156,7 +156,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
 
     def test_write_LUT_ResolveCube(self):
         """
-        Tests :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
+        Test :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
         definition.
         """
 
@@ -267,7 +267,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
 
     def test_raise_exception_write_LUT_ResolveCube(self):
         """
-        Tests :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
+        Test :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
         definition raised exception.
         """
 

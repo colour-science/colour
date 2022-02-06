@@ -135,13 +135,13 @@ DATA_A: NDArray = np.array(
 
 class TestSdCIEStandardIlluminantA(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.illuminants.\
+    Define :func:`colour.colorimetry.illuminants.\
 sd_CIE_standard_illuminant_A` definition unit tests methods.
     """
 
     def test_sd_CIE_standard_illuminant_A(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.\
+        Test :func:`colour.colorimetry.illuminants.\
 sd_CIE_standard_illuminant_A` definition.
         """
 
@@ -154,13 +154,13 @@ sd_CIE_standard_illuminant_A` definition.
 
 class TestSdCIEIlluminantDSeries(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.illuminants.sd_CIE_illuminant_D_series`
+    Define :func:`colour.colorimetry.illuminants.sd_CIE_illuminant_D_series`
     definition unit tests methods.
     """
 
     def test_sd_CIE_illuminant_D_series(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.\
+        Test :func:`colour.colorimetry.illuminants.\
 sd_CIE_illuminant_D_series` definition.
         """
 
@@ -185,13 +185,13 @@ sd_CIE_illuminant_D_series` definition.
 
 class TestDaylightLocusFunction(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.illuminants.daylight_locus_function`
+    Define :func:`colour.colorimetry.illuminants.daylight_locus_function`
     definition unit tests methods.
     """
 
     def test_daylight_locus_function(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition.
         """
 
@@ -209,7 +209,7 @@ class TestDaylightLocusFunction(unittest.TestCase):
 
     def test_n_dimensional_daylight_locus_function(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition n-dimensional support.
         """
 
@@ -231,7 +231,7 @@ class TestDaylightLocusFunction(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_daylight_locus_function(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.daylight_locus_function`
+        Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition nan support.
         """
 
