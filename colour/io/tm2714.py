@@ -147,6 +147,9 @@ class Header_IESTM2714:
     Methods
     -------
     -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__init__`
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__hash__`
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__eq__`
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__ne__`
 
     Examples
     --------
@@ -602,33 +605,96 @@ class Header_IESTM2714:
 
         self._comments = value
 
+    def __hash__(self) -> Integer:
+        """
+        Return the header hash.
+
+        Returns
+        -------
+        :class:`numpy.integer`
+            Object hash.
+        """
+
+        return hash(
+            (
+                self._manufacturer,
+                self._catalog_number,
+                self._description,
+                self._document_creator,
+                self._unique_identifier,
+                self._measurement_equipment,
+                self._laboratory,
+                self._report_number,
+                self._report_date,
+                self._document_creation_date,
+                self._comments,
+            )
+        )
+
     def __eq__(self, other: Any) -> Boolean:
+        """
+        Return whether the header is equal to given other object.
+
+        Parameters
+        ----------
+        other
+            Object to test whether it is equal to the header.
+
+        Returns
+        -------
+        :class:`bool`
+            Whether given object is equal to the header.
+
+        Examples
+        --------
+        >>> Header_IESTM2714('Foo') == Header_IESTM2714('Foo')
+        True
+        >>> Header_IESTM2714('Foo') == Header_IESTM2714('Bar')
+        False
+        """
+
         if isinstance(other, Header_IESTM2714):
-            comps = [
-                self._manufacturer == other.manufacturer,
-                self._catalog_number == other.catalog_number,
-                self._description == other.description,
-                self._document_creator == other.document_creator,
-                self._unique_identifier == other.unique_identifier,
-                self._measurement_equipment == other.measurement_equipment,
-                self._laboratory == other.laboratory,
-                self._report_number == other.report_number,
-                self._report_date == other.report_date,
-                self._document_creation_date == other.document_creation_date,
-                self._comments == other.comments
-            ]
-            return all(comps)
+            return all(
+                [
+                    self._manufacturer == other.manufacturer,
+                    self._catalog_number == other.catalog_number,
+                    self._description == other.description,
+                    self._document_creator == other.document_creator,
+                    self._unique_identifier == other.unique_identifier,
+                    self._measurement_equipment == other.measurement_equipment,
+                    self._laboratory == other.laboratory,
+                    self._report_number == other.report_number,
+                    self._report_date == other.report_date,
+                    self._document_creation_date
+                    == other.document_creation_date,
+                    self._comments == other.comments,
+                ]
+            )
         return False
 
     def __ne__(self, other: Any) -> Boolean:
-        return not (self == other)
+        """
+        Return whether the header is not equal to given other object.
 
-    def __hash__(self) -> Integer:
-        return hash((self._manufacturer, self._catalog_number, self._description,
-                     self._document_creator, self._unique_identifier,
-                     self._measurement_equipment, self._laboratory,
-                     self._report_number, self._report_date,
-                     self._document_creation_date, self._comments))
+        Parameters
+        ----------
+        other
+            Object to test whether it is not equal to the header.
+
+        Returns
+        -------
+        :class:`bool`
+            Whether given object is not equal to the header.
+
+        Examples
+        --------
+        >>> Header_IESTM2714('Foo') != Header_IESTM2714('Foo')
+        False
+        >>> Header_IESTM2714('Foo') != Header_IESTM2714('Bar')
+        True
+        """
+
+        return not (self == other)
 
 
 class SpectralDistribution_IESTM2714(SpectralDistribution):
