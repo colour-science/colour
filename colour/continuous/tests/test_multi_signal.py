@@ -857,7 +857,7 @@ arithmetical_operation` method.
 
         np.testing.assert_almost_equal(
             self._multi_signals.arithmetical_operation(10, "**", False).range,
-            self._range_2 ** 10,
+            self._range_2**10,
             decimal=7,
         )
 
@@ -878,7 +878,7 @@ arithmetical_operation` method.
         )
 
         np.testing.assert_almost_equal(
-            (self._multi_signals ** 10).range, self._range_2 ** 10, decimal=7
+            (self._multi_signals**10).range, self._range_2**10, decimal=7
         )
 
         multi_signals = self._multi_signals.copy()
@@ -909,7 +909,7 @@ arithmetical_operation` method.
 
         np.testing.assert_almost_equal(
             multi_signals.arithmetical_operation(10, "**", True).range,
-            self._range_2 ** 10,
+            self._range_2**10,
             decimal=7,
         )
 

@@ -105,14 +105,14 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(
             data,
             domain,
             labels=("l_bar", "m_bar", "s_bar"),
             strict_labels=("$\\bar{l}$", "$\\bar{m}$", "$\\bar{s}$"),
-            **kwargs
+            **kwargs,
         )
 
 
@@ -173,14 +173,14 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(
             data,
             domain,
             labels=("r_bar", "g_bar", "b_bar"),
             strict_labels=("$\\bar{r}$", "$\\bar{g}$", "$\\bar{b}$"),
-            **kwargs
+            **kwargs,
         )
 
 
@@ -242,12 +242,12 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(
             data,
             domain,
             labels=("x_bar", "y_bar", "z_bar"),
             strict_labels=("$\\bar{x}$", "$\\bar{y}$", "$\\bar{z}$"),
-            **kwargs
+            **kwargs,
         )

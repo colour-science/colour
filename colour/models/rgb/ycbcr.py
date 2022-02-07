@@ -139,13 +139,13 @@ def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
         ranges = np.array([16, 235, 16, 240])
         ranges *= 2 ** (bits - 8)
     else:
-        ranges = np.array([0, 2 ** bits - 1, 0, 2 ** bits - 1])
+        ranges = np.array([0, 2**bits - 1, 0, 2**bits - 1])
 
     if not is_int:
-        ranges = as_int_array(ranges) / (2 ** bits - 1)
+        ranges = as_int_array(ranges) / (2**bits - 1)
 
     if is_int and not is_legal:
-        ranges[3] = 2 ** bits
+        ranges[3] = 2**bits
 
     if not is_int and not is_legal:
         ranges[2] = -0.5
@@ -291,7 +291,7 @@ def RGB_to_YCbCr(
     out_bits: Integer = 8,
     out_legal: Boolean = True,
     out_int: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Convert an array of *R'G'B'* values to the corresponding *Y'CbCr* colour
@@ -478,7 +478,7 @@ def YCbCr_to_RGB(
     out_bits: Integer = 10,
     out_legal: Boolean = False,
     out_int: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Convert an array of *Y'CbCr* colour encoding values to the corresponding
@@ -607,7 +607,7 @@ def RGB_to_YcCbcCrc(
     out_legal: Boolean = True,
     out_int: Boolean = False,
     is_12_bits_system: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Convert an array of *RGB* linear values to the corresponding *Yc'Cbc'Crc'*
@@ -715,7 +715,7 @@ def YcCbcCrc_to_RGB(
     in_legal: Boolean = True,
     in_int: Boolean = False,
     is_12_bits_system: Boolean = False,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Convert an array of *Yc'Cbc'Crc'* colour encoding values to the

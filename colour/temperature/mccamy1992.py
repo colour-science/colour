@@ -77,7 +77,7 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
     x, y = tsplit(xy)
 
     n = (x - 0.3320) / (y - 0.1858)
-    CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
+    CCT = -449 * n**3 + 3525 * n**2 - 6823.3 * n + 5520.33
 
     return as_float(CCT)
 
@@ -164,7 +164,7 @@ def CCT_to_xy_McCamy1992(
                     "D65"
                 ],
                 args=(CCT_i,),
-                **optimisation_settings
+                **optimisation_settings,
             ).x
             for CCT_i in as_float_array(CCT)
         ]

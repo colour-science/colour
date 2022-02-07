@@ -154,9 +154,9 @@ def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     R_Y = (
         1.2219 * V
         - 0.23111 * (V * V)
-        + 0.23951 * (V ** 3)
-        - 0.021009 * (V ** 4)
-        + 0.0008404 * (V ** 5)
+        + 0.23951 * (V**3)
+        - 0.021009 * (V**4)
+        + 0.0008404 * (V**5)
     )
 
     return as_float(from_range_100(R_Y))
@@ -205,10 +205,10 @@ def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Y = (
         1.1914 * V
-        - 0.22533 * (V ** 2)
-        + 0.23352 * (V ** 3)
-        - 0.020484 * (V ** 4)
-        + 0.00081939 * (V ** 5)
+        - 0.22533 * (V**2)
+        + 0.23352 * (V**3)
+        - 0.020484 * (V**4)
+        + 0.00081939 * (V**5)
     )
 
     return as_float(from_range_100(Y))
@@ -267,7 +267,7 @@ def intermediate_luminance_function_CIE1976(
 
     Y = np.where(
         f_Y_Y_n > 24 / 116,
-        Y_n * f_Y_Y_n ** 3,
+        Y_n * f_Y_Y_n**3,
         Y_n * (f_Y_Y_n - 16 / 116) * (108 / 841),
     )
 
@@ -590,7 +590,7 @@ def luminance(
         ],
         str,
     ] = "CIE 1976",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
     Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given

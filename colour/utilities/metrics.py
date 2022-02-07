@@ -128,4 +128,4 @@ def metric_psnr(
     28.9568515...
     """
 
-    return as_float(10 * np.log10(max_a ** 2 / metric_mse(a, b, axis)))
+    return as_float(10 * np.log10(max_a**2 / metric_mse(a, b, axis)))

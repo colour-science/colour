@@ -135,7 +135,7 @@ def chromatic_adaptation(
         ],
         str,
     ] = "Von Kries",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Adapt given stimulus from test viewing conditions to reference viewing

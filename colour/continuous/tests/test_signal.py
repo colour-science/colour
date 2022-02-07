@@ -609,7 +609,7 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             self._signal.arithmetical_operation(10, "**", False).range,
-            self._range ** 10,
+            self._range**10,
             decimal=7,
         )
 
@@ -630,7 +630,7 @@ class TestSignal(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            (self._signal ** 10).range, self._range ** 10, decimal=7
+            (self._signal**10).range, self._range**10, decimal=7
         )
 
         signal = self._signal.copy()
@@ -661,7 +661,7 @@ class TestSignal(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             signal.arithmetical_operation(10, "**", True).range,
-            self._range ** 10,
+            self._range**10,
             decimal=7,
         )
 

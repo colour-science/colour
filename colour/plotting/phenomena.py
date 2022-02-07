@@ -73,7 +73,7 @@ def plot_single_sd_rayleigh_scattering(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot a single *Rayleigh* scattering spectral distribution.
@@ -146,7 +146,7 @@ def plot_the_blue_sky(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
     Plot the blue sky.

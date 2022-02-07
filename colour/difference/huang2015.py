@@ -133,6 +133,6 @@ def power_function_Huang2015(
 
     a, b = tsplit(COEFFICIENTS_HUANG2015[coefficients])
 
-    d_E_p = a * d_E ** b
+    d_E_p = a * d_E**b
 
     return d_E_p

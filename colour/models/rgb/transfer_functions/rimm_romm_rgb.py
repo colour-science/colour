@@ -120,7 +120,7 @@ def cctf_encoding_ROMMRGB(
 
     X = to_domain_1(X)
 
-    I_max = 2 ** bit_depth - 1
+    I_max = 2**bit_depth - 1
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
@@ -187,7 +187,7 @@ def cctf_decoding_ROMMRGB(
 
     X_p = to_domain_1(X_p)
 
-    I_max = 2 ** bit_depth - 1
+    I_max = 2**bit_depth - 1
 
     if not in_int:
         X_p = X_p * I_max
@@ -286,7 +286,7 @@ def cctf_encoding_RIMMRGB(
 
     X = to_domain_1(X)
 
-    I_max = 2 ** bit_depth - 1
+    I_max = 2**bit_depth - 1
 
     V_clip = 1.099 * spow(E_clip, 0.45) - 0.099
     q = I_max / V_clip
@@ -360,7 +360,7 @@ def cctf_decoding_RIMMRGB(
 
     X_p = to_domain_1(X_p)
 
-    I_max = as_float_scalar(2 ** bit_depth - 1)
+    I_max = as_float_scalar(2**bit_depth - 1)
 
     if not in_int:
         X_p = X_p * I_max
@@ -441,7 +441,7 @@ def log_encoding_ERIMMRGB(
 
     X = to_domain_1(X)
 
-    I_max = 2 ** bit_depth - 1
+    I_max = 2**bit_depth - 1
 
     E_t = np.exp(1) * E_min
 
@@ -533,7 +533,7 @@ def log_decoding_ERIMMRGB(
 
     X_p = to_domain_1(X_p)
 
-    I_max = 2 ** bit_depth - 1
+    I_max = 2**bit_depth - 1
 
     if not in_int:
         X_p = X_p * I_max

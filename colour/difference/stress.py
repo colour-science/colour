@@ -79,10 +79,10 @@ def index_stress_Garcia2007(
     d_E = as_float_array(d_E)
     d_V = as_float_array(d_V)
 
-    F_1 = np.sum(d_E ** 2) / np.sum(d_E * d_V)
+    F_1 = np.sum(d_E**2) / np.sum(d_E * d_V)
 
     stress = np.sqrt(
-        np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2)
+        np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1**2 * d_V**2)
     )
 
     return as_float(stress)

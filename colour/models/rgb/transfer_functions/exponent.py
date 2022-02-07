@@ -160,7 +160,7 @@ def exponent_function_basic(
         Return the input raised to the exponent value.
         """
 
-        return x ** exponent
+        return x**exponent
 
     def exponent_reverse(y: NDArray) -> NDArray:
         """

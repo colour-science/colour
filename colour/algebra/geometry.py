@@ -402,17 +402,17 @@ def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArray:
     theta = np.radians(theta)
     cos_theta = np.cos(theta)
     sin_theta = np.sin(theta)
-    cos_theta_2 = cos_theta ** 2
-    sin_theta_2 = sin_theta ** 2
-    a_a_2 = a_a ** 2
-    a_b_2 = a_b ** 2
+    cos_theta_2 = cos_theta**2
+    sin_theta_2 = sin_theta**2
+    a_a_2 = a_a**2
+    a_b_2 = a_b**2
 
     a = a_a_2 * sin_theta_2 + a_b_2 * cos_theta_2
     b = 2 * (a_b_2 - a_a_2) * sin_theta * cos_theta
     c = a_a_2 * cos_theta_2 + a_b_2 * sin_theta_2
     d = -2 * a * x_c - b * y_c
     e = -b * x_c - 2 * c * y_c
-    f = a * x_c ** 2 + b * x_c * y_c + c * y_c ** 2 - a_a_2 * a_b_2
+    f = a * x_c**2 + b * x_c * y_c + c * y_c**2 - a_a_2 * a_b_2
 
     return np.array([a, b, c, d, e, f])
 
@@ -454,9 +454,9 @@ def ellipse_coefficients_canonical_form(coefficients: ArrayLike) -> NDArray:
 
     a, b, c, d, e, f = tsplit(coefficients)
 
-    d_1 = b ** 2 - 4 * a * c
-    n_p_1 = 2 * (a * e ** 2 + c * d ** 2 - b * d * e + d_1 * f)
-    n_p_2 = np.sqrt((a - c) ** 2 + b ** 2)
+    d_1 = b**2 - 4 * a * c
+    n_p_1 = 2 * (a * e**2 + c * d**2 - b * d * e + d_1 * f)
+    n_p_2 = np.sqrt((a - c) ** 2 + b**2)
 
     a_a = -np.sqrt(n_p_1 * (a + c + n_p_2)) / d_1
     a_b = -np.sqrt(n_p_1 * (a + c - n_p_2)) / d_1
@@ -567,7 +567,7 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArray:
     x, y = tsplit(a)
 
     # Quadratic part of the design matrix.
-    D1 = tstack([x ** 2, x * y, y ** 2])
+    D1 = tstack([x**2, x * y, y**2])
     # Linear part of the design matrix.
     D2 = tstack([x, y, ones(x.shape)])
 

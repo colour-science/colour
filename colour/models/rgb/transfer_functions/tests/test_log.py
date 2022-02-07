@@ -502,13 +502,13 @@ log_encoding_Log2` definition.
         )
 
         self.assertAlmostEqual(
-            log_encoding_Log2(0.18, 0.12, 2 ** -10),
+            log_encoding_Log2(0.18, 0.12, 2**-10),
             0.089857490719529,
             places=7,
         )
 
         self.assertAlmostEqual(
-            log_encoding_Log2(0.18, 0.12, 2 ** -10, 2 ** 10),
+            log_encoding_Log2(0.18, 0.12, 2**-10, 2**10),
             0.000570299311674,
             places=7,
         )
@@ -587,13 +587,13 @@ log_decoding_Log2` definition.
         )
 
         self.assertAlmostEqual(
-            log_decoding_Log2(0.089857490719529, 0.12, 2 ** -10),
+            log_decoding_Log2(0.089857490719529, 0.12, 2**-10),
             0.180000000000000,
             places=7,
         )
 
         self.assertAlmostEqual(
-            log_decoding_Log2(0.000570299311674, 0.12, 2 ** -10, 2 ** 10),
+            log_decoding_Log2(0.000570299311674, 0.12, 2**-10, 2**10),
             0.180000000000000,
             places=7,
         )

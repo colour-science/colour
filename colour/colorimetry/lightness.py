@@ -572,7 +572,7 @@ def lightness(
         ],
         str,
     ] = "CIE 1976",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
     Return the *Lightness* :math:`L` of given *luminance* :math:`Y` using

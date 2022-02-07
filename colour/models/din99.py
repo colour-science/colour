@@ -153,7 +153,7 @@ def Lab_to_DIN99(
 
     e = cos_c * a + sin_c * b
     f = c_4 * (-sin_c * a + cos_c * b)
-    G = spow(e ** 2 + f ** 2, 0.5)
+    G = spow(e**2 + f**2, 0.5)
     h_ef = np.arctan2(f, e) + np.radians(c_7)
 
     C_99 = c_5 * (np.log1p(c_6 * G)) / (c_8 * k_CH * k_E)
@@ -245,7 +245,7 @@ def DIN99_to_Lab(
 
     h_99 = np.arctan2(b_99, a_99) - np.radians(c_7)
 
-    C_99 = np.sqrt(a_99 ** 2 + b_99 ** 2)
+    C_99 = np.sqrt(a_99**2 + b_99**2)
     G = np.expm1((c_8 / c_5) * (C_99) * k_CH * k_E) / c_6
 
     e = G * np.cos(h_99)

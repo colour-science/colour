@@ -193,8 +193,8 @@ def sd_Jakob2019(
 
     c_0, c_1, c_2 = as_float_array(coefficients)
     wl = shape.range()
-    U = c_0 * wl ** 2 + c_1 * wl + c_2
-    R = 1 / 2 + U / (2 * np.sqrt(1 + U ** 2))
+    U = c_0 * wl**2 + c_1 * wl + c_2
+    R = 1 / 2 + U / (2 * np.sqrt(1 + U**2))
 
     name = f"{coefficients!r} (COEFF) - Jakob (2019)"
 
@@ -255,12 +255,12 @@ def error_function(
     c_0, c_1, c_2 = as_float_array(coefficients)
     wv = np.linspace(0, 1, len(cmfs.shape))
 
-    U = c_0 * wv ** 2 + c_1 * wv + c_2
-    t1 = np.sqrt(1 + U ** 2)
+    U = c_0 * wv**2 + c_1 * wv + c_2
+    t1 = np.sqrt(1 + U**2)
     R = 1 / 2 + U / (2 * t1)
 
-    t2 = 1 / (2 * t1) - U ** 2 / (2 * t1 ** 3)
-    dR = np.array([wv ** 2 * t2, wv * t2, t2])
+    t2 = 1 / (2 * t1) - U**2 / (2 * t1**3)
+    dR = np.array([wv**2 * t2, wv * t2, t2])
 
     XYZ = sd_to_XYZ_integration(R, cmfs, illuminant, shape=cmfs.shape) / 100
     dXYZ = np.transpose(
@@ -350,10 +350,10 @@ def dimensionalise_coefficients(
     cp_0, cp_1, cp_2 = tsplit(coefficients)
     span = shape.end - shape.start
 
-    c_0 = cp_0 / span ** 2
-    c_1 = cp_1 / span - 2 * cp_0 * shape.start / span ** 2
+    c_0 = cp_0 / span**2
+    c_1 = cp_1 / span - 2 * cp_0 * shape.start / span**2
     c_2 = (
-        cp_0 * shape.start ** 2 / span ** 2 - cp_1 * shape.start / span + cp_2
+        cp_0 * shape.start**2 / span**2 - cp_1 * shape.start / span + cp_2
     )
 
     return np.array([c_0, c_1, c_2])
@@ -888,7 +888,7 @@ class LUT3D_Jakob2019:
         )
 
         cube_indexes = np.ndindex(3, chroma_steps, chroma_steps)
-        total_coefficients = chroma_steps ** 2 * 3
+        total_coefficients = chroma_steps**2 * 3
 
         # First, create a list of all the fully bright colours with the order
         # matching cube_indexes.
@@ -1156,7 +1156,7 @@ class LUT3D_Jakob2019:
                 coeff_file, count=self._size, dtype=np.float32
             )
             self._coefficients = np.fromfile(
-                coeff_file, count=3 * (self._size ** 3) * 3, dtype=np.float32
+                coeff_file, count=3 * (self._size**3) * 3, dtype=np.float32
             )
             self._coefficients = self._coefficients.reshape(
                 3, self._size, self._size, self._size, 3

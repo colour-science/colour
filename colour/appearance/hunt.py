@@ -579,7 +579,7 @@ def luminance_level_adaptation_factor(
     L_A = as_float_array(L_A)
 
     k = 1 / (5 * L_A + 1)
-    k4 = k ** 4
+    k4 = k**4
     F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
 
     return as_float(F_L)
@@ -767,7 +767,7 @@ def chromatic_adaptation(
         D_rgb = zeros(F_rgb.shape)
 
     # Computing cone bleach factors.
-    B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
+    B_rgb = (10**7) / ((10**7) + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
 
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
@@ -1134,7 +1134,7 @@ def overall_chromatic_response(
     M_yb = as_float_array(M_yb)
     M_rg = as_float_array(M_rg)
 
-    M = spow((M_yb ** 2) + (M_rg ** 2), 0.5)
+    M = spow((M_yb**2) + (M_rg**2), 0.5)
 
     return M
 
@@ -1222,8 +1222,8 @@ def achromatic_signal(
     j = 0.00001 / ((5 * L_AS / 2.26) + 0.00001)
 
     # Computing scotopic luminance level adaptation factor :math:`F_{LS}`.
-    F_LS = 3800 * (j ** 2) * (5 * L_AS / 2.26)
-    F_LS += 0.2 * (spow(1 - (j ** 2), 0.4)) * (spow(5 * L_AS / 2.26, 1 / 6))
+    F_LS = 3800 * (j**2) * (5 * L_AS / 2.26)
+    F_LS += 0.2 * (spow(1 - (j**2), 0.4)) * (spow(5 * L_AS / 2.26, 1 / 6))
 
     # Computing cone bleach factors :math:`B_S`.
     B_S = 0.5 / (1 + 0.3 * spow((5 * L_AS / 2.26) * (S / S_w), 0.3))
@@ -1233,7 +1233,7 @@ def achromatic_signal(
     A_S = (f_n(F_LS * S / S_w) * 3.05 * B_S) + 0.3
 
     # Computing achromatic signal :math:`A`.
-    A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt(1 + (0.3 ** 2)))
+    A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt(1 + (0.3**2)))
 
     return as_float(A)
 

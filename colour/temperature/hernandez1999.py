@@ -182,7 +182,7 @@ def CCT_to_xy_Hernandez1999(
                     "D65"
                 ],
                 args=(CCT_i,),
-                **optimisation_settings
+                **optimisation_settings,
             ).x
             for CCT_i in as_float_array(CCT)
         ]

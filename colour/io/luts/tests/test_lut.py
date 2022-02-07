@@ -454,7 +454,7 @@ class AbstractLUTTest(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             LUT_1.arithmetical_operation(10, "**", False).table,
-            self._table_1 ** 10,
+            self._table_1**10,
             decimal=7,
         )
 
@@ -475,7 +475,7 @@ class AbstractLUTTest(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            (LUT_1 ** 10).table, self._table_1 ** 10, decimal=7
+            (LUT_1**10).table, self._table_1**10, decimal=7
         )
 
         np.testing.assert_almost_equal(
@@ -504,7 +504,7 @@ class AbstractLUTTest(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             LUT_2.arithmetical_operation(10, "**", True).table,
-            self._table_1 ** 10,
+            self._table_1**10,
             decimal=7,
         )
 
