@@ -13,7 +13,8 @@
 
 import os
 import re
-import sys
+import setuptools.archive_util
+import urllib.request
 
 import colour as package  # noqa
 
@@ -22,15 +23,23 @@ basename = re.sub(
 )
 
 if os.environ.get("READTHEDOCS") == "True":
-    utilities_directory = os.path.join(
-        os.path.dirname(os.path.abspath(".")), "utilities"
+    archive = "colour-plots.zip"
+    branch = urllib.parse.quote(
+        os.environ["READTHEDOCS_VERSION"]
+        .replace("experimental-", "experimental/")
+        .replace("feature-", "feature/")
+        .replace("hotfix-", "hotfix/"),
+        safe="",
     )
-    static_directory = os.path.join(os.path.abspath("."), "_static")
-    sys.path.append(utilities_directory)
+    url = (
+        f"https://nightly.link/colour-science/colour/workflows/"
+        f"continuous-integration-documentation/{branch}/{archive}"
+    )
 
-    from generate_plots import generate_documentation_plots
+    print(f"Using artifact url: {url}")
 
-    generate_documentation_plots(static_directory)
+    urllib.request.urlretrieve(url, filename=archive)
+    setuptools.archive_util.unpack_archive(archive, "_static")
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the

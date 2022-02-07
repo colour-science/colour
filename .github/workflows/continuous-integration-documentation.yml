@@ -45,3 +45,11 @@ jobs:
       run: |
         poetry run invoke docs
       shell: bash
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.CI_PACKAGE }}-plots
+        path: |
+          docs/_static/Basics_*.png
+          docs/_static/Examples_*.png
+          docs/_static/Plotting_*.png
+          docs/_static/Tutorial_*.png
