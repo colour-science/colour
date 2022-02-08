@@ -190,20 +190,41 @@ pygments_style = "lovelace"
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = "furo"
-html_theme_options = {
-    "light_logo": "Logo_Light_001.svg",
-    "dark_logo": "Logo_Dark_001.svg",
-    "navigation_with_keys": True,
-    "sidebar_hide_name": True,
-}
-html_show_sphinx = True
-html_show_sourcelink = False
+html_theme = "pydata_sphinx_theme"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {}
+html_theme_options = {
+    "show_nav_level": 2,
+    "icon_links": [
+        {
+            "name": "Email",
+            "url": "mailto:colour-developers@colour-science.org",
+            "icon": "fas fa-envelope",
+        },
+        {
+            "name": "GitHub",
+            "url": f"https://github.com/colour-science/{basename}",
+            "icon": "fab fa-github",
+        },
+        {
+            "name": "Facebook",
+            "url": "https://www.facebook.com/python.colour.science",
+            "icon": "fab fa-facebook",
+        },
+        {
+            "name": "Gitter",
+            "url": "https://gitter.im/colour-science/colour",
+            "icon": "fab fa-gitter",
+        },
+        {
+            "name": "Twitter",
+            "url": "https://twitter.com/colour_science",
+            "icon": "fab fa-twitter",
+        },
+    ],
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
@@ -217,7 +238,7 @@ html_show_sourcelink = False
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-# html_logo = "_static/Logo_Small_001.png"
+html_logo = "_static/Logo_Light_001.svg"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -454,10 +475,13 @@ epub_exclude_files = ["search.html"]
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3.8", None),
-    "matplotlib": ("http://matplotlib.org/stable", None),
-    "numpy": ("http://docs.scipy.org/doc/numpy", None),
-    "pandas": ("http://pandas.pydata.org/pandas-docs/dev", None),
-    "scipy": ("http://docs.scipy.org/doc/scipy/reference", None),
+    "matplotlib": ("https://matplotlib.org/stable", None),
+    "numpy": ("https://numpy.org/doc/stable", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/dev", None),
+    "scipy": (
+        "https://docs.scipy.org/doc/scipy-1.8.0/html-scipyorg",
+        None,
+    ),
 }
 
 
