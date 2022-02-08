@@ -102,7 +102,7 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
 
     Y, C_1, C_2 = tsplit(vector_dot(MATRIX_RGB_TO_YC_1_C_2, RGB))
 
-    C = np.sqrt(C_1 ** 2 + C_2 ** 2)
+    C = np.sqrt(C_1**2 + C_2**2)
 
     acos_C_1_C_2 = zeros(C.shape)
     acos_C_1_C_2[C != 0] = np.arccos(C_1[C != 0] / C[C != 0])

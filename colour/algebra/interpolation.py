@@ -302,12 +302,12 @@ def kernel_cardinal_spline(
     x_abs = np.abs(x)
     y = np.where(
         x_abs < 1,
-        (-6 * a - 9 * b + 12) * x_abs ** 3
-        + (6 * a + 12 * b - 18) * x_abs ** 2
+        (-6 * a - 9 * b + 12) * x_abs**3
+        + (6 * a + 12 * b - 18) * x_abs**2
         - 2 * b
         + 6,
-        (-6 * a - b) * x_abs ** 3
-        + (30 * a + 6 * b) * x_abs ** 2
+        (-6 * a - b) * x_abs**3
+        + (30 * a + 6 * b) * x_abs**2
         + (-48 * a - 12 * b) * x_abs
         + 24 * a
         + 8 * b,
@@ -1296,10 +1296,10 @@ class SpragueInterpolator:
         y = (
             a0p
             + a1p * X
-            + a2p * X ** 2
-            + a3p * X ** 3
-            + a4p * X ** 4
-            + a5p * X ** 5
+            + a2p * X**2
+            + a3p * X**3
+            + a4p * X**4
+            + a5p * X**5
         )
 
         return y

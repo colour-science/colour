@@ -192,7 +192,7 @@ def generate_documentation_plots(output_directory: str):
             plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
             legend_location="upper right",
             bounding_box=(0, 1250, 0, 2.5e6),
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -204,7 +204,7 @@ def generate_documentation_plots(output_directory: str):
             "Stockman & Sharpe 2 Degree Cone Fundamentals",
             y_label="Sensitivity",
             bounding_box=(390, 870, 0, 1.1),
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -222,7 +222,7 @@ def generate_documentation_plots(output_directory: str):
             legend_location="upper right",
             y_tighten=True,
             margins=(0, 0, 0, 0.1),
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -234,7 +234,7 @@ def generate_documentation_plots(output_directory: str):
             SDS_COLOURCHECKERS["BabelColor Average"].values(),
             plot_kwargs={"use_sd_colours": True},
             title=("BabelColor Average - " "Spectral Distributions"),
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -267,7 +267,7 @@ def generate_documentation_plots(output_directory: str):
             "ITU-R BT.709",
             colourspaces=["ACEScg", "S-Gamut"],
             show_pointer_gamut=True,
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -1121,7 +1121,7 @@ def generate_documentation_plots(output_directory: str):
         plot_single_colour_swatch(
             ColourSwatch(RGB, "Sample"),
             text_kwargs={"size": "x-large"},
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -1137,7 +1137,7 @@ def generate_documentation_plots(output_directory: str):
         plot_single_colour_swatch(
             ColourSwatch(RGB, patch_name.title()),
             text_kwargs={"size": "x-large"},
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -1148,7 +1148,7 @@ def generate_documentation_plots(output_directory: str):
         plot_single_colour_checker(
             colour_checker="ColorChecker 2005",
             text_kwargs={"visible": False},
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -1173,7 +1173,7 @@ def generate_documentation_plots(output_directory: str):
             limits=(-0.1, 0.9, -0.1, 0.9),
             x_tighten=True,
             y_tighten=True,
-            **arguments
+            **arguments,
         )[0]
     )
 

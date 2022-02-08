@@ -251,7 +251,7 @@ def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     wl = as_float_array(wavelength)
 
-    N2 = 1.034 + 3.17 * 1.0e-4 * (1 / wl ** 2)
+    N2 = 1.034 + 3.17 * 1.0e-4 * (1 / wl**2)
 
     return N2
 
@@ -280,7 +280,7 @@ def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     wl = as_float_array(wavelength)
 
     O2 = (
-        1.096 + 1.385 * 1.0e-3 * (1 / wl ** 2) + 1.448 * 1.0e-4 * (1 / wl ** 4)
+        1.096 + 1.385 * 1.0e-3 * (1 / wl**2) + 1.448 * 1.0e-4 * (1 / wl**4)
     )
 
     return O2
@@ -537,13 +537,13 @@ def gravity_List1968(
     cos2phi = np.cos(2 * np.radians(latitude))
 
     # Sea level acceleration of gravity.
-    g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi ** 2)
+    g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi**2)
 
     g = (
         g0
         - (3.085462e-4 + 2.27e-7 * cos2phi) * altitude
-        + (7.254e-11 + 1.0e-13 * cos2phi) * altitude ** 2
-        - (1.517e-17 + 6e-20 * cos2phi) * altitude ** 3
+        + (7.254e-11 + 1.0e-13 * cos2phi) * altitude**2
+        - (1.517e-17 + 6e-20 * cos2phi) * altitude**3
     )
 
     return g
@@ -618,9 +618,9 @@ def scattering_cross_section(
 
     sigma = (
         24
-        * np.pi ** 3
-        * (n_s ** 2 - 1) ** 2
-        / (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2)
+        * np.pi**3
+        * (n_s**2 - 1) ** 2
+        / (wl**4 * N_s**2 * (n_s**2 + 2) ** 2)
     )
     sigma *= F_air
 

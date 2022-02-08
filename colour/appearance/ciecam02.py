@@ -1457,7 +1457,7 @@ def temporary_magnitude_quantity_forward(
 
     t = (
         ((50000 / 13) * N_c * N_cb)
-        * (e_t * spow(a ** 2 + b ** 2, 0.5))
+        * (e_t * spow(a**2 + b**2, 0.5))
         / (Ra + Ga + 21 * Ba / 20)
     )
 
@@ -1503,7 +1503,7 @@ def temporary_magnitude_quantity_inverse(
     J = np.maximum(J, EPSILON)
     n = as_float_array(n)
 
-    t = spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29 ** n, 0.73)), 1 / 0.9)
+    t = spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
 
     return t
 
@@ -1564,7 +1564,7 @@ def chroma_correlate(
     n = as_float_array(n)
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-    C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29 ** n, 0.73)
+    C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
 
     return C
 

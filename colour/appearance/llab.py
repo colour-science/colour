@@ -624,7 +624,7 @@ def chroma_correlate(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    c = spow(a ** 2 + b ** 2, 0.5)
+    c = spow(a**2 + b**2, 0.5)
     Ch_L = 25 * np.log1p(0.05 * c)
 
     return as_float(Ch_L)
@@ -671,7 +671,7 @@ def colourfulness_correlate(
     F_C = as_float_array(F_C)
 
     S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
-    S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L ** 2
+    S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L**2
     C_L = Ch_L * S_M * S_C * F_C
 
     return as_float(C_L)

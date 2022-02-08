@@ -489,7 +489,7 @@ def whiteness(
         ],
         str,
     ] = "CIE 2004",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
     Return the *whiteness* :math:`W` using given method.

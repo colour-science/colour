@@ -120,7 +120,7 @@ def uv_to_CCT(
     method: Union[
         Literal["Krystek 1985", "Ohno 2013", "Robertson 1968"], str
     ] = "Ohno 2013",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Return the correlated colour temperature :math:`T_{cp}` and
@@ -210,7 +210,7 @@ def CCT_to_uv(
     method: Union[
         Literal["Krystek 1985", "Ohno 2013", "Robertson 1968"], str
     ] = "Ohno 2013",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given

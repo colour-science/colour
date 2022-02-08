@@ -488,7 +488,7 @@ def primitive_vertices(
     method: Union[
         Literal["Cube MPL", "Quad MPL", "Grid MPL", "Sphere"], str
     ] = "Cube MPL",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
     Return the vertices of a geometry primitive using given method.

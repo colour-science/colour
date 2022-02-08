@@ -125,4 +125,4 @@ def spectral_uniformity(
     if use_second_order_derivatives:
         r_i = np.gradient(r_i, axis=1) / interval
 
-    return np.mean(r_i ** 2, axis=0)
+    return np.mean(r_i**2, axis=0)

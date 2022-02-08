@@ -117,8 +117,8 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
     x, y, Y = tsplit(XYZ_to_xyY(XYZ))
 
     Y_0 = Y * (
-        4.4934 * x ** 2
-        + 4.3034 * y ** 2
+        4.4934 * x**2
+        + 4.3034 * y**2
         - 4.276 * x * y
         - 1.3744 * x
         - 2.5643 * y

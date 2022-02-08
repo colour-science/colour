@@ -99,7 +99,7 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(
             data, domain, labels=("red", "green", "blue"), **kwargs

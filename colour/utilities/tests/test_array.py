@@ -390,7 +390,7 @@ arithmetical_operation` method.
 
         np.testing.assert_almost_equal(
             np.array(self._data.arithmetical_operation(10, "**", False)),
-            self._array ** 10,
+            self._array**10,
             decimal=7,
         )
 
@@ -411,7 +411,7 @@ arithmetical_operation` method.
         )
 
         np.testing.assert_almost_equal(
-            np.array(self._data ** 10), self._array ** 10, decimal=7
+            np.array(self._data**10), self._array**10, decimal=7
         )
 
         data = deepcopy(self._data)
@@ -442,7 +442,7 @@ arithmetical_operation` method.
 
         np.testing.assert_almost_equal(
             np.array(data.arithmetical_operation(10, "**", True)),
-            self._array ** 10,
+            self._array**10,
             decimal=7,
         )
 

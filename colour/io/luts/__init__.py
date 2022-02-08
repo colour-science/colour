@@ -120,7 +120,7 @@ def read_LUT(
             str,
         ]
     ] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix]:
     """
     Read given *LUT* file using given method.
@@ -267,7 +267,7 @@ def write_LUT(
             str,
         ]
     ] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Boolean:
     """
     Write given *LUT* to given file using given method.

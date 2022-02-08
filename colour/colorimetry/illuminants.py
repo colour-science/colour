@@ -131,8 +131,8 @@ def sd_CIE_standard_illuminant_A(
         100
         * (560 / wavelengths) ** 5
         * (
-            np.expm1((1.435 * 10 ** 7) / (2848 * 560))
-            / np.expm1((1.435 * 10 ** 7) / (2848 * wavelengths))
+            np.expm1((1.435 * 10**7) / (2848 * 560))
+            / np.expm1((1.435 * 10**7) / (2848 * wavelengths))
         )
     )
 
@@ -347,6 +347,6 @@ def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     x_D = as_float_array(x_D)
 
-    y_D = -3.000 * x_D ** 2 + 2.870 * x_D - 0.275
+    y_D = -3.000 * x_D**2 + 2.870 * x_D - 0.275
 
     return as_float(y_D)

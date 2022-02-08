@@ -104,7 +104,7 @@ def XYZ_to_sd(
         ],
         str,
     ] = "Meng 2015",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
     Recover the spectral distribution of given *CIE XYZ* tristimulus
