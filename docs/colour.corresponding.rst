@@ -1,8 +1,6 @@
 Corresponding Chromaticities
 ============================
 
-.. contents:: :local:
-
 Prediction
 ----------
 

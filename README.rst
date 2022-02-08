@@ -1,4 +1,6 @@
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.png
+
+|
 
 .. start-badges
 
@@ -295,8 +297,8 @@ highlights some interesting use cases.
 API Reference
 ~~~~~~~~~~~~~
 
-The main technical reference for **Colour** and its API is the
-`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__.
+The main technical reference for **Colour** is the
+`API Reference <https://colour.readthedocs.io/en/latest/reference.html>`__.
 
 Examples
 ~~~~~~~~

@@ -758,24 +758,24 @@ def corresponding_chromaticities_prediction(
         Other Parameters
         ----------------
         D_b
-            {:func:`colour.corresponding.
-    corresponding_chromaticities_prediction_Zhai2018`},
+            {:func:`colour.corresponding.\
+corresponding_chromaticities_prediction_Zhai2018`},
             Degree of adaptation :math:`D_{\\beta}` of input illuminant
             :math:`\\beta`.
         D_d
-            {:func:`colour.corresponding.
-    corresponding_chromaticities_prediction_Zhai2018`},
+            {:func:`colour.corresponding.\
+corresponding_chromaticities_prediction_Zhai2018`},
             Degree of adaptation :math:`D_{\\delta}` of output illuminant
             :math:`\\delta`.
         transform
-            {:func:`colour.corresponding.
-    corresponding_chromaticities_prediction_VonKries`,
-            :func:`colour.corresponding.
-    corresponding_chromaticities_prediction_Zhai2018`},
+            {:func:`colour.corresponding.\
+corresponding_chromaticities_prediction_VonKries`,
+            :func:`colour.corresponding.\
+corresponding_chromaticities_prediction_Zhai2018`},
             Chromatic adaptation transform.
         XYZ_wo
-            {:func:`colour.corresponding.
-    corresponding_chromaticities_prediction_Zhai2018`},
+            {:func:`colour.corresponding.\
+corresponding_chromaticities_prediction_Zhai2018`},
             Baseline illuminant (:math:`BI`) :math:`o`.
 
         Returns

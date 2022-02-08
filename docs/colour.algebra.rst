@@ -1,8 +1,6 @@
 Algebra
 =======
 
-.. contents:: :local:
-
 Extrapolation
 -------------
 

@@ -1,8 +1,6 @@
 Colour Difference
 =================
 
-.. contents:: :local:
-
 Delta E
 -------
 

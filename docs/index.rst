@@ -1,4 +1,6 @@
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.png
+
+|
 
 `Colour <https://github.com/colour-science/colour>`__ is an open-source
 `Python <https://www.python.org/>`__ package providing a comprehensive number
@@ -9,10 +11,6 @@ It is freely available under the
 
 **Colour** is an affiliated project of `NumFOCUS <https://numfocus.org/>`__, a
 501(c)(3) nonprofit in the United States.
-
-.. contents:: Table of Contents
-    :local:
-    :depth: 3
 
 .. sectnum::
 
@@ -63,30 +61,14 @@ from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`__:
 Documentation
 -------------
 
-Tutorial
-~~~~~~~~
-
-The `static tutorial <https://colour.readthedocs.io/en/develop/tutorial.html>`__
-provides an introduction to **Colour**. An interactive version is available via
-`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
-
-How-To Guide
-~~~~~~~~~~~~
-
-The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
-guide for **Colour** shows various techniques to solve specific problems and
-highlights some interesting use cases.
-
-API Reference
-~~~~~~~~~~~~~
-
-The main technical reference for **Colour** and its API is the
-`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__.
-
 .. toctree::
-    :maxdepth: 4
+    :maxdepth: 2
 
-    manual
+    tutorial
+    basics
+    advanced
+    reference
+    bibliography
 
 Examples
 ~~~~~~~~

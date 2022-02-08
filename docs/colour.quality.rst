@@ -1,8 +1,6 @@
 Colour Quality
 ==============
 
-.. contents:: :local:
-
 Colour Fidelity Index
 ---------------------
 
