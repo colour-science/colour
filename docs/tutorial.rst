@@ -1298,6 +1298,6 @@ See More
     understand concepts of **Colour**.
 -   The :doc:`advanced` page describes some advanced usage scenarios of
     **Colour**.
--   The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
+-   The `Google Colab How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
     guide for **Colour** shows various techniques to solve specific problems
     and highlights some interesting use cases.

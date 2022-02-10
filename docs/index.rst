@@ -65,6 +65,7 @@ Documentation
     :maxdepth: 2
 
     tutorial
+    how-to
     basics
     advanced
     reference
