@@ -123,7 +123,7 @@ development = [
 ]
 graphviz = [ "pygraphviz" ]
 meshing = [ "trimesh" ]
-optional = [ "networkx",  "pandas", "scikit-learn", "tqdm" ]
+optional = [ "networkx",  "opencolorio", "pandas", "scikit-learn", "tqdm" ]
 plotting = [ "matplotlib" ]
 read-the-docs = [
     "matplotlib",
