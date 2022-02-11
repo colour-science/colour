@@ -13,4 +13,5 @@ concepts and features, details can be found in the `API Reference <reference.htm
     basics
     advanced
     Contributing <https://www.colour-science.org/contributing/>
-
+    Changes <https://github.com/colour-science/colour/releases>
+    bibliography
