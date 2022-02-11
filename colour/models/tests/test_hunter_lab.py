@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.hunter_lab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.hunter_lab` module."""
 
 import numpy as np
 import unittest
@@ -106,9 +104,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
     """
 
     def test_XYZ_to_Hunter_Lab(self):
-        """
-        Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition.
-        """
+        """Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(
@@ -247,9 +243,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
     """
 
     def test_Hunter_Lab_to_XYZ(self):
-        """
-        Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(

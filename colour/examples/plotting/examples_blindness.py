@@ -1,6 +1,4 @@
-"""
-Showcases corresponding colour blindness plotting examples.
-"""
+"""Showcases corresponding colour blindness plotting examples."""
 
 import numpy as np
 import os

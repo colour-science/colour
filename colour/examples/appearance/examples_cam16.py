@@ -1,6 +1,4 @@
-"""
-Showcases *CAM16* colour appearance model computations.
-"""
+"""Showcases *CAM16* colour appearance model computations."""
 
 import numpy as np
 

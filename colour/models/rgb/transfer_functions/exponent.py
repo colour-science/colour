@@ -156,16 +156,12 @@ def exponent_function_basic(
     )
 
     def exponent_forward(x: NDArray) -> NDArray:
-        """
-        Return the input raised to the exponent value.
-        """
+        """Return the input raised to the exponent value."""
 
         return x**exponent
 
     def exponent_reverse(y: NDArray) -> NDArray:
-        """
-        Return the input raised to the inverse exponent value.
-        """
+        """Return the input raised to the inverse exponent value."""
 
         return y ** (as_float_array(1) / exponent)
 
@@ -289,9 +285,7 @@ def exponent_function_monitor_curve(
     def monitor_curve_forward(
         x: NDArray, offset: NDArray, exponent: NDArray
     ) -> NDArray:
-        """
-        Define the *Monitor Curve Forward* function.
-        """
+        """Define the *Monitor Curve Forward* function."""
 
         x_break = offset / (exponent - 1)
 
@@ -304,9 +298,7 @@ def exponent_function_monitor_curve(
     def monitor_curve_reverse(
         y: NDArray, offset: NDArray, exponent: NDArray
     ) -> NDArray:
-        """
-        Define the *Monitor Curve Reverse* function.
-        """
+        """Define the *Monitor Curve Reverse* function."""
         y_break = (
             (exponent * offset) / ((exponent - 1) * (1 + offset))
         ) ** exponent

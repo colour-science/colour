@@ -102,9 +102,7 @@ class AbstractLUTSequenceOperator(ABC):
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             is_string(value),
@@ -133,9 +131,7 @@ class AbstractLUTSequenceOperator(ABC):
 
     @comments.setter
     def comments(self, value: Sequence[str]):
-        """
-        Setter for the **self.comments** property.
-        """
+        """Setter for the **self.comments** property."""
 
         attest(
             is_iterable(value),
@@ -281,9 +277,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     @matrix.setter
     def matrix(self, value: ArrayLike):
-        """
-        Setter for the **self.matrix** property.
-        """
+        """Setter for the **self.matrix** property."""
 
         value = as_float_array(value)
 
@@ -321,9 +315,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     @offset.setter
     def offset(self, value: ArrayLike):
-        """
-        Setter for the **self.offset** property.
-        """
+        """Setter for the **self.offset** property."""
 
         value = as_float_array(value)
 
@@ -362,9 +354,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         def _indent_array(a: ArrayLike) -> str:
-            """
-            Indent given array string representation.
-            """
+            """Indent given array string representation."""
 
             return str(a).replace(" [", " " * 14 + "[")
 

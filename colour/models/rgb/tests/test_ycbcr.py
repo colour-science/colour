@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.ycbcr` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.ycbcr` module."""
 
 import numpy as np
 import unittest
@@ -41,9 +39,7 @@ class TestMatrixYCbCr(unittest.TestCase):
     """
 
     def test_matrix_YCbCr(self):
-        """
-        Test :func:`colour.models.rgb.ycbcr.matrix_YCbCr` definition.
-        """
+        """Test :func:`colour.models.rgb.ycbcr.matrix_YCbCr` definition."""
 
         np.testing.assert_almost_equal(
             matrix_YCbCr(),
@@ -113,9 +109,7 @@ class TestOffsetYCbCr(unittest.TestCase):
     """
 
     def test_offset_YCbCr(self):
-        """
-        Test :func:`colour.models.rgb.ycbcr.offset_YCbCr` definition.
-        """
+        """Test :func:`colour.models.rgb.ycbcr.offset_YCbCr` definition."""
 
         np.testing.assert_almost_equal(
             offset_YCbCr(),
@@ -149,9 +143,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
     """
 
     def test_RGB_to_YCbCr(self):
-        """
-        Test :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr` definition.
-        """
+        """Test :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_YCbCr(np.array([0.75, 0.75, 0.0])),
@@ -256,9 +248,7 @@ class TestYCbCr_to_RGB(unittest.TestCase):
     """
 
     def test_YCbCr_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             YCbCr_to_RGB(np.array([0.66035745, 0.17254902, 0.53216593])),
@@ -355,9 +345,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
     """
 
     def test_RGB_to_YcCbcCrc(self):
-        """
-        Test :func:`colour.models.rgb.ycbcr.RGB_to_YcCbcCrc` definition.
-        """
+        """Test :func:`colour.models.rgb.ycbcr.RGB_to_YcCbcCrc` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_YcCbcCrc(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -447,9 +435,7 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
     """
 
     def test_YcCbcCrc_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             YcCbcCrc_to_RGB(np.array([0.37020379, 0.41137200, 0.77704674])),

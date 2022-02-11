@@ -73,9 +73,7 @@ DATA_ALEXA_LOG_C_CURVE_BCL: CaseInsensitiveMapping = CaseInsensitiveMapping(
         },
     }
 )
-"""
-*ARRI ALEXA Log C* curve *Ei, Black, Clipping Level* data.
-"""
+"""*ARRI ALEXA Log C* curve *Ei, Black, Clipping Level* data."""
 
 DATA_ALEXA_LOG_C_CURVE_CONVERSION: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(

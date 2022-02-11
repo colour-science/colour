@@ -48,33 +48,23 @@ PRIMARIES_APPLE_RGB: NDArray = np.array(
         [0.1550, 0.0700],
     ]
 )
-"""
-*Apple RGB* colourspace primaries.
-"""
+"""*Apple RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_APPLE_RGB: str = "D65"
-"""
-*Apple RGB* colourspace whitepoint name.
-"""
+"""*Apple RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_APPLE_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_APPLE_RGB]
-"""
-*Apple RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Apple RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_APPLE_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_APPLE_RGB, CCS_WHITEPOINT_APPLE_RGB
 )
-"""
-*Apple RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Apple RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_APPLE_RGB: NDArray = np.linalg.inv(MATRIX_APPLE_RGB_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Apple RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Apple RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_APPLE_RGB: RGB_Colourspace = RGB_Colourspace(
     "Apple RGB",

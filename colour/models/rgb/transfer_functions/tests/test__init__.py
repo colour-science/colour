@@ -89,14 +89,10 @@ log_encoding_ACESproxy` definition raised exception.
 
 
 class TestTransferFunctions(unittest.TestCase):
-    """
-    Define the transfer functions unit tests methods.
-    """
+    """Define the transfer functions unit tests methods."""
 
     def test_transfer_functions(self):
-        """
-        Test the transfer functions reciprocity.
-        """
+        """Test the transfer functions reciprocity."""
 
         ignored_transfer_functions = (
             "ACESproxy",

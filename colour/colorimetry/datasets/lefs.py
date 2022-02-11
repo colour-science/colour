@@ -2880,6 +2880,4 @@ DATA_MESOPIC_X: Dict = {
         }
     ),
 }
-"""
-Weighting factors for the mesopic luminous efficiency function calculation.
-"""
+"""Weighting factors for the mesopic luminous efficiency function calculation."""

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.notation.munsell` module.
-"""
+"""Defines the unit tests for the :mod:`colour.notation.munsell` module."""
 
 from __future__ import annotations
 
@@ -2297,9 +2295,7 @@ class TestHueToHueAngle(unittest.TestCase):
     """
 
     def test_hue_to_hue_angle(self):
-        """
-        Test :func:`colour.notation.munsell.hue_to_hue_angle` definition.
-        """
+        """Test :func:`colour.notation.munsell.hue_to_hue_angle` definition."""
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
             self.assertEqual(hue_to_hue_angle([hue, code]), angle)
@@ -2312,9 +2308,7 @@ class TestHueAngleToHue(unittest.TestCase):
     """
 
     def test_hue_angle_to_hue(self):
-        """
-        Test :func:`colour.notation.munsell.hue_angle_to_hue` definition.
-        """
+        """Test :func:`colour.notation.munsell.hue_angle_to_hue` definition."""
 
         for hue, code, angle in MUNSELL_HUE_TO_ANGLE:
             np.testing.assert_array_equal(hue_angle_to_hue(angle), (hue, code))
@@ -2327,9 +2321,7 @@ class TestHueTo_ASTM_hue(unittest.TestCase):
     """
 
     def test_hue_to_ASTM_hue(self):
-        """
-        Test :func:`colour.notation.munsell.hue_to_ASTM_hue` definition.
-        """
+        """Test :func:`colour.notation.munsell.hue_to_ASTM_hue` definition."""
 
         for hue, code, angle in MUNSELL_HUE_TO_ASTM_HUE:
             self.assertEqual(hue_to_ASTM_hue([hue, code]), angle)

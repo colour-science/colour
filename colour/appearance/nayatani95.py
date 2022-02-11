@@ -605,6 +605,7 @@ def brightness_correlate(
          :math:`\\beta_1(B_or)`.
     Q
         Achromatic response :math:`Q`.
+
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`

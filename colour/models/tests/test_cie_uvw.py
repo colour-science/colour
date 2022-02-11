@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.cie_uvw` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.cie_uvw` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
     """
 
     def test_XYZ_to_UVW(self):
-        """
-        Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition.
-        """
+        """Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
@@ -127,9 +123,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_UVW(self):
-        """
-        Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition nan support.
-        """
+        """Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -146,9 +140,7 @@ class TestUVW_to_XYZ(unittest.TestCase):
     """
 
     def test_UVW_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             UVW_to_XYZ(np.array([94.55035725, 11.55536523, 40.54757405])),
@@ -244,9 +236,7 @@ class TestUVW_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_UVW_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition nan support.
-        """
+        """Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))

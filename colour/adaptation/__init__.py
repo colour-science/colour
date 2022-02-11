@@ -236,7 +236,6 @@ def chromatic_adaptation(
 
     Examples
     --------
-
     *Von Kries* chromatic adaptation:
 
     >>> import numpy as np

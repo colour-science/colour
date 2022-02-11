@@ -258,16 +258,12 @@ def degrees_of_adaptation(
     Ye_n = spow(Y_n, v)
 
     def m_E(x: NDArray, y: NDArray) -> NDArray:
-        """
-        Compute the :math:`m_E` term.
-        """
+        """Compute the :math:`m_E` term."""
 
         return (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
 
     def P_c(x: NDArray) -> NDArray:
-        """
-        Compute the :math:`P_L`, :math:`P_M` or :math:`P_S` terms.
-        """
+        """Compute the :math:`P_L`, :math:`P_M` or :math:`P_S` terms."""
 
         return (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
 

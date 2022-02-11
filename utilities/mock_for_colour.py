@@ -34,8 +34,7 @@ __all__ = [
 
 class MockObject:
     """
-    A generic mock object used for helping to mock tricky *Colour* requirements
-    such as *Scipy*.
+    Mock an object to handle *Colour* requirements such as *Scipy*.
 
     Other Parameters
     ----------------
@@ -79,9 +78,7 @@ class MockObject:
         pass
 
     def __len__(self):
-        """
-        Return the length of the :class:`MockObject` class instance, i.e. 0.
-        """
+        """Return the length of the :class:`MockObject` class instance, i.e. 0."""
 
         return 0
 
@@ -100,9 +97,7 @@ class MockObject:
         return False
 
     def __iter__(self):
-        """
-        Iterate over the :class:`MockObject` class instance.
-        """
+        """Iterate over the :class:`MockObject` class instance."""
 
         return iter([])
 
@@ -166,9 +161,11 @@ class MockObject:
         return self.__display_name__
 
 
-def _make_subclass(name, module, superclass=MockObject, attributes=None):
+def _make_subclass(
+    name, module, superclass=MockObject, attributes=None
+):  # noqa: D405,D407,D410,D411
     """
-    A sub-class factory that makes sub-classes of given super-class type.
+    Produce sub-classes of given super-class type.
 
     Parameters
     ----------
@@ -232,9 +229,7 @@ class MockModule(ModuleType):
 
 
 def mock_scipy_for_colour():
-    """
-    Mock *Scipy* for *Colour*.
-    """
+    """Mock *Scipy* for *Colour*."""
 
     import sys
 

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.robertson1968` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.robertson1968` module."""
 
 from __future__ import annotations
 

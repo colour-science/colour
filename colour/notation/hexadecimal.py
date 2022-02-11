@@ -123,9 +123,7 @@ def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
     HEX = np.core.defchararray.lstrip(HEX, "#")  # type: ignore[arg-type]
 
     def to_RGB(x: List) -> List:
-        """
-        Convert given hexadecimal representation to *RGB*.
-        """
+        """Convert given hexadecimal representation to *RGB*."""
 
         l_x = len(x)
 

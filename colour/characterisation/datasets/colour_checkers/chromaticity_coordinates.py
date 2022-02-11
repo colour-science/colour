@@ -132,9 +132,7 @@ SAMPLE_LABELS_COLORCHECKER_CLASSIC: Tuple = (
     "neutral 3.5 (1.05 D)",
     "black 2 (1.5 D)",
 )
-"""
-*ColorChecker Classic* illuminant.
-"""
+"""*ColorChecker Classic* illuminant."""
 
 DATA_COLORCHECKER1976: Dict = dict(
     zip(
@@ -171,9 +169,7 @@ DATA_COLORCHECKER1976: Dict = dict(
 CCS_ILLUMINANT_COLORCHECKER1976: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["C"]
-"""
-*ColorChecker Classic 1976* illuminant.
-"""
+"""*ColorChecker Classic 1976* illuminant."""
 
 CCS_COLORCHECKER1976: ColourChecker = ColourChecker(
     "ColorChecker 1976", DATA_COLORCHECKER1976, CCS_ILLUMINANT_COLORCHECKER1976
@@ -218,16 +214,12 @@ DATA_COLORCHECKER2005: Dict = dict(
 CCS_ILLUMINANT_COLORCHECKER2005: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["ICC D50"]
-"""
-*ColorChecker Classic 2005* illuminant.
-"""
+"""*ColorChecker Classic 2005* illuminant."""
 
 CCS_COLORCHECKER2005: ColourChecker = ColourChecker(
     "ColorChecker 2005", DATA_COLORCHECKER2005, CCS_ILLUMINANT_COLORCHECKER2005
 )
-"""
-*ColorChecker Classic* data from *GretagMacbeth (2005)*.
-"""
+"""*ColorChecker Classic* data from *GretagMacbeth (2005)*."""
 DATA_BABELCOLOR_AVERAGE: Dict = dict(
     zip(
         SAMPLE_LABELS_COLORCHECKER_CLASSIC,
@@ -263,18 +255,14 @@ DATA_BABELCOLOR_AVERAGE: Dict = dict(
 CCS_ILLUMINANT_BABELCOLOR_AVERAGE: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["ICC D50"]
-"""
-*BabelColor Average* illuminant.
-"""
+"""*BabelColor Average* illuminant."""
 
 CCS_BABELCOLOR_AVERAGE: ColourChecker = ColourChecker(
     "BabelColor Average",
     DATA_BABELCOLOR_AVERAGE,
     CCS_ILLUMINANT_BABELCOLOR_AVERAGE,
 )
-"""
-Average data derived from measurements of 30 *ColorChecker Classic* charts.
-"""
+"""Average data derived from measurements of 30 *ColorChecker Classic* charts."""
 
 DATA_COLORCHECKER24_BEFORE_NOV2014_CIE_LAB: Dict = dict(
     zip(
@@ -325,9 +313,7 @@ DATA_COLORCHECKER24_BEFORE_NOV2014: Dict = dict(
 CCS_ILLUMINANT_COLORCHECKER24_BEFORE_NOV2014: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["ICC D50"]
-"""
-*ColorChecker24 - Before November 2014* illuminant.
-"""
+"""*ColorChecker24 - Before November 2014* illuminant."""
 
 CCS_COLORCHECKER24_BEFORE_NOV2014: ColourChecker = ColourChecker(
     "ColorChecker24 - Before November 2014",
@@ -390,9 +376,7 @@ DATA_COLORCHECKER24_AFTER_NOV2014: Dict = dict(
 CCS_ILLUMINANT_COLORCHECKER24_AFTER_NOV2014: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["ICC D50"]
-"""
-*ColorChecker24 - After November 2014* illuminant.
-"""
+"""*ColorChecker24 - After November 2014* illuminant."""
 
 CCS_COLORCHECKER24_AFTER_NOV2014: ColourChecker = ColourChecker(
     "ColorChecker24 - After November 2014",

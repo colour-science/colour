@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.common` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.common` module."""
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -78,9 +76,7 @@ class TestColourStyle(unittest.TestCase):
     """
 
     def test_colour_style(self):
-        """
-        Test :func:`colour.plotting.common.colour_style` definition.
-        """
+        """Test :func:`colour.plotting.common.colour_style` definition."""
 
         self.assertIsInstance(colour_style(use_style=False), dict)
 
@@ -92,18 +88,14 @@ class TestOverrideStyle(unittest.TestCase):
     """
 
     def test_override_style(self):
-        """
-        Test :func:`colour.plotting.common.override_style` definition.
-        """
+        """Test :func:`colour.plotting.common.override_style` definition."""
 
         text_color = plt.rcParams["text.color"]
         try:
 
             @override_style(**{"text.color": "red"})
             def test_text_color_override():
-                """
-                Test :func:`colour.plotting.common.override_style` definition.
-                """
+                """Test :func:`colour.plotting.common.override_style` definition."""
 
                 attest(plt.rcParams["text.color"] == "red")
 
@@ -137,9 +129,7 @@ class TestColourCycle(unittest.TestCase):
     """
 
     def test_colour_cycle(self):
-        """
-        Test :func:`colour.plotting.common.colour_cycle` definition.
-        """
+        """Test :func:`colour.plotting.common.colour_cycle` definition."""
 
         cycler = colour_cycle()
 
@@ -177,9 +167,7 @@ class TestArtist(unittest.TestCase):
     """
 
     def test_artist(self):
-        """
-        Test :func:`colour.plotting.common.artist` definition.
-        """
+        """Test :func:`colour.plotting.common.artist` definition."""
 
         figure_1, axes_1 = artist()
 
@@ -200,9 +188,7 @@ class TestCamera(unittest.TestCase):
     """
 
     def test_camera(self):
-        """
-        Test :func:`colour.plotting.common.camera` definition.
-        """
+        """Test :func:`colour.plotting.common.camera` definition."""
 
         figure, _axes = artist()
         axes = figure.add_subplot(111, projection="3d")
@@ -220,23 +206,17 @@ class TestRender(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_render(self):
-        """
-        Test :func:`colour.plotting.common.render` definition.
-        """
+        """Test :func:`colour.plotting.common.render` definition."""
 
         figure, axes = artist()
 
@@ -274,9 +254,7 @@ class TestLabelRectangles(unittest.TestCase):
     """
 
     def test_label_rectangles(self):
-        """
-        Test :func:`colour.plotting.common.label_rectangles` definition.
-        """
+        """Test :func:`colour.plotting.common.label_rectangles` definition."""
 
         figure, axes = artist()
 
@@ -296,9 +274,7 @@ class TestUniformAxes3d(unittest.TestCase):
     """
 
     def test_uniform_axes3d(self):
-        """
-        Test :func:`colour.plotting.common.uniform_axes3d` definition.
-        """
+        """Test :func:`colour.plotting.common.uniform_axes3d` definition."""
 
         figure, _axes = artist()
         axes = figure.add_subplot(111, projection="3d")
@@ -316,9 +292,7 @@ class TestFilterPassthrough(unittest.TestCase):
     """
 
     def test_filter_passthrough(self):
-        """
-        Test :func:`colour.plotting.common.filter_passthrough` definition.
-        """
+        """Test :func:`colour.plotting.common.filter_passthrough` definition."""
 
         self.assertListEqual(
             sorted(
@@ -399,9 +373,7 @@ class TestFilterCmfs(unittest.TestCase):
     """
 
     def test_filter_cmfs(self):
-        """
-        Test :func:`colour.plotting.common.filter_cmfs` definition.
-        """
+        """Test :func:`colour.plotting.common.filter_cmfs` definition."""
 
         self.assertListEqual(
             sorted(
@@ -424,9 +396,7 @@ class TestFilterIlluminants(unittest.TestCase):
     """
 
     def test_filter_illuminants(self):
-        """
-        Test :func:`colour.plotting.common.filter_illuminants` definition.
-        """
+        """Test :func:`colour.plotting.common.filter_illuminants` definition."""
 
         self.assertListEqual(
             sorted(filter_illuminants(["^D.*"]).keys()),
@@ -441,9 +411,7 @@ class TestFilterColourCheckers(unittest.TestCase):
     """
 
     def test_filter_colour_checkers(self):
-        """
-        Test :func:`colour.plotting.common.filter_colour_checkers` definition.
-        """
+        """Test :func:`colour.plotting.common.filter_colour_checkers` definition."""
 
         self.assertListEqual(
             sorted(
@@ -552,9 +520,7 @@ class TestPlotSingleFunction(unittest.TestCase):
     """
 
     def test_plot_single_function(self):
-        """
-        Test :func:`colour.plotting.common.plot_single_function` definition.
-        """
+        """Test :func:`colour.plotting.common.plot_single_function` definition."""
 
         figure, axes = plot_single_function(
             partial(gamma_function, exponent=1 / 2.2)
@@ -571,9 +537,7 @@ class TestPlotMultiFunctions(unittest.TestCase):
     """
 
     def test_plot_multi_functions(self):
-        """
-        Test :func:`colour.plotting.common.plot_multi_functions` definition.
-        """
+        """Test :func:`colour.plotting.common.plot_multi_functions` definition."""
 
         functions = {
             "Gamma 2.2": lambda x: x ** (1 / 2.2),
@@ -612,9 +576,7 @@ class TestPlotImage(unittest.TestCase):
     """
 
     def test_plot_image(self):
-        """
-        Test :func:`colour.plotting.common.plot_image` definition.
-        """
+        """Test :func:`colour.plotting.common.plot_image` definition."""
 
         path = os.path.join(
             colour.__path__[0], "..", "docs", "_static", "Logo_Medium_001.png"

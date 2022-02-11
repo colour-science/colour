@@ -1,6 +1,4 @@
-"""
-Showcases colour spectral bandpass dependence correction computations.
-"""
+"""Showcases colour spectral bandpass dependence correction computations."""
 
 import numpy as np
 

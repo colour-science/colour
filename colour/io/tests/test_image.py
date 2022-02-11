@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.image` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.image` module."""
 
 from __future__ import annotations
 
@@ -44,9 +42,7 @@ class TestConvertBitDepth(unittest.TestCase):
     """
 
     def test_convert_bit_depth(self):
-        """
-        Test :func:`colour.io.image.convert_bit_depth` definition.
-        """
+        """Test :func:`colour.io.image.convert_bit_depth` definition."""
 
         a = np.around(np.linspace(0, 1, 10) * 255).astype("uint8")
         self.assertIs(convert_bit_depth(a, "uint8").dtype, np.dtype("uint8"))
@@ -259,9 +255,7 @@ class TestReadImageOpenImageIO(unittest.TestCase):
     """
 
     def test_read_image_OpenImageIO(self):  # pragma: no cover
-        """
-        Test :func:`colour.io.image.read_image_OpenImageIO` definition.
-        """
+        """Test :func:`colour.io.image.read_image_OpenImageIO` definition."""
 
         if not is_openimageio_installed():
             return
@@ -329,23 +323,17 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_image_OpenImageIO(self):  # pragma: no cover
-        """
-        Test :func:`colour.io.image.write_image_OpenImageIO` definition.
-        """
+        """Test :func:`colour.io.image.write_image_OpenImageIO` definition."""
 
         if not is_openimageio_installed():
             return
@@ -427,9 +415,7 @@ class TestReadImageImageio(unittest.TestCase):
     """
 
     def test_read_image_Imageio(self):
-        """
-        Test :func:`colour.io.image.read_image_Imageio` definition.
-        """
+        """Test :func:`colour.io.image.read_image_Imageio` definition."""
 
         image = read_image_Imageio(
             os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
@@ -487,23 +473,17 @@ class TestWriteImageImageio(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_image_Imageio(self):
-        """
-        Test :func:`colour.io.image.write_image_Imageio` definition.
-        """
+        """Test :func:`colour.io.image.write_image_Imageio` definition."""
 
         source_image_path = os.path.join(
             RESOURCES_DIRECTORY, "Overflowing_Gradient.png"
@@ -536,9 +516,7 @@ class TestReadImage(unittest.TestCase):
     """
 
     def test_read_image(self):
-        """
-        Test :func:`colour.io.image.read_image` definition.
-        """
+        """Test :func:`colour.io.image.read_image` definition."""
 
         image = read_image(
             os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
@@ -553,28 +531,20 @@ class TestReadImage(unittest.TestCase):
 
 
 class TestWriteImage(unittest.TestCase):
-    """
-    Define :func:`colour.io.image.write_image` definition unit tests methods.
-    """
+    """Define :func:`colour.io.image.write_image` definition unit tests methods."""
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_image(self):
-        """
-        Test :func:`colour.io.image.write_image` definition.
-        """
+        """Test :func:`colour.io.image.write_image` definition."""
 
         source_image_path = os.path.join(
             RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr"

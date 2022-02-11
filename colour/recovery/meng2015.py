@@ -171,16 +171,12 @@ def XYZ_to_sd_Meng2015(
     sd = sd_ones(cmfs.shape)
 
     def objective_function(a: ArrayLike) -> FloatingOrNDArray:
-        """
-        Objective function.
-        """
+        """Define the objective function."""
 
         return np.sum(np.diff(a) ** 2)
 
     def constraint_function(a: ArrayLike) -> NDArray:
-        """
-        Function defining the constraint.
-        """
+        """Define the constraint function."""
 
         sd[:] = a
         return (

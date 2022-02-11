@@ -1,5 +1,6 @@
 """
 Defines the unit tests for the :mod:`colour.algebra.random` module.
+
 References
 ----------
 -   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.cylindrical` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.cylindrical` module."""
 
 import numpy as np
 import unittest
@@ -40,9 +38,7 @@ class TestRGB_to_HSV(unittest.TestCase):
     """
 
     def test_RGB_to_HSV(self):
-        """
-        Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_HSV(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -122,9 +118,7 @@ class TestHSV_to_RGB(unittest.TestCase):
     """
 
     def test_HSV_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             HSV_to_RGB(np.array([0.99603944, 0.93246304, 0.45620519])),
@@ -204,9 +198,7 @@ class TestRGB_to_HSL(unittest.TestCase):
     """
 
     def test_RGB_to_HSL(self):
-        """
-        Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_HSL(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -286,9 +278,7 @@ class TestHSL_to_RGB(unittest.TestCase):
     """
 
     def test_HSL_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             HSL_to_RGB(np.array([0.99603944, 0.87347144, 0.24350795])),
@@ -368,9 +358,7 @@ class TestRGB_to_HCL(unittest.TestCase):
     """
 
     def test_RGB_to_HCL(self):
-        """
-        Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_HCL(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -450,9 +438,7 @@ class TestHCL_to_RGB(unittest.TestCase):
     """
 
     def test_HCL_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             HCL_to_RGB(np.array([-0.03167854, 0.28417150, 0.22859647])),

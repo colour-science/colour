@@ -133,14 +133,10 @@ __all__ = [
 ]
 
 FLARE_PERCENTAGE: Floating = 0.00500
-"""
-Flare percentage in the *ACES* system.
-"""
+"""Flare percentage in the *ACES* system."""
 
 S_FLARE_FACTOR: Floating = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
-"""
-Flare modulation factor in the *ACES* system.
-"""
+"""Flare modulation factor in the *ACES* system."""
 
 
 def sd_to_aces_relative_exposure_values(
@@ -234,9 +230,7 @@ def sd_to_aces_relative_exposure_values(
     r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 
     def k(x: NDArray, y: NDArray) -> NDArray:
-        """
-        Compute the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors.
-        """
+        """Compute the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors."""
 
         return 1 / np.sum(x * y)
 
@@ -279,9 +273,7 @@ def sd_to_aces_relative_exposure_values(
 sd_to_ACES2065_1 = sd_to_aces_relative_exposure_values
 
 SPECTRAL_SHAPE_RAWTOACES: SpectralShape = SpectralShape(380, 780, 5)
-"""
-Default spectral shape according to *RAW to ACES* v1.
-"""
+"""Default spectral shape according to *RAW to ACES* v1."""
 
 RESOURCES_DIRECTORY_RAWTOACES: str = os.path.join(
     os.path.dirname(__file__), "datasets", "rawtoaces"
@@ -738,9 +730,8 @@ def training_data_sds_to_XYZ(
 
 def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     """
-    Factory that returns the objective function and *CIE XYZ* colourspace to
-    optimisation colourspace/colour model function according to *RAW to ACES*
-    v1.
+    Produce the objective function and *CIE XYZ* colourspace to optimisation
+    colourspace/colour model function according to *RAW to ACES* v1.
 
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
@@ -764,9 +755,7 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Lab: ArrayLike
     ) -> FloatingOrNDArray:
-        """
-        Objective function according to *RAW to ACES* v1.
-        """
+        """Objective function according to *RAW to ACES* v1."""
 
         M = np.reshape(M, [3, 3])
 
@@ -778,9 +767,7 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
         return as_float(np.linalg.norm(Lab_t - Lab))
 
     def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
-        """
-        *CIE XYZ* colourspace to *CIE L\\*a\\*b\\** colourspace function.
-        """
+        """*CIE XYZ* colourspace to *CIE L\\*a\\*b\\** colourspace function."""
 
         return XYZ_to_Lab(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
@@ -789,9 +776,9 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
 
 def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
     """
-    Factory that returns the objective function and *CIE XYZ* colourspace to
-    optimisation colourspace/colour model function based on the
-    :math:`J_za_zb_z` colourspace.
+    Produce the objective function and *CIE XYZ* colourspace to optimisation
+    colourspace/colour model function based on the :math:`J_za_zb_z`
+    colourspace.
 
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
@@ -815,9 +802,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
     ) -> FloatingOrNDArray:
-        """
-        :math:`J_za_zb_z` colourspace based objective function.
-        """
+        """:math:`J_za_zb_z` colourspace based objective function."""
 
         M = np.reshape(M, [3, 3])
 
@@ -829,9 +814,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
         return np.sum(euclidean_distance(Jab, Jab_t))
 
     def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
-        """
-        *CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function.
-        """
+        """*CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function."""
 
         return XYZ_to_Jzazbz(XYZ)
 

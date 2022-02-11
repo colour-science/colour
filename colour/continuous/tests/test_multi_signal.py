@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.continuous.multi_signals` module.
-"""
+"""Defines the unit tests for the :mod:`colour.continuous.multi_signals` module."""
 
 import numpy as np
 import unittest
@@ -41,9 +39,7 @@ class TestMultiSignals(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._range_1 = np.linspace(10, 100, 10)
         self._range_2 = tstack([self._range_1] * 3) + np.array([0, 10, 20])
@@ -53,9 +49,7 @@ class TestMultiSignals(unittest.TestCase):
         self._multi_signals = MultiSignals(self._range_2)
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "dtype",
@@ -75,9 +69,7 @@ class TestMultiSignals(unittest.TestCase):
             self.assertIn(attribute, dir(MultiSignals))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -144,14 +136,12 @@ class TestMultiSignals(unittest.TestCase):
         domain = np.linspace(0, 1, 10)
         domain[0] = -np.inf
 
-        def _assert_warns():
-            """
-            Helper definition to test the runtime warning.
-            """
+        def assert_warns():
+            """Help to test the runtime warning."""
 
             multi_signals.domain = domain
 
-        self.assertWarns(ColourRuntimeWarning, _assert_warns)
+        self.assertWarns(ColourRuntimeWarning, assert_warns)
 
     def test_range(self):
         """
@@ -391,9 +381,7 @@ function` property raised exception.
         np.testing.assert_array_equal(multi_signals.range, self._range_2)
 
         class NotSignal(Signal):
-            """
-            Not :class:`Signal` class.
-            """
+            """Not :class:`Signal` class."""
 
             pass
 
@@ -803,9 +791,7 @@ function` property raised exception.
         self.assertEqual(multi_signals_1, multi_signals_2)
 
         class NotExtrapolator(Extrapolator):
-            """
-            Not :class:`Extrapolator` class.
-            """
+            """Not :class:`Extrapolator` class."""
 
             pass
 
@@ -943,9 +929,7 @@ arithmetical_operation` method.
         self.assertFalse(multi_signals.is_uniform())
 
     def test_copy(self):
-        """
-        Test :func:`colour.continuous.multi_signals.MultiSignals.copy` method.
-        """
+        """Test :func:`colour.continuous.multi_signals.MultiSignals.copy` method."""
 
         self.assertIsNot(self._multi_signals, self._multi_signals.copy())
         self.assertEqual(self._multi_signals, self._multi_signals.copy())

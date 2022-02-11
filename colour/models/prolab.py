@@ -45,14 +45,10 @@ MATRIX_Q: NDArray = np.array(
         [0.7554, 3.8666, 1.6739, 1],
     ]
 )
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_INVERSE_Q: NDArray = np.linalg.inv(MATRIX_Q)
-"""
-Normalised cone responses to *ProLab* colourspace matrix.
-"""
+"""Normalised cone responses to *ProLab* colourspace matrix."""
 
 
 def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArray:

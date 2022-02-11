@@ -1,6 +1,4 @@
-"""
-Showcases *ZCAM* colour appearance model computations.
-"""
+"""Showcases *ZCAM* colour appearance model computations."""
 
 import numpy as np
 

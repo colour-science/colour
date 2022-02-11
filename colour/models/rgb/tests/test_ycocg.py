@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.ycocg` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.ycocg` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestRGB_to_YCoCg(unittest.TestCase):
     """
 
     def test_RGB_to_YCoCg(self):
-        """
-        Test :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition.
-        """
+        """Test :func:`colour.models.rgb.ycocg.RGB_to_YCoCg` definition."""
 
         np.testing.assert_array_equal(
             RGB_to_YCoCg(np.array([0.75, 0.75, 0.0])),
@@ -96,9 +92,7 @@ class TestYCoCg_to_RGB(unittest.TestCase):
     """
 
     def test_YCoCg_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.ycocg.YCoCg_to_RGB` definition."""
 
         np.testing.assert_array_equal(
             YCoCg_to_RGB(np.array([0.5625, 0.375, 0.1875])),

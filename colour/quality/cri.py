@@ -66,9 +66,7 @@ __all__ = [
 
 @dataclass
 class TCS_ColorimetryData:
-    """
-    Define the class storing *test colour samples* colorimetry data.
-    """
+    """Define the class storing *test colour samples* colorimetry data."""
 
     name: str
     XYZ: NDArray
@@ -250,18 +248,14 @@ def tcs_colorimetry_data(
             def c(
                 x: FloatingOrNDArray, y: FloatingOrNDArray
             ) -> FloatingOrNDArray:
-                """
-                Compute the :math:`c` term.
-                """
+                """Compute the :math:`c` term."""
 
                 return (4 - x - 10 * y) / y
 
             def d(
                 x: FloatingOrNDArray, y: FloatingOrNDArray
             ) -> FloatingOrNDArray:
-                """
-                Compute the :math:`d` term.
-                """
+                """Compute the :math:`d` term."""
 
                 return (1.708 * y + 0.404 - 1.481 * x) / y
 

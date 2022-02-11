@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.tm3018.components` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.tm3018.components` module."""
 
 from __future__ import annotations
 

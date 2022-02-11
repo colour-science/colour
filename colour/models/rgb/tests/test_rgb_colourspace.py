@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module."""
 
 import numpy as np
 import re
@@ -45,9 +43,7 @@ class TestRGB_Colourspace(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         whitepoint = np.array([0.32168, 0.33767])
@@ -65,9 +61,7 @@ class TestRGB_Colourspace(unittest.TestCase):
         )
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "name",
@@ -86,9 +80,7 @@ class TestRGB_Colourspace(unittest.TestCase):
             self.assertIn(attribute, dir(RGB_Colourspace))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -288,9 +280,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
     """
 
     def test_XYZ_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_RGB(
@@ -459,9 +449,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
     """
 
     def test_RGB_to_XYZ(self):
-        """
-        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_XYZ(
@@ -705,9 +693,7 @@ class TestRGB_to_RGB(unittest.TestCase):
     """
 
     def test_RGB_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition."""
 
         aces_2065_1_colourspace = RGB_COLOURSPACES["ACES2065-1"]
         sRGB_colourspace = RGB_COLOURSPACES["sRGB"]

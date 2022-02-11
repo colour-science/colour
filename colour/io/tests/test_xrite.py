@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.xrite` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.xrite` module."""
 
 from __future__ import annotations
 
@@ -73,9 +71,7 @@ class TestReadSdsFromXRiteFile(unittest.TestCase):
     """
 
     def test_read_sds_from_xrite_file(self):
-        """
-        Test :func:`colour.io.xrite.read_sds_from_xrite_file` definition.
-        """
+        """Test :func:`colour.io.xrite.read_sds_from_xrite_file` definition."""
 
         colour_checker_xrite = os.path.join(
             RESOURCES_DIRECTORY, "X-Rite_Digital_Colour_Checker.txt"

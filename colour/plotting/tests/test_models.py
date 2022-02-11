@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.models` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.models` module."""
 
 import numpy as np
 import unittest
@@ -107,9 +105,7 @@ class TestPlotPointerGamut(unittest.TestCase):
     """
 
     def test_plot_pointer_gamut(self):
-        """
-        Test :func:`colour.plotting.models.plot_pointer_gamut` definition.
-        """
+        """Test :func:`colour.plotting.models.plot_pointer_gamut` definition."""
 
         figure, axes = plot_pointer_gamut()
 
@@ -344,9 +340,7 @@ class TestEllipsesMacAdam1942(unittest.TestCase):
     """
 
     def test_ellipses_MacAdam1942(self):
-        """
-        Test :func:`colour.plotting.models.ellipses_MacAdam1942` definition.
-        """
+        """Test :func:`colour.plotting.models.ellipses_MacAdam1942` definition."""
 
         self.assertEqual(len(ellipses_MacAdam1942()), 25)
 
@@ -467,9 +461,7 @@ class TestPlotSingleCctf(unittest.TestCase):
     """
 
     def test_plot_single_cctf(self):
-        """
-        Test :func:`colour.plotting.models.plot_single_cctf` definition.
-        """
+        """Test :func:`colour.plotting.models.plot_single_cctf` definition."""
 
         figure, axes = plot_single_cctf("ITU-R BT.709")
 
@@ -484,9 +476,7 @@ class TestPlotMultiCctfs(unittest.TestCase):
     """
 
     def test_plot_multi_cctfs(self):
-        """
-        Test :func:`colour.plotting.models.plot_multi_cctfs` definition.
-        """
+        """Test :func:`colour.plotting.models.plot_multi_cctfs` definition."""
 
         figure, axes = plot_multi_cctfs(["ITU-R BT.709", "sRGB"])
 
@@ -501,9 +491,7 @@ class TestPlotConstantHueLoci(unittest.TestCase):
     """
 
     def test_plot_constant_hue_loci(self):
-        """
-        Test :func:`colour.plotting.models.plot_constant_hue_loci` definition.
-        """
+        """Test :func:`colour.plotting.models.plot_constant_hue_loci` definition."""
 
         data = np.array(
             [

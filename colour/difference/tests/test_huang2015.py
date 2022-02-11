@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.difference.huang2015` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference.huang2015` module."""
 
 import numpy as np
 import unittest

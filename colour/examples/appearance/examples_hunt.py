@@ -1,6 +1,4 @@
-"""
-Showcases *Hunt* colour appearance model computations.
-"""
+"""Showcases *Hunt* colour appearance model computations."""
 
 import numpy as np
 

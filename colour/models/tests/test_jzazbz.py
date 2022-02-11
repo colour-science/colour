@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.jzazbz` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.jzazbz` module."""
 
 import numpy as np
 import unittest
@@ -36,9 +34,7 @@ class TestXYZ_to_Izazbz(unittest.TestCase):
     """
 
     def test_XYZ_to_Izazbz(self):
-        """
-        Test :func:`colour.models.jzazbz.XYZ_to_Izazbz` definition.
-        """
+        """Test :func:`colour.models.jzazbz.XYZ_to_Izazbz` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_Izazbz(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -131,9 +127,7 @@ class TestIzazbz_to_XYZ(unittest.TestCase):
     """
 
     def test_Izazbz_to_XYZ(self):
-        """
-        Test :func:`colour.models.jzazbz.Izazbz_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.jzazbz.Izazbz_to_XYZ` definition."""
 
         np.testing.assert_allclose(
             Izazbz_to_XYZ(np.array([0.01207793, 0.00924302, 0.00526007])),
@@ -243,9 +237,7 @@ class TestXYZ_to_Jzazbz(unittest.TestCase):
     """
 
     def test_XYZ_to_Jzazbz(self):
-        """
-        Test :func:`colour.models.jzazbz.XYZ_to_Jzazbz` definition.
-        """
+        """Test :func:`colour.models.jzazbz.XYZ_to_Jzazbz` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_Jzazbz(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -319,9 +311,7 @@ class TestJzazbz_to_XYZ(unittest.TestCase):
     """
 
     def test_Jzazbz_to_XYZ(self):
-        """
-        Test :func:`colour.models.jzazbz.Jzazbz_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.jzazbz.Jzazbz_to_XYZ` definition."""
 
         np.testing.assert_allclose(
             Jzazbz_to_XYZ(np.array([0.00535048, 0.00924302, 0.00526007])),

@@ -98,9 +98,7 @@ def uv_to_CCT_Krystek1985(
     def objective_function(
         CCT: FloatingOrArrayLike, uv: ArrayLike
     ) -> FloatingOrNDArray:
-        """
-        Objective function.
-        """
+        """Objective function."""
 
         objective = np.linalg.norm(CCT_to_uv_Krystek1985(CCT) - uv)
 

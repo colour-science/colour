@@ -104,7 +104,7 @@ def set_spow_enable(enable: bool):
 
 class spow_enable:
     """
-    A context manager and decorator temporarily setting *Colour* safe /
+    Define a context manager and decorator temporarily setting *Colour* safe /
     symmetrical power function enabled state.
 
     Parameters
@@ -120,7 +120,8 @@ class spow_enable:
 
     def __enter__(self) -> spow_enable:
         """
-        Called upon entering the context manager and decorator.
+        Set the *Colour* safe / symmetrical power function enabled state
+        upon entering the context manager.
         """
 
         set_spow_enable(self._enable)
@@ -129,15 +130,14 @@ class spow_enable:
 
     def __exit__(self, *args: Any):
         """
-        Called upon exiting the context manager and decorator.
+        Set the *Colour* safe / symmetrical power function enabled state
+        upon exiting the context manager.
         """
 
         set_spow_enable(self._previous_state)
 
     def __call__(self, function: Callable) -> Callable:
-        """
-        Call the wrapped definition.
-        """
+        """Call the wrapped definition."""
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -158,7 +158,7 @@ def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     the :func:`spow_enable` context manager.
 
     Parameters
-    ----------------
+    ----------
     a
         Array :math:`a`.
     p
@@ -235,11 +235,11 @@ def normalise_maximum(
 
 def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
     """
-    Convenient wrapper around :func:`np.einsum` with the following subscripts:
-    *'...ij,...j->...i'*.
-
-    It performs the dot product of the matrix array :math:`m` with the vector
+    Perform the dot product of the matrix array :math:`m` with the vector
     array :math:`v`.
+
+    This definition is a convenient wrapper around :func:`np.einsum` with the
+    following subscripts: *'...ij,...j->...i'*.
 
     Parameters
     ----------
@@ -277,11 +277,11 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
 
 def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
-    Convenient wrapper around :func:`np.einsum` with the following subscripts:
-    *'...ij,...jk->...ik'*.
-
-    It performs the dot product of the matrix array :math:`a` with the matrix
+    Perform the dot product of the matrix array :math:`a` with the matrix
     array :math:`b`.
+
+    This definition is a convenient wrapper around :func:`np.einsum` with the
+    following subscripts: *'...ij,...jk->...ik'*.
 
     Parameters
     ----------

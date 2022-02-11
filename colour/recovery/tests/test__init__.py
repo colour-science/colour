@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.recovery` module.
-"""
+"""Defines the unit tests for the :mod:`colour.recovery` module."""
 
 import numpy as np
 import unittest
@@ -36,9 +34,7 @@ class TestXYZ_to_sd(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         # pylint: disable=E1102
         self._cmfs = reshape_msds(

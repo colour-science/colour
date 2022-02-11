@@ -744,69 +744,69 @@ def corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-        Return the corresponding chromaticities prediction for given chromatic
-        adaptation model.
+    Return the corresponding chromaticities prediction for given chromatic
+    adaptation model.
 
-        Parameters
-        ----------
-        experiment
-            *Breneman (1987)* experiment number or
-            :class:`colour.CorrespondingColourDataset` class instance.
-        model
-            Chromatic adaptation model.
+    Parameters
+    ----------
+    experiment
+        *Breneman (1987)* experiment number or
+        :class:`colour.CorrespondingColourDataset` class instance.
+    model
+        Chromatic adaptation model.
 
-        Other Parameters
-        ----------------
-        D_b
-            {:func:`colour.corresponding.\
+    Other Parameters
+    ----------------
+    D_b
+        {:func:`colour.corresponding.\
 corresponding_chromaticities_prediction_Zhai2018`},
-            Degree of adaptation :math:`D_{\\beta}` of input illuminant
-            :math:`\\beta`.
-        D_d
-            {:func:`colour.corresponding.\
+        Degree of adaptation :math:`D_{\\beta}` of input illuminant
+        :math:`\\beta`.
+    D_d
+        {:func:`colour.corresponding.\
 corresponding_chromaticities_prediction_Zhai2018`},
-            Degree of adaptation :math:`D_{\\delta}` of output illuminant
-            :math:`\\delta`.
-        transform
-            {:func:`colour.corresponding.\
+        Degree of adaptation :math:`D_{\\delta}` of output illuminant
+        :math:`\\delta`.
+    transform
+        {:func:`colour.corresponding.\
 corresponding_chromaticities_prediction_VonKries`,
-            :func:`colour.corresponding.\
+        :func:`colour.corresponding.\
 corresponding_chromaticities_prediction_Zhai2018`},
-            Chromatic adaptation transform.
-        XYZ_wo
-            {:func:`colour.corresponding.\
+        Chromatic adaptation transform.
+    XYZ_wo
+        {:func:`colour.corresponding.\
 corresponding_chromaticities_prediction_Zhai2018`},
-            Baseline illuminant (:math:`BI`) :math:`o`.
+        Baseline illuminant (:math:`BI`) :math:`o`.
 
-        Returns
-        -------
-        :class:`tuple`
-            Corresponding chromaticities prediction.
+    Returns
+    -------
+    :class:`tuple`
+        Corresponding chromaticities prediction.
 
-        References
-        ----------
-        :cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
-        :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
-        :cite:`Westland2012k`, :cite:`Zhai2018`
+    References
+    ----------
+    :cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
+    :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
+    :cite:`Westland2012k`, :cite:`Zhai2018`
 
-        Examples
-        --------
-        >>> from pprint import pprint
-        >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
-        >>> pr = [(p.uv_m, p.uv_p) for p in pr]
-        >>> pprint(pr)  # doctest: +SKIP
-        [((0.207, 0.486), (0.2083210..., 0.4727168...)),
-         ((0.449, 0.511), (0.4459270..., 0.5077735...)),
-         ((0.263, 0.505), (0.2640262..., 0.4955361...)),
-         ((0.322, 0.545), (0.3316884..., 0.5431580...)),
-         ((0.316, 0.537), (0.3222624..., 0.5357624...)),
-         ((0.265, 0.553), (0.2710705..., 0.5501997...)),
-         ((0.221, 0.538), (0.2261826..., 0.5294740...)),
-         ((0.135, 0.532), (0.1439693..., 0.5190984...)),
-         ((0.145, 0.472), (0.1494835..., 0.4556760...)),
-         ((0.163, 0.331), (0.1563172..., 0.3164151...)),
-         ((0.176, 0.431), (0.1763199..., 0.4127589...)),
-         ((0.244, 0.349), (0.2287638..., 0.3499324...))]
+    Examples
+    --------
+    >>> from pprint import pprint
+    >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
+    >>> pr = [(p.uv_m, p.uv_p) for p in pr]
+    >>> pprint(pr)  # doctest: +SKIP
+    [((0.207, 0.486), (0.2083210..., 0.4727168...)),
+     ((0.449, 0.511), (0.4459270..., 0.5077735...)),
+     ((0.263, 0.505), (0.2640262..., 0.4955361...)),
+     ((0.322, 0.545), (0.3316884..., 0.5431580...)),
+     ((0.316, 0.537), (0.3222624..., 0.5357624...)),
+     ((0.265, 0.553), (0.2710705..., 0.5501997...)),
+     ((0.221, 0.538), (0.2261826..., 0.5294740...)),
+     ((0.135, 0.532), (0.1439693..., 0.5190984...)),
+     ((0.145, 0.472), (0.1494835..., 0.4556760...)),
+     ((0.163, 0.331), (0.1563172..., 0.3164151...)),
+     ((0.176, 0.431), (0.1763199..., 0.4127589...)),
+     ((0.244, 0.349), (0.2287638..., 0.3499324...))]
     """
 
     function = CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[model]

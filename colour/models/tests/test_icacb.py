@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.hunter_rdab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
 from itertools import permutations
 import numpy as np
@@ -29,9 +27,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
     """
 
     def test_XYZ_to_ICaCb(self):
-        """
-        Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition.
-        """
+        """Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_ICaCb(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -92,9 +88,7 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_ICaCb(self):
-        """
-        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
-        """
+        """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -104,11 +98,10 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
 
 
 class TestICaCb_to_XYZ(unittest.TestCase):
-    """
-    Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition.
-    """
+    """Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition."""
 
     def test_XYZ_to_ICaCb(self):
+        """Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             ICaCb_to_XYZ(np.array([0.06875297, 0.05753352, 0.02081548])),
@@ -171,9 +164,7 @@ class TestICaCb_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_ICaCb_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
-        """
+        """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))

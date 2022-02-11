@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.difference.cam16_ucs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference.cam16_ucs` module."""
 
 import unittest
 

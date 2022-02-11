@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.colorimetry` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.colorimetry` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure
@@ -53,9 +51,7 @@ class TestPlotSingleSd(unittest.TestCase):
     """
 
     def test_plot_single_sd(self):
-        """
-        Test :func:`colour.plotting.colorimetry.plot_single_sd` definition.
-        """
+        """Test :func:`colour.plotting.colorimetry.plot_single_sd` definition."""
 
         sd = SpectralDistribution(
             {
@@ -88,9 +84,7 @@ class TestPlotMultiSds(unittest.TestCase):
     """
 
     def test_plot_multi_sds(self):
-        """
-        Test :func:`colour.plotting.colorimetry.plot_multi_sds` definition.
-        """
+        """Test :func:`colour.plotting.colorimetry.plot_multi_sds` definition."""
 
         sd_1 = SpectralDistribution(
             {
@@ -144,9 +138,7 @@ class TestPlotSingleCmfs(unittest.TestCase):
     """
 
     def test_plot_single_cmfs(self):
-        """
-        Test :func:`colour.plotting.colorimetry.plot_single_cmfs` definition.
-        """
+        """Test :func:`colour.plotting.colorimetry.plot_single_cmfs` definition."""
 
         figure, axes = plot_single_cmfs()
 
@@ -161,9 +153,7 @@ class TestPlotMultiCmfs(unittest.TestCase):
     """
 
     def test_plot_multi_cmfs(self):
-        """
-        Test :func:`colour.plotting.colorimetry.plot_multi_cmfs` definition.
-        """
+        """Test :func:`colour.plotting.colorimetry.plot_multi_cmfs` definition."""
 
         figure, axes = plot_multi_cmfs(
             [

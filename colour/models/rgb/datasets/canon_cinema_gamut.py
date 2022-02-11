@@ -49,33 +49,23 @@ PRIMARIES_CINEMA_GAMUT: NDArray = np.array(
         [0.0800, -0.1000],
     ]
 )
-"""
-*Canon Cinema Gamut* colourspace primaries.
-"""
+"""*Canon Cinema Gamut* colourspace primaries."""
 
 WHITEPOINT_NAME_CINEMA_GAMUT: str = "D65"
-"""
-*Canon Cinema Gamut* colourspace whitepoint name.
-"""
+"""*Canon Cinema Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_CINEMA_GAMUT: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_CINEMA_GAMUT]
-"""
-*Canon Cinema Gamut* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Canon Cinema Gamut* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_CINEMA_GAMUT_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_CINEMA_GAMUT, CCS_WHITEPOINT_CINEMA_GAMUT
 )
-"""
-*Canon Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Canon Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_CINEMA_GAMUT: NDArray = np.linalg.inv(MATRIX_CINEMA_GAMUT_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Canon Cinema Gamut* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Canon Cinema Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_CINEMA_GAMUT: RGB_Colourspace = RGB_Colourspace(
     "Cinema Gamut",

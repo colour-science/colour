@@ -69,6 +69,7 @@ jupyter = { version = "*", optional = true }  # Development dependency.
 mypy = { version = "*", optional = true }  # Development dependency.
 pre-commit = { version = "*", optional = true }  # Development dependency.
 pydata-sphinx-theme = { version = "*", optional = true }  # Development dependency.
+pydocstyle = { version = "*", optional = true }  # Development dependency.
 pytest = { version = "*", optional = true }  # Development dependency.
 pytest-cov = { version = "*", optional = true }  # Development dependency.
 pyupgrade = { version = "*", optional = true }  # Development dependency.
@@ -90,6 +91,7 @@ jupyter = "*"
 mypy = "*"
 pre-commit = "*"
 pydata-sphinx-theme = "*"
+pydocstyle = "*"
 pytest = "*"
 pytest-cov = "*"
 pyupgrade = "*"
@@ -112,6 +114,7 @@ development = [
     "mypy",
     "pre-commit",
     "pydata-sphinx-theme",
+    "pydocstyle",
     "pytest",
     "pytest-cov",
     "pyupgrade",
@@ -152,6 +155,10 @@ line_length=999
 [tool.mypy]
 plugins = "numpy.typing.mypy_plugin"
 ignore_missing_imports = true
+
+[tool.pydocstyle]
+convention = "numpy"
+add-ignore = "D104,D200,D202,D205,D301,D400"
 
 [build-system]
 requires = [ "poetry>=0.12" ]

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.cie_luv` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.cie_luv` module."""
 
 import numpy as np
 import unittest
@@ -44,9 +42,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
     """
 
     def test_XYZ_to_Luv(self):
-        """
-        Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition.
-        """
+        """Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -142,9 +138,7 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_Luv(self):
-        """
-        Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition nan support.
-        """
+        """Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -161,9 +155,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
     """
 
     def test_Luv_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             Luv_to_XYZ(np.array([41.52787529, 96.83626054, 17.75210149])),
@@ -259,9 +251,7 @@ class TestLuv_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_Luv_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition nan support.
-        """
+        """Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -278,9 +268,7 @@ class TestLuv_to_uv(unittest.TestCase):
     """
 
     def test_Luv_to_uv(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_to_uv` definition.
-        """
+        """Test :func:`colour.models.cie_luv.Luv_to_uv` definition."""
 
         np.testing.assert_almost_equal(
             Luv_to_uv(np.array([41.52787529, 96.83626054, 17.75210149])),
@@ -374,9 +362,7 @@ class TestLuv_to_uv(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_Luv_to_uv(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_to_uv` definition nan support.
-        """
+        """Test :func:`colour.models.cie_luv.Luv_to_uv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -393,9 +379,7 @@ class Testuv_to_Luv(unittest.TestCase):
     """
 
     def test_uv_to_Luv(self):
-        """
-        Test :func:`colour.models.cie_luv.uv_to_Luv` definition.
-        """
+        """Test :func:`colour.models.cie_luv.uv_to_Luv` definition."""
 
         np.testing.assert_almost_equal(
             uv_to_Luv(np.array([0.37720213, 0.50120264])),
@@ -498,9 +482,7 @@ class Testuv_to_Luv(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_uv_to_Luv(self):
-        """
-        Test :func:`colour.models.cie_luv.uv_to_Luv` definition nan support.
-        """
+        """Test :func:`colour.models.cie_luv.uv_to_Luv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=2))
@@ -517,9 +499,7 @@ class TestLuv_uv_to_xy(unittest.TestCase):
     """
 
     def test_Luv_uv_to_xy(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition.
-        """
+        """Test :func:`colour.models.cie_luv.Luv_uv_to_xy` definition."""
 
         np.testing.assert_almost_equal(
             Luv_uv_to_xy(np.array([0.37720213, 0.50120264])),
@@ -577,9 +557,7 @@ class TestXy_to_Luv_uv(unittest.TestCase):
     """
 
     def test_xy_to_Luv_uv(self):
-        """
-        Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition.
-        """
+        """Test :func:`colour.models.cie_luv.xy_to_Luv_uv` definition."""
 
         np.testing.assert_almost_equal(
             xy_to_Luv_uv(np.array([0.54369558, 0.32107944])),
@@ -637,9 +615,7 @@ class TestLuv_to_LCHuv(unittest.TestCase):
     """
 
     def test_Luv_to_LCHuv(self):
-        """
-        Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition.
-        """
+        """Test :func:`colour.models.cie_luv.Luv_to_LCHuv` definition."""
 
         np.testing.assert_almost_equal(
             Luv_to_LCHuv(np.array([41.52787529, 96.83626054, 17.75210149])),
@@ -717,9 +693,7 @@ class TestLCHuv_to_Luv(unittest.TestCase):
     """
 
     def test_LCHuv_to_Luv(self):
-        """
-        Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition.
-        """
+        """Test :func:`colour.models.cie_luv.LCHuv_to_Luv` definition."""
 
         np.testing.assert_almost_equal(
             LCHuv_to_Luv(np.array([41.52787529, 98.44997950, 10.38816348])),

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.contrast.barten1999` module.
-"""
+"""Defines the unit tests for the :mod:`colour.contrast.barten1999` module."""
 
 import numpy as np
 import unittest
@@ -165,9 +163,7 @@ class TestSigmaBarten1999(unittest.TestCase):
     """
 
     def test_sigma_Barten1999(self):
-        """
-        Test :func:`colour.contrast.barten1999.sigma_Barten1999` definition.
-        """
+        """Test :func:`colour.contrast.barten1999.sigma_Barten1999` definition."""
 
         np.testing.assert_almost_equal(
             sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1),

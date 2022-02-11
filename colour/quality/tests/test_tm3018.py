@@ -199,9 +199,7 @@ class TestAveragesArea(unittest.TestCase):
     """
 
     def test_averages_area(self):
-        """
-        Test :func:`colour.quality.tm3018.averages_area` definition.
-        """
+        """Test :func:`colour.quality.tm3018.averages_area` definition."""
 
         # Simple 3 * sqrt(2) by sqrt(2) rectangle.
         rectangle = as_float_array([[2, 1], [1, 2], [-2, -1], [-1, -2]])

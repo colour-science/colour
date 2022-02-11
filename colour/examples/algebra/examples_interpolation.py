@@ -1,6 +1,4 @@
-"""
-Showcases interpolation computations.
-"""
+"""Showcases interpolation computations."""
 
 import matplotlib.pyplot as plt
 import numpy as np

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.recovery.jakob2019` module.
-"""
+"""Defines the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
 import numpy as np
 import os
@@ -48,9 +46,7 @@ class TestErrorFunction(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs, self._sd_D65 = handle_spectral_arguments(
@@ -150,9 +146,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs, self._sd_D65 = handle_spectral_arguments(
@@ -160,9 +154,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         )
 
     def test_XYZ_to_sd_Jakob2019(self):
-        """
-        Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition.
-        """
+        """Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition."""
 
         # Tests the round-trip with values of a colour checker.
         for name, sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].items():
@@ -211,9 +203,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs, self._sd_D65 = handle_spectral_arguments(
@@ -235,16 +225,12 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         self._LUT.write(self._path)
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "size",
@@ -257,9 +243,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             self.assertIn(attribute, dir(LUT3D_Jakob2019))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -274,9 +258,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             self.assertIn(method, dir(LUT3D_Jakob2019))
 
     def test_size(self):
-        """
-        Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property.
-        """
+        """Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property."""
 
         self.assertEqual(self._LUT.size, 5)
 

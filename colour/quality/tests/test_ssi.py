@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.quality.ssi` module.
-"""
+"""Defines the unit tests for the :mod:`colour.quality.ssi` module."""
 
 from __future__ import annotations
 
@@ -563,9 +561,7 @@ class TestSpectralSimilarityIndex(unittest.TestCase):
     """
 
     def test_spectral_similarity_index(self):
-        """
-        Test :func:`colour.quality.ssi.spectral_similarity_index` definition.
-        """
+        """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
 
         self.assertEqual(
             spectral_similarity_index(

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.prolab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.prolab` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestXYZ_to_ProLab(unittest.TestCase):
     """
 
     def test_XYZ_to_ProLab(self):
-        """
-        Test :func:`colour.models.ProLab.XYZ_to_ProLab` definition.
-        """
+        """Test :func:`colour.models.ProLab.XYZ_to_ProLab` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_ProLab(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -105,9 +101,7 @@ class TestProLab_to_XYZ(unittest.TestCase):
     """
 
     def test_ProLab_to_XYZ(self):
-        """
-        Test :func:`colour.models.ProLab.ProLab_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.ProLab.ProLab_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             ProLab_to_XYZ(np.array([48.7948929, 35.31503175, 13.30044932])),

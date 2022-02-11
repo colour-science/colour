@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.section` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.section` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure

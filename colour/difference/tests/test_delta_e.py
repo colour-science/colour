@@ -51,9 +51,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
     """
 
     def test_delta_E_CIE1976(self):
-        """
-        Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition.
-        """
+        """Test :func:`colour.difference.delta_e.delta_E_CIE1976` definition."""
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
@@ -109,9 +107,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
     """
 
     def test_delta_E_CIE1994(self):
-        """
-        Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition.
-        """
+        """Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition."""
 
         self.assertAlmostEqual(
             delta_E_CIE1994(
@@ -235,9 +231,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
     """
 
     def test_delta_E_CIE2000(self):
-        """
-        Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition.
-        """
+        """Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition."""
 
         self.assertAlmostEqual(
             delta_E_CIE2000(
@@ -492,9 +486,7 @@ class TestDelta_E_CMC(unittest.TestCase):
     """
 
     def test_delta_E_CMC(self):
-        """
-        Test :func:`colour.difference.delta_e.delta_E_CMC` definition.
-        """
+        """Test :func:`colour.difference.delta_e.delta_E_CMC` definition."""
 
         self.assertAlmostEqual(
             delta_E_CMC(

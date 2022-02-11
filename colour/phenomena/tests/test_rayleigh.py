@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.phenomena.rayleigh` module.
-"""
+"""Defines the unit tests for the :mod:`colour.phenomena.rayleigh` module."""
 
 from __future__ import annotations
 
@@ -775,9 +773,7 @@ class TestN2Depolarisation(unittest.TestCase):
     """
 
     def test_N2_depolarisation(self):
-        """
-        Test :func:`colour.phenomena.rayleigh.N2_depolarisation` definition.
-        """
+        """Test :func:`colour.phenomena.rayleigh.N2_depolarisation` definition."""
 
         self.assertAlmostEqual(
             N2_depolarisation(0.360), 1.036445987654321, places=7
@@ -829,9 +825,7 @@ class TestO2Depolarisation(unittest.TestCase):
     """
 
     def test_O2_depolarisation(self):
-        """
-        Test :func:`colour.phenomena.rayleigh.O2_depolarisation` definition.
-        """
+        """Test :func:`colour.phenomena.rayleigh.O2_depolarisation` definition."""
 
         self.assertAlmostEqual(
             O2_depolarisation(0.360), 1.115307746532541, places=7
@@ -928,9 +922,7 @@ class TestF_airYoung1981(unittest.TestCase):
     """
 
     def test_F_air_Young1981(self):
-        """
-        Test :func:`colour.phenomena.rayleigh.F_air_Young1981` definition.
-        """
+        """Test :func:`colour.phenomena.rayleigh.F_air_Young1981` definition."""
 
         self.assertEqual(F_air_Young1981(0.360), 1.0480)
 
@@ -972,9 +964,7 @@ class TestF_airBates1984(unittest.TestCase):
     """
 
     def test_F_air_Bates1984(self):
-        """
-        Test :func:`colour.phenomena.rayleigh.F_air_Bates1984` definition.
-        """
+        """Test :func:`colour.phenomena.rayleigh.F_air_Bates1984` definition."""
 
         self.assertAlmostEqual(
             F_air_Bates1984(0.360), 1.051997277711708, places=7
@@ -1098,9 +1088,7 @@ class TestMolecularDensity(unittest.TestCase):
     """
 
     def test_molecular_density(self):
-        """
-        Test :func:`colour.phenomena.rayleigh.molecular_density` definition.
-        """
+        """Test :func:`colour.phenomena.rayleigh.molecular_density` definition."""
 
         self.assertAlmostEqual(
             molecular_density(200), 3.669449208173649e19, delta=10000
@@ -1219,9 +1207,7 @@ class TestGravityList1968(unittest.TestCase):
     """
 
     def test_gravity_List1968(self):
-        """
-        Test :func:`colour.phenomena.rayleigh.gravity_List1968` definition.
-        """
+        """Test :func:`colour.phenomena.rayleigh.gravity_List1968` definition."""
 
         self.assertAlmostEqual(
             gravity_List1968(0.0, 0.0), 978.03560706, places=7

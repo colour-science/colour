@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.din99` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.din99` module."""
 
 import numpy as np
 import unittest
@@ -36,9 +34,7 @@ class TestLab_to_DIN99(unittest.TestCase):
     """
 
     def test_Lab_to_DIN99(self):
-        """
-        Test :func:`colour.models.din99.Lab_to_DIN99` definition.
-        """
+        """Test :func:`colour.models.din99.Lab_to_DIN99` definition."""
 
         np.testing.assert_almost_equal(
             Lab_to_DIN99(np.array([41.52787529, 52.63858304, 26.92317922])),
@@ -138,9 +134,7 @@ class TestLab_to_DIN99(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_Lab_to_DIN99(self):
-        """
-        Test :func:`colour.models.din99.Lab_to_DIN99` definition nan support.
-        """
+        """Test :func:`colour.models.din99.Lab_to_DIN99` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -158,9 +152,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
     """
 
     def test_DIN99_to_Lab(self):
-        """
-        Test :func:`colour.models.din99.DIN99_to_Lab` definition.
-        """
+        """Test :func:`colour.models.din99.DIN99_to_Lab` definition."""
 
         np.testing.assert_almost_equal(
             DIN99_to_Lab(np.array([53.22821988, 28.41634656, 3.89839552])),
@@ -260,9 +252,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_DIN99_to_Lab(self):
-        """
-        Test :func:`colour.models.din99.DIN99_to_Lab` definition nan support.
-        """
+        """Test :func:`colour.models.din99.DIN99_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -280,9 +270,7 @@ class TestXYZ_to_DIN99(unittest.TestCase):
     """
 
     def test_XYZ_to_DIN99(self):
-        """
-        Test :func:`colour.models.din99.XYZ_to_DIN99` definition.
-        """
+        """Test :func:`colour.models.din99.XYZ_to_DIN99` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_DIN99(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -345,9 +333,7 @@ class TestXYZ_to_DIN99(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_DIN99(self):
-        """
-        Test :func:`colour.models.din99.XYZ_to_DIN99` definition nan support.
-        """
+        """Test :func:`colour.models.din99.XYZ_to_DIN99` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -362,9 +348,7 @@ class TestDIN99_to_XYZ(unittest.TestCase):
     """
 
     def test_DIN99_to_XYZ(self):
-        """
-        Test :func:`colour.models.din99.DIN99_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.din99.DIN99_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             DIN99_to_XYZ(np.array([53.22821988, 28.41634656, 3.89839552])),
@@ -428,9 +412,7 @@ class TestDIN99_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_DIN99_to_XYZ(self):
-        """
-        Test :func:`colour.models.din99.DIN99_to_XYZ` definition nan support.
-        """
+        """Test :func:`colour.models.din99.DIN99_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))

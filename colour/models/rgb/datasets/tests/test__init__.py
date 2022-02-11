@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.datasets` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.datasets` module."""
 
 import numpy as np
 import pickle
@@ -165,9 +163,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                 colourspace.cctf_decoding(case)
 
     def test_pickle(self):
-        """
-        Test the "pickle-ability" of the *RGB* colourspaces.
-        """
+        """Test the "pickle-ability" of the *RGB* colourspaces."""
 
         for colourspace in RGB_COLOURSPACES.values():
             pickle.dumps(colourspace)

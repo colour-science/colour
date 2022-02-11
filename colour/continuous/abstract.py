@@ -145,9 +145,7 @@ arithmetical_operation`
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             is_string(value),

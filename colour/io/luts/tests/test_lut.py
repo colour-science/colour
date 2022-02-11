@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.lut` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.lut` module."""
 
 from __future__ import annotations
 
@@ -58,14 +56,10 @@ RANDOM_TRIPLETS: NDArray = np.reshape(
 
 
 class TestAbstractLUT(unittest.TestCase):
-    """
-    Define :class:`colour.io.luts.lut.AbstractLUT` class unit tests methods.
-    """
+    """Define :class:`colour.io.luts.lut.AbstractLUT` class unit tests methods."""
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "table",
@@ -80,9 +74,7 @@ class TestAbstractLUT(unittest.TestCase):
             self.assertIn(attribute, dir(AbstractLUT))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -165,9 +157,7 @@ class AbstractLUTTest(unittest.TestCase):
         self._applied_4: Optional[NDArray] = None
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -641,9 +631,7 @@ class AbstractLUTTest(unittest.TestCase):
 
 
 class TestLUT1D(AbstractLUTTest):
-    """
-    Define :class:`colour.io.luts.lut.LUT1D` class unit tests methods.
-    """
+    """Define :class:`colour.io.luts.lut.LUT1D` class unit tests methods."""
 
     def __init__(self, *args: Any):
         """
@@ -779,9 +767,7 @@ class TestLUT1D(AbstractLUTTest):
 
 
 class TestLUT3x1D(AbstractLUTTest):
-    """
-    Define :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods.
-    """
+    """Define :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods."""
 
     def __init__(self, *args: Any):
         """
@@ -948,9 +934,7 @@ class TestLUT3x1D(AbstractLUTTest):
 
 
 class TestLUT3D(AbstractLUTTest):
-    """
-    Define :class:`colour.io.luts.lut.LUT3D` class unit tests methods.
-    """
+    """Define :class:`colour.io.luts.lut.LUT3D` class unit tests methods."""
 
     def __init__(self, *args: Any):
         """
@@ -1147,9 +1131,7 @@ class TestLUT_to_LUT(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._domain = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
 
@@ -1163,9 +1145,7 @@ class TestLUT_to_LUT(unittest.TestCase):
         )
 
     def test_LUT_to_LUT(self):
-        """
-        Test :func:`colour.io.luts.lut.LUT_to_LUT` definition.
-        """
+        """Test :func:`colour.io.luts.lut.LUT_to_LUT` definition."""
 
         # "LUT" 1D to "LUT" 1D.
         LUT = LUT_to_LUT(self._LUT_1, LUT1D)

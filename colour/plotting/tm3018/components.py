@@ -65,9 +65,7 @@ __all__ = [
 RESOURCES_DIRECTORY_ANSIIESTM3018: str = os.path.join(
     os.path.dirname(__file__), "resources"
 )
-"""
-Resources directory.
-"""
+"""Resources directory."""
 
 _COLOURS_BIN_BAR: List = [
     "#A35C60",
@@ -409,9 +407,7 @@ def plot_colour_vector_graphic(
     axes.plot(loop[:, 0], loop[:, 1], "-", color="#F05046", lw=2)
 
     def corner_label_and_text(label: str, text: str, ha: str, va: str):
-        """
-        Draw a label and text in given corner.
-        """
+        """Draw a label and text in given corner."""
 
         x = -1.45 if ha == "left" else 1.45
         y = 1.45 if va == "top" else -1.45

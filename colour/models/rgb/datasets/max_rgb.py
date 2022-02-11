@@ -48,33 +48,23 @@ PRIMARIES_MAX_RGB: NDArray = np.array(
         [0.03621495, 0.00000000],
     ]
 )
-"""
-*Max RGB* colourspace primaries.
-"""
+"""*Max RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_MAX_RGB: str = "D50"
-"""
-*Max RGB* colourspace whitepoint name.
-"""
+"""*Max RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_MAX_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_MAX_RGB]
-"""
-*Max RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Max RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_MAX_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_MAX_RGB, CCS_WHITEPOINT_MAX_RGB
 )
-"""
-*Max RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Max RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_MAX_RGB: NDArray = np.linalg.inv(MATRIX_MAX_RGB_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Max RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Max RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_MAX_RGB: RGB_Colourspace = RGB_Colourspace(
     "Max RGB",

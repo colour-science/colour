@@ -525,9 +525,7 @@ def corresponding_colour(
         z: NDArray,
         n: NDArray,
     ) -> NDArray:
-        """
-        Compute the corresponding colour cone responses component.
-        """
+        """Compute the corresponding colour cone responses component."""
 
         return (Y_o * x_2 + n) * spow(K, 1 / y_2) * spow(
             (z + n) / (Y_o * x_1 + n), y_1 / y_2

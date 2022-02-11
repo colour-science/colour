@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.appearance.kim2009` module.
-"""
+"""Defines the unit tests for the :mod:`colour.appearance.kim2009` module."""
 
 import numpy as np
 import unittest
@@ -43,9 +41,7 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
     """
 
     def test_XYZ_to_Kim2009(self):
-        """
-        Test :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition.
-        """
+        """Test :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition."""
 
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
@@ -237,9 +233,7 @@ class TestKim2009_to_XYZ(unittest.TestCase):
     """
 
     def test_Kim2009_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition.
-        """
+        """Test :func:`colour.appearance.kim2009.Kim2009_to_XYZ` definition."""
 
         specification = CAM_Specification_Kim2009(
             28.86190898,

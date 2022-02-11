@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.cie_xyy` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.cie_xyy` module."""
 
 import numpy as np
 import unittest
@@ -40,9 +38,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
     """
 
     def test_XYZ_to_xyY(self):
-        """
-        Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition.
-        """
+        """Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_xyY(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -140,9 +136,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_xyY(self):
-        """
-        Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition nan support.
-        """
+        """Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -159,9 +153,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
     """
 
     def test_xyY_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             xyY_to_XYZ(np.array([0.54369557, 0.32107944, 0.12197225])),
@@ -248,9 +240,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_xyY_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition nan support.
-        """
+        """Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -266,9 +256,7 @@ class TestxyY_to_xy(unittest.TestCase):
     """
 
     def test_xyY_to_xy(self):
-        """
-        Test :func:`colour.models.cie_xyy.xyY_to_xy` definition.
-        """
+        """Test :func:`colour.models.cie_xyy.xyY_to_xy` definition."""
 
         np.testing.assert_almost_equal(
             xyY_to_xy(np.array([0.54369557, 0.32107944, 0.12197225])),
@@ -335,9 +323,7 @@ class TestxyY_to_xy(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_xyY_to_xy(self):
-        """
-        Test :func:`colour.models.cie_xyy.xyY_to_xy` definition nan support.
-        """
+        """Test :func:`colour.models.cie_xyy.xyY_to_xy` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=2))
@@ -353,9 +339,7 @@ class Testxy_to_xyY(unittest.TestCase):
     """
 
     def test_xy_to_xyY(self):
-        """
-        Test :func:`colour.models.cie_xyy.xy_to_xyY` definition.
-        """
+        """Test :func:`colour.models.cie_xyy.xy_to_xyY` definition."""
 
         np.testing.assert_almost_equal(
             xy_to_xyY(np.array([0.54369557, 0.32107944])),
@@ -432,9 +416,7 @@ class Testxy_to_xyY(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_xy_to_xyY(self):
-        """
-        Test :func:`colour.models.cie_xyy.xy_to_xyY` definition nan support.
-        """
+        """Test :func:`colour.models.cie_xyy.xy_to_xyY` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=2))
@@ -450,9 +432,7 @@ class TestXYZ_to_xy(unittest.TestCase):
     """
 
     def test_XYZ_to_xy(self):
-        """
-        Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition.
-        """
+        """Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_xy(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -526,9 +506,7 @@ class TestXYZ_to_xy(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_xy(self):
-        """
-        Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition nan support.
-        """
+        """Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -545,9 +523,7 @@ class Testxy_to_XYZ(unittest.TestCase):
     """
 
     def test_xy_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             xy_to_XYZ(np.array([0.54369557, 0.32107944])),
@@ -614,9 +590,7 @@ class Testxy_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_xy_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition nan support.
-        """
+        """Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=2))

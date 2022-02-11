@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.characterisation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.characterisation` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure

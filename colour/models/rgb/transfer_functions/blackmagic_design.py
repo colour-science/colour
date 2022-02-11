@@ -42,9 +42,7 @@ CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
     E=0.09246575342465753,
     LIN_CUT=0.005,
 )
-"""
-*Blackmagic Film Generation 5* colour component transfer functions constants.
-"""
+"""*Blackmagic Film Generation 5* colour component transfer functions constants."""
 
 
 def oetf_BlackmagicFilmGeneration5(

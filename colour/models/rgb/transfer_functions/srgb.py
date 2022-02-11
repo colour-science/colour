@@ -1,5 +1,5 @@
 """
-sRGB
+SRGB
 ====
 
 Defines the *sRGB* electro-optical transfer function (EOTF) and its

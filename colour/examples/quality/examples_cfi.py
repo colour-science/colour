@@ -1,6 +1,4 @@
-"""
-Showcases *Colour Fidelity Index* (CFI) computations.
-"""
+"""Showcases *Colour Fidelity Index* (CFI) computations."""
 
 from pprint import pprint
 

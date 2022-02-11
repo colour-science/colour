@@ -53,9 +53,7 @@ INDEXES_TO_NAMES_TCS: Dict = {
     13: "TCS13",
     14: "TCS14",
 }
-"""
-Test colour samples indexes to names mapping.
-"""
+"""Test colour samples indexes to names mapping."""
 
 APPROXIMATE_MUNSELL_NOTATIONS_TCS: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(
@@ -77,9 +75,7 @@ APPROXIMATE_MUNSELL_NOTATIONS_TCS: CaseInsensitiveMapping = (
         }
     )
 )
-"""
-Test colour samples *Munsell* colour approximations.
-"""
+"""Test colour samples *Munsell* colour approximations."""
 
 DATA_TCS: Dict = {
     "TCS01": {

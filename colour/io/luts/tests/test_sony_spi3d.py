@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.sony_spi3d` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.sony_spi3d` module."""
 
 from __future__ import annotations
 
@@ -43,9 +41,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
     """
 
     def test_read_LUT_SonySPI3D(self):
-        """
-        Test :func:`colour.io.luts.sony_spi3d.read_LUT_SonySPI3D` definition.
-        """
+        """Test :func:`colour.io.luts.sony_spi3d.read_LUT_SonySPI3D` definition."""
 
         LUT_1 = read_LUT_SonySPI3D(
             os.path.join(LUTS_DIRECTORY, "Colour_Correct.spi3d")
@@ -192,23 +188,17 @@ class TestWriteLUTSonySPI3D(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_LUT_SonySPI3D(self):
-        """
-        Test :func:`colour.io.luts.sony_spi3d.write_LUT_SonySPI3D` definition.
-        """
+        """Test :func:`colour.io.luts.sony_spi3d.write_LUT_SonySPI3D` definition."""
 
         LUT_r = read_LUT_SonySPI3D(
             os.path.join(LUTS_DIRECTORY, "Colour_Correct.spi3d")

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.graph.conversion` module.
-"""
+"""Defines the unit tests for the :mod:`colour.graph.conversion` module."""
 
 import numpy as np
 import unittest
@@ -57,9 +55,7 @@ class TestConvert(unittest.TestCase):
     """
 
     def test_convert(self):
-        """
-        Test :func:`colour.graph.conversion.convert` definition.
-        """
+        """Test :func:`colour.graph.conversion.convert` definition."""
 
         RGB_a = convert(
             SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"],

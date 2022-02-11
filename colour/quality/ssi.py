@@ -36,9 +36,7 @@ __all__ = [
 ]
 
 SPECTRAL_SHAPE_SSI: SpectralShape = SpectralShape(375, 675, 1)
-"""
-*Academy Spectral Similarity Index* (SSI) spectral shape.
-"""
+"""*Academy Spectral Similarity Index* (SSI) spectral shape."""
 
 _SPECTRAL_SHAPE_SSI_LARGE: SpectralShape = SpectralShape(380, 670, 10)
 

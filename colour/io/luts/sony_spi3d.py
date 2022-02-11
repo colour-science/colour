@@ -195,9 +195,7 @@ def write_LUT_SonySPI3D(
     )
 
     def _format_array(array: Union[List, Tuple]) -> str:
-        """
-        Format given array as a *Sony* *.spi3d* data row.
-        """
+        """Format given array as a *Sony* *.spi3d* data row."""
 
         return "{1:d} {2:d} {3:d} {4:0.{0}f} {5:0.{0}f} {6:0.{0}f}".format(
             decimals, *array

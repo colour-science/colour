@@ -341,9 +341,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     @dtype.setter
     def dtype(self, value: Type[DTypeFloating]):
-        """
-        Setter for the **self.dtype** property.
-        """
+        """Setter for the **self.dtype** property."""
 
         for signal in self._signals.values():
             signal.dtype = value
@@ -371,9 +369,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     @domain.setter
     def domain(self, value: ArrayLike):
-        """
-        Setter for the **self.domain** property.
-        """
+        """Setter for the **self.domain** property."""
 
         for signal in self._signals.values():
             signal.domain = as_float_array(value, self.dtype)
@@ -401,9 +397,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     @range.setter
     def range(self, value: ArrayLike):
-        """
-        Setter for the **self.range** property.
-        """
+        """Setter for the **self.range** property."""
 
         value = as_float_array(value)
 
@@ -443,9 +437,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     @interpolator.setter
     def interpolator(self, value: Type[TypeInterpolator]):
-        """
-        Setter for the **self.interpolator** property.
-        """
+        """Setter for the **self.interpolator** property."""
 
         if value is not None:
             for signal in self._signals.values():
@@ -474,9 +466,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     @interpolator_kwargs.setter
     def interpolator_kwargs(self, value: dict):
-        """
-        Setter for the **self.interpolator_kwargs** property.
-        """
+        """Setter for the **self.interpolator_kwargs** property."""
 
         for signal in self._signals.values():
             signal.interpolator_kwargs = value
@@ -504,9 +494,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     @extrapolator.setter
     def extrapolator(self, value: Type[TypeExtrapolator]):
-        """
-        Setter for the **self.extrapolator** property.
-        """
+        """Setter for the **self.extrapolator** property."""
 
         for signal in self._signals.values():
             signal.extrapolator = value
@@ -534,9 +522,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     @extrapolator_kwargs.setter
     def extrapolator_kwargs(self, value: dict):
-        """
-        Setter for the **self.extrapolator_kwargs** property.
-        """
+        """Setter for the **self.extrapolator_kwargs** property."""
 
         for signal in self._signals.values():
             signal.extrapolator_kwargs = value
@@ -581,9 +567,7 @@ class MultiSignals(AbstractContinuousFunction):
             Union[ArrayLike, DataFrame, dict, MultiSignals, Signal, Series]
         ],
     ):
-        """
-        Setter for the **self.signals** property.
-        """
+        """Setter for the **self.signals** property."""
 
         self._signals = self.multi_signals_unpack_data(
             value, signal_type=self._signal_type
@@ -611,9 +595,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     @labels.setter
     def labels(self, value: Sequence):
-        """
-        Setter for the **self.labels** property.
-        """
+        """Setter for the **self.labels** property."""
 
         attest(
             is_iterable(value),

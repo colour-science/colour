@@ -45,14 +45,10 @@ MATRIX_1_XYZ_TO_LMS: NDArray = np.array(
         [0.0482003018, 0.2643662691, 0.6338517070],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to normalised cone responses matrix.
-"""
+"""*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
 MATRIX_1_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_1_XYZ_TO_LMS)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_2_LMS_TO_LAB: NDArray = np.array(
     [
@@ -61,14 +57,10 @@ MATRIX_2_LMS_TO_LAB: NDArray = np.array(
         [0.0259040371, 0.7827717662, -0.8086757660],
     ]
 )
-"""
-Normalised cone responses to *Oklab* colourspace matrix.
-"""
+"""Normalised cone responses to *Oklab* colourspace matrix."""
 
 MATRIX_2_LAB_TO_LMS: NDArray = np.linalg.inv(MATRIX_2_LMS_TO_LAB)
-"""
-*Oklab* colourspace to normalised cone responses matrix.
-"""
+"""*Oklab* colourspace to normalised cone responses matrix."""
 
 
 def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:

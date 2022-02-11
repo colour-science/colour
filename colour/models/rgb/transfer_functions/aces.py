@@ -97,9 +97,7 @@ CONSTANTS_ACES_PROXY_10: Structure = Structure(
     mid_CV_offset=425,
     mid_log_offset=2.5,
 )
-"""
-*ACESproxy* 10 bit colourspace constants.
-"""
+"""*ACESproxy* 10 bit colourspace constants."""
 
 CONSTANTS_ACES_PROXY_12: Structure = Structure(
     CV_min=256,
@@ -108,17 +106,13 @@ CONSTANTS_ACES_PROXY_12: Structure = Structure(
     mid_CV_offset=1700,
     mid_log_offset=2.5,
 )
-"""
-*ACESproxy* 12 bit colourspace constants.
-"""
+"""*ACESproxy* 12 bit colourspace constants."""
 
 CONSTANTS_ACES_PROXY: Dict = {
     10: CONSTANTS_ACES_PROXY_10,
     12: CONSTANTS_ACES_PROXY_12,
 }
-"""
-Aggregated *ACESproxy* colourspace constants.
-"""
+"""Aggregated *ACESproxy* colourspace constants."""
 
 CONSTANTS_ACES_CCT: Structure = Structure(
     X_BRK=0.0078125,
@@ -126,9 +120,7 @@ CONSTANTS_ACES_CCT: Structure = Structure(
     A=10.5402377416545,
     B=0.0729055341958355,
 )
-"""
-*ACEScct* colourspace constants.
-"""
+"""*ACEScct* colourspace constants."""
 
 
 # pylint: disable=W0102
@@ -200,9 +192,7 @@ def log_encoding_ACESproxy(
     steps_per_stop = constants[bit_depth].steps_per_stop
 
     def float_2_cv(x: Floating) -> Floating:
-        """
-        Convert given numeric to code value.
-        """
+        """Convert given numeric to code value."""
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 

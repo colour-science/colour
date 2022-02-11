@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.difference` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference` module."""
 
 import numpy as np
 import unittest
@@ -22,9 +20,7 @@ __all__ = [
 
 
 class TestDelta_E(unittest.TestCase):
-    """
-    Define :func:`colour.difference.delta_E` definition unit tests methods.
-    """
+    """Define :func:`colour.difference.delta_E` definition unit tests methods."""
 
     def test_domain_range_scale_delta_E(self):
         """

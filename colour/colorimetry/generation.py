@@ -772,9 +772,7 @@ def sd_multi_leds_Ohno2005(
         )
 
     def _format_array(a: NDArray) -> str:
-        """
-        Format given array :math:`a`.
-        """
+        """Format given array :math:`a`."""
 
         return ", ".join([str(e) for e in a])
 

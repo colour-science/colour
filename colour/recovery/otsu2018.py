@@ -669,9 +669,7 @@ class Data_Otsu2018:
 
     @reflectances.setter
     def reflectances(self, value: ArrayLike):
-        """
-        Setter for the **self.reflectances** property.
-        """
+        """Setter for the **self.reflectances** property."""
 
         if value is not None:
             self._reflectances = as_float_array(value)
@@ -1541,9 +1539,7 @@ the initial error.
         else:
 
             def add_rows(node, data=None):
-                """
-                Add rows for given node and its children.
-                """
+                """Add rows for given node and its children."""
 
                 data = cast(
                     Dict,

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.operator` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.operator` module."""
 
 import numpy as np
 import textwrap
@@ -29,9 +27,7 @@ class TestAbstractLUTSequenceOperator(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("name", "comments")
 
@@ -39,9 +35,7 @@ class TestAbstractLUTSequenceOperator(unittest.TestCase):
             self.assertIn(method, dir(AbstractLUTSequenceOperator))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("apply",)
 
@@ -56,9 +50,7 @@ class TestLUTOperatorMatrix(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._lut_operator_matrix = LUTOperatorMatrix(
             np.linspace(0, 1, 16).reshape([4, 4]),
@@ -68,9 +60,7 @@ class TestLUTOperatorMatrix(unittest.TestCase):
         )
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("matrix", "offset")
 
@@ -78,9 +68,7 @@ class TestLUTOperatorMatrix(unittest.TestCase):
             self.assertIn(method, dir(LUTOperatorMatrix))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__", "__repr__", "__eq__", "__ne__", "apply")
 
@@ -158,9 +146,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
         )
 
     def test__eq__(self):
-        """
-        Test :class:`colour.io.luts.operator.LUTOperatorMatrix.__eq__` method.
-        """
+        """Test :class:`colour.io.luts.operator.LUTOperatorMatrix.__eq__` method."""
 
         matrix = LUTOperatorMatrix(
             np.linspace(0, 1, 16).reshape([4, 4]),
@@ -182,9 +168,7 @@ LUTOperatorMatrix([[ 0.        ,  0.06666667,  0.13333333,  0.2       ],
         self.assertNotEqual(self._lut_operator_matrix, matrix)
 
     def test_apply(self):
-        """
-        Test :class:`colour.io.luts.operator.LUTOperatorMatrix.apply` method.
-        """
+        """Test :class:`colour.io.luts.operator.LUTOperatorMatrix.apply` method."""
 
         samples = np.linspace(0, 1, 5)
         RGB = tstack([samples, samples, samples])

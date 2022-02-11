@@ -280,7 +280,7 @@ CACHE_REGISTRY
 
 def handle_numpy_errors(**kwargs: Any) -> Callable:
     """
-    Decorator for handling *Numpy* errors.
+    Decorate a function to handle *Numpy* errors.
 
     Other Parameters
     ----------------
@@ -307,15 +307,11 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     context = np.errstate(**kwargs)
 
     def wrapper(function: Callable) -> Callable:
-        """
-        Wrapper for given function.
-        """
+        """Wrap given function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """
-            Wrapped function.
-            """
+            """Wrap given function."""
 
             with context:
                 return function(*args, **kwargs)
@@ -333,7 +329,7 @@ warn_numpy_errors = handle_numpy_errors(all="warn")
 
 def ignore_python_warnings(function: Callable) -> Callable:
     """
-    Decorator for ignoring *Python* warnings.
+    Decorate a function to ignore *Python* warnings.
 
     Parameters
     ----------
@@ -353,23 +349,21 @@ def ignore_python_warnings(function: Callable) -> Callable:
     """
 
     @functools.wraps(function)
-    def wrapped(*args: Any, **kwargs: Any) -> Any:
-        """
-        Wrapped function.
-        """
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        """Wrap given function."""
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
 
             return function(*args, **kwargs)
 
-    return wrapped
+    return wrapper
 
 
 def attest(condition: Boolean, message: str = ""):
     """
-    A replacement for `assert` that is not removed by optimised Python
-    execution.
+    Provide the `assert` statement functionality without being disabled by
+    optimised Python execution.
 
     Parameters
     ----------
@@ -410,22 +404,19 @@ def batch(sequence: Sequence, k: Union[Integer, Literal[3]] = 3) -> Generator:
 
 
 _MULTIPROCESSING_ENABLED: Boolean = True
-"""
-Whether *Colour* multiprocessing is enabled.
-
-_MULTIPROCESSING_ENABLED
-"""
+"""*Colour* multiprocessing state."""
 
 
 class disable_multiprocessing:
     """
-    A context manager and decorator temporarily disabling *Colour*
-    multiprocessing.
+    Define a context manager and decorator to temporarily disabling *Colour*
+    multiprocessing state.
     """
 
     def __enter__(self) -> disable_multiprocessing:
         """
-        Called upon entering the context manager and decorator.
+        Disable *Colour* multiprocessing state upon entering the context
+        manager.
         """
 
         global _MULTIPROCESSING_ENABLED
@@ -436,7 +427,8 @@ class disable_multiprocessing:
 
     def __exit__(self, *args: Any):
         """
-        Called upon exiting the context manager and decorator.
+        Enable *Colour* multiprocessing state upon exiting the context
+        manager.
         """
 
         global _MULTIPROCESSING_ENABLED
@@ -444,12 +436,12 @@ class disable_multiprocessing:
         _MULTIPROCESSING_ENABLED = True
 
     def __call__(self, function: Callable) -> Callable:
-        """
-        Call the wrapped definition.
-        """
+        """Call the wrapped definition."""
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Wrap given function."""
+
             with self:
                 return function(*args, **kwargs)
 
@@ -458,9 +450,10 @@ class disable_multiprocessing:
 
 def _initializer(kwargs: Any):
     """
-    Initializer for the multiprocessing pool. It is used to ensure that
-    processes on *Windows* inherit correctly from the current domain-range
-    scale.
+    Initialize a multiprocessing pool.
+
+    It is used to ensure that processes on *Windows* inherit correctly from the
+    current domain-range scale.
 
     Parameters
     ----------
@@ -481,7 +474,7 @@ def _initializer(kwargs: Any):
 @contextmanager
 def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     """
-    A context manager providing a multiprocessing pool.
+    Define a context manager providing a multiprocessing pool.
 
     Other Parameters
     ----------------
@@ -524,16 +517,12 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
             pass
 
         def map(self, func, iterable, chunksize=None):
-            """
-            Apply given function to each element of given iterable.
-            """
+            """Apply given function to each element of given iterable."""
 
             return [func(a) for a in iterable]
 
         def terminate(self):
-            """
-            Terminate the process.
-            """
+            """Terminate the process."""
 
             pass
 
@@ -887,7 +876,8 @@ def required(
     ]
 ) -> Callable:
     """
-    A decorator checking if various requirements are satisfied.
+    Decorate a function to check whether various ancillary package requirements
+    are satisfied.
 
     Other Parameters
     ----------------
@@ -900,15 +890,11 @@ def required(
     """
 
     def wrapper(function: Callable) -> Callable:
-        """
-        Wrapper for given function.
-        """
+        """Wrap given function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """
-            Wrapped function.
-            """
+            """Wrap given function."""
 
             for requirement in requirements:
                 _REQUIREMENTS_TO_CALLABLE[requirement](raise_exception=True)
@@ -1241,7 +1227,7 @@ def copy_definition(
     definition: Callable, name: Optional[str] = None
 ) -> Callable:
     """
-    Copie a definition with same code, globals, defaults, closure, and
+    Copy a definition using the same code, globals, defaults, closure, and
     name.
 
     Parameters

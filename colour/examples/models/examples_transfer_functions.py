@@ -1,6 +1,4 @@
-"""
-Showcases colour component transfer functions (CCTF) relates computations.
-"""
+"""Showcases colour component transfer functions (CCTF) relates computations."""
 
 import colour
 from colour.utilities import message_box

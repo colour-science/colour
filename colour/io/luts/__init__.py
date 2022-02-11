@@ -82,9 +82,7 @@ EXTENSION_TO_LUT_FORMAT_MAPPING: CaseInsensitiveMapping = (
         }
     )
 )
-"""
-Extension to *LUT* format.
-"""
+"""Extension to *LUT* format."""
 
 LUT_READ_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {

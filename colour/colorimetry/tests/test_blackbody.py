@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.blackbody` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.blackbody` module."""
 
 from __future__ import annotations
 
@@ -4517,9 +4515,7 @@ class TestPlanckLaw(unittest.TestCase):
     """
 
     def test_planck_law(self):
-        """
-        Test :func:`colour.colorimetry.blackbody.planck_law` definition.
-        """
+        """Test :func:`colour.colorimetry.blackbody.planck_law` definition."""
 
         for temperature, wavelengths in sorted(DATA_PLANCK_LAW.items()):
             for wavelength, radiance in sorted(wavelengths.items()):
@@ -4572,9 +4568,7 @@ class TestSdBlackbody(unittest.TestCase):
     """
 
     def test_sd_blackbody(self):
-        """
-        Test :func:`colour.colorimetry.blackbody.sd_blackbody` definition.
-        """
+        """Test :func:`colour.colorimetry.blackbody.sd_blackbody` definition."""
 
         np.testing.assert_allclose(
             sd_blackbody(5000, SpectralShape(360, 830, 1)).values,

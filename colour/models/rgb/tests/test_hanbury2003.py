@@ -1,6 +1,4 @@
-"""
-Defines unit tests for :mod:`colour.models.rgb.hanbury2003` module.
-"""
+"""Defines unit tests for :mod:`colour.models.rgb.hanbury2003` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestRGB_to_IHLS(unittest.TestCase):
     """
 
     def test_RGB_to_IHLS(self):
-        """
-        Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition.
-        """
+        """Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_IHLS(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -105,9 +101,7 @@ class TestIHLS_to_RGB(unittest.TestCase):
     """
 
     def test_IHLS_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             IHLS_to_RGB(np.array([6.26236117, 0.12197943, 0.42539448])),

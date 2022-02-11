@@ -219,7 +219,7 @@ def read_image_OpenImageIO(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     attributes: Boolean = False,
-) -> Union[NDArray, Tuple[NDArray, List]]:
+) -> Union[NDArray, Tuple[NDArray, List]]:  # noqa: D405,D410,D407,D411
     """
     Read the image at given path using *OpenImageIO*.
 
@@ -362,7 +362,7 @@ def read_image(
     ] = "float32",
     method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArray:  # noqa: D405,D407,D410,D411,D414
     """
     Read the image at given path using given method.
 
@@ -437,7 +437,7 @@ def write_image_OpenImageIO(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     attributes: Optional[Sequence] = None,
-) -> Boolean:
+) -> Boolean:  # noqa: D405,D407,D410,D411
     """
     Write given image at given path using *OpenImageIO*.
 
@@ -614,7 +614,7 @@ def write_image(
     ] = "float32",
     method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
     **kwargs: Any,
-) -> Boolean:
+) -> Boolean:  # noqa: D405,D407,D410,D411,D414
     """
     Write given image at given path using given method.
 

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.blindness` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.blindness` module."""
 
 import numpy as np
 import unittest

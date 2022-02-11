@@ -97,16 +97,12 @@ __all__ = [
 ]
 
 GAMUT_AREA_D65: Integer = 8210
-"""
-Gamut area for *CIE Illuminant D Series D65*.
-"""
+"""Gamut area for *CIE Illuminant D Series D65*."""
 
 
 @dataclass
 class VS_ColorimetryData:
-    """
-    Define the class storing *VS test colour samples* colorimetry data.
-    """
+    """Define the class storing *VS test colour samples* colorimetry data."""
 
     name: str
     XYZ: NDArray

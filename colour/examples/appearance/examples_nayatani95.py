@@ -1,6 +1,4 @@
-"""
-Showcases *Nayatani (1995)* colour appearance model computations.
-"""
+"""Showcases *Nayatani (1995)* colour appearance model computations."""
 
 import numpy as np
 

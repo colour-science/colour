@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.cie_lab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.cie_lab` module."""
 
 import numpy as np
 import unittest
@@ -31,9 +29,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
     """
 
     def test_XYZ_to_Lab(self):
-        """
-        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition.
-        """
+        """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_Lab(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -129,9 +125,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_Lab(self):
-        """
-        Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support.
-        """
+        """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -148,9 +142,7 @@ class TestLab_to_XYZ(unittest.TestCase):
     """
 
     def test_Lab_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             Lab_to_XYZ(np.array([41.52787529, 52.63858304, 26.92317922])),
@@ -246,9 +238,7 @@ class TestLab_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_Lab_to_XYZ(self):
-        """
-        Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition nan support.
-        """
+        """Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -265,9 +255,7 @@ class TestLab_to_LCHab(unittest.TestCase):
     """
 
     def test_Lab_to_LCHab(self):
-        """
-        Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition.
-        """
+        """Test :func:`colour.models.cie_lab.Lab_to_LCHab` definition."""
 
         np.testing.assert_almost_equal(
             Lab_to_LCHab(np.array([41.52787529, 52.63858304, 26.92317922])),
@@ -345,9 +333,7 @@ class TestLCHab_to_Lab(unittest.TestCase):
     """
 
     def test_LCHab_to_Lab(self):
-        """
-        Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition.
-        """
+        """Test :func:`colour.models.cie_lab.LCHab_to_Lab` definition."""
 
         np.testing.assert_almost_equal(
             LCHab_to_Lab(np.array([41.52787529, 59.12425901, 27.08848784])),

@@ -49,35 +49,25 @@ PRIMARIES_COLOR_MATCH_RGB: NDArray = np.array(
         [0.1500, 0.0750],
     ]
 )
-"""
-*ColorMatch RGB* colourspace primaries.
-"""
+"""*ColorMatch RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_COLOR_MATCH_RGB: str = "D50"
-"""
-*ColorMatch RGB* colourspace whitepoint name.
-"""
+"""*ColorMatch RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_COLOR_MATCH_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_COLOR_MATCH_RGB]
-"""
-*ColorMatch RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*ColorMatch RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_COLOR_MATCH_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_COLOR_MATCH_RGB, CCS_WHITEPOINT_COLOR_MATCH_RGB
 )
-"""
-*ColorMatch RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*ColorMatch RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_COLOR_MATCH_RGB: NDArray = np.linalg.inv(
     MATRIX_COLOR_MATCH_RGB_TO_XYZ
 )
-"""
-*CIE XYZ* tristimulus values to *ColorMatch RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *ColorMatch RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_COLOR_MATCH_RGB: RGB_Colourspace = RGB_Colourspace(
     "ColorMatch RGB",

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.yellowness` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.yellowness` module."""
 
 import numpy as np
 import unittest

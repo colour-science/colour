@@ -52,14 +52,10 @@ MATRIX_ICACB_XYZ_TO_LMS: NDArray = np.array(
         [0.02567, 0.16713, 0.74235],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to normalised cone responses matrix.
-"""
+"""*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
 MATRIX_ICACB_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array(
     [
@@ -68,14 +64,10 @@ MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array(
         [0.3605, 1.1499, -1.5105],
     ]
 )
-"""
-Normalised non-linear cone responses to :math:`IC_AC_B` colourspace matrix.
-"""
+"""Normalised non-linear cone responses to :math:`IC_AC_B` colourspace matrix."""
 
 MATRIX_ICACB_LMS_TO_XYZ_2: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_2)
-"""
-:math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix.
-"""
+""":math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix."""
 
 
 def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:

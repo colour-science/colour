@@ -208,30 +208,34 @@ else:
     StrOrNDArray = Union[str, NDArray]
 
 
-class TypeInterpolator(Protocol):
+class TypeInterpolator(Protocol):  # noqa: D101
     x: NDArray
     y: NDArray
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
         ...  # pragma: no cover
 
-    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
+    def __call__(
+        self, x: FloatingOrArrayLike
+    ) -> FloatingOrNDArray:  # noqa: D102
         ...  # pragma: no cover
 
 
-class TypeExtrapolator(Protocol):
+class TypeExtrapolator(Protocol):  # noqa: D101
     interpolator: TypeInterpolator
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
         ...  # pragma: no cover
 
-    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
+    def __call__(
+        self, x: FloatingOrArrayLike
+    ) -> FloatingOrNDArray:  # noqa: D102
         ...  # pragma: no cover
 
 
 @runtime_checkable
-class TypeLUTSequenceItem(Protocol):
-    def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
+class TypeLUTSequenceItem(Protocol):  # noqa: D101
+    def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 
 

@@ -59,9 +59,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
     """
 
     def test_RGB_colourspace_limits(self):
-        """
-        Test :func:`colour.volume.rgb.RGB_colourspace_limits` definition.
-        """
+        """Test :func:`colour.volume.rgb.RGB_colourspace_limits` definition."""
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_BT709),

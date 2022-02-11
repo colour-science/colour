@@ -1597,8 +1597,8 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArray:
 
 def munsell_colour_to_munsell_specification(munsell_colour: str) -> NDArray:
     """
-    Convenient definition to retrieve a normalised *Munsell* *Colorlab*
-    specification from given *Munsell* colour.
+    Retrieve a normalised *Munsell* *Colorlab* specification from given
+    *Munsell* colour.
 
     Parameters
     ----------

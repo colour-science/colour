@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.notation.hexadecimal` module.
-"""
+"""Defines the unit tests for the :mod:`colour.notation.hexadecimal` module."""
 
 import numpy as np
 import unittest
@@ -32,9 +30,7 @@ class TestRGB_to_HEX(unittest.TestCase):
     """
 
     def test_RGB_to_HEX(self):
-        """
-        Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition.
-        """
+        """Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition."""
 
         self.assertEqual(
             RGB_to_HEX(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -116,9 +112,7 @@ class TestHEX_to_RGB(unittest.TestCase):
     """
 
     def test_HEX_to_RGB(self):
-        """
-        Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition.
-        """
+        """Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             HEX_to_RGB("#74070a"),

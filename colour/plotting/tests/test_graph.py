@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.graph` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.graph` module."""
 import platform
 import tempfile
 import unittest

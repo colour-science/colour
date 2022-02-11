@@ -1,6 +1,4 @@
-"""
-Showcases colour models volume and gamut plotting examples.
-"""
+"""Showcases colour models volume and gamut plotting examples."""
 
 import numpy as np
 

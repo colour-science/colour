@@ -99,33 +99,23 @@ PRIMARIES_RED_COLOR: NDArray = np.array(
         [0.135038675201355, 0.035261776551191],
     ]
 )
-"""
-*REDcolor* colourspace primaries.
-"""
+"""*REDcolor* colourspace primaries."""
 
 WHITEPOINT_NAME_RED_COLOR: str = "D65"
-"""
-*REDcolor* colourspace whitepoint name.
-"""
+"""*REDcolor* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_RED_COLOR: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_RED_COLOR]
-"""
-*REDcolor* colourspace whitepoint chromaticity coordinates.
-"""
+"""*REDcolor* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_RED_COLOR_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_RED_COLOR, CCS_WHITEPOINT_RED_COLOR
 )
-"""
-*REDcolor* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*REDcolor* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_RED_COLOR: NDArray = np.linalg.inv(MATRIX_RED_COLOR_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *REDcolor* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *REDcolor* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR: RGB_Colourspace = RGB_Colourspace(
     "REDcolor",
@@ -152,31 +142,21 @@ PRIMARIES_RED_COLOR_2: NDArray = np.array(
         [0.099799512883393, -0.023000513177992],
     ]
 )
-"""
-*REDcolor2* colourspace primaries.
-"""
+"""*REDcolor2* colourspace primaries."""
 
 WHITEPOINT_NAME_RED_COLOR_2: str = WHITEPOINT_NAME_RED_COLOR
-"""
-*REDcolor2* colourspace whitepoint name.
-"""
+"""*REDcolor2* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_RED_COLOR_2: NDArray = CCS_WHITEPOINT_RED_COLOR
-"""
-*REDcolor2* colourspace whitepoint chromaticity coordinates.
-"""
+"""*REDcolor2* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_RED_COLOR_2_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_RED_COLOR_2, CCS_WHITEPOINT_RED_COLOR_2
 )
-"""
-*REDcolor2* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*REDcolor2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_RED_COLOR_2: NDArray = np.linalg.inv(MATRIX_RED_COLOR_2_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *REDcolor2* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *REDcolor2* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_2: RGB_Colourspace = RGB_Colourspace(
     "REDcolor2",
@@ -203,31 +183,21 @@ PRIMARIES_RED_COLOR_3: NDArray = np.array(
         [0.111090529079787, -0.004332320984771],
     ]
 )
-"""
-*REDcolor3* colourspace primaries.
-"""
+"""*REDcolor3* colourspace primaries."""
 
 WHITEPOINT_NAME_RED_COLOR_3: str = WHITEPOINT_NAME_RED_COLOR
-"""
-*REDcolor3* colourspace whitepoint name.
-"""
+"""*REDcolor3* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_RED_COLOR_3: NDArray = CCS_WHITEPOINT_RED_COLOR
-"""
-*REDcolor3* colourspace whitepoint chromaticity coordinates.
-"""
+"""*REDcolor3* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_RED_COLOR_3_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_RED_COLOR_3, CCS_WHITEPOINT_RED_COLOR_3
 )
-"""
-*REDcolor3* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*REDcolor3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_RED_COLOR_3: NDArray = np.linalg.inv(MATRIX_RED_COLOR_3_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *REDcolor3* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *REDcolor3* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_3: RGB_Colourspace = RGB_Colourspace(
     "REDcolor3",
@@ -254,31 +224,21 @@ PRIMARIES_RED_COLOR_4: NDArray = np.array(
         [0.144459236489795, 0.050837720977386],
     ]
 )
-"""
-*REDcolor4* colourspace primaries.
-"""
+"""*REDcolor4* colourspace primaries."""
 
 WHITEPOINT_NAME_RED_COLOR_4: str = WHITEPOINT_NAME_RED_COLOR
-"""
-*REDcolor4* colourspace whitepoint name.
-"""
+"""*REDcolor4* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_RED_COLOR_4: NDArray = CCS_WHITEPOINT_RED_COLOR
-"""
-*REDcolor4* colourspace whitepoint chromaticity coordinates.
-"""
+"""*REDcolor4* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_RED_COLOR_4_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_RED_COLOR_4, CCS_WHITEPOINT_RED_COLOR_4
 )
-"""
-*REDcolor4* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*REDcolor4* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_RED_COLOR_4: NDArray = np.linalg.inv(MATRIX_RED_COLOR_4_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *REDcolor4* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *REDcolor4* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_COLOR_4: RGB_Colourspace = RGB_Colourspace(
     "REDcolor4",
@@ -305,31 +265,21 @@ PRIMARIES_DRAGON_COLOR: NDArray = np.array(
         [0.085961601167585, -0.045879436983969],
     ]
 )
-"""
-*DRAGONcolor* colourspace primaries.
-"""
+"""*DRAGONcolor* colourspace primaries."""
 
 WHITEPOINT_NAME_DRAGON_COLOR: str = WHITEPOINT_NAME_RED_COLOR
-"""
-*DRAGONcolor* colourspace whitepoint name.
-"""
+"""*DRAGONcolor* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_DRAGON_COLOR: NDArray = CCS_WHITEPOINT_RED_COLOR
-"""
-*DRAGONcolor* colourspace whitepoint chromaticity coordinates.
-"""
+"""*DRAGONcolor* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_DRAGON_COLOR_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_DRAGON_COLOR, CCS_WHITEPOINT_DRAGON_COLOR
 )
-"""
-*DRAGONcolor* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*DRAGONcolor* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_DRAGON_COLOR: NDArray = np.linalg.inv(MATRIX_DRAGON_COLOR_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *DRAGONcolor* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *DRAGONcolor* colourspace matrix."""
 
 RGB_COLOURSPACE_DRAGON_COLOR: RGB_Colourspace = RGB_Colourspace(
     "DRAGONcolor",
@@ -356,33 +306,23 @@ PRIMARIES_DRAGON_COLOR_2: NDArray = np.array(
         [0.144168726866337, 0.050357384587121],
     ]
 )
-"""
-*DRAGONcolor2* colourspace primaries.
-"""
+"""*DRAGONcolor2* colourspace primaries."""
 
 WHITEPOINT_NAME_DRAGON_COLOR_2: str = WHITEPOINT_NAME_RED_COLOR
-"""
-*DRAGONcolor2* colourspace whitepoint name.
-"""
+"""*DRAGONcolor2* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_DRAGON_COLOR_2: NDArray = CCS_WHITEPOINT_RED_COLOR
-"""
-*DRAGONcolor2* colourspace whitepoint chromaticity coordinates.
-"""
+"""*DRAGONcolor2* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_DRAGON_COLOR_2_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_DRAGON_COLOR_2, CCS_WHITEPOINT_DRAGON_COLOR_2
 )
-"""
-*DRAGONcolor2* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*DRAGONcolor2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_DRAGON_COLOR_2: NDArray = np.linalg.inv(
     MATRIX_DRAGON_COLOR_2_TO_XYZ
 )
-"""
-*CIE XYZ* tristimulus values to *DRAGONcolor2* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *DRAGONcolor2* colourspace matrix."""
 
 RGB_COLOURSPACE_DRAGON_COLOR_2: RGB_Colourspace = RGB_Colourspace(
     "DRAGONcolor2",
@@ -409,19 +349,13 @@ PRIMARIES_RED_WIDE_GAMUT_RGB: NDArray = np.array(
         [0.095612, -0.084589],
     ]
 )
-"""
-*REDWideGamutRGB* colourspace primaries.
-"""
+"""*REDWideGamutRGB* colourspace primaries."""
 
 WHITEPOINT_NAME_RED_WIDE_GAMUT_RGB: str = WHITEPOINT_NAME_RED_COLOR
-"""
-*REDWideGamutRGB* colourspace whitepoint name.
-"""
+"""*REDWideGamutRGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_RED_WIDE_GAMUT_RGB = CCS_WHITEPOINT_RED_COLOR
-"""
-*REDWideGamutRGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*REDWideGamutRGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_RED_WIDE_GAMUT_RGB_TO_XYZ: NDArray = np.array(
     [
@@ -430,16 +364,12 @@ MATRIX_RED_WIDE_GAMUT_RGB_TO_XYZ: NDArray = np.array(
         [-0.079681, -0.347343, 1.516082],
     ]
 )
-"""
-*REDWideGamutRGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*REDWideGamutRGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_RED_WIDE_GAMUT_RGB: NDArray = np.linalg.inv(
     MATRIX_RED_WIDE_GAMUT_RGB_TO_XYZ
 )
-"""
-*CIE XYZ* tristimulus values to *REDWideGamutRGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *REDWideGamutRGB* colourspace matrix."""
 
 RGB_COLOURSPACE_RED_WIDE_GAMUT_RGB: RGB_Colourspace = RGB_Colourspace(
     "REDWideGamutRGB",

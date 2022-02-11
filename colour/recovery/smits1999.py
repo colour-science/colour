@@ -41,16 +41,12 @@ __all__ = [
 ]
 
 PRIMARIES_SMITS1999: NDArray = RGB_COLOURSPACE_sRGB.primaries
-"""
-Current *Smits (1999)* method implementation colourspace primaries.
-"""
+"""Current *Smits (1999)* method implementation colourspace primaries."""
 
 CCS_WHITEPOINT_SMITS1999: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ]["E"]
-"""
-Current *Smits (1999)* method implementation colourspace whitepoint.
-"""
+"""Current *Smits (1999)* method implementation colourspace whitepoint."""
 
 MATRIX_XYZ_TO_RGB_SMITS1999: NDArray = np.linalg.inv(
     normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999)
@@ -63,9 +59,8 @@ Current *Smits (1999)* method implementation *RGB* colourspace to
 
 def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArray:
     """
-    Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
-    colourspace in conditions required by the current *Smits (1999)* method
-    implementation.
+    Convert from *CIE XYZ* tristimulus values to *RGB* colourspace with
+    conditions required by the current *Smits (1999)* method implementation.
 
     Parameters
     ----------

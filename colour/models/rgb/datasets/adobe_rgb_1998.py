@@ -44,21 +44,15 @@ PRIMARIES_ADOBE_RGB1998: NDArray = np.array(
         [0.1500, 0.0600],
     ]
 )
-"""
-*Adobe RGB (1998)* colourspace primaries.
-"""
+"""*Adobe RGB (1998)* colourspace primaries."""
 
 WHITEPOINT_NAME_ADOBE_RGB1998: str = "D65"
-"""
-*Adobe RGB (1998)* colourspace whitepoint name.
-"""
+"""*Adobe RGB (1998)* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_ADOBE_RGB1998: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ADOBE_RGB1998]
-"""
-*Adobe RGB (1998)* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Adobe RGB (1998)* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_ADOBE_RGB1998_TO_XYZ: NDArray = np.array(
     [
@@ -67,9 +61,7 @@ MATRIX_ADOBE_RGB1998_TO_XYZ: NDArray = np.array(
         [0.02703, 0.07069, 0.99134],
     ]
 )
-"""
-*Adobe RGB (1998)* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Adobe RGB (1998)* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_ADOBE_RGB1998: NDArray = np.array(
     [
@@ -78,9 +70,7 @@ MATRIX_XYZ_TO_ADOBE_RGB1998: NDArray = np.array(
         [0.01344, -0.11836, 1.01517],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to *Adobe RGB (1998)* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Adobe RGB (1998)* colourspace matrix."""
 
 RGB_COLOURSPACE_ADOBE_RGB1998: RGB_Colourspace = RGB_Colourspace(
     "Adobe RGB (1998)",

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.cie_d` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.cie_d` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestXy_to_CCT_CIE_D(unittest.TestCase):
     """
 
     def test_xy_to_CCT_CIE_D(self):
-        """
-        Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition.
-        """
+        """Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition."""
 
         np.testing.assert_allclose(
             xy_to_CCT_CIE_D(
@@ -100,9 +96,7 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
     """
 
     def test_CCT_to_xy_CIE_D(self):
-        """
-        Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition.
-        """
+        """Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition."""
 
         np.testing.assert_almost_equal(
             CCT_to_xy_CIE_D(4000),

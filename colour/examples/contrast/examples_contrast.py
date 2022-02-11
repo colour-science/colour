@@ -1,6 +1,4 @@
-"""
-Showcases contrast sensitivity computations.
-"""
+"""Showcases contrast sensitivity computations."""
 
 from pprint import pprint
 

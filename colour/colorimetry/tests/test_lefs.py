@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.lefs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.lefs` module."""
 
 import numpy as np
 import unittest

@@ -238,6 +238,11 @@ class Conversion_Specification(
     """
 
     def __new__(cls, source: str, target: str, conversion_function: Callable):
+        """
+        Return a new instance of the
+        :class:`colour.graph.conversion.Conversion_Specification` class.
+        """
+
         return super().__new__(
             cls, source.lower(), target.lower(), conversion_function
         )
@@ -251,6 +256,13 @@ def sd_to_XYZ(
     method: Union[Literal["ASTM E308", "Integration"], str] = "ASTM E308",
     **kwargs: Any,
 ) -> NDArray:
+    """
+    Convert given spectral distribution to *CIE XYZ* tristimulus values using
+    given colour matching functions, illuminant and method.
+
+    This placeholder docstring is replaced with the modified
+    :func:`colour.sd_to_XYZ` definition docstring.
+    """
 
     illuminant = cast(
         SpectralDistribution,
@@ -436,9 +448,7 @@ def RGB_luminance_to_RGB(Y: FloatingOrArrayLike) -> NDArray:
 
 
 _ILLUMINANT_DEFAULT: str = "D65"
-"""
-Default automatic colour conversion graph illuminant name.
-"""
+"""Default automatic colour conversion graph illuminant name."""
 
 _CCS_ILLUMINANT_DEFAULT: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
@@ -455,9 +465,7 @@ values.
 """
 
 _RGB_COLOURSPACE_DEFAULT: RGB_Colourspace = RGB_COLOURSPACE_sRGB
-"""
-Default automatic colour conversion graph *RGB* colourspace.
-"""
+"""Default automatic colour conversion graph *RGB* colourspace."""
 
 _CAM_KWARGS_CIECAM02_sRGB: Dict = CAM_KWARGS_CIECAM02_sRGB.copy()
 """
@@ -813,9 +821,7 @@ CONVERSION_GRAPH_NODE_LABELS: Dict = {
     specification[0].lower(): specification[0]
     for specification in CONVERSION_SPECIFICATIONS_DATA
 }
-"""
-Automatic colour conversion graph node labels.
-"""
+"""Automatic colour conversion graph node labels."""
 
 CONVERSION_GRAPH_NODE_LABELS.update(
     {
@@ -853,9 +859,7 @@ def _build_graph() -> networkx.DiGraph:  # type: ignore[name-defined]  # noqa
 CONVERSION_GRAPH: (  # type: ignore[name-defined]
     Optional[networkx.DiGraph]  # noqa
 ) = None
-"""
-Automatic colour conversion graph.
-"""
+"""Automatic colour conversion graph."""
 
 
 @required("NetworkX")

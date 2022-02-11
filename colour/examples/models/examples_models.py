@@ -1,6 +1,4 @@
-"""
-Showcases colour models computations.
-"""
+"""Showcases colour models computations."""
 
 import numpy as np
 

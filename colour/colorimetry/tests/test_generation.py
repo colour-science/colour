@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.generation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.generation` module."""
 
 import numpy as np
 import unittest
@@ -46,9 +44,7 @@ class TestSdConstant(unittest.TestCase):
     """
 
     def test_sd_constant(self):
-        """
-        Test :func:`colour.colorimetry.generation.sd_constant` definition.
-        """
+        """Test :func:`colour.colorimetry.generation.sd_constant` definition."""
 
         sd = sd_constant(np.pi)
 
@@ -87,9 +83,7 @@ class TestSdOnes(unittest.TestCase):
     """
 
     def test_sd_ones(self):
-        """
-        Test :func:`colour.colorimetry.generation.sd_ones` definition.
-        """
+        """Test :func:`colour.colorimetry.generation.sd_ones` definition."""
 
         sd = sd_ones()
 
@@ -107,9 +101,7 @@ class TestMsdsConstant(unittest.TestCase):
     """
 
     def test_msds_constant(self):
-        """
-        Test :func:`colour.colorimetry.generation.msds_constant` definition.
-        """
+        """Test :func:`colour.colorimetry.generation.msds_constant` definition."""
 
         msds = msds_constant(np.pi, labels=["a", "b", "c"])
 
@@ -154,9 +146,7 @@ class TestMsdsOnes(unittest.TestCase):
     """
 
     def test_msds_ones(self):
-        """
-        Test :func:`colour.colorimetry.generation.msds_ones` definition.
-        """
+        """Test :func:`colour.colorimetry.generation.msds_ones` definition."""
 
         msds = msds_ones(labels=["a", "b", "c"])
 

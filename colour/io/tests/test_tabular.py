@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.tabular` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.tabular` module."""
 
 from __future__ import annotations
 
@@ -180,9 +178,7 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
     """
 
     def test_read_sds_from_csv_file(self):
-        """
-        Test :func:`colour.io.tabular.read_sds_from_csv_file` definition.
-        """
+        """Test :func:`colour.io.tabular.read_sds_from_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(
             RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
@@ -203,23 +199,17 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_sds_to_csv_file(self):
-        """
-        Test :func:`colour.io.tabular.write_sds_to_csv_file` definition.
-        """
+        """Test :func:`colour.io.tabular.write_sds_to_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(
             RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"

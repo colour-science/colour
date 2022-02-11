@@ -36,8 +36,8 @@ __all__ = [
 
 class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     """
-    This class serves as a parser to read and write *IES TM-27-14*
-    spectral data XML file from a *UPRTek* *Pseudo-XLS* file.
+    Implement support to read and write *IES TM-27-14* spectral data XML file
+    from a *UPRTek* *Pseudo-XLS* file.
 
     Parameters
     ----------
@@ -268,8 +268,8 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
 class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     """
-    This class serves as a parser to read and write *IES TM-27-14*
-    spectral data XML file from a *Sekonic* *CSV* file.
+    Implement support to read and write *IES TM-27-14* spectral data XML file
+    from a *Sekonic* *CSV* file.
 
     Parameters
     ----------
