@@ -42,8 +42,8 @@ __all__ = [
     "planck_law",
     "blackbody_spectral_radiance",
     "sd_blackbody",
-    "rayleigh_jeans_law",
-    "sd_rayleigh_jeans",
+    'rayleigh_jeans_law',
+    'sd_rayleigh_jeans',
 ]
 
 # 2 * math.pi * CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED ** 2
@@ -598,7 +598,7 @@ def sd_blackbody(
     return SpectralDistribution(
         planck_law(wavelengths * 1e-9, temperature, c1, c2, n) * 1e-9,
         wavelengths,
-        name=f"{temperature}K Blackbody",
+        name="{0}K Blackbody".format(temperature),
     )
 
 
@@ -642,7 +642,7 @@ def rayleigh_jeans_law(
     c = CONSTANT_LIGHT_SPEED
     k_B = CONSTANT_BOLTZMANN
 
-    B = (2 * c * k_B * T) / (λ**4)
+    B = (2 * c * k_B * T) / (λ ** 4)
 
     return B
 
@@ -1108,5 +1108,5 @@ def sd_rayleigh_jeans(
     return SpectralDistribution(
         rayleigh_jeans_law(wavelengths * 1e-9, temperature) * 1e-9,
         wavelengths,
-        name=f"{temperature}K Rayleigh-Jeans",
+        name='{0}K Rayleigh-Jeans'.format(temperature),
     )
