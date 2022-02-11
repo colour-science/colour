@@ -1,5 +1,5 @@
-Advanced
-========
+Advanced Concepts
+=================
 
 This page describes some advanced usage scenarios of **Colour**.
 

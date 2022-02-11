@@ -1,5 +1,5 @@
-Basics
-======
+Basic Concepts
+==============
 
 This page puts an emphasis on basic concepts of **Colour**, those are important
 to understand.

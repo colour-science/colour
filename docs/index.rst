@@ -64,10 +64,7 @@ Documentation
 .. toctree::
     :maxdepth: 2
 
-    tutorial
-    how-to
-    basics
-    advanced
+    user-guide
     reference
     bibliography
 
