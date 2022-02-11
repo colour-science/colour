@@ -205,7 +205,10 @@ html_theme_options = {
         },
         {
             "name": "GitHub",
-            "url": f"https://github.com/colour-science/{basename}",
+            "url": (
+                f"https://github.com/colour-science/"
+                f"{package.__name__.replace('_', '-')}"
+            ),
             "icon": "fab fa-github",
         },
         {
