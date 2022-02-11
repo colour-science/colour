@@ -39,7 +39,7 @@ It is freely available under the
 
 .. contents:: **Table of Contents**
     :backlinks: none
-    :depth: 3
+    :depth: 2
 
 .. sectnum::
 
