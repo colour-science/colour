@@ -160,6 +160,7 @@ Verbose
     :toctree: generated/
 
     message_box
+    show_warning
     warning
     filter_warnings
     suppress_warnings
