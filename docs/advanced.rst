@@ -15,9 +15,8 @@ runtime:
     **Colour** `functionality breaking entirely <https://github.com/numpy/numpy/issues/6860>`__.
     *With great power comes great responsibility*.
 -   `COLOUR_SCIENCE__INT_PRECISION`: Sets the integer precision for most of
-    **Colour** computations. Possible values are `int8`, `int16`, `int32`,
-    and `int64` (default). Changing integer precision
-    *will almost certainly break* **Colour**!
+    **Colour** computations. Possible values are `int32` and `int64` (default).
+    Changing integer precision *will almost certainly break* **Colour**!
     *With great power comes great responsibility*.
 -   `COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK`: results in the
     :func:`warnings.showwarning` definition to be replaced with the
