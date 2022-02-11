@@ -129,8 +129,8 @@ read-the-docs = [
     "matplotlib",
     "networkx",
     "numpy",
-    "pygraphviz",
     "pydata-sphinx-theme",
+    "pygraphviz",
     "sphinxcontrib-bibtex",
     "trimesh"
 ]
