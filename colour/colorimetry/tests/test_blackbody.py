@@ -24,6 +24,10 @@ __all__ = [
     "DATA_BLACKBODY",
     "TestPlanckLaw",
     "TestSdBlackbody",
+    "DATA_RAYLEIGH_JEANS_LAW",
+    "DATA_RAYLEIGH_JEANS",
+    "TestRayleighJeansLaw",
+    "TestSdRayleighJeans",
 ]
 
 DATA_PLANCK_LAW: Dict = {

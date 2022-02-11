@@ -602,17 +602,6 @@ def sd_blackbody(
     )
 
 
-"""
-Rayleigh-Jeans spectral distribution
-==============================
-
-Defines the objects to compute the Rayleigh–Jeans law approximation to
-the spectral radiance of electromagnetic radiation as a function of
-wavelength from a black body at a given temperature through
-classical arguments.
-"""
-
-
 def rayleigh_jeans_law(
     wavelength,
     temperature,
@@ -624,9 +613,10 @@ def rayleigh_jeans_law(
 
     Parameters
     ----------
-    where "c" is the speed of light; 
-    "k_B" is the Boltzmann constant;
-    and "T" is the temperature in kelvins.
+    wavelength
+        Wavelength in meters.
+    temperature
+        Temperature :math:`T[K]` in kelvin degrees.
 
     Returns
     -------
