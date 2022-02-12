@@ -505,7 +505,11 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Chromaticity_Diagram_Colours.png"
     )
-    plt.close(plot_chromaticity_diagram_colours(**arguments)[0])
+    plt.close(
+        plot_chromaticity_diagram_colours(diagram_colours="RGB", **arguments)[
+            0
+        ]
+    )
 
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Chromaticity_Diagram.png"
