@@ -47,7 +47,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "Tuvd_PlanckianTable",
+    "PlanckianTableRow",
     "CCT_MINIMAL",
     "CCT_MAXIMAL",
     "CCT_SAMPLES",
@@ -60,7 +60,23 @@ __all__ = [
 
 
 @dataclass
-class Tuvd_PlanckianTable:
+class PlanckianTableRow:
+    """
+    Define the data for a planckian table row at temperature :math:`T_i`.
+
+    Parameters
+    ----------
+    Ti
+        Temperature :math:`T_i` in kelvin degrees.
+    ui
+        *u* chromaticity coordinate of the temperature :math:`T_i`.
+    vi
+        *v* chromaticity coordinate of the temperature :math:`T_i`.
+    di
+        Distance between the *uv* chromaticity coordinates or interest and
+        the *uv_i* chromaticity coordinates.
+    """
+
     Ti: Floating
     ui: Floating
     vi: Floating
@@ -79,7 +95,7 @@ def planckian_table(
     start: Floating,
     end: Floating,
     count: Integer,
-) -> List[Tuvd_PlanckianTable]:
+) -> List[PlanckianTableRow]:
     """
     Return a planckian table from given *CIE UCS* colourspace *uv*
     chromaticity coordinates, colour matching functions and temperature range
@@ -92,9 +108,9 @@ def planckian_table(
     cmfs
         Standard observer colour matching functions.
     start
-        Temperature range start in kelvins.
+        Temperature range start in kelvin degrees.
     end
-        Temperature range end in kelvins.
+        Temperature range end in kelvin degrees.
     count
         Temperatures count in the planckian table.
 
@@ -113,25 +129,25 @@ def planckian_table(
     >>> uv = np.array([0.1978, 0.3122])
     >>> pprint(planckian_table(uv, cmfs, 1000, 1010, 10))
     ... # doctest: +SKIP
-    [Tuvd_PlanckianTable(Ti=1000.0, ui=0.4479628..., \
+    [PlanckianTableRow(Ti=1000.0, ui=0.4479628..., \
 vi=0.3546296..., di=0.2537355...),
-     Tuvd_PlanckianTable(Ti=1001.1111111..., ui=0.4477030..., \
+     PlanckianTableRow(Ti=1001.1111111..., ui=0.4477030..., \
 vi=0.3546521..., di=0.2534831...),
-     Tuvd_PlanckianTable(Ti=1002.2222222..., ui=0.4474434..., \
+     PlanckianTableRow(Ti=1002.2222222..., ui=0.4474434..., \
 vi=0.3546746..., di=0.2532310...),
-     Tuvd_PlanckianTable(Ti=1003.3333333..., ui=0.4471842..., \
+     PlanckianTableRow(Ti=1003.3333333..., ui=0.4471842..., \
 vi=0.3546970..., di=0.2529792...),
-     Tuvd_PlanckianTable(Ti=1004.4444444..., ui=0.4469252..., \
+     PlanckianTableRow(Ti=1004.4444444..., ui=0.4469252..., \
 vi=0.3547194..., di=0.2527277...),
-     Tuvd_PlanckianTable(Ti=1005.5555555..., ui=0.4466666..., \
+     PlanckianTableRow(Ti=1005.5555555..., ui=0.4466666..., \
 vi=0.3547417..., di=0.2524765...),
-     Tuvd_PlanckianTable(Ti=1006.6666666..., ui=0.4464083..., \
+     PlanckianTableRow(Ti=1006.6666666..., ui=0.4464083..., \
 vi=0.3547640..., di=0.2522256...),
-     Tuvd_PlanckianTable(Ti=1007.7777777..., ui=0.4461502..., \
+     PlanckianTableRow(Ti=1007.7777777..., ui=0.4461502..., \
 vi=0.3547862..., di=0.2519751...),
-     Tuvd_PlanckianTable(Ti=1008.8888888..., ui=0.4458925..., \
+     PlanckianTableRow(Ti=1008.8888888..., ui=0.4458925..., \
 vi=0.3548084..., di=0.2517248...),
-     Tuvd_PlanckianTable(Ti=1010.0, ui=0.4456351..., \
+     PlanckianTableRow(Ti=1010.0, ui=0.4456351..., \
 vi=0.3548306..., di=0.2514749...)]
     """
 
@@ -145,13 +161,13 @@ vi=0.3548306..., di=0.2514749...)]
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
         di = np.hypot(ux - ui, vx - vi)
-        table.append(Tuvd_PlanckianTable(Ti, ui, vi, di))
+        table.append(PlanckianTableRow(Ti, ui, vi, di))
 
     return table
 
 
 def planckian_table_minimal_distance_index(
-    planckian_table_: List[Tuvd_PlanckianTable],
+    planckian_table_: List[PlanckianTableRow],
 ) -> Integer:
     """
     Return the shortest distance index in given planckian table using
@@ -212,9 +228,9 @@ def _uv_to_CCT_Ohno2013(
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     start
-        Temperature range start in kelvins.
+        Temperature range start in kelvin degrees.
     end
-        Temperature range end in kelvins.
+        Temperature range end in kelvin degrees.
     count
         Temperatures count in the planckian tables.
     iterations
@@ -321,9 +337,9 @@ def uv_to_CCT_Ohno2013(
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     start
-        Temperature range start in kelvins.
+        Temperature range start in kelvin degrees.
     end
-        Temperature range end in kelvins.
+        Temperature range end in kelvin degrees.
     count
         Temperatures count in the planckian tables.
     iterations

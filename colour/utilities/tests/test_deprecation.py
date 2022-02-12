@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.deprecation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.deprecation` module."""
 
 import sys
 import unittest
@@ -55,9 +53,7 @@ class TestObjectRenamed(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -81,9 +77,7 @@ class TestObjectRemoved(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -106,9 +100,7 @@ class TestObjectFutureRename(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -132,9 +124,7 @@ class TestObjectFutureRemove(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -164,9 +154,7 @@ class TestObjectFutureAccessChange(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -194,9 +182,7 @@ class TestObjectFutureAccessRemove(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -226,9 +212,7 @@ class TestArgumentRenamed(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -252,9 +236,7 @@ class TestArgumentRemoved(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -277,9 +259,7 @@ class TestArgumentFutureRename(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -305,9 +285,7 @@ class TestArgumentFutureRemove(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__str__",)
 
@@ -337,9 +315,7 @@ class TestModuleAPI(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "__getattr__", "__dir__")
 
@@ -356,14 +332,12 @@ class TestModuleAPI(unittest.TestCase):
 
         self.assertIsNone(colour.utilities.tests.test_deprecated.NAME)
 
-        def _assert_warns():
-            """
-            Helper definition to test the runtime warning.
-            """
+        def assert_warns():
+            """Help to test the runtime warning."""
 
             getattr(colour.utilities.tests.test_deprecated, "OLD_NAME")
 
-        self.assertWarns(ColourUsageWarning, _assert_warns)
+        self.assertWarns(ColourUsageWarning, assert_warns)
 
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
@@ -392,9 +366,7 @@ class TestGetAttribute(unittest.TestCase):
     """
 
     def test_get_attribute(self):
-        """
-        Test :func:`colour.utilities.deprecation.get_attribute` definition.
-        """
+        """Test :func:`colour.utilities.deprecation.get_attribute` definition."""
 
         from colour import adaptation
 

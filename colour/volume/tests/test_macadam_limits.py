@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.volume.macadam_limits` module.
-"""
+"""Defines the unit tests for the :mod:`colour.volume.macadam_limits` module."""
 
 import numpy as np
 import unittest

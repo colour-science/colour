@@ -1,6 +1,4 @@
-"""
-Showcases colour models plotting examples.
-"""
+"""Showcases colour models plotting examples."""
 
 import numpy as np
 from pprint import pprint

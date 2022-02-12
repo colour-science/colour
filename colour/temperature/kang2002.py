@@ -92,9 +92,7 @@ def xy_to_CCT_Kang2002(
     def objective_function(
         CCT: FloatingOrArrayLike, xy: ArrayLike
     ) -> FloatingOrNDArray:
-        """
-        Objective function.
-        """
+        """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)
 

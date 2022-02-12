@@ -175,9 +175,7 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
         "geometry": Structure(**{"long": 5, "short": 1}),
     }
 )
-"""
-Various defaults settings used across the plotting sub-package.
-"""
+"""Various defaults settings used across the plotting sub-package."""
 
 CONSTANTS_ARROW_STYLE: Structure = Structure(
     **{
@@ -189,9 +187,7 @@ CONSTANTS_ARROW_STYLE: Structure = Structure(
         "connectionstyle": "arc3,rad=-0.2",
     }
 )
-"""
-Annotation arrow settings used across the plotting sub-package.
-"""
+"""Annotation arrow settings used across the plotting sub-package."""
 
 
 def colour_style(use_style: Boolean = True) -> Dict:
@@ -279,7 +275,7 @@ def colour_style(use_style: Boolean = True) -> Dict:
 
 def override_style(**kwargs: Any) -> Callable:
     """
-    Decorator for overriding *Matplotlib* style.
+    Decorate a function to override *Matplotlib* style.
 
     Other Parameters
     ----------------
@@ -302,15 +298,11 @@ def override_style(**kwargs: Any) -> Callable:
     keywords = dict(kwargs)
 
     def wrapper(function: Callable) -> Callable:
-        """
-        Wrapper for given function.
-        """
+        """Wrap given function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """
-            Wrapped function.
-            """
+            """Wrap given function."""
 
             keywords.update(kwargs)
 

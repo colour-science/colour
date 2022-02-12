@@ -1,6 +1,4 @@
-"""
-Showcases *Y'CbCr* *colour encoding* computations.
-"""
+"""Showcases *Y'CbCr* *colour encoding* computations."""
 
 import numpy as np
 

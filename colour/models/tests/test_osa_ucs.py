@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.osa_ucs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.osa_ucs` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
     """
 
     def test_XYZ_to_OSA_UCS(self):
-        """
-        Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition.
-        """
+        """Test :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_OSA_UCS(
@@ -110,9 +106,7 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
     """
 
     def test_OSA_UCS_to_XYZ(self):
-        """
-        Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition."""
 
         np.testing.assert_allclose(
             OSA_UCS_to_XYZ(

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.mccamy1992` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.mccamy1992` module."""
 
 import numpy as np
 import unittest

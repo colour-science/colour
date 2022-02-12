@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.geometry.section` module.
-"""
+"""Defines the unit tests for the :mod:`colour.geometry.section` module."""
 
 import numpy as np
 import unittest
@@ -35,9 +33,7 @@ class TestEdgesToChord(unittest.TestCase):
     """
 
     def test_edges_to_chord(self):
-        """
-        Test :func:`colour.geometry.section.edges_to_chord` definition.
-        """
+        """Test :func:`colour.geometry.section.edges_to_chord` definition."""
 
         edges = np.array(
             [
@@ -108,9 +104,7 @@ class TestCloseChord(unittest.TestCase):
     """
 
     def test_close_chord(self):
-        """
-        Test :func:`colour.geometry.section.close_chord` definition.
-        """
+        """Test :func:`colour.geometry.section.close_chord` definition."""
 
         np.testing.assert_almost_equal(
             close_chord(np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]])),
@@ -125,9 +119,7 @@ class TestUniqueVertices(unittest.TestCase):
     """
 
     def test_unique_vertices(self):
-        """
-        Test :func:`colour.geometry.section.unique_vertices` definition.
-        """
+        """Test :func:`colour.geometry.section.unique_vertices` definition."""
 
         np.testing.assert_almost_equal(
             unique_vertices(
@@ -154,9 +146,7 @@ class TestHullSection(unittest.TestCase):
     """
 
     def test_hull_section(self):
-        """
-        Test :func:`colour.geometry.section.hull_section` definition.
-        """
+        """Test :func:`colour.geometry.section.hull_section` definition."""
 
         if not is_trimesh_installed:  # pragma: no cover
             return

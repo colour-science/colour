@@ -1,3 +1,4 @@
+# noqa: D100
 import sys
 
 from colour.hints import Any
@@ -9,23 +10,19 @@ from colour.utilities.deprecation import (
 
 
 class deprecated(ModuleAPI):
+    """Define a class acting like the *deprecated* module."""
+
     def __getattr__(self, attribute) -> Any:
+        """Return the value from the attribute with given name."""
+
         return super().__getattr__(attribute)
 
 
 NAME: Any = None
-"""
-An non-deprecated module attribute.
-
-NAME
-"""
+"""An non-deprecated module attribute."""
 
 NEW_NAME: Any = None
-"""
-A module attribute with a new name.
-
-NAME
-"""
+"""A module attribute with a new name."""
 
 try:
     sys.modules[

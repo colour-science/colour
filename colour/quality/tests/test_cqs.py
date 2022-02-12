@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.quality.cqs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.quality.cqs` module."""
 
 import numpy as np
 import unittest
@@ -31,9 +29,7 @@ class TestColourQualityScale(unittest.TestCase):
     """
 
     def test_colour_quality_scale(self):
-        """
-        Test :func:`colour.quality.cqs.colour_quality_scale` definition.
-        """
+        """Test :func:`colour.quality.cqs.colour_quality_scale` definition."""
 
         self.assertAlmostEqual(
             colour_quality_scale(SDS_ILLUMINANTS["FL1"]),

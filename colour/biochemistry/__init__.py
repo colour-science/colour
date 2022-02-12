@@ -36,7 +36,11 @@ __all__ += [
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class biochemistry(ModuleAPI):
+    """Define a class acting like the *biochemistry* module."""
+
     def __getattr__(self, attribute) -> Any:
+        """Return the value from the attribute with given name."""
+
         return super().__getattr__(attribute)
 
 
@@ -53,9 +57,7 @@ API_CHANGES = {
         ],
     ]
 }
-"""
-Defines the *colour.biochemistry* sub-package API changes.
-"""
+"""Defines the *colour.biochemistry* sub-package API changes."""
 
 if not is_documentation_building():
     sys.modules[

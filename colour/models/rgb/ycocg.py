@@ -43,9 +43,7 @@ MATRIX_RGB_TO_YCOCG: NDArray = np.array(
         [-1 / 4, 1 / 2, -1 / 4],
     ]
 )
-"""
-*R'G'B'* colourspace to *YCoCg* colour encoding matrix.
-"""
+"""*R'G'B'* colourspace to *YCoCg* colour encoding matrix."""
 
 MATRIX_YCOCG_TO_RGB: NDArray = np.array(
     [
@@ -54,9 +52,7 @@ MATRIX_YCOCG_TO_RGB: NDArray = np.array(
         [1, -1, -1],
     ]
 )
-"""
-*YCoCg* colour encoding to *R'G'B'* colourspace matrix.
-"""
+"""*YCoCg* colour encoding to *R'G'B'* colourspace matrix."""
 
 
 def RGB_to_YCoCg(RGB: ArrayLike) -> NDArray:

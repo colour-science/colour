@@ -342,9 +342,7 @@ def write_LUT_ResolveCube(
         )
 
     def _format_array(array: Union[List, Tuple]) -> str:
-        """
-        Format given array as a *Resolve* *.cube* data row.
-        """
+        """Format given array as a *Resolve* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 

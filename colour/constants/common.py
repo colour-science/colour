@@ -33,9 +33,7 @@ __all__ = [
 ]
 
 FLOATING_POINT_NUMBER_PATTERN: str = "[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"
-"""
-Floating point number regex matching pattern.
-"""
+"""Floating point number regex matching pattern."""
 
 INTEGER_THRESHOLD: float = 1e-3
 if is_documentation_building():  # pragma: no cover
@@ -58,9 +56,7 @@ DEFAULT_FLOAT_DTYPE: Type[DTypeFloating] = cast(
         np.float64,
     ),
 )
-"""
-Default floating point number dtype.
-"""
+"""Default floating point number dtype."""
 
 DEFAULT_INT_DTYPE: Type[Union[np.int32, np.int64]] = cast(
     Type[Union[np.int32, np.int64]],
@@ -68,6 +64,4 @@ DEFAULT_INT_DTYPE: Type[Union[np.int32, np.int64]] = cast(
         os.environ.get("COLOUR_SCIENCE__INT_PRECISION", "int64"), np.int64
     ),
 )
-"""
-Default integer number dtype.
-"""
+"""Default integer number dtype."""

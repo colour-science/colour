@@ -248,9 +248,7 @@ def write_LUT_IridasCube(
         attest(2 <= size <= 256, '"LUT" size must be in domain [2, 256]!')
 
     def _format_array(array: Union[List, Tuple]) -> str:
-        """
-        Format given array as an *Iridas* *.cube* data row.
-        """
+        """Format given array as an *Iridas* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 

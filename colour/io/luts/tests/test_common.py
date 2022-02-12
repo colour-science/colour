@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.common` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.common` module."""
 
 import unittest
 
@@ -25,9 +23,7 @@ class TestPathToTitle(unittest.TestCase):
     """
 
     def test_path_to_title(self):
-        """
-        Test :func:`colour.io.luts.common.path_to_title` definition.
-        """
+        """Test :func:`colour.io.luts.common.path_to_title` definition."""
 
         self.assertEqual(
             path_to_title(

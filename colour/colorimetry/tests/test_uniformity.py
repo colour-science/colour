@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.uniformity` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.uniformity` module."""
 
 from __future__ import annotations
 

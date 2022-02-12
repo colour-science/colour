@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.krystek1985` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.krystek1985` module."""
 
 import numpy as np
 import unittest

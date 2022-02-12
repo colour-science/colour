@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.hunter_rdab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
 import numpy as np
 import unittest
@@ -31,9 +29,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
     """
 
     def test_XYZ_to_Hunter_Rdab(self):
-        """
-        Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition.
-        """
+        """Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
@@ -172,9 +168,7 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
     """
 
     def test_Hunter_Rdab_to_XYZ(self):
-        """
-        Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(

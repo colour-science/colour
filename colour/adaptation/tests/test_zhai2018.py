@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.adaptation.zhai2018` module.
-"""
+"""Defines the unit tests for the :mod:`colour.adaptation.zhai2018` module."""
 
 import numpy as np
 import unittest

@@ -133,7 +133,7 @@ class MixinDataclassFields:
         Getter property for the fields of the :class:`dataclass`-like class.
 
         Returns
-        ------
+        -------
         :class:`tuple`
            Tuple of :class:`dataclass`-like class fields.
         """
@@ -963,8 +963,10 @@ def set_domain_range_scale(
 
 class domain_range_scale:
     """
-    A context manager and decorator temporarily setting *Colour* domain-range
-    scale. The following scales are available:
+    Define context manager and decorator temporarily setting *Colour*
+    domain-range scale.
+
+    The following scales are available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
         depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
@@ -1025,25 +1027,19 @@ class domain_range_scale:
         self._previous_scale = get_domain_range_scale()
 
     def __enter__(self) -> domain_range_scale:
-        """
-        Called upon entering the context manager and decorator.
-        """
+        """Set the new domain-range scale upon entering the context manager."""
 
         set_domain_range_scale(self._scale)
 
         return self
 
     def __exit__(self, *args: Any):
-        """
-        Called upon exiting the context manager and decorator.
-        """
+        """Set the previous domain-range scale upon exiting the context manager."""
 
         set_domain_range_scale(self._previous_scale)
 
     def __call__(self, function: Callable) -> Any:
-        """
-        Call the wrapped definition.
-        """
+        """Call the wrapped definition."""
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -2288,8 +2284,8 @@ def has_only_nan(a: ArrayLike) -> Boolean:
 @contextmanager
 def ndarray_write(a: ArrayLike) -> Generator:
     """
-    A context manager setting given array :math:`a` writeable to operate one
-    and then read-only.
+    Define a context manager setting given array :math:`a` writeable to
+    operate one and then read-only.
 
     Parameters
     ----------
@@ -2329,8 +2325,8 @@ def zeros(
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """
-    Simple wrapper around :func:`np.zeros` definition to create an array with
-    the active :class:`numpy.dtype` defined by the
+    Wrap :func:`np.zeros` definition to create an array with the active
+    :class:`numpy.dtype` defined by the
     :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Parameters
@@ -2367,8 +2363,8 @@ def ones(
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """
-    Simple wrapper around :func:`np.ones` definition to create an array with
-    the active :class:`numpy.dtype` defined by the
+    Wrap :func:`np.ones` definition to create an array with the active
+    :class:`numpy.dtype` defined by the
     :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Parameters
@@ -2406,9 +2402,8 @@ def full(
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """
-    Simple wrapper around :func:`np.full` definition to create an array with
-    the active type defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
-    attribute.
+    Wrap :func:`np.full` definition to create an array with the active type
+    defined by the:attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
 
     Parameters
     ----------

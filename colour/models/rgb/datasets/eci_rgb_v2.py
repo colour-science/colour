@@ -55,33 +55,23 @@ PRIMARIES_ECI_RGB_V2: NDArray = np.array(
         [0.140061791967044, 0.080329557157570],
     ]
 )
-"""
-*ECI RGB v2* colourspace primaries.
-"""
+"""*ECI RGB v2* colourspace primaries."""
 
 WHITEPOINT_NAME_ECI_RGB_V: str = "D50"
-"""
-*ECI RGB v2* colourspace whitepoint name.
-"""
+"""*ECI RGB v2* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_ECI_RGB_V2: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ECI_RGB_V]
-"""
-*ECI RGB v2* colourspace whitepoint chromaticity coordinates.
-"""
+"""*ECI RGB v2* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_ECI_RGB_V2_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_ECI_RGB_V2, CCS_WHITEPOINT_ECI_RGB_V2
 )
-"""
-*ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_ECI_RGB_V2: NDArray = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix."""
 
 
 def _scale_domain_0_100_range_0_1(

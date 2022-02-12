@@ -1,6 +1,4 @@
-"""
-Showcases *Kim, Weyrich and Kautz (2009)* colour appearance model computations.
-"""
+"""Showcases *Kim, Weyrich and Kautz (2009)* colour appearance model computations."""
 
 import numpy as np
 

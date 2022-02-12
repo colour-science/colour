@@ -240,9 +240,7 @@ COLOURSPACE_MODELS_AXIS_LABELS: CaseInsensitiveMapping = (
         }
     )
 )
-"""
-Colourspace models labels mapping.
-"""
+"""Colourspace models labels mapping."""
 
 attest(COLOURSPACE_MODELS == tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()))
 
@@ -276,6 +274,4 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
         "hdr-IPT": np.array([100, 100, 100]),
     }
 )
-"""
-Colourspace models domain-range scale **'1'** to **'Reference'** mapping.
-"""
+"""Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""

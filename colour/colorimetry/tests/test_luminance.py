@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.luminance` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.luminance` module."""
 
 import numpy as np
 import unittest
@@ -218,7 +216,7 @@ intermediate_luminance_function_CIE1976` definition.
         """
         Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition n-dimensional arrays
-support.
+        support.
         """
 
         f_Y_Y_n = 0.495929964178047
@@ -246,7 +244,7 @@ support.
         """
         Test :func:`colour.colorimetry.luminance.\
 intermediate_luminance_function_CIE1976` definition domain and range scale
-support.
+        support.
         """
 
         Y = intermediate_luminance_function_CIE1976(41.527875844653451, 100)

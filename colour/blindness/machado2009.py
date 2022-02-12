@@ -220,9 +220,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     area_M = np.trapz(M, cmfs.wavelengths)
 
     def alpha(x: NDArray) -> NDArray:
-        """
-        Compute :math:`alpha` factor.
-        """
+        """Compute :math:`alpha` factor."""
 
         return (20 - x) / 20
 

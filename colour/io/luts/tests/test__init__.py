@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.__init__` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.__init__` module."""
 
 from __future__ import annotations
 
@@ -35,9 +33,7 @@ class TestReadLUT(unittest.TestCase):
     """
 
     def test_read_LUT(self):
-        """
-        Test :func:`colour.io.luts.__init__.read_LUT` definition.
-        """
+        """Test :func:`colour.io.luts.__init__.read_LUT` definition."""
 
         LUT_1 = read_LUT(
             os.path.join(LUTS_DIRECTORY, "sony_spi1d", "eotf_sRGB_1D.spi1d")
@@ -125,23 +121,17 @@ class TestWriteLUT(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_LUT(self):
-        """
-        Test :func:`colour.io.luts.__init__.write_LUT` definition.
-        """
+        """Test :func:`colour.io.luts.__init__.write_LUT` definition."""
 
         LUT_1_r = read_LUT(
             os.path.join(LUTS_DIRECTORY, "sony_spi1d", "eotf_sRGB_1D.spi1d")

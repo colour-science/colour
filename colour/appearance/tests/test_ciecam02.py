@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.appearance.ciecam02` module.
-"""
+"""Defines the unit tests for the :mod:`colour.appearance.ciecam02` module."""
 
 import numpy as np
 import unittest
@@ -228,9 +226,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
     """
 
     def test_CIECAM02_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition.
-        """
+        """Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition."""
 
         specification = CAM_Specification_CIECAM02(
             41.73, 0.1, 219, 2.36, 195.37, 0.11, 278.1

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.ohno2013` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.ohno2013` module."""
 
 import numpy as np
 import unittest
@@ -51,9 +49,7 @@ class TestPlanckianTable(unittest.TestCase):
     """
 
     def test_planckian_table(self):
-        """
-        Test :func:`colour.temperature.ohno2013.planckian_table` definition.
-        """
+        """Test :func:`colour.temperature.ohno2013.planckian_table` definition."""
 
         np.testing.assert_almost_equal(
             [

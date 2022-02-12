@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.quality.cri` module.
-"""
+"""Defines the unit tests for the :mod:`colour.quality.cri` module."""
 
 from __future__ import annotations
 
@@ -118,9 +116,7 @@ class TestColourRenderingIndex(unittest.TestCase):
     """
 
     def test_colour_rendering_index(self):
-        """
-        Test :func:`colour.quality.cri.colour_rendering_index` definition.
-        """
+        """Test :func:`colour.quality.cri.colour_rendering_index` definition."""
 
         self.assertAlmostEqual(
             colour_rendering_index(SDS_ILLUMINANTS["FL1"]),

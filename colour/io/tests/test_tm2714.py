@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.tm2714` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.tm2714` module."""
 
 from __future__ import annotations
 
@@ -149,9 +147,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "mapping",
@@ -172,9 +168,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
             self.assertIn(attribute, dir(Header_IESTM2714))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -187,9 +181,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
             self.assertIn(method, dir(Header_IESTM2714))
 
     def test__eq__(self):
-        """
-        Test :meth:`colour.io.tm2714.Header_IESTM2714.__eq__` method.
-        """
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__eq__` method."""
 
         h0 = Header_IESTM2714(
             manufacturer="a",
@@ -209,9 +201,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
         self.assertEqual(h0, h1)
 
     def test__ne__(self):
-        """
-        Test :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method.
-        """
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method."""
 
         h0 = Header_IESTM2714(
             manufacturer="a",
@@ -234,9 +224,7 @@ class TestIES_TM2714_Header(unittest.TestCase):
         self.assertEqual(h0, h1)
 
     def test__hash__(self):
-        """
-        Test :meth:`colour.io.tm2714.Header_IESTM2714.__hash__` method.
-        """
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__hash__` method."""
 
         h0 = Header_IESTM2714(
             manufacturer="a",
@@ -262,23 +250,17 @@ class TestIES_TM2714_Sd(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "mapping",
@@ -295,9 +277,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             self.assertIn(attribute, dir(SpectralDistribution_IESTM2714))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "read", "write")
 

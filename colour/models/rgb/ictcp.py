@@ -76,9 +76,7 @@ MATRIX_ICTCP_RGB_TO_LMS: NDArray = (
     )
     / 4096
 )
-"""
-*ITU-R BT.2020* colourspace to normalised cone responses matrix.
-"""
+"""*ITU-R BT.2020* colourspace to normalised cone responses matrix."""
 
 MATRIX_ICTCP_LMS_TO_RGB: NDArray = np.linalg.inv(MATRIX_ICTCP_RGB_TO_LMS)
 """

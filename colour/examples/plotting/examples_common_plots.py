@@ -1,6 +1,4 @@
-"""
-Showcases common plotting examples.
-"""
+"""Showcases common plotting examples."""
 
 from colour.plotting import (
     ColourSwatch,

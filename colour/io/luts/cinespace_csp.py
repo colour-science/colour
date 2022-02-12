@@ -105,16 +105,12 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
     unity_range = np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
 
     def _parse_metadata_section(metadata: List) -> Tuple:
-        """
-        Parse the metadata at given lines.
-        """
+        """Parse the metadata at given lines."""
 
         return (metadata[0], metadata[1:]) if len(metadata) > 0 else ("", [])
 
     def _parse_domain_section(lines: List[str]) -> NDArray:
-        """
-        Parse the domain at given lines.
-        """
+        """Parse the domain at given lines."""
 
         pre_LUT_size = max(int(lines[i]) for i in [0, 3, 6])
         pre_LUT = [
@@ -138,9 +134,7 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
         return np.asarray(pre_LUT_padded)
 
     def _parse_table_section(lines):
-        """
-        Parse the table at given lines.
-        """
+        """Parse the table at given lines."""
 
         size = as_int_array(lines[0].split())
         table = as_float_array([line.split() for line in lines[1:]])
@@ -340,9 +334,7 @@ def write_LUT_Cinespace(
         )
 
     def _ragged_size(table: ArrayLike) -> List:
-        """
-        Return the ragged size of given table.
-        """
+        """Return the ragged size of given table."""
 
         R, G, B = tsplit(table)
 
@@ -353,9 +345,7 @@ def write_LUT_Cinespace(
         return [R_len, G_len, B_len]
 
     def _format_array(array: Union[List, Tuple]) -> str:
-        """
-        Format given array as a *Cinespace* *.cube* data row.
-        """
+        """Format given array as a *Cinespace* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 

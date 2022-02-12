@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.prismatic` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.prismatic` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestRGB_to_Prismatic(unittest.TestCase):
     """
 
     def test_RGB_to_Prismatic(self):
-        """
-        Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition.
-        """
+        """Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_Prismatic(np.array([0.0, 0.0, 0.0])),
@@ -99,9 +95,7 @@ class TestPrismatic_to_RGB(unittest.TestCase):
     """
 
     def test_Prismatic_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             Prismatic_to_RGB(np.array([0.0, 0.0, 0.0, 0.0])),

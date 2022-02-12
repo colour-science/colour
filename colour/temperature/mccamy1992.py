@@ -137,9 +137,7 @@ def CCT_to_xy_McCamy1992(
     def objective_function(
         xy: ArrayLike, CCT: FloatingOrArrayLike
     ) -> FloatingOrNDArray:
-        """
-        Objective function.
-        """
+        """Objective function."""
 
         objective = np.linalg.norm(
             xy_to_CCT_McCamy1992(xy) - as_float_array(CCT)

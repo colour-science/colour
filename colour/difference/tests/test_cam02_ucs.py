@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.difference.cam02_ucs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference.cam02_ucs` module."""
 
 import numpy as np
 import unittest
@@ -34,9 +32,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
     """
 
     def test_delta_E_Luo2006(self):
-        """
-        Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition.
-        """
+        """Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition."""
 
         self.assertAlmostEqual(
             delta_E_Luo2006(

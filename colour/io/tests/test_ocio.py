@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.ocio` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.ocio` module."""
 
 from __future__ import annotations
 
@@ -33,9 +31,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
     """
 
     def test_process_image_OpenColorIO(self):
-        """
-        Test :func:`colour.io.ocio.process_image_OpenColorIO` definition.
-        """
+        """Test :func:`colour.io.ocio.process_image_OpenColorIO` definition."""
 
         # TODO: Remove when "Pypi" wheel compatible with "ARM" on "macOS" is
         # released.

@@ -67,8 +67,8 @@ __all__ = [
 
 def attest(condition: Boolean, message: str = ""):
     """
-    A replacement for `assert` that is not removed by optimised Python
-    execution.
+    Provide the `assert` statement functionality without being disabled by
+    optimised Python execution.
 
     See :func:`colour.utilities.assert` for more information.
 
@@ -150,9 +150,7 @@ class Structure(dict):
 
     def __dir__(self) -> Iterable:
         """
-        Called when :func:`dir` is called on the :class:`dict`-like object
-        and returns a list of valid attributes for the :class:`dict`-like
-        object.
+        Return a list of valid attributes for the :class:`dict`-like object.
 
         Returns
         -------
@@ -176,7 +174,7 @@ class Structure(dict):
         :class:`object`
 
         Raises
-        -----
+        ------
         AttributeError
             If the attribute is not defined.
         """
@@ -187,6 +185,7 @@ class Structure(dict):
             raise AttributeError(name)
 
     def __setstate__(self, state):
+        """Set the object state when unpickling."""
         # See https://github.com/scikit-learn/scikit-learn/issues/6196 for more
         # information.
 
@@ -708,19 +707,14 @@ class Node:
 
     def __new__(cls, *args: Any, **kwargs: Any) -> Node:
         """
-        Constructor of the class.
+        Return a new instance of the :class:`colour.utilities.Node` class.
 
         Other Parameters
-        ----------
+        ----------------
         args
             Arguments.
         kwargs
             Keywords arguments.
-
-        Returns
-        -------
-        :class:`Node`
-            Class instance.
         """
 
         instance = super().__new__(cls)
@@ -765,9 +759,7 @@ class Node:
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             isinstance(value, str),
@@ -796,9 +788,7 @@ class Node:
 
     @parent.setter
     def parent(self, value: Optional[Node]):
-        """
-        Setter for the **self.parent** property.
-        """
+        """Setter for the **self.parent** property."""
 
         if value is not None:
             attest(
@@ -831,9 +821,7 @@ class Node:
 
     @children.setter
     def children(self, value: List[Node]):
-        """
-        Setter for the **self.children** property.
-        """
+        """Setter for the **self.children** property."""
 
         attest(
             isinstance(value, list),
@@ -932,9 +920,7 @@ class Node:
 
     @data.setter
     def data(self, value: Any):
-        """
-        Setter for the **self.data** property.
-        """
+        """Setter for the **self.data** property."""
 
         self._data = value
 
@@ -1087,7 +1073,7 @@ class Node:
             Initial indentation level
 
         Returns
-        ------
+        -------
         :class:`str`
             Rendered node tree.
 

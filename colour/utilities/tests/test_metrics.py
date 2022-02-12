@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.metrics` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.metrics` module."""
 
 import numpy as np
 import unittest
@@ -27,9 +25,7 @@ class TestMetricMse(unittest.TestCase):
     """
 
     def test_metric_mse(self):
-        """
-        Test :func:`colour.utilities.metrics.metric_mse` definition.
-        """
+        """Test :func:`colour.utilities.metrics.metric_mse` definition."""
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])
         self.assertEqual(metric_mse(a, a), 0)
@@ -52,9 +48,7 @@ class TestMetricPsnr(unittest.TestCase):
     """
 
     def test_metric_psnr(self):
-        """
-        Test :func:`colour.utilities.metrics.metric_psnr` definition.
-        """
+        """Test :func:`colour.utilities.metrics.metric_psnr` definition."""
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])
         self.assertEqual(metric_psnr(a, a), np.inf)

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.dominant` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.dominant` module."""
 
 import numpy as np
 import unittest
@@ -43,9 +41,7 @@ closest_spectral_locus_wavelength` definition unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_s = XYZ_to_xy(
             MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].values
@@ -130,9 +126,7 @@ class TestDominantWavelength(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D65"
@@ -228,9 +222,7 @@ class TestComplementaryWavelength(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D65"
@@ -326,18 +318,14 @@ class TestExcitationPurity(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D65"
         ]
 
     def test_excitation_purity(self):
-        """
-        Test :func:`colour.colorimetry.dominant.excitation_purity` definition.
-        """
+        """Test :func:`colour.colorimetry.dominant.excitation_purity` definition."""
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -398,9 +386,7 @@ class TestColorimetricPurity(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D65"

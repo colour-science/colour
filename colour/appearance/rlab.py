@@ -66,9 +66,7 @@ MATRIX_R: NDArray = np.array(
         [0.0000, 0.0000, 1.0000],
     ]
 )
-"""
-*RLAB* colour appearance model precomputed helper matrix.
-"""
+"""*RLAB* colour appearance model precomputed helper matrix."""
 
 VIEWING_CONDITIONS_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {"Average": 1 / 2.3, "Dim": 1 / 2.9, "Dark": 1 / 3.5}

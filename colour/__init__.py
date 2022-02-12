@@ -447,6 +447,8 @@ else:
         """
 
         def __getattr__(self, attribute) -> Any:
+            """Return the value from the attribute with given name."""
+
             is_matplotlib_installed(raise_exception=True)
 
     globals()["plotting"] = MockPlotting()  # pragma: no cover
@@ -864,7 +866,11 @@ except TypeError:  # pragma: no cover
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class colour(ModuleAPI):
+    """Define a class acting like the *colour* module."""
+
     def __getattr__(self, attribute) -> Any:
+        """Return the value from the attribute with given name."""
+
         return super().__getattr__(attribute)
 
 
@@ -904,9 +910,7 @@ API_CHANGES = {
         ],
     ]
 }
-"""
-Defines the *colour.models* sub-package API changes.
-"""
+"""Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():
     sys.modules["colour"] = colour(  # type: ignore[assignment]

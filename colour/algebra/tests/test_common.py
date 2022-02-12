@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.algebra.common` module.
-"""
+"""Defines the unit tests for the :mod:`colour.algebra.common` module."""
 
 import numpy as np
 import unittest
@@ -48,9 +46,7 @@ class TestIsSpowEnabled(unittest.TestCase):
     """
 
     def test_is_spow_enabled(self):
-        """
-        Test :func:`colour.algebra.common.is_spow_enabled` definition.
-        """
+        """Test :func:`colour.algebra.common.is_spow_enabled` definition."""
 
         with spow_enable(True):
             self.assertTrue(is_spow_enabled())
@@ -66,9 +62,7 @@ class TestSetSpowEnabled(unittest.TestCase):
     """
 
     def test_set_spow_enable(self):
-        """
-        Test :func:`colour.algebra.common.set_spow_enable` definition.
-        """
+        """Test :func:`colour.algebra.common.set_spow_enable` definition."""
 
         with spow_enable(is_spow_enabled()):
             set_spow_enable(True)
@@ -86,9 +80,7 @@ class TestSpowEnable(unittest.TestCase):
     """
 
     def test_spow_enable(self):
-        """
-        Test :func:`colour.algebra.common.spow_enable` definition.
-        """
+        """Test :func:`colour.algebra.common.spow_enable` definition."""
 
         with spow_enable(True):
             self.assertTrue(is_spow_enabled())
@@ -98,9 +90,7 @@ class TestSpowEnable(unittest.TestCase):
 
         @spow_enable(True)
         def fn_a():
-            """
-            :func:`spow_enable` unit tests :func:`fn_a` definition.
-            """
+            """:func:`spow_enable` unit tests :func:`fn_a` definition."""
 
             self.assertTrue(is_spow_enabled())
 
@@ -108,9 +98,7 @@ class TestSpowEnable(unittest.TestCase):
 
         @spow_enable(False)
         def fn_b():
-            """
-            :func:`spow_enable` unit tests :func:`fn_b` definition.
-            """
+            """:func:`spow_enable` unit tests :func:`fn_b` definition."""
 
             self.assertFalse(is_spow_enabled())
 
@@ -124,9 +112,7 @@ class TestSpow(unittest.TestCase):
     """
 
     def test_spow(self):
-        """
-        Test :func:`colour.algebra.common.spow` definition.
-        """
+        """Test :func:`colour.algebra.common.spow` definition."""
 
         self.assertEqual(spow(2, 2), 4.0)
 
@@ -154,9 +140,7 @@ class TestNormaliseMaximum(unittest.TestCase):
     """
 
     def test_normalise_maximum(self):
-        """
-        Test :func:`colour.utilities.array.normalise_maximum` definition.
-        """
+        """Test :func:`colour.utilities.array.normalise_maximum` definition."""
 
         np.testing.assert_almost_equal(
             normalise_maximum(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -237,9 +221,7 @@ class TestVectorDot(unittest.TestCase):
     """
 
     def test_vector_dot(self):
-        """
-        Test :func:`colour.utilities.array.vector_dot` definition.
-        """
+        """Test :func:`colour.utilities.array.vector_dot` definition."""
 
         m = np.array(
             [
@@ -276,9 +258,7 @@ class TestMatrixDot(unittest.TestCase):
     """
 
     def test_matrix_dot(self):
-        """
-        Test :func:`colour.utilities.array.matrix_dot` definition.
-        """
+        """Test :func:`colour.utilities.array.matrix_dot` definition."""
 
         a = np.array(
             [
@@ -338,9 +318,7 @@ class TestLinearConversion(unittest.TestCase):
     """
 
     def test_linear_conversion(self):
-        """
-        Test :func:`colour.utilities.array.linear_conversion` definition.
-        """
+        """Test :func:`colour.utilities.array.linear_conversion` definition."""
 
         np.testing.assert_almost_equal(
             linear_conversion(
@@ -371,9 +349,7 @@ class TestLinstepFunction(unittest.TestCase):
     """
 
     def test_linstep_function(self):
-        """
-        Test :func:`colour.utilities.array.linstep_function` definition.
-        """
+        """Test :func:`colour.utilities.array.linstep_function` definition."""
 
         np.testing.assert_almost_equal(
             linstep_function(
@@ -430,9 +406,7 @@ class TestSmoothstepFunction(unittest.TestCase):
     """
 
     def test_smoothstep_function(self):
-        """
-        Test :func:`colour.algebra.common.smoothstep_function` definition.
-        """
+        """Test :func:`colour.algebra.common.smoothstep_function` definition."""
 
         self.assertEqual(smoothstep_function(0.5), 0.5)
         self.assertEqual(smoothstep_function(0.25), 0.15625)
@@ -456,9 +430,7 @@ class TestIsIdentity(unittest.TestCase):
     """
 
     def test_is_identity(self):
-        """
-        Test :func:`colour.algebra.matrix.is_identity` definition.
-        """
+        """Test :func:`colour.algebra.matrix.is_identity` definition."""
 
         self.assertTrue(
             is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3]))

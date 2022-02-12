@@ -1,6 +1,4 @@
-"""
-Showcases *CIE 1994* chromatic adaptation model computations.
-"""
+"""Showcases *CIE 1994* chromatic adaptation model computations."""
 
 import numpy as np
 

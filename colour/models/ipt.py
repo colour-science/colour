@@ -55,14 +55,10 @@ MATRIX_IPT_XYZ_TO_LMS: NDArray = np.array(
         [0.0000, 0.0000, 0.9184],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to normalised cone responses matrix.
-"""
+"""*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
 MATRIX_IPT_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
     [
@@ -71,14 +67,10 @@ MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
         [0.8056, 0.3572, -1.1628],
     ]
 )
-"""
-Normalised non-linear cone responses to *IPT* colourspace matrix.
-"""
+"""Normalised non-linear cone responses to *IPT* colourspace matrix."""
 
 MATRIX_IPT_IPT_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
-"""
-*IPT* colourspace to normalised non-linear cone responses matrix.
-"""
+"""*IPT* colourspace to normalised non-linear cone responses matrix."""
 
 
 def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:

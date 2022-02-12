@@ -89,9 +89,7 @@ __all__ = [
 ]
 
 SPECTRAL_SHAPE_JAKOB2019: SpectralShape = SpectralShape(360, 780, 5)
-"""
-Spectral shape for *Jakob and Hanika (2019)* method.
-"""
+"""Spectral shape for *Jakob and Hanika (2019)* method."""
 
 
 class StopMinimizationEarly(Exception):
@@ -448,9 +446,7 @@ def find_coefficients_Jakob2019(
     def optimize(
         target_o: NDArray, coefficients_0_o: NDArray
     ) -> Tuple[NDArray, Floating]:
-        """
-        Minimise the error function using *L-BFGS-B* method.
-        """
+        """Minimise the error function using *L-BFGS-B* method."""
 
         try:
             result = minimize(

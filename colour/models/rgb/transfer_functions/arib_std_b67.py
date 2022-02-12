@@ -48,9 +48,7 @@ __all__ = [
 CONSTANTS_ARIBSTDB67: Structure = Structure(
     a=0.17883277, b=0.28466892, c=0.55991073
 )
-"""
-*ARIB STD-B67 (Hybrid Log-Gamma)* constants.
-"""
+"""*ARIB STD-B67 (Hybrid Log-Gamma)* constants."""
 
 
 def oetf_ARIBSTDB67(

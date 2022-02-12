@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.data_structures` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.data_structures` module."""
 
 import numpy as np
 import operator
@@ -38,9 +36,7 @@ class TestStructure(unittest.TestCase):
     """
 
     def test_Structure(self):
-        """
-        Test :class:`colour.utilities.data_structures.Structure` class.
-        """
+        """Test :class:`colour.utilities.data_structures.Structure` class."""
 
         structure = Structure(John="Doe", Jane="Doe")
         self.assertIn("John", structure)
@@ -98,9 +94,7 @@ class TestLookup(unittest.TestCase):
     """
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("keys_from_value", "first_key_from_value")
 
@@ -155,9 +149,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("data",)
 
@@ -165,9 +157,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
             self.assertIn(attribute, dir(CaseInsensitiveMapping))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -382,9 +372,7 @@ LazyCaseInsensitiveMapping` class unit tests methods.
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ()
 
@@ -392,9 +380,7 @@ LazyCaseInsensitiveMapping` class unit tests methods.
             self.assertIn(attribute, dir(LazyCaseInsensitiveMapping))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__getitem__",)
 
@@ -425,9 +411,7 @@ class TestNode(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._data = {"John": "Doe"}
 
@@ -443,9 +427,7 @@ class TestNode(unittest.TestCase):
         self._tree = self._node_a
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "name",
@@ -462,9 +444,7 @@ class TestNode(unittest.TestCase):
             self.assertIn(attribute, dir(Node))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__new__",
@@ -482,41 +462,31 @@ class TestNode(unittest.TestCase):
             self.assertIn(method, dir(Node))
 
     def test_name(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.name` property.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.name` property."""
 
         self.assertEqual(self._tree.name, "Node A")
         self.assertIn("Node#", Node().name)
 
     def test_parent(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.parent` property.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.parent` property."""
 
         self.assertIs(self._node_b.parent, self._node_a)
         self.assertIs(self._node_h.parent, self._node_g)
 
     def test_children(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.children` property.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.children` property."""
 
         self.assertListEqual(
             self._node_a.children, [self._node_b, self._node_c]
         )
 
     def test_id(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.id` property.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.id` property."""
 
         self.assertIsInstance(self._node_a.id, int)
 
     def test_root(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.root` property.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.root` property."""
 
         self.assertIs(self._node_a.root, self._node_a)
         self.assertIs(self._node_f.root, self._node_a)
@@ -524,9 +494,7 @@ class TestNode(unittest.TestCase):
         self.assertIs(self._node_h.root, self._node_a)
 
     def test_leaves(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.leaves` property.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.leaves` property."""
 
         self.assertListEqual(list(self._node_h.leaves), [self._node_h])
 
@@ -536,40 +504,30 @@ class TestNode(unittest.TestCase):
         )
 
     def test_siblings(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.siblings` property.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.siblings` property."""
 
         self.assertListEqual(list(self._node_a.siblings), [])
 
         self.assertListEqual(list(self._node_b.siblings), [self._node_c])
 
     def test_data(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.data` property.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.data` property."""
 
         self.assertIs(self._node_a.data, self._data)
 
     def test__str__(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.__str__` method.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.__str__` method."""
 
         self.assertIn("Node#", str(self._node_a))
         self.assertIn("{'John': 'Doe'})", str(self._node_a))
 
     def test__len__(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.__len__` method.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.__len__` method."""
 
         self.assertEqual(len(self._node_a), 7)
 
     def test_is_root(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.is_root` method.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.is_root` method."""
 
         self.assertTrue(self._node_a.is_root())
         self.assertFalse(self._node_b.is_root())
@@ -577,9 +535,7 @@ class TestNode(unittest.TestCase):
         self.assertFalse(self._node_h.is_root())
 
     def test_is_inner(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.is_inner` method.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.is_inner` method."""
 
         self.assertFalse(self._node_a.is_inner())
         self.assertTrue(self._node_b.is_inner())
@@ -587,9 +543,7 @@ class TestNode(unittest.TestCase):
         self.assertFalse(self._node_h.is_inner())
 
     def test_is_leaf(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.is_leaf` method.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.is_leaf` method."""
 
         self.assertFalse(self._node_a.is_leaf())
         self.assertFalse(self._node_b.is_leaf())
@@ -597,9 +551,7 @@ class TestNode(unittest.TestCase):
         self.assertTrue(self._node_h.is_leaf())
 
     def test_walk(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.walk` method.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.walk` method."""
 
         self.assertListEqual(
             list(self._node_a.walk()),
@@ -626,9 +578,7 @@ class TestNode(unittest.TestCase):
         )
 
     def test_render(self):
-        """
-        Test :attr:`colour.utilities.data_structures.Node.render` method.
-        """
+        """Test :attr:`colour.utilities.data_structures.Node.render` method."""
 
         self.assertIsInstance(self._node_a.render(), str)
 

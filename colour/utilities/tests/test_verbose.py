@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.verbose` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.verbose` module."""
 
 import os
 import sys
@@ -34,9 +32,7 @@ class TestShowWarning(unittest.TestCase):
     """
 
     def test_show_warning(self):
-        """
-        Test :func:`colour.utilities.verbose.show_warning` definition.
-        """
+        """Test :func:`colour.utilities.verbose.show_warning` definition."""
 
         show_warning("This is a unit test warning!", Warning, None, None)
 
@@ -60,9 +56,7 @@ class TestSuppressWarnings(unittest.TestCase):
     """
 
     def test_suppress_warnings(self):
-        """
-        Test :func:`colour.utilities.verbose.suppress_warnings` definition.
-        """
+        """Test :func:`colour.utilities.verbose.suppress_warnings` definition."""
 
         with suppress_warnings():
             warning("This is a suppressed unit test warning!")
@@ -75,9 +69,7 @@ class TestDescribeEnvironment(unittest.TestCase):
     """
 
     def test_describe_environment(self):
-        """
-        Test :func:`colour.utilities.verbose.describe_environment` definition.
-        """
+        """Test :func:`colour.utilities.verbose.describe_environment` definition."""
 
         environment = describe_environment()
         self.assertIsInstance(environment, dict)

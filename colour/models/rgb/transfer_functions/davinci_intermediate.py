@@ -44,9 +44,7 @@ CONSTANTS_DAVINCI_INTERMEDIATE: Structure = Structure(
     DI_LIN_CUT=0.00262409,
     DI_LOG_CUT=0.02740668,
 )
-"""
-*DaVinci Intermediate* colour component transfer functions constants.
-"""
+"""*DaVinci Intermediate* colour component transfer functions constants."""
 
 
 def oetf_DaVinciIntermediate(

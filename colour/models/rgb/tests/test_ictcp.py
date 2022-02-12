@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.ictcp` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.ictcp` module."""
 
 import numpy as np
 import unittest
@@ -36,9 +34,7 @@ class TestRGB_to_ICtCp(unittest.TestCase):
     """
 
     def test_RGB_to_ICtCp(self):
-        """
-        Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition.
-        """
+        """Test :func:`colour.models.rgb.ictcp.RGB_to_ICtCp` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_ICtCp(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -152,9 +148,7 @@ class TestICtCp_to_RGB(unittest.TestCase):
     """
 
     def test_ICtCp_to_RGB(self):
-        """
-        Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.ictcp.ICtCp_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             ICtCp_to_RGB(np.array([0.07351364, 0.00475253, 0.09351596])),
@@ -268,9 +262,7 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
     """
 
     def test_XYZ_to_ICtCp(self):
-        """
-        Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition.
-        """
+        """Test :func:`colour.models.rgb.ictcp.XYZ_to_ICtCp` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_ICtCp(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -403,9 +395,7 @@ class TestICtCp_to_XYZ(unittest.TestCase):
     """
 
     def test_ICtCp_to_XYZ(self):
-        """
-        Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.rgb.ictcp.ICtCp_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             ICtCp_to_XYZ(np.array([0.06858097, -0.00283842, 0.06020983])),

@@ -297,9 +297,7 @@ class Signal(AbstractContinuousFunction):
 
     @dtype.setter
     def dtype(self, value: Type[DTypeFloating]):
-        """
-        Setter for the **self.dtype** property.
-        """
+        """Setter for the **self.dtype** property."""
 
         attest(
             value in np.sctypes["float"],
@@ -336,9 +334,7 @@ class Signal(AbstractContinuousFunction):
 
     @domain.setter
     def domain(self, value: ArrayLike):
-        """
-        Setter for the **self.domain** property.
-        """
+        """Setter for the **self.domain** property."""
 
         value = as_float_array(value, self.dtype)
 
@@ -381,9 +377,7 @@ class Signal(AbstractContinuousFunction):
 
     @range.setter
     def range(self, value: ArrayLike):
-        """
-        Setter for the **self.range** property.
-        """
+        """Setter for the **self.range** property."""
 
         value = as_float_array(value, self.dtype)
 
@@ -422,9 +416,7 @@ class Signal(AbstractContinuousFunction):
 
     @interpolator.setter
     def interpolator(self, value: Type[TypeInterpolator]):
-        """
-        Setter for the **self.interpolator** property.
-        """
+        """Setter for the **self.interpolator** property."""
 
         # TODO: Check for interpolator compatibility.
         self._interpolator = value
@@ -453,9 +445,7 @@ class Signal(AbstractContinuousFunction):
 
     @interpolator_kwargs.setter
     def interpolator_kwargs(self, value: dict):
-        """
-        Setter for the **self.interpolator_kwargs** property.
-        """
+        """Setter for the **self.interpolator_kwargs** property."""
 
         attest(
             isinstance(value, dict),
@@ -486,9 +476,7 @@ class Signal(AbstractContinuousFunction):
 
     @extrapolator.setter
     def extrapolator(self, value: Type[TypeExtrapolator]):
-        """
-        Setter for the **self.extrapolator** property.
-        """
+        """Setter for the **self.extrapolator** property."""
 
         # TODO: Check for extrapolator compatibility.
         self._extrapolator = value
@@ -517,9 +505,7 @@ class Signal(AbstractContinuousFunction):
 
     @extrapolator_kwargs.setter
     def extrapolator_kwargs(self, value: dict):
-        """
-        Setter for the **self.extrapolator_kwargs** property.
-        """
+        """Setter for the **self.extrapolator_kwargs** property."""
 
         attest(
             isinstance(value, dict),
@@ -916,9 +902,7 @@ class Signal(AbstractContinuousFunction):
         return not (self == other)
 
     def _create_function(self):
-        """
-        Create the continuous signal underlying function.
-        """
+        """Create the continuous signal underlying function."""
 
         if self._domain.size != 0 and self._range.size != 0:
             self._function = self._extrapolator(

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.iridas_cube` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.iridas_cube` module."""
 
 from __future__ import annotations
 
@@ -118,16 +116,12 @@ class TestWriteLUTIridasCube(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 

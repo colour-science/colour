@@ -1,6 +1,4 @@
-"""
-Showcases *RLAB* colour appearance model computations.
-"""
+"""Showcases *RLAB* colour appearance model computations."""
 
 import numpy as np
 

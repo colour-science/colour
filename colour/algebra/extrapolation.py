@@ -184,9 +184,7 @@ class Extrapolator:
 
     @interpolator.setter
     def interpolator(self, value: TypeInterpolator):
-        """
-        Setter for the **self.interpolator** property.
-        """
+        """Setter for the **self.interpolator** property."""
 
         attest(
             hasattr(value, "x"),
@@ -220,9 +218,7 @@ class Extrapolator:
 
     @method.setter
     def method(self, value: Union[Literal["Linear", "Constant"], str]):
-        """
-        Setter for the **self.method** property.
-        """
+        """Setter for the **self.method** property."""
 
         attest(
             is_string(value),
@@ -253,9 +249,7 @@ class Extrapolator:
 
     @left.setter
     def left(self, value: Optional[Number]):
-        """
-        Setter for the **self.left** property.
-        """
+        """Setter for the **self.left** property."""
 
         if value is not None:
             attest(
@@ -285,9 +279,7 @@ class Extrapolator:
 
     @right.setter
     def right(self, value: Optional[Number]):
-        """
-        Setter for the **self.right** property.
-        """
+        """Setter for the **self.right** property."""
 
         if value is not None:
             attest(

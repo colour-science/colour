@@ -195,9 +195,7 @@ class AbstractLUT(ABC):
 
     @table.setter
     def table(self, value: ArrayLike):
-        """
-        Setter for the **self.table** property.
-        """
+        """Setter for the **self.table** property."""
 
         self._table = self._validate_table(value)
 
@@ -221,9 +219,7 @@ class AbstractLUT(ABC):
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             is_string(value),
@@ -252,9 +248,7 @@ class AbstractLUT(ABC):
 
     @domain.setter
     def domain(self, value: ArrayLike):
-        """
-        Setter for the **self.domain** property.
-        """
+        """Setter for the **self.domain** property."""
 
         # pylint: disable=E1121
         self._domain = self._validate_domain(value)
@@ -305,9 +299,7 @@ class AbstractLUT(ABC):
 
     @comments.setter
     def comments(self, value: Sequence):
-        """
-        Setter for the **self.comments** property.
-        """
+        """Setter for the **self.comments** property."""
 
         attest(
             is_iterable(value),
@@ -327,9 +319,7 @@ class AbstractLUT(ABC):
         """
 
         def _indent_array(a: ArrayLike) -> str:
-            """
-            Indent given array string representation.
-            """
+            """Indent given array string representation."""
 
             return str(a).replace(" [", " " * 14 + "[")
 

@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.appearance.cam16` module.
-"""
+"""Defines the unit tests for the :mod:`colour.appearance.cam16` module."""
 
 import numpy as np
 import unittest
@@ -41,9 +39,7 @@ class TestXYZ_to_CAM16(unittest.TestCase):
     """
 
     def test_XYZ_to_CAM16(self):
-        """
-        Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition.
-        """
+        """Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition."""
 
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
@@ -255,9 +251,7 @@ class TestCAM16_to_XYZ(unittest.TestCase):
     """
 
     def test_CAM16_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition.
-        """
+        """Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition."""
 
         specification = CAM_Specification_CAM16(
             41.73120791, 0.10335574, 217.06795977

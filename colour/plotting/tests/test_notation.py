@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.notation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.notation` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.diagrams` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.diagrams` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure
@@ -54,9 +52,7 @@ class TestPlotSpectralLocus(unittest.TestCase):
     """
 
     def test_plot_spectral_locus(self):
-        """
-        Test :func:`colour.plotting.diagrams.plot_spectral_locus` definition.
-        """
+        """Test :func:`colour.plotting.diagrams.plot_spectral_locus` definition."""
 
         figure, axes = plot_spectral_locus()
 

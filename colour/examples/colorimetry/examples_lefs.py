@@ -1,6 +1,4 @@
-"""
-Showcases luminous efficiency functions computations.
-"""
+"""Showcases luminous efficiency functions computations."""
 
 from pprint import pprint
 

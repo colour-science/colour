@@ -549,9 +549,7 @@ class TestKernelLinear(unittest.TestCase):
     """
 
     def test_kernel_linear(self):
-        """
-        Test :func:`colour.algebra.interpolation.kernel_linear` definition.
-        """
+        """Test :func:`colour.algebra.interpolation.kernel_linear` definition."""
 
         np.testing.assert_almost_equal(
             kernel_linear(np.linspace(-5, 5, 25)),
@@ -595,9 +593,7 @@ class TestKernelSinc(unittest.TestCase):
     """
 
     def test_kernel_sinc(self):
-        """
-        Test :func:`colour.algebra.interpolation.kernel_sinc` definition.
-        """
+        """Test :func:`colour.algebra.interpolation.kernel_sinc` definition."""
 
         np.testing.assert_almost_equal(
             kernel_sinc(np.linspace(-5, 5, 25)),
@@ -675,9 +671,7 @@ class TestKernelLanczos(unittest.TestCase):
     """
 
     def test_kernel_lanczos(self):
-        """
-        Test :func:`colour.algebra.interpolation.kernel_lanczos` definition.
-        """
+        """Test :func:`colour.algebra.interpolation.kernel_lanczos` definition."""
 
         np.testing.assert_almost_equal(
             kernel_lanczos(np.linspace(-5, 5, 25)),
@@ -836,9 +830,7 @@ class TestKernelInterpolator(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "x",
@@ -853,9 +845,7 @@ class TestKernelInterpolator(unittest.TestCase):
             self.assertIn(attribute, dir(KernelInterpolator))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "__call__")
 
@@ -1191,9 +1181,7 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ()
 
@@ -1201,9 +1189,7 @@ class TestNearestNeighbourInterpolator(unittest.TestCase):
             self.assertIn(attribute, dir(NearestNeighbourInterpolator))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__",)
 
@@ -1231,9 +1217,7 @@ class TestLinearInterpolator(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("x", "y")
 
@@ -1241,9 +1225,7 @@ class TestLinearInterpolator(unittest.TestCase):
             self.assertIn(attribute, dir(LinearInterpolator))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "__call__")
 
@@ -1324,9 +1306,7 @@ class TestSpragueInterpolator(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("x", "y")
 
@@ -1334,9 +1314,7 @@ class TestSpragueInterpolator(unittest.TestCase):
             self.assertIn(attribute, dir(SpragueInterpolator))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "__call__")
 
@@ -1442,9 +1420,7 @@ class TestPchipInterpolator(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("x", "y")
 
@@ -1452,9 +1428,7 @@ class TestPchipInterpolator(unittest.TestCase):
             self.assertIn(attribute, dir(PchipInterpolator))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__",)
 
@@ -1469,9 +1443,7 @@ class TestNullInterpolator(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("x", "y")
 
@@ -1479,9 +1451,7 @@ class TestNullInterpolator(unittest.TestCase):
             self.assertIn(attribute, dir(NullInterpolator))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "__call__")
 

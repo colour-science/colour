@@ -52,33 +52,23 @@ PRIMARIES_BT2020: NDArray = np.array(
         [0.1310, 0.0460],
     ]
 )
-"""
-*ITU-R BT.2020* colourspace primaries.
-"""
+"""*ITU-R BT.2020* colourspace primaries."""
 
 WHITEPOINT_NAME_BT2020: str = "D65"
-"""
-*ITU-R BT.2020* colourspace whitepoint name.
-"""
+"""*ITU-R BT.2020* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_BT2020: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT2020]
-"""
-*ITU-R BT.2020* colourspace whitepoint chromaticity coordinates.
-"""
+"""*ITU-R BT.2020* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_BT2020_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_BT2020, CCS_WHITEPOINT_BT2020
 )
-"""
-*ITU-R BT.2020* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*ITU-R BT.2020* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_BT2020: NDArray = np.linalg.inv(MATRIX_BT2020_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *ITU-R BT.2020* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *ITU-R BT.2020* colourspace matrix."""
 
 RGB_COLOURSPACE_BT2020: RGB_Colourspace = RGB_Colourspace(
     "ITU-R BT.2020",

@@ -288,9 +288,7 @@ class RGB_Colourspace:
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             is_string(value),
@@ -319,9 +317,7 @@ class RGB_Colourspace:
 
     @primaries.setter
     def primaries(self, value: ArrayLike):
-        """
-        Setter for the **self.primaries** property.
-        """
+        """Setter for the **self.primaries** property."""
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
@@ -357,9 +353,7 @@ class RGB_Colourspace:
 
     @whitepoint.setter
     def whitepoint(self, value: ArrayLike):
-        """
-        Setter for the **self.whitepoint** property.
-        """
+        """Setter for the **self.whitepoint** property."""
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
@@ -393,9 +387,7 @@ class RGB_Colourspace:
 
     @whitepoint_name.setter
     def whitepoint_name(self, value: Optional[str]):
-        """
-        Setter for the **self.whitepoint_name** property.
-        """
+        """Setter for the **self.whitepoint_name** property."""
 
         if value is not None:
             attest(
@@ -434,9 +426,7 @@ class RGB_Colourspace:
 
     @matrix_RGB_to_XYZ.setter
     def matrix_RGB_to_XYZ(self, value: Optional[ArrayLike]):
-        """
-        Setter for the **self.matrix_RGB_to_XYZ** property.
-        """
+        """Setter for the **self.matrix_RGB_to_XYZ** property."""
 
         if value is not None:
             attest(
@@ -478,9 +468,7 @@ class RGB_Colourspace:
 
     @matrix_XYZ_to_RGB.setter
     def matrix_XYZ_to_RGB(self, value: Optional[ArrayLike]):
-        """
-        Setter for the **self.matrix_XYZ_to_RGB** property.
-        """
+        """Setter for the **self.matrix_XYZ_to_RGB** property."""
 
         if value is not None:
             attest(
@@ -517,9 +505,7 @@ class RGB_Colourspace:
 
     @cctf_encoding.setter
     def cctf_encoding(self, value: Optional[Callable]):
-        """
-        Setter for the **self.cctf_encoding** property.
-        """
+        """Setter for the **self.cctf_encoding** property."""
 
         if value is not None:
             attest(
@@ -553,9 +539,7 @@ class RGB_Colourspace:
 
     @cctf_decoding.setter
     def cctf_decoding(self, value: Optional[Callable]):
-        """
-        Setter for the **self.cctf_decoding** property.
-        """
+        """Setter for the **self.cctf_decoding** property."""
 
         if value is not None:
             attest(
@@ -589,9 +573,7 @@ class RGB_Colourspace:
 
     @use_derived_matrix_RGB_to_XYZ.setter
     def use_derived_matrix_RGB_to_XYZ(self, value: Boolean):
-        """
-        Setter for the **self.use_derived_matrix_RGB_to_XYZ** property.
-        """
+        """Setter for the **self.use_derived_matrix_RGB_to_XYZ** property."""
 
         attest(
             isinstance(value, (bool, np.bool_)),
@@ -627,9 +609,7 @@ class RGB_Colourspace:
 
     @use_derived_matrix_XYZ_to_RGB.setter
     def use_derived_matrix_XYZ_to_RGB(self, value: Boolean):
-        """
-        Setter for the **self.use_derived_matrix_XYZ_to_RGB** property.
-        """
+        """Setter for the **self.use_derived_matrix_XYZ_to_RGB** property."""
 
         attest(
             isinstance(value, (bool, np.bool_)),
@@ -694,9 +674,7 @@ class RGB_Colourspace:
         """
 
         def _indent_array(a: Optional[NDArray]) -> str:
-            """
-            Indent given array string representation.
-            """
+            """Indent given array string representation."""
 
             return str(a).replace(" [", " " * 22 + "[")
 
@@ -772,9 +750,7 @@ class RGB_Colourspace:
         """
 
         def _indent_array(a: Optional[NDArray]) -> str:
-            """
-            Indent given array evaluable string representation.
-            """
+            """Indent given array evaluable string representation."""
 
             representation = repr(a).replace(" [", f"{' ' * 11}[")
             representation = representation.replace("array(", " " * 16)

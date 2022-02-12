@@ -411,9 +411,7 @@ def ootf_inverse_PQ_BT2100(F_D: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 
 WEIGHTS_BT2100_HLG: NDArray = np.array([0.2627, 0.6780, 0.0593])
-"""
-Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*.
-"""
+"""Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*."""
 
 CONSTANTS_BT2100_HLG: Structure = Structure(
     a=CONSTANTS_ARIBSTDB67.a,

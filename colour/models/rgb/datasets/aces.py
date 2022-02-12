@@ -99,9 +99,7 @@ AP0: NDArray = np.array(
         [0.00010, -0.07700],
     ]
 )
-"""
-*ACES Primaries 0* or *AP0* primaries.
-"""
+"""*ACES Primaries 0* or *AP0* primaries."""
 
 AP1: NDArray = np.array(
     [
@@ -116,16 +114,12 @@ prior to *ACES* 1.0 release).
 """
 
 WHITEPOINT_NAME_ACES: str = "ACES"
-"""
-*ACES2065-1* colourspace whitepoint name.
-"""
+"""*ACES2065-1* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_ACES: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ACES]
-"""
-*ACES2065-1* colourspace whitepoint chromaticity coordinates.
-"""
+"""*ACES2065-1* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_AP0_TO_XYZ: NDArray = np.array(
     [
@@ -134,9 +128,7 @@ MATRIX_AP0_TO_XYZ: NDArray = np.array(
         [0.0000000000, 0.0000000000, 1.0088251844],
     ]
 )
-"""
-*ACES Primaries 0* to *CIE XYZ* tristimulus values matrix defined as per [2].
-"""
+"""*ACES Primaries 0* to *CIE XYZ* tristimulus values matrix defined as per [2]."""
 
 MATRIX_XYZ_TO_AP0: NDArray = np.array(
     [
@@ -145,21 +137,15 @@ MATRIX_XYZ_TO_AP0: NDArray = np.array(
         [0.0000000000, 0.0000000000, 0.9912520182],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to *ACES Primaries 0* matrix.
-"""
+"""*CIE XYZ* tristimulus values to *ACES Primaries 0* matrix."""
 
 MATRIX_AP1_TO_XYZ: NDArray = normalised_primary_matrix(
     AP1, CCS_WHITEPOINT_ACES
 )
-"""
-*ACES Primaries 1* to *CIE XYZ* tristimulus values matrix.
-"""
+"""*ACES Primaries 1* to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_AP1: NDArray = np.linalg.inv(MATRIX_AP1_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *ACES Primaries 1* matrix.
-"""
+"""*CIE XYZ* tristimulus values to *ACES Primaries 1* matrix."""
 
 RGB_COLOURSPACE_ACES2065_1: RGB_Colourspace = RGB_Colourspace(
     "ACES2065-1",

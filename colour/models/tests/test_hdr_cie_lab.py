@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.hdr_cie_lab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.hdr_cie_lab` module."""
 
 import numpy as np
 import unittest
@@ -122,9 +120,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
     """
 
     def test_XYZ_to_hdr_CIELab(self):
-        """
-        Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition.
-        """
+        """Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -248,9 +244,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
     """
 
     def test_hdr_CIELab_to_XYZ(self):
-        """
-        Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(

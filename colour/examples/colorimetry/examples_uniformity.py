@@ -1,6 +1,4 @@
-"""
-Showcases spectral uniformity computations.
-"""
+"""Showcases spectral uniformity computations."""
 
 import colour
 from colour.quality.cfi2017 import load_TCS_CIE2017

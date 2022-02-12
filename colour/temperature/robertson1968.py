@@ -113,6 +113,21 @@ References
 
 @dataclass
 class ISOTemperatureLine_Specification_Robertson1968:
+    """
+    Define the data for a *Roberston (1968)* iso-temperature line.
+
+    Parameters
+    ----------
+    r
+        Temperature :math:`r` in reciprocal mega-kelvin degrees.
+    u
+        *u* chromaticity coordinate of the temperature :math:`r`.
+    v
+        *v* chromaticity coordinate of the temperature :math:`r`.
+    t
+        Slope of the *v* chromaticity coordinate.
+    """
+
     r: Floating
     u: Floating
     v: Floating

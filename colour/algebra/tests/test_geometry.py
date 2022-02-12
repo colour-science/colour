@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.algebra.geometry` module.
-"""
+"""Defines the unit tests for the :mod:`colour.algebra.geometry` module."""
 
 import numpy as np
 import unittest
@@ -46,9 +44,7 @@ class TestNormaliseVector(unittest.TestCase):
     """
 
     def test_normalise_vector(self):
-        """
-        Test :func:`colour.algebra.geometry.normalise_vector` definition.
-        """
+        """Test :func:`colour.algebra.geometry.normalise_vector` definition."""
 
         np.testing.assert_almost_equal(
             normalise_vector(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -76,9 +72,7 @@ class TestEuclideanDistance(unittest.TestCase):
     """
 
     def test_euclidean_distance(self):
-        """
-        Test :func:`colour.algebra.geometry.euclidean_distance` definition.
-        """
+        """Test :func:`colour.algebra.geometry.euclidean_distance` definition."""
 
         self.assertAlmostEqual(
             euclidean_distance(
@@ -153,9 +147,7 @@ class TestManhattanDistance(unittest.TestCase):
     """
 
     def test_manhattan_distance(self):
-        """
-        Test :func:`colour.algebra.geometry.manhattan_distance` definition.
-        """
+        """Test :func:`colour.algebra.geometry.manhattan_distance` definition."""
 
         self.assertAlmostEqual(
             manhattan_distance(
@@ -230,9 +222,7 @@ class TestExtendLineSegment(unittest.TestCase):
     """
 
     def test_extend_line_segment(self):
-        """
-        Test :func:`colour.algebra.geometry.extend_line_segment` definition.
-        """
+        """Test :func:`colour.algebra.geometry.extend_line_segment` definition."""
 
         np.testing.assert_almost_equal(
             extend_line_segment(

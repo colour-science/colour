@@ -1,6 +1,4 @@
-"""
-Showcases *LLAB(l:c)* colour appearance model computations.
-"""
+"""Showcases *LLAB(l:c)* colour appearance model computations."""
 
 import numpy as np
 

@@ -122,9 +122,7 @@ __all__ = [
 ]
 
 CAT_INVERSE_CAT02: NDArray = np.linalg.inv(CAT_CAT02)
-"""
-Inverse CAT02 chromatic adaptation transform.
-"""
+"""Inverse CAT02 chromatic adaptation transform."""
 
 
 class InductionFactors_CIECAM02(

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.volume.mesh` module.
-"""
+"""Defines the unit tests for the :mod:`colour.volume.mesh` module."""
 
 import numpy as np
 import unittest
@@ -28,9 +26,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._mesh = np.array(
             [
@@ -43,9 +39,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
         )
 
     def test_is_within_mesh_volume(self):
-        """
-        Test :func:`colour.volume.mesh.is_within_mesh_volume` definition.
-        """
+        """Test :func:`colour.volume.mesh.is_within_mesh_volume` definition."""
 
         self.assertTrue(
             is_within_mesh_volume(

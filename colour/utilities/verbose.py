@@ -64,22 +64,25 @@ __all__ = [
 
 class ColourWarning(Warning):
     """
-    This is the base class of *Colour* warnings. It is a subclass of
-    :class:`Warning` class.
+    Define the base class of *Colour* warnings.
+
+    It is a subclass of the :class:`Warning` class.
     """
 
 
 class ColourUsageWarning(Warning):
     """
-    This is the base class of *Colour* usage warnings. It is a subclass
-    of :class:`colour.utilities.ColourWarning` class.
+    Define the base class of *Colour* usage warnings.
+
+    It is a subclass of the :class:`colour.utilities.ColourWarning` class.
     """
 
 
 class ColourRuntimeWarning(Warning):
     """
-    This is the base class of *Colour* runtime warnings. It is a subclass
-    of :class:`colour.utilities.ColourWarning` class.
+    Define the base class of *Colour* runtime warnings.
+
+    It is a subclass of the :class:`colour.utilities.ColourWarning` class.
     """
 
 
@@ -138,9 +141,7 @@ def message_box(
     ideal_width = width - padding * 2 - 2
 
     def inner(text):
-        """
-        Format and pads inner text for the message box.
-        """
+        """Format and pads inner text for the message box."""
 
         return "*{0}{1}{2}{0}*".format(
             " " * padding, text, (" " * (width - len(text) - padding * 2 - 2))
@@ -397,8 +398,8 @@ def suppress_warnings(
     python_warnings: Optional[Union[bool, LiteralWarning]] = None,
 ) -> Generator:
     """
-    A context manager filtering *Colour* and also optionally overall Python
-    warnings.
+    Define a context manager filtering *Colour* and also optionally overall
+    Python warnings.
 
     The possible values for all the actions, i.e. each argument, are as
     follows:
@@ -448,7 +449,8 @@ def suppress_warnings(
 @contextmanager
 def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     """
-    A context manager implementing context changes to *Numpy* print behaviour.
+    Define a context manager implementing context changes to *Numpy* print
+    behaviour.
 
     Other Parameters
     ----------------
@@ -458,7 +460,7 @@ def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
         Keywords arguments.
 
     Examples
-    -------
+    --------
     >>> np.array([np.pi])  # doctest: +ELLIPSIS
     array([ 3.1415926...])
     >>> with numpy_print_options(formatter={'float': '{:0.1f}'.format}):
@@ -668,9 +670,7 @@ def describe_environment(
         environment["Runtime"].update(ANCILLARY_RUNTIME_PACKAGES)
 
     def _get_package_version(package: str, mapping: Mapping) -> str:
-        """
-        Return given package version.
-        """
+        """Return given package version."""
 
         namespace = __import__(package)
 

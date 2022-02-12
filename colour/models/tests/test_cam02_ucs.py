@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.cam02_ucs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.cam02_ucs` module."""
 
 import numpy as np
 import unittest
@@ -56,9 +54,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         XYZ = np.array([19.01, 20.00, 21.78])
         XYZ_w = np.array([95.05, 100.00, 108.88])
@@ -351,9 +347,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
     """
 
     def test_XYZ_to_UCS_Luo2006(self):
-        """
-        Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition.
-        """
+        """Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_UCS_Luo2006(
@@ -478,9 +472,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
     """
 
     def test_UCS_Luo2006_to_XYZ(self):
-        """
-        Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             UCS_Luo2006_to_XYZ(

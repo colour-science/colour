@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.derivation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.derivation` module."""
 
 import numpy as np
 import re
@@ -41,9 +39,7 @@ class Testxy_to_z(unittest.TestCase):
     """
 
     def test_xy_to_z(self):
-        """
-        Test :func:`colour.models.rgb.derivation.xy_to_z` definition.
-        """
+        """Test :func:`colour.models.rgb.derivation.xy_to_z` definition."""
 
         np.testing.assert_almost_equal(
             xy_to_z(np.array([0.2500, 0.2500])), 0.50000000, decimal=7

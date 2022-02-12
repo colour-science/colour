@@ -221,9 +221,7 @@ def write_LUT_SonySPI1D(
         attest(len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!')
 
     def _format_array(array: Union[List, Tuple]) -> str:
-        """
-        Format given array as a *Sony* *.spi1d* data row.
-        """
+        """Format given array as a *Sony* *.spi1d* data row."""
 
         return " {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 

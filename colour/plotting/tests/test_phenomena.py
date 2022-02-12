@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.phenomena` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.phenomena` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure
@@ -48,9 +46,7 @@ class TestPlotTheBlueSky(unittest.TestCase):
     """
 
     def test_plot_the_blue_sky(self):
-        """
-        Test :func:`colour.plotting.phenomena.plot_the_blue_sky` definition.
-        """
+        """Test :func:`colour.plotting.phenomena.plot_the_blue_sky` definition."""
 
         figure, axes = plot_the_blue_sky()
 

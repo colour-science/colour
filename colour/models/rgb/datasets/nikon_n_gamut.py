@@ -57,24 +57,16 @@ colour gamut.
 """
 
 WHITEPOINT_NAME_N_GAMUT: str = WHITEPOINT_NAME_BT2020
-"""
-*Nikon N-Gamut* colourspace whitepoint name.
-"""
+"""*Nikon N-Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_N_GAMUT: NDArray = CCS_WHITEPOINT_BT2020
-"""
-*Nikon N-Gamut* colourspace whitepoint.
-"""
+"""*Nikon N-Gamut* colourspace whitepoint."""
 
 MATRIX_N_GAMUT_TO_XYZ: NDArray = MATRIX_BT2020_TO_XYZ
-"""
-*Nikon N-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Nikon N-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_N_GAMUT: NDArray = MATRIX_XYZ_TO_BT2020
-"""
-*CIE XYZ* tristimulus values to *Nikon N-Gamut* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Nikon N-Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_N_GAMUT: RGB_Colourspace = RGB_Colourspace(
     "N-Gamut",

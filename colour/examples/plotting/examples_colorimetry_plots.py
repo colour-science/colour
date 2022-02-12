@@ -1,6 +1,4 @@
-"""
-Showcases colorimetry plotting examples.
-"""
+"""Showcases colorimetry plotting examples."""
 
 from pprint import pprint
 

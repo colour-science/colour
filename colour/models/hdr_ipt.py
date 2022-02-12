@@ -1,5 +1,5 @@
 """
-hdr-IPT Colourspace
+Hdr-IPT Colourspace
 ===================
 
 Defines the *hdr-IPT* colourspace transformations:

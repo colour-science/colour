@@ -1,6 +1,4 @@
-"""
-Showcases colour notation systems plotting examples.
-"""
+"""Showcases colour notation systems plotting examples."""
 
 from colour.plotting import (
     colour_style,

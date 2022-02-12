@@ -47,21 +47,15 @@ PRIMARIES_ALEXA_WIDE_GAMUT: NDArray = np.array(
         [0.0861, -0.1020],
     ]
 )
-"""
-*ARRI ALEXA Wide Gamut* colourspace primaries.
-"""
+"""*ARRI ALEXA Wide Gamut* colourspace primaries."""
 
 WHITEPOINT_NAME_ALEXA_WIDE_GAMUT: str = "D65"
-"""
-*ARRI ALEXA Wide Gamut* colourspace whitepoint name.
-"""
+"""*ARRI ALEXA Wide Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_ALEXA_WIDE_GAMUT: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ALEXA_WIDE_GAMUT]
-"""
-*ARRI ALEXA Wide Gamut* colourspace whitepoint chromaticity coordinates.
-"""
+"""*ARRI ALEXA Wide Gamut* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_ALEXA_WIDE_GAMUT_TO_XYZ: NDArray = np.array(
     [
@@ -70,9 +64,7 @@ MATRIX_ALEXA_WIDE_GAMUT_TO_XYZ: NDArray = np.array(
         [0.002798, -0.067034, 1.153294],
     ]
 )
-"""
-*ARRI ALEXA Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*ARRI ALEXA Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_ALEXA_WIDE_GAMUT: NDArray = np.array(
     [
@@ -81,9 +73,7 @@ MATRIX_XYZ_TO_ALEXA_WIDE_GAMUT: NDArray = np.array(
         [-0.041532, 0.082335, 0.878868],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to *ARRI ALEXA Wide Gamut* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *ARRI ALEXA Wide Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_ALEXA_WIDE_GAMUT: RGB_Colourspace = RGB_Colourspace(
     "ALEXA Wide Gamut",

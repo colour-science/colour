@@ -1,6 +1,4 @@
-"""
-Showcases *Delta E* colour difference computations.
-"""
+"""Showcases *Delta E* colour difference computations."""
 
 import numpy as np
 

@@ -63,29 +63,19 @@ __all__ = [
 ]
 
 CONSTANT_STANDARD_AIR_TEMPERATURE: float = 288.15
-"""
-*Standard air* temperature :math:`T[K]` in kelvin degrees (:math:`15\\circ C`).
-"""
+"""*Standard air* temperature :math:`T[K]` in kelvin degrees (:math:`15\\circ C`)."""
 
 CONSTANT_STANDARD_CO2_CONCENTRATION: float = 300
-"""
-*Standard air* :math:`CO_2` concentration in parts per million (ppm).
-"""
+"""*Standard air* :math:`CO_2` concentration in parts per million (ppm)."""
 
 CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL: float = 101325
-"""
-*Standard air* average pressure :math:`Hg` at mean sea-level in pascal (Pa).
-"""
+"""*Standard air* average pressure :math:`Hg` at mean sea-level in pascal (Pa)."""
 
 CONSTANT_DEFAULT_LATITUDE: float = 0
-"""
-Default latitude in degrees (equator).
-"""
+"""Default latitude in degrees (equator)."""
 
 CONSTANT_DEFAULT_ALTITUDE: float = 0
-"""
-Default altitude in meters (sea level).
-"""
+"""Default altitude in meters (sea level)."""
 
 
 def air_refraction_index_Penndorf1957(

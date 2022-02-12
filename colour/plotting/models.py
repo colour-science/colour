@@ -182,9 +182,7 @@ COLOURSPACE_MODELS_AXIS_ORDER: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "hdr-IPT": (1, 2, 0),
     }
 )
-"""
-Colourspace models axis order.
-"""
+"""Colourspace models axis order."""
 
 
 def colourspace_model_axis_reorder(
@@ -1990,9 +1988,7 @@ def plot_constant_hue_loci(
         ijk_cr *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
 
         def _linear_equation(x: NDArray, a: NDArray, b: NDArray) -> NDArray:
-            """
-            Define the canonical linear equation for a line.
-            """
+            """Define the canonical linear equation for a line."""
 
             return a * x + b
 

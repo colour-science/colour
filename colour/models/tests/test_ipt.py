@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.ipt` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.ipt` module."""
 
 import numpy as np
 import unittest
@@ -24,14 +22,10 @@ __all__ = [
 
 
 class TestXYZ_to_IPT(unittest.TestCase):
-    """
-    Define :func:`colour.models.ipt.XYZ_to_IPT` definition unit tests methods.
-    """
+    """Define :func:`colour.models.ipt.XYZ_to_IPT` definition unit tests methods."""
 
     def test_XYZ_to_IPT(self):
-        """
-        Test :func:`colour.models.ipt.XYZ_to_IPT` definition.
-        """
+        """Test :func:`colour.models.ipt.XYZ_to_IPT` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_IPT(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -86,9 +80,7 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_IPT(self):
-        """
-        Test :func:`colour.models.ipt.XYZ_to_IPT` definition nan support.
-        """
+        """Test :func:`colour.models.ipt.XYZ_to_IPT` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -104,9 +96,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
     """
 
     def test_IPT_to_XYZ(self):
-        """
-        Test :func:`colour.models.ipt.IPT_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.ipt.IPT_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             IPT_to_XYZ(np.array([0.38426191, 0.38487306, 0.18886838])),
@@ -161,9 +151,7 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_IPT_to_XYZ(self):
-        """
-        Test :func:`colour.models.ipt.IPT_to_XYZ` definition nan support.
-        """
+        """Test :func:`colour.models.ipt.IPT_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -179,9 +167,7 @@ class TestIPTHueAngle(unittest.TestCase):
     """
 
     def test_IPT_hue_angle(self):
-        """
-        Test :func:`colour.models.ipt.IPT_hue_angle` definition.
-        """
+        """Test :func:`colour.models.ipt.IPT_hue_angle` definition."""
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -236,9 +222,7 @@ class TestIPTHueAngle(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_IPT_hue_angle(self):
-        """
-        Test :func:`colour.models.ipt.IPT_hue_angle` definition nan support.
-        """
+        """Test :func:`colour.models.ipt.IPT_hue_angle` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))

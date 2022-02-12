@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.igpgtg` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.igpgtg` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
     """
 
     def test_XYZ_to_IgPgTg(self):
-        """
-        Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition.
-        """
+        """Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_IgPgTg(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -105,9 +101,7 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
     """
 
     def test_IgPgTg_to_XYZ(self):
-        """
-        Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             IgPgTg_to_XYZ(np.array([0.42421258, 0.18632491, 0.10689223])),

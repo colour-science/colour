@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.appearance.llab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.appearance.llab` module."""
 
 import numpy as np
 import unittest

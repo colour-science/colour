@@ -90,14 +90,10 @@ __all__ = [
 ]
 
 MATRIX_16: NDArray = CAT_CAT16
-"""
-Adaptation matrix :math:`M_{16}`.
-"""
+"""Adaptation matrix :math:`M_{16}`."""
 
 MATRIX_INVERSE_16: NDArray = np.linalg.inv(MATRIX_16)
-"""
-Inverse adaptation matrix :math:`M^{-1}_{16}`.
-"""
+"""Inverse adaptation matrix :math:`M^{-1}_{16}`."""
 
 
 class InductionFactors_CAM16(

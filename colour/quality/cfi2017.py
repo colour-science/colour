@@ -90,9 +90,7 @@ standard.
 RESOURCES_DIRECTORY_CIE2017: str = os.path.join(
     os.path.dirname(__file__), "datasets"
 )
-"""
-*CIE 2017 Colour Fidelity Index* resources directory.
-"""
+"""*CIE 2017 Colour Fidelity Index* resources directory."""
 
 _CACHE_TCS_CIE2017: Dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_TCS_CIE2017"
@@ -101,9 +99,7 @@ _CACHE_TCS_CIE2017: Dict = CACHE_REGISTRY.register_cache(
 
 @dataclass
 class TCS_ColorimetryData_CIE2017:
-    """
-    Define the class storing *test colour samples* colorimetry data.
-    """
+    """Define the class storing *test colour samples* colorimetry data."""
 
     name: str
     XYZ: NDArray

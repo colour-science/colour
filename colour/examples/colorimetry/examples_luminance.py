@@ -1,6 +1,4 @@
-"""
-Showcases *Luminance* computations.
-"""
+"""Showcases *Luminance* computations."""
 
 import colour
 

@@ -51,21 +51,15 @@ PRIMARIES_DAVINCI_WIDE_GAMUT: NDArray = np.array(
         [0.0790, -0.1155],
     ]
 )
-"""
-*DaVinci Wide Gamut* colourspace primaries.
-"""
+"""*DaVinci Wide Gamut* colourspace primaries."""
 
 WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT: str = "D65"
-"""
-*DaVinci Wide Gamut* colourspace whitepoint name.
-"""
+"""*DaVinci Wide Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_DAVINCI_WIDE_GAMUT: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_DAVINCI_WIDE_GAMUT]
-"""
-*DaVinci Wide Gamut* colourspace whitepoint chromaticity coordinates.
-"""
+"""*DaVinci Wide Gamut* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ: NDArray = np.array(
     [
@@ -74,9 +68,7 @@ MATRIX_DAVINCI_WIDE_GAMUT_TO_XYZ: NDArray = np.array(
         [-0.09896291, -0.13789533, 1.32591599],
     ]
 )
-"""
-*DaVinci Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*DaVinci Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT: NDArray = np.array(
     [
@@ -85,9 +77,7 @@ MATRIX_XYZ_TO_DAVINCI_WIDE_GAMUT: NDArray = np.array(
         [0.06484905, 0.10913934, 0.76141462],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to *DaVinci Wide Gamut* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *DaVinci Wide Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT: RGB_Colourspace = RGB_Colourspace(
     "DaVinci Wide Gamut",

@@ -1,6 +1,4 @@
-"""
-Showcases colour rendition charts computations.
-"""
+"""Showcases colour rendition charts computations."""
 
 import numpy as np
 from pprint import pprint

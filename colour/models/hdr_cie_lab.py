@@ -1,5 +1,5 @@
 """
-hdr-CIELAB Colourspace
+Hdr-CIELAB Colourspace
 ======================
 
 Defines the *hdr-CIELAB* colourspace transformations:

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.spectrum` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.spectrum` module."""
 
 import colour
 import numpy as np
@@ -1256,9 +1254,7 @@ class TestSpectralShape(unittest.TestCase):
     """
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("start", "end", "interval", "boundaries")
 
@@ -1266,9 +1262,7 @@ class TestSpectralShape(unittest.TestCase):
             self.assertIn(attribute, dir(SpectralShape))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -1299,9 +1293,7 @@ class TestSpectralShape(unittest.TestCase):
         self.assertRaises(AssertionError, lambda: SpectralShape(360, 0, 1))
 
     def test_end(self):
-        """
-        Test :attr:`colour.colorimetry.spectrum.SpectralShape.end` property.
-        """
+        """Test :attr:`colour.colorimetry.spectrum.SpectralShape.end` property."""
 
         self.assertEqual(SpectralShape(360, 830, 1).end, 830)
 
@@ -1390,9 +1382,7 @@ class TestSpectralShape(unittest.TestCase):
         )
 
     def test_range(self):
-        """
-        Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method.
-        """
+        """Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method."""
 
         np.testing.assert_almost_equal(
             [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
@@ -1407,9 +1397,7 @@ class TestSpectralDistribution(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._sd = SpectralDistribution(DATA_SAMPLE, name="Sample")
 
@@ -1422,9 +1410,7 @@ class TestSpectralDistribution(unittest.TestCase):
         self._phi = (1 + np.sqrt(5)) / 2
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("strict_name", "wavelengths", "values", "shape")
 
@@ -1432,9 +1418,7 @@ class TestSpectralDistribution(unittest.TestCase):
             self.assertIn(attribute, dir(SpectralDistribution))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -1473,7 +1457,8 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_values(self):
         """
-        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.values` property.
+        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.values`
+        property.
         """
 
         np.testing.assert_array_equal(self._sd.values, self._sd.range)
@@ -1484,7 +1469,8 @@ class TestSpectralDistribution(unittest.TestCase):
 
     def test_shape(self):
         """
-        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.shape` property.
+        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.shape`
+        property.
         """
 
         self.assertEqual(self._sd.shape, SpectralShape(340, 820, 20))
@@ -1610,9 +1596,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._labels = ("x_bar", "y_bar", "z_bar")
         self._strict_labels = (
@@ -1652,9 +1636,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         self._phi = (1 + np.sqrt(5)) / 2
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "strict_name",
@@ -1668,9 +1650,7 @@ class TestMultiSpectralDistributions(unittest.TestCase):
             self.assertIn(attribute, dir(MultiSpectralDistributions))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -1895,9 +1875,7 @@ class TestReshapeSd(unittest.TestCase):
     """
 
     def test_reshape_sd(self):
-        """
-        Test :func:`colour.colorimetry.spectrum.reshape_sd` definition.
-        """
+        """Test :func:`colour.colorimetry.spectrum.reshape_sd` definition."""
 
         sd = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
         sd_reshaped = reshape_sd(sd)

@@ -1,6 +1,4 @@
-"""
-Defines unit tests for :mod:`colour.io.uprtek_sekonic` module.
-"""
+"""Defines unit tests for :mod:`colour.io.uprtek_sekonic` module."""
 
 from __future__ import annotations
 
@@ -56,9 +54,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         self._spectral_data: Optional[Dict] = None
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "mapping",
@@ -76,9 +72,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
             self.assertIn(attribute, dir(SpectralDistribution_UPRTek))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "read", "write")
 

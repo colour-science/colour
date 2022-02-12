@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.array` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.array` module."""
 
 import numpy as np
 import unittest
@@ -117,9 +115,7 @@ class TestMixinDataclassFields(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassFields):
@@ -130,9 +126,7 @@ class TestMixinDataclassFields(unittest.TestCase):
         self._data: Data = Data(a="Foo", b="Bar", c="Baz")
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("fields",)
 
@@ -158,9 +152,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassIterable):
@@ -171,9 +163,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         self._data: Data = Data(a="Foo", b="Bar", c="Baz")
 
     def test_required_attributes(self):
-        """
-        Test the presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "keys",
@@ -185,9 +175,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
             self.assertIn(method, dir(MixinDataclassIterable))
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__iter__",)
 
@@ -246,9 +234,7 @@ class TestMixinDataclassArray(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassArray):
@@ -276,9 +262,7 @@ class TestMixinDataclassArray(unittest.TestCase):
         )
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__array__",)
 
@@ -306,9 +290,7 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassArithmetic):
@@ -337,9 +319,7 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
         )
 
     def test_required_methods(self):
-        """
-        Test the presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__iadd__",
@@ -485,9 +465,7 @@ class TestAsArray(unittest.TestCase):
     """
 
     def test_as_array(self):
-        """
-        Test :func:`colour.utilities.array.as_array` definition.
-        """
+        """Test :func:`colour.utilities.array.as_array` definition."""
 
         np.testing.assert_equal(as_array([1, 2, 3]), np.array([1, 2, 3]))
 
@@ -511,9 +489,7 @@ class TestAsInt(unittest.TestCase):
     """
 
     def test_as_int(self):
-        """
-        Test :func:`colour.utilities.array.as_int` definition.
-        """
+        """Test :func:`colour.utilities.array.as_int` definition."""
 
         self.assertEqual(as_int(1), 1)
 
@@ -537,9 +513,7 @@ class TestAsFloat(unittest.TestCase):
     """
 
     def test_as_float(self):
-        """
-        Test :func:`colour.utilities.array.as_float` definition.
-        """
+        """Test :func:`colour.utilities.array.as_float` definition."""
 
         self.assertEqual(as_float(1), 1.0)
 
@@ -563,9 +537,7 @@ class TestAsIntArray(unittest.TestCase):
     """
 
     def test_as_int_array(self):
-        """
-        Test :func:`colour.utilities.array.as_int_array` definition.
-        """
+        """Test :func:`colour.utilities.array.as_int_array` definition."""
 
         np.testing.assert_equal(
             as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3])
@@ -581,9 +553,7 @@ class TestAsFloatArray(unittest.TestCase):
     """
 
     def test_as_float_array(self):
-        """
-        Test :func:`colour.utilities.array.as_float_array` definition.
-        """
+        """Test :func:`colour.utilities.array.as_float_array` definition."""
 
         np.testing.assert_equal(as_float_array([1, 2, 3]), np.array([1, 2, 3]))
 
@@ -597,9 +567,7 @@ class TestAsIntScalar(unittest.TestCase):
     """
 
     def test_as_int_scalar(self):
-        """
-        Test :func:`colour.utilities.array.as_int_scalar` definition.
-        """
+        """Test :func:`colour.utilities.array.as_int_scalar` definition."""
 
         self.assertEqual(as_int_scalar(1.0), 1)
 
@@ -613,9 +581,7 @@ class TestAsFloatScalar(unittest.TestCase):
     """
 
     def test_as_float_scalar(self):
-        """
-        Test :func:`colour.utilities.array.as_float_scalar` definition.
-        """
+        """Test :func:`colour.utilities.array.as_float_scalar` definition."""
 
         self.assertEqual(as_float_scalar(1), 1.0)
 
@@ -629,9 +595,7 @@ class TestSetFloatPrecision(unittest.TestCase):
     """
 
     def test_set_float_precision(self):
-        """
-        Test :func:`colour.utilities.array.set_float_precision` definition.
-        """
+        """Test :func:`colour.utilities.array.set_float_precision` definition."""
 
         self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
 
@@ -709,9 +673,7 @@ class TestSetFloatPrecision(unittest.TestCase):
                 a = np.array([(0.25, 0.5), (0.25, 0.5)])
 
             def dtype_getter(x):
-                """
-                dtype getter callable.
-                """
+                """Dtype getter callable."""
 
                 for specification in (
                     "ATD95",
@@ -732,9 +694,7 @@ class TestSetFloatPrecision(unittest.TestCase):
             self.assertEqual(dtype_getter(convert(a, source, target)), dtype)
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         set_float_precision(np.float64)
 
@@ -746,9 +706,7 @@ class TestSetIntPrecision(unittest.TestCase):
     """
 
     def test_set_int_precision(self):
-        """
-        Test :func:`colour.utilities.array.set_int_precision` definition.
-        """
+        """Test :func:`colour.utilities.array.set_int_precision` definition."""
 
         self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
 
@@ -761,9 +719,7 @@ class TestSetIntPrecision(unittest.TestCase):
         self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         set_int_precision(np.int64)
 
@@ -849,9 +805,7 @@ class TestDomainRangeScale(unittest.TestCase):
         self.assertEqual(get_domain_range_scale(), "reference")
 
         def fn_a(a):
-            """
-            Helper definition performing domain-range scale.
-            """
+            """Change the domain-range scale for unit testing."""
 
             b = to_domain_10(a)
 
@@ -879,9 +833,7 @@ class TestDomainRangeScale(unittest.TestCase):
 
         @domain_range_scale("1")
         def fn_b(a):
-            """
-            Helper definition performing domain-range scale.
-            """
+            """Change the domain-range scale for unit testing."""
 
             b = to_domain_10(a)
 
@@ -899,9 +851,7 @@ class TestToDomain1(unittest.TestCase):
     """
 
     def test_to_domain_1(self):
-        """
-        Test :func:`colour.utilities.common.to_domain_1` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_1` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_1(1), 1)
@@ -928,9 +878,7 @@ class TestToDomain10(unittest.TestCase):
     """
 
     def test_to_domain_10(self):
-        """
-        Test :func:`colour.utilities.common.to_domain_10` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_10` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_10(1), 1)
@@ -957,9 +905,7 @@ class TestToDomain100(unittest.TestCase):
     """
 
     def test_to_domain_100(self):
-        """
-        Test :func:`colour.utilities.common.to_domain_100` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_100` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_100(1), 1)
@@ -986,9 +932,7 @@ class TestToDomainDegrees(unittest.TestCase):
     """
 
     def test_to_domain_degrees(self):
-        """
-        Test :func:`colour.utilities.common.to_domain_degrees` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_degrees` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_degrees(1), 1)
@@ -1015,9 +959,7 @@ class TestToDomainInt(unittest.TestCase):
     """
 
     def test_to_domain_int(self):
-        """
-        Test :func:`colour.utilities.common.to_domain_int` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_int` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_int(1), 1)
@@ -1044,9 +986,7 @@ class TestFromRange1(unittest.TestCase):
     """
 
     def test_from_range_1(self):
-        """
-        Test :func:`colour.utilities.common.from_range_1` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_1` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_1(1), 1)
@@ -1068,9 +1008,7 @@ class TestFromRange10(unittest.TestCase):
     """
 
     def test_from_range_10(self):
-        """
-        Test :func:`colour.utilities.common.from_range_10` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_10` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_10(1), 1)
@@ -1092,9 +1030,7 @@ class TestFromRange100(unittest.TestCase):
     """
 
     def test_from_range_100(self):
-        """
-        Test :func:`colour.utilities.common.from_range_100` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_100` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_100(1), 1)
@@ -1116,9 +1052,7 @@ class TestFromRangeDegrees(unittest.TestCase):
     """
 
     def test_from_range_degrees(self):
-        """
-        Test :func:`colour.utilities.common.from_range_degrees` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_degrees` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_degrees(1), 1)
@@ -1140,9 +1074,7 @@ class TestFromRangeInt(unittest.TestCase):
     """
 
     def test_from_range_int(self):
-        """
-        Test :func:`colour.utilities.common.from_range_int` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_int` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_int(1), 1)
@@ -1169,9 +1101,7 @@ class TestClosestIndexes(unittest.TestCase):
     """
 
     def test_closest_indexes(self):
-        """
-        Test :func:`colour.utilities.array.closest_indexes` definition.
-        """
+        """Test :func:`colour.utilities.array.closest_indexes` definition."""
 
         a = np.array(
             [
@@ -1203,9 +1133,7 @@ class TestClosest(unittest.TestCase):
     """
 
     def test_closest(self):
-        """
-        Test :func:`colour.utilities.array.closest` definition.
-        """
+        """Test :func:`colour.utilities.array.closest` definition."""
 
         a = np.array(
             [
@@ -1238,9 +1166,7 @@ class TestInterval(unittest.TestCase):
     """
 
     def test_interval(self):
-        """
-        Test :func:`colour.utilities.array.interval` definition.
-        """
+        """Test :func:`colour.utilities.array.interval` definition."""
 
         np.testing.assert_almost_equal(
             interval(range(0, 10, 2)), np.array([2])
@@ -1267,9 +1193,7 @@ class TestIsUniform(unittest.TestCase):
     """
 
     def test_is_uniform(self):
-        """
-        Test :func:`colour.utilities.array.is_uniform` definition.
-        """
+        """Test :func:`colour.utilities.array.is_uniform` definition."""
 
         self.assertTrue(is_uniform(range(0, 10, 2)))
 
@@ -1283,9 +1207,7 @@ class TestInArray(unittest.TestCase):
     """
 
     def test_in_array(self):
-        """
-        Test :func:`colour.utilities.array.in_array` definition.
-        """
+        """Test :func:`colour.utilities.array.in_array` definition."""
 
         self.assertTrue(
             np.array_equal(
@@ -1339,9 +1261,7 @@ class TestTstack(unittest.TestCase):
     """
 
     def test_tstack(self):
-        """
-        Test :func:`colour.utilities.array.tstack` definition.
-        """
+        """Test :func:`colour.utilities.array.tstack` definition."""
 
         a = 0
         np.testing.assert_almost_equal(tstack([a, a, a]), np.array([0, 0, 0]))
@@ -1399,9 +1319,7 @@ class TestTsplit(unittest.TestCase):
     """
 
     def test_tsplit(self):
-        """
-        Test :func:`colour.utilities.array.tsplit` definition.
-        """
+        """Test :func:`colour.utilities.array.tsplit` definition."""
 
         a = np.array([0, 0, 0])
         np.testing.assert_almost_equal(tsplit(a), np.array([0, 0, 0]))
@@ -1476,9 +1394,7 @@ class TestRowAsDiagonal(unittest.TestCase):
     """
 
     def test_row_as_diagonal(self):
-        """
-        Test :func:`colour.utilities.array.row_as_diagonal` definition.
-        """
+        """Test :func:`colour.utilities.array.row_as_diagonal` definition."""
 
         np.testing.assert_almost_equal(
             row_as_diagonal(
@@ -1531,9 +1447,7 @@ class TestOrient(unittest.TestCase):
     """
 
     def test_orient(self):
-        """
-        Test :func:`colour.utilities.array.orient` definition.
-        """
+        """Test :func:`colour.utilities.array.orient` definition."""
 
         a = np.tile(np.arange(5), (5, 1))
 
@@ -1615,9 +1529,7 @@ class TestCentroid(unittest.TestCase):
     """
 
     def test_centroid(self):
-        """
-        Test :func:`colour.utilities.array.centroid` definition.
-        """
+        """Test :func:`colour.utilities.array.centroid` definition."""
 
         a = np.arange(5)
         np.testing.assert_array_equal(centroid(a), np.array([3]))
@@ -1639,9 +1551,7 @@ class TestFillNan(unittest.TestCase):
     """
 
     def test_fill_nan(self):
-        """
-        Test :func:`colour.utilities.array.fill_nan` definition.
-        """
+        """Test :func:`colour.utilities.array.fill_nan` definition."""
 
         a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
         np.testing.assert_almost_equal(
@@ -1662,9 +1572,7 @@ class TestHasNanOnly(unittest.TestCase):
     """
 
     def test_has_only_nan(self):
-        """
-        Test :func:`colour.utilities.array.has_only_nan` definition.
-        """
+        """Test :func:`colour.utilities.array.has_only_nan` definition."""
 
         self.assertTrue(has_only_nan(None))
 
@@ -1682,9 +1590,7 @@ class TestNdarrayWrite(unittest.TestCase):
     """
 
     def test_ndarray_write(self):
-        """
-        Test :func:`colour.utilities.array.ndarray_write` definition.
-        """
+        """Test :func:`colour.utilities.array.ndarray_write` definition."""
 
         a = np.linspace(0, 1, 10)
         a.setflags(write=False)
@@ -1703,9 +1609,7 @@ class TestZeros(unittest.TestCase):
     """
 
     def test_zeros(self):
-        """
-        Test :func:`colour.utilities.array.zeros` definition.
-        """
+        """Test :func:`colour.utilities.array.zeros` definition."""
 
         np.testing.assert_equal(zeros(3), np.zeros(3))
 
@@ -1717,9 +1621,7 @@ class TestOnes(unittest.TestCase):
     """
 
     def test_ones(self):
-        """
-        Test :func:`colour.utilities.array.ones` definition.
-        """
+        """Test :func:`colour.utilities.array.ones` definition."""
 
         np.testing.assert_equal(ones(3), np.ones(3))
 
@@ -1731,9 +1633,7 @@ class TestFull(unittest.TestCase):
     """
 
     def test_full(self):
-        """
-        Test :func:`colour.utilities.array.full` definition.
-        """
+        """Test :func:`colour.utilities.array.full` definition."""
 
         np.testing.assert_equal(full(3, 0.5), np.full(3, 0.5))
 
@@ -1745,9 +1645,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
     """
 
     def test_index_along_last_axis(self):
-        """
-        Test :func:`colour.utilities.array.index_along_last_axis` definition.
-        """
+        """Test :func:`colour.utilities.array.index_along_last_axis` definition."""
         a = np.array(
             [
                 [

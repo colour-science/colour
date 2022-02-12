@@ -77,9 +77,7 @@ CONSTANTS_DICOMGSDF: Structure = Structure(
     H=0.14710899,
     I=-0.017046845,
 )  # noqa
-"""
-*DICOM Grayscale Standard Display Function* constants.
-"""
+"""*DICOM Grayscale Standard Display Function* constants."""
 
 
 def eotf_inverse_DICOMGSDF(

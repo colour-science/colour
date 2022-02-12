@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.adaptation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.adaptation` module."""
 
 import numpy as np
 import unittest
@@ -28,9 +26,7 @@ class TestChromaticAdaptation(unittest.TestCase):
     """
 
     def test_chromatic_adaptation(self):
-        """
-        Test :func:`colour.adaptation.chromatic_adaptation` definition.
-        """
+        """Test :func:`colour.adaptation.chromatic_adaptation` definition."""
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])

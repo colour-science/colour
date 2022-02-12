@@ -48,14 +48,10 @@ MATRIX_RGB_TO_YC_1_C_2: NDArray = np.array(
         [0, -np.sqrt(3) / 2, np.sqrt(3) / 2],
     ]
 )
-"""
-*RGB* colourspace to *YC_1C_2* colourspace matrix.
-"""
+"""*RGB* colourspace to *YC_1C_2* colourspace matrix."""
 
 MATRIX_YC_1_C_2_TO_RGB: NDArray = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
-"""
-*YC_1C_2* colourspace to *RGB* colourspace matrix.
-"""
+"""*YC_1C_2* colourspace to *RGB* colourspace matrix."""
 
 
 def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:

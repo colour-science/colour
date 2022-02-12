@@ -1,6 +1,4 @@
-"""
-Showcases Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations.
-"""
+"""Showcases Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations."""
 
 import numpy as np
 

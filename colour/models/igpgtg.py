@@ -45,14 +45,10 @@ MATRIX_IGPGTG_XYZ_TO_LMS: NDArray = np.array(
         [-0.318, 0.387, 2.311],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to normalised cone responses matrix.
-"""
+"""*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
 MATRIX_IGPGTG_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IGPGTG_XYZ_TO_LMS)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_IGPGTG_LMS_P_TO_IGPGTG: NDArray = np.array(
     [
@@ -61,16 +57,12 @@ MATRIX_IGPGTG_LMS_P_TO_IGPGTG: NDArray = np.array(
         [-1.208, 2.412, -36.530],
     ]
 )
-"""
-Normalised non-linear cone responses to :math:`I_GP_GT_G` colourspace matrix.
-"""
+"""Normalised non-linear cone responses to :math:`I_GP_GT_G` colourspace matrix."""
 
 MATRIX_IGPGTG_IGPGTG_TO_LMS_P: NDArray = np.linalg.inv(
     MATRIX_IGPGTG_LMS_P_TO_IGPGTG
 )
-"""
-:math:`I_GP_GT_G` colourspace to normalised non-linear cone responses matrix.
-"""
+""":math:`I_GP_GT_G` colourspace to normalised non-linear cone responses matrix."""
 
 
 def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:

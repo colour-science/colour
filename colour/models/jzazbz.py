@@ -96,9 +96,7 @@ CONSTANTS_JZAZBZ_SAFDAR2021: Structure = Structure(
     **CONSTANTS_JZAZBZ_SAFDAR2017
 )
 CONSTANTS_JZAZBZ_SAFDAR2021.d_0 = 3.7035226210190005 * 10**-11
-"""
-:math:`J_za_zb_z` colourspace constants for the *ZCAM* colour appearance model.
-"""
+""":math:`J_za_zb_z` colourspace constants for the *ZCAM* colour appearance model."""
 
 MATRIX_JZAZBZ_XYZ_TO_LMS: NDArray = np.array(
     [

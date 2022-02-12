@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.photometry` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.photometry` module."""
 
 import unittest
 
@@ -34,9 +32,7 @@ class TestLuminousFlux(unittest.TestCase):
     """
 
     def test_luminous_flux(self):
-        """
-        Test :func:`colour.colorimetry.photometry.luminous_flux` definition.
-        """
+        """Test :func:`colour.colorimetry.photometry.luminous_flux` definition."""
 
         self.assertAlmostEqual(
             luminous_flux(SDS_ILLUMINANTS["FL2"].copy().normalise()),

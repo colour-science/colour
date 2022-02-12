@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.volume.pointer_gamut` module.
-"""
+"""Defines the unit tests for the :mod:`colour.volume.pointer_gamut` module."""
 
 import numpy as np
 import unittest

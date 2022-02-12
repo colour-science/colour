@@ -1,6 +1,4 @@
-"""
-Showcases geometry primitives generation examples.
-"""
+"""Showcases geometry primitives generation examples."""
 
 import numpy as np
 

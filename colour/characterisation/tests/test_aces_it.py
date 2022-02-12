@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.characterisation.aces_it` module.
-"""
+"""Defines the unit tests for the :mod:`colour.characterisation.aces_it` module."""
 
 from __future__ import annotations
 

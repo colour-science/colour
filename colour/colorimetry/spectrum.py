@@ -175,9 +175,7 @@ class SpectralShape:
 
     @start.setter
     def start(self, value: Number):
-        """
-        Setter for the **self.start** property.
-        """
+        """Setter for the **self.start** property."""
 
         attest(
             is_numeric(value),
@@ -212,9 +210,7 @@ class SpectralShape:
 
     @end.setter
     def end(self, value: Number):
-        """
-        Setter for the **self.end** property.
-        """
+        """Setter for the **self.end** property."""
 
         attest(
             is_numeric(value),
@@ -249,9 +245,7 @@ class SpectralShape:
 
     @interval.setter
     def interval(self, value: Number):
-        """
-        Setter for the **self.interval** property.
-        """
+        """Setter for the **self.interval** property."""
 
         attest(
             is_numeric(value),
@@ -280,9 +274,7 @@ class SpectralShape:
 
     @boundaries.setter
     def boundaries(self, value: ArrayLike):
-        """
-        Setter for the **self.boundaries** property.
-        """
+        """Setter for the **self.boundaries** property."""
 
         value = np.asarray(value)
 
@@ -530,9 +522,7 @@ class SpectralShape:
 
 
 SPECTRAL_SHAPE_DEFAULT: SpectralShape = SpectralShape(360, 780, 1)
-"""
-Default spectral shape according to *ASTM E308-15* practise shape.
-"""
+"""Default spectral shape according to *ASTM E308-15* practise shape."""
 
 
 class SpectralDistribution(Signal):
@@ -713,9 +703,7 @@ class SpectralDistribution(Signal):
 
     @strict_name.setter
     def strict_name(self, value: str):
-        """
-        Setter for the **self.strict_name** property.
-        """
+        """Setter for the **self.strict_name** property."""
 
         attest(
             is_string(value),
@@ -746,9 +734,7 @@ class SpectralDistribution(Signal):
 
     @wavelengths.setter
     def wavelengths(self, value: ArrayLike):
-        """
-        Setter for the **self.wavelengths** property.
-        """
+        """Setter for the **self.wavelengths** property."""
 
         self.domain = as_float_array(value, self.dtype)
 
@@ -772,9 +758,7 @@ class SpectralDistribution(Signal):
 
     @values.setter
     def values(self, value: ArrayLike):
-        """
-        Setter for the **self.values** property.
-        """
+        """Setter for the **self.values** property."""
 
         self.range = as_float_array(value, self.dtype)
 
@@ -1814,9 +1798,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     @strict_name.setter
     def strict_name(self, value: str):
-        """
-        Setter for the **self.strict_name** property.
-        """
+        """Setter for the **self.strict_name** property."""
 
         attest(
             is_string(value),
@@ -1846,9 +1828,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     @strict_labels.setter
     def strict_labels(self, value: Sequence):
-        """
-        Setter for the **self.strict_labels** property.
-        """
+        """Setter for the **self.strict_labels** property."""
 
         attest(
             is_iterable(value),
@@ -1893,9 +1873,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     @wavelengths.setter
     def wavelengths(self, value: ArrayLike):
-        """
-        Setter for the **self.wavelengths** property.
-        """
+        """Setter for the **self.wavelengths** property."""
 
         self.domain = as_float_array(value, self.dtype)
 
@@ -1920,9 +1898,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     @values.setter
     def values(self, value: ArrayLike):
-        """
-        Setter for the **self.values** property.
-        """
+        """Setter for the **self.values** property."""
 
         self.range = as_float_array(value, self.dtype)
 

@@ -213,9 +213,7 @@ def OSA_UCS_to_XYZ(
         optimisation_settings.update(optimisation_kwargs)
 
     def error_function(XYZ: ArrayLike, Ljg: ArrayLike) -> FloatingOrNDArray:
-        """
-        Error function.
-        """
+        """Error function."""
 
         # Error must be computed in "reference" domain and range.
         with domain_range_scale("ignore"):

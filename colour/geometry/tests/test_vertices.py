@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.geometry.vertices` module.
-"""
+"""Defines the unit tests for the :mod:`colour.geometry.vertices` module."""
 
 import numpy as np
 import unittest

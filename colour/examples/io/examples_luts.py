@@ -1,6 +1,4 @@
-"""
-Showcases Look Up Table (LUT) data related examples.
-"""
+"""Showcases Look Up Table (LUT) data related examples."""
 
 import numpy as np
 import os

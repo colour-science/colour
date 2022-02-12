@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.appearance.zcam` module.
-"""
+"""Defines the unit tests for the :mod:`colour.appearance.zcam` module."""
 
 import numpy as np
 import unittest
@@ -41,9 +39,7 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
     """
 
     def test_XYZ_to_ZCAM(self):
-        """
-        Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition.
-        """
+        """Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition."""
 
         XYZ = np.array([185, 206, 163])
         XYZ_w = np.array([256, 264, 202])
@@ -286,9 +282,7 @@ class TestZCAM_to_XYZ(unittest.TestCase):
     """
 
     def test_ZCAM_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition.
-        """
+        """Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition."""
 
         specification = CAM_Specification_ZCAM(
             92.2520,

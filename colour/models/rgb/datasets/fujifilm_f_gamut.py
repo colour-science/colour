@@ -49,33 +49,23 @@ PRIMARIES_F_GAMUT: NDArray = np.array(
         [0.13100, 0.04600],
     ]
 )
-"""
-*Fujifilm F-Gamut* colourspace primaries.
-"""
+"""*Fujifilm F-Gamut* colourspace primaries."""
 
 WHITEPOINT_NAME_F_GAMUT: str = "D65"
-"""
-*Fujifilm F-Gamut* colourspace whitepoint name.
-"""
+"""*Fujifilm F-Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_F_GAMUT: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_F_GAMUT]
-"""
-*Fujifilm F-Gamut* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Fujifilm F-Gamut* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_F_GAMUT_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_F_GAMUT, CCS_WHITEPOINT_F_GAMUT
 )
-"""
-*Fujifilm F-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Fujifilm F-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_F_GAMUT: NDArray = np.linalg.inv(MATRIX_F_GAMUT_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Fujifilm F-Gamut* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Fujifilm F-Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_F_GAMUT: RGB_Colourspace = RGB_Colourspace(
     "F-Gamut",

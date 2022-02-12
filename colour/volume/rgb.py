@@ -59,8 +59,7 @@ __all__ = [
 
 def _wrapper_RGB_colourspace_volume_MonteCarlo(arguments: Tuple) -> Integer:
     """
-    Convenient wrapper to be able to call
-    :func:`colour.volume.rgb.sample_RGB_colourspace_volume_MonteCarlo`:
+    Call the :func:`colour.volume.rgb.sample_RGB_colourspace_volume_MonteCarlo`
     definition with multiple arguments.
 
     Parameters

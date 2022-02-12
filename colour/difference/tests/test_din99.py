@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.difference.din99` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference.din99` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestDelta_E_DIN99(unittest.TestCase):
     """
 
     def test_delta_E_DIN99(self):
-        """
-        Test :func:`colour.difference.din99.delta_E_DIN99` definition.
-        """
+        """Test :func:`colour.difference.din99.delta_E_DIN99` definition."""
 
         self.assertAlmostEqual(
             delta_E_DIN99(

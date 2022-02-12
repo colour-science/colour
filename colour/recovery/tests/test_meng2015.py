@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.recovery.meng2015` module.
-"""
+"""Defines the unit tests for the :mod:`colour.recovery.meng2015` module."""
 
 import numpy as np
 import unittest
@@ -35,9 +33,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         # pylint: disable=E1102
         self._cmfs = reshape_msds(
@@ -48,9 +44,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         self._sd_E = reshape_sd(SDS_ILLUMINANTS["E"], self._cmfs.shape)
 
     def test_XYZ_to_sd_Meng2015(self):
-        """
-        Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition.
-        """
+        """Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition."""
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         np.testing.assert_almost_equal(

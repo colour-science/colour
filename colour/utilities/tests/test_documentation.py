@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.documentation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.documentation` module."""
 
 import os
 import unittest

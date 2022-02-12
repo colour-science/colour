@@ -137,9 +137,7 @@ class LUTSequence(MutableSequence):
 
     @sequence.setter
     def sequence(self, value: Sequence[TypeLUTSequenceItem]):
-        """
-        Setter for the **self.sequence** property.
-        """
+        """Setter for the **self.sequence** property."""
 
         for item in value:
             attest(

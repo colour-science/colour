@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.common` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.common` module."""
 
 import numpy as np
 import unittest
@@ -27,9 +25,7 @@ class TestXYZ_to_sRGB(unittest.TestCase):
     """
 
     def test_XYZ_to_sRGB(self):
-        """
-        Test :func:`colour.models.rgb.common.XYZ_to_sRGB` definition.
-        """
+        """Test :func:`colour.models.rgb.common.XYZ_to_sRGB` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -88,9 +84,7 @@ class TestsRGB_to_XYZ(unittest.TestCase):
     """
 
     def test_sRGB_to_XYZ(self):
-        """
-        Test :func:`colour.models.rgb.common.sRGB_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.rgb.common.sRGB_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(np.array([0.70573936, 0.19248266, 0.22354169])),

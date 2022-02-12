@@ -106,8 +106,8 @@ References
 
 
 def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
-    """ "
-    Returns the *Y'CbCr* colour encoding ranges array for given bit depth,
+    """
+    Return the *Y'CbCr* colour encoding ranges array for given bit depth,
     range legality and representation.
 
     Parameters

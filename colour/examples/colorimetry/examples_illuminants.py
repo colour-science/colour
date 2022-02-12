@@ -1,6 +1,4 @@
-"""
-Showcases illuminants datasets.
-"""
+"""Showcases illuminants datasets."""
 
 from pprint import pprint
 

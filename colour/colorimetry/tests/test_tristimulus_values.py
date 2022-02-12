@@ -950,7 +950,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
-range scale support.
+        range scale support.
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -977,9 +977,7 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._sd = SD_SAMPLE.copy()
         self._cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -1331,9 +1329,7 @@ class TestSd_to_XYZ(unittest.TestCase):
     """
 
     def setUp(self):
-        """
-        Initialise the common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
         self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)

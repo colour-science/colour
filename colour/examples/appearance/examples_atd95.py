@@ -1,6 +1,4 @@
-"""
-Showcases *ATD (1995)* colour appearance model computations.
-"""
+"""Showcases *ATD (1995)* colour appearance model computations."""
 
 import numpy as np
 

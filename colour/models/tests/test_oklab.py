@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.oklab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.oklab` module."""
 
 import numpy as np
 import unittest
@@ -29,9 +27,7 @@ class TestXYZ_to_Oklab(unittest.TestCase):
     """
 
     def test_XYZ_to_Oklab(self):
-        """
-        Test :func:`colour.models.oklab.XYZ_to_Oklab` definition.
-        """
+        """Test :func:`colour.models.oklab.XYZ_to_Oklab` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_Oklab(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -105,9 +101,7 @@ class TestOklab_to_XYZ(unittest.TestCase):
     """
 
     def test_Oklab_to_XYZ(self):
-        """
-        Test :func:`colour.models.oklab.Oklab_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.oklab.Oklab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
             Oklab_to_XYZ(np.array([0.51634019, 0.15469500, 0.06289579])),

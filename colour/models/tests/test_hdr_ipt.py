@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.hdr_ipt` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.hdr_ipt` module."""
 
 import numpy as np
 import unittest
@@ -31,9 +29,7 @@ class TestExponent_hdr_IPT(unittest.TestCase):
     """
 
     def test_exponent_hdr_IPT(self):
-        """
-        Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition.
-        """
+        """Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition."""
 
         self.assertAlmostEqual(
             exponent_hdr_IPT(0.2, 100), 0.482020919845900, places=7
@@ -119,9 +115,7 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
     """
 
     def test_XYZ_to_hdr_IPT(self):
-        """
-        Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition.
-        """
+        """Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -228,9 +222,7 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
     """
 
     def test_hdr_IPT_to_XYZ(self):
-        """
-        Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(np.array([48.39376346, 42.44990202, 22.01954033])),

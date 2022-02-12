@@ -1,6 +1,4 @@
-"""
-Showcases reflectance recovery computations using *Smits (1999)* method.
-"""
+"""Showcases reflectance recovery computations using *Smits (1999)* method."""
 
 import numpy as np
 
