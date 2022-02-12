@@ -118,8 +118,6 @@ from colour.plotting.section import (  # noqa
 )
 from colour.plotting.temperature import (  # noqa
     plot_planckian_locus,
-    plot_planckian_locus_CIE1931,
-    plot_planckian_locus_CIE1960UCS,
     plot_planckian_locus_in_chromaticity_diagram,
 )
 from colour.quality import colour_quality_scale  # noqa
@@ -899,17 +897,9 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Planckian_Locus.png"
     )
-    plt.close(plot_planckian_locus(**arguments)[0])
-
-    arguments["filename"] = os.path.join(
-        output_directory, "Plotting_Plot_Planckian_Locus_CIE1931.png"
+    plt.close(
+        plot_planckian_locus(planckian_locus_colours="RGB", **arguments)[0]
     )
-    plt.close(plot_planckian_locus_CIE1931(**arguments)[0])
-
-    arguments["filename"] = os.path.join(
-        output_directory, "Plotting_Plot_Planckian_Locus_CIE1960UCS.png"
-    )
-    plt.close(plot_planckian_locus_CIE1960UCS(**arguments)[0])
 
     arguments["filename"] = os.path.join(
         output_directory,
