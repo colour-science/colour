@@ -89,8 +89,8 @@ Array
     as_float_array
     as_int_scalar
     as_float_scalar
-    set_float_precision
-    set_int_precision
+    set_default_int_dtype
+    set_default_float_dtype
     to_domain_1
     to_domain_10
     to_domain_100

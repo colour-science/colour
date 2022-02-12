@@ -19,8 +19,8 @@ from colour.utilities import (
     as_float_array,
     as_int_scalar,
     as_float_scalar,
-    set_float_precision,
-    set_int_precision,
+    set_default_int_dtype,
+    set_default_float_dtype,
     get_domain_range_scale,
     set_domain_range_scale,
     domain_range_scale,
@@ -73,8 +73,8 @@ __all__ = [
     "TestAsFloatArray",
     "TestAsIntScalar",
     "TestAsFloatScalar",
-    "TestSetFloatPrecision",
-    "TestSetIntPrecision",
+    "TestSetDefaultIntegerDtype",
+    "TestSetDefaultFloatDtype",
     "TestGetDomainRangeScale",
     "TestSetDomainRangeScale",
     "TestDomainRangeScale",
@@ -588,29 +588,59 @@ class TestAsFloatScalar(unittest.TestCase):
         self.assertEqual(as_float_scalar(1).dtype, DEFAULT_FLOAT_DTYPE)
 
 
-class TestSetFloatPrecision(unittest.TestCase):
+class TestSetDefaultIntegerDtype(unittest.TestCase):
     """
-    Define :func:`colour.utilities.array.set_float_precision` definition unit
+    Define :func:`colour.utilities.array.set_default_int_dtype` definition unit
     tests methods.
     """
 
-    def test_set_float_precision(self):
-        """Test :func:`colour.utilities.array.set_float_precision` definition."""
+    def test_set_default_int_dtype(self):
+        """
+        Test :func:`colour.utilities.array.set_default_int_dtype` definition.
+        """
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+
+        set_default_int_dtype(np.int32)
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int32)
+
+        set_default_int_dtype(np.int64)
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+
+    def tearDown(self):
+        """After tests actions."""
+
+        set_default_int_dtype(np.int64)
+
+
+class TestSetDefaultFloatDtype(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.set_default_float_dtype` definition unit
+    tests methods.
+    """
+
+    def test_set_default_float_dtype(self):
+        """
+        Test :func:`colour.utilities.array.set_default_float_dtype`
+        definition.
+        """
 
         self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
 
-        set_float_precision(np.float16)
+        set_default_float_dtype(np.float16)
 
         self.assertEqual(as_float_array(np.ones(3)).dtype, np.float16)
 
-        set_float_precision(np.float64)
+        set_default_float_dtype(np.float64)
 
         self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
 
-    def test_set_float_precision_enforcement(self):
+    def test_set_default_float_dtype_enforcement(self):
         """
-        Test whether :func:`colour.utilities.array.set_float_precision` effect
-        is applied through most of *Colour* public API.
+        Test whether :func:`colour.utilities.array.set_default_float_dtype`
+        effect is applied through most of *Colour* public API.
         """
 
         if not is_networkx_installed():  # pragma: no cover
@@ -628,7 +658,7 @@ class TestSetFloatPrecision(unittest.TestCase):
         )
 
         dtype = np.float32
-        set_float_precision(dtype)
+        set_default_float_dtype(dtype)
 
         for source, target, _callable in CONVERSION_SPECIFICATIONS_DATA:
             if target in ("Hexadecimal", "Munsell Colour"):
@@ -696,32 +726,7 @@ class TestSetFloatPrecision(unittest.TestCase):
     def tearDown(self):
         """After tests actions."""
 
-        set_float_precision(np.float64)
-
-
-class TestSetIntPrecision(unittest.TestCase):
-    """
-    Define :func:`colour.utilities.array.set_int_precision` definition unit
-    tests methods.
-    """
-
-    def test_set_int_precision(self):
-        """Test :func:`colour.utilities.array.set_int_precision` definition."""
-
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
-
-        set_int_precision(np.int32)
-
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int32)
-
-        set_int_precision(np.int64)
-
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
-
-    def tearDown(self):
-        """After tests actions."""
-
-        set_int_precision(np.int64)
+        set_default_float_dtype(np.float64)
 
 
 class TestGetDomainRangeScale(unittest.TestCase):

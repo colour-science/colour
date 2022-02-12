@@ -39,8 +39,8 @@ Common
 .. autosummary::
     :toctree: generated/
 
-    DEFAULT_FLOAT_DTYPE
     DEFAULT_INT_DTYPE
+    DEFAULT_FLOAT_DTYPE
     EPSILON
     FLOATING_POINT_NUMBER_PATTERN
     INTEGER_THRESHOLD
