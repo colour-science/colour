@@ -159,7 +159,7 @@ def plot_hull_section_colours(
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
     samples
-        Samples count when computing the hull section colours.
+        Samples count on one axis when computing the hull section colours.
 
     Other Parameters
     ----------------

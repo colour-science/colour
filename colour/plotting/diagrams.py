@@ -386,7 +386,8 @@ def plot_chromaticity_diagram_colours(
     Parameters
     ----------
     samples
-        Samples count on one axis.
+        Samples count on one axis when computing the *Chromaticity Diagram*
+        colours.
     diagram_opacity
         Opacity of the *Chromaticity Diagram* colours.
     diagram_clipping_path
