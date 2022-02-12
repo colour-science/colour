@@ -98,7 +98,7 @@ class TestAbstractLUT(unittest.TestCase):
             "copy",
             "invert",
             "apply",
-            "as_LUT",
+            "convert",
         )
 
         for method in required_methods:
@@ -165,7 +165,7 @@ class AbstractLUTTest(unittest.TestCase):
             "linear_table",
             "invert",
             "apply",
-            "as_LUT",
+            "convert",
         )
 
         for class_ in (LUT1D, LUT3x1D, LUT3D):

@@ -68,6 +68,7 @@ from colour.utilities import (
     usage_warning,
     validate_method,
 )
+from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -142,7 +143,7 @@ class AbstractLUT(ABC):
     -   :meth:`~colour.io.luts.lut.AbstractLUT.copy`
     -   :meth:`~colour.io.luts.lut.AbstractLUT.invert`
     -   :meth:`~colour.io.luts.lut.AbstractLUT.apply`
-    -   :meth:`~colour.io.luts.lut.AbstractLUT.as_LUT`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.convert`
     """
 
     def __init__(
@@ -824,7 +825,7 @@ class AbstractLUT(ABC):
         pass
 
     @abstractmethod
-    def as_LUT(
+    def convert(
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
@@ -894,7 +895,7 @@ class LUT1D(AbstractLUT):
     -   :meth:`~colour.LUT1D.linear_table`
     -   :meth:`~colour.LUT1D.invert`
     -   :meth:`~colour.LUT1D.apply`
-    -   :meth:`~colour.LUT1D.as_LUT`
+    -   :meth:`~colour.LUT1D.convert`
 
     Examples
     --------
@@ -1192,7 +1193,7 @@ class LUT1D(AbstractLUT):
 
         return RGB_interpolator(RGB)
 
-    def as_LUT(
+    def convert(
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
@@ -1237,14 +1238,14 @@ class LUT1D(AbstractLUT):
         Examples
         --------
         >>> LUT = LUT1D()
-        >>> print(LUT.as_LUT(LUT1D))
+        >>> print(LUT.convert(LUT1D))
         LUT1D - Unity 10 - Converted 1D to 1D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT3x1D))
+        >>> print(LUT.convert(LUT3x1D))
         LUT3x1D - Unity 10 - Converted 1D to 3x1D
         -----------------------------------------
         <BLANKLINE>
@@ -1252,7 +1253,7 @@ class LUT1D(AbstractLUT):
         Domain     : [[ 0.  0.  0.]
                       [ 1.  1.  1.]]
         Size       : (10, 3)
-        >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
+        >>> print(LUT.convert(LUT3D, force_conversion=True))
         LUT3D - Unity 10 - Converted 1D to 3D
         -------------------------------------
         <BLANKLINE>
@@ -1263,6 +1264,27 @@ class LUT1D(AbstractLUT):
         """
 
         return LUT_to_LUT(self, cls, force_conversion, **kwargs)
+
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    def as_LUT(
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any,
+    ) -> AbstractLUT:  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "LUT1D.as_LUT",
+                    "LUT1D.convert",
+                )
+            )
+        )
+
+        return self.convert(cls, force_conversion, **kwargs)
 
 
 class LUT3x1D(AbstractLUT):
@@ -1290,7 +1312,7 @@ class LUT3x1D(AbstractLUT):
     -   :meth:`~colour.LUT3x1D.linear_table`
     -   :meth:`~colour.LUT3x1D.invert`
     -   :meth:`~colour.LUT3x1D.apply`
-    -   :meth:`~colour.LUT3x1D.as_LUT`
+    -   :meth:`~colour.LUT3x1D.convert`
 
     Examples
     --------
@@ -1715,7 +1737,7 @@ class LUT3x1D(AbstractLUT):
 
         return tstack(RGB_i)
 
-    def as_LUT(
+    def convert(
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
@@ -1760,14 +1782,14 @@ class LUT3x1D(AbstractLUT):
         Examples
         --------
         >>> LUT = LUT3x1D()
-        >>> print(LUT.as_LUT(LUT1D, force_conversion=True))
+        >>> print(LUT.convert(LUT1D, force_conversion=True))
         LUT1D - Unity 10 - Converted 3x1D to 1D
         ---------------------------------------
         <BLANKLINE>
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT3x1D))
+        >>> print(LUT.convert(LUT3x1D))
         LUT3x1D - Unity 10 - Converted 3x1D to 3x1D
         -------------------------------------------
         <BLANKLINE>
@@ -1775,7 +1797,7 @@ class LUT3x1D(AbstractLUT):
         Domain     : [[ 0.  0.  0.]
                       [ 1.  1.  1.]]
         Size       : (10, 3)
-        >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
+        >>> print(LUT.convert(LUT3D, force_conversion=True))
         LUT3D - Unity 10 - Converted 3x1D to 3D
         ---------------------------------------
         <BLANKLINE>
@@ -1786,6 +1808,27 @@ class LUT3x1D(AbstractLUT):
         """
 
         return LUT_to_LUT(self, cls, force_conversion, **kwargs)
+
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    def as_LUT(
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any,
+    ) -> AbstractLUT:  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "LUT3x1D.as_LUT",
+                    "LUT3x1D.convert",
+                )
+            )
+        )
+
+        return self.convert(cls, force_conversion, **kwargs)
 
 
 class LUT3D(AbstractLUT):
@@ -1813,7 +1856,7 @@ class LUT3D(AbstractLUT):
     -   :meth:`~colour.LUT3D.linear_table`
     -   :meth:`~colour.LUT3D.invert`
     -   :meth:`~colour.LUT3D.apply`
-    -   :meth:`~colour.LUT3D.as_LUT`
+    -   :meth:`~colour.LUT3D.convert`
 
     Examples
     --------
@@ -2341,7 +2384,7 @@ class LUT3D(AbstractLUT):
 
         return RGB_i
 
-    def as_LUT(
+    def convert(
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
@@ -2386,14 +2429,14 @@ class LUT3D(AbstractLUT):
         Examples
         --------
         >>> LUT = LUT3D()
-        >>> print(LUT.as_LUT(LUT1D, force_conversion=True))
+        >>> print(LUT.convert(LUT1D, force_conversion=True))
         LUT1D - Unity 33 - Converted 3D to 1D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT3x1D, force_conversion=True))
+        >>> print(LUT.convert(LUT3x1D, force_conversion=True))
         LUT3x1D - Unity 33 - Converted 3D to 3x1D
         -----------------------------------------
         <BLANKLINE>
@@ -2401,7 +2444,7 @@ class LUT3D(AbstractLUT):
         Domain     : [[ 0.  0.  0.]
                       [ 1.  1.  1.]]
         Size       : (10, 3)
-        >>> print(LUT.as_LUT(LUT3D))
+        >>> print(LUT.convert(LUT3D))
         LUT3D - Unity 33 - Converted 3D to 3D
         -------------------------------------
         <BLANKLINE>
@@ -2412,6 +2455,27 @@ class LUT3D(AbstractLUT):
         """
 
         return LUT_to_LUT(self, cls, force_conversion, **kwargs)
+
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    def as_LUT(
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any,
+    ) -> AbstractLUT:  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "LUT3D.as_LUT",
+                    "LUT3D.convert",
+                )
+            )
+        )
+
+        return self.convert(cls, force_conversion, **kwargs)
 
 
 def LUT_to_LUT(
