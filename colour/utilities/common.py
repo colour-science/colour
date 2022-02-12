@@ -132,7 +132,7 @@ class CacheRegistry:
     @property
     def registry(self) -> Dict:
         """
-        Getter and setter property for the cache registry.
+        Getter property for the cache registry.
 
         Returns
         -------

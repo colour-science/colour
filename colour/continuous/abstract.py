@@ -383,13 +383,8 @@ arithmetical_operation`
     @abstractmethod
     def function(self) -> Callable:
         """
-        Getter and setter property for the abstract continuous function
-        callable, must be reimplemented by sub-classes.
-
-        Parameters
-        ----------
-        value
-            Attribute value.
+        Getter property for the abstract continuous function callable, must be
+        reimplemented by sub-classes.
 
         Returns
         -------
