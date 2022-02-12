@@ -90,6 +90,7 @@ Spectral Data Generation
     :toctree: generated/
 
     planck_law
+    rayleigh_jeans_law
 
 Conversion to Tristimulus Values
 --------------------------------

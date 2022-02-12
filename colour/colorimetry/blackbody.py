@@ -603,13 +603,14 @@ def sd_blackbody(
 
 
 def rayleigh_jeans_law(
-    wavelength,
-    temperature,
+    wavelength: FloatingOrArrayLike,
+    temperature: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the spectral radiance of electromagnetic radiation as a
+    Return the spectral radiance of electromagnetic radiation as a
     function of wavelength from a black body at a given temperature
-    :math:`T[K]` in a medium having index of refraction :math:`n`.
+    :math:`T[K]` in a medium having index of refraction :math:`n` 
+    according to *Rayleigh–Jeans* law.
 
     Parameters
     ----------
@@ -630,6 +631,11 @@ def rayleigh_jeans_law(
     -   The SI unit of radiance is *watts per steradian per square metre*
         (:math:`W/sr/m^2`).
 
+    References
+    ----------
+    :cite:`Wikipedia2003f` : Wikipedia. (2003). Rayleigh–Jeans law. Retrieved
+    February 12, 2022, from https://en.wikipedia.org/wiki/Rayleigh–Jeans_law
+
     Examples
     --------
     >>> rayleigh_jeans_law(900 * 1e-9, 4800) # doctest: +ELLIPSIS
@@ -648,14 +654,14 @@ def rayleigh_jeans_law(
 
 
 def sd_rayleigh_jeans(
-    temperature,
-    shape=SPECTRAL_SHAPE_DEFAULT,
+    temperature: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
 ) -> SpectralDistribution:
     """
-    Returns the spectral distribution of the Spectral radiance for
+    Return the spectral distribution of the spectral radiance for
     given temperature :math:`T[K]` with values in
     *watts per steradian per square metre per nanometer*
-    (:math:`W/sr/m^2/nm`).
+    (:math:`W/sr/m^2/nm`) according to *Rayleigh–Jeans* law.
 
     Parameters
     ----------
@@ -671,6 +677,11 @@ def sd_rayleigh_jeans(
         Rayleigh-Jeans spectral distribution with values in
         *watts per steradian per square metre per nanometer*
         (:math:`W/sr/m^2/nm`).
+
+    References
+    ----------
+    :cite:`Wikipedia2003f` : Wikipedia. (2003). Rayleigh–Jeans law. Retrieved
+    February 12, 2022, from https://en.wikipedia.org/wiki/Rayleigh–Jeans_law
 
     Examples
     --------
