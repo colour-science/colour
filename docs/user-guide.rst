@@ -7,7 +7,7 @@ concepts and features, details can be found in the `API Reference <reference.htm
 .. toctree::
     :maxdepth: 1
 
-    Installation Guide <https://www.colour-science.org/installation-guide>
+    Installation <https://www.colour-science.org/installation-guide>
     tutorial
     how-to
     basics
