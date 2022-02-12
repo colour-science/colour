@@ -31,7 +31,7 @@ from colour.models.rgb.datasets.itur_bt_2020 import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2020 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"

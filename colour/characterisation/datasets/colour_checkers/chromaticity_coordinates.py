@@ -54,7 +54,7 @@ from colour.models import Lab_to_XYZ, XYZ_to_xyY
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = "Colour Developers, Danny Pascale "
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __copyright__ += ", "
 __copyright__ += (
     "BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale "

@@ -52,7 +52,7 @@ from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping, LazyCaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __copyright__ += ", "
 __copyright__ += (
     "BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale "
