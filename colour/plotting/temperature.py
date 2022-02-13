@@ -95,8 +95,8 @@ def plot_planckian_locus(
     Parameters
     ----------
     planckian_locus_colours
-        *Planckian Locus* colours, if ``planckian_locus_colours`` is set to
-        *RGB*, the colours will be computed according to the corresponding
+        Colours of the *Planckian Locus*, if ``planckian_locus_colours`` is set
+        to *RGB*, the colours will be computed according to the corresponding
         chromaticity coordinates.
     planckian_locus_opacity
        Opacity of the *Planckian Locus*.
