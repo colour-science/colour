@@ -113,7 +113,7 @@ oetf_PQ_BT2100` definition domain and range scale support.
         E = 0.1
         E_p = oetf_PQ_BT2100(E)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -190,7 +190,7 @@ oetf_inverse_PQ_BT2100` definition domain and range scale support.
         E_p = 0.724769816665726
         E = oetf_inverse_PQ_BT2100(E_p)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -259,7 +259,7 @@ eotf_PQ_BT2100` definition domain and range scale support.
         E_p = 0.724769816665726
         F_D = eotf_PQ_BT2100(E_p)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -336,7 +336,7 @@ eotf_inverse_PQ_BT2100` definition domain and range scale support.
         F_D = 779.98836083408537
         E_p = eotf_inverse_PQ_BT2100(F_D)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -409,7 +409,7 @@ ootf_PQ_BT2100` definition domain and range scale support.
         E = 0.1
         F_D = ootf_PQ_BT2100(E)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -484,7 +484,7 @@ ootf_inverse_PQ_BT2100` definition domain and range scale support.
         F_D = 779.98836083411584
         E = ootf_inverse_PQ_BT2100(F_D)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

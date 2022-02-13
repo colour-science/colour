@@ -41,10 +41,9 @@ from colour.models.rgb.transfer_functions import (
 from colour.models.rgb.transfer_functions.st_2084 import CONSTANTS_ST2084
 from colour.utilities import (
     Structure,
+    as_float_array,
     domain_range_scale,
-    from_range_1,
     optional,
-    to_domain_1,
     tsplit,
     tstack,
     validate_method,
@@ -245,7 +244,7 @@ def XYZ_to_Izazbz(
     array([ 0.0120779...,  0.0092430...,  0.0052600...])
     """
 
-    X_D65, Y_D65, Z_D65 = tsplit(to_domain_1(XYZ_D65))
+    X_D65, Y_D65, Z_D65 = tsplit(as_float_array(XYZ_D65))
 
     method = validate_method(method, IZAZBZ_METHODS)
 
@@ -272,7 +271,7 @@ def XYZ_to_Izazbz(
         Izazbz = vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021, LMS_p)
         Izazbz[..., 0] -= constants.d_0
 
-    return from_range_1(Izazbz)
+    return Izazbz
 
 
 def Izazbz_to_XYZ(
@@ -342,7 +341,7 @@ def Izazbz_to_XYZ(
     array([ 0.2065401...,  0.1219723...,  0.0513696...])
     """
 
-    Izazbz = to_domain_1(Izazbz)
+    Izazbz = as_float_array(Izazbz)
 
     method = validate_method(method, IZAZBZ_METHODS)
 
@@ -371,7 +370,7 @@ def Izazbz_to_XYZ(
 
     XYZ_D65 = tstack([X_D65, Y_D65, Z_p_D65])
 
-    return from_range_1(XYZ_D65)
+    return XYZ_D65
 
 
 def XYZ_to_Jzazbz(
@@ -437,7 +436,7 @@ def XYZ_to_Jzazbz(
     array([ 0.0053504...,  0.0092430...,  0.0052600...])
     """
 
-    XYZ_D65 = to_domain_1(XYZ_D65)
+    XYZ_D65 = as_float_array(XYZ_D65)
 
     with domain_range_scale("ignore"):
         I_z, a_z, b_z = tsplit(
@@ -448,7 +447,7 @@ def XYZ_to_Jzazbz(
 
     Jzazbz = tstack([J_z, a_z, b_z])
 
-    return from_range_1(Jzazbz)
+    return Jzazbz
 
 
 def Jzazbz_to_XYZ(
@@ -512,7 +511,7 @@ def Jzazbz_to_XYZ(
     array([ 0.2065402...,  0.1219723...,  0.0513696...])
     """
 
-    J_z, a_z, b_z = tsplit(to_domain_1(Jzazbz))
+    J_z, a_z, b_z = tsplit(as_float_array(Jzazbz))
 
     I_z = (J_z + constants.d_0) / (
         1 + constants.d - constants.d * (J_z + constants.d_0)
@@ -523,4 +522,4 @@ def Jzazbz_to_XYZ(
             tstack([I_z, a_z, b_z]), CONSTANTS_JZAZBZ_SAFDAR2017, "Safdar 2017"
         )
 
-    return from_range_1(XYZ_D65)
+    return XYZ_D65

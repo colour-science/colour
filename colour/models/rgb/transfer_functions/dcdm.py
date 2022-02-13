@@ -29,7 +29,7 @@ from colour.hints import (
     IntegerOrNDArray,
     Union,
 )
-from colour.utilities import as_float, as_int, from_range_1, to_domain_1
+from colour.utilities import as_float_array, as_float, as_int
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -100,14 +100,14 @@ def eotf_inverse_DCDM(
     462
     """
 
-    XYZ = to_domain_1(XYZ)
+    XYZ = as_float_array(XYZ)
 
     XYZ_p = spow(XYZ / 52.37, 1 / 2.6)
 
     if out_int:
         return as_int(np.round(4095 * XYZ_p))
     else:
-        return as_float(from_range_1(XYZ_p))
+        return as_float(XYZ_p)
 
 
 def eotf_DCDM(
@@ -167,11 +167,11 @@ def eotf_DCDM(
     0.18...
     """
 
-    XYZ_p = to_domain_1(XYZ_p)
+    XYZ_p = as_float_array(XYZ_p)
 
     if in_int:
         XYZ_p = XYZ_p / 4095
 
     XYZ = 52.37 * spow(XYZ_p, 2.6)
 
-    return as_float(from_range_1(XYZ))
+    return as_float(XYZ)
