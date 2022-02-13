@@ -35,9 +35,10 @@ from colour.hints import (
     cast,
 )
 from colour.models import (
+    UCS_to_uv,
     UCS_uv_to_xy,
     XYZ_to_UCS,
-    UCS_to_uv,
+    xy_to_Luv_uv,
     xy_to_XYZ,
 )
 from colour.temperature import CCT_to_uv
@@ -83,7 +84,9 @@ def plot_planckian_locus(
     planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
     planckian_locus_opacity: Floating = 1,
     planckian_locus_labels: Optional[Sequence] = None,
-    method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
+    method: Union[
+        Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
+    ] = "CIE 1931",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -126,10 +129,20 @@ def plot_planckian_locus(
         :alt: plot_planckian_locus
     """
 
-    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS"])
+    method = validate_method(
+        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
 
     planckian_locus_colours = optional(
         planckian_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
+    )
+
+    planckian_locus_labels = cast(
+        Tuple,
+        optional(
+            planckian_locus_labels,
+            (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
+        ),
     )
 
     settings: Dict[str, Any] = {"uniform": True}
@@ -148,13 +161,6 @@ def plot_planckian_locus(
             return UCS_uv_to_xy(uv)
 
         D_uv = 0.025
-        labels = cast(
-            Tuple,
-            optional(
-                planckian_locus_labels,
-                (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
-            ),
-        )
 
     elif method == "cie 1960 ucs":
 
@@ -167,13 +173,18 @@ def plot_planckian_locus(
             return uv
 
         D_uv = 0.025
-        labels = cast(
-            Tuple,
-            optional(
-                planckian_locus_labels,
-                (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
-            ),
-        )
+
+    elif method == "cie 1976 ucs":
+
+        def uv_to_ij(uv: NDArray) -> NDArray:
+            """
+            Convert given *uv* chromaticity coordinates to *ij* chromaticity
+            coordinates.
+            """
+
+            return xy_to_Luv_uv(UCS_uv_to_xy(uv))
+
+        D_uv = 0.025
 
     def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
         """
@@ -209,7 +220,7 @@ def plot_planckian_locus(
     )
     axes.add_collection(line_collection)
 
-    for label in labels:
+    for label in planckian_locus_labels:
         CCT_D_uv = tstack(
             [full(10, label), np.linspace(-D_uv, D_uv, 10)]
         ).reshape(-1, 1, 2)
