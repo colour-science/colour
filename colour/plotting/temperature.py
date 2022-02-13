@@ -216,7 +216,7 @@ def plot_planckian_locus(
         np.concatenate([ij[:-1], ij[1:]], axis=1),
         colors=pl_colours,
         alpha=planckian_locus_opacity,
-        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
     axes.add_collection(line_collection)
 
@@ -236,7 +236,7 @@ def plot_planckian_locus(
             np.concatenate([ij[:-1], ij[1:]], axis=1),
             colors=itl_colours,
             alpha=planckian_locus_opacity,
-            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         )
         axes.add_collection(line_collection)
         axes.annotate(
@@ -245,7 +245,7 @@ def plot_planckian_locus(
             xytext=(0, -CONSTANTS_COLOUR_STYLE.geometry.long / 2),
             textcoords="offset points",
             size="x-small",
-            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_label,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
         )
 
     settings = {"axes": axes}
@@ -392,7 +392,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
             "xytext": (-50, 30),
             "textcoords": "offset points",
             "arrowprops": CONSTANTS_ARROW_STYLE,
-            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_annotation,
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_annotation,
         }
         for _ in range(len(illuminants_filtered))
     ]
@@ -415,7 +415,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
                 CONSTANTS_COLOUR_STYLE.geometry.short * 6
                 + CONSTANTS_COLOUR_STYLE.geometry.short * 0.75
             ),
-            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         }
         for illuminant in illuminants_filtered
     ]
