@@ -43,7 +43,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -383,13 +383,8 @@ arithmetical_operation`
     @abstractmethod
     def function(self) -> Callable:
         """
-        Getter and setter property for the abstract continuous function
-        callable, must be reimplemented by sub-classes.
-
-        Parameters
-        ----------
-        value
-            Attribute value.
+        Getter property for the abstract continuous function callable, must be
+        reimplemented by sub-classes.
 
         Returns
         -------

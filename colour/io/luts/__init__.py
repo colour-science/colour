@@ -71,7 +71,7 @@ __all__ += [
     "write_LUT_Cinespace",
 ]
 
-EXTENSION_TO_LUT_FORMAT_MAPPING: CaseInsensitiveMapping = (
+MAPPING_EXTENSION_TO_LUT_FORMAT: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(
         {
             ".cube": "Iridas Cube",
@@ -209,7 +209,7 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     method = cast(
         str,
         optional(
-            method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+            method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
         ),
     )
 
@@ -332,7 +332,7 @@ def write_LUT(
     method = cast(
         str,
         optional(
-            method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+            method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
         ),
     )
 

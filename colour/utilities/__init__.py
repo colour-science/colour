@@ -75,8 +75,8 @@ from .array import (
     as_float_array,
     as_int_scalar,
     as_float_scalar,
-    set_float_precision,
-    set_int_precision,
+    set_default_int_dtype,
+    set_default_float_dtype,
     get_domain_range_scale,
     set_domain_range_scale,
     domain_range_scale,
@@ -191,8 +191,8 @@ __all__ += [
     "as_float_array",
     "as_int_scalar",
     "as_float_scalar",
-    "set_float_precision",
-    "set_int_precision",
+    "set_default_int_dtype",
+    "set_default_float_dtype",
     "get_domain_range_scale",
     "set_domain_range_scale",
     "domain_range_scale",
@@ -249,6 +249,16 @@ class utilities(ModuleAPI):
 
 # v0.4.0
 API_CHANGES: Dict = {
+    "ObjectRenamed": [
+        [
+            "colour.utilities.set_int_precision",
+            "colour.utilities.set_default_int_dtype",
+        ],
+        [
+            "colour.utilities.set_float_precision",
+            "colour.utilities.set_default_float_dtype",
+        ],
+    ],
     "ObjectFutureAccessChange": [
         [
             "colour.utilities.linstep_function",
@@ -270,7 +280,7 @@ API_CHANGES: Dict = {
             "colour.utilities.vector_dot",
             "colour.algebra.vector_dot",
         ],
-    ]
+    ],
 }
 """
 Defines the *colour.utilities* sub-package API changes.

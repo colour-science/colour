@@ -64,7 +64,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -82,8 +82,8 @@ __all__ = [
     "as_float_array",
     "as_int_scalar",
     "as_float_scalar",
-    "set_float_precision",
-    "set_int_precision",
+    "set_default_int_dtype",
+    "set_default_float_dtype",
     "get_domain_range_scale",
     "set_domain_range_scale",
     "domain_range_scale",
@@ -791,11 +791,59 @@ def as_float_scalar(
     return cast(Floating, as_float(a, dtype))
 
 
-def set_float_precision(
+def set_default_int_dtype(
+    dtype: Type[DTypeInteger] = DEFAULT_INT_DTYPE,
+) -> None:
+    """
+    Set *Colour* default :class:`numpy.integer` precision by setting
+    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute with given
+    :class:`numpy.dtype` wherever the attribute is imported.
+
+    Parameters
+    ----------
+    dtype
+        :class:`numpy.dtype` to set :attr:`colour.constant.DEFAULT_INT_DTYPE`
+        with.
+
+    Notes
+    -----
+    -   It is possible to define the int precision at import time by setting
+        the *COLOUR_SCIENCE__DEFAULT_INT_DTYPE* environment variable, for
+        example `set COLOUR_SCIENCE__DEFAULT_INT_DTYPE=int32`.
+
+    Warnings
+    --------
+    This definition is mostly given for consistency purposes with
+    :func:`colour.utilities.set_default_float_dtype` definition but contrary to the
+    latter, changing *integer* precision will almost certainly completely break
+    *Colour*. With great power comes great responsibility.
+
+    Examples
+    --------
+    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
+    dtype('int64')
+    >>> set_default_int_dtype(np.int32)
+    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
+    dtype('int32')
+    >>> set_default_int_dtype(np.int64)
+    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
+    dtype('int64')
+    """
+
+    # TODO: Investigate behaviour on Windows.
+    with suppress_warnings(colour_usage_warnings=True):
+        for name, module in sys.modules.items():
+            if not hasattr(module, "DEFAULT_INT_DTYPE"):
+                continue
+
+            setattr(module, "DEFAULT_INT_DTYPE", dtype)
+
+
+def set_default_float_dtype(
     dtype: Type[DTypeFloating] = DEFAULT_FLOAT_DTYPE,
 ) -> None:
     """
-    Set *Colour* *float* precision by setting
+    Set *Colour* default :class:`numpy.floating` precision by setting
     :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute with given
     :class:`numpy.dtype` wherever the attribute is imported.
 
@@ -814,8 +862,8 @@ def set_float_precision(
     Notes
     -----
     -   It is possible to define the *float* precision at import time by
-        setting the *COLOUR_SCIENCE__FLOAT_PRECISION* environment variable,
-        for example `set COLOUR_SCIENCE__FLOAT_PRECISION=float32`.
+        setting the *COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE* environment variable,
+        for example `set COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE=float32`.
     -   Some definition returning a single-scalar ndarray might not honour the
         given *float* precision: https://github.com/numpy/numpy/issues/16353
 
@@ -823,10 +871,10 @@ def set_float_precision(
     --------
     >>> as_float_array(np.ones(3)).dtype
     dtype('float64')
-    >>> set_float_precision(np.float16)
+    >>> set_default_float_dtype(np.float16)
     >>> as_float_array(np.ones(3)).dtype
     dtype('float16')
-    >>> set_float_precision(np.float64)
+    >>> set_default_float_dtype(np.float64)
     >>> as_float_array(np.ones(3)).dtype
     dtype('float64')
     """
@@ -837,52 +885,6 @@ def set_float_precision(
                 continue
 
             setattr(module, "DEFAULT_FLOAT_DTYPE", dtype)
-
-
-def set_int_precision(dtype: Type[DTypeInteger] = DEFAULT_INT_DTYPE) -> None:
-    """
-    Set *Colour* *integer* precision by setting
-    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute with given
-    :class:`numpy.dtype` wherever the attribute is imported.
-
-    Parameters
-    ----------
-    dtype
-        :class:`numpy.dtype` to set :attr:`colour.constant.DEFAULT_INT_DTYPE`
-        with.
-
-    Notes
-    -----
-    -   It is possible to define the int precision at import time by setting
-        the *COLOUR_SCIENCE__INT_PRECISION* environment variable, for example
-        `set COLOUR_SCIENCE__INT_PRECISION=int32`.
-
-    Warnings
-    --------
-    This definition is mostly given for consistency purposes with
-    :func:`colour.utilities.set_float_precision` definition but contrary to the
-    latter, changing *integer* precision will almost certainly completely break
-    *Colour*. With great power comes great responsibility.
-
-    Examples
-    --------
-    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
-    dtype('int64')
-    >>> set_int_precision(np.int32)
-    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
-    dtype('int32')
-    >>> set_int_precision(np.int64)
-    >>> as_int_array(np.ones(3)).dtype  # doctest: +SKIP
-    dtype('int64')
-    """
-
-    # TODO: Investigate behaviour on Windows.
-    with suppress_warnings(colour_usage_warnings=True):
-        for name, module in sys.modules.items():
-            if not hasattr(module, "DEFAULT_INT_DTYPE"):
-                continue
-
-            setattr(module, "DEFAULT_INT_DTYPE", dtype)
 
 
 # TODO: Annotate with "Union[Literal['ignore', 'reference', '1', '100'], str]"

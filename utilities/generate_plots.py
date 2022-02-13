@@ -118,14 +118,12 @@ from colour.plotting.section import (  # noqa
 )
 from colour.plotting.temperature import (  # noqa
     plot_planckian_locus,
-    plot_planckian_locus_CIE1931,
-    plot_planckian_locus_CIE1960UCS,
     plot_planckian_locus_in_chromaticity_diagram,
 )
 from colour.quality import colour_quality_scale  # noqa
 from colour.utilities import domain_range_scale, filter_warnings  # noqa
 
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -507,7 +505,11 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Chromaticity_Diagram_Colours.png"
     )
-    plt.close(plot_chromaticity_diagram_colours(**arguments)[0])
+    plt.close(
+        plot_chromaticity_diagram_colours(diagram_colours="RGB", **arguments)[
+            0
+        ]
+    )
 
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Chromaticity_Diagram.png"
@@ -899,17 +901,9 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Planckian_Locus.png"
     )
-    plt.close(plot_planckian_locus(**arguments)[0])
-
-    arguments["filename"] = os.path.join(
-        output_directory, "Plotting_Plot_Planckian_Locus_CIE1931.png"
+    plt.close(
+        plot_planckian_locus(planckian_locus_colours="RGB", **arguments)[0]
     )
-    plt.close(plot_planckian_locus_CIE1931(**arguments)[0])
-
-    arguments["filename"] = os.path.join(
-        output_directory, "Plotting_Plot_Planckian_Locus_CIE1960UCS.png"
-    )
-    plt.close(plot_planckian_locus_CIE1960UCS(**arguments)[0])
 
     arguments["filename"] = os.path.join(
         output_directory,

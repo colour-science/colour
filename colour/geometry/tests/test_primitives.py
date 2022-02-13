@@ -4,13 +4,13 @@ import numpy as np
 import unittest
 
 from colour.geometry import (
-    PLANE_TO_AXIS_MAPPING,
+    MAPPING_PLANE_TO_AXIS,
     primitive_grid,
     primitive_cube,
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -175,10 +175,10 @@ class TestPrimitiveGrid(unittest.TestCase):
             ),
         )
 
-        for plane in PLANE_TO_AXIS_MAPPING.keys():
+        for plane in MAPPING_PLANE_TO_AXIS.keys():
             np.testing.assert_almost_equal(
                 primitive_grid(axis=plane)[0]["position"],
-                primitive_grid(axis=PLANE_TO_AXIS_MAPPING[plane])[0][
+                primitive_grid(axis=MAPPING_PLANE_TO_AXIS[plane])[0][
                     "position"
                 ],
                 decimal=7,
@@ -783,10 +783,10 @@ class TestPrimitiveCube(unittest.TestCase):
             ),
         )
 
-        for plane in PLANE_TO_AXIS_MAPPING.keys():
+        for plane in MAPPING_PLANE_TO_AXIS.keys():
             np.testing.assert_almost_equal(
                 primitive_cube(planes=[plane])[0]["position"],
-                primitive_cube(planes=[PLANE_TO_AXIS_MAPPING[plane]])[0][
+                primitive_cube(planes=[MAPPING_PLANE_TO_AXIS[plane]])[0][
                     "position"
                 ],
                 decimal=7,

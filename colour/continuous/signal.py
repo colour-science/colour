@@ -70,7 +70,7 @@ else:  # pragma: no cover
     Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -345,11 +345,6 @@ class Signal(AbstractContinuousFunction):
             )
 
         if value.size != self._range.size:
-            runtime_warning(
-                f'"{self.name}" new "domain" and current "range" variables '
-                f'have different size, "range" variable will be resized to '
-                f'"domain" variable shape!'
-            )
             self._range = np.resize(self._range, value.shape)
 
         self._domain = value

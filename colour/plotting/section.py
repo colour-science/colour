@@ -71,26 +71,24 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "AXIS_TO_PLANE_MAPPING",
+    "MAPPING_AXIS_TO_PLANE",
     "plot_hull_section_colours",
     "plot_hull_section_contour",
     "plot_visible_spectrum_section",
     "plot_RGB_colourspace_section",
 ]
 
-AXIS_TO_PLANE_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MAPPING_AXIS_TO_PLANE: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {"+x": (1, 2), "+y": (0, 2), "+z": (0, 1)}
 )
-AXIS_TO_PLANE_MAPPING.__doc__ = """
-Axis to plane mapping.
-"""
+MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""
 
 
 @required("trimesh")
@@ -161,7 +159,7 @@ def plot_hull_section_colours(
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
     samples
-        Samples count when computing the hull section colours.
+        Samples count on one axis when computing the hull section colours.
 
     Other Parameters
     ----------------
@@ -238,7 +236,7 @@ def plot_hull_section_colours(
         index_origin = 1
     elif axis == "+z":
         index_origin = 2
-    plane = AXIS_TO_PLANE_MAPPING[axis]
+    plane = MAPPING_AXIS_TO_PLANE[axis]
 
     section = hull_section(hull, axis, origin, normalise)
 
@@ -427,7 +425,7 @@ def plot_hull_section_contour(
 
     hull.vertices = ijk_vertices
 
-    plane = AXIS_TO_PLANE_MAPPING[axis]
+    plane = MAPPING_AXIS_TO_PLANE[axis]
 
     padding = 0.1 * np.mean(
         COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
@@ -622,7 +620,7 @@ def plot_visible_spectrum_section(
         f"{cmfs.strict_name}"
     )
 
-    plane = AXIS_TO_PLANE_MAPPING[axis]
+    plane = MAPPING_AXIS_TO_PLANE[axis]
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[
         as_int_array(colourspace_model_axis_reorder([0, 1, 2], model))
@@ -781,7 +779,7 @@ def plot_RGB_colourspace_section(
         f"{model}"
     )
 
-    plane = AXIS_TO_PLANE_MAPPING[axis]
+    plane = MAPPING_AXIS_TO_PLANE[axis]
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[
         as_int_array(colourspace_model_axis_reorder([0, 1, 2], model))

@@ -55,6 +55,7 @@ from colour.models import (
     XYZ_to_xy,
     xy_to_XYZ,
 )
+from colour.notation import HEX_to_RGB
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     CONSTANTS_ARROW_STYLE,
@@ -79,7 +80,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -368,6 +369,7 @@ def plot_spectral_locus(
 @override_style()
 def plot_chromaticity_diagram_colours(
     samples: Integer = 256,
+    diagram_colours: Optional[Union[ArrayLike, str]] = None,
     diagram_opacity: Floating = 1.0,
     diagram_clipping_path: Optional[ArrayLike] = None,
     cmfs: Union[
@@ -386,7 +388,12 @@ def plot_chromaticity_diagram_colours(
     Parameters
     ----------
     samples
-        Samples count on one axis.
+        Samples count on one axis when computing the *Chromaticity Diagram*
+        colours.
+    diagram_colours
+        Colours of the *Chromaticity Diagram*, if ``diagram_colours`` is set
+        to *RGB*, the colours will be computed according to the corresponding
+        coordinates.
     diagram_opacity
         Opacity of the *Chromaticity Diagram* colours.
     diagram_clipping_path
@@ -411,7 +418,8 @@ def plot_chromaticity_diagram_colours(
 
     Examples
     --------
-    >>> plot_chromaticity_diagram_colours()  # doctest: +ELLIPSIS
+    >>> plot_chromaticity_diagram_colours(diagram_colours='RGB')
+    ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_Colours.png
@@ -428,55 +436,71 @@ def plot_chromaticity_diagram_colours(
 
     _figure, axes = artist(**settings)
 
+    diagram_colours = cast(
+        ArrayLike,
+        optional(
+            diagram_colours, HEX_to_RGB(CONSTANTS_COLOUR_STYLE.colour.average)
+        ),
+    )
+
     cmfs = cast(
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
     illuminant = CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint
 
-    ii, jj = np.meshgrid(
-        np.linspace(0, 1, samples), np.linspace(1, 0, samples)
-    )
-    ij = tstack([ii, jj])
+    if method == "cie 1931":
+        spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
+    elif method == "cie 1960 ucs":
+        spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
+    elif method == "cie 1976 ucs":
+        spectral_locus = Luv_to_uv(
+            XYZ_to_Luv(cmfs.values, illuminant), illuminant
+        )
 
-    # NOTE: Various values in the grid have potential to generate
-    # zero-divisions, they could be avoided by perturbing the grid, e.g. adding
-    # a small epsilon. It was decided instead to disable warnings.
-    with suppress_warnings(python_warnings=True):
-        if method == "cie 1931":
-            XYZ = xy_to_XYZ(ij)
-            spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
-        elif method == "cie 1960 ucs":
-            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-            spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-        elif method == "cie 1976 ucs":
-            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
-            spectral_locus = Luv_to_uv(
-                XYZ_to_Luv(cmfs.values, illuminant), illuminant
-            )
+    use_RGB_diagram_colours = str(diagram_colours).upper() == "RGB"
 
-    RGB = normalise_maximum(
-        XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1
-    )
+    if use_RGB_diagram_colours:
+        ii, jj = np.meshgrid(
+            np.linspace(0, 1, samples), np.linspace(1, 0, samples)
+        )
+        ij = tstack([ii, jj])
+
+        # NOTE: Various values in the grid have potential to generate
+        # zero-divisions, they could be avoided by perturbing the grid, e.g.
+        # adding a small epsilon. It was decided instead to disable warnings.
+        with suppress_warnings(python_warnings=True):
+            if method == "cie 1931":
+                XYZ = xy_to_XYZ(ij)
+            elif method == "cie 1960 ucs":
+                XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
+            elif method == "cie 1976 ucs":
+                XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+
+        diagram_colours = normalise_maximum(
+            XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1
+        )
 
     polygon = Polygon(
         spectral_locus
         if diagram_clipping_path is None
         else diagram_clipping_path,
-        facecolor="none",
-        edgecolor="none",
+        facecolor="none" if use_RGB_diagram_colours else diagram_colours,
+        edgecolor="none" if use_RGB_diagram_colours else diagram_colours,
     )
     axes.add_patch(polygon)
-    # Preventing bounding box related issues as per
-    # https://github.com/matplotlib/matplotlib/issues/10529
-    image = axes.imshow(
-        RGB,
-        interpolation="bilinear",
-        extent=(0, 1, 0, 1),
-        clip_path=None,
-        alpha=diagram_opacity,
-    )
-    image.set_clip_path(polygon)
+
+    if use_RGB_diagram_colours:
+        # Preventing bounding box related issues as per
+        # https://github.com/matplotlib/matplotlib/issues/10529
+        image = axes.imshow(
+            diagram_colours,
+            interpolation="bilinear",
+            extent=(0, 1, 0, 1),
+            clip_path=None,
+            alpha=diagram_opacity,
+        )
+        image.set_clip_path(polygon)
 
     settings = {"axes": axes}
     settings.update(kwargs)
@@ -552,7 +576,7 @@ def plot_chromaticity_diagram(
     )
 
     if show_diagram_colours:
-        settings = {"axes": axes, "method": method}
+        settings = {"axes": axes, "method": method, "diagram_colours": "RGB"}
         settings.update(kwargs)
         settings["standalone"] = False
         settings["cmfs"] = cmfs

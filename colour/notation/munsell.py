@@ -175,7 +175,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers, Paul Centore"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __copyright__ += ", "
 __copyright__ += (
     "The Munsell and Kubelka-Munk Toolbox: Copyright  2010-2018 Paul Centore "
