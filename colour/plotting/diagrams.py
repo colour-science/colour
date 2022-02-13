@@ -108,6 +108,7 @@ def plot_spectral_locus(
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
     spectral_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    spectral_locus_opacity: Floating = 1,
     spectral_locus_labels: Optional[Sequence] = None,
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
@@ -127,6 +128,8 @@ def plot_spectral_locus(
         *Spectral Locus* colours, if ``spectral_locus_colours`` is set to
         *RGB*, the colours will be computed according to the corresponding
         chromaticity coordinates.
+    spectral_locus_opacity
+        Opacity of the *Spectral Locus*.
     spectral_locus_labels
         Array of wavelength labels used to customise which labels will be drawn
         around the spectral locus. Passing an empty array will result in no
@@ -302,6 +305,7 @@ def plot_spectral_locus(
         line_collection = LineCollection(
             np.concatenate([slp_ij[:-1], slp_ij[1:]], axis=1),
             colors=slp_colours,
+            alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
         )
         axes.add_collection(line_collection)
@@ -347,6 +351,7 @@ def plot_spectral_locus(
             (i, i + normal[0] * 0.75),
             (j, j + normal[1] * 0.75),
             color=label_colour,
+            alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
         )
 
@@ -355,6 +360,7 @@ def plot_spectral_locus(
             j,
             "o",
             color=label_colour,
+            alpha=spectral_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
         )
 
@@ -379,7 +385,7 @@ def plot_spectral_locus(
 def plot_chromaticity_diagram_colours(
     samples: Integer = 256,
     diagram_colours: Optional[Union[ArrayLike, str]] = None,
-    diagram_opacity: Floating = 1.0,
+    diagram_opacity: Floating = 1,
     diagram_clipping_path: Optional[ArrayLike] = None,
     cmfs: Union[
         MultiSpectralDistributions,

@@ -24,6 +24,7 @@ from colour.hints import (
     ArrayLike,
     Callable,
     Dict,
+    Floating,
     List,
     Literal,
     NDArray,
@@ -80,6 +81,7 @@ __all__ = [
 @override_style()
 def plot_planckian_locus(
     planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    planckian_locus_opacity: Floating = 1,
     planckian_locus_labels: Optional[Sequence] = None,
     method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
     **kwargs: Any,
@@ -93,6 +95,8 @@ def plot_planckian_locus(
         *Planckian Locus* colours, if ``planckian_locus_colours`` is set to
         *RGB*, the colours will be computed according to the corresponding
         chromaticity coordinates.
+    planckian_locus_opacity
+       Opacity of the *Planckian Locus*.
     planckian_locus_labels
         Array of labels used to customise which iso-temperature lines will be
         drawn along the *Planckian Locus*. Passing an empty array will result
@@ -200,6 +204,7 @@ def plot_planckian_locus(
     line_collection = LineCollection(
         np.concatenate([ij[:-1], ij[1:]], axis=1),
         colors=pl_colours,
+        alpha=planckian_locus_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
     )
     axes.add_collection(line_collection)
@@ -219,6 +224,7 @@ def plot_planckian_locus(
         line_collection = LineCollection(
             np.concatenate([ij[:-1], ij[1:]], axis=1),
             colors=itl_colours,
+            alpha=planckian_locus_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
         )
         axes.add_collection(line_collection)

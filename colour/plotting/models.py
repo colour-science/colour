@@ -62,6 +62,7 @@ from colour.hints import (
     Boolean,
     Callable,
     Dict,
+    Floating,
     List,
     Literal,
     NDArray,
@@ -279,6 +280,8 @@ def colourspace_model_axis_reorder(
 
 @override_style()
 def plot_pointer_gamut(
+    pointer_gamut_colours: Optional[Union[ArrayLike, str]] = None,
+    pointer_gamut_opacity: Floating = 1,
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
@@ -289,6 +292,10 @@ def plot_pointer_gamut(
 
     Parameters
     ----------
+    pointer_gamut_colours
+       *Pointer's Gamut* colours.
+    pointer_gamut_opacity
+       Opacity of the *Pointer's Gamut*.
     method
         Plotting method.
 
@@ -315,6 +322,13 @@ def plot_pointer_gamut(
 
     method = validate_method(
         method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
+
+    pointer_gamut_colours = optional(
+        pointer_gamut_colours, CONSTANTS_COLOUR_STYLE.colour.dark
+    )
+    pointer_gamut_opacity = optional(
+        pointer_gamut_opacity, CONSTANTS_COLOUR_STYLE.opacity.high
     )
 
     settings: Dict[str, Any] = {"uniform": True}
@@ -377,21 +391,19 @@ def plot_pointer_gamut(
             return xy_to_Luv_uv(xy)
 
     ij = xy_to_ij(as_float_array(CCS_POINTER_GAMUT_BOUNDARY))
-    alpha_p = CONSTANTS_COLOUR_STYLE.opacity.high
-    colour_p = CONSTANTS_COLOUR_STYLE.colour.darkest
     axes.plot(
         ij[..., 0],
         ij[..., 1],
         label="Pointer's Gamut",
-        color=colour_p,
-        alpha=alpha_p,
+        color=pointer_gamut_colours,
+        alpha=pointer_gamut_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
     axes.plot(
         (ij[-1][0], ij[0][0]),
         (ij[-1][1], ij[0][1]),
-        color=colour_p,
-        alpha=alpha_p,
+        color=pointer_gamut_colours,
+        alpha=pointer_gamut_opacity,
         zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
 
@@ -401,8 +413,8 @@ def plot_pointer_gamut(
     ij = XYZ_to_ij(XYZ, CCS_ILLUMINANT_POINTER_GAMUT)
 
     scatter_settings = {
-        "alpha": alpha_p / 2,
-        "color": colour_p,
+        "alpha": pointer_gamut_opacity / 2,
+        "color": pointer_gamut_colours,
         "marker": "+",
         "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_scatter,
     }
@@ -474,7 +486,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.plot_pointer_gamut`,
+        :func:`colour.plotting.models.plot_pointer_gamut`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
@@ -708,6 +720,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.plot_pointer_gamut`,
+        :func:`colour.plotting.models.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
@@ -799,6 +814,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.plot_pointer_gamut`,
+        :func:`colour.plotting.models.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
@@ -890,6 +908,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.plot_pointer_gamut`,
+        :func:`colour.plotting.models.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
@@ -969,7 +990,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.diagrams.\
+        :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
@@ -1104,7 +1125,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.diagrams.\
+        :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
@@ -1179,7 +1200,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.diagrams.\
+        :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
@@ -1254,7 +1275,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.diagrams.\
+        :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
