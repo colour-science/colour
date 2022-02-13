@@ -345,11 +345,6 @@ class Signal(AbstractContinuousFunction):
             )
 
         if value.size != self._range.size:
-            runtime_warning(
-                f'"{self.name}" new "domain" and current "range" variables '
-                f'have different size, "range" variable will be resized to '
-                f'"domain" variable shape!'
-            )
             self._range = np.resize(self._range, value.shape)
 
         self._domain = value
