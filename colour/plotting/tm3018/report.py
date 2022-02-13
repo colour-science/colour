@@ -172,6 +172,7 @@ def _plot_report_header(axes: plt.Axes) -> plt.Axes:
         va="center",
         size="x-large",
         weight="bold",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
     )
 
     return axes
@@ -208,6 +209,7 @@ def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
         ha="center",
         va="center",
         size="small",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
     )
 
 

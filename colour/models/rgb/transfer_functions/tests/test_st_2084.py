@@ -81,7 +81,7 @@ eotf_inverse_ST2084` definition domain and range scale support.
         C = 100
         N = eotf_inverse_ST2084(C)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -150,7 +150,7 @@ eotf_ST2084` definition domain and range scale support.
         N = 0.508078421517399
         C = eotf_ST2084(N)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(

@@ -178,6 +178,7 @@ def plot_colour_quality_bars(
             width=bar_width,
             edgecolor=CONSTANTS_COLOUR_STYLE.colour.dark,
             label=specification.name,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
         )
 
         hatches = (
@@ -205,7 +206,10 @@ def plot_colour_quality_bars(
             )
 
     axes.axhline(
-        y=100, color=CONSTANTS_COLOUR_STYLE.colour.dark, linestyle="--"
+        y=100,
+        color=CONSTANTS_COLOUR_STYLE.colour.dark,
+        linestyle="--",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
 
     axes.set_xticks(

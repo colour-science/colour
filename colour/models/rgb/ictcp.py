@@ -40,9 +40,8 @@ from colour.models.rgb.transfer_functions import (
     oetf_inverse_HLG_BT2100,
 )
 from colour.utilities import (
+    as_float_array,
     domain_range_scale,
-    from_range_1,
-    to_domain_1,
     validate_method,
 )
 
@@ -234,7 +233,7 @@ def RGB_to_ICtCp(
     array([ 0.6256789..., -0.0198449...,  0.3591125...])
     """
 
-    RGB = to_domain_1(RGB)
+    RGB = as_float_array(RGB)
     method = validate_method(
         method,
         [
@@ -264,7 +263,7 @@ def RGB_to_ICtCp(
         else vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
     )
 
-    return from_range_1(ICtCp)
+    return ICtCp
 
 
 def ICtCp_to_RGB(
@@ -369,7 +368,7 @@ def ICtCp_to_RGB(
     array([ 0.4562052...,  0.0308107...,  0.0409195...])
     """
 
-    ICtCp = to_domain_1(ICtCp)
+    ICtCp = as_float_array(ICtCp)
     method = validate_method(
         method,
         [
@@ -399,7 +398,7 @@ def ICtCp_to_RGB(
 
     RGB = vector_dot(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
-    return from_range_1(RGB)
+    return RGB
 
 
 def XYZ_to_ICtCp(

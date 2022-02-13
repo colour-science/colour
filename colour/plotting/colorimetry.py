@@ -229,6 +229,7 @@ def plot_single_sd(
         ),
         facecolor="none",
         edgecolor="none",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.add_patch(polygon)
 
@@ -240,9 +241,15 @@ def plot_single_sd(
         color=RGB,
         align="edge",
         clip_path=polygon,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
 
-    axes.plot(wavelengths, values, color=CONSTANTS_COLOUR_STYLE.colour.dark)
+    axes.plot(
+        wavelengths,
+        values,
+        color=CONSTANTS_COLOUR_STYLE.colour.dark,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
+    )
 
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -356,6 +363,7 @@ def plot_multi_sds(
     plot_settings_collection = [
         {
             "label": f"{sd.strict_name}",
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             "cmfs": "CIE 1931 2 Degree Standard Observer",
             "illuminant": SDS_ILLUMINANTS[
                 CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name
@@ -531,7 +539,11 @@ def plot_multi_cmfs(
 
     _figure, axes = artist(**kwargs)
 
-    axes.axhline(color=CONSTANTS_COLOUR_STYLE.colour.dark, linestyle="--")
+    axes.axhline(
+        color=CONSTANTS_COLOUR_STYLE.colour.dark,
+        linestyle="--",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
+    )
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, cmfs_i in enumerate(cmfs):
@@ -552,6 +564,7 @@ def plot_multi_cmfs(
                 values,
                 color=RGB,
                 label=f"{cmfs_i.strict_labels[j]} - {cmfs_i.strict_name}",
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             )
 
     bounding_box = (
@@ -1159,6 +1172,7 @@ def plot_blackbody_colours(
         width=shape.interval + (padding * shape.interval),
         color=RGB,
         align="edge",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
 
     settings: Dict[str, Any] = {

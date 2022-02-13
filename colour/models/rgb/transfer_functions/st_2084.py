@@ -26,7 +26,7 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float_array, as_float
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -117,7 +117,7 @@ def eotf_inverse_ST2084(
     0.5080784...
     """
 
-    C = to_domain_1(C)
+    C = as_float_array(C)
 
     Y_p = spow(C / L_p, constants.m_1)
 
@@ -126,7 +126,7 @@ def eotf_inverse_ST2084(
         constants.m_2,
     )
 
-    return as_float(from_range_1(N))
+    return as_float(N)
 
 
 def eotf_ST2084(
@@ -193,7 +193,7 @@ def eotf_ST2084(
     100.0000000...
     """
 
-    N = to_domain_1(N)
+    N = as_float_array(N)
 
     m_1_d = 1 / constants.m_1
     m_2_d = 1 / constants.m_2
@@ -207,4 +207,4 @@ def eotf_ST2084(
     L = spow((n / (constants.c_2 - constants.c_3 * V_p)), m_1_d)
     C = L_p * L
 
-    return as_float(from_range_1(C))
+    return as_float(C)

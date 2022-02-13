@@ -62,6 +62,7 @@ from colour.hints import (
     Boolean,
     Callable,
     Dict,
+    Floating,
     List,
     Literal,
     NDArray,
@@ -279,6 +280,8 @@ def colourspace_model_axis_reorder(
 
 @override_style()
 def plot_pointer_gamut(
+    pointer_gamut_colours: Optional[Union[ArrayLike, str]] = None,
+    pointer_gamut_opacity: Floating = 1,
     method: Union[
         Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
     ] = "CIE 1931",
@@ -289,6 +292,10 @@ def plot_pointer_gamut(
 
     Parameters
     ----------
+    pointer_gamut_colours
+       *Pointer's Gamut* colours.
+    pointer_gamut_opacity
+       Opacity of the *Pointer's Gamut*.
     method
         Plotting method.
 
@@ -315,6 +322,13 @@ def plot_pointer_gamut(
 
     method = validate_method(
         method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
+
+    pointer_gamut_colours = optional(
+        pointer_gamut_colours, CONSTANTS_COLOUR_STYLE.colour.dark
+    )
+    pointer_gamut_opacity = optional(
+        pointer_gamut_opacity, CONSTANTS_COLOUR_STYLE.opacity.high
     )
 
     settings: Dict[str, Any] = {"uniform": True}
@@ -377,29 +391,34 @@ def plot_pointer_gamut(
             return xy_to_Luv_uv(xy)
 
     ij = xy_to_ij(as_float_array(CCS_POINTER_GAMUT_BOUNDARY))
-    alpha_p = CONSTANTS_COLOUR_STYLE.opacity.high
-    colour_p = CONSTANTS_COLOUR_STYLE.colour.darkest
     axes.plot(
         ij[..., 0],
         ij[..., 1],
         label="Pointer's Gamut",
-        color=colour_p,
-        alpha=alpha_p,
+        color=pointer_gamut_colours,
+        alpha=pointer_gamut_opacity,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
     axes.plot(
         (ij[-1][0], ij[0][0]),
         (ij[-1][1], ij[0][1]),
-        color=colour_p,
-        alpha=alpha_p,
+        color=pointer_gamut_colours,
+        alpha=pointer_gamut_opacity,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
 
     XYZ = Lab_to_XYZ(
         LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT
     )
     ij = XYZ_to_ij(XYZ, CCS_ILLUMINANT_POINTER_GAMUT)
-    axes.scatter(
-        ij[..., 0], ij[..., 1], alpha=alpha_p / 2, color=colour_p, marker="+"
-    )
+
+    scatter_settings = {
+        "alpha": pointer_gamut_opacity / 2,
+        "color": pointer_gamut_colours,
+        "marker": "+",
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_scatter,
+    }
+    axes.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
 
     settings.update({"axes": axes})
     settings.update(kwargs)
@@ -467,7 +486,7 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.plot_pointer_gamut`,
+        :func:`colour.plotting.models.plot_pointer_gamut`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
@@ -581,6 +600,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
             "label": f"{colourspace.name}",
             "marker": "o",
             "color": next(cycle)[:3],
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         }
         for colourspace in colourspaces
     ]
@@ -700,6 +720,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.plot_pointer_gamut`,
+        :func:`colour.plotting.models.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
@@ -791,6 +814,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.plot_pointer_gamut`,
+        :func:`colour.plotting.models.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
@@ -882,6 +908,9 @@ def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.models.plot_pointer_gamut`,
+        :func:`colour.plotting.models.\
+plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
@@ -961,7 +990,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.diagrams.\
+        :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
@@ -1000,6 +1029,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         "c": "RGB",
         "marker": "o",
         "alpha": 0.85,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
     }
     if scatter_kwargs is not None:
         scatter_settings.update(scatter_kwargs)
@@ -1095,7 +1125,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.diagrams.\
+        :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
@@ -1170,7 +1200,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.diagrams.\
+        :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
@@ -1245,7 +1275,7 @@ def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.diagrams.\
+        :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
@@ -1456,6 +1486,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
             "alpha": 0.4,
             "edgecolor": CONSTANTS_COLOUR_STYLE.colour.cycle[1],
             "linewidth": colour_style()["lines.linewidth"],
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
         }
         for _ellipses_coefficient in ellipses_coefficients
     ]
@@ -1960,6 +1991,7 @@ def plot_constant_hue_loci(
         "c": "RGB",
         "marker": "o",
         "alpha": 0.85,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_scatter,
     }
     if scatter_kwargs is not None:
         scatter_settings.update(scatter_kwargs)
@@ -2000,6 +2032,7 @@ def plot_constant_hue_loci(
             ijk_ct[..., 0],
             _linear_equation(ijk_ct[..., 0], *popt),
             c=CONSTANTS_COLOUR_STYLE.colour.average,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )
 
         if use_RGB_colours:
@@ -2023,17 +2056,15 @@ def plot_constant_hue_loci(
 
             scatter_settings["c"] = np.clip(RGB_ct, 0, 1)
 
-        axes.scatter(
-            ijk_ct[..., 0], ijk_ct[..., 1], zorder=10, **scatter_settings
-        )
+        axes.scatter(ijk_ct[..., 0], ijk_ct[..., 1], **scatter_settings)
 
         axes.plot(
             ijk_cr[..., 0],
             ijk_cr[..., 1],
             "s",
-            zorder=10,
             c=np.clip(np.ravel(RGB_cr), 0, 1),
             markersize=CONSTANTS_COLOUR_STYLE.geometry.short * 8,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[

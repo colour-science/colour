@@ -24,6 +24,7 @@ from colour.hints import (
     ArrayLike,
     Callable,
     Dict,
+    Floating,
     List,
     Literal,
     NDArray,
@@ -34,9 +35,10 @@ from colour.hints import (
     cast,
 )
 from colour.models import (
+    UCS_to_uv,
     UCS_uv_to_xy,
     XYZ_to_UCS,
-    UCS_to_uv,
+    xy_to_Luv_uv,
     xy_to_XYZ,
 )
 from colour.temperature import CCT_to_uv
@@ -80,8 +82,11 @@ __all__ = [
 @override_style()
 def plot_planckian_locus(
     planckian_locus_colours: Optional[Union[ArrayLike, str]] = None,
+    planckian_locus_opacity: Floating = 1,
     planckian_locus_labels: Optional[Sequence] = None,
-    method: Union[Literal["CIE 1931", "CIE 1960 UCS"], str] = "CIE 1931",
+    method: Union[
+        Literal["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"], str
+    ] = "CIE 1931",
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -93,6 +98,8 @@ def plot_planckian_locus(
         *Planckian Locus* colours, if ``planckian_locus_colours`` is set to
         *RGB*, the colours will be computed according to the corresponding
         chromaticity coordinates.
+    planckian_locus_opacity
+       Opacity of the *Planckian Locus*.
     planckian_locus_labels
         Array of labels used to customise which iso-temperature lines will be
         drawn along the *Planckian Locus*. Passing an empty array will result
@@ -122,11 +129,22 @@ def plot_planckian_locus(
         :alt: plot_planckian_locus
     """
 
-    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS"])
+    method = validate_method(
+        method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
+    )
 
     planckian_locus_colours = optional(
         planckian_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
+
+    labels = cast(
+        Tuple,
+        optional(
+            planckian_locus_labels,
+            (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
+        ),
+    )
+    D_uv = 0.05
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -143,15 +161,6 @@ def plot_planckian_locus(
 
             return UCS_uv_to_xy(uv)
 
-        D_uv = 0.025
-        labels = cast(
-            Tuple,
-            optional(
-                planckian_locus_labels,
-                (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
-            ),
-        )
-
     elif method == "cie 1960 ucs":
 
         def uv_to_ij(uv: NDArray) -> NDArray:
@@ -162,14 +171,15 @@ def plot_planckian_locus(
 
             return uv
 
-        D_uv = 0.025
-        labels = cast(
-            Tuple,
-            optional(
-                planckian_locus_labels,
-                (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
-            ),
-        )
+    elif method == "cie 1976 ucs":
+
+        def uv_to_ij(uv: NDArray) -> NDArray:
+            """
+            Convert given *uv* chromaticity coordinates to *ij* chromaticity
+            coordinates.
+            """
+
+            return xy_to_Luv_uv(UCS_uv_to_xy(uv))
 
     def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
         """
@@ -189,13 +199,19 @@ def plot_planckian_locus(
     CCT_D_uv = tstack([CCT, zeros(CCT.shape)]).reshape(-1, 1, 2)
     ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
 
-    if str(planckian_locus_colours).upper() == "RGB":
+    use_RGB_planckian_locus_colours = (
+        str(planckian_locus_colours).upper() == "RGB"
+    )
+    if use_RGB_planckian_locus_colours:
         pl_colours = CCT_D_uv_to_plotting_colourspace(CCT_D_uv)
     else:
         pl_colours = planckian_locus_colours
 
     line_collection = LineCollection(
-        np.concatenate([ij[:-1], ij[1:]], axis=1), colors=pl_colours
+        np.concatenate([ij[:-1], ij[1:]], axis=1),
+        colors=pl_colours,
+        alpha=planckian_locus_opacity,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
     axes.add_collection(line_collection)
 
@@ -204,7 +220,7 @@ def plot_planckian_locus(
             [full(10, label), np.linspace(-D_uv, D_uv, 10)]
         ).reshape(-1, 1, 2)
 
-        if str(planckian_locus_colours).upper() == "RGB":
+        if use_RGB_planckian_locus_colours:
             itl_colours = CCT_D_uv_to_plotting_colourspace(CCT_D_uv)
         else:
             itl_colours = planckian_locus_colours
@@ -212,15 +228,19 @@ def plot_planckian_locus(
         ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
 
         line_collection = LineCollection(
-            np.concatenate([ij[:-1], ij[1:]], axis=1), colors=itl_colours
+            np.concatenate([ij[:-1], ij[1:]], axis=1),
+            colors=itl_colours,
+            alpha=planckian_locus_opacity,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         )
         axes.add_collection(line_collection)
         axes.annotate(
             f"{as_int_scalar(label)}K",
-            xy=(ij[0, :, 0], ij[0, :, 1]),
-            xytext=(0, -CONSTANTS_COLOUR_STYLE.geometry.long / 2),
+            xy=(ij[-1, :, 0], ij[-1, :, 1]),
+            xytext=(0, CONSTANTS_COLOUR_STYLE.geometry.long / 2),
             textcoords="offset points",
             size="x-small",
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
         )
 
     settings = {"axes": axes}
@@ -367,6 +387,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
             "xytext": (-50, 30),
             "textcoords": "offset points",
             "arrowprops": CONSTANTS_ARROW_STYLE,
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_annotation,
         }
         for _ in range(len(illuminants_filtered))
     ]
@@ -389,6 +410,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
                 CONSTANTS_COLOUR_STYLE.geometry.short * 6
                 + CONSTANTS_COLOUR_STYLE.geometry.short * 0.75
             ),
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         }
         for illuminant in illuminants_filtered
     ]

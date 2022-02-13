@@ -48,6 +48,11 @@ class TestPlotPlanckianLocus(unittest.TestCase):
             ValueError, lambda: plot_planckian_locus(method="Undefined")
         )
 
+        figure, axes = plot_planckian_locus(method="CIE 1976 UCS")
+
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
+
         figure, axes = plot_planckian_locus(planckian_locus_colours="RGB")
 
         self.assertIsInstance(figure, Figure)
