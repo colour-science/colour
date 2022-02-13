@@ -159,8 +159,8 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
                 "colourspace": RGB_COLOURSPACES["sRGB"],
             }
         ),
-        "opacity": Structure(**{"high": 0.75, "low": 0.25}),
-        "geometry": Structure(**{"long": 5, "short": 1}),
+        "opacity": Structure(**{"high": 0.75, "medium": 0.5, "low": 0.25}),
+        "geometry": Structure(**{"long": 5, "medium": 2.5, "short": 1}),
         "hatch": Structure(
             **{
                 "patterns": (
