@@ -137,13 +137,14 @@ def plot_planckian_locus(
         planckian_locus_colours, CONSTANTS_COLOUR_STYLE.colour.dark
     )
 
-    planckian_locus_labels = cast(
+    labels = cast(
         Tuple,
         optional(
             planckian_locus_labels,
             (10**6 / 600, 2000, 2500, 3000, 4000, 6000, 10**6 / 100),
         ),
     )
+    D_uv = 0.05
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -160,8 +161,6 @@ def plot_planckian_locus(
 
             return UCS_uv_to_xy(uv)
 
-        D_uv = 0.025
-
     elif method == "cie 1960 ucs":
 
         def uv_to_ij(uv: NDArray) -> NDArray:
@@ -172,8 +171,6 @@ def plot_planckian_locus(
 
             return uv
 
-        D_uv = 0.025
-
     elif method == "cie 1976 ucs":
 
         def uv_to_ij(uv: NDArray) -> NDArray:
@@ -183,8 +180,6 @@ def plot_planckian_locus(
             """
 
             return xy_to_Luv_uv(UCS_uv_to_xy(uv))
-
-        D_uv = 0.025
 
     def CCT_D_uv_to_plotting_colourspace(CCT_D_uv):
         """
@@ -220,7 +215,7 @@ def plot_planckian_locus(
     )
     axes.add_collection(line_collection)
 
-    for label in planckian_locus_labels:
+    for label in labels:
         CCT_D_uv = tstack(
             [full(10, label), np.linspace(-D_uv, D_uv, 10)]
         ).reshape(-1, 1, 2)
@@ -241,8 +236,8 @@ def plot_planckian_locus(
         axes.add_collection(line_collection)
         axes.annotate(
             f"{as_int_scalar(label)}K",
-            xy=(ij[0, :, 0], ij[0, :, 1]),
-            xytext=(0, -CONSTANTS_COLOUR_STYLE.geometry.long / 2),
+            xy=(ij[-1, :, 0], ij[-1, :, 1]),
+            xytext=(0, CONSTANTS_COLOUR_STYLE.geometry.long / 2),
             textcoords="offset points",
             size="x-small",
             zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
