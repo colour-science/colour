@@ -4,7 +4,7 @@ Contributors
 The Colour Developers
 ---------------------
 
--   **Thomas Mansencal**, *Visual Effects Artist @ Weta Digital*
+-   **Thomas Mansencal**, *Lead Pipeline Developer @ WetaFX*
 
     Maintainer, project coordination, overall development.
 
@@ -213,7 +213,7 @@ Acknowledgements
 Special Mentions
 ----------------
 
--   **Aurélia Sellier**, *FX Production Coordinator @ Weta Digital*
+-   **Aurélia Sellier**, *FX Production Coordinator @ WetaFX*
 
 Issues & Discussions
 --------------------
