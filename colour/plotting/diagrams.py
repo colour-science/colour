@@ -302,6 +302,7 @@ def plot_spectral_locus(
         line_collection = LineCollection(
             np.concatenate([slp_ij[:-1], slp_ij[1:]], axis=1),
             colors=slp_colours,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
         )
         axes.add_collection(line_collection)
 
@@ -346,9 +347,16 @@ def plot_spectral_locus(
             (i, i + normal[0] * 0.75),
             (j, j + normal[1] * 0.75),
             color=label_colour,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
         )
 
-        axes.plot(i, j, "o", color=label_colour)
+        axes.plot(
+            i,
+            j,
+            "o",
+            color=label_colour,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
+        )
 
         axes.text(
             i + normal[0],
@@ -358,6 +366,7 @@ def plot_spectral_locus(
             ha="left" if normal[0] >= 0 else "right",
             va="center",
             fontdict={"size": "small"},
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_label,
         )
 
     settings = {"axes": axes}
@@ -459,7 +468,6 @@ def plot_chromaticity_diagram_colours(
         )
 
     use_RGB_diagram_colours = str(diagram_colours).upper() == "RGB"
-
     if use_RGB_diagram_colours:
         ii, jj = np.meshgrid(
             np.linspace(0, 1, samples), np.linspace(1, 0, samples)
@@ -485,8 +493,13 @@ def plot_chromaticity_diagram_colours(
         spectral_locus
         if diagram_clipping_path is None
         else diagram_clipping_path,
-        facecolor="none" if use_RGB_diagram_colours else diagram_colours,
-        edgecolor="none" if use_RGB_diagram_colours else diagram_colours,
+        facecolor="none"
+        if use_RGB_diagram_colours
+        else np.hstack([diagram_colours, diagram_opacity]),
+        edgecolor="none"
+        if use_RGB_diagram_colours
+        else np.hstack([diagram_colours, diagram_opacity]),
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.add_patch(polygon)
 
@@ -499,6 +512,7 @@ def plot_chromaticity_diagram_colours(
             extent=(0, 1, 0, 1),
             clip_path=None,
             alpha=diagram_opacity,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
         )
         image.set_clip_path(polygon)
 
@@ -964,6 +978,7 @@ def plot_sds_in_chromaticity_diagram(
             "xytext": (-50, 30),
             "textcoords": "offset points",
             "arrowprops": CONSTANTS_ARROW_STYLE,
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_annotation,
         }
         for _ in range(len(sds_converted))
     ]
@@ -984,6 +999,7 @@ def plot_sds_in_chromaticity_diagram(
                 CONSTANTS_COLOUR_STYLE.geometry.short * 6
                 + CONSTANTS_COLOUR_STYLE.geometry.short * 0.75
             ),
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             "cmfs": cmfs,
             "illuminant": SDS_ILLUMINANTS[
                 CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name

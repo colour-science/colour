@@ -189,13 +189,18 @@ def plot_planckian_locus(
     CCT_D_uv = tstack([CCT, zeros(CCT.shape)]).reshape(-1, 1, 2)
     ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
 
-    if str(planckian_locus_colours).upper() == "RGB":
+    use_RGB_planckian_locus_colours = (
+        str(planckian_locus_colours).upper() == "RGB"
+    )
+    if use_RGB_planckian_locus_colours:
         pl_colours = CCT_D_uv_to_plotting_colourspace(CCT_D_uv)
     else:
         pl_colours = planckian_locus_colours
 
     line_collection = LineCollection(
-        np.concatenate([ij[:-1], ij[1:]], axis=1), colors=pl_colours
+        np.concatenate([ij[:-1], ij[1:]], axis=1),
+        colors=pl_colours,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
     )
     axes.add_collection(line_collection)
 
@@ -204,7 +209,7 @@ def plot_planckian_locus(
             [full(10, label), np.linspace(-D_uv, D_uv, 10)]
         ).reshape(-1, 1, 2)
 
-        if str(planckian_locus_colours).upper() == "RGB":
+        if use_RGB_planckian_locus_colours:
             itl_colours = CCT_D_uv_to_plotting_colourspace(CCT_D_uv)
         else:
             itl_colours = planckian_locus_colours
@@ -212,7 +217,9 @@ def plot_planckian_locus(
         ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
 
         line_collection = LineCollection(
-            np.concatenate([ij[:-1], ij[1:]], axis=1), colors=itl_colours
+            np.concatenate([ij[:-1], ij[1:]], axis=1),
+            colors=itl_colours,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
         )
         axes.add_collection(line_collection)
         axes.annotate(
@@ -221,6 +228,7 @@ def plot_planckian_locus(
             xytext=(0, -CONSTANTS_COLOUR_STYLE.geometry.long / 2),
             textcoords="offset points",
             size="x-small",
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_label,
         )
 
     settings = {"axes": axes}
@@ -367,6 +375,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
             "xytext": (-50, 30),
             "textcoords": "offset points",
             "arrowprops": CONSTANTS_ARROW_STYLE,
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_annotation,
         }
         for _ in range(len(illuminants_filtered))
     ]
@@ -389,6 +398,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
                 CONSTANTS_COLOUR_STYLE.geometry.short * 6
                 + CONSTANTS_COLOUR_STYLE.geometry.short * 0.75
             ),
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         }
         for illuminant in illuminants_filtered
     ]

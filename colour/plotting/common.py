@@ -160,6 +160,7 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
             }
         ),
         "opacity": Structure(**{"high": 0.75, "low": 0.25}),
+        "geometry": Structure(**{"long": 5, "short": 1}),
         "hatch": Structure(
             **{
                 "patterns": (
@@ -172,7 +173,25 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
                 )
             }
         ),
-        "geometry": Structure(**{"long": 5, "short": 1}),
+        "zorder": Structure(
+            {
+                "background_polygon": -140,
+                "background_scatter": -130,
+                "background_line": -120,
+                "background_annotation": -110,
+                "background_label": -100,
+                "midground_polygon": -90,
+                "midground_scatter": -80,
+                "midground_line": -70,
+                "midground_annotation": -60,
+                "midground_label": -50,
+                "foreground_polygon": -40,
+                "foreground_scatter": -30,
+                "foreground_line": -20,
+                "foreground_annotation": -10,
+                "foreground_label": 0,
+            }
+        ),
     }
 )
 """Various defaults settings used across the plotting sub-package."""
@@ -747,6 +766,7 @@ def label_rectangles(
             rotation=rotation,
             fontsize=text_size,
             clip_on=True,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_label,
         )
 
     return figure, axes
@@ -1305,6 +1325,7 @@ def plot_multi_colour_swatches(
     text_settings = {
         "offset": 0.05,
         "visible": True,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_label,
     }
     if text_kwargs is not None:
         text_settings.update(text_kwargs)
@@ -1326,6 +1347,7 @@ def plot_multi_colour_swatches(
             (x_0, x_1, x_1, x_0),
             (y_0, y_0, y_1, y_1),
             color=np.clip(colour_swatches_reference[i].RGB, 0, 1),
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
         )
 
         if compare_swatches == "stacked":
@@ -1345,12 +1367,14 @@ def plot_multi_colour_swatches(
                     y_1 - margin_Y * y,
                 ),
                 color=np.clip(colour_swatches_test[i].RGB, 0, 1),
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
             )
         else:
             axes.fill(
                 (x_0, x_1, x_1),
                 (y_0, y_0, y_1),
                 color=np.clip(colour_swatches_test[i].RGB, 0, 1),
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
             )
 
         if colour_swatch.name is not None and text_settings["visible"]:
@@ -1528,7 +1552,11 @@ def plot_multi_functions(
     _figure, axes = artist(**settings)
 
     plot_settings_collection = [
-        {"label": f"{name}"} for name in functions.keys()
+        {
+            "label": f"{name}",
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_label,
+        }
+        for name in functions.keys()
     ]
 
     if plot_kwargs is not None:
@@ -1650,6 +1678,7 @@ def plot_image(
     imshow_settings = {
         "interpolation": "nearest",
         "cmap": matplotlib.cm.Greys_r,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     }
     if imshow_kwargs is not None:
         imshow_settings.update(imshow_kwargs)
@@ -1659,6 +1688,7 @@ def plot_image(
         "offset": 0.005,
         "color": CONSTANTS_COLOUR_STYLE.colour.brightest,
         "alpha": CONSTANTS_COLOUR_STYLE.opacity.high,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_label,
     }
     if text_kwargs is not None:
         text_settings.update(text_kwargs)

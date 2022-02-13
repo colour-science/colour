@@ -249,8 +249,8 @@ def plot_hull_section_colours(
     max_y = np.max(ijk_vertices[..., plane[1]]) + padding
     extent = (min_x, max_x, min_y, max_y)
 
-    is_section_colours_RGB = str(section_colours).upper() == "RGB"
-    if is_section_colours_RGB:
+    use_RGB_section_colours = str(section_colours).upper() == "RGB"
+    if use_RGB_section_colours:
         ii, jj = np.meshgrid(
             np.linspace(min_x, max_x, samples),
             np.linspace(max_y, min_y, samples),
@@ -273,18 +273,22 @@ def plot_hull_section_colours(
     else:
         section_colours = np.hstack([section_colours, section_opacity])
 
-    facecolor = "none" if is_section_colours_RGB else section_colours
+    facecolor = "none" if use_RGB_section_colours else section_colours
     polygon = Polygon(
-        section[..., plane], facecolor=facecolor, edgecolor="none"
+        section[..., plane],
+        facecolor=facecolor,
+        edgecolor="none",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.add_patch(polygon)
-    if is_section_colours_RGB:
+    if use_RGB_section_colours:
         image = axes.imshow(
             np.clip(RGB_section, 0, 1),
             interpolation="bilinear",
             extent=extent,
             clip_path=None,
             alpha=section_opacity,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
         )
         image.set_clip_path(polygon)
 
@@ -436,9 +440,9 @@ def plot_hull_section_contour(
     max_y = np.max(ijk_vertices[..., plane[1]]) + padding
     extent = (min_x, max_x, min_y, max_y)
 
-    contour_colours_RGB = str(contour_colours).upper() == "RGB"
+    use_RGB_contour_colours = str(contour_colours).upper() == "RGB"
     section = hull_section(hull, axis, origin, normalise)
-    if contour_colours_RGB:
+    if use_RGB_contour_colours:
         ijk_section = section / (
             COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
         )
@@ -457,6 +461,7 @@ def plot_hull_section_contour(
         np.concatenate([section[:-1], section[1:]], axis=1),
         colors=contour_colours,
         alpha=contour_opacity,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
     )
     axes.add_collection(line_collection)
 

@@ -255,12 +255,14 @@ def plot_spectra_ANSIIESTM3018(
         specification.sd_reference.values / Y_reference,
         "black",
         label="Reference",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
     axes.plot(
         specification.sd_test.wavelengths,
         specification.sd_test.values / Y_test,
         "#F05046",
         label="Test",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
     axes.tick_params(axis="y", which="both", length=0)
     axes.set_yticklabels([])
@@ -336,6 +338,7 @@ def plot_colour_vector_graphic(
             "--",
             color="#A6A6A6",
             lw=0.75,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )
 
         angle = 2 * np.pi * (i + 0.5) / 16
@@ -347,19 +350,46 @@ def plot_colour_vector_graphic(
             xy=(1.41 * np.cos(angle), 1.41 * np.sin(angle)),
             weight="bold",
             size=9,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_annotation,
         )
 
     # Circles.
-    circle = plt.Circle((0, 0), 1, color="black", lw=1.25, fill=False)
+    circle = plt.Circle(
+        (0, 0),
+        1,
+        color="black",
+        lw=1.25,
+        fill=False,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
+    )
     axes.add_artist(circle)
     for radius in [0.8, 0.9, 1.1, 1.2]:
-        circle = plt.Circle((0, 0), radius, color="white", lw=0.75, fill=False)
+        circle = plt.Circle(
+            (0, 0),
+            radius,
+            color="white",
+            lw=0.75,
+            fill=False,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
+        )
         axes.add_artist(circle)
 
     # -/+20% marks near the white circles.
     props = dict(ha="right", color="white", size=7)
-    axes.annotate("-20%", xy=(0, -0.8), va="bottom", **props)
-    axes.annotate("+20%", xy=(0, -1.2), va="top", **props)
+    axes.annotate(
+        "-20%",
+        xy=(0, -0.8),
+        va="bottom",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_annotation,
+        **props,
+    )
+    axes.annotate(
+        "+20%",
+        xy=(0, -1.2),
+        va="top",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_annotation,
+        **props,
+    )
 
     # Average "CAM02" h correlate for each bin, in radians.
     average_hues = np.radians(
@@ -400,11 +430,19 @@ def plot_colour_vector_graphic(
             head_width=0.04,
             linewidth=None,
             color=_COLOURS_BIN_ARROW[i],
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_annotation,
         )
 
     # Red (test) gamut shape.
     loop = np.append(xy_test, xy_test[0, np.newaxis], axis=0)
-    axes.plot(loop[:, 0], loop[:, 1], "-", color="#F05046", lw=2)
+    axes.plot(
+        loop[:, 0],
+        loop[:, 1],
+        "-",
+        color="#F05046",
+        lw=2,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
+    )
 
     def corner_label_and_text(label: str, text: str, ha: str, va: str):
         """Draw a label and text in given corner."""
@@ -421,6 +459,7 @@ def plot_colour_vector_graphic(
             va=va,
             weight="bold",
             size="larger",
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
         )
         axes.annotate(
             label,
@@ -431,6 +470,7 @@ def plot_colour_vector_graphic(
             ha=ha,
             va=va,
             size="small",
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
         )
 
     corner_label_and_text("$R_f$", f"{specification.R_f:.0f}", "left", "top")
@@ -506,6 +546,7 @@ def plot_16_bin_bars(
         width=1,
         edgecolor="black",
         linewidth=CONSTANTS_COLOUR_STYLE.geometry.short / 3,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.set_xlim(0.5, bar_count + 0.5)
     if x_ticker:
@@ -530,6 +571,7 @@ def plot_16_bin_bars(
                 fontsize="xx-small",
                 ha="center",
                 va=va,
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_label,
             )
         elif label_orientation == "horizontal":
             va, vo = (
@@ -543,6 +585,7 @@ def plot_16_bin_bars(
                 fontsize="xx-small",
                 ha="center",
                 va=va,
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_label,
             )
 
     return render(**kwargs)
@@ -758,6 +801,7 @@ def plot_colour_fidelity_indexes(
         width=1,
         edgecolor="black",
         linewidth=CONSTANTS_COLOUR_STYLE.geometry.short / 3,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.set_xlim(0.5, bar_count + 0.5)
     axes.set_ylim(0, 100)

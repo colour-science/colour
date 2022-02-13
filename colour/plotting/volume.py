@@ -597,14 +597,18 @@ def plot_RGB_colourspaces_gamuts(
         )
 
         axes.plot(
-            points[..., 0], points[..., 1], points[..., 2], color=c, zorder=10
+            points[..., 0],
+            points[..., 1],
+            points[..., 2],
+            color=c,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )
         axes.plot(
             (points[-1][0], points[0][0]),
             (points[-1][1], points[0][1]),
             (points[-1][2], points[0][2]),
             color=c,
-            zorder=10,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )
 
     plotting_colourspace = CONSTANTS_COLOUR_STYLE.colour.colourspace
@@ -877,6 +881,7 @@ def plot_RGB_scatter(
         points[..., 2],
         color=np.reshape(RGB, (-1, 3)),
         s=points_size,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
     )
 
     settings.update({"axes": axes, "standalone": True})

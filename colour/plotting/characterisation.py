@@ -208,6 +208,7 @@ def plot_multi_colour_checkers(
         color=CONSTANTS_COLOUR_STYLE.colour.bright,
         ha="center",
         va="bottom",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_label,
     )
 
     settings.update(

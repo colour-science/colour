@@ -385,21 +385,28 @@ def plot_pointer_gamut(
         label="Pointer's Gamut",
         color=colour_p,
         alpha=alpha_p,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
     axes.plot(
         (ij[-1][0], ij[0][0]),
         (ij[-1][1], ij[0][1]),
         color=colour_p,
         alpha=alpha_p,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
     )
 
     XYZ = Lab_to_XYZ(
         LCHab_to_Lab(DATA_POINTER_GAMUT_VOLUME), CCS_ILLUMINANT_POINTER_GAMUT
     )
     ij = XYZ_to_ij(XYZ, CCS_ILLUMINANT_POINTER_GAMUT)
-    axes.scatter(
-        ij[..., 0], ij[..., 1], alpha=alpha_p / 2, color=colour_p, marker="+"
-    )
+
+    scatter_settings = {
+        "alpha": alpha_p / 2,
+        "color": colour_p,
+        "marker": "+",
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_scatter,
+    }
+    axes.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
 
     settings.update({"axes": axes})
     settings.update(kwargs)
@@ -581,6 +588,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
             "label": f"{colourspace.name}",
             "marker": "o",
             "color": next(cycle)[:3],
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         }
         for colourspace in colourspaces
     ]
@@ -1000,6 +1008,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         "c": "RGB",
         "marker": "o",
         "alpha": 0.85,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_scatter,
     }
     if scatter_kwargs is not None:
         scatter_settings.update(scatter_kwargs)
@@ -1456,6 +1465,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
             "alpha": 0.4,
             "edgecolor": CONSTANTS_COLOUR_STYLE.colour.cycle[1],
             "linewidth": colour_style()["lines.linewidth"],
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
         }
         for _ellipses_coefficient in ellipses_coefficients
     ]
@@ -1960,6 +1970,7 @@ def plot_constant_hue_loci(
         "c": "RGB",
         "marker": "o",
         "alpha": 0.85,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.foreground_scatter,
     }
     if scatter_kwargs is not None:
         scatter_settings.update(scatter_kwargs)
@@ -2000,6 +2011,7 @@ def plot_constant_hue_loci(
             ijk_ct[..., 0],
             _linear_equation(ijk_ct[..., 0], *popt),
             c=CONSTANTS_COLOUR_STYLE.colour.average,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )
 
         if use_RGB_colours:
@@ -2023,17 +2035,15 @@ def plot_constant_hue_loci(
 
             scatter_settings["c"] = np.clip(RGB_ct, 0, 1)
 
-        axes.scatter(
-            ijk_ct[..., 0], ijk_ct[..., 1], zorder=10, **scatter_settings
-        )
+        axes.scatter(ijk_ct[..., 0], ijk_ct[..., 1], **scatter_settings)
 
         axes.plot(
             ijk_cr[..., 0],
             ijk_cr[..., 1],
             "s",
-            zorder=10,
             c=np.clip(np.ravel(RGB_cr), 0, 1),
             markersize=CONSTANTS_COLOUR_STYLE.geometry.short * 8,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[
