@@ -6,6 +6,9 @@ Defines the *Munsell Renotation System* *Real* datasets. Those are *real*,
 within MacAdam limits *Munsell* colours only. They are the colours listed in
 the original 1943 renotation article *(Newhall, Nickerson, & Judd, 1943)*.
 
+Chromaticities assume Illuminant C, approximately 6700K, 
+as neutral origin for both the hue and chroma loci. 
+
 Notes
 -----
 -   The Munsell Renotation data commonly available within the all.dat,
