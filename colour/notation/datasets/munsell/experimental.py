@@ -25,6 +25,9 @@ Notes
         magnesium oxide with respect to the perfect reflecting diffuser, and
         rounding to ve digits of precision.
 
+-   Chromaticities assume *CIE Illuminant C*, approximately 6700K, as neutral
+    origin for both the hue and chroma loci.
+
 References
 ----------
 -   :cite:`MunsellColorSciencec` : Munsell Color Science. (n.d.). Munsell

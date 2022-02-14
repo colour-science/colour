@@ -293,7 +293,7 @@ def plot_pointer_gamut(
     Parameters
     ----------
     pointer_gamut_colours
-       *Pointer's Gamut* colours.
+       Colours of the *Pointer's Gamut*.
     pointer_gamut_opacity
        Opacity of the *Pointer's Gamut*.
     method

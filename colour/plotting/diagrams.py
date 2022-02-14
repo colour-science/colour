@@ -125,8 +125,8 @@ def plot_spectral_locus(
         spectral locus boundaries. ``cmfs`` can be of any type or form
         supported by the :func:`colour.plotting.filter_cmfs` definition.
     spectral_locus_colours
-        *Spectral Locus* colours, if ``spectral_locus_colours`` is set to
-        *RGB*, the colours will be computed according to the corresponding
+        Colours of the *Spectral Locus*, if ``spectral_locus_colours`` is set
+        to *RGB*, the colours will be computed according to the corresponding
         chromaticity coordinates.
     spectral_locus_opacity
         Opacity of the *Spectral Locus*.
@@ -410,7 +410,7 @@ def plot_chromaticity_diagram_colours(
         to *RGB*, the colours will be computed according to the corresponding
         coordinates.
     diagram_opacity
-        Opacity of the *Chromaticity Diagram* colours.
+        Opacity of the *Chromaticity Diagram*.
     diagram_clipping_path
         Path of points used to clip the *Chromaticity Diagram* colours.
     cmfs
