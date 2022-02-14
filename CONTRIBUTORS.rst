@@ -176,6 +176,10 @@ Development & Technical Support
 
     Technical support.
 
+-   **Aurélien Pierre**, *Core Developer @ darktable-org*
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
