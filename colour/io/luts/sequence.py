@@ -26,7 +26,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, attest, is_iterable
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -39,7 +39,7 @@ __all__ = [
 
 class LUTSequence(MutableSequence):
     """
-    Defines the base class for a *LUT* sequence, i.e. a series of *LUTs*,
+    Define the base class for a *LUT* sequence, i.e. a series of *LUTs*,
     *LUT* operators or objects implementing the
     :class:`colour.hints.TypeLUTSequenceItem` protocol.
 
@@ -137,9 +137,7 @@ class LUTSequence(MutableSequence):
 
     @sequence.setter
     def sequence(self, value: Sequence[TypeLUTSequenceItem]):
-        """
-        Setter for the **self.sequence** property.
-        """
+        """Setter for the **self.sequence** property."""
 
         for item in value:
             attest(
@@ -152,7 +150,7 @@ class LUTSequence(MutableSequence):
 
     def __getitem__(self, index: Union[Integer, slice]) -> Any:
         """
-        Returns the *LUT* sequence item(s) at given index (or slice).
+        Return the *LUT* sequence item(s) at given index (or slice).
 
         Parameters
         ----------
@@ -169,7 +167,7 @@ class LUTSequence(MutableSequence):
 
     def __setitem__(self, index: Union[Integer, slice], value: Any):
         """
-        Sets the *LUT* sequence at given index (or slice) with given value.
+        Set the *LUT* sequence at given index (or slice) with given value.
 
         Parameters
         ----------
@@ -190,7 +188,7 @@ class LUTSequence(MutableSequence):
 
     def __delitem__(self, index: Union[Integer, slice]):
         """
-        Deletes the *LUT* sequence item(s) at given index (or slice).
+        Delete the *LUT* sequence item(s) at given index (or slice).
 
         Parameters
         ----------
@@ -202,7 +200,7 @@ class LUTSequence(MutableSequence):
 
     def __len__(self) -> Integer:
         """
-        Returns the *LUT* sequence items count.
+        Return the *LUT* sequence items count.
 
         Returns
         -------
@@ -214,7 +212,7 @@ class LUTSequence(MutableSequence):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the *LUT* sequence.
+        Return a formatted string representation of the *LUT* sequence.
 
         Returns
         -------
@@ -244,7 +242,7 @@ class LUTSequence(MutableSequence):
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the *LUT* sequence.
+        Return an evaluable string representation of the *LUT* sequence.
 
         Returns
         -------
@@ -264,7 +262,7 @@ class LUTSequence(MutableSequence):
 
     def __eq__(self, other) -> bool:
         """
-        Returns whether the *LUT* sequence is equal to given other object.
+        Return whether the *LUT* sequence is equal to given other object.
 
         Parameters
         ----------
@@ -292,7 +290,7 @@ class LUTSequence(MutableSequence):
 
     def __ne__(self, other) -> bool:
         """
-        Returns whether the *LUT* sequence is not equal to given other object.
+        Return whether the *LUT* sequence is not equal to given other object.
 
         Parameters
         ----------
@@ -309,7 +307,7 @@ class LUTSequence(MutableSequence):
 
     def insert(self, index: Integer, item: TypeLUTSequenceItem):
         """
-        Inserts given *LUT* at given index into the *LUT* sequence.
+        Insert given *LUT* at given index into the *LUT* sequence.
 
         Parameters
         ----------
@@ -329,7 +327,7 @@ class LUTSequence(MutableSequence):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* sequence sequentially to given *RGB* colourspace
+        Apply the *LUT* sequence sequentially to given *RGB* colourspace
         array.
 
         Parameters
@@ -385,7 +383,7 @@ class LUTSequence(MutableSequence):
 
     def copy(self) -> LUTSequence:
         """
-        Returns a copy of the *LUT* sequence.
+        Return a copy of the *LUT* sequence.
 
         Returns
         -------

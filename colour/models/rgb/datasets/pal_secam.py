@@ -29,7 +29,7 @@ from colour.models.rgb.datasets.itur_bt_470 import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -45,29 +45,19 @@ __all__ = [
 ]
 
 PRIMARIES_PAL_SECAM: NDArray = PRIMARIES_BT470_625
-"""
-*Pal/Secam* colourspace primaries.
-"""
+"""*Pal/Secam* colourspace primaries."""
 
 WHITEPOINT_NAME_PAL_SECAM: str = WHITEPOINT_NAME_BT470_625
-"""
-*Pal/Secam* colourspace whitepoint name.
-"""
+"""*Pal/Secam* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_PAL_SECAM: NDArray = CCS_WHITEPOINT_BT470_625
-"""
-*Pal/Secam* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Pal/Secam* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_PAL_SECAM_TO_XYZ: NDArray = MATRIX_BT470_625_TO_XYZ
-"""
-*Pal/Secam* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Pal/Secam* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_PAL_SECAM: NDArray = MATRIX_XYZ_TO_BT470_625
-"""
-*CIE XYZ* tristimulus values to *Pal/Secam* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Pal/Secam* colourspace matrix."""
 
 RGB_COLOURSPACE_PAL_SECAM: RGB_Colourspace = RGB_Colourspace(
     "Pal/Secam",

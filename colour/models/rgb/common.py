@@ -12,7 +12,7 @@ from colour.hints import ArrayLike, Boolean, Literal, NDArray, Union
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -49,7 +49,7 @@ def XYZ_to_sRGB(
     apply_cctf_encoding: Boolean = True,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *sRGB* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
     Parameters
     ----------
@@ -70,7 +70,6 @@ def XYZ_to_sRGB(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -128,7 +127,7 @@ def sRGB_to_XYZ(
     apply_cctf_decoding: Boolean = True,
 ) -> NDArray:
     """
-    Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -149,7 +148,6 @@ def sRGB_to_XYZ(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

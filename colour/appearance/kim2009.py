@@ -62,7 +62,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -139,7 +139,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
 
     def __new__(cls, E):
         """
-        Returns a new instance of the
+        Return a new instance of the
         :class:`colour.appearance.MediaParameters_Kim2009` class.
         """
 
@@ -184,7 +184,7 @@ MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009[
 @dataclass
 class CAM_Specification_Kim2009(MixinDataclassArithmetic):
     """
-    Defines the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    Define the *Kim, Weyrich and Kautz (2009)* colour appearance model
     specification.
 
     Parameters
@@ -231,7 +231,7 @@ def XYZ_to_Kim2009(
     n_c: Floating = 0.57,
 ) -> CAM_Specification_Kim2009:
     """
-    Computes the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    Compute the *Kim, Weyrich and Kautz (2009)* colour appearance model
     correlates from given *CIE XYZ* tristimulus values.
 
     Parameters
@@ -259,7 +259,6 @@ def XYZ_to_Kim2009(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -361,7 +360,7 @@ H=278.0602824..., HC=None)
 
     # Computing the correlate of *chroma* :math:`C`.
     a_k, n_k = 456.5, 0.62
-    C = a_k * spow(np.sqrt(a ** 2 + b ** 2), n_k)
+    C = a_k * spow(np.sqrt(a**2 + b**2), n_k)
 
     # Computing the correlate of *colourfulness* :math:`M`.
     a_m, b_m = 0.11, 0.61
@@ -398,7 +397,7 @@ def Kim2009_to_XYZ(
     n_c: Floating = 0.57,
 ) -> NDArray:
     """
-    Converts from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
+    Convert from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
     tristimulus values.
 
     Parameters
@@ -435,7 +434,6 @@ def Kim2009_to_XYZ(
 
     Notes
     -----
-
     +---------------------------------+-----------------------+---------------+
     | **Domain**                      | **Scale - Reference** | **Scale - 1** |
     +=================================+=======================+===============+

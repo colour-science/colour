@@ -39,7 +39,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -63,7 +63,7 @@ __all__ = [
 @dataclass(frozen=True)
 class BitDepth_Specification:
     """
-    Defines a bit depth specification.
+    Define a bit depth specification.
 
     Parameters
     ----------
@@ -83,7 +83,7 @@ class BitDepth_Specification:
 @dataclass
 class ImageAttribute_Specification:
     """
-    Defines an image specification attribute.
+    Define an image specification attribute.
 
     Parameters
     ----------
@@ -105,7 +105,7 @@ class ImageAttribute_Specification:
 if is_openimageio_installed():  # pragma: no cover
     from OpenImageIO import UINT8, UINT16, HALF, FLOAT, DOUBLE
 
-    BIT_DEPTH_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    MAPPING_BIT_DEPTH: CaseInsensitiveMapping = CaseInsensitiveMapping(
         {
             "uint8": BitDepth_Specification("uint8", np.uint8, UINT8),
             "uint16": BitDepth_Specification("uint16", np.uint16, UINT16),
@@ -115,11 +115,11 @@ if is_openimageio_installed():  # pragma: no cover
         }
     )
     if hasattr(np, "float128"):  # pragma: no cover
-        BIT_DEPTH_MAPPING["float128"] = BitDepth_Specification(
+        MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
             "float128", np.float128, DOUBLE  # type: ignore[arg-type]
         )
 else:  # pragma: no cover
-    BIT_DEPTH_MAPPING: CaseInsensitiveMapping = (  # type: ignore[no-redef]
+    MAPPING_BIT_DEPTH: CaseInsensitiveMapping = (  # type: ignore[no-redef]
         CaseInsensitiveMapping(
             {
                 "uint8": BitDepth_Specification("uint8", np.uint8, None),
@@ -131,7 +131,7 @@ else:  # pragma: no cover
         )
     )
     if hasattr(np, "float128"):  # pragma: no cover
-        BIT_DEPTH_MAPPING["float128"] = BitDepth_Specification(
+        MAPPING_BIT_DEPTH["float128"] = BitDepth_Specification(
             "float128", np.float128, None  # type: ignore[arg-type]
         )
 
@@ -143,7 +143,7 @@ def convert_bit_depth(
     ] = "float32",
 ) -> NDArray:
     """
-    Converts given array to given bit depth, the current bit depth of the array
+    Convert given array to given bit depth, the current bit depth of the array
     is used to determine the appropriate conversion path.
 
     Parameters
@@ -176,7 +176,7 @@ def convert_bit_depth(
 
     a = np.asarray(a)
 
-    bit_depths = ", ".join(sorted(BIT_DEPTH_MAPPING.keys()))
+    bit_depths = ", ".join(sorted(MAPPING_BIT_DEPTH.keys()))
 
     attest(
         bit_depth in bit_depths,
@@ -189,7 +189,7 @@ def convert_bit_depth(
     )
 
     source_dtype = str(a.dtype)
-    target_dtype = BIT_DEPTH_MAPPING[bit_depth].numpy
+    target_dtype = MAPPING_BIT_DEPTH[bit_depth].numpy
 
     if source_dtype == "uint8":
         if bit_depth == "uint16":
@@ -219,9 +219,9 @@ def read_image_OpenImageIO(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     attributes: Boolean = False,
-) -> Union[NDArray, Tuple[NDArray, List]]:
+) -> Union[NDArray, Tuple[NDArray, List]]:  # noqa: D405,D410,D407,D411
     """
-    Reads the image at given path using *OpenImageIO*.
+    Read the image at given path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -257,7 +257,7 @@ def read_image_OpenImageIO(
 
     path = str(path)
 
-    bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
+    bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
     image = ImageInput.open(path)
     specification = image.spec()
@@ -299,7 +299,7 @@ def read_image_Imageio(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Reads the image at given path using *Imageio*.
+    Read the image at given path using *Imageio*.
 
     Parameters
     ----------
@@ -362,9 +362,9 @@ def read_image(
     ] = "float32",
     method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
     **kwargs: Any,
-) -> NDArray:
+) -> NDArray:  # noqa: D405,D407,D410,D411,D414
     """
-    Reads the image at given path using given method.
+    Read the image at given path using given method.
 
     Parameters
     ----------
@@ -437,9 +437,9 @@ def write_image_OpenImageIO(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     attributes: Optional[Sequence] = None,
-) -> Boolean:
+) -> Boolean:  # noqa: D405,D407,D410,D411
     """
-    Writes given image at given path using *OpenImageIO*.
+    Write given image at given path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -501,7 +501,7 @@ def write_image_OpenImageIO(
 
     attributes = cast(List, optional(attributes, []))
 
-    bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
+    bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
     if bit_depth_specification.numpy in [np.uint8, np.uint16]:
         mininum, maximum = np.iinfo(np.uint8).min, np.iinfo(np.uint8).max
@@ -552,7 +552,7 @@ def write_image_Imageio(
     **kwargs: Any,
 ) -> Boolean:
     """
-    Writes given image at given path using *Imageio*.
+    Write given image at given path using *Imageio*.
 
     Parameters
     ----------
@@ -614,9 +614,9 @@ def write_image(
     ] = "float32",
     method: Union[Literal["Imageio", "OpenImageIO"], str] = "OpenImageIO",
     **kwargs: Any,
-) -> Boolean:
+) -> Boolean:  # noqa: D405,D407,D410,D411,D414
     """
-    Writes given image at given path using given method.
+    Write given image at given path using given method.
 
     Parameters
     ----------

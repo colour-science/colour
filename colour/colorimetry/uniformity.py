@@ -25,7 +25,7 @@ from colour.colorimetry import (
 from colour.hints import Boolean, List, NDArray, Union
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -44,7 +44,7 @@ def spectral_uniformity(
     use_second_order_derivatives: Boolean = False,
 ) -> NDArray:
     """
-    Computes the *spectral uniformity* (or *spectral flatness*) of given
+    Compute the *spectral uniformity* (or *spectral flatness*) of given
     spectral distributions.
 
     Spectral uniformity :math:`(r')^2` is computed as follows:
@@ -125,4 +125,4 @@ def spectral_uniformity(
     if use_second_order_derivatives:
         r_i = np.gradient(r_i, axis=1) / interval
 
-    return np.mean(r_i ** 2, axis=0)
+    return np.mean(r_i**2, axis=0)

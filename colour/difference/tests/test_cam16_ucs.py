@@ -1,13 +1,11 @@
-"""
-Defines the unit tests for the :mod:`colour.difference.cam16_ucs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference.cam16_ucs` module."""
 
 import unittest
 
 from colour.difference.tests.test_cam02_ucs import TestDelta_E_Luo2006
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -20,7 +18,7 @@ __all__ = [
 
 class TestDelta_E_Li2017(TestDelta_E_Luo2006):
     """
-    Defines :func:`colour.difference.cam16_ucs.delta_E_Li2017` definition unit
+    Define :func:`colour.difference.cam16_ucs.delta_E_Li2017` definition unit
     tests methods.
 
     Notes

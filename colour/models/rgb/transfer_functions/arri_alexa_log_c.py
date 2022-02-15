@@ -27,7 +27,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -73,9 +73,7 @@ DATA_ALEXA_LOG_C_CURVE_BCL: CaseInsensitiveMapping = CaseInsensitiveMapping(
         },
     }
 )
-"""
-*ARRI ALEXA Log C* curve *Ei, Black, Clipping Level* data.
-"""
+"""*ARRI ALEXA Log C* curve *Ei, Black, Clipping Level* data."""
 
 DATA_ALEXA_LOG_C_CURVE_CONVERSION: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(
@@ -558,7 +556,7 @@ def log_encoding_ALEXALogC(
     ] = 800,
 ) -> FloatingOrNDArray:
     """
-    Defines the *ARRI ALEXA Log C* log encoding curve / opto-electronic
+    Define the *ARRI ALEXA Log C* log encoding curve / opto-electronic
     transfer function.
 
     Parameters
@@ -583,7 +581,6 @@ def log_encoding_ALEXALogC(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -629,7 +626,7 @@ def log_decoding_ALEXALogC(
     ] = 800,
 ) -> FloatingOrNDArray:
     """
-    Defines the *ARRI ALEXA Log C* log decoding curve / electro-optical
+    Define the *ARRI ALEXA Log C* log decoding curve / electro-optical
     transfer function.
 
     Parameters
@@ -650,7 +647,6 @@ def log_decoding_ALEXALogC(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

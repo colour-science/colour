@@ -35,7 +35,7 @@ from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -66,9 +66,7 @@ INDEXES_TO_NAMES_VS: Dict = {
     14: "VS14",
     15: "VS15",
 }
-"""
-*NIST CQS* test colour samples indexes to names mapping.
-"""
+"""*NIST CQS* test colour samples indexes to names mapping."""
 
 APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(
@@ -91,9 +89,7 @@ APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74: CaseInsensitiveMapping = (
         }
     )
 )
-"""
-*NIST CQS 7.4* test colour samples *Munsell* colour approximations.
-"""
+"""*NIST CQS 7.4* test colour samples *Munsell* colour approximations."""
 
 APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(
@@ -116,9 +112,7 @@ APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90: CaseInsensitiveMapping = (
         }
     )
 )
-"""
-*NIST CQS 9.0* test colour samples *Munsell* colour approximations.
-"""
+"""*NIST CQS 9.0* test colour samples *Munsell* colour approximations."""
 
 DATA_VS: Dict = {
     "NIST CQS 7.4": {

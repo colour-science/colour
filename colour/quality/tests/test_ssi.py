@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.quality.ssi` module.
-"""
+"""Defines the unit tests for the :mod:`colour.quality.ssi` module."""
 
 from __future__ import annotations
 
@@ -11,7 +9,7 @@ from colour.hints import Dict
 from colour.quality import spectral_similarity_index
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -558,14 +556,12 @@ DATA_HMI: Dict = {
 
 class TestSpectralSimilarityIndex(unittest.TestCase):
     """
-    Defines :func:`colour.quality.ssi.spectral_similarity_index`
+    Define :func:`colour.quality.ssi.spectral_similarity_index`
     definition unit tests methods.
     """
 
     def test_spectral_similarity_index(self):
-        """
-        Tests :func:`colour.quality.ssi.spectral_similarity_index` definition.
-        """
+        """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
 
         self.assertEqual(
             spectral_similarity_index(

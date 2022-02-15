@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.appearance.zcam` module.
-"""
+"""Defines the unit tests for the :mod:`colour.appearance.zcam` module."""
 
 import numpy as np
 import unittest
@@ -22,7 +20,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -36,14 +34,12 @@ __all__ = [
 
 class TestXYZ_to_ZCAM(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition unit tests
+    Define :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition unit tests
     methods.
     """
 
     def test_XYZ_to_ZCAM(self):
-        """
-        Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition.
-        """
+        """Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition."""
 
         XYZ = np.array([185, 206, 163])
         XYZ_w = np.array([256, 264, 202])
@@ -173,7 +169,7 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_ZCAM(self):
         """
-        Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
+        Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
         n-dimensional support.
         """
 
@@ -211,7 +207,7 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_XYZ_to_ZCAM(self):
         """
-        Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
+        Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
         domain and range scale support.
         """
 
@@ -262,7 +258,7 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_ZCAM(self):
         """
-        Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
+        Test :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition
         nan support.
         """
 
@@ -281,14 +277,12 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
 
 class TestZCAM_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition unit
+    Define :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition unit
     tests methods.
     """
 
     def test_ZCAM_to_XYZ(self):
-        """
-        Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition.
-        """
+        """Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition."""
 
         specification = CAM_Specification_ZCAM(
             92.2520,
@@ -401,7 +395,7 @@ class TestZCAM_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_ZCAM_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
+        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -444,7 +438,7 @@ class TestZCAM_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_domain_range_scale_ZCAM_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
+        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
         domain and range scale support.
         """
 
@@ -500,7 +494,7 @@ class TestZCAM_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_raise_exception_ZCAM_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
+        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition
         raised exception.
         """
 
@@ -521,7 +515,7 @@ class TestZCAM_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_ZCAM_to_XYZ(self):
         """
-        Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition nan
+        Test :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition nan
         support.
         """
 

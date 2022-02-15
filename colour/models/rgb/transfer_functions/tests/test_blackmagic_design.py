@@ -13,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -27,13 +27,13 @@ __all__ = [
 
 class TestOetf_BlackmagicFilmGeneration5(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.blackmagic_design.\
+    Define :func:`colour.models.rgb.transfer_functions.blackmagic_design.\
 oetf_BlackmagicFilmGeneration5` definition unit tests methods.
     """
 
     def test_oetf_BlackmagicFilmGeneration5(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_BlackmagicFilmGeneration5` definition.
         """
 
@@ -59,7 +59,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition.
 
     def test_n_dimensional_oetf_BlackmagicFilmGeneration5(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_BlackmagicFilmGeneration5` definition n-dimensional
         arrays support.
         """
@@ -87,7 +87,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition n-dimensional
 
     def test_domain_range_scale_oetf_BlackmagicFilmGeneration5(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_BlackmagicFilmGeneration5` definition domain and range
         scale support.
         """
@@ -107,7 +107,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition domain and range
     @ignore_numpy_errors
     def test_nan_oetf_BlackmagicFilmGeneration5(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_BlackmagicFilmGeneration5` definition nan support.
         """
 
@@ -118,14 +118,14 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition nan support.
 
 class TestOetf_inverse_BlackmagicFilmGeneration5(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.\
+    Define :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition unit tests
     methods.
     """
 
     def test_oetf_inverse_BlackmagicFilmGeneration5(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition.
         """
 
@@ -161,7 +161,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition.
 
     def test_n_dimensional_oetf_inverse_BlackmagicFilmGeneration5(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition
         n-dimensional arrays support.
         """
@@ -189,7 +189,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition
 
     def test_domain_range_scale_oetf_inverse_BlackmagicFilmGeneration5(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition domain and
         range scale support.
         """
@@ -209,7 +209,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition domain and
     @ignore_numpy_errors
     def test_nan_oetf_inverse_BlackmagicFilmGeneration5(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition nan
         support.
         """

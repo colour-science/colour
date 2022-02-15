@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.contrast.barten1999` module.
-"""
+"""Defines the unit tests for the :mod:`colour.contrast.barten1999` module."""
 
 import numpy as np
 import unittest
@@ -17,7 +15,7 @@ from colour.contrast import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -35,13 +33,13 @@ __all__ = [
 
 class TestOpticalMTFBarten1999(unittest.TestCase):
     """
-    Defines :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
+    Define :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
     definition unit tests methods.
     """
 
     def test_optical_MTF_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
+        Test :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
         definition.
         """
 
@@ -59,7 +57,7 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
 
     def test_n_dimensional_optical_MTF_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
+        Test :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
         definition n-dimensional support.
         """
 
@@ -84,7 +82,7 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_optical_MTF_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
+        Test :func:`colour.contrast.barten1999.optical_MTF_Barten1999`
         definition nan support.
         """
 
@@ -96,13 +94,13 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
 
 class TestPupilDiameterBarten1999(unittest.TestCase):
     """
-    Defines :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
+    Define :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
     definition unit tests methods.
     """
 
     def test_pupil_diameter_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
+        Test :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
         definition.
         """
 
@@ -120,7 +118,7 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
 
     def test_n_dimensional_pupil_diameter_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
+        Test :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
         definition n-dimensional support.
         """
 
@@ -146,7 +144,7 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_pupil_diameter_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
+        Test :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`
         definition nan support.
         """
 
@@ -160,14 +158,12 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
 
 class TestSigmaBarten1999(unittest.TestCase):
     """
-    Defines :func:`colour.contrast.barten1999.sigma_Barten1999` definition unit
+    Define :func:`colour.contrast.barten1999.sigma_Barten1999` definition unit
     tests methods.
     """
 
     def test_sigma_Barten1999(self):
-        """
-        Tests :func:`colour.contrast.barten1999.sigma_Barten1999` definition.
-        """
+        """Test :func:`colour.contrast.barten1999.sigma_Barten1999` definition."""
 
         np.testing.assert_almost_equal(
             sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1),
@@ -195,7 +191,7 @@ class TestSigmaBarten1999(unittest.TestCase):
 
     def test_n_dimensional_sigma_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.sigma_Barten1999` definition
+        Test :func:`colour.contrast.barten1999.sigma_Barten1999` definition
         n-dimensional support.
         """
 
@@ -221,7 +217,7 @@ class TestSigmaBarten1999(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_sigma_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.sigma_Barten1999`
+        Test :func:`colour.contrast.barten1999.sigma_Barten1999`
         definition nan support.
         """
 
@@ -233,13 +229,13 @@ class TestSigmaBarten1999(unittest.TestCase):
 
 class TestRetinalIlluminanceBarten1999(unittest.TestCase):
     """
-    Defines :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
+    Define :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
     definition unit tests methods.
     """
 
     def test_retinal_illuminance_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
+        Test :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
         definition.
         """
 
@@ -263,7 +259,7 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
 
     def test_n_dimensional_retinal_illuminance_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
+        Test :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
         definition n-dimensional support.
         """
 
@@ -288,7 +284,7 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_retinal_illuminance_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
+        Test :func:`colour.contrast.barten1999.retinal_illuminance_Barten1999`
         definition nan support.
         """
 
@@ -300,13 +296,13 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
 
 class TestMaximumAngularSizeBarten1999(unittest.TestCase):
     """
-    Defines :func:`colour.contrast.barten1999.maximum_angular_size_Barten1999`
+    Define :func:`colour.contrast.barten1999.maximum_angular_size_Barten1999`
     definition unit tests methods.
     """
 
     def test_maximum_angular_size_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.\
+        Test :func:`colour.contrast.barten1999.\
 maximum_angular_size_Barten1999` definition.
         """
 
@@ -342,7 +338,7 @@ maximum_angular_size_Barten1999` definition.
 
     def test_n_dimensional_maximum_angular_size_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.\
+        Test :func:`colour.contrast.barten1999.\
 maximum_angular_size_Barten1999` definition n-dimensional support.
         """
 
@@ -369,7 +365,7 @@ maximum_angular_size_Barten1999` definition n-dimensional support.
     @ignore_numpy_errors
     def test_nan_maximum_angular_size_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.\
+        Test :func:`colour.contrast.barten1999.\
 maximum_angular_size_Barten1999` definition nan support.
         """
 
@@ -383,13 +379,13 @@ maximum_angular_size_Barten1999` definition nan support.
 
 class TestContrastSensitivityFunctionBarten1999(unittest.TestCase):
     """
-    Defines :func:`colour.contrast.barten1999.\
+    Define :func:`colour.contrast.barten1999.\
 contrast_sensitivity_function_Barten1999` definition unit tests methods.
     """
 
     def test_contrast_sensitivity_function_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.\
+        Test :func:`colour.contrast.barten1999.\
 contrast_sensitivity_function_Barten1999` definition.
         """
 
@@ -402,7 +398,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=12,
                 Y_0=60,
                 Y_max=12,
-                p=1.2 * 10 ** 6,
+                p=1.2 * 10**6,
             ),
             352.761342126727020,
             decimal=7,
@@ -417,7 +413,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=12,
                 Y_0=60,
                 Y_max=12,
-                p=1.2 * 10 ** 6,
+                p=1.2 * 10**6,
             ),
             177.706338840717340,
             decimal=7,
@@ -432,7 +428,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=12,
                 Y_0=60,
                 Y_max=12,
-                p=1.2 * 10 ** 6,
+                p=1.2 * 10**6,
             ),
             320.872401634215750,
             decimal=7,
@@ -447,7 +443,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=12,
                 Y_0=60,
                 Y_max=12,
-                p=1.2 * 10 ** 6,
+                p=1.2 * 10**6,
             ),
             455.171315756946400,
             decimal=7,
@@ -462,7 +458,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=12,
                 Y_0=60,
                 Y_max=12,
-                p=1.2 * 10 ** 6,
+                p=1.2 * 10**6,
             ),
             352.996281545740660,
             decimal=7,
@@ -477,7 +473,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=24,
                 Y_0=60,
                 Y_max=12,
-                p=1.2 * 10 ** 6,
+                p=1.2 * 10**6,
             ),
             358.881580104493650,
             decimal=7,
@@ -492,7 +488,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=12,
                 Y_0=60,
                 Y_max=12,
-                p=1.2 * 10 ** 6,
+                p=1.2 * 10**6,
             ),
             contrast_sensitivity_function_Barten1999(
                 u=4,
@@ -502,7 +498,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=12,
                 Y_0=240,
                 Y_max=12,
-                p=1.2 * 10 ** 6,
+                p=1.2 * 10**6,
             ),
             decimal=7,
         )
@@ -516,7 +512,7 @@ contrast_sensitivity_function_Barten1999` definition.
                 X_max=12,
                 Y_0=60,
                 Y_max=12,
-                p=1.4 * 10 ** 6,
+                p=1.4 * 10**6,
             ),
             374.791328640476140,
             decimal=7,
@@ -524,7 +520,7 @@ contrast_sensitivity_function_Barten1999` definition.
 
     def test_n_dimensional_contrast_sensitivity_function_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.\
+        Test :func:`colour.contrast.barten1999.\
 contrast_sensitivity_function_Barten1999` definition n-dimensional support.
         """
 
@@ -561,7 +557,7 @@ contrast_sensitivity_function_Barten1999` definition n-dimensional support.
     @ignore_numpy_errors
     def test_nan_contrast_sensitivity_function_Barten1999(self):
         """
-        Tests :func:`colour.contrast.barten1999.\
+        Test :func:`colour.contrast.barten1999.\
 contrast_sensitivity_function_Barten1999` definition nan support.
         """
 

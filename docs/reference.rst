@@ -1,5 +1,5 @@
-Reference
-=========
+API Reference
+=============
 
 .. toctree::
     :titlesonly:

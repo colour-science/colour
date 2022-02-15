@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.igpgtg` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.igpgtg` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.models import XYZ_to_IgPgTg, IgPgTg_to_XYZ
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,14 +22,12 @@ __all__ = [
 
 class TestXYZ_to_IgPgTg(unittest.TestCase):
     """
-    Defines :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition unit tests
+    Define :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition unit tests
     methods.
     """
 
     def test_XYZ_to_IgPgTg(self):
-        """
-        Tests :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition.
-        """
+        """Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_IgPgTg(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -53,7 +49,7 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_IgPgTg(self):
         """
-        Tests :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition
+        Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition
         n-dimensional support.
         """
 
@@ -70,7 +66,7 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_IgPgTg(self):
         """
-        Tests :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition domain and
+        Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition domain and
         range scale support.
         """
 
@@ -87,7 +83,7 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_IgPgTg(self):
         """
-        Tests :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition nan
+        Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition nan
         support.
         """
 
@@ -100,14 +96,12 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
 
 class TestIgPgTg_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition unit tests
+    Define :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition unit tests
     methods.
     """
 
     def test_IgPgTg_to_XYZ(self):
-        """
-        Tests :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             IgPgTg_to_XYZ(np.array([0.42421258, 0.18632491, 0.10689223])),
@@ -129,7 +123,7 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_IgPgTg_to_XYZ(self):
         """
-        Tests :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition
+        Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -146,7 +140,7 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_IgPgTg_to_XYZ(self):
         """
-        Tests :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition domain and
+        Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition domain and
         range scale support.
         """
 
@@ -163,7 +157,7 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_IgPgTg_to_XYZ(self):
         """
-        Tests :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition nan
+        Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition nan
         support.
         """
 

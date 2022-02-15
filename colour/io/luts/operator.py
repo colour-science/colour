@@ -34,7 +34,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,7 +48,7 @@ __all__ = [
 
 class AbstractLUTSequenceOperator(ABC):
     """
-    Defines the base class for *LUT* sequence operators.
+    Define the base class for *LUT* sequence operators.
 
     This is an :class:`ABCMeta` abstract class that must be inherited by
     sub-classes.
@@ -102,9 +102,7 @@ class AbstractLUTSequenceOperator(ABC):
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             is_string(value),
@@ -133,9 +131,7 @@ class AbstractLUTSequenceOperator(ABC):
 
     @comments.setter
     def comments(self, value: Sequence[str]):
-        """
-        Setter for the **self.comments** property.
-        """
+        """Setter for the **self.comments** property."""
 
         attest(
             is_iterable(value),
@@ -147,7 +143,7 @@ class AbstractLUTSequenceOperator(ABC):
     @abstractmethod
     def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* sequence operator to given *RGB* colourspace array.
+        Apply the *LUT* sequence operator to given *RGB* colourspace array.
 
         Parameters
         ----------
@@ -172,7 +168,7 @@ class AbstractLUTSequenceOperator(ABC):
 
 class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     """
-    Defines the *LUT* operator supporting a 3x3 or 4x4 matrix and an offset
+    Define the *LUT* operator supporting a 3x3 or 4x4 matrix and an offset
     vector.
 
     Parameters
@@ -281,9 +277,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     @matrix.setter
     def matrix(self, value: ArrayLike):
-        """
-        Setter for the **self.matrix** property.
-        """
+        """Setter for the **self.matrix** property."""
 
         value = as_float_array(value)
 
@@ -321,9 +315,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     @offset.setter
     def offset(self, value: ArrayLike):
-        """
-        Setter for the **self.offset** property.
-        """
+        """Setter for the **self.offset** property."""
 
         value = as_float_array(value)
 
@@ -341,7 +333,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the *LUT* operator.
+        Return a formatted string representation of the *LUT* operator.
 
         Returns
         -------
@@ -362,9 +354,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         """
 
         def _indent_array(a: ArrayLike) -> str:
-            """
-            Indents given array string representation.
-            """
+            """Indent given array string representation."""
 
             return str(a).replace(" [", " " * 14 + "[")
 
@@ -387,7 +377,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the *LUT* operator.
+        Return an evaluable string representation of the *LUT* operator.
 
         Returns
         -------
@@ -431,7 +421,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the *LUT* operator is equal to given other object.
+        Return whether the *LUT* operator is equal to given other object.
 
         Parameters
         ----------
@@ -462,7 +452,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the *LUT* operator is not equal to given other object.
+        Return whether the *LUT* operator is not equal to given other object.
 
         Parameters
         ----------
@@ -485,7 +475,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     def apply(self, RGB: ArrayLike, *args: Any, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* operator to given *RGB* array.
+        Apply the *LUT* operator to given *RGB* array.
 
         Parameters
         ----------

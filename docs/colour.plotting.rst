@@ -1,8 +1,6 @@
 Plotting
 ========
 
-.. contents:: :local:
-
 Common
 ------
 
@@ -168,6 +166,7 @@ Colour Models
     plot_pointer_gamut
     plot_RGB_colourspaces_in_chromaticity_diagram
     plot_RGB_chromaticities_in_chromaticity_diagram
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram
 
 Colour Notation Systems
 -----------------------
@@ -269,8 +268,6 @@ Colour Temperature & Correlated Colour Temperature
     :toctree: generated/
 
     plot_planckian_locus
-    plot_planckian_locus_CIE1931
-    plot_planckian_locus_CIE1960UCS
     plot_planckian_locus_in_chromaticity_diagram
 
 Colour Models Volume

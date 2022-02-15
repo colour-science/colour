@@ -38,7 +38,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -60,35 +60,25 @@ PRIMARIES_PROTUNE_NATIVE: NDArray = np.array(
         [0.108442631407675, -0.034678569754016],
     ]
 )
-"""
-*Protune Native* colourspace primaries.
-"""
+"""*Protune Native* colourspace primaries."""
 
 WHITEPOINT_NAME_PROTUNE_NATIVE: str = "D65"
-"""
-*Protune Native* colourspace whitepoint name.
-"""
+"""*Protune Native* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_PROTUNE_NATIVE: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_PROTUNE_NATIVE]
-"""
-*Protune Native* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Protune Native* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_PROTUNE_NATIVE_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_PROTUNE_NATIVE, CCS_WHITEPOINT_PROTUNE_NATIVE
 )
-"""
-*Protune Native* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Protune Native* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_PROTUNE_NATIVE: NDArray = np.linalg.inv(
     MATRIX_PROTUNE_NATIVE_TO_XYZ
 )
-"""
-*CIE XYZ* tristimulus values to *Protune Native* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Protune Native* colourspace matrix."""
 
 RGB_COLOURSPACE_PROTUNE_NATIVE: RGB_Colourspace = RGB_Colourspace(
     "Protune Native",

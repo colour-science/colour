@@ -22,7 +22,7 @@ from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -42,9 +42,7 @@ CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
     E=0.09246575342465753,
     LIN_CUT=0.005,
 )
-"""
-*Blackmagic Film Generation 5* colour component transfer functions constants.
-"""
+"""*Blackmagic Film Generation 5* colour component transfer functions constants."""
 
 
 def oetf_BlackmagicFilmGeneration5(
@@ -52,7 +50,7 @@ def oetf_BlackmagicFilmGeneration5(
     constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Blackmagic Film Generation 5* opto-electronic transfer
+    Define the *Blackmagic Film Generation 5* opto-electronic transfer
     function.
 
     Parameters
@@ -69,7 +67,6 @@ def oetf_BlackmagicFilmGeneration5(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -115,7 +112,7 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Blackmagic Film Generation 5* inverse opto-electronic transfer
+    Define the *Blackmagic Film Generation 5* inverse opto-electronic transfer
     function (OETF).
 
     Parameters
@@ -132,7 +129,6 @@ def oetf_inverse_BlackmagicFilmGeneration5(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

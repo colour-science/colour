@@ -1,6 +1,4 @@
-"""
-Showcases *Automatic Colour Conversion Graph* computations.
-"""
+"""Showcases *Automatic Colour Conversion Graph* computations."""
 
 import numpy as np
 

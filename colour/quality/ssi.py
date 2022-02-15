@@ -24,7 +24,7 @@ from colour.hints import NDArray, Optional
 from colour.utilities import zeros
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -36,9 +36,7 @@ __all__ = [
 ]
 
 SPECTRAL_SHAPE_SSI: SpectralShape = SpectralShape(375, 675, 1)
-"""
-*Academy Spectral Similarity Index* (SSI) spectral shape.
-"""
+"""*Academy Spectral Similarity Index* (SSI) spectral shape."""
 
 _SPECTRAL_SHAPE_SSI_LARGE: SpectralShape = SpectralShape(380, 670, 10)
 
@@ -49,7 +47,7 @@ def spectral_similarity_index(
     sd_test: SpectralDistribution, sd_reference: SpectralDistribution
 ) -> NDArray:
     """
-    Returns the *Academy Spectral Similarity Index* (SSI) of given test
+    Return the *Academy Spectral Similarity Index* (SSI) of given test
     spectral distribution with given reference spectral distribution.
 
     Parameters
@@ -143,7 +141,7 @@ def spectral_similarity_index(
         3 / 15,
     ]
     c_wdr_i = convolve1d(np.hstack([0, wdr_i, 0]), [0.22, 0.56, 0.22])
-    m_v = np.sum(c_wdr_i ** 2)
+    m_v = np.sum(c_wdr_i**2)
 
     SSI = np.around(100 - 32 * np.sqrt(m_v))
 

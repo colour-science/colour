@@ -43,7 +43,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -67,7 +67,7 @@ def reaction_rate_MichaelisMenten_Michaelis1913(
     K_m: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Describes the rate of enzymatic reactions, by relating reaction rate
+    Describe the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S`.
 
     Parameters
@@ -112,7 +112,7 @@ def reaction_rate_MichaelisMenten_Abebe2017(
     b_m: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Describes the rate of enzymatic reactions, by relating reaction rate
+    Describe the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S` according to the
     modified *Michaelis-Menten* kinetics equation as given by
     *Abebe, Pouli, Larabi and Reinhard (2017)*.
@@ -182,10 +182,10 @@ def reaction_rate_MichaelisMenten(
     method: Union[
         Literal["Michaelis 1913", "Abebe 2017"], str
     ] = "Michaelis 1913",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
-    Describes the rate of enzymatic reactions, by relating reaction rate
+    Describe the rate of enzymatic reactions, by relating reaction rate
     :math:`v` to concentration of a substrate :math:`S` according to given
     method.
 
@@ -239,7 +239,7 @@ def substrate_concentration_MichaelisMenten_Michaelis1913(
     K_m: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Describes the rate of enzymatic reactions, by relating concentration of a
+    Describe the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v`.
 
     Parameters
@@ -285,7 +285,7 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
     b_m: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Describes the rate of enzymatic reactions, by relating concentration of a
+    Describe the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v` according to the modified
     *Michaelis-Menten* kinetics equation as given by
     *Abebe, Pouli, Larabi and Reinhard (2017)*.
@@ -354,10 +354,10 @@ def substrate_concentration_MichaelisMenten(
     method: Union[
         Literal["Michaelis 1913", "Abebe 2017"], str
     ] = "Michaelis 1913",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
-    Describes the rate of enzymatic reactions, by relating concentration of a
+    Describe the rate of enzymatic reactions, by relating concentration of a
     substrate :math:`S` to reaction rate :math:`v` according to given method.
 
     Parameters

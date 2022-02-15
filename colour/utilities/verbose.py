@@ -36,7 +36,7 @@ from colour.hints import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -64,22 +64,25 @@ __all__ = [
 
 class ColourWarning(Warning):
     """
-    This is the base class of *Colour* warnings. It is a subclass of
-    :class:`Warning` class.
+    Define the base class of *Colour* warnings.
+
+    It is a subclass of the :class:`Warning` class.
     """
 
 
 class ColourUsageWarning(Warning):
     """
-    This is the base class of *Colour* usage warnings. It is a subclass
-    of :class:`colour.utilities.ColourWarning` class.
+    Define the base class of *Colour* usage warnings.
+
+    It is a subclass of the :class:`colour.utilities.ColourWarning` class.
     """
 
 
 class ColourRuntimeWarning(Warning):
     """
-    This is the base class of *Colour* runtime warnings. It is a subclass
-    of :class:`colour.utilities.ColourWarning` class.
+    Define the base class of *Colour* runtime warnings.
+
+    It is a subclass of the :class:`colour.utilities.ColourWarning` class.
     """
 
 
@@ -90,7 +93,7 @@ def message_box(
     print_callable: Callable = print,
 ):
     """
-    Prints a message inside a box.
+    Print a message inside a box.
 
     Parameters
     ----------
@@ -138,9 +141,7 @@ def message_box(
     ideal_width = width - padding * 2 - 2
 
     def inner(text):
-        """
-        Formats and pads inner text for the message box.
-        """
+        """Format and pads inner text for the message box."""
 
         return "*{0}{1}{2}{0}*".format(
             " " * padding, text, (" " * (width - len(text) - padding * 2 - 2))
@@ -240,7 +241,7 @@ if os.environ.get(  # pragma: no cover
 
 def warning(*args: Any, **kwargs: Any):
     """
-    Issues a warning.
+    Issue a warning.
 
     Other Parameters
     ----------------
@@ -261,7 +262,7 @@ def warning(*args: Any, **kwargs: Any):
 
 def runtime_warning(*args: Any, **kwargs: Any):
     """
-    Issues a runtime warning.
+    Issue a runtime warning.
 
     Other Parameters
     ----------------
@@ -282,7 +283,7 @@ def runtime_warning(*args: Any, **kwargs: Any):
 
 def usage_warning(*args: Any, **kwargs: Any):
     """
-    Issues a usage warning.
+    Issue a usage warning.
 
     Other Parameters
     ----------------
@@ -308,7 +309,7 @@ def filter_warnings(
     python_warnings: Optional[Union[bool, LiteralWarning]] = None,
 ):
     """
-    Filters *Colour* and also optionally overall Python warnings.
+    Filter *Colour* and also optionally overall Python warnings.
 
     The possible values for all the actions, i.e. each argument, are as
     follows:
@@ -397,8 +398,8 @@ def suppress_warnings(
     python_warnings: Optional[Union[bool, LiteralWarning]] = None,
 ) -> Generator:
     """
-    A context manager filtering *Colour* and also optionally overall Python
-    warnings.
+    Define a context manager filtering *Colour* and also optionally overall
+    Python warnings.
 
     The possible values for all the actions, i.e. each argument, are as
     follows:
@@ -448,7 +449,8 @@ def suppress_warnings(
 @contextmanager
 def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     """
-    A context manager implementing context changes to *Numpy* print behaviour.
+    Define a context manager implementing context changes to *Numpy* print
+    behaviour.
 
     Other Parameters
     ----------------
@@ -458,7 +460,7 @@ def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
         Keywords arguments.
 
     Examples
-    -------
+    --------
     >>> np.array([np.pi])  # doctest: +ELLIPSIS
     array([ 3.1415926...])
     >>> with numpy_print_options(formatter={'float': '{:0.1f}'.format}):
@@ -511,7 +513,7 @@ def describe_environment(
     **kwargs: Any,
 ) -> defaultdict:
     """
-    Describes *Colour* running environment, i.e. interpreter, runtime and
+    Describe *Colour* running environment, i.e. interpreter, runtime and
     development packages.
 
     Parameters
@@ -668,9 +670,7 @@ def describe_environment(
         environment["Runtime"].update(ANCILLARY_RUNTIME_PACKAGES)
 
     def _get_package_version(package: str, mapping: Mapping) -> str:
-        """
-        Returns given package version.
-        """
+        """Return given package version."""
 
         namespace = __import__(package)
 

@@ -19,7 +19,7 @@ from types import FunctionType, MethodType, ModuleType
 __author__ = "Sphinx Team, Colour Developers"
 __copyright__ = "Copyright 2007-2019 - Sphinx Team"
 __copyright__ += ", "
-__copyright__ += "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ += "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -34,8 +34,7 @@ __all__ = [
 
 class MockObject:
     """
-    A generic mock object used for helping to mock tricky *Colour* requirements
-    such as *Scipy*.
+    Mock an object to handle *Colour* requirements such as *Scipy*.
 
     Other Parameters
     ----------------
@@ -53,7 +52,7 @@ class MockObject:
 
     def __new__(cls, *args, **kwargs):
         """
-        Returns a new instance of the :class:`MockObject` class.
+        Return a new instance of the :class:`MockObject` class.
 
         Other Parameters
         ----------------
@@ -79,15 +78,13 @@ class MockObject:
         pass
 
     def __len__(self):
-        """
-        Returns the length of the :class:`MockObject` class instance, i.e. 0.
-        """
+        """Return the length of the :class:`MockObject` class instance, i.e. 0."""
 
         return 0
 
     def __contains__(self, key):
         """
-        Returns whether the :class:`MockObject` class instance contains given
+        Return whether the :class:`MockObject` class instance contains given
         key.
 
         Parameters
@@ -100,9 +97,7 @@ class MockObject:
         return False
 
     def __iter__(self):
-        """
-        Iterates over the :class:`MockObject` class instance.
-        """
+        """Iterate over the :class:`MockObject` class instance."""
 
         return iter([])
 
@@ -116,7 +111,7 @@ class MockObject:
 
     def __getitem__(self, key):
         """
-        Returns the value at given key from the :class:`MockObject` class
+        Return the value at given key from the :class:`MockObject` class
         instance.
 
         Parameters
@@ -129,7 +124,7 @@ class MockObject:
 
     def __getattr__(self, key):
         """
-        Returns the attribute at given key from the :class:`MockObject` class
+        Return the attribute at given key from the :class:`MockObject` class
         instance.
 
         Parameters
@@ -142,7 +137,7 @@ class MockObject:
 
     def __call__(self, *args, **kwargs):
         """
-        Calls the :class:`MockObject` class instance.
+        Call the :class:`MockObject` class instance.
 
         Other Parameters
         ----------------
@@ -159,16 +154,18 @@ class MockObject:
 
     def __repr__(self):
         """
-        Returns an evaluable string representation of the :class:`MockObject`
+        Return an evaluable string representation of the :class:`MockObject`
         class instance.
         """
 
         return self.__display_name__
 
 
-def _make_subclass(name, module, superclass=MockObject, attributes=None):
+def _make_subclass(
+    name, module, superclass=MockObject, attributes=None
+):  # noqa: D405,D407,D410,D411
     """
-    A sub-class factory that makes sub-classes of given super-class type.
+    Produce sub-classes of given super-class type.
 
     Parameters
     ----------
@@ -211,7 +208,7 @@ class MockModule(ModuleType):
 
     def __getattr__(self, name):
         """
-        Returns the attribute at given name from the :class:`MockModule` class
+        Return the attribute at given name from the :class:`MockModule` class
         instance.
 
         Parameters
@@ -224,7 +221,7 @@ class MockModule(ModuleType):
 
     def __repr__(self):
         """
-        Returns an evaluable string representation of the :class:`MockModule`
+        Return an evaluable string representation of the :class:`MockModule`
         class instance.
         """
 
@@ -232,9 +229,7 @@ class MockModule(ModuleType):
 
 
 def mock_scipy_for_colour():
-    """
-    Mocks *Scipy* for *Colour*.
-    """
+    """Mock *Scipy* for *Colour*."""
 
     import sys
 

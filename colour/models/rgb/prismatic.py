@@ -21,7 +21,7 @@ from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -35,7 +35,7 @@ __all__ = [
 
 def RGB_to_Prismatic(RGB: ArrayLike) -> NDArray:
     """
-    Converts from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
+    Convert from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
     colourspace array.
 
     Parameters
@@ -50,7 +50,6 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -97,7 +96,7 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArray:
 
 def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArray:
     """
-    Converts from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
+    Convert from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
     *RGB* colourspace.
 
     Parameters
@@ -112,7 +111,6 @@ def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

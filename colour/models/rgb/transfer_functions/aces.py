@@ -71,7 +71,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -97,9 +97,7 @@ CONSTANTS_ACES_PROXY_10: Structure = Structure(
     mid_CV_offset=425,
     mid_log_offset=2.5,
 )
-"""
-*ACESproxy* 10 bit colourspace constants.
-"""
+"""*ACESproxy* 10 bit colourspace constants."""
 
 CONSTANTS_ACES_PROXY_12: Structure = Structure(
     CV_min=256,
@@ -108,17 +106,13 @@ CONSTANTS_ACES_PROXY_12: Structure = Structure(
     mid_CV_offset=1700,
     mid_log_offset=2.5,
 )
-"""
-*ACESproxy* 12 bit colourspace constants.
-"""
+"""*ACESproxy* 12 bit colourspace constants."""
 
 CONSTANTS_ACES_PROXY: Dict = {
     10: CONSTANTS_ACES_PROXY_10,
     12: CONSTANTS_ACES_PROXY_12,
 }
-"""
-Aggregated *ACESproxy* colourspace constants.
-"""
+"""Aggregated *ACESproxy* colourspace constants."""
 
 CONSTANTS_ACES_CCT: Structure = Structure(
     X_BRK=0.0078125,
@@ -126,9 +120,7 @@ CONSTANTS_ACES_CCT: Structure = Structure(
     A=10.5402377416545,
     B=0.0729055341958355,
 )
-"""
-*ACEScct* colourspace constants.
-"""
+"""*ACEScct* colourspace constants."""
 
 
 # pylint: disable=W0102
@@ -139,7 +131,7 @@ def log_encoding_ACESproxy(
     constants: Dict = CONSTANTS_ACES_PROXY,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
+    Define the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
 
     Parameters
@@ -161,7 +153,6 @@ def log_encoding_ACESproxy(
 
     Notes
     -----
-
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
@@ -201,14 +192,12 @@ def log_encoding_ACESproxy(
     steps_per_stop = constants[bit_depth].steps_per_stop
 
     def float_2_cv(x: Floating) -> Floating:
-        """
-        Converts given numeric to code value.
-        """
+        """Convert given numeric to code value."""
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
     ACESproxy = np.where(
-        lin_AP1 > 2 ** -9.72,
+        lin_AP1 > 2**-9.72,
         float_2_cv(
             (np.log2(lin_AP1) + mid_log_offset) * steps_per_stop
             + mid_CV_offset
@@ -219,7 +208,7 @@ def log_encoding_ACESproxy(
     if out_int:
         return as_int(np.round(ACESproxy))
     else:
-        return as_float(from_range_1(ACESproxy / (2 ** bit_depth - 1)))
+        return as_float(from_range_1(ACESproxy / (2**bit_depth - 1)))
 
 
 # pylint: disable=W0102
@@ -230,7 +219,7 @@ def log_decoding_ACESproxy(
     constants: Dict = CONSTANTS_ACES_PROXY,
 ) -> FloatingOrNDArray:
     """
-    Defines the *ACESproxy* colourspace log decoding curve / electro-optical
+    Define the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
 
     Parameters
@@ -252,7 +241,6 @@ def log_decoding_ACESproxy(
 
     Notes
     -----
-
     +----------------+-----------------------+---------------+
     | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
@@ -290,7 +278,7 @@ def log_decoding_ACESproxy(
     steps_per_stop = constants[bit_depth].steps_per_stop
 
     if not in_int:
-        ACESproxy = ACESproxy * (2 ** bit_depth - 1)
+        ACESproxy = ACESproxy * (2**bit_depth - 1)
 
     lin_AP1 = 2 ** (
         (ACESproxy - mid_CV_offset) / steps_per_stop - mid_log_offset
@@ -301,7 +289,7 @@ def log_decoding_ACESproxy(
 
 def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *ACEScc* colourspace log encoding / opto-electronic transfer
+    Define the *ACEScc* colourspace log encoding / opto-electronic transfer
     function.
 
     Parameters
@@ -316,7 +304,6 @@ def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
@@ -346,11 +333,11 @@ def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     ACEScc = np.where(
         lin_AP1 < 0,
-        (np.log2(2 ** -16) + 9.72) / 17.52,
-        (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52,
+        (np.log2(2**-16) + 9.72) / 17.52,
+        (np.log2(2**-16 + lin_AP1 * 0.5) + 9.72) / 17.52,
     )
     ACEScc = np.where(
-        lin_AP1 >= 2 ** -15,
+        lin_AP1 >= 2**-15,
         (np.log2(lin_AP1) + 9.72) / 17.52,
         ACEScc,
     )
@@ -360,7 +347,7 @@ def log_encoding_ACEScc(lin_AP1: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *ACEScc* colourspace log decoding / electro-optical transfer
+    Define the *ACEScc* colourspace log decoding / electro-optical transfer
     function.
 
     Parameters
@@ -375,7 +362,6 @@ def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
@@ -405,7 +391,7 @@ def log_decoding_ACEScc(ACEScc: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     lin_AP1 = np.where(
         ACEScc < (9.72 - 15) / 17.52,
-        (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2,
+        (2 ** (ACEScc * 17.52 - 9.72) - 2**-16) * 2,
         2 ** (ACEScc * 17.52 - 9.72),
     )
     lin_AP1 = np.where(
@@ -422,7 +408,7 @@ def log_encoding_ACEScct(
     lin_AP1: FloatingOrArrayLike, constants: Structure = CONSTANTS_ACES_CCT
 ) -> FloatingOrNDArray:
     """
-    Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
+    Define the *ACEScct* colourspace log encoding / opto-electronic transfer
     function.
 
     Parameters
@@ -439,7 +425,6 @@ def log_encoding_ACEScct(
 
     Notes
     -----
-
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
@@ -481,7 +466,7 @@ def log_decoding_ACEScct(
     ACEScct: FloatingOrArrayLike, constants: Structure = CONSTANTS_ACES_CCT
 ) -> FloatingOrNDArray:
     """
-    Defines the *ACEScct* colourspace log decoding / electro-optical transfer
+    Define the *ACEScct* colourspace log decoding / electro-optical transfer
     function.
 
     Parameters
@@ -505,7 +490,6 @@ def log_decoding_ACEScct(
 
     Notes
     -----
-
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+

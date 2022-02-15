@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.adaptation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.adaptation` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.adaptation import chromatic_adaptation
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -23,14 +21,12 @@ __all__ = [
 
 class TestChromaticAdaptation(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.chromatic_adaptation` definition unit
+    Define :func:`colour.adaptation.chromatic_adaptation` definition unit
     tests methods.
     """
 
     def test_chromatic_adaptation(self):
-        """
-        Tests :func:`colour.adaptation.chromatic_adaptation` definition.
-        """
+        """Test :func:`colour.adaptation.chromatic_adaptation` definition."""
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
@@ -77,7 +73,7 @@ class TestChromaticAdaptation(unittest.TestCase):
 
     def test_domain_range_scale_chromatic_adaptation(self):
         """
-        Tests :func:`colour.adaptation.chromatic_adaptation` definition domain
+        Test :func:`colour.adaptation.chromatic_adaptation` definition domain
         and range scale support.
         """
 

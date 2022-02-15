@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.ocio` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.ocio` module."""
 
 from __future__ import annotations
 
@@ -12,7 +10,7 @@ from colour.io import process_image_OpenColorIO
 from colour.utilities import full, is_opencolorio_installed
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -28,14 +26,12 @@ RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
 class TestProcessImageOpenColorIO(unittest.TestCase):
     """
-    Defines :func:`colour.io.ocio.process_image_OpenColorIO` definition unit
+    Define :func:`colour.io.ocio.process_image_OpenColorIO` definition unit
     tests methods.
     """
 
     def test_process_image_OpenColorIO(self):
-        """
-        Tests :func:`colour.io.ocio.process_image_OpenColorIO` definition.
-        """
+        """Test :func:`colour.io.ocio.process_image_OpenColorIO` definition."""
 
         # TODO: Remove when "Pypi" wheel compatible with "ARM" on "macOS" is
         # released.

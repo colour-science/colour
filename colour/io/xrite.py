@@ -16,7 +16,7 @@ from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -32,7 +32,7 @@ XRITE_FILE_ENCODING: str = "utf-8"
 
 def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     """
-    Reads the spectral data from given *X-Rite* file and returns it as a
+    Read the spectral data from given *X-Rite* file and returns it as a
     *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters

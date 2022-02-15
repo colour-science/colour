@@ -104,10 +104,10 @@ def XYZ_to_sd(
         ],
         str,
     ] = "Meng 2015",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *CIE XYZ* tristimulus
+    Recover the spectral distribution of given *CIE XYZ* tristimulus
     values using given method.
 
     Parameters
@@ -168,7 +168,6 @@ def XYZ_to_sd(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -521,7 +520,11 @@ __all__ += [
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class recovery(ModuleAPI):
+    """Define a class acting like the *recovery* module."""
+
     def __getattr__(self, attribute) -> Any:
+        """Return the value from the attribute with given name."""
+
         return super().__getattr__(attribute)
 
 
@@ -534,9 +537,7 @@ API_CHANGES = {
         ],
     ]
 }
-"""
-Defines the *colour.recovery* sub-package API changes.
-"""
+"""Defines the *colour.recovery* sub-package API changes."""
 
 if not is_documentation_building():
     sys.modules["colour.recovery"] = recovery(  # type: ignore[assignment]

@@ -120,10 +120,10 @@ def uv_to_CCT(
     method: Union[
         Literal["Krystek 1985", "Ohno 2013", "Robertson 1968"], str
     ] = "Ohno 2013",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` and
+    Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates using given method.
 
@@ -210,10 +210,10 @@ def CCT_to_uv(
     method: Union[
         Literal["Krystek 1985", "Ohno 2013", "Robertson 1968"], str
     ] = "Ohno 2013",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` using given method.
 
     Parameters
@@ -306,7 +306,7 @@ def xy_to_CCT(
     ] = "CIE Illuminant D Series",
 ) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` from given
+    Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using given method.
 
     Parameters
@@ -391,7 +391,7 @@ def CCT_to_xy(
     ] = "CIE Illuminant D Series",
 ) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using given method.
 
     Parameters

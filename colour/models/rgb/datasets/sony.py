@@ -59,7 +59,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -105,21 +105,15 @@ PRIMARIES_S_GAMUT: NDArray = np.array(
         [0.1000, -0.0500],
     ]
 )
-"""
-*S-Gamut* colourspace primaries.
-"""
+"""*S-Gamut* colourspace primaries."""
 
 WHITEPOINT_NAME_S_GAMUT: str = "D65"
-"""
-*S-Gamut* colourspace whitepoint name.
-"""
+"""*S-Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_S_GAMUT: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_S_GAMUT]
-"""
-*S-Gamut* colourspace whitepoint chromaticity coordinates.
-"""
+"""*S-Gamut* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_S_GAMUT_TO_XYZ: NDArray = np.array(
     [
@@ -128,9 +122,7 @@ MATRIX_S_GAMUT_TO_XYZ: NDArray = np.array(
         [-0.0096778454, 0.0046000375, 1.0941355587],
     ]
 )
-"""
-*S-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*S-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_S_GAMUT: NDArray = np.array(
     [
@@ -139,9 +131,7 @@ MATRIX_XYZ_TO_S_GAMUT: NDArray = np.array(
         [0.0155116982, -0.0078727714, 0.9119163656],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to *S-Gamut* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *S-Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_S_GAMUT: RGB_Colourspace = RGB_Colourspace(
     "S-Gamut",
@@ -162,29 +152,19 @@ References
 """
 
 PRIMARIES_S_GAMUT3: NDArray = PRIMARIES_S_GAMUT
-"""
-*S-Gamut3* colourspace primaries.
-"""
+"""*S-Gamut3* colourspace primaries."""
 
 WHITEPOINT_NAME_S_GAMUT3: str = WHITEPOINT_NAME_S_GAMUT
-"""
-*S-Gamut3* colourspace whitepoint name.
-"""
+"""*S-Gamut3* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_S_GAMUT3: NDArray = CCS_WHITEPOINT_S_GAMUT
-"""
-*S-Gamut3* colourspace whitepoint chromaticity coordinates.
-"""
+"""*S-Gamut3* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_S_GAMUT3_TO_XYZ: NDArray = MATRIX_S_GAMUT_TO_XYZ
-"""
-*S-Gamut3* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*S-Gamut3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_S_GAMUT3: NDArray = MATRIX_XYZ_TO_S_GAMUT
-"""
-*CIE XYZ* tristimulus values to *S-Gamut3* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *S-Gamut3* colourspace matrix."""
 
 RGB_COLOURSPACE_S_GAMUT3: RGB_Colourspace = RGB_Colourspace(
     "S-Gamut3",
@@ -211,19 +191,13 @@ PRIMARIES_S_GAMUT3_CINE: NDArray = np.array(
         [0.08900, -0.08700],
     ]
 )
-"""
-*S-Gamut3.Cine* colourspace primaries.
-"""
+"""*S-Gamut3.Cine* colourspace primaries."""
 
 WHITEPOINT_NAME_S_GAMUT3_CINE: str = WHITEPOINT_NAME_S_GAMUT
-"""
-*S-Gamut3.Cine* colourspace whitepoint name.
-"""
+"""*S-Gamut3.Cine* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_S_GAMUT3_CINE: NDArray = CCS_WHITEPOINT_S_GAMUT
-"""
-*S-Gamut3.Cine* colourspace whitepoint chromaticity coordinates.
-"""
+"""*S-Gamut3.Cine* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_S_GAMUT3_CINE_TO_XYZ: NDArray = np.array(
     [
@@ -232,9 +206,7 @@ MATRIX_S_GAMUT3_CINE_TO_XYZ: NDArray = np.array(
         [-0.0320658495, -0.0276583907, 1.1487819910],
     ]
 )
-"""
-*S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_S_GAMUT3_CINE: NDArray = np.array(
     [
@@ -243,9 +215,7 @@ MATRIX_XYZ_TO_S_GAMUT3_CINE: NDArray = np.array(
         [0.0408554212, 0.0156408893, 0.8682072487],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to *S-Gamut3.Cine* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *S-Gamut3.Cine* colourspace matrix."""
 
 RGB_COLOURSPACE_S_GAMUT3_CINE: RGB_Colourspace = RGB_Colourspace(
     "S-Gamut3.Cine",
@@ -272,33 +242,23 @@ PRIMARIES_VENICE_S_GAMUT3: NDArray = np.array(
         [0.110488236673827, -0.052579333080476],
     ]
 )
-"""
-*Venice S-Gamut3* colourspace primaries.
-"""
+"""*Venice S-Gamut3* colourspace primaries."""
 
 WHITEPOINT_NAME_VENICE_S_GAMUT3: str = WHITEPOINT_NAME_S_GAMUT
-"""
-*Venice S-Gamut3* colourspace whitepoint name.
-"""
+"""*Venice S-Gamut3* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_VENICE_S_GAMUT3: NDArray = CCS_WHITEPOINT_S_GAMUT
-"""
-*Venice S-Gamut3* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Venice S-Gamut3* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_VENICE_S_GAMUT3_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_VENICE_S_GAMUT3, CCS_WHITEPOINT_VENICE_S_GAMUT3
 )
-"""
-*Venice S-Gamut3* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Venice S-Gamut3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_VENICE_S_GAMUT3: NDArray = np.linalg.inv(
     MATRIX_VENICE_S_GAMUT3_TO_XYZ
 )
-"""
-*CIE XYZ* tristimulus values to *Venice S-Gamut3* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Venice S-Gamut3* colourspace matrix."""
 
 RGB_COLOURSPACE_VENICE_S_GAMUT3: RGB_Colourspace = RGB_Colourspace(
     "Venice S-Gamut3",
@@ -325,33 +285,23 @@ PRIMARIES_VENICE_S_GAMUT3_CINE: NDArray = np.array(
         [0.101337382499301, -0.089187517306263],
     ]
 )
-"""
-*Venice S-Gamut3.Cine* colourspace primaries.
-"""
+"""*Venice S-Gamut3.Cine* colourspace primaries."""
 
 WHITEPOINT_NAME_VENICE_S_GAMUT3_CINE: str = WHITEPOINT_NAME_S_GAMUT
-"""
-*Venice S-Gamut3.Cine* colourspace whitepoint name.
-"""
+"""*Venice S-Gamut3.Cine* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_VENICE_S_GAMUT3_CINE: NDArray = CCS_WHITEPOINT_S_GAMUT
-"""
-*Venice S-Gamut3.Cine* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Venice S-Gamut3.Cine* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_VENICE_S_GAMUT3_CINE_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_VENICE_S_GAMUT3_CINE, CCS_WHITEPOINT_VENICE_S_GAMUT3_CINE
 )
-"""
-*Venice S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Venice S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_VENICE_S_GAMUT3_CINE: NDArray = np.linalg.inv(
     MATRIX_VENICE_S_GAMUT3_CINE_TO_XYZ
 )
-"""
-*CIE XYZ* tristimulus values to *Venice S-Gamut3.Cine* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Venice S-Gamut3.Cine* colourspace matrix."""
 
 RGB_COLOURSPACE_VENICE_S_GAMUT3_CINE: RGB_Colourspace = RGB_Colourspace(
     "Venice S-Gamut3.Cine",

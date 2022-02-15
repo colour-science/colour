@@ -1,8 +1,6 @@
 Colour Models
 =============
 
-.. contents:: :local:
-
 Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
 --------------------------------------------------------------------
 
@@ -19,8 +17,6 @@ Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
     xy_to_XYZ
     xyY_to_xy
     xy_to_xyY
-
-.. contents:: :local:
 
 Common Models
 -------------
@@ -289,6 +285,19 @@ OSA UCS Colourspace
 
     XYZ_to_OSA_UCS
     OSA_UCS_to_XYZ
+
+ProLab Colourspace
+------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_ProLab
+    ProLab_to_XYZ
 
 :math:`Jzazbz` Colourspace
 --------------------------

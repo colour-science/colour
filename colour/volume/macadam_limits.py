@@ -24,7 +24,7 @@ from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 from colour.utilities import CACHE_REGISTRY, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -49,7 +49,7 @@ def _XYZ_optimal_colour_stimuli(
     illuminant: Union[Literal["A", "C", "D65"], str] = "D65"
 ) -> NDArray:
     """
-    Returns given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
+    Return given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
 
     Parameters
@@ -93,7 +93,7 @@ def is_within_macadam_limits(
     tolerance: Optional[Floating] = None,
 ) -> NDArray:
     """
-    Returns whether given *CIE xyY* colourspace array is within MacAdam limits
+    Return whether given *CIE xyY* colourspace array is within MacAdam limits
     of given illuminant.
 
     Parameters
@@ -112,7 +112,6 @@ def is_within_macadam_limits(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

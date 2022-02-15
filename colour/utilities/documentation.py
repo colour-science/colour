@@ -12,7 +12,7 @@ from colour.hints import Boolean
 import os
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -75,7 +75,7 @@ class DocstringTuple(tuple):
 
 def is_documentation_building() -> Boolean:
     """
-    Returns whether the documentation is being built by checking whether the
+    Return whether the documentation is being built by checking whether the
     *READTHEDOCS* or *COLOUR_SCIENCE__DOCUMENTATION_BUILD* environment
     variables are defined, their value is not accounted for.
 

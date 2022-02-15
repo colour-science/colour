@@ -22,7 +22,7 @@ from colour.hints import Any, Dict, List, cast
 from colour.utilities import as_float_array
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -36,8 +36,8 @@ __all__ = [
 
 class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     """
-    This class serves as a parser to read and write *IES TM-27-14*
-    spectral data XML file from a *UPRTek* *Pseudo-XLS* file.
+    Implement support to read and write *IES TM-27-14* spectral data XML file
+    from a *UPRTek* *Pseudo-XLS* file.
 
     Parameters
     ----------
@@ -148,7 +148,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
     def read(self) -> SpectralDistribution_UPRTek:
         """
-        Reads and parses the spectral data from a given *UPRTek* *CSV* file.
+        Read and parses the spectral data from a given *UPRTek* *CSV* file.
 
         Returns
         -------
@@ -210,7 +210,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
         def as_array(a: Any) -> List:
             """
-            Inputs list of numbers and converts each element to
+            Input list of numbers and converts each element to
             float data type.
             """
 
@@ -268,8 +268,8 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
 class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     """
-    This class serves as a parser to read and write *IES TM-27-14*
-    spectral data XML file from a *Sekonic* *CSV* file.
+    Implement support to read and write *IES TM-27-14* spectral data XML file
+    from a *Sekonic* *CSV* file.
 
     Parameters
     ----------
@@ -349,7 +349,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     def read(self) -> SpectralDistribution_Sekonic:
         """
-        Reads and parses the spectral data from a given *Sekonic* *Pseudo-XLS*
+        Read and parses the spectral data from a given *Sekonic* *Pseudo-XLS*
         file.
 
         Returns

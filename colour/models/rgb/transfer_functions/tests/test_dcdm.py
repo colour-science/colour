@@ -10,7 +10,7 @@ from colour.models.rgb.transfer_functions import eotf_inverse_DCDM, eotf_DCDM
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,13 +24,13 @@ __all__ = [
 
 class TestEotf_inverse_DCDM(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.dcdm.eotf_inverse_DCDM`
+    Define :func:`colour.models.rgb.transfer_functions.dcdm.eotf_inverse_DCDM`
     definition unit tests methods.
     """
 
     def test_eotf_inverse_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 dcdm.eotf_inverse_DCDM` definition.
         """
 
@@ -44,7 +44,7 @@ dcdm.eotf_inverse_DCDM` definition.
 
     def test_n_dimensional_eotf_inverse_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dcdm.\
+        Test :func:`colour.models.rgb.transfer_functions.dcdm.\
 eotf_inverse_DCDM` definition n-dimensional arrays support.
         """
 
@@ -71,14 +71,14 @@ eotf_inverse_DCDM` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_inverse_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.\
+        Test :func:`colour.models.rgb.transfer_functions.\
 dcdm.eotf_inverse_DCDM` definition domain and range scale support.
         """
 
         XYZ = 0.18
         XYZ_p = eotf_inverse_DCDM(XYZ)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -88,7 +88,7 @@ dcdm.eotf_inverse_DCDM` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_inverse_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dcdm.\
+        Test :func:`colour.models.rgb.transfer_functions.dcdm.\
 eotf_inverse_DCDM` definition nan support.
         """
 
@@ -97,13 +97,13 @@ eotf_inverse_DCDM` definition nan support.
 
 class TestEotf_DCDM(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
+    Define :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
     definition unit tests methods.
     """
 
     def test_eotf_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
+        Test :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
         definition.
         """
 
@@ -119,7 +119,7 @@ class TestEotf_DCDM(unittest.TestCase):
 
     def test_n_dimensional_eotf_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
+        Test :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
         definition n-dimensional arrays support.
         """
 
@@ -140,14 +140,14 @@ class TestEotf_DCDM(unittest.TestCase):
 
     def test_domain_range_scale_eotf_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
+        Test :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
         definition domain and range scale support.
         """
 
         XYZ_p = 0.11281861
         XYZ = eotf_DCDM(XYZ_p)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -157,7 +157,7 @@ class TestEotf_DCDM(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_eotf_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
+        Test :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
         definition nan support.
         """
 

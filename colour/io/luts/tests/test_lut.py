@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.lut` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.lut` module."""
 
 from __future__ import annotations
 
@@ -33,7 +31,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -58,14 +56,10 @@ RANDOM_TRIPLETS: NDArray = np.reshape(
 
 
 class TestAbstractLUT(unittest.TestCase):
-    """
-    Defines :class:`colour.io.luts.lut.AbstractLUT` class unit tests methods.
-    """
+    """Define :class:`colour.io.luts.lut.AbstractLUT` class unit tests methods."""
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "table",
@@ -80,9 +74,7 @@ class TestAbstractLUT(unittest.TestCase):
             self.assertIn(attribute, dir(AbstractLUT))
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -106,7 +98,7 @@ class TestAbstractLUT(unittest.TestCase):
             "copy",
             "invert",
             "apply",
-            "as_LUT",
+            "convert",
         )
 
         for method in required_methods:
@@ -115,7 +107,7 @@ class TestAbstractLUT(unittest.TestCase):
 
 class AbstractLUTTest(unittest.TestCase):
     """
-    Defines :class:`colour.io.luts.lut.LUT1D`,
+    Define :class:`colour.io.luts.lut.LUT1D`,
     :class:`colour.io.luts.lut.LUT3x1D` and
     :class:`colour.io.luts.lut.LUT3D` classes common unit tests methods.
     """
@@ -165,9 +157,7 @@ class AbstractLUTTest(unittest.TestCase):
         self._applied_4: Optional[NDArray] = None
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -175,7 +165,7 @@ class AbstractLUTTest(unittest.TestCase):
             "linear_table",
             "invert",
             "apply",
-            "as_LUT",
+            "convert",
         )
 
         for class_ in (LUT1D, LUT3x1D, LUT3D):
@@ -184,7 +174,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test__init__(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.__init__`,
+        Test :class:`colour.io.luts.lut.LUT1D.__init__`,
         :class:`colour.io.luts.lut.LUT3x1D.__init__` and
         :class:`colour.io.luts.lut.LUT3D.__init__` methods.
         """
@@ -210,7 +200,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_table(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.table`,
+        Test :class:`colour.io.luts.lut.LUT1D.table`,
         :class:`colour.io.luts.lut.LUT3x1D.table` and
         :class:`colour.io.luts.lut.LUT3D.table` properties.
         """
@@ -229,7 +219,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_name(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.name`,
+        Test :class:`colour.io.luts.lut.LUT1D.name`,
         :class:`colour.io.luts.lut.LUT3x1D.name` and
         :class:`colour.io.luts.lut.LUT3D.name` properties.
         """
@@ -249,7 +239,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_domain(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.domain`,
+        Test :class:`colour.io.luts.lut.LUT1D.domain`,
         :class:`colour.io.luts.lut.LUT3x1D.domain` and
         :class:`colour.io.luts.lut.LUT3D.domain` properties.
         """
@@ -268,7 +258,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_size(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.size`,
+        Test :class:`colour.io.luts.lut.LUT1D.size`,
         :class:`colour.io.luts.lut.LUT3x1D.size` and
         :class:`colour.io.luts.lut.LUT3D.size` properties.
         """
@@ -283,7 +273,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_dimensions(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.dimensions`,
+        Test :class:`colour.io.luts.lut.LUT1D.dimensions`,
         :class:`colour.io.luts.lut.LUT3x1D.dimensions` and
         :class:`colour.io.luts.lut.LUT3D.dimensions` properties.
         """
@@ -298,7 +288,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_comments(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.comments`,
+        Test :class:`colour.io.luts.lut.LUT1D.comments`,
         :class:`colour.io.luts.lut.LUT3x1D.comments` and
         :class:`colour.io.luts.lut.LUT3D.comments` properties.
         """
@@ -318,7 +308,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.__str__`,
+        Test :class:`colour.io.luts.lut.LUT1D.__str__`,
         :class:`colour.io.luts.lut.LUT3x1D.__str__` and
         :class:`colour.io.luts.lut.LUT3D.__str__` methods.
         """
@@ -333,7 +323,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test__repr__(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.__repr__`,
+        Test :class:`colour.io.luts.lut.LUT1D.__repr__`,
         :class:`colour.io.luts.lut.LUT3x1D.__repr__` and
         :class:`colour.io.luts.lut.LUT3D.__repr__` methods.
         """
@@ -355,7 +345,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test__eq__(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.__eq__`,
+        Test :class:`colour.io.luts.lut.LUT1D.__eq__`,
         :class:`colour.io.luts.lut.LUT3x1D.__eq__` and
         :class:`colour.io.luts.lut.LUT3D.__eq__` methods.
         """
@@ -372,7 +362,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test__ne__(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.__ne__`,
+        Test :class:`colour.io.luts.lut.LUT1D.__ne__`,
         :class:`colour.io.luts.lut.LUT3x1D.__ne__` and
         :class:`colour.io.luts.lut.LUT3D.__ne__` methods.
         """
@@ -395,7 +385,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_is_domain_explicit(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.is_domain_explicit`,
+        Test :class:`colour.io.luts.lut.LUT1D.is_domain_explicit`,
         :class:`colour.io.luts.lut.LUT3x1D.is_domain_explicit` and
         :class:`colour.io.luts.lut.LUT3D.is_domain_explicit` methods.
         """
@@ -415,7 +405,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_arithmetical_operation(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.arithmetical_operation`,
+        Test :class:`colour.io.luts.lut.LUT1D.arithmetical_operation`,
         :class:`colour.io.luts.lut.LUT3x1D.arithmetical_operation` and
         :class:`colour.io.luts.lut.LUT3D.arithmetical_operation` methods.
         """
@@ -454,7 +444,7 @@ class AbstractLUTTest(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             LUT_1.arithmetical_operation(10, "**", False).table,
-            self._table_1 ** 10,
+            self._table_1**10,
             decimal=7,
         )
 
@@ -475,7 +465,7 @@ class AbstractLUTTest(unittest.TestCase):
         )
 
         np.testing.assert_almost_equal(
-            (LUT_1 ** 10).table, self._table_1 ** 10, decimal=7
+            (LUT_1**10).table, self._table_1**10, decimal=7
         )
 
         np.testing.assert_almost_equal(
@@ -504,7 +494,7 @@ class AbstractLUTTest(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             LUT_2.arithmetical_operation(10, "**", True).table,
-            self._table_1 ** 10,
+            self._table_1**10,
             decimal=7,
         )
 
@@ -525,7 +515,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_linear_table(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.linear_table`,
+        Test :class:`colour.io.luts.lut.LUT1D.linear_table`,
         :class:`colour.io.luts.lut.LUT3x1D.linear_table` and
         :class:`colour.io.luts.lut.LUT3D.linear_table` methods.
         """
@@ -550,7 +540,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_copy(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.copy`,
+        Test :class:`colour.io.luts.lut.LUT1D.copy`,
         :class:`colour.io.luts.lut.LUT3x1D.copy` and
         :class:`colour.io.luts.lut.LUT3D.copy` methods.
         """
@@ -566,7 +556,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_invert(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.invert`,
+        Test :class:`colour.io.luts.lut.LUT1D.invert`,
         :class:`colour.io.luts.lut.LUT3x1D.invert` and
         :class:`colour.io.luts.lut.LUT3D.invert` methods.
         """
@@ -594,7 +584,7 @@ class AbstractLUTTest(unittest.TestCase):
 
     def test_apply(self):
         """
-        Tests :class:`colour.io.luts.lut.LUT1D.apply`,
+        Test :class:`colour.io.luts.lut.LUT1D.apply`,
         :class:`colour.io.luts.lut.LUT3x1D.apply` and
         :class:`colour.io.luts.lut.LUT3D.apply` methods.
         """
@@ -641,9 +631,7 @@ class AbstractLUTTest(unittest.TestCase):
 
 
 class TestLUT1D(AbstractLUTTest):
-    """
-    Defines :class:`colour.io.luts.lut.LUT1D` class unit tests methods.
-    """
+    """Define :class:`colour.io.luts.lut.LUT1D` class unit tests methods."""
 
     def __init__(self, *args: Any):
         """
@@ -779,9 +767,7 @@ class TestLUT1D(AbstractLUTTest):
 
 
 class TestLUT3x1D(AbstractLUTTest):
-    """
-    Defines :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods.
-    """
+    """Define :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods."""
 
     def __init__(self, *args: Any):
         """
@@ -948,9 +934,7 @@ class TestLUT3x1D(AbstractLUTTest):
 
 
 class TestLUT3D(AbstractLUTTest):
-    """
-    Defines :class:`colour.io.luts.lut.LUT3D` class unit tests methods.
-    """
+    """Define :class:`colour.io.luts.lut.LUT3D` class unit tests methods."""
 
     def __init__(self, *args: Any):
         """
@@ -1142,14 +1126,12 @@ class TestLUT3D(AbstractLUTTest):
 
 class TestLUT_to_LUT(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.lut.LUT_to_LUT` definition unit tests
+    Define :func:`colour.io.luts.lut.LUT_to_LUT` definition unit tests
     methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._domain = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
 
@@ -1163,9 +1145,7 @@ class TestLUT_to_LUT(unittest.TestCase):
         )
 
     def test_LUT_to_LUT(self):
-        """
-        Tests :func:`colour.io.luts.lut.LUT_to_LUT` definition.
-        """
+        """Test :func:`colour.io.luts.lut.LUT_to_LUT` definition."""
 
         # "LUT" 1D to "LUT" 1D.
         LUT = LUT_to_LUT(self._LUT_1, LUT1D)

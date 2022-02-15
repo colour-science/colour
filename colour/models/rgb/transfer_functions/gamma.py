@@ -22,7 +22,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -41,7 +41,7 @@ def gamma_function(
     ] = "Indeterminate",
 ) -> FloatingOrNDArray:
     """
-    Defines a typical gamma encoding / decoding function.
+    Define a typical gamma encoding / decoding function.
 
     Parameters
     ----------
@@ -93,10 +93,10 @@ def gamma_function(
     )
 
     if negative_number_handling == "indeterminate":
-        return as_float(a ** exponent)
+        return as_float(a**exponent)
     elif negative_number_handling == "mirror":
         return spow(a, exponent)
     elif negative_number_handling == "preserve":
-        return as_float(np.where(a <= 0, a, a ** exponent))
+        return as_float(np.where(a <= 0, a, a**exponent))
     else:  # negative_number_handling == 'clamp':
-        return as_float(np.where(a <= 0, 0, a ** exponent))
+        return as_float(np.where(a <= 0, 0, a**exponent))

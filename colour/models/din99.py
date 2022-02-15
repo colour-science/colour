@@ -39,7 +39,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -85,7 +85,7 @@ def Lab_to_DIN99(
     ] = "DIN99",
 ) -> NDArray:
     """
-    Converts from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
+    Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
     to *Cui et al. (2002)*.
 
@@ -110,7 +110,6 @@ def Lab_to_DIN99(
 
     Notes
     -----
-
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
@@ -154,7 +153,7 @@ def Lab_to_DIN99(
 
     e = cos_c * a + sin_c * b
     f = c_4 * (-sin_c * a + cos_c * b)
-    G = spow(e ** 2 + f ** 2, 0.5)
+    G = spow(e**2 + f**2, 0.5)
     h_ef = np.arctan2(f, e) + np.radians(c_7)
 
     C_99 = c_5 * (np.log1p(c_6 * G)) / (c_8 * k_CH * k_E)
@@ -178,7 +177,7 @@ def DIN99_to_Lab(
     ] = "DIN99",
 ) -> NDArray:
     """
-    Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
+    Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to
     *CIE L\\*a\\*b\\** colourspace.
 
@@ -203,7 +202,6 @@ def DIN99_to_Lab(
 
     Notes
     -----
-
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
@@ -247,7 +245,7 @@ def DIN99_to_Lab(
 
     h_99 = np.arctan2(b_99, a_99) - np.radians(c_7)
 
-    C_99 = np.sqrt(a_99 ** 2 + b_99 ** 2)
+    C_99 = np.sqrt(a_99**2 + b_99**2)
     G = np.expm1((c_8 / c_5) * (C_99) * k_CH * k_E) / c_6
 
     e = G * np.cos(h_99)
@@ -274,7 +272,7 @@ def XYZ_to_DIN99(
     ] = "DIN99",
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *DIN99* colourspace or
+    Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or
     one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
     to *Cui et al. (2002)*.
 
@@ -302,7 +300,6 @@ def XYZ_to_DIN99(
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -350,7 +347,7 @@ def DIN99_to_XYZ(
     ] = "DIN99",
 ) -> NDArray:
     """
-    Converts from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
+    Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to *CIE XYZ*
     tristimulus values.
 
@@ -378,7 +375,6 @@ def DIN99_to_XYZ(
 
     Notes
     -----
-
     +----------------+------------------------+--------------------+
     | **Domain**     | **Scale - Reference**  | **Scale - 1**      |
     +================+========================+====================+

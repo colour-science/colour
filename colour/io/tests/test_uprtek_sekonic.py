@@ -1,6 +1,4 @@
-"""
-Defines unit tests for :mod:`colour.io.uprtek_sekonic` module.
-"""
+"""Defines unit tests for :mod:`colour.io.uprtek_sekonic` module."""
 
 from __future__ import annotations
 
@@ -17,7 +15,7 @@ from colour.io import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -34,7 +32,7 @@ RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
 class AbstractSpectralDistributionTest(unittest.TestCase):
     """
-    Defines :class:`colour.SpectralDistribution_UPRTek`,
+    Define :class:`colour.SpectralDistribution_UPRTek`,
     :class:`colour.SpectralDistribution_Sekonic` classes common unit tests
     methods.
     """
@@ -56,9 +54,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         self._spectral_data: Optional[Dict] = None
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "mapping",
@@ -76,9 +72,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
             self.assertIn(attribute, dir(SpectralDistribution_UPRTek))
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "read", "write")
 
@@ -87,7 +81,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
 
     def test_read(self):
         """
-        Tests :meth:`colour.SpectralDistribution_UPRTek.read` and
+        Test :meth:`colour.SpectralDistribution_UPRTek.read` and
         :meth:`colour.SpectralDistribution_Sekonic.read` methods.
         """
 
@@ -118,7 +112,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
 
 class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
     """
-    Defines :class:`colour.SpectralDistribution_UPRTek` class unit tests
+    Define :class:`colour.SpectralDistribution_UPRTek` class unit tests
     methods.
     """
 
@@ -598,7 +592,7 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
 
 class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
     """
-    Defines :class:`colour.SpectralDistribution_Sekonic` class unit tests
+    Define :class:`colour.SpectralDistribution_Sekonic` class unit tests
     methods.
     """
 

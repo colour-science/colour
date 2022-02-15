@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.xrite` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.xrite` module."""
 
 from __future__ import annotations
 
@@ -12,7 +10,7 @@ from colour.hints import Dict
 from colour.io import read_sds_from_xrite_file
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -68,14 +66,12 @@ COLOURCHECKER_XRITE_1: Dict = {
 
 class TestReadSdsFromXRiteFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.xrite.read_sds_from_xrite_file` definition unit
+    Define :func:`colour.io.xrite.read_sds_from_xrite_file` definition unit
     tests methods.
     """
 
     def test_read_sds_from_xrite_file(self):
-        """
-        Tests :func:`colour.io.xrite.read_sds_from_xrite_file` definition.
-        """
+        """Test :func:`colour.io.xrite.read_sds_from_xrite_file` definition."""
 
         colour_checker_xrite = os.path.join(
             RESOURCES_DIRECTORY, "X-Rite_Digital_Colour_Checker.txt"

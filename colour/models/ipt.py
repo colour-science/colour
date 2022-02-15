@@ -32,7 +32,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -55,14 +55,10 @@ MATRIX_IPT_XYZ_TO_LMS: NDArray = np.array(
         [0.0000, 0.0000, 0.9184],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to normalised cone responses matrix.
-"""
+"""*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
 MATRIX_IPT_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
     [
@@ -71,19 +67,15 @@ MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
         [0.8056, 0.3572, -1.1628],
     ]
 )
-"""
-Normalised non-linear cone responses to *IPT* colourspace matrix.
-"""
+"""Normalised non-linear cone responses to *IPT* colourspace matrix."""
 
 MATRIX_IPT_IPT_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
-"""
-*IPT* colourspace to normalised non-linear cone responses matrix.
-"""
+"""*IPT* colourspace to normalised non-linear cone responses matrix."""
 
 
 def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *IPT* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *IPT* colourspace.
 
     Parameters
     ----------
@@ -97,7 +89,6 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -139,7 +130,7 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
 
 def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
     """
-    Converts from *IPT* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *IPT* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -153,7 +144,6 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -192,7 +182,7 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
 
 def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:
     """
-    Computes the hue angle in degrees from *IPT* colourspace.
+    Compute the hue angle in degrees from *IPT* colourspace.
 
     Parameters
     ----------
@@ -206,7 +196,6 @@ def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+

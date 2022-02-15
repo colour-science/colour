@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.quality.cri` module.
-"""
+"""Defines the unit tests for the :mod:`colour.quality.cri` module."""
 
 from __future__ import annotations
 
@@ -16,7 +14,7 @@ from colour.quality import (
 from colour.quality.cri import TCS_ColorimetryData, TCS_ColourQualityScaleData
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -113,14 +111,12 @@ DATA_SAMPLE: Dict = {
 
 class TestColourRenderingIndex(unittest.TestCase):
     """
-    Defines :func:`colour.quality.cri.colour_rendering_index`
+    Define :func:`colour.quality.cri.colour_rendering_index`
     definition unit tests methods.
     """
 
     def test_colour_rendering_index(self):
-        """
-        Tests :func:`colour.quality.cri.colour_rendering_index` definition.
-        """
+        """Test :func:`colour.quality.cri.colour_rendering_index` definition."""
 
         self.assertAlmostEqual(
             colour_rendering_index(SDS_ILLUMINANTS["FL1"]),

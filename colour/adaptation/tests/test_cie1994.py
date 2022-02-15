@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.adaptation.cie1994` module.
-"""
+"""Defines the unit tests for the :mod:`colour.adaptation.cie1994` module."""
 
 import numpy as np
 import unittest
@@ -11,7 +9,7 @@ from colour.adaptation import chromatic_adaptation_CIE1994
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,13 +22,13 @@ __all__ = [
 
 class TestChromaticAdaptationCIE1994(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+    Define :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
     definition unit tests methods.
     """
 
     def test_chromatic_adaptation_CIE1994(self):
         """
-        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+        Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition.
         """
 
@@ -75,7 +73,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
 
     def test_n_dimensional_chromatic_adaptation_CIE1994(self):
         """
-        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+        Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition n-dimensional arrays support.
         """
 
@@ -123,7 +121,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
 
     def test_domain_range_scale_chromatic_adaptation_CIE1994(self):
         """
-        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+        Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition domain and range scale support.
         """
 
@@ -151,7 +149,7 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_CIE1994(self):
         """
-        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+        Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
         definition nan support.
         """
 

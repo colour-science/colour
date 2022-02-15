@@ -28,7 +28,7 @@ from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -50,9 +50,7 @@ CONSTANTS_FLOG: Structure = Structure(
     e=8.735631,
     f=0.092864,
 )
-"""
-*Fujifilm F-Log* colourspace constants.
-"""
+"""*Fujifilm F-Log* colourspace constants."""
 
 
 def log_encoding_FLog(
@@ -63,7 +61,7 @@ def log_encoding_FLog(
     constants: Structure = CONSTANTS_FLOG,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
+    Define the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -87,7 +85,6 @@ def log_encoding_FLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -153,7 +150,7 @@ def log_decoding_FLog(
     constants: Structure = CONSTANTS_FLOG,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Fujifilm F-Log* log decoding curve / electro-optical transfer
+    Define the *Fujifilm F-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -177,7 +174,6 @@ def log_decoding_FLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

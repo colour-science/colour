@@ -101,7 +101,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -131,7 +131,7 @@ __all__ = [
 
 def kernel_nearest_neighbour(x: ArrayLike) -> NDArray:
     """
-    Returns the *nearest-neighbour* kernel evaluated at given samples.
+    Return the *nearest-neighbour* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -158,7 +158,7 @@ def kernel_nearest_neighbour(x: ArrayLike) -> NDArray:
 
 def kernel_linear(x: ArrayLike) -> NDArray:
     """
-    Returns the *linear* kernel evaluated at given samples.
+    Return the *linear* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -188,7 +188,7 @@ def kernel_linear(x: ArrayLike) -> NDArray:
 
 def kernel_sinc(x: ArrayLike, a: Floating = 3) -> NDArray:
     """
-    Returns the *sinc* kernel evaluated at given samples.
+    Return the *sinc* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -224,7 +224,7 @@ def kernel_sinc(x: ArrayLike, a: Floating = 3) -> NDArray:
 
 def kernel_lanczos(x: ArrayLike, a: Floating = 3) -> NDArray:
     """
-    Returns the *lanczos* kernel evaluated at given samples.
+    Return the *lanczos* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -262,7 +262,7 @@ def kernel_cardinal_spline(
     x: ArrayLike, a: Floating = 0.5, b: Floating = 0.0
 ) -> NDArray:
     """
-    Returns the *cardinal spline* kernel evaluated at given samples.
+    Return the *cardinal spline* kernel evaluated at given samples.
 
     Notable *cardinal spline* :math:`a` and :math:`b` parameterizations:
 
@@ -302,12 +302,12 @@ def kernel_cardinal_spline(
     x_abs = np.abs(x)
     y = np.where(
         x_abs < 1,
-        (-6 * a - 9 * b + 12) * x_abs ** 3
-        + (6 * a + 12 * b - 18) * x_abs ** 2
+        (-6 * a - 9 * b + 12) * x_abs**3
+        + (6 * a + 12 * b - 18) * x_abs**2
         - 2 * b
         + 6,
-        (-6 * a - b) * x_abs ** 3
-        + (30 * a + 6 * b) * x_abs ** 2
+        (-6 * a - b) * x_abs**3
+        + (30 * a + 6 * b) * x_abs**2
         + (-48 * a - 12 * b) * x_abs
         + 24 * a
         + 8 * b,
@@ -458,9 +458,7 @@ class KernelInterpolator:
 
     @x.setter
     def x(self, value: ArrayLike):
-        """
-        Setter for the **self.x** property.
-        """
+        """Setter for the **self.x** property."""
 
         value = np.atleast_1d(value).astype(self._dtype)
 
@@ -511,9 +509,7 @@ class KernelInterpolator:
 
     @y.setter
     def y(self, value: ArrayLike):
-        """
-        Setter for the **self.y** property.
-        """
+        """Setter for the **self.y** property."""
 
         value = np.atleast_1d(value).astype(self._dtype)
 
@@ -547,9 +543,7 @@ class KernelInterpolator:
 
     @window.setter
     def window(self, value: Floating):
-        """
-        Setter for the **self.window** property.
-        """
+        """Setter for the **self.window** property."""
 
         attest(
             bool(value >= 1), '"window" must be equal to or greater than 1!'
@@ -585,9 +579,7 @@ class KernelInterpolator:
 
     @kernel.setter
     def kernel(self, value: Callable):
-        """
-        Setter for the **self.kernel** property.
-        """
+        """Setter for the **self.kernel** property."""
 
         attest(
             hasattr(value, "__call__"),
@@ -616,9 +608,7 @@ class KernelInterpolator:
 
     @kernel_kwargs.setter
     def kernel_kwargs(self, value: Dict):
-        """
-        Setter for the **self.kernel_kwargs** property.
-        """
+        """Setter for the **self.kernel_kwargs** property."""
 
         attest(
             isinstance(value, dict),
@@ -647,9 +637,7 @@ class KernelInterpolator:
 
     @padding_kwargs.setter
     def padding_kwargs(self, value: Dict):
-        """
-        Setter for the **self.padding_kwargs** property.
-        """
+        """Setter for the **self.padding_kwargs** property."""
 
         attest(
             isinstance(value, Mapping),
@@ -664,7 +652,7 @@ class KernelInterpolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the interpolator at given point(s).
+        Evaluate the interpolator at given point(s).
 
         Parameters
         ----------
@@ -685,7 +673,7 @@ class KernelInterpolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the interpolator evaluation at given points.
+        Perform the interpolator evaluation at given points.
 
         Parameters
         ----------
@@ -724,9 +712,7 @@ class KernelInterpolator:
         )
 
     def _validate_dimensions(self):
-        """
-        Validates variables dimensions to be the same.
-        """
+        """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
             raise ValueError(
@@ -737,9 +723,7 @@ class KernelInterpolator:
             )
 
     def _validate_interpolation_range(self, x: NDArray):
-        """
-        Validates given point to be in interpolation range.
-        """
+        """Validate given point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
@@ -786,7 +770,7 @@ class NearestNeighbourInterpolator(KernelInterpolator):
 
 class LinearInterpolator:
     """
-    Linearly interpolates a 1-D function.
+    Interpolate linearly a 1-D function.
 
     Parameters
     ----------
@@ -869,9 +853,7 @@ class LinearInterpolator:
 
     @x.setter
     def x(self, value: ArrayLike):
-        """
-        Setter for the **self.x** property.
-        """
+        """Setter for the **self.x** property."""
 
         value = np.atleast_1d(value).astype(self._dtype)
 
@@ -904,9 +886,7 @@ class LinearInterpolator:
 
     @y.setter
     def y(self, value: ArrayLike):
-        """
-        Setter for the **self.y** property.
-        """
+        """Setter for the **self.y** property."""
 
         value = np.atleast_1d(value).astype(self._dtype)
 
@@ -919,7 +899,7 @@ class LinearInterpolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the interpolating polynomial at given point(s).
+        Evaluate the interpolating polynomial at given point(s).
 
 
         Parameters
@@ -941,7 +921,7 @@ class LinearInterpolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the interpolating polynomial evaluation at given points.
+        Perform the interpolating polynomial evaluation at given points.
 
         Parameters
         ----------
@@ -960,9 +940,7 @@ class LinearInterpolator:
         return np.interp(x, self._x, self._y)
 
     def _validate_dimensions(self):
-        """
-        Validates variables dimensions to be the same.
-        """
+        """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
             raise ValueError(
@@ -973,9 +951,7 @@ class LinearInterpolator:
             )
 
     def _validate_interpolation_range(self, x: NDArray):
-        """
-        Validates given point to be in interpolation range.
-        """
+        """Validate given point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
@@ -989,7 +965,7 @@ class LinearInterpolator:
 
 class SpragueInterpolator:
     """
-    Constructs a fifth-order polynomial that passes through :math:`y` dependent
+    Construct a fifth-order polynomial that passes through :math:`y` dependent
     variable.
 
     *Sprague (1880)* method is recommended by the *CIE* for interpolating
@@ -1103,9 +1079,7 @@ class SpragueInterpolator:
 
     @x.setter
     def x(self, value: ArrayLike):
-        """
-        Setter for the **self.x** property.
-        """
+        """Setter for the **self.x** property."""
 
         value = as_array(np.atleast_1d(value), self._dtype)
 
@@ -1153,9 +1127,7 @@ class SpragueInterpolator:
 
     @y.setter
     def y(self, value: ArrayLike):
-        """
-        Setter for the **self.y** property.
-        """
+        """Setter for the **self.y** property."""
 
         value = as_array(np.atleast_1d(value), self._dtype)
 
@@ -1219,7 +1191,7 @@ class SpragueInterpolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the interpolating polynomial at given point(s).
+        Evaluate the interpolating polynomial at given point(s).
 
         Parameters
         ----------
@@ -1240,7 +1212,7 @@ class SpragueInterpolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the interpolating polynomial evaluation at given point.
+        Perform the interpolating polynomial evaluation at given point.
 
         Parameters
         ----------
@@ -1296,18 +1268,16 @@ class SpragueInterpolator:
         y = (
             a0p
             + a1p * X
-            + a2p * X ** 2
-            + a3p * X ** 3
-            + a4p * X ** 4
-            + a5p * X ** 5
+            + a2p * X**2
+            + a3p * X**3
+            + a4p * X**4
+            + a5p * X**5
         )
 
         return y
 
     def _validate_dimensions(self):
-        """
-        Validates variables dimensions to be the same.
-        """
+        """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
             raise ValueError(
@@ -1318,9 +1288,7 @@ class SpragueInterpolator:
             )
 
     def _validate_interpolation_range(self, x: NDArray):
-        """
-        Validates given point to be in interpolation range.
-        """
+        """Validate given point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
@@ -1334,7 +1302,7 @@ class SpragueInterpolator:
 
 class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
-    Interpolates a 1-D function using cubic spline interpolation.
+    Interpolate a 1-D function using cubic spline interpolation.
 
     Methods
     -------
@@ -1351,7 +1319,7 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     """
-    Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
+    Interpolate a 1-D function using Piecewise Cubic Hermite Interpolating
     Polynomial interpolation.
 
     Attributes
@@ -1390,7 +1358,7 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
 
 class NullInterpolator:
     """
-    Performs 1-D function null interpolation, i.e. a call within given
+    Perform 1-D function null interpolation, i.e. a call within given
     tolerances will return existing :math:`y` variable values and ``default``
     if outside tolerances.
 
@@ -1487,9 +1455,7 @@ class NullInterpolator:
 
     @x.setter
     def x(self, value: ArrayLike):
-        """
-        Setter for the **self.x** property.
-        """
+        """Setter for the **self.x** property."""
 
         value = np.atleast_1d(value).astype(self._dtype)
 
@@ -1522,9 +1488,7 @@ class NullInterpolator:
 
     @y.setter
     def y(self, value: ArrayLike):
-        """
-        Setter for the **self.y** property.
-        """
+        """Setter for the **self.y** property."""
 
         value = np.atleast_1d(value).astype(self._dtype)
 
@@ -1555,9 +1519,7 @@ class NullInterpolator:
 
     @relative_tolerance.setter
     def relative_tolerance(self, value: Floating):
-        """
-        Setter for the **self.relative_tolerance** property.
-        """
+        """Setter for the **self.relative_tolerance** property."""
 
         attest(
             is_numeric(value),
@@ -1586,9 +1548,7 @@ class NullInterpolator:
 
     @absolute_tolerance.setter
     def absolute_tolerance(self, value: Floating):
-        """
-        Setter for the **self.absolute_tolerance** property.
-        """
+        """Setter for the **self.absolute_tolerance** property."""
 
         attest(
             is_numeric(value),
@@ -1618,9 +1578,7 @@ class NullInterpolator:
 
     @default.setter
     def default(self, value: Floating):
-        """
-        Setter for the **self.default** property.
-        """
+        """Setter for the **self.default** property."""
 
         attest(is_numeric(value), '"default" variable must be a "numeric"!')
 
@@ -1628,7 +1586,7 @@ class NullInterpolator:
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the interpolator at given point(s).
+        Evaluate the interpolator at given point(s).
 
 
         Parameters
@@ -1650,7 +1608,7 @@ class NullInterpolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the interpolator evaluation at given points.
+        Perform the interpolator evaluation at given points.
 
         Parameters
         ----------
@@ -1680,9 +1638,7 @@ class NullInterpolator:
         return values
 
     def _validate_dimensions(self):
-        """
-        Validates variables dimensions to be the same.
-        """
+        """Validate that the variables dimensions are the same."""
 
         if len(self._x) != len(self._y):
             raise ValueError(
@@ -1693,9 +1649,7 @@ class NullInterpolator:
             )
 
     def _validate_interpolation_range(self, x: NDArray):
-        """
-        Validates given point to be in interpolation range.
-        """
+        """Validate given point to be in interpolation range."""
 
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
@@ -1709,7 +1663,7 @@ class NullInterpolator:
 
 def lagrange_coefficients(r: Floating, n: Integer = 4) -> NDArray:
     """
-    Computes the *Lagrange Coefficients* at given point :math:`r` for degree
+    Compute the *Lagrange Coefficients* at given point :math:`r` for degree
     :math:`n`.
 
     Parameters
@@ -1748,7 +1702,7 @@ def vertices_and_relative_coordinates(
     V_xyz: ArrayLike, table: ArrayLike
 ) -> Tuple[NDArray, NDArray]:
     """
-    Computes the vertices coordinates and indexes relative :math:`V_{xyzr}`
+    Compute the vertices coordinates and indexes relative :math:`V_{xyzr}`
     coordinates from given :math:`V_{xyzr}` values and interpolation table.
 
     Parameters
@@ -1855,7 +1809,7 @@ def table_interpolation_trilinear(
     V_xyz: ArrayLike, table: ArrayLike
 ) -> NDArray:
     """
-    Performs trilinear interpolation of given :math:`V_{xyz}` values using
+    Perform the trilinear interpolation of given :math:`V_{xyz}` values using
     given interpolation table.
 
     Parameters
@@ -1928,7 +1882,7 @@ def table_interpolation_tetrahedral(
     V_xyz: ArrayLike, table: ArrayLike
 ) -> NDArray:
     """
-    Performs tetrahedral interpolation of given :math:`V_{xyz}` values using
+    Perform the tetrahedral interpolation of given :math:`V_{xyz}` values using
     given interpolation table.
 
     Parameters
@@ -2021,7 +1975,7 @@ def table_interpolation(
     method: Union[Literal["Trilinear", "Tetrahedral"], str] = "Trilinear",
 ) -> NDArray:
     """
-    Performs interpolation of given :math:`V_{xyz}` values using given
+    Perform interpolation of given :math:`V_{xyz}` values using given
     interpolation table.
 
     Parameters

@@ -19,7 +19,7 @@ from colour.io.luts import LUTOperatorMatrix
 from colour.hints import Boolean
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -33,7 +33,7 @@ __all__ = [
 
 def read_LUT_SonySPImtx(path: str) -> LUTOperatorMatrix:
     """
-    Reads given *Sony* *.spimtx* *LUT* file.
+    Read given *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------
@@ -76,7 +76,7 @@ def write_LUT_SonySPImtx(
     LUT: LUTOperatorMatrix, path: str, decimals: Integer = 7
 ) -> Boolean:
     """
-    Writes given *LUT* to given *Sony* *.spimtx* *LUT* file.
+    Write given *LUT* to given *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------

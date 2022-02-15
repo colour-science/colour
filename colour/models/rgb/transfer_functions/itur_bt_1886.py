@@ -26,7 +26,7 @@ from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -42,7 +42,7 @@ def eotf_inverse_BT1886(
     L: FloatingOrArrayLike, L_B: Floating = 0, L_W: Floating = 1
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.1886* inverse electro-optical transfer
+    Define *Recommendation ITU-R BT.1886* inverse electro-optical transfer
     function (EOTF).
 
     Parameters
@@ -62,7 +62,6 @@ def eotf_inverse_BT1886(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -90,9 +89,9 @@ def eotf_inverse_BT1886(
     gamma = 2.40
     gamma_d = 1 / gamma
 
-    n = L_W ** gamma_d - L_B ** gamma_d
-    a = n ** gamma
-    b = L_B ** gamma_d / n
+    n = L_W**gamma_d - L_B**gamma_d
+    a = n**gamma
+    b = L_B**gamma_d / n
 
     V = (L / a) ** gamma_d - b
 
@@ -103,7 +102,7 @@ def eotf_BT1886(
     V: FloatingOrArrayLike, L_B: Floating = 0, L_W: Floating = 1
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
+    Define *Recommendation ITU-R BT.1886* electro-optical transfer function
     (EOTF).
 
     Parameters
@@ -126,7 +125,6 @@ def eotf_BT1886(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -154,9 +152,9 @@ def eotf_BT1886(
     gamma = 2.40
     gamma_d = 1 / gamma
 
-    n = L_W ** gamma_d - L_B ** gamma_d
-    a = n ** gamma
-    b = L_B ** gamma_d / n
+    n = L_W**gamma_d - L_B**gamma_d
+    a = n**gamma
+    b = L_B**gamma_d / n
     L = a * np.maximum(V + b, 0) ** gamma
 
     return as_float(from_range_1(L))

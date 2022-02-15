@@ -23,7 +23,7 @@ from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -43,7 +43,7 @@ def log_encoding_PivotedLog(
     density_per_code_value: Floating = 0.002,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Josh Pines* style *Pivoted Log* log encoding curve /
+    Define the *Josh Pines* style *Pivoted Log* log encoding curve /
     opto-electronic transfer function.
 
     Parameters
@@ -66,7 +66,6 @@ def log_encoding_PivotedLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -108,7 +107,7 @@ def log_decoding_PivotedLog(
     density_per_code_value: Floating = 0.002,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Josh Pines* style *Pivoted Log* log decoding curve /
+    Define the *Josh Pines* style *Pivoted Log* log decoding curve /
     electro-optical transfer function.
 
     Parameters
@@ -131,7 +130,6 @@ def log_decoding_PivotedLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

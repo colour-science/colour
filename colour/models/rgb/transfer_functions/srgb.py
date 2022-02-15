@@ -1,5 +1,5 @@
 """
-sRGB
+SRGB
 ====
 
 Defines the *sRGB* electro-optical transfer function (EOTF) and its
@@ -37,7 +37,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -51,7 +51,7 @@ __all__ = [
 
 def eotf_inverse_sRGB(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
+    Define the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
     function (EOTF).
 
     Parameters
@@ -66,7 +66,6 @@ def eotf_inverse_sRGB(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -99,7 +98,7 @@ def eotf_inverse_sRGB(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def eotf_sRGB(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
+    Define the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
     (EOTF).
 
     Parameters
@@ -114,7 +113,6 @@ def eotf_sRGB(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

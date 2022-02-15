@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.recovery.meng2015` module.
-"""
+"""Defines the unit tests for the :mod:`colour.recovery.meng2015` module."""
 
 import numpy as np
 import unittest
@@ -17,7 +15,7 @@ from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -30,14 +28,12 @@ __all__ = [
 
 class TestXYZ_to_sd_Meng2015(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition unit
+    Define :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         # pylint: disable=E1102
         self._cmfs = reshape_msds(
@@ -48,9 +44,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
         self._sd_E = reshape_sd(SDS_ILLUMINANTS["E"], self._cmfs.shape)
 
     def test_XYZ_to_sd_Meng2015(self):
-        """
-        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition.
-        """
+        """Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition."""
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         np.testing.assert_almost_equal(
@@ -109,7 +103,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
     def test_raise_exception_XYZ_to_sd_Meng2015(self):
         """
-        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
+        Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015`
         definition raised exception.
         """
 
@@ -124,7 +118,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_sd_Meng2015(self):
         """
-        Tests :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
+        Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
         domain and range scale support.
         """
 

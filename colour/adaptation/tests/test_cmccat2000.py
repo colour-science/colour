@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.adaptation.cmccat2000.
-"""
+"""Defines the unit tests for the :mod:`colour.adaptation.cmccat2000."""
 
 import numpy as np
 import unittest
@@ -15,7 +13,7 @@ from colour.adaptation.cmccat2000 import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -29,13 +27,13 @@ __all__ = [
 
 class TestChromaticAdaptationForwardCMCCAT2000(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.cmccat2000.\
+    Define :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition unit tests methods.
     """
 
     def test_chromatic_adaptation_forward_CMCCAT2000(self):
         """
-        Tests :func:`colour.adaptation.cmccat2000.\
+        Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition.
         """
 
@@ -77,7 +75,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition.
 
     def test_n_dimensional_chromatic_adaptation_forward_CMCCAT2000(self):
         """
-        Tests :func:`colour.adaptation.cmccat2000.\
+        Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
         support.
         """
@@ -129,7 +127,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
 
     def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
         """
-        Tests :func:`colour.adaptation.cmccat2000.\
+        Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
         support.
         """
@@ -161,7 +159,7 @@ chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_forward_CMCCAT2000(self):
         """
-        Tests :func:`colour.adaptation.cmccat2000.\
+        Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_forward_CMCCAT2000` definition nan support.
         """
 
@@ -180,13 +178,13 @@ chromatic_adaptation_forward_CMCCAT2000` definition nan support.
 
 class TestChromaticAdaptationInverseCMCCAT2000(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.cmccat2000.\
+    Define :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition unit tests methods.
     """
 
     def test_chromatic_adaptation_inverse_CMCCAT2000(self):
         """
-        Tests :func:`colour.adaptation.cmccat2000.\
+        Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition.
         """
 
@@ -228,7 +226,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition.
 
     def test_n_dimensional_chromatic_adaptation_inverse_CMCCAT2000(self):
         """
-        Tests :func:`colour.adaptation.cmccat2000.\
+        Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
         support.
         """
@@ -280,7 +278,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition n-dimensional arrays
 
     def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
         """
-        Tests :func:`colour.adaptation.cmccat2000.\
+        Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale
         support.
         """
@@ -312,7 +310,7 @@ chromatic_adaptation_inverse_CMCCAT2000` definition domain and range scale
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_inverse_CMCCAT2000(self):
         """
-        Tests :func:`colour.adaptation.cmccat2000.\
+        Test :func:`colour.adaptation.cmccat2000.\
 chromatic_adaptation_inverse_CMCCAT2000` definition nan support.
         """
 

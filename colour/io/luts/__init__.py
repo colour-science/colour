@@ -71,7 +71,7 @@ __all__ += [
     "write_LUT_Cinespace",
 ]
 
-EXTENSION_TO_LUT_FORMAT_MAPPING: CaseInsensitiveMapping = (
+MAPPING_EXTENSION_TO_LUT_FORMAT: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(
         {
             ".cube": "Iridas Cube",
@@ -82,9 +82,7 @@ EXTENSION_TO_LUT_FORMAT_MAPPING: CaseInsensitiveMapping = (
         }
     )
 )
-"""
-Extension to *LUT* format.
-"""
+"""Extension to *LUT* format."""
 
 LUT_READ_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
@@ -120,10 +118,10 @@ def read_LUT(
             str,
         ]
     ] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Union[LUT1D, LUT3x1D, LUT3D, LUTSequence, LUTOperatorMatrix]:
     """
-    Reads given *LUT* file using given method.
+    Read given *LUT* file using given method.
 
     Parameters
     ----------
@@ -211,7 +209,7 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     method = cast(
         str,
         optional(
-            method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+            method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
         ),
     )
 
@@ -267,10 +265,10 @@ def write_LUT(
             str,
         ]
     ] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Boolean:
     """
-    Writes given *LUT* to given file using given method.
+    Write given *LUT* to given file using given method.
 
     Parameters
     ----------
@@ -334,7 +332,7 @@ def write_LUT(
     method = cast(
         str,
         optional(
-            method, EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+            method, MAPPING_EXTENSION_TO_LUT_FORMAT[os.path.splitext(path)[-1]]
         ),
     )
 

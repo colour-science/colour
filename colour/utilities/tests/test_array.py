@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.array` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.array` module."""
 
 import numpy as np
 import unittest
@@ -21,8 +19,8 @@ from colour.utilities import (
     as_float_array,
     as_int_scalar,
     as_float_scalar,
-    set_float_precision,
-    set_int_precision,
+    set_default_int_dtype,
+    set_default_float_dtype,
     get_domain_range_scale,
     set_domain_range_scale,
     domain_range_scale,
@@ -57,7 +55,7 @@ from colour.utilities import (
 from colour.utilities import is_networkx_installed
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -75,8 +73,8 @@ __all__ = [
     "TestAsFloatArray",
     "TestAsIntScalar",
     "TestAsFloatScalar",
-    "TestSetFloatPrecision",
-    "TestSetIntPrecision",
+    "TestSetDefaultIntegerDtype",
+    "TestSetDefaultFloatDtype",
     "TestGetDomainRangeScale",
     "TestSetDomainRangeScale",
     "TestDomainRangeScale",
@@ -112,14 +110,12 @@ __all__ = [
 
 class TestMixinDataclassFields(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.array.MixinDataclassFields` class unit
+    Define :class:`colour.utilities.array.MixinDataclassFields` class unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassFields):
@@ -130,9 +126,7 @@ class TestMixinDataclassFields(unittest.TestCase):
         self._data: Data = Data(a="Foo", b="Bar", c="Baz")
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("fields",)
 
@@ -141,7 +135,7 @@ class TestMixinDataclassFields(unittest.TestCase):
 
     def test_fields(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassIterable._fields`
+        Test :meth:`colour.utilities.array.MixinDataclassIterable._fields`
         method.
         """
 
@@ -153,14 +147,12 @@ class TestMixinDataclassFields(unittest.TestCase):
 
 class TestMixinDataclassIterable(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.array.MixinDataclassIterable` class unit
+    Define :class:`colour.utilities.array.MixinDataclassIterable` class unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassIterable):
@@ -171,9 +163,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         self._data: Data = Data(a="Foo", b="Bar", c="Baz")
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "keys",
@@ -185,9 +175,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
             self.assertIn(method, dir(MixinDataclassIterable))
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__iter__",)
 
@@ -196,7 +184,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
 
     def test__iter__(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassIterable.__iter__`
+        Test :meth:`colour.utilities.array.MixinDataclassIterable.__iter__`
         method.
         """
 
@@ -207,7 +195,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
 
     def test_keys(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassIterable.keys`
+        Test :meth:`colour.utilities.array.MixinDataclassIterable.keys`
         method.
         """
 
@@ -218,7 +206,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
 
     def test_values(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassIterable.values`
+        Test :meth:`colour.utilities.array.MixinDataclassIterable.values`
         method.
         """
 
@@ -229,7 +217,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
 
     def test_items(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassIterable.items`
+        Test :meth:`colour.utilities.array.MixinDataclassIterable.items`
         method.
         """
 
@@ -241,14 +229,12 @@ class TestMixinDataclassIterable(unittest.TestCase):
 
 class TestMixinDataclassArray(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.array.MixinDataclassArray` class unit
+    Define :class:`colour.utilities.array.MixinDataclassArray` class unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassArray):
@@ -276,9 +262,7 @@ class TestMixinDataclassArray(unittest.TestCase):
         )
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__array__",)
 
@@ -287,7 +271,7 @@ class TestMixinDataclassArray(unittest.TestCase):
 
     def test__array__(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassArray.__array__`
+        Test :meth:`colour.utilities.array.MixinDataclassArray.__array__`
         method.
         """
 
@@ -301,14 +285,12 @@ class TestMixinDataclassArray(unittest.TestCase):
 
 class TestMixinDataclassArithmetic(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.array.MixinDataclassArithmetic` class unit
+    Define :class:`colour.utilities.array.MixinDataclassArithmetic` class unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassArithmetic):
@@ -337,9 +319,7 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
         )
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__iadd__",
@@ -360,7 +340,7 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
 
     def test_arithmetical_operation(self):
         """
-        Tests :meth:`colour.utilities.array.MixinDataclassArithmetic.\
+        Test :meth:`colour.utilities.array.MixinDataclassArithmetic.\
 arithmetical_operation` method.
         """
 
@@ -390,7 +370,7 @@ arithmetical_operation` method.
 
         np.testing.assert_almost_equal(
             np.array(self._data.arithmetical_operation(10, "**", False)),
-            self._array ** 10,
+            self._array**10,
             decimal=7,
         )
 
@@ -411,7 +391,7 @@ arithmetical_operation` method.
         )
 
         np.testing.assert_almost_equal(
-            np.array(self._data ** 10), self._array ** 10, decimal=7
+            np.array(self._data**10), self._array**10, decimal=7
         )
 
         data = deepcopy(self._data)
@@ -442,7 +422,7 @@ arithmetical_operation` method.
 
         np.testing.assert_almost_equal(
             np.array(data.arithmetical_operation(10, "**", True)),
-            self._array ** 10,
+            self._array**10,
             decimal=7,
         )
 
@@ -480,14 +460,12 @@ arithmetical_operation` method.
 
 class TestAsArray(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_array` definition unit tests
+    Define :func:`colour.utilities.array.as_array` definition unit tests
     methods.
     """
 
     def test_as_array(self):
-        """
-        Tests :func:`colour.utilities.array.as_array` definition.
-        """
+        """Test :func:`colour.utilities.array.as_array` definition."""
 
         np.testing.assert_equal(as_array([1, 2, 3]), np.array([1, 2, 3]))
 
@@ -506,14 +484,12 @@ class TestAsArray(unittest.TestCase):
 
 class TestAsInt(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_int` definition unit tests
+    Define :func:`colour.utilities.array.as_int` definition unit tests
     methods.
     """
 
     def test_as_int(self):
-        """
-        Tests :func:`colour.utilities.array.as_int` definition.
-        """
+        """Test :func:`colour.utilities.array.as_int` definition."""
 
         self.assertEqual(as_int(1), 1)
 
@@ -532,14 +508,12 @@ class TestAsInt(unittest.TestCase):
 
 class TestAsFloat(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_float` definition unit tests
+    Define :func:`colour.utilities.array.as_float` definition unit tests
     methods.
     """
 
     def test_as_float(self):
-        """
-        Tests :func:`colour.utilities.array.as_float` definition.
-        """
+        """Test :func:`colour.utilities.array.as_float` definition."""
 
         self.assertEqual(as_float(1), 1.0)
 
@@ -558,14 +532,12 @@ class TestAsFloat(unittest.TestCase):
 
 class TestAsIntArray(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_int_array` definition unit tests
+    Define :func:`colour.utilities.array.as_int_array` definition unit tests
     methods.
     """
 
     def test_as_int_array(self):
-        """
-        Tests :func:`colour.utilities.array.as_int_array` definition.
-        """
+        """Test :func:`colour.utilities.array.as_int_array` definition."""
 
         np.testing.assert_equal(
             as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3])
@@ -576,14 +548,12 @@ class TestAsIntArray(unittest.TestCase):
 
 class TestAsFloatArray(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_float_array` definition unit tests
+    Define :func:`colour.utilities.array.as_float_array` definition unit tests
     methods.
     """
 
     def test_as_float_array(self):
-        """
-        Tests :func:`colour.utilities.array.as_float_array` definition.
-        """
+        """Test :func:`colour.utilities.array.as_float_array` definition."""
 
         np.testing.assert_equal(as_float_array([1, 2, 3]), np.array([1, 2, 3]))
 
@@ -592,14 +562,12 @@ class TestAsFloatArray(unittest.TestCase):
 
 class TestAsIntScalar(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_int_scalar` definition unit tests
+    Define :func:`colour.utilities.array.as_int_scalar` definition unit tests
     methods.
     """
 
     def test_as_int_scalar(self):
-        """
-        Tests :func:`colour.utilities.array.as_int_scalar` definition.
-        """
+        """Test :func:`colour.utilities.array.as_int_scalar` definition."""
 
         self.assertEqual(as_int_scalar(1.0), 1)
 
@@ -608,45 +576,71 @@ class TestAsIntScalar(unittest.TestCase):
 
 class TestAsFloatScalar(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.as_float_scalar` definition unit
+    Define :func:`colour.utilities.array.as_float_scalar` definition unit
     tests methods.
     """
 
     def test_as_float_scalar(self):
-        """
-        Tests :func:`colour.utilities.array.as_float_scalar` definition.
-        """
+        """Test :func:`colour.utilities.array.as_float_scalar` definition."""
 
         self.assertEqual(as_float_scalar(1), 1.0)
 
         self.assertEqual(as_float_scalar(1).dtype, DEFAULT_FLOAT_DTYPE)
 
 
-class TestSetFloatPrecision(unittest.TestCase):
+class TestSetDefaultIntegerDtype(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.set_float_precision` definition unit
+    Define :func:`colour.utilities.array.set_default_int_dtype` definition unit
     tests methods.
     """
 
-    def test_set_float_precision(self):
+    def test_set_default_int_dtype(self):
         """
-        Tests :func:`colour.utilities.array.set_float_precision` definition.
+        Test :func:`colour.utilities.array.set_default_int_dtype` definition.
+        """
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+
+        set_default_int_dtype(np.int32)
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int32)
+
+        set_default_int_dtype(np.int64)
+
+        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
+
+    def tearDown(self):
+        """After tests actions."""
+
+        set_default_int_dtype(np.int64)
+
+
+class TestSetDefaultFloatDtype(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.set_default_float_dtype` definition unit
+    tests methods.
+    """
+
+    def test_set_default_float_dtype(self):
+        """
+        Test :func:`colour.utilities.array.set_default_float_dtype`
+        definition.
         """
 
         self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
 
-        set_float_precision(np.float16)
+        set_default_float_dtype(np.float16)
 
         self.assertEqual(as_float_array(np.ones(3)).dtype, np.float16)
 
-        set_float_precision(np.float64)
+        set_default_float_dtype(np.float64)
 
         self.assertEqual(as_float_array(np.ones(3)).dtype, np.float64)
 
-    def test_set_float_precision_enforcement(self):
+    def test_set_default_float_dtype_enforcement(self):
         """
-        Tests whether :func:`colour.utilities.array.set_float_precision` effect
-        is applied through most of *Colour* public API.
+        Test whether :func:`colour.utilities.array.set_default_float_dtype`
+        effect is applied through most of *Colour* public API.
         """
 
         if not is_networkx_installed():  # pragma: no cover
@@ -664,7 +658,7 @@ class TestSetFloatPrecision(unittest.TestCase):
         )
 
         dtype = np.float32
-        set_float_precision(dtype)
+        set_default_float_dtype(dtype)
 
         for source, target, _callable in CONVERSION_SPECIFICATIONS_DATA:
             if target in ("Hexadecimal", "Munsell Colour"):
@@ -709,9 +703,7 @@ class TestSetFloatPrecision(unittest.TestCase):
                 a = np.array([(0.25, 0.5), (0.25, 0.5)])
 
             def dtype_getter(x):
-                """
-                dtype getter callable.
-                """
+                """Dtype getter callable."""
 
                 for specification in (
                     "ATD95",
@@ -732,51 +724,20 @@ class TestSetFloatPrecision(unittest.TestCase):
             self.assertEqual(dtype_getter(convert(a, source, target)), dtype)
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
-        set_float_precision(np.float64)
-
-
-class TestSetIntPrecision(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.array.set_int_precision` definition unit
-    tests methods.
-    """
-
-    def test_set_int_precision(self):
-        """
-        Tests :func:`colour.utilities.array.set_int_precision` definition.
-        """
-
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
-
-        set_int_precision(np.int32)
-
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int32)
-
-        set_int_precision(np.int64)
-
-        self.assertEqual(as_int_array(np.ones(3)).dtype, np.int64)
-
-    def tearDown(self):
-        """
-        After tests actions.
-        """
-
-        set_int_precision(np.int64)
+        set_default_float_dtype(np.float64)
 
 
 class TestGetDomainRangeScale(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.get_domain_range_scale` definition
+    Define :func:`colour.utilities.common.get_domain_range_scale` definition
     unit tests methods.
     """
 
     def test_get_domain_range_scale(self):
         """
-        Tests :func:`colour.utilities.common.get_domain_range_scale`
+        Test :func:`colour.utilities.common.get_domain_range_scale`
         definition.
         """
 
@@ -792,13 +753,13 @@ class TestGetDomainRangeScale(unittest.TestCase):
 
 class TestSetDomainRangeScale(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.set_domain_range_scale` definition
+    Define :func:`colour.utilities.common.set_domain_range_scale` definition
     unit tests methods.
     """
 
     def test_set_domain_range_scale(self):
         """
-        Tests :func:`colour.utilities.common.set_domain_range_scale`
+        Test :func:`colour.utilities.common.set_domain_range_scale`
         definition.
         """
 
@@ -821,13 +782,13 @@ class TestSetDomainRangeScale(unittest.TestCase):
 
 class TestDomainRangeScale(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.domain_range_scale` definition
+    Define :func:`colour.utilities.common.domain_range_scale` definition
     unit tests methods.
     """
 
     def test_domain_range_scale(self):
         """
-        Tests :func:`colour.utilities.common.domain_range_scale`
+        Test :func:`colour.utilities.common.domain_range_scale`
         definition.
         """
 
@@ -849,9 +810,7 @@ class TestDomainRangeScale(unittest.TestCase):
         self.assertEqual(get_domain_range_scale(), "reference")
 
         def fn_a(a):
-            """
-            Helper definition performing domain-range scale.
-            """
+            """Change the domain-range scale for unit testing."""
 
             b = to_domain_10(a)
 
@@ -879,9 +838,7 @@ class TestDomainRangeScale(unittest.TestCase):
 
         @domain_range_scale("1")
         def fn_b(a):
-            """
-            Helper definition performing domain-range scale.
-            """
+            """Change the domain-range scale for unit testing."""
 
             b = to_domain_10(a)
 
@@ -894,14 +851,12 @@ class TestDomainRangeScale(unittest.TestCase):
 
 class TestToDomain1(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_1` definition unit
+    Define :func:`colour.utilities.common.to_domain_1` definition unit
     tests methods.
     """
 
     def test_to_domain_1(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_1` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_1` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_1(1), 1)
@@ -923,14 +878,12 @@ class TestToDomain1(unittest.TestCase):
 
 class TestToDomain10(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_10` definition unit
+    Define :func:`colour.utilities.common.to_domain_10` definition unit
     tests methods.
     """
 
     def test_to_domain_10(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_10` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_10` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_10(1), 1)
@@ -952,14 +905,12 @@ class TestToDomain10(unittest.TestCase):
 
 class TestToDomain100(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_100` definition unit
+    Define :func:`colour.utilities.common.to_domain_100` definition unit
     tests methods.
     """
 
     def test_to_domain_100(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_100` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_100` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_100(1), 1)
@@ -981,14 +932,12 @@ class TestToDomain100(unittest.TestCase):
 
 class TestToDomainDegrees(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_degrees` definition unit
+    Define :func:`colour.utilities.common.to_domain_degrees` definition unit
     tests methods.
     """
 
     def test_to_domain_degrees(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_degrees` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_degrees` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_degrees(1), 1)
@@ -1010,14 +959,12 @@ class TestToDomainDegrees(unittest.TestCase):
 
 class TestToDomainInt(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.to_domain_int` definition unit
+    Define :func:`colour.utilities.common.to_domain_int` definition unit
     tests methods.
     """
 
     def test_to_domain_int(self):
-        """
-        Tests :func:`colour.utilities.common.to_domain_int` definition.
-        """
+        """Test :func:`colour.utilities.common.to_domain_int` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(to_domain_int(1), 1)
@@ -1039,14 +986,12 @@ class TestToDomainInt(unittest.TestCase):
 
 class TestFromRange1(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_1` definition unit
+    Define :func:`colour.utilities.common.from_range_1` definition unit
     tests methods.
     """
 
     def test_from_range_1(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_1` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_1` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_1(1), 1)
@@ -1063,14 +1008,12 @@ class TestFromRange1(unittest.TestCase):
 
 class TestFromRange10(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_10` definition unit
+    Define :func:`colour.utilities.common.from_range_10` definition unit
     tests methods.
     """
 
     def test_from_range_10(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_10` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_10` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_10(1), 1)
@@ -1087,14 +1030,12 @@ class TestFromRange10(unittest.TestCase):
 
 class TestFromRange100(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_100` definition unit
+    Define :func:`colour.utilities.common.from_range_100` definition unit
     tests methods.
     """
 
     def test_from_range_100(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_100` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_100` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_100(1), 1)
@@ -1111,14 +1052,12 @@ class TestFromRange100(unittest.TestCase):
 
 class TestFromRangeDegrees(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_degrees` definition unit
+    Define :func:`colour.utilities.common.from_range_degrees` definition unit
     tests methods.
     """
 
     def test_from_range_degrees(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_degrees` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_degrees` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_degrees(1), 1)
@@ -1135,14 +1074,12 @@ class TestFromRangeDegrees(unittest.TestCase):
 
 class TestFromRangeInt(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.from_range_int` definition unit
+    Define :func:`colour.utilities.common.from_range_int` definition unit
     tests methods.
     """
 
     def test_from_range_int(self):
-        """
-        Tests :func:`colour.utilities.common.from_range_int` definition.
-        """
+        """Test :func:`colour.utilities.common.from_range_int` definition."""
 
         with domain_range_scale("Reference"):
             self.assertEqual(from_range_int(1), 1)
@@ -1164,14 +1101,12 @@ class TestFromRangeInt(unittest.TestCase):
 
 class TestClosestIndexes(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.closest_indexes` definition unit
+    Define :func:`colour.utilities.array.closest_indexes` definition unit
     tests methods.
     """
 
     def test_closest_indexes(self):
-        """
-        Tests :func:`colour.utilities.array.closest_indexes` definition.
-        """
+        """Test :func:`colour.utilities.array.closest_indexes` definition."""
 
         a = np.array(
             [
@@ -1198,14 +1133,12 @@ class TestClosestIndexes(unittest.TestCase):
 
 class TestClosest(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.closest` definition unit tests
+    Define :func:`colour.utilities.array.closest` definition unit tests
     methods.
     """
 
     def test_closest(self):
-        """
-        Tests :func:`colour.utilities.array.closest` definition.
-        """
+        """Test :func:`colour.utilities.array.closest` definition."""
 
         a = np.array(
             [
@@ -1233,14 +1166,12 @@ class TestClosest(unittest.TestCase):
 
 class TestInterval(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.interval` definition unit tests
+    Define :func:`colour.utilities.array.interval` definition unit tests
     methods.
     """
 
     def test_interval(self):
-        """
-        Tests :func:`colour.utilities.array.interval` definition.
-        """
+        """Test :func:`colour.utilities.array.interval` definition."""
 
         np.testing.assert_almost_equal(
             interval(range(0, 10, 2)), np.array([2])
@@ -1262,14 +1193,12 @@ class TestInterval(unittest.TestCase):
 
 class TestIsUniform(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.is_uniform` definition unit tests
+    Define :func:`colour.utilities.array.is_uniform` definition unit tests
     methods.
     """
 
     def test_is_uniform(self):
-        """
-        Tests :func:`colour.utilities.array.is_uniform` definition.
-        """
+        """Test :func:`colour.utilities.array.is_uniform` definition."""
 
         self.assertTrue(is_uniform(range(0, 10, 2)))
 
@@ -1278,14 +1207,12 @@ class TestIsUniform(unittest.TestCase):
 
 class TestInArray(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.in_array` definition unit tests
+    Define :func:`colour.utilities.array.in_array` definition unit tests
     methods.
     """
 
     def test_in_array(self):
-        """
-        Tests :func:`colour.utilities.array.in_array` definition.
-        """
+        """Test :func:`colour.utilities.array.in_array` definition."""
 
         self.assertTrue(
             np.array_equal(
@@ -1310,7 +1237,7 @@ class TestInArray(unittest.TestCase):
 
     def test_n_dimensional_in_array(self):
         """
-        Tests :func:`colour.utilities.array.in_array` definition n-dimensional
+        Test :func:`colour.utilities.array.in_array` definition n-dimensional
         support.
         """
 
@@ -1334,14 +1261,12 @@ class TestInArray(unittest.TestCase):
 
 class TestTstack(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.tstack` definition unit tests
+    Define :func:`colour.utilities.array.tstack` definition unit tests
     methods.
     """
 
     def test_tstack(self):
-        """
-        Tests :func:`colour.utilities.array.tstack` definition.
-        """
+        """Test :func:`colour.utilities.array.tstack` definition."""
 
         a = 0
         np.testing.assert_almost_equal(tstack([a, a, a]), np.array([0, 0, 0]))
@@ -1394,14 +1319,12 @@ class TestTstack(unittest.TestCase):
 
 class TestTsplit(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.tsplit` definition unit tests
+    Define :func:`colour.utilities.array.tsplit` definition unit tests
     methods.
     """
 
     def test_tsplit(self):
-        """
-        Tests :func:`colour.utilities.array.tsplit` definition.
-        """
+        """Test :func:`colour.utilities.array.tsplit` definition."""
 
         a = np.array([0, 0, 0])
         np.testing.assert_almost_equal(tsplit(a), np.array([0, 0, 0]))
@@ -1471,14 +1394,12 @@ class TestTsplit(unittest.TestCase):
 
 class TestRowAsDiagonal(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.row_as_diagonal` definition unit
+    Define :func:`colour.utilities.array.row_as_diagonal` definition unit
     tests methods.
     """
 
     def test_row_as_diagonal(self):
-        """
-        Tests :func:`colour.utilities.array.row_as_diagonal` definition.
-        """
+        """Test :func:`colour.utilities.array.row_as_diagonal` definition."""
 
         np.testing.assert_almost_equal(
             row_as_diagonal(
@@ -1526,14 +1447,12 @@ class TestRowAsDiagonal(unittest.TestCase):
 
 class TestOrient(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.orient` definition unit tests
+    Define :func:`colour.utilities.array.orient` definition unit tests
     methods.
     """
 
     def test_orient(self):
-        """
-        Tests :func:`colour.utilities.array.orient` definition.
-        """
+        """Test :func:`colour.utilities.array.orient` definition."""
 
         a = np.tile(np.arange(5), (5, 1))
 
@@ -1610,14 +1529,12 @@ class TestOrient(unittest.TestCase):
 
 class TestCentroid(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.centroid` definition unit tests
+    Define :func:`colour.utilities.array.centroid` definition unit tests
     methods.
     """
 
     def test_centroid(self):
-        """
-        Tests :func:`colour.utilities.array.centroid` definition.
-        """
+        """Test :func:`colour.utilities.array.centroid` definition."""
 
         a = np.arange(5)
         np.testing.assert_array_equal(centroid(a), np.array([3]))
@@ -1634,14 +1551,12 @@ class TestCentroid(unittest.TestCase):
 
 class TestFillNan(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.fill_nan` definition unit tests
+    Define :func:`colour.utilities.array.fill_nan` definition unit tests
     methods.
     """
 
     def test_fill_nan(self):
-        """
-        Tests :func:`colour.utilities.array.fill_nan` definition.
-        """
+        """Test :func:`colour.utilities.array.fill_nan` definition."""
 
         a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
         np.testing.assert_almost_equal(
@@ -1657,14 +1572,12 @@ class TestFillNan(unittest.TestCase):
 
 class TestHasNanOnly(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.has_only_nan` definition unit tests
+    Define :func:`colour.utilities.array.has_only_nan` definition unit tests
     methods.
     """
 
     def test_has_only_nan(self):
-        """
-        Tests :func:`colour.utilities.array.has_only_nan` definition.
-        """
+        """Test :func:`colour.utilities.array.has_only_nan` definition."""
 
         self.assertTrue(has_only_nan(None))
 
@@ -1677,14 +1590,12 @@ class TestHasNanOnly(unittest.TestCase):
 
 class TestNdarrayWrite(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.ndarray_write` definition unit tests
+    Define :func:`colour.utilities.array.ndarray_write` definition unit tests
     methods.
     """
 
     def test_ndarray_write(self):
-        """
-        Tests :func:`colour.utilities.array.ndarray_write` definition.
-        """
+        """Test :func:`colour.utilities.array.ndarray_write` definition."""
 
         a = np.linspace(0, 1, 10)
         a.setflags(write=False)
@@ -1698,56 +1609,48 @@ class TestNdarrayWrite(unittest.TestCase):
 
 class TestZeros(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.zeros` definition unit tests
+    Define :func:`colour.utilities.array.zeros` definition unit tests
     methods.
     """
 
     def test_zeros(self):
-        """
-        Tests :func:`colour.utilities.array.zeros` definition.
-        """
+        """Test :func:`colour.utilities.array.zeros` definition."""
 
         np.testing.assert_equal(zeros(3), np.zeros(3))
 
 
 class TestOnes(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.ones` definition unit tests
+    Define :func:`colour.utilities.array.ones` definition unit tests
     methods.
     """
 
     def test_ones(self):
-        """
-        Tests :func:`colour.utilities.array.ones` definition.
-        """
+        """Test :func:`colour.utilities.array.ones` definition."""
 
         np.testing.assert_equal(ones(3), np.ones(3))
 
 
 class TestFull(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.full` definition unit tests
+    Define :func:`colour.utilities.array.full` definition unit tests
     methods.
     """
 
     def test_full(self):
-        """
-        Tests :func:`colour.utilities.array.full` definition.
-        """
+        """Test :func:`colour.utilities.array.full` definition."""
 
         np.testing.assert_equal(full(3, 0.5), np.full(3, 0.5))
 
 
 class TestIndexAlongLastAxis(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.index_along_last_axis` definition
+    Define :func:`colour.utilities.array.index_along_last_axis` definition
     unit tests methods.
     """
 
     def test_index_along_last_axis(self):
-        """
-        Tests :func:`colour.utilities.array.index_along_last_axis` definition.
-        """
+        """Test :func:`colour.utilities.array.index_along_last_axis` definition."""
         a = np.array(
             [
                 [
@@ -1800,7 +1703,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
 
     def test_compare_with_argmin_argmax(self):
         """
-        Tests :func:`colour.utilities.array.index_along_last_axis` definition
+        Test :func:`colour.utilities.array.index_along_last_axis` definition
         by comparison with :func:`argmin` and :func:`argmax`.
         """
 
@@ -1816,7 +1719,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
 
     def test_exceptions(self):
         """
-        Tests :func:`colour.utilities.array.index_along_last_axis` definition
+        Test :func:`colour.utilities.array.index_along_last_axis` definition
         handling of invalid inputs.
         """
 

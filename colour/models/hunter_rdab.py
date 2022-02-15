@@ -23,7 +23,7 @@ from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -45,7 +45,7 @@ def XYZ_to_Hunter_Rdab(
     ]["D65"].K_ab,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
+    Convert from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
 
     Parameters
     ----------
@@ -65,7 +65,6 @@ def XYZ_to_Hunter_Rdab(
 
     Notes
     -----
-
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
@@ -129,7 +128,7 @@ def Hunter_Rdab_to_XYZ(
     ]["D65"].K_ab,
 ) -> NDArray:
     """
-    Converts from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus values.
+    Convert from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -149,7 +148,6 @@ def Hunter_Rdab_to_XYZ(
 
     Notes
     -----
-
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+

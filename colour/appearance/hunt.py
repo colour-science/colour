@@ -49,7 +49,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -115,7 +115,7 @@ class InductionFactors_Hunt(
 
     def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
         """
-        Returns a new instance of the
+        Return a new instance of the
         :class:`colour.appearance.InductionFactors_Hunt` class.
         """
 
@@ -192,7 +192,7 @@ MATRIX_HPE_TO_XYZ: NDArray = np.linalg.inv(MATRIX_XYZ_TO_HPE)
 @dataclass
 class CAM_ReferenceSpecification_Hunt(MixinDataclassArithmetic):
     """
-    Defines the *Hunt* colour appearance model reference specification.
+    Define the *Hunt* colour appearance model reference specification.
 
     This specification has field names consistent with *Fairchild (2013)*
     reference.
@@ -234,7 +234,7 @@ class CAM_ReferenceSpecification_Hunt(MixinDataclassArithmetic):
 @dataclass
 class CAM_Specification_Hunt(MixinDataclassArithmetic):
     """
-    Defines the *Hunt* colour appearance model specification.
+    Define the *Hunt* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
     appearance models in :mod:`colour.appearance` but diverge from
@@ -294,7 +294,7 @@ def XYZ_to_Hunt(
     discount_illuminant: Boolean = True,
 ) -> CAM_Specification_Hunt:
     """
-    Computes the *Hunt* colour appearance model correlates.
+    Compute the *Hunt* colour appearance model correlates.
 
     Parameters
     ----------
@@ -346,7 +346,6 @@ def XYZ_to_Hunt(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -559,7 +558,7 @@ def luminance_level_adaptation_factor(
     L_A: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the *luminance* level adaptation factor :math:`F_L`.
+    Return the *luminance* level adaptation factor :math:`F_L`.
 
     Parameters
     ----------
@@ -580,7 +579,7 @@ def luminance_level_adaptation_factor(
     L_A = as_float_array(L_A)
 
     k = 1 / (5 * L_A + 1)
-    k4 = k ** 4
+    k4 = k**4
     F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
 
     return as_float(F_L)
@@ -590,7 +589,7 @@ def illuminant_scotopic_luminance(
     L_A: FloatingOrArrayLike, CCT: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the approximate scotopic luminance :math:`L_{AS}` of the
+    Return the approximate scotopic luminance :math:`L_{AS}` of the
     illuminant.
 
     Parameters
@@ -621,7 +620,7 @@ def illuminant_scotopic_luminance(
 
 def XYZ_to_rgb(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *Hunt-Pointer-Estevez*
+    Convert from *CIE XYZ* tristimulus values to *Hunt-Pointer-Estevez*
     :math:`\\rho\\gamma\\beta` colourspace.
 
     Parameters
@@ -646,7 +645,7 @@ def XYZ_to_rgb(XYZ: ArrayLike) -> NDArray:
 
 def f_n(x: ArrayLike) -> NDArray:
     """
-    Defines the nonlinear response function of the *Hunt* colour appearance
+    Define the nonlinear response function of the *Hunt* colour appearance
     model used to model the nonlinear behaviour of various visual responses.
 
     Parameters
@@ -685,7 +684,7 @@ def chromatic_adaptation(
     discount_illuminant: Boolean = True,
 ) -> NDArray:
     """
-    Applies chromatic adaptation to given *CIE XYZ* tristimulus values.
+    Apply chromatic adaptation to given *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -768,7 +767,7 @@ def chromatic_adaptation(
         D_rgb = zeros(F_rgb.shape)
 
     # Computing cone bleach factors.
-    B_rgb = (10 ** 7) / ((10 ** 7) + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
+    B_rgb = (10**7) / ((10**7) + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
 
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
@@ -790,7 +789,7 @@ def adjusted_reference_white_signals(
     p: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Adjusts the white point for simultaneous chromatic contrast.
+    Adjust the white point for simultaneous chromatic contrast.
 
     Parameters
     ----------
@@ -842,7 +841,7 @@ def adjusted_reference_white_signals(
 
 def achromatic_post_adaptation_signal(rgb: ArrayLike) -> NDArray:
     """
-    Returns the achromatic post adaptation signal :math:`A` from given
+    Return the achromatic post adaptation signal :math:`A` from given
     *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Parameters
@@ -871,7 +870,7 @@ def achromatic_post_adaptation_signal(rgb: ArrayLike) -> NDArray:
 
 def colour_difference_signals(rgb: ArrayLike) -> NDArray:
     """
-    Returns the colour difference signals :math:`C_1`, :math:`C_2` and
+    Return the colour difference signals :math:`C_1`, :math:`C_2` and
     :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
     colourspace array.
 
@@ -905,7 +904,7 @@ def colour_difference_signals(rgb: ArrayLike) -> NDArray:
 
 def hue_angle(C: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *hue* angle :math:`h` in degrees from given colour difference
+    Return the *hue* angle :math:`h` in degrees from given colour difference
     signals :math:`C`.
 
     Parameters
@@ -939,7 +938,7 @@ def hue_angle(C: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def eccentricity_factor(hue: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns eccentricity factor :math:`e_s` from given hue angle :math:`h`
+    Return eccentricity factor :math:`e_s` from given hue angle :math:`h`
     in degrees.
 
     Parameters
@@ -974,7 +973,7 @@ def low_luminance_tritanopia_factor(
     L_A: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the low luminance tritanopia factor :math:`F_t` from given adapting
+    Return the low luminance tritanopia factor :math:`F_t` from given adapting
     field *luminance* :math:`L_A` in :math:`cd/m^2`.
 
     Parameters
@@ -1008,7 +1007,7 @@ def yellowness_blueness_response(
     F_t: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the yellowness / blueness response :math:`M_{yb}`.
+    Return the yellowness / blueness response :math:`M_{yb}`.
 
     Parameters
     ----------
@@ -1064,7 +1063,7 @@ def redness_greenness_response(
     N_cb: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the redness / greenness response :math:`M_{yb}`.
+    Return the redness / greenness response :math:`M_{yb}`.
 
     Parameters
     ----------
@@ -1110,7 +1109,7 @@ def overall_chromatic_response(
     M_yb: FloatingOrArrayLike, M_rg: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the overall chromatic response :math:`M`.
+    Return the overall chromatic response :math:`M`.
 
     Parameters
     ----------
@@ -1135,7 +1134,7 @@ def overall_chromatic_response(
     M_yb = as_float_array(M_yb)
     M_rg = as_float_array(M_rg)
 
-    M = spow((M_yb ** 2) + (M_rg ** 2), 0.5)
+    M = spow((M_yb**2) + (M_rg**2), 0.5)
 
     return M
 
@@ -1144,7 +1143,7 @@ def saturation_correlate(
     M: FloatingOrArrayLike, rgb_a: ArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *saturation* correlate :math:`s`.
+    Return the *saturation* correlate :math:`s`.
 
     Parameters
     ----------
@@ -1183,7 +1182,7 @@ def achromatic_signal(
     A_a: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the achromatic signal :math:`A`.
+    Return the achromatic signal :math:`A`.
 
     Parameters
     ----------
@@ -1223,8 +1222,8 @@ def achromatic_signal(
     j = 0.00001 / ((5 * L_AS / 2.26) + 0.00001)
 
     # Computing scotopic luminance level adaptation factor :math:`F_{LS}`.
-    F_LS = 3800 * (j ** 2) * (5 * L_AS / 2.26)
-    F_LS += 0.2 * (spow(1 - (j ** 2), 0.4)) * (spow(5 * L_AS / 2.26, 1 / 6))
+    F_LS = 3800 * (j**2) * (5 * L_AS / 2.26)
+    F_LS += 0.2 * (spow(1 - (j**2), 0.4)) * (spow(5 * L_AS / 2.26, 1 / 6))
 
     # Computing cone bleach factors :math:`B_S`.
     B_S = 0.5 / (1 + 0.3 * spow((5 * L_AS / 2.26) * (S / S_w), 0.3))
@@ -1234,7 +1233,7 @@ def achromatic_signal(
     A_S = (f_n(F_LS * S / S_w) * 3.05 * B_S) + 0.3
 
     # Computing achromatic signal :math:`A`.
-    A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt(1 + (0.3 ** 2)))
+    A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt(1 + (0.3**2)))
 
     return as_float(A)
 
@@ -1246,7 +1245,7 @@ def brightness_correlate(
     N_b: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the *brightness* correlate :math:`Q`.
+    Return the *brightness* correlate :math:`Q`.
 
     Parameters
     ----------
@@ -1294,7 +1293,7 @@ def lightness_correlate(
     Q_w: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the *Lightness* correlate :math:`J`.
+    Return the *Lightness* correlate :math:`J`.
 
     Parameters
     ----------
@@ -1341,7 +1340,7 @@ def chroma_correlate(
     Q_w: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the *chroma* correlate :math:`C_94`.
+    Return the *chroma* correlate :math:`C_94`.
 
     Parameters
     ----------
@@ -1392,7 +1391,7 @@ def colourfulness_correlate(
     F_L: FloatingOrArrayLike, C_94: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *colourfulness* correlate :math:`M_94`.
+    Return the *colourfulness* correlate :math:`M_94`.
 
     Parameters
     ----------

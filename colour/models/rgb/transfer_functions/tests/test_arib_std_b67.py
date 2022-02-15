@@ -13,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -27,13 +27,13 @@ __all__ = [
 
 class TestOetf_ARIBSTDB67(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+    Define :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition unit tests methods.
     """
 
     def test_oetf_ARIBSTDB67(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+        Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition.
         """
 
@@ -53,7 +53,7 @@ oetf_ARIBSTDB67` definition.
 
     def test_n_dimensional_oetf_ARIBSTDB67(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+        Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition n-dimensional arrays support.
         """
 
@@ -74,7 +74,7 @@ oetf_ARIBSTDB67` definition n-dimensional arrays support.
 
     def test_domain_range_scale_oetf_ARIBSTDB67(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+        Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition domain and range scale support.
         """
 
@@ -91,7 +91,7 @@ oetf_ARIBSTDB67` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_oetf_ARIBSTDB67(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+        Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition nan support.
         """
 
@@ -100,13 +100,13 @@ oetf_ARIBSTDB67` definition nan support.
 
 class TestOetf_inverse_ARIBSTDB67(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+    Define :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition unit tests methods.
     """
 
     def test_oetf_inverse_ARIBSTDB67(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+        Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition.
         """
 
@@ -126,7 +126,7 @@ oetf_inverse_ARIBSTDB67` definition.
 
     def test_n_dimensional_oetf_inverse_ARIBSTDB67(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+        Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition n-dimensional arrays support.
         """
 
@@ -153,7 +153,7 @@ oetf_inverse_ARIBSTDB67` definition n-dimensional arrays support.
 
     def test_domain_range_scale_oetf_inverse_ARIBSTDB67(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+        Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition domain and range scale support.
         """
 
@@ -172,7 +172,7 @@ oetf_inverse_ARIBSTDB67` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_oetf_inverse_ARIBSTDB67(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+        Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition nan support.
         """
 

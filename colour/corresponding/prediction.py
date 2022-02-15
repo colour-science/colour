@@ -79,7 +79,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -117,7 +117,7 @@ class CorrespondingColourDataset(
     )
 ):
     """
-    Defines a corresponding colour dataset.
+    Define a corresponding colour dataset.
 
     Parameters
     ----------
@@ -163,7 +163,7 @@ class CorrespondingChromaticitiesPrediction(
     )
 ):
     """
-    Defines a chromatic adaptation model prediction.
+    Define a chromatic adaptation model prediction.
 
     Parameters
     ----------
@@ -182,7 +182,7 @@ def convert_experiment_results_Breneman1987(
     experiment: Literal[1, 2, 3, 4, 6, 8, 9, 11, 12]
 ) -> CorrespondingColourDataset:
     """
-    Converts *Breneman (1987)* experiment results to a
+    Convert *Breneman (1987)* experiment results to a
     :class:`colour.CorrespondingColourDataset` class instance.
 
     Parameters
@@ -308,7 +308,7 @@ def corresponding_chromaticities_prediction_Fairchild1990(
     ] = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for *Fairchild (1990)*
+    Return the corresponding chromaticities prediction for *Fairchild (1990)*
     chromatic adaptation model.
 
     Parameters
@@ -379,7 +379,7 @@ def corresponding_chromaticities_prediction_CIE1994(
     ] = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for *CIE 1994*
+    Return the corresponding chromaticities prediction for *CIE 1994*
     chromatic adaptation model.
 
     Parameters
@@ -453,7 +453,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(
     ] = 1
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for *CMCCAT2000*
+    Return the corresponding chromaticities prediction for *CMCCAT2000*
     chromatic adaptation model.
 
     Parameters
@@ -544,7 +544,7 @@ def corresponding_chromaticities_prediction_VonKries(
     ] = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for *Von Kries*
+    Return the corresponding chromaticities prediction for *Von Kries*
     chromatic adaptation model using given transform.
 
     Parameters
@@ -625,7 +625,7 @@ def corresponding_chromaticities_prediction_Zhai2018(
     ] = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Returns the corresponding chromaticities prediction for
+    Return the corresponding chromaticities prediction for
     *Zhai and Luo (2018)* chromatic adaptation model using given transform.
 
     Parameters
@@ -744,69 +744,69 @@ def corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-        Returns the corresponding chromaticities prediction for given chromatic
-        adaptation model.
+    Return the corresponding chromaticities prediction for given chromatic
+    adaptation model.
 
-        Parameters
-        ----------
-        experiment
-            *Breneman (1987)* experiment number or
-            :class:`colour.CorrespondingColourDataset` class instance.
-        model
-            Chromatic adaptation model.
+    Parameters
+    ----------
+    experiment
+        *Breneman (1987)* experiment number or
+        :class:`colour.CorrespondingColourDataset` class instance.
+    model
+        Chromatic adaptation model.
 
-        Other Parameters
-        ----------------
-        D_b
-            {:func:`colour.corresponding.
-    corresponding_chromaticities_prediction_Zhai2018`},
-            Degree of adaptation :math:`D_{\\beta}` of input illuminant
-            :math:`\\beta`.
-        D_d
-            {:func:`colour.corresponding.
-    corresponding_chromaticities_prediction_Zhai2018`},
-            Degree of adaptation :math:`D_{\\delta}` of output illuminant
-            :math:`\\delta`.
-        transform
-            {:func:`colour.corresponding.
-    corresponding_chromaticities_prediction_VonKries`,
-            :func:`colour.corresponding.
-    corresponding_chromaticities_prediction_Zhai2018`},
-            Chromatic adaptation transform.
-        XYZ_wo
-            {:func:`colour.corresponding.
-    corresponding_chromaticities_prediction_Zhai2018`},
-            Baseline illuminant (:math:`BI`) :math:`o`.
+    Other Parameters
+    ----------------
+    D_b
+        {:func:`colour.corresponding.\
+corresponding_chromaticities_prediction_Zhai2018`},
+        Degree of adaptation :math:`D_{\\beta}` of input illuminant
+        :math:`\\beta`.
+    D_d
+        {:func:`colour.corresponding.\
+corresponding_chromaticities_prediction_Zhai2018`},
+        Degree of adaptation :math:`D_{\\delta}` of output illuminant
+        :math:`\\delta`.
+    transform
+        {:func:`colour.corresponding.\
+corresponding_chromaticities_prediction_VonKries`,
+        :func:`colour.corresponding.\
+corresponding_chromaticities_prediction_Zhai2018`},
+        Chromatic adaptation transform.
+    XYZ_wo
+        {:func:`colour.corresponding.\
+corresponding_chromaticities_prediction_Zhai2018`},
+        Baseline illuminant (:math:`BI`) :math:`o`.
 
-        Returns
-        -------
-        :class:`tuple`
-            Corresponding chromaticities prediction.
+    Returns
+    -------
+    :class:`tuple`
+        Corresponding chromaticities prediction.
 
-        References
-        ----------
-        :cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
-        :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
-        :cite:`Westland2012k`, :cite:`Zhai2018`
+    References
+    ----------
+    :cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
+    :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
+    :cite:`Westland2012k`, :cite:`Zhai2018`
 
-        Examples
-        --------
-        >>> from pprint import pprint
-        >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
-        >>> pr = [(p.uv_m, p.uv_p) for p in pr]
-        >>> pprint(pr)  # doctest: +SKIP
-        [((0.207, 0.486), (0.2083210..., 0.4727168...)),
-         ((0.449, 0.511), (0.4459270..., 0.5077735...)),
-         ((0.263, 0.505), (0.2640262..., 0.4955361...)),
-         ((0.322, 0.545), (0.3316884..., 0.5431580...)),
-         ((0.316, 0.537), (0.3222624..., 0.5357624...)),
-         ((0.265, 0.553), (0.2710705..., 0.5501997...)),
-         ((0.221, 0.538), (0.2261826..., 0.5294740...)),
-         ((0.135, 0.532), (0.1439693..., 0.5190984...)),
-         ((0.145, 0.472), (0.1494835..., 0.4556760...)),
-         ((0.163, 0.331), (0.1563172..., 0.3164151...)),
-         ((0.176, 0.431), (0.1763199..., 0.4127589...)),
-         ((0.244, 0.349), (0.2287638..., 0.3499324...))]
+    Examples
+    --------
+    >>> from pprint import pprint
+    >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
+    >>> pr = [(p.uv_m, p.uv_p) for p in pr]
+    >>> pprint(pr)  # doctest: +SKIP
+    [((0.207, 0.486), (0.2083210..., 0.4727168...)),
+     ((0.449, 0.511), (0.4459270..., 0.5077735...)),
+     ((0.263, 0.505), (0.2640262..., 0.4955361...)),
+     ((0.322, 0.545), (0.3316884..., 0.5431580...)),
+     ((0.316, 0.537), (0.3222624..., 0.5357624...)),
+     ((0.265, 0.553), (0.2710705..., 0.5501997...)),
+     ((0.221, 0.538), (0.2261826..., 0.5294740...)),
+     ((0.135, 0.532), (0.1439693..., 0.5190984...)),
+     ((0.145, 0.472), (0.1494835..., 0.4556760...)),
+     ((0.163, 0.331), (0.1563172..., 0.3164151...)),
+     ((0.176, 0.431), (0.1763199..., 0.4127589...)),
+     ((0.244, 0.349), (0.2287638..., 0.3499324...))]
     """
 
     function = CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[model]

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.din99` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.din99` module."""
 
 import numpy as np
 import unittest
@@ -15,7 +13,7 @@ from colour.models import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -31,14 +29,12 @@ __all__ = [
 
 class TestLab_to_DIN99(unittest.TestCase):
     """
-    Defines :func:`colour.models.din99.Lab_to_DIN99` definition unit tests
+    Define :func:`colour.models.din99.Lab_to_DIN99` definition unit tests
     methods.
     """
 
     def test_Lab_to_DIN99(self):
-        """
-        Tests :func:`colour.models.din99.Lab_to_DIN99` definition.
-        """
+        """Test :func:`colour.models.din99.Lab_to_DIN99` definition."""
 
         np.testing.assert_almost_equal(
             Lab_to_DIN99(np.array([41.52787529, 52.63858304, 26.92317922])),
@@ -87,7 +83,7 @@ class TestLab_to_DIN99(unittest.TestCase):
 
     def test_n_dimensional_Lab_to_DIN99(self):
         """
-        Tests :func:`colour.models.din99.Lab_to_DIN99` definition n-dimensional
+        Test :func:`colour.models.din99.Lab_to_DIN99` definition n-dimensional
         support.
         """
 
@@ -104,7 +100,7 @@ class TestLab_to_DIN99(unittest.TestCase):
 
     def test_domain_range_scale_Lab_to_DIN99(self):
         """
-        Tests :func:`colour.models.din99.Lab_to_DIN99` definition domain and
+        Test :func:`colour.models.din99.Lab_to_DIN99` definition domain and
         range scale support.
         """
 
@@ -138,9 +134,7 @@ class TestLab_to_DIN99(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_Lab_to_DIN99(self):
-        """
-        Tests :func:`colour.models.din99.Lab_to_DIN99` definition nan support.
-        """
+        """Test :func:`colour.models.din99.Lab_to_DIN99` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -153,14 +147,12 @@ class TestLab_to_DIN99(unittest.TestCase):
 
 class TestDIN99_to_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.din99.DIN99_to_Lab` definition unit tests
+    Define :func:`colour.models.din99.DIN99_to_Lab` definition unit tests
     methods.
     """
 
     def test_DIN99_to_Lab(self):
-        """
-        Tests :func:`colour.models.din99.DIN99_to_Lab` definition.
-        """
+        """Test :func:`colour.models.din99.DIN99_to_Lab` definition."""
 
         np.testing.assert_almost_equal(
             DIN99_to_Lab(np.array([53.22821988, 28.41634656, 3.89839552])),
@@ -209,7 +201,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
     def test_n_dimensional_DIN99_to_Lab(self):
         """
-        Tests :func:`colour.models.din99.DIN99_to_Lab` definition n-dimensional
+        Test :func:`colour.models.din99.DIN99_to_Lab` definition n-dimensional
         support.
         """
 
@@ -226,7 +218,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
     def test_domain_range_scale_DIN99_to_Lab(self):
         """
-        Tests :func:`colour.models.din99.DIN99_to_Lab` definition domain and
+        Test :func:`colour.models.din99.DIN99_to_Lab` definition domain and
         range scale support.
         """
 
@@ -260,9 +252,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_DIN99_to_Lab(self):
-        """
-        Tests :func:`colour.models.din99.DIN99_to_Lab` definition nan support.
-        """
+        """Test :func:`colour.models.din99.DIN99_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -275,14 +265,12 @@ class TestDIN99_to_Lab(unittest.TestCase):
 
 class TestXYZ_to_DIN99(unittest.TestCase):
     """
-    Defines :func:`colour.models.din99.XYZ_to_DIN99` definition unit tests
+    Define :func:`colour.models.din99.XYZ_to_DIN99` definition unit tests
     methods.
     """
 
     def test_XYZ_to_DIN99(self):
-        """
-        Tests :func:`colour.models.din99.XYZ_to_DIN99` definition.
-        """
+        """Test :func:`colour.models.din99.XYZ_to_DIN99` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_DIN99(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -312,7 +300,7 @@ class TestXYZ_to_DIN99(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_DIN99(self):
         """
-        Tests :func:`colour.models.din99.XYZ_to_DIN99` definition n-dimensional
+        Test :func:`colour.models.din99.XYZ_to_DIN99` definition n-dimensional
         support.
         """
 
@@ -329,7 +317,7 @@ class TestXYZ_to_DIN99(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_DIN99(self):
         """
-        Tests :func:`colour.models.din99.XYZ_to_DIN99` definition domain and
+        Test :func:`colour.models.din99.XYZ_to_DIN99` definition domain and
         range scale support.
         """
 
@@ -345,9 +333,7 @@ class TestXYZ_to_DIN99(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_DIN99(self):
-        """
-        Tests :func:`colour.models.din99.XYZ_to_DIN99` definition nan support.
-        """
+        """Test :func:`colour.models.din99.XYZ_to_DIN99` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -357,14 +343,12 @@ class TestXYZ_to_DIN99(unittest.TestCase):
 
 class TestDIN99_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.din99.DIN99_to_XYZ` definition unit tests
+    Define :func:`colour.models.din99.DIN99_to_XYZ` definition unit tests
     methods.
     """
 
     def test_DIN99_to_XYZ(self):
-        """
-        Tests :func:`colour.models.din99.DIN99_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.din99.DIN99_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             DIN99_to_XYZ(np.array([53.22821988, 28.41634656, 3.89839552])),
@@ -395,7 +379,7 @@ class TestDIN99_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_DIN99_to_XYZ(self):
         """
-        Tests :func:`colour.models.din99.DIN99_to_XYZ` definition n-dimensional
+        Test :func:`colour.models.din99.DIN99_to_XYZ` definition n-dimensional
         support.
         """
 
@@ -412,7 +396,7 @@ class TestDIN99_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_DIN99_to_XYZ(self):
         """
-        Tests :func:`colour.models.din99.DIN99_to_XYZ` definition domain and
+        Test :func:`colour.models.din99.DIN99_to_XYZ` definition domain and
         range scale support.
         """
 
@@ -428,9 +412,7 @@ class TestDIN99_to_XYZ(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_DIN99_to_XYZ(self):
-        """
-        Tests :func:`colour.models.din99.DIN99_to_XYZ` definition nan support.
-        """
+        """Test :func:`colour.models.din99.DIN99_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))

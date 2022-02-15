@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.common` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.common` module."""
 
 from __future__ import annotations
 
@@ -27,7 +25,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -53,15 +51,13 @@ __all__ = [
 
 class TestCacheRegistry(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.common.CacheRegistry` class unit
+    Define :class:`colour.utilities.common.CacheRegistry` class unit
     tests methods.
     """
 
     @staticmethod
     def _default_test_cache_registry():
-        """
-        Creates a default test cache registry.
-        """
+        """Create a default test cache registry."""
 
         cache_registry = CacheRegistry()
         cache_a = cache_registry.register_cache("Cache A")
@@ -73,9 +69,7 @@ class TestCacheRegistry(unittest.TestCase):
         return cache_registry
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = ("registry",)
 
@@ -83,9 +77,7 @@ class TestCacheRegistry(unittest.TestCase):
             self.assertIn(attribute, dir(CacheRegistry))
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -100,9 +92,7 @@ class TestCacheRegistry(unittest.TestCase):
             self.assertIn(method, dir(CacheRegistry))
 
     def test__str__(self):
-        """
-        Tests :class:`colour.utilities.common.CacheRegistry.__str__` method.
-        """
+        """Test :class:`colour.utilities.common.CacheRegistry.__str__` method."""
 
         cache_registry = self._default_test_cache_registry()
         self.assertEqual(
@@ -112,7 +102,7 @@ class TestCacheRegistry(unittest.TestCase):
 
     def test_register_cache(self):
         """
-        Tests :class:`colour.utilities.common.CacheRegistry.register_cache`
+        Test :class:`colour.utilities.common.CacheRegistry.register_cache`
         method.
         """
 
@@ -126,7 +116,7 @@ class TestCacheRegistry(unittest.TestCase):
 
     def test_unregister_cache(self):
         """
-        Tests :class:`colour.utilities.common.CacheRegistry.unregister_cache`
+        Test :class:`colour.utilities.common.CacheRegistry.unregister_cache`
         method.
         """
 
@@ -137,7 +127,7 @@ class TestCacheRegistry(unittest.TestCase):
 
     def test_clear_cache(self):
         """
-        Tests :class:`colour.utilities.common.CacheRegistry.clear_cache`
+        Test :class:`colour.utilities.common.CacheRegistry.clear_cache`
         method.
         """
 
@@ -150,7 +140,7 @@ class TestCacheRegistry(unittest.TestCase):
 
     def test_clear_all_caches(self):
         """
-        Tests :class:`colour.utilities.common.CacheRegistry.clear_all_caches`
+        Test :class:`colour.utilities.common.CacheRegistry.clear_all_caches`
         method.
         """
 
@@ -163,14 +153,12 @@ class TestCacheRegistry(unittest.TestCase):
 
 class TestAttest(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.attest` definition unit
+    Define :func:`colour.utilities.common.attest` definition unit
     tests methods.
     """
 
     def test_attest(self):
-        """
-        Tests :func:`colour.utilities.common.attest` definition.
-        """
+        """Test :func:`colour.utilities.common.attest` definition."""
 
         self.assertIsNone(attest(True, ""))
 
@@ -179,14 +167,12 @@ class TestAttest(unittest.TestCase):
 
 class TestBatch(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.batch` definition unit tests
+    Define :func:`colour.utilities.common.batch` definition unit tests
     methods.
     """
 
     def test_batch(self):
-        """
-        Tests :func:`colour.utilities.common.batch` definition.
-        """
+        """Test :func:`colour.utilities.common.batch` definition."""
 
         self.assertListEqual(
             list(batch(tuple(range(10)), 3)),
@@ -206,7 +192,10 @@ class TestBatch(unittest.TestCase):
 
 def _add(a: Number, b: Number):
     """
-    Function to map with a multiprocessing pool.
+    Add two numbers.
+
+    This definition is intended to be used with a multiprocessing pool for unit
+    testing.
 
     Parameters
     ----------
@@ -228,14 +217,12 @@ def _add(a: Number, b: Number):
 
 class TestMultiprocessingPool(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.multiprocessing_pool` definition
+    Define :func:`colour.utilities.common.multiprocessing_pool` definition
     unit tests methods.
     """
 
     def test_multiprocessing_pool(self):
-        """
-        Tests :func:`colour.utilities.common.multiprocessing_pool` definition.
-        """
+        """Test :func:`colour.utilities.common.multiprocessing_pool` definition."""
 
         with multiprocessing_pool() as pool:
             self.assertListEqual(
@@ -246,14 +233,12 @@ class TestMultiprocessingPool(unittest.TestCase):
 
 class TestIsIterable(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_iterable` definition unit tests
+    Define :func:`colour.utilities.common.is_iterable` definition unit tests
     methods.
     """
 
     def test_is_iterable(self):
-        """
-        Tests :func:`colour.utilities.common.is_iterable` definition.
-        """
+        """Test :func:`colour.utilities.common.is_iterable` definition."""
 
         self.assertTrue(is_iterable(""))
 
@@ -278,14 +263,12 @@ class TestIsIterable(unittest.TestCase):
 
 class TestIsString(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_string` definition unit tests
+    Define :func:`colour.utilities.common.is_string` definition unit tests
     methods.
     """
 
     def test_is_string(self):
-        """
-        Tests :func:`colour.utilities.common.is_string` definition.
-        """
+        """Test :func:`colour.utilities.common.is_string` definition."""
 
         self.assertTrue(is_string("Hello World!"))
 
@@ -302,14 +285,12 @@ class TestIsString(unittest.TestCase):
 
 class TestIsNumeric(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_numeric` definition unit tests
+    Define :func:`colour.utilities.common.is_numeric` definition unit tests
     methods.
     """
 
     def test_is_numeric(self):
-        """
-        Tests :func:`colour.utilities.common.is_numeric` definition.
-        """
+        """Test :func:`colour.utilities.common.is_numeric` definition."""
 
         self.assertTrue(is_numeric(1))
 
@@ -324,14 +305,12 @@ class TestIsNumeric(unittest.TestCase):
 
 class TestIsInteger(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_integer` definition unit
+    Define :func:`colour.utilities.common.is_integer` definition unit
     tests methods.
     """
 
     def test_is_integer(self):
-        """
-        Tests :func:`colour.utilities.common.is_integer` definition.
-        """
+        """Test :func:`colour.utilities.common.is_integer` definition."""
 
         self.assertTrue(is_integer(1))
 
@@ -342,27 +321,21 @@ class TestIsInteger(unittest.TestCase):
 
 class TestIsSibling(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.is_sibling` definition unit tests
+    Define :func:`colour.utilities.common.is_sibling` definition unit tests
     methods.
     """
 
     def test_is_sibling(self):
-        """
-        Tests :func:`colour.utilities.common.is_sibling` definition.
-        """
+        """Test :func:`colour.utilities.common.is_sibling` definition."""
 
         class Element:
-            """
-            :func:`is_sibling` unit tests :class:`Element` class.
-            """
+            """:func:`is_sibling` unit tests :class:`Element` class."""
 
             def __init__(self, name):
                 self.name = name
 
         class NotElement:
-            """
-            :func:`is_sibling` unit tests :class:`NotElement` class.
-            """
+            """:func:`is_sibling` unit tests :class:`NotElement` class."""
 
             def __init__(self, name):
                 self.name = name
@@ -380,35 +353,27 @@ class TestIsSibling(unittest.TestCase):
 
 class TestFilterKwargs(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.filter_kwargs` definition unit
+    Define :func:`colour.utilities.common.filter_kwargs` definition unit
     tests methods.
     """
 
     def test_filter_kwargs(self):
-        """
-        Tests :func:`colour.utilities.common.filter_kwargs` definition.
-        """
+        """Test :func:`colour.utilities.common.filter_kwargs` definition."""
 
         def fn_a(a: Any) -> Any:
-            """
-            :func:`filter_kwargs` unit tests :func:`fn_a` definition.
-            """
+            """:func:`filter_kwargs` unit tests :func:`fn_a` definition."""
 
             return a
 
         def fn_b(a: Any, b: Floating = 0) -> Tuple[Any, Floating]:
-            """
-            :func:`filter_kwargs` unit tests :func:`fn_b` definition.
-            """
+            """:func:`filter_kwargs` unit tests :func:`fn_b` definition."""
 
             return a, b
 
         def fn_c(
             a: Any, b: Floating = 0, c: Floating = 0
         ) -> Tuple[Any, Floating, Floating]:
-            """
-            :func:`filter_kwargs` unit tests :func:`fn_c` definition.
-            """
+            """:func:`filter_kwargs` unit tests :func:`fn_c` definition."""
 
             return a, b, c
 
@@ -425,19 +390,15 @@ class TestFilterKwargs(unittest.TestCase):
 
 class TestFilterMapping(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.filter_mapping` definition unit
+    Define :func:`colour.utilities.common.filter_mapping` definition unit
     tests methods.
     """
 
     def test_filter_mapping(self):
-        """
-        Tests :func:`colour.utilities.common.filter_mapping` definition.
-        """
+        """Test :func:`colour.utilities.common.filter_mapping` definition."""
 
         class Element:
-            """
-            :func:`filter_mapping` unit tests :class:`Element` class.
-            """
+            """:func:`filter_mapping` unit tests :class:`Element` class."""
 
             def __init__(self, name):
                 self.name = name
@@ -495,14 +456,12 @@ class TestFilterMapping(unittest.TestCase):
 
 class TestFirstItem(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.first_item` definition unit
+    Define :func:`colour.utilities.common.first_item` definition unit
     tests methods.
     """
 
     def test_first_item(self):
-        """
-        Tests :func:`colour.utilities.common.first_item` definition.
-        """
+        """Test :func:`colour.utilities.common.first_item` definition."""
 
         self.assertEqual(first_item(range(10)), 0)
 
@@ -514,14 +473,12 @@ class TestFirstItem(unittest.TestCase):
 
 class TestValidateMethod(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.validate_method` definition unit
+    Define :func:`colour.utilities.common.validate_method` definition unit
     tests methods.
     """
 
     def test_validate_method(self):
-        """
-        Tests :func:`colour.utilities.common.validate_method` definition.
-        """
+        """Test :func:`colour.utilities.common.validate_method` definition."""
 
         self.assertEqual(
             validate_method("Valid", ["Valid", "Yes", "Ok"]), "valid"
@@ -529,7 +486,7 @@ class TestValidateMethod(unittest.TestCase):
 
     def test_raise_exception_validate_method(self):
         """
-        Tests :func:`colour.utilities.common.validate_method` definition raised
+        Test :func:`colour.utilities.common.validate_method` definition raised
         exception.
         """
 
@@ -540,14 +497,12 @@ class TestValidateMethod(unittest.TestCase):
 
 class TestOptional(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.common.optional` definition unit
+    Define :func:`colour.utilities.common.optional` definition unit
     tests methods.
     """
 
     def test_optional(self):
-        """
-        Tests :func:`colour.utilities.common.optional` definition.
-        """
+        """Test :func:`colour.utilities.common.optional` definition."""
 
         self.assertEqual(optional("Foo", "Bar"), "Foo")
 

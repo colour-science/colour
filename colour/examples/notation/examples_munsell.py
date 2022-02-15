@@ -1,6 +1,4 @@
-"""
-Showcases *Munsell Renotation System* computations.
-"""
+"""Showcases *Munsell Renotation System* computations."""
 
 import numpy as np
 

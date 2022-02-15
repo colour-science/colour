@@ -25,7 +25,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -39,7 +39,7 @@ __all__ = [
 
 def read_LUT_SonySPI3D(path: str) -> LUT3D:
     """
-    Reads given *Sony* *.spi3d* *LUT* file.
+    Read given *Sony* *.spi3d* *LUT* file.
 
     Parameters
     ----------
@@ -134,7 +134,7 @@ def write_LUT_SonySPI3D(
     LUT: Union[LUT3D, LUTSequence], path: str, decimals: Integer = 7
 ) -> Boolean:
     """
-    Writes given *LUT* to given *Sony* *.spi3d* *LUT* file.
+    Write given *LUT* to given *Sony* *.spi3d* *LUT* file.
 
     Parameters
     ----------
@@ -195,9 +195,7 @@ def write_LUT_SonySPI3D(
     )
 
     def _format_array(array: Union[List, Tuple]) -> str:
-        """
-        Formats given array as a *Sony* *.spi3d* data row.
-        """
+        """Format given array as a *Sony* *.spi3d* data row."""
 
         return "{1:d} {2:d} {3:d} {4:0.{0}f} {5:0.{0}f} {6:0.{0}f}".format(
             decimals, *array

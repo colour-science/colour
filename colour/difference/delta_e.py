@@ -45,7 +45,7 @@ from colour.utilities.documentation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -86,7 +86,7 @@ References
 
 def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{76}` between two given
+    Return the difference :math:`\\Delta E_{76}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
@@ -103,7 +103,6 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
@@ -141,7 +140,7 @@ def delta_E_CIE1994(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{94}` between two given
+    Return the difference :math:`\\Delta E_{94}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
@@ -162,7 +161,6 @@ def delta_E_CIE1994(
 
     Notes
     -----
-
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
@@ -219,7 +217,7 @@ def delta_E_CIE1994(
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
 
-    delta_H = np.sqrt(delta_A ** 2 + delta_B ** 2 - delta_C ** 2)
+    delta_H = np.sqrt(delta_A**2 + delta_B**2 - delta_C**2)
 
     L = (delta_L / (k_L * s_L)) ** 2
     C = (delta_C / (k_C * s_C)) ** 2
@@ -234,7 +232,7 @@ def delta_E_CIE2000(
     Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: Boolean = False
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{00}` between two given
+    Return the difference :math:`\\Delta E_{00}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
@@ -255,7 +253,6 @@ def delta_E_CIE2000(
 
     Notes
     -----
-
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
@@ -316,9 +313,9 @@ def delta_E_CIE2000(
     c_2 = np.hypot(a_2, b_2)
 
     c_bar = 0.5 * (c_1 + c_2)
-    c_bar7 = c_bar ** 7
+    c_bar7 = c_bar**7
 
-    g = 0.5 * (1 - np.sqrt(c_bar7 / (c_bar7 + 25 ** 7)))
+    g = 0.5 * (1 - np.sqrt(c_bar7 / (c_bar7 + 25**7)))
 
     a_1_prime = a_1 * (1 + g)
     a_2_prime = a_2 * (1 + g)
@@ -366,9 +363,9 @@ def delta_E_CIE2000(
         -((h_bar_prime - 275) / 25) * ((h_bar_prime - 275) / 25)
     )
 
-    c_bar_prime7 = c_bar_prime ** 7
+    c_bar_prime7 = c_bar_prime**7
 
-    r_C = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
+    r_C = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25**7))
     r_T = -2 * r_C * np.sin(np.deg2rad(2 * delta_theta))
 
     d_E = np.sqrt(
@@ -388,7 +385,7 @@ def delta_E_CMC(
     c: Floating = 1,
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{CMC}` between two given
+    Return the difference :math:`\\Delta E_{CMC}` between two given
     *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*
     recommendation.
 
@@ -415,7 +412,6 @@ def delta_E_CMC(
 
     Notes
     -----
-
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
@@ -467,12 +463,12 @@ def delta_E_CMC(
     delta_C = c_1 - c_2
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
-    delta_H2 = delta_A ** 2 + delta_B ** 2 - delta_C ** 2
+    delta_H2 = delta_A**2 + delta_B**2 - delta_C**2
 
     v_1 = delta_L / (l * s_l)
     v_2 = delta_C / (c * s_c)
     v_3 = s_h
 
-    d_E = np.sqrt(v_1 ** 2 + v_2 ** 2 + (delta_H2 / (v_3 * v_3)))
+    d_E = np.sqrt(v_1**2 + v_2**2 + (delta_H2 / (v_3 * v_3)))
 
     return as_float(d_E)

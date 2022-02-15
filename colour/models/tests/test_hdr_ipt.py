@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.hdr_ipt` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.hdr_ipt` module."""
 
 import numpy as np
 import unittest
@@ -11,7 +9,7 @@ from colour.models.hdr_ipt import exponent_hdr_IPT
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -26,14 +24,12 @@ __all__ = [
 
 class TestExponent_hdr_IPT(unittest.TestCase):
     """
-    Defines :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
+    Define :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
     definition unit tests methods.
     """
 
     def test_exponent_hdr_IPT(self):
-        """
-        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition.
-        """
+        """Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition."""
 
         self.assertAlmostEqual(
             exponent_hdr_IPT(0.2, 100), 0.482020919845900, places=7
@@ -55,7 +51,7 @@ class TestExponent_hdr_IPT(unittest.TestCase):
 
     def test_n_dimensional_exponent_hdr_IPT(self):
         """
-        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition
+        Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition
         n-dimensional arrays support.
         """
 
@@ -86,7 +82,7 @@ class TestExponent_hdr_IPT(unittest.TestCase):
 
     def test_domain_range_scale_exponent_hdr_IPT(self):
         """
-        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition domain
+        Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition domain
         and range scale support.
         """
 
@@ -104,7 +100,7 @@ class TestExponent_hdr_IPT(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_exponent_hdr_IPT(self):
         """
-        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition nan
+        Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition nan
         support.
         """
 
@@ -114,14 +110,12 @@ class TestExponent_hdr_IPT(unittest.TestCase):
 
 class TestXYZ_to_hdr_IPT(unittest.TestCase):
     """
-    Defines :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition unit tests
+    Define :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition unit tests
     methods.
     """
 
     def test_XYZ_to_hdr_IPT(self):
-        """
-        Tests :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition.
-        """
+        """Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -156,7 +150,7 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_hdr_IPT(self):
         """
-        Tests :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition
+        Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition
         n-dimensional support.
         """
 
@@ -187,7 +181,7 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_hdr_IPT(self):
         """
-        Tests :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition domain
+        Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition domain
         and range scale support.
         """
 
@@ -208,7 +202,7 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_hdr_IPT(self):
         """
-        Tests :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition nan
+        Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition nan
         support.
         """
 
@@ -223,14 +217,12 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
 
 class TestHdr_IPT_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition unit tests
+    Define :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition unit tests
     methods.
     """
 
     def test_hdr_IPT_to_XYZ(self):
-        """
-        Tests :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(np.array([48.39376346, 42.44990202, 22.01954033])),
@@ -265,7 +257,7 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_hdr_IPT_to_XYZ(self):
         """
-        Tests :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition
+        Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -296,7 +288,7 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_hdr_IPT_to_XYZ(self):
         """
-        Tests :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition domain
+        Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition domain
         and range scale support.
         """
 
@@ -317,7 +309,7 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_hdr_IPT_to_XYZ(self):
         """
-        Tests :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition nan
+        Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition nan
         support.
         """
 

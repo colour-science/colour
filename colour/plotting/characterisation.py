@@ -29,7 +29,7 @@ from colour.plotting import (
 from colour.utilities import attest
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -57,7 +57,7 @@ def plot_single_colour_checker(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colour checker.
+    Plot given colour checker.
 
     Parameters
     ----------
@@ -108,7 +108,7 @@ def plot_multi_colour_checkers(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots and compares given colour checkers.
+    Plot and compares given colour checkers.
 
     Parameters
     ----------
@@ -208,6 +208,7 @@ def plot_multi_colour_checkers(
         color=CONSTANTS_COLOUR_STYLE.colour.bright,
         ha="center",
         va="bottom",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_label,
     )
 
     settings.update(

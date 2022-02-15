@@ -16,7 +16,7 @@ from colour.biochemistry import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -32,13 +32,13 @@ __all__ = [
 
 class TestReactionRateMichaelisMentenMichaelis1913(unittest.TestCase):
     """
-    Defines :func:`colour.biochemistry.michaelis_menten.\
+    Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
     """
 
     def test_reaction_rate_MichaelisMenten_Michaelis1913(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition.
         """
 
@@ -62,7 +62,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition.
 
     def test_n_dimensional_reaction_rate_MichaelisMenten_Michaelis1913(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition n-dimensional arrays
         support.
         """
@@ -101,7 +101,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition n-dimensional arrays
     @ignore_numpy_errors
     def test_nan_reaction_rate_MichaelisMenten_Michaelis1913(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition nan support.
         """
 
@@ -118,13 +118,13 @@ class TestSubstrateConcentrationMichaelisMentenMichaelis1913(
     unittest.TestCase
 ):
     """
-    Defines :func:`colour.biochemistry.michaelis_menten.\
+    Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
     """
 
     def test_substrate_concentration_MichaelisMenten_Michaelis1913(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 substrate_concentration_MichaelisMenten_Michaelis1913` definition.
         """
 
@@ -156,7 +156,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition.
         self,
     ):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         arrays support.
         """
@@ -203,7 +203,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
     @ignore_numpy_errors
     def test_nan_substrate_concentration_MichaelisMenten_Michaelis1913(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 substrate_concentration_MichaelisMenten_Michaelis1913` definition nan support.
         """
 
@@ -220,13 +220,13 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition nan support.
 
 class TestReactionRateMichaelisMentenAbebe2017(unittest.TestCase):
     """
-    Defines :func:`colour.biochemistry.michaelis_menten.\
+    Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Abebe2017` definition unit tests methods.
     """
 
     def test_reaction_rate_MichaelisMenten_Abebe2017(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Abebe2017` definition.
         """
 
@@ -250,7 +250,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition.
 
     def test_n_dimensional_reaction_rate_MichaelisMenten_Abebe2017(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Abebe2017` definition n-dimensional arrays
         support.
         """
@@ -292,7 +292,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition n-dimensional arrays
     @ignore_numpy_errors
     def test_nan_reaction_rate_MichaelisMenten_Abebe2017(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Abebe2017` definition nan support.
         """
 
@@ -308,13 +308,13 @@ reaction_rate_MichaelisMenten_Abebe2017` definition nan support.
 
 class TestSubstrateConcentrationMichaelisMentenAbebe2017(unittest.TestCase):
     """
-    Defines :func:`colour.biochemistry.michaelis_menten.\
+    Define :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Abebe2017` definition unit tests methods.
     """
 
     def test_substrate_concentration_MichaelisMenten_Abebe2017(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 substrate_concentration_MichaelisMenten_Abebe2017` definition.
         """
 
@@ -346,7 +346,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition.
         self,
     ):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         arrays support.
         """
@@ -396,7 +396,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
     @ignore_numpy_errors
     def test_nan_substrate_concentration_MichaelisMenten_Abebe2017(self):
         """
-        Tests :func:`colour.biochemistry.michaelis_menten.\
+        Test :func:`colour.biochemistry.michaelis_menten.\
 substrate_concentration_MichaelisMenten_Abebe2017` definition nan support.
         """
 

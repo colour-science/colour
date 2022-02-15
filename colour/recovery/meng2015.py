@@ -31,7 +31,7 @@ from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -56,7 +56,7 @@ def XYZ_to_sd_Meng2015(
     optimisation_kwargs: Optional[Dict] = None,
 ) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *CIE XYZ* tristimulus values
+    Recover the spectral distribution of given *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
 
     Parameters
@@ -82,7 +82,6 @@ def XYZ_to_sd_Meng2015(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -172,16 +171,12 @@ def XYZ_to_sd_Meng2015(
     sd = sd_ones(cmfs.shape)
 
     def objective_function(a: ArrayLike) -> FloatingOrNDArray:
-        """
-        Objective function.
-        """
+        """Define the objective function."""
 
         return np.sum(np.diff(a) ** 2)
 
     def constraint_function(a: ArrayLike) -> NDArray:
-        """
-        Function defining the constraint.
-        """
+        """Define the constraint function."""
 
         sd[:] = a
         return (

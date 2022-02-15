@@ -32,7 +32,7 @@ from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -53,7 +53,7 @@ def spectral_primary_decomposition_Mallett2019(
     optimisation_kwargs: Optional[Dict] = None,
 ) -> MultiSpectralDistributions:
     """
-    Performs the spectral primary decomposition as described in *Mallett and
+    Perform the spectral primary decomposition as described in *Mallett and
     Yuksel (2019)* for given *RGB* colourspace.
 
     Parameters
@@ -215,7 +215,7 @@ def RGB_to_sd_Mallett2019(
     basis_functions: MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
 ) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *RGB* colourspace array using
+    Recover the spectral distribution of given *RGB* colourspace array using
     *Mallett and Yuksel (2019)* method.
 
     Parameters

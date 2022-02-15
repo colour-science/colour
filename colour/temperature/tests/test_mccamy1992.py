@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.mccamy1992` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.mccamy1992` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.temperature import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,13 +22,13 @@ __all__ = [
 
 class Testxy_to_CCT_McCamy1992(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.mccamy1992.xy_to_CCT_McCamy1992`
+    Define :func:`colour.temperature.mccamy1992.xy_to_CCT_McCamy1992`
     definition unit tests methods.
     """
 
     def test_xy_to_CCT_McCamy1992(self):
         """
-        Tests :func:`colour.temperature.mccamy1992.xy_to_CCT_McCamy1992`
+        Test :func:`colour.temperature.mccamy1992.xy_to_CCT_McCamy1992`
         definition.
         """
 
@@ -56,7 +54,7 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
 
     def test_n_dimensional_xy_to_CCT_McCamy1992(self):
         """
-        Tests :func:`colour.temperature.mccamy1992.xy_to_CCT_McCamy1992`
+        Test :func:`colour.temperature.mccamy1992.xy_to_CCT_McCamy1992`
         definition n-dimensional arrays support.
         """
 
@@ -78,7 +76,7 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_McCamy1992(self):
         """
-        Tests :func:`colour.temperature.mccamy1992.xy_to_CCT_McCamy1992`
+        Test :func:`colour.temperature.mccamy1992.xy_to_CCT_McCamy1992`
         definition nan support.
         """
 
@@ -90,13 +88,13 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
 
 class TestCCT_to_xy_McCamy1992(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.mccamy1992.CCT_to_xy_McCamy1992`
+    Define :func:`colour.temperature.mccamy1992.CCT_to_xy_McCamy1992`
     definition unit tests methods.
     """
 
     def test_CCT_to_xy_McCamy1992(self):
         """
-        Tests :func:`colour.temperature.mccamy1992.CCT_to_xy_McCamy1992`
+        Test :func:`colour.temperature.mccamy1992.CCT_to_xy_McCamy1992`
         definition.
         """
 
@@ -120,7 +118,7 @@ class TestCCT_to_xy_McCamy1992(unittest.TestCase):
 
     def test_n_dimensional_CCT_to_xy_McCamy1992(self):
         """
-        Tests :func:`colour.temperature.mccamy1992.CCT_to_xy_McCamy1992`
+        Test :func:`colour.temperature.mccamy1992.CCT_to_xy_McCamy1992`
         definition n-dimensional arrays support.
         """
 
@@ -142,7 +140,7 @@ class TestCCT_to_xy_McCamy1992(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_McCamy1992(self):
         """
-        Tests :func:`colour.temperature.mccamy1992.CCT_to_xy_McCamy1992`
+        Test :func:`colour.temperature.mccamy1992.CCT_to_xy_McCamy1992`
         definition nan support.
         """
 

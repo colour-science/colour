@@ -32,7 +32,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -46,7 +46,7 @@ __all__ = [
 
 def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.601-7* opto-electronic transfer function
+    Define *Recommendation ITU-R BT.601-7* opto-electronic transfer function
     (OETF).
 
     Parameters
@@ -61,7 +61,6 @@ def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -93,7 +92,7 @@ def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.601-7* inverse opto-electronic transfer
+    Define *Recommendation ITU-R BT.601-7* inverse opto-electronic transfer
     function (OETF).
 
     Parameters
@@ -108,7 +107,6 @@ def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

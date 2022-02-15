@@ -45,7 +45,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -58,7 +58,7 @@ __all__ = [
 
 class Extrapolator:
     """
-    Extrapolates the 1-D function of given interpolator.
+    Extrapolate the 1-D function of given interpolator.
 
     The :class:`colour.Extrapolator` class acts as a wrapper around a given
     *Colour* or *scipy* interpolator class instance with compatible signature.
@@ -184,9 +184,7 @@ class Extrapolator:
 
     @interpolator.setter
     def interpolator(self, value: TypeInterpolator):
-        """
-        Setter for the **self.interpolator** property.
-        """
+        """Setter for the **self.interpolator** property."""
 
         attest(
             hasattr(value, "x"),
@@ -220,9 +218,7 @@ class Extrapolator:
 
     @method.setter
     def method(self, value: Union[Literal["Linear", "Constant"], str]):
-        """
-        Setter for the **self.method** property.
-        """
+        """Setter for the **self.method** property."""
 
         attest(
             is_string(value),
@@ -253,14 +249,12 @@ class Extrapolator:
 
     @left.setter
     def left(self, value: Optional[Number]):
-        """
-        Setter for the **self.left** property.
-        """
+        """Setter for the **self.left** property."""
 
         if value is not None:
             attest(
                 is_numeric(value),
-                f'"left" property: "{value}" is not a "numeric"!',
+                f'"left" property: "{value}" is not a "number"!',
             )
 
             self._left = value
@@ -285,21 +279,19 @@ class Extrapolator:
 
     @right.setter
     def right(self, value: Optional[Number]):
-        """
-        Setter for the **self.right** property.
-        """
+        """Setter for the **self.right** property."""
 
         if value is not None:
             attest(
                 is_numeric(value),
-                f'"right" property: "{value}" is not a "numeric"!',
+                f'"right" property: "{value}" is not a "number"!',
             )
 
             self._right = value
 
     def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Evaluates the Extrapolator at given point(s).
+        Evaluate the Extrapolator at given point(s).
 
         Parameters
         ----------
@@ -320,7 +312,7 @@ class Extrapolator:
 
     def _evaluate(self, x: NDArray) -> NDArray:
         """
-        Performs the extrapolating evaluation at given points.
+        Perform the extrapolating evaluation at given points.
 
         Parameters
         ----------

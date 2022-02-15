@@ -17,7 +17,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spherical_to_cartesian
-from colour.geometry import PLANE_TO_AXIS_MAPPING
+from colour.geometry import MAPPING_PLANE_TO_AXIS
 from colour.hints import (
     Any,
     ArrayLike,
@@ -43,7 +43,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -67,7 +67,7 @@ def primitive_vertices_quad_mpl(
     axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
-    Returns the vertices of a quad primitive for use with *Matplotlib*
+    Return the vertices of a quad primitive for use with *Matplotlib*
     :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection` class.
 
     Parameters
@@ -98,7 +98,7 @@ def primitive_vertices_quad_mpl(
            [ 0.,  1.,  0.]])
     """
 
-    axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
+    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
     axis = validate_method(
         axis, ["+x", "+y", "+z"], '"{0}" axis invalid, it must be one of {1}!'
     )
@@ -140,7 +140,7 @@ def primitive_vertices_grid_mpl(
     axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
-    Returns the vertices of a grid primitive made of quad primitives for use
+    Return the vertices of a grid primitive made of quad primitives for use
     with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
     class.
 
@@ -233,7 +233,7 @@ def primitive_vertices_cube_mpl(
     ] = None,
 ) -> NDArray:
     """
-    Returns the vertices of a cube primitive made of grid primitives for use
+    Return the vertices of a cube primitive made of grid primitives for use
     with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
     class.
 
@@ -296,10 +296,10 @@ def primitive_vertices_cube_mpl(
     """
 
     axis = (
-        sorted(list(PLANE_TO_AXIS_MAPPING.values()))
+        sorted(list(MAPPING_PLANE_TO_AXIS.values()))
         if planes is None
         else [
-            PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes
+            MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes
         ]
     )
 
@@ -358,7 +358,7 @@ def primitive_vertices_sphere(
     axis: Union[Literal["+z", "+x", "+y", "yz", "xz", "xy"], str] = "+z",
 ) -> NDArray:
     """
-    Returns the vertices of a latitude-longitude sphere primitive.
+    Return the vertices of a latitude-longitude sphere primitive.
 
     Parameters
     ----------
@@ -415,7 +415,7 @@ def primitive_vertices_sphere(
             [  3.7493994...e-33,   6.1232340...e-17,  -5.0000000...e-01]]])
     """
 
-    axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
+    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
     axis = validate_method(
         axis, ["+x", "+y", "+z"], '"{0}" axis invalid, it must be one of {1}!'
     )
@@ -488,10 +488,10 @@ def primitive_vertices(
     method: Union[
         Literal["Cube MPL", "Quad MPL", "Grid MPL", "Sphere"], str
     ] = "Cube MPL",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> NDArray:
     """
-    Returns the vertices of a geometry primitive using given method.
+    Return the vertices of a geometry primitive using given method.
 
     Parameters
     ----------

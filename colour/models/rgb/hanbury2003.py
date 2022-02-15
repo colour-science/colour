@@ -30,7 +30,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,19 +48,15 @@ MATRIX_RGB_TO_YC_1_C_2: NDArray = np.array(
         [0, -np.sqrt(3) / 2, np.sqrt(3) / 2],
     ]
 )
-"""
-*RGB* colourspace to *YC_1C_2* colourspace matrix.
-"""
+"""*RGB* colourspace to *YC_1C_2* colourspace matrix."""
 
 MATRIX_YC_1_C_2_TO_RGB: NDArray = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
-"""
-*YC_1C_2* colourspace to *RGB* colourspace matrix.
-"""
+"""*YC_1C_2* colourspace to *RGB* colourspace matrix."""
 
 
 def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
     """
-    Converts from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
+    Convert from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
 
     Parameters
     ----------
@@ -74,7 +70,6 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -103,7 +98,7 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
 
     Y, C_1, C_2 = tsplit(vector_dot(MATRIX_RGB_TO_YC_1_C_2, RGB))
 
-    C = np.sqrt(C_1 ** 2 + C_2 ** 2)
+    C = np.sqrt(C_1**2 + C_2**2)
 
     acos_C_1_C_2 = zeros(C.shape)
     acos_C_1_C_2[C != 0] = np.arccos(C_1[C != 0] / C[C != 0])
@@ -118,7 +113,7 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
 
 def IHLS_to_RGB(HYS: ArrayLike) -> NDArray:
     """
-    Converts from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
+    Convert from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
 
     Parameters
     ----------
@@ -132,7 +127,6 @@ def IHLS_to_RGB(HYS: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

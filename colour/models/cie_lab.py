@@ -35,7 +35,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -56,7 +56,7 @@ def XYZ_to_Lab(
     ]["D65"],
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
+    Convert from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
 
     Parameters
@@ -74,7 +74,6 @@ def XYZ_to_Lab(
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -128,7 +127,7 @@ def Lab_to_XYZ(
     ]["D65"],
 ) -> NDArray:
     """
-    Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
+    Convert from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -146,7 +145,6 @@ def Lab_to_XYZ(
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -196,7 +194,7 @@ def Lab_to_XYZ(
 
 def Lab_to_LCHab(Lab: ArrayLike) -> NDArray:
     """
-    Converts from *CIE L\\*a\\*b\\** colourspace to *CIE L\\*C\\*Hab*
+    Convert from *CIE L\\*a\\*b\\** colourspace to *CIE L\\*C\\*Hab*
     colourspace.
 
     Parameters
@@ -211,7 +209,6 @@ def Lab_to_LCHab(Lab: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -249,7 +246,7 @@ def Lab_to_LCHab(Lab: ArrayLike) -> NDArray:
 
 def LCHab_to_Lab(LCHab: ArrayLike) -> NDArray:
     """
-    Converts from *CIE L\\*C\\*Hab* colourspace to *CIE L\\*a\\*b\\**
+    Convert from *CIE L\\*C\\*Hab* colourspace to *CIE L\\*a\\*b\\**
     colourspace.
 
     Parameters
@@ -264,7 +261,6 @@ def LCHab_to_Lab(LCHab: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +-------------+-----------------------+------------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1**    |
     +=============+=======================+==================+

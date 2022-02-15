@@ -32,7 +32,7 @@ from colour.hints import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -50,7 +50,7 @@ def metric_mse(
     axis: Optional[Union[Integer, Tuple[Integer]]] = None,
 ) -> FloatingOrNDArray:
     """
-    Computes the mean squared error (MSE) or mean squared deviation (MSD)
+    Compute the mean squared error (MSE) or mean squared deviation (MSD)
     between given variables :math:`a` and :math:`b`.
 
     Parameters
@@ -94,7 +94,7 @@ def metric_psnr(
     axis: Optional[Union[Integer, Tuple[Integer]]] = None,
 ) -> FloatingOrNDArray:
     """
-    Computes the peak signal-to-noise ratio (PSNR) between given variables
+    Compute the peak signal-to-noise ratio (PSNR) between given variables
     :math:`a` and :math:`b`.
 
     Parameters
@@ -128,4 +128,4 @@ def metric_psnr(
     28.9568515...
     """
 
-    return as_float(10 * np.log10(max_a ** 2 / metric_mse(a, b, axis)))
+    return as_float(10 * np.log10(max_a**2 / metric_mse(a, b, axis)))

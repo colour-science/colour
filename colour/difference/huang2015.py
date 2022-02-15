@@ -27,7 +27,7 @@ from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import CaseInsensitiveMapping, tsplit, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -97,7 +97,7 @@ def power_function_Huang2015(
     ] = "CIE 2000",
 ) -> FloatingOrNDArray:
     """
-    Improves the performance of the :math:`\\Delta E` value for given
+    Improve the performance of the :math:`\\Delta E` value for given
     coefficients using
     *Huang, Cui, Melgosa, Sanchez-Maranon, Li, Luo and Liu (2015)*
     power-function: :math:`d_E^{\\prime}=a*d_{E^b}`.
@@ -133,6 +133,6 @@ def power_function_Huang2015(
 
     a, b = tsplit(COEFFICIENTS_HUANG2015[coefficients])
 
-    d_E_p = a * d_E ** b
+    d_E_p = a * d_E**b
 
     return d_E_p

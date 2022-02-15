@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.difference.huang2015` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference.huang2015` module."""
 
 import numpy as np
 import unittest
@@ -8,7 +6,7 @@ import unittest
 from colour.difference import power_function_Huang2015
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -21,13 +19,13 @@ __all__ = [
 
 class TestPowerFunctionHuang2015(unittest.TestCase):
     """
-    Defines :func:`colour.difference.huang2015.power_function_Huang2015`
+    Define :func:`colour.difference.huang2015.power_function_Huang2015`
     definition unit tests methods.
     """
 
     def test_power_function_Huang2015(self):
         """
-        Tests :func:`colour.difference.huang2015.power_function_Huang2015`
+        Test :func:`colour.difference.huang2015.power_function_Huang2015`
         definition.
         """
 

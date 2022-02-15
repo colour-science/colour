@@ -1,8 +1,6 @@
 Continuous Signal
 =================
 
-.. contents:: :local:
-
 Continuous Signal
 -----------------
 

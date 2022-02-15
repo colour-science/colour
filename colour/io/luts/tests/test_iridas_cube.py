@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.iridas_cube` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.iridas_cube` module."""
 
 from __future__ import annotations
 
@@ -18,7 +16,7 @@ from colour.io import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -37,13 +35,13 @@ LUTS_DIRECTORY: str = os.path.join(
 
 class TestReadLUTIridasCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube` definition
+    Define :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube` definition
     unit tests methods.
     """
 
     def test_read_LUT_IridasCube(self):
         """
-        Tests :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube`
+        Test :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube`
         definition.
         """
 
@@ -113,27 +111,23 @@ class TestReadLUTIridasCube(unittest.TestCase):
 
 class TestWriteLUTIridasCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube` definition
+    Define :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube` definition
     unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_LUT_IridasCube(self):
         """
-        Tests :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube`
+        Test :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube`
         definition.
         """
 

@@ -43,7 +43,7 @@ from colour.utilities import as_float_array, as_int_scalar
 @dataclass
 class ColourQuality_Specification_ANSIIESTM3018:
     """
-    Defines the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) colour quality
+    Define the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) colour quality
     specification.
 
     Parameters
@@ -113,7 +113,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     ColourRendering_Specification_CIE2017,
 ]:
     """
-    Returns the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
+    Return the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
     of given spectral distribution.
 
     Parameters
@@ -221,7 +221,7 @@ def colour_fidelity_index_ANSIIESTM3018(
 
 def averages_area(averages: ArrayLike) -> Floating:
     """
-    Computes the area of the polygon formed by the hue bin averages.
+    Compute the area of the polygon formed by the hue bin averages.
 
     Parameters
     ----------

@@ -32,7 +32,7 @@ from colour.hints import Callable, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, as_float_array, filter_kwargs
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -63,36 +63,26 @@ __all__ = [
 ]
 
 CONSTANT_STANDARD_AIR_TEMPERATURE: float = 288.15
-"""
-*Standard air* temperature :math:`T[K]` in kelvin degrees (:math:`15\\circ C`).
-"""
+"""*Standard air* temperature :math:`T[K]` in kelvin degrees (:math:`15\\circ C`)."""
 
 CONSTANT_STANDARD_CO2_CONCENTRATION: float = 300
-"""
-*Standard air* :math:`CO_2` concentration in parts per million (ppm).
-"""
+"""*Standard air* :math:`CO_2` concentration in parts per million (ppm)."""
 
 CONSTANT_AVERAGE_PRESSURE_MEAN_SEA_LEVEL: float = 101325
-"""
-*Standard air* average pressure :math:`Hg` at mean sea-level in pascal (Pa).
-"""
+"""*Standard air* average pressure :math:`Hg` at mean sea-level in pascal (Pa)."""
 
 CONSTANT_DEFAULT_LATITUDE: float = 0
-"""
-Default latitude in degrees (equator).
-"""
+"""Default latitude in degrees (equator)."""
 
 CONSTANT_DEFAULT_ALTITUDE: float = 0
-"""
-Default altitude in meters (sea level).
-"""
+"""Default altitude in meters (sea level)."""
 
 
 def air_refraction_index_Penndorf1957(
     wavelength: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the air refraction index :math:`n_s` from given wavelength
+    Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in  micrometers (:math:`\\mu m`) using *Penndorf (1957)*
     method.
 
@@ -125,7 +115,7 @@ def air_refraction_index_Edlen1966(
     wavelength: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the air refraction index :math:`n_s` from given wavelength
+    Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using *Edlen (1966)*
     method.
 
@@ -158,7 +148,7 @@ def air_refraction_index_Peck1972(
     wavelength: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the air refraction index :math:`n_s` from given wavelength
+    Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
     *Peck and Reeder (1972)* method.
 
@@ -196,7 +186,7 @@ def air_refraction_index_Bodhaine1999(
     CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> FloatingOrNDArray:
     """
-    Returns the air refraction index :math:`n_s` from given wavelength
+    Return the air refraction index :math:`n_s` from given wavelength
     :math:`\\lambda` in micrometers (:math:`\\mu m`) using
     *Bodhaine, Wood, Dutton and Slusser (1999)* method.
 
@@ -230,7 +220,7 @@ def air_refraction_index_Bodhaine1999(
 
 def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the depolarisation of nitrogen :math:`N_2` as function of
+    Return the depolarisation of nitrogen :math:`N_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
@@ -251,14 +241,14 @@ def N2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     wl = as_float_array(wavelength)
 
-    N2 = 1.034 + 3.17 * 1.0e-4 * (1 / wl ** 2)
+    N2 = 1.034 + 3.17 * 1.0e-4 * (1 / wl**2)
 
     return N2
 
 
 def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the depolarisation of oxygen :math:`O_2` as function of
+    Return the depolarisation of oxygen :math:`O_2` as function of
     wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
@@ -280,7 +270,7 @@ def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     wl = as_float_array(wavelength)
 
     O2 = (
-        1.096 + 1.385 * 1.0e-3 * (1 / wl ** 2) + 1.448 * 1.0e-4 * (1 / wl ** 4)
+        1.096 + 1.385 * 1.0e-3 * (1 / wl**2) + 1.448 * 1.0e-4 * (1 / wl**4)
     )
 
     return O2
@@ -288,7 +278,7 @@ def O2_depolarisation(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+    Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Penndorf (1957)* method.
 
     Parameters
@@ -320,7 +310,7 @@ def F_air_Penndorf1957(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+    Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Young (1981)* method.
 
     Parameters
@@ -352,7 +342,7 @@ def F_air_Young1981(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def F_air_Bates1984(wavelength: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+    Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
     (:math:`\\mu m`) using *Bates (1984)* method.
 
@@ -389,7 +379,7 @@ def F_air_Bodhaine1999(
     CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> FloatingOrNDArray:
     """
-    Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
+    Return :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\\lambda` in micrometers
     (:math:`\\mu m`) and :math:`CO_2` concentration in parts per million (ppm)
     using *Bodhaine, Wood, Dutton and Slusser (1999)* method.
@@ -428,7 +418,7 @@ def molecular_density(
     avogadro_constant: FloatingOrArrayLike = CONSTANT_AVOGADRO,
 ) -> FloatingOrNDArray:
     """
-    Returns the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
+    Return the molecular density :math:`N_s` (molecules :math:`cm^{-3}`)
     as function of air temperature :math:`T[K]` in kelvin degrees.
 
     Parameters
@@ -470,7 +460,7 @@ def mean_molecular_weights(
     CO2_concentration: FloatingOrArrayLike = CONSTANT_STANDARD_CO2_CONCENTRATION,
 ) -> FloatingOrNDArray:
     """
-    Returns the mean molecular weights :math:`m_a` for dry air as function of
+    Return the mean molecular weights :math:`m_a` for dry air as function of
     :math:`CO_2` concentration in parts per million (ppm).
 
     Parameters
@@ -502,7 +492,7 @@ def gravity_List1968(
     altitude: FloatingOrArrayLike = CONSTANT_DEFAULT_ALTITUDE,
 ) -> FloatingOrNDArray:
     """
-    Returns the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
+    Return the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
     altitude using *List (1968)* method.
 
@@ -537,13 +527,13 @@ def gravity_List1968(
     cos2phi = np.cos(2 * np.radians(latitude))
 
     # Sea level acceleration of gravity.
-    g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi ** 2)
+    g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi**2)
 
     g = (
         g0
         - (3.085462e-4 + 2.27e-7 * cos2phi) * altitude
-        + (7.254e-11 + 1.0e-13 * cos2phi) * altitude ** 2
-        - (1.517e-17 + 6e-20 * cos2phi) * altitude ** 3
+        + (7.254e-11 + 1.0e-13 * cos2phi) * altitude**2
+        - (1.517e-17 + 6e-20 * cos2phi) * altitude**3
     )
 
     return g
@@ -558,7 +548,7 @@ def scattering_cross_section(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> FloatingOrNDArray:
     """
-    Returns the scattering cross section per molecule :math:`\\sigma` of dry
+    Return the scattering cross section per molecule :math:`\\sigma` of dry
     air as function of wavelength :math:`\\lambda` in centimeters (cm) using
     given :math:`CO_2` concentration in parts per million (ppm) and temperature
     :math:`T[K]` in kelvin degrees following *Van de Hulst (1957)* method.
@@ -618,9 +608,9 @@ def scattering_cross_section(
 
     sigma = (
         24
-        * np.pi ** 3
-        * (n_s ** 2 - 1) ** 2
-        / (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2)
+        * np.pi**3
+        * (n_s**2 - 1) ** 2
+        / (wl**4 * N_s**2 * (n_s**2 + 2) ** 2)
     )
     sigma *= F_air
 
@@ -639,7 +629,7 @@ def rayleigh_optical_depth(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> FloatingOrNDArray:
     """
-    Returns the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
+    Return the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
     wavelength :math:`\\lambda` in centimeters (cm).
 
     Parameters
@@ -725,7 +715,7 @@ def sd_rayleigh_scattering(
     F_air_function: Callable = F_air_Bodhaine1999,
 ) -> SpectralDistribution:
     """
-    Returns the *Rayleigh* spectral distribution for given spectral shape.
+    Return the *Rayleigh* spectral distribution for given spectral shape.
 
     Parameters
     ----------

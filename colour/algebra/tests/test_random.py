@@ -1,5 +1,6 @@
 """
 Defines the unit tests for the :mod:`colour.algebra.random` module.
+
 References
 ----------
 -   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python
@@ -18,7 +19,7 @@ from colour.algebra import random_triplet_generator
 from colour.hints import NDArray
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -47,13 +48,13 @@ RANDOM_TRIPLETS: NDArray = np.array(
 
 class TestRandomTripletGenerator(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.random.random_triplet_generator` definition
+    Define :func:`colour.algebra.random.random_triplet_generator` definition
     unit tests methods.
     """
 
     def test_random_triplet_generator(self):
         """
-        Tests :func:`colour.algebra.random.random_triplet_generator`
+        Test :func:`colour.algebra.random.random_triplet_generator`
         definition.
 
         Notes

@@ -10,7 +10,7 @@ from colour.models.rgb.transfer_functions import linear_function
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -23,13 +23,13 @@ __all__ = [
 
 class TestLinearFunction(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.linear.\
+    Define :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition unit tests methods.
     """
 
     def test_linear_function(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.linear.\
+        Test :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition.
         """
 
@@ -41,7 +41,7 @@ linear_function` definition.
 
     def test_n_dimensional_linear_function(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.linear.\
+        Test :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition n-dimensional arrays support.
         """
 
@@ -63,7 +63,7 @@ linear_function` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_linear_function(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.linear.\
+        Test :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition nan support.
         """
 

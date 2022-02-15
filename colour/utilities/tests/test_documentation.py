@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.utilities.documentation` module.
-"""
+"""Defines the unit tests for the :mod:`colour.utilities.documentation` module."""
 
 import os
 import unittest
@@ -8,7 +6,7 @@ import unittest
 from colour.utilities.documentation import is_documentation_building
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -21,13 +19,13 @@ __all__ = [
 
 class TestIsDocumentationBuilding(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.documentation.is_documentation_building`
+    Define :func:`colour.utilities.documentation.is_documentation_building`
     definition unit tests methods.
     """
 
     def test_is_documentation_building(self):
         """
-        Tests :func:`colour.utilities.documentation.is_documentation_building`
+        Test :func:`colour.utilities.documentation.is_documentation_building`
         definition.
         """
 

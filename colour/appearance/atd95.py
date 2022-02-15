@@ -48,7 +48,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -68,7 +68,7 @@ __all__ = [
 @dataclass
 class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
     """
-    Defines the *ATD (1995)* colour vision model reference specification.
+    Define the *ATD (1995)* colour vision model reference specification.
 
     This specification has field names consistent with *Fairchild (2013)*
     reference.
@@ -117,7 +117,7 @@ class CAM_ReferenceSpecification_ATD95(MixinDataclassArithmetic):
 @dataclass
 class CAM_Specification_ATD95(MixinDataclassArithmetic):
     """
-    Defines the *ATD (1995)* colour vision model specification.
+    Define the *ATD (1995)* colour vision model specification.
 
     This specification has field names consistent with the remaining colour
     appearance models in :mod:`colour.appearance` but diverge from
@@ -177,7 +177,7 @@ def XYZ_to_ATD95(
     sigma: FloatingOrArrayLike = 300,
 ) -> CAM_Specification_ATD95:
     """
-    Computes the *ATD (1995)* colour vision model correlates.
+    Compute the *ATD (1995)* colour vision model correlates.
 
     Parameters
     ----------
@@ -258,10 +258,10 @@ T_2=0.0205377..., D_2=0.0107584...)
     A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(opponent_colour_dimensions(LMS_g))
 
     # Computing the correlate of *brightness* :math:`Br`.
-    Br = spow(A_1 ** 2 + T_1 ** 2 + D_1 ** 2, 0.5)
+    Br = spow(A_1**2 + T_1**2 + D_1**2, 0.5)
 
     # Computing the correlate of *saturation* :math:`C`.
-    C = spow(T_2 ** 2 + D_2 ** 2, 0.5) / A_2
+    C = spow(T_2**2 + D_2**2, 0.5) / A_2
 
     # Computing the *hue* :math:`H`. Note that the reference does not take the
     # modulus of the :math:`H`, thus :math:`H` can exceed 360 degrees.
@@ -284,7 +284,7 @@ def luminance_to_retinal_illuminance(
     XYZ: ArrayLike, Y_c: FloatingOrArrayLike
 ) -> NDArray:
     """
-    Converts from luminance in :math:`cd/m^2` to retinal illuminance in
+    Convert from luminance in :math:`cd/m^2` to retinal illuminance in
     trolands.
 
     Parameters
@@ -315,7 +315,7 @@ def luminance_to_retinal_illuminance(
 
 def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *LMS* cone responses.
+    Convert from *CIE XYZ* tristimulus values to *LMS* cone responses.
 
     Parameters
     ----------
@@ -352,7 +352,7 @@ def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArray:
 
 def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArray:
     """
-    Returns opponent colour dimensions from given post adaptation cone signals.
+    Return opponent colour dimensions from given post adaptation cone signals.
 
     Parameters
     ----------
@@ -392,7 +392,7 @@ def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArray:
 
 def final_response(value: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the final response of given opponent colour dimension.
+    Return the final response of given opponent colour dimension.
 
     Parameters
     ----------

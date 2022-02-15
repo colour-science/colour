@@ -38,7 +38,7 @@ from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
 from colour.utilities import describe_environment, optional, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -65,14 +65,10 @@ __all__ = [
 
 # Full Report Size Constants
 CONSTANT_REPORT_SIZE_FULL: Tuple = (8.27, 11.69)
-"""
-Full report size, default to A4 paper size in inches.
-"""
+"""Full report size, default to A4 paper size in inches."""
 
 CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL: Tuple = (1, 2, 24, 3, 1)
-"""
-Full report size row height ratios.
-"""
+"""Full report size row height ratios."""
 
 CONSTANT_REPORT_PADDING_FULL: Dict = {
     "w_pad": 20 / 100,
@@ -87,14 +83,10 @@ in-between the axes.
 
 # Intermediate Report Size Constants
 CONSTANT_REPORT_SIZE_INTERMEDIATE: Tuple = (8.27, 11.69 / 2.35)
-"""
-Intermediate report size, a window into A4 paper size in inches.
-"""
+"""Intermediate report size, a window into A4 paper size in inches."""
 
 CONSTANT_REPORT_ROW_HEIGHT_RATIOS_INTERMEDIATE: Tuple = (1, 8, 1)
-"""
-Intermediate report size row height ratios.
-"""
+"""Intermediate report size row height ratios."""
 
 CONSTANT_REPORT_PADDING_INTERMEDIATE: Dict = {
     "w_pad": 20 / 100,
@@ -109,14 +101,10 @@ and in-between the axes.
 
 # Simple Report Size Constants
 CONSTANT_REPORT_SIZE_SIMPLE: Tuple = (8.27, 8.27)
-"""
-Simple report size, a window into A4 paper size in inches.
-"""
+"""Simple report size, a window into A4 paper size in inches."""
 
 CONSTANT_REPORT_ROW_HEIGHT_RATIOS_SIMPLE: Tuple = (1, 8, 1)
-"""
-Simple report size row height ratios.
-"""
+"""Simple report size row height ratios."""
 
 CONSTANT_REPORT_PADDING_SIMPLE: Dict = {
     "w_pad": 20 / 100,
@@ -146,29 +134,23 @@ CONSTANTS_REPORT_STYLE: Dict = {
     "xtick.minor.visible": False,
     "ytick.minor.visible": False,
 }
-"""
-Report style overrides.
-"""
+"""Report style overrides."""
 
 CONTENT_REPORT_HEADER: str = "IES TM-30-18 Colour Rendition Report"
-"""
-Report header content, i.e. the report title.
-"""
+"""Report header content, i.e. the report title."""
 
 CONTENT_REPORT_FOOTER: str = (
     "Colours are for visual orientation purposes only. "
     "Created with Colour{0}"
 )
-"""
-Report footer content.
-"""
+"""Report footer content."""
 
 _VALUE_NOT_APPLICABLE: str = "N/A"
 
 
 def _plot_report_header(axes: plt.Axes) -> plt.Axes:
     """
-    Plots the report header, i.e. the title, on given axes.
+    Plot the report header, i.e. the title, on given axes.
 
     Parameters
     ----------
@@ -190,6 +172,7 @@ def _plot_report_header(axes: plt.Axes) -> plt.Axes:
         va="center",
         size="x-large",
         weight="bold",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
     )
 
     return axes
@@ -197,7 +180,7 @@ def _plot_report_header(axes: plt.Axes) -> plt.Axes:
 
 def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
     """
-    Plots the report footer on given axes.
+    Plot the report footer on given axes.
 
     Parameters
     ----------
@@ -226,6 +209,7 @@ def _plot_report_footer(axes: plt.Axes) -> plt.Axes:
         ha="center",
         va="center",
         size="small",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_label,
     )
 
 
@@ -241,9 +225,9 @@ def plot_single_sd_colour_rendition_report_full(
     report_row_height_ratios: Tuple = CONSTANT_REPORT_ROW_HEIGHT_RATIOS_FULL,
     report_box_padding: Optional[Dict] = None,
     **kwargs: Any,
-) -> Tuple[plt.Figure, plt.Axes]:
+) -> Tuple[plt.Figure, plt.Axes]:  # noqa: D405,D407,D410,D411
     """
-    Generates the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
+    Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution.
 
     Parameters
@@ -568,7 +552,7 @@ def plot_single_sd_colour_rendition_report_intermediate(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Generates the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
+    Generate the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
     given spectral distribution.
 
     Parameters
@@ -671,7 +655,7 @@ def plot_single_sd_colour_rendition_report_simple(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Generates the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
+    Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution.
 
     Parameters
@@ -762,7 +746,7 @@ def plot_single_sd_colour_rendition_report(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Generates the *ANSI/IES TM-30-18 Colour Rendition Report* for given
+    Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for given
     spectral distribution according to given method.
 
     Parameters

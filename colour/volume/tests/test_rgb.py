@@ -37,7 +37,7 @@ from colour.volume import (
 from colour.utilities import disable_multiprocessing
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -54,14 +54,12 @@ __all__ = [
 
 class TestRGB_colourspaceLimits(unittest.TestCase):
     """
-    Defines :func:`colour.volume.rgb.RGB_colourspace_limits` definition unit
+    Define :func:`colour.volume.rgb.RGB_colourspace_limits` definition unit
     tests methods.
     """
 
     def test_RGB_colourspace_limits(self):
-        """
-        Tests :func:`colour.volume.rgb.RGB_colourspace_limits` definition.
-        """
+        """Test :func:`colour.volume.rgb.RGB_colourspace_limits` definition."""
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(RGB_COLOURSPACE_BT709),
@@ -102,7 +100,7 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
 
 class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
     """
-    Defines :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
+    Define :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
     definition unit tests methods.
 
     References
@@ -113,7 +111,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
     @disable_multiprocessing()
     def test_RGB_colourspace_volume_MonteCarlo(self):
         """
-        Tests :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
+        Test :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
         definition.
         """
 
@@ -131,7 +129,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
 
 class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
     """
-    Defines :func:`colour.volume.rgb.\
+    Define :func:`colour.volume.rgb.\
 RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
 
     References
@@ -141,7 +139,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
 
     def test_RGB_colourspace_volume_coverage_MonteCarlo(self):
         """
-        Tests :func:`colour.volume.rgb.\
+        Test :func:`colour.volume.rgb.\
 RGB_colourspace_volume_coverage_MonteCarlo` definition.
         """
 
@@ -159,7 +157,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
 
 class TestRGB_colourspacePointerGamutCoverageMonteCarlo(unittest.TestCase):
     """
-    Defines :func:`colour.volume.rgb.\
+    Define :func:`colour.volume.rgb.\
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
     methods.
 
@@ -170,7 +168,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
 
     def test_RGB_colourspace_pointer_gamut_coverage_MonteCarlo(self):
         """
-        Tests :func:`colour.volume.rgb.\
+        Test :func:`colour.volume.rgb.\
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         """
 
@@ -187,7 +185,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
 
 class TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo(unittest.TestCase):
     """
-    Defines :func:`colour.volume.rgb.\
+    Define :func:`colour.volume.rgb.\
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
     methods.
 
@@ -198,7 +196,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
 
     def test_RGB_colourspace_visible_spectrum_coverage_MonteCarlo(self):
         """
-        Tests :func:`colour.volume.rgb.\
+        Test :func:`colour.volume.rgb.\
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
         """
 

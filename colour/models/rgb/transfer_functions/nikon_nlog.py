@@ -30,7 +30,7 @@ from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2020 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - http://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -50,9 +50,7 @@ NLOG_CONSTANTS: Structure = Structure(
     c=(150 / 1023),
     d=(619 / 1023),
 )
-"""
-*Nikon N-Log* colourspace constants.
-"""
+"""*Nikon N-Log* colourspace constants."""
 
 
 def log_encoding_NLog(
@@ -63,7 +61,7 @@ def log_encoding_NLog(
     constants: Structure = NLOG_CONSTANTS,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Nikon N-Log* log encoding curve / opto-electronic transfer
+    Define the *Nikon N-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -87,7 +85,6 @@ def log_encoding_NLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -142,7 +139,7 @@ def log_decoding_NLog(
     constants: Structure = NLOG_CONSTANTS,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Nikon N-Log* log decoding curve / electro-optical transfer
+    Define the *Nikon N-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -166,7 +163,6 @@ def log_decoding_NLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

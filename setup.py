@@ -1,3 +1,8 @@
+"""
+Colour - Setup
+==============
+"""
+
 import codecs
 from setuptools import setup
 

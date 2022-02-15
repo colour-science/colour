@@ -18,7 +18,7 @@ from colour.hints import Boolean
 from colour.utilities import message_box
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -31,10 +31,10 @@ __all__ = [
     "PYPI_PACKAGE_NAME",
     "BIBLIOGRAPHY_NAME",
     "clean",
-    "upgrade",
     "formatting",
-    "tests",
     "quality",
+    "precommit",
+    "tests",
     "examples",
     "preflight",
     "docs",
@@ -59,9 +59,7 @@ BIBLIOGRAPHY_NAME: str = "BIBLIOGRAPHY.bib"
 
 
 def _patch_invoke_annotations_support():
-    """
-    See https://github.com/pyinvoke/invoke/issues/357
-    """
+    """See https://github.com/pyinvoke/invoke/issues/357."""
 
     import invoke
     from unittest.mock import patch
@@ -94,7 +92,7 @@ def clean(
     pytest: Boolean = True,
 ):
     """
-    Cleans the project.
+    Clean the project.
 
     Parameters
     ----------
@@ -133,59 +131,23 @@ def clean(
 
 
 @task
-def upgrade(
-    ctx: Context,
-    pyupgrade: Boolean = True,
-    flynt: Boolean = True,
-):
-    """
-    Upgrade the codebase with *pyupgrade* and *flynt*.
-
-    Parameters
-    ----------
-    ctx
-        Context.
-    pyupgrade
-        Whether to upgrade the codebase with *pyupgrade*.
-    flynt
-        Whether to upgrade the codebase with *flynt*.
-    """
-
-    if pyupgrade:
-        message_box('Upgrading codebase with "pyupgrade"...')
-        ctx.run("pre-commit run pyupgrade --all-files")
-
-    if flynt:
-        message_box('Upgrading codebase with "flynt"...')
-        ctx.run("flynt .")
-
-
-@task
 def formatting(
     ctx: Context,
-    black: Boolean = True,
     asciify: Boolean = True,
     bibtex: Boolean = True,
 ):
     """
-    Formats the codebase with *Black*, converts unicode characters to ASCII and
-    cleanup the *BibTeX* file.
+    Convert unicode characters to ASCII and cleanup the *BibTeX* file.
 
     Parameters
     ----------
     ctx
         Context.
-    black
-        Whether to format the codebase with *Black*.
     asciify
         Whether to convert unicode characters to ASCII.
     bibtex
         Whether to cleanup the *BibTeX* file.
     """
-
-    if black:
-        message_box('Formatting codebase with "Black"...')
-        ctx.run("black .")
 
     if asciify:
         message_box("Converting unicode characters to ASCII...")
@@ -216,36 +178,13 @@ def formatting(
 
 
 @task
-def tests(ctx: Context):
-    """
-    Runs the unit tests with *Pytest*.
-
-    Parameters
-    ----------
-    ctx
-        Context.
-    """
-
-    message_box('Running "Pytest"...')
-    ctx.run(
-        "py.test "
-        "--disable-warnings "
-        "--doctest-modules "
-        f"--ignore={PYTHON_PACKAGE_NAME}/examples "
-        f"{PYTHON_PACKAGE_NAME}",
-        env={"MPLBACKEND": "AGG"},
-    )
-
-
-@task
 def quality(
     ctx: Context,
-    flake8: Boolean = True,
     mypy: Boolean = True,
     rstlint: Boolean = True,
 ):
     """
-    Checks the codebase with *Flake8* and lints various *restructuredText*
+    Check the codebase with *Mypy* and lints various *restructuredText*
     files with *rst-lint*.
 
     Parameters
@@ -259,10 +198,6 @@ def quality(
     rstlint
         Whether to lint various *restructuredText* files with *rst-lint*.
     """
-
-    if flake8:
-        message_box('Checking codebase with "Flake8"...')
-        ctx.run(f"flake8 {PYTHON_PACKAGE_NAME} --exclude=examples")
 
     if mypy:
         message_box('Checking codebase with "Mypy"...')
@@ -283,9 +218,46 @@ def quality(
 
 
 @task
+def precommit(ctx: Context):
+    """
+    Run the "pre-commit" hooks on the codebase.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    """
+
+    message_box('Running "pre-commit" hooks on the codebase...')
+    ctx.run("pre-commit run --all-files")
+
+
+@task
+def tests(ctx: Context):
+    """
+    Run the unit tests with *Pytest*.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    """
+
+    message_box('Running "Pytest"...')
+    ctx.run(
+        "py.test "
+        "--disable-warnings "
+        "--doctest-modules "
+        f"--ignore={PYTHON_PACKAGE_NAME}/examples "
+        f"{PYTHON_PACKAGE_NAME}",
+        env={"MPLBACKEND": "AGG"},
+    )
+
+
+@task
 def examples(ctx: Context, plots: Boolean = False):
     """
-    Runs the examples.
+    Run the examples.
 
     Parameters
     ----------
@@ -313,10 +285,10 @@ def examples(ctx: Context, plots: Boolean = False):
             ctx.run(f"python {os.path.join(root, filename)}")
 
 
-@task(upgrade, formatting, tests, quality, examples)
+@task(formatting, quality, precommit, tests, examples)
 def preflight(ctx: Context):
     """
-    Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
+    Perform the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
     *examples*.
 
     Parameters
@@ -336,7 +308,7 @@ def docs(
     pdf: Boolean = True,
 ):
     """
-    Builds the documentation.
+    Build the documentation.
 
     Parameters
     ----------
@@ -386,7 +358,7 @@ def todo(ctx: Context):
 @task
 def requirements(ctx: Context):
     """
-    Exports the *requirements.txt* file.
+    Export the *requirements.txt* file.
 
     Parameters
     ----------
@@ -405,7 +377,7 @@ def requirements(ctx: Context):
 @task(clean, preflight, docs, todo, requirements)
 def build(ctx: Context):
     """
-    Builds the project and runs dependency tasks, i.e. *docs*, *todo*, and
+    Build the project and runs dependency tasks, i.e. *docs*, *todo*, and
     *preflight*.
 
     Parameters
@@ -535,7 +507,7 @@ def virtualise(ctx: Context, tests: Boolean = True):
 @task
 def tag(ctx: Context):
     """
-    Tags the repository according to defined version using *git-flow*.
+    Tag the repository according to defined version using *git-flow*.
 
     Parameters
     ----------
@@ -590,7 +562,7 @@ def tag(ctx: Context):
 @task(build)
 def release(ctx: Context):
     """
-    Releases the project to *Pypi* with *Twine*.
+    Release the project to *Pypi* with *Twine*.
 
     Parameters
     ----------
@@ -607,7 +579,7 @@ def release(ctx: Context):
 @task
 def sha256(ctx: Context):
     """
-    Computes the project *Pypi* package *sha256* with *OpenSSL*.
+    Compute the project *Pypi* package *sha256* with *OpenSSL*.
 
     Parameters
     ----------

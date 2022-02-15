@@ -1,6 +1,4 @@
-"""
-Showcases *ICtCp* *colour encoding* computations.
-"""
+"""Showcases *ICtCp* *colour encoding* computations."""
 
 import numpy as np
 

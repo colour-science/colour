@@ -23,7 +23,7 @@ from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -45,14 +45,10 @@ MATRIX_1_XYZ_TO_LMS: NDArray = np.array(
         [0.0482003018, 0.2643662691, 0.6338517070],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to normalised cone responses matrix.
-"""
+"""*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
 MATRIX_1_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_1_XYZ_TO_LMS)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_2_LMS_TO_LAB: NDArray = np.array(
     [
@@ -61,19 +57,15 @@ MATRIX_2_LMS_TO_LAB: NDArray = np.array(
         [0.0259040371, 0.7827717662, -0.8086757660],
     ]
 )
-"""
-Normalised cone responses to *Oklab* colourspace matrix.
-"""
+"""Normalised cone responses to *Oklab* colourspace matrix."""
 
 MATRIX_2_LAB_TO_LMS: NDArray = np.linalg.inv(MATRIX_2_LMS_TO_LAB)
-"""
-*Oklab* colourspace to normalised cone responses matrix.
-"""
+"""*Oklab* colourspace to normalised cone responses matrix."""
 
 
 def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *Oklab* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *Oklab* colourspace.
 
     Parameters
     ----------
@@ -87,7 +79,6 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -129,7 +120,7 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
 
 def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
     """
-    Converts from *Oklab* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *Oklab* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -143,7 +134,6 @@ def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+

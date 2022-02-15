@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.algebra.regression` module.
-"""
+"""Defines the unit tests for the :mod:`colour.algebra.regression` module."""
 
 import numpy as np
 import unittest
@@ -8,7 +6,7 @@ import unittest
 from colour.algebra import least_square_mapping_MoorePenrose
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -21,13 +19,13 @@ __all__ = [
 
 class TestLeastSquareMappingMoorePenrose(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.regression.\
+    Define :func:`colour.algebra.regression.\
 least_square_mapping_MoorePenrose` definition unit tests methods.
     """
 
     def test_least_square_mapping_MoorePenrose(self):
         """
-        Tests :func:`colour.algebra.regression.\
+        Test :func:`colour.algebra.regression.\
 least_square_mapping_MoorePenrose` definition.
         """
 

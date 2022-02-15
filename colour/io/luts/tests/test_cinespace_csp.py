@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.cinespace_csp` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.cinespace_csp` module."""
 
 from __future__ import annotations
 
@@ -15,7 +13,7 @@ from colour.io import read_LUT_Cinespace, write_LUT_Cinespace
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -34,13 +32,13 @@ LUTS_DIRECTORY: str = os.path.join(
 
 class TestReadLUTCinespace(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace` definition
+    Define :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace` definition
     unit tests methods.
     """
 
     def test_read_LUT_Cinespace(self):
         """
-        Tests :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace`
+        Test :func:`colour.io.luts.cinespace_csp.read_LUT_Cinespace`
         definition.
         """
 
@@ -124,27 +122,23 @@ class TestReadLUTCinespace(unittest.TestCase):
 
 class TestWriteLUTCinespace(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace` definition
+    Define :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace` definition
     unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_LUT_Cinespace(self):
         """
-        Tests :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
+        Test :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
         definition.
         """
 
@@ -285,7 +279,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
     def test_raise_exception_write_LUT_Cinespace(self):
         """
-        Tests :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
+        Test :func:`colour.io.luts.cinespace_csp.write_LUT_Cinespace`
         definition raised exception.
         """
 

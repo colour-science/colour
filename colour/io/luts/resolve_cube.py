@@ -25,7 +25,7 @@ from colour.io.luts.common import path_to_title
 from colour.utilities import as_float_array, as_int_scalar, attest, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -39,7 +39,7 @@ __all__ = [
 
 def read_LUT_ResolveCube(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
     """
-    Reads given *Resolve* *.cube* *LUT* file.
+    Read given *Resolve* *.cube* *LUT* file.
 
     Parameters
     ----------
@@ -217,7 +217,7 @@ def write_LUT_ResolveCube(
     decimals: Integer = 7,
 ) -> Boolean:
     """
-    Writes given *LUT* to given  *Resolve* *.cube* *LUT* file.
+    Write given *LUT* to given  *Resolve* *.cube* *LUT* file.
 
     Parameters
     ----------
@@ -342,15 +342,13 @@ def write_LUT_ResolveCube(
         )
 
     def _format_array(array: Union[List, Tuple]) -> str:
-        """
-        Formats given array as a *Resolve* *.cube* data row.
-        """
+        """Format given array as a *Resolve* *.cube* data row."""
 
         return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
     def _format_tuple(array: Union[List, Tuple]) -> str:
         """
-        Formats given array as 2 space separated values to *decimals*
+        Format given array as 2 space separated values to *decimals*
         precision.
         """
 

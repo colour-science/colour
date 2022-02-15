@@ -274,6 +274,7 @@ from .models import (
     OSA_UCS_to_XYZ,
     Oklab_to_XYZ,
     Prismatic_to_RGB,
+    ProLab_to_XYZ,
     RGB_COLOURSPACES,
     RGB_Colourspace,
     RGB_luminance,
@@ -314,6 +315,7 @@ from .models import (
     XYZ_to_Luv,
     XYZ_to_OSA_UCS,
     XYZ_to_Oklab,
+    XYZ_to_ProLab,
     XYZ_to_RGB,
     XYZ_to_UCS,
     XYZ_to_UVW,
@@ -446,12 +448,14 @@ else:
         """
 
         def __getattr__(self, attribute) -> Any:
+            """Return the value from the attribute with given name."""
+
             is_matplotlib_installed(raise_exception=True)
 
     globals()["plotting"] = MockPlotting()  # pragma: no cover
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -678,6 +682,7 @@ __all__ += [
     "OSA_UCS_to_XYZ",
     "Oklab_to_XYZ",
     "Prismatic_to_RGB",
+    "ProLab_to_XYZ",
     "RGB_COLOURSPACES",
     "RGB_Colourspace",
     "RGB_luminance",
@@ -718,6 +723,7 @@ __all__ += [
     "XYZ_to_Luv",
     "XYZ_to_OSA_UCS",
     "XYZ_to_Oklab",
+    "XYZ_to_ProLab",
     "XYZ_to_RGB",
     "XYZ_to_UCS",
     "XYZ_to_UVW",
@@ -862,7 +868,11 @@ except TypeError:  # pragma: no cover
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
 class colour(ModuleAPI):
+    """Define a class acting like the *colour* module."""
+
     def __getattr__(self, attribute) -> Any:
+        """Return the value from the attribute with given name."""
+
         return super().__getattr__(attribute)
 
 
@@ -902,9 +912,7 @@ API_CHANGES = {
         ],
     ]
 }
-"""
-Defines the *colour.models* sub-package API changes.
-"""
+"""Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():
     sys.modules["colour"] = colour(  # type: ignore[assignment]

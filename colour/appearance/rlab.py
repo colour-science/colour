@@ -44,7 +44,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -66,9 +66,7 @@ MATRIX_R: NDArray = np.array(
         [0.0000, 0.0000, 1.0000],
     ]
 )
-"""
-*RLAB* colour appearance model precomputed helper matrix.
-"""
+"""*RLAB* colour appearance model precomputed helper matrix."""
 
 VIEWING_CONDITIONS_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {"Average": 1 / 2.3, "Dim": 1 / 2.9, "Dark": 1 / 3.5}
@@ -111,7 +109,7 @@ D_FACTOR_RLAB["projected_dark"] = D_FACTOR_RLAB[
 @dataclass
 class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
     """
-    Defines the *RLAB* colour appearance model reference specification.
+    Define the *RLAB* colour appearance model reference specification.
 
     This specification has field names consistent with *Fairchild (2013)*
     reference.
@@ -150,7 +148,7 @@ class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
 @dataclass
 class CAM_Specification_RLAB(MixinDataclassArray):
     """
-    Defines the *RLAB* colour appearance model specification.
+    Define the *RLAB* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
     appearance models in :mod:`colour.appearance` but diverge from
@@ -199,7 +197,7 @@ def XYZ_to_RLAB(
     D: FloatingOrArrayLike = D_FACTOR_RLAB["Hard Copy Images"],
 ) -> CAM_Specification_RLAB:
     """
-    Computes the *RLAB* model color appearance correlates.
+    Compute the *RLAB* model color appearance correlates.
 
     Parameters
     ----------
@@ -222,7 +220,6 @@ def XYZ_to_RLAB(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

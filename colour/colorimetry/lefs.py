@@ -32,7 +32,7 @@ from colour.hints import (
 from colour.utilities import closest, optional, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -53,7 +53,7 @@ def mesopic_weighting_function(
     scotopic_lef: Optional[SpectralDistribution] = None,
 ) -> FloatingOrNDArray:
     """
-    Calculates the mesopic weighting function factor :math:`V_m` at given
+    Calculate the mesopic weighting function factor :math:`V_m` at given
     wavelength :math:`\\lambda` using the photopic luminance :math:`L_p`.
 
     Parameters
@@ -132,7 +132,7 @@ def sd_mesopic_luminous_efficiency_function(
     scotopic_lef: Optional[SpectralDistribution] = None,
 ) -> SpectralDistribution:
     """
-    Returns the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
+    Return the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
     given photopic luminance :math:`L_p`.
 
     Parameters

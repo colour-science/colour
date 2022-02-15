@@ -33,7 +33,7 @@ from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -55,40 +55,30 @@ PRIMARIES_ECI_RGB_V2: NDArray = np.array(
         [0.140061791967044, 0.080329557157570],
     ]
 )
-"""
-*ECI RGB v2* colourspace primaries.
-"""
+"""*ECI RGB v2* colourspace primaries."""
 
 WHITEPOINT_NAME_ECI_RGB_V: str = "D50"
-"""
-*ECI RGB v2* colourspace whitepoint name.
-"""
+"""*ECI RGB v2* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_ECI_RGB_V2: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ECI_RGB_V]
-"""
-*ECI RGB v2* colourspace whitepoint chromaticity coordinates.
-"""
+"""*ECI RGB v2* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_ECI_RGB_V2_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_ECI_RGB_V2, CCS_WHITEPOINT_ECI_RGB_V2
 )
-"""
-*ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_ECI_RGB_V2: NDArray = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *ECI RGB v2* colourspace matrix."""
 
 
 def _scale_domain_0_100_range_0_1(
     a: FloatingOrArrayLike, callable_: Callable
 ) -> FloatingOrNDArray:
     """
-    Scales the input domain of given *luminance* :math:`Y` or *Lightness*
+    Scale the input domain of given *luminance* :math:`Y` or *Lightness*
     :math:`L^*` array to [0, 100], call the given callable, and
     scales the output range to [0, 1].
 

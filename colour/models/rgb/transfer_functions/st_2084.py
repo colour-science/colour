@@ -26,10 +26,10 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float_array, as_float
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -60,7 +60,7 @@ def eotf_inverse_ST2084(
     constants: Structure = CONSTANTS_ST2084,
 ) -> FloatingOrNDArray:
     """
-    Defines *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
+    Define *SMPTE ST 2084:2014* optimised perceptual inverse electro-optical
     transfer function (EOTF).
 
     Parameters
@@ -88,7 +88,6 @@ def eotf_inverse_ST2084(
 
     Notes
     -----
-
     -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.
@@ -118,7 +117,7 @@ def eotf_inverse_ST2084(
     0.5080784...
     """
 
-    C = to_domain_1(C)
+    C = as_float_array(C)
 
     Y_p = spow(C / L_p, constants.m_1)
 
@@ -127,7 +126,7 @@ def eotf_inverse_ST2084(
         constants.m_2,
     )
 
-    return as_float(from_range_1(N))
+    return as_float(N)
 
 
 def eotf_ST2084(
@@ -136,7 +135,7 @@ def eotf_ST2084(
     constants: Structure = CONSTANTS_ST2084,
 ) -> FloatingOrNDArray:
     """
-    Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
+    Define *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF).
 
     This perceptual quantizer (PQ) has been modeled by Dolby Laboratories
@@ -167,7 +166,6 @@ def eotf_ST2084(
 
     Notes
     -----
-
     -   *SMPTE ST 2084:2014* is an absolute transfer function, thus the
         domain and range values for the *Reference* and *1* scales are only
         indicative that the data is not affected by scale transformations.
@@ -195,7 +193,7 @@ def eotf_ST2084(
     100.0000000...
     """
 
-    N = to_domain_1(N)
+    N = as_float_array(N)
 
     m_1_d = 1 / constants.m_1
     m_2_d = 1 / constants.m_2
@@ -209,4 +207,4 @@ def eotf_ST2084(
     L = spow((n / (constants.c_2 - constants.c_3 * V_p)), m_1_d)
     C = L_p * L
 
-    return as_float(from_range_1(C))
+    return as_float(C)

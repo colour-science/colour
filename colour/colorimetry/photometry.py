@@ -27,7 +27,7 @@ from colour.hints import Floating, Optional, cast
 from colour.utilities import as_float_scalar, optional
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -46,7 +46,7 @@ def luminous_flux(
     K_m: Floating = CONSTANT_K_M,
 ) -> Floating:
     """
-    Returns the *luminous flux* for given spectral distribution using given
+    Return the *luminous flux* for given spectral distribution using given
     luminous efficiency function.
 
     Parameters
@@ -98,7 +98,7 @@ def luminous_efficiency(
     sd: SpectralDistribution, lef: Optional[SpectralDistribution] = None
 ) -> Floating:
     """
-    Returns the *luminous efficiency* of given spectral distribution using
+    Return the *luminous efficiency* of given spectral distribution using
     given luminous efficiency function.
 
     Parameters
@@ -150,7 +150,7 @@ def luminous_efficacy(
     sd: SpectralDistribution, lef: Optional[SpectralDistribution] = None
 ) -> Floating:
     """
-    Returns the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of given
+    Return the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of given
     spectral distribution using given luminous efficiency function.
 
     Parameters

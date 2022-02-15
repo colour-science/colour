@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.common` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.common` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.models import Jab_to_JCh, JCh_to_Jab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,14 +22,12 @@ __all__ = [
 
 class TestJab_to_JCh(unittest.TestCase):
     """
-    Defines :func:`colour.models.common.Jab_to_JCh` definition unit tests
+    Define :func:`colour.models.common.Jab_to_JCh` definition unit tests
     methods.
     """
 
     def test_Jab_to_JCh(self):
-        """
-        Tests :func:`colour.models.common.Jab_to_JCh` definition.
-        """
+        """Test :func:`colour.models.common.Jab_to_JCh` definition."""
 
         np.testing.assert_almost_equal(
             Jab_to_JCh(np.array([41.52787529, 52.63858304, 26.92317922])),
@@ -53,7 +49,7 @@ class TestJab_to_JCh(unittest.TestCase):
 
     def test_n_dimensional_Jab_to_JCh(self):
         """
-        Tests :func:`colour.models.common.Jab_to_JCh` definition n-dimensional
+        Test :func:`colour.models.common.Jab_to_JCh` definition n-dimensional
         arrays support.
         """
 
@@ -70,7 +66,7 @@ class TestJab_to_JCh(unittest.TestCase):
 
     def test_domain_range_scale_Jab_to_JCh(self):
         """
-        Tests :func:`colour.models.common.Jab_to_JCh` definition domain and
+        Test :func:`colour.models.common.Jab_to_JCh` definition domain and
         range scale support.
         """
 
@@ -90,9 +86,7 @@ class TestJab_to_JCh(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_Jab_to_JCh(self):
-        """
-        Tests :func:`colour.models.common.Jab_to_JCh` definition nan support.
-        """
+        """Test :func:`colour.models.common.Jab_to_JCh` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
@@ -103,14 +97,12 @@ class TestJab_to_JCh(unittest.TestCase):
 
 class TestJCh_to_Jab(unittest.TestCase):
     """
-    Defines :func:`colour.models.common.JCh_to_Jab` definition unit tests
+    Define :func:`colour.models.common.JCh_to_Jab` definition unit tests
     methods.
     """
 
     def test_JCh_to_Jab(self):
-        """
-        Tests :func:`colour.models.common.JCh_to_Jab` definition.
-        """
+        """Test :func:`colour.models.common.JCh_to_Jab` definition."""
 
         np.testing.assert_almost_equal(
             JCh_to_Jab(np.array([41.52787529, 59.12425901, 27.08848784])),
@@ -132,7 +124,7 @@ class TestJCh_to_Jab(unittest.TestCase):
 
     def test_n_dimensional_JCh_to_Jab(self):
         """
-        Tests :func:`colour.models.common.JCh_to_Jab` definition n-dimensional
+        Test :func:`colour.models.common.JCh_to_Jab` definition n-dimensional
         arrays support.
         """
 
@@ -149,7 +141,7 @@ class TestJCh_to_Jab(unittest.TestCase):
 
     def test_domain_range_scale_JCh_to_Jab(self):
         """
-        Tests :func:`colour.models.common.JCh_to_Jab` definition domain and
+        Test :func:`colour.models.common.JCh_to_Jab` definition domain and
         range scale support.
         """
 
@@ -169,9 +161,7 @@ class TestJCh_to_Jab(unittest.TestCase):
 
     @ignore_numpy_errors
     def test_nan_JCh_to_Jab(self):
-        """
-        Tests :func:`colour.models.common.JCh_to_Jab` definition nan support.
-        """
+        """Test :func:`colour.models.common.JCh_to_Jab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))

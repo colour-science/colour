@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.cie_d` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.cie_d` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.temperature import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,14 +22,12 @@ __all__ = [
 
 class TestXy_to_CCT_CIE_D(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition unit
+    Define :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition unit
     tests methods.
     """
 
     def test_xy_to_CCT_CIE_D(self):
-        """
-        Tests :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition.
-        """
+        """Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition."""
 
         np.testing.assert_allclose(
             xy_to_CCT_CIE_D(
@@ -65,7 +61,7 @@ class TestXy_to_CCT_CIE_D(unittest.TestCase):
 
     def test_n_dimensional_xy_to_CCT_CIE_D(self):
         """
-        Tests :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition
+        Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition
         n-dimensional arrays support.
         """
 
@@ -83,7 +79,7 @@ class TestXy_to_CCT_CIE_D(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_CIE_D(self):
         """
-        Tests :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition nan
+        Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition nan
         support.
         """
 
@@ -95,14 +91,12 @@ class TestXy_to_CCT_CIE_D(unittest.TestCase):
 
 class TestCCT_to_xy_CIE_D(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
+    Define :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
     unit tests methods.
     """
 
     def test_CCT_to_xy_CIE_D(self):
-        """
-        Tests :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition.
-        """
+        """Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition."""
 
         np.testing.assert_almost_equal(
             CCT_to_xy_CIE_D(4000),
@@ -124,7 +118,7 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
 
     def test_n_dimensional_CCT_to_xy_CIE_D(self):
         """
-        Tests :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
+        Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
         n-dimensional arrays support.
         """
 
@@ -142,7 +136,7 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_CIE_D(self):
         """
-        Tests :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
+        Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
         nan support.
         """
 

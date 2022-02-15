@@ -27,7 +27,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -49,21 +49,15 @@ PRIMARIES_DJI_D_GAMUT: NDArray = np.array(
         [0.09, -0.08],
     ]
 )
-"""
-*DJI D-Gamut* colourspace primaries.
-"""
+"""*DJI D-Gamut* colourspace primaries."""
 
 WHITEPOINT_NAME_DJI_D_GAMUT: str = "D65"
-"""
-*DJI D-Gamut* colourspace whitepoint name.
-"""
+"""*DJI D-Gamut* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_DJI_D_GAMUT: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_DJI_D_GAMUT]
-"""
-*DJI D-Gamut* colourspace whitepoint chromaticity coordinates.
-"""
+"""*DJI D-Gamut* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_DJI_D_GAMUT_TO_XYZ: NDArray = np.array(
     [
@@ -72,9 +66,7 @@ MATRIX_DJI_D_GAMUT_TO_XYZ: NDArray = np.array(
         [-0.0183, -0.0832, 1.1903],
     ]
 )
-"""
-*DJI D-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*DJI D-Gamut* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_DJI_D_GAMUT: NDArray = np.array(
     [
@@ -83,9 +75,7 @@ MATRIX_XYZ_TO_DJI_D_GAMUT: NDArray = np.array(
         [-0.0156, 0.0905, 0.8489],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to *DJI D-Gamut* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *DJI D-Gamut* colourspace matrix."""
 
 RGB_COLOURSPACE_DJI_D_GAMUT: RGB_Colourspace = RGB_Colourspace(
     "DJI D-Gamut",

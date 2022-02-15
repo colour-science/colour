@@ -33,7 +33,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -51,7 +51,7 @@ __all__ = [
 
 def XYZ_to_UCS(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE 1960 UCS* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *CIE 1960 UCS* colourspace.
 
     Parameters
     ----------
@@ -65,7 +65,6 @@ def XYZ_to_UCS(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -99,7 +98,7 @@ def XYZ_to_UCS(XYZ: ArrayLike) -> NDArray:
 
 def UCS_to_XYZ(UVW: ArrayLike) -> NDArray:
     """
-    Converts from *CIE 1960 UCS* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *CIE 1960 UCS* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -113,7 +112,6 @@ def UCS_to_XYZ(UVW: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -147,7 +145,7 @@ def UCS_to_XYZ(UVW: ArrayLike) -> NDArray:
 
 def UCS_to_uv(UVW: ArrayLike) -> NDArray:
     """
-    Returns the *uv* chromaticity coordinates from given *CIE 1960 UCS*
+    Return the *uv* chromaticity coordinates from given *CIE 1960 UCS*
     colourspace array.
 
     Parameters
@@ -162,7 +160,6 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -192,7 +189,7 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArray:
 
 def uv_to_UCS(uv: ArrayLike, V: Floating = 1) -> NDArray:
     """
-    Returns the *CIE 1960 UCS* colourspace array from given *uv* chromaticity
+    Return the *CIE 1960 UCS* colourspace array from given *uv* chromaticity
     coordinates.
 
     Parameters
@@ -231,7 +228,7 @@ def uv_to_UCS(uv: ArrayLike, V: Floating = 1) -> NDArray:
 
 def UCS_uv_to_xy(uv: ArrayLike) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given *CIE 1960 UCS*
+    Return the *CIE xy* chromaticity coordinates from given *CIE 1960 UCS*
     colourspace *uv* chromaticity coordinates.
 
     Parameters
@@ -266,7 +263,7 @@ def UCS_uv_to_xy(uv: ArrayLike) -> NDArray:
 
 def xy_to_UCS_uv(xy: ArrayLike) -> NDArray:
     """
-    Returns the *CIE 1960 UCS* colourspace *uv* chromaticity coordinates from
+    Return the *CIE 1960 UCS* colourspace *uv* chromaticity coordinates from
     given *CIE xy* chromaticity coordinates.
 
     Parameters

@@ -1,6 +1,4 @@
-"""
-Showcases input / output *CSV* tabular data related examples.
-"""
+"""Showcases input / output *CSV* tabular data related examples."""
 
 import os
 from pprint import pprint

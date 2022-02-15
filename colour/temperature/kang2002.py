@@ -35,7 +35,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -51,7 +51,7 @@ def xy_to_CCT_Kang2002(
     xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
 ) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` from given
+    Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *Kang et al. (2002)* method.
 
     Parameters
@@ -92,9 +92,7 @@ def xy_to_CCT_Kang2002(
     def objective_function(
         CCT: FloatingOrArrayLike, xy: ArrayLike
     ) -> FloatingOrNDArray:
-        """
-        Objective function.
-        """
+        """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)
 
@@ -115,7 +113,7 @@ def xy_to_CCT_Kang2002(
                 objective_function,
                 x0=6500,
                 args=(xy_i,),
-                **optimisation_settings
+                **optimisation_settings,
             ).x
             for xy_i in as_float_array(xy)
         ]
@@ -126,7 +124,7 @@ def xy_to_CCT_Kang2002(
 
 def CCT_to_xy_Kang2002(CCT: FloatingOrArrayLike) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *Kang et al. (2002)* method.
 
     Parameters
@@ -162,23 +160,23 @@ def CCT_to_xy_Kang2002(CCT: FloatingOrArrayLike) -> NDArray:
             "[1667, 25000], unpredictable results may occur!"
         )
 
-    CCT_3 = CCT ** 3
-    CCT_2 = CCT ** 2
+    CCT_3 = CCT**3
+    CCT_2 = CCT**2
 
     x = np.where(
         CCT <= 4000,
-        -0.2661239 * 10 ** 9 / CCT_3
-        - 0.2343589 * 10 ** 6 / CCT_2
-        + 0.8776956 * 10 ** 3 / CCT
+        -0.2661239 * 10**9 / CCT_3
+        - 0.2343589 * 10**6 / CCT_2
+        + 0.8776956 * 10**3 / CCT
         + 0.179910,
-        -3.0258469 * 10 ** 9 / CCT_3
-        + 2.1070379 * 10 ** 6 / CCT_2
-        + 0.2226347 * 10 ** 3 / CCT
+        -3.0258469 * 10**9 / CCT_3
+        + 2.1070379 * 10**6 / CCT_2
+        + 0.2226347 * 10**3 / CCT
         + 0.24039,
     )
 
-    x_3 = x ** 3
-    x_2 = x ** 2
+    x_3 = x**3
+    x_2 = x**2
 
     cnd_l = [CCT <= 2222, np.logical_and(CCT > 2222, CCT <= 4000), CCT > 4000]
     i = -1.1063814 * x_3 - 1.34811020 * x_2 + 2.18555832 * x - 0.20219683

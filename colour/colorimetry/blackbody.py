@@ -29,7 +29,7 @@ from colour.constants import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2021 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -63,7 +63,7 @@ def planck_law(
     n: Floating = CONSTANT_N,
 ) -> FloatingOrNDArray:
     """
-    Returns the spectral radiance of a blackbody at thermodynamic temperature
+    Return the spectral radiance of a blackbody at thermodynamic temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
 
     Parameters
@@ -112,7 +112,7 @@ def planck_law(
     l = as_float_array(wavelength)  # noqa
     t = as_float_array(temperature)
 
-    p = ((c1 * n ** -2 * l ** -5) / np.pi) * (np.expm1(c2 / (n * l * t))) ** -1
+    p = ((c1 * n**-2 * l**-5) / np.pi) * (np.expm1(c2 / (n * l * t))) ** -1
 
     return p
 
@@ -128,7 +128,7 @@ def sd_blackbody(
     n: Floating = CONSTANT_N,
 ) -> SpectralDistribution:
     """
-    Returns the spectral distribution of the planckian radiator for given
+    Return the spectral distribution of the planckian radiator for given
     temperature :math:`T[K]` with values in
     *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`).
 

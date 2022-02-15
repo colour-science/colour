@@ -22,7 +22,7 @@ from colour.plotting import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -39,7 +39,7 @@ def plot_single_munsell_value_function(
     function: Union[Callable, str], **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *Lightness* function.
+    Plot given *Lightness* function.
 
     Parameters
     ----------
@@ -85,7 +85,7 @@ def plot_multi_munsell_value_functions(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *Munsell* value functions.
+    Plot given *Munsell* value functions.
 
     Parameters
     ----------

@@ -91,7 +91,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -112,7 +112,7 @@ __all__ = [
 
 def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
+    Return the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
     using *Newhall et al. (1943)* method.
 
     Parameters
@@ -127,7 +127,6 @@ def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -155,9 +154,9 @@ def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     R_Y = (
         1.2219 * V
         - 0.23111 * (V * V)
-        + 0.23951 * (V ** 3)
-        - 0.021009 * (V ** 4)
-        + 0.0008404 * (V ** 5)
+        + 0.23951 * (V**3)
+        - 0.021009 * (V**4)
+        + 0.0008404 * (V**5)
     )
 
     return as_float(from_range_100(R_Y))
@@ -165,7 +164,7 @@ def luminance_Newhall1943(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
+    Return the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
     *ASTM D1535-08e1* method.
 
     Parameters
@@ -180,7 +179,6 @@ def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -207,10 +205,10 @@ def luminance_ASTMD1535(V: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Y = (
         1.1914 * V
-        - 0.22533 * (V ** 2)
-        + 0.23352 * (V ** 3)
-        - 0.020484 * (V ** 4)
-        + 0.00081939 * (V ** 5)
+        - 0.22533 * (V**2)
+        + 0.23352 * (V**3)
+        - 0.020484 * (V**4)
+        + 0.00081939 * (V**5)
     )
 
     return as_float(from_range_100(Y))
@@ -220,7 +218,7 @@ def intermediate_luminance_function_CIE1976(
     f_Y_Y_n: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
 ) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` in the *luminance* :math:`Y`
+    Return the *luminance* :math:`Y` in the *luminance* :math:`Y`
     computation for given intermediate value :math:`f(Y/Yn)` using given
     reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
 
@@ -238,7 +236,6 @@ def intermediate_luminance_function_CIE1976(
 
     Notes
     -----
-
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
@@ -270,7 +267,7 @@ def intermediate_luminance_function_CIE1976(
 
     Y = np.where(
         f_Y_Y_n > 24 / 116,
-        Y_n * f_Y_Y_n ** 3,
+        Y_n * f_Y_Y_n**3,
         Y_n * (f_Y_Y_n - 16 / 116) * (108 / 841),
     )
 
@@ -281,7 +278,7 @@ def luminance_CIE1976(
     L_star: FloatingOrArrayLike, Y_n: FloatingOrArrayLike = 100
 ) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
+    Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
 
     Parameters
@@ -298,7 +295,6 @@ def luminance_CIE1976(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -337,7 +333,7 @@ def luminance_Fairchild2010(
     L_hdr: FloatingOrArrayLike, epsilon: FloatingOrArrayLike = 1.836
 ) -> FloatingOrNDArray:
     """
-    Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
+    Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -355,7 +351,6 @@ def luminance_Fairchild2010(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -399,7 +394,7 @@ def luminance_Fairchild2011(
     method: Union[Literal["hdr-CIELAB", "hdr-IPT"], str] = "hdr-CIELAB",
 ) -> FloatingOrNDArray:
     """
-    Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
+    Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
@@ -419,7 +414,6 @@ def luminance_Fairchild2011(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -473,7 +467,7 @@ def luminance_Abebe2017(
     ] = "Michaelis-Menten",
 ) -> FloatingOrNDArray:
     """
-    Computes *luminance* :math:`Y` of *Lightness* :math:`L` using
+    Compute *luminance* :math:`Y` of *Lightness* :math:`L` using
     *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
     *Michaelis-Menten* kinetics or *Stevens's Power Law*.
 
@@ -493,7 +487,6 @@ def luminance_Abebe2017(
 
     Notes
     -----
-
     -   *Abebe, Pouli, Larabi and Reinhard (2017)* method uses absolute
         luminance levels, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -597,10 +590,10 @@ def luminance(
         ],
         str,
     ] = "CIE 1976",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
+    Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
     *Munsell* value :math:`V`.
 
     Parameters
@@ -628,7 +621,6 @@ def luminance(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

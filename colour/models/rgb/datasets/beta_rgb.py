@@ -27,7 +27,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -49,33 +49,23 @@ PRIMARIES_BETA_RGB: NDArray = np.array(
         [0.1265, 0.0352],
     ]
 )
-"""
-*Beta RGB* colourspace primaries.
-"""
+"""*Beta RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_BETA_RGB: str = "D50"
-"""
-*Beta RGB* colourspace whitepoint name.
-"""
+"""*Beta RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_BETA_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BETA_RGB]
-"""
-*Beta RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Beta RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_BETA_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_BETA_RGB, CCS_WHITEPOINT_BETA_RGB
 )
-"""
-*Beta RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Beta RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_BETA_RGB: NDArray = np.linalg.inv(MATRIX_BETA_RGB_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Beta RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Beta RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_BETA_RGB: RGB_Colourspace = RGB_Colourspace(
     "Beta RGB",

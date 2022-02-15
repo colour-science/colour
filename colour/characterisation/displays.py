@@ -30,7 +30,7 @@ else:  # pragma: no cover
     Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -43,7 +43,7 @@ __all__ = [
 
 class RGB_DisplayPrimaries(MultiSpectralDistributions):
     """
-    Implements support for a *RGB* display (such as a *CRT* or *LCD*)
+    Implement support for a *RGB* display (such as a *CRT* or *LCD*)
     primaries multi-spectral distributions.
 
     Parameters
@@ -99,7 +99,7 @@ class RGB_DisplayPrimaries(MultiSpectralDistributions):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(
             data, domain, labels=("red", "green", "blue"), **kwargs

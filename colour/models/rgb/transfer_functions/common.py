@@ -22,7 +22,7 @@ from colour.hints import (
 from colour.utilities import as_float, as_int, as_float_array, as_int_array
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -39,7 +39,7 @@ def CV_range(
     bit_depth: Integer = 10, is_legal: Boolean = False, is_int: Boolean = False
 ) -> NDArray:
     """
-    Returns the code value :math:`CV` range for given bit depth, range legality
+    Return the code value :math:`CV` range for given bit depth, range legality
     and representation.
 
     Parameters
@@ -70,10 +70,10 @@ def CV_range(
         ranges = np.array([16, 235])
         ranges *= 2 ** (bit_depth - 8)
     else:
-        ranges = np.array([0, 2 ** bit_depth - 1])
+        ranges = np.array([0, 2**bit_depth - 1])
 
     if not is_int:
-        ranges = as_float_array(ranges) / (2 ** bit_depth - 1)
+        ranges = as_float_array(ranges) / (2**bit_depth - 1)
 
     return ranges
 
@@ -85,7 +85,7 @@ def legal_to_full(
     out_int: Boolean = False,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Converts given code value :math:`CV` or float equivalent of a code value at
+    Convert given code value :math:`CV` or float equivalent of a code value at
     a given bit depth from legal range (studio swing) to full range
     (full swing).
 
@@ -131,7 +131,7 @@ def legal_to_full(
 
     CV = as_float_array(CV)
 
-    MV = 2 ** bit_depth - 1
+    MV = 2**bit_depth - 1
 
     CV_full = as_int_array(np.round(CV)) if in_int else CV * MV
 
@@ -152,7 +152,7 @@ def full_to_legal(
     out_int: Boolean = False,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Converts given code value :math:`CV` or float equivalent of a code value at
+    Convert given code value :math:`CV` or float equivalent of a code value at
     a given bit depth from full range (full swing) to legal range
     (studio swing).
 
@@ -198,7 +198,7 @@ def full_to_legal(
 
     CV = as_float_array(CV)
 
-    MV = 2 ** bit_depth - 1
+    MV = 2**bit_depth - 1
 
     CV_legal = as_int_array(np.round(CV / MV)) if in_int else CV
 

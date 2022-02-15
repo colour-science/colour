@@ -40,14 +40,13 @@ from colour.models.rgb.transfer_functions import (
     oetf_inverse_HLG_BT2100,
 )
 from colour.utilities import (
+    as_float_array,
     domain_range_scale,
-    from_range_1,
-    to_domain_1,
     validate_method,
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -76,9 +75,7 @@ MATRIX_ICTCP_RGB_TO_LMS: NDArray = (
     )
     / 4096
 )
-"""
-*ITU-R BT.2020* colourspace to normalised cone responses matrix.
-"""
+"""*ITU-R BT.2020* colourspace to normalised cone responses matrix."""
 
 MATRIX_ICTCP_LMS_TO_RGB: NDArray = np.linalg.inv(MATRIX_ICTCP_RGB_TO_LMS)
 """
@@ -148,7 +145,7 @@ def RGB_to_ICtCp(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
+    Convert from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
 
     Parameters
@@ -236,7 +233,7 @@ def RGB_to_ICtCp(
     array([ 0.6256789..., -0.0198449...,  0.3591125...])
     """
 
-    RGB = to_domain_1(RGB)
+    RGB = as_float_array(RGB)
     method = validate_method(
         method,
         [
@@ -266,7 +263,7 @@ def RGB_to_ICtCp(
         else vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
     )
 
-    return from_range_1(ICtCp)
+    return ICtCp
 
 
 def ICtCp_to_RGB(
@@ -284,7 +281,7 @@ def ICtCp_to_RGB(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
+    Convert from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
     colourspace.
 
     Parameters
@@ -334,7 +331,6 @@ def ICtCp_to_RGB(
 
     Notes
     -----
-
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
         for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
@@ -372,7 +368,7 @@ def ICtCp_to_RGB(
     array([ 0.4562052...,  0.0308107...,  0.0409195...])
     """
 
-    ICtCp = to_domain_1(ICtCp)
+    ICtCp = as_float_array(ICtCp)
     method = validate_method(
         method,
         [
@@ -402,7 +398,7 @@ def ICtCp_to_RGB(
 
     RGB = vector_dot(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
-    return from_range_1(RGB)
+    return RGB
 
 
 def XYZ_to_ICtCp(
@@ -438,7 +434,7 @@ def XYZ_to_ICtCp(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
+    Convert from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
 
     Parameters
@@ -492,7 +488,6 @@ def XYZ_to_ICtCp(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
@@ -577,7 +572,7 @@ def ICtCp_to_XYZ(
     L_p: Floating = 10000,
 ) -> NDArray:
     """
-    Converts from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
+    Convert from :math:`IC_TC_P` colour encoding to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -631,7 +626,6 @@ def ICtCp_to_XYZ(
 
     Notes
     -----
-
     -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
         for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute

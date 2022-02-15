@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.recovery` module.
-"""
+"""Defines the unit tests for the :mod:`colour.recovery` module."""
 
 import numpy as np
 import unittest
@@ -18,7 +16,7 @@ from colour.recovery import XYZ_to_sd
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -31,14 +29,12 @@ __all__ = [
 
 class TestXYZ_to_sd(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.XYZ_to_sd` definition unit tests
+    Define :func:`colour.recovery.XYZ_to_sd` definition unit tests
     methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         # pylint: disable=E1102
         self._cmfs = reshape_msds(
@@ -50,7 +46,7 @@ class TestXYZ_to_sd(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_sd(self):
         """
-        Tests :func:`colour.recovery.XYZ_to_sd` definition domain
+        Test :func:`colour.recovery.XYZ_to_sd` definition domain
         and range scale support.
         """
 

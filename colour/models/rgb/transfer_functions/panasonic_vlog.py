@@ -28,7 +28,7 @@ from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -43,9 +43,7 @@ __all__ = [
 CONSTANTS_VLOG: Structure = Structure(
     cut1=0.01, cut2=0.181, b=0.00873, c=0.241514, d=0.598206
 )
-"""
-*Panasonic V-Log* colourspace constants.
-"""
+"""*Panasonic V-Log* colourspace constants."""
 
 
 def log_encoding_VLog(
@@ -56,7 +54,7 @@ def log_encoding_VLog(
     constants: Structure = CONSTANTS_VLOG,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
+    Define the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -80,7 +78,6 @@ def log_encoding_VLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -149,7 +146,7 @@ def log_decoding_VLog(
     constants: Structure = CONSTANTS_VLOG,
 ) -> FloatingOrNDArray:
     """
-    Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer
+    Define the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -173,7 +170,6 @@ def log_decoding_VLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

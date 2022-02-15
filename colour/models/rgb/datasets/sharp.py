@@ -33,7 +33,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -81,28 +81,20 @@ and whitepoint:
 """
 
 WHITEPOINT_NAME_SHARP_RGB: str = "E"
-"""
-*Sharp RGB* colourspace whitepoint name.
-"""
+"""*Sharp RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_SHARP_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_SHARP_RGB]
-"""
-*Sharp RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Sharp RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_SHARP_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_SHARP_RGB, CCS_WHITEPOINT_SHARP_RGB
 )
-"""
-*Sharp RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Sharp RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_SHARP_RGB: NDArray = np.linalg.inv(MATRIX_SHARP_RGB_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Sharp RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Sharp RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_SHARP_RGB: RGB_Colourspace = RGB_Colourspace(
     "Sharp RGB",

@@ -33,7 +33,7 @@ from colour.hints import Floating, Literal, Union
 from colour.utilities import CaseInsensitiveMapping, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -52,7 +52,7 @@ def bandpass_correction_Stearns1988(
     sd: SpectralDistribution,
 ) -> SpectralDistribution:
     """
-    Implements spectral bandpass dependence correction on given spectral
+    Implement spectral bandpass dependence correction on given spectral
     distribution using *Stearns and Stearns (1988)* method.
 
     Parameters
@@ -128,7 +128,7 @@ def bandpass_correction(
     method: Union[Literal["Stearns 1988"], str] = "Stearns 1988",
 ) -> SpectralDistribution:
     """
-    Implements spectral bandpass dependence correction on given spectral
+    Implement spectral bandpass dependence correction on given spectral
     distribution using given method.
 
     Parameters

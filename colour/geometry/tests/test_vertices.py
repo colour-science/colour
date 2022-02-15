@@ -1,12 +1,10 @@
-"""
-Defines the unit tests for the :mod:`colour.geometry.vertices` module.
-"""
+"""Defines the unit tests for the :mod:`colour.geometry.vertices` module."""
 
 import numpy as np
 import unittest
 
 from colour.geometry import (
-    PLANE_TO_AXIS_MAPPING,
+    MAPPING_PLANE_TO_AXIS,
     primitive_vertices_quad_mpl,
     primitive_vertices_grid_mpl,
     primitive_vertices_cube_mpl,
@@ -14,7 +12,7 @@ from colour.geometry import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -30,13 +28,13 @@ __all__ = [
 
 class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
+    Define :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
     definition unit tests methods.
     """
 
     def test_primitive_vertices_quad_mpl(self):
         """
-        Tests :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
+        Test :func:`colour.geometry.vertices.primitive_vertices_quad_mpl`
         definition.
         """
 
@@ -99,7 +97,7 @@ class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
         for plane in ("xy", "xz", "yz"):
             np.testing.assert_almost_equal(
                 primitive_vertices_quad_mpl(axis=plane),
-                primitive_vertices_quad_mpl(axis=PLANE_TO_AXIS_MAPPING[plane]),
+                primitive_vertices_quad_mpl(axis=MAPPING_PLANE_TO_AXIS[plane]),
                 decimal=7,
             )
 
@@ -110,13 +108,13 @@ class TestPrimitiveVerticesQuadMpl(unittest.TestCase):
 
 class TestPrimitiveVerticesGridMpl(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
+    Define :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
     definition unit tests methods.
     """
 
     def test_primitive_vertices_grid_mpl(self):
         """
-        Tests :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
+        Test :func:`colour.geometry.vertices.primitive_vertices_grid_mpl`
         definition.
         """
 
@@ -199,13 +197,13 @@ class TestPrimitiveVerticesGridMpl(unittest.TestCase):
 
 class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
+    Define :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
     definition unit tests methods.
     """
 
     def test_primitive_vertices_cube_mpl(self):
         """
-        Tests :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
+        Test :func:`colour.geometry.vertices.primitive_vertices_cube_mpl`
         definition.
         """
 
@@ -588,11 +586,11 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
             decimal=7,
         )
 
-        for plane in PLANE_TO_AXIS_MAPPING.keys():
+        for plane in MAPPING_PLANE_TO_AXIS.keys():
             np.testing.assert_almost_equal(
                 primitive_vertices_cube_mpl(planes=[plane]),
                 primitive_vertices_cube_mpl(
-                    planes=[PLANE_TO_AXIS_MAPPING[plane]]
+                    planes=[MAPPING_PLANE_TO_AXIS[plane]]
                 ),
                 decimal=7,
             )
@@ -600,13 +598,13 @@ class TestPrimitiveVerticesCubeMpl(unittest.TestCase):
 
 class TestPrimitiveVerticesSphere(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.vertices.primitive_vertices_sphere`
+    Define :func:`colour.geometry.vertices.primitive_vertices_sphere`
     definition unit tests methods.
     """
 
     def test_primitive_vertices_sphere(self):
         """
-        Tests :func:`colour.geometry.vertices.primitive_vertices_sphere`
+        Test :func:`colour.geometry.vertices.primitive_vertices_sphere`
         definition.
         """
 
@@ -993,7 +991,7 @@ class TestPrimitiveVerticesSphere(unittest.TestCase):
         for plane in ("xy", "xz", "yz"):
             np.testing.assert_almost_equal(
                 primitive_vertices_sphere(axis=plane),
-                primitive_vertices_sphere(axis=PLANE_TO_AXIS_MAPPING[plane]),
+                primitive_vertices_sphere(axis=MAPPING_PLANE_TO_AXIS[plane]),
                 decimal=7,
             )
 

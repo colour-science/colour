@@ -69,7 +69,7 @@ else:  # pragma: no cover
     tqdm = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -88,7 +88,7 @@ __all__ = [
 
 class Dataset_Otsu2018:
     """
-    Stores all the information needed for the *Otsu et al. (2018)* spectral
+    Store all the information needed for the *Otsu et al. (2018)* spectral
     upsampling method.
 
     Datasets can be either generated and converted as a
@@ -225,7 +225,7 @@ class Dataset_Otsu2018:
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the dataset.
+        Return a formatted string representation of the dataset.
 
         Returns
         -------
@@ -243,7 +243,7 @@ class Dataset_Otsu2018:
 
     def select(self, xy: ArrayLike) -> Integer:
         """
-        Returns the cluster index appropriate for the given *CIE xy*
+        Return the cluster index appropriate for the given *CIE xy*
         coordinates.
 
         Parameters
@@ -284,7 +284,7 @@ class Dataset_Otsu2018:
 
     def cluster(self, xy: ArrayLike) -> Tuple[NDArray, NDArray]:
         """
-        Returns the basis functions and dataset mean for the given *CIE xy*
+        Return the basis functions and dataset mean for the given *CIE xy*
         coordinates.
 
         Parameters
@@ -312,7 +312,7 @@ class Dataset_Otsu2018:
 
     def read(self, path: str):
         """
-        Reads and loads a dataset from an *.npz* file.
+        Read and loads a dataset from an *.npz* file.
 
         Parameters
         ----------
@@ -348,7 +348,7 @@ class Dataset_Otsu2018:
 
     def write(self, path: str):
         """
-        Writes the dataset to an *.npz* file at given path.
+        Write the dataset to an *.npz* file at given path.
 
         Parameters
         ----------
@@ -416,7 +416,7 @@ def XYZ_to_sd_Otsu2018(
     clip: Boolean = True,
 ) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *CIE XYZ* tristimulus values
+    Recover the spectral distribution of given *CIE XYZ* tristimulus values
     using *Otsu et al. (2018)* method.
 
     Parameters
@@ -551,7 +551,7 @@ def XYZ_to_sd_Otsu2018(
 @dataclass
 class PartitionAxis:
     """
-    Represents a horizontal or vertical line, partitioning the 2D space in
+    Represent a horizontal or vertical line, partitioning the 2D space in
     two half-planes.
 
     Parameters
@@ -572,7 +572,7 @@ class PartitionAxis:
 
     def __str__(self):
         """
-        Returns a formatted string representation of the partition axis.
+        Return a formatted string representation of the partition axis.
 
         Returns
         -------
@@ -589,7 +589,7 @@ class PartitionAxis:
 
 class Data_Otsu2018:
     """
-    Stores the reference reflectances and derived information along with the
+    Store the reference reflectances and derived information along with the
     methods to process them for a leaf :class:`colour.recovery.otsu2018.Node`
     class instance.
 
@@ -669,9 +669,7 @@ class Data_Otsu2018:
 
     @reflectances.setter
     def reflectances(self, value: ArrayLike):
-        """
-        Setter for the **self.reflectances** property.
-        """
+        """Setter for the **self.reflectances** property."""
 
         if value is not None:
             self._reflectances = as_float_array(value)
@@ -742,7 +740,7 @@ class Data_Otsu2018:
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the data.
+        Return a formatted string representation of the data.
 
         Returns
         -------
@@ -754,7 +752,7 @@ class Data_Otsu2018:
 
     def __len__(self) -> Integer:
         """
-        Returns the number of colours in the data.
+        Return the number of colours in the data.
 
         Returns
         -------
@@ -766,7 +764,7 @@ class Data_Otsu2018:
 
     def origin(self, i: Integer, direction: Integer) -> Floating:
         """
-        Returns the origin *CIE x* or *CIE y* chromaticity coordinate for given
+        Return the origin *CIE x* or *CIE y* chromaticity coordinate for given
         index and direction.
 
         Parameters
@@ -796,7 +794,7 @@ class Data_Otsu2018:
         self, axis: PartitionAxis
     ) -> Tuple[Data_Otsu2018, Data_Otsu2018]:
         """
-        Partitions the data using given partition axis.
+        Partition the data using given partition axis.
 
         Parameters
         ----------
@@ -839,7 +837,7 @@ class Data_Otsu2018:
 
     def PCA(self):
         """
-        Performs the *Principal Component Analysis* (PCA) on the data and sets
+        Perform the *Principal Component Analysis* (PCA) on the data and sets
         the relevant attributes accordingly.
         """
 
@@ -867,7 +865,7 @@ class Data_Otsu2018:
 
     def reconstruct(self, XYZ: ArrayLike) -> SpectralDistribution:
         """
-        Reconstructs the reflectance for the given *CIE XYZ* tristimulus
+        Reconstruct the reflectance for the given *CIE XYZ* tristimulus
         values.
 
         Parameters
@@ -908,7 +906,7 @@ class Data_Otsu2018:
 
     def reconstruction_error(self) -> Floating:
         """
-        Returns the reconstruction error of the data. The error is computed by
+        Return the reconstruction error of the data. The error is computed by
         reconstructing the reflectances for the reference *CIE XYZ* tristimulus
         values using PCA and, comparing the reconstructed reflectances against
         the reference reflectances.
@@ -951,7 +949,7 @@ class Data_Otsu2018:
 
 class Node_Otsu2018(Node):
     """
-    Represents a node in a :meth:`colour.recovery.Tree_Otsu2018` class instance
+    Represent a node in a :meth:`colour.recovery.Tree_Otsu2018` class instance
     node tree.
 
     Parameters
@@ -1031,7 +1029,7 @@ class Node_Otsu2018(Node):
 
     def split(self, children: List[Node_Otsu2018], axis: PartitionAxis):
         """
-        Converts the leaf node into an inner node using given children and
+        Convert the leaf node into an inner node using given children and
         partition axis.
 
         Parameters
@@ -1053,7 +1051,7 @@ class Node_Otsu2018(Node):
         self, minimum_cluster_size: Integer
     ) -> Tuple[List[Node_Otsu2018], PartitionAxis, Floating]:
         """
-        Finds the best partition for the node that minimises the leaf
+        Find the best partition for the node that minimises the leaf
         reconstruction error.
 
         Parameters
@@ -1127,7 +1125,7 @@ class Node_Otsu2018(Node):
 
     def leaf_reconstruction_error(self) -> Floating:
         """
-        Returns the reconstruction error of the node data. The error is
+        Return the reconstruction error of the node data. The error is
         computed by reconstructing the reflectances for the data reference
         *CIE XYZ* tristimulus values using PCA and, comparing the reconstructed
         reflectances against the data reference reflectances.
@@ -1142,7 +1140,7 @@ class Node_Otsu2018(Node):
 
     def branch_reconstruction_error(self) -> Floating:
         """
-        Computes the reconstruction error for all the leaves data connected to
+        Compute the reconstruction error for all the leaves data connected to
         the node or its children, i.e. the reconstruction errors summation for
         all the leaves in the branch.
 
@@ -1352,7 +1350,7 @@ class Tree_Otsu2018(Node_Otsu2018):
         print_callable: Callable = print,
     ):
         """
-        Optimises the tree by repeatedly performing optimal partitioning of the
+        Optimise the tree by repeatedly performing optimal partitioning of the
         nodes, creating a tree that minimises the total reconstruction error.
 
         Parameters
@@ -1506,7 +1504,7 @@ the initial error.
 
     def to_dataset(self) -> Dataset_Otsu2018:
         """
-        Creates a :class:`colour.recovery.Dataset_Otsu2018` class instance
+        Create a :class:`colour.recovery.Dataset_Otsu2018` class instance
         based on data stored in the tree.
 
         The dataset can then be saved to disk or used to recover reflectance
@@ -1541,9 +1539,7 @@ the initial error.
         else:
 
             def add_rows(node, data=None):
-                """
-                Add rows for given node and its children.
-                """
+                """Add rows for given node and its children."""
 
                 data = cast(
                     Dict,

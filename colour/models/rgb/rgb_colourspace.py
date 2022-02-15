@@ -58,7 +58,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -75,7 +75,7 @@ __all__ = [
 
 class RGB_Colourspace:
     """
-    Implements support for the *RGB* colourspaces datasets from
+    Implement support for the *RGB* colourspaces datasets from
     :mod:`colour.models.datasets.aces_rgb`, etc....
 
     Colour science literature related to *RGB* colourspaces and encodings
@@ -288,9 +288,7 @@ class RGB_Colourspace:
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             is_string(value),
@@ -319,9 +317,7 @@ class RGB_Colourspace:
 
     @primaries.setter
     def primaries(self, value: ArrayLike):
-        """
-        Setter for the **self.primaries** property.
-        """
+        """Setter for the **self.primaries** property."""
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
@@ -357,9 +353,7 @@ class RGB_Colourspace:
 
     @whitepoint.setter
     def whitepoint(self, value: ArrayLike):
-        """
-        Setter for the **self.whitepoint** property.
-        """
+        """Setter for the **self.whitepoint** property."""
 
         attest(
             isinstance(value, (tuple, list, np.ndarray, np.matrix)),
@@ -393,9 +387,7 @@ class RGB_Colourspace:
 
     @whitepoint_name.setter
     def whitepoint_name(self, value: Optional[str]):
-        """
-        Setter for the **self.whitepoint_name** property.
-        """
+        """Setter for the **self.whitepoint_name** property."""
 
         if value is not None:
             attest(
@@ -434,9 +426,7 @@ class RGB_Colourspace:
 
     @matrix_RGB_to_XYZ.setter
     def matrix_RGB_to_XYZ(self, value: Optional[ArrayLike]):
-        """
-        Setter for the **self.matrix_RGB_to_XYZ** property.
-        """
+        """Setter for the **self.matrix_RGB_to_XYZ** property."""
 
         if value is not None:
             attest(
@@ -478,9 +468,7 @@ class RGB_Colourspace:
 
     @matrix_XYZ_to_RGB.setter
     def matrix_XYZ_to_RGB(self, value: Optional[ArrayLike]):
-        """
-        Setter for the **self.matrix_XYZ_to_RGB** property.
-        """
+        """Setter for the **self.matrix_XYZ_to_RGB** property."""
 
         if value is not None:
             attest(
@@ -517,9 +505,7 @@ class RGB_Colourspace:
 
     @cctf_encoding.setter
     def cctf_encoding(self, value: Optional[Callable]):
-        """
-        Setter for the **self.cctf_encoding** property.
-        """
+        """Setter for the **self.cctf_encoding** property."""
 
         if value is not None:
             attest(
@@ -553,9 +539,7 @@ class RGB_Colourspace:
 
     @cctf_decoding.setter
     def cctf_decoding(self, value: Optional[Callable]):
-        """
-        Setter for the **self.cctf_decoding** property.
-        """
+        """Setter for the **self.cctf_decoding** property."""
 
         if value is not None:
             attest(
@@ -589,9 +573,7 @@ class RGB_Colourspace:
 
     @use_derived_matrix_RGB_to_XYZ.setter
     def use_derived_matrix_RGB_to_XYZ(self, value: Boolean):
-        """
-        Setter for the **self.use_derived_matrix_RGB_to_XYZ** property.
-        """
+        """Setter for the **self.use_derived_matrix_RGB_to_XYZ** property."""
 
         attest(
             isinstance(value, (bool, np.bool_)),
@@ -627,9 +609,7 @@ class RGB_Colourspace:
 
     @use_derived_matrix_XYZ_to_RGB.setter
     def use_derived_matrix_XYZ_to_RGB(self, value: Boolean):
-        """
-        Setter for the **self.use_derived_matrix_XYZ_to_RGB** property.
-        """
+        """Setter for the **self.use_derived_matrix_XYZ_to_RGB** property."""
 
         attest(
             isinstance(value, (bool, np.bool_)),
@@ -641,7 +621,7 @@ class RGB_Colourspace:
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the *RGB* colourspace.
+        Return a formatted string representation of the *RGB* colourspace.
 
         Returns
         -------
@@ -694,9 +674,7 @@ class RGB_Colourspace:
         """
 
         def _indent_array(a: Optional[NDArray]) -> str:
-            """
-            Indents given array string representation.
-            """
+            """Indent given array string representation."""
 
             return str(a).replace(" [", " " * 22 + "[")
 
@@ -732,7 +710,7 @@ class RGB_Colourspace:
 
     def __repr__(self) -> str:
         """
-        Returns an (almost) evaluable string representation of the *RGB*
+        Return an (almost) evaluable string representation of the *RGB*
         colourspace.
 
         Returns
@@ -772,9 +750,7 @@ class RGB_Colourspace:
         """
 
         def _indent_array(a: Optional[NDArray]) -> str:
-            """
-            Indents given array evaluable string representation.
-            """
+            """Indent given array evaluable string representation."""
 
             representation = repr(a).replace(" [", f"{' ' * 11}[")
             representation = representation.replace("array(", " " * 16)
@@ -807,7 +783,7 @@ class RGB_Colourspace:
 
     def _derive_transformation_matrices(self):
         """
-        Computes the derived transformations matrices, the normalised primary
+        Compute the derived transformations matrices, the normalised primary
         matrix and its inverse.
         """
 
@@ -822,7 +798,7 @@ class RGB_Colourspace:
 
     def use_derived_transformation_matrices(self, usage: Boolean = True):
         """
-        Enables or disables usage of both derived transformations matrices,
+        Enable or disables usage of both derived transformations matrices,
         the normalised primary matrix and its inverse in subsequent
         computations.
 
@@ -858,7 +834,7 @@ class RGB_Colourspace:
         ] = "CAT02",
     ) -> RGB_Colourspace:
         """
-        Chromatically adapts the *RGB* colourspace *primaries* :math:`xy`
+        Chromatically adapt the *RGB* colourspace *primaries* :math:`xy`
         chromaticity coordinates from *RGB* colourspace whitepoint to reference
         ``whitepoint``.
 
@@ -933,7 +909,7 @@ class RGB_Colourspace:
 
     def copy(self) -> RGB_Colourspace:
         """
-        Returns a copy of the *RGB* colourspace.
+        Return a copy of the *RGB* colourspace.
 
         Returns
         -------
@@ -969,7 +945,7 @@ def XYZ_to_RGB(
     cctf_encoding: Optional[Callable] = None,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *RGB* colourspace array.
+    Convert from *CIE XYZ* tristimulus values to *RGB* colourspace array.
 
     Parameters
     ----------
@@ -998,7 +974,6 @@ def XYZ_to_RGB(
 
     Notes
     -----
-
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
@@ -1076,7 +1051,7 @@ def RGB_to_XYZ(
     cctf_decoding: Optional[Callable] = None,
 ) -> NDArray:
     """
-    Converts given *RGB* colourspace array to *CIE XYZ* tristimulus values.
+    Convert given *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -1105,7 +1080,6 @@ def RGB_to_XYZ(
 
     Notes
     -----
-
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
@@ -1180,7 +1154,7 @@ def matrix_RGB_to_RGB(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Computes the matrix :math:`M` converting from given input *RGB*
+    Compute the matrix :math:`M` converting from given input *RGB*
     colourspace to output *RGB* colourspace using given *chromatic
     adaptation* method.
 
@@ -1252,7 +1226,7 @@ def RGB_to_RGB(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Converts given *RGB* colourspace array from given input *RGB* colourspace
+    Convert given *RGB* colourspace array from given input *RGB* colourspace
     to output *RGB* colourspace using given *chromatic adaptation* method.
 
     Parameters
@@ -1285,7 +1259,6 @@ def RGB_to_RGB(
 
     Notes
     -----
-
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+

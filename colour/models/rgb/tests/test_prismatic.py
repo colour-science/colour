@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.prismatic` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.prismatic` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.models.rgb import RGB_to_Prismatic, Prismatic_to_RGB
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,14 +22,12 @@ __all__ = [
 
 class TestRGB_to_Prismatic(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.prismatic.TestRGB_to_Prismatic` definition
+    Define :func:`colour.models.rgb.prismatic.TestRGB_to_Prismatic` definition
     unit tests methods.
     """
 
     def test_RGB_to_Prismatic(self):
-        """
-        Tests :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition.
-        """
+        """Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_Prismatic(np.array([0.0, 0.0, 0.0])),
@@ -47,7 +43,7 @@ class TestRGB_to_Prismatic(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_Prismatic(self):
         """
-        Tests :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
+        Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
         n-dimensional support.
         """
 
@@ -64,7 +60,7 @@ class TestRGB_to_Prismatic(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_Prismatic(self):
         """
-        Tests :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
+        Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
         domain and range scale support.
         """
 
@@ -81,7 +77,7 @@ class TestRGB_to_Prismatic(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_Prismatic(self):
         """
-        Tests :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
+        Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
         nan support.
         """
 
@@ -94,14 +90,12 @@ class TestRGB_to_Prismatic(unittest.TestCase):
 
 class TestPrismatic_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
+    Define :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
     unit tests methods.
     """
 
     def test_Prismatic_to_RGB(self):
-        """
-        Tests :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             Prismatic_to_RGB(np.array([0.0, 0.0, 0.0, 0.0])),
@@ -119,7 +113,7 @@ class TestPrismatic_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_Prismatic_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
+        Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
         n-dimensional support.
         """
 
@@ -136,7 +130,7 @@ class TestPrismatic_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_Prismatic_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
+        Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
         domain and range scale support.
         """
 
@@ -153,7 +147,7 @@ class TestPrismatic_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Prismatic_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
+        Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
         nan support.
         """
 

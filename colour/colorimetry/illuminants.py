@@ -44,7 +44,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tsplit
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -131,8 +131,8 @@ def sd_CIE_standard_illuminant_A(
         100
         * (560 / wavelengths) ** 5
         * (
-            np.expm1((1.435 * 10 ** 7) / (2848 * 560))
-            / np.expm1((1.435 * 10 ** 7) / (2848 * wavelengths))
+            np.expm1((1.435 * 10**7) / (2848 * 560))
+            / np.expm1((1.435 * 10**7) / (2848 * wavelengths))
         )
     )
 
@@ -145,7 +145,7 @@ def sd_CIE_illuminant_D_series(
     xy: ArrayLike, M1_M2_rounding: Boolean = True
 ) -> SpectralDistribution:
     """
-    Returns the spectral distribution of given *CIE Illuminant D Series* using
+    Return the spectral distribution of given *CIE Illuminant D Series* using
     given *CIE xy* chromaticity coordinates.
 
     Parameters
@@ -323,7 +323,7 @@ def sd_CIE_illuminant_D_series(
 
 def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the daylight locus as *CIE xy* chromaticity coordinates.
+    Return the daylight locus as *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -347,6 +347,6 @@ def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     x_D = as_float_array(x_D)
 
-    y_D = -3.000 * x_D ** 2 + 2.870 * x_D - 0.275
+    y_D = -3.000 * x_D**2 + 2.870 * x_D - 0.275
 
     return as_float(y_D)

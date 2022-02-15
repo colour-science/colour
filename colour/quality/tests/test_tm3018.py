@@ -19,7 +19,7 @@ from colour.quality.tm3018 import (
 from colour.utilities import as_float_array
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -33,13 +33,13 @@ __all__ = [
 
 class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):
     """
-    Defines :func:`colour.quality.tm3018.colour_fidelity_index_ANSIIESTM3018`
+    Define :func:`colour.quality.tm3018.colour_fidelity_index_ANSIIESTM3018`
     definition unit tests methods.
     """
 
     def test_colour_fidelity_index_ANSIIESTM3018(self):
         """
-        Tests :func:`colour.quality.tm3018.colour_fidelity_index_ANSIIESTM3018`
+        Test :func:`colour.quality.tm3018.colour_fidelity_index_ANSIIESTM3018`
         definition.
         """
 
@@ -194,14 +194,12 @@ class TestColourFidelityIndexANSIIESTM3018(unittest.TestCase):
 
 class TestAveragesArea(unittest.TestCase):
     """
-    Defines :func:`colour.quality.tm3018.averages_area` definition unit tests
+    Define :func:`colour.quality.tm3018.averages_area` definition unit tests
     methods.
     """
 
     def test_averages_area(self):
-        """
-        Tests :func:`colour.quality.tm3018.averages_area` definition.
-        """
+        """Test :func:`colour.quality.tm3018.averages_area` definition."""
 
         # Simple 3 * sqrt(2) by sqrt(2) rectangle.
         rectangle = as_float_array([[2, 1], [1, 2], [-2, -1], [-1, -2]])

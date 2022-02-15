@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.photometry` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.photometry` module."""
 
 import unittest
 
@@ -14,7 +12,7 @@ from colour.colorimetry import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -29,14 +27,12 @@ __all__ = [
 
 class TestLuminousFlux(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.photometry.luminous_flux` definition unit
+    Define :func:`colour.colorimetry.photometry.luminous_flux` definition unit
     tests methods.
     """
 
     def test_luminous_flux(self):
-        """
-        Tests :func:`colour.colorimetry.photometry.luminous_flux` definition.
-        """
+        """Test :func:`colour.colorimetry.photometry.luminous_flux` definition."""
 
         self.assertAlmostEqual(
             luminous_flux(SDS_ILLUMINANTS["FL2"].copy().normalise()),
@@ -59,13 +55,13 @@ class TestLuminousFlux(unittest.TestCase):
 
 class TestLuminousEfficiency(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.photometry.luminous_efficiency`
+    Define :func:`colour.colorimetry.photometry.luminous_efficiency`
     definition unit tests methods.
     """
 
     def test_luminous_efficiency(self):
         """
-        Tests :func:`colour.colorimetry.photometry.luminous_efficiency`
+        Test :func:`colour.colorimetry.photometry.luminous_efficiency`
         definition.
         """
 
@@ -92,13 +88,13 @@ class TestLuminousEfficiency(unittest.TestCase):
 
 class TestLuminousEfficacy(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.photometry.luminous_efficacy`
+    Define :func:`colour.colorimetry.photometry.luminous_efficacy`
     definition unit tests methods.
     """
 
     def test_luminous_efficacy(self):
         """
-        Tests :func:`colour.colorimetry.photometry.luminous_efficacy`
+        Test :func:`colour.colorimetry.photometry.luminous_efficacy`
         definition.
         """
 

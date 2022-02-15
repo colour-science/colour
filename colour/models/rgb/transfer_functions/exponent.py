@@ -35,7 +35,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -63,7 +63,7 @@ def exponent_function_basic(
     ] = "basicFwd",
 ) -> FloatingOrNDArray:
     """
-    Defines the *basic* exponent transfer function.
+    Define the *basic* exponent transfer function.
 
     Parameters
     ----------
@@ -156,16 +156,12 @@ def exponent_function_basic(
     )
 
     def exponent_forward(x: NDArray) -> NDArray:
-        """
-        Returns the input raised to the exponent value.
-        """
+        """Return the input raised to the exponent value."""
 
-        return x ** exponent
+        return x**exponent
 
     def exponent_reverse(y: NDArray) -> NDArray:
-        """
-        Returns the input raised to the inverse exponent value.
-        """
+        """Return the input raised to the inverse exponent value."""
 
         return y ** (as_float_array(1) / exponent)
 
@@ -202,7 +198,7 @@ def exponent_function_monitor_curve(
     ] = "monCurveFwd",
 ) -> FloatingOrNDArray:
     """
-    Defines the *Monitor Curve* exponent transfer function.
+    Define the *Monitor Curve* exponent transfer function.
 
     Parameters
     ----------
@@ -289,9 +285,7 @@ def exponent_function_monitor_curve(
     def monitor_curve_forward(
         x: NDArray, offset: NDArray, exponent: NDArray
     ) -> NDArray:
-        """
-        Defines the *Monitor Curve Forward* function.
-        """
+        """Define the *Monitor Curve Forward* function."""
 
         x_break = offset / (exponent - 1)
 
@@ -304,9 +298,7 @@ def exponent_function_monitor_curve(
     def monitor_curve_reverse(
         y: NDArray, offset: NDArray, exponent: NDArray
     ) -> NDArray:
-        """
-        Defines the *Monitor Curve Reverse* function.
-        """
+        """Define the *Monitor Curve Reverse* function."""
         y_break = (
             (exponent * offset) / ((exponent - 1) * (1 + offset))
         ) ** exponent

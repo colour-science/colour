@@ -73,7 +73,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -90,14 +90,10 @@ __all__ = [
 ]
 
 MATRIX_16: NDArray = CAT_CAT16
-"""
-Adaptation matrix :math:`M_{16}`.
-"""
+"""Adaptation matrix :math:`M_{16}`."""
 
 MATRIX_INVERSE_16: NDArray = np.linalg.inv(MATRIX_16)
-"""
-Inverse adaptation matrix :math:`M^{-1}_{16}`.
-"""
+"""Inverse adaptation matrix :math:`M^{-1}_{16}`."""
 
 
 class InductionFactors_CAM16(
@@ -141,7 +137,7 @@ References
 @dataclass
 class CAM_Specification_CAM16(MixinDataclassArithmetic):
     """
-    Defines the *CAM16* colour appearance model specification.
+    Define the *CAM16* colour appearance model specification.
 
     Parameters
     ----------
@@ -188,7 +184,7 @@ def XYZ_to_CAM16(
     discount_illuminant: Boolean = False,
 ) -> CAM_Specification_CAM16:
     """
-    Computes the *CAM16* colour appearance model correlates from given
+    Compute the *CAM16* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
 
     Parameters
@@ -219,7 +215,6 @@ def XYZ_to_CAM16(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -370,7 +365,7 @@ def CAM16_to_XYZ(
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
-    Converts from *CAM16* specification to *CIE XYZ* tristimulus values.
+    Convert from *CAM16* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -409,7 +404,6 @@ def CAM16_to_XYZ(
 
     Notes
     -----
-
     +-------------------------------+-----------------------+---------------+
     | **Domain**                    | **Scale - Reference** | **Scale - 1** |
     +===============================+=======================+===============+

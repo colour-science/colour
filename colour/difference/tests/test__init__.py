@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.difference` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.difference import delta_E
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -22,13 +20,11 @@ __all__ = [
 
 
 class TestDelta_E(unittest.TestCase):
-    """
-    Defines :func:`colour.difference.delta_E` definition unit tests methods.
-    """
+    """Define :func:`colour.difference.delta_E` definition unit tests methods."""
 
     def test_domain_range_scale_delta_E(self):
         """
-        Tests :func:`colour.difference.delta_E` definition domain and range
+        Test :func:`colour.difference.delta_E` definition domain and range
         scale support.
         """
 

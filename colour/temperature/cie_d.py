@@ -37,7 +37,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -53,7 +53,7 @@ def xy_to_CCT_CIE_D(
     xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
 ) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` of a
+    Return the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
 
     Parameters
@@ -94,9 +94,7 @@ def xy_to_CCT_CIE_D(
     def objective_function(
         CCT: FloatingOrArrayLike, xy: ArrayLike
     ) -> FloatingOrNDArray:
-        """
-        Objective function.
-        """
+        """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_CIE_D(CCT) - xy)
 
@@ -117,7 +115,7 @@ def xy_to_CCT_CIE_D(
                 objective_function,
                 x0=6500,
                 args=(xy_i,),
-                **optimisation_settings
+                **optimisation_settings,
             ).x
             for xy_i in as_float_array(xy)
         ]
@@ -128,7 +126,7 @@ def xy_to_CCT_CIE_D(
 
 def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates of a
+    Return the *CIE xy* chromaticity coordinates of a
     *CIE Illuminant D Series* from its correlated colour temperature
     :math:`T_{cp}`.
 
@@ -165,18 +163,18 @@ def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:
             "[4000, 25000], unpredictable results may occur!"
         )
 
-    CCT_3 = CCT ** 3
-    CCT_2 = CCT ** 2
+    CCT_3 = CCT**3
+    CCT_2 = CCT**2
 
     x = np.where(
         CCT <= 7000,
-        -4.607 * 10 ** 9 / CCT_3
-        + 2.9678 * 10 ** 6 / CCT_2
-        + 0.09911 * 10 ** 3 / CCT
+        -4.607 * 10**9 / CCT_3
+        + 2.9678 * 10**6 / CCT_2
+        + 0.09911 * 10**3 / CCT
         + 0.244063,
-        -2.0064 * 10 ** 9 / CCT_3
-        + 1.9018 * 10 ** 6 / CCT_2
-        + 0.24748 * 10 ** 3 / CCT
+        -2.0064 * 10**9 / CCT_3
+        + 1.9018 * 10**6 / CCT_2
+        + 0.24748 * 10**3 / CCT
         + 0.23704,
     )
 

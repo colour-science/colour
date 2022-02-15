@@ -28,6 +28,7 @@ from colour.hints import (
     Boolean,
     Callable,
     Floating,
+    Integer,
     Literal,
     Optional,
     cast,
@@ -44,7 +45,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -96,7 +97,7 @@ class Element_Specification_IESTM2714:
 
 class Header_IESTM2714:
     """
-    Defines the header object for a *IES TM-27-14* spectral distribution.
+    Define the header object for a *IES TM-27-14* spectral distribution.
 
     Parameters
     ----------
@@ -146,6 +147,9 @@ class Header_IESTM2714:
     Methods
     -------
     -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__init__`
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__hash__`
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__eq__`
+    -   :meth:`~colour.io.ies_tm2714.Header_IESTM2714.__ne__`
 
     Examples
     --------
@@ -269,9 +273,7 @@ class Header_IESTM2714:
 
     @manufacturer.setter
     def manufacturer(self, value: Optional[str]):
-        """
-        Setter for the **self.manufacturer** property.
-        """
+        """Setter for the **self.manufacturer** property."""
 
         if value is not None:
             attest(
@@ -301,9 +303,7 @@ class Header_IESTM2714:
 
     @catalog_number.setter
     def catalog_number(self, value: Optional[str]):
-        """
-        Setter for the **self.catalog_number** property.
-        """
+        """Setter for the **self.catalog_number** property."""
 
         if value is not None:
             attest(
@@ -333,9 +333,7 @@ class Header_IESTM2714:
 
     @description.setter
     def description(self, value: Optional[str]):
-        """
-        Setter for the **self.description** property.
-        """
+        """Setter for the **self.description** property."""
 
         if value is not None:
             attest(
@@ -365,9 +363,7 @@ class Header_IESTM2714:
 
     @document_creator.setter
     def document_creator(self, value: Optional[str]):
-        """
-        Setter for the **self.document_creator** property.
-        """
+        """Setter for the **self.document_creator** property."""
 
         if value is not None:
             attest(
@@ -397,9 +393,7 @@ class Header_IESTM2714:
 
     @unique_identifier.setter
     def unique_identifier(self, value: Optional[str]):
-        """
-        Setter for the **self.unique_identifier** property.
-        """
+        """Setter for the **self.unique_identifier** property."""
 
         if value is not None:
             attest(
@@ -429,9 +423,7 @@ class Header_IESTM2714:
 
     @measurement_equipment.setter
     def measurement_equipment(self, value: Optional[str]):
-        """
-        Setter for the **self.measurement_equipment** property.
-        """
+        """Setter for the **self.measurement_equipment** property."""
 
         if value is not None:
             attest(
@@ -461,9 +453,7 @@ class Header_IESTM2714:
 
     @laboratory.setter
     def laboratory(self, value: Optional[str]):
-        """
-        Setter for the **self.measurement_equipment** property.
-        """
+        """Setter for the **self.measurement_equipment** property."""
 
         if value is not None:
             attest(
@@ -493,9 +483,7 @@ class Header_IESTM2714:
 
     @report_number.setter
     def report_number(self, value: Optional[str]):
-        """
-        Setter for the **self.report_number** property.
-        """
+        """Setter for the **self.report_number** property."""
 
         if value is not None:
             attest(
@@ -525,9 +513,7 @@ class Header_IESTM2714:
 
     @report_date.setter
     def report_date(self, value: Optional[str]):
-        """
-        Setter for the **self.report_date** property.
-        """
+        """Setter for the **self.report_date** property."""
 
         if value is not None:
             attest(
@@ -557,9 +543,7 @@ class Header_IESTM2714:
 
     @document_creation_date.setter
     def document_creation_date(self, value: Optional[str]):
-        """
-        Setter for the **self.document_creation_date** property.
-        """
+        """Setter for the **self.document_creation_date** property."""
 
         if value is not None:
             attest(
@@ -589,9 +573,7 @@ class Header_IESTM2714:
 
     @comments.setter
     def comments(self, value: Optional[str]):
-        """
-        Setter for the **self.comments** property.
-        """
+        """Setter for the **self.comments** property."""
 
         if value is not None:
             attest(
@@ -601,10 +583,101 @@ class Header_IESTM2714:
 
         self._comments = value
 
+    def __hash__(self) -> Integer:
+        """
+        Return the header hash.
+
+        Returns
+        -------
+        :class:`numpy.integer`
+            Object hash.
+        """
+
+        return hash(
+            (
+                self._manufacturer,
+                self._catalog_number,
+                self._description,
+                self._document_creator,
+                self._unique_identifier,
+                self._measurement_equipment,
+                self._laboratory,
+                self._report_number,
+                self._report_date,
+                self._document_creation_date,
+                self._comments,
+            )
+        )
+
+    def __eq__(self, other: Any) -> Boolean:
+        """
+        Return whether the header is equal to given other object.
+
+        Parameters
+        ----------
+        other
+            Object to test whether it is equal to the header.
+
+        Returns
+        -------
+        :class:`bool`
+            Whether given object is equal to the header.
+
+        Examples
+        --------
+        >>> Header_IESTM2714('Foo') == Header_IESTM2714('Foo')
+        True
+        >>> Header_IESTM2714('Foo') == Header_IESTM2714('Bar')
+        False
+        """
+
+        if isinstance(other, Header_IESTM2714):
+            return all(
+                [
+                    self._manufacturer == other.manufacturer,
+                    self._catalog_number == other.catalog_number,
+                    self._description == other.description,
+                    self._document_creator == other.document_creator,
+                    self._unique_identifier == other.unique_identifier,
+                    self._measurement_equipment == other.measurement_equipment,
+                    self._laboratory == other.laboratory,
+                    self._report_number == other.report_number,
+                    self._report_date == other.report_date,
+                    self._document_creation_date
+                    == other.document_creation_date,
+                    self._comments == other.comments,
+                ]
+            )
+        return False
+
+    def __ne__(self, other: Any) -> Boolean:
+        """
+        Return whether the header is not equal to given other object.
+
+        Parameters
+        ----------
+        other
+            Object to test whether it is not equal to the header.
+
+        Returns
+        -------
+        :class:`bool`
+            Whether given object is not equal to the header.
+
+        Examples
+        --------
+        >>> Header_IESTM2714('Foo') != Header_IESTM2714('Foo')
+        False
+        >>> Header_IESTM2714('Foo') != Header_IESTM2714('Bar')
+        True
+        """
+
+        return not (self == other)
+
 
 class SpectralDistribution_IESTM2714(SpectralDistribution):
     """
-    Defines a *IES TM-27-14* spectral distribution.
+    Define a *IES TM-27-14* spectral distribution.
 
     This class can read and write *IES TM-27-14* spectral data *XML* files.
 
@@ -873,9 +946,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     @path.setter
     def path(self, value: Optional[str]):
-        """
-        Setter for the **self.path** property.
-        """
+        """Setter for the **self.path** property."""
 
         if value is not None:
             attest(
@@ -905,13 +976,11 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     @header.setter
     def header(self, value: Header_IESTM2714):
-        """
-        Setter for the **self.header** property.
-        """
+        """Setter for the **self.header** property."""
 
         attest(
             isinstance(value, Header_IESTM2714),
-            f'"header" property: "{value}" type is not a "Header_IESTM2714"!',
+            f'"header" property: "{value}" type is not "Header_IESTM2714"!',
         )
 
         self._header = value
@@ -971,9 +1040,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             ]
         ],
     ):
-        """
-        Setter for the **self.spectral_quantity** property.
-        """
+        """Setter for the **self.spectral_quantity** property."""
 
         if value is not None:
             attest(
@@ -1038,9 +1105,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             ]
         ],
     ):
-        """
-        Setter for the **self.reflection_geometry** property.
-        """
+        """Setter for the **self.reflection_geometry** property."""
 
         if value is not None:
             attest(
@@ -1079,9 +1144,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
             Literal["0:0", "di:0", "de:0", "0:di", "0:de", "d:d", "other"]
         ],
     ):
-        """
-        Setter for the **self.transmission_geometry** property.
-        """
+        """Setter for the **self.transmission_geometry** property."""
 
         if value is not None:
             attest(
@@ -1111,14 +1174,12 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     @bandwidth_FWHM.setter
     def bandwidth_FWHM(self, value: Optional[Floating]):
-        """
-        Setter for the **self.bandwidth_FWHM** property.
-        """
+        """Setter for the **self.bandwidth_FWHM** property."""
 
         if value is not None:
             attest(
                 is_numeric(value),
-                f'"bandwidth_FWHM" property: "{value}" is not a "numeric"!',
+                f'"bandwidth_FWHM" property: "{value}" is not a "number"!',
             )
 
             value = as_float_scalar(value)
@@ -1138,7 +1199,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         Returns
         -------
-        :class:`bool`
+        :py:data:`None` or :class:`bool`
             Whether bandwidth correction has been applied to the measured data.
         """
 
@@ -1146,9 +1207,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     @bandwidth_corrected.setter
     def bandwidth_corrected(self, value: Optional[Boolean]):
-        """
-        Setter for the **self.bandwidth_corrected** property.
-        """
+        """Setter for the **self.bandwidth_corrected** property."""
 
         if value is not None:
             attest(
@@ -1160,12 +1219,17 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
     def read(self) -> SpectralDistribution_IESTM2714:
         """
-        Reads and parses the spectral data *XML* file path.
+        Read and parses the spectral data *XML* file path.
 
         Returns
         -------
         :class:`colour.SpectralDistribution_IESTM2714`
             *IES TM-27-14* spectral distribution.
+
+        Raises
+        ------
+        ValueError
+            If the *IES TM-27-14* spectral distribution path is undefined.
 
         Examples
         --------

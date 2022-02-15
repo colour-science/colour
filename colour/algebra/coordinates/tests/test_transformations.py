@@ -18,7 +18,7 @@ from colour.algebra import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -36,13 +36,13 @@ __all__ = [
 
 class TestCartesianToSpherical(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.\
+    Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_spherical` definition unit tests methods.
     """
 
     def test_cartesian_to_spherical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_spherical` definition.
         """
 
@@ -66,7 +66,7 @@ cartesian_to_spherical` definition.
 
     def test_n_dimensional_cartesian_to_spherical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_spherical` definition n-dimensional arrays support.
         """
 
@@ -88,7 +88,7 @@ cartesian_to_spherical` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_cartesian_to_spherical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_spherical` definition nan support.
         """
 
@@ -101,13 +101,13 @@ cartesian_to_spherical` definition nan support.
 
 class TestSphericalToCartesian(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.\
+    Define :func:`colour.algebra.coordinates.transformations.\
 spherical_to_cartesian` definition unit tests methods.
     """
 
     def test_spherical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 spherical_to_cartesian` definition.
         """
 
@@ -137,7 +137,7 @@ spherical_to_cartesian` definition.
 
     def test_n_dimensional_spherical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 spherical_to_cartesian` definition n-dimensional arrays support.
         """
 
@@ -159,7 +159,7 @@ spherical_to_cartesian` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_spherical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 spherical_to_cartesian` definition nan support.
         """
 
@@ -172,13 +172,13 @@ spherical_to_cartesian` definition nan support.
 
 class TestCartesianToPolar(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.\
+    Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_polar` definition unit tests methods.
     """
 
     def test_cartesian_to_polar(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_polar` definition.
         """
 
@@ -202,7 +202,7 @@ cartesian_to_polar` definition.
 
     def test_n_dimensional_cartesian_to_polar(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_polar` definition n-dimensional arrays support.
         """
 
@@ -220,7 +220,7 @@ cartesian_to_polar` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_cartesian_to_polar(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_polar` definition nan support.
         """
 
@@ -233,13 +233,13 @@ cartesian_to_polar` definition nan support.
 
 class TestPolarToCartesian(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.\
+    Define :func:`colour.algebra.coordinates.transformations.\
 polar_to_cartesian` definition unit tests methods.
     """
 
     def test_polar_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 polar_to_cartesian` definition.
         """
 
@@ -263,7 +263,7 @@ polar_to_cartesian` definition.
 
     def test_n_dimensional_polar_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 polar_to_cartesian` definition n-dimensional arrays support.
         """
 
@@ -281,7 +281,7 @@ polar_to_cartesian` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_polar_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 polar_to_cartesian` definition nan support.
         """
 
@@ -294,13 +294,13 @@ polar_to_cartesian` definition nan support.
 
 class TestCartesianToCylindrical(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.\
+    Define :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_cylindrical` definition unit tests methods.
     """
 
     def test_cartesian_to_cylindrical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_cylindrical` definition.
         """
 
@@ -324,7 +324,7 @@ cartesian_to_cylindrical` definition.
 
     def test_n_dimensional_cartesian_to_cylindrical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_cylindrical` definition n-dimensional arrays support.
         """
 
@@ -346,7 +346,7 @@ cartesian_to_cylindrical` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_cartesian_to_cylindrical(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cartesian_to_cylindrical` definition nan support.
         """
 
@@ -359,13 +359,13 @@ cartesian_to_cylindrical` definition nan support.
 
 class TestCylindricalToCartesian(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.coordinates.transformations.\
+    Define :func:`colour.algebra.coordinates.transformations.\
 cylindrical_to_cartesian` definition unit tests methods.
     """
 
     def test_cylindrical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cylindrical_to_cartesian` definition.
         """
 
@@ -395,7 +395,7 @@ cylindrical_to_cartesian` definition.
 
     def test_n_dimensional_cylindrical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cylindrical_to_cartesian` definition n-dimensional arrays support.
         """
 
@@ -417,7 +417,7 @@ cylindrical_to_cartesian` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_cylindrical_to_cartesian(self):
         """
-        Tests :func:`colour.algebra.coordinates.transformations.\
+        Test :func:`colour.algebra.coordinates.transformations.\
 cylindrical_to_cartesian` definition nan support.
         """
 

@@ -28,7 +28,7 @@ from colour.models.rgb import (
 from colour.models.rgb.datasets import RGB_COLOURSPACE_DCI_P3
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-science@googlegroups.com"
@@ -44,33 +44,23 @@ __all__ = [
 ]
 
 PRIMARIES_DISPLAY_P3: NDArray = RGB_COLOURSPACE_DCI_P3.primaries
-"""
-*Display P3* colourspace primaries.
-"""
+"""*Display P3* colourspace primaries."""
 
 WHITEPOINT_NAME_DISPLAY_P3: str = "D65"
-"""
-*Display P3* colourspace whitepoint name.
-"""
+"""*Display P3* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_DISPLAY_P3: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_DISPLAY_P3]
-"""
-*Display P3* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Display P3* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_DISPLAY_P3_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_DISPLAY_P3, CCS_WHITEPOINT_DISPLAY_P3
 )
-"""
-*Display P3* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Display P3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_DISPLAY_P3: NDArray = np.linalg.inv(MATRIX_DISPLAY_P3_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Display P3* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Display P3* colourspace matrix."""
 
 RGB_COLOURSPACE_DISPLAY_P3: RGB_Colourspace = RGB_Colourspace(
     "Display P3",

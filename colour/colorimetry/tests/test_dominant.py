@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.dominant` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.dominant` module."""
 
 import numpy as np
 import unittest
@@ -21,7 +19,7 @@ from colour.models import XYZ_to_xy
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -38,14 +36,12 @@ __all__ = [
 
 class TestClosestSpectralLocusWavelength(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.dominant.\
+    Define :func:`colour.colorimetry.dominant.\
 closest_spectral_locus_wavelength` definition unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_s = XYZ_to_xy(
             MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].values
@@ -57,7 +53,7 @@ closest_spectral_locus_wavelength` definition unit tests methods.
 
     def test_closest_spectral_locus_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.\
+        Test :func:`colour.colorimetry.dominant.\
 closest_spectral_locus_wavelength` definition.
         """
 
@@ -80,7 +76,7 @@ closest_spectral_locus_wavelength` definition.
 
     def test_n_dimensional_closest_spectral_locus_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.\
+        Test :func:`colour.colorimetry.dominant.\
 closest_spectral_locus_wavelength` definition n-dimensional arrays support.
         """
 
@@ -110,7 +106,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_closest_spectral_locus_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.\
+        Test :func:`colour.colorimetry.dominant.\
 closest_spectral_locus_wavelength` definition nan support.
         """
 
@@ -125,14 +121,12 @@ closest_spectral_locus_wavelength` definition nan support.
 
 class TestDominantWavelength(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.dominant.dominant_wavelength` definition
+    Define :func:`colour.colorimetry.dominant.dominant_wavelength` definition
     unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D65"
@@ -140,7 +134,7 @@ class TestDominantWavelength(unittest.TestCase):
 
     def test_dominant_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.dominant_wavelength`
+        Test :func:`colour.colorimetry.dominant.dominant_wavelength`
         definition.
         """
 
@@ -169,7 +163,7 @@ class TestDominantWavelength(unittest.TestCase):
 
     def test_n_dimensional_dominant_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.dominant_wavelength`
+        Test :func:`colour.colorimetry.dominant.dominant_wavelength`
         definition n-dimensional arrays support.
         """
 
@@ -208,7 +202,7 @@ class TestDominantWavelength(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_dominant_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.dominant_wavelength`
+        Test :func:`colour.colorimetry.dominant.dominant_wavelength`
         definition nan support.
         """
 
@@ -223,14 +217,12 @@ class TestDominantWavelength(unittest.TestCase):
 
 class TestComplementaryWavelength(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.dominant.complementary_wavelength`
+    Define :func:`colour.colorimetry.dominant.complementary_wavelength`
     definition unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D65"
@@ -238,7 +230,7 @@ class TestComplementaryWavelength(unittest.TestCase):
 
     def test_complementary_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.complementary_wavelength`
+        Test :func:`colour.colorimetry.dominant.complementary_wavelength`
         definition.
         """
 
@@ -267,7 +259,7 @@ class TestComplementaryWavelength(unittest.TestCase):
 
     def test_n_dimensional_complementary_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.complementary_wavelength`
+        Test :func:`colour.colorimetry.dominant.complementary_wavelength`
         definition n-dimensional arrays support.
         """
 
@@ -306,7 +298,7 @@ class TestComplementaryWavelength(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_complementary_wavelength(self):
         """
-        Tests :func:`colour.colorimetry.dominant.complementary_wavelength`
+        Test :func:`colour.colorimetry.dominant.complementary_wavelength`
         definition nan support.
         """
 
@@ -321,23 +313,19 @@ class TestComplementaryWavelength(unittest.TestCase):
 
 class TestExcitationPurity(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.dominant.excitation_purity` definition
+    Define :func:`colour.colorimetry.dominant.excitation_purity` definition
     unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D65"
         ]
 
     def test_excitation_purity(self):
-        """
-        Tests :func:`colour.colorimetry.dominant.excitation_purity` definition.
-        """
+        """Test :func:`colour.colorimetry.dominant.excitation_purity` definition."""
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -353,7 +341,7 @@ class TestExcitationPurity(unittest.TestCase):
 
     def test_n_dimensional_excitation_purity(self):
         """
-        Tests :func:`colour.colorimetry.dominant.excitation_purity` definition
+        Test :func:`colour.colorimetry.dominant.excitation_purity` definition
         n-dimensional arrays support.
         """
 
@@ -378,7 +366,7 @@ class TestExcitationPurity(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_excitation_purity(self):
         """
-        Tests :func:`colour.colorimetry.dominant.excitation_purity` definition
+        Test :func:`colour.colorimetry.dominant.excitation_purity` definition
         nan support.
         """
 
@@ -393,14 +381,12 @@ class TestExcitationPurity(unittest.TestCase):
 
 class TestColorimetricPurity(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.dominant.colorimetric_purity` definition
+    Define :func:`colour.colorimetry.dominant.colorimetric_purity` definition
     unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D65"
@@ -408,7 +394,7 @@ class TestColorimetricPurity(unittest.TestCase):
 
     def test_colorimetric_purity(self):
         """
-        Tests :func:`colour.colorimetry.dominant.colorimetric_purity`
+        Test :func:`colour.colorimetry.dominant.colorimetric_purity`
         definition.
         """
 
@@ -426,7 +412,7 @@ class TestColorimetricPurity(unittest.TestCase):
 
     def test_n_dimensional_colorimetric_purity(self):
         """
-        Tests :func:`colour.colorimetry.dominant.colorimetric_purity`
+        Test :func:`colour.colorimetry.dominant.colorimetric_purity`
         definition n-dimensional arrays support.
         """
 
@@ -451,7 +437,7 @@ class TestColorimetricPurity(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_colorimetric_purity(self):
         """
-        Tests :func:`colour.colorimetry.dominant.colorimetric_purity`
+        Test :func:`colour.colorimetry.dominant.colorimetric_purity`
         definition nan support.
         """
 

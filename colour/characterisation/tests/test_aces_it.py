@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.characterisation.aces_it` module.
-"""
+"""Defines the unit tests for the :mod:`colour.characterisation.aces_it` module."""
 
 from __future__ import annotations
 
@@ -41,7 +39,7 @@ from colour.io import read_sds_from_csv_file
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -86,13 +84,13 @@ SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = (
 
 class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.\
+    Define :func:`colour.characterisation.aces_it.\
 sd_to_aces_relative_exposure_values` definition unit tests methods.
     """
 
     def test_spectral_to_aces_relative_exposure_values(self):
         """
-                Tests :func:`colour.characterisation.aces_it.
+                Test :func:`colour.characterisation.aces_it.
         sd_to_aces_relative_exposure_values` definition.
         """
 
@@ -151,7 +149,7 @@ sd_to_aces_relative_exposure_values` definition unit tests methods.
         self,
     ):
         """
-                Tests :func:`colour.characterisation.aces_it.
+                Test :func:`colour.characterisation.aces_it.
         sd_to_aces_relative_exposure_values`  definition domain and range scale
                 support.
         """
@@ -172,13 +170,13 @@ sd_to_aces_relative_exposure_values` definition unit tests methods.
 
 class TestReadTrainingDataRawtoacesV1(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.\
+    Define :func:`colour.characterisation.aces_it.\
 read_training_data_rawtoaces_v1` definition unit tests methods.
     """
 
     def test_read_training_data_rawtoaces_v1(self):
         """
-                Tests :func:`colour.characterisation.aces_it.
+                Test :func:`colour.characterisation.aces_it.
         read_training_data_rawtoaces_v1` definition.
         """
 
@@ -187,13 +185,13 @@ read_training_data_rawtoaces_v1` definition unit tests methods.
 
 class TestGenerateIlluminantsRawtoacesV1(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.\
+    Define :func:`colour.characterisation.aces_it.\
 generate_illuminants_rawtoaces_v1` definition unit tests methods.
     """
 
     def test_generate_illuminants_rawtoaces_v1(self):
         """
-                Tests :func:`colour.characterisation.aces_it.
+                Test :func:`colour.characterisation.aces_it.
         generate_illuminants_rawtoaces_v1` definition.
         """
 
@@ -256,13 +254,13 @@ generate_illuminants_rawtoaces_v1` definition unit tests methods.
 
 class TestWhiteBalanceMultipliers(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.white_balance_multipliers`
+    Define :func:`colour.characterisation.aces_it.white_balance_multipliers`
     definition unit tests methods.
     """
 
     def test_white_balance_multipliers(self):
         """
-        Tests :func:`colour.characterisation.aces_it.white_balance_multipliers`
+        Test :func:`colour.characterisation.aces_it.white_balance_multipliers`
         definition.
         """
 
@@ -286,13 +284,13 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
 
 class TestBestIlluminant(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.best_illuminant` definition
+    Define :func:`colour.characterisation.aces_it.best_illuminant` definition
     unit tests methods.
     """
 
     def test_best_illuminant(self):
         """
-        Tests :func:`colour.characterisation.aces_it.best_illuminant`
+        Test :func:`colour.characterisation.aces_it.best_illuminant`
         definition.
         """
 
@@ -321,13 +319,13 @@ class TestBestIlluminant(unittest.TestCase):
 
 class TestNormaliseIlluminant(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.normalise_illuminant`
+    Define :func:`colour.characterisation.aces_it.normalise_illuminant`
     definition unit tests methods.
     """
 
     def test_normalise_illuminant(self):
         """
-        Tests :func:`colour.characterisation.aces_it.normalise_illuminant`
+        Test :func:`colour.characterisation.aces_it.normalise_illuminant`
         definition.
         """
 
@@ -344,13 +342,13 @@ class TestNormaliseIlluminant(unittest.TestCase):
 
 class TestTrainingDataSdsToRGB(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.training_data_sds_to_RGB`
+    Define :func:`colour.characterisation.aces_it.training_data_sds_to_RGB`
     definition unit tests methods.
     """
 
     def test_training_data_sds_to_RGB(self):
         """
-        Tests :func:`colour.characterisation.aces_it.training_data_sds_to_RGB`
+        Test :func:`colour.characterisation.aces_it.training_data_sds_to_RGB`
         definition.
         """
 
@@ -608,13 +606,13 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
 
 class TestTrainingDataSdsToXYZ(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.training_data_sds_to_XYZ`
+    Define :func:`colour.characterisation.aces_it.training_data_sds_to_XYZ`
     definition unit tests methods.
     """
 
     def test_training_data_sds_to_XYZ(self):
         """
-        Tests :func:`colour.characterisation.aces_it.training_data_sds_to_XYZ`
+        Test :func:`colour.characterisation.aces_it.training_data_sds_to_XYZ`
         definition.
         """
 
@@ -903,13 +901,13 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
 
 class TestOptimizationFactoryRawtoacesV1(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.\
+    Define :func:`colour.characterisation.aces_it.\
 optimisation_factory_rawtoaces_v1` definition unit tests methods.
     """
 
     def test_optimisation_factory_rawtoaces_v1(self):
         """
-        Tests :func:`colour.characterisation.aces_it.\
+        Test :func:`colour.characterisation.aces_it.\
 optimisation_factory_rawtoaces_v1` definition.
         """
 
@@ -918,13 +916,13 @@ optimisation_factory_rawtoaces_v1` definition.
 
 class TestOptimizationFactoryJzazbz(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.\
+    Define :func:`colour.characterisation.aces_it.\
 optimisation_factory_Jzazbz` definition unit tests methods.
     """
 
     def test_optimisation_factory_Jzazbz(self):
         """
-        Tests :func:`colour.characterisation.aces_it.\
+        Test :func:`colour.characterisation.aces_it.\
 optimisation_factory_Jzazbz` definition.
         """
 
@@ -933,13 +931,13 @@ optimisation_factory_Jzazbz` definition.
 
 class TestMatrixIdt(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.matrix_idt`
+    Define :func:`colour.characterisation.aces_it.matrix_idt`
     definition unit tests methods.
     """
 
     def test_matrix_idt(self):
         """
-        Tests :func:`colour.characterisation.aces_it.matrix_idt`
+        Test :func:`colour.characterisation.aces_it.matrix_idt`
         definition.
         """
 
@@ -1112,13 +1110,13 @@ class TestMatrixIdt(unittest.TestCase):
 
 class TestCamera_RGB_to_ACES2065_1(unittest.TestCase):
     """
-    Defines :func:`colour.characterisation.aces_it.\
+    Define :func:`colour.characterisation.aces_it.\
 camera_RGB_to_ACES2065_1` definition unit tests methods.
     """
 
     def test_camera_RGB_to_ACES2065_1(self):
         """
-        Tests :func:`colour.characterisation.aces_it.\
+        Test :func:`colour.characterisation.aces_it.\
 camera_RGB_to_ACES2065_1` definition.
         """
 

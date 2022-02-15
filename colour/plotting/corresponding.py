@@ -26,7 +26,7 @@ from colour.plotting import (
 from colour.utilities import is_numeric
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -56,7 +56,7 @@ def plot_corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given chromatic adaptation model corresponding chromaticities
+    Plot given chromatic adaptation model corresponding chromaticities
     prediction.
 
     Parameters
@@ -109,9 +109,9 @@ Plot_Corresponding_Chromaticities_Prediction.png
         else experiment.name  # type: ignore[union-attr]
     )
     title = (
-        "Corresponding Chromaticities Prediction - {} - {} - "
+        f"Corresponding Chromaticities Prediction - {model} - {name} - "
         "CIE 1976 UCS Chromaticity Diagram"
-    ).format(model, name)
+    )
 
     settings = {"axes": axes, "title": title}
     settings.update(kwargs)
@@ -133,6 +133,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
             color=CONSTANTS_COLOUR_STYLE.colour.dark,
             head_width=0.005,
             head_length=0.005,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_annotation,
         )
         axes.plot(
             uv_t[0],
@@ -145,6 +146,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
                 + CONSTANTS_COLOUR_STYLE.geometry.short * 0.75
             ),
             markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         )
         axes.plot(
             uv_m[0],
@@ -157,9 +159,14 @@ Plot_Corresponding_Chromaticities_Prediction.png
                 + CONSTANTS_COLOUR_STYLE.geometry.short * 0.75
             ),
             markeredgewidth=CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         )
         axes.plot(
-            uv_p[0], uv_p[1], "^", color=CONSTANTS_COLOUR_STYLE.colour.dark
+            uv_p[0],
+            uv_p[1],
+            "^",
+            color=CONSTANTS_COLOUR_STYLE.colour.dark,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
         )
 
     settings.update(

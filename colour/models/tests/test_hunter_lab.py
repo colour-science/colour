@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.hunter_lab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.hunter_lab` module."""
 
 import numpy as np
 import unittest
@@ -16,7 +14,7 @@ from colour.models import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -31,13 +29,13 @@ __all__ = [
 
 class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
     """
-    Defines :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
+    Define :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
     definition unit tests methods.
     """
 
     def test_XYZ_to_K_ab_HunterLab1966(self):
         """
-        Tests :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
+        Test :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
         definition.
         """
 
@@ -67,7 +65,7 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_K_ab_HunterLab1966(self):
         """
-        Tests :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
+        Test :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
         definition n-dimensional support.
         """
 
@@ -89,7 +87,7 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_K_ab_HunterLab1966(self):
         """
-        Tests :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
+        Test :func:`colour.models.hunter_lab.XYZ_to_K_ab_HunterLab1966`
         definition nan support.
         """
 
@@ -101,14 +99,12 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
 
 class TestXYZ_to_Hunter_Lab(unittest.TestCase):
     """
-    Defines :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition unit
+    Define :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition unit
     tests methods.
     """
 
     def test_XYZ_to_Hunter_Lab(self):
-        """
-        Tests :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition.
-        """
+        """Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(
@@ -169,7 +165,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_Hunter_Lab(self):
         """
-        Tests :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition
+        Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition
         n-dimensional support.
         """
 
@@ -203,7 +199,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_Hunter_Lab(self):
         """
-        Tests :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition
+        Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition
         domain and range scale support.
         """
 
@@ -227,7 +223,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_Hunter_Lab(self):
         """
-        Tests :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition nan
+        Test :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition nan
         support.
         """
 
@@ -242,14 +238,12 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
 
 class TestHunter_Lab_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition unit
+    Define :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition unit
     tests methods.
     """
 
     def test_Hunter_Lab_to_XYZ(self):
-        """
-        Tests :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(
@@ -310,7 +304,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_Hunter_Lab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition
+        Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition
         n-dimensional support.
         """
 
@@ -344,7 +338,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
 
     def test_domain_range_scale_Hunter_Lab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition
+        Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition
         domain and range scale support.
         """
 
@@ -368,7 +362,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_Hunter_Lab_to_XYZ(self):
         """
-        Tests :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition
+        Test :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition
         nan support.
         """
 

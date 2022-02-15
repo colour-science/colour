@@ -118,14 +118,12 @@ from colour.plotting.section import (  # noqa
 )
 from colour.plotting.temperature import (  # noqa
     plot_planckian_locus,
-    plot_planckian_locus_CIE1931,
-    plot_planckian_locus_CIE1960UCS,
     plot_planckian_locus_in_chromaticity_diagram,
 )
 from colour.quality import colour_quality_scale  # noqa
 from colour.utilities import domain_range_scale, filter_warnings  # noqa
 
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -138,7 +136,7 @@ __all__ = [
 
 def generate_documentation_plots(output_directory: str):
     """
-    Generates documentation plots.
+    Generate documentation plots.
 
     Parameters
     ----------
@@ -192,7 +190,7 @@ def generate_documentation_plots(output_directory: str):
             plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
             legend_location="upper right",
             bounding_box=(0, 1250, 0, 2.5e6),
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -204,7 +202,7 @@ def generate_documentation_plots(output_directory: str):
             "Stockman & Sharpe 2 Degree Cone Fundamentals",
             y_label="Sensitivity",
             bounding_box=(390, 870, 0, 1.1),
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -222,7 +220,7 @@ def generate_documentation_plots(output_directory: str):
             legend_location="upper right",
             y_tighten=True,
             margins=(0, 0, 0, 0.1),
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -234,7 +232,7 @@ def generate_documentation_plots(output_directory: str):
             SDS_COLOURCHECKERS["BabelColor Average"].values(),
             plot_kwargs={"use_sd_colours": True},
             title=("BabelColor Average - " "Spectral Distributions"),
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -267,7 +265,7 @@ def generate_documentation_plots(output_directory: str):
             "ITU-R BT.709",
             colourspaces=["ACEScg", "S-Gamut"],
             show_pointer_gamut=True,
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -507,7 +505,11 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Chromaticity_Diagram_Colours.png"
     )
-    plt.close(plot_chromaticity_diagram_colours(**arguments)[0])
+    plt.close(
+        plot_chromaticity_diagram_colours(diagram_colours="RGB", **arguments)[
+            0
+        ]
+    )
 
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Chromaticity_Diagram.png"
@@ -899,17 +901,9 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Planckian_Locus.png"
     )
-    plt.close(plot_planckian_locus(**arguments)[0])
-
-    arguments["filename"] = os.path.join(
-        output_directory, "Plotting_Plot_Planckian_Locus_CIE1931.png"
+    plt.close(
+        plot_planckian_locus(planckian_locus_colours="RGB", **arguments)[0]
     )
-    plt.close(plot_planckian_locus_CIE1931(**arguments)[0])
-
-    arguments["filename"] = os.path.join(
-        output_directory, "Plotting_Plot_Planckian_Locus_CIE1960UCS.png"
-    )
-    plt.close(plot_planckian_locus_CIE1960UCS(**arguments)[0])
 
     arguments["filename"] = os.path.join(
         output_directory,
@@ -1121,7 +1115,7 @@ def generate_documentation_plots(output_directory: str):
         plot_single_colour_swatch(
             ColourSwatch(RGB, "Sample"),
             text_kwargs={"size": "x-large"},
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -1137,7 +1131,7 @@ def generate_documentation_plots(output_directory: str):
         plot_single_colour_swatch(
             ColourSwatch(RGB, patch_name.title()),
             text_kwargs={"size": "x-large"},
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -1148,7 +1142,7 @@ def generate_documentation_plots(output_directory: str):
         plot_single_colour_checker(
             colour_checker="ColorChecker 2005",
             text_kwargs={"visible": False},
-            **arguments
+            **arguments,
         )[0]
     )
 
@@ -1173,7 +1167,7 @@ def generate_documentation_plots(output_directory: str):
             limits=(-0.1, 0.9, -0.1, 0.9),
             x_tighten=True,
             y_tighten=True,
-            **arguments
+            **arguments,
         )[0]
     )
 

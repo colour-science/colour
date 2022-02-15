@@ -1,13 +1,11 @@
-"""
-Defines the unit tests for the :mod:`colour.continuous.abstract` module.
-"""
+"""Defines the unit tests for the :mod:`colour.continuous.abstract` module."""
 
 import unittest
 
 from colour.continuous import AbstractContinuousFunction
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -20,14 +18,12 @@ __all__ = [
 
 class TestAbstractContinuousFunction(unittest.TestCase):
     """
-    Defines :class:`colour.continuous.abstract.AbstractContinuousFunction`
+    Define :class:`colour.continuous.abstract.AbstractContinuousFunction`
     class unit tests methods.
     """
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "name",
@@ -44,9 +40,7 @@ class TestAbstractContinuousFunction(unittest.TestCase):
             self.assertIn(attribute, dir(AbstractContinuousFunction))
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",

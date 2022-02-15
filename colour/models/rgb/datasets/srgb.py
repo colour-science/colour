@@ -1,5 +1,5 @@
 """
-sRGB Colourspace
+SRGB Colourspace
 ================
 
 Defines the *sRGB* colourspace:
@@ -30,7 +30,7 @@ from colour.hints import NDArray
 from colour.models.rgb import RGB_Colourspace, eotf_inverse_sRGB, eotf_sRGB
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -52,21 +52,15 @@ PRIMARIES_sRGB: NDArray = np.array(
         [0.1500, 0.0600],
     ]
 )
-"""
-*sRGB* colourspace primaries.
-"""
+"""*sRGB* colourspace primaries."""
 
 WHITEPOINT_NAME_sRGB: str = "D65"
-"""
-*sRGB* colourspace whitepoint name.
-"""
+"""*sRGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_sRGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_sRGB]
-"""
-*sRGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*sRGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_sRGB_TO_XYZ: NDArray = np.array(
     [
@@ -75,9 +69,7 @@ MATRIX_sRGB_TO_XYZ: NDArray = np.array(
         [0.0193, 0.1192, 0.9505],
     ]
 )
-"""
-*sRGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*sRGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_sRGB: NDArray = np.array(
     [
@@ -86,9 +78,7 @@ MATRIX_XYZ_TO_sRGB: NDArray = np.array(
         [0.0557, -0.2040, 1.0570],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to *sRGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *sRGB* colourspace matrix."""
 
 RGB_COLOURSPACE_sRGB: RGB_Colourspace = RGB_Colourspace(
     "sRGB",

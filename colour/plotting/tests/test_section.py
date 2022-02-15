@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.section` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.section` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure
@@ -18,7 +16,7 @@ from colour.plotting.section import (
 from colour.utilities import is_trimesh_installed
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -34,13 +32,13 @@ __all__ = [
 
 class TestPlotHullSectionColours(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.section.plot_hull_section_colours`
+    Define :func:`colour.plotting.section.plot_hull_section_colours`
     definition unit tests methods.
     """
 
     def test_plot_hull_section_colours(self):
         """
-        Tests :func:`colour.plotting.section.plot_hull_section_colours`
+        Test :func:`colour.plotting.section.plot_hull_section_colours`
         definition.
         """
 
@@ -76,13 +74,13 @@ class TestPlotHullSectionColours(unittest.TestCase):
 
 class TestPlotHullSectionContour(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.section.plot_hull_section_contour`
+    Define :func:`colour.plotting.section.plot_hull_section_contour`
     definition unit tests methods.
     """
 
     def test_plot_hull_section_contour(self):
         """
-        Tests :func:`colour.plotting.section.plot_hull_section_contour`
+        Test :func:`colour.plotting.section.plot_hull_section_contour`
         definition.
         """
 
@@ -108,13 +106,13 @@ class TestPlotHullSectionContour(unittest.TestCase):
 
 class TestPlotVisibleSpectrumSection(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.section.plot_visible_spectrum_section`
+    Define :func:`colour.plotting.section.plot_visible_spectrum_section`
     definition unit tests methods.
     """
 
     def test_plot_visible_spectrum_section(self):
         """
-        Tests :func:`colour.plotting.section.plot_visible_spectrum_section`
+        Test :func:`colour.plotting.section.plot_visible_spectrum_section`
         definition.
         """
 
@@ -129,13 +127,13 @@ class TestPlotVisibleSpectrumSection(unittest.TestCase):
 
 class TestPlotRGBColourspaceSection(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.section.plot_RGB_colourspace_section`
+    Define :func:`colour.plotting.section.plot_RGB_colourspace_section`
     definition unit tests methods.
     """
 
     def test_plot_RGB_colourspace_section(self):
         """
-        Tests :func:`colour.plotting.section.plot_RGB_colourspace_section`
+        Test :func:`colour.plotting.section.plot_RGB_colourspace_section`
         definition.
         """
 

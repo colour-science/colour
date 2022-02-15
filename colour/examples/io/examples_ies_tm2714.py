@@ -1,6 +1,4 @@
-"""
-Showcases *IES TM-27-14* spectral data *XML* files input / output examples.
-"""
+"""Showcases *IES TM-27-14* spectral data *XML* files input / output examples."""
 
 import os
 

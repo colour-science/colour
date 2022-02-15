@@ -18,7 +18,7 @@ from colour.hints import Literal, Union
 from colour.utilities import required, validate_method
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -38,7 +38,7 @@ def plot_automatic_colour_conversion_graph(
     args: str = "",
 ) -> AGraph:  # type: ignore[name-defined]  # noqa
     """
-    Plots *Colour* automatic colour conversion graph using
+    Plot *Colour* automatic colour conversion graph using
     `Graphviz <https://www.graphviz.org/>`__ and
     `pyraphviz <https://pygraphviz.github.io>`__.
 

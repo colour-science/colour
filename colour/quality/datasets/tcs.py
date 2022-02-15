@@ -24,7 +24,7 @@ from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -53,9 +53,7 @@ INDEXES_TO_NAMES_TCS: Dict = {
     13: "TCS13",
     14: "TCS14",
 }
-"""
-Test colour samples indexes to names mapping.
-"""
+"""Test colour samples indexes to names mapping."""
 
 APPROXIMATE_MUNSELL_NOTATIONS_TCS: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(
@@ -77,9 +75,7 @@ APPROXIMATE_MUNSELL_NOTATIONS_TCS: CaseInsensitiveMapping = (
         }
     )
 )
-"""
-Test colour samples *Munsell* colour approximations.
-"""
+"""Test colour samples *Munsell* colour approximations."""
 
 DATA_TCS: Dict = {
     "TCS01": {

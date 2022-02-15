@@ -1,6 +1,4 @@
-"""
-Showcases colour models computations.
-"""
+"""Showcases colour models computations."""
 
 import numpy as np
 
@@ -429,6 +427,26 @@ message_box(
     f"\t{Lab}"
 )
 print(colour.Oklab_to_XYZ(Lab))
+
+print("\n")
+
+XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+message_box(
+    'Converting to the "ProLab" colourspace from given "CIE XYZ" '
+    "tristimulus values:\n\n"
+    f"\t{XYZ}"
+)
+print(colour.XYZ_to_ProLab(XYZ))
+
+print("\n")
+
+ProLab = np.array([0.36571124, -0.11114798, 0.01594746])
+message_box(
+    'Converting to "CIE XYZ" tristimulus values from given "ProLab" '
+    "colourspace values:\n\n"
+    f"\t{ProLab}"
+)
+print(colour.ProLab_to_XYZ(ProLab))
 
 print("\n")
 

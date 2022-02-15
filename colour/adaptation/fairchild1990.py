@@ -33,7 +33,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -69,7 +69,7 @@ def chromatic_adaptation_Fairchild1990(
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
-    Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
+    Adapt given stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *Fairchild (1990)*
     chromatic adaptation model.
 
@@ -94,7 +94,6 @@ def chromatic_adaptation_Fairchild1990(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -161,7 +160,7 @@ def chromatic_adaptation_Fairchild1990(
 
 def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to cone responses.
+    Convert from *CIE XYZ* tristimulus values to cone responses.
 
     Parameters
     ----------
@@ -185,7 +184,7 @@ def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArray:
 
 def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArray:
     """
-    Converts from cone responses to *CIE XYZ* tristimulus values.
+    Convert from cone responses to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -214,7 +213,7 @@ def degrees_of_adaptation(
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
-    Computes the degrees of adaptation :math:`p_L`, :math:`p_M` and
+    Compute the degrees of adaptation :math:`p_L`, :math:`p_M` and
     :math:`p_S`.
 
     Parameters
@@ -259,16 +258,12 @@ def degrees_of_adaptation(
     Ye_n = spow(Y_n, v)
 
     def m_E(x: NDArray, y: NDArray) -> NDArray:
-        """
-        Computes the :math:`m_E` term.
-        """
+        """Compute the :math:`m_E` term."""
 
         return (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
 
     def P_c(x: NDArray) -> NDArray:
-        """
-        Computes the :math:`P_L`, :math:`P_M` or :math:`P_S` terms.
-        """
+        """Compute the :math:`P_L`, :math:`P_M` or :math:`P_S` terms."""
 
         return (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
 

@@ -35,7 +35,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tsplit, usage_warning
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -49,7 +49,7 @@ __all__ = [
 
 def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` from given
+    Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using *McCamy (1992)* method.
 
     Parameters
@@ -77,7 +77,7 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
     x, y = tsplit(xy)
 
     n = (x - 0.3320) / (y - 0.1858)
-    CCT = -449 * n ** 3 + 3525 * n ** 2 - 6823.3 * n + 5520.33
+    CCT = -449 * n**3 + 3525 * n**2 - 6823.3 * n + 5520.33
 
     return as_float(CCT)
 
@@ -86,7 +86,7 @@ def CCT_to_xy_McCamy1992(
     CCT: FloatingOrArrayLike, optimisation_kwargs: Optional[Dict] = None
 ) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using *McCamy (1992)* method.
 
     Parameters
@@ -137,9 +137,7 @@ def CCT_to_xy_McCamy1992(
     def objective_function(
         xy: ArrayLike, CCT: FloatingOrArrayLike
     ) -> FloatingOrNDArray:
-        """
-        Objective function.
-        """
+        """Objective function."""
 
         objective = np.linalg.norm(
             xy_to_CCT_McCamy1992(xy) - as_float_array(CCT)
@@ -164,7 +162,7 @@ def CCT_to_xy_McCamy1992(
                     "D65"
                 ],
                 args=(CCT_i,),
-                **optimisation_settings
+                **optimisation_settings,
             ).x
             for CCT_i in as_float_array(CCT)
         ]

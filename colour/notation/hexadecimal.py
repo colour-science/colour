@@ -24,7 +24,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -38,7 +38,7 @@ __all__ = [
 
 def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
     """
-    Converts from *RGB* colourspace to hexadecimal representation.
+    Convert from *RGB* colourspace to hexadecimal representation.
 
     Parameters
     ----------
@@ -52,7 +52,6 @@ def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -94,7 +93,7 @@ def RGB_to_HEX(RGB: ArrayLike) -> StrOrNDArray:
 
 def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
     """
-    Converts from hexadecimal representation to *RGB* colourspace.
+    Convert from hexadecimal representation to *RGB* colourspace.
 
     Parameters
     ----------
@@ -108,7 +107,6 @@ def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
 
     Notes
     -----
-
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
@@ -125,9 +123,7 @@ def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
     HEX = np.core.defchararray.lstrip(HEX, "#")  # type: ignore[arg-type]
 
     def to_RGB(x: List) -> List:
-        """
-        Converts given hexadecimal representation to *RGB*.
-        """
+        """Convert given hexadecimal representation to *RGB*."""
 
         l_x = len(x)
 

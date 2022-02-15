@@ -45,7 +45,7 @@ from colour.hints import FloatingOrArrayLike, NDArray
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -64,7 +64,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     wavelength: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Converts *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions
+    Convert *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions
     into the *CIE 1931 2 Degree Standard Observer* colour matching functions.
 
     Parameters
@@ -139,7 +139,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     wavelength: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
+    Convert *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *CIE 1964 10 Degree Standard Observer* colour matching
     functions.
 
@@ -191,7 +191,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
     wavelength: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Converts *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
+    Convert *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
     functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals*
     spectral sensitivity functions.
 
@@ -245,7 +245,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     wavelength: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Converts *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
+    Convert *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 2 Degree Standard Observer* colour matching
     functions.
 
@@ -297,7 +297,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     wavelength: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Converts *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
+    Convert *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
     functions into the *CIE 2012 10 Degree Standard Observer* colour matching
     functions.
 

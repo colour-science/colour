@@ -26,7 +26,7 @@ from colour.hints import (
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -40,7 +40,7 @@ __all__ = [
 
 def log_encoding_FilmicPro6(t: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
+    Define the *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -55,7 +55,6 @@ def log_encoding_FilmicPro6(t: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -100,7 +99,7 @@ _LOG_DECODING_FILMICPRO_INTERPOLATOR_CACHE: Optional[Extrapolator] = None
 
 def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
     """
-    Returns the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
+    Return the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
     function interpolator and caches it if not existing.
 
     Returns
@@ -123,7 +122,7 @@ def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
 
 def log_decoding_FilmicPro6(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
+    Define the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -138,7 +137,6 @@ def log_decoding_FilmicPro6(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

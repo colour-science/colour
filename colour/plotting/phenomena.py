@@ -49,7 +49,7 @@ from colour.plotting import (
 from colour.utilities import first_item
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -73,10 +73,10 @@ def plot_single_sd_rayleigh_scattering(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots a single *Rayleigh* scattering spectral distribution.
+    Plot a single *Rayleigh* scattering spectral distribution.
 
     Parameters
     ----------
@@ -146,10 +146,10 @@ def plot_the_blue_sky(
         str,
         Sequence[Union[MultiSpectralDistributions, str]],
     ] = "CIE 1931 2 Degree Standard Observer",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the blue sky.
+    Plot the blue sky.
 
     Parameters
     ----------

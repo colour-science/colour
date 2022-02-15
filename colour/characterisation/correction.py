@@ -83,7 +83,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -113,7 +113,7 @@ def matrix_augmented_Cheung2004(
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
-    Performs polynomial expansion of given *RGB* colourspace array using
+    Perform polynomial expansion of given *RGB* colourspace array using
     *Cheung et al. (2004)* method.
 
     Parameters
@@ -204,9 +204,9 @@ def matrix_augmented_Cheung2004(
                 R * G,
                 R * B,
                 G * B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
+                R**2,
+                G**2,
+                B**2,
                 tail,
             ]
         )
@@ -219,9 +219,9 @@ def matrix_augmented_Cheung2004(
                 R * G,
                 R * B,
                 G * B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
+                R**2,
+                G**2,
+                B**2,
                 R * G * B,
                 tail,
             ]
@@ -235,13 +235,13 @@ def matrix_augmented_Cheung2004(
                 R * G,
                 R * B,
                 G * B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
+                R**2,
+                G**2,
+                B**2,
                 R * G * B,
-                R ** 3,
-                G ** 3,
-                B ** 3,
+                R**3,
+                G**3,
+                B**3,
                 tail,
             ]
         )
@@ -254,16 +254,16 @@ def matrix_augmented_Cheung2004(
                 R * G,
                 R * B,
                 G * B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
+                R**2,
+                G**2,
+                B**2,
                 R * G * B,
-                R ** 2 * G,
-                G ** 2 * B,
-                B ** 2 * R,
-                R ** 3,
-                G ** 3,
-                B ** 3,
+                R**2 * G,
+                G**2 * B,
+                B**2 * R,
+                R**3,
+                G**3,
+                B**3,
             ]
         )
     elif terms == 17:
@@ -275,16 +275,16 @@ def matrix_augmented_Cheung2004(
                 R * G,
                 R * B,
                 G * B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
+                R**2,
+                G**2,
+                B**2,
                 R * G * B,
-                R ** 2 * G,
-                G ** 2 * B,
-                B ** 2 * R,
-                R ** 3,
-                G ** 3,
-                B ** 3,
+                R**2 * G,
+                G**2 * B,
+                B**2 * R,
+                R**3,
+                G**3,
+                B**3,
                 tail,
             ]
         )
@@ -297,19 +297,19 @@ def matrix_augmented_Cheung2004(
                 R * G,
                 R * B,
                 G * B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
+                R**2,
+                G**2,
+                B**2,
                 R * G * B,
-                R ** 2 * G,
-                G ** 2 * B,
-                B ** 2 * R,
-                R ** 2 * B,
-                G ** 2 * R,
-                B ** 2 * G,
-                R ** 3,
-                G ** 3,
-                B ** 3,
+                R**2 * G,
+                G**2 * B,
+                B**2 * R,
+                R**2 * B,
+                G**2 * R,
+                B**2 * G,
+                R**3,
+                G**3,
+                B**3,
             ]
         )
     elif terms == 20:
@@ -321,19 +321,19 @@ def matrix_augmented_Cheung2004(
                 R * G,
                 R * B,
                 G * B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
+                R**2,
+                G**2,
+                B**2,
                 R * G * B,
-                R ** 2 * G,
-                G ** 2 * B,
-                B ** 2 * R,
-                R ** 2 * B,
-                G ** 2 * R,
-                B ** 2 * G,
-                R ** 3,
-                G ** 3,
-                B ** 3,
+                R**2 * G,
+                G**2 * B,
+                B**2 * R,
+                R**2 * B,
+                G**2 * R,
+                B**2 * G,
+                R**3,
+                G**3,
+                B**3,
                 tail,
             ]
         )
@@ -346,22 +346,22 @@ def matrix_augmented_Cheung2004(
                 R * G,
                 R * B,
                 G * B,
-                R ** 2,
-                G ** 2,
-                B ** 2,
+                R**2,
+                G**2,
+                B**2,
                 R * G * B,
-                R ** 2 * G,
-                G ** 2 * B,
-                B ** 2 * R,
-                R ** 2 * B,
-                G ** 2 * R,
-                B ** 2 * G,
-                R ** 3,
-                G ** 3,
-                B ** 3,
-                R ** 2 * G * B,
-                R * G ** 2 * B,
-                R * G * B ** 2,
+                R**2 * G,
+                G**2 * B,
+                B**2 * R,
+                R**2 * B,
+                G**2 * R,
+                B**2 * G,
+                R**3,
+                G**3,
+                B**3,
+                R**2 * G * B,
+                R * G**2 * B,
+                R * G * B**2,
             ]
         )
 
@@ -372,7 +372,7 @@ def polynomial_expansion_Finlayson2015(
     root_polynomial_expansion: Boolean = True,
 ) -> NDArray:
     """
-    Performs polynomial expansion of given *RGB* colourspace array using
+    Perform polynomial expansion of given *RGB* colourspace array using
     *Finlayson et al. (2015)* method.
 
     Parameters
@@ -437,9 +437,9 @@ def polynomial_expansion_Finlayson2015(
                     R,
                     G,
                     B,
-                    R ** 2,
-                    G ** 2,
-                    B ** 2,
+                    R**2,
+                    G**2,
+                    B**2,
                     R * G,
                     G * B,
                     R * B,
@@ -455,12 +455,12 @@ def polynomial_expansion_Finlayson2015(
                     spow(R * G, 1 / 2),
                     spow(G * B, 1 / 2),
                     spow(R * B, 1 / 2),
-                    spow(R * G ** 2, 1 / 3),
-                    spow(G * B ** 2, 1 / 3),
-                    spow(R * B ** 2, 1 / 3),
-                    spow(G * R ** 2, 1 / 3),
-                    spow(B * G ** 2, 1 / 3),
-                    spow(B * R ** 2, 1 / 3),
+                    spow(R * G**2, 1 / 3),
+                    spow(G * B**2, 1 / 3),
+                    spow(R * B**2, 1 / 3),
+                    spow(G * R**2, 1 / 3),
+                    spow(B * G**2, 1 / 3),
+                    spow(B * R**2, 1 / 3),
                     spow(R * G * B, 1 / 3),
                 ]
             )
@@ -470,21 +470,21 @@ def polynomial_expansion_Finlayson2015(
                     R,
                     G,
                     B,
-                    R ** 2,
-                    G ** 2,
-                    B ** 2,
+                    R**2,
+                    G**2,
+                    B**2,
                     R * G,
                     G * B,
                     R * B,
-                    R ** 3,
-                    G ** 3,
-                    B ** 3,
-                    R * G ** 2,
-                    G * B ** 2,
-                    R * B ** 2,
-                    G * R ** 2,
-                    B * G ** 2,
-                    B * R ** 2,
+                    R**3,
+                    G**3,
+                    B**3,
+                    R * G**2,
+                    G * B**2,
+                    R * B**2,
+                    G * R**2,
+                    B * G**2,
+                    B * R**2,
                     R * G * B,
                 ]
             )
@@ -498,22 +498,22 @@ def polynomial_expansion_Finlayson2015(
                     spow(R * G, 1 / 2),
                     spow(G * B, 1 / 2),
                     spow(R * B, 1 / 2),
-                    spow(R * G ** 2, 1 / 3),
-                    spow(G * B ** 2, 1 / 3),
-                    spow(R * B ** 2, 1 / 3),
-                    spow(G * R ** 2, 1 / 3),
-                    spow(B * G ** 2, 1 / 3),
-                    spow(B * R ** 2, 1 / 3),
+                    spow(R * G**2, 1 / 3),
+                    spow(G * B**2, 1 / 3),
+                    spow(R * B**2, 1 / 3),
+                    spow(G * R**2, 1 / 3),
+                    spow(B * G**2, 1 / 3),
+                    spow(B * R**2, 1 / 3),
                     spow(R * G * B, 1 / 3),
-                    spow(R ** 3 * G, 1 / 4),
-                    spow(R ** 3 * B, 1 / 4),
-                    spow(G ** 3 * R, 1 / 4),
-                    spow(G ** 3 * B, 1 / 4),
-                    spow(B ** 3 * R, 1 / 4),
-                    spow(B ** 3 * G, 1 / 4),
-                    spow(R ** 2 * G * B, 1 / 4),
-                    spow(G ** 2 * R * B, 1 / 4),
-                    spow(B ** 2 * R * G, 1 / 4),
+                    spow(R**3 * G, 1 / 4),
+                    spow(R**3 * B, 1 / 4),
+                    spow(G**3 * R, 1 / 4),
+                    spow(G**3 * B, 1 / 4),
+                    spow(B**3 * R, 1 / 4),
+                    spow(B**3 * G, 1 / 4),
+                    spow(R**2 * G * B, 1 / 4),
+                    spow(G**2 * R * B, 1 / 4),
+                    spow(B**2 * R * G, 1 / 4),
                 ]
             )
         else:
@@ -522,37 +522,37 @@ def polynomial_expansion_Finlayson2015(
                     R,
                     G,
                     B,
-                    R ** 2,
-                    G ** 2,
-                    B ** 2,
+                    R**2,
+                    G**2,
+                    B**2,
                     R * G,
                     G * B,
                     R * B,
-                    R ** 3,
-                    G ** 3,
-                    B ** 3,
-                    R * G ** 2,
-                    G * B ** 2,
-                    R * B ** 2,
-                    G * R ** 2,
-                    B * G ** 2,
-                    B * R ** 2,
+                    R**3,
+                    G**3,
+                    B**3,
+                    R * G**2,
+                    G * B**2,
+                    R * B**2,
+                    G * R**2,
+                    B * G**2,
+                    B * R**2,
                     R * G * B,
-                    R ** 4,
-                    G ** 4,
-                    B ** 4,
-                    R ** 3 * G,
-                    R ** 3 * B,
-                    G ** 3 * R,
-                    G ** 3 * B,
-                    B ** 3 * R,
-                    B ** 3 * G,
-                    R ** 2 * G ** 2,
-                    G ** 2 * B ** 2,
-                    R ** 2 * B ** 2,
-                    R ** 2 * G * B,
-                    G ** 2 * R * B,
-                    B ** 2 * R * G,
+                    R**4,
+                    G**4,
+                    B**4,
+                    R**3 * G,
+                    R**3 * B,
+                    G**3 * R,
+                    G**3 * B,
+                    B**3 * R,
+                    B**3 * G,
+                    R**2 * G**2,
+                    G**2 * B**2,
+                    R**2 * B**2,
+                    R**2 * G * B,
+                    G**2 * R * B,
+                    B**2 * R * G,
                 ]
             )
 
@@ -561,7 +561,7 @@ def polynomial_expansion_Vandermonde(
     a: ArrayLike, degree: Integer = 1
 ) -> NDArray:
     """
-    Performs polynomial expansion of given :math:`a` array using *Vandermonde*
+    Perform polynomial expansion of given :math:`a` array using *Vandermonde*
     method.
 
     Parameters
@@ -620,7 +620,7 @@ def polynomial_expansion(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Performs polynomial expansion of given :math:`a` array.
+    Perform polynomial expansion of given :math:`a` array.
 
     Parameters
     ----------
@@ -676,7 +676,7 @@ def matrix_colour_correction_Cheung2004(
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
-    Computes a colour correction matrix from given :math:`M_T` colour array to
+    Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
     Parameters
@@ -720,7 +720,7 @@ def matrix_colour_correction_Finlayson2015(
     root_polynomial_expansion: Boolean = True,
 ) -> NDArray:
     """
-    Computes a colour correction matrix from given :math:`M_T` colour array to
+    Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
     Parameters
@@ -766,7 +766,7 @@ def matrix_colour_correction_Vandermonde(
     M_T: ArrayLike, M_R: ArrayLike, degree: Integer = 1
 ) -> NDArray:
     """
-    Computes a colour correction matrix from given :math:`M_T` colour array to
+    Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
 
     Parameters
@@ -831,7 +831,7 @@ def matrix_colour_correction(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Computes a colour correction matrix from given :math:`M_T` colour array to
+    Compute a colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
 
     The resulting colour correction matrix is computed using multiple linear or
@@ -947,7 +947,7 @@ def colour_correction_Cheung2004(
     terms: Literal[3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22] = 3,
 ) -> NDArray:
     """
-    Performs colour correction of given *RGB* colourspace array using the
+    Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
@@ -1001,7 +1001,7 @@ def colour_correction_Finlayson2015(
     root_polynomial_expansion: Boolean = True,
 ) -> NDArray:
     """
-    Performs colour correction of given *RGB* colourspace array using the
+    Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
@@ -1057,7 +1057,7 @@ def colour_correction_Vandermonde(
     RGB: ArrayLike, M_T: ArrayLike, M_R: ArrayLike, degree: Integer = 1
 ) -> NDArray:
     """
-    Performs colour correction of given *RGB* colourspace array using the
+    Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array using *Vandermonde* method.
 
@@ -1130,7 +1130,7 @@ def colour_correction(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Performs colour correction of given *RGB* colourspace array using the
+    Perform colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
     :math:`M_R` colour array.
 

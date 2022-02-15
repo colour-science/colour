@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.image` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.image` module."""
 
 from __future__ import annotations
 
@@ -18,7 +16,7 @@ from colour.io import ImageAttribute_Specification
 from colour.utilities import attest, is_openimageio_installed
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -39,14 +37,12 @@ RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
 class TestConvertBitDepth(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.convert_bit_depth` definition unit tests
+    Define :func:`colour.io.image.convert_bit_depth` definition unit tests
     methods.
     """
 
     def test_convert_bit_depth(self):
-        """
-        Tests :func:`colour.io.image.convert_bit_depth` definition.
-        """
+        """Test :func:`colour.io.image.convert_bit_depth` definition."""
 
         a = np.around(np.linspace(0, 1, 10) * 255).astype("uint8")
         self.assertIs(convert_bit_depth(a, "uint8").dtype, np.dtype("uint8"))
@@ -254,14 +250,12 @@ class TestConvertBitDepth(unittest.TestCase):
 
 class TestReadImageOpenImageIO(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.read_image_OpenImageIO` definition unit
+    Define :func:`colour.io.image.read_image_OpenImageIO` definition unit
     tests methods.
     """
 
     def test_read_image_OpenImageIO(self):  # pragma: no cover
-        """
-        Tests :func:`colour.io.image.read_image_OpenImageIO` definition.
-        """
+        """Test :func:`colour.io.image.read_image_OpenImageIO` definition."""
 
         if not is_openimageio_installed():
             return
@@ -324,28 +318,22 @@ class TestReadImageOpenImageIO(unittest.TestCase):
 
 class TestWriteImageOpenImageIO(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.write_image_OpenImageIO` definition unit
+    Define :func:`colour.io.image.write_image_OpenImageIO` definition unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_image_OpenImageIO(self):  # pragma: no cover
-        """
-        Tests :func:`colour.io.image.write_image_OpenImageIO` definition.
-        """
+        """Test :func:`colour.io.image.write_image_OpenImageIO` definition."""
 
         if not is_openimageio_installed():
             return
@@ -422,14 +410,12 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
 
 class TestReadImageImageio(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.read_image_Imageio` definition unit tests
+    Define :func:`colour.io.image.read_image_Imageio` definition unit tests
     methods.
     """
 
     def test_read_image_Imageio(self):
-        """
-        Tests :func:`colour.io.image.read_image_Imageio` definition.
-        """
+        """Test :func:`colour.io.image.read_image_Imageio` definition."""
 
         image = read_image_Imageio(
             os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
@@ -482,28 +468,22 @@ class TestReadImageImageio(unittest.TestCase):
 
 class TestWriteImageImageio(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.write_image_Imageio` definition unit
+    Define :func:`colour.io.image.write_image_Imageio` definition unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_image_Imageio(self):
-        """
-        Tests :func:`colour.io.image.write_image_Imageio` definition.
-        """
+        """Test :func:`colour.io.image.write_image_Imageio` definition."""
 
         source_image_path = os.path.join(
             RESOURCES_DIRECTORY, "Overflowing_Gradient.png"
@@ -531,14 +511,12 @@ class TestWriteImageImageio(unittest.TestCase):
 
 class TestReadImage(unittest.TestCase):
     """
-    Defines :func:`colour.io.image.read_image` definition unit tests
+    Define :func:`colour.io.image.read_image` definition unit tests
     methods.
     """
 
     def test_read_image(self):
-        """
-        Tests :func:`colour.io.image.read_image` definition.
-        """
+        """Test :func:`colour.io.image.read_image` definition."""
 
         image = read_image(
             os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
@@ -553,28 +531,20 @@ class TestReadImage(unittest.TestCase):
 
 
 class TestWriteImage(unittest.TestCase):
-    """
-    Defines :func:`colour.io.image.write_image` definition unit tests methods.
-    """
+    """Define :func:`colour.io.image.write_image` definition unit tests methods."""
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_image(self):
-        """
-        Tests :func:`colour.io.image.write_image` definition.
-        """
+        """Test :func:`colour.io.image.write_image` definition."""
 
         source_image_path = os.path.join(
             RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr"

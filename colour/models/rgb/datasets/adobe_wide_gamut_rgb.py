@@ -27,7 +27,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -49,35 +49,25 @@ PRIMARIES_ADOBE_WIDE_GAMUT_RGB: NDArray = np.array(
         [0.1566, 0.0177],
     ]
 )
-"""
-*Adobe Wide Gamut RGB* colourspace primaries.
-"""
+"""*Adobe Wide Gamut RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB: str = "D50"
-"""
-*Adobe Wide Gamut RGB* colourspace whitepoint name.
-"""
+"""*Adobe Wide Gamut RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_ADOBE_WIDE_GAMUT_RGB]
-"""
-*Adobe Wide Gamut RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Adobe Wide Gamut RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_ADOBE_WIDE_GAMUT_RGB, CCS_WHITEPOINT_ADOBE_WIDE_GAMUT_RGB
 )
-"""
-*Adobe Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Adobe Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_ADOBE_WIDE_GAMUT_RGB: NDArray = np.linalg.inv(
     MATRIX_ADOBE_WIDE_GAMUT_RGB_TO_XYZ
 )
-"""
-*CIE XYZ* tristimulus values to *Adobe Wide Gamut RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Adobe Wide Gamut RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB: RGB_Colourspace = RGB_Colourspace(
     "Adobe Wide Gamut RGB",

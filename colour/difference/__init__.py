@@ -135,10 +135,10 @@ def delta_E(
         ],
         str,
     ] = "CIE 2000",
-    **kwargs: Any
+    **kwargs: Any,
 ) -> FloatingOrNDArray:
     """
-    Returns the difference :math:`\\Delta E_{ab}` between two given
+    Return the difference :math:`\\Delta E_{ab}` between two given
     *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace arrays using given method.
 
     Parameters

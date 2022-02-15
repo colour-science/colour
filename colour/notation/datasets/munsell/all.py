@@ -24,6 +24,9 @@ Notes
         magnesium oxide with respect to the perfect reflecting diffuser, and
         rounding to ve digits of precision.
 
+-   Chromaticities assume *CIE Illuminant C*, approximately 6700K, as neutral
+    origin for both the hue and chroma loci.
+
 References
 ----------
 -   :cite:`MunsellColorSciencec` : Munsell Color Science. (n.d.). Munsell
@@ -38,7 +41,7 @@ import numpy as np
 from colour.hints import Tuple
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"

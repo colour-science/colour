@@ -4,7 +4,7 @@ Geometry Primitives
 
 Defines various geometry primitives and their generation methods:
 
--   :attr:`colour.geometry.PLANE_TO_AXIS_MAPPING`
+-   :attr:`colour.geometry.MAPPING_PLANE_TO_AXIS`
 -   :func:`colour.geometry.primitive_grid`
 -   :func:`colour.geometry.primitive_cube`
 -   :func:`colour.PRIMITIVE_METHODS`
@@ -47,21 +47,21 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "PLANE_TO_AXIS_MAPPING",
+    "MAPPING_PLANE_TO_AXIS",
     "primitive_grid",
     "primitive_cube",
     "PRIMITIVE_METHODS",
     "primitive",
 ]
 
-PLANE_TO_AXIS_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MAPPING_PLANE_TO_AXIS: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
         "yz": "+x",
         "zy": "-x",
@@ -71,9 +71,7 @@ PLANE_TO_AXIS_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "yx": "-z",
     }
 )
-PLANE_TO_AXIS_MAPPING.__doc__ = """
-Plane to axis mapping.
-"""
+MAPPING_PLANE_TO_AXIS.__doc__ = """Plane to axis mapping."""
 
 
 def primitive_grid(
@@ -88,7 +86,7 @@ def primitive_grid(
     dtype_indexes: Optional[Type[DTypeInteger]] = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Generates vertices and indexes for a filled and outlined grid primitive.
+    Generate vertices and indexes for a filled and outlined grid primitive.
 
     Parameters
     ----------
@@ -140,7 +138,7 @@ def primitive_grid(
      [1 0]]
     """
 
-    axis = PLANE_TO_AXIS_MAPPING.get(axis, axis).lower()
+    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
 
     dtype_vertices = cast(
         Type[DTypeFloating], optional(dtype_vertices, DEFAULT_FLOAT_DTYPE)
@@ -263,7 +261,7 @@ def primitive_cube(
     dtype_indexes: Optional[Type[DTypeInteger]] = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Generates vertices and indexes for a filled and outlined cube primitive.
+    Generate vertices and indexes for a filled and outlined cube primitive.
 
     Parameters
     ----------
@@ -365,10 +363,10 @@ def primitive_cube(
     """
 
     axis = (
-        sorted(list(PLANE_TO_AXIS_MAPPING.values()))
+        sorted(list(MAPPING_PLANE_TO_AXIS.values()))
         if planes is None
         else [
-            PLANE_TO_AXIS_MAPPING.get(plane, plane).lower() for plane in planes
+            MAPPING_PLANE_TO_AXIS.get(plane, plane).lower() for plane in planes
         ]
     )
 
@@ -471,7 +469,7 @@ def primitive(
     method: Union[Literal["Cube", "Grid"], str] = "Cube", **kwargs: Any
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Returns a geometry primitive using given method.
+    Return a geometry primitive using given method.
 
     Parameters
     ----------

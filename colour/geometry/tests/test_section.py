@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.geometry.section` module.
-"""
+"""Defines the unit tests for the :mod:`colour.geometry.section` module."""
 
 import numpy as np
 import unittest
@@ -14,7 +12,7 @@ from colour.geometry import primitive_cube, hull_section
 from colour.utilities import is_trimesh_installed
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -30,14 +28,12 @@ __all__ = [
 
 class TestEdgesToChord(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.section.edges_to_chord` definition unit
+    Define :func:`colour.geometry.section.edges_to_chord` definition unit
     tests methods.
     """
 
     def test_edges_to_chord(self):
-        """
-        Tests :func:`colour.geometry.section.edges_to_chord` definition.
-        """
+        """Test :func:`colour.geometry.section.edges_to_chord` definition."""
 
         edges = np.array(
             [
@@ -103,14 +99,12 @@ class TestEdgesToChord(unittest.TestCase):
 
 class TestCloseChord(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.section.close_chord` definition unit tests
+    Define :func:`colour.geometry.section.close_chord` definition unit tests
     methods.
     """
 
     def test_close_chord(self):
-        """
-        Tests :func:`colour.geometry.section.close_chord` definition.
-        """
+        """Test :func:`colour.geometry.section.close_chord` definition."""
 
         np.testing.assert_almost_equal(
             close_chord(np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]])),
@@ -120,14 +114,12 @@ class TestCloseChord(unittest.TestCase):
 
 class TestUniqueVertices(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.section.unique_vertices` definition unit
+    Define :func:`colour.geometry.section.unique_vertices` definition unit
     tests methods.
     """
 
     def test_unique_vertices(self):
-        """
-        Tests :func:`colour.geometry.section.unique_vertices` definition.
-        """
+        """Test :func:`colour.geometry.section.unique_vertices` definition."""
 
         np.testing.assert_almost_equal(
             unique_vertices(
@@ -149,14 +141,12 @@ class TestUniqueVertices(unittest.TestCase):
 
 class TestHullSection(unittest.TestCase):
     """
-    Defines :func:`colour.geometry.section.hull_section` definition unit tests
+    Define :func:`colour.geometry.section.hull_section` definition unit tests
     methods.
     """
 
     def test_hull_section(self):
-        """
-        Tests :func:`colour.geometry.section.hull_section` definition.
-        """
+        """Test :func:`colour.geometry.section.hull_section` definition."""
 
         if not is_trimesh_installed:  # pragma: no cover
             return

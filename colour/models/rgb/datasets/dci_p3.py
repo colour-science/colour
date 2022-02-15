@@ -38,7 +38,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -64,9 +64,7 @@ PRIMARIES_DCI_P3: NDArray = np.array(
         [0.1500, 0.0600],
     ]
 )
-"""
-*DCI-P3* colourspace primaries.
-"""
+"""*DCI-P3* colourspace primaries."""
 
 PRIMARIES_DCI_P3_P: NDArray = np.array(
     [
@@ -75,9 +73,7 @@ PRIMARIES_DCI_P3_P: NDArray = np.array(
         [0.0900, -0.0900],
     ]
 )
-"""
-*DCI-P3+* colourspace primaries.
-"""
+"""*DCI-P3+* colourspace primaries."""
 
 WHITEPOINT_NAME_DCI_P3: str = "DCI-P3"
 """
@@ -93,33 +89,23 @@ matching spectral distribution is Kinoton 75P projector.
 CCS_WHITEPOINT_DCI_P3: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_DCI_P3]
-"""
-*DCI-P3* colourspace whitepoint chromaticity coordinates.
-"""
+"""*DCI-P3* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_DCI_P3_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_DCI_P3, CCS_WHITEPOINT_DCI_P3
 )
-"""
-*DCI-P3* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*DCI-P3* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_DCI_P3: NDArray = np.linalg.inv(MATRIX_DCI_P3_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *DCI-P3* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *DCI-P3* colourspace matrix."""
 
 MATRIX_DCI_P3_P_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_DCI_P3_P, CCS_WHITEPOINT_DCI_P3
 )
-"""
-*DCI-P3+* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*DCI-P3+* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_DCI_P3_P: NDArray = np.linalg.inv(MATRIX_DCI_P3_P_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *DCI-P3+* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *DCI-P3+* colourspace matrix."""
 
 RGB_COLOURSPACE_DCI_P3: RGB_Colourspace = RGB_Colourspace(
     "DCI-P3",

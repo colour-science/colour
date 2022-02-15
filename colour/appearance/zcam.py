@@ -66,7 +66,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -140,7 +140,7 @@ HUE_DATA_FOR_HUE_QUADRATURE: Dict = {
 @dataclass
 class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     """
-    Defines the *ZCAM* colour appearance model reference specification.
+    Define the *ZCAM* colour appearance model reference specification.
 
     This specification has field names consistent with :cite:`Safdar2021`
     reference.
@@ -191,7 +191,7 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
 @dataclass
 class CAM_Specification_ZCAM(MixinDataclassArithmetic):
     """
-    Defines the *ZCAM* colour appearance model specification.
+    Define the *ZCAM* colour appearance model specification.
 
     Parameters
     ----------
@@ -318,7 +318,7 @@ def XYZ_to_ZCAM(
     discount_illuminant: Boolean = False,
 ) -> CAM_Specification_ZCAM:
     """
-    Computes the *ZCAM* colour appearance model correlates from given *CIE XYZ*
+    Compute the *ZCAM* colour appearance model correlates from given *CIE XYZ*
     tristimulus values.
 
     Parameters
@@ -475,8 +475,8 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
 
     # Step 5 (Forward) - Computing brightness :math:`Q_z`,
     # lightness :math:`J_z`, colourfulness :math`M_z`, and chroma :math:`C_z`
-    Q_z_p = (1.6 * F_s) / F_b ** 0.12
-    Q_z_m = F_s ** 2.2 * F_b ** 0.5 * spow(F_L, 0.2)
+    Q_z_p = (1.6 * F_s) / F_b**0.12
+    Q_z_m = F_s**2.2 * F_b**0.5 * spow(F_L, 0.2)
     Q_z = 2700 * spow(I_z, Q_z_p) * Q_z_m
     Q_z_w = 2700 * spow(I_z_w, Q_z_p) * Q_z_m
 
@@ -484,10 +484,10 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
 
     M_z = (
         100
-        * (a_z ** 2 + b_z ** 2) ** 0.37
+        * (a_z**2 + b_z**2) ** 0.37
         * (
             (spow(e_z, 0.068) * spow(F_L, 0.2))
-            / (F_b ** 0.1 * spow(I_z_w, 0.78))
+            / (F_b**0.1 * spow(I_z_w, 0.78))
         )
     )
 
@@ -497,11 +497,11 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     # vividness :math:`V_z`, blackness :math:`K_z`, and whiteness :math:`W_z`.
     S_z = 100 * spow(F_L, 0.6) * np.sqrt(M_z / Q_z)
 
-    V_z = np.sqrt((J_z - 58) ** 2 + 3.4 * C_z ** 2)
+    V_z = np.sqrt((J_z - 58) ** 2 + 3.4 * C_z**2)
 
-    K_z = 100 - 0.8 * np.sqrt(J_z ** 2 + 8 * C_z ** 2)
+    K_z = 100 - 0.8 * np.sqrt(J_z**2 + 8 * C_z**2)
 
-    W_z = 100 - np.sqrt((100 - J_z) ** 2 + C_z ** 2)
+    W_z = 100 - np.sqrt((100 - J_z) ** 2 + C_z**2)
 
     return CAM_Specification_ZCAM(
         as_float(from_range_1(J_z)),
@@ -527,7 +527,7 @@ def ZCAM_to_XYZ(
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
-    Converts from *ZCAM* specification to *CIE XYZ* tristimulus values.
+    Convert from *ZCAM* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -687,11 +687,11 @@ def ZCAM_to_XYZ(
         )
 
     # Step 1 (Inverse) - Computing achromatic response (:math:`I_z`).
-    Q_z_p = (1.6 * F_s) / F_b ** 0.12
-    Q_z_m = F_s ** 2.2 * F_b ** 0.5 * spow(F_L, 0.2)
+    Q_z_p = (1.6 * F_s) / F_b**0.12
+    Q_z_m = F_s**2.2 * F_b**0.5 * spow(F_L, 0.2)
     Q_z_w = 2700 * spow(I_z_w, Q_z_p) * Q_z_m
 
-    I_z_p = (F_b ** 0.12) / (1.6 * F_s)
+    I_z_p = (F_b**0.12) / (1.6 * F_s)
     I_z_d = 2700 * 100 * Q_z_m
 
     I_z = spow((J_z * Q_z_w) / I_z_d, I_z_p)
@@ -717,8 +717,8 @@ def ZCAM_to_XYZ(
     # C_z_p_e = 1.3514
     C_z_p_e = 50 / 37
     C_z_p = spow(
-        (M_z * spow(I_z_w, 0.78) * F_b ** 0.1)
-        / (100 * e_z ** 0.068 * spow(F_L, 0.2)),
+        (M_z * spow(I_z_w, 0.78) * F_b**0.1)
+        / (100 * e_z**0.068 * spow(F_L, 0.2)),
         C_z_p_e,
     )
     a_z = C_z_p * np.cos(h_z_r)
@@ -737,7 +737,7 @@ def ZCAM_to_XYZ(
 
 def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the hue quadrature from given hue :math:`h` angle in degrees.
+    Return the hue quadrature from given hue :math:`h` angle in degrees.
 
     Parameters
     ----------

@@ -36,7 +36,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -56,7 +56,7 @@ def optical_MTF_Barten1999(
     u: FloatingOrArrayLike, sigma: FloatingOrArrayLike = 0.01
 ) -> FloatingOrNDArray:
     """
-    Returns the optical modulation transfer function (MTF) :math:`M_{opt}` of
+    Return the optical modulation transfer function (MTF) :math:`M_{opt}` of
     the eye using *Barten (1999)* method.
 
     Parameters
@@ -87,7 +87,7 @@ def optical_MTF_Barten1999(
     u = as_float_array(u)
     sigma = as_float_array(sigma)
 
-    return as_float(np.exp(-2 * np.pi ** 2 * sigma ** 2 * u ** 2))
+    return as_float(np.exp(-2 * np.pi**2 * sigma**2 * u**2))
 
 
 def pupil_diameter_Barten1999(
@@ -96,7 +96,7 @@ def pupil_diameter_Barten1999(
     Y_0: Optional[FloatingOrArrayLike] = None,
 ) -> FloatingOrNDArray:
     """
-    Returns the pupil diameter for given luminance and object or stimulus
+    Return the pupil diameter for given luminance and object or stimulus
     angular size using *Barten (1999)* method.
 
     Parameters
@@ -128,7 +128,7 @@ def pupil_diameter_Barten1999(
     X_0 = as_float_array(X_0)
     Y_0 = X_0 if Y_0 is None else as_float_array(Y_0)
 
-    return as_float(5 - 3 * np.tanh(0.4 * np.log(L * X_0 * Y_0 / 40 ** 2)))
+    return as_float(5 - 3 * np.tanh(0.4 * np.log(L * X_0 * Y_0 / 40**2)))
 
 
 def sigma_Barten1999(
@@ -137,7 +137,7 @@ def sigma_Barten1999(
     d: FloatingOrArrayLike = 2.1,
 ) -> FloatingOrNDArray:
     """
-    Returns the standard deviation :math:`\\sigma` of the line-spread function
+    Return the standard deviation :math:`\\sigma` of the line-spread function
     resulting from the convolution of the different elements of the convolution
     process using *Barten (1999)* method.
 
@@ -187,7 +187,7 @@ def sigma_Barten1999(
     C_ab = as_float_array(C_ab)
     d = as_float_array(d)
 
-    return as_float(np.sqrt(sigma_0 ** 2 + (C_ab * d) ** 2))
+    return as_float(np.sqrt(sigma_0**2 + (C_ab * d) ** 2))
 
 
 def retinal_illuminance_Barten1999(
@@ -196,7 +196,7 @@ def retinal_illuminance_Barten1999(
     apply_stiles_crawford_effect_correction: Boolean = True,
 ) -> FloatingOrNDArray:
     """
-    Returns the retinal illuminance :math:`E` in Trolands for given average
+    Return the retinal illuminance :math:`E` in Trolands for given average
     luminance :math:`L` and pupil diameter :math:`d` using *Barten (1999)*
     method.
 
@@ -237,7 +237,7 @@ def retinal_illuminance_Barten1999(
     d = as_float_array(d)
     L = as_float_array(L)
 
-    E = (np.pi * d ** 2) / 4 * L
+    E = (np.pi * d**2) / 4 * L
 
     if apply_stiles_crawford_effect_correction:
         E *= 1 - (d / 9.7) ** 2 + (d / 12.4) ** 4
@@ -252,7 +252,7 @@ def maximum_angular_size_Barten1999(
     N_max: FloatingOrArrayLike = 15,
 ) -> FloatingOrNDArray:
     """
-    Returns the maximum angular size :math:`X` of the object considered using
+    Return the maximum angular size :math:`X` of the object considered using
     *Barten (1999)* method.
 
     Parameters
@@ -290,7 +290,7 @@ def maximum_angular_size_Barten1999(
     N_max = as_float_array(N_max)
 
     return as_float(
-        (1 / X_0 ** 2 + 1 / X_max ** 2 + u ** 2 / N_max ** 2) ** -0.5
+        (1 / X_0**2 + 1 / X_max**2 + u**2 / N_max**2) ** -0.5
     )
 
 
@@ -305,13 +305,13 @@ def contrast_sensitivity_function_Barten1999(
     Y_max: Optional[FloatingOrArrayLike] = None,
     N_max: FloatingOrArrayLike = 15,
     n: FloatingOrArrayLike = 0.03,
-    p: FloatingOrArrayLike = 1.2274 * 10 ** 6,
+    p: FloatingOrArrayLike = 1.2274 * 10**6,
     E: FloatingOrArrayLike = retinal_illuminance_Barten1999(20, 2.1),
-    phi_0: FloatingOrArrayLike = 3 * 10 ** -8,
+    phi_0: FloatingOrArrayLike = 3 * 10**-8,
     u_0: FloatingOrArrayLike = 7,
 ) -> FloatingOrNDArray:
     """
-    Returns the contrast sensitivity :math:`S` of the human eye according to
+    Return the contrast sensitivity :math:`S` of the human eye according to
     the contrast sensitivity function (CSF) described by *Barten (1999)*.
 
     Contrast sensitivity is defined as the inverse of the modulation threshold

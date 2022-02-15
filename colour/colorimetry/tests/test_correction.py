@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.correction` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.correction` module."""
 
 import numpy as np
 import unittest
@@ -12,7 +10,7 @@ from colour.colorimetry import (
 from colour.hints import Tuple
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -65,13 +63,13 @@ DATA_BANDPASS_CORRECTED: Tuple = (
 
 class TestBandpassCorrectionStearns1988(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.correction.\
+    Define :func:`colour.colorimetry.correction.\
 bandpass_correction_Stearns1988` definition unit tests methods.
     """
 
     def test_bandpass_correction_Stearns1988(self):
         """
-        Tests :func:`colour.colorimetry.correction.\
+        Test :func:`colour.colorimetry.correction.\
 bandpass_correction_Stearns1988` definition.
         """
 

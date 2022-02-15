@@ -1,6 +1,4 @@
-"""
-Showcases reflectance recovery computations using *Jakob et al. (2019)* method.
-"""
+"""Showcases reflectance recovery computations using *Jakob et al. (2019)* method."""
 
 import numpy as np
 

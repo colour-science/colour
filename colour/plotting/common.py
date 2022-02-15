@@ -81,7 +81,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -159,7 +159,8 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
                 "colourspace": RGB_COLOURSPACES["sRGB"],
             }
         ),
-        "opacity": Structure(**{"high": 0.75, "low": 0.25}),
+        "opacity": Structure(**{"high": 0.75, "medium": 0.5, "low": 0.25}),
+        "geometry": Structure(**{"long": 5, "medium": 2.5, "short": 1}),
         "hatch": Structure(
             **{
                 "patterns": (
@@ -172,12 +173,28 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
                 )
             }
         ),
-        "geometry": Structure(**{"long": 5, "short": 1}),
+        "zorder": Structure(
+            {
+                "background_polygon": -140,
+                "background_scatter": -130,
+                "background_line": -120,
+                "background_annotation": -110,
+                "background_label": -100,
+                "midground_polygon": -90,
+                "midground_scatter": -80,
+                "midground_line": -70,
+                "midground_annotation": -60,
+                "midground_label": -50,
+                "foreground_polygon": -40,
+                "foreground_scatter": -30,
+                "foreground_line": -20,
+                "foreground_annotation": -10,
+                "foreground_label": 0,
+            }
+        ),
     }
 )
-"""
-Various defaults settings used across the plotting sub-package.
-"""
+"""Various defaults settings used across the plotting sub-package."""
 
 CONSTANTS_ARROW_STYLE: Structure = Structure(
     **{
@@ -189,14 +206,12 @@ CONSTANTS_ARROW_STYLE: Structure = Structure(
         "connectionstyle": "arc3,rad=-0.2",
     }
 )
-"""
-Annotation arrow settings used across the plotting sub-package.
-"""
+"""Annotation arrow settings used across the plotting sub-package."""
 
 
 def colour_style(use_style: Boolean = True) -> Dict:
     """
-    Returns *Colour* plotting style.
+    Return *Colour* plotting style.
 
     Parameters
     ----------
@@ -279,7 +294,7 @@ def colour_style(use_style: Boolean = True) -> Dict:
 
 def override_style(**kwargs: Any) -> Callable:
     """
-    Decorator for overriding *Matplotlib* style.
+    Decorate a function to override *Matplotlib* style.
 
     Other Parameters
     ----------------
@@ -302,15 +317,11 @@ def override_style(**kwargs: Any) -> Callable:
     keywords = dict(kwargs)
 
     def wrapper(function: Callable) -> Callable:
-        """
-        Wrapper for given function.
-        """
+        """Wrap given function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """
-            Wrapped function.
-            """
+            """Wrap given function."""
 
             keywords.update(kwargs)
 
@@ -351,7 +362,7 @@ def XYZ_to_plotting_colourspace(
     apply_cctf_encoding: Boolean = True,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to the default plotting
+    Convert from *CIE XYZ* tristimulus values to the default plotting
     colourspace.
 
     Parameters
@@ -394,7 +405,7 @@ def XYZ_to_plotting_colourspace(
 @dataclass
 class ColourSwatch:
     """
-    Defines a data structure for a colour swatch.
+    Define a data structure for a colour swatch.
 
     Parameters
     ----------
@@ -410,7 +421,7 @@ class ColourSwatch:
 
 def colour_cycle(**kwargs: Any) -> itertools.cycle:
     """
-    Returns a colour cycle iterator using given colour map.
+    Return a colour cycle iterator using given colour map.
 
     Other Parameters
     ----------------
@@ -444,7 +455,7 @@ def colour_cycle(**kwargs: Any) -> itertools.cycle:
 
 class KwargsArtist(TypedDict):
     """
-    Defines the keyword argument types for the :func:`colour.plotting.artist`
+    Define the keyword argument types for the :func:`colour.plotting.artist`
     definition.
 
     Parameters
@@ -461,7 +472,7 @@ class KwargsArtist(TypedDict):
 
 def artist(**kwargs: Union[KwargsArtist, Any]) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Returns the current figure and its axes or creates a new one.
+    Return the current figure and its axes or creates a new one.
 
     Other Parameters
     ----------------
@@ -490,7 +501,7 @@ def artist(**kwargs: Union[KwargsArtist, Any]) -> Tuple[plt.Figure, plt.Axes]:
 
 class KwargsCamera(TypedDict):
     """
-    Defines the keyword argument types for the :func:`colour.plotting.camera`
+    Define the keyword argument types for the :func:`colour.plotting.camera`
     definition.
 
     Parameters
@@ -516,7 +527,7 @@ class KwargsCamera(TypedDict):
 
 def camera(**kwargs: Union[KwargsCamera, Any]) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Sets the camera settings.
+    Set the camera settings.
 
     Other Parameters
     ----------------
@@ -548,7 +559,7 @@ def camera(**kwargs: Union[KwargsCamera, Any]) -> Tuple[plt.Figure, plt.Axes]:
 
 class KwargsRender(TypedDict):
     """
-    Defines the keyword argument types for the :func:`colour.plotting.render`
+    Define the keyword argument types for the :func:`colour.plotting.render`
     definition.
 
     Parameters
@@ -613,7 +624,7 @@ class KwargsRender(TypedDict):
 
 def render(**kwargs: Union[KwargsRender, Any]) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Renders the current figure while adjusting various settings such as the
+    Render the current figure while adjusting various settings such as the
     bounding box, the title or background transparency.
 
     Other Parameters
@@ -755,6 +766,7 @@ def label_rectangles(
             rotation=rotation,
             fontsize=text_size,
             clip_on=True,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_label,
         )
 
     return figure, axes
@@ -762,7 +774,7 @@ def label_rectangles(
 
 def uniform_axes3d(**kwargs: Any) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Sets equal aspect ratio to given 3d axes.
+    Set equal aspect ratio to given 3d axes.
 
     Other Parameters
     ----------------
@@ -808,7 +820,7 @@ def filter_passthrough(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict:
     """
-    Returns mapping objects matching given filterers while passing through
+    Return mapping objects matching given filterers while passing through
     class instances whose type is one of the mapping element types.
 
     This definition allows passing custom but compatible objects to the various
@@ -937,7 +949,7 @@ def filter_RGB_colourspaces(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, RGB_Colourspace]:
     """
-    Returns the *RGB* colourspaces matching given filterers.
+    Return the *RGB* colourspaces matching given filterers.
 
     Parameters
     ----------
@@ -977,7 +989,7 @@ def filter_cmfs(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
-    Returns the colour matching functions matching given filterers.
+    Return the colour matching functions matching given filterers.
 
     Parameters
     ----------
@@ -1017,7 +1029,7 @@ def filter_illuminants(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, SpectralDistribution]:
     """
-    Returns the illuminants matching given filterers.
+    Return the illuminants matching given filterers.
 
     Parameters
     ----------
@@ -1065,7 +1077,7 @@ def filter_colour_checkers(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict[str, ColourChecker]:
     """
-    Returns the colour checkers matching given filterers.
+    Return the colour checkers matching given filterers.
 
     Parameters
     ----------
@@ -1100,7 +1112,7 @@ def update_settings_collection(
     expected_count: Integer,
 ):
     """
-    Updates given settings collection, *in-place*, with given keyword arguments
+    Update given settings collection, *in-place*, with given keyword arguments
     and expected count of settings collection elements.
 
     Parameters
@@ -1153,7 +1165,7 @@ def plot_single_colour_swatch(
     colour_swatch: Union[ArrayLike, ColourSwatch], **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colour swatch.
+    Plot given colour swatch.
 
     Parameters
     ----------
@@ -1212,7 +1224,7 @@ def plot_multi_colour_swatches(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colours swatches.
+    Plot given colours swatches.
 
     Parameters
     ----------
@@ -1286,12 +1298,16 @@ def plot_multi_colour_swatches(
 
     # Handling case where `colour_swatches` is a regular *ArrayLike*.
     colour_swatches = list(colour_swatches)
+    colour_swatches_converted = []
     if not isinstance(first_item(colour_swatches), ColourSwatch):
         for i, colour_swatch in enumerate(
             as_float_array(cast(ArrayLike, colour_swatches)).reshape([-1, 3])
         ):
-            colour_swatches[i] = ColourSwatch(colour_swatch)
-    colour_swatches = cast(List[ColourSwatch], colour_swatches)
+            colour_swatches_converted.append(ColourSwatch(colour_swatch))
+    else:
+        colour_swatches_converted = cast(List[ColourSwatch], colour_swatches)
+
+    colour_swatches = colour_swatches_converted
 
     if compare_swatches is not None:
         attest(
@@ -1309,6 +1325,7 @@ def plot_multi_colour_swatches(
     text_settings = {
         "offset": 0.05,
         "visible": True,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_label,
     }
     if text_kwargs is not None:
         text_settings.update(text_kwargs)
@@ -1330,6 +1347,7 @@ def plot_multi_colour_swatches(
             (x_0, x_1, x_1, x_0),
             (y_0, y_0, y_1, y_1),
             color=np.clip(colour_swatches_reference[i].RGB, 0, 1),
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
         )
 
         if compare_swatches == "stacked":
@@ -1349,12 +1367,14 @@ def plot_multi_colour_swatches(
                     y_1 - margin_Y * y,
                 ),
                 color=np.clip(colour_swatches_test[i].RGB, 0, 1),
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
             )
         else:
             axes.fill(
                 (x_0, x_1, x_1),
                 (y_0, y_0, y_1),
                 color=np.clip(colour_swatches_test[i].RGB, 0, 1),
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
             )
 
         if colour_swatch.name is not None and text_settings["visible"]:
@@ -1410,7 +1430,7 @@ def plot_single_function(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given function.
+    Plot given function.
 
     Parameters
     ----------
@@ -1479,7 +1499,7 @@ def plot_multi_functions(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given functions.
+    Plot given functions.
 
     Parameters
     ----------
@@ -1532,7 +1552,11 @@ def plot_multi_functions(
     _figure, axes = artist(**settings)
 
     plot_settings_collection = [
-        {"label": f"{name}"} for name in functions.keys()
+        {
+            "label": f"{name}",
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_label,
+        }
+        for name in functions.keys()
     ]
 
     if plot_kwargs is not None:
@@ -1609,7 +1633,7 @@ def plot_image(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given image.
+    Plot given image.
 
     Parameters
     ----------
@@ -1654,6 +1678,7 @@ def plot_image(
     imshow_settings = {
         "interpolation": "nearest",
         "cmap": matplotlib.cm.Greys_r,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     }
     if imshow_kwargs is not None:
         imshow_settings.update(imshow_kwargs)
@@ -1663,6 +1688,7 @@ def plot_image(
         "offset": 0.005,
         "color": CONSTANTS_COLOUR_STYLE.colour.brightest,
         "alpha": CONSTANTS_COLOUR_STYLE.opacity.high,
+        "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_label,
     }
     if text_kwargs is not None:
         text_settings.update(text_kwargs)

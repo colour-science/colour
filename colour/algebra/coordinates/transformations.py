@@ -36,7 +36,7 @@ from colour.hints import ArrayLike, NDArray
 from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -54,7 +54,7 @@ __all__ = [
 
 def cartesian_to_spherical(a: ArrayLike) -> NDArray:
     """
-    Transforms given cartesian coordinates array :math:`xyz` to spherical
+    Transform given cartesian coordinates array :math:`xyz` to spherical
     coordinates array :math:`\\rho\\theta\\phi` (radial distance, inclination
     or elevation and azimuth).
 
@@ -95,7 +95,7 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArray:
 
 def spherical_to_cartesian(a: ArrayLike) -> NDArray:
     """
-    Transforms given spherical coordinates array :math:`\\rho\\theta\\phi`
+    Transform given spherical coordinates array :math:`\\rho\\theta\\phi`
     (radial distance, inclination or elevation and azimuth) to cartesian
     coordinates array :math:`xyz`.
 
@@ -136,7 +136,7 @@ def spherical_to_cartesian(a: ArrayLike) -> NDArray:
 
 def cartesian_to_polar(a: ArrayLike) -> NDArray:
     """
-    Transforms given cartesian coordinates array :math:`xy` to polar
+    Transform given cartesian coordinates array :math:`xy` to polar
     coordinates array :math:`\\rho\\phi` (radial coordinate, angular
     coordinate).
 
@@ -173,7 +173,7 @@ def cartesian_to_polar(a: ArrayLike) -> NDArray:
 
 def polar_to_cartesian(a: ArrayLike) -> NDArray:
     """
-    Transforms given polar coordinates array :math:`\\rho\\phi` (radial
+    Transform given polar coordinates array :math:`\\rho\\phi` (radial
     coordinate, angular coordinate) to cartesian coordinates array :math:`xy`.
 
     Parameters
@@ -209,7 +209,7 @@ def polar_to_cartesian(a: ArrayLike) -> NDArray:
 
 def cartesian_to_cylindrical(a: ArrayLike) -> NDArray:
     """
-    Transforms given cartesian coordinates array :math:`xyz` to cylindrical
+    Transform given cartesian coordinates array :math:`xyz` to cylindrical
     coordinates array :math:`\\rho\\phi z` (radial distance, azimuth and
     height).
 
@@ -245,7 +245,7 @@ def cartesian_to_cylindrical(a: ArrayLike) -> NDArray:
 
 def cylindrical_to_cartesian(a: ArrayLike) -> NDArray:
     """
-    Transforms given cylindrical coordinates array :math:`\\rho\\phi z`
+    Transform given cylindrical coordinates array :math:`\\rho\\phi z`
     (radial distance, azimuth and height) to cartesian coordinates array
     :math:`xyz`.
 

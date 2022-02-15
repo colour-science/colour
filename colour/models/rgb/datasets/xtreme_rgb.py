@@ -26,7 +26,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,33 +48,23 @@ PRIMARIES_XTREME_RGB: NDArray = np.array(
         [0.0, 0.0],
     ]
 )
-"""
-*Xtreme RGB* colourspace primaries.
-"""
+"""*Xtreme RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_XTREME_RGB: str = "D50"
-"""
-*Xtreme RGB* colourspace whitepoint name.
-"""
+"""*Xtreme RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_XTREME_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_XTREME_RGB]
-"""
-*Xtreme RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Xtreme RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_XTREME_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_XTREME_RGB, CCS_WHITEPOINT_XTREME_RGB
 )
-"""
-*Xtreme RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Xtreme RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_XTREME_RGB: NDArray = np.linalg.inv(MATRIX_XTREME_RGB_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Xtreme RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Xtreme RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_XTREME_RGB: RGB_Colourspace = RGB_Colourspace(
     "Xtreme RGB",

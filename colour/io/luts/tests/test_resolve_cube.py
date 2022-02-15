@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.luts.resolve_cube` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.luts.resolve_cube` module."""
 
 from __future__ import annotations
 
@@ -13,7 +11,7 @@ import tempfile
 from colour.io import LUT1D, read_LUT_ResolveCube, write_LUT_ResolveCube
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -32,13 +30,13 @@ LUTS_DIRECTORY: str = os.path.join(
 
 class TestReadLUTResolveCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube` definition
+    Define :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube` definition
     unit tests methods.
     """
 
     def test_read_LUT_ResolveCube(self):
         """
-        Tests :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube`
+        Test :func:`colour.io.luts.resolve_cube.read_LUT_ResolveCube`
         definition.
         """
 
@@ -136,27 +134,23 @@ class TestReadLUTResolveCube(unittest.TestCase):
 
 class TestWriteLUTResolveCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
+    Define :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
     definition unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_LUT_ResolveCube(self):
         """
-        Tests :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
+        Test :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
         definition.
         """
 
@@ -267,7 +261,7 @@ class TestWriteLUTResolveCube(unittest.TestCase):
 
     def test_raise_exception_write_LUT_ResolveCube(self):
         """
-        Tests :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
+        Test :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
         definition raised exception.
         """
 

@@ -41,7 +41,7 @@ from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import as_float, as_float_array, ones, tsplit
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -59,7 +59,7 @@ __all__ = [
 
 def xy_to_z(xy: ArrayLike) -> Floating:
     """
-    Returns the *z* coordinate using given :math:`xy` chromaticity coordinates.
+    Return the *z* coordinate using given :math:`xy` chromaticity coordinates.
 
     Parameters
     ----------
@@ -88,7 +88,7 @@ def normalised_primary_matrix(
     primaries: ArrayLike, whitepoint: ArrayLike
 ) -> NDArray:
     """
-    Computes the *Normalised Primary Matrix* (NPM) converting a *RGB*
+    Compute the *Normalised Primary Matrix* (NPM) converting a *RGB*
     colourspace array to *CIE XYZ* tristimulus values using given *primaries*
     and *whitepoint* :math:`xy` chromaticity coordinates.
 
@@ -156,7 +156,7 @@ def chromatically_adapted_primaries(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Chromatically adapts given *primaries* :math:`xy` chromaticity coordinates
+    Chromatically adapt given *primaries* :math:`xy` chromaticity coordinates
     from test ``whitepoint_t`` to reference ``whitepoint_r``.
 
     Parameters
@@ -205,7 +205,7 @@ def chromatically_adapted_primaries(
 
 def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArray, NDArray]:
     """
-    Computes the *primaries* and *whitepoint* :math:`xy` chromaticity
+    Compute the *primaries* and *whitepoint* :math:`xy` chromaticity
     coordinates using given *Normalised Primary Matrix* (NPM).
 
     Parameters
@@ -248,7 +248,7 @@ def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArray, NDArray]:
 
 def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
     """
-    Returns the *luminance equation* from given *primaries* and *whitepoint*.
+    Return the *luminance equation* from given *primaries* and *whitepoint*.
 
     Parameters
     ----------
@@ -279,7 +279,7 @@ def RGB_luminance(
     RGB: ArrayLike, primaries: ArrayLike, whitepoint: ArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *luminance* :math:`Y` of given *RGB* components from given
+    Return the *luminance* :math:`Y` of given *RGB* components from given
     *primaries* and *whitepoint*.
 
     Parameters

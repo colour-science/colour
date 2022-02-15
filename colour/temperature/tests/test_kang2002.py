@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.kang2002` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.kang2002` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.temperature import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,13 +22,13 @@ __all__ = [
 
 class TestXy_to_CCT_Kang2002(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
+    Define :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
     definition unit tests methods.
     """
 
     def test_xy_to_CCT_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
+        Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition.
         """
 
@@ -66,7 +64,7 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
 
     def test_n_dimensional_xy_to_CCT_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
+        Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition n-dimensional arrays support.
         """
 
@@ -84,7 +82,7 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
+        Test :func:`colour.temperature.kang2002.xy_to_CCT_Kang2002`
         definition nan support.
         """
 
@@ -96,13 +94,13 @@ class TestXy_to_CCT_Kang2002(unittest.TestCase):
 
 class TestCCT_to_xy_Kang2002(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
+    Define :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
     unit tests methods.
     """
 
     def test_CCT_to_xy_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002`
+        Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002`
         definition.
         """
 
@@ -126,7 +124,7 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
 
     def test_n_dimensional_CCT_to_xy_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
+        Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
         n-dimensional arrays support.
         """
 
@@ -144,7 +142,7 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_Kang2002(self):
         """
-        Tests :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
+        Test :func:`colour.temperature.kang2002.CCT_to_xy_Kang2002` definition
         nan support.
         """
 

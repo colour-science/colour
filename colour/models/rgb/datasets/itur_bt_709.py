@@ -30,7 +30,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -52,33 +52,23 @@ PRIMARIES_BT709: NDArray = np.array(
         [0.1500, 0.0600],
     ]
 )
-"""
-*ITU-R BT.709* colourspace primaries.
-"""
+"""*ITU-R BT.709* colourspace primaries."""
 
 WHITEPOINT_NAME_BT709: str = "D65"
-"""
-*ITU-R BT.709* colourspace whitepoint name.
-"""
+"""*ITU-R BT.709* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_BT709: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_BT709]
-"""
-*ITU-R BT.709* colourspace whitepoint chromaticity coordinates.
-"""
+"""*ITU-R BT.709* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_BT709_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_BT709, CCS_WHITEPOINT_BT709
 )
-"""
-*ITU-R BT.709* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*ITU-R BT.709* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_BT709: NDArray = np.linalg.inv(MATRIX_BT709_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *ITU-R BT.709* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *ITU-R BT.709* colourspace matrix."""
 
 RGB_COLOURSPACE_BT709: RGB_Colourspace = RGB_Colourspace(
     "ITU-R BT.709",

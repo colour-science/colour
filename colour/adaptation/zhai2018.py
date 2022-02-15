@@ -32,7 +32,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -53,7 +53,7 @@ def chromatic_adaptation_Zhai2018(
     transform: Union[Literal["CAT02", "CAT16"], str] = "CAT02",
 ) -> NDArray:
     """
-    Adapts given sample colour :math:`XYZ_{\\beta}` tristimulus values from
+    Adapt given sample colour :math:`XYZ_{\\beta}` tristimulus values from
     input viewing conditions under :math:`\\beta` illuminant to output viewing
     conditions under :math:`\\delta` illuminant using *Zhai and Luo (2018)*
     chromatic adaptation model.
@@ -103,7 +103,6 @@ def chromatic_adaptation_Zhai2018(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

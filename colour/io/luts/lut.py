@@ -68,9 +68,10 @@ from colour.utilities import (
     usage_warning,
     validate_method,
 )
+from colour.utilities.deprecation import ObjectRenamed
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -87,7 +88,7 @@ __all__ = [
 
 class AbstractLUT(ABC):
     """
-    Defines the base class for *LUT*.
+    Define the base class for *LUT*.
 
     This is an :class:`ABCMeta` abstract class that must be inherited by
     sub-classes.
@@ -142,7 +143,7 @@ class AbstractLUT(ABC):
     -   :meth:`~colour.io.luts.lut.AbstractLUT.copy`
     -   :meth:`~colour.io.luts.lut.AbstractLUT.invert`
     -   :meth:`~colour.io.luts.lut.AbstractLUT.apply`
-    -   :meth:`~colour.io.luts.lut.AbstractLUT.as_LUT`
+    -   :meth:`~colour.io.luts.lut.AbstractLUT.convert`
     """
 
     def __init__(
@@ -195,9 +196,7 @@ class AbstractLUT(ABC):
 
     @table.setter
     def table(self, value: ArrayLike):
-        """
-        Setter for the **self.table** property.
-        """
+        """Setter for the **self.table** property."""
 
         self._table = self._validate_table(value)
 
@@ -221,9 +220,7 @@ class AbstractLUT(ABC):
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             is_string(value),
@@ -252,9 +249,7 @@ class AbstractLUT(ABC):
 
     @domain.setter
     def domain(self, value: ArrayLike):
-        """
-        Setter for the **self.domain** property.
-        """
+        """Setter for the **self.domain** property."""
 
         # pylint: disable=E1121
         self._domain = self._validate_domain(value)
@@ -305,9 +300,7 @@ class AbstractLUT(ABC):
 
     @comments.setter
     def comments(self, value: Sequence):
-        """
-        Setter for the **self.comments** property.
-        """
+        """Setter for the **self.comments** property."""
 
         attest(
             is_iterable(value),
@@ -318,7 +311,7 @@ class AbstractLUT(ABC):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the *LUT*.
+        Return a formatted string representation of the *LUT*.
 
         Returns
         -------
@@ -327,9 +320,7 @@ class AbstractLUT(ABC):
         """
 
         def _indent_array(a: ArrayLike) -> str:
-            """
-            Indents given array string representation.
-            """
+            """Indent given array string representation."""
 
             return str(a).replace(" [", " " * 14 + "[")
 
@@ -356,7 +347,7 @@ class AbstractLUT(ABC):
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the *LUT*.
+        Return an evaluable string representation of the *LUT*.
 
         Returns
         -------
@@ -394,7 +385,7 @@ class AbstractLUT(ABC):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the *LUT* is equal to given other object.
+        Return whether the *LUT* is equal to given other object.
 
         Parameters
         ----------
@@ -420,7 +411,7 @@ class AbstractLUT(ABC):
 
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the *LUT* is not equal to given other object.
+        Return whether the *LUT* is not equal to given other object.
 
         Parameters
         ----------
@@ -439,7 +430,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for addition.
+        Implement support for addition.
 
         Parameters
         ----------
@@ -458,7 +449,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for in-place addition.
+        Implement support for in-place addition.
 
         Parameters
         ----------
@@ -477,7 +468,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for subtraction.
+        Implement support for subtraction.
 
         Parameters
         ----------
@@ -496,7 +487,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for in-place subtraction.
+        Implement support for in-place subtraction.
 
         Parameters
         ----------
@@ -515,7 +506,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for multiplication.
+        Implement support for multiplication.
 
         Parameters
         ----------
@@ -534,7 +525,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for in-place multiplication.
+        Implement support for in-place multiplication.
 
         Parameters
         ----------
@@ -553,7 +544,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for division.
+        Implement support for division.
 
         Parameters
         ----------
@@ -572,7 +563,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for in-place division.
+        Implement support for in-place division.
 
         Parameters
         ----------
@@ -594,7 +585,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for exponentiation.
+        Implement support for exponentiation.
 
         Parameters
         ----------
@@ -613,7 +604,7 @@ class AbstractLUT(ABC):
         self, a: Union[FloatingOrArrayLike, AbstractLUT]
     ) -> AbstractLUT:
         """
-        Implements support for in-place exponentiation.
+        Implement support for in-place exponentiation.
 
         Parameters
         ----------
@@ -635,7 +626,7 @@ class AbstractLUT(ABC):
         in_place: Boolean = False,
     ) -> AbstractLUT:
         """
-        Performs given arithmetical operation with :math:`a` operand, the
+        Perform given arithmetical operation with :math:`a` operand, the
         operation can be either performed on a copy or in-place, must be
         reimplemented by sub-classes.
 
@@ -679,7 +670,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def _validate_table(self, table: ArrayLike) -> NDArray:
         """
-        Validates given table according to *LUT* dimensions.
+        Validate given table according to *LUT* dimensions.
 
         Parameters
         ----------
@@ -697,7 +688,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def _validate_domain(self, domain: ArrayLike) -> NDArray:
         """
-        Validates given domain according to *LUT* dimensions.
+        Validate given domain according to *LUT* dimensions.
 
         Parameters
         ----------
@@ -715,7 +706,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def is_domain_explicit(self) -> Boolean:
         """
-        Returns whether the *LUT* domain is explicit (or implicit).
+        Return whether the *LUT* domain is explicit (or implicit).
 
         An implicit domain is defined by its shape only::
 
@@ -748,7 +739,7 @@ class AbstractLUT(ABC):
         domain: Optional[ArrayLike] = None,
     ) -> NDArray:
         """
-        Returns a linear table of given size according to *LUT* dimensions.
+        Return a linear table of given size according to *LUT* dimensions.
 
         Parameters
         ----------
@@ -771,7 +762,7 @@ class AbstractLUT(ABC):
 
     def copy(self) -> AbstractLUT:
         """
-        Returns a copy of the sub-class instance.
+        Return a copy of the sub-class instance.
 
         Returns
         -------
@@ -784,7 +775,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def invert(self, **kwargs: Any) -> AbstractLUT:
         """
-        Computes and returns an inverse copy of the *LUT*.
+        Compute and returns an inverse copy of the *LUT*.
 
         Other Parameters
         ----------------
@@ -802,7 +793,7 @@ class AbstractLUT(ABC):
     @abstractmethod
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* to given *RGB* colourspace array using given method.
+        Apply the *LUT* to given *RGB* colourspace array using given method.
 
         Parameters
         ----------
@@ -834,14 +825,14 @@ class AbstractLUT(ABC):
         pass
 
     @abstractmethod
-    def as_LUT(
+    def convert(
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
         **kwargs: Any,
     ) -> AbstractLUT:
         """
-        Converts the *LUT* to given ``cls`` class instance.
+        Convert the *LUT* to given ``cls`` class instance.
 
         Parameters
         ----------
@@ -881,7 +872,7 @@ class AbstractLUT(ABC):
 
 class LUT1D(AbstractLUT):
     """
-    Defines the base class for a 1D *LUT*.
+    Define the base class for a 1D *LUT*.
 
     Parameters
     ----------
@@ -904,7 +895,7 @@ class LUT1D(AbstractLUT):
     -   :meth:`~colour.LUT1D.linear_table`
     -   :meth:`~colour.LUT1D.invert`
     -   :meth:`~colour.LUT1D.apply`
-    -   :meth:`~colour.LUT1D.as_LUT`
+    -   :meth:`~colour.LUT1D.convert`
 
     Examples
     --------
@@ -966,7 +957,7 @@ class LUT1D(AbstractLUT):
 
     def _validate_table(self, table: ArrayLike) -> NDArray:
         """
-        Validates given table is a 1D array.
+        Validate given table is a 1D array.
 
         Parameters
         ----------
@@ -987,7 +978,7 @@ class LUT1D(AbstractLUT):
 
     def _validate_domain(self, domain: ArrayLike) -> NDArray:
         """
-        Validates given domain.
+        Validate given domain.
 
         Parameters
         ----------
@@ -1013,7 +1004,7 @@ class LUT1D(AbstractLUT):
 
     def is_domain_explicit(self) -> Boolean:
         """
-        Returns whether the *LUT* domain is explicit (or implicit).
+        Return whether the *LUT* domain is explicit (or implicit).
 
         An implicit domain is defined by its shape only::
 
@@ -1045,7 +1036,7 @@ class LUT1D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
     ) -> NDArray:
         """
-        Returns a linear table, the number of output samples :math:`n` is equal
+        Return a linear table, the number of output samples :math:`n` is equal
         to ``size``.
 
         Parameters
@@ -1082,7 +1073,7 @@ class LUT1D(AbstractLUT):
 
     def invert(self, **kwargs: Any) -> LUT1D:
         """
-        Computes and returns an inverse copy of the *LUT*.
+        Compute and returns an inverse copy of the *LUT*.
 
         Other Parameters
         ----------------
@@ -1133,7 +1124,7 @@ class LUT1D(AbstractLUT):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* to given *RGB* colourspace array using given method.
+        Apply the *LUT* to given *RGB* colourspace array using given method.
 
         Parameters
         ----------
@@ -1202,14 +1193,14 @@ class LUT1D(AbstractLUT):
 
         return RGB_interpolator(RGB)
 
-    def as_LUT(
+    def convert(
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
         **kwargs: Any,
     ) -> AbstractLUT:
         """
-        Converts the *LUT* to given ``cls`` class instance.
+        Convert the *LUT* to given ``cls`` class instance.
 
         Parameters
         ----------
@@ -1247,14 +1238,14 @@ class LUT1D(AbstractLUT):
         Examples
         --------
         >>> LUT = LUT1D()
-        >>> print(LUT.as_LUT(LUT1D))
+        >>> print(LUT.convert(LUT1D))
         LUT1D - Unity 10 - Converted 1D to 1D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT3x1D))
+        >>> print(LUT.convert(LUT3x1D))
         LUT3x1D - Unity 10 - Converted 1D to 3x1D
         -----------------------------------------
         <BLANKLINE>
@@ -1262,7 +1253,7 @@ class LUT1D(AbstractLUT):
         Domain     : [[ 0.  0.  0.]
                       [ 1.  1.  1.]]
         Size       : (10, 3)
-        >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
+        >>> print(LUT.convert(LUT3D, force_conversion=True))
         LUT3D - Unity 10 - Converted 1D to 3D
         -------------------------------------
         <BLANKLINE>
@@ -1274,10 +1265,31 @@ class LUT1D(AbstractLUT):
 
         return LUT_to_LUT(self, cls, force_conversion, **kwargs)
 
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    def as_LUT(
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any,
+    ) -> AbstractLUT:  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "LUT1D.as_LUT",
+                    "LUT1D.convert",
+                )
+            )
+        )
+
+        return self.convert(cls, force_conversion, **kwargs)
+
 
 class LUT3x1D(AbstractLUT):
     """
-    Defines the base class for a 3x1D *LUT*.
+    Define the base class for a 3x1D *LUT*.
 
     Parameters
     ----------
@@ -1300,7 +1312,7 @@ class LUT3x1D(AbstractLUT):
     -   :meth:`~colour.LUT3x1D.linear_table`
     -   :meth:`~colour.LUT3x1D.invert`
     -   :meth:`~colour.LUT3x1D.apply`
-    -   :meth:`~colour.LUT3x1D.as_LUT`
+    -   :meth:`~colour.LUT3x1D.convert`
 
     Examples
     --------
@@ -1365,7 +1377,7 @@ class LUT3x1D(AbstractLUT):
 
     def _validate_table(self, table: ArrayLike) -> NDArray:
         """
-        Validates given table is a 3x1D array.
+        Validate given table is a 3x1D array.
 
         Parameters
         ----------
@@ -1386,7 +1398,7 @@ class LUT3x1D(AbstractLUT):
 
     def _validate_domain(self, domain: ArrayLike) -> NDArray:
         """
-        Validates given domain.
+        Validate given domain.
 
         Parameters
         ----------
@@ -1416,7 +1428,7 @@ class LUT3x1D(AbstractLUT):
 
     def is_domain_explicit(self) -> Boolean:
         """
-        Returns whether the *LUT* domain is explicit (or implicit).
+        Return whether the *LUT* domain is explicit (or implicit).
 
         An implicit domain is defined by its shape only::
 
@@ -1457,7 +1469,7 @@ class LUT3x1D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
     ) -> NDArray:
         """
-        Returns a linear table, the number of output samples :math:`n` is equal
+        Return a linear table, the number of output samples :math:`n` is equal
         to ``size * 3`` or ``size[0] + size[1] + size[2]``.
 
         Parameters
@@ -1548,7 +1560,7 @@ class LUT3x1D(AbstractLUT):
 
     def invert(self, **kwargs: Any) -> LUT3x1D:
         """
-        Computes and returns an inverse copy of the *LUT*.
+        Compute and returns an inverse copy of the *LUT*.
 
         Other Parameters
         ----------------
@@ -1627,7 +1639,7 @@ class LUT3x1D(AbstractLUT):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* to given *RGB* colourspace array using given method.
+        Apply the *LUT* to given *RGB* colourspace array using given method.
 
         Parameters
         ----------
@@ -1725,14 +1737,14 @@ class LUT3x1D(AbstractLUT):
 
         return tstack(RGB_i)
 
-    def as_LUT(
+    def convert(
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
         **kwargs: Any,
     ) -> AbstractLUT:
         """
-        Converts the *LUT* to given ``cls`` class instance.
+        Convert the *LUT* to given ``cls`` class instance.
 
         Parameters
         ----------
@@ -1770,14 +1782,14 @@ class LUT3x1D(AbstractLUT):
         Examples
         --------
         >>> LUT = LUT3x1D()
-        >>> print(LUT.as_LUT(LUT1D, force_conversion=True))
+        >>> print(LUT.convert(LUT1D, force_conversion=True))
         LUT1D - Unity 10 - Converted 3x1D to 1D
         ---------------------------------------
         <BLANKLINE>
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT3x1D))
+        >>> print(LUT.convert(LUT3x1D))
         LUT3x1D - Unity 10 - Converted 3x1D to 3x1D
         -------------------------------------------
         <BLANKLINE>
@@ -1785,7 +1797,7 @@ class LUT3x1D(AbstractLUT):
         Domain     : [[ 0.  0.  0.]
                       [ 1.  1.  1.]]
         Size       : (10, 3)
-        >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
+        >>> print(LUT.convert(LUT3D, force_conversion=True))
         LUT3D - Unity 10 - Converted 3x1D to 3D
         ---------------------------------------
         <BLANKLINE>
@@ -1797,10 +1809,31 @@ class LUT3x1D(AbstractLUT):
 
         return LUT_to_LUT(self, cls, force_conversion, **kwargs)
 
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    def as_LUT(
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any,
+    ) -> AbstractLUT:  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "LUT3x1D.as_LUT",
+                    "LUT3x1D.convert",
+                )
+            )
+        )
+
+        return self.convert(cls, force_conversion, **kwargs)
+
 
 class LUT3D(AbstractLUT):
     """
-    Defines the base class for a 3D *LUT*.
+    Define the base class for a 3D *LUT*.
 
     Parameters
     ----------
@@ -1823,7 +1856,7 @@ class LUT3D(AbstractLUT):
     -   :meth:`~colour.LUT3D.linear_table`
     -   :meth:`~colour.LUT3D.invert`
     -   :meth:`~colour.LUT3D.apply`
-    -   :meth:`~colour.LUT3D.as_LUT`
+    -   :meth:`~colour.LUT3D.convert`
 
     Examples
     --------
@@ -1887,7 +1920,7 @@ class LUT3D(AbstractLUT):
 
     def _validate_table(self, table: ArrayLike) -> NDArray:
         """
-        Validates given table is a 4D array and that its dimensions are equal.
+        Validate given table is a 4D array and that its dimensions are equal.
 
         Parameters
         ----------
@@ -1908,7 +1941,7 @@ class LUT3D(AbstractLUT):
 
     def _validate_domain(self, domain: ArrayLike) -> NDArray:
         """
-        Validates given domain.
+        Validate given domain.
 
         Parameters
         ----------
@@ -1942,7 +1975,7 @@ class LUT3D(AbstractLUT):
 
     def is_domain_explicit(self) -> Boolean:
         """
-        Returns whether the *LUT* domain is explicit (or implicit).
+        Return whether the *LUT* domain is explicit (or implicit).
 
         An implicit domain is defined by its shape only::
 
@@ -1983,7 +2016,7 @@ class LUT3D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
     ) -> NDArray:
         """
-        Returns a linear table, the number of output samples :math:`n` is equal
+        Return a linear table, the number of output samples :math:`n` is equal
         to ``size**3 * 3`` or ``size[0] * size[1] * size[2] * 3``.
 
         Parameters
@@ -2147,7 +2180,7 @@ class LUT3D(AbstractLUT):
     @required("Scikit-Learn")
     def invert(self, **kwargs: Any) -> LUT3D:
         """
-        Computes and returns an inverse copy of the *LUT*.
+        Compute and returns an inverse copy of the *LUT*.
 
         Other Parameters
         ----------------
@@ -2257,7 +2290,7 @@ class LUT3D(AbstractLUT):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
         """
-        Applies the *LUT* to given *RGB* colourspace array using given method.
+        Apply the *LUT* to given *RGB* colourspace array using given method.
 
         Parameters
         ----------
@@ -2351,14 +2384,14 @@ class LUT3D(AbstractLUT):
 
         return RGB_i
 
-    def as_LUT(
+    def convert(
         self,
         cls: Type[AbstractLUT],
         force_conversion: Boolean = False,
         **kwargs: Any,
     ) -> AbstractLUT:
         """
-        Converts the *LUT* to given ``cls`` class instance.
+        Convert the *LUT* to given ``cls`` class instance.
 
         Parameters
         ----------
@@ -2396,14 +2429,14 @@ class LUT3D(AbstractLUT):
         Examples
         --------
         >>> LUT = LUT3D()
-        >>> print(LUT.as_LUT(LUT1D, force_conversion=True))
+        >>> print(LUT.convert(LUT1D, force_conversion=True))
         LUT1D - Unity 33 - Converted 3D to 1D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 1
         Domain     : [ 0.  1.]
         Size       : (10,)
-        >>> print(LUT.as_LUT(LUT3x1D, force_conversion=True))
+        >>> print(LUT.convert(LUT3x1D, force_conversion=True))
         LUT3x1D - Unity 33 - Converted 3D to 3x1D
         -----------------------------------------
         <BLANKLINE>
@@ -2411,7 +2444,7 @@ class LUT3D(AbstractLUT):
         Domain     : [[ 0.  0.  0.]
                       [ 1.  1.  1.]]
         Size       : (10, 3)
-        >>> print(LUT.as_LUT(LUT3D))
+        >>> print(LUT.convert(LUT3D))
         LUT3D - Unity 33 - Converted 3D to 3D
         -------------------------------------
         <BLANKLINE>
@@ -2423,6 +2456,27 @@ class LUT3D(AbstractLUT):
 
         return LUT_to_LUT(self, cls, force_conversion, **kwargs)
 
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    def as_LUT(
+        self,
+        cls: Type[AbstractLUT],
+        force_conversion: Boolean = False,
+        **kwargs: Any,
+    ) -> AbstractLUT:  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "LUT3D.as_LUT",
+                    "LUT3D.convert",
+                )
+            )
+        )
+
+        return self.convert(cls, force_conversion, **kwargs)
+
 
 def LUT_to_LUT(
     LUT,
@@ -2431,7 +2485,7 @@ def LUT_to_LUT(
     **kwargs: Any,
 ) -> AbstractLUT:
     """
-    Converts given *LUT* to given ``cls`` class instance.
+    Convert given *LUT* to given ``cls`` class instance.
 
     Parameters
     ----------

@@ -60,7 +60,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -84,7 +84,7 @@ __all__ = [
 
 def normalise_vector(a: ArrayLike) -> NDArray:
     """
-    Normalises given vector :math:`a`.
+    Normalise given vector :math:`a`.
 
     Parameters
     ----------
@@ -110,7 +110,7 @@ def normalise_vector(a: ArrayLike) -> NDArray:
 
 def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *Euclidean* distance between point array :math:`a` and point
+    Return the *Euclidean* distance between point array :math:`a` and point
     array :math:`b`.
 
     For a two-dimensional space, the metric is as follows:
@@ -144,7 +144,7 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
 
 def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *Manhattan* (or *City-Block*) distance between point array
+    Return the *Manhattan* (or *City-Block*) distance between point array
     :math:`a` and point array :math:`b`.
 
     For a two-dimensional space, the metric is as follows:
@@ -180,7 +180,7 @@ def extend_line_segment(
     a: ArrayLike, b: ArrayLike, distance: Floating = 1
 ) -> NDArray:
     """
-    Extends the line segment defined by point arrays :math:`a` and :math:`b` by
+    Extend the line segment defined by point arrays :math:`a` and :math:`b` by
     given distance and return the new end point.
 
     Parameters
@@ -229,7 +229,7 @@ def extend_line_segment(
 @dataclass
 class LineSegmentsIntersections_Specification:
     """
-    Defines the specification for intersection of line segments :math:`l_1` and
+    Define the specification for intersection of line segments :math:`l_1` and
     :math:`l_2` returned by :func:`colour.algebra.intersect_line_segments`
     definition.
 
@@ -260,7 +260,7 @@ def intersect_line_segments(
     l_1: ArrayLike, l_2: ArrayLike
 ) -> LineSegmentsIntersections_Specification:
     """
-    Computes :math:`l_1` line segments intersections with :math:`l_2` line
+    Compute :math:`l_1` line segments intersections with :math:`l_2` line
     segments.
 
     Parameters
@@ -368,7 +368,7 @@ def intersect_line_segments(
 
 def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArray:
     """
-    Returns the general form ellipse coefficients from given canonical form
+    Return the general form ellipse coefficients from given canonical form
     ellipse coefficients.
 
     The canonical form ellipse coefficients are as follows: the center
@@ -402,24 +402,24 @@ def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArray:
     theta = np.radians(theta)
     cos_theta = np.cos(theta)
     sin_theta = np.sin(theta)
-    cos_theta_2 = cos_theta ** 2
-    sin_theta_2 = sin_theta ** 2
-    a_a_2 = a_a ** 2
-    a_b_2 = a_b ** 2
+    cos_theta_2 = cos_theta**2
+    sin_theta_2 = sin_theta**2
+    a_a_2 = a_a**2
+    a_b_2 = a_b**2
 
     a = a_a_2 * sin_theta_2 + a_b_2 * cos_theta_2
     b = 2 * (a_b_2 - a_a_2) * sin_theta * cos_theta
     c = a_a_2 * cos_theta_2 + a_b_2 * sin_theta_2
     d = -2 * a * x_c - b * y_c
     e = -b * x_c - 2 * c * y_c
-    f = a * x_c ** 2 + b * x_c * y_c + c * y_c ** 2 - a_a_2 * a_b_2
+    f = a * x_c**2 + b * x_c * y_c + c * y_c**2 - a_a_2 * a_b_2
 
     return np.array([a, b, c, d, e, f])
 
 
 def ellipse_coefficients_canonical_form(coefficients: ArrayLike) -> NDArray:
     """
-    Returns the canonical form ellipse coefficients from given general form
+    Return the canonical form ellipse coefficients from given general form
     ellipse coefficients.
 
     The general form ellipse coefficients are the coefficients of the implicit
@@ -454,9 +454,9 @@ def ellipse_coefficients_canonical_form(coefficients: ArrayLike) -> NDArray:
 
     a, b, c, d, e, f = tsplit(coefficients)
 
-    d_1 = b ** 2 - 4 * a * c
-    n_p_1 = 2 * (a * e ** 2 + c * d ** 2 - b * d * e + d_1 * f)
-    n_p_2 = np.sqrt((a - c) ** 2 + b ** 2)
+    d_1 = b**2 - 4 * a * c
+    n_p_1 = 2 * (a * e**2 + c * d**2 - b * d * e + d_1 * f)
+    n_p_2 = np.sqrt((a - c) ** 2 + b**2)
 
     a_a = -np.sqrt(n_p_1 * (a + c + n_p_2)) / d_1
     a_b = -np.sqrt(n_p_1 * (a + c - n_p_2)) / d_1
@@ -484,7 +484,7 @@ def point_at_angle_on_ellipse(
     phi: ArrayLike, coefficients: ArrayLike
 ) -> NDArray:
     """
-    Returns the coordinates of the point at angle :math:`\\phi` in degrees on
+    Return the coordinates of the point at angle :math:`\\phi` in degrees on
     the ellipse with given canonical form coefficients.
 
     Parameters
@@ -527,7 +527,7 @@ def point_at_angle_on_ellipse(
 
 def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArray:
     """
-    Returns the coefficients of the implicit second-order polynomial/quadratic
+    Return the coefficients of the implicit second-order polynomial/quadratic
     curve that fits given point array :math:`a` using
     *Halir and Flusser (1998)* method.
 
@@ -567,7 +567,7 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArray:
     x, y = tsplit(a)
 
     # Quadratic part of the design matrix.
-    D1 = tstack([x ** 2, x * y, y ** 2])
+    D1 = tstack([x**2, x * y, y**2])
     # Linear part of the design matrix.
     D2 = tstack([x, y, ones(x.shape)])
 
@@ -613,7 +613,7 @@ def ellipse_fitting(
     a: ArrayLike, method: Union[Literal["Halir 1998"], str] = "Halir 1998"
 ) -> NDArray:
     """
-    Returns the coefficients of the implicit second-order polynomial/quadratic
+    Return the coefficients of the implicit second-order polynomial/quadratic
     curve that fits given point array :math:`a` using
     given method.
 

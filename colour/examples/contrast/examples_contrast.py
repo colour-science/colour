@@ -1,6 +1,4 @@
-"""
-Showcases contrast sensitivity computations.
-"""
+"""Showcases contrast sensitivity computations."""
 
 from pprint import pprint
 
@@ -40,15 +38,15 @@ settings_BT2246 = {
     "X_max": 12,
     "N_max": 15,
     "n": 0.03,
-    "p": 1.2274 * 10 ** 6,
-    "phi_0": 3 * 10 ** -8,
+    "p": 1.2274 * 10**6,
+    "phi_0": 3 * 10**-8,
     "u_0": 7,
 }
 
 
 def maximise_spatial_frequency(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Maximises the spatial frequency :math:`u` for given luminance value.
+    Maximise the spatial frequency :math:`u` for given luminance value.
 
     Parameters
     ----------

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.quality.cqs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.quality.cqs` module."""
 
 import numpy as np
 import unittest
@@ -13,7 +11,7 @@ from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
 from colour.quality.cqs import VS_ColorimetryData, VS_ColourQualityScaleData
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -26,14 +24,12 @@ __all__ = [
 
 class TestColourQualityScale(unittest.TestCase):
     """
-    Defines :func:`colour.quality.cqs.colour_quality_scale` definition unit
+    Define :func:`colour.quality.cqs.colour_quality_scale` definition unit
     tests methods.
     """
 
     def test_colour_quality_scale(self):
-        """
-        Tests :func:`colour.quality.cqs.colour_quality_scale` definition.
-        """
+        """Test :func:`colour.quality.cqs.colour_quality_scale` definition."""
 
         self.assertAlmostEqual(
             colour_quality_scale(SDS_ILLUMINANTS["FL1"]),

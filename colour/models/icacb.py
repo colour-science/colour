@@ -30,7 +30,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -52,14 +52,10 @@ MATRIX_ICACB_XYZ_TO_LMS: NDArray = np.array(
         [0.02567, 0.16713, 0.74235],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to normalised cone responses matrix.
-"""
+"""*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
 MATRIX_ICACB_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array(
     [
@@ -68,19 +64,15 @@ MATRIX_ICACB_XYZ_TO_LMS_2: NDArray = np.array(
         [0.3605, 1.1499, -1.5105],
     ]
 )
-"""
-Normalised non-linear cone responses to :math:`IC_AC_B` colourspace matrix.
-"""
+"""Normalised non-linear cone responses to :math:`IC_AC_B` colourspace matrix."""
 
 MATRIX_ICACB_LMS_TO_XYZ_2: NDArray = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_2)
-"""
-:math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix.
-"""
+""":math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix."""
 
 
 def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
+    Convert from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
 
     Parameters
     ----------
@@ -94,7 +86,6 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -136,7 +127,7 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArray:
 
 def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
     """
-    Converts from :math:`IC_AC_B` tristimulus values to *CIE XYZ* colourspace.
+    Convert from :math:`IC_AC_B` tristimulus values to *CIE XYZ* colourspace.
 
     Parameters
     ----------
@@ -150,7 +141,6 @@ def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+

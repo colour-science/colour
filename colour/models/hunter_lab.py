@@ -27,7 +27,7 @@ from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -42,7 +42,7 @@ __all__ = [
 
 def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *whitepoint* *CIE XYZ* tristimulus values to
+    Convert from *whitepoint* *CIE XYZ* tristimulus values to
     *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
     coefficients.
 
@@ -88,7 +88,7 @@ def XYZ_to_Hunter_Lab(
     ]["D65"].K_ab,
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
+    Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
     Parameters
     ----------
@@ -108,7 +108,6 @@ def XYZ_to_Hunter_Lab(
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -170,7 +169,7 @@ def Hunter_Lab_to_XYZ(
     ]["D65"].K_ab,
 ) -> NDArray:
     """
-    Converts from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
+    Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -190,7 +189,6 @@ def Hunter_Lab_to_XYZ(
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -231,7 +229,7 @@ def Hunter_Lab_to_XYZ(
     )
 
     L_100 = L / 100
-    L_100_2 = L_100 ** 2
+    L_100_2 = L_100**2
 
     Y = L_100_2 * Y_n
     X = ((a / K_a) * L_100 + L_100_2) * X_n

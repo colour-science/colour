@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.appearance.llab` module.
-"""
+"""Defines the unit tests for the :mod:`colour.appearance.llab` module."""
 
 import numpy as np
 import unittest
@@ -21,7 +19,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -34,13 +32,13 @@ __all__ = [
 
 class TestXYZ_to_LLAB(unittest.TestCase):
     """
-    Defines :func:`colour.appearance.llab.XYZ_to_LLAB` definition unit
+    Define :func:`colour.appearance.llab.XYZ_to_LLAB` definition unit
     tests methods.
     """
 
     def test_XYZ_to_LLAB(self):
         """
-        Tests :func:`colour.appearance.llab.XYZ_to_LLAB` definition.
+        Test :func:`colour.appearance.llab.XYZ_to_LLAB` definition.
 
         Notes
         -----
@@ -104,7 +102,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_LLAB(self):
         """
-        Tests :func:`colour.appearance.llab.XYZ_to_LLAB` definition
+        Test :func:`colour.appearance.llab.XYZ_to_LLAB` definition
         n-dimensional support.
         """
 
@@ -137,7 +135,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
 
     def test_colourspace_conversion_matrices_precision(self):
         """
-        Tests for loss of precision in conversion between
+        Test for loss of precision in conversion between
         *LLAB(l:c)* colour appearance model *CIE XYZ* tristimulus values and
         normalised cone responses matrix.
         """
@@ -151,7 +149,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_LLAB(self):
         """
-        Tests :func:`colour.appearance.llab.XYZ_to_LLAB` definition domain
+        Test :func:`colour.appearance.llab.XYZ_to_LLAB` definition domain
         and range scale support.
         """
 
@@ -180,7 +178,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_LLAB(self):
         """
-        Tests :func:`colour.appearance.llab.XYZ_to_LLAB` definition
+        Test :func:`colour.appearance.llab.XYZ_to_LLAB` definition
         nan support.
         """
 

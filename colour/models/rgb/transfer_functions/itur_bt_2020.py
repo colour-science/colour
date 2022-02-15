@@ -33,7 +33,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -50,9 +50,7 @@ CONSTANTS_BT2020: Structure = Structure(
     alpha=lambda x: 1.0993 if x else 1.099,
     beta=lambda x: 0.0181 if x else 0.018,
 )
-"""
-*BT.2020* colourspace constants.
-"""
+"""*BT.2020* colourspace constants."""
 
 CONSTANTS_BT2020_PRECISE: Structure = Structure(
     alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807
@@ -73,7 +71,7 @@ def eotf_inverse_BT2020(
     constants: Structure = CONSTANTS_BT2020,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2020* inverse electro-optical transfer
+    Define *Recommendation ITU-R BT.2020* inverse electro-optical transfer
     function (EOTF).
 
     Parameters
@@ -94,7 +92,6 @@ def eotf_inverse_BT2020(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -133,7 +130,7 @@ def eotf_BT2020(
     constants: Structure = CONSTANTS_BT2020,
 ) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
+    Define *Recommendation ITU-R BT.2020* electro-optical transfer function
     (EOTF).
 
     Parameters
@@ -152,7 +149,6 @@ def eotf_BT2020(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

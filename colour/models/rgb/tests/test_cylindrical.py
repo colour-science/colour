@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.cylindrical` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.cylindrical` module."""
 
 import numpy as np
 import unittest
@@ -17,7 +15,7 @@ from colour.models.rgb.cylindrical import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -35,14 +33,12 @@ __all__ = [
 
 class TestRGB_to_HSV(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition unit
+    Define :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition unit
     tests methods.
     """
 
     def test_RGB_to_HSV(self):
-        """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_HSV(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -70,7 +66,7 @@ class TestRGB_to_HSV(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_HSV(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
         n-dimensional arrays support.
         """
 
@@ -87,7 +83,7 @@ class TestRGB_to_HSV(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_HSV(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
         domain and range scale support.
         """
 
@@ -104,7 +100,7 @@ class TestRGB_to_HSV(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_HSV(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition nan
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition nan
         support.
         """
 
@@ -117,14 +113,12 @@ class TestRGB_to_HSV(unittest.TestCase):
 
 class TestHSV_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition unit
+    Define :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition unit
     tests methods.
     """
 
     def test_HSV_to_RGB(self):
-        """
-        Tests :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             HSV_to_RGB(np.array([0.99603944, 0.93246304, 0.45620519])),
@@ -152,7 +146,7 @@ class TestHSV_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_HSV_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition
+        Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition
         n-dimensional arrays support.
         """
 
@@ -169,7 +163,7 @@ class TestHSV_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_HSV_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition
+        Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition
         domain and range scale support.
         """
 
@@ -186,7 +180,7 @@ class TestHSV_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_HSV_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition nan
+        Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition nan
         support.
         """
 
@@ -199,14 +193,12 @@ class TestHSV_to_RGB(unittest.TestCase):
 
 class TestRGB_to_HSL(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition unit
+    Define :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition unit
     tests methods.
     """
 
     def test_RGB_to_HSL(self):
-        """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_HSL(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -234,7 +226,7 @@ class TestRGB_to_HSL(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_HSL(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
         n-dimensional arrays support.
         """
 
@@ -251,7 +243,7 @@ class TestRGB_to_HSL(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_HSL(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
         domain and range scale support.
         """
 
@@ -268,7 +260,7 @@ class TestRGB_to_HSL(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_HSL(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition nan
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition nan
         support.
         """
 
@@ -281,14 +273,12 @@ class TestRGB_to_HSL(unittest.TestCase):
 
 class TestHSL_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition unit
+    Define :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition unit
     tests methods.
     """
 
     def test_HSL_to_RGB(self):
-        """
-        Tests :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             HSL_to_RGB(np.array([0.99603944, 0.87347144, 0.24350795])),
@@ -316,7 +306,7 @@ class TestHSL_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_HSL_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition
+        Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition
         n-dimensional arrays support.
         """
 
@@ -333,7 +323,7 @@ class TestHSL_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_HSL_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition
+        Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition
         domain and range scale support.
         """
 
@@ -350,7 +340,7 @@ class TestHSL_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_HSL_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition nan
+        Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition nan
         support.
         """
 
@@ -363,14 +353,12 @@ class TestHSL_to_RGB(unittest.TestCase):
 
 class TestRGB_to_HCL(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition unit
+    Define :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition unit
     tests methods.
     """
 
     def test_RGB_to_HCL(self):
-        """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition."""
 
         np.testing.assert_almost_equal(
             RGB_to_HCL(np.array([0.45620519, 0.03081071, 0.04091952])),
@@ -398,7 +386,7 @@ class TestRGB_to_HCL(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_HCL(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
         n-dimensional arrays support.
         """
 
@@ -415,7 +403,7 @@ class TestRGB_to_HCL(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_HCL(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
         domain and range scale support.
         """
 
@@ -432,7 +420,7 @@ class TestRGB_to_HCL(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_HCL(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition nan
+        Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition nan
         support.
         """
 
@@ -445,14 +433,12 @@ class TestRGB_to_HCL(unittest.TestCase):
 
 class TestHCL_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition unit
+    Define :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition unit
     tests methods.
     """
 
     def test_HCL_to_RGB(self):
-        """
-        Tests :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition.
-        """
+        """Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition."""
 
         np.testing.assert_almost_equal(
             HCL_to_RGB(np.array([-0.03167854, 0.28417150, 0.22859647])),
@@ -480,7 +466,7 @@ class TestHCL_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_HCL_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition
+        Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition
         n-dimensional arrays support.
         """
 
@@ -497,7 +483,7 @@ class TestHCL_to_RGB(unittest.TestCase):
 
     def test_domain_range_scale_HCL_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition
+        Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition
         domain and range scale support.
         """
 
@@ -514,7 +500,7 @@ class TestHCL_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_HCL_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition nan
+        Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition nan
         support.
         """
 

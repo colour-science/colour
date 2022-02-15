@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.uniformity` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.uniformity` module."""
 
 from __future__ import annotations
 
@@ -11,7 +9,7 @@ from colour.colorimetry import spectral_uniformity
 from colour.hints import NDArray
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -225,13 +223,13 @@ DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES: NDArray = np.array(
 
 class TestSpectralUniformity(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.uniformity.spectral_uniformity`
+    Define :func:`colour.colorimetry.uniformity.spectral_uniformity`
     definition unit tests methods.
     """
 
     def test_spectral_uniformity(self):
         """
-        Tests :func:`colour.colorimetry.uniformity.spectral_uniformity`
+        Test :func:`colour.colorimetry.uniformity.spectral_uniformity`
         definition.
         """
 

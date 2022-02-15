@@ -34,7 +34,7 @@ else:  # pragma: no cover
     Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -49,7 +49,7 @@ __all__ = [
 
 class LMS_ConeFundamentals(MultiSpectralDistributions):
     """
-    Implements support for the Stockman and Sharpe *LMS* cone fundamentals
+    Implement support for the Stockman and Sharpe *LMS* cone fundamentals
     colour matching functions.
 
     Parameters
@@ -105,20 +105,20 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(
             data,
             domain,
             labels=("l_bar", "m_bar", "s_bar"),
             strict_labels=("$\\bar{l}$", "$\\bar{m}$", "$\\bar{s}$"),
-            **kwargs
+            **kwargs,
         )
 
 
 class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
     """
-    Implements support for the *CIE RGB* colour matching functions.
+    Implement support for the *CIE RGB* colour matching functions.
 
     Parameters
     ----------
@@ -173,20 +173,20 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(
             data,
             domain,
             labels=("r_bar", "g_bar", "b_bar"),
             strict_labels=("$\\bar{r}$", "$\\bar{g}$", "$\\bar{b}$"),
-            **kwargs
+            **kwargs,
         )
 
 
 class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
     """
-    Implements support for the *CIE* Standard Observers *XYZ* colour matching
+    Implement support for the *CIE* Standard Observers *XYZ* colour matching
     functions.
 
     Parameters
@@ -242,12 +242,12 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
         super().__init__(
             data,
             domain,
             labels=("x_bar", "y_bar", "z_bar"),
             strict_labels=("$\\bar{x}$", "$\\bar{y}$", "$\\bar{z}$"),
-            **kwargs
+            **kwargs,
         )

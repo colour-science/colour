@@ -1,6 +1,4 @@
-"""
-Showcases *CIE* chromaticity diagrams plotting examples.
-"""
+"""Showcases *CIE* chromaticity diagrams plotting examples."""
 
 from colour import SDS_ILLUMINANTS
 from colour.plotting import (

@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.tabular` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.tabular` module."""
 
 from __future__ import annotations
 
@@ -18,7 +16,7 @@ from colour.io import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -121,13 +119,13 @@ COLOURCHECKER_N_OHTA_1: Dict = {
 
 class TestReadSpectralDataFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.read_spectral_data_from_csv_file`
+    Define :func:`colour.io.tabular.read_spectral_data_from_csv_file`
     definition unit tests methods.
     """
 
     def test_read_spectral_data_from_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.read_spectral_data_from_csv_file`
+        Test :func:`colour.io.tabular.read_spectral_data_from_csv_file`
         definition.
         """
 
@@ -175,14 +173,12 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
 
 class TestReadSdsFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.read_sds_from_csv_file` definition unit
+    Define :func:`colour.io.tabular.read_sds_from_csv_file` definition unit
     tests methods.
     """
 
     def test_read_sds_from_csv_file(self):
-        """
-        Tests :func:`colour.io.tabular.read_sds_from_csv_file` definition.
-        """
+        """Test :func:`colour.io.tabular.read_sds_from_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(
             RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
@@ -198,28 +194,22 @@ class TestReadSdsFromCsvFile(unittest.TestCase):
 
 class TestWriteSdsToCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.write_sds_to_csv_file` definition unit
+    Define :func:`colour.io.tabular.write_sds_to_csv_file` definition unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_sds_to_csv_file(self):
-        """
-        Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition.
-        """
+        """Test :func:`colour.io.tabular.write_sds_to_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(
             RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
@@ -235,7 +225,7 @@ class TestWriteSdsToCsvFile(unittest.TestCase):
 
     def test_raise_exception_write_sds_to_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition
+        Test :func:`colour.io.tabular.write_sds_to_csv_file` definition
         raised exception.
         """
 

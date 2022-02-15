@@ -23,7 +23,7 @@ from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -45,14 +45,10 @@ MATRIX_IGPGTG_XYZ_TO_LMS: NDArray = np.array(
         [-0.318, 0.387, 2.311],
     ]
 )
-"""
-*CIE XYZ* tristimulus values to normalised cone responses matrix.
-"""
+"""*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
 MATRIX_IGPGTG_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IGPGTG_XYZ_TO_LMS)
-"""
-Normalised cone responses to *CIE XYZ* tristimulus values matrix.
-"""
+"""Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_IGPGTG_LMS_P_TO_IGPGTG: NDArray = np.array(
     [
@@ -61,21 +57,17 @@ MATRIX_IGPGTG_LMS_P_TO_IGPGTG: NDArray = np.array(
         [-1.208, 2.412, -36.530],
     ]
 )
-"""
-Normalised non-linear cone responses to :math:`I_GP_GT_G` colourspace matrix.
-"""
+"""Normalised non-linear cone responses to :math:`I_GP_GT_G` colourspace matrix."""
 
 MATRIX_IGPGTG_IGPGTG_TO_LMS_P: NDArray = np.linalg.inv(
     MATRIX_IGPGTG_LMS_P_TO_IGPGTG
 )
-"""
-:math:`I_GP_GT_G` colourspace to normalised non-linear cone responses matrix.
-"""
+""":math:`I_GP_GT_G` colourspace to normalised non-linear cone responses matrix."""
 
 
 def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`I_GP_GT_G`
+    Convert from *CIE XYZ* tristimulus values to :math:`I_GP_GT_G`
     colourspace.
 
     Parameters
@@ -90,7 +82,6 @@ def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -132,7 +123,7 @@ def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:
 
 def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArray:
     """
-    Converts from :math:`I_GP_GT_G` colourspace to *CIE XYZ* tristimulus
+    Convert from :math:`I_GP_GT_G` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -147,7 +138,6 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+

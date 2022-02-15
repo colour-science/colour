@@ -26,7 +26,7 @@ from colour.hints import (
 from colour.utilities import as_float_array, as_float, tsplit
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -58,7 +58,7 @@ enabled state.
 
 def is_spow_enabled() -> bool:
     """
-    Returns whether *Colour* safe / symmetrical power function is enabled.
+    Return whether *Colour* safe / symmetrical power function is enabled.
 
     Returns
     -------
@@ -80,7 +80,7 @@ def is_spow_enabled() -> bool:
 
 def set_spow_enable(enable: bool):
     """
-    Sets *Colour* safe / symmetrical power function enabled state.
+    Set *Colour* safe / symmetrical power function enabled state.
 
     Parameters
     ----------
@@ -104,7 +104,7 @@ def set_spow_enable(enable: bool):
 
 class spow_enable:
     """
-    A context manager and decorator temporarily setting *Colour* safe /
+    Define a context manager and decorator temporarily setting *Colour* safe /
     symmetrical power function enabled state.
 
     Parameters
@@ -120,7 +120,8 @@ class spow_enable:
 
     def __enter__(self) -> spow_enable:
         """
-        Called upon entering the context manager and decorator.
+        Set the *Colour* safe / symmetrical power function enabled state
+        upon entering the context manager.
         """
 
         set_spow_enable(self._enable)
@@ -129,15 +130,14 @@ class spow_enable:
 
     def __exit__(self, *args: Any):
         """
-        Called upon exiting the context manager and decorator.
+        Set the *Colour* safe / symmetrical power function enabled state
+        upon exiting the context manager.
         """
 
         set_spow_enable(self._previous_state)
 
     def __call__(self, function: Callable) -> Callable:
-        """
-        Calls the wrapped definition.
-        """
+        """Call the wrapped definition."""
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -149,7 +149,7 @@ class spow_enable:
 
 def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Raises given array :math:`a` to the power :math:`p` as follows:
+    Raise given array :math:`a` to the power :math:`p` as follows:
     :math:`sign(a) * |a|^p`.
 
     This definition avoids NaNs generation when array :math:`a` is negative and
@@ -158,7 +158,7 @@ def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     the :func:`spow_enable` context manager.
 
     Parameters
-    ----------------
+    ----------
     a
         Array :math:`a`.
     p
@@ -199,7 +199,7 @@ def normalise_maximum(
     clip: Boolean = True,
 ) -> NDArray:
     """
-    Normalises given array :math:`a` values by :math:`a` maximum value and
+    Normalise given array :math:`a` values by :math:`a` maximum value and
     optionally clip them between.
 
     Parameters
@@ -235,11 +235,11 @@ def normalise_maximum(
 
 def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
     """
-    Convenient wrapper around :func:`np.einsum` with the following subscripts:
-    *'...ij,...j->...i'*.
-
-    It performs the dot product of the matrix array :math:`m` with the vector
+    Perform the dot product of the matrix array :math:`m` with the vector
     array :math:`v`.
+
+    This definition is a convenient wrapper around :func:`np.einsum` with the
+    following subscripts: *'...ij,...j->...i'*.
 
     Parameters
     ----------
@@ -277,11 +277,11 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
 
 def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
-    Convenient wrapper around :func:`np.einsum` with the following subscripts:
-    *'...ij,...jk->...ik'*.
-
-    It performs the dot product of the matrix array :math:`a` with the matrix
+    Perform the dot product of the matrix array :math:`a` with the matrix
     array :math:`b`.
+
+    This definition is a convenient wrapper around :func:`np.einsum` with the
+    following subscripts: *'...ij,...jk->...ik'*.
 
     Parameters
     ----------
@@ -338,7 +338,7 @@ def linear_conversion(
     a: ArrayLike, old_range: ArrayLike, new_range: ArrayLike
 ) -> NDArray:
     """
-    Performs a simple linear conversion of given array :math:`a` between the
+    Perform a simple linear conversion of given array :math:`a` between the
     old and new ranges.
 
     Parameters
@@ -377,7 +377,7 @@ def linstep_function(
     clip: Boolean = False,
 ) -> NDArray:
     """
-    Performs a simple linear interpolation between given array :math:`a` and
+    Perform a simple linear interpolation between given array :math:`a` and
     array :math:`b` using :math:`x` array.
 
     Parameters
@@ -424,7 +424,7 @@ def smoothstep_function(
     clip: Boolean = False,
 ) -> NDArray:
     """
-    Evaluates the *smoothstep* sigmoid-like function on array :math:`x`.
+    Evaluate the *smoothstep* sigmoid-like function on array :math:`x`.
 
     Parameters
     ----------
@@ -455,7 +455,7 @@ def smoothstep_function(
 
     i = np.clip((x - a) / (b - a), 0, 1) if clip else x
 
-    return (i ** 2) * (3 - 2 * i)
+    return (i**2) * (3 - 2 * i)
 
 
 smooth = smoothstep_function
@@ -463,7 +463,7 @@ smooth = smoothstep_function
 
 def is_identity(a: ArrayLike) -> Boolean:
     """
-    Returns whether :math:`a` array is an identity matrix.
+    Return whether :math:`a` array is an identity matrix.
 
     Parameters
     ----------

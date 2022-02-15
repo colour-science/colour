@@ -33,7 +33,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,9 +48,7 @@ __all__ = [
 CONSTANTS_ARIBSTDB67: Structure = Structure(
     a=0.17883277, b=0.28466892, c=0.55991073
 )
-"""
-*ARIB STD-B67 (Hybrid Log-Gamma)* constants.
-"""
+"""*ARIB STD-B67 (Hybrid Log-Gamma)* constants."""
 
 
 def oetf_ARIBSTDB67(
@@ -59,7 +57,7 @@ def oetf_ARIBSTDB67(
     constants: Structure = CONSTANTS_ARIBSTDB67,
 ) -> FloatingOrNDArray:
     """
-    Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
+    Define *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
     function (OETF).
 
     Parameters
@@ -80,7 +78,6 @@ def oetf_ARIBSTDB67(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -127,7 +124,7 @@ def oetf_inverse_ARIBSTDB67(
     constants: Structure = CONSTANTS_ARIBSTDB67,
 ) -> FloatingOrNDArray:
     """
-    Defines *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
+    Define *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
     function (OETF).
 
     Parameters
@@ -148,7 +145,6 @@ def oetf_inverse_ARIBSTDB67(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

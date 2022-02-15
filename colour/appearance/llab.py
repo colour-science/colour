@@ -49,7 +49,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -172,7 +172,7 @@ tristimulus values matrix.
 @dataclass
 class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
     """
-    Defines the *:math:`LLAB(l:c)`* colour appearance model reference
+    Define the *:math:`LLAB(l:c)`* colour appearance model reference
     specification.
 
     This specification has field names consistent with *Fairchild (2013)*
@@ -215,7 +215,7 @@ class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
 @dataclass
 class CAM_Specification_LLAB(MixinDataclassArithmetic):
     """
-    Defines the *:math:`LLAB(l:c)`* colour appearance model specification.
+    Define the *:math:`LLAB(l:c)`* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
     appearance models in :mod:`colour.appearance` but diverge from
@@ -269,7 +269,7 @@ def XYZ_to_LLAB(
     ],
 ) -> CAM_Specification_LLAB:
     """
-    Computes the *:math:`LLAB(l:c)`* colour appearance model correlates.
+    Compute the *:math:`LLAB(l:c)`* colour appearance model correlates.
 
     Parameters
     ----------
@@ -291,7 +291,6 @@ def XYZ_to_LLAB(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -382,7 +381,7 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
 
 def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to normalised cone responses.
+    Convert from *CIE XYZ* tristimulus values to normalised cone responses.
 
     Parameters
     ----------
@@ -417,7 +416,7 @@ def chromatic_adaptation(
     D: FloatingOrArrayLike = 1,
 ) -> NDArray:
     """
-    Applies chromatic adaptation to given *RGB* normalised cone responses
+    Apply chromatic adaptation to given *RGB* normalised cone responses
     array.
 
     Parameters
@@ -472,7 +471,7 @@ def chromatic_adaptation(
 
 def f(x: FloatingOrArrayLike, F_S: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the nonlinear response function of the *:math:`LLAB(l:c)`* colour
+    Define the nonlinear response function of the *:math:`LLAB(l:c)`* colour
     appearance model used to model the nonlinear behaviour of various visual
     responses.
 
@@ -514,7 +513,7 @@ def opponent_colour_dimensions(
     F_L: FloatingOrArrayLike,
 ) -> NDArray:
     """
-    Returns opponent colour dimensions from given adapted *CIE XYZ* tristimulus
+    Return opponent colour dimensions from given adapted *CIE XYZ* tristimulus
     values.
 
     The opponent colour dimensions are based on a modified *CIE L\\*a\\*b\\**
@@ -568,7 +567,7 @@ def hue_angle(
     a: FloatingOrArrayLike, b: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the *hue* angle :math:`h_L` in degrees.
+    Return the *hue* angle :math:`h_L` in degrees.
 
     Parameters
     ----------
@@ -600,7 +599,7 @@ def chroma_correlate(
     a: FloatingOrArrayLike, b: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the correlate of *chroma* :math:`Ch_L`.
+    Return the correlate of *chroma* :math:`Ch_L`.
 
     Parameters
     ----------
@@ -625,7 +624,7 @@ def chroma_correlate(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    c = spow(a ** 2 + b ** 2, 0.5)
+    c = spow(a**2 + b**2, 0.5)
     Ch_L = 25 * np.log1p(0.05 * c)
 
     return as_float(Ch_L)
@@ -638,7 +637,7 @@ def colourfulness_correlate(
     F_C: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Returns the correlate of *colourfulness* :math:`C_L`.
+    Return the correlate of *colourfulness* :math:`C_L`.
 
     Parameters
     ----------
@@ -672,7 +671,7 @@ def colourfulness_correlate(
     F_C = as_float_array(F_C)
 
     S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
-    S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L ** 2
+    S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L**2
     C_L = Ch_L * S_M * S_C * F_C
 
     return as_float(C_L)
@@ -682,7 +681,7 @@ def saturation_correlate(
     Ch_L: FloatingOrArrayLike, L_L: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Returns the correlate of *saturation* :math:`S_L`.
+    Return the correlate of *saturation* :math:`S_L`.
 
     Parameters
     ----------
@@ -716,7 +715,7 @@ def final_opponent_signals(
     C_L: FloatingOrArrayLike, h_L: FloatingOrArrayLike
 ) -> NDArray:
     """
-    Returns the final opponent signals :math:`A_L` and :math:`B_L`.
+    Return the final opponent signals :math:`A_L` and :math:`B_L`.
 
     Parameters
     ----------

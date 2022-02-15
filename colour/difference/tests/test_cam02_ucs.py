@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.difference.cam02_ucs` module.
-"""
+"""Defines the unit tests for the :mod:`colour.difference.cam02_ucs` module."""
 
 import numpy as np
 import unittest
@@ -16,7 +14,7 @@ from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -29,14 +27,12 @@ __all__ = [
 
 class TestDelta_E_Luo2006(unittest.TestCase):
     """
-    Defines :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition unit
+    Define :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition unit
     tests methods.
     """
 
     def test_delta_E_Luo2006(self):
-        """
-        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition.
-        """
+        """Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition."""
 
         self.assertAlmostEqual(
             delta_E_Luo2006(
@@ -89,7 +85,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
 
     def test_n_dimensional_delta_E_Luo2006(self):
         """
-        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition
+        Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition
         n-dimensional arrays support.
         """
 
@@ -124,7 +120,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_delta_E_Luo2006(self):
         """
-        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006`
+        Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006`
         definition nan support.
         """
 

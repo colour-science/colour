@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.temperature.krystek1985` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.krystek1985` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.temperature import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -23,13 +21,13 @@ __all__ = [
 
 class TestUv_to_CCT_Krystek1985(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
+    Define :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
     definition unit tests methods.
     """
 
     def test_uv_to_CCT_Krystek1985(self):
         """
-        Tests :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
+        Test :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
         definition.
         """
 
@@ -65,7 +63,7 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
     def test_n_dimensional_uv_to_CCT_Krystek1985(self):
         """
-        Tests :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
+        Test :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
         definition n-dimensional arrays support.
         """
 
@@ -87,7 +85,7 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_uv_to_CCT_Krystek1985(self):
         """
-        Tests :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
+        Test :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
         definition nan support.
         """
 
@@ -99,13 +97,13 @@ class TestUv_to_CCT_Krystek1985(unittest.TestCase):
 
 class TestCCT_to_uv_Krystek1985(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
+    Define :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
     definition unit tests methods.
     """
 
     def test_CCT_to_uv_Krystek1985(self):
         """
-        Tests :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
+        Test :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
         definition.
         """
 
@@ -129,7 +127,7 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
 
     def test_n_dimensional_CCT_to_uv_Krystek1985(self):
         """
-        Tests :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
+        Test :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
         definition n-dimensional arrays support.
         """
 
@@ -151,7 +149,7 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_CCT_to_uv_Krystek1985(self):
         """
-        Tests :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
+        Test :func:`colour.temperature.krystek1985.CCT_to_uv_Krystek1985`
         definition nan support.
         """
 

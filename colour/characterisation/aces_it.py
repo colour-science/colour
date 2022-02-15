@@ -106,7 +106,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -133,14 +133,10 @@ __all__ = [
 ]
 
 FLARE_PERCENTAGE: Floating = 0.00500
-"""
-Flare percentage in the *ACES* system.
-"""
+"""Flare percentage in the *ACES* system."""
 
 S_FLARE_FACTOR: Floating = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
-"""
-Flare modulation factor in the *ACES* system.
-"""
+"""Flare modulation factor in the *ACES* system."""
 
 
 def sd_to_aces_relative_exposure_values(
@@ -166,7 +162,7 @@ def sd_to_aces_relative_exposure_values(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Converts given spectral distribution to *ACES2065-1* colourspace relative
+    Convert given spectral distribution to *ACES2065-1* colourspace relative
     exposure values.
 
     Parameters
@@ -188,7 +184,6 @@ def sd_to_aces_relative_exposure_values(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -235,9 +230,7 @@ def sd_to_aces_relative_exposure_values(
     r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 
     def k(x: NDArray, y: NDArray) -> NDArray:
-        """
-        Computes the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors.
-        """
+        """Compute the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors."""
 
         return 1 / np.sum(x * y)
 
@@ -280,9 +273,7 @@ def sd_to_aces_relative_exposure_values(
 sd_to_ACES2065_1 = sd_to_aces_relative_exposure_values
 
 SPECTRAL_SHAPE_RAWTOACES: SpectralShape = SpectralShape(380, 780, 5)
-"""
-Default spectral shape according to *RAW to ACES* v1.
-"""
+"""Default spectral shape according to *RAW to ACES* v1."""
 
 RESOURCES_DIRECTORY_RAWTOACES: str = os.path.join(
     os.path.dirname(__file__), "datasets", "rawtoaces"
@@ -302,7 +293,7 @@ _TRAINING_DATA_RAWTOACES_V1: Optional[MultiSpectralDistributions] = None
 
 def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     """
-    Reads the *RAW to ACES* v1 190 patches.
+    Read the *RAW to ACES* v1 190 patches.
 
     Returns
     -------
@@ -339,7 +330,7 @@ _ILLUMINANTS_RAWTOACES_V1: Optional[CaseInsensitiveMapping] = None
 
 def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
     """
-    Generates a series of illuminants according to *RAW to ACES* v1:
+    Generate a series of illuminants according to *RAW to ACES* v1:
 
     -   *CIE Illuminant D Series* in range [4000, 25000] kelvin degrees.
     -   *Blackbodies* in range [1000, 3500] kelvin degrees.
@@ -413,7 +404,7 @@ def white_balance_multipliers(
     sensitivities: RGB_CameraSensitivities, illuminant: SpectralDistribution
 ) -> NDArray:
     """
-    Computes the *RGB* white balance multipliers for given camera *RGB*
+    Compute the *RGB* white balance multipliers for given camera *RGB*
     spectral sensitivities and illuminant.
 
     Parameters
@@ -515,7 +506,7 @@ def normalise_illuminant(
     illuminant: SpectralDistribution, sensitivities: RGB_CameraSensitivities
 ) -> SpectralDistribution:
     """
-    Normalises given illuminant with given camera *RGB* spectral sensitivities.
+    Normalise given illuminant with given camera *RGB* spectral sensitivities.
 
     The multiplicative inverse scaling factor :math:`k` is computed by
     multiplying the illuminant by the sensitivies channel with the maximum
@@ -567,7 +558,7 @@ def training_data_sds_to_RGB(
     illuminant: SpectralDistribution,
 ) -> Tuple[NDArray, NDArray]:
     """
-    Converts given training data to *RGB* tristimulus values using given
+    Convert given training data to *RGB* tristimulus values using given
     illuminant and given camera *RGB* spectral sensitivities.
 
     Parameters
@@ -658,7 +649,7 @@ def training_data_sds_to_XYZ(
     ] = "CAT02",
 ) -> NDArray:
     """
-    Converts given training data to *CIE XYZ* tristimulus values using given
+    Convert given training data to *CIE XYZ* tristimulus values using given
     illuminant and given standard observer colour matching functions.
 
     Parameters
@@ -739,9 +730,8 @@ def training_data_sds_to_XYZ(
 
 def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     """
-    Factory that returns the objective function and *CIE XYZ* colourspace to
-    optimisation colourspace/colour model function according to *RAW to ACES*
-    v1.
+    Produce the objective function and *CIE XYZ* colourspace to optimisation
+    colourspace/colour model function according to *RAW to ACES* v1.
 
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
@@ -765,9 +755,7 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Lab: ArrayLike
     ) -> FloatingOrNDArray:
-        """
-        Objective function according to *RAW to ACES* v1.
-        """
+        """Objective function according to *RAW to ACES* v1."""
 
         M = np.reshape(M, [3, 3])
 
@@ -779,9 +767,7 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
         return as_float(np.linalg.norm(Lab_t - Lab))
 
     def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
-        """
-        *CIE XYZ* colourspace to *CIE L\\*a\\*b\\** colourspace function.
-        """
+        """*CIE XYZ* colourspace to *CIE L\\*a\\*b\\** colourspace function."""
 
         return XYZ_to_Lab(XYZ, RGB_COLOURSPACE_ACES2065_1.whitepoint)
 
@@ -790,9 +776,9 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[Callable, Callable]:
 
 def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
     """
-    Factory that returns the objective function and *CIE XYZ* colourspace to
-    optimisation colourspace/colour model function based on the
-    :math:`J_za_zb_z` colourspace.
+    Produce the objective function and *CIE XYZ* colourspace to optimisation
+    colourspace/colour model function based on the :math:`J_za_zb_z`
+    colourspace.
 
     The objective function returns the euclidean distance between the training
     data *RGB* tristimulus values and the training data *CIE XYZ* tristimulus
@@ -816,9 +802,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
     def objective_function(
         M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike
     ) -> FloatingOrNDArray:
-        """
-        :math:`J_za_zb_z` colourspace based objective function.
-        """
+        """:math:`J_za_zb_z` colourspace based objective function."""
 
         M = np.reshape(M, [3, 3])
 
@@ -830,9 +814,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
         return np.sum(euclidean_distance(Jab, Jab_t))
 
     def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
-        """
-        *CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function.
-        """
+        """*CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function."""
 
         return XYZ_to_Jzazbz(XYZ)
 
@@ -866,7 +848,7 @@ def matrix_idt(
     additional_data: Boolean = False,
 ) -> Union[Tuple[NDArray, NDArray, NDArray, NDArray], Tuple[NDArray, NDArray]]:
     """
-    Computes an *Input Device Transform* (IDT) matrix for given camera *RGB*
+    Compute an *Input Device Transform* (IDT) matrix for given camera *RGB*
     spectral sensitivities, illuminant, training data, standard observer colour
     matching functions and optimization settings according to *RAW to ACES* v1
     and *P-2013-001* procedures.
@@ -1006,7 +988,7 @@ def camera_RGB_to_ACES2065_1(
     clip: Boolean = False,
 ) -> NDArray:
     """
-    Converts given camera *RGB* colourspace array to *ACES2065-1* colourspace
+    Convert given camera *RGB* colourspace array to *ACES2065-1* colourspace
     using the *Input Device Transform* (IDT) matrix :math:`B`, the white
     balance multipliers :math:`b` and the exposure factor :math:`k` according
     to *P-2013-001* procedure.

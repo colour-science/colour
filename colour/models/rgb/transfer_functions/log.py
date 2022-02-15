@@ -59,7 +59,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -85,7 +85,7 @@ def logarithmic_function_basic(
     base: Integer = 2,
 ) -> FloatingOrNDArray:
     """
-    Defines the basic logarithmic function.
+    Define the basic logarithmic function.
 
     Parameters
     ----------
@@ -141,15 +141,15 @@ def logarithmic_function_basic(
     if style == "log10":
         return as_float(np.where(x >= FLT_MIN, np.log10(x), np.log10(FLT_MIN)))
     elif style == "antilog10":
-        return as_float(10 ** x)
+        return as_float(10**x)
     elif style == "log2":
         return as_float(np.where(x >= FLT_MIN, np.log2(x), np.log2(FLT_MIN)))
     elif style == "antilog2":
-        return as_float(2 ** x)
+        return as_float(2**x)
     elif style == "logb":
         return as_float(np.log(x) / np.log(base))
     else:  # style == 'antilogb'
-        return as_float(base ** x)
+        return as_float(base**x)
 
 
 def logarithmic_function_quasilog(
@@ -162,7 +162,7 @@ def logarithmic_function_quasilog(
     lin_side_offset: Floating = 0,
 ) -> FloatingOrNDArray:
     """
-    Defines the quasilog logarithmic function.
+    Define the quasilog logarithmic function.
 
     Parameters
     ----------
@@ -247,7 +247,7 @@ def logarithmic_function_camera(
     linear_slope: Optional[Floating] = None,
 ) -> FloatingOrNDArray:
     """
-    Defines the camera logarithmic function.
+    Define the camera logarithmic function.
 
     Parameters
     ----------
@@ -373,7 +373,7 @@ def log_encoding_Log2(
     max_exposure: Floating = 6.5,
 ) -> FloatingOrNDArray:
     """
-    Defines the common *Log2* encoding function.
+    Define the common *Log2* encoding function.
 
     Parameters
     ----------
@@ -429,7 +429,7 @@ def log_decoding_Log2(
     max_exposure: Floating = 6.5,
 ) -> FloatingOrNDArray:
     """
-    Defines the common *Log2* decoding function.
+    Define the common *Log2* decoding function.
 
     Parameters
     ----------
@@ -473,6 +473,6 @@ def log_decoding_Log2(
     log_norm = to_domain_1(log_norm)
 
     lg2 = log_norm * (max_exposure - min_exposure) + min_exposure
-    lin = (2 ** lg2) * middle_grey
+    lin = (2**lg2) * middle_grey
 
     return as_float(from_range_1(lin))

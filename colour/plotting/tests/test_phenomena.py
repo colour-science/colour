@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.phenomena` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.phenomena` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure
@@ -11,7 +9,7 @@ from colour.plotting import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -25,13 +23,13 @@ __all__ = [
 
 class TestPlotSingleSdRayleighScattering(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.phenomena.\
+    Define :func:`colour.plotting.phenomena.\
 plot_single_sd_rayleigh_scattering` definition unit tests methods.
     """
 
     def test_plot_single_sd_rayleigh_scattering(self):
         """
-        Tests :func:`colour.plotting.phenomena.\
+        Test :func:`colour.plotting.phenomena.\
 plot_single_sd_rayleigh_scattering` definition.
         """
 
@@ -43,14 +41,12 @@ plot_single_sd_rayleigh_scattering` definition.
 
 class TestPlotTheBlueSky(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.phenomena.plot_the_blue_sky` definition unit
+    Define :func:`colour.plotting.phenomena.plot_the_blue_sky` definition unit
     tests methods.
     """
 
     def test_plot_the_blue_sky(self):
-        """
-        Tests :func:`colour.plotting.phenomena.plot_the_blue_sky` definition.
-        """
+        """Test :func:`colour.plotting.phenomena.plot_the_blue_sky` definition."""
 
         figure, axes = plot_the_blue_sky()
 

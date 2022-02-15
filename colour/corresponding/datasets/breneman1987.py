@@ -23,7 +23,7 @@ from colour.utilities.documentation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -78,7 +78,7 @@ class BrenemanExperimentResult(
 
     def __new__(cls, name, uv_t, uv_m, s_uv=None, d_uv_i=None, d_uv_g=None):
         """
-        Returns a new instance of the
+        Return a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\
 BrenemanExperimentResult` class.
         """
@@ -101,7 +101,7 @@ class PrimariesChromaticityCoordinates(
     )
 ):
     """
-    Chromaticity coordinates of primaries.
+    Chromaticity coordinates of the primaries.
 
     Parameters
     ----------
@@ -123,7 +123,7 @@ class PrimariesChromaticityCoordinates(
         cls, experiment, illuminants, Y, P_uvp=None, D_uvp=None, T_uvp=None
     ):
         """
-        Returns a new instance of the
+        Return a new instance of the
         :class:`colour.corresponding.datasets.corresponding_chromaticities.\
 PrimariesChromaticityCoordinates` class.
         """

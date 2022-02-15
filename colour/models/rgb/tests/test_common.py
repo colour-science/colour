@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.models.rgb.common` module.
-"""
+"""Defines the unit tests for the :mod:`colour.models.rgb.common` module."""
 
 import numpy as np
 import unittest
@@ -8,7 +6,7 @@ import unittest
 from colour.models import XYZ_to_sRGB, sRGB_to_XYZ
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -22,14 +20,12 @@ __all__ = [
 
 class TestXYZ_to_sRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.common.XYZ_to_sRGB` definition unit tests
+    Define :func:`colour.models.rgb.common.XYZ_to_sRGB` definition unit tests
     methods.
     """
 
     def test_XYZ_to_sRGB(self):
-        """
-        Tests :func:`colour.models.rgb.common.XYZ_to_sRGB` definition.
-        """
+        """Test :func:`colour.models.rgb.common.XYZ_to_sRGB` definition."""
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.20654008, 0.12197225, 0.05136952])),
@@ -83,14 +79,12 @@ class TestXYZ_to_sRGB(unittest.TestCase):
 
 class TestsRGB_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.common.sRGB_to_XYZ` definition unit tests
+    Define :func:`colour.models.rgb.common.sRGB_to_XYZ` definition unit tests
     methods.
     """
 
     def test_sRGB_to_XYZ(self):
-        """
-        Tests :func:`colour.models.rgb.common.sRGB_to_XYZ` definition.
-        """
+        """Test :func:`colour.models.rgb.common.sRGB_to_XYZ` definition."""
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(np.array([0.70573936, 0.19248266, 0.22354169])),

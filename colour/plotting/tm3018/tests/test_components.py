@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.tm3018.components` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.tm3018.components` module."""
 
 from __future__ import annotations
 
@@ -24,7 +22,7 @@ from colour.plotting.tm3018.components import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,13 +46,13 @@ SPECIFICATION_ANSIIESTM3018: ColourQuality_Specification_ANSIIESTM3018 = cast(
 
 class TestPlotSpectraANSIIESTM3018(unittest.TestCase):
     """
-        Defines :func:`colour.plotting.tm3018.components.
+        Define :func:`colour.plotting.tm3018.components.
     plot_spectra_ANSIIESTM3018` definition unit tests methods.
     """
 
     def test_plot_spectra_ANSIIESTM3018(self):
         """
-        Tests :func:`colour.plotting.tm3018.components.\
+        Test :func:`colour.plotting.tm3018.components.\
 plot_spectra_ANSIIESTM3018` definition.
         """
 
@@ -66,13 +64,13 @@ plot_spectra_ANSIIESTM3018` definition.
 
 class TestPlotColourVectorGraphic(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.components.\
+    Define :func:`colour.plotting.tm3018.components.\
 plot_colour_vector_graphic` definition unit tests methods.
     """
 
     def test_plot_colour_vector_graphic(self):
         """
-        Tests :func:`colour.plotting.tm3018.components.\
+        Test :func:`colour.plotting.tm3018.components.\
 plot_colour_vector_graphic` definition.
         """
 
@@ -84,13 +82,13 @@ plot_colour_vector_graphic` definition.
 
 class TestPlot16BinBars(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.components.plot_16_bin_bars`
+    Define :func:`colour.plotting.tm3018.components.plot_16_bin_bars`
     definition unit tests methods.
     """
 
     def test_plot_16_bin_bars(self):
         """
-        Tests :func:`colour.plotting.tm3018.components.plot_16_bin_bars`
+        Test :func:`colour.plotting.tm3018.components.plot_16_bin_bars`
         definition.
         """
 
@@ -102,13 +100,13 @@ class TestPlot16BinBars(unittest.TestCase):
 
 class TestPlotLocalChromaShifts(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.components.plot_local_chroma_shifts`
+    Define :func:`colour.plotting.tm3018.components.plot_local_chroma_shifts`
     definition unit tests methods.
     """
 
     def test_plot_local_chroma_shifts(self):
         """
-        Tests :func:`colour.plotting.tm3018.components.\
+        Test :func:`colour.plotting.tm3018.components.\
 plot_local_chroma_shifts` definition.
         """
 
@@ -120,13 +118,13 @@ plot_local_chroma_shifts` definition.
 
 class TestPlotLocalHueShifts(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.components.plot_local_hue_shifts`
+    Define :func:`colour.plotting.tm3018.components.plot_local_hue_shifts`
     definition unit tests methods.
     """
 
     def test_plot_local_hue_shifts(self):
         """
-        Tests :func:`colour.plotting.tm3018.components.\
+        Test :func:`colour.plotting.tm3018.components.\
 plot_local_hue_shifts` definition.
         """
 
@@ -138,13 +136,13 @@ plot_local_hue_shifts` definition.
 
 class TestPlotLocalColourFidelities(unittest.TestCase):
     """
-        Defines :func:`colour.plotting.tm3018.components.
+        Define :func:`colour.plotting.tm3018.components.
     plot_local_colour_fidelities` definition unit tests methods.
     """
 
     def test_plot_local_colour_fidelities(self):
         """
-        Tests :func:`colour.plotting.tm3018.components.\
+        Test :func:`colour.plotting.tm3018.components.\
 plot_local_colour_fidelities` definition.
         """
 
@@ -158,13 +156,13 @@ plot_local_colour_fidelities` definition.
 
 class TestPlotColourFidelityIndexes(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.tm3018.components.\
+    Define :func:`colour.plotting.tm3018.components.\
 plot_colour_fidelity_indexes` definition unit tests methods.
     """
 
     def test_plot_colour_fidelity_indexes(self):
         """
-        Tests :func:`colour.plotting.tm3018.components.\
+        Test :func:`colour.plotting.tm3018.components.\
 plot_colour_fidelity_indexes` definition.
         """
 

@@ -13,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -27,13 +27,13 @@ __all__ = [
 
 class TestEotf_inverse_ST2084(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.st_2084.\
+    Define :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition unit tests methods.
     """
 
     def test_eotf_inverse_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+        Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition.
         """
 
@@ -53,7 +53,7 @@ eotf_inverse_ST2084` definition.
 
     def test_n_dimensional_eotf_inverse_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+        Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition n-dimensional arrays support.
         """
 
@@ -74,14 +74,14 @@ eotf_inverse_ST2084` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_inverse_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+        Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition domain and range scale support.
         """
 
         C = 100
         N = eotf_inverse_ST2084(C)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -91,7 +91,7 @@ eotf_inverse_ST2084` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_inverse_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+        Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_inverse_ST2084` definition nan support.
         """
 
@@ -102,13 +102,13 @@ eotf_inverse_ST2084` definition nan support.
 
 class TestEotf_ST2084(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.st_2084.eotf_ST2084`
+    Define :func:`colour.models.rgb.transfer_functions.st_2084.eotf_ST2084`
     definition unit tests methods.
     """
 
     def test_eotf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+        Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_ST2084` definition.
         """
 
@@ -122,7 +122,7 @@ eotf_ST2084` definition.
 
     def test_n_dimensional_eotf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+        Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_ST2084` definition n-dimensional arrays support.
         """
 
@@ -143,14 +143,14 @@ eotf_ST2084` definition n-dimensional arrays support.
 
     def test_domain_range_scale_eotf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+        Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_ST2084` definition domain and range scale support.
         """
 
         N = 0.508078421517399
         C = eotf_ST2084(N)
 
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
@@ -160,7 +160,7 @@ eotf_ST2084` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_eotf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+        Test :func:`colour.models.rgb.transfer_functions.st_2084.\
 eotf_ST2084` definition nan support.
         """
 

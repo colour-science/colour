@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.recovery.smits1999` module.
-"""
+"""Defines the unit tests for the :mod:`colour.recovery.smits1999` module."""
 
 import numpy as np
 import unittest
@@ -11,7 +9,7 @@ from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -24,13 +22,13 @@ __all__ = [
 
 class TestRGB_to_sd_Smits1999(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
+    Define :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
     definition unit tests methods.
     """
 
     def test_RGB_to_sd_Smits1999(self):
         """
-        Tests :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
+        Test :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition.
         """
 
@@ -168,7 +166,7 @@ class TestRGB_to_sd_Smits1999(unittest.TestCase):
 
     def test_domain_range_scale_RGB_to_sd_Smits1999(self):
         """
-        Tests :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
+        Test :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition domain and range scale support.
         """
 

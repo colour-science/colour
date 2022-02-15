@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.volume.mesh` module.
-"""
+"""Defines the unit tests for the :mod:`colour.volume.mesh` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.volume import is_within_mesh_volume
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -23,14 +21,12 @@ __all__ = [
 
 class TestIsWithinMeshVolume(unittest.TestCase):
     """
-    Defines :func:`colour.volume.mesh.is_within_mesh_volume` definition unit
+    Define :func:`colour.volume.mesh.is_within_mesh_volume` definition unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._mesh = np.array(
             [
@@ -43,9 +39,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
         )
 
     def test_is_within_mesh_volume(self):
-        """
-        Tests :func:`colour.volume.mesh.is_within_mesh_volume` definition.
-        """
+        """Test :func:`colour.volume.mesh.is_within_mesh_volume` definition."""
 
         self.assertTrue(
             is_within_mesh_volume(
@@ -73,7 +67,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
 
     def test_n_dimensional_is_within_mesh_volume(self):
         """
-        Tests :func:`colour.volume.mesh.is_within_mesh_volume` definition
+        Test :func:`colour.volume.mesh.is_within_mesh_volume` definition
         n-dimensional arrays support.
         """
 
@@ -91,7 +85,7 @@ class TestIsWithinMeshVolume(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_is_within_mesh_volume(self):
         """
-        Tests :func:`colour.volume.mesh.is_within_mesh_volume` definition nan
+        Test :func:`colour.volume.mesh.is_within_mesh_volume` definition nan
         support.
         """
 

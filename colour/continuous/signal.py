@@ -70,7 +70,7 @@ else:  # pragma: no cover
     Series = mock.MagicMock()
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -83,7 +83,7 @@ __all__ = [
 
 class Signal(AbstractContinuousFunction):
     """
-    Defines the base class for continuous signal.
+    Define the base class for continuous signal.
 
     The class implements the :meth:`Signal.function` method so that evaluating
     the function for any independent domain variable :math:`x \\in\\mathbb{R}`
@@ -297,9 +297,7 @@ class Signal(AbstractContinuousFunction):
 
     @dtype.setter
     def dtype(self, value: Type[DTypeFloating]):
-        """
-        Setter for the **self.dtype** property.
-        """
+        """Setter for the **self.dtype** property."""
 
         attest(
             value in np.sctypes["float"],
@@ -336,9 +334,7 @@ class Signal(AbstractContinuousFunction):
 
     @domain.setter
     def domain(self, value: ArrayLike):
-        """
-        Setter for the **self.domain** property.
-        """
+        """Setter for the **self.domain** property."""
 
         value = as_float_array(value, self.dtype)
 
@@ -349,11 +345,6 @@ class Signal(AbstractContinuousFunction):
             )
 
         if value.size != self._range.size:
-            runtime_warning(
-                f'"{self.name}" new "domain" and current "range" variables '
-                f'have different size, "range" variable will be resized to '
-                f'"domain" variable shape!'
-            )
             self._range = np.resize(self._range, value.shape)
 
         self._domain = value
@@ -381,9 +372,7 @@ class Signal(AbstractContinuousFunction):
 
     @range.setter
     def range(self, value: ArrayLike):
-        """
-        Setter for the **self.range** property.
-        """
+        """Setter for the **self.range** property."""
 
         value = as_float_array(value, self.dtype)
 
@@ -422,9 +411,7 @@ class Signal(AbstractContinuousFunction):
 
     @interpolator.setter
     def interpolator(self, value: Type[TypeInterpolator]):
-        """
-        Setter for the **self.interpolator** property.
-        """
+        """Setter for the **self.interpolator** property."""
 
         # TODO: Check for interpolator compatibility.
         self._interpolator = value
@@ -453,9 +440,7 @@ class Signal(AbstractContinuousFunction):
 
     @interpolator_kwargs.setter
     def interpolator_kwargs(self, value: dict):
-        """
-        Setter for the **self.interpolator_kwargs** property.
-        """
+        """Setter for the **self.interpolator_kwargs** property."""
 
         attest(
             isinstance(value, dict),
@@ -486,9 +471,7 @@ class Signal(AbstractContinuousFunction):
 
     @extrapolator.setter
     def extrapolator(self, value: Type[TypeExtrapolator]):
-        """
-        Setter for the **self.extrapolator** property.
-        """
+        """Setter for the **self.extrapolator** property."""
 
         # TODO: Check for extrapolator compatibility.
         self._extrapolator = value
@@ -517,9 +500,7 @@ class Signal(AbstractContinuousFunction):
 
     @extrapolator_kwargs.setter
     def extrapolator_kwargs(self, value: dict):
-        """
-        Setter for the **self.extrapolator_kwargs** property.
-        """
+        """Setter for the **self.extrapolator_kwargs** property."""
 
         attest(
             isinstance(value, dict),
@@ -544,7 +525,7 @@ class Signal(AbstractContinuousFunction):
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the continuous signal.
+        Return a formatted string representation of the continuous signal.
 
         Returns
         -------
@@ -574,7 +555,7 @@ class Signal(AbstractContinuousFunction):
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the continuous signal.
+        Return an evaluable string representation of the continuous signal.
 
         Returns
         -------
@@ -634,7 +615,7 @@ class Signal(AbstractContinuousFunction):
 
     def __hash__(self) -> Integer:
         """
-        Returns the abstract continuous function hash.
+        Return the abstract continuous function hash.
 
         Returns
         -------
@@ -657,7 +638,7 @@ class Signal(AbstractContinuousFunction):
         self, x: Union[FloatingOrArrayLike, slice]
     ) -> FloatingOrNDArray:
         """
-        Returns the corresponding range variable :math:`y` for independent
+        Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
 
         Parameters
@@ -705,7 +686,7 @@ class Signal(AbstractContinuousFunction):
         self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
     ):
         """
-        Sets the corresponding range variable :math:`y` for independent domain
+        Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
 
         Parameters
@@ -795,7 +776,7 @@ class Signal(AbstractContinuousFunction):
 
     def __contains__(self, x: Union[FloatingOrArrayLike, slice]) -> bool:
         """
-        Returns whether the continuous signal contains given independent domain
+        Return whether the continuous signal contains given independent domain
         variable :math:`x`.
 
         Parameters
@@ -834,7 +815,7 @@ class Signal(AbstractContinuousFunction):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the continuous signal is equal to given other object.
+        Return whether the continuous signal is equal to given other object.
 
         Parameters
         ----------
@@ -881,7 +862,7 @@ class Signal(AbstractContinuousFunction):
 
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the continuous signal is not equal to given other
+        Return whether the continuous signal is not equal to given other
         object.
 
         Parameters
@@ -916,9 +897,7 @@ class Signal(AbstractContinuousFunction):
         return not (self == other)
 
     def _create_function(self):
-        """
-        Creates the continuous signal underlying function.
-        """
+        """Create the continuous signal underlying function."""
 
         if self._domain.size != 0 and self._range.size != 0:
             self._function = self._extrapolator(
@@ -931,7 +910,7 @@ class Signal(AbstractContinuousFunction):
 
             def _undefined_function(*args: Any, **kwargs: Any):
                 """
-                Raises a :class:`ValueError` exception.
+                Raise a :class:`ValueError` exception.
 
                 Other Parameters
                 ----------------
@@ -1016,7 +995,7 @@ class Signal(AbstractContinuousFunction):
         in_place: Boolean = False,
     ) -> AbstractContinuousFunction:
         """
-        Performs given arithmetical operation with operand :math:`a`, the
+        Perform given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place.
 
         Parameters
@@ -1309,7 +1288,7 @@ class Signal(AbstractContinuousFunction):
     @required("Pandas")
     def to_series(self) -> Series:
         """
-        Converts the continuous signal to a *Pandas* :class:`pandas.Series`
+        Convert the continuous signal to a *Pandas* :class:`pandas.Series`
         class instance.
 
         Returns

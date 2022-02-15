@@ -23,7 +23,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import ColourUsageWarning, as_int
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -38,13 +38,13 @@ __all__ = [
 
 class TestCctfEncoding(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.cctf_encoding`
+    Define :func:`colour.models.rgb.transfer_functions.cctf_encoding`
     definition unit tests methods.
     """
 
     def test_raise_exception_cctf_encoding(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.aces.\
+        Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition raised exception.
         """
 
@@ -64,13 +64,13 @@ log_encoding_ACESproxy` definition raised exception.
 
 class TestCctfDecoding(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.cctf_decoding`
+    Define :func:`colour.models.rgb.transfer_functions.cctf_decoding`
     definition unit tests methods.
     """
 
     def test_raise_exception_cctf_decoding(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.aces.\
+        Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition raised exception.
         """
 
@@ -89,14 +89,10 @@ log_encoding_ACESproxy` definition raised exception.
 
 
 class TestTransferFunctions(unittest.TestCase):
-    """
-    Defines transfer functions unit tests methods.
-    """
+    """Define the transfer functions unit tests methods."""
 
     def test_transfer_functions(self):
-        """
-        Tests transfer functions reciprocity.
-        """
+        """Test the transfer functions reciprocity."""
 
         ignored_transfer_functions = (
             "ACESproxy",

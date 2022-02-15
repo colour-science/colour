@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.io.tm2714` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.tm2714` module."""
 
 from __future__ import annotations
 
@@ -9,6 +7,7 @@ import os
 import shutil
 import unittest
 import tempfile
+from copy import deepcopy
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict, List, Optional, Tuple, Union, cast
@@ -16,7 +15,7 @@ from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from colour.utilities import optional
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -143,14 +142,12 @@ FLUORESCENT_FILE_SPECTRAL_DATA: Dict = {
 
 class TestIES_TM2714_Header(unittest.TestCase):
     """
-    Defines :class:`colour.io.tm2714.Header_IESTM2714` class unit tests
+    Define :class:`colour.io.tm2714.Header_IESTM2714` class unit tests
     methods.
     """
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "mapping",
@@ -170,31 +167,100 @@ class TestIES_TM2714_Header(unittest.TestCase):
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Header_IESTM2714))
 
+    def test_required_methods(self):
+        """Test the presence of required methods."""
+
+        required_methods = (
+            "__init__",
+            "__hash__",
+            "__eq__",
+            "__ne__",
+        )
+
+        for method in required_methods:
+            self.assertIn(method, dir(Header_IESTM2714))
+
+    def test__eq__(self):
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__eq__` method."""
+
+        h0 = Header_IESTM2714(
+            manufacturer="a",
+            catalog_number="b",
+            description="c",
+            document_creator="d",
+            unique_identifier="e",
+            measurement_equipment="f",
+            laboratory="g",
+            report_number="h",
+            report_date="i",
+            document_creation_date="j",
+            comments="k",
+        )
+
+        h1 = deepcopy(h0)
+        self.assertEqual(h0, h1)
+
+    def test__ne__(self):
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method."""
+
+        h0 = Header_IESTM2714(
+            manufacturer="a",
+            catalog_number="b",
+            description="c",
+            document_creator="d",
+            unique_identifier="e",
+            measurement_equipment="f",
+            laboratory="g",
+            report_number="h",
+            report_date="i",
+            document_creation_date="j",
+            comments="k",
+        )
+        h1 = deepcopy(h0)
+
+        h1.manufacturer = "aa"
+        self.assertNotEqual(h0, h1)
+        h1.manufacturer = "a"
+        self.assertEqual(h0, h1)
+
+    def test__hash__(self):
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__hash__` method."""
+
+        h0 = Header_IESTM2714(
+            manufacturer="a",
+            catalog_number="b",
+            description="c",
+            document_creator="d",
+            unique_identifier="e",
+            measurement_equipment="f",
+            laboratory="g",
+            report_number="h",
+            report_date="i",
+            document_creation_date="j",
+            comments="k",
+        )
+
+        self.assertIsInstance(hash(h0), int)
+
 
 class TestIES_TM2714_Sd(unittest.TestCase):
     """
-    Defines :class:`colour.io.tm2714.SpectralDistribution_IESTM2714` class unit
+    Define :class:`colour.io.tm2714.SpectralDistribution_IESTM2714` class unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "mapping",
@@ -211,9 +277,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
             self.assertIn(attribute, dir(SpectralDistribution_IESTM2714))
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = ("__init__", "read", "write")
 
@@ -222,7 +286,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_read(self, sd: Optional[SpectralDistribution] = None):
         """
-        Tests :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
+        Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
 
         Parameters
@@ -264,7 +328,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_raise_exception_read(self):
         """
-        Tests :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
+        Test :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method raised exception.
         """
 
@@ -278,7 +342,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_write(self):
         """
-        Tests :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
+        Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method.
         """
 
@@ -324,7 +388,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
 
     def test_raise_exception_write(self):
         """
-        Tests :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
+        Test :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method raised exception.
         """
 

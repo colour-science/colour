@@ -1,5 +1,5 @@
 """
-hdr-IPT Colourspace
+Hdr-IPT Colourspace
 ===================
 
 Defines the *hdr-IPT* colourspace transformations:
@@ -62,7 +62,7 @@ from colour.utilities.documentation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -95,7 +95,7 @@ def exponent_hdr_IPT(
     ] = "Fairchild 2011",
 ) -> FloatingOrNDArray:
     """
-    Computes *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
+    Compute *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
     *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
 
     Parameters
@@ -115,7 +115,6 @@ def exponent_hdr_IPT(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -159,7 +158,7 @@ def XYZ_to_hdr_IPT(
     ] = "Fairchild 2011",
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *hdr-IPT* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *hdr-IPT* colourspace.
 
     Parameters
     ----------
@@ -180,7 +179,6 @@ def XYZ_to_hdr_IPT(
 
     Notes
     -----
-
     +-------------+-------------------------+---------------------+
     | **Domain**  | **Scale - Reference**   | **Scale - 1**       |
     +=============+=========================+=====================+
@@ -245,7 +243,7 @@ def hdr_IPT_to_XYZ(
     ] = "Fairchild 2011",
 ) -> NDArray:
     """
-    Converts from *hdr-IPT* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *hdr-IPT* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -266,7 +264,6 @@ def hdr_IPT_to_XYZ(
 
     Notes
     -----
-
     +-------------+-------------------------+---------------------+
     | **Domain**  | **Scale - Reference**   | **Scale - 1**       |
     +=============+=========================+=====================+

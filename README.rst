@@ -1,4 +1,6 @@
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_001.png
+
+|
 
 .. start-badges
 
@@ -13,7 +15,7 @@
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
     :target: https://coveralls.io/r/colour-science/colour
     :alt: Coverage Status
-.. |codacy| image:: https://img.shields.io/codacy/grade/7d0d61f8e7294533b27ae00ee6f50fb2/develop.svg?style=flat-square
+.. |codacy| image:: https://img.shields.io/codacy/grade/1f3b8d3bba7440ba9ebc1170589628b1/develop.svg?style=flat-square
     :target: https://www.codacy.com/app/colour-science/colour
     :alt: Code Grade
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
@@ -37,7 +39,7 @@ It is freely available under the
 
 .. contents:: **Table of Contents**
     :backlinks: none
-    :depth: 3
+    :depth: 2
 
 .. sectnum::
 
@@ -250,57 +252,6 @@ If you'd like to join them, please consider
 Features
 --------
 
-**Colour** features a rich dataset and collection of objects, please see the
-`features <https://www.colour-science.org/features/>`__ page for more
-information.
-
-Installation
-------------
-
-**Colour** and its primary dependencies can be easily installed from the
-`Python Package Index <https://pypi.org/project/colour-science/>`__
-by issuing this command in a shell:
-
-.. code-block:: bash
-
-    $ pip install --user colour-science
-
-The detailed installation procedure for the secondary dependencies is
-described in the `Installation Guide <https://www.colour-science.org/installation-guide/>`__.
-
-**Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`__
-from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`__:
-
-.. code-block:: bash
-
-    $ conda install -c conda-forge colour-science
-
-Documentation
--------------
-
-Tutorial
-~~~~~~~~
-
-The `static tutorial <https://colour.readthedocs.io/en/develop/tutorial.html>`__
-provides an introduction to **Colour**. An interactive version is available via
-`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
-
-How-To Guide
-~~~~~~~~~~~~
-
-The `How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
-guide for **Colour** shows various techniques to solve specific problems and
-highlights some interesting use cases.
-
-API Reference
-~~~~~~~~~~~~~
-
-The main technical reference for **Colour** and its API is the
-`Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`__.
-
-Examples
-~~~~~~~~
-
 Most of the objects are available from the ``colour`` namespace:
 
 .. code-block:: python
@@ -308,7 +259,7 @@ Most of the objects are available from the ``colour`` namespace:
     >>> import colour
 
 Automatic Colour Conversion Graph - ``colour.graph``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Starting with version *0.3.14*, **Colour** implements an automatic colour
 conversion graph enabling easier colour conversions.
@@ -338,7 +289,7 @@ conversion graph enabling easier colour conversions.
     array([ 0.47924575,  0.31676968,  0.17362725])
 
 Chromatic Adaptation - ``colour.adaptation``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -352,7 +303,7 @@ Chromatic Adaptation - ``colour.adaptation``
     ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018']
 
 Algebra - ``colour.algebra``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Kernel Interpolation
 ********************
@@ -375,7 +326,7 @@ Sprague (1880) Interpolation
     array([  6.72951612,   7.81406251,  43.77379185])
 
 Colour Appearance Models - ``colour.appearance``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -393,7 +344,7 @@ Colour Appearance Models - ``colour.appearance``
     CAM_Specification_ZCAM(J=38.347186278956357, C=21.12138989208518, h=33.711578931095197, s=81.444585609489536, Q=76.986725284523772, M=42.403805833900506, H=0.45779200212219573, HC=None, V=43.623590687423544, K=43.20894953152817, W=34.829588380192149)
 
 Colour Blindness - ``colour.blindness``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -409,7 +360,7 @@ Colour Blindness - ``colour.blindness``
            [ 0.00644047,  0.25921579,  0.73434374]])
 
 Colour Correction - ``colour characterisation``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -423,7 +374,7 @@ Colour Correction - ``colour characterisation``
     ['Cheung 2004', 'Finlayson 2015', 'Vandermonde']
 
 ACES Input Transform - ``colour characterisation``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -435,7 +386,7 @@ ACES Input Transform - ``colour characterisation``
            [ 0.03458647, -0.16152923,  0.74270363]]), array([ 1.58214188,  1.        ,  1.28910346]))
 
 Colorimetry - ``colour.colorimetry``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Spectral Computations
 *********************
@@ -591,7 +542,7 @@ Luminous Flux, Efficiency & Efficacy Computation
     136.21708031547874
 
 Contrast Sensitivity Function - ``colour.contrast``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -602,7 +553,7 @@ Contrast Sensitivity Function - ``colour.contrast``
 
 
 Colour Difference - ``colour.difference``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -627,7 +578,7 @@ Colour Difference - ``colour.difference``
      'cie2000']
 
 IO - ``colour.io``
-^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~
 
 Images
 ******
@@ -662,7 +613,7 @@ Look Up Table (LUT) Data
     array([ 0.00575674,  0.00181493,  0.00121419])
 
 Colour Models - ``colour.models``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 CIE xyY Colourspace
 *******************
@@ -828,6 +779,14 @@ OSA UCS Colourspace
     >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952 * 100]
     >>> colour.XYZ_to_OSA_UCS(XYZ)
     array([-3.0049979 ,  2.99713697, -9.66784231])
+
+ProLab Colourspace
+******************
+
+.. code-block:: python
+
+    >>> colour.XYZ_to_ProLab([0.51634019, 0.15469500, 0.06289579])
+    array([1.24610688, 2.39525236, 0.41902126])
 
 Jzazbz Colourspace
 ******************
@@ -1111,7 +1070,7 @@ CCTFs Encoding / Decoding
      'sRGB']
 
 Colour Notation Systems - ``colour.notation``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Munsell Value
 *************
@@ -1141,7 +1100,7 @@ Munsell Colour
     array([ 0.38736945,  0.35751656,  0.59362   ])
 
 Optical Phenomena - ``colour.phenomena``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -1159,7 +1118,7 @@ Optical Phenomena - ``colour.phenomena``
                          extrapolator_args={'right': None, 'method': 'Constant', 'left': None})
 
 Light Quality - ``colour.quality``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Colour Fidelity Index
 *********************
@@ -1198,7 +1157,7 @@ Academy Spectral Similarity Index (SSI)
     94.0
 
 Spectral Up-Sampling & Reflectance Recovery - ``colour.recovery``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -1218,7 +1177,7 @@ Spectral Up-Sampling & Reflectance Recovery - ``colour.recovery``
     ['Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
 
 Correlated Colour Temperature Computation Methods - ``colour.temperature``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -1237,7 +1196,7 @@ Correlated Colour Temperature Computation Methods - ``colour.temperature``
      'mccamy1992']
 
 Colour Volume - ``colour.volume``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -1245,7 +1204,7 @@ Colour Volume - ``colour.volume``
     821958.30000000005
 
 Geometry Primitives Generation - ``colour.geometry``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -1270,7 +1229,7 @@ Geometry Primitives Generation - ``colour.geometry``
     ['Cube MPL', 'Grid MPL', 'Quad MPL', 'Sphere']
 
 Plotting - ``colour.plotting``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the objects are available from the ``colour.plotting`` namespace:
 
@@ -1443,25 +1402,69 @@ Colour Temperature
 
 ..  image:: https://colour.readthedocs.io/en/develop/_static/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
 
+User Guide
+----------
+
+Installation
+~~~~~~~~~~~~
+
+**Colour** and its primary dependencies can be easily installed from the
+`Python Package Index <https://pypi.org/project/colour-science/>`__
+by issuing this command in a shell:
+
+.. code-block:: bash
+
+    $ pip install --user colour-science
+
+The detailed installation procedure for the secondary dependencies is
+described in the `Installation Guide <https://www.colour-science.org/installation-guide/>`__.
+
+**Colour** is also available for `Anaconda <https://www.continuum.io/downloads>`__
+from *Continuum Analytics* via `conda-forge <https://conda-forge.org/>`__:
+
+.. code-block:: bash
+
+    $ conda install -c conda-forge colour-science
+
+Tutorial
+~~~~~~~~
+
+The `static tutorial <https://colour.readthedocs.io/en/develop/tutorial.html>`__
+provides an introduction to **Colour**. An interactive version is available via
+`Google Colab <https://colab.research.google.com/notebook#fileId=1Im9J7or9qyClQCv5sPHmKdyiQbG4898K&offline=true&sandboxMode=true>`__.
+
+How-To
+~~~~~~
+
+The `Google Colab How-To <https://colab.research.google.com/notebook#fileId=1NRcdXSCshivkwoU2nieCvC3y14fx1X4X&offline=true&sandboxMode=true>`__
+guide for **Colour** shows various techniques to solve specific problems and
+highlights some interesting use cases.
+
 Contributing
-------------
+~~~~~~~~~~~~
 
 If you would like to contribute to **Colour**, please refer to the following
 `Contributing <https://www.colour-science.org/contributing/>`__ guide.
 
 Changes
--------
+~~~~~~~
 
 The changes are viewable on the `Releases <https://github.com/colour-science/colour/releases>`__ page.
 
 Bibliography
-------------
+~~~~~~~~~~~~
 
 The bibliography is available on the `Bibliography <https://www.colour-science.org/bibliography/>`__ page.
 
 It is also viewable directly from the repository in
 `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`__
 format.
+
+API Reference
+-------------
+
+The main technical reference for **Colour** is the
+`API Reference <https://colour.readthedocs.io/en/latest/reference.html>`__.
 
 See Also
 --------
@@ -1508,7 +1511,6 @@ Contact & Social
 The *Colour Developers* can be reached via different means:
 
 - `Email <mailto:colour-developers@colour-science.org>`__
-- `Discourse <https://colour-science.discourse.group/>`__
 - `Facebook <https://www.facebook.com/python.colour.science>`__
 - `Github Discussions <https://github.com/colour-science/colour/discussions>`__
 - `Gitter <https://gitter.im/colour-science/colour>`__
@@ -1583,6 +1585,6 @@ About
 -----
 
 | **Colour** by Colour Developers
-| Copyright © 2013-2022 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
+| Copyright 2013 Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

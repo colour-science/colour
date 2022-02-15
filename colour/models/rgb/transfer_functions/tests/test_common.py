@@ -14,7 +14,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -29,13 +29,13 @@ __all__ = [
 
 class TestCV_range(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.common.CV_range`
+    Define :func:`colour.models.rgb.transfer_functions.common.CV_range`
     definition unit tests methods.
     """
 
     def test_CV_range(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.CV_range`
+        Test :func:`colour.models.rgb.transfer_functions.common.CV_range`
         definition.
         """
 
@@ -78,13 +78,13 @@ class TestCV_range(unittest.TestCase):
 
 class TestLegalToFull(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
+    Define :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
     definition unit tests methods.
     """
 
     def test_legal_to_full(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
+        Test :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition.
         """
 
@@ -108,7 +108,7 @@ class TestLegalToFull(unittest.TestCase):
 
     def test_n_dimensional_legal_to_full(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
+        Test :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition n-dimensional arrays support.
         """
 
@@ -136,7 +136,7 @@ class TestLegalToFull(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_legal_to_full(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
+        Test :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition nan support.
         """
 
@@ -145,13 +145,13 @@ class TestLegalToFull(unittest.TestCase):
 
 class TestFullToLegal(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
+    Define :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
     definition unit tests methods.
     """
 
     def test_full_to_legal(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
+        Test :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition.
         """
 
@@ -179,7 +179,7 @@ class TestFullToLegal(unittest.TestCase):
 
     def test_n_dimensional_full_to_legal(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
+        Test :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition n-dimensional arrays support.
         """
 
@@ -207,7 +207,7 @@ class TestFullToLegal(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_full_to_legal(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
+        Test :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition nan support.
         """
 

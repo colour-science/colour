@@ -41,10 +41,9 @@ from colour.models.rgb.transfer_functions import (
 from colour.models.rgb.transfer_functions.st_2084 import CONSTANTS_ST2084
 from colour.utilities import (
     Structure,
+    as_float_array,
     domain_range_scale,
-    from_range_1,
     optional,
-    to_domain_1,
     tsplit,
     tstack,
     validate_method,
@@ -55,7 +54,7 @@ from colour.utilities.documentation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -78,10 +77,10 @@ __all__ = [
 ]
 
 CONSTANTS_JZAZBZ_SAFDAR2017: Structure = Structure(
-    b=1.15, g=0.66, d=-0.56, d_0=1.6295499532821566 * 10 ** -11
+    b=1.15, g=0.66, d=-0.56, d_0=1.6295499532821566 * 10**-11
 )
 CONSTANTS_JZAZBZ_SAFDAR2017.update(CONSTANTS_ST2084)
-CONSTANTS_JZAZBZ_SAFDAR2017.m_2 = 1.7 * 2523 / 2 ** 5
+CONSTANTS_JZAZBZ_SAFDAR2017.m_2 = 1.7 * 2523 / 2**5
 """
 Constants for :math:`J_za_zb_z` colourspace and its variant of the perceptual
 quantizer (PQ) from Dolby Laboratories.
@@ -95,10 +94,8 @@ Notes
 CONSTANTS_JZAZBZ_SAFDAR2021: Structure = Structure(
     **CONSTANTS_JZAZBZ_SAFDAR2017
 )
-CONSTANTS_JZAZBZ_SAFDAR2021.d_0 = 3.7035226210190005 * 10 ** -11
-"""
-:math:`J_za_zb_z` colourspace constants for the *ZCAM* colour appearance model.
-"""
+CONSTANTS_JZAZBZ_SAFDAR2021.d_0 = 3.7035226210190005 * 10**-11
+""":math:`J_za_zb_z` colourspace constants for the *ZCAM* colour appearance model."""
 
 MATRIX_JZAZBZ_XYZ_TO_LMS: NDArray = np.array(
     [
@@ -186,7 +183,7 @@ def XYZ_to_Izazbz(
     ] = "Safdar 2017",
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
+    Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
     colourspace.
 
     Parameters
@@ -213,7 +210,6 @@ def XYZ_to_Izazbz(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -248,7 +244,7 @@ def XYZ_to_Izazbz(
     array([ 0.0120779...,  0.0092430...,  0.0052600...])
     """
 
-    X_D65, Y_D65, Z_D65 = tsplit(to_domain_1(XYZ_D65))
+    X_D65, Y_D65, Z_D65 = tsplit(as_float_array(XYZ_D65))
 
     method = validate_method(method, IZAZBZ_METHODS)
 
@@ -275,7 +271,7 @@ def XYZ_to_Izazbz(
         Izazbz = vector_dot(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021, LMS_p)
         Izazbz[..., 0] -= constants.d_0
 
-    return from_range_1(Izazbz)
+    return Izazbz
 
 
 def Izazbz_to_XYZ(
@@ -286,7 +282,7 @@ def Izazbz_to_XYZ(
     ] = "Safdar 2017",
 ) -> NDArray:
     """
-    Converts from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
+    Convert from :math:`I_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -313,7 +309,6 @@ def Izazbz_to_XYZ(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -346,7 +341,7 @@ def Izazbz_to_XYZ(
     array([ 0.2065401...,  0.1219723...,  0.0513696...])
     """
 
-    Izazbz = to_domain_1(Izazbz)
+    Izazbz = as_float_array(Izazbz)
 
     method = validate_method(method, IZAZBZ_METHODS)
 
@@ -375,14 +370,14 @@ def Izazbz_to_XYZ(
 
     XYZ_D65 = tstack([X_D65, Y_D65, Z_p_D65])
 
-    return from_range_1(XYZ_D65)
+    return XYZ_D65
 
 
 def XYZ_to_Jzazbz(
     XYZ_D65: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
+    Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
     colourspace.
 
     Parameters
@@ -407,7 +402,6 @@ def XYZ_to_Jzazbz(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -442,7 +436,7 @@ def XYZ_to_Jzazbz(
     array([ 0.0053504...,  0.0092430...,  0.0052600...])
     """
 
-    XYZ_D65 = to_domain_1(XYZ_D65)
+    XYZ_D65 = as_float_array(XYZ_D65)
 
     with domain_range_scale("ignore"):
         I_z, a_z, b_z = tsplit(
@@ -453,14 +447,14 @@ def XYZ_to_Jzazbz(
 
     Jzazbz = tstack([J_z, a_z, b_z])
 
-    return from_range_1(Jzazbz)
+    return Jzazbz
 
 
 def Jzazbz_to_XYZ(
     Jzazbz: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArray:
     """
-    Converts from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
+    Convert from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -485,7 +479,6 @@ def Jzazbz_to_XYZ(
 
     Notes
     -----
-
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function, thus the domain and range values for the *Reference*
         and *1* scales are only indicative that the data is not affected by
@@ -518,7 +511,7 @@ def Jzazbz_to_XYZ(
     array([ 0.2065402...,  0.1219723...,  0.0513696...])
     """
 
-    J_z, a_z, b_z = tsplit(to_domain_1(Jzazbz))
+    J_z, a_z, b_z = tsplit(as_float_array(Jzazbz))
 
     I_z = (J_z + constants.d_0) / (
         1 + constants.d - constants.d * (J_z + constants.d_0)
@@ -529,4 +522,4 @@ def Jzazbz_to_XYZ(
             tstack([I_z, a_z, b_z]), CONSTANTS_JZAZBZ_SAFDAR2017, "Safdar 2017"
         )
 
-    return from_range_1(XYZ_D65)
+    return XYZ_D65

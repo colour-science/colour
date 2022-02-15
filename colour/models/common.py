@@ -35,7 +35,7 @@ from colour.utilities.documentation import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -52,7 +52,7 @@ __all__ = [
 
 def Jab_to_JCh(Jab: ArrayLike) -> NDArray:
     """
-    Converts from *Jab* colour representation to *JCh* colour representation.
+    Convert from *Jab* colour representation to *JCh* colour representation.
 
     This definition is used to perform conversion from *CIE L\\*a\\*b\\**
     colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
@@ -73,7 +73,6 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -116,7 +115,7 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArray:
 
 def JCh_to_Jab(JCh: ArrayLike) -> NDArray:
     """
-    Converts from *JCh* colour representation to *Jab* colour representation.
+    Convert from *JCh* colour representation to *Jab* colour representation.
 
     This definition is used to perform conversion from *CIE L\\*C\\*Hab*
     colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
@@ -136,7 +135,6 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +-------------+-----------------------+-----------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1**   |
     +=============+=======================+=================+
@@ -242,9 +240,7 @@ COLOURSPACE_MODELS_AXIS_LABELS: CaseInsensitiveMapping = (
         }
     )
 )
-"""
-Colourspace models labels mapping.
-"""
+"""Colourspace models labels mapping."""
 
 attest(COLOURSPACE_MODELS == tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()))
 
@@ -278,6 +274,4 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
         "hdr-IPT": np.array([100, 100, 100]),
     }
 )
-"""
-Colourspace models domain-range scale **'1'** to **'Reference'** mapping.
-"""
+"""Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""

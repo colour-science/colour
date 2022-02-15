@@ -1,0 +1,40 @@
+name: Documentation Improvement
+description: Report a documentation improvement.
+title: "[DOCUMENTATION]: << Please use a comprehensive title... >>"
+labels: [ Documentation ]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for taking the time to file a documentation improvement report. Before continuing, please take some time to check the existing [issues](https://github.com/colour-science/colour/issues).
+
+  - type: input
+    attributes:
+      label: Documentation Link
+      description: >
+        Please link to any documentation or examples that you are referencing. Suggested improvements should be based on the [development version of the documentation](https://colour.readthedocs.io/en/develop/).
+      placeholder: >
+        << https://colour.readthedocs.io/en/develop/... >>
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: >
+        Please describe what is missing, unclear or incorrect.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Suggested Improvement
+      description: >
+        Please describe how the documentation could be improved.
+
+  - type: textarea
+    attributes:
+      label: "Environment Information"
+      description: If possible, please paste the output from `import colour; colour.utilities.describe_environment()`.
+      render: shell

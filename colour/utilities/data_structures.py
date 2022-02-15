@@ -49,7 +49,7 @@ from colour.hints import (
 from colour.utilities.documentation import is_documentation_building
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -67,8 +67,8 @@ __all__ = [
 
 def attest(condition: Boolean, message: str = ""):
     """
-    A replacement for `assert` that is not removed by optimised Python
-    execution.
+    Provide the `assert` statement functionality without being disabled by
+    optimised Python execution.
 
     See :func:`colour.utilities.assert` for more information.
 
@@ -85,7 +85,7 @@ def attest(condition: Boolean, message: str = ""):
 
 class Structure(dict):
     """
-    Defines a :class:`dict`-like object allowing to access key values using dot
+    Define a :class:`dict`-like object allowing to access key values using dot
     syntax.
 
     Other Parameters
@@ -124,7 +124,7 @@ class Structure(dict):
 
     def __setattr__(self, name: str, value: Any):
         """
-        Assigns given value to the attribute with given name.
+        Assign given value to the attribute with given name.
 
         Parameters
         ----------
@@ -138,7 +138,7 @@ class Structure(dict):
 
     def __delattr__(self, name: str):
         """
-        Deletes the attribute with given name.
+        Delete the attribute with given name.
 
         Parameters
         ----------
@@ -150,9 +150,7 @@ class Structure(dict):
 
     def __dir__(self) -> Iterable:
         """
-        Called when :func:`dir` is called on the :class:`dict`-like object
-        and returns a list of valid attributes for the :class:`dict`-like
-        object.
+        Return a list of valid attributes for the :class:`dict`-like object.
 
         Returns
         -------
@@ -164,7 +162,7 @@ class Structure(dict):
 
     def __getattr__(self, name: str) -> Any:
         """
-        Returns the value from the attribute with given name.
+        Return the value from the attribute with given name.
 
         Parameters
         ----------
@@ -176,7 +174,7 @@ class Structure(dict):
         :class:`object`
 
         Raises
-        -----
+        ------
         AttributeError
             If the attribute is not defined.
         """
@@ -187,6 +185,7 @@ class Structure(dict):
             raise AttributeError(name)
 
     def __setstate__(self, state):
+        """Set the object state when unpickling."""
         # See https://github.com/scikit-learn/scikit-learn/issues/6196 for more
         # information.
 
@@ -195,7 +194,7 @@ class Structure(dict):
 
 class Lookup(dict):
     """
-    Extends :class:`dict` type to provide a lookup by value(s).
+    Extend :class:`dict` type to provide a lookup by value(s).
 
     Methods
     -------
@@ -218,7 +217,7 @@ class Lookup(dict):
 
     def keys_from_value(self, value: Any) -> List:
         """
-        Gets the keys associated with given value.
+        Get the keys associated with given value.
 
         Parameters
         ----------
@@ -247,7 +246,7 @@ class Lookup(dict):
 
     def first_key_from_value(self, value: Any) -> Any:
         """
-        Gets the first key associated with given value.
+        Get the first key associated with given value.
 
         Parameters
         ----------
@@ -265,7 +264,7 @@ class Lookup(dict):
 
 class CaseInsensitiveMapping(MutableMapping):
     """
-    Implements a case-insensitive :class:`dict`-like object.
+    Implement a case-insensitive :class:`dict`-like object.
 
     Allows values retrieving from keys while ignoring the key case.
     The keys are expected to be str or :class:`str`-like objects supporting the
@@ -335,7 +334,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the case-insensitive
+        Return an evaluable string representation of the case-insensitive
         :class:`dict`-like object.
 
         Returns
@@ -356,7 +355,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __setitem__(self, item: Union[str, Any], value: Any):
         """
-        Sets given item with given value in the case-insensitive
+        Set given item with given value in the case-insensitive
         :class:`dict`-like object.
 
         Parameters
@@ -378,7 +377,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __getitem__(self, item: Union[str, Any]) -> Any:
         """
-        Returns the value of given item from the case-insensitive
+        Return the value of given item from the case-insensitive
         :class:`dict`-like object.
 
         Parameters
@@ -401,7 +400,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __delitem__(self, item: Union[str, Any]):
         """
-        Deletes given item from the case-insensitive :class:`dict`-like object.
+        Delete given item from the case-insensitive :class:`dict`-like object.
 
         Parameters
         ----------
@@ -417,7 +416,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __contains__(self, item: Union[str, Any]) -> bool:
         """
-        Returns whether the case-insensitive :class:`dict`-like object contains
+        Return whether the case-insensitive :class:`dict`-like object contains
         given item.
 
         Parameters
@@ -437,7 +436,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __iter__(self) -> Generator:
         """
-        Iterates over the items of the case-insensitive :class:`dict`-like
+        Iterate over the items of the case-insensitive :class:`dict`-like
         object.
 
         Yields
@@ -454,7 +453,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __len__(self) -> Integer:
         """
-        Returns the items count.
+        Return the items count.
 
         Returns
         -------
@@ -466,7 +465,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the case-insensitive :class:`dict`-like object is equal
+        Return whether the case-insensitive :class:`dict`-like object is equal
         to given other object.
 
         Parameters
@@ -494,7 +493,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the case-insensitive :class:`dict`-like object is not
+        Return whether the case-insensitive :class:`dict`-like object is not
         equal to given other object.
 
         Parameters
@@ -515,7 +514,7 @@ class CaseInsensitiveMapping(MutableMapping):
     @staticmethod
     def _lower_key(key: Union[str, Any]) -> Union[str, Any]:
         """
-        Returns the lower-case variant of given key, if the key cannot be
+        Return the lower-case variant of given key, if the key cannot be
         lower-cased, it is passed unmodified.
 
         Parameters
@@ -536,7 +535,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def copy(self) -> CaseInsensitiveMapping:
         """
-        Returns a copy of the case-insensitive :class:`dict`-like object.
+        Return a copy of the case-insensitive :class:`dict`-like object.
 
         Returns
         -------
@@ -553,7 +552,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def lower_items(self) -> Generator:
         """
-        Iterates over the lower-case items of the case-insensitive
+        Iterate over the lower-case items of the case-insensitive
         :class:`dict`-like object.
 
         Yields
@@ -571,7 +570,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
 class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     """
-    Implements a lazy case-insensitive :class:`dict`-like object inheriting
+    Implement a lazy case-insensitive :class:`dict`-like object inheriting
     from :class:`CaseInsensitiveMapping` class.
 
     Allows lay values retrieving from keys while ignoring the key case.
@@ -613,7 +612,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
     def __getitem__(self, item: Union[str, Any]) -> Any:
         """
-        Returns the value of given item from the case-insensitive
+        Return the value of given item from the case-insensitive
         :class:`dict`-like object.
 
         Parameters
@@ -645,7 +644,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
 class Node:
     """
-    Represents a basic node supporting the creation of basic node trees.
+    Represent a basic node supporting the creation of basic node trees.
 
     Parameters
     ----------
@@ -708,19 +707,14 @@ class Node:
 
     def __new__(cls, *args: Any, **kwargs: Any) -> Node:
         """
-        Constructor of the class.
+        Return a new instance of the :class:`colour.utilities.Node` class.
 
         Other Parameters
-        ----------
+        ----------------
         args
             Arguments.
         kwargs
             Keywords arguments.
-
-        Returns
-        -------
-        :class:`Node`
-            Class instance.
         """
 
         instance = super().__new__(cls)
@@ -765,9 +759,7 @@ class Node:
 
     @name.setter
     def name(self, value: str):
-        """
-        Setter for the **self.name** property.
-        """
+        """Setter for the **self.name** property."""
 
         attest(
             isinstance(value, str),
@@ -796,9 +788,7 @@ class Node:
 
     @parent.setter
     def parent(self, value: Optional[Node]):
-        """
-        Setter for the **self.parent** property.
-        """
+        """Setter for the **self.parent** property."""
 
         if value is not None:
             attest(
@@ -831,9 +821,7 @@ class Node:
 
     @children.setter
     def children(self, value: List[Node]):
-        """
-        Setter for the **self.children** property.
-        """
+        """Setter for the **self.children** property."""
 
         attest(
             isinstance(value, list),
@@ -932,15 +920,13 @@ class Node:
 
     @data.setter
     def data(self, value: Any):
-        """
-        Setter for the **self.data** property.
-        """
+        """Setter for the **self.data** property."""
 
         self._data = value
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the node.
+        Return a formatted string representation of the node.
 
         Returns
         -------
@@ -952,7 +938,7 @@ class Node:
 
     def __len__(self) -> Integer:
         """
-        Returns the number of children of the node.
+        Return the number of children of the node.
 
         Returns
         -------
@@ -964,7 +950,7 @@ class Node:
 
     def is_root(self) -> Boolean:
         """
-        Returns whether the node is a root node.
+        Return whether the node is a root node.
 
         Returns
         -------
@@ -986,7 +972,7 @@ class Node:
 
     def is_inner(self) -> Boolean:
         """
-        Returns whether the node is an inner node.
+        Return whether the node is an inner node.
 
         Returns
         -------
@@ -1008,7 +994,7 @@ class Node:
 
     def is_leaf(self) -> Boolean:
         """
-        Returns whether the node is a leaf node.
+        Return whether the node is a leaf node.
 
         Returns
         -------
@@ -1030,7 +1016,7 @@ class Node:
 
     def walk(self, ascendants: Boolean = False) -> Generator:
         """
-        Returns a generator used to walk into :class:`colour.utilities.Node`
+        Return a generator used to walk into :class:`colour.utilities.Node`
         trees.
 
         Parameters
@@ -1079,7 +1065,7 @@ class Node:
 
     def render(self, tab_level: Integer = 0):
         """
-        Renders the current node and its children as a string.
+        Render the current node and its children as a string.
 
         Parameters
         ----------
@@ -1087,7 +1073,7 @@ class Node:
             Initial indentation level
 
         Returns
-        ------
+        -------
         :class:`str`
             Rendered node tree.
 

@@ -22,7 +22,7 @@ from colour.hints import Any, Boolean, Dict, NDArray
 from colour.utilities import filter_kwargs
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -39,7 +39,7 @@ def read_spectral_data_from_csv_file(
     path: str, **kwargs: Any
 ) -> Dict[str, NDArray]:
     """
-    Reads the spectral data from given *CSV* file in the following form::
+    Read the spectral data from given *CSV* file in the following form::
 
         390,  4.15003E-04,  3.68349E-04,  9.54729E-03
         395,  1.05192E-03,  9.58658E-04,  2.38250E-02
@@ -149,7 +149,7 @@ def read_sds_from_csv_file(
     path: str, **kwargs: Any
 ) -> Dict[str, SpectralDistribution]:
     """
-    Reads the spectral data from given *CSV* file and returns its content as a
+    Read the spectral data from given *CSV* file and returns its content as a
     *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
@@ -285,7 +285,7 @@ def write_sds_to_csv_file(
     sds: Dict[str, SpectralDistribution], path: str
 ) -> Boolean:
     """
-    Writes the given spectral distributions to given *CSV* file.
+    Write the given spectral distributions to given *CSV* file.
 
     Parameters
     ----------

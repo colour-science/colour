@@ -1,6 +1,4 @@
-"""
-Showcases *Fairchild (1990)* chromatic adaptation model computations.
-"""
+"""Showcases *Fairchild (1990)* chromatic adaptation model computations."""
 
 import numpy as np
 

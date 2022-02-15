@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.plotting.volume` module.
-"""
+"""Defines the unit tests for the :mod:`colour.plotting.volume` module."""
 
 import numpy as np
 import unittest
@@ -10,7 +8,7 @@ from colour.plotting import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 from colour.plotting.volume import nadir_grid, RGB_identity_cube
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -26,14 +24,12 @@ __all__ = [
 
 class TestNadirGrid(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.volume.nadir_grid` definition unit tests
+    Define :func:`colour.plotting.volume.nadir_grid` definition unit tests
     methods.
     """
 
     def test_nadir_grid(self):
-        """
-        Tests :func:`colour.plotting.volume.nadir_grid` definition.
-        """
+        """Test :func:`colour.plotting.volume.nadir_grid` definition."""
 
         quads, faces_colours, edges_colours = nadir_grid(segments=1)
 
@@ -123,14 +119,12 @@ class TestNadirGrid(unittest.TestCase):
 
 class TestRGBIdentityCube(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.volume.RGB_identity_cube` definition unit
+    Define :func:`colour.plotting.volume.RGB_identity_cube` definition unit
     tests methods.
     """
 
     def test_RGB_identity_cube(self):
-        """
-        Tests :func:`colour.plotting.volume.RGB_identity_cube` definition.
-        """
+        """Test :func:`colour.plotting.volume.RGB_identity_cube` definition."""
 
         vertices, RGB = RGB_identity_cube(1, 1, 1)
 
@@ -197,13 +191,13 @@ class TestRGBIdentityCube(unittest.TestCase):
 
 class TestPlotRGBColourspacesGamuts(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
+    Define :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
     definition unit tests methods.
     """
 
     def test_plot_RGB_colourspaces_gamuts(self):
         """
-        Tests :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
+        Test :func:`colour.plotting.volume.plot_RGB_colourspaces_gamuts`
         definition.
         """
 
@@ -220,14 +214,12 @@ class TestPlotRGBColourspacesGamuts(unittest.TestCase):
 
 class TestPlotRGBScatter(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.volume.plot_RGB_scatter` definition unit
+    Define :func:`colour.plotting.volume.plot_RGB_scatter` definition unit
     tests methods.
     """
 
     def test_plot_RGB_scatter(self):
-        """
-        Tests :func:`colour.plotting.volume.plot_RGB_scatter` definition.
-        """
+        """Test :func:`colour.plotting.volume.plot_RGB_scatter` definition."""
 
         figure, axes = plot_RGB_scatter(
             np.random.random((128, 128, 3)), "ITU-R BT.709"

@@ -42,7 +42,7 @@ from colour.models.rgb.datasets.smpte_c import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -64,29 +64,19 @@ __all__ = [
 ]
 
 PRIMARIES_NTSC1953: NDArray = PRIMARIES_BT470_525
-"""
-*NTSC (1953)* colourspace primaries.
-"""
+"""*NTSC (1953)* colourspace primaries."""
 
 WHITEPOINT_NAME_NTSC1953: str = WHITEPOINT_NAME_BT470_525
-"""
-*NTSC (1953)* colourspace whitepoint name.
-"""
+"""*NTSC (1953)* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_NTSC1953: NDArray = CCS_WHITEPOINT_BT470_525
-"""
-*NTSC (1953)* colourspace whitepoint chromaticity coordinates.
-"""
+"""*NTSC (1953)* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_NTSC1953_TO_XYZ: NDArray = MATRIX_BT470_525_TO_XYZ
-"""
-*NTSC (1953)* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*NTSC (1953)* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_NTSC1953: NDArray = MATRIX_XYZ_TO_BT470_525
-"""
-*CIE XYZ* tristimulus values to *NTSC (1953)* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *NTSC (1953)* colourspace matrix."""
 
 RGB_COLOURSPACE_NTSC1953: RGB_Colourspace = RGB_Colourspace(
     "NTSC (1953)",
@@ -107,29 +97,19 @@ References
 """
 
 PRIMARIES_NTSC1987: NDArray = PRIMARIES_SMPTE_C
-"""
-*NTSC (1987)* colourspace primaries.
-"""
+"""*NTSC (1987)* colourspace primaries."""
 
 WHITEPOINT_NAME_NTSC1987: str = WHITEPOINT_NAME_SMPTE_C
-"""
-*NTSC (1987)* colourspace whitepoint name.
-"""
+"""*NTSC (1987)* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_NTSC1987: NDArray = CCS_WHITEPOINT_SMPTE_C
-"""
-*NTSC (1987)* colourspace whitepoint chromaticity coordinates.
-"""
+"""*NTSC (1987)* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_NTSC1987_TO_XYZ: NDArray = MATRIX_SMPTE_C_TO_XYZ
-"""
-*NTSC (1987)* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*NTSC (1987)* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_NTSC1987: NDArray = MATRIX_XYZ_TO_SMPTE_C
-"""
-*CIE XYZ* tristimulus values to *NTSC (1987)* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *NTSC (1987)* colourspace matrix."""
 
 RGB_COLOURSPACE_NTSC1987: RGB_Colourspace = RGB_Colourspace(
     "NTSC (1987)",

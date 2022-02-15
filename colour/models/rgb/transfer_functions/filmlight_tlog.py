@@ -21,7 +21,7 @@ from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -40,7 +40,7 @@ def log_encoding_FilmLightTLog(
     o: Floating = 0.075,
 ) -> FloatingOrNDArray:
     """
-    Defines the *FilmLight T-Log* log encoding curve.
+    Define the *FilmLight T-Log* log encoding curve.
 
     Parameters
     ----------
@@ -64,7 +64,6 @@ def log_encoding_FilmLightTLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -135,7 +134,7 @@ def log_decoding_FilmLightTLog(
     o: Floating = 0.075,
 ) -> FloatingOrNDArray:
     """
-    Defines the *FilmLight T-Log* log decoding curve.
+    Define the *FilmLight T-Log* log decoding curve.
 
     Parameters
     ----------
@@ -159,7 +158,6 @@ def log_decoding_FilmLightTLog(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

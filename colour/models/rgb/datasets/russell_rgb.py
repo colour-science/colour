@@ -26,7 +26,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,33 +48,23 @@ PRIMARIES_RUSSELL_RGB: NDArray = np.array(
         [0.1000, 0.0200],
     ]
 )
-"""
-*Russell RGB* colourspace primaries.
-"""
+"""*Russell RGB* colourspace primaries."""
 
 WHITEPOINT_NAME_RUSSELL_RGB: str = "D55"
-"""
-*Russell RGB* colourspace whitepoint name.
-"""
+"""*Russell RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_RUSSELL_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_RUSSELL_RGB]
-"""
-*Russell RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Russell RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_RUSSELL_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_RUSSELL_RGB, CCS_WHITEPOINT_RUSSELL_RGB
 )
-"""
-*Russell RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Russell RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_RUSSELL_RGB: NDArray = np.linalg.inv(MATRIX_RUSSELL_RGB_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Russell RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Russell RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_RUSSELL_RGB: RGB_Colourspace = RGB_Colourspace(
     "Russell RGB",

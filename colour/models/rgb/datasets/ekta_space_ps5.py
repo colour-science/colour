@@ -26,7 +26,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,35 +48,25 @@ PRIMARIES_EKTA_SPACE_PS_5: NDArray = np.array(
         [0.109728506787330, 0.004524886877828],
     ]
 )
-"""
-*Ekta Space PS 5* colourspace primaries.
-"""
+"""*Ekta Space PS 5* colourspace primaries."""
 
 WHITEPOINT_NAME_EKTA_SPACE_PS_5_V: str = "D50"
-"""
-*Ekta Space PS 5* colourspace whitepoint name.
-"""
+"""*Ekta Space PS 5* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_EKTA_SPACE_PS_5: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_EKTA_SPACE_PS_5_V]
-"""
-*Ekta Space PS 5* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Ekta Space PS 5* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_EKTA_SPACE_PS_5_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_EKTA_SPACE_PS_5, CCS_WHITEPOINT_EKTA_SPACE_PS_5
 )
-"""
-*Ekta Space PS 5* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Ekta Space PS 5* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_EKTA_SPACE_PS_5: NDArray = np.linalg.inv(
     MATRIX_EKTA_SPACE_PS_5_TO_XYZ
 )
-"""
-*CIE XYZ* tristimulus values to *Ekta Space PS 5* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Ekta Space PS 5* colourspace matrix."""
 
 RGB_COLOURSPACE_EKTA_SPACE_PS_5: RGB_Colourspace = RGB_Colourspace(
     "Ekta Space PS 5",

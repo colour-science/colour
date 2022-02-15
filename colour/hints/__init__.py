@@ -21,26 +21,38 @@ from typing import (
     Iterable,
     Iterator,
     List,
-    Literal,
     Mapping,
     NewType,
     Optional,
-    Protocol,
     Union,
     Sequence,
-    SupportsIndex,
     TextIO,
     Tuple,
     TYPE_CHECKING,
     Type,
-    TypedDict,
     TypeVar,
-    runtime_checkable,
     cast,
 )
+from typing_extensions import runtime_checkable
+
+try:
+    from typing import (
+        Literal,
+        Protocol,
+        SupportsIndex,
+        TypedDict,
+    )
+# TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
+except ImportError:  # pragma: no cover
+    from typing_extensions import (  # type: ignore[misc]
+        Literal,
+        Protocol,
+        SupportsIndex,
+        TypedDict,
+    )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -196,30 +208,34 @@ else:
     StrOrNDArray = Union[str, NDArray]
 
 
-class TypeInterpolator(Protocol):
+class TypeInterpolator(Protocol):  # noqa: D101
     x: NDArray
     y: NDArray
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
         ...  # pragma: no cover
 
-    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
+    def __call__(
+        self, x: FloatingOrArrayLike
+    ) -> FloatingOrNDArray:  # noqa: D102
         ...  # pragma: no cover
 
 
-class TypeExtrapolator(Protocol):
+class TypeExtrapolator(Protocol):  # noqa: D101
     interpolator: TypeInterpolator
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
         ...  # pragma: no cover
 
-    def __call__(self, x: FloatingOrArrayLike) -> FloatingOrNDArray:
+    def __call__(
+        self, x: FloatingOrArrayLike
+    ) -> FloatingOrNDArray:  # noqa: D102
         ...  # pragma: no cover
 
 
 @runtime_checkable
-class TypeLUTSequenceItem(Protocol):
-    def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:
+class TypeLUTSequenceItem(Protocol):  # noqa: D101
+    def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 
 

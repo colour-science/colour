@@ -37,7 +37,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -63,7 +63,7 @@ colourspace.
 
 def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values under the
+    Convert from *CIE XYZ* tristimulus values under the
     *CIE 1964 10 Degree Standard Observer* to *OSA UCS* colourspace.
 
     The lightness axis, *L* is usually in range [-9, 5] and centered around
@@ -83,7 +83,6 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
 
     Notes
     -----
-
     +------------+-----------------------+--------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**      |
     +============+=======================+====================+
@@ -118,8 +117,8 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
     x, y, Y = tsplit(XYZ_to_xyY(XYZ))
 
     Y_0 = Y * (
-        4.4934 * x ** 2
-        + 4.3034 * y ** 2
+        4.4934 * x**2
+        + 4.3034 * y**2
         - 4.276 * x * y
         - 1.3744 * x
         - 2.5643 * y
@@ -149,7 +148,7 @@ def OSA_UCS_to_XYZ(
     Ljg: ArrayLike, optimisation_kwargs: Optional[Dict] = None
 ) -> NDArray:
     """
-    Converts from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
+    Convert from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
 
     Parameters
@@ -175,7 +174,6 @@ def OSA_UCS_to_XYZ(
 
     Notes
     -----
-
     +------------+-----------------------+--------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**      |
     +============+=======================+====================+
@@ -215,9 +213,7 @@ def OSA_UCS_to_XYZ(
         optimisation_settings.update(optimisation_kwargs)
 
     def error_function(XYZ: ArrayLike, Ljg: ArrayLike) -> FloatingOrNDArray:
-        """
-        Error function.
-        """
+        """Error function."""
 
         # Error must be computed in "reference" domain and range.
         with domain_range_scale("ignore"):

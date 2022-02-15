@@ -59,7 +59,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -87,7 +87,7 @@ __all__ = [
 
 def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_: Callable) -> str:
     """
-    Converts given *Luo et al. (2006)* callable docstring to
+    Convert given *Luo et al. (2006)* callable docstring to
     *Li et al. (2017)* docstring.
 
     Parameters
@@ -178,7 +178,7 @@ def XYZ_to_UCS_Li2017(
     XYZ: ArrayLike, coefficients: ArrayLike, **kwargs: Any
 ) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to one of the *Li et al. (2017)*
+    Convert from *CIE XYZ* tristimulus values to one of the *Li et al. (2017)*
     *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces :math:`J'a'b'` array.
 
     Parameters
@@ -211,7 +211,6 @@ def XYZ_to_UCS_Li2017(
 
     Notes
     -----
-
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
@@ -267,7 +266,7 @@ def UCS_Li2017_to_XYZ(
     Jpapbp: ArrayLike, coefficients: ArrayLike, **kwargs: Any
 ) -> NDArray:
     """
-    Converts from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
+    Convert from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
     *CAM16-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus
     values.
 
@@ -301,7 +300,6 @@ def UCS_Li2017_to_XYZ(
 
     Notes
     -----
-
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+

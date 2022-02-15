@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.volume.spectrum` module.
-"""
+"""Defines the unit tests for the :mod:`colour.volume.spectrum` module."""
 
 import numpy as np
 import unittest
@@ -20,7 +18,7 @@ from colour.volume import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -35,13 +33,13 @@ __all__ = [
 
 class TestGeneratePulseWaves(unittest.TestCase):
     """
-    Defines :func:`colour.volume.spectrum.generate_pulse_waves`
+    Define :func:`colour.volume.spectrum.generate_pulse_waves`
     definition unit tests methods.
     """
 
     def test_generate_pulse_waves(self):
         """
-        Tests :func:`colour.volume.spectrum.generate_pulse_waves`
+        Test :func:`colour.volume.spectrum.generate_pulse_waves`
         definition.
         """
 
@@ -133,13 +131,13 @@ class TestGeneratePulseWaves(unittest.TestCase):
 
 class TestXYZOuterSurface(unittest.TestCase):
     """
-    Defines :func:`colour.volume.spectrum.XYZ_outer_surface`
+    Define :func:`colour.volume.spectrum.XYZ_outer_surface`
     definition unit tests methods.
     """
 
     def test_XYZ_outer_surface(self):
         """
-        Tests :func:`colour.volume.spectrum.XYZ_outer_surface`
+        Test :func:`colour.volume.spectrum.XYZ_outer_surface`
         definition.
         """
 
@@ -193,13 +191,13 @@ class TestXYZOuterSurface(unittest.TestCase):
 
 class TestIsWithinVisibleSpectrum(unittest.TestCase):
     """
-    Defines :func:`colour.volume.spectrum.is_within_visible_spectrum`
+    Define :func:`colour.volume.spectrum.is_within_visible_spectrum`
     definition unit tests methods.
     """
 
     def test_is_within_visible_spectrum(self):
         """
-        Tests :func:`colour.volume.spectrum.is_within_visible_spectrum`
+        Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition.
         """
 
@@ -221,7 +219,7 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
 
     def test_n_dimensional_is_within_visible_spectrum(self):
         """
-        Tests :func:`colour.volume.spectrum.is_within_visible_spectrum`
+        Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition n-dimensional arrays support.
         """
 
@@ -239,7 +237,7 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_is_within_visible_spectrum(self):
         """
-        Tests :func:`colour.volume.spectrum.is_within_visible_spectrum`
+        Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition nan support.
         """
 

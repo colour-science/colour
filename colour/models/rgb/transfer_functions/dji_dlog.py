@@ -23,7 +23,7 @@ from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -37,7 +37,7 @@ __all__ = [
 
 def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *DJI D-Log* log encoding curve.
+    Define the *DJI D-Log* log encoding curve.
 
     Parameters
     ----------
@@ -55,7 +55,6 @@ def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -87,7 +86,7 @@ def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
 
 def log_decoding_DJIDLog(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *DJI D-Log* log decoding curve.
+    Define the *DJI D-Log* log decoding curve.
 
     Parameters
     ----------
@@ -105,7 +104,6 @@ def log_decoding_DJIDLog(y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

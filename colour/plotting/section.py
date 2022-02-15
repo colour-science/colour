@@ -71,26 +71,24 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "AXIS_TO_PLANE_MAPPING",
+    "MAPPING_AXIS_TO_PLANE",
     "plot_hull_section_colours",
     "plot_hull_section_contour",
     "plot_visible_spectrum_section",
     "plot_RGB_colourspace_section",
 ]
 
-AXIS_TO_PLANE_MAPPING: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MAPPING_AXIS_TO_PLANE: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {"+x": (1, 2), "+y": (0, 2), "+z": (0, 1)}
 )
-AXIS_TO_PLANE_MAPPING.__doc__ = """
-Axis to plane mapping.
-"""
+MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""
 
 
 @required("trimesh")
@@ -136,7 +134,7 @@ def plot_hull_section_colours(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the section colours of given *trimesh* hull along given axis and
+    Plot the section colours of given *trimesh* hull along given axis and
     origin.
 
     Parameters
@@ -161,7 +159,7 @@ def plot_hull_section_colours(
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
     samples
-        Samples count when computing the hull section colours.
+        Samples count on one axis when computing the hull section colours.
 
     Other Parameters
     ----------------
@@ -238,7 +236,7 @@ def plot_hull_section_colours(
         index_origin = 1
     elif axis == "+z":
         index_origin = 2
-    plane = AXIS_TO_PLANE_MAPPING[axis]
+    plane = MAPPING_AXIS_TO_PLANE[axis]
 
     section = hull_section(hull, axis, origin, normalise)
 
@@ -251,8 +249,8 @@ def plot_hull_section_colours(
     max_y = np.max(ijk_vertices[..., plane[1]]) + padding
     extent = (min_x, max_x, min_y, max_y)
 
-    is_section_colours_RGB = str(section_colours).upper() == "RGB"
-    if is_section_colours_RGB:
+    use_RGB_section_colours = str(section_colours).upper() == "RGB"
+    if use_RGB_section_colours:
         ii, jj = np.meshgrid(
             np.linspace(min_x, max_x, samples),
             np.linspace(max_y, min_y, samples),
@@ -275,18 +273,22 @@ def plot_hull_section_colours(
     else:
         section_colours = np.hstack([section_colours, section_opacity])
 
-    facecolor = "none" if is_section_colours_RGB else section_colours
+    facecolor = "none" if use_RGB_section_colours else section_colours
     polygon = Polygon(
-        section[..., plane], facecolor=facecolor, edgecolor="none"
+        section[..., plane],
+        facecolor=facecolor,
+        edgecolor="none",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.add_patch(polygon)
-    if is_section_colours_RGB:
+    if use_RGB_section_colours:
         image = axes.imshow(
             np.clip(RGB_section, 0, 1),
             interpolation="bilinear",
             extent=extent,
             clip_path=None,
             alpha=section_opacity,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
         )
         image.set_clip_path(polygon)
 
@@ -341,7 +343,7 @@ def plot_hull_section_contour(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the section contour of given *trimesh* hull along given axis and
+    Plot the section contour of given *trimesh* hull along given axis and
     origin.
 
     Parameters
@@ -427,7 +429,7 @@ def plot_hull_section_contour(
 
     hull.vertices = ijk_vertices
 
-    plane = AXIS_TO_PLANE_MAPPING[axis]
+    plane = MAPPING_AXIS_TO_PLANE[axis]
 
     padding = 0.1 * np.mean(
         COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
@@ -438,9 +440,9 @@ def plot_hull_section_contour(
     max_y = np.max(ijk_vertices[..., plane[1]]) + padding
     extent = (min_x, max_x, min_y, max_y)
 
-    contour_colours_RGB = str(contour_colours).upper() == "RGB"
+    use_RGB_contour_colours = str(contour_colours).upper() == "RGB"
     section = hull_section(hull, axis, origin, normalise)
-    if contour_colours_RGB:
+    if use_RGB_contour_colours:
         ijk_section = section / (
             COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
         )
@@ -459,6 +461,7 @@ def plot_hull_section_contour(
         np.concatenate([section[:-1], section[1:]], axis=1),
         colors=contour_colours,
         alpha=contour_opacity,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_line,
     )
     axes.add_collection(line_collection)
 
@@ -517,7 +520,7 @@ def plot_visible_spectrum_section(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the visible spectrum volume, i.e. *Rösch-MacAdam* colour solid,
+    Plot the visible spectrum volume, i.e. *Rösch-MacAdam* colour solid,
     section colours along given axis and origin.
 
     Parameters
@@ -622,7 +625,7 @@ def plot_visible_spectrum_section(
         f"{cmfs.strict_name}"
     )
 
-    plane = AXIS_TO_PLANE_MAPPING[axis]
+    plane = MAPPING_AXIS_TO_PLANE[axis]
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[
         as_int_array(colourspace_model_axis_reorder([0, 1, 2], model))
@@ -686,7 +689,7 @@ def plot_RGB_colourspace_section(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *RGB* colourspace section colours along given axis and origin.
+    Plot given *RGB* colourspace section colours along given axis and origin.
 
     Parameters
     ----------
@@ -781,7 +784,7 @@ def plot_RGB_colourspace_section(
         f"{model}"
     )
 
-    plane = AXIS_TO_PLANE_MAPPING[axis]
+    plane = MAPPING_AXIS_TO_PLANE[axis]
 
     labels = np.array(COLOURSPACE_MODELS_AXIS_LABELS[model])[
         as_int_array(colourspace_model_axis_reorder([0, 1, 2], model))

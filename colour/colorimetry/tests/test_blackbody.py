@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.blackbody` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.blackbody` module."""
 
 from __future__ import annotations
 
@@ -19,7 +17,7 @@ from colour.hints import Dict, NDArray
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -4531,14 +4529,12 @@ DATA_RAYLEIGH_JEANS: NDArray = np.array(
 
 class TestPlanckLaw(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.planck_law` definition unit
+    Define :func:`colour.colorimetry.blackbody.planck_law` definition unit
     tests methods.
     """
 
     def test_planck_law(self):
-        """
-        Tests :func:`colour.colorimetry.blackbody.planck_law` definition.
-        """
+        """Test :func:`colour.colorimetry.blackbody.planck_law` definition."""
 
         for temperature, wavelengths in sorted(DATA_PLANCK_LAW.items()):
             for wavelength, radiance in sorted(wavelengths.items()):
@@ -4552,7 +4548,7 @@ class TestPlanckLaw(unittest.TestCase):
 
     def test_n_dimensional_planck_law(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.planck_law` definition
+        Test :func:`colour.colorimetry.blackbody.planck_law` definition
         n-dimensional arrays support.
         """
 
@@ -4574,7 +4570,7 @@ class TestPlanckLaw(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_planck_law(self):
         """
-        Tests :func:`colour.colorimetry.blackbody.planck_law` definition
+        Test :func:`colour.colorimetry.blackbody.planck_law` definition
         nan support.
         """
 
@@ -4586,14 +4582,12 @@ class TestPlanckLaw(unittest.TestCase):
 
 class TestSdBlackbody(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.blackbody.sd_blackbody` definition unit
+    Define :func:`colour.colorimetry.blackbody.sd_blackbody` definition unit
     tests methods.
     """
 
     def test_sd_blackbody(self):
-        """
-        Tests :func:`colour.colorimetry.blackbody.sd_blackbody` definition.
-        """
+        """Test :func:`colour.colorimetry.blackbody.sd_blackbody` definition."""
 
         np.testing.assert_allclose(
             sd_blackbody(5000, SpectralShape(360, 830, 1)).values,

@@ -17,7 +17,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -35,13 +35,13 @@ __all__ = [
 
 class TestLogEncoding_SLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sony_slog.\
+    Define :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog` definition unit tests methods.
     """
 
     def test_log_encoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog` definition.
         """
 
@@ -73,7 +73,7 @@ log_encoding_SLog` definition.
 
     def test_n_dimensional_log_encoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog` definition n-dimensional arrays support.
         """
 
@@ -94,7 +94,7 @@ log_encoding_SLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog` definition domain and range scale support.
         """
 
@@ -111,7 +111,7 @@ log_encoding_SLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog` definition nan support.
         """
 
@@ -120,13 +120,13 @@ log_encoding_SLog` definition nan support.
 
 class TestLogDecoding_SLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sony_slog.\
+    Define :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog` definition unit tests methods.
     """
 
     def test_log_decoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog` definition.
         """
 
@@ -158,7 +158,7 @@ log_decoding_SLog` definition.
 
     def test_n_dimensional_log_decoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog` definition n-dimensional arrays support.
         """
 
@@ -179,7 +179,7 @@ log_decoding_SLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog` definition domain and range scale support.
         """
 
@@ -196,7 +196,7 @@ log_decoding_SLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog` definition nan support.
         """
 
@@ -205,13 +205,13 @@ log_decoding_SLog` definition nan support.
 
 class TestLogEncoding_SLog2(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sony_slog.\
+    Define :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog2` definition unit tests methods.
     """
 
     def test_log_encoding_SLog2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog2` definition.
         """
 
@@ -243,7 +243,7 @@ log_encoding_SLog2` definition.
 
     def test_n_dimensional_log_encoding_SLog2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog2` definition n-dimensional arrays support.
         """
 
@@ -264,7 +264,7 @@ log_encoding_SLog2` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_SLog2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog2` definition domain and range scale support.
         """
 
@@ -281,7 +281,7 @@ log_encoding_SLog2` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_SLog2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog2` definition nan support.
         """
 
@@ -290,13 +290,13 @@ log_encoding_SLog2` definition nan support.
 
 class TestLogDecoding_SLog2(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sony_slog.\
+    Define :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog2` definition unit tests methods.
     """
 
     def test_log_decoding_SLog2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog2` definition.
         """
 
@@ -328,7 +328,7 @@ log_decoding_SLog2` definition.
 
     def test_n_dimensional_log_decoding_SLog2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog2` definition n-dimensional arrays support.
         """
 
@@ -349,7 +349,7 @@ log_decoding_SLog2` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_SLog2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog2` definition domain and range scale support.
         """
 
@@ -366,7 +366,7 @@ log_decoding_SLog2` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_SLog2(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog2` definition nan support.
         """
 
@@ -375,13 +375,13 @@ log_decoding_SLog2` definition nan support.
 
 class TestLogEncoding_SLog3(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sony_slog.\
+    Define :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog3` definition unit tests methods.
     """
 
     def test_log_encoding_SLog3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog3` definition.
         """
 
@@ -413,7 +413,7 @@ log_encoding_SLog3` definition.
 
     def test_n_dimensional_log_encoding_SLog3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog3` definition n-dimensional arrays support.
         """
 
@@ -434,7 +434,7 @@ log_encoding_SLog3` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_SLog3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog3` definition domain and range scale support.
         """
 
@@ -451,7 +451,7 @@ log_encoding_SLog3` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_SLog3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_encoding_SLog3` definition nan support.
         """
 
@@ -460,13 +460,13 @@ log_encoding_SLog3` definition nan support.
 
 class TestLogDecoding_SLog3(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sony_slog.\
+    Define :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog3` definition unit tests methods.
     """
 
     def test_log_decoding_SLog3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog3` definition.
         """
 
@@ -498,7 +498,7 @@ log_decoding_SLog3` definition.
 
     def test_n_dimensional_log_decoding_SLog3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog3` definition n-dimensional arrays support.
         """
 
@@ -519,7 +519,7 @@ log_decoding_SLog3` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_SLog3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog3` definition domain and range scale support.
         """
 
@@ -536,7 +536,7 @@ log_decoding_SLog3` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_SLog3(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+        Test :func:`colour.models.rgb.transfer_functions.sony_slog.\
 log_decoding_SLog3` definition nan support.
         """
 

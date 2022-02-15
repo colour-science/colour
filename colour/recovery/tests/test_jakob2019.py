@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.recovery.jakob2019` module.
-"""
+"""Defines the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
 import numpy as np
 import os
@@ -28,7 +26,7 @@ from colour.recovery.jakob2019 import (
 from colour.utilities import domain_range_scale, full, ones, zeros
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -43,14 +41,12 @@ __all__ = [
 
 class TestErrorFunction(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.jakob2019.error_function` definition unit
+    Define :func:`colour.recovery.jakob2019.error_function` definition unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs, self._sd_D65 = handle_spectral_arguments(
@@ -63,7 +59,7 @@ class TestErrorFunction(unittest.TestCase):
 
     def test_intermediates(self):
         """
-        Tests intermediate results of
+        Test intermediate results of
         :func:`colour.recovery.jakob2019.error_function` with
         :func:`colour.sd_to_XYZ`, :func:`colour.XYZ_to_Lab` and checks if the
         error is computed correctly by comparing it with
@@ -110,7 +106,7 @@ class TestErrorFunction(unittest.TestCase):
 
     def test_derivatives(self):
         """
-        Tests the gradients computed using closed-form expressions of the
+        Test the gradients computed using closed-form expressions of the
         derivatives with finite difference approximations.
         """
 
@@ -145,14 +141,12 @@ class TestErrorFunction(unittest.TestCase):
 
 class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
+    Define :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
     unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs, self._sd_D65 = handle_spectral_arguments(
@@ -160,9 +154,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         )
 
     def test_XYZ_to_sd_Jakob2019(self):
-        """
-        Tests :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition.
-        """
+        """Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition."""
 
         # Tests the round-trip with values of a colour checker.
         for name, sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].items():
@@ -177,7 +169,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
 
     def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
         """
-        Tests :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
+        Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
         domain and range scale support.
         """
 
@@ -206,14 +198,12 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
 
 class TestLUT3D_Jakob2019(unittest.TestCase):
     """
-    Defines :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`
+    Define :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`
     definition unit tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs, self._sd_D65 = handle_spectral_arguments(
@@ -235,16 +225,12 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         self._LUT.write(self._path)
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
         required_attributes = (
             "size",
@@ -257,9 +243,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             self.assertIn(attribute, dir(LUT3D_Jakob2019))
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
         required_methods = (
             "__init__",
@@ -274,15 +258,13 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
             self.assertIn(method, dir(LUT3D_Jakob2019))
 
     def test_size(self):
-        """
-        Tests :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property.
-        """
+        """Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property."""
 
         self.assertEqual(self._LUT.size, 5)
 
     def test_lightness_scale(self):
         """
-        Tests :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.lightness_scale`
+        Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.lightness_scale`
         property.
         """
 
@@ -296,7 +278,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
     def test_coefficients(self):
         """
-        Tests :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.coefficients`
+        Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.coefficients`
         property.
         """
 
@@ -304,7 +286,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
     def test_LUT3D_Jakob2019(self):
         """
-        Tests the entirety of the
+        Test the entirety of the
         :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`class.
         """
 
@@ -343,7 +325,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
     def test_raise_exception_RGB_to_coefficients(self):
         """
-        Tests :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.\
+        Test :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.\
 RGB_to_coefficients` method raised exception.
         """
 
@@ -353,7 +335,7 @@ RGB_to_coefficients` method raised exception.
 
     def test_raise_exception_read(self):
         """
-        Tests :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.read` method
+        Test :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.read` method
         raised exception.
         """
 

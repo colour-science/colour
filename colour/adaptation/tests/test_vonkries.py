@@ -1,7 +1,5 @@
 # !/usr/bin/env python
-"""
-Defines the unit tests for the :mod:`colour.adaptation.vonkries` module.
-"""
+"""Defines the unit tests for the :mod:`colour.adaptation.vonkries` module."""
 
 import numpy as np
 import unittest
@@ -14,7 +12,7 @@ from colour.adaptation import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -28,13 +26,13 @@ __all__ = [
 
 class TestMatrixChromaticAdaptationVonKries(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.vonkries.\
+    Define :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition unit tests methods.
     """
 
     def test_matrix_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonkries.\
+        Test :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition.
         """
 
@@ -132,7 +130,7 @@ matrix_chromatic_adaptation_VonKries` definition.
 
     def test_n_dimensional_matrix_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonkries.\
+        Test :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition n-dimensional arrays support.
         """
 
@@ -156,7 +154,7 @@ matrix_chromatic_adaptation_VonKries` definition n-dimensional arrays support.
 
     def test_domain_range_scale_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonkries.\
+        Test :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition domain and range scale
         support.
         """
@@ -179,7 +177,7 @@ matrix_chromatic_adaptation_VonKries` definition domain and range scale
     @ignore_numpy_errors
     def test_nan_matrix_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonkries.\
+        Test :func:`colour.adaptation.vonkries.\
 matrix_chromatic_adaptation_VonKries` definition nan support.
         """
 
@@ -193,13 +191,13 @@ matrix_chromatic_adaptation_VonKries` definition nan support.
 
 class TestChromaticAdaptationVonKries(unittest.TestCase):
     """
-    Defines :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+    Define :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
     definition unit tests methods.
     """
 
     def test_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        Test :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
         definition.
         """
 
@@ -268,7 +266,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
 
     def test_n_dimensional_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        Test :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
         definition n-dimensional arrays support.
         """
 
@@ -295,7 +293,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
 
     def test_domain_range_scale_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        Test :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
         definition domain and range scale support.
         """
 
@@ -318,7 +316,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_VonKries(self):
         """
-        Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        Test :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
         definition nan support.
         """
 

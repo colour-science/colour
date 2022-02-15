@@ -81,7 +81,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -118,7 +118,7 @@ def plot_single_sd(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given spectral distribution.
+    Plot given spectral distribution.
 
     Parameters
     ----------
@@ -229,6 +229,7 @@ def plot_single_sd(
         ),
         facecolor="none",
         edgecolor="none",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
     axes.add_patch(polygon)
 
@@ -240,9 +241,15 @@ def plot_single_sd(
         color=RGB,
         align="edge",
         clip_path=polygon,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
 
-    axes.plot(wavelengths, values, color=CONSTANTS_COLOUR_STYLE.colour.dark)
+    axes.plot(
+        wavelengths,
+        values,
+        color=CONSTANTS_COLOUR_STYLE.colour.dark,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
+    )
 
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -266,7 +273,7 @@ def plot_multi_sds(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given spectral distributions.
+    Plot given spectral distributions.
 
     Parameters
     ----------
@@ -356,6 +363,7 @@ def plot_multi_sds(
     plot_settings_collection = [
         {
             "label": f"{sd.strict_name}",
+            "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             "cmfs": "CIE 1931 2 Degree Standard Observer",
             "illuminant": SDS_ILLUMINANTS[
                 CONSTANTS_COLOUR_STYLE.colour.colourspace.whitepoint_name
@@ -437,7 +445,7 @@ def plot_single_cmfs(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colour matching functions.
+    Plot given colour matching functions.
 
     Parameters
     ----------
@@ -491,7 +499,7 @@ def plot_multi_cmfs(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given colour matching functions.
+    Plot given colour matching functions.
 
     Parameters
     ----------
@@ -531,7 +539,11 @@ def plot_multi_cmfs(
 
     _figure, axes = artist(**kwargs)
 
-    axes.axhline(color=CONSTANTS_COLOUR_STYLE.colour.dark, linestyle="--")
+    axes.axhline(
+        color=CONSTANTS_COLOUR_STYLE.colour.dark,
+        linestyle="--",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_line,
+    )
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, cmfs_i in enumerate(cmfs):
@@ -552,6 +564,7 @@ def plot_multi_cmfs(
                 values,
                 color=RGB,
                 label=f"{cmfs_i.strict_labels[j]} - {cmfs_i.strict_name}",
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             )
 
     bounding_box = (
@@ -587,7 +600,7 @@ def plot_single_illuminant_sd(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given single illuminant spectral distribution.
+    Plot given single illuminant spectral distribution.
 
     Parameters
     ----------
@@ -648,7 +661,7 @@ def plot_multi_illuminant_sds(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given illuminants spectral distributions.
+    Plot given illuminants spectral distributions.
 
     Parameters
     ----------
@@ -722,7 +735,7 @@ def plot_visible_spectrum(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots the visible colours spectrum using given standard observer *CIE XYZ*
+    Plot the visible colours spectrum using given standard observer *CIE XYZ*
     colour matching functions.
 
     Parameters
@@ -799,7 +812,7 @@ def plot_single_lightness_function(
     function: Union[Callable, str], **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *Lightness* function.
+    Plot given *Lightness* function.
 
     Parameters
     ----------
@@ -842,7 +855,7 @@ def plot_multi_lightness_functions(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *Lightness* functions.
+    Plot given *Lightness* functions.
 
     Parameters
     ----------
@@ -895,7 +908,7 @@ def plot_single_luminance_function(
     function: Union[Callable, str], **kwargs: Any
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *Luminance* function.
+    Plot given *Luminance* function.
 
     Parameters
     ----------
@@ -937,7 +950,7 @@ def plot_multi_luminance_functions(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *Luminance* functions.
+    Plot given *Luminance* functions.
 
     Parameters
     ----------
@@ -997,7 +1010,7 @@ def plot_blackbody_spectral_radiance(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given blackbody spectral radiance.
+    Plot given blackbody spectral radiance.
 
     Parameters
     ----------
@@ -1098,7 +1111,7 @@ def plot_blackbody_colours(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots blackbody colours.
+    Plot blackbody colours.
 
     Parameters
     ----------
@@ -1159,6 +1172,7 @@ def plot_blackbody_colours(
         width=shape.interval + (padding * shape.interval),
         color=RGB,
         align="edge",
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
     )
 
     settings: Dict[str, Any] = {

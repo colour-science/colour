@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.colorimetry.whiteness` module.
-"""
+"""Defines the unit tests for the :mod:`colour.colorimetry.whiteness` module."""
 
 import numpy as np
 import unittest
@@ -18,7 +16,7 @@ from colour.colorimetry.whiteness import whiteness
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -37,13 +35,13 @@ __all__ = [
 
 class TestWhitenessBerger1959(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
+    Define :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
     definition unit tests methods.
     """
 
     def test_whiteness_Berger1959(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition.
         """
 
@@ -76,7 +74,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
 
     def test_n_dimensional_whiteness_Berger1959(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition n_dimensional arrays support.
         """
 
@@ -100,7 +98,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
 
     def test_domain_range_scale_whiteness_Berger1959(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition domain and range scale support.
         """
 
@@ -120,7 +118,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_whiteness_Berger1959(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition nan support.
         """
 
@@ -134,13 +132,13 @@ class TestWhitenessBerger1959(unittest.TestCase):
 
 class TestWhitenessTaube1960(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
+    Define :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
     definition unit tests methods.
     """
 
     def test_whiteness_Taube1960(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
         definition.
         """
 
@@ -173,7 +171,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
 
     def test_n_dimensional_whiteness_Taube1960(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
         definition n_dimensional arrays support.
         """
 
@@ -197,7 +195,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
 
     def test_domain_range_scale_whiteness_Taube1960(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
         definition domain and range scale support.
         """
 
@@ -217,7 +215,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_whiteness_Berger1959(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition nan support.
         """
 
@@ -231,13 +229,13 @@ class TestWhitenessTaube1960(unittest.TestCase):
 
 class TestWhitenessStensby1968(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
+    Define :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
     definition unit tests methods.
     """
 
     def test_whiteness_Stensby1968(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
         definition.
         """
 
@@ -263,7 +261,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
 
     def test_n_dimensional_whiteness_Stensby1968(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
         definition n_dimensional arrays support.
         """
 
@@ -284,7 +282,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
 
     def test_domain_range_scale_whiteness_Stensby1968(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
         definition domain and range scale support.
         """
 
@@ -301,7 +299,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_whiteness_Stensby1968(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
         definition nan support.
         """
 
@@ -314,13 +312,13 @@ class TestWhitenessStensby1968(unittest.TestCase):
 
 class TestWhitenessASTM313(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
+    Define :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
     definition unit tests methods.
     """
 
     def test_whiteness_ASTME313(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
+        Test :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition.
         """
 
@@ -350,7 +348,7 @@ class TestWhitenessASTM313(unittest.TestCase):
 
     def test_n_dimensional_whiteness_ASTME313(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
+        Test :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition n_dimensional arrays support.
         """
 
@@ -367,7 +365,7 @@ class TestWhitenessASTM313(unittest.TestCase):
 
     def test_domain_range_scale_whiteness_ASTME313(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
+        Test :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition domain and range scale support.
         """
 
@@ -384,7 +382,7 @@ class TestWhitenessASTM313(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_whiteness_ASTME313(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
+        Test :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition nan support.
         """
 
@@ -397,13 +395,13 @@ class TestWhitenessASTM313(unittest.TestCase):
 
 class TestWhitenessGanz1979(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
+    Define :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
     definition unit tests methods.
     """
 
     def test_whiteness_Ganz1979(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
         definition.
         """
 
@@ -427,7 +425,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
     def test_n_dimensional_whiteness_Ganz1979(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
         definition n_dimensional arrays support.
         """
 
@@ -455,7 +453,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
     def test_domain_range_scale_whiteness_Ganz1979(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
         definition domain and range scale support.
         """
 
@@ -473,7 +471,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_whiteness_Ganz1979(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
+        Test :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
         definition nan support.
         """
 
@@ -487,13 +485,13 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
 class TestWhitenessCIE2004(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
+    Define :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
     definition unit tests methods.
     """
 
     def test_whiteness_CIE2004(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
+        Test :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
         definition.
         """
 
@@ -523,7 +521,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
 
     def test_n_dimensional_whiteness_CIE2004(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
+        Test :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
         definition n_dimensional arrays support.
         """
 
@@ -554,7 +552,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
 
     def test_domain_range_scale_whiteness_CIE2004(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
+        Test :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
         definition domain and range scale support.
         """
 
@@ -575,7 +573,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_whiteness_CIE2004(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
+        Test :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
         definition nan support.
         """
 
@@ -590,13 +588,13 @@ class TestWhitenessCIE2004(unittest.TestCase):
 
 class TestWhiteness(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.whiteness.whiteness` definition unit
+    Define :func:`colour.colorimetry.whiteness.whiteness` definition unit
     tests methods.
     """
 
     def test_domain_range_scale_whiteness(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness` definition domain
+        Test :func:`colour.colorimetry.whiteness.whiteness` definition domain
         and range scale support.
         """
 

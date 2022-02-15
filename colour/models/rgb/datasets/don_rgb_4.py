@@ -26,7 +26,7 @@ from colour.models.rgb import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,33 +48,23 @@ PRIMARIES_DON_RGB_4: NDArray = np.array(
         [0.129937629937630, 0.035343035343035],
     ]
 )
-"""
-*Don RGB 4* colourspace primaries.
-"""
+"""*Don RGB 4* colourspace primaries."""
 
 WHITEPOINT_NAME_DON_RGB_4: str = "D50"
-"""
-*Don RGB 4* colourspace whitepoint name.
-"""
+"""*Don RGB 4* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_DON_RGB_4: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_DON_RGB_4]
-"""
-*Don RGB 4* colourspace whitepoint chromaticity coordinates.
-"""
+"""*Don RGB 4* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_DON_RGB_4_TO_XYZ: NDArray = normalised_primary_matrix(
     PRIMARIES_DON_RGB_4, CCS_WHITEPOINT_DON_RGB_4
 )
-"""
-*Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_DON_RGB_4: NDArray = np.linalg.inv(MATRIX_DON_RGB_4_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *Don RGB 4* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *Don RGB 4* colourspace matrix."""
 
 RGB_COLOURSPACE_DON_RGB_4: RGB_Colourspace = RGB_Colourspace(
     "Don RGB 4",

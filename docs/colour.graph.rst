@@ -1,8 +1,6 @@
 Automatic Colour Conversion Graph
 =================================
 
-.. contents:: :local:
-
 Conversion
 ----------
 

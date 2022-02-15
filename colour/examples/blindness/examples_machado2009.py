@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""
-Showcases Machado (2009) simulation of colour vision deficiency.
-"""
+"""Showcases Machado (2009) simulation of colour vision deficiency."""
 
 import numpy as np
 

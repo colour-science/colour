@@ -1,6 +1,4 @@
-"""
-Showcases *CIE XYZ* tristimulus values computations.
-"""
+"""Showcases *CIE XYZ* tristimulus values computations."""
 
 import numpy as np
 

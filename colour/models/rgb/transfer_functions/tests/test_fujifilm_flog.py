@@ -13,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -27,13 +27,13 @@ __all__ = [
 
 class TestLogEncoding_FLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+    Define :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog` definition unit tests methods.
     """
 
     def test_log_encoding_FLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+        Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog` definition.
         """
 
@@ -65,7 +65,7 @@ log_encoding_FLog` definition.
 
     def test_n_dimensional_log_encoding_FLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+        Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog` definition n-dimensional arrays support.
         """
 
@@ -92,7 +92,7 @@ log_encoding_FLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_FLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+        Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog` definition domain and range scale support.
         """
 
@@ -109,7 +109,7 @@ log_encoding_FLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_FLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+        Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog` definition nan support.
         """
 
@@ -118,13 +118,13 @@ log_encoding_FLog` definition nan support.
 
 class TestLogDecoding_FLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+    Define :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog` definition unit tests methods.
     """
 
     def test_log_decoding_FLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+        Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog` definition.
         """
 
@@ -156,7 +156,7 @@ log_decoding_FLog` definition.
 
     def test_n_dimensional_log_decoding_FLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+        Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog` definition n-dimensional arrays support.
         """
 
@@ -183,7 +183,7 @@ log_decoding_FLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_FLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+        Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog` definition domain and range scale support.
         """
 
@@ -200,7 +200,7 @@ log_decoding_FLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_FLog(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
+        Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog` definition nan support.
         """
 

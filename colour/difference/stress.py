@@ -31,7 +31,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -48,7 +48,7 @@ def index_stress_Garcia2007(
     d_E: FloatingOrArrayLike, d_V: FloatingOrArrayLike
 ) -> FloatingOrNDArray:
     """
-    Computes the
+    Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
     index according to *García, Huertas, Melgosa and Cui (2007)* method.
 
@@ -79,10 +79,10 @@ def index_stress_Garcia2007(
     d_E = as_float_array(d_E)
     d_V = as_float_array(d_V)
 
-    F_1 = np.sum(d_E ** 2) / np.sum(d_E * d_V)
+    F_1 = np.sum(d_E**2) / np.sum(d_E * d_V)
 
     stress = np.sqrt(
-        np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1 ** 2 * d_V ** 2)
+        np.sum((d_E - F_1 * d_V) ** 2) / np.sum(F_1**2 * d_V**2)
     )
 
     return as_float(stress)
@@ -108,7 +108,7 @@ def index_stress(
     method: Union[Literal["Garcia 2007"], str] = "Garcia 2007",
 ) -> FloatingOrNDArray:
     """
-    Computes the
+    Compute the
     *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
     index according to given method.
 

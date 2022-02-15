@@ -24,7 +24,7 @@ from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -44,9 +44,7 @@ CONSTANTS_DAVINCI_INTERMEDIATE: Structure = Structure(
     DI_LIN_CUT=0.00262409,
     DI_LOG_CUT=0.02740668,
 )
-"""
-*DaVinci Intermediate* colour component transfer functions constants.
-"""
+"""*DaVinci Intermediate* colour component transfer functions constants."""
 
 
 def oetf_DaVinciIntermediate(
@@ -54,7 +52,7 @@ def oetf_DaVinciIntermediate(
     constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
 ) -> FloatingOrNDArray:
     """
-    Defines the *DaVinci Intermediate* opto-electronic transfer function.
+    Define the *DaVinci Intermediate* opto-electronic transfer function.
 
     Parameters
     ----------
@@ -70,7 +68,6 @@ def oetf_DaVinciIntermediate(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -115,7 +112,7 @@ def oetf_inverse_DaVinciIntermediate(
     constants: Structure = CONSTANTS_DAVINCI_INTERMEDIATE,
 ) -> FloatingOrNDArray:
     """
-    Defines the *DaVinci Intermediate* inverse opto-electronic transfer
+    Define the *DaVinci Intermediate* inverse opto-electronic transfer
     function (OETF).
 
     Parameters
@@ -132,7 +129,6 @@ def oetf_inverse_DaVinciIntermediate(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

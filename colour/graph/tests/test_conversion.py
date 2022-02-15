@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.graph.conversion` module.
-"""
+"""Defines the unit tests for the :mod:`colour.graph.conversion` module."""
 
 import numpy as np
 import unittest
@@ -11,7 +9,7 @@ from colour.models import COLOURSPACE_MODELS, RGB_COLOURSPACE_ACES2065_1
 from colour.graph import describe_conversion_path, convert
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -25,13 +23,13 @@ __all__ = [
 
 class TestDescribeConversionPath(unittest.TestCase):
     """
-    Defines :func:`colour.graph.conversion.describe_conversion_path` definition
+    Define :func:`colour.graph.conversion.describe_conversion_path` definition
     unit tests methods.
     """
 
     def test_describe_conversion_path(self):
         """
-        Tests :func:`colour.graph.conversion.describe_conversion_path`
+        Test :func:`colour.graph.conversion.describe_conversion_path`
         definition.
         """
 
@@ -52,14 +50,12 @@ class TestDescribeConversionPath(unittest.TestCase):
 
 class TestConvert(unittest.TestCase):
     """
-    Defines :func:`colour.graph.conversion.convert` definition unit tests
+    Define :func:`colour.graph.conversion.convert` definition unit tests
     methods.
     """
 
     def test_convert(self):
-        """
-        Tests :func:`colour.graph.conversion.convert` definition.
-        """
+        """Test :func:`colour.graph.conversion.convert` definition."""
 
         RGB_a = convert(
             SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"],
@@ -131,7 +127,7 @@ class TestConvert(unittest.TestCase):
 
     def test_convert_direct_keyword_argument_passing(self):
         """
-        Tests :func:`colour.graph.conversion.convert` definition behaviour when
+        Test :func:`colour.graph.conversion.convert` definition behaviour when
         direct keyword arguments are passed.
         """
 

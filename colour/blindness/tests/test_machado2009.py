@@ -1,6 +1,4 @@
-"""
-Defines the unit tests for the :mod:`colour.blindness.machado2009` module.
-"""
+"""Defines the unit tests for the :mod:`colour.blindness.machado2009` module."""
 
 import numpy as np
 import unittest
@@ -16,7 +14,7 @@ from colour.colorimetry import MSDS_CMFS_LMS
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -31,13 +29,13 @@ __all__ = [
 
 class TestMsdsCmfsAnomalousTrichromacyMachado2009(unittest.TestCase):
     """
-    Defines :func:`colour.blindness.machado2009.\
+    Define :func:`colour.blindness.machado2009.\
 msds_cmfs_anomalous_trichromacy_Machado2009` definition unit tests methods.
     """
 
     def test_msds_cmfs_anomalous_trichromacy_Machado2009(self):
         """
-        Tests :func:`colour.blindness.machado2009.\
+        Test :func:`colour.blindness.machado2009.\
 msds_cmfs_anomalous_trichromacy_Machado2009` definition.
         """
 
@@ -122,13 +120,13 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
 
 class TestMatrixAnomalousTrichromacyMachado2009(unittest.TestCase):
     """
-    Defines :func:`colour.blindness.machado2009.\
+    Define :func:`colour.blindness.machado2009.\
 matrix_anomalous_trichromacy_Machado2009` definition unit tests methods.
     """
 
     def test_matrix_anomalous_trichromacy_Machado2009(self):
         """
-        Tests :func:`colour.blindness.machado2009.\
+        Test :func:`colour.blindness.machado2009.\
 matrix_anomalous_trichromacy_Machado2009` definition.
         """
 
@@ -199,13 +197,13 @@ matrix_anomalous_trichromacy_Machado2009` definition.
 
 class TestMatrixCvdMachado2009(unittest.TestCase):
     """
-    Defines :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
+    Define :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
     definition unit tests methods.
     """
 
     def test_matrix_cvd_Machado2009(self):
         """
-        Tests :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
+        Test :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
         definition.
         """
 
@@ -260,7 +258,7 @@ class TestMatrixCvdMachado2009(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_matrix_cvd_Machado2009(self):
         """
-        Tests :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
+        Test :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
         definition nan support.
         """
 

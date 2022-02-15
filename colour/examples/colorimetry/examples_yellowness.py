@@ -1,6 +1,4 @@
-"""
-Showcases *yellowness* computations.
-"""
+"""Showcases *yellowness* computations."""
 
 import numpy as np
 

@@ -44,7 +44,7 @@ from colour.utilities import (
 )
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -77,9 +77,7 @@ CONSTANTS_DICOMGSDF: Structure = Structure(
     H=0.14710899,
     I=-0.017046845,
 )  # noqa
-"""
-*DICOM Grayscale Standard Display Function* constants.
-"""
+"""*DICOM Grayscale Standard Display Function* constants."""
 
 
 def eotf_inverse_DICOMGSDF(
@@ -88,7 +86,7 @@ def eotf_inverse_DICOMGSDF(
     constants: Structure = CONSTANTS_DICOMGSDF,
 ) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *DICOM - Grayscale Standard Display Function* inverse
+    Define the *DICOM - Grayscale Standard Display Function* inverse
     electro-optical transfer function (EOTF).
 
     Parameters
@@ -108,7 +106,6 @@ def eotf_inverse_DICOMGSDF(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -150,13 +147,13 @@ def eotf_inverse_DICOMGSDF(
     J = (
         A
         + B * L_lg
-        + C * L_lg ** 2
-        + D * L_lg ** 3
-        + E * L_lg ** 4
-        + F * L_lg ** 5
-        + G * L_lg ** 6
-        + H * L_lg ** 7
-        + I * L_lg ** 8
+        + C * L_lg**2
+        + D * L_lg**3
+        + E * L_lg**4
+        + F * L_lg**5
+        + G * L_lg**6
+        + H * L_lg**7
+        + I * L_lg**8
     )
 
     if out_int:
@@ -171,7 +168,7 @@ def eotf_DICOMGSDF(
     constants: Structure = CONSTANTS_DICOMGSDF,
 ) -> FloatingOrNDArray:
     """
-    Defines the *DICOM - Grayscale Standard Display Function* electro-optical
+    Define the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF).
 
     Parameters
@@ -191,7 +188,6 @@ def eotf_DICOMGSDF(
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -233,14 +229,14 @@ def eotf_DICOMGSDF(
     m = constants.m
 
     J_ln = np.log(J)
-    J_ln2 = J_ln ** 2
-    J_ln3 = J_ln ** 3
-    J_ln4 = J_ln ** 4
-    J_ln5 = J_ln ** 5
+    J_ln2 = J_ln**2
+    J_ln3 = J_ln**3
+    J_ln4 = J_ln**4
+    J_ln5 = J_ln**5
 
     L = (a + c * J_ln + e * J_ln2 + g * J_ln3 + m * J_ln4) / (
         1 + b * J_ln + d * J_ln2 + f * J_ln3 + h * J_ln4 + k * J_ln5
     )
-    L = 10 ** L
+    L = 10**L
 
     return as_float(from_range_1(L))

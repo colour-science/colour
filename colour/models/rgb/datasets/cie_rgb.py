@@ -24,7 +24,7 @@ from colour.hints import NDArray
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -57,16 +57,12 @@ Notes
 """
 
 WHITEPOINT_NAME_CIE_RGB: str = "E"
-"""
-*CIE RGB* colourspace whitepoint name.
-"""
+"""*CIE RGB* colourspace whitepoint name."""
 
 CCS_WHITEPOINT_CIE_RGB: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][WHITEPOINT_NAME_CIE_RGB]
-"""
-*CIE RGB* colourspace whitepoint chromaticity coordinates.
-"""
+"""*CIE RGB* colourspace whitepoint chromaticity coordinates."""
 
 MATRIX_CIE_RGB_TO_XYZ: NDArray = np.array(
     [
@@ -75,14 +71,10 @@ MATRIX_CIE_RGB_TO_XYZ: NDArray = np.array(
         [0.0000, 0.0099, 0.9901],
     ]
 )
-"""
-*CIE RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-"""
+"""*CIE RGB* colourspace to *CIE XYZ* tristimulus values matrix."""
 
 MATRIX_XYZ_TO_CIE_RGB: NDArray = np.linalg.inv(MATRIX_CIE_RGB_TO_XYZ)
-"""
-*CIE XYZ* tristimulus values to *CIE RGB* colourspace matrix.
-"""
+"""*CIE XYZ* tristimulus values to *CIE RGB* colourspace matrix."""
 
 RGB_COLOURSPACE_CIE_RGB: RGB_Colourspace = RGB_Colourspace(
     "CIE RGB",

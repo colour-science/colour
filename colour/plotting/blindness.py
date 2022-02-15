@@ -28,7 +28,7 @@ from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
 from colour.utilities import optional
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -50,7 +50,7 @@ def plot_cvd_simulation_Machado2009(
     **kwargs: Any,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Performs colour vision deficiency simulation on given *RGB* colourspace
+    Perform colour vision deficiency simulation on given *RGB* colourspace
     array using *Machado et al. (2009)* model.
 
     Parameters

@@ -47,7 +47,7 @@ from colour.hints import (
 from colour.utilities import CaseInsensitiveMapping, Lookup
 
 __author__ = "Colour Developers"
-__copyright__ = "Copyright (C) 2013-2022 - Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
@@ -91,7 +91,7 @@ __all__ = [
 
 class CacheRegistry:
     """
-    A registry for  mapping-based caches.
+    A registry for mapping-based caches.
 
     Attributes
     ----------
@@ -132,7 +132,7 @@ class CacheRegistry:
     @property
     def registry(self) -> Dict:
         """
-        Getter and setter property for the cache registry.
+        Getter property for the cache registry.
 
         Returns
         -------
@@ -144,7 +144,7 @@ class CacheRegistry:
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the cache registry.
+        Return a formatted string representation of the cache registry.
 
         Returns
         -------
@@ -161,7 +161,7 @@ class CacheRegistry:
 
     def register_cache(self, name: str) -> Dict:
         """
-        Registers a new cache with given name in the registry.
+        Register a new cache with given name in the registry.
 
         Parameters
         ----------
@@ -191,7 +191,7 @@ class CacheRegistry:
 
     def unregister_cache(self, name: str):
         """
-        Unregisters cache with given name in the registry.
+        Unregister cache with given name in the registry.
 
         Parameters
         ----------
@@ -225,7 +225,7 @@ class CacheRegistry:
 
     def clear_cache(self, name: str):
         """
-        Clears the cache with given name.
+        Clear the cache with given name.
 
         Parameters
         ----------
@@ -248,7 +248,7 @@ class CacheRegistry:
 
     def clear_all_caches(self):
         """
-        Clears all the caches in the registry.
+        Clear all the caches in the registry.
 
         Examples
         --------
@@ -280,7 +280,7 @@ CACHE_REGISTRY
 
 def handle_numpy_errors(**kwargs: Any) -> Callable:
     """
-    Decorator for handling *Numpy* errors.
+    Decorate a function to handle *Numpy* errors.
 
     Other Parameters
     ----------------
@@ -307,15 +307,11 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     context = np.errstate(**kwargs)
 
     def wrapper(function: Callable) -> Callable:
-        """
-        Wrapper for given function.
-        """
+        """Wrap given function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """
-            Wrapped function.
-            """
+            """Wrap given function."""
 
             with context:
                 return function(*args, **kwargs)
@@ -333,7 +329,7 @@ warn_numpy_errors = handle_numpy_errors(all="warn")
 
 def ignore_python_warnings(function: Callable) -> Callable:
     """
-    Decorator for ignoring *Python* warnings.
+    Decorate a function to ignore *Python* warnings.
 
     Parameters
     ----------
@@ -353,23 +349,21 @@ def ignore_python_warnings(function: Callable) -> Callable:
     """
 
     @functools.wraps(function)
-    def wrapped(*args: Any, **kwargs: Any) -> Any:
-        """
-        Wrapped function.
-        """
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        """Wrap given function."""
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
 
             return function(*args, **kwargs)
 
-    return wrapped
+    return wrapper
 
 
 def attest(condition: Boolean, message: str = ""):
     """
-    A replacement for `assert` that is not removed by optimised Python
-    execution.
+    Provide the `assert` statement functionality without being disabled by
+    optimised Python execution.
 
     Parameters
     ----------
@@ -385,7 +379,7 @@ def attest(condition: Boolean, message: str = ""):
 
 def batch(sequence: Sequence, k: Union[Integer, Literal[3]] = 3) -> Generator:
     """
-    Returns a batch generator from given sequence.
+    Return a batch generator from given sequence.
 
     Parameters
     ----------
@@ -410,22 +404,19 @@ def batch(sequence: Sequence, k: Union[Integer, Literal[3]] = 3) -> Generator:
 
 
 _MULTIPROCESSING_ENABLED: Boolean = True
-"""
-Whether *Colour* multiprocessing is enabled.
-
-_MULTIPROCESSING_ENABLED
-"""
+"""*Colour* multiprocessing state."""
 
 
 class disable_multiprocessing:
     """
-    A context manager and decorator temporarily disabling *Colour*
-    multiprocessing.
+    Define a context manager and decorator to temporarily disabling *Colour*
+    multiprocessing state.
     """
 
     def __enter__(self) -> disable_multiprocessing:
         """
-        Called upon entering the context manager and decorator.
+        Disable *Colour* multiprocessing state upon entering the context
+        manager.
         """
 
         global _MULTIPROCESSING_ENABLED
@@ -436,7 +427,8 @@ class disable_multiprocessing:
 
     def __exit__(self, *args: Any):
         """
-        Called upon exiting the context manager and decorator.
+        Enable *Colour* multiprocessing state upon exiting the context
+        manager.
         """
 
         global _MULTIPROCESSING_ENABLED
@@ -444,12 +436,12 @@ class disable_multiprocessing:
         _MULTIPROCESSING_ENABLED = True
 
     def __call__(self, function: Callable) -> Callable:
-        """
-        Calls the wrapped definition.
-        """
+        """Call the wrapped definition."""
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Wrap given function."""
+
             with self:
                 return function(*args, **kwargs)
 
@@ -458,9 +450,10 @@ class disable_multiprocessing:
 
 def _initializer(kwargs: Any):
     """
-    Initializer for the multiprocessing pool. It is used to ensure that
-    processes on *Windows* inherit correctly from the current domain-range
-    scale.
+    Initialize a multiprocessing pool.
+
+    It is used to ensure that processes on *Windows* inherit correctly from the
+    current domain-range scale.
 
     Parameters
     ----------
@@ -481,7 +474,7 @@ def _initializer(kwargs: Any):
 @contextmanager
 def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     """
-    A context manager providing a multiprocessing pool.
+    Define a context manager providing a multiprocessing pool.
 
     Other Parameters
     ----------------
@@ -524,16 +517,12 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
             pass
 
         def map(self, func, iterable, chunksize=None):
-            """
-            Applies given function to each element of given iterable.
-            """
+            """Apply given function to each element of given iterable."""
 
             return [func(a) for a in iterable]
 
         def terminate(self):
-            """
-            Terminate the process.
-            """
+            """Terminate the process."""
 
             pass
 
@@ -556,7 +545,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
 
 def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *Matplotlib* is installed and available.
+    Return whether *Matplotlib* is installed and available.
 
     Parameters
     ----------
@@ -593,7 +582,7 @@ def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *NetworkX* is installed and available.
+    Return whether *NetworkX* is installed and available.
 
     Parameters
     ----------
@@ -631,7 +620,7 @@ def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *OpenColorIO* is installed and available.
+    Return whether *OpenColorIO* is installed and available.
 
     Parameters
     ----------
@@ -668,7 +657,7 @@ def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *OpenImageIO* is installed and available.
+    Return whether *OpenImageIO* is installed and available.
 
     Parameters
     ----------
@@ -705,7 +694,7 @@ def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *Pandas* is installed and available.
+    Return whether *Pandas* is installed and available.
 
     Parameters
     ----------
@@ -742,7 +731,7 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *Scikit-Learn* (sklearn) is installed and available.
+    Return whether *Scikit-Learn* (sklearn) is installed and available.
 
     Parameters
     ----------
@@ -781,7 +770,7 @@ def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *tqdm* is installed and available.
+    Return whether *tqdm* is installed and available.
 
     Parameters
     ----------
@@ -818,7 +807,7 @@ def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
 
 def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
     """
-    Returns whether *Trimesh* is installed and available.
+    Return whether *Trimesh* is installed and available.
 
     Parameters
     ----------
@@ -887,7 +876,8 @@ def required(
     ]
 ) -> Callable:
     """
-    A decorator checking if various requirements are satisfied.
+    Decorate a function to check whether various ancillary package requirements
+    are satisfied.
 
     Other Parameters
     ----------------
@@ -900,15 +890,11 @@ def required(
     """
 
     def wrapper(function: Callable) -> Callable:
-        """
-        Wrapper for given function.
-        """
+        """Wrap given function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """
-            Wrapped function.
-            """
+            """Wrap given function."""
 
             for requirement in requirements:
                 _REQUIREMENTS_TO_CALLABLE[requirement](raise_exception=True)
@@ -922,7 +908,7 @@ def required(
 
 def is_iterable(a: Any) -> Boolean:
     """
-    Returns whether given variable :math:`a` is iterable.
+    Return whether given variable :math:`a` is iterable.
 
     Parameters
     ----------
@@ -947,7 +933,7 @@ def is_iterable(a: Any) -> Boolean:
 
 def is_string(a: Any) -> Boolean:
     """
-    Returns whether given variable :math:`a` is a :class:`str`-like variable.
+    Return whether given variable :math:`a` is a :class:`str`-like variable.
 
     Parameters
     ----------
@@ -972,7 +958,7 @@ def is_string(a: Any) -> Boolean:
 
 def is_numeric(a: Any) -> Boolean:
     """
-    Returns whether given variable :math:`a` is a :class:`Number`-like
+    Return whether given variable :math:`a` is a :class:`Number`-like
     variable.
 
     Parameters
@@ -1007,7 +993,7 @@ def is_numeric(a: Any) -> Boolean:
 
 def is_integer(a: Any) -> Boolean:
     """
-    Returns whether given variable :math:`a` is an :class:`numpy.integer`-like
+    Return whether given variable :math:`a` is an :class:`numpy.integer`-like
     variable under given threshold.
 
     Parameters
@@ -1038,7 +1024,7 @@ def is_integer(a: Any) -> Boolean:
 
 def is_sibling(element: Any, mapping: Mapping) -> Boolean:
     """
-    Returns whether given element type is present in given mapping types.
+    Return whether given element type is present in given mapping types.
 
     Parameters
     ----------
@@ -1060,7 +1046,7 @@ def is_sibling(element: Any, mapping: Mapping) -> Boolean:
 
 def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     """
-    Filters keyword arguments incompatible with the given function signature.
+    Filter keyword arguments incompatible with the given function signature.
 
     Parameters
     ----------
@@ -1113,7 +1099,7 @@ def filter_mapping(
     flags: Union[Integer, RegexFlag] = re.IGNORECASE,
 ) -> Dict:
     """
-    Filters given mapping with given filterers.
+    Filter given mapping with given filterers.
 
     Parameters
     ----------
@@ -1160,7 +1146,7 @@ def filter_mapping(
         flags: Union[Integer, RegexFlag] = re.IGNORECASE,
     ) -> Dict:
         """
-        Filters given mapping with given filterer.
+        Filter given mapping with given filterer.
 
         Parameters
         ----------
@@ -1241,7 +1227,7 @@ def copy_definition(
     definition: Callable, name: Optional[str] = None
 ) -> Callable:
     """
-    Copies a definition with same code, globals, defaults, closure, and
+    Copy a definition using the same code, globals, defaults, closure, and
     name.
 
     Parameters
@@ -1275,7 +1261,7 @@ def validate_method(
     message: str = '"{0}" method is invalid, it must be one of {1}!',
 ) -> str:
     """
-    Validates whether given method exists in the given valid methods and
+    Validate whether given method exists in the given valid methods and
     returns the method lower cased.
 
     Parameters
@@ -1319,7 +1305,7 @@ T = TypeVar("T")
 
 def optional(value: Optional[T], default: T) -> T:
     """
-    Handles optional argument value by providing a default value.
+    Handle optional argument value by providing a default value.
 
     Parameters
     ----------
