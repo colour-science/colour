@@ -8,7 +8,13 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import SpectralShape, planck_law, sd_blackbody
+from colour.colorimetry import(
+    SpectralShape,
+    planck_law,
+    sd_blackbody,
+    rayleigh_jeans_law,
+    sd_rayleigh_jeans
+)
 from colour.hints import Dict, NDArray
 from colour.utilities import ignore_numpy_errors
 
@@ -24,6 +30,10 @@ __all__ = [
     "DATA_BLACKBODY",
     "TestPlanckLaw",
     "TestSdBlackbody",
+    "DATA_RAYLEIGH_JEANS_LAW",
+    "DATA_RAYLEIGH_JEANS",
+    "TestRayleighJeansLaw",
+    "TestSdRayleighJeans",
 ]
 
 DATA_PLANCK_LAW: Dict = {
@@ -4509,6 +4519,15 @@ DATA_BLACKBODY: NDArray = np.array(
     ]
 )
 
+DATA_RAYLEIGH_JEANS_LAW: Dict = {
+    
+}
+
+DATA_RAYLEIGH_JEANS: NDArray = np.array(
+    [
+        
+    ]
+)
 
 class TestPlanckLaw(unittest.TestCase):
     """
@@ -4583,6 +4602,79 @@ class TestSdBlackbody(unittest.TestCase):
             atol=0.0000001,
         )
 
+
+class TestRayleighJeansLaw(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition unit
+    tests methods.
+    """
+
+    def test_rayleigh_jeans_law(self):
+        """
+        Tests :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition.
+        """
+
+        for temperature, wavelengths in sorted(DATA_RAYLEIGH_JEANS_LAW.items()):
+            for wavelength, radiance in sorted(wavelengths.items()):
+                np.testing.assert_allclose(
+                    rayleigh_jeans_law(wavelength * 1e-9, temperature),
+                    radiance,
+                    rtol=0.0000001,
+                    atol=0.0000001,
+                    verbose=False,
+                )
+
+    def test_n_dimensional_rayleigh_jeans_law(self):
+        """
+        Tests :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition
+        n-dimensional arrays support.
+        """
+
+        wl = 500 * 1e-9
+        p = rayleigh_jeans_law(wl, 5500)
+
+        wl = np.tile(wl, 6)
+        p = np.tile(p, 6)
+        np.testing.assert_almost_equal(rayleigh_jeans_law(wl, 5500), p)
+
+        wl = np.reshape(wl, (2, 3))
+        p = np.reshape(p, (2, 3))
+        np.testing.assert_almost_equal(rayleigh_jeans_law(wl, 5500), p)
+
+        wl = np.reshape(wl, (2, 3, 1))
+        p = np.reshape(p, (2, 3, 1))
+        np.testing.assert_almost_equal(rayleigh_jeans_law(wl, 5500), p)
+
+    @ignore_numpy_errors
+    def test_nan_rayleigh_jeans_law(self):
+        """
+        Tests :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            rayleigh_jeans_law(case, case),
+
+
+class TestSdRayleighJeans(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.blackbody.sd_rayleigh_jeans` definition unit
+    tests methods.
+    """
+
+    def test_sd_rayleigh_jeans(self):
+        """
+        Tests :func:`colour.colorimetry.blackbody.sd_rayleigh_jeans` definition.
+        """
+
+        np.testing.assert_allclose(
+            sd_rayleigh_jeans(5000, SpectralShape(360, 830, 1)).values,
+            DATA_BLACKBODY,
+            rtol=0.0000001,
+            atol=0.0000001,
+        )
 
 if __name__ == "__main__":
     unittest.main()
