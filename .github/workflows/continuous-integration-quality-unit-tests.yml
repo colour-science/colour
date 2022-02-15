@@ -67,9 +67,9 @@ jobs:
         sudo rm -rf /usr/lib/python$CI_PYTHON_VERSION
         cp OpenImageIO-Release-$CI_OPENIMAGEIO_VERSION/linux64/lib/python$CI_PYTHON_VERSION/site-packages/OpenImageIO.*.so $(poetry env info -p)/lib/python$CI_PYTHON_VERSION/site-packages/OpenImageIO.so
       shell: bash
-    - name: Lint with flake8
+    - name: Pre-Commit (All Files)
       run: |
-        poetry run flake8 $CI_PACKAGE --count --show-source --statistics
+        poetry run pre-commit run --all-files
       shell: bash
     - name: Test Optimised Python Execution
       run: |
