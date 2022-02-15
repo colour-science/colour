@@ -6,12 +6,12 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import(
+from colour.colorimetry import (
     SpectralShape,
     planck_law,
     sd_blackbody,
     rayleigh_jeans_law,
-    sd_rayleigh_jeans
+    sd_rayleigh_jeans,
 )
 from colour.hints import Dict, NDArray
 from colour.utilities import ignore_numpy_errors
@@ -4517,15 +4517,10 @@ DATA_BLACKBODY: NDArray = np.array(
     ]
 )
 
-DATA_RAYLEIGH_JEANS_LAW: Dict = {
-    
-}
+DATA_RAYLEIGH_JEANS_LAW: Dict = {}
 
-DATA_RAYLEIGH_JEANS: NDArray = np.array(
-    [
-        
-    ]
-)
+DATA_RAYLEIGH_JEANS: NDArray = np.array([])
+
 
 class TestPlanckLaw(unittest.TestCase):
     """
@@ -4608,7 +4603,9 @@ class TestRayleighJeansLaw(unittest.TestCase):
         Tests :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition.
         """
 
-        for temperature, wavelengths in sorted(DATA_RAYLEIGH_JEANS_LAW.items()):
+        for temperature, wavelengths in sorted(
+            DATA_RAYLEIGH_JEANS_LAW.items()
+        ):
             for wavelength, radiance in sorted(wavelengths.items()):
                 np.testing.assert_allclose(
                     rayleigh_jeans_law(wavelength * 1e-9, temperature),
@@ -4669,6 +4666,7 @@ class TestSdRayleighJeans(unittest.TestCase):
             rtol=0.0000001,
             atol=0.0000001,
         )
+
 
 if __name__ == "__main__":
     unittest.main()
