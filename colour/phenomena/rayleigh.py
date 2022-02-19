@@ -1197,6 +1197,10 @@ def sd_rayleigh_scattering(
         wavelengths,
         name=(
             "Rayleigh Scattering - "
-            "{!r} ppm, {!r} K, {!r} Pa, {!r} Degrees, {!r} m"
-        ).format(CO2_concentration, temperature, pressure, latitude, altitude),
+            f"{CO2_concentration!r} ppm, "
+            f"{temperature!r} K, "
+            f"{pressure!r} Pa, "
+            f"{latitude!r} Degrees, "
+            f"{altitude!r} m"
+        ),
     )

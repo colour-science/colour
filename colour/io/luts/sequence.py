@@ -220,6 +220,8 @@ class LUTSequence(MutableSequence):
             Formatted string representation.
         """
 
+        sequence = " --> ".join([a.__class__.__name__ for a in self._sequence])
+
         operations = re.sub(
             "^",
             " " * 4,
@@ -232,12 +234,9 @@ class LUTSequence(MutableSequence):
             "LUT Sequence\n"
             "------------\n\n"
             "Overview\n\n"
-            "    {}\n\n"
+            f"    {sequence}\n\n"
             "Operations\n\n"
-            "{}"
-        ).format(
-            " --> ".join([a.__class__.__name__ for a in self._sequence]),
-            operations,
+            f"{operations}"
         )
 
     def __repr__(self) -> str:

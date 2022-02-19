@@ -143,8 +143,10 @@ def message_box(
     def inner(text):
         """Format and pads inner text for the message box."""
 
-        return "*{0}{1}{2}{0}*".format(
-            " " * padding, text, (" " * (width - len(text) - padding * 2 - 2))
+        return (
+            f'*{" " * padding}'
+            f'{text}{" " * (width - len(text) - padding * 2 - 2)}'
+            f'{" " * padding}*'
         )
 
     print_callable("=" * width)

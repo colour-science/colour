@@ -316,7 +316,7 @@ def sd_CIE_illuminant_D_series(
     return SpectralDistribution(
         distribution,
         S0.wavelengths,
-        name="CIE xy ({}, {}) - CIE Illuminant D Series".format(*xy),
+        name=f"CIE xy ({xy[0]}, {xy[1]}) - CIE Illuminant D Series",
         interpolator=LinearInterpolator,
     )
 

@@ -594,19 +594,15 @@ class Signal(AbstractContinuousFunction):
                 "       [",
                 f"{' ' * (len(self.__class__.__name__) + 2)}[",
             )
+            indentation = " " * (len(self.__class__.__name__) + 1)
             representation = (
-                "{0},\n"
-                "{1}interpolator={2},\n"
-                "{1}interpolator_kwargs={3},\n"
-                "{1}extrapolator={4},\n"
-                "{1}extrapolator_kwargs={5})"
-            ).format(
-                representation[:-1],
-                " " * (len(self.__class__.__name__) + 1),
-                self.interpolator.__name__,
-                repr(self.interpolator_kwargs),
-                self.extrapolator.__name__,
-                repr(self.extrapolator_kwargs),
+                f"{representation[:-1]},\n"
+                f"{indentation}interpolator={self.interpolator.__name__},\n"
+                f"{indentation}interpolator_kwargs="
+                f"{repr(self.interpolator_kwargs)},\n"
+                f"{indentation}extrapolator={self.extrapolator.__name__},\n"
+                f"{indentation}extrapolator_kwargs="
+                f"{repr(self.extrapolator_kwargs)})"
             )
 
             return representation

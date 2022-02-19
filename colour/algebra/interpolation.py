@@ -716,10 +716,8 @@ class KernelInterpolator:
 
         if len(self._x) != len(self._y):
             raise ValueError(
-                (
-                    '"x" independent and "y" dependent variables have different '
-                    'dimensions: "{}", "{}"'
-                ).format(len(self._x), len(self._y))
+                '"x" independent and "y" dependent variables have different '
+                f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
 
     def _validate_interpolation_range(self, x: NDArray):
@@ -944,10 +942,8 @@ class LinearInterpolator:
 
         if len(self._x) != len(self._y):
             raise ValueError(
-                (
-                    '"x" independent and "y" dependent variables have different '
-                    'dimensions: "{}", "{}"'
-                ).format(len(self._x), len(self._y))
+                '"x" independent and "y" dependent variables have different '
+                f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
 
     def _validate_interpolation_range(self, x: NDArray):
@@ -1281,10 +1277,8 @@ class SpragueInterpolator:
 
         if len(self._x) != len(self._y):
             raise ValueError(
-                (
-                    '"x" independent and "y" dependent variables have different '
-                    'dimensions: "{}", "{}"'
-                ).format(len(self._x), len(self._y))
+                '"x" independent and "y" dependent variables have different '
+                f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
 
     def _validate_interpolation_range(self, x: NDArray):
@@ -1642,10 +1636,8 @@ class NullInterpolator:
 
         if len(self._x) != len(self._y):
             raise ValueError(
-                (
-                    '"x" independent and "y" dependent variables have different '
-                    'dimensions: "{}", "{}"'
-                ).format(len(self._x), len(self._y))
+                '"x" independent and "y" dependent variables have different '
+                f'dimensions: "{len(self._x)}", "{len(self._y)}"'
             )
 
     def _validate_interpolation_range(self, x: NDArray):

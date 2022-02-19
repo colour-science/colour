@@ -358,21 +358,17 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
             return str(a).replace(" [", " " * 14 + "[")
 
+        comments = "\n".join(self._comments)
+        comments = f"\n\n{comments}" if self._comments else ""
+
+        underline = "-" * (len(self.__class__.__name__) + 3 + len(self._name))
+
         return (
-            "{} - {}\n"
-            "{}\n\n"
-            "Matrix     : {}\n"
-            "Offset     : {}"
-            "{}".format(
-                self.__class__.__name__,
-                self._name,
-                "-" * (len(self.__class__.__name__) + 3 + len(self._name)),
-                _indent_array(self._matrix),
-                _indent_array(self._offset),
-                "\n\n{}".format("\n".join(self._comments))
-                if self._comments
-                else "",
-            )
+            f"{self.__class__.__name__} - {self._name}\n"
+            f"{underline}\n\n"
+            f"Matrix     : {_indent_array(self._matrix)}\n"
+            f"Offset     : {_indent_array(self._offset)}"
+            f"{comments}"
         )
 
     def __repr__(self) -> str:
@@ -407,17 +403,20 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         )
 
         indentation = " " * (len(self.__class__.__name__) + 1)
-        representation = ("{0},\n" "{1}{2},\n" "{1}name='{3}'" "{4})").format(
-            representation[:-1],
-            indentation,
-            repr(self._offset).replace("array(", "").replace(")", ""),
-            self._name,
+
+        comments = (
             f",\n{indentation}comments={repr(self._comments)}"
             if self._comments
-            else "",
+            else ""
         )
 
-        return representation
+        return (
+            f"{representation[:-1]},\n"
+            f"{indentation}"
+            f'{repr(self._offset).replace("array(", "").replace(")", "")},\n'
+            f"{indentation}name='{self._name}'"
+            f"{comments})"
+        )
 
     def __eq__(self, other: Any) -> bool:
         """

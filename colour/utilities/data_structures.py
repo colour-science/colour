@@ -344,12 +344,10 @@ class CaseInsensitiveMapping(MutableMapping):
         """
 
         if is_documentation_building():  # pragma: no cover
-            return "{}({})".format(
-                self.__class__.__name__,
-                repr(dict(zip(self.keys(), ["..."] * len(self)))).replace(
-                    "'...'", "..."
-                ),
-            )
+            representation = repr(
+                dict(zip(self.keys(), ["..."] * len(self)))
+            ).replace("'...'", "...")
+            return f"{self.__class__.__name__}({representation})"
         else:
             return f"{self.__class__.__name__}({dict(self.items())})"
 
