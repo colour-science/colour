@@ -889,9 +889,10 @@ class LUT3D_Jakob2019:
         # First, create a list of all the fully bright colours with the order
         # matching cube_indexes.
         samples = np.linspace(0, 1, chroma_steps)
-        ij = np.transpose(
-            np.meshgrid([1], samples, samples, indexing="ij")
-        ).reshape(-1, 3)
+        ij = np.reshape(
+            np.transpose(np.meshgrid([1], samples, samples, indexing="ij")),
+            (-1, 3),
+        )
         chromas = np.concatenate(
             [
                 as_float_array(ij),

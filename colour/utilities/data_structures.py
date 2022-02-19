@@ -1091,7 +1091,7 @@ class Node:
 
         output = ""
 
-        for i in range(tab_level):
+        for _i in range(tab_level):
             output += "    "
 
         tab_level += 1

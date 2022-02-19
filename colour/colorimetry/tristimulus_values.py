@@ -631,7 +631,7 @@ def sd_to_XYZ_integration(
             cmfs, illuminant, illuminant_default="E"
         )
     else:
-        cmfs, illuminant_ = handle_spectral_arguments(
+        cmfs, _illuminant = handle_spectral_arguments(
             cmfs, illuminant, illuminant_default="E"
         )
 

@@ -125,7 +125,7 @@ def uv_to_CCT_Krystek1985(
         ]
     )
 
-    return as_float(CCT.reshape(shape[:-1]))
+    return as_float(np.reshape(CCT, shape[:-1]))
 
 
 def CCT_to_uv_Krystek1985(CCT: FloatingOrArrayLike) -> NDArray:

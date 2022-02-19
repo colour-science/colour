@@ -119,7 +119,7 @@ def xy_to_CCT_Kang2002(
         ]
     )
 
-    return as_float(CCT.reshape(shape[:-1]))
+    return as_float(np.reshape(CCT, shape[:-1]))
 
 
 def CCT_to_xy_Kang2002(CCT: FloatingOrArrayLike) -> NDArray:

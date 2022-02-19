@@ -1014,7 +1014,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         :alt: plot_RGB_chromaticities_in_chromaticity_diagram
     """
 
-    RGB = as_float_array(RGB).reshape(-1, 3)
+    RGB = np.reshape(as_float_array(RGB), (-1, 3))
     method = validate_method(
         method, ["CIE 1931", "CIE 1960 UCS", "CIE 1976 UCS"]
     )
@@ -1052,12 +1052,15 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
     if use_RGB_colours:
         RGB = RGB[RGB[:, 1].argsort()]
         scatter_settings["c"] = np.clip(
-            RGB_to_RGB(
-                RGB,
-                colourspace,
-                CONSTANTS_COLOUR_STYLE.colour.colourspace,
-                apply_cctf_encoding=True,
-            ).reshape(-1, 3),
+            np.reshape(
+                RGB_to_RGB(
+                    RGB,
+                    colourspace,
+                    CONSTANTS_COLOUR_STYLE.colour.colourspace,
+                    apply_cctf_encoding=True,
+                ),
+                (-1, 3),
+            ),
             0,
             1,
         )

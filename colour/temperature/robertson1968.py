@@ -241,7 +241,7 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
 
     CCT_D_uv = [_uv_to_CCT_Robertson1968(a) for a in np.reshape(uv, (-1, 2))]
 
-    return as_float_array(CCT_D_uv).reshape(uv.shape)
+    return np.reshape(as_float_array(CCT_D_uv), uv.shape)
 
 
 def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
@@ -335,4 +335,4 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
 
     uv = [_CCT_to_uv_Robertson1968(a) for a in np.reshape(CCT_D_uv, (-1, 2))]
 
-    return as_float_array(uv).reshape(CCT_D_uv.shape)
+    return np.reshape(as_float_array(uv), CCT_D_uv.shape)

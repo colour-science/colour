@@ -168,4 +168,4 @@ def CCT_to_xy_McCamy1992(
         ]
     )
 
-    return xy.reshape(shape + [2])
+    return np.reshape(xy, (shape + [2]))

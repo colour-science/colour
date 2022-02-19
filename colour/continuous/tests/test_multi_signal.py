@@ -669,7 +669,9 @@ function` property raised exception.
             decimal=7,
         )
 
-        multi_signals[np.array([0, 1, 2])] = np.arange(1, 10, 1).reshape(3, 3)
+        multi_signals[np.array([0, 1, 2])] = np.reshape(
+            np.arange(1, 10, 1), (3, 3)
+        )
         np.testing.assert_almost_equal(
             multi_signals.range,
             np.array(

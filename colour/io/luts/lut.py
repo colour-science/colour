@@ -2261,10 +2261,10 @@ class LUT3D(AbstractLUT):
         # The intent is to smooth the inverse LUT's table by increasing the
         # resolution of the KDTree.
         LUT_t = LUT3D(size=target_size, domain=LUT.domain)
-        table = LUT_t.table.reshape(-1, 3)
+        table = np.reshape(LUT_t.table, (-1, 3))
         LUT_t.table = LUT.apply(LUT_t.table, interpolator=interpolator)
 
-        tree = KDTree(LUT_t.table.reshape(-1, 3))
+        tree = KDTree(np.reshape(LUT_t.table, (-1, 3)))
 
         # "LUT_q" stores the indexes of the KDTree query, i.e. the closest
         # entry of "LUT_t" for any searched table sample.

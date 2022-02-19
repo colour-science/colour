@@ -63,7 +63,7 @@ def read_LUT_SonySPImtx(path: str) -> LUTOperatorMatrix:
     """
 
     matrix = np.loadtxt(path, dtype=DEFAULT_FLOAT_DTYPE)
-    matrix = matrix.reshape(3, 4)
+    matrix = np.reshape(matrix, (3, 4))
     offset = matrix[:, 3] / 65535
     matrix = matrix[:3, :3]
 

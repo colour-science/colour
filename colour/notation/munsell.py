@@ -984,7 +984,7 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArray:
 
     shape[-1] = 3
 
-    return as_float_array(xyY).reshape(shape)
+    return np.reshape(as_float_array(xyY), shape)
 
 
 def munsell_colour_to_xyY(munsell_colour: StrOrArrayLike) -> NDArray:
@@ -1401,7 +1401,7 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
     shape[-1] = 4
 
-    return as_float_array(specification).reshape(shape)
+    return np.reshape(as_float_array(specification), shape)
 
 
 def xyY_to_munsell_colour(
@@ -1454,12 +1454,15 @@ def xyY_to_munsell_colour(
     shape = list(specification.shape)
     decimals = (hue_decimals, value_decimals, chroma_decimals)
 
-    munsell_colour = np.array(
-        [
-            munsell_specification_to_munsell_colour(a, *decimals)
-            for a in specification.reshape([-1, 4])
-        ]
-    ).reshape(shape[:-1])
+    munsell_colour = np.reshape(
+        np.array(
+            [
+                munsell_specification_to_munsell_colour(a, *decimals)
+                for a in specification.reshape([-1, 4])
+            ]
+        ),
+        shape[:-1],
+    )
 
     return str(munsell_colour) if shape == [4] else munsell_colour
 

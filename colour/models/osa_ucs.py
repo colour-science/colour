@@ -229,4 +229,4 @@ def OSA_UCS_to_XYZ(
         ]
     )
 
-    return from_range_100(XYZ.reshape(shape))
+    return from_range_100(np.reshape(XYZ, shape))
