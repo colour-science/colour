@@ -61,7 +61,7 @@ def extract_todo_items(root_directory: str) -> dict:
     """
 
     todo_items = {}
-    for root, dirnames, filenames in os.walk(root_directory):
+    for root, _dirnames, filenames in os.walk(root_directory):
         for filename in filenames:
             if not filename.endswith(".py"):
                 continue
@@ -77,7 +77,7 @@ def extract_todo_items(root_directory: str) -> dict:
                 line = line.strip()
                 if line.startswith("# TODO:"):
                     in_todo = True
-                    line_number = i
+                    line_number = i + 1
                     todo_item.append(line)
                     continue
 
@@ -90,7 +90,6 @@ def extract_todo_items(root_directory: str) -> dict:
 
                     todo_items[key].append((line_number, " ".join(todo_item)))
                     in_todo = False
-                    line_number
                     todo_item = []
 
     return todo_items
