@@ -721,8 +721,6 @@ tristimulus_weighting_factors_ASTME2022` definition.
             np.round(twf, 3), TWF_A_CIE_1964_10_10, decimal=3
         )
 
-        twf * 10
-
         np.testing.assert_almost_equal(
             np.round(
                 tristimulus_weighting_factors_ASTME2022(

@@ -183,11 +183,13 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
     if (
         is_3D
         and pre_LUT.shape == (6, 2)
-        and np.array_equal(pre_LUT.reshape(3, 4).transpose()[2:4], unity_range)
+        and np.array_equal(
+            np.transpose(np.reshape(pre_LUT, (3, 4)))[2:4], unity_range
+        )
     ):
         table = table.reshape([size[0], size[1], size[2], 3], order="F")
         LUT = LUT3D(
-            domain=pre_LUT.reshape(3, 4).transpose()[0:2],
+            domain=np.transpose(np.reshape(pre_LUT, (3, 4)))[0:2],
             name=title,
             comments=comments,
             table=table,
@@ -196,7 +198,9 @@ def read_LUT_Cinespace(path: str) -> Union[LUT3x1D, LUT3D, LUTSequence]:
     elif (
         not is_3D
         and pre_LUT.shape == (6, 2)
-        and np.array_equal(pre_LUT.reshape(3, 4).transpose()[2:4], unity_range)
+        and np.array_equal(
+            np.transpose(np.reshape(pre_LUT, (3, 4)))[2:4], unity_range
+        )
     ):
         LUT = LUT3x1D(
             domain=pre_LUT.reshape(3, 4).transpose()[0:2],

@@ -186,4 +186,4 @@ def CCT_to_xy_Hernandez1999(
         ]
     )
 
-    return xy.reshape(shape + [2])
+    return np.reshape(xy, (shape + [2]))

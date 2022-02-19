@@ -590,7 +590,7 @@ def polynomial_expansion_Vandermonde(
     a = as_float_array(a)
 
     a_e = np.transpose(np.vander(np.ravel(a), int(degree) + 1))
-    a_e = np.hstack(list(a_e.reshape(a_e.shape[0], -1, 3)))
+    a_e = np.hstack(list(np.reshape(a_e, (a_e.shape[0], -1, 3))))
 
     return np.squeeze(a_e[:, 0 : a_e.shape[-1] - a.shape[-1] + 1])
 

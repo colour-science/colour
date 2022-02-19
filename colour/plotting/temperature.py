@@ -196,7 +196,7 @@ def plot_planckian_locus(
 
     start, end = 10**6 / 600, 10**6 / 10
     CCT = np.arange(start, end + 100, 100)
-    CCT_D_uv = tstack([CCT, zeros(CCT.shape)]).reshape(-1, 1, 2)
+    CCT_D_uv = np.reshape(tstack([CCT, zeros(CCT.shape)]), (-1, 1, 2))
     ij = uv_to_ij(CCT_to_uv(CCT_D_uv, "Robertson 1968"))
 
     use_RGB_planckian_locus_colours = (
@@ -216,9 +216,9 @@ def plot_planckian_locus(
     axes.add_collection(line_collection)
 
     for label in labels:
-        CCT_D_uv = tstack(
-            [full(10, label), np.linspace(-D_uv, D_uv, 10)]
-        ).reshape(-1, 1, 2)
+        CCT_D_uv = np.reshape(
+            tstack([full(10, label), np.linspace(-D_uv, D_uv, 10)]), (-1, 1, 2)
+        )
 
         if use_RGB_planckian_locus_colours:
             itl_colours = CCT_D_uv_to_plotting_colourspace(CCT_D_uv)

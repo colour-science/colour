@@ -2866,7 +2866,7 @@ def sds_and_msds_to_msds(
         values = []
         labels = []
         strict_labels = []
-        for i, sd in enumerate(sds_converted):
+        for sd in sds_converted:
             if sd.shape != shape:
                 sd = sd.align(shape)
 

@@ -889,7 +889,6 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 <function xy_to_UCS_uv at 0x...>, <function uv_to_CCT at 0x...>]
     """
 
-    import colour
     import networkx as nx
 
     global CONVERSION_GRAPH

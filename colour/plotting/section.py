@@ -456,7 +456,7 @@ def plot_hull_section_contour(
             XYZ_to_plotting_colourspace(XYZ_section), 0, 1
         )
 
-    section = section[..., plane].reshape(-1, 1, 2)
+    section = np.reshape(section[..., plane], (-1, 1, 2))
     line_collection = LineCollection(
         np.concatenate([section[:-1], section[1:]], axis=1),
         colors=contour_colours,

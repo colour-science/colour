@@ -120,8 +120,8 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         xyY = XYZ_to_xyY(XYZ)
-        XYZ = np.tile(XYZ, (6, 1)).reshape(2, 3, 3)
-        xyY = np.tile(xyY, (6, 1)).reshape(2, 3, 3)
+        XYZ = np.reshape(np.tile(XYZ, (6, 1)), (2, 3, 3))
+        xyY = np.reshape(np.tile(xyY, (6, 1)), (2, 3, 3))
 
         d_r = (
             ("reference", 1, 1),
@@ -224,8 +224,8 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
         xyY = np.array([0.54369557, 0.32107944, 0.12197225])
         XYZ = xyY_to_XYZ(xyY)
-        xyY = np.tile(xyY, (6, 1)).reshape(2, 3, 3)
-        XYZ = np.tile(XYZ, (6, 1)).reshape(2, 3, 3)
+        xyY = np.reshape(np.tile(xyY, (6, 1)), (2, 3, 3))
+        XYZ = np.reshape(np.tile(XYZ, (6, 1)), (2, 3, 3))
 
         d_r = (
             ("reference", 1, 1),
@@ -307,8 +307,8 @@ class TestxyY_to_xy(unittest.TestCase):
 
         xyY = np.array([0.54369557, 0.32107944, 0.12197225])
         xy = xyY_to_xy(xyY)
-        xyY = np.tile(xyY, (6, 1)).reshape(2, 3, 3)
-        xy = np.tile(xy, (6, 1)).reshape(2, 3, 2)
+        xyY = np.reshape(np.tile(xyY, (6, 1)), (2, 3, 3))
+        xy = np.reshape(np.tile(xy, (6, 1)), (2, 3, 2))
 
         d_r = (
             ("reference", 1, 1),
@@ -396,8 +396,8 @@ class Testxy_to_xyY(unittest.TestCase):
 
         xy = np.array([0.54369557, 0.32107944, 0.12197225])
         xyY = xy_to_xyY(xy)
-        xy = np.tile(xy, (6, 1)).reshape(2, 3, 3)
-        xyY = np.tile(xyY, (6, 1)).reshape(2, 3, 3)
+        xy = np.reshape(np.tile(xy, (6, 1)), (2, 3, 3))
+        xyY = np.reshape(np.tile(xyY, (6, 1)), (2, 3, 3))
 
         d_r = (
             ("reference", 1, 1),
@@ -494,8 +494,8 @@ class TestXYZ_to_xy(unittest.TestCase):
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         xy = XYZ_to_xy(XYZ)
-        XYZ = np.tile(XYZ, (6, 1)).reshape(2, 3, 3)
-        xy = np.tile(xy, (6, 1)).reshape(2, 3, 2)
+        XYZ = np.reshape(np.tile(XYZ, (6, 1)), (2, 3, 3))
+        xy = np.reshape(np.tile(xy, (6, 1)), (2, 3, 2))
 
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
@@ -574,8 +574,8 @@ class Testxy_to_XYZ(unittest.TestCase):
 
         xy = np.array([0.54369557, 0.32107944, 0.12197225])
         XYZ = xy_to_XYZ(xy)
-        xy = np.tile(xy, (6, 1)).reshape(2, 3, 3)
-        XYZ = np.tile(XYZ, (6, 1)).reshape(2, 3, 3)
+        xy = np.reshape(np.tile(xy, (6, 1)), (2, 3, 3))
+        XYZ = np.reshape(np.tile(XYZ, (6, 1)), (2, 3, 3))
 
         d_r = (
             ("reference", 1, 1),

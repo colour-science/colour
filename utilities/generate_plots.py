@@ -861,7 +861,7 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Hull_Section_Colours.png"
     )
-    vertices, faces, outline = primitive_cube(1, 1, 1, 64, 64, 64)
+    vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     XYZ_vertices = RGB_to_XYZ(
         vertices["position"] + 0.5,
         RGB_COLOURSPACE_sRGB.whitepoint,

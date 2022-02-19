@@ -271,12 +271,15 @@ def plot_spectral_locus(
             ),
         )
 
-    pl_ij = tstack(
-        [
-            np.linspace(ij[0][0], ij[-1][0], 20),
-            np.linspace(ij[0][1], ij[-1][1], 20),
-        ]
-    ).reshape(-1, 1, 2)
+    pl_ij = np.reshape(
+        tstack(
+            [
+                np.linspace(ij[0][0], ij[-1][0], 20),
+                np.linspace(ij[0][1], ij[-1][1], 20),
+            ]
+        ),
+        (-1, 1, 2),
+    )
     sl_ij = np.copy(ij).reshape(-1, 1, 2)
 
     purple_line_colours: Optional[Union[ArrayLike, str]]
@@ -293,7 +296,7 @@ def plot_spectral_locus(
             XYZ = xy_to_XYZ(Luv_uv_to_xy(pl_ij))
 
         purple_line_colours = normalise_maximum(
-            XYZ_to_plotting_colourspace(XYZ.reshape(-1, 3)), axis=-1
+            XYZ_to_plotting_colourspace(np.reshape(XYZ, (-1, 3))), axis=-1
         )
     else:
         purple_line_colours = spectral_locus_colours

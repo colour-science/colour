@@ -374,7 +374,7 @@ def uv_to_CCT_Ohno2013(
         for a in np.reshape(uv, (-1, 2))
     ]
 
-    return as_float_array(CCT_D_uv).reshape(uv.shape)
+    return np.reshape(as_float_array(CCT_D_uv), uv.shape)
 
 
 def _CCT_to_uv_Ohno2013(
@@ -471,4 +471,4 @@ def CCT_to_uv_Ohno2013(
 
     uv = [_CCT_to_uv_Ohno2013(a, cmfs) for a in np.reshape(CCT_D_uv, (-1, 2))]
 
-    return as_float_array(uv).reshape(CCT_D_uv.shape)
+    return np.reshape(as_float_array(uv), CCT_D_uv.shape)

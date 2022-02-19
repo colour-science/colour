@@ -42,7 +42,7 @@ def unicode_to_ascii(root_directory: str):
         Directory to convert the files from unicode to ASCII.
     """
 
-    for root, dirnames, filenames in os.walk(root_directory):
+    for root, _dirnames, filenames in os.walk(root_directory):
         for filename in filenames:
             if (
                 not filename.endswith(".tex")

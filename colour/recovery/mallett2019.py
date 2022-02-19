@@ -172,7 +172,7 @@ def spectral_primary_decomposition_Mallett2019(
     R_to_RGB = np.dot(colourspace.matrix_XYZ_to_RGB, R_to_XYZ)
     basis_to_RGB = block_diag(R_to_RGB, R_to_RGB, R_to_RGB)
 
-    primaries = np.identity(3).reshape(9)
+    primaries = np.reshape(np.identity(3), 9)
 
     # Ensure that the reflectances correspond to the correct RGB colours.
     colour_match = LinearConstraint(basis_to_RGB, primaries, primaries)
@@ -200,7 +200,7 @@ def spectral_primary_decomposition_Mallett2019(
         metric, args=metric_args, x0=np.zeros(3 * N), **optimisation_settings
     )
 
-    basis_functions = np.transpose(result.x.reshape(3, N))
+    basis_functions = np.transpose(np.reshape(result.x, (3, N)))
 
     return MultiSpectralDistributions(
         basis_functions,

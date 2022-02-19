@@ -121,7 +121,7 @@ def xy_to_CCT_CIE_D(
         ]
     )
 
-    return as_float(CCT.reshape(shape[:-1]))
+    return as_float(np.reshape(CCT, shape[:-1]))
 
 
 def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:

@@ -263,7 +263,7 @@ class MixinDataclassArray(MixinDataclassIterable):
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         default = None
-        for field, value in self:
+        for _field, value in self:
             if value is not None:
                 default = full(as_float_array(value).shape, np.nan)
                 break
@@ -832,7 +832,7 @@ def set_default_int_dtype(
 
     # TODO: Investigate behaviour on Windows.
     with suppress_warnings(colour_usage_warnings=True):
-        for name, module in sys.modules.items():
+        for module in sys.modules.values():
             if not hasattr(module, "DEFAULT_INT_DTYPE"):
                 continue
 
@@ -1917,7 +1917,7 @@ def in_array(
 
     d = np.abs(np.ravel(a) - b[..., np.newaxis])
 
-    return np.any(d <= tolerance, axis=0).reshape(a.shape)
+    return np.reshape(np.any(d <= tolerance, axis=0), a.shape)
 
 
 def tstack(
