@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Random Numbers Utilities
 ========================
 
-Defines random numbers generator objects:
+Defines the random number generator objects:
 
 -   :func:`colour.algebra.random_triplet_generator`
 References
@@ -15,44 +14,49 @@ References
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import runtime_warning, tstack
+from colour.hints import ArrayLike, Integer, NDArray
+from colour.utilities import as_float_array, tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['RANDOM_STATE', 'random_triplet_generator']
+__all__ = [
+    "RANDOM_STATE",
+    "random_triplet_generator",
+]
 
 RANDOM_STATE = np.random.RandomState()
 
 
-def random_triplet_generator(size,
-                             limits=np.array([[0, 1], [0, 1], [0, 1]]),
-                             random_state=RANDOM_STATE):
+def random_triplet_generator(
+    size: Integer,
+    limits: ArrayLike = np.array([[0, 1], [0, 1], [0, 1]]),
+    random_state: np.random.RandomState = RANDOM_STATE,
+) -> NDArray:
     """
-    Returns a generator yielding random triplets.
+    Return a generator yielding random triplets.
 
     Parameters
     ----------
-    size : int
+    size
         Generator size.
-    limits : array_like, (3, 2)
+    limits
         Random values limits on each triplet axis.
-    random_state : RandomState
+    random_state
          Mersenne Twister pseudo-random number generator.
 
     Returns
     -------
-    generator
-        Random triplets generator.
+    :class:`numpy.ndarray`
+        Random triplet generator.
 
     Notes
     -----
@@ -80,13 +84,12 @@ def random_triplet_generator(size,
            [ 0.4347915...,  0.9566529...,  0.4084438...]])
     """
 
-    integer_size = DEFAULT_INT_DTYPE(size)
-    if integer_size != size:
-        runtime_warning(
-            '"size" has been cast to integer: {0}'.format(integer_size))
+    limit_x, limit_y, limit_z = as_float_array(limits)
 
-    return tstack([
-        random_state.uniform(*limits[0], size=integer_size),
-        random_state.uniform(*limits[1], size=integer_size),
-        random_state.uniform(*limits[2], size=integer_size),
-    ])
+    return tstack(
+        [
+            random_state.uniform(limit_x[0], limit_x[1], size=size),
+            random_state.uniform(limit_y[0], limit_y[1], size=size),
+            random_state.uniform(limit_z[0], limit_z[1], size=size),
+        ]
+    )

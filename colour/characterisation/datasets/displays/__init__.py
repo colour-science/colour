@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 References
 ----------
@@ -12,13 +11,11 @@ context=article
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
-from __future__ import absolute_import
-
 from .crt import MSDS_DISPLAY_PRIMARIES_CRT
 from .lcd import MSDS_DISPLAY_PRIMARIES_LCD
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
-MSDS_DISPLAY_PRIMARIES = CaseInsensitiveMapping(MSDS_DISPLAY_PRIMARIES_CRT)
+MSDS_DISPLAY_PRIMARIES = LazyCaseInsensitiveMapping(MSDS_DISPLAY_PRIMARIES_CRT)
 MSDS_DISPLAY_PRIMARIES.update(MSDS_DISPLAY_PRIMARIES_LCD)
 MSDS_DISPLAY_PRIMARIES.__doc__ = """
 Primaries multi-spectral distributions of displays.
@@ -26,9 +23,8 @@ Primaries multi-spectral distributions of displays.
 References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
-
-MSDS_DISPLAY_PRIMARIES : CaseInsensitiveMapping
-    **{Apple Studio Display, Typical CRT Brainard 1997}**
 """
 
-__all__ = ['MSDS_DISPLAY_PRIMARIES']
+__all__ = [
+    "MSDS_DISPLAY_PRIMARIES",
+]

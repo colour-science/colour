@@ -1,119 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import absolute_import
-
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
-
-from .cie_d import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
-from .hernandez1999 import xy_to_CCT_Hernandez1999, CCT_to_xy_Hernandez1999
-from .kang2002 import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
-from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
-from .mccamy1992 import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
-from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
-from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
-
-__all__ = ['xy_to_CCT_CIE_D', 'CCT_to_xy_CIE_D']
-__all__ += ['xy_to_CCT_Hernandez1999', 'CCT_to_xy_Hernandez1999']
-__all__ += ['xy_to_CCT_Kang2002', 'CCT_to_xy_Kang2002']
-__all__ += ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
-__all__ += ['xy_to_CCT_McCamy1992', 'CCT_to_xy_McCamy1992']
-__all__ += ['uv_to_CCT_Ohno2013', 'CCT_to_uv_Ohno2013']
-__all__ += ['uv_to_CCT_Robertson1968', 'CCT_to_uv_Robertson1968']
-
-UV_TO_CCT_METHODS = CaseInsensitiveMapping({
-    'Krystek 1985': uv_to_CCT_Krystek1985,
-    'Ohno 2013': uv_to_CCT_Ohno2013,
-    'Robertson 1968': uv_to_CCT_Robertson1968
-})
-UV_TO_CCT_METHODS.__doc__ = """
-Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
-colour temperature :math:`T_{cp}` computation methods.
-
-References
-----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Ohno2014a`,
-:cite:`Wyszecki2000y`
-
-UV_TO_CCT_METHODS : CaseInsensitiveMapping
-    **{'Ohno 2013', 'Krystek 1985, 'Robertson 1968'}**
-
-Aliases:
-
--   'ohno2013': 'Ohno 2013'
--   'robertson1968': 'Robertson 1968'
 """
-UV_TO_CCT_METHODS['ohno2013'] = UV_TO_CCT_METHODS['Ohno 2013']
-UV_TO_CCT_METHODS['robertson1968'] = UV_TO_CCT_METHODS['Robertson 1968']
-
-
-def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
-    """
-    Returns the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
-    coordinates using given method.
-
-    Parameters
-    ----------
-    uv : array_like
-        *CIE UCS* colourspace *uv* chromaticity coordinates.
-    method : unicode, optional
-        **{'Ohno 2013', 'Krystek 1985, 'Robertson 1968'}**,
-        Computation method.
-
-    Other Parameters
-    ----------------
-    cmfs : XYZ_ColourMatchingFunctions, optional
-        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
-        Standard observer colour matching functions.
-    start : numeric, optional
-        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
-        Temperature range start in kelvins.
-    end : numeric, optional
-        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
-        Temperature range end in kelvins.
-    count : int, optional
-        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
-        Temperatures count in the planckian tables.
-    iterations : int, optional
-        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
-        Number of planckian tables to generate.
-    optimisation_kwargs : dict_like, optional
-        {:func:`colour.temperature.uv_to_CCT_Krystek1985`},
-        Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Returns
-    -------
-    ndarray
-        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-
-    References
-    ----------
-    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
-    :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> uv = np.array([0.1978, 0.3122])
-    >>> # Doctests skipping for Python 2.x compatibility.
-    >>> uv_to_CCT(uv)  # doctest: +SKIP
-    array([  6.5074738...e+03,   3.2233460...e-03])
-    """
-
-    function = UV_TO_CCT_METHODS[method]
-
-    return function(uv, **filter_kwargs(function, **kwargs))
-
-
-CCT_TO_UV_METHODS = CaseInsensitiveMapping({
-    'Krystek 1985': CCT_to_uv_Krystek1985,
-    'Ohno 2013': CCT_to_uv_Ohno2013,
-    'Robertson 1968': CCT_to_uv_Robertson1968
-})
-CCT_TO_UV_METHODS.__doc__ = """
-Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
-*uv* chromaticity coordinates computation methods.
-
 References
 ----------
 -   :cite:`AdobeSystems2013` : Adobe Systems. (2013). Adobe DNG Software
@@ -150,32 +35,203 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
     Methods, Quantitative Data and Formulae (pp. 145-146). Wiley.
     ISBN:978-0-471-39918-6
 """
-CCT_TO_UV_METHODS['ohno2013'] = CCT_TO_UV_METHODS['Ohno 2013']
-CCT_TO_UV_METHODS['robertson1968'] = CCT_TO_UV_METHODS['Robertson 1968']
+
+from __future__ import annotations
+
+from colour.hints import (
+    Any,
+    ArrayLike,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Literal,
+    Union,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    validate_method,
+)
+
+from .cie_d import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
+from .hernandez1999 import xy_to_CCT_Hernandez1999, CCT_to_xy_Hernandez1999
+from .kang2002 import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
+from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
+from .mccamy1992 import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
+from .ohno2013 import uv_to_CCT_Ohno2013, CCT_to_uv_Ohno2013
+from .robertson1968 import uv_to_CCT_Robertson1968, CCT_to_uv_Robertson1968
+
+__all__ = [
+    "xy_to_CCT_CIE_D",
+    "CCT_to_xy_CIE_D",
+]
+__all__ += [
+    "xy_to_CCT_Hernandez1999",
+    "CCT_to_xy_Hernandez1999",
+]
+__all__ += [
+    "xy_to_CCT_Kang2002",
+    "CCT_to_xy_Kang2002",
+]
+__all__ += [
+    "uv_to_CCT_Krystek1985",
+    "CCT_to_uv_Krystek1985",
+]
+__all__ += [
+    "xy_to_CCT_McCamy1992",
+    "CCT_to_xy_McCamy1992",
+]
+__all__ += [
+    "uv_to_CCT_Ohno2013",
+    "CCT_to_uv_Ohno2013",
+]
+__all__ += [
+    "uv_to_CCT_Robertson1968",
+    "CCT_to_uv_Robertson1968",
+]
+
+UV_TO_CCT_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Krystek 1985": uv_to_CCT_Krystek1985,
+        "Ohno 2013": uv_to_CCT_Ohno2013,
+        "Robertson 1968": uv_to_CCT_Robertson1968,
+    }
+)
+UV_TO_CCT_METHODS.__doc__ = """
+Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
+colour temperature :math:`T_{cp}` computation methods.
+
+References
+----------
+:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
+:cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+
+Aliases:
+
+-   'ohno2013': 'Ohno 2013'
+-   'robertson1968': 'Robertson 1968'
+"""
+UV_TO_CCT_METHODS["ohno2013"] = UV_TO_CCT_METHODS["Ohno 2013"]
+UV_TO_CCT_METHODS["robertson1968"] = UV_TO_CCT_METHODS["Robertson 1968"]
 
 
-def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
+def uv_to_CCT(
+    uv: ArrayLike,
+    method: Union[
+        Literal["Krystek 1985", "Ohno 2013", "Robertson 1968"], str
+    ] = "Ohno 2013",
+    **kwargs: Any,
+) -> NDArray:
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` using given method.
+    Return the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    coordinates using given method.
 
     Parameters
     ----------
-    CCT_D_uv : ndarray
-        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-    method : unicode, optional
-        **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**,
+    uv
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    cmfs : XYZ_ColourMatchingFunctions, optional
+    cmfs
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
+        Standard observer colour matching functions.
+    count
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
+        Temperatures count in the planckian tables.
+    end
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
+        Temperature range end in kelvins.
+    iterations
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
+        Number of planckian tables to generate.
+    optimisation_kwargs
+        {:func:`colour.temperature.uv_to_CCT_Krystek1985`},
+        Parameters for :func:`scipy.optimize.minimize` definition.
+    start
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
+        Temperature range start in kelvins.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    References
+    ----------
+    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
+    :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> uv = np.array([0.1978, 0.3122])
+    >>> uv_to_CCT(uv)  # doctest: +ELLIPSIS
+    array([  6.507473...e+03,   3.223346...e-03])
+    """
+
+    method = validate_method(method, UV_TO_CCT_METHODS)
+
+    function = UV_TO_CCT_METHODS[method]
+
+    return function(uv, **filter_kwargs(function, **kwargs))
+
+
+CCT_TO_UV_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Krystek 1985": CCT_to_uv_Krystek1985,
+        "Ohno 2013": CCT_to_uv_Ohno2013,
+        "Robertson 1968": CCT_to_uv_Robertson1968,
+    }
+)
+CCT_TO_UV_METHODS.__doc__ = """
+Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
+*uv* chromaticity coordinates computation methods.
+
+References
+----------
+:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
+:cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+
+Aliases:
+
+-   'ohno2013': 'Ohno 2013'
+-   'robertson1968': 'Robertson 1968'
+"""
+CCT_TO_UV_METHODS["ohno2013"] = CCT_TO_UV_METHODS["Ohno 2013"]
+CCT_TO_UV_METHODS["robertson1968"] = CCT_TO_UV_METHODS["Robertson 1968"]
+
+
+def CCT_to_uv(
+    CCT_D_uv: ArrayLike,
+    method: Union[
+        Literal["Krystek 1985", "Ohno 2013", "Robertson 1968"], str
+    ] = "Ohno 2013",
+    **kwargs: Any,
+) -> NDArray:
+    """
+    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}` using given method.
+
+    Parameters
+    ----------
+    CCT_D_uv
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+    method
+        Computation method.
+
+    Other Parameters
+    ----------------
+    cmfs
         {:func:`colour.temperature.CCT_to_uv_Ohno2013`},
         Standard observer colour matching functions.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
     References
@@ -191,20 +247,30 @@ def CCT_to_uv(CCT_D_uv, method='Ohno 2013', **kwargs):
     array([ 0.1977999...,  0.3121999...])
     """
 
+    method = validate_method(method, CCT_TO_UV_METHODS)
+
     function = CCT_TO_UV_METHODS[method]
 
     return function(CCT_D_uv, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['UV_TO_CCT_METHODS', 'uv_to_CCT']
-__all__ += ['CCT_TO_UV_METHODS', 'CCT_to_uv']
+__all__ += [
+    "UV_TO_CCT_METHODS",
+    "uv_to_CCT",
+]
+__all__ += [
+    "CCT_TO_UV_METHODS",
+    "CCT_to_uv",
+]
 
-XY_TO_CCT_METHODS = CaseInsensitiveMapping({
-    'CIE Illuminant D Series': xy_to_CCT_CIE_D,
-    'Hernandez 1999': xy_to_CCT_Hernandez1999,
-    'Kang 2002': xy_to_CCT_Kang2002,
-    'McCamy 1992': xy_to_CCT_McCamy1992,
-})
+XY_TO_CCT_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "CIE Illuminant D Series": xy_to_CCT_CIE_D,
+        "Hernandez 1999": xy_to_CCT_Hernandez1999,
+        "Kang 2002": xy_to_CCT_Kang2002,
+        "McCamy 1992": xy_to_CCT_McCamy1992,
+    }
+)
 XY_TO_CCT_METHODS.__doc__ = """
 Supported *CIE xy* chromaticity coordinates to correlated colour temperature
 :math:`T_{cp}` computation methods.
@@ -212,12 +278,7 @@ Supported *CIE xy* chromaticity coordinates to correlated colour temperature
 References
 ----------
 :cite:`Hernandez-Andres1999a`, :cite:`Kang2002a`, :cite:`Wikipedia2001`,
-:cite:`Wikipedia2001a`,
-:cite:`Wyszecki2000z`
-
-XY_TO_CCT_METHODS : CaseInsensitiveMapping
-    **{'McCamy 1992', 'CIE Illuminant D Series, 'Kang 2002',
-    'Hernandez 1999'}**
+:cite:`Wikipedia2001a`, :cite:`Wyszecki2000z`
 
 Aliases:
 
@@ -226,36 +287,45 @@ Aliases:
 -   'mccamy1992': 'McCamy 1992'
 -   'hernandez1999': 'Hernandez 1999'
 """
-XY_TO_CCT_METHODS['daylight'] = XY_TO_CCT_METHODS['CIE Illuminant D Series']
-XY_TO_CCT_METHODS['kang2002'] = XY_TO_CCT_METHODS['Kang 2002']
-XY_TO_CCT_METHODS['mccamy1992'] = XY_TO_CCT_METHODS['McCamy 1992']
-XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
+XY_TO_CCT_METHODS["daylight"] = XY_TO_CCT_METHODS["CIE Illuminant D Series"]
+XY_TO_CCT_METHODS["kang2002"] = XY_TO_CCT_METHODS["Kang 2002"]
+XY_TO_CCT_METHODS["mccamy1992"] = XY_TO_CCT_METHODS["McCamy 1992"]
+XY_TO_CCT_METHODS["hernandez1999"] = XY_TO_CCT_METHODS["Hernandez 1999"]
 
 
-def xy_to_CCT(xy, method='CIE Illuminant D Series'):
+def xy_to_CCT(
+    xy: ArrayLike,
+    method: Union[
+        Literal[
+            "CIE Illuminant D Series",
+            "Kang 2002",
+            "Hernandez 1999",
+            "McCamy 1992",
+        ],
+        str,
+    ] = "CIE Illuminant D Series",
+) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` from given
+    Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE xy* chromaticity coordinates using given method.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates.
-    method : unicode, optional
-        **{'CIE Illuminant D Series', 'Kang 2002', 'Hernandez 1999',
-        'McCamy 1992'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         {:func:`colour.temperature.xy_to_CCT_CIE_D`,
         :func:`colour.temperature.xy_to_CCT_Kang2002`},
         Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     References
@@ -273,15 +343,19 @@ def xy_to_CCT(xy, method='CIE Illuminant D Series'):
     6500.7420431...
     """
 
-    return XY_TO_CCT_METHODS.get(method)(xy)
+    method = validate_method(method, XY_TO_CCT_METHODS)
+
+    return XY_TO_CCT_METHODS[method](xy)
 
 
-CCT_TO_XY_METHODS = CaseInsensitiveMapping({
-    'CIE Illuminant D Series': CCT_to_xy_CIE_D,
-    'Hernandez 1999': CCT_to_xy_Hernandez1999,
-    'Kang 2002': CCT_to_xy_Kang2002,
-    'McCamy 1992': CCT_to_xy_McCamy1992,
-})
+CCT_TO_XY_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "CIE Illuminant D Series": CCT_to_xy_CIE_D,
+        "Hernandez 1999": CCT_to_xy_Hernandez1999,
+        "Kang 2002": CCT_to_xy_Kang2002,
+        "McCamy 1992": CCT_to_xy_McCamy1992,
+    }
+)
 CCT_TO_XY_METHODS.__doc__ = """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE xy* chromaticity
 coordinates computation methods.
@@ -291,10 +365,6 @@ References
 :cite:`Hernandez-Andres1999a`, :cite:`Kang2002a`, :cite:`Wikipedia2001`,
 :cite:`Wikipedia2001a`, :cite:`Wyszecki2000z`
 
-CCT_TO_XY_METHODS : CaseInsensitiveMapping
-    **{'Kang 2002', 'CIE Illuminant D Series', 'Hernandez 1999',
-    'McCamy 1992'}**
-
 Aliases:
 
 -   'daylight': 'CIE Illuminant D Series'
@@ -302,36 +372,45 @@ Aliases:
 -   'mccamy1992': 'McCamy 1992'
 -   'hernandez1999': 'Hernandez 1999'
 """
-CCT_TO_XY_METHODS['daylight'] = CCT_TO_XY_METHODS['CIE Illuminant D Series']
-CCT_TO_XY_METHODS['kang2002'] = CCT_TO_XY_METHODS['Kang 2002']
-CCT_TO_XY_METHODS['mccamy1992'] = CCT_TO_XY_METHODS['McCamy 1992']
-CCT_TO_XY_METHODS['hernandez1999'] = CCT_TO_XY_METHODS['Hernandez 1999']
+CCT_TO_XY_METHODS["daylight"] = CCT_TO_XY_METHODS["CIE Illuminant D Series"]
+CCT_TO_XY_METHODS["kang2002"] = CCT_TO_XY_METHODS["Kang 2002"]
+CCT_TO_XY_METHODS["mccamy1992"] = CCT_TO_XY_METHODS["McCamy 1992"]
+CCT_TO_XY_METHODS["hernandez1999"] = CCT_TO_XY_METHODS["Hernandez 1999"]
 
 
-def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
+def CCT_to_xy(
+    CCT: FloatingOrArrayLike,
+    method: Union[
+        Literal[
+            "CIE Illuminant D Series",
+            "Kang 2002",
+            "Hernandez 1999",
+            "McCamy 1992",
+        ],
+        str,
+    ] = "CIE Illuminant D Series",
+) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given correlated colour
+    Return the *CIE xy* chromaticity coordinates from given correlated colour
     temperature :math:`T_{cp}` using given method.
 
     Parameters
     ----------
-    CCT : numeric or array_like
+    CCT
         Correlated colour temperature :math:`T_{cp}`.
-    method : unicode, optional
-        **{'CIE Illuminant D Series', 'Hernandez 1999', 'Kang 2002',
-        'McCamy 1992'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         {:func:`colour.temperature.CCT_to_xy_Hernandez1999`,
         :func:`colour.temperature.CCT_to_xy_McCamy1992`},
         Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xy* chromaticity coordinates.
 
     References
@@ -348,8 +427,16 @@ def CCT_to_xy(CCT, method='CIE Illuminant D Series'):
     array([ 0.313426 ...,  0.3235959...])
     """
 
-    return CCT_TO_XY_METHODS.get(method)(CCT)
+    method = validate_method(method, CCT_TO_XY_METHODS)
+
+    return CCT_TO_XY_METHODS[method](CCT)
 
 
-__all__ += ['XY_TO_CCT_METHODS', 'xy_to_CCT']
-__all__ += ['CCT_TO_XY_METHODS', 'CCT_to_xy']
+__all__ += [
+    "XY_TO_CCT_METHODS",
+    "xy_to_CCT",
+]
+__all__ += [
+    "CCT_TO_XY_METHODS",
+    "CCT_to_xy",
+]

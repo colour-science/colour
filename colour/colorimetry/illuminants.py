@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Illuminants
 ===========
 
-Defines *CIE* illuminants computation related objects:
+Defines the *CIE* illuminants computation related objects:
 
 -   :func:`colour.sd_CIE_standard_illuminant_A`
 -   :func:`colour.sd_CIE_illuminant_D_series`
@@ -25,30 +24,42 @@ References
     ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT,
-                                SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
-                                SpectralDistribution)
-from colour.utilities import as_float_array, as_numeric, tsplit
+from colour.colorimetry import (
+    SPECTRAL_SHAPE_DEFAULT,
+    SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
+    SpectralDistribution,
+    SpectralShape,
+)
+from colour.hints import (
+    ArrayLike,
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+)
+from colour.utilities import as_float_array, as_float, tsplit
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series',
-    'daylight_locus_function'
+    "sd_CIE_standard_illuminant_A",
+    "sd_CIE_illuminant_D_series",
+    "daylight_locus_function",
 ]
 
 
-def sd_CIE_standard_illuminant_A(shape=SPECTRAL_SHAPE_DEFAULT):
+def sd_CIE_standard_illuminant_A(
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+) -> SpectralDistribution:
     """
     *CIE Standard Illuminant A* is intended to represent typical, domestic,
     tungsten-filament lighting.
@@ -60,13 +71,13 @@ def sd_CIE_standard_illuminant_A(shape=SPECTRAL_SHAPE_DEFAULT):
 
     Parameters
     ----------
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution of the
         *CIE Standard Illuminant A*.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         *CIE Standard Illuminant A*. spectral distribution.
 
     References
@@ -116,32 +127,39 @@ def sd_CIE_standard_illuminant_A(shape=SPECTRAL_SHAPE_DEFAULT):
     """
 
     wavelengths = shape.range()
-    values = (100 * (560 / wavelengths) ** 5 * (((np.exp(
-        (1.435 * 10 ** 7) / (2848 * 560)) - 1) / (np.exp(
-            (1.435 * 10 ** 7) / (2848 * wavelengths)) - 1))))
+    values = (
+        100
+        * (560 / wavelengths) ** 5
+        * (
+            np.expm1((1.435 * 10**7) / (2848 * 560))
+            / np.expm1((1.435 * 10**7) / (2848 * wavelengths))
+        )
+    )
 
     return SpectralDistribution(
-        values, wavelengths, name='CIE Standard Illuminant A')
+        values, wavelengths, name="CIE Standard Illuminant A"
+    )
 
 
-def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
+def sd_CIE_illuminant_D_series(
+    xy: ArrayLike, M1_M2_rounding: Boolean = True
+) -> SpectralDistribution:
     """
-    Returns the spectral distribution of given *CIE Illuminant D Series* using
+    Return the spectral distribution of given *CIE Illuminant D Series* using
     given *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates.
-    M1_M2_rounding : bool, optional
+    M1_M2_rounding
         Whether to round :math:`M1` and :math:`M2` variables to 3 decimal
         places in order to yield the internationally agreed values.
 
     Returns
     -------
-    SpectralDistribution
-        *CIE Illuminant D Series* spectral
-        distribution.
+    :class:`colour.SpectralDistribution`
+        *CIE Illuminant D Series* spectral distribution.
 
     Notes
     -----
@@ -277,6 +295,8 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
                          extrapolator_kwargs={...})
     """
 
+    xy = as_float_array(xy)
+
     x, y = tsplit(xy)
 
     M = 0.0241 + 0.2562 * x - 0.7341 * y
@@ -287,31 +307,32 @@ def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
         M1 = np.around(M1, 3)
         M2 = np.around(M2, 3)
 
-    S0 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S0']
-    S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S1']
-    S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S2']
+    S0 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"]
+    S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"]
+    S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"]
 
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 
     return SpectralDistribution(
         distribution,
         S0.wavelengths,
-        name='CIE xy ({0}, {1}) - CIE Illuminant D Series'.format(*xy),
-        interpolator=LinearInterpolator)
+        name=f"CIE xy ({xy[0]}, {xy[1]}) - CIE Illuminant D Series",
+        interpolator=LinearInterpolator,
+    )
 
 
-def daylight_locus_function(x_D):
+def daylight_locus_function(x_D: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Returns the daylight locus as *CIE xy* chromaticity coordinates.
+    Return the daylight locus as *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
-    x_D : numeric or array_like
-        *x* chromaticity coordinates
+    x_D
+        Chromaticity coordinate :math:`x_D`.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Daylight locus as *CIE xy* chromaticity coordinates.
 
     References
@@ -326,6 +347,6 @@ def daylight_locus_function(x_D):
 
     x_D = as_float_array(x_D)
 
-    y_D = -3.000 * x_D ** 2 + 2.870 * x_D - 0.275
+    y_D = -3.000 * x_D**2 + 2.870 * x_D - 0.275
 
-    return as_numeric(y_D)
+    return as_float(y_D)

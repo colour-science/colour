@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
 ====================================================================
@@ -22,49 +21,64 @@ References
     February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1931_color_space
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.utilities import (as_float_array, from_range_1, full, to_domain_1,
-                              tsplit, tstack, zeros)
+from colour.hints import ArrayLike, Floating, NDArray
+from colour.utilities import (
+    as_float_array,
+    as_float_scalar,
+    from_range_1,
+    full,
+    to_domain_1,
+    tsplit,
+    tstack,
+    zeros,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'XYZ_to_xyY', 'xyY_to_XYZ', 'xy_to_xyY', 'xyY_to_xy', 'XYZ_to_xy',
-    'xy_to_XYZ'
+    "XYZ_to_xyY",
+    "xyY_to_XYZ",
+    "xy_to_xyY",
+    "xyY_to_xy",
+    "XYZ_to_xy",
+    "xy_to_XYZ",
 ]
 
 
-def XYZ_to_xyY(XYZ,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_xyY(
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
+    Convert from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
     reference *illuminant*.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xyY* colourspace array.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -98,30 +112,34 @@ def XYZ_to_xyY(XYZ,
     xyY = np.where(
         np.all(XYZ == 0, axis=-1)[..., np.newaxis],
         XYZ_n,
-        tstack([X / (X + Y + Z), Y / (X + Y + Z),
-                from_range_1(Y)]),
+        tstack(
+            [
+                X / (X + Y + Z),
+                Y / (X + Y + Z),
+                from_range_1(Y),
+            ]
+        ),
     )
 
     return xyY
 
 
-def xyY_to_XYZ(xyY):
+def xyY_to_XYZ(xyY: ArrayLike) -> NDArray:
     """
-    Converts from *CIE xyY* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *CIE xyY* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    xyY : array_like
+    xyY
         *CIE xyY* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -157,9 +175,9 @@ def xyY_to_XYZ(xyY):
     return from_range_1(XYZ)
 
 
-def xyY_to_xy(xyY):
+def xyY_to_xy(xyY: ArrayLike) -> NDArray:
     """
-    Converts from *CIE xyY* colourspace to *CIE xy* chromaticity coordinates.
+    Convert from *CIE xyY* colourspace to *CIE xy* chromaticity coordinates.
 
     ``xyY`` argument with last dimension being equal to 2 will be assumed to be
     a *CIE xy* chromaticity coordinates argument and will be returned directly
@@ -167,17 +185,16 @@ def xyY_to_xy(xyY):
 
     Parameters
     ----------
-    xyY : array_like
+    xyY
         *CIE xyY* colourspace array or *CIE xy* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xy* chromaticity coordinates.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -210,9 +227,9 @@ def xyY_to_xy(xyY):
     return xy
 
 
-def xy_to_xyY(xy, Y=1):
+def xy_to_xyY(xy: ArrayLike, Y: Floating = 1) -> NDArray:
     """
-    Converts from *CIE xy* chromaticity coordinates to *CIE xyY* colourspace by
+    Convert from *CIE xy* chromaticity coordinates to *CIE xyY* colourspace by
     extending the array last dimension with given :math:`Y` *luminance*.
 
     ``xy`` argument with last dimension being equal to 3 will be assumed to be
@@ -221,20 +238,19 @@ def xy_to_xyY(xy, Y=1):
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates or *CIE xyY* colourspace array.
-    Y : numeric, optional
+    Y
         Optional :math:`Y` *luminance* value used to construct the *CIE xyY*
         colourspace array, the default :math:`Y` *luminance* value is 1.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xyY* colourspace array.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -270,44 +286,44 @@ def xy_to_xyY(xy, Y=1):
     """
 
     xy = as_float_array(xy)
-    Y = to_domain_1(Y)
+    Y = as_float_scalar(to_domain_1(Y))
 
-    shape = xy.shape
     # Assuming ``xy`` is actually a *CIE xyY* colourspace array argument and
     # returning it directly.
-    if shape[-1] == 3:
+    if xy.shape[-1] == 3:
         return xy
 
     x, y = tsplit(xy)
 
-    Y = full(x.shape, from_range_1(Y))
-    xyY = tstack([x, y, Y])
+    xyY = tstack([x, y, full(x.shape, Y)])
 
-    return xyY
+    return from_range_1(xyY, np.array([1, 1, 100]))
 
 
-def XYZ_to_xy(XYZ,
-              illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-              ['D65']):
+def XYZ_to_xy(
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given *CIE XYZ*
+    Return the *CIE xy* chromaticity coordinates from given *CIE XYZ*
     tristimulus values.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xy* chromaticity coordinates.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -328,24 +344,23 @@ def XYZ_to_xy(XYZ,
     return xyY_to_xy(XYZ_to_xyY(XYZ, illuminant))
 
 
-def xy_to_XYZ(xy):
+def xy_to_XYZ(xy: ArrayLike) -> NDArray:
     """
-    Returns the *CIE XYZ* tristimulus values from given *CIE xy* chromaticity
+    Return the *CIE XYZ* tristimulus values from given *CIE xy* chromaticity
     coordinates.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

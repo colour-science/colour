@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 """
 ITU-R BT.2100
 =============
 
-Defines *ITU-R BT.2100* opto-electrical transfer functions (OETF / OECF),
+Defines the *ITU-R BT.2100* opto-electrical transfer functions (OETF),
 opto-optical transfer functions (OOTF / OOCF) and electro-optical transfer
-functions (EOTF / EOCF) and their inverse:
+functions (EOTF) and their inverse:
 
 -   :func:`colour.models.oetf_PQ_BT2100`
 -   :func:`colour.models.oetf_inverse_PQ_BT2100`
@@ -52,75 +51,121 @@ R-REC-BT.2100-1-201706-I!!PDF-E.pdf
 R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import (
+    Floating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    NDArray,
+    Optional,
+    Union,
+)
 from colour.models.rgb.transfer_functions import (
-    eotf_BT1886, eotf_ST2084, eotf_inverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
-    eotf_inverse_ST2084, oetf_inverse_ARIBSTDB67, oetf_inverse_BT709)
+    eotf_BT1886,
+    eotf_ST2084,
+    eotf_inverse_BT1886,
+    oetf_ARIBSTDB67,
+    oetf_BT709,
+    eotf_inverse_ST2084,
+    oetf_inverse_ARIBSTDB67,
+    oetf_inverse_BT709,
+)
 from colour.models.rgb.transfer_functions.arib_std_b67 import (
-    CONSTANTS_ARIBSTDB67)
+    CONSTANTS_ARIBSTDB67,
+)
 from colour.utilities import (
-    CaseInsensitiveMapping, Structure, as_float_array, as_float, filter_kwargs,
-    from_range_1, to_domain_1, tsplit, tstack, usage_warning)
+    CaseInsensitiveMapping,
+    Structure,
+    as_float,
+    as_float_array,
+    as_float_scalar,
+    domain_range_scale,
+    filter_kwargs,
+    from_range_1,
+    optional,
+    to_domain_1,
+    tsplit,
+    tstack,
+    usage_warning,
+    validate_method,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'oetf_PQ_BT2100', 'oetf_inverse_PQ_BT2100', 'eotf_PQ_BT2100',
-    'eotf_inverse_PQ_BT2100', 'ootf_PQ_BT2100', 'ootf_inverse_PQ_BT2100',
-    'WEIGHTS_BT2100_HLG', 'CONSTANTS_BT2100_HLG', 'gamma_function_HLG_BT2100',
-    'oetf_HLG_BT2100', 'oetf_inverse_HLG_BT2100',
-    'black_level_lift_HLG_BT2100', 'eotf_HLG_BT2100_1', 'eotf_HLG_BT2100_2',
-    'BT2100_HLG_EOTF_METHODS', 'eotf_HLG_BT2100', 'eotf_inverse_HLG_BT2100_1',
-    'eotf_inverse_HLG_BT2100_2', 'BT2100_HLG_EOTF_INVERSE_METHODS',
-    'eotf_inverse_HLG_BT2100', 'ootf_HLG_BT2100_1', 'ootf_HLG_BT2100_2',
-    'BT2100_HLG_OOTF_METHODS', 'ootf_HLG_BT2100', 'ootf_inverse_HLG_BT2100_1',
-    'ootf_inverse_HLG_BT2100_2', 'BT2100_HLG_OOTF_INVERSE_METHODS',
-    'ootf_inverse_HLG_BT2100'
+    "oetf_PQ_BT2100",
+    "oetf_inverse_PQ_BT2100",
+    "eotf_PQ_BT2100",
+    "eotf_inverse_PQ_BT2100",
+    "ootf_PQ_BT2100",
+    "ootf_inverse_PQ_BT2100",
+    "WEIGHTS_BT2100_HLG",
+    "CONSTANTS_BT2100_HLG",
+    "gamma_function_HLG_BT2100",
+    "oetf_HLG_BT2100",
+    "oetf_inverse_HLG_BT2100",
+    "black_level_lift_HLG_BT2100",
+    "eotf_HLG_BT2100_1",
+    "eotf_HLG_BT2100_2",
+    "BT2100_HLG_EOTF_METHODS",
+    "eotf_HLG_BT2100",
+    "eotf_inverse_HLG_BT2100_1",
+    "eotf_inverse_HLG_BT2100_2",
+    "BT2100_HLG_EOTF_INVERSE_METHODS",
+    "eotf_inverse_HLG_BT2100",
+    "ootf_HLG_BT2100_1",
+    "ootf_HLG_BT2100_2",
+    "BT2100_HLG_OOTF_METHODS",
+    "ootf_HLG_BT2100",
+    "ootf_inverse_HLG_BT2100_1",
+    "ootf_inverse_HLG_BT2100_2",
+    "BT2100_HLG_OOTF_INVERSE_METHODS",
+    "ootf_inverse_HLG_BT2100",
 ]
 
 
-def oetf_PQ_BT2100(E):
+def oetf_PQ_BT2100(E: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* opto-electrical
-    transfer function (OETF / OECF).
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* opto-electrical
+    transfer function (OETF).
 
     The OETF maps relative scene linear light into the non-linear *PQ* signal
     value.
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
         scene light and scaled by camera exposure.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E'` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
         :math:`B'`).
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     References
@@ -136,36 +181,35 @@ def oetf_PQ_BT2100(E):
     return eotf_inverse_ST2084(ootf_PQ_BT2100(E), 10000)
 
 
-def oetf_inverse_PQ_BT2100(E_p):
+def oetf_inverse_PQ_BT2100(E_p: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* inverse
-    opto-electrical transfer function (OETF / OECF).
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* inverse
+    opto-electrical transfer function (OETF).
 
     Parameters
     ----------
-    E_p : numeric or array_like
+    E_p
         :math:`E'` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
         :math:`B'`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
         scene light and scaled by camera exposure.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     References
@@ -181,39 +225,38 @@ def oetf_inverse_PQ_BT2100(E_p):
     return ootf_inverse_PQ_BT2100(eotf_ST2084(E_p, 10000))
 
 
-def eotf_PQ_BT2100(E_p):
+def eotf_PQ_BT2100(E_p: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* electro-optical
-    transfer function (EOTF / EOCF).
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* electro-optical
+    transfer function (EOTF).
 
     The EOTF maps the non-linear *PQ* signal into display light.
 
     Parameters
     ----------
-    E_p : numeric or array_like
+    E_p
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *PQ* space [0, 1].
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``F_D``    | [0, 1]                | [0, 1]        |
+    | ``F_D``    | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     References
@@ -229,37 +272,36 @@ def eotf_PQ_BT2100(E_p):
     return eotf_ST2084(E_p, 10000)
 
 
-def eotf_inverse_PQ_BT2100(F_D):
+def eotf_inverse_PQ_BT2100(F_D: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* inverse
-    electro-optical transfer function (EOTF / EOCF).
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* inverse
+    electro-optical transfer function (EOTF).
 
     Parameters
     ----------
-    F_D : numeric or array_like
+    F_D
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *PQ* space [0, 1].
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``F_D``    | [0, 1]                | [0, 1]        |
+    | ``F_D``    | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     References
@@ -275,38 +317,37 @@ def eotf_inverse_PQ_BT2100(F_D):
     return eotf_inverse_ST2084(F_D, 10000)
 
 
-def ootf_PQ_BT2100(E):
+def ootf_PQ_BT2100(E: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* opto-optical transfer
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* opto-optical transfer
     function (OOTF / OOCF).
 
     The OOTF maps relative scene linear light to display linear light.
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
         scene light and scaled by camera exposure.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`F_D` is the luminance of a displayed linear component
         (:math:`R_D`, :math:`G_D`, :math:`B_D`; :math:`Y_D`; or :math:`I_D`).
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``F_D``    | [0, 1]                | [0, 1]        |
+    | ``F_D``    | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     References
@@ -321,39 +362,39 @@ def ootf_PQ_BT2100(E):
 
     E = as_float_array(E)
 
-    return 100 * eotf_BT1886(oetf_BT709(59.5208 * E))
+    with domain_range_scale("ignore"):
+        return 100 * eotf_BT1886(oetf_BT709(59.5208 * E))
 
 
-def ootf_inverse_PQ_BT2100(F_D):
+def ootf_inverse_PQ_BT2100(F_D: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference PQ* inverse opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference PQ* inverse opto-optical
     transfer function (OOTF / OOCF).
 
     Parameters
     ----------
-    F_D : numeric or array_like
+    F_D
         :math:`F_D` is the luminance of a displayed linear component
         (:math:`R_D`, :math:`G_D`, :math:`B_D`; :math:`Y_D`; or :math:`I_D`).
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
         scene light and scaled by camera exposure.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``F_D``    | [0, 1]                | [0, 1]        |
+    | ``F_D``    | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | ``UN``                | ``UN``        |
     +------------+-----------------------+---------------+
 
     References
@@ -368,20 +409,18 @@ def ootf_inverse_PQ_BT2100(F_D):
 
     F_D = as_float_array(F_D)
 
-    return oetf_inverse_BT709(eotf_inverse_BT1886(F_D / 100)) / 59.5208
+    with domain_range_scale("ignore"):
+        return oetf_inverse_BT709(eotf_inverse_BT1886(F_D / 100)) / 59.5208
 
 
-WEIGHTS_BT2100_HLG = np.array([0.2627, 0.6780, 0.0593])
-"""
-Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*.
+WEIGHTS_BT2100_HLG: NDArray = np.array([0.2627, 0.6780, 0.0593])
+"""Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*."""
 
-WEIGHTS_BT2100_HLG : ndarray
-"""
-
-CONSTANTS_BT2100_HLG = Structure(
+CONSTANTS_BT2100_HLG: Structure = Structure(
     a=CONSTANTS_ARIBSTDB67.a,
     b=1 - 4 * CONSTANTS_ARIBSTDB67.a,
-    c=0.5 - CONSTANTS_ARIBSTDB67.a * np.log(4 * CONSTANTS_ARIBSTDB67.a))
+    c=0.5 - CONSTANTS_ARIBSTDB67.a * np.log(4 * CONSTANTS_ARIBSTDB67.a),
+)
 """
 *Recommendation ITU-R BT.2100* *Reference HLG* constants expressed in their
 analytical form in contrast to the *ARIB STD-B67 (Hybrid Log-Gamma)* numerical
@@ -390,25 +429,23 @@ reference.
 References
 ----------
 :cite:`InternationalTelecommunicationUnion2017`
-
-CONSTANTS_BT2100_HLG : Structure
 """
 
 
-def gamma_function_HLG_BT2100(L_W=1000):
+def gamma_function_HLG_BT2100(L_W: Floating = 1000) -> Floating:
     """
-    Returns the *Reference HLG* system gamma value for given display nominal
+    Return the *Reference HLG* system gamma value for given display nominal
     peak luminance.
 
     Parameters
     ----------
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
 
     Returns
     -------
-    numeric
+    :class:`numpy.floating`
         *Reference HLG* system gamma value.
 
     Examples
@@ -423,34 +460,35 @@ def gamma_function_HLG_BT2100(L_W=1000):
 
     gamma = 1.2 + 0.42 * np.log10(L_W / 1000)
 
-    return gamma
+    return as_float_scalar(gamma)
 
 
-def oetf_HLG_BT2100(E, constants=CONSTANTS_BT2100_HLG):
+def oetf_HLG_BT2100(
+    E: FloatingOrArrayLike, constants: Structure = CONSTANTS_BT2100_HLG
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-    transfer function (OETF / OECF).
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
+    transfer function (OETF).
 
     The OETF maps relative scene linear light into the non-linear *HLG* signal
     value.
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E'` is the resulting non-linear signal :math:`{R', G', B'}`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -473,31 +511,34 @@ def oetf_HLG_BT2100(E, constants=CONSTANTS_BT2100_HLG):
     0.2121320...
     """
 
+    E = as_float_array(E)
+
     return oetf_ARIBSTDB67(12 * E, constants=constants)
 
 
-def oetf_inverse_HLG_BT2100(E_p, constants=CONSTANTS_BT2100_HLG):
+def oetf_inverse_HLG_BT2100(
+    E_p: FloatingOrArrayLike, constants: Structure = CONSTANTS_BT2100_HLG
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
-    opto-electrical transfer function (OETF / OECF).
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
+    opto-electrical transfer function (OETF).
 
     Parameters
     ----------
-    E_p : numeric or array_like
+    E_p
         :math:`E'` is the resulting non-linear signal :math:`{R', G', B'}`.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -523,26 +564,28 @@ def oetf_inverse_HLG_BT2100(E_p, constants=CONSTANTS_BT2100_HLG):
     return oetf_inverse_ARIBSTDB67(E_p, constants=constants) / 12
 
 
-def black_level_lift_HLG_BT2100(L_B=0, L_W=1000, gamma=None):
+def black_level_lift_HLG_BT2100(
+    L_B: Floating = 0, L_W: Floating = 1000, gamma: Optional[Floating] = None
+) -> Floating:
     """
-    Returns the *Reference HLG* black level lift :math:`\\Beta` for given
+    Return the *Reference HLG* black level lift :math:`\\beta` for given
     display luminance for black, nominal peak luminance and system gamma value.
 
     Parameters
     ----------
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 
     Returns
     -------
-    numeric
-        *Reference HLG* black level lift :math:`\\Beta`.
+    :class:`numpy.floating`
+        *Reference HLG* black level lift :math:`\\beta`.
 
     Examples
     --------
@@ -556,51 +599,51 @@ def black_level_lift_HLG_BT2100(L_B=0, L_W=1000, gamma=None):
     0.0283691...
     """
 
-    if gamma is None:
-        gamma = gamma_function_HLG_BT2100(L_W)
+    gamma = optional(gamma, gamma_function_HLG_BT2100(L_W))
 
     beta = np.sqrt(3 * spow((L_B / L_W), 1 / gamma))
 
-    return beta
+    return as_float_scalar(beta)
 
 
-def eotf_HLG_BT2100_1(E_p,
-                      L_B=0,
-                      L_W=1000,
-                      gamma=None,
-                      constants=CONSTANTS_BT2100_HLG):
+def eotf_HLG_BT2100_1(
+    E_p: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
-    transfer function (EOTF / EOCF) as given in *ITU-R BT.2100-1*.
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
+    transfer function (EOTF) as given in *ITU-R BT.2100-1*.
 
     The EOTF maps the non-linear *HLG* signal into display light.
 
     Parameters
     ----------
-    E_p : numeric or array_like
+    E_p
         :math:`E'` is the non-linear signal :math:`{R', G', B'}` as defined for
         the OETF.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Luminance :math:`F_D` of a displayed linear component
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -626,48 +669,49 @@ def eotf_HLG_BT2100_1(E_p,
     """
 
     return ootf_HLG_BT2100_1(
-        oetf_inverse_ARIBSTDB67(E_p, constants=constants) / 12, L_B, L_W,
-        gamma)
+        oetf_inverse_ARIBSTDB67(E_p, constants=constants) / 12, L_B, L_W, gamma
+    )
 
 
-def eotf_HLG_BT2100_2(E_p,
-                      L_B=0,
-                      L_W=1000,
-                      gamma=None,
-                      constants=CONSTANTS_BT2100_HLG):
+def eotf_HLG_BT2100_2(
+    E_p: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
-    transfer function (EOTF / EOCF) as given in *ITU-R BT.2100-2* with the
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
+    transfer function (EOTF) as given in *ITU-R BT.2100-2* with the
     modified black level behaviour.
 
     The EOTF maps the non-linear *HLG* signal into display light.
 
     Parameters
     ----------
-    E_p : numeric or array_like
+    E_p
         :math:`E'` is the non-linear signal :math:`{R', G', B'}` as defined for
         the *HLG Reference* OETF.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Luminance :math:`F_D` of a displayed linear component
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -692,72 +736,78 @@ def eotf_HLG_BT2100_2(E_p,
     7.3321975...
     """
 
+    E_p = as_float_array(E_p)
+
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
     return ootf_HLG_BT2100_2(
-        oetf_inverse_ARIBSTDB67(
-            (1 - beta) * E_p + beta, constants=constants) / 12, L_W, gamma)
+        oetf_inverse_ARIBSTDB67((1 - beta) * E_p + beta, constants=constants)
+        / 12,
+        L_W,
+        gamma,
+    )
 
 
-BT2100_HLG_EOTF_METHODS = CaseInsensitiveMapping({
-    'ITU-R BT.2100-1': eotf_HLG_BT2100_1,
-    'ITU-R BT.2100-2': eotf_HLG_BT2100_2,
-})
+BT2100_HLG_EOTF_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.2100-1": eotf_HLG_BT2100_1,
+        "ITU-R BT.2100-2": eotf_HLG_BT2100_2,
+    }
+)
 BT2100_HLG_EOTF_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
-transfer function (EOTF / EOCF).
+transfer function (EOTF).
 
 References
 ----------
 :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`,
 :cite:`InternationalTelecommunicationUnion2018`
-
-BT2100_HLG_EOTF_METHODS : CaseInsensitiveMapping
-    **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
 """
 
 
-def eotf_HLG_BT2100(E_p,
-                    L_B=0,
-                    L_W=1000,
-                    gamma=None,
-                    constants=CONSTANTS_BT2100_HLG,
-                    method='ITU-R BT.2100-2'):
+def eotf_HLG_BT2100(
+    E_p: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+    method: Union[
+        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
+    ] = "ITU-R BT.2100-2",
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
-    transfer function (EOTF / EOCF).
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
+    transfer function (EOTF).
 
     The EOTF maps the non-linear *HLG* signal into display light.
 
     Parameters
     ----------
-    E_p : numeric or array_like
+    E_p
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *HLG* space.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
-    method : unicode, optional
-        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Luminance :math:`F_D` of a displayed linear component
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -787,45 +837,48 @@ def eotf_HLG_BT2100(E_p,
     7.3321975...
     """
 
+    method = validate_method(method, BT2100_HLG_EOTF_METHODS)
+
     return BT2100_HLG_EOTF_METHODS[method](E_p, L_B, L_W, gamma, constants)
 
 
-def eotf_inverse_HLG_BT2100_1(F_D,
-                              L_B=0,
-                              L_W=1000,
-                              gamma=None,
-                              constants=CONSTANTS_BT2100_HLG):
+def eotf_inverse_HLG_BT2100_1(
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
-    electro-optical transfer function (EOTF / EOCF) as given in
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
+    electro-optical transfer function (EOTF) as given in
     *ITU-R BT.2100-1*.
 
     Parameters
     ----------
-    F_D : numeric or array_like
+    F_D
         Luminance :math:`F_D` of a displayed linear component
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *HLG* space.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -853,45 +906,47 @@ def eotf_inverse_HLG_BT2100_1(F_D,
 
     return oetf_ARIBSTDB67(
         ootf_inverse_HLG_BT2100_1(F_D, L_B, L_W, gamma) * 12,
-        constants=constants)
+        constants=constants,
+    )
 
 
-def eotf_inverse_HLG_BT2100_2(F_D,
-                              L_B=0,
-                              L_W=1000,
-                              gamma=None,
-                              constants=CONSTANTS_BT2100_HLG):
+def eotf_inverse_HLG_BT2100_2(
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
-    electro-optical transfer function (EOTF / EOCF) as given in
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
+    electro-optical transfer function (EOTF) as given in
     *ITU-R BT.2100-2* with the modified black level behaviour.
 
     Parameters
     ----------
-    F_D : numeric or array_like
+    F_D
         Luminance :math:`F_D` of a displayed linear component
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *HLG* space.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -919,68 +974,75 @@ def eotf_inverse_HLG_BT2100_2(F_D,
 
     beta = black_level_lift_HLG_BT2100(L_B, L_W, gamma)
 
-    return (oetf_ARIBSTDB67(
-        ootf_inverse_HLG_BT2100_2(F_D, L_W, gamma) * 12, constants=constants) -
-            beta) / (1 - beta)
+    return (
+        oetf_ARIBSTDB67(
+            ootf_inverse_HLG_BT2100_2(F_D, L_W, gamma) * 12,
+            constants=constants,
+        )
+        - beta
+    ) / (1 - beta)
 
 
-BT2100_HLG_EOTF_INVERSE_METHODS = CaseInsensitiveMapping({
-    'ITU-R BT.2100-1': eotf_inverse_HLG_BT2100_1,
-    'ITU-R BT.2100-2': eotf_inverse_HLG_BT2100_2,
-})
+BT2100_HLG_EOTF_INVERSE_METHODS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "ITU-R BT.2100-1": eotf_inverse_HLG_BT2100_1,
+            "ITU-R BT.2100-2": eotf_inverse_HLG_BT2100_2,
+        }
+    )
+)
 BT2100_HLG_EOTF_INVERSE_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* inverse
-electro-optical transfer function (EOTF / EOCF).
+electro-optical transfer function (EOTF).
 
 References
 ----------
 :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`,
 :cite:`InternationalTelecommunicationUnion2018`
-
-BT2100_HLG_EOTF_INVERSE_METHODS : CaseInsensitiveMapping
-    **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
 """
 
 
-def eotf_inverse_HLG_BT2100(F_D,
-                            L_B=0,
-                            L_W=1000,
-                            gamma=None,
-                            constants=CONSTANTS_BT2100_HLG,
-                            method='ITU-R BT.2100-2'):
+def eotf_inverse_HLG_BT2100(
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    constants: Structure = CONSTANTS_BT2100_HLG,
+    method: Union[
+        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
+    ] = "ITU-R BT.2100-2",
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse
-    electro-optical transfer function (EOTF / EOCF).
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse
+    electro-optical transfer function (EOTF).
 
     Parameters
     ----------
-    F_D : numeric or array_like
+    F_D
         Luminance :math:`F_D` of a displayed linear component
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    constants : Structure, optional
+    constants
         *Recommendation ITU-R BT.2100* *Reference HLG* constants.
-    method : unicode, optional
-        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *HLG* space.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1009,41 +1071,48 @@ def eotf_inverse_HLG_BT2100(F_D,
     0.2121320...
     """
 
-    return BT2100_HLG_EOTF_INVERSE_METHODS[method](F_D, L_B, L_W, gamma,
-                                                   constants)
+    method = validate_method(method, BT2100_HLG_EOTF_INVERSE_METHODS)
+
+    return BT2100_HLG_EOTF_INVERSE_METHODS[method](
+        F_D, L_B, L_W, gamma, constants
+    )
 
 
-def ootf_HLG_BT2100_1(E, L_B=0, L_W=1000, gamma=None):
+def ootf_HLG_BT2100_1(
+    E: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
 
     The OOTF maps relative scene linear light to display linear light.
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1069,14 +1138,15 @@ def ootf_HLG_BT2100_1(E, L_B=0, L_W=1000, gamma=None):
     63.1051034...
     """
 
-    E = np.atleast_1d(to_domain_1(E))
+    E = as_float_array(np.atleast_1d(to_domain_1(E)))
 
     if E.shape[-1] != 3:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
-            'RGB Luminance in computations and expects a vector input, thus '
-            'the given input array will be stacked to compose a vector for '
-            'internal computations but a single component will be output.')
+            "RGB Luminance in computations and expects a vector input, thus "
+            "the given input array will be stacked to compose a vector for "
+            "internal computations but a single component will be output."
+        )
         R_S = G_S = B_S = E
     else:
         R_S, G_S, B_S = tsplit(E)
@@ -1086,8 +1156,7 @@ def ootf_HLG_BT2100_1(E, L_B=0, L_W=1000, gamma=None):
 
     Y_S = np.sum(WEIGHTS_BT2100_HLG * tstack([R_S, G_S, B_S]), axis=-1)
 
-    if gamma is None:
-        gamma = gamma_function_HLG_BT2100(L_W)
+    gamma = optional(gamma, gamma_function_HLG_BT2100(L_W))
 
     R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1) + beta
     G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1) + beta
@@ -1101,35 +1170,38 @@ def ootf_HLG_BT2100_1(E, L_B=0, L_W=1000, gamma=None):
         return from_range_1(RGB_D)
 
 
-def ootf_HLG_BT2100_2(E, L_W=1000, gamma=None):
+def ootf_HLG_BT2100_2(
+    E: FloatingOrArrayLike,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
 
     The OOTF maps relative scene linear light to display linear light.
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1152,14 +1224,15 @@ def ootf_HLG_BT2100_2(E, L_W=1000, gamma=None):
     63.0957344...
     """
 
-    E = np.atleast_1d(to_domain_1(E))
+    E = as_float_array(np.atleast_1d(to_domain_1(E)))
 
     if E.shape[-1] != 3:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
-            'RGB Luminance in computations and expects a vector input, thus '
-            'the given input array will be stacked to compose a vector for '
-            'internal computations but a single component will be output.')
+            "RGB Luminance in computations and expects a vector input, thus "
+            "the given input array will be stacked to compose a vector for "
+            "internal computations but a single component will be output."
+        )
         R_S = G_S = B_S = E
     else:
         R_S, G_S, B_S = tsplit(E)
@@ -1168,8 +1241,7 @@ def ootf_HLG_BT2100_2(E, L_W=1000, gamma=None):
 
     Y_S = np.sum(WEIGHTS_BT2100_HLG * tstack([R_S, G_S, B_S]), axis=-1)
 
-    if gamma is None:
-        gamma = gamma_function_HLG_BT2100(L_W)
+    gamma = optional(gamma, gamma_function_HLG_BT2100(L_W))
 
     R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1)
     G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1)
@@ -1183,10 +1255,12 @@ def ootf_HLG_BT2100_2(E, L_W=1000, gamma=None):
         return from_range_1(RGB_D)
 
 
-BT2100_HLG_OOTF_METHODS = CaseInsensitiveMapping({
-    'ITU-R BT.2100-1': ootf_HLG_BT2100_1,
-    'ITU-R BT.2100-2': ootf_HLG_BT2100_2,
-})
+BT2100_HLG_OOTF_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "ITU-R BT.2100-1": ootf_HLG_BT2100_1,
+        "ITU-R BT.2100-2": ootf_HLG_BT2100_2,
+    }
+)
 BT2100_HLG_OOTF_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical transfer
 function (OOTF / OOCF).
@@ -1195,46 +1269,49 @@ References
 ----------
 :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`,
 :cite:`InternationalTelecommunicationUnion2018`
-
-BT2100_HLG_OOTF_METHODS : CaseInsensitiveMapping
-    **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
 """
 
 
-def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None, method='ITU-R BT.2100-2'):
+def ootf_HLG_BT2100(
+    E: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    method: Union[
+        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
+    ] = "ITU-R BT.2100-2",
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF).
 
     The OOTF maps relative scene linear light to display linear light.
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    method : unicode, optional
-        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1260,45 +1337,49 @@ def ootf_HLG_BT2100(E, L_B=0, L_W=1000, gamma=None, method='ITU-R BT.2100-2'):
     63.1051034...
     """
 
+    method = validate_method(method, BT2100_HLG_OOTF_METHODS)
+
     function = BT2100_HLG_OOTF_METHODS[method]
 
     return function(
-        E, **filter_kwargs(function, **{
-            'L_B': L_B,
-            'L_W': L_W,
-            'gamma': gamma
-        }))
+        E,
+        **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma}),
+    )
 
 
-def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
+def ootf_inverse_HLG_BT2100_1(
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-1*.
 
     Parameters
     ----------
-    F_D : numeric or array_like
+    F_D
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1324,14 +1405,15 @@ def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     0.0999999...
     """
 
-    F_D = np.atleast_1d(to_domain_1(F_D))
+    F_D = as_float_array(np.atleast_1d(to_domain_1(F_D)))
 
     if F_D.shape[-1] != 3:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
-            'RGB Luminance in computations and expects a vector input, thus '
-            'the given input array will be stacked to compose a vector for '
-            'internal computations but a single component will be output.')
+            "RGB Luminance in computations and expects a vector input, thus "
+            "the given input array will be stacked to compose a vector for "
+            "internal computations but a single component will be output."
+        )
         R_D = G_D = B_D = F_D
     else:
         R_D, G_D, B_D = tsplit(F_D)
@@ -1341,10 +1423,9 @@ def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
     alpha = L_W - L_B
     beta = L_B
 
-    if gamma is None:
-        gamma = gamma_function_HLG_BT2100(L_W)
+    gamma = optional(gamma, gamma_function_HLG_BT2100(L_W))
 
-    Y_D_beta = (np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma))
+    Y_D_beta = np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma)
 
     R_S = np.where(
         Y_D == beta,
@@ -1370,33 +1451,36 @@ def ootf_inverse_HLG_BT2100_1(F_D, L_B=0, L_W=1000, gamma=None):
         return from_range_1(RGB_S)
 
 
-def ootf_inverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
+def ootf_inverse_HLG_BT2100_2(
+    F_D: FloatingOrArrayLike,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF) as given in *ITU-R BT.2100-2*.
 
     Parameters
     ----------
-    F_D : numeric or array_like
+    F_D
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1419,14 +1503,15 @@ def ootf_inverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
     0.1000000...
     """
 
-    F_D = np.atleast_1d(to_domain_1(F_D))
+    F_D = as_float_array(np.atleast_1d(to_domain_1(F_D)))
 
     if F_D.shape[-1] != 3:
         usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
-            'RGB Luminance in computations and expects a vector input, thus '
-            'the given input array will be stacked to compose a vector for '
-            'internal computations but a single component will be output.')
+            "RGB Luminance in computations and expects a vector input, thus "
+            "the given input array will be stacked to compose a vector for "
+            "internal computations but a single component will be output."
+        )
         R_D = G_D = B_D = F_D
     else:
         R_D, G_D, B_D = tsplit(F_D)
@@ -1435,10 +1520,9 @@ def ootf_inverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
 
     alpha = L_W
 
-    if gamma is None:
-        gamma = gamma_function_HLG_BT2100(L_W)
+    gamma = optional(gamma, gamma_function_HLG_BT2100(L_W))
 
-    Y_D_alpha = (np.abs(Y_D / alpha) ** ((1 - gamma) / gamma))
+    Y_D_alpha = np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)
 
     R_S = np.where(
         Y_D == 0,
@@ -1464,10 +1548,14 @@ def ootf_inverse_HLG_BT2100_2(F_D, L_W=1000, gamma=None):
         return from_range_1(RGB_S)
 
 
-BT2100_HLG_OOTF_INVERSE_METHODS = CaseInsensitiveMapping({
-    'ITU-R BT.2100-1': ootf_inverse_HLG_BT2100_1,
-    'ITU-R BT.2100-2': ootf_inverse_HLG_BT2100_2,
-})
+BT2100_HLG_OOTF_INVERSE_METHODS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "ITU-R BT.2100-1": ootf_inverse_HLG_BT2100_1,
+            "ITU-R BT.2100-2": ootf_inverse_HLG_BT2100_2,
+        }
+    )
+)
 BT2100_HLG_OOTF_INVERSE_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
 transfer function (OOTF / OOCF).
@@ -1476,48 +1564,47 @@ References
 ----------
 :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2017`,
 :cite:`InternationalTelecommunicationUnion2018`
-
-BT2100_HLG_OOTF_INVERSE_METHODS : CaseInsensitiveMapping
-    **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**
 """
 
 
-def ootf_inverse_HLG_BT2100(F_D,
-                            L_B=0,
-                            L_W=1000,
-                            gamma=None,
-                            method='ITU-R BT.2100-2'):
+def ootf_inverse_HLG_BT2100(
+    F_D: FloatingOrArrayLike,
+    L_B: Floating = 0,
+    L_W: Floating = 1000,
+    gamma: Optional[Floating] = None,
+    method: Union[
+        Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"], str
+    ] = "ITU-R BT.2100-2",
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
+    Define *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical
     transfer function (OOTF / OOCF).
 
     Parameters
     ----------
-    F_D : numeric or array_like
+    F_D
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
-    L_B : numeric, optional
+    L_B
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
-    L_W : numeric, optional
+    L_W
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
-    gamma : numeric, optional
+    gamma
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    method : unicode, optional
-        **{'ITU-R BT.2100-1', 'ITU-R BT.2100-2'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -1545,12 +1632,11 @@ def ootf_inverse_HLG_BT2100(F_D,
     0.0999999...
     """
 
+    method = validate_method(method, BT2100_HLG_OOTF_INVERSE_METHODS)
+
     function = BT2100_HLG_OOTF_INVERSE_METHODS[method]
 
     return function(
         F_D,
-        **filter_kwargs(function, **{
-            'L_B': L_B,
-            'L_W': L_W,
-            'gamma': gamma
-        }))
+        **filter_kwargs(function, **{"L_B": L_B, "L_W": L_W, "gamma": gamma}),
+    )

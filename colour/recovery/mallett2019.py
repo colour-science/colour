@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================
 
-Defines objects for reflectance recovery, i.e. spectral upsampling, using
+Defines the objects for reflectance recovery, i.e. spectral upsampling, using
 *Mallett and Yuksel (2019)* method:
 
 -   :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`
@@ -16,66 +15,72 @@ References
     on Rendering - DL-Only and Industry Track, 7 pages. doi:10.2312/SR.20191216
 """
 
-from __future__ import division, print_function, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
 
-from colour.colorimetry import (SpectralDistribution,
-                                MultiSpectralDistributions,
-                                MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS)
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    handle_spectral_arguments,
+)
+from colour.models import RGB_Colourspace
+from colour.hints import ArrayLike, Callable, Dict, Optional, Tuple
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
-from colour.utilities import to_domain_1, runtime_warning
+from colour.utilities import to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'spectral_primary_decomposition_Mallett2019',
-    'RGB_to_sd_Mallett2019',
+    "spectral_primary_decomposition_Mallett2019",
+    "RGB_to_sd_Mallett2019",
 ]
 
 
 def spectral_primary_decomposition_Mallett2019(
-        colourspace,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER[
-            'CIE 1931 2 Degree Standard Observer'],
-        illuminant=SDS_ILLUMINANTS['D65'],
-        metric=np.linalg.norm,
-        metric_args=tuple(),
-        optimisation_kwargs=None):
+    colourspace: RGB_Colourspace,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    metric: Callable = np.linalg.norm,
+    metric_args: Tuple = tuple(),
+    optimisation_kwargs: Optional[Dict] = None,
+) -> MultiSpectralDistributions:
     """
-    Performs the spectral primary decomposition as described in *Mallett and
+    Perform the spectral primary decomposition as described in *Mallett and
     Yuksel (2019)* for given *RGB* colourspace.
 
     Parameters
     ----------
-    colourspace: RGB_Colourspace
+    colourspace
         *RGB* colourspace.
-    cmfs : XYZ_ColourMatchingFunctions, optional
-        Standard observer colour matching functions.
-    illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
-    metric : unicode, optional
+    cmfs
+        Standard observer colour matching functions, default to the
+        *CIE 1931 2 Degree Standard Observer*.
+    illuminant
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
+    metric
         Function to be minimised, i.e. the objective function.
 
             ``metric(basis, *metric_args) -> float``
 
         where ``basis`` is three reflectances concatenated together, each
         with a shape matching ``shape``.
-    metric_args : tuple, optional
+    metric_args
         Additional arguments passed to ``metric``.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
-    MultiSpectralDistributions
+    :class:`colour.MultiSpectralDistributions`
         Basis functions for given *RGB* colourspace.
 
     References
@@ -95,11 +100,11 @@ def spectral_primary_decomposition_Mallett2019(
 
     Examples
     --------
-    >>> from colour.colorimetry import SpectralShape
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
     >>> from colour.models import RGB_COLOURSPACE_PAL_SECAM
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
@@ -109,121 +114,122 @@ def spectral_primary_decomposition_Mallett2019(
     ...     }
     ... )
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
     ...     print(msds)  # doctest: +SKIP
-    [[ 360.            0.3324728...    0.3332663...    0.3342608...]
-     [ 370.            0.3323307...    0.3327746...    0.3348946...]
-     [ 380.            0.3341115...    0.3323995...    0.3334889...]
-     [ 390.            0.3337570...    0.3298092...    0.3364336...]
-     [ 400.            0.3209352...    0.3218213...    0.3572433...]
-     [ 410.            0.2881025...    0.2837628...    0.4281346...]
-     [ 420.            0.1836749...    0.1838893...    0.6324357...]
-     [ 430.            0.0187212...    0.0529655...    0.9283132...]
+    [[ 360.            0.3395134...    0.3400214...    0.3204650...]
+     [ 370.            0.3355246...    0.3338028...    0.3306724...]
+     [ 380.            0.3376707...    0.3185578...    0.3437715...]
+     [ 390.            0.3178866...    0.3351754...    0.3469378...]
+     [ 400.            0.3045154...    0.3248376...    0.3706469...]
+     [ 410.            0.2935652...    0.2919463...    0.4144884...]
+     [ 420.            0.1875740...    0.1853729...    0.6270530...]
+     [ 430.            0.0167983...    0.054483 ...    0.9287186...]
      [ 440.            0.       ...    0.       ...    1.       ...]
      [ 450.            0.       ...    0.       ...    1.       ...]
      [ 460.            0.       ...    0.       ...    1.       ...]
-     [ 470.            0.       ...    0.0509556...    0.9490443...]
-     [ 480.            0.       ...    0.2933996...    0.7066003...]
-     [ 490.            0.       ...    0.5001396...    0.4998603...]
-     [ 500.            0.       ...    0.6734805...    0.3265195...]
-     [ 510.            0.       ...    0.8555213...    0.1444786...]
-     [ 520.            0.       ...    0.9999985...    0.0000014...]
+     [ 470.            0.       ...    0.0458044...    0.9541955...]
+     [ 480.            0.       ...    0.2960917...    0.7039082...]
+     [ 490.            0.       ...    0.5042592...    0.4957407...]
+     [ 500.            0.       ...    0.6655795...    0.3344204...]
+     [ 510.            0.       ...    0.8607541...    0.1392458...]
+     [ 520.            0.       ...    0.9999998...    0.0000001...]
      [ 530.            0.       ...    1.       ...    0.       ...]
      [ 540.            0.       ...    1.       ...    0.       ...]
      [ 550.            0.       ...    1.       ...    0.       ...]
      [ 560.            0.       ...    0.9924229...    0.       ...]
-     [ 570.            0.       ...    0.9913344...    0.0083032...]
-     [ 580.            0.0370289...    0.9145168...    0.0484542...]
-     [ 590.            0.7100075...    0.2898477...    0.0001446...]
+     [ 570.            0.       ...    0.9970703...    0.0025673...]
+     [ 580.            0.0396002...    0.9028231...    0.0575766...]
+     [ 590.            0.7058973...    0.2941026...    0.       ...]
      [ 600.            1.       ...    0.       ...    0.       ...]
      [ 610.            1.       ...    0.       ...    0.       ...]
      [ 620.            1.       ...    0.       ...    0.       ...]
      [ 630.            1.       ...    0.       ...    0.       ...]
-     [ 640.            0.9711347...    0.0137659...    0.0150993...]
-     [ 650.            0.7996619...    0.1119379...    0.0884001...]
-     [ 660.            0.6064640...    0.202815 ...    0.1907209...]
-     [ 670.            0.4662959...    0.2675037...    0.2662005...]
-     [ 680.            0.4010958...    0.2998989...    0.2990052...]
-     [ 690.            0.3617485...    0.3208921...    0.3173592...]
-     [ 700.            0.3496691...    0.3247855...    0.3255453...]
-     [ 710.            0.3433979...    0.3273540...    0.329248 ...]
-     [ 720.            0.3358860...    0.3345583...    0.3295556...]
-     [ 730.            0.3349498...    0.3314232...    0.3336269...]
-     [ 740.            0.3359954...    0.3340147...    0.3299897...]
-     [ 750.            0.3310392...    0.3327595...    0.3362012...]
-     [ 760.            0.3346883...    0.3314158...    0.3338957...]
-     [ 770.            0.3332167...    0.333371 ...    0.3334122...]
-     [ 780.            0.3319670...    0.3325476...    0.3354852...]]
+     [ 640.            0.9835925...    0.0100166...    0.0063908...]
+     [ 650.            0.7878949...    0.1265097...    0.0855953...]
+     [ 660.            0.5987994...    0.2051062...    0.1960942...]
+     [ 670.            0.4724493...    0.2649623...    0.2625883...]
+     [ 680.            0.3989806...    0.3007488...    0.3002704...]
+     [ 690.            0.3666586...    0.3164003...    0.3169410...]
+     [ 700.            0.3497806...    0.3242863...    0.3259329...]
+     [ 710.            0.3563736...    0.3232441...    0.3203822...]
+     [ 720.            0.3362624...    0.3326209...    0.3311165...]
+     [ 730.            0.3245015...    0.3365982...    0.3389002...]
+     [ 740.            0.3335520...    0.3320670...    0.3343808...]
+     [ 750.            0.3441287...    0.3291168...    0.3267544...]
+     [ 760.            0.3343705...    0.3330132...    0.3326162...]
+     [ 770.            0.3274633...    0.3305704...    0.3419662...]
+     [ 780.            0.3475263...    0.3262331...    0.3262404...]]
     """
 
-    if illuminant.shape != cmfs.shape:
-        runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}" colour matching '
-            'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = illuminant.copy().align(cmfs.shape)
+    cmfs, illuminant = handle_spectral_arguments(cmfs, illuminant)
 
     N = len(cmfs.shape)
 
     R_to_XYZ = np.transpose(
-        np.expand_dims(illuminant.values, axis=1) * cmfs.values / (np.sum(
-            cmfs.values[:, 1] * illuminant.values)))
+        illuminant.values[..., np.newaxis]
+        * cmfs.values
+        / (np.sum(cmfs.values[:, 1] * illuminant.values))
+    )
     R_to_RGB = np.dot(colourspace.matrix_XYZ_to_RGB, R_to_XYZ)
     basis_to_RGB = block_diag(R_to_RGB, R_to_RGB, R_to_RGB)
 
-    primaries = np.identity(3).reshape(9)
+    primaries = np.reshape(np.identity(3), 9)
 
-    # Ensure the reflectances correspond to the correct RGB colours.
+    # Ensure that the reflectances correspond to the correct RGB colours.
     colour_match = LinearConstraint(basis_to_RGB, primaries, primaries)
 
-    # Ensure the reflectances are bounded by [0, 1].
+    # Ensure that the reflectances are bounded by [0, 1].
     energy_conservation = Bounds(np.zeros(3 * N), np.ones(3 * N))
 
-    # Ensure the sum of the three bases is bounded by [0, 1].
+    # Ensure that the sum of the three bases is bounded by [0, 1].
     sum_matrix = np.transpose(np.tile(np.identity(N), (3, 1)))
     sum_constraint = LinearConstraint(sum_matrix, np.zeros(N), np.ones(N))
 
     optimisation_settings = {
-        'method': 'SLSQP',
-        'constraints': [colour_match, sum_constraint],
-        'bounds': energy_conservation,
-        'options': {
-            'ftol': 1e-10,
-        }
+        "method": "SLSQP",
+        "constraints": [colour_match, sum_constraint],
+        "bounds": energy_conservation,
+        "options": {
+            "ftol": 1e-10,
+        },
     }
 
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
     result = minimize(
-        metric, args=metric_args, x0=np.zeros(3 * N), **optimisation_settings)
+        metric, args=metric_args, x0=np.zeros(3 * N), **optimisation_settings
+    )
 
-    basis_functions = np.transpose(result.x.reshape(3, N))
+    basis_functions = np.transpose(np.reshape(result.x, (3, N)))
 
     return MultiSpectralDistributions(
         basis_functions,
         cmfs.shape.range(),
-        name='Basis Functions - {0} - Mallett (2019)'.format(colourspace.name),
-        labels=('red', 'green', 'blue'))
+        name=f"Basis Functions - {colourspace.name} - Mallett (2019)",
+        labels=("red", "green", "blue"),
+    )
 
 
 def RGB_to_sd_Mallett2019(
-        RGB, basis_functions=MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019):
+    RGB: ArrayLike,
+    basis_functions: MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
+) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *RGB* colourspace array using
+    Recover the spectral distribution of given *RGB* colourspace array using
     *Mallett and Yuksel (2019)* method.
 
     Parameters
     ----------
-    RGB : array_like, (3,)
+    RGB
         *RGB* colourspace array.
-    basis_functions : MultiSpectralDistributions
+    basis_functions
         Basis functions for the method. The default is to use the built-in
         *sRGB* basis functions, i.e.
         :attr:`colour.recovery.MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019`.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Recovered reflectance.
 
     References
@@ -243,21 +249,20 @@ def RGB_to_sd_Mallett2019(
 
     Examples
     --------
-    >>> from colour.colorimetry import SDS_ILLUMINANTS, sd_to_XYZ_integration
-    >>> from colour.models import XYZ_to_sRGB
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, XYZ_to_sRGB
+    >>> from colour.colorimetry import  sd_to_XYZ_integration
     >>> from colour.recovery import SPECTRAL_SHAPE_sRGB_MALLETT2019
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> RGB = XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Mallett2019(RGB)
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
-    ...     sd  # doctest: +SKIP
+    ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 380.        ,    0.1735531...],
                           [ 385.        ,    0.1720357...],
                           [ 390.        ,    0.1677721...],
@@ -352,7 +357,8 @@ def RGB_to_sd_Mallett2019(
 
     sd = SpectralDistribution(
         np.dot(RGB, np.transpose(basis_functions.values)),
-        basis_functions.wavelengths)
-    sd.name = '{0} (RGB) - Mallett (2019)'.format(RGB)
+        basis_functions.wavelengths,
+    )
+    sd.name = f"{RGB} (RGB) - Mallett (2019)"
 
     return sd

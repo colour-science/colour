@@ -1,45 +1,53 @@
-# -*- coding: utf-8 -*-
 """
 Sony .spi1d LUT Format Input / Output Utilities
 ===============================================
 
-Defines *Sony* *.spi1d* *LUT* Format related input / output utilities objects.
+Defines the *Sony* *.spi1d* *LUT* format related input / output utilities
+objects:
 
 -   :func:`colour.io.read_LUT_SonySPI1D`
 -   :func:`colour.io.write_LUT_SonySPI1D`
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.utilities import as_float_array, usage_warning
+from colour.hints import Boolean, Integer, List, Tuple, Union
+from colour.utilities import (
+    as_float_array,
+    as_int_scalar,
+    attest,
+    usage_warning,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['read_LUT_SonySPI1D', 'write_LUT_SonySPI1D']
+__all__ = [
+    "read_LUT_SonySPI1D",
+    "write_LUT_SonySPI1D",
+]
 
 
-def read_LUT_SonySPI1D(path):
+def read_LUT_SonySPI1D(path: str) -> Union[LUT1D, LUT3x1D]:
     """
-    Reads given *Sony* *.spi1d* *LUT* file.
+    Read given *Sony* *.spi1d* *LUT* file.
 
     Parameters
     ----------
-    path : unicode
+    path
         *LUT* path.
 
     Returns
     -------
-    LUT1D or LUT3x1D
+    :class:`colour.LUT1D` or :class:`colour.LUT3x1D`
         :class:`LUT1D` or :class:`LUT3x1D` class instance.
 
     Examples
@@ -80,68 +88,82 @@ def read_LUT_SonySPI1D(path):
     title = path_to_title(path)
     domain_min, domain_max = np.array([0, 1])
     dimensions = 1
-    table = []
+    data = []
 
     comments = []
 
     with open(path) as spi1d_file:
         lines = filter(None, (line.strip() for line in spi1d_file.readlines()))
         for line in lines:
-            if line.startswith('#'):
+            if line.startswith("#"):
                 comments.append(line[1:].strip())
                 continue
 
             tokens = line.split()
-            if tokens[0] == 'Version':
+            if tokens[0] == "Version":
                 continue
-            if tokens[0] == 'From':
+            if tokens[0] == "From":
                 domain_min, domain_max = as_float_array(tokens[1:])
-            elif tokens[0] == 'Length':
+            elif tokens[0] == "Length":
                 continue
-            elif tokens[0] == 'Components':
-                component = DEFAULT_INT_DTYPE(tokens[1])
-                assert component in (1, 3), (
-                    'Only 1 or 3 components are supported!')
+            elif tokens[0] == "Components":
+                component = as_int_scalar(tokens[1])
+                attest(
+                    component in (1, 3),
+                    "Only 1 or 3 components are supported!",
+                )
 
                 dimensions = 1 if component == 1 else 2
-            elif tokens[0] in ('{', '}'):
+            elif tokens[0] in ("{", "}"):
                 continue
             else:
-                table.append(tokens)
+                data.append(tokens)
 
-    table = as_float_array(table)
+    table = as_float_array(data)
+
+    LUT: Union[LUT1D, LUT3x1D]
     if dimensions == 1:
-        return LUT1D(
+        LUT = LUT1D(
             np.squeeze(table),
             title,
             np.array([domain_min, domain_max]),
-            comments=comments)
+            comments=comments,
+        )
     elif dimensions == 2:
-        return LUT3x1D(
+        LUT = LUT3x1D(
             table,
             title,
-            np.array([[domain_min, domain_min, domain_min],
-                      [domain_max, domain_max, domain_max]]),
-            comments=comments)
+            np.array(
+                [
+                    [domain_min, domain_min, domain_min],
+                    [domain_max, domain_max, domain_max],
+                ]
+            ),
+            comments=comments,
+        )
+
+    return LUT
 
 
-def write_LUT_SonySPI1D(LUT, path, decimals=7):
+def write_LUT_SonySPI1D(
+    LUT: Union[LUT1D, LUT3x1D, LUTSequence], path: str, decimals: Integer = 7
+) -> Boolean:
     """
-    Writes given *LUT* to given *Sony* *.spi1d* *LUT* file.
+    Write given *LUT* to given *Sony* *.spi1d* *LUT* file.
 
     Parameters
     ----------
-    LUT : LUT1D or LUT2d
+    LUT
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUTSequence` class instance
         to write at given path.
-    path : unicode
+    path
         *LUT* path.
-    decimals : int, optional
+    decimals
         Formatting decimals.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Definition success.
 
     Warnings
@@ -174,53 +196,58 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
     """
 
     if isinstance(LUT, LUTSequence):
-        LUT = LUT[0]
-        usage_warning('"LUT" is a "LUTSequence" instance was passed, '
-                      'using first sequence "LUT":\n'
-                      '{0}'.format(LUT))
+        usage_warning(
+            f'"LUT" is a "LUTSequence" instance was passed, using first '
+            f'sequence "LUT":\n{LUT}'
+        )
+        LUTxD = LUT[0]
+    else:
+        LUTxD = LUT
 
-    assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
+    attest(not LUTxD.is_domain_explicit(), '"LUT" domain must be implicit!')
 
-    assert (isinstance(LUT, LUT1D) or isinstance(
-        LUT, LUT3x1D)), ('"LUT" must be either a 1D or 3x1D "LUT"!')
+    attest(
+        isinstance(LUTxD, LUT1D) or isinstance(LUTxD, LUT3x1D),
+        '"LUT" must be either a 1D or 3x1D "LUT"!',
+    )
 
-    is_1D = isinstance(LUT, LUT1D)
+    is_1D = isinstance(LUTxD, LUT1D)
 
     if is_1D:
-        domain = LUT.domain
+        domain = LUTxD.domain
     else:
-        domain = np.unique(LUT.domain)
+        domain = np.unique(LUTxD.domain)
 
-        assert len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!'
+        attest(len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!')
 
-    def _format_array(array):
-        """
-        Formats given array as a *Sony* *.spi1d* data row.
-        """
+    def _format_array(array: Union[List, Tuple]) -> str:
+        """Format given array as a *Sony* *.spi1d* data row."""
 
-        return ' {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}'.format(decimals, *array)
+        return " {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
 
-    with open(path, 'w') as spi1d_file:
-        spi1d_file.write('Version 1\n')
+    with open(path, "w") as spi1d_file:
+        spi1d_file.write("Version 1\n")
 
-        spi1d_file.write('From {1:0.{0}f} {2:0.{0}f}\n'.format(
-            decimals, *domain))
+        spi1d_file.write(
+            "From {1:0.{0}f} {2:0.{0}f}\n".format(decimals, *domain)
+        )
 
-        spi1d_file.write('Length {0}\n'.format(LUT.table.size if is_1D else
-                                               LUT.table.shape[0]))
+        spi1d_file.write(
+            f"Length {LUTxD.table.size if is_1D else LUTxD.table.shape[0]}\n"
+        )
 
-        spi1d_file.write('Components {0}\n'.format(1 if is_1D else 3))
+        spi1d_file.write(f"Components {1 if is_1D else 3}\n")
 
-        spi1d_file.write('{\n')
-        for row in LUT.table:
+        spi1d_file.write("{\n")
+        for row in LUTxD.table:
             if is_1D:
-                spi1d_file.write(' {1:0.{0}f}\n'.format(decimals, row))
+                spi1d_file.write(" {1:0.{0}f}\n".format(decimals, row))
             else:
-                spi1d_file.write('{0}\n'.format(_format_array(row)))
-        spi1d_file.write('}\n')
+                spi1d_file.write(f"{_format_array(row)}\n")
+        spi1d_file.write("}\n")
 
-        if LUT.comments:
-            for comment in LUT.comments:
-                spi1d_file.write('# {0}\n'.format(comment))
+        if LUTxD.comments:
+            for comment in LUTxD.comments:
+                spi1d_file.write(f"# {comment}\n")
 
     return True

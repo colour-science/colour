@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Robertson (1968) Correlated Colour Temperature
 ==============================================
 
-Defines *Robertson (1968)* correlated colour temperature :math:`T_{cp}`
+Defines the *Robertson (1968)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.uv_to_CCT_Robertson1968`: Correlated colour
@@ -34,28 +33,30 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
     Formulae (pp. 224-229). Wiley. ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
-from collections import namedtuple
+from dataclasses import dataclass
 
+from colour.hints import ArrayLike, Floating, List, NDArray, Tuple
 from colour.utilities import as_float_array, tsplit
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_ISOTEMPERATURE_LINES_ROBERTSON1968',
-    'RUVT_ISOTEMPERATURE_LINES_ROBERTSON1968',
-    'ISOTEMPERATURE_LINES_ROBERTSON1968', 'uv_to_CCT_Robertson1968',
-    'CCT_to_uv_Robertson1968'
+    "DATA_ISOTEMPERATURE_LINES_ROBERTSON1968",
+    "ISOTemperatureLine_Specification_Robertson1968",
+    "ISOTEMPERATURE_LINES_ROBERTSON1968",
+    "uv_to_CCT_Robertson1968",
+    "CCT_to_uv_Robertson1968",
 ]
 
-DATA_ISOTEMPERATURE_LINES_ROBERTSON1968 = (
+DATA_ISOTEMPERATURE_LINES_ROBERTSON1968: Tuple = (
     (0, 0.18006, 0.26352, -0.24341),
     (10, 0.18066, 0.26589, -0.25479),
     (20, 0.18133, 0.26846, -0.26876),
@@ -75,7 +76,7 @@ DATA_ISOTEMPERATURE_LINES_ROBERTSON1968 = (
     (250, 0.22511, 0.33439, -1.4512),
     (275, 0.23247, 0.33904, -1.7298),
     (300, 0.24010, 0.34308, -2.0637),
-    (325, 0.24792, 0.34655, -2.4681),  # 0.24702 ---> 0.24792 Bruce Lindbloom
+    (325, 0.24792, 0.34655, -2.4681),  # 0.24702 --> 0.24792 Bruce Lindbloom
     (350, 0.25591, 0.34951, -2.9641),
     (375, 0.26400, 0.35200, -3.5814),
     (400, 0.27218, 0.35407, -4.3633),
@@ -86,53 +87,77 @@ DATA_ISOTEMPERATURE_LINES_ROBERTSON1968 = (
     (525, 0.31320, 0.35968, -15.628),
     (550, 0.32129, 0.36011, -23.325),
     (575, 0.32931, 0.36038, -40.770),
-    (600, 0.33724, 0.36051, -116.45))
+    (600, 0.33724, 0.36051, -116.45),
+)
 """
-*Robertson (1968)* iso-temperature lines.
+*Robertson (1968)* iso-temperature lines as a *tuple* as follows::
 
-DATA_ISOTEMPERATURE_LINES_ROBERTSON1968 : tuple
-    (Reciprocal Megakelvin,
-    CIE 1960 Chromaticity Coordinate *u*,
-    CIE 1960 Chromaticity Coordinate *v*,
-    Slope)
+    (
+        ('Reciprocal Megakelvin', 'CIE 1960 Chromaticity Coordinate *u*',
+         'CIE 1960 Chromaticity Coordinate *v*', 'Slope'),
+        ...,
+        ('Reciprocal Megakelvin', 'CIE 1960 Chromaticity Coordinate *u*',
+         'CIE 1960 Chromaticity Coordinate *v*', 'Slope'),
+    )
 
 Notes
 -----
 -   A correction has been done by Lindbloom for *325* Megakelvin
-    temperature: 0.24702 ---> 0.24792
+    temperature: 0.24702 --> 0.24792
 
 References
 ----------
 :cite:`Wyszecki2000x`
 """
 
-RUVT_ISOTEMPERATURE_LINES_ROBERTSON1968 = namedtuple('WyszeckiRobertson_ruvt',
-                                                     ('r', 'u', 'v', 't'))
 
-ISOTEMPERATURE_LINES_ROBERTSON1968 = [
-    RUVT_ISOTEMPERATURE_LINES_ROBERTSON1968(*x)
+@dataclass
+class ISOTemperatureLine_Specification_Robertson1968:
+    """
+    Define the data for a *Roberston (1968)* iso-temperature line.
+
+    Parameters
+    ----------
+    r
+        Temperature :math:`r` in reciprocal mega-kelvin degrees.
+    u
+        *u* chromaticity coordinate of the temperature :math:`r`.
+    v
+        *v* chromaticity coordinate of the temperature :math:`r`.
+    t
+        Slope of the *v* chromaticity coordinate.
+    """
+
+    r: Floating
+    u: Floating
+    v: Floating
+    t: Floating
+
+
+ISOTEMPERATURE_LINES_ROBERTSON1968: List = [
+    ISOTemperatureLine_Specification_Robertson1968(*x)
     for x in DATA_ISOTEMPERATURE_LINES_ROBERTSON1968
 ]
 
 
-def _uv_to_CCT_Robertson1968(uv):
+def _uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` and
+    Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates using *Roberston (1968)* method.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
     """
 
-    u, v = uv
+    u, v = tsplit(uv)
 
     last_dt = last_dv = last_du = 0
 
@@ -185,20 +210,20 @@ def _uv_to_CCT_Robertson1968(uv):
     return np.array([T, -D_uv])
 
 
-def uv_to_CCT_Robertson1968(uv):
+def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` and
+    Return the correlated colour temperature :math:`T_{cp}` and
     :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates using *Roberston (1968)* method.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     References
@@ -216,23 +241,23 @@ def uv_to_CCT_Robertson1968(uv):
 
     CCT_D_uv = [_uv_to_CCT_Robertson1968(a) for a in np.reshape(uv, (-1, 2))]
 
-    return as_float_array(CCT_D_uv).reshape(uv.shape)
+    return np.reshape(as_float_array(CCT_D_uv), uv.shape)
 
 
-def _CCT_to_uv_Robertson1968(CCT_D_uv):
+def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
     *Roberston (1968)* method.
 
     Parameters
     ----------
-    CCT_D_uv : ndarray
+    CCT_D_uv
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE UCS* colourspace *uv* chromaticity coordinates.
     """
 
@@ -240,6 +265,7 @@ def _CCT_to_uv_Robertson1968(CCT_D_uv):
 
     r = 1.0e6 / CCT
 
+    u, v = np.nan, np.nan
     for i in range(30):
         wr_ruvt = ISOTEMPERATURE_LINES_ROBERTSON1968[i]
         wr_ruvt_next = ISOTEMPERATURE_LINES_ROBERTSON1968[i + 1]
@@ -273,23 +299,25 @@ def _CCT_to_uv_Robertson1968(CCT_D_uv):
             u += uu3 * -D_uv
             v += vv3 * -D_uv
 
-            return np.array([u, v])
+            break
+
+    return np.array([u, v])
 
 
-def CCT_to_uv_Robertson1968(CCT_D_uv):
+def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
     *Roberston (1968)* method.
 
     Parameters
     ----------
-    CCT_D_uv : ndarray
+    CCT_D_uv
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
     References
@@ -307,4 +335,4 @@ def CCT_to_uv_Robertson1968(CCT_D_uv):
 
     uv = [_CCT_to_uv_Robertson1968(a) for a in np.reshape(CCT_D_uv, (-1, 2))]
 
-    return as_float_array(uv).reshape(CCT_D_uv.shape)
+    return np.reshape(as_float_array(uv), CCT_D_uv.shape)

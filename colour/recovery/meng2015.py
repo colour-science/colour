@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 Meng et al. (2015) - Reflectance Recovery
 =========================================
 
-Defines objects for reflectance recovery using *Meng, Simon and Hanika (2015)*
-method:
+Defines the objects for reflectance recovery using
+*Meng, Simon and Hanika (2015)* method:
 
 -   :func:`colour.recovery.XYZ_to_sd_Meng2015`
 
@@ -15,74 +14,74 @@ References
     Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import (MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-                                SpectralDistribution, SpectralShape, sd_ones,
-                                sd_to_XYZ_integration)
-from colour.utilities import to_domain_1, from_range_100, runtime_warning
-from colour.utilities.deprecation import handle_arguments_deprecation
+from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    SpectralShape,
+    handle_spectral_arguments,
+    sd_ones,
+    sd_to_XYZ_integration,
+)
+from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
+from colour.utilities import to_domain_1, from_range_100
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['SPECTRAL_SHAPE_MENG2015', 'XYZ_to_sd_Meng2015']
+__all__ = [
+    "SPECTRAL_SHAPE_MENG2015",
+    "XYZ_to_sd_Meng2015",
+]
 
-SPECTRAL_SHAPE_MENG2015 = SpectralShape(360, 780, 5)
+SPECTRAL_SHAPE_MENG2015: SpectralShape = SpectralShape(360, 780, 5)
 """
 Spectral shape according to *ASTM E308-15* practise shape but using an interval
 of 5.
-
-SPECTRAL_SHAPE_MENG2015 : SpectralShape
 """
 
 
 def XYZ_to_sd_Meng2015(
-        XYZ,
-        cmfs=MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer']
-        .copy().align(SPECTRAL_SHAPE_MENG2015),
-        illuminant=SDS_ILLUMINANTS['D65'].copy().align(
-            SPECTRAL_SHAPE_MENG2015),
-        optimisation_kwargs=None,
-        **kwargs):
+    XYZ: ArrayLike,
+    cmfs: Optional[MultiSpectralDistributions] = None,
+    illuminant: Optional[SpectralDistribution] = None,
+    optimisation_kwargs: Optional[Dict] = None,
+) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *CIE XYZ* tristimulus values
+    Recover the spectral distribution of given *CIE XYZ* tristimulus values
     using *Meng et al. (2015)* method.
 
     Parameters
     ----------
-    XYZ : array_like, (3,)
+    XYZ
         *CIE XYZ* tristimulus values to recover the spectral distribution from.
-    cmfs : XYZ_ColourMatchingFunctions
+    cmfs
         Standard observer colour matching functions. The wavelength
         :math:`\\lambda_{i}` range interval of the colour matching functions
         affects directly the time the computations take. The current default
-        interval of 5 is a good compromise between precision and time spent.
-    illuminant : SpectralDistribution, optional
-        Illuminant spectral distribution.
-    optimisation_kwargs : dict_like, optional
+        interval of 5 is a good compromise between precision and time spent,
+        default to the *CIE 1931 2 Degree Standard Observer*.
+    illuminant
+        Illuminant spectral distribution, default to
+        *CIE Standard Illuminant D65*.
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Recovered spectral distribution.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -101,60 +100,60 @@ def XYZ_to_sd_Meng2015(
 
     Examples
     --------
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd_Meng2015(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
-    ...     # Doctests skip for Python 2.x compatibility.
     ...     sd  # doctest: +SKIP
-    SpectralDistribution([[ 360.        ,    0.0765153...],
-                          [ 370.        ,    0.0764771...],
-                          [ 380.        ,    0.0764286...],
-                          [ 390.        ,    0.0764329...],
-                          [ 400.        ,    0.0765863...],
-                          [ 410.        ,    0.0764339...],
-                          [ 420.        ,    0.0757213...],
-                          [ 430.        ,    0.0733091...],
-                          [ 440.        ,    0.0676493...],
-                          [ 450.        ,    0.0577616...],
-                          [ 460.        ,    0.0440805...],
-                          [ 470.        ,    0.0284802...],
-                          [ 480.        ,    0.0138019...],
-                          [ 490.        ,    0.0033557...],
+    SpectralDistribution([[ 360.        ,    0.0762005...],
+                          [ 370.        ,    0.0761792...],
+                          [ 380.        ,    0.0761363...],
+                          [ 390.        ,    0.0761194...],
+                          [ 400.        ,    0.0762539...],
+                          [ 410.        ,    0.0761671...],
+                          [ 420.        ,    0.0754649...],
+                          [ 430.        ,    0.0731519...],
+                          [ 440.        ,    0.0676701...],
+                          [ 450.        ,    0.0577800...],
+                          [ 460.        ,    0.0441993...],
+                          [ 470.        ,    0.0285064...],
+                          [ 480.        ,    0.0138728...],
+                          [ 490.        ,    0.0033585...],
                           [ 500.        ,    0.       ...],
                           [ 510.        ,    0.       ...],
                           [ 520.        ,    0.       ...],
                           [ 530.        ,    0.       ...],
-                          [ 540.        ,    0.0055360...],
-                          [ 550.        ,    0.0317335...],
-                          [ 560.        ,    0.075457 ...],
-                          [ 570.        ,    0.1314930...],
-                          [ 580.        ,    0.1938219...],
-                          [ 590.        ,    0.2559747...],
-                          [ 600.        ,    0.3122869...],
-                          [ 610.        ,    0.3584363...],
-                          [ 620.        ,    0.3927112...],
-                          [ 630.        ,    0.4158866...],
-                          [ 640.        ,    0.4305832...],
-                          [ 650.        ,    0.4391142...],
-                          [ 660.        ,    0.4439484...],
-                          [ 670.        ,    0.4464121...],
-                          [ 680.        ,    0.4475718...],
-                          [ 690.        ,    0.4481182...],
-                          [ 700.        ,    0.4483734...],
-                          [ 710.        ,    0.4484743...],
-                          [ 720.        ,    0.4485753...],
-                          [ 730.        ,    0.4486474...],
-                          [ 740.        ,    0.4486629...],
-                          [ 750.        ,    0.4486995...],
-                          [ 760.        ,    0.4486925...],
-                          [ 770.        ,    0.4486794...],
-                          [ 780.        ,    0.4486982...]],
+                          [ 540.        ,    0.0055767...],
+                          [ 550.        ,    0.0317581...],
+                          [ 560.        ,    0.0754491...],
+                          [ 570.        ,    0.1314115...],
+                          [ 580.        ,    0.1937649...],
+                          [ 590.        ,    0.2559311...],
+                          [ 600.        ,    0.3123173...],
+                          [ 610.        ,    0.3584966...],
+                          [ 620.        ,    0.3927335...],
+                          [ 630.        ,    0.4159458...],
+                          [ 640.        ,    0.4306660...],
+                          [ 650.        ,    0.4391040...],
+                          [ 660.        ,    0.4439497...],
+                          [ 670.        ,    0.4463618...],
+                          [ 680.        ,    0.4474625...],
+                          [ 690.        ,    0.4479868...],
+                          [ 700.        ,    0.4482116...],
+                          [ 710.        ,    0.4482800...],
+                          [ 720.        ,    0.4483472...],
+                          [ 730.        ,    0.4484251...],
+                          [ 740.        ,    0.4484633...],
+                          [ 750.        ,    0.4485071...],
+                          [ 760.        ,    0.4484969...],
+                          [ 770.        ,    0.4484853...],
+                          [ 780.        ,    0.4485134...]],
                          interpolator=SpragueInterpolator,
                          interpolator_kwargs={},
                          extrapolator=Extrapolator,
@@ -163,49 +162,36 @@ def XYZ_to_sd_Meng2015(
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
-                            ],
-    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
-
     XYZ = to_domain_1(XYZ)
 
-    if illuminant.shape != cmfs.shape:
-        runtime_warning(
-            'Aligning "{0}" illuminant shape to "{1}" colour matching '
-            'functions shape.'.format(illuminant.name, cmfs.name))
-        illuminant = illuminant.copy().align(cmfs.shape)
+    cmfs, illuminant = handle_spectral_arguments(
+        cmfs, illuminant, shape_default=SPECTRAL_SHAPE_MENG2015
+    )
 
     sd = sd_ones(cmfs.shape)
 
-    def objective_function(a):
-        """
-        Objective function.
-        """
+    def objective_function(a: ArrayLike) -> FloatingOrNDArray:
+        """Define the objective function."""
 
         return np.sum(np.diff(a) ** 2)
 
-    def constraint_function(a):
-        """
-        Function defining the constraint.
-        """
+    def constraint_function(a: ArrayLike) -> NDArray:
+        """Define the constraint function."""
 
         sd[:] = a
-        return sd_to_XYZ_integration(
-            sd, cmfs=cmfs, illuminant=illuminant) - XYZ
+        return (
+            sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
+        )
 
     wavelengths = sd.wavelengths
     bins = wavelengths.size
 
     optimisation_settings = {
-        'method': 'SLSQP',
-        'constraints': {
-            'type': 'eq',
-            'fun': constraint_function
-        },
-        'bounds': np.tile(np.array([0, 1000]), (bins, 1)),
-        'options': {
-            'ftol': 1e-10,
+        "method": "SLSQP",
+        "constraints": {"type": "eq", "fun": constraint_function},
+        "bounds": np.tile(np.array([0, 1000]), (bins, 1)),
+        "options": {
+            "ftol": 1e-10,
         },
     }
     if optimisation_kwargs is not None:
@@ -215,10 +201,12 @@ def XYZ_to_sd_Meng2015(
 
     if not result.success:
         raise RuntimeError(
-            'Optimization failed for {0} after {1} iterations: "{2}".'.format(
-                XYZ, result.nit, result.message))
+            f"Optimization failed for {XYZ} after {result.nit} iterations: "
+            f'"{result.message}".'
+        )
 
     return SpectralDistribution(
         from_range_100(result.x * 100),
         wavelengths,
-        name='{0} (XYZ) - Meng (2015)'.format(XYZ))
+        name=f"{XYZ} (XYZ) - Meng (2015)",
+    )

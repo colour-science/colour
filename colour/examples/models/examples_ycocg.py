@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases *YCoCg* *colour encoding* computations.
-"""
+"""Showcases *YCoCg* *colour encoding* computations."""
 
 import numpy as np
 
@@ -11,16 +8,17 @@ from colour.utilities import message_box
 message_box('"YCoCg" Colour Encoding Computations')
 
 RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-message_box(('Converting to "YCoCg" colour encoding from given "RGB" '
-             'colourspace values:\n'
-             '\n\t{0}'.format(RGB)))
+message_box(
+    f'Converting to the "YCoCg" colour encoding from given "RGB" colourspace '
+    f"values:\n\n\t{RGB}"
+)
 print(colour.RGB_to_YCoCg(RGB))
 
-print('\n')
+print("\n")
 
 YCoCg = np.array([0.13968653, 0.20764283, -0.10887582])
 message_box(
-    ('Converting to "RGB" colourspace values from "YCoCg" colour encoding '
-     'values:\n'
-     '\n\t{0}'.format(YCoCg)))
+    f'Converting to the "RGB" colourspace values from "YCoCg" colour encoding '
+    f"values:\n\n\t{YCoCg}"
+)
 print(colour.YCoCg_to_RGB(YCoCg))

@@ -4,31 +4,31 @@ Contributors
 The Colour Developers
 ---------------------
 
--   **Thomas Mansencal**, *Visual Effects Artist @ Weta Digital*
+-   **Thomas Mansencal**, *Lead Pipeline Developer @ WetaFX*
 
-    Project coordination, overall development.
+    Maintainer, project coordination, overall development.
 
 -   **Michael Mauderer**, *HCI Researcher @ University of Dundee*
 
-    Colour appearance models, overall development.
-
--   **Michael Parsons**, *Colour Scientist @ The Moving Picture Company*
-
-    Continuous technical support.
+    Maintainer, colour appearance models, overall development.
 
 -   **Nick Shaw**, *Workflow Consultant @ Antler Post*
 
-    YCbCr Colour Encoding, RED Colourspaces Derivation.
+    Maintainer, Y'CbCr colour encoding, RED colourspaces derivation, LUT IO, continuous technical support.
 
--   **Luke Canavan**
+-   **Zach Lewis**, *Technical Director @ Method Studios*
 
-    Colour Quality Scale, Luminous Flux.
+    Maintainer, CLF, technical support.
 
--   **Sean Cooper**, *Colour Scientist*
+-   **Michael Parsons**, *Colour Scientist @ The Moving Picture Company*
+
+    Maintainer, technical support.
+
+-   **Kevin Wheatley**, *Head of Imaging @ Framestore*
 
     Technical support.
 
--   **Kevin Wheatley**, *Head of Imaging @ Framestore*
+-   **Sean Cooper**, *Colour Scientist*
 
     Technical support.
 
@@ -54,8 +54,23 @@ Google Summer of Code
 
     The Need for Speed.
 
+2021
+~~~~
+
+-   **Cédric Dollet**, *Student @ CY Tech, France*
+
+    New Colour Appearance Models.
+
+-   **Geetansh Saxena**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    New Colour Models.
+
 Development & Technical Support
 -------------------------------
+
+-   **Luke Canavan**
+
+    Colour Quality Scale, luminous flux.
 
 -   **Katherine Crowson**
 
@@ -133,6 +148,38 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **Jedediah Smith**, *VFX Supervisor @ Method Studios*
+
+    RED Log3G10 improvements.
+
+-   **Frederic Savoir**, *Technology Director @ Amazing Digital Studios*
+
+    DaVinci Intermediate OETF implementation.
+
+-   **Saransh Chopra**, *Student @ Cluster Innovation Centre, University of Delhi*
+
+    HCL colourspace implementation.
+
+-   **Ilia Sibiryakov**, *Student @ University of Portsmouth*
+
+    Helmholtz—Kohlrausch effect implementation.
+
+-   **Tim Gates**
+
+    Documentation improvements.
+
+-   **Gajendra Pal**
+
+    Documentation improvements.
+
+-   **Nicolas Tessore**
+
+    Technical support.
+
+-   **Aurélien Pierre**, *Core Developer @ darktable-org*
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -170,7 +217,7 @@ Acknowledgements
 Special Mentions
 ----------------
 
--   **Aurélia Sellier**, *FX Production Coordinator @ Weta Digital*
+-   **Aurélia Sellier**, *FX Production Coordinator @ WetaFX*
 
 Issues & Discussions
 --------------------
@@ -187,13 +234,20 @@ Issues & Discussions
 -   Ryan Bass
 -   Vishal Vashistha
 -   Vlad Enache
+-   @aarondemolder
+-   @abnormally-distributed
+-   @ademmler
+-   @ahemberger
 -   @alban-sol
+-   @alianoroozi
+-   @Alt-Shivam
 -   @Ampersandme
 -   @AndersAtEndian
 -   @anshulxyz
 -   @Apoorva-13
 -   @aurelienbl
 -   @awehring
+-   @baileyji
 -   @beckstev
 -   @bersbersbers
 -   @brandondube
@@ -204,6 +258,7 @@ Issues & Discussions
 -   @chesschi
 -   @ChunHsinWang
 -   @codycuellar
+-   @daviesj
 -   @dfoxfranke
 -   @dtbulmerJRs
 -   @Edwardlin-zlt
@@ -211,59 +266,89 @@ Issues & Discussions
 -   @fangjy88
 -   @Floschoe
 -   @foutoucour
+-   @goofy2k
+-   @gutenzwerg
 -   @habemus-papadum
 -   @hajimen
+-   @heinemannj
 -   @henczati
 -   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
+-   @Jerry2001
+-   @JoshuaEbenezer
 -   @KOLANICH
+-   @KrisKennaway
+-   @kunal9922
 -   @Kunkka1988
 -   @lavrovd
 -   @LeCyberDucky
 -   @Legendin
 -   @leklbk
 -   @lensz
+-   @lishichengyan
 -   @MarcusCalhoun-Lopez
 -   @matthiasbirkich
 -   @meshing
+-   @MMehdiMousavi
 -   @mokincha
 -   @monkeywithacupcake
+-   @MrColourBlind
 -   @Myndex
 -   @naavis
 -   @nadersadoughi
+-   @Naughty-Monkey
+-   @NekoAlosama
 -   @NoRoKr
 -   @nschloe
+-   @parthxtripathi
+-   @Patil2099
+-   @Paul-Sims
 -   @peteroupc
 -   @pfk-beta
 -   @priikone
 -   @Queuecumber
+-   @ramparvathaneni
 -   @Rob-Welch
 -   @robbuckley
+-   @romanovar
 -   @Ron024
 -   @rsnitsch
+-   @RutNij
+-   @sdbbs
 -   @senyai
 -   @shanest
+-   @shirubana
+-   @shpurdikhub
 -   @spicymatt
+-   @ssh4net
 -   @stakemura
+-   @starkcolour
+-   @starkfan007
 -   @tashdor
 -   @TFiFiE
 -   @thunders82
 -   @tingeman
+-   @tospe
 -   @totyped
+-   @ujjayants
 -   @ValZapod
 -   @vidakDK
+-   @volkerjaenisch
 -   @vvclin-git
 -   @Wagyx
+-   @whornsby
 -   @Willingo
+-   @willSmallHD
+-   @wuuawu
 -   @xjossy
--   @zachlewis
+-   @yuhao
 
 About
 -----
 
 | **Colour** by Colour Developers
-| Copyright © 2013-2020 – Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
+| Copyright 2013 Colour Developers – `colour-developers@colour-science.org <colour-developers@colour-science.org>`__
 | This software is released under terms of New BSD License: https://opensource.org/licenses/BSD-3-Clause
 | `https://github.com/colour-science/colour <https://github.com/colour-science/colour>`__

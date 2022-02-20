@@ -1,28 +1,26 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases light sources datasets.
-"""
+"""Showcases light sources datasets."""
 
 from pprint import pprint
 
 import colour
 from colour.utilities import message_box
 
-message_box('Light Sources Dataset')
+message_box("Light Sources Dataset")
 
-message_box('Light sources spectral distributions datasets.')
+message_box("Light sources spectral distributions datasets.")
 pprint(sorted(colour.SDS_LIGHT_SOURCES.keys()))
 
-print('\n')
+print("\n")
 
-message_box('Light sources chromaticity coordinates datasets.')
+message_box("Light sources chromaticity coordinates datasets.")
 # Filtering aliases.
-observers = dict(
-    ((observer, dataset)
-     for observer, dataset in sorted(colour.CCS_LIGHT_SOURCES.items())
-     if ' ' in observer))
+observers = {
+    observer: dataset
+    for observer, dataset in sorted(colour.CCS_LIGHT_SOURCES.items())
+    if " " in observer
+}
 for observer, light_source in observers.items():
-    print('"{0}".'.format(observer))
+    print(f'"{observer}".')
     for illuminant, xy in sorted(light_source.items()):
-        print('\t"{0}": {1}'.format(illuminant, xy))
-    print('\n')
+        print(f'\t"{illuminant}": {xy}')
+    print("\n")

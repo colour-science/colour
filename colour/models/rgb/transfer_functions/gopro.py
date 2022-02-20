@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 GoPro Encoding
 ==============
@@ -16,40 +15,43 @@ References
 aces_ocio/colorspaces/gopro.py
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.utilities import as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['log_encoding_Protune', 'log_decoding_Protune']
+__all__ = [
+    "log_encoding_Protune",
+    "log_decoding_Protune",
+]
 
 
-def log_encoding_Protune(x):
+def log_encoding_Protune(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Protune* log encoding curve / opto-electronic transfer
+    Define the *Protune* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear data :math:`x`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`y`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -74,29 +76,28 @@ def log_encoding_Protune(x):
 
     x = to_domain_1(x)
 
-    y = np.log(x * 112 + 1) / np.log(113)
+    y = np.log1p(x * 112) / np.log(113)
 
-    return from_range_1(y)
+    return as_float(from_range_1(y))
 
 
-def log_decoding_Protune(y):
+def log_decoding_Protune(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *Protune* log decoding curve / electro-optical transfer
+    Define the *Protune* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    y : numeric or array_like
+    y
         Non-linear data :math:`y`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear data :math:`x`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -121,6 +122,6 @@ def log_decoding_Protune(y):
 
     y = to_domain_1(y)
 
-    x = (113 ** y - 1) / 112
+    x = (113**y - 1) / 112
 
-    return from_range_1(x)
+    return as_float(from_range_1(x))

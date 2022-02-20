@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Panasonic V-Log Log Encoding
 ============================
@@ -15,69 +14,70 @@ References
     http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
+from colour.hints import (
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+)
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, to_domain_1
-from colour.utilities.deprecation import handle_arguments_deprecation
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['CONSTANTS_VLOG', 'log_encoding_VLog', 'log_decoding_VLog']
+__all__ = [
+    "CONSTANTS_VLOG",
+    "log_encoding_VLog",
+    "log_decoding_VLog",
+]
 
-CONSTANTS_VLOG = Structure(
-    cut1=0.01, cut2=0.181, b=0.00873, c=0.241514, d=0.598206)
-"""
-*Panasonic V-Log* colourspace constants.
-
-CONSTANTS_VLOG : Structure
-"""
+CONSTANTS_VLOG: Structure = Structure(
+    cut1=0.01, cut2=0.181, b=0.00873, c=0.241514, d=0.598206
+)
+"""*Panasonic V-Log* colourspace constants."""
 
 
-def log_encoding_VLog(L_in,
-                      bit_depth=10,
-                      out_normalised_code_value=True,
-                      in_reflection=True,
-                      constants=CONSTANTS_VLOG,
-                      **kwargs):
+def log_encoding_VLog(
+    L_in: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    out_normalised_code_value: Boolean = True,
+    in_reflection: Boolean = True,
+    constants: Structure = CONSTANTS_VLOG,
+) -> FloatingOrNDArray:
     """
-    Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
+    Define the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    L_in : numeric or array_like
+    L_in
         Linear reflection data :math`L_{in}`.
-    bit_depth : int, optional
+    bit_depth
         Bit depth used for conversion.
-    out_normalised_code_value : bool, optional
+    out_normalised_code_value
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
         encoded as normalised code values.
-    in_reflection : bool, optional
+    in_reflection
         Whether the light level :math`L_{in}` to a camera is reflection.
-    constants : Structure, optional
+    constants
         *Panasonic V-Log* constants.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear data :math:`V_{out}`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -115,10 +115,6 @@ def log_encoding_VLog(L_in,
     by a code: [512, 1732, 2408].
     """
 
-    out_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['out_legal', 'out_normalised_code_value']],
-    }, **kwargs).get('out_normalised_code_value', out_normalised_code_value)
-
     L_in = to_domain_1(L_in)
 
     if not in_reflection:
@@ -135,49 +131,45 @@ def log_encoding_VLog(L_in,
         c * np.log10(L_in + b) + d,
     )
 
-    V_out = (V_out
-             if out_normalised_code_value else legal_to_full(V_out, bit_depth))
+    V_out_cv = (
+        V_out if out_normalised_code_value else legal_to_full(V_out, bit_depth)
+    )
 
-    return as_float(from_range_1(V_out))
+    return as_float(from_range_1(V_out_cv))
 
 
-def log_decoding_VLog(V_out,
-                      bit_depth=10,
-                      in_normalised_code_value=True,
-                      out_reflection=True,
-                      constants=CONSTANTS_VLOG,
-                      **kwargs):
+def log_decoding_VLog(
+    V_out: FloatingOrArrayLike,
+    bit_depth: Integer = 10,
+    in_normalised_code_value: Boolean = True,
+    out_reflection: Boolean = True,
+    constants: Structure = CONSTANTS_VLOG,
+) -> FloatingOrNDArray:
     """
-    Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer
+    Define the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    V_out : numeric or array_like
+    V_out
         Non-linear data :math:`V_{out}`.
-    bit_depth : int, optional
+    bit_depth
         Bit depth used for conversion.
-    in_normalised_code_value : bool, optional
+    in_normalised_code_value
         Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
         encoded as normalised code values.
-    out_reflection : bool, optional
+    out_reflection
         Whether the light level :math`L_{in}` to a camera is reflection.
-    constants : Structure, optional
+    constants
         *Panasonic V-Log* constants.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear reflection data :math`L_{in}`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -200,14 +192,11 @@ def log_decoding_VLog(V_out,
     0.1799999...
     """
 
-    in_normalised_code_value = handle_arguments_deprecation({
-        'ArgumentRenamed': [['in_legal', 'in_normalised_code_value']],
-    }, **kwargs).get('in_normalised_code_value', in_normalised_code_value)
-
     V_out = to_domain_1(V_out)
 
-    V_out = (V_out
-             if in_normalised_code_value else full_to_legal(V_out, bit_depth))
+    V_out = (
+        V_out if in_normalised_code_value else full_to_legal(V_out, bit_depth)
+    )
 
     cut2 = constants.cut2
     b = constants.b

@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Distributions of Lenses
 ================================
 
-Defines spectral distributions of lenses.
+Defines the spectral distributions of lenses.
 
-Each lens data is in the form of :class:`OrderedDict` class instance of
+Each lens data is in the form of :class:`dict` class instance of
 :class:`colour.SpectralDistribution` classes as follows::
 
     {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
@@ -16,27 +15,35 @@ The following *lenses* are available:
 
 References
 ----------
--   :cite:`ISO2002` : ISO. (2002). INTERNATIONAL STANDARD 7589-2002 -
-    Photography - Illuminants for sensitometry - Specifications for daylight,
-    incandescent tungsten and printer.
+-   :cite:`InternationalOrganizationforStandardization2002` : International
+    Organization for Standardization. (2002). INTERNATIONAL STANDARD ISO
+    7589-2002 - Photography - Illuminants for sensitometry - Specifications for
+    daylight, incandescent tungsten and printer.
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
+
+from functools import partial
 
 from colour.colorimetry import SpectralDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.hints import Dict
+from colour.utilities import LazyCaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['DATA_LENSES_ISO', 'SDS_LENSES_ISO', 'SDS_LENSES']
+__all__ = [
+    "DATA_LENSES_ISO",
+    "SDS_LENSES_ISO",
+    "SDS_LENSES",
+]
 
-DATA_LENSES_ISO = {
-    'ISO Standard Lens': {
+DATA_LENSES_ISO: Dict = {
+    "ISO Standard Lens": {
         350: 0.00,
         360: 0.07,
         370: 0.23,
@@ -75,28 +82,30 @@ DATA_LENSES_ISO = {
     }
 }
 
-SDS_LENSES_ISO = CaseInsensitiveMapping({
-    'ISO Standard Lens':
-        SpectralDistribution(
-            DATA_LENSES_ISO['ISO Standard Lens'], name='ISO Standard Lens'),
-})
+SDS_LENSES_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    {
+        "ISO Standard Lens": partial(
+            SpectralDistribution,
+            DATA_LENSES_ISO["ISO Standard Lens"],
+            name="ISO Standard Lens",
+        ),
+    }
+)
 SDS_LENSES_ISO.__doc__ = """
 Spectral distributions of *ISO* lenses.
 
 References
 ----------
-:cite:`ISO2002`
-
-SDS_LENSES_ISO : CaseInsensitiveMapping
+:cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_LENSES = CaseInsensitiveMapping(SDS_LENSES_ISO)
+SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+    SDS_LENSES_ISO
+)
 SDS_LENSES.__doc__ = """
 Spectral distributions of lenses.
 
 References
 ----------
-:cite:`ISO2002`
-
-SDS_LENSES : CaseInsensitiveMapping
+:cite:`InternationalOrganizationforStandardization2002`
 """

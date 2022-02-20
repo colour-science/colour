@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Digital Cinema Distribution Master (DCDM)
 =========================================
 
-Defines the *DCDM* electro-optical transfer function (EOTF / EOCF) and its
+Defines the *DCDM* electro-optical transfer function (EOTF) and its
 inverse:
 
 -   :func:`colour.models.eotf_inverse_DCDM`
@@ -17,39 +16,51 @@ References
 DCI_DCinema_System_Spec_v1_1.pdf
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
 from colour.algebra import spow
-from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import from_range_1, to_domain_1
+from colour.hints import (
+    Boolean,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    IntegerOrArrayLike,
+    IntegerOrNDArray,
+    Union,
+)
+from colour.utilities import as_float_array, as_float, as_int
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['eotf_inverse_DCDM', 'eotf_DCDM']
+__all__ = [
+    "eotf_inverse_DCDM",
+    "eotf_DCDM",
+]
 
 
-def eotf_inverse_DCDM(XYZ, out_int=False):
+def eotf_inverse_DCDM(
+    XYZ: FloatingOrArrayLike, out_int: Boolean = False
+) -> Union[FloatingOrNDArray, IntegerOrNDArray]:
     """
-    Defines the *DCDM* inverse electro-optical transfer function (EOTF / EOCF).
+    Define the *DCDM* inverse electro-optical transfer function (EOTF).
 
     Parameters
     ----------
-    XYZ : numeric or array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    out_int : bool, optional
+    out_int
         Whether to return value as integer code value or float equivalent of a
         code value at a given bit depth.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.integer` or :class:`numpy.ndarray`
         Non-linear *CIE XYZ'* tristimulus values.
 
     Warnings
@@ -58,7 +69,6 @@ def eotf_inverse_DCDM(XYZ, out_int=False):
 
     Notes
     -----
-
     -   *DCDM* is an absolute transfer function, thus the domain and range
         values for the *Reference* and *1* scales are only indicative that the
         data is not affected by scale transformations.
@@ -90,31 +100,34 @@ def eotf_inverse_DCDM(XYZ, out_int=False):
     462
     """
 
-    XYZ = to_domain_1(XYZ)
+    XYZ = as_float_array(XYZ)
 
     XYZ_p = spow(XYZ / 52.37, 1 / 2.6)
 
     if out_int:
-        return np.round(4095 * XYZ_p).astype(DEFAULT_INT_DTYPE)
+        return as_int(np.round(4095 * XYZ_p))
     else:
-        return from_range_1(XYZ_p)
+        return as_float(XYZ_p)
 
 
-def eotf_DCDM(XYZ_p, in_int=False):
+def eotf_DCDM(
+    XYZ_p: Union[FloatingOrArrayLike, IntegerOrArrayLike],
+    in_int: Boolean = False,
+) -> FloatingOrNDArray:
     """
-    Defines the *DCDM* electro-optical transfer function (EOTF / EOCF).
+    Define the *DCDM* electro-optical transfer function (EOTF).
 
     Parameters
     ----------
-    XYZ_p : numeric or array_like
+    XYZ_p
         Non-linear *CIE XYZ'* tristimulus values.
-    in_int : bool, optional
+    in_int
         Whether to treat the input value as integer code value or float
         equivalent of a code value at a given bit depth.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Warnings
@@ -123,7 +136,6 @@ def eotf_DCDM(XYZ_p, in_int=False):
 
     Notes
     -----
-
     -   *DCDM* is an absolute transfer function, thus the domain and range
         values for the *Reference* and *1* scales are only indicative that the
         data is not affected by scale transformations.
@@ -155,11 +167,11 @@ def eotf_DCDM(XYZ_p, in_int=False):
     0.18...
     """
 
-    XYZ_p = to_domain_1(XYZ_p)
+    XYZ_p = as_float_array(XYZ_p)
 
     if in_int:
         XYZ_p = XYZ_p / 4095
 
     XYZ = 52.37 * spow(XYZ_p, 2.6)
 
-    return from_range_1(XYZ)
+    return as_float(XYZ)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 NIST CQS Test Colour Samples Spectral Distributions
 ===================================================
@@ -9,10 +8,12 @@ distributions.
 The *NIST CQS* test colour samples data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
 
-    {'method': {
-        'name': SpectralDistribution,
-        ...,
-        'name': SpectralDistribution}
+    {
+        'method': {
+            'name': SpectralDistribution,
+            ...,
+            'name': SpectralDistribution
+        }
     }
 
 References
@@ -27,95 +28,95 @@ usp=sharing
 usp=sharing
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'INDEXES_TO_NAMES_VS', 'APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74',
-    'APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90', 'DATA_VS', 'SDS_VS'
+    "INDEXES_TO_NAMES_VS",
+    "APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74",
+    "APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90",
+    "DATA_VS",
+    "SDS_VS",
 ]
 
-INDEXES_TO_NAMES_VS = {
-    1: 'VS1',
-    2: 'VS2',
-    3: 'VS3',
-    4: 'VS4',
-    5: 'VS5',
-    6: 'VS6',
-    7: 'VS7',
-    8: 'VS8',
-    9: 'VS9',
-    10: 'VS10',
-    11: 'VS11',
-    12: 'VS12',
-    13: 'VS13',
-    14: 'VS14',
-    15: 'VS15'
+INDEXES_TO_NAMES_VS: Dict = {
+    1: "VS1",
+    2: "VS2",
+    3: "VS3",
+    4: "VS4",
+    5: "VS5",
+    6: "VS6",
+    7: "VS7",
+    8: "VS8",
+    9: "VS9",
+    10: "VS10",
+    11: "VS11",
+    12: "VS12",
+    13: "VS13",
+    14: "VS14",
+    15: "VS15",
 }
-"""
-*NIST CQS* test colour samples indexes to names mapping.
+"""*NIST CQS* test colour samples indexes to names mapping."""
 
-INDEXES_TO_NAMES_VS : dict
-"""
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "VS1": "7.5P 4/10",
+            "VS2": "10PB 4/10",
+            "VS3": "5PB 4/2",
+            "VS4": "7.5B 5/10",
+            "VS5": "10B G6/8",
+            "VS6": "2.5BG 6/10",
+            "VS7": "2.5G 6/12",
+            "VS8": "7.5GY 7/10",
+            "VS9": "2.5GY 8/10",
+            "VS10": "5Y 8.5/12",
+            "VS11": "10YR 7/12",
+            "VS12": "5YR 7/12",
+            "VS13": "10R 6/12",
+            "VS14": "5R 4/14",
+            "VS15": "7.5RP 4/12",
+        }
+    )
+)
+"""*NIST CQS 7.4* test colour samples *Munsell* colour approximations."""
 
-APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74 = CaseInsensitiveMapping({
-    'VS1': '7.5P 4/10',
-    'VS2': '10PB 4/10',
-    'VS3': '5PB 4/2',
-    'VS4': '7.5B 5/10',
-    'VS5': '10B G6/8',
-    'VS6': '2.5BG 6/10',
-    'VS7': '2.5G 6/12',
-    'VS8': '7.5GY 7/10',
-    'VS9': '2.5GY 8/10',
-    'VS10': '5Y 8.5/12',
-    'VS11': '10YR 7/12',
-    'VS12': '5YR 7/12',
-    'VS13': '10R 6/12',
-    'VS14': '5R 4/14',
-    'VS15': '7.5RP 4/12'
-})
-"""
-*NIST CQS 7.4* test colour samples *Munsell* colour approximations.
+APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "VS1": "5R 4/14",
+            "VS2": "10R 6/12",
+            "VS3": "7.5YR 7/12",
+            "VS4": "5Y 8-12",
+            "VS5": "2.5GY 8/10",
+            "VS6": "7.5GY 7/10",
+            "VS7": "2.5G 6/12",
+            "VS8": "2.5BG 6/10",
+            "VS9": "10BG 6/8",
+            "VS10": "7.5B 5/10",
+            "VS11": "2.5PB 4/10",
+            "VS12": "7.5PB 4/12",
+            "VS13": "5P 5/10",
+            "VS14": "2.5RP 6/12",
+            "VS15": "7.5RP 5/12",
+        }
+    )
+)
+"""*NIST CQS 9.0* test colour samples *Munsell* colour approximations."""
 
-APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS74 : CaseInsensitiveMapping
-"""
-
-APPROXIMATE_MUNSELL_NOTATIONS_VS_NISTCQS90 = CaseInsensitiveMapping({
-    'VS1': '5R 4/14',
-    'VS2': '10R 6/12',
-    'VS3': '7.5YR 7/12',
-    'VS4': '5Y 8-12',
-    'VS5': '2.5GY 8/10',
-    'VS6': '7.5GY 7/10',
-    'VS7': '2.5G 6/12',
-    'VS8': '2.5BG 6/10',
-    'VS9': '10BG 6/8',
-    'VS10': '7.5B 5/10',
-    'VS11': '2.5PB 4/10',
-    'VS12': '7.5PB 4/12',
-    'VS13': '5P 5/10',
-    'VS14': '2.5RP 6/12',
-    'VS15': '7.5RP 5/12'
-})
-"""
-*NIST CQS 9.0* test colour samples *Munsell* colour approximations.
-
-VS_APPROXIMATE_MUNSELL_NOTATIONS_NISTCQ90 : CaseInsensitiveMapping
-"""
-
-DATA_VS = {
-    'NIST CQS 7.4': {
-        'VS1': {
+DATA_VS: Dict = {
+    "NIST CQS 7.4": {
+        "VS1": {
             380: 0.1086,
             385: 0.1380,
             390: 0.1729,
@@ -206,9 +207,9 @@ DATA_VS = {
             815: 0.5191,
             820: 0.5191,
             825: 0.5191,
-            830: 0.5191
+            830: 0.5191,
         },
-        'VS2': {
+        "VS2": {
             380: 0.1053,
             385: 0.1323,
             390: 0.1662,
@@ -299,9 +300,9 @@ DATA_VS = {
             815: 0.4537,
             820: 0.4537,
             825: 0.4537,
-            830: 0.4537
+            830: 0.4537,
         },
-        'VS3': {
+        "VS3": {
             380: 0.0858,
             385: 0.0990,
             390: 0.1204,
@@ -392,9 +393,9 @@ DATA_VS = {
             815: 0.2338,
             820: 0.2338,
             825: 0.2338,
-            830: 0.2338
+            830: 0.2338,
         },
-        'VS4': {
+        "VS4": {
             380: 0.0790,
             385: 0.0984,
             390: 0.1242,
@@ -485,9 +486,9 @@ DATA_VS = {
             815: 0.3512,
             820: 0.3512,
             825: 0.3512,
-            830: 0.3512
+            830: 0.3512,
         },
-        'VS5': {
+        "VS5": {
             380: 0.1167,
             385: 0.1352,
             390: 0.1674,
@@ -578,9 +579,9 @@ DATA_VS = {
             815: 0.2269,
             820: 0.2269,
             825: 0.2269,
-            830: 0.2269
+            830: 0.2269,
         },
-        'VS6': {
+        "VS6": {
             380: 0.0872,
             385: 0.1001,
             390: 0.1159,
@@ -671,9 +672,9 @@ DATA_VS = {
             815: 0.1646,
             820: 0.1646,
             825: 0.1646,
-            830: 0.1646
+            830: 0.1646,
         },
-        'VS7': {
+        "VS7": {
             380: 0.0726,
             385: 0.0760,
             390: 0.0789,
@@ -764,9 +765,9 @@ DATA_VS = {
             815: 0.1393,
             820: 0.1393,
             825: 0.1393,
-            830: 0.1393
+            830: 0.1393,
         },
-        'VS8': {
+        "VS8": {
             380: 0.0652,
             385: 0.0657,
             390: 0.0667,
@@ -857,9 +858,9 @@ DATA_VS = {
             815: 0.3239,
             820: 0.3239,
             825: 0.3239,
-            830: 0.3239
+            830: 0.3239,
         },
-        'VS9': {
+        "VS9": {
             380: 0.0643,
             385: 0.0661,
             390: 0.0702,
@@ -950,9 +951,9 @@ DATA_VS = {
             815: 0.5450,
             820: 0.5450,
             825: 0.5450,
-            830: 0.5450
+            830: 0.5450,
         },
-        'VS10': {
+        "VS10": {
             380: 0.0540,
             385: 0.0489,
             390: 0.0548,
@@ -1043,9 +1044,9 @@ DATA_VS = {
             815: 0.7789,
             820: 0.7789,
             825: 0.7789,
-            830: 0.7789
+            830: 0.7789,
         },
-        'VS11': {
+        "VS11": {
             380: 0.0482,
             385: 0.0456,
             390: 0.0478,
@@ -1136,9 +1137,9 @@ DATA_VS = {
             815: 0.5953,
             820: 0.5953,
             825: 0.5953,
-            830: 0.5953
+            830: 0.5953,
         },
-        'VS12': {
+        "VS12": {
             380: 0.0691,
             385: 0.0692,
             390: 0.0727,
@@ -1229,9 +1230,9 @@ DATA_VS = {
             815: 0.7158,
             820: 0.7158,
             825: 0.7158,
-            830: 0.7158
+            830: 0.7158,
         },
-        'VS13': {
+        "VS13": {
             380: 0.0829,
             385: 0.0829,
             390: 0.0866,
@@ -1322,9 +1323,9 @@ DATA_VS = {
             815: 0.6813,
             820: 0.6813,
             825: 0.6813,
-            830: 0.6813
+            830: 0.6813,
         },
-        'VS14': {
+        "VS14": {
             380: 0.0530,
             385: 0.0507,
             390: 0.0505,
@@ -1415,9 +1416,9 @@ DATA_VS = {
             815: 0.7683,
             820: 0.7683,
             825: 0.7683,
-            830: 0.7683
+            830: 0.7683,
         },
-        'VS15': {
+        "VS15": {
             380: 0.0908,
             385: 0.1021,
             390: 0.1130,
@@ -1508,11 +1509,11 @@ DATA_VS = {
             815: 0.7075,
             820: 0.7075,
             825: 0.7075,
-            830: 0.7075
+            830: 0.7075,
         },
     },
-    'NIST CQS 9.0': {
-        'VS1': {
+    "NIST CQS 9.0": {
+        "VS1": {
             360: 0.0530,
             365: 0.0530,
             370: 0.0530,
@@ -1607,9 +1608,9 @@ DATA_VS = {
             815: 0.7683,
             820: 0.7683,
             825: 0.7683,
-            830: 0.7683
+            830: 0.7683,
         },
-        'VS2': {
+        "VS2": {
             360: 0.0829,
             365: 0.0829,
             370: 0.0829,
@@ -1704,9 +1705,9 @@ DATA_VS = {
             815: 0.6813,
             820: 0.6813,
             825: 0.6813,
-            830: 0.6813
+            830: 0.6813,
         },
-        'VS3': {
+        "VS3": {
             360: 0.0691,
             365: 0.0691,
             370: 0.0691,
@@ -1801,9 +1802,9 @@ DATA_VS = {
             815: 0.6283,
             820: 0.6283,
             825: 0.6283,
-            830: 0.6283
+            830: 0.6283,
         },
-        'VS4': {
+        "VS4": {
             360: 0.0449,
             365: 0.0449,
             370: 0.0449,
@@ -1898,9 +1899,9 @@ DATA_VS = {
             815: 0.6784,
             820: 0.6784,
             825: 0.6784,
-            830: 0.6784
+            830: 0.6784,
         },
-        'VS5': {
+        "VS5": {
             360: 0.0643,
             365: 0.0643,
             370: 0.0643,
@@ -1995,9 +1996,9 @@ DATA_VS = {
             815: 0.5450,
             820: 0.5450,
             825: 0.5450,
-            830: 0.5450
+            830: 0.5450,
         },
-        'VS6': {
+        "VS6": {
             360: 0.0652,
             365: 0.0652,
             370: 0.0652,
@@ -2092,9 +2093,9 @@ DATA_VS = {
             815: 0.3239,
             820: 0.3239,
             825: 0.3239,
-            830: 0.3239
+            830: 0.3239,
         },
-        'VS7': {
+        "VS7": {
             360: 0.0726,
             365: 0.0726,
             370: 0.0726,
@@ -2189,9 +2190,9 @@ DATA_VS = {
             815: 0.1393,
             820: 0.1393,
             825: 0.1393,
-            830: 0.1393
+            830: 0.1393,
         },
-        'VS8': {
+        "VS8": {
             360: 0.0872,
             365: 0.0872,
             370: 0.0872,
@@ -2286,9 +2287,9 @@ DATA_VS = {
             815: 0.1646,
             820: 0.1646,
             825: 0.1646,
-            830: 0.1646
+            830: 0.1646,
         },
-        'VS9': {
+        "VS9": {
             360: 0.1167,
             365: 0.1167,
             370: 0.1167,
@@ -2383,9 +2384,9 @@ DATA_VS = {
             815: 0.2269,
             820: 0.2269,
             825: 0.2269,
-            830: 0.2269
+            830: 0.2269,
         },
-        'VS10': {
+        "VS10": {
             360: 0.0790,
             365: 0.0790,
             370: 0.0790,
@@ -2480,9 +2481,9 @@ DATA_VS = {
             815: 0.3512,
             820: 0.3512,
             825: 0.3512,
-            830: 0.3512
+            830: 0.3512,
         },
-        'VS11': {
+        "VS11": {
             360: 0.0692,
             365: 0.0692,
             370: 0.0692,
@@ -2577,9 +2578,9 @@ DATA_VS = {
             815: 0.3811,
             820: 0.3811,
             825: 0.3811,
-            830: 0.3811
+            830: 0.3811,
         },
-        'VS12': {
+        "VS12": {
             360: 0.0941,
             365: 0.0941,
             370: 0.0941,
@@ -2674,9 +2675,9 @@ DATA_VS = {
             815: 0.3897,
             820: 0.3897,
             825: 0.3897,
-            830: 0.3897
+            830: 0.3897,
         },
-        'VS13': {
+        "VS13": {
             360: 0.1272,
             365: 0.1272,
             370: 0.1272,
@@ -2771,9 +2772,9 @@ DATA_VS = {
             815: 0.7633,
             820: 0.7633,
             825: 0.7633,
-            830: 0.7633
+            830: 0.7633,
         },
-        'VS14': {
+        "VS14": {
             360: 0.1086,
             365: 0.1086,
             370: 0.1086,
@@ -2868,9 +2869,9 @@ DATA_VS = {
             815: 0.7507,
             820: 0.7507,
             825: 0.7507,
-            830: 0.7507
+            830: 0.7507,
         },
-        'VS15': {
+        "VS15": {
             360: 0.1069,
             365: 0.1069,
             370: 0.1069,
@@ -2965,23 +2966,24 @@ DATA_VS = {
             815: 0.7439,
             820: 0.7439,
             825: 0.7439,
-            830: 0.7439
-        }
-    }
+            830: 0.7439,
+        },
+    },
 }
 
-SDS_VS = CaseInsensitiveMapping({
-    key: dict((name, SpectralDistribution(data, name=name))
-              for name, data in value.items())
-    for key, value in DATA_VS.items()
-})
+SDS_VS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        key: {
+            name: SpectralDistribution(data, name=name)
+            for name, data in value.items()
+        }
+        for key, value in DATA_VS.items()
+    }
+)
 """
 *NIST CQS* test colour samples spectral distributions.
 
 References
 ----------
 :cite:`Ohno2008a`, :cite:`Ohno2013`
-
-SDS_VS : CaseInsensitiveMapping
-    **{'NIST CQS 7.4', 'NIST CQS 9.0'}**
 """

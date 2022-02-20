@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Smits (1999) - Reflectance Recovery
 ===================================
 
-Defines objects for reflectance recovery using *Smits (1999)* method.
+Defines the objects for reflectance recovery using *Smits (1999)* method.
 
 References
 ----------
@@ -12,68 +11,65 @@ References
     doi:10.1080/10867651.1999.10487511
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
-                           RGB_COLOURSPACE_sRGB)
+from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
+from colour.hints import ArrayLike, NDArray
+from colour.models import (
+    XYZ_to_RGB,
+    normalised_primary_matrix,
+    RGB_COLOURSPACE_sRGB,
+)
 from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'PRIMARIES_SMITS1999', 'CCS_WHITEPOINT_SMITS1999',
-    'MATRIX_XYZ_TO_RGB_SMITS1999', 'XYZ_to_RGB_Smits1999',
-    'RGB_to_sd_Smits1999'
+    "PRIMARIES_SMITS1999",
+    "CCS_WHITEPOINT_SMITS1999",
+    "MATRIX_XYZ_TO_RGB_SMITS1999",
+    "XYZ_to_RGB_Smits1999",
+    "RGB_to_sd_Smits1999",
 ]
 
-PRIMARIES_SMITS1999 = RGB_COLOURSPACE_sRGB.primaries
-"""
-Current *Smits (1999)* method implementation colourspace primaries.
+PRIMARIES_SMITS1999: NDArray = RGB_COLOURSPACE_sRGB.primaries
+"""Current *Smits (1999)* method implementation colourspace primaries."""
 
-PRIMARIES_SMITS1999 : ndarray, (3, 2)
-"""
+CCS_WHITEPOINT_SMITS1999: NDArray = CCS_ILLUMINANTS[
+    "CIE 1931 2 Degree Standard Observer"
+]["E"]
+"""Current *Smits (1999)* method implementation colourspace whitepoint."""
 
-CCS_WHITEPOINT_SMITS1999 = (
-    CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
-"""
-Current *Smits (1999)* method implementation colourspace whitepoint.
-
-CCS_WHITEPOINT_SMITS1999 : ndarray
-"""
-
-MATRIX_XYZ_TO_RGB_SMITS1999 = np.linalg.inv(
-    normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999))
+MATRIX_XYZ_TO_RGB_SMITS1999: NDArray = np.linalg.inv(
+    normalised_primary_matrix(PRIMARIES_SMITS1999, CCS_WHITEPOINT_SMITS1999)
+)
 """
 Current *Smits (1999)* method implementation *RGB* colourspace to
 *CIE XYZ* tristimulus values matrix.
-
-MATRIX_XYZ_TO_RGB_SMITS1999 : array_like, (3, 3)
 """
 
 
-def XYZ_to_RGB_Smits1999(XYZ):
+def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArray:
     """
-    Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
-    colourspace in conditions required by the current *Smits (1999)* method
-    implementation.
+    Convert from *CIE XYZ* tristimulus values to *RGB* colourspace with
+    conditions required by the current *Smits (1999)* method implementation.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colour array.
 
     Examples
@@ -91,24 +87,23 @@ def XYZ_to_RGB_Smits1999(XYZ):
     )
 
 
-def RGB_to_sd_Smits1999(RGB):
+def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     """
-    Recovers the spectral distribution of given *RGB* colourspace array using
+    Recover the spectral distribution of given *RGB* colourspace array using
     *Smits (1999)* method.
 
     Parameters
     ----------
-    RGB : array_like, (3,)
+    RGB
         *RGB* colourspace array to recover the spectral distribution from.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Recovered spectral distribution.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -121,15 +116,13 @@ def RGB_to_sd_Smits1999(RGB):
 
     Examples
     --------
-    >>> from colour.colorimetry import (
-    ...     MSDS_CMFS_STANDARD_OBSERVER, SDS_ILLUMINANTS,
-    ...     SpectralShape, sd_to_XYZ_integration
-    ... )
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> RGB = XYZ_to_RGB_Smits1999(XYZ)
     >>> cmfs = (
-    ...     MSDS_CMFS_STANDARD_OBSERVER['CIE 1931 2 Degree Standard Observer'].
+    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
     ...     copy().align(SpectralShape(360, 780, 10))
     ... )
     >>> illuminant = SDS_ILLUMINANTS['E'].copy().align(cmfs.shape)
@@ -154,17 +147,17 @@ def RGB_to_sd_Smits1999(RGB):
     array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
 
-    white_sd = SDS_SMITS1999['white'].copy()
-    cyan_sd = SDS_SMITS1999['cyan'].copy()
-    magenta_sd = SDS_SMITS1999['magenta'].copy()
-    yellow_sd = SDS_SMITS1999['yellow'].copy()
-    red_sd = SDS_SMITS1999['red'].copy()
-    green_sd = SDS_SMITS1999['green'].copy()
-    blue_sd = SDS_SMITS1999['blue'].copy()
+    white_sd = SDS_SMITS1999["white"].copy()
+    cyan_sd = SDS_SMITS1999["cyan"].copy()
+    magenta_sd = SDS_SMITS1999["magenta"].copy()
+    yellow_sd = SDS_SMITS1999["yellow"].copy()
+    red_sd = SDS_SMITS1999["red"].copy()
+    green_sd = SDS_SMITS1999["green"].copy()
+    blue_sd = SDS_SMITS1999["blue"].copy()
 
     R, G, B = to_domain_1(RGB)
     sd = white_sd.copy() * 0
-    sd.name = 'Smits (1999) - {0}'.format(RGB)
+    sd.name = f"Smits (1999) - {RGB!r}"
 
     if R <= G and R <= B:
         sd += white_sd * R

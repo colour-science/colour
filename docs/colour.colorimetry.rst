@@ -1,8 +1,6 @@
 Colorimetry
 ===========
 
-.. contents:: :local:
-
 Spectral Data Structure
 -----------------------
 
@@ -23,6 +21,20 @@ Spectral Data Structure
 
     SPECTRAL_SHAPE_ASTME308
     SPECTRAL_SHAPE_DEFAULT
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    reshape_sd
+    reshape_msds
+    sds_and_msds_to_sds
+    sds_and_msds_to_msds
 
 Spectral Data Generation
 ------------------------
@@ -59,13 +71,11 @@ Spectral Data Generation
 
     blackbody_spectral_radiance
     daylight_locus_function
-
     sd_gaussian_normal
     sd_gaussian_fwhm
     sd_single_led_Ohno2005
     sd_multi_leds_Ohno2005
-    sds_and_msds_to_sds
-    sds_and_msds_to_msds
+
 
 **Aliases**
 
@@ -93,6 +103,17 @@ Conversion to Tristimulus Values
     msds_to_XYZ
     MSDS_TO_XYZ_METHODS
     wavelength_to_XYZ
+
+**Ancillary Objects**
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    handle_spectral_arguments
 
 ASTM E308-15
 ~~~~~~~~~~~~
@@ -233,6 +254,7 @@ Illuminants and Light Sources
     SDS_ILLUMINANTS
     CCS_LIGHT_SOURCES
     SDS_LIGHT_SOURCES
+    TVS_ILLUMINANTS
     TVS_ILLUMINANTS_HUNTERLAB
 
 **Ancillary Objects**
@@ -297,6 +319,18 @@ Luminous Efficiency Functions
 
     SDS_LEFS_PHOTOPIC
     SDS_LEFS_SCOTOPIC
+
+Spectral Uniformity
+-------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    spectral_uniformity
 
 Lightness Computation
 ---------------------
@@ -371,6 +405,18 @@ Fairchild and Chen (2011)
     :toctree: generated/
 
     lightness_Fairchild2011
+
+Abebe, Pouli, Larabi and Reinhard (2017)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour.colorimetry``
+
+.. currentmodule:: colour.colorimetry
+
+.. autosummary::
+    :toctree: generated/
+
+    lightness_Abebe2017
 
 Luminance Computation
 ---------------------
@@ -566,4 +612,6 @@ ASTM E313
 .. autosummary::
     :toctree: generated/
 
+    yellowness_ASTME313_alternative
+    YELLOWNESS_COEFFICIENTS_ASTME313
     yellowness_ASTME313

@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 Iridas .cube LUT Format Input / Output Utilities
 ================================================
 
-Defines *Iridas* *.cube* *LUT* Format related input / output utilities objects.
+Defines the *Iridas* *.cube* *LUT* format related input / output utilities
+objects:
 
 -   :func:`colour.io.read_LUT_IridasCube`
 -   :func:`colour.io.write_LUT_IridasCube`
@@ -14,37 +14,45 @@ References
     https://drive.google.com/open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
-from colour.utilities import as_float_array, usage_warning
+from colour.hints import Boolean, Integer, List, Tuple, Union
+from colour.utilities import (
+    as_float_array,
+    as_int_scalar,
+    attest,
+    usage_warning,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['read_LUT_IridasCube', 'write_LUT_IridasCube']
+__all__ = [
+    "read_LUT_IridasCube",
+    "write_LUT_IridasCube",
+]
 
 
-def read_LUT_IridasCube(path):
+def read_LUT_IridasCube(path: str) -> Union[LUT3x1D, LUT3D]:
     """
-    Reads given *Iridas* *.cube* *LUT* file.
+    Read given *Iridas* *.cube* *LUT* file.
 
     Parameters
     ----------
-    path : unicode
+    path
         *LUT* path.
 
     Returns
     -------
-    LUT3x1D or LUT3d
+    :class:`LUT3x1D` or :class:`LUT3D`.
         :class:`LUT3x1D` or :class:`LUT3D` class instance.
 
     References
@@ -100,9 +108,9 @@ def read_LUT_IridasCube(path):
 
     title = path_to_title(path)
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
-    dimensions = 3
-    size = 2
-    table = []
+    dimensions: Integer = 3
+    size: Integer = 2
+    data = []
     comments = []
 
     with open(path) as cube_file:
@@ -113,63 +121,71 @@ def read_LUT_IridasCube(path):
             if len(line) == 0:
                 continue
 
-            if line.startswith('#'):
+            if line.startswith("#"):
                 comments.append(line[1:].strip())
                 continue
 
             tokens = line.split()
-            if tokens[0] == 'TITLE':
-                title = ' '.join(tokens[1:])[1:-1]
-            elif tokens[0] == 'DOMAIN_MIN':
+            if tokens[0] == "TITLE":
+                title = " ".join(tokens[1:])[1:-1]
+            elif tokens[0] == "DOMAIN_MIN":
                 domain_min = as_float_array(tokens[1:])
-            elif tokens[0] == 'DOMAIN_MAX':
+            elif tokens[0] == "DOMAIN_MAX":
                 domain_max = as_float_array(tokens[1:])
-            elif tokens[0] == 'LUT_1D_SIZE':
+            elif tokens[0] == "LUT_1D_SIZE":
                 dimensions = 2
-                size = DEFAULT_INT_DTYPE(tokens[1])
-            elif tokens[0] == 'LUT_3D_SIZE':
+                size = as_int_scalar(tokens[1])
+            elif tokens[0] == "LUT_3D_SIZE":
                 dimensions = 3
-                size = DEFAULT_INT_DTYPE(tokens[1])
+                size = as_int_scalar(tokens[1])
             else:
-                table.append(tokens)
+                data.append(tokens)
 
-    table = as_float_array(table)
+    table = as_float_array(data)
+
+    LUT: Union[LUT3x1D, LUT3D]
     if dimensions == 2:
-        return LUT3x1D(
+        LUT = LUT3x1D(
             table,
             title,
             np.vstack([domain_min, domain_max]),
-            comments=comments)
+            comments=comments,
+        )
     elif dimensions == 3:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape([size, size, size, 3], order='F')
+        table = table.reshape([size, size, size, 3], order="F")
 
-        return LUT3D(
+        LUT = LUT3D(
             table,
             title,
             np.vstack([domain_min, domain_max]),
-            comments=comments)
+            comments=comments,
+        )
+
+    return LUT
 
 
-def write_LUT_IridasCube(LUT, path, decimals=7):
+def write_LUT_IridasCube(
+    LUT: Union[LUT3x1D, LUT3D, LUTSequence], path: str, decimals: Integer = 7
+) -> Boolean:
     """
-    Writes given *LUT* to given  *Iridas* *.cube* *LUT* file.
+    Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
 
     Parameters
     ----------
-    LUT : LUT3x1D or LUT3d or LUTSequence
+    LUT
         :class:`LUT3x1D`, :class:`LUT3D` or :class:`LUTSequence` class instance
         to write at given path.
-    path : unicode
+    path
         *LUT* path.
-    decimals : int, optional
+    decimals
         Formatting decimals.
 
     Returns
     -------
-    bool
+    :class:`bool`
         Definition success.
 
     Warnings
@@ -192,7 +208,7 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     ...     'My LUT',
     ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
-    >>> write_LUT_IridasCube(LUT, 'My_LUT.cube')  # doctest: +SKIP
+    >>> write_LUT_IridasCube(LUTxD, 'My_LUT.cube')  # doctest: +SKIP
 
     Writing a 3D *Iridas* *.cube* *LUT*:
 
@@ -202,61 +218,62 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     ...     'My LUT',
     ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
     ...     comments=['A first comment.', 'A second comment.'])
-    >>> write_LUT_IridasCube(LUT, 'My_LUT.cube')  # doctest: +SKIP
+    >>> write_LUT_IridasCube(LUTxD, 'My_LUT.cube')  # doctest: +SKIP
     """
 
     if isinstance(LUT, LUTSequence):
-        LUT = LUT[0]
-        usage_warning('"LUT" is a "LUTSequence" instance was passed, '
-                      'using first sequence "LUT":\n'
-                      '{0}'.format(LUT))
-
-    assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
-
-    if isinstance(LUT, LUT1D):
-        LUT = LUT.as_LUT(LUT3x1D)
-
-    assert (isinstance(LUT, LUT3x1D) or
-            isinstance(LUT, LUT3D)), '"LUT" must be a 1D, 3x1D or 3D "LUT"!'
-
-    is_3x1D = isinstance(LUT, LUT3x1D)
-
-    size = LUT.size
-    if is_3x1D:
-        assert 2 <= size <= 65536, '"LUT" size must be in domain [2, 65536]!'
+        usage_warning(
+            f'"LUT" is a "LUTSequence" instance was passed, '
+            f'using first sequence "LUT":\n{LUT}'
+        )
+        LUTxD = LUT[0]
+    elif isinstance(LUT, LUT1D):
+        LUTxD = LUT.as_LUT(LUT3x1D)
     else:
-        assert 2 <= size <= 256, '"LUT" size must be in domain [2, 256]!'
+        LUTxD = LUT
 
-    def _format_array(array):
-        """
-        Formats given array as an *Iridas* *.cube* data row.
-        """
+    attest(
+        isinstance(LUTxD, (LUT3x1D, LUT3D)),
+        '"LUT" must be a 1D, 3x1D or 3D "LUT"!',
+    )
 
-        return '{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}'.format(decimals, *array)
+    attest(not LUTxD.is_domain_explicit(), '"LUT" domain must be implicit!')
 
-    with open(path, 'w') as cube_file:
-        cube_file.write('TITLE "{0}"\n'.format(LUT.name))
+    is_3x1D = isinstance(LUTxD, LUT3x1D)
 
-        if LUT.comments:
-            for comment in LUT.comments:
-                cube_file.write('# {0}\n'.format(comment))
+    size = LUTxD.size
+    if is_3x1D:
+        attest(2 <= size <= 65536, '"LUT" size must be in domain [2, 65536]!')
+    else:
+        attest(2 <= size <= 256, '"LUT" size must be in domain [2, 256]!')
 
-        cube_file.write('{0} {1}\n'.format(
-            'LUT_1D_SIZE' if is_3x1D else 'LUT_3D_SIZE', LUT.table.shape[0]))
+    def _format_array(array: Union[List, Tuple]) -> str:
+        """Format given array as an *Iridas* *.cube* data row."""
+
+        return "{1:0.{0}f} {2:0.{0}f} {3:0.{0}f}".format(decimals, *array)
+
+    with open(path, "w") as cube_file:
+        cube_file.write(f'TITLE "{LUTxD.name}"\n')
+
+        if LUTxD.comments:
+            for comment in LUTxD.comments:
+                cube_file.write(f"# {comment}\n")
+
+        cube_file.write(
+            f"{'LUT_1D_SIZE' if is_3x1D else 'LUT_3D_SIZE'} {LUTxD.table.shape[0]}\n"
+        )
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
-        if not np.array_equal(LUT.domain, default_domain):
-            cube_file.write('DOMAIN_MIN {0}\n'.format(
-                _format_array(LUT.domain[0])))
-            cube_file.write('DOMAIN_MAX {0}\n'.format(
-                _format_array(LUT.domain[1])))
+        if not np.array_equal(LUTxD.domain, default_domain):
+            cube_file.write(f"DOMAIN_MIN {_format_array(LUTxD.domain[0])}\n")
+            cube_file.write(f"DOMAIN_MAX {_format_array(LUTxD.domain[1])}\n")
 
         if not is_3x1D:
-            table = LUT.table.reshape([-1, 3], order='F')
+            table = LUTxD.table.reshape([-1, 3], order="F")
         else:
-            table = LUT.table
+            table = LUTxD.table
 
         for row in table:
-            cube_file.write('{0}\n'.format(_format_array(row)))
+            cube_file.write(f"{_format_array(row)}\n")
 
     return True

@@ -1,8 +1,6 @@
 Geometry Primitives Generation
 ==============================
 
-.. contents:: :local:
-
 Primitives
 ----------
 
@@ -25,7 +23,7 @@ Primitives
 .. autosummary::
     :toctree: generated/
 
-    PLANE_TO_AXIS_MAPPING
+    MAPPING_PLANE_TO_AXIS
     primitive_grid
     primitive_cube
 
@@ -53,3 +51,15 @@ Primitive Vertices
     primitive_vertices_grid_mpl
     primitive_vertices_cube_mpl
     primitive_vertices_sphere
+
+Hull Section
+------------
+
+``colour.geometry``
+
+.. currentmodule:: colour.geometry
+
+.. autosummary::
+    :toctree: generated/
+
+    hull_section

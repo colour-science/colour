@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE 1964 U*V*W* Colourspace
 ===========================
@@ -15,55 +14,64 @@ References
     http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.models import (UCS_to_uv, UCS_uv_to_xy, XYZ_to_UCS, XYZ_to_xyY,
-                           xy_to_UCS_uv, xyY_to_XYZ, xyY_to_xy)
+from colour.hints import ArrayLike, NDArray
+from colour.models import (
+    UCS_to_uv,
+    UCS_uv_to_xy,
+    XYZ_to_UCS,
+    XYZ_to_xyY,
+    xy_to_UCS_uv,
+    xyY_to_XYZ,
+    xyY_to_xy,
+)
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['XYZ_to_UVW', 'UVW_to_XYZ']
+__all__ = [
+    "XYZ_to_UVW",
+    "UVW_to_XYZ",
+]
 
 
-def XYZ_to_UVW(XYZ,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_UVW(
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
+    Convert from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE 1964 U\\*V\\*W\\** colourspace array.
-
-    Warnings
-    --------
-    The input domain and output range of that definition are non standard!
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | [0, 100]              | [0, 1]          |
     +----------------+-----------------------+-----------------+
     | ``illuminant`` | [0, 1]                | [0, 1]          |
     +----------------+-----------------------+-----------------+
@@ -96,7 +104,7 @@ def XYZ_to_UVW(XYZ,
     xyY = XYZ_to_xyY(XYZ, xy)
     _x, _y, Y = tsplit(xyY)
 
-    u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
+    u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ / 100)))
     u_0, v_0 = tsplit(xy_to_UCS_uv(xy))
 
     W = 25 * spow(Y, 1 / 3) - 17
@@ -108,33 +116,31 @@ def XYZ_to_UVW(XYZ,
     return from_range_100(UVW)
 
 
-def UVW_to_XYZ(UVW,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def UVW_to_XYZ(
+    UVW: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+) -> NDArray:
     """
-    Converts *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
+    Convert *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
     ----------
-    UVW : array_like
+    UVW
         *CIE 1964 U\\*V\\*W\\** colourspace array.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
-
-    Warnings
-    --------
-    The input domain and output range of that definition are non standard!
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -150,7 +156,7 @@ def UVW_to_XYZ(UVW,
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | [0, 100               | [0, 1]          |
     +----------------+-----------------------+-----------------+
 
     References

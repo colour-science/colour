@@ -1,8 +1,6 @@
 Plotting
 ========
 
-.. contents:: :local:
-
 Common
 ------
 
@@ -25,6 +23,19 @@ Common
     plot_single_function
     plot_multi_functions
     plot_image
+
+**Ancillary Objects**
+
+``colour.plotting.common``
+
+.. currentmodule:: colour.plotting.common
+
+.. autosummary::
+    :toctree: generated/
+
+    KwargsArtist
+    KwargsCamera
+    KwargsRender
 
 Colorimetry
 -----------
@@ -151,10 +162,11 @@ Colour Models
 .. autosummary::
     :toctree: generated/
 
-    common_colourspace_model_axis_reorder
+    colourspace_model_axis_reorder
     plot_pointer_gamut
     plot_RGB_colourspaces_in_chromaticity_diagram
     plot_RGB_chromaticities_in_chromaticity_diagram
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram
 
 Colour Notation Systems
 -----------------------
@@ -208,6 +220,31 @@ Colour Quality
 
     plot_colour_quality_bars
 
+Gamut Section Plotting
+----------------------
+
+``colour.plotting``
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_visible_spectrum_section
+    plot_RGB_colourspace_section
+
+**Ancillary Objects**
+
+``colour.plotting.section``
+
+.. currentmodule:: colour.plotting.section
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_hull_section_colours
+    plot_hull_section_contour
+
 Colour Temperature & Correlated Colour Temperature
 --------------------------------------------------
 
@@ -231,9 +268,20 @@ Colour Temperature & Correlated Colour Temperature
     :toctree: generated/
 
     plot_planckian_locus
-    plot_planckian_locus_CIE1931
-    plot_planckian_locus_CIE1960UCS
     plot_planckian_locus_in_chromaticity_diagram
+
+Colour Models Volume
+--------------------
+
+``colour.plotting``
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+
+    plot_RGB_colourspaces_gamuts
+    plot_RGB_scatter
 
 ANSI/IES TM-30-18 Colour Rendition Report
 -----------------------------------------
@@ -259,19 +307,6 @@ ANSI/IES TM-30-18 Colour Rendition Report
     plot_single_sd_colour_rendition_report_full
     plot_single_sd_colour_rendition_report_intermediate
     plot_single_sd_colour_rendition_report_simple
-
-Colour Models Volume
---------------------
-
-``colour.plotting``
-
-.. currentmodule:: colour.plotting
-
-.. autosummary::
-    :toctree: generated/
-
-    plot_RGB_colourspaces_gamuts
-    plot_RGB_scatter
 
 Automatic Colour Conversion Graph
 ---------------------------------

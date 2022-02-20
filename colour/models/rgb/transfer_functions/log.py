@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Common Log Encodings
 ====================
@@ -36,38 +35,63 @@ ACESutil.Log2_to_Lin_param.ctl
     Tables. Retrieved June 24, 2020, from http://j.mp/S-2014-006
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import (as_float, as_float_array, from_range_1,
-                              to_domain_1)
+from colour.hints import (
+    Floating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+    Literal,
+    Optional,
+    Union,
+    cast,
+)
+from colour.utilities import (
+    as_float,
+    as_float_array,
+    from_range_1,
+    optional,
+    to_domain_1,
+    validate_method,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'logarithmic_function_basic', 'logarithmic_function_quasilog',
-    'logarithmic_function_camera', 'log_encoding_Log2', 'log_decoding_Log2'
+    "logarithmic_function_basic",
+    "logarithmic_function_quasilog",
+    "logarithmic_function_camera",
+    "log_encoding_Log2",
+    "log_decoding_Log2",
 ]
 
 FLT_MIN = 1.175494e-38
 
 
-def logarithmic_function_basic(x, style='log2', base=2):
+def logarithmic_function_basic(
+    x: FloatingOrArrayLike,
+    style: Union[
+        Literal["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"],
+        str,
+    ] = "log2",
+    base: Integer = 2,
+) -> FloatingOrNDArray:
     """
-    Defines the basic logarithmic function.
+    Define the basic logarithmic function.
 
     Parameters
     ----------
-    x : numeric
+    x
         The data to undergo basic logarithmic conversion.
-    style : unicode, optional
-        **{'log10', 'antiLog10', 'log2', 'antiLog2', 'logB', 'antiLogB'}**,
+    style
         Defines the behaviour for the logarithmic function to operate:
 
         -   *log10*: Applies a base 10 logarithm to the passed value.
@@ -77,18 +101,13 @@ def logarithmic_function_basic(x, style='log2', base=2):
         -   *logB*: Applies an arbitrary base logarithm to the passed value.
         -   *antiLogB*: Applies an arbitrary base anti-logarithm to the passed
             value.
-    base : numeric, optional
+    base
         Logarithmic base used for the conversion.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Logarithmically converted data.
-
-    Raises
-    ------
-    ValueError
-        If the *style* is not defined.
 
     Examples
     --------
@@ -113,76 +132,68 @@ def logarithmic_function_basic(x, style='log2', base=2):
     """
 
     x = as_float_array(x)
+    style = validate_method(
+        style,
+        ["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"],
+        '"{0}" style is invalid, it must be one of {1}!',
+    )
 
-    style = style.lower()
-    if style == 'log10':
+    if style == "log10":
         return as_float(np.where(x >= FLT_MIN, np.log10(x), np.log10(FLT_MIN)))
-    elif style == 'antilog10':
-        return as_float(10 ** x)
-    elif style == 'log2':
+    elif style == "antilog10":
+        return as_float(10**x)
+    elif style == "log2":
         return as_float(np.where(x >= FLT_MIN, np.log2(x), np.log2(FLT_MIN)))
-    elif style == 'antilog2':
-        return as_float(2 ** x)
-    elif style == 'logb':
+    elif style == "antilog2":
+        return as_float(2**x)
+    elif style == "logb":
         return as_float(np.log(x) / np.log(base))
-    elif style == 'antilogb':
-        return as_float(base ** x)
-    else:
-        raise ValueError(
-            'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(
-                style, ', '.join([
-                    'log10', 'antiLog10', 'log2', 'antiLog2', 'logB',
-                    'antiLogB'
-                ])))
+    else:  # style == 'antilogb'
+        return as_float(base**x)
 
 
-def logarithmic_function_quasilog(x,
-                                  style='linToLog',
-                                  base=2,
-                                  log_side_slope=1,
-                                  lin_side_slope=1,
-                                  log_side_offset=0,
-                                  lin_side_offset=0):
+def logarithmic_function_quasilog(
+    x: FloatingOrArrayLike,
+    style: Union[Literal["linToLog", "logToLin"], str] = "linToLog",
+    base: Integer = 2,
+    log_side_slope: Floating = 1,
+    lin_side_slope: Floating = 1,
+    log_side_offset: Floating = 0,
+    lin_side_offset: Floating = 0,
+) -> FloatingOrNDArray:
     """
-    Defines the quasilog logarithmic function.
+    Define the quasilog logarithmic function.
 
     Parameters
     ----------
-    x : numeric
+    x
         Linear/non-linear data to undergo encoding/decoding.
-    style : unicode, optional
-        **{'linToLog', 'logToLin'}**,
+    style
         Defines the behaviour for the logarithmic function to operate:
 
         -   *linToLog*: Applies a logarithm to convert linear data to
             logarithmic data.
         -   *logToLin*: Applies an anti-logarithm to convert logarithmic
             data to linear data.
-    base : numeric, optional
+    base
         Logarithmic base used for the conversion.
-    log_side_slope : numeric, optional
+    log_side_slope
         Slope (or gain) applied to the log side of the logarithmic function.
         The default value is 1.
-    lin_side_slope : numeric, optional
+    lin_side_slope
         Slope of the linear side of the logarithmic function. The default value
         is 1.
-    log_side_offset : numeric, optional
+    log_side_offset
         Offset applied to the log side of the logarithmic function. The default
         value is 0.
-    lin_side_offset : numeric, optional
+    lin_side_offset
         Offset applied to the linear side of the logarithmic function. The
         default value is 0.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Encoded/Decoded data.
-
-    Raises
-    ------
-    ValueError
-        If the *style* is not defined.
 
     Examples
     --------
@@ -195,42 +206,54 @@ def logarithmic_function_quasilog(x,
     """
 
     x = as_float_array(x)
+    style = validate_method(
+        style,
+        ["lintolog", "logtolin"],
+        '"{0}" style is invalid, it must be one of {1}!',
+    )
 
-    style = style.lower()
-    if style == 'lintolog':
-        return as_float((
-            log_side_slope *
-            (np.log(np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN))
-             / np.log(base)) + log_side_offset))
-    elif style == 'logtolin':
+    if style == "lintolog":
         return as_float(
-            ((base **
-              ((x - log_side_offset) / log_side_slope) - lin_side_offset) /
-             lin_side_slope))
-    else:
-        raise ValueError(
-            'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(style, ', '.join(['linToLog', 'logToLin'])))
+            log_side_slope
+            * (
+                np.log(
+                    np.maximum(lin_side_slope * x + lin_side_offset, FLT_MIN)
+                )
+                / np.log(base)
+            )
+            + log_side_offset
+        )
+    else:  # style == 'logtolin'
+        return as_float(
+            (
+                base ** ((x - log_side_offset) / log_side_slope)
+                - lin_side_offset
+            )
+            / lin_side_slope
+        )
 
 
-def logarithmic_function_camera(x,
-                                style='cameraLinToLog',
-                                base=2,
-                                log_side_slope=1,
-                                lin_side_slope=1,
-                                log_side_offset=0,
-                                lin_side_offset=0,
-                                lin_side_break=0.005,
-                                linear_slope=None):
+def logarithmic_function_camera(
+    x: FloatingOrArrayLike,
+    style: Union[
+        Literal["cameraLinToLog", "cameraLogToLin"], str
+    ] = "cameraLinToLog",
+    base: Integer = 2,
+    log_side_slope: Floating = 1,
+    lin_side_slope: Floating = 1,
+    log_side_offset: Floating = 0,
+    lin_side_offset: Floating = 0,
+    lin_side_break: Floating = 0.005,
+    linear_slope: Optional[Floating] = None,
+) -> FloatingOrNDArray:
     """
-    Defines the camera logarithmic function.
+    Define the camera logarithmic function.
 
     Parameters
     ----------
-    x : numeric
+    x
         Linear/non-linear data to undergo encoding/decoding.
-    style : unicode, optional
-        **{'cameraLinToLog', 'cameraLogToLin'}**,
+    style
         Defines the behaviour for the logarithmic function to operate:
 
         -   *cameraLinToLog*: Applies a piece-wise function with logarithmic
@@ -239,35 +262,30 @@ def logarithmic_function_camera(x,
         -   *cameraLogToLin*: Applies a piece-wise function with logarithmic
             and linear segments on non-linear values, converting them to linear
             values.
-    base : numeric, optional
+    base
         Logarithmic base used for the conversion.
-    log_side_slope : numeric, optional
+    log_side_slope
         Slope (or gain) applied to the log side of the logarithmic segment. The
         default value is 1.
-    lin_side_slope : numeric, optional
+    lin_side_slope
         Slope of the linear side of the logarithmic segment. The default value
         is 1.
-    log_side_offset : numeric, optional
+    log_side_offset
         Offset applied to the log side of the logarithmic segment. The default
         value is 0.
-    lin_side_offset : numeric, optional
+    lin_side_offset
         Offset applied to the linear side of the logarithmic segment. The
         default value is 0.
-    lin_side_break : numeric
+    lin_side_break
         Break-point, defined in linear space, at which the piece-wise function
         transitions between the logarithmic and linear segments.
-    linear_slope : numeric, optional
+    linear_slope
         Slope of the linear portion of the curve. The default value is *None*.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Encoded/Decoded data.
-
-    Raises
-    ------
-    ValueError
-        If the *style* is not defined.
 
     Examples
     --------
@@ -280,64 +298,97 @@ def logarithmic_function_camera(x,
     """
 
     x = as_float_array(x)
+    style = validate_method(
+        style,
+        ["cameraLinToLog", "cameraLogToLin"],
+        '"{0}" style is invalid, it must be one of {1}!',
+    )
 
     log_side_break = (
-        log_side_slope *
-        (np.log(lin_side_slope * lin_side_break + lin_side_offset) /
-         np.log(base)) + log_side_offset)
+        log_side_slope
+        * (
+            np.log(lin_side_slope * lin_side_break + lin_side_offset)
+            / np.log(base)
+        )
+        + log_side_offset
+    )
 
-    if linear_slope is None:
-        linear_slope = (log_side_slope * (lin_side_slope / (
-            (lin_side_slope * lin_side_break + lin_side_offset) * np.log(base))
-                                          ))
+    linear_slope = cast(
+        Floating,
+        optional(
+            linear_slope,
+            (
+                log_side_slope
+                * (
+                    lin_side_slope
+                    / (
+                        (lin_side_slope * lin_side_break + lin_side_offset)
+                        * np.log(base)
+                    )
+                )
+            ),
+        ),
+    )
 
     linear_offset = log_side_break - linear_slope * lin_side_break
 
-    style = style.lower()
-    if style == 'cameralintolog':
+    if style == "cameralintolog":
         return as_float(
             np.where(
-                x <= lin_side_break, linear_slope * x + linear_offset,
+                x <= lin_side_break,
+                linear_slope * x + linear_offset,
                 logarithmic_function_quasilog(
-                    x, 'linToLog', base, log_side_slope, lin_side_slope,
-                    log_side_offset, lin_side_offset)))
-    elif style == 'cameralogtolin':
+                    x,
+                    "linToLog",
+                    base,
+                    log_side_slope,
+                    lin_side_slope,
+                    log_side_offset,
+                    lin_side_offset,
+                ),
+            )
+        )
+    else:  # style == 'cameralogtolin'
         return as_float(
             np.where(
                 x <= log_side_break,
                 (x - linear_offset) / linear_slope,
                 logarithmic_function_quasilog(
-                    x, 'logToLin', base, log_side_slope, lin_side_slope,
-                    log_side_offset, lin_side_offset),
-            ))
-    else:
-        raise ValueError(
-            'Undefined style used: "{0}", must be one of the following: '
-            '"{1}".'.format(style,
-                            ', '.join(['cameraLinToLog', 'cameraLogToLin'])))
+                    x,
+                    "logToLin",
+                    base,
+                    log_side_slope,
+                    lin_side_slope,
+                    log_side_offset,
+                    lin_side_offset,
+                ),
+            )
+        )
 
 
-def log_encoding_Log2(lin,
-                      middle_grey=0.18,
-                      min_exposure=-6.5,
-                      max_exposure=6.5):
+def log_encoding_Log2(
+    lin: FloatingOrArrayLike,
+    middle_grey: Floating = 0.18,
+    min_exposure: Floating = -6.5,
+    max_exposure: Floating = 6.5,
+) -> FloatingOrNDArray:
     """
-    Defines the common *Log2* encoding function.
+    Define the common *Log2* encoding function.
 
     Parameters
     ----------
-    lin : numeric or array_like
+    lin
           Linear data to undergo encoding.
-    middle_grey : numeric, optional
+    middle_grey
           *Middle Grey* exposure value.
-    min_exposure : numeric, optional
+    min_exposure
           Minimum exposure level.
-    max_exposure : numeric, optional
+    max_exposure
           Maximum exposure level.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Non-linear *Log2* encoded data.
 
     Notes
@@ -371,27 +422,29 @@ def log_encoding_Log2(lin,
     return as_float(from_range_1(log_norm))
 
 
-def log_decoding_Log2(log_norm,
-                      middle_grey=0.18,
-                      min_exposure=-6.5,
-                      max_exposure=6.5):
+def log_decoding_Log2(
+    log_norm: FloatingOrArrayLike,
+    middle_grey: Floating = 0.18,
+    min_exposure: Floating = -6.5,
+    max_exposure: Floating = 6.5,
+) -> FloatingOrNDArray:
     """
-    Defines the common *Log2* decoding function.
+    Define the common *Log2* decoding function.
 
     Parameters
     ----------
-    log_norm : numeric or array_like
+    log_norm
         Logarithmic data to undergo decoding.
-    middle_grey : numeric, optional
+    middle_grey
         *Middle Grey* exposure value.
-    min_exposure : numeric, optional
+    min_exposure
         Minimum exposure level.
-    max_exposure : numeric, optional
+    max_exposure
         Maximum exposure level.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear *Log2* decoded data.
 
     Notes
@@ -420,6 +473,6 @@ def log_decoding_Log2(log_norm,
     log_norm = to_domain_1(log_norm)
 
     lg2 = log_norm * (max_exposure - min_exposure) + min_exposure
-    lin = (2 ** lg2) * middle_grey
+    lin = (2**lg2) * middle_grey
 
     return as_float(from_range_1(lin))

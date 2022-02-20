@@ -1,35 +1,37 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases *Colour Rendering Index* (CRI) computations.
-"""
+"""Showcases *Colour Rendering Index* (CRI) computations."""
 
 from pprint import pprint
 
 import colour
 from colour.utilities import message_box
 
-message_box('Colour Rendering Index Computations')
+message_box("Colour Rendering Index Computations")
 
-message_box('Computing "F2" illuminant "Colour Rendering Index (CRI)".')
-print(colour.colour_rendering_index(colour.SDS_ILLUMINANTS['FL2']))
+message_box('Computing the "F2" illuminant "Colour Rendering Index (CRI)".')
+print(colour.colour_rendering_index(colour.SDS_ILLUMINANTS["FL2"]))
 
-print('\n')
+print("\n")
 
-message_box(('Computing "F2" illuminant "Colour Rendering Index" (CRI) with '
-             'detailed output data.'))
+message_box(
+    'Computing the "F2" illuminant "Colour Rendering Index" (CRI) with '
+    "detailed output data."
+)
 pprint(
     colour.colour_rendering_index(
-        colour.SDS_ILLUMINANTS['FL2'], additional_data=True))
+        colour.SDS_ILLUMINANTS["FL2"], additional_data=True
+    )
+)
 
-print('\n')
+print("\n")
 
-message_box('Computing "CIE Standard Illuminant A" '
-            '"Colour Rendering Index (CRI)".')
-print(colour.colour_rendering_index(colour.SDS_ILLUMINANTS['A']))
+message_box(
+    'Computing the "CIE Standard Illuminant A" "Colour Rendering Index (CRI)".'
+)
+print(colour.colour_rendering_index(colour.SDS_ILLUMINANTS["A"]))
 
-print('\n')
+print("\n")
 
-message_box('Computing sample light "Colour Rendering Index (CRI)".')
+message_box('Computing the sample light "Colour Rendering Index (CRI)".')
 data_sample = {
     380: 0.00588346,
     385: 0.00315377,
@@ -111,9 +113,11 @@ data_sample = {
     765: 0.00340568,
     770: 0.00261153,
     775: 0.00258850,
-    780: 0.00293663
+    780: 0.00293663,
 }
 
 print(
     colour.colour_rendering_index(
-        colour.SpectralDistribution(data_sample, name='Sample')))
+        colour.SpectralDistribution(data_sample, name="Sample")
+    )
+)

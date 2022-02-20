@@ -1,75 +1,92 @@
-# -*- coding: utf-8 -*-
+from __future__ import annotations
 
-from __future__ import absolute_import
-
-import sys
-
-from colour.utilities.deprecation import ModuleAPI, build_API_changes
-from colour.utilities.documentation import is_documentation_building
+from colour.colorimetry import SpectralDistribution
+from colour.hints import Floating, Literal, Union
 
 from .datasets import *  # noqa
 from . import datasets
-from .cfi2017 import (ColourRendering_Specification_CIE2017,
-                      colour_fidelity_index_CIE2017)
+from .cfi2017 import (
+    ColourRendering_Specification_CIE2017,
+    colour_fidelity_index_CIE2017,
+)
 from .cri import ColourRendering_Specification_CRI, colour_rendering_index
-from .cqs import (COLOUR_QUALITY_SCALE_METHODS,
-                  ColourRendering_Specification_CQS, colour_quality_scale)
+from .cqs import (
+    COLOUR_QUALITY_SCALE_METHODS,
+    ColourRendering_Specification_CQS,
+    colour_quality_scale,
+)
 from .ssi import spectral_similarity_index
-from .tm3018 import (ColourQuality_Specification_ANSIIESTM3018,
-                     colour_fidelity_index_ANSIIESTM3018)
-from colour.utilities import CaseInsensitiveMapping
+from .tm3018 import (
+    ColourQuality_Specification_ANSIIESTM3018,
+    colour_fidelity_index_ANSIIESTM3018,
+)
+from colour.utilities import CaseInsensitiveMapping, validate_method
 
 __all__ = []
 __all__ += datasets.__all__
 __all__ += [
-    'ColourRendering_Specification_CIE2017', 'colour_fidelity_index_CIE2017'
+    "ColourRendering_Specification_CIE2017",
+    "colour_fidelity_index_CIE2017",
 ]
 __all__ += [
-    'ColourQuality_Specification_ANSIIESTM3018',
-    'colour_fidelity_index_ANSIIESTM3018'
+    "ColourQuality_Specification_ANSIIESTM3018",
+    "colour_fidelity_index_ANSIIESTM3018",
 ]
-__all__ += ['ColourRendering_Specification_CRI', 'colour_rendering_index']
 __all__ += [
-    'ColourRendering_Specification_CQS', 'COLOUR_QUALITY_SCALE_METHODS',
-    'colour_quality_scale'
+    "ColourRendering_Specification_CRI",
+    "colour_rendering_index",
 ]
-__all__ += ['spectral_similarity_index']
+__all__ += [
+    "ColourRendering_Specification_CQS",
+    "COLOUR_QUALITY_SCALE_METHODS",
+    "colour_quality_scale",
+]
+__all__ += [
+    "spectral_similarity_index",
+]
 
-COLOUR_FIDELITY_INDEX_METHODS = CaseInsensitiveMapping({
-    'CIE 2017': colour_fidelity_index_CIE2017,
-    'ANSI/IES TM-30-18': colour_fidelity_index_ANSIIESTM3018,
-})
+COLOUR_FIDELITY_INDEX_METHODS = CaseInsensitiveMapping(
+    {
+        "CIE 2017": colour_fidelity_index_CIE2017,
+        "ANSI/IES TM-30-18": colour_fidelity_index_ANSIIESTM3018,
+    }
+)
 COLOUR_FIDELITY_INDEX_METHODS.__doc__ = """
-Supported  *Colour Fidelity Index* (CFI) computation methods.
+Supported *Colour Fidelity Index* (CFI) computation methods.
 
 References
 ----------
 :cite:`CIETC1-902017`, :cite:`ANSI2018`
-
-COLOUR_FIDELITY_INDEX_METHODS : tuple
-    **{'CIE 2017', 'ANSI/IES TM-30-18'}**
 """
 
 
-def colour_fidelity_index(sd_test, additional_data=False, method='CIE 2017'):
+def colour_fidelity_index(
+    sd_test: SpectralDistribution,
+    additional_data=False,
+    method: Union[Literal["CIE 2017", "ANSI/IES TM-30-18"], str] = "CIE 2017",
+) -> Union[
+    Floating,
+    ColourRendering_Specification_CIE2017,
+    ColourQuality_Specification_ANSIIESTM3018,
+]:
     """
-    Returns the *Colour Fidelity Index* (CFI) :math:`R_f` of given
-    spectral distribution using given method.
+    Return the *Colour Fidelity Index* (CFI) :math:`R_f` of given spectral
+    distribution using given method.
 
     Parameters
     ----------
-    sd_test : SpectralDistribution
+    sd_test
         Test spectral distribution.
-    additional_data : bool, optional
+    additional_data
         Whether to output additional data.
-    method : unicode, optional
-        **{'CIE 2017', 'ANSI/IES TM-30-18'}**,
+    method
         Computation method.
 
     Returns
     -------
-    numeric or ColourRendering_Specification_CIE2017 or \
-ColourQuality_Specification_ANSIIESTM3018
+    :class:`numpy.floating` or \
+:class:`colour.quality.ColourRendering_Specification_CIE2017` or \
+:class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *Colour Fidelity Index* (CFI) :math:`R_f`.
 
     References
@@ -84,51 +101,14 @@ ColourQuality_Specification_ANSIIESTM3018
     70.1208254...
     """
 
+    method = validate_method(method, COLOUR_FIDELITY_INDEX_METHODS)
+
     function = COLOUR_FIDELITY_INDEX_METHODS[method]
 
     return function(sd_test, additional_data)
 
 
-__all__ += ['COLOUR_FIDELITY_INDEX_METHODS', 'colour_fidelity_index']
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class quality(ModuleAPI):
-    def __getattr__(self, attribute):
-        return super(quality, self).__getattr__(attribute)
-
-
-# v0.3.16
-API_CHANGES = {
-    'ObjectRenamed': [
-        [
-            'colour.quality.CQS_Specification',
-            'colour.quality.ColourRendering_Specification_CQS',
-        ],
-        [
-            'colour.quality.CRI_Specification',
-            'colour.quality.ColourRendering_Specification_CRI',
-        ],
-        [
-            'colour.quality.TCS_SDS',
-            'colour.quality.SDS_TCS',
-        ],
-        [
-            'colour.quality.VS_SDS',
-            'colour.quality.SDS_VS',
-        ],
-    ]
-}
-"""
-Defines *colour.quality* sub-package API changes.
-
-API_CHANGES : dict
-"""
-
-if not is_documentation_building():
-    sys.modules['colour.quality'] = quality(sys.modules['colour.quality'],
-                                            build_API_changes(API_CHANGES))
-
-    del ModuleAPI, is_documentation_building, build_API_changes, sys
+__all__ += [
+    "COLOUR_FIDELITY_INDEX_METHODS",
+    "colour_fidelity_index",
+]

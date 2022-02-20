@@ -1,53 +1,53 @@
-# -*- coding: utf-8 -*-
 """
 X-Rite Data Input
 =================
 
-Defines input object for *X-Rite* spectral data files:
+Defines the input object for *X-Rite* spectral data files:
 
 -   :func:`colour.read_sds_from_xrite_file`
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import codecs
 import re
-from collections import OrderedDict
 
 from colour.colorimetry import SpectralDistribution
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.hints import Dict
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['XRITE_FILE_ENCODING', 'read_sds_from_xrite_file']
+__all__ = [
+    "XRITE_FILE_ENCODING",
+    "read_sds_from_xrite_file",
+]
 
-XRITE_FILE_ENCODING = 'utf-8'
+XRITE_FILE_ENCODING: str = "utf-8"
 
 
-def read_sds_from_xrite_file(path):
+def read_sds_from_xrite_file(path: str) -> Dict[str, SpectralDistribution]:
     """
-    Reads the spectral data from given *X-Rite* file and returns it as an
-    *OrderedDict* of :class:`colour.SpectralDistribution` classes.
+    Read the spectral data from given *X-Rite* file and returns it as a
+    *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
     ----------
-    path : unicode
+    path
         Absolute *X-Rite* file path.
 
     Returns
     -------
-    OrderedDict
-        :class:`colour.SpectralDistribution` classes of given *X-Rite*
-        file.
+    :class:`dict`
+        *Dict* of :class:`colour.SpectralDistribution` class instances.
 
     Notes
     -----
-    -   This parser is minimalistic and absolutely not bullet proof.
+    -   This parser is minimalistic and absolutely not bullet-proof.
 
     Examples
     --------
@@ -62,36 +62,33 @@ def read_sds_from_xrite_file(path):
     """
 
     with codecs.open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
-        lines = xrite_file.read().strip().split('\n')
+        lines = xrite_file.read().strip().split("\n")
 
-        xrite_sds = OrderedDict()
+        xrite_sds = {}
         is_spectral_data_format, is_spectral_data = False, False
         for line in lines:
             line = line.strip()
 
-            if line == 'END_DATA_FORMAT':
+            if line == "END_DATA_FORMAT":
                 is_spectral_data_format = False
 
-            if line == 'END_DATA':
+            if line == "END_DATA":
                 is_spectral_data = False
 
             if is_spectral_data_format:
-                wavelengths = [
-                    DEFAULT_FLOAT_DTYPE(x)
-                    for x in re.findall('nm(\\d+)', line)
-                ]
+                wavelengths = [x for x in re.findall("nm(\\d+)", line)]
                 index = len(wavelengths)
 
             if is_spectral_data:
                 tokens = line.split()
-                values = [DEFAULT_FLOAT_DTYPE(x) for x in tokens[-index:]]
-                xrite_sds[tokens[1]] = (SpectralDistribution(
-                    dict(zip(wavelengths, values)), name=tokens[1]))
+                xrite_sds[tokens[1]] = SpectralDistribution(
+                    tokens[-index:], wavelengths, name=tokens[1]
+                )
 
-            if line == 'BEGIN_DATA_FORMAT':
+            if line == "BEGIN_DATA_FORMAT":
                 is_spectral_data_format = True
 
-            if line == 'BEGIN_DATA':
+            if line == "BEGIN_DATA":
                 is_spectral_data = True
 
         return xrite_sds

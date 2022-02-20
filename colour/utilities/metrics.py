@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Metrics
 =======
@@ -17,34 +16,50 @@ References
     https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import as_float_array
+from colour.utilities import as_float, as_float_array
+from colour.hints import (
+    ArrayLike,
+    FloatingOrNDArray,
+    Integer,
+    Number,
+    Optional,
+    Tuple,
+    Union,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['metric_mse', 'metric_psnr']
+__all__ = [
+    "metric_mse",
+    "metric_psnr",
+]
 
 
-def metric_mse(a, b, axis=None):
+def metric_mse(
+    a: ArrayLike,
+    b: ArrayLike,
+    axis: Optional[Union[Integer, Tuple[Integer]]] = None,
+) -> FloatingOrNDArray:
     """
-    Computes the mean squared error (MSE) or mean squared deviation (MSD)
-    between given *array_like* :math:`a` and :math:`b` variables.
+    Compute the mean squared error (MSE) or mean squared deviation (MSD)
+    between given variables :math:`a` and :math:`b`.
 
     Parameters
     ----------
-    a : array_like
-        :math:`a` variable.
-    b : array_like
-        :math:`b` variable.
-    axis : None or int or tuple of ints, optional
+    a
+        Variable :math:`a`.
+    b
+        Variable :math:`b`.
+    axis
         Axis or axes along which the means are computed. The default is to
         compute the mean of the flattened array.
         If this is a tuple of ints, a mean is performed over multiple axes,
@@ -52,7 +67,7 @@ def metric_mse(a, b, axis=None):
 
     Returns
     -------
-    float
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Mean squared error (MSE).
 
     References
@@ -67,23 +82,30 @@ def metric_mse(a, b, axis=None):
     0.0012714...
     """
 
-    return np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
+    return as_float(
+        np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis)
+    )
 
 
-def metric_psnr(a, b, max_a=1, axis=None):
+def metric_psnr(
+    a: ArrayLike,
+    b: ArrayLike,
+    max_a: Number = 1,
+    axis: Optional[Union[Integer, Tuple[Integer]]] = None,
+) -> FloatingOrNDArray:
     """
-    Computes the peak signal-to-noise ratio (PSNR) between given *array_like*
-    :math:`a` and :math:`b` variables.
+    Compute the peak signal-to-noise ratio (PSNR) between given variables
+    :math:`a` and :math:`b`.
 
     Parameters
     ----------
-    a : array_like
-        :math:`a` variable.
-    b : array_like
-        :math:`b` variable.
-    max_a : numeric, optional
+    a
+        Variable :math:`a`.
+    b
+        Variable :math:`b`.
+    max_a
         Maximum possible pixel value of the :math:`a` variable.
-    axis : None or int or tuple of ints, optional
+    axis
         Axis or axes along which the means are computed. The default is to
         compute the mean of the flattened array.
         If this is a tuple of ints, a mean is performed over multiple axes,
@@ -91,7 +113,7 @@ def metric_psnr(a, b, max_a=1, axis=None):
 
     Returns
     -------
-    float
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Peak signal-to-noise ratio (PSNR).
 
     References
@@ -106,4 +128,4 @@ def metric_psnr(a, b, max_a=1, axis=None):
     28.9568515...
     """
 
-    return 10 * np.log10(max_a ** 2 / metric_mse(a, b, axis))
+    return as_float(10 * np.log10(max_a**2 / metric_mse(a, b, axis)))

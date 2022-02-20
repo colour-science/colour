@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Generation
 ===================
@@ -33,48 +32,84 @@ References
 usp=sharing
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.colorimetry import (
-    SPECTRAL_SHAPE_DEFAULT, MultiSpectralDistributions, SpectralDistribution)
-from colour.utilities import CaseInsensitiveMapping, as_float_array, full, ones
+    SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
+    SpectralDistribution,
+    SpectralShape,
+)
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Floating,
+    Literal,
+    NDArray,
+    Optional,
+    Sequence,
+    Union,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float_array,
+    full,
+    ones,
+    validate_method,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'sd_constant', 'sd_zeros', 'sd_ones', 'msds_constant', 'msds_zeros',
-    'msds_ones', 'sd_gaussian_normal', 'sd_gaussian_fwhm',
-    'SD_GAUSSIAN_METHODS', 'sd_gaussian', 'sd_single_led_Ohno2005',
-    'SD_SINGLE_LED_METHODS', 'sd_single_led', 'sd_multi_leds_Ohno2005',
-    'SD_MULTI_LEDS_METHODS', 'sd_multi_leds'
+    "sd_constant",
+    "sd_zeros",
+    "sd_ones",
+    "msds_constant",
+    "msds_zeros",
+    "msds_ones",
+    "sd_gaussian_normal",
+    "sd_gaussian_fwhm",
+    "SD_GAUSSIAN_METHODS",
+    "sd_gaussian",
+    "sd_single_led_Ohno2005",
+    "SD_SINGLE_LED_METHODS",
+    "sd_single_led",
+    "sd_multi_leds_Ohno2005",
+    "SD_MULTI_LEDS_METHODS",
+    "sd_multi_leds",
 ]
 
 
-def sd_constant(k, shape=SPECTRAL_SHAPE_DEFAULT, dtype=None):
+def sd_constant(
+    k: Floating, shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
+) -> SpectralDistribution:
     """
-    Returns a spectral distribution of given spectral shape filled with
+    Return a spectral distribution of given spectral shape filled with
     constant :math:`k` values.
 
     Parameters
     ----------
-    k : numeric
+    k
         Constant :math:`k` to fill the spectral distribution with.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
-    dtype : type
-        Data type used for the spectral distribution.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:class:`colour.SpectralDistribution`},
+        See the documentation of the previously listed class.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Constant :math:`k` filled spectral distribution.
 
     Notes
@@ -91,28 +126,35 @@ def sd_constant(k, shape=SPECTRAL_SHAPE_DEFAULT, dtype=None):
     100.0
     """
 
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
+    settings = {"name": f"{k} Constant"}
+    settings.update(kwargs)
 
-    wavelengths = shape.range(dtype)
-    values = full(len(wavelengths), k, dtype)
+    wavelengths = shape.range()
+    values = full(len(wavelengths), k)
 
-    name = '{0} Constant'.format(k)
-    return SpectralDistribution(values, wavelengths, name=name, dtype=dtype)
+    return SpectralDistribution(values, wavelengths, **settings)
 
 
-def sd_zeros(shape=SPECTRAL_SHAPE_DEFAULT):
+def sd_zeros(
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
+) -> SpectralDistribution:
     """
-    Returns a spectral distribution of given spectral shape filled with zeros.
+    Return a spectral distribution of given spectral shape filled with zeros.
 
     Parameters
     ----------
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.sd_constant`},
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Zeros filled spectral distribution.
 
     Notes
@@ -129,21 +171,29 @@ def sd_zeros(shape=SPECTRAL_SHAPE_DEFAULT):
     0.0
     """
 
-    return sd_constant(0, shape)
+    return sd_constant(0, shape, **kwargs)
 
 
-def sd_ones(shape=SPECTRAL_SHAPE_DEFAULT):
+def sd_ones(
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT, **kwargs: Any
+) -> SpectralDistribution:
     """
-    Returns a spectral distribution of given spectral shape filled with ones.
+    Return a spectral distribution of given spectral shape filled with ones.
 
     Parameters
     ----------
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.sd_constant`},
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Ones filled spectral distribution.
 
     Notes
@@ -160,29 +210,38 @@ def sd_ones(shape=SPECTRAL_SHAPE_DEFAULT):
     1.0
     """
 
-    return sd_constant(1, shape)
+    return sd_constant(1, shape, **kwargs)
 
 
-def msds_constant(k, labels, shape=SPECTRAL_SHAPE_DEFAULT, dtype=None):
+def msds_constant(
+    k: Floating,
+    labels: Sequence,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    **kwargs: Any,
+) -> MultiSpectralDistributions:
     """
-    Returns the multi-spectral distributions with given labels and given
+    Return the multi-spectral distributions with given labels and given
     spectral shape filled with constant :math:`k` values.
 
     Parameters
     ----------
-    k : numeric
+    k
         Constant :math:`k` to fill the multi-spectral distributions with.
-    labels : array_like
+    labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the multi-spectral distributions.
-    dtype : type
-        Data type used for the multi-spectral distributions.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:class:`colour.MultiSpectralDistributions`},
+        See the documentation of the previously listed class.
 
     Returns
     -------
-    MultiSpectralDistributions
+    :class:`colour.MultiSpectralDistributions`
         Constant :math:`k` filled multi-spectral distributions.
 
     Notes
@@ -201,33 +260,43 @@ def msds_constant(k, labels, shape=SPECTRAL_SHAPE_DEFAULT, dtype=None):
     ['a', 'b', 'c']
     """
 
-    if dtype is None:
-        dtype = DEFAULT_FLOAT_DTYPE
+    settings = {"name": f"{k} Constant"}
+    settings.update(kwargs)
 
-    wavelengths = shape.range(dtype)
-    values = full([len(wavelengths), len(labels)], k, dtype)
+    wavelengths = shape.range()
+    values = full((len(wavelengths), len(labels)), k)
 
-    name = '{0} Constant'.format(k)
     return MultiSpectralDistributions(
-        values, wavelengths, name=name, labels=labels, dtype=dtype)
+        values, wavelengths, labels=labels, **settings
+    )
 
 
-def msds_zeros(labels, shape=SPECTRAL_SHAPE_DEFAULT):
+def msds_zeros(
+    labels: Sequence,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    **kwargs: Any,
+) -> MultiSpectralDistributions:
     """
-    Returns the multi-spectral distributionss with given labels and given
+    Return the multi-spectral distributionss with given labels and given
     spectral shape filled with zeros.
 
     Parameters
     ----------
-    labels : array_like
+    labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the multi-spectral distributions.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.msds_constant`},
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    MultiSpectralDistributions
+    :class:`colour.MultiSpectralDistributions`
         Zeros filled multi-spectral distributions.
 
     Notes
@@ -246,25 +315,35 @@ def msds_zeros(labels, shape=SPECTRAL_SHAPE_DEFAULT):
     ['a', 'b', 'c']
     """
 
-    return msds_constant(0, labels, shape)
+    return msds_constant(0, labels, shape, **kwargs)
 
 
-def msds_ones(labels, shape=SPECTRAL_SHAPE_DEFAULT):
+def msds_ones(
+    labels: Sequence,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    **kwargs: Any,
+) -> MultiSpectralDistributions:
     """
-    Returns the multi-spectral distributionss with given labels and given
+    Return the multi-spectral distributionss with given labels and given
     spectral shape filled with ones.
 
     Parameters
     ----------
-    labels : array_like
+    labels
         Names to use for the :class:`colour.SpectralDistribution` class
         instances.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the multi-spectral distributions.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.msds_constant`},
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    MultiSpectralDistributions
+    :class:`colour.MultiSpectralDistributions`
         Ones filled multi-spectral distributions.
 
     Notes
@@ -283,27 +362,38 @@ def msds_ones(labels, shape=SPECTRAL_SHAPE_DEFAULT):
     ['a', 'b', 'c']
     """
 
-    return msds_constant(1, labels, shape)
+    return msds_constant(1, labels, shape, **kwargs)
 
 
-def sd_gaussian_normal(mu, sigma, shape=SPECTRAL_SHAPE_DEFAULT):
+def sd_gaussian_normal(
+    mu: Floating,
+    sigma: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    **kwargs: Any,
+) -> SpectralDistribution:
     """
-    Returns a gaussian spectral distribution of given spectral shape at
+    Return a gaussian spectral distribution of given spectral shape at
     given mean wavelength :math:`\\mu` and standard deviation :math:`sigma`.
 
     Parameters
     ----------
-    mu : numeric
+    mu
         Mean wavelength :math:`\\mu` the gaussian spectral distribution will
         peak at.
-    sigma : numeric
+    sigma
         Standard deviation :math:`sigma` of the gaussian spectral distribution.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:class:`colour.SpectralDistribution`},
+        See the documentation of the previously listed class.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Gaussian spectral distribution.
 
     Notes
@@ -322,34 +412,46 @@ def sd_gaussian_normal(mu, sigma, shape=SPECTRAL_SHAPE_DEFAULT):
     0.6065306...
     """
 
+    settings = {"name": f"{mu}nm - {sigma} Sigma - Gaussian"}
+    settings.update(kwargs)
+
     wavelengths = shape.range()
 
-    values = np.exp(-(wavelengths - mu) ** 2 / (2 * sigma ** 2.))
+    values = np.exp(-((wavelengths - mu) ** 2) / (2 * sigma**2))
 
-    name = '{0}nm - {1} Sigma - Gaussian'.format(mu, sigma)
-
-    return SpectralDistribution(values, wavelengths, name=name)
+    return SpectralDistribution(values, wavelengths, **settings)
 
 
-def sd_gaussian_fwhm(peak_wavelength, fwhm, shape=SPECTRAL_SHAPE_DEFAULT):
+def sd_gaussian_fwhm(
+    peak_wavelength: Floating,
+    fwhm: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    **kwargs: Any,
+) -> SpectralDistribution:
     """
-    Returns a gaussian spectral distribution of given spectral shape at given
+    Return a gaussian spectral distribution of given spectral shape at given
     peak wavelength and full width at half maximum.
 
     Parameters
     ----------
-    peak_wavelength : numeric
+    peak_wavelength
         Wavelength the gaussian spectral distribution will peak at.
-    fwhm : numeric
+    fwhm
         Full width at half maximum, i.e. width of the gaussian spectral
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:class:`colour.SpectralDistribution`},
+        See the documentation of the previously listed class.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Gaussian spectral distribution.
 
     Notes
@@ -368,54 +470,60 @@ def sd_gaussian_fwhm(peak_wavelength, fwhm, shape=SPECTRAL_SHAPE_DEFAULT):
     0.3678794...
     """
 
+    settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Gaussian"}
+    settings.update(kwargs)
+
     wavelengths = shape.range()
 
-    values = np.exp(-((wavelengths - peak_wavelength) / fwhm) ** 2)
+    values = np.exp(-(((wavelengths - peak_wavelength) / fwhm) ** 2))
 
-    name = '{0}nm - {1} FWHM - Gaussian'.format(peak_wavelength, fwhm)
-
-    return SpectralDistribution(values, wavelengths, name=name)
+    return SpectralDistribution(values, wavelengths, **settings)
 
 
-SD_GAUSSIAN_METHODS = CaseInsensitiveMapping({
-    'Normal': sd_gaussian_normal,
-    'FWHM': sd_gaussian_fwhm
-})
+SD_GAUSSIAN_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {"Normal": sd_gaussian_normal, "FWHM": sd_gaussian_fwhm}
+)
 SD_GAUSSIAN_METHODS.__doc__ = """
 Supported gaussian spectral distribution computation methods.
-
-SD_GAUSSIAN_METHODS : CaseInsensitiveMapping
-    **{'Normal', 'FWHM'}**
 """
 
 
-def sd_gaussian(mu_peak_wavelength,
-                sigma_fwhm,
-                shape=SPECTRAL_SHAPE_DEFAULT,
-                method='Normal'):
+def sd_gaussian(
+    mu_peak_wavelength: Floating,
+    sigma_fwhm: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    method: Union[Literal["Normal", "FWHM"], str] = "Normal",
+    **kwargs: Any,
+) -> SpectralDistribution:
     """
-    Returns a gaussian spectral distribution of given spectral shape using
+    Return a gaussian spectral distribution of given spectral shape using
     given method.
 
     Parameters
     ----------
-    mu_peak_wavelength : numeric
+    mu_peak_wavelength
         Mean wavelength :math:`\\mu` the gaussian spectral distribution will
         peak at.
-    sigma_fwhm : numeric
+    sigma_fwhm
         Standard deviation :math:`sigma` of the gaussian spectral distribution
         or Full width at half maximum, i.e. width of the gaussian spectral
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
-    method : unicode, optional
-        **{'Normal', 'FWHM'}**,
+    method
         Computation method.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.colorimetry.sd_gaussian_normal`,
+        :func:`colour.colorimetry.sd_gaussian_fwhm`},
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Gaussian spectral distribution.
 
     Notes
@@ -441,30 +549,44 @@ def sd_gaussian(mu_peak_wavelength,
     0.3678794...
     """
 
-    return SD_GAUSSIAN_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape)
+    method = validate_method(method, SD_GAUSSIAN_METHODS)
+
+    return SD_GAUSSIAN_METHODS[method](
+        mu_peak_wavelength, sigma_fwhm, shape, **kwargs
+    )
 
 
-def sd_single_led_Ohno2005(peak_wavelength, fwhm,
-                           shape=SPECTRAL_SHAPE_DEFAULT):
+def sd_single_led_Ohno2005(
+    peak_wavelength: Floating,
+    fwhm: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    **kwargs: Any,
+) -> SpectralDistribution:
     """
-    Returns a single *LED* spectral distribution of given spectral shape at
+    Return a single *LED* spectral distribution of given spectral shape at
     given peak wavelength and full width at half maximum according to
     *Ohno (2005)* method.
 
     Parameters
     ----------
-    peak_wavelength : numeric
+    peak_wavelength
         Wavelength the single *LED* spectral distribution will peak at.
-    fwhm : numeric
+    fwhm
         Full width at half maximum, i.e. width of the underlying gaussian
         spectral distribution measured between those points on the *y* axis
         which are half the maximum amplitude.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.colorimetry.sd_gaussian_fwhm`},
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Single *LED* spectral distribution.
 
     Notes
@@ -485,53 +607,60 @@ def sd_single_led_Ohno2005(peak_wavelength, fwhm,
     1.0000000...
     """
 
-    sd = sd_gaussian_fwhm(peak_wavelength, fwhm, shape)
+    settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM LED - Ohno (2005)"}
+    settings.update(kwargs)
 
-    sd.values = (sd.values + 2 * sd.values ** 5) / 3
+    sd = sd_gaussian_fwhm(peak_wavelength, fwhm, shape, **kwargs)
 
-    sd.name = '{0}nm - {1} FWHM LED - Ohno (2005)'.format(
-        peak_wavelength, fwhm)
+    sd.values = (sd.values + 2 * sd.values**5) / 3
 
     return sd
 
 
-SD_SINGLE_LED_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': sd_single_led_Ohno2005,
-})
+SD_SINGLE_LED_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Ohno 2005": sd_single_led_Ohno2005,
+    }
+)
 SD_SINGLE_LED_METHODS.__doc__ = """
 Supported single *LED* spectral distribution computation methods.
-
-SD_SINGLE_LED_METHODS : CaseInsensitiveMapping
-    **{'Ohno 2005'}**
 """
 
 
-def sd_single_led(peak_wavelength,
-                  fwhm,
-                  shape=SPECTRAL_SHAPE_DEFAULT,
-                  method='Ohno 2005'):
+def sd_single_led(
+    peak_wavelength: Floating,
+    fwhm: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    method: Union[Literal["Ohno 2005"], str] = "Ohno 2005",
+    **kwargs: Any,
+) -> SpectralDistribution:
     """
-    Returns a single *LED* spectral distribution of given spectral shape at
+    Return a single *LED* spectral distribution of given spectral shape at
     given peak wavelength and full width at half maximum according to given
     method.
 
     Parameters
     ----------
-    peak_wavelength : numeric
+    peak_wavelength
         Wavelength the single *LED* spectral distribution will peak at.
-    fwhm : numeric
+    fwhm
         Full width at half maximum, i.e. width of the underlying gaussian
         spectral distribution measured between those points on the *y*
         axis which are half the maximum amplitude.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
-    method : unicode, optional
-        **{'Ohno 2005'}**,
+    method
         Computation method.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.colorimetry.sd_single_led_Ohno2005`},
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Single *LED* spectral distribution.
 
     Notes
@@ -552,40 +681,53 @@ def sd_single_led(peak_wavelength,
     1.0000000...
     """
 
-    return SD_SINGLE_LED_METHODS[method](peak_wavelength, fwhm, shape)
+    method = validate_method(method, SD_SINGLE_LED_METHODS)
+
+    return SD_SINGLE_LED_METHODS[method](
+        peak_wavelength, fwhm, shape, **kwargs
+    )
 
 
-def sd_multi_leds_Ohno2005(peak_wavelengths,
-                           fwhm,
-                           peak_power_ratios=None,
-                           shape=SPECTRAL_SHAPE_DEFAULT):
+def sd_multi_leds_Ohno2005(
+    peak_wavelengths: ArrayLike,
+    fwhm: ArrayLike,
+    peak_power_ratios: Optional[ArrayLike] = None,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    **kwargs: Any,
+) -> SpectralDistribution:
     """
-    Returns a multi *LED* spectral distribution of given spectral shape at
+    Return a multi *LED* spectral distribution of given spectral shape at
     given peak wavelengths and full widths at half maximum according to
     *Ohno (2005)* method.
 
-    The multi *LED* spectral distribution is generated using many single
-    *LED* spectral distributions generated with
-    :func:`colour.sd_single_led_Ohno2005` definition.
+    The multi *LED* spectral distribution is generated using many single *LED*
+    spectral distributions generated with :func:`colour.sd_single_led_Ohno2005`
+    definition.
 
     Parameters
     ----------
-    peak_wavelengths : array_like
+    peak_wavelengths
         Wavelengths the multi *LED* spectral distribution will peak at, i.e.
         the peaks for each generated single *LED* spectral distributions.
-    fwhm : array_like
+    fwhm
         Full widths at half maximum, i.e. widths of the underlying gaussian
         spectral distributions measured between those points on the *y* axis
         which are half the maximum amplitude.
-    peak_power_ratios : array_like, optional
+    peak_power_ratios
         Peak power ratios for each generated single *LED* spectral
         distributions.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.colorimetry.sd_single_led_Ohno2005`},
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Multi *LED* spectral distribution.
 
     Notes
@@ -615,85 +757,84 @@ def sd_multi_leds_Ohno2005(peak_wavelengths,
     if peak_power_ratios is None:
         peak_power_ratios = ones(peak_wavelengths.shape)
     else:
-        peak_power_ratios = np.resize(peak_power_ratios,
-                                      peak_wavelengths.shape)
+        peak_power_ratios = np.resize(
+            peak_power_ratios, peak_wavelengths.shape
+        )
 
     sd = sd_zeros(shape)
 
     for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
-            peak_wavelengths, fwhm, peak_power_ratios):
-        sd += sd_single_led_Ohno2005(peak_wavelength,
-                                     fwhm_s) * peak_power_ratio
+        peak_wavelengths, fwhm, peak_power_ratios
+    ):
+        sd += (  # type: ignore[misc]
+            sd_single_led_Ohno2005(peak_wavelength, fwhm_s, **kwargs)
+            * peak_power_ratio
+        )
 
-    def _format_array(a):
-        """
-        Formats given array :math:`a`.
+    def _format_array(a: NDArray) -> str:
+        """Format given array :math:`a`."""
 
-        Parameters
-        ----------
-        a : array_like
-            Array to format
-
-        Returns
-        -------
-        unicode
-            Formatted array :math:`a`.
-        """
-
-        return ', '.join([str(e) for e in a])
+        return ", ".join([str(e) for e in a])
 
     sd.name = (
-        '{0}nm - {1}FWHM - {2} Peak Power Ratios - LED - Ohno (2005)'.format(
-            _format_array(peak_wavelengths),
-            _format_array(fwhm),
-            _format_array(peak_power_ratios),
-        ))
+        f"{_format_array(peak_wavelengths)}nm - "
+        f"{_format_array(fwhm)}FWHM - "
+        f"{_format_array(peak_power_ratios)} Peak Power Ratios - "
+        f"LED - Ohno (2005)"
+    )
 
     return sd
 
 
-SD_MULTI_LEDS_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': sd_multi_leds_Ohno2005,
-})
+SD_MULTI_LEDS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Ohno 2005": sd_multi_leds_Ohno2005,
+    }
+)
 SD_MULTI_LEDS_METHODS.__doc__ = """
 Supported multi *LED* spectral distribution computation methods.
-
-SD_MULTI_LEDS_METHODS : CaseInsensitiveMapping
-    **{'Ohno 2005'}**
 """
 
 
-def sd_multi_leds(peak_wavelengths,
-                  fwhm,
-                  peak_power_ratios=None,
-                  shape=SPECTRAL_SHAPE_DEFAULT,
-                  method='Ohno 2005'):
+def sd_multi_leds(
+    peak_wavelengths: ArrayLike,
+    fwhm: ArrayLike,
+    peak_power_ratios: Optional[ArrayLike] = None,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    method: Union[Literal["Ohno 2005"], str] = "Ohno 2005",
+    **kwargs: Any,
+) -> SpectralDistribution:
     """
-    Returns a multi *LED* spectral distribution of given spectral shape at
+    Return a multi *LED* spectral distribution of given spectral shape at
     given peak wavelengths and full widths at half maximum according to given
     method.
 
     Parameters
     ----------
-    peak_wavelengths : array_like
+    peak_wavelengths
         Wavelengths the multi *LED* spectral distribution will peak at, i.e.
         the peaks for each generated single *LED* spectral distributions.
-    fwhm : array_like
+    fwhm
         Full widths at half maximum, i.e. widths of the underlying gaussian
         spectral distributions measured between those points on the *y* axis
         which are half the maximum amplitude.
-    peak_power_ratios : array_like, optional
+    peak_power_ratios
         Peak power ratios for each generated single *LED* spectral
         distributions.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution.
-    method : unicode, optional
-        **{'Ohno 2005'}**,
+    method
         Computation method.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.colorimetry.sd_multi_leds_Ohno2005`},
+        See the documentation of the previously listed definition.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Multi *LED* spectral distribution.
 
     Notes
@@ -718,5 +859,8 @@ def sd_multi_leds(peak_wavelengths,
     0.1295132...
     """
 
-    return SD_MULTI_LEDS_METHODS[method](peak_wavelengths, fwhm,
-                                         peak_power_ratios, shape)
+    method = validate_method(method, SD_MULTI_LEDS_METHODS)
+
+    return SD_MULTI_LEDS_METHODS[method](
+        peak_wavelengths, fwhm, peak_power_ratios, shape, **kwargs
+    )

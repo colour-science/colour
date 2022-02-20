@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases *CIE XYZ* tristimulus values computations.
-"""
+"""Showcases *CIE XYZ* tristimulus values computations."""
 
 import numpy as np
 
@@ -91,52 +88,158 @@ data_sample = {
     765: 0.465,
     770: 0.448,
     775: 0.432,
-    780: 0.421
+    780: 0.421,
 }
 
-sd_sample = colour.SpectralDistribution(data_sample, name='Sample')
+sd_sample = colour.SpectralDistribution(data_sample, name="Sample")
 
-cmfs = colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-illuminant = colour.SDS_ILLUMINANTS['A']
+cmfs = colour.MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+illuminant = colour.SDS_ILLUMINANTS["A"]
 
-message_box(('Computing *CIE XYZ* tristimulus values for sample spectral '
-             'distribution and "CIE Standard Illuminant A".'))
+message_box(
+    "Computing *CIE XYZ* tristimulus values for sample spectral distribution "
+    'and "CIE Standard Illuminant A".'
+)
 print(colour.sd_to_XYZ(sd_sample, cmfs, illuminant))
 
-print('\n')
+print("\n")
 
-message_box(('Computing "CIE Standard Illuminant A" chromaticity coordinates '
-             'from its spectral distribution.'))
+message_box(
+    'Computing "CIE Standard Illuminant A" chromaticity coordinates from its '
+    "spectral distribution."
+)
 print(colour.XYZ_to_xy(colour.sd_to_XYZ(illuminant, cmfs) / 100))
 
-print('\n')
+print("\n")
 
-message_box(('Computing *CIE XYZ* tristimulus values for a single given '
-             'wavelength in nm.'))
+message_box(
+    "Computing *CIE XYZ* tristimulus values for a single given wavelength in "
+    "nm."
+)
 print(
     colour.wavelength_to_XYZ(
-        546.1, colour.MSDS_CMFS['CIE 1931 2 Degree Standard Observer']))
+        546.1, colour.MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    )
+)
 
-message_box(('Computing *CIE XYZ* tristimulus values from given '
-             'multi-spectral image with shape (4, 3, 6).'))
-msds = np.array([
-    [[0.01367208, 0.09127947, 0.01524376, 0.02810712, 0.19176012, 0.04299992],
-     [0.00959792, 0.25822842, 0.41388571, 0.22275120, 0.00407416, 0.37439537],
-     [0.01791409, 0.29707789, 0.56295109, 0.23752193, 0.00236515, 0.58190280]],
-    [[0.01492332, 0.10421912, 0.02240025, 0.03735409, 0.57663846, 0.32416266],
-     [0.04180972, 0.26402685, 0.03572137, 0.00413520, 0.41808194, 0.24696727],
-     [0.00628672, 0.11454948, 0.02198825, 0.39906919, 0.63640803, 0.01139849]],
-    [[0.04325933, 0.26825359, 0.23732357, 0.05175860, 0.01181048, 0.08233768],
-     [0.02484169, 0.12027161, 0.00541695, 0.00654612, 0.18603799, 0.36247808],
-     [0.03102159, 0.16815442, 0.37186235, 0.08610666, 0.00413520, 0.78492409]],
-    [[0.11682307, 0.78883040, 0.74468607, 0.83375293, 0.90571451, 0.70054168],
-     [0.06321812, 0.41898224, 0.15190357, 0.24591440, 0.55301750, 0.00657664],
-     [0.00305180, 0.11288624, 0.11357290, 0.12924391, 0.00195315, 0.21771573]],
-])
+message_box(
+    "Computing *CIE XYZ* tristimulus values from given multi-spectral image "
+    "with shape (4, 3, 6)."
+)
+msds = np.array(
+    [
+        [
+            [
+                0.01367208,
+                0.09127947,
+                0.01524376,
+                0.02810712,
+                0.19176012,
+                0.04299992,
+            ],
+            [
+                0.00959792,
+                0.25822842,
+                0.41388571,
+                0.22275120,
+                0.00407416,
+                0.37439537,
+            ],
+            [
+                0.01791409,
+                0.29707789,
+                0.56295109,
+                0.23752193,
+                0.00236515,
+                0.58190280,
+            ],
+        ],
+        [
+            [
+                0.01492332,
+                0.10421912,
+                0.02240025,
+                0.03735409,
+                0.57663846,
+                0.32416266,
+            ],
+            [
+                0.04180972,
+                0.26402685,
+                0.03572137,
+                0.00413520,
+                0.41808194,
+                0.24696727,
+            ],
+            [
+                0.00628672,
+                0.11454948,
+                0.02198825,
+                0.39906919,
+                0.63640803,
+                0.01139849,
+            ],
+        ],
+        [
+            [
+                0.04325933,
+                0.26825359,
+                0.23732357,
+                0.05175860,
+                0.01181048,
+                0.08233768,
+            ],
+            [
+                0.02484169,
+                0.12027161,
+                0.00541695,
+                0.00654612,
+                0.18603799,
+                0.36247808,
+            ],
+            [
+                0.03102159,
+                0.16815442,
+                0.37186235,
+                0.08610666,
+                0.00413520,
+                0.78492409,
+            ],
+        ],
+        [
+            [
+                0.11682307,
+                0.78883040,
+                0.74468607,
+                0.83375293,
+                0.90571451,
+                0.70054168,
+            ],
+            [
+                0.06321812,
+                0.41898224,
+                0.15190357,
+                0.24591440,
+                0.55301750,
+                0.00657664,
+            ],
+            [
+                0.00305180,
+                0.11288624,
+                0.11357290,
+                0.12924391,
+                0.00195315,
+                0.21771573,
+            ],
+        ],
+    ]
+)
 print(
     colour.msds_to_XYZ(
         msds,
         cmfs,
         illuminant,
-        method='Integration',
-        shape=colour.SpectralShape(400, 700, 60)))
+        method="Integration",
+        shape=colour.SpectralShape(400, 700, 60),
+    )
+)

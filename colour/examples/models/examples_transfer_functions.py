@@ -1,71 +1,72 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases colour component transfer functions (CCTF) relates computations.
-"""
+"""Showcases colour component transfer functions (CCTF) relates computations."""
 
 import colour
 from colour.utilities import message_box
 
-message_box('Colour Component Transfer Functions (CCTF) Computations')
+message_box("Colour Component Transfer Functions (CCTF) Computations")
 
 C = 18 / 100
 
-message_box(('Encoding to video component signal value using "BT.709" OETF '
-             'and given linear-light value:\n'
-             '\n\t{0}'.format(C)))
-print(colour.oetf(C, function='ITU-R BT.709'))
+message_box(
+    f'Encoding to video component signal value using "BT.709" OETF and given '
+    f"linear-light value:\n\n\t{C}"
+)
+print(colour.oetf(C, function="ITU-R BT.709"))
 print(colour.models.oetf_BT709(C))
 
-print('\n')
+print("\n")
 
 N = 0.40900773
-message_box(('Decoding to linear-light value using "BT.1886" EOTF and given '
-             ' video component signal value:\n'
-             '\n\t{0}'.format(N)))
-print(colour.eotf(N, function='ITU-R BT.1886'))
+message_box(
+    f'Decoding to linear-light value using "BT.1886" EOTF and given video '
+    f"component signal value:\n\n\t{N}"
+)
+print(colour.eotf(N, function="ITU-R BT.1886"))
 print(colour.models.eotf_BT1886(N))
 
-print('\n')
+print("\n")
 
-message_box(('Encoding to "Cineon" using given linear-light value:\n'
-             '\n\t{0}'.format(C)))
-print(colour.log_encoding(C, function='Cineon'))
+message_box(f'Encoding to "Cineon" using given linear-light value:\n\n\t{C}')
+print(colour.log_encoding(C, function="Cineon"))
 print(colour.models.log_encoding_Cineon(C))
 
-print('\n')
+print("\n")
 
 N = 0.45731961
-message_box(('Decoding to linear-light using given "Cineon" code value:\n'
-             '\n\t{0}'.format(N)))
-print(colour.log_decoding(N, function='Cineon'))
+message_box(
+    f'Decoding to linear-light using given "Cineon" code value:\n\n\t{N}'
+)
+print(colour.log_decoding(N, function="Cineon"))
 print(colour.models.log_decoding_Cineon(N))
 
-print('\n')
+print("\n")
 
-message_box(('Encoding to "PLog" using given linear-light value:\n'
-             '\n\t{0}'.format(C)))
-print(colour.log_encoding(C, function='PLog'))
+message_box(f'Encoding to "PLog" using given linear-light value:\n\n\t{C}')
+print(colour.log_encoding(C, function="PLog"))
 print(colour.models.log_encoding_PivotedLog(C))
 
-print('\n')
+print("\n")
 
 N = 0.43499511
-message_box(('Decoding to linear-light value using given "PLog" code value:\n'
-             '\n\t{0}'.format(N)))
-print(colour.log_decoding(N, function='PLog'))
+message_box(
+    f'Decoding to linear-light value using given "PLog" code value:\n\n\t{N}'
+)
+print(colour.log_decoding(N, function="PLog"))
 print(colour.models.log_decoding_PivotedLog(N))
 
-print('\n')
+print("\n")
 
-message_box(('Encoding to video component signal value using a pure gamma '
-             'function and given linear-light value:\n'
-             '\n\t{0}'.format(C)))
+message_box(
+    f"Encoding to video component signal value using a pure gamma function "
+    f"and given linear-light value:\n\n\t{C}"
+)
 print(colour.gamma_function(C, 1 / 2.2))
 
-print('\n')
+print("\n")
 
 N = 0.45865645
-message_box(('Decoding to linear-light value using a pure gamma function and '
-             'given video component signal value:\n'
-             '\n\t{0}'.format(N)))
+message_box(
+    f"Decoding to linear-light value using a pure gamma function and given "
+    f"video component signal value:\n\n\t{N}"
+)
 print(colour.gamma_function(N, 2.2))

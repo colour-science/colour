@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 :math:`LLAB(l:c)` Colour Appearance Model
 =========================================
 
-Defines *:math:`LLAB(l:c)`* colour appearance model objects:
+Defines the *:math:`LLAB(l:c)`* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_LLAB`
 -   :attr:`colour.VIEWING_CONDITIONS_LLAB`
@@ -26,47 +25,71 @@ References
 Colour_Appearance_and_Gamut_Mapping
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 from collections import namedtuple
+from dataclasses import dataclass, field
 
-from colour.algebra import polar_to_cartesian, spow
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              vector_dot, from_range_degrees, to_domain_100,
-                              tsplit, tstack)
+from colour.algebra import polar_to_cartesian, spow, vector_dot
+from colour.hints import (
+    ArrayLike,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArithmetic,
+    as_float,
+    as_float_array,
+    from_range_degrees,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'InductionFactors_LLAB', 'VIEWING_CONDITIONS_LLAB',
-    'MATRIX_XYZ_TO_RGB_LLAB', 'MATRIX_RGB_TO_XYZ_LLAB',
-    'CAM_ReferenceSpecification_LLAB', 'CAM_Specification_LLAB', 'XYZ_to_LLAB',
-    'XYZ_to_RGB_LLAB', 'chromatic_adaptation', 'f',
-    'opponent_colour_dimensions', 'hue_angle', 'chroma_correlate',
-    'colourfulness_correlate', 'saturation_correlate', 'final_opponent_signals'
+    "InductionFactors_LLAB",
+    "VIEWING_CONDITIONS_LLAB",
+    "MATRIX_XYZ_TO_RGB_LLAB",
+    "MATRIX_RGB_TO_XYZ_LLAB",
+    "CAM_ReferenceSpecification_LLAB",
+    "CAM_Specification_LLAB",
+    "XYZ_to_LLAB",
+    "XYZ_to_RGB_LLAB",
+    "chromatic_adaptation",
+    "f",
+    "opponent_colour_dimensions",
+    "hue_angle",
+    "chroma_correlate",
+    "colourfulness_correlate",
+    "saturation_correlate",
+    "final_opponent_signals",
 ]
 
 
 class InductionFactors_LLAB(
-        namedtuple('InductionFactors_LLAB', ('D', 'F_S', 'F_L', 'F_C'))):
+    namedtuple("InductionFactors_LLAB", ("D", "F_S", "F_L", "F_C"))
+):
     """
     *:math:`LLAB(l:c)`* colour appearance model induction factors.
 
     Parameters
     ----------
-    D : numeric or array_like
+    D
          *Discounting-the-Illuminant* factor :math:`D`.
-    F_S : numeric or array_like
+    F_S
         Surround induction factor :math:`F_S`.
-    F_L : numeric or array_like
+    F_L
         *Lightness* induction factor :math:`F_L`.
-    F_C : numeric or array_like
+    F_C
         *Chroma* induction factor :math:`F_C`.
 
     References
@@ -75,31 +98,31 @@ class InductionFactors_LLAB(
     """
 
 
-VIEWING_CONDITIONS_LLAB = CaseInsensitiveMapping({
-    'Reference Samples & Images, Average Surround, Subtending > 4': (
-        InductionFactors_LLAB(1, 3, 0, 1)),
-    'Reference Samples & Images, Average Surround, Subtending < 4': (
-        InductionFactors_LLAB(1, 3, 1, 1)),
-    'Television & VDU Displays, Dim Surround': (InductionFactors_LLAB(
-        0.7, 3.5, 1, 1)),
-    'Cut Sheet Transparency, Dim Surround': (InductionFactors_LLAB(
-        1, 5, 1, 1.1)),
-    '35mm Projection Transparency, Dark Surround': (InductionFactors_LLAB(
-        0.7, 4, 1, 1))
-})
+VIEWING_CONDITIONS_LLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Reference Samples & Images, Average Surround, Subtending > 4": (
+            InductionFactors_LLAB(1, 3, 0, 1)
+        ),
+        "Reference Samples & Images, Average Surround, Subtending < 4": (
+            InductionFactors_LLAB(1, 3, 1, 1)
+        ),
+        "Television & VDU Displays, Dim Surround": (
+            InductionFactors_LLAB(0.7, 3.5, 1, 1)
+        ),
+        "Cut Sheet Transparency, Dim Surround": (
+            InductionFactors_LLAB(1, 5, 1, 1.1)
+        ),
+        "35mm Projection Transparency, Dark Surround": (
+            InductionFactors_LLAB(0.7, 4, 1, 1)
+        ),
+    }
+)
 VIEWING_CONDITIONS_LLAB.__doc__ = """
 Reference :math:`LLAB(l:c)` colour appearance model viewing conditions.
 
 References
 ----------
 :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
-
-VIEWING_CONDITIONS_LLAB : CaseInsensitiveMapping
-    **{'Reference Samples & Images, Average Surround, Subtending > 4',
-    'Reference Samples & Images, Average Surround, Subtending < 4',
-    'Television & VDU Displays, Dim Surround',
-    'Cut Sheet Transparency, Dim Surround':,
-    '35mm Projection Transparency, Dark Surround'}**
 
 Aliases:
 
@@ -111,45 +134,45 @@ Aliases:
 -   'sheet_dim': 'Cut Sheet Transparency, Dim Surround'
 -   'projected_dark': '35mm Projection Transparency, Dark Surround'
 """
-VIEWING_CONDITIONS_LLAB['ref_average_4_plus'] = (  # yapf: disable
-    VIEWING_CONDITIONS_LLAB['Reference Samples & Images, '
-                            'Average Surround, Subtending > 4'])
-VIEWING_CONDITIONS_LLAB['ref_average_4_minus'] = (  # yapf: disable
-    VIEWING_CONDITIONS_LLAB['Reference Samples & Images, '
-                            'Average Surround, Subtending < 4'])
-VIEWING_CONDITIONS_LLAB['tv_dim'] = (
-    VIEWING_CONDITIONS_LLAB['Television & VDU Displays, Dim Surround'])
-VIEWING_CONDITIONS_LLAB['sheet_dim'] = (
-    VIEWING_CONDITIONS_LLAB['Cut Sheet Transparency, Dim Surround'])
-VIEWING_CONDITIONS_LLAB['projected_dark'] = (
-    VIEWING_CONDITIONS_LLAB['35mm Projection Transparency, Dark Surround'])
+VIEWING_CONDITIONS_LLAB["ref_average_4_plus"] = VIEWING_CONDITIONS_LLAB[
+    "Reference Samples & Images, " "Average Surround, Subtending > 4"
+]
+VIEWING_CONDITIONS_LLAB["ref_average_4_minus"] = VIEWING_CONDITIONS_LLAB[
+    "Reference Samples & Images, " "Average Surround, Subtending < 4"
+]
+VIEWING_CONDITIONS_LLAB["tv_dim"] = VIEWING_CONDITIONS_LLAB[
+    "Television & VDU Displays, Dim Surround"
+]
+VIEWING_CONDITIONS_LLAB["sheet_dim"] = VIEWING_CONDITIONS_LLAB[
+    "Cut Sheet Transparency, Dim Surround"
+]
+VIEWING_CONDITIONS_LLAB["projected_dark"] = VIEWING_CONDITIONS_LLAB[
+    "35mm Projection Transparency, Dark Surround"
+]
 
-MATRIX_XYZ_TO_RGB_LLAB = np.array([
-    [0.8951, 0.2664, -0.1614],
-    [-0.7502, 1.7135, 0.0367],
-    [0.0389, -0.0685, 1.0296],
-])
+MATRIX_XYZ_TO_RGB_LLAB: NDArray = np.array(
+    [
+        [0.8951, 0.2664, -0.1614],
+        [-0.7502, 1.7135, 0.0367],
+        [0.0389, -0.0685, 1.0296],
+    ]
+)
 """
 LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values to normalised
 cone responses matrix.
-
-MATRIX_XYZ_TO_RGB_LLAB : array_like, (3, 3)
 """
 
-MATRIX_RGB_TO_XYZ_LLAB = np.linalg.inv(MATRIX_XYZ_TO_RGB_LLAB)
+MATRIX_RGB_TO_XYZ_LLAB: NDArray = np.linalg.inv(MATRIX_XYZ_TO_RGB_LLAB)
 """
 LLAB(l:c) colour appearance model normalised cone responses to *CIE XYZ*
 tristimulus values matrix.
-
-MATRIX_RGB_TO_XYZ_LLAB : array_like, (3, 3)
 """
 
 
-class CAM_ReferenceSpecification_LLAB(
-        namedtuple('CAM_ReferenceSpecification_LLAB',
-                   ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
+@dataclass
+class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
     """
-    Defines the *:math:`LLAB(l:c)`* colour appearance model reference
+    Define the *:math:`LLAB(l:c)`* colour appearance model reference
     specification.
 
     This specification has field names consistent with *Fairchild (2013)*
@@ -157,21 +180,21 @@ class CAM_ReferenceSpecification_LLAB(
 
     Parameters
     ----------
-    L_L : numeric or array_like
+    L_L
         Correlate of *Lightness* :math:`L_L`.
-    Ch_L : numeric or array_like
+    Ch_L
         Correlate of *chroma* :math:`Ch_L`.
-    h_L : numeric or array_like
+    h_L
         *Hue* angle :math:`h_L` in degrees.
-    s_L : numeric or array_like
+    s_L
         Correlate of *saturation* :math:`s_L`.
-    C_L : numeric or array_like
+    C_L
         Correlate of *colourfulness* :math:`C_L`.
-    HC : numeric or array_like
+    HC
         *Hue* :math:`h` composition :math:`H^C`.
-    A_L : numeric or array_like
+    A_L
         Opponent signal :math:`A_L`.
-    B_L : numeric or array_like
+    B_L
         Opponent signal :math:`B_L`.
 
     References
@@ -179,12 +202,20 @@ class CAM_ReferenceSpecification_LLAB(
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
+    L_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    Ch_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    s_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    C_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    A_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    B_L: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
-class CAM_Specification_LLAB(
-        namedtuple('CAM_Specification_LLAB',
-                   ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
+
+@dataclass
+class CAM_Specification_LLAB(MixinDataclassArithmetic):
     """
-    Defines the *:math:`LLAB(l:c)`* colour appearance model specification.
+    Define the *:math:`LLAB(l:c)`* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
     appearance models in :mod:`colour.appearance` but diverge from
@@ -192,21 +223,21 @@ class CAM_Specification_LLAB(
 
     Parameters
     ----------
-    J : numeric or array_like
+    J
         Correlate of *Lightness* :math:`L_L`.
-    C : numeric or array_like
+    C
         Correlate of *chroma* :math:`Ch_L`.
-    h : numeric or array_like
+    h
         *Hue* angle :math:`h_L` in degrees.
-    s : numeric or array_like
+    s
         Correlate of *saturation* :math:`s_L`.
-    M : numeric or array_like
+    M
         Correlate of *colourfulness* :math:`C_L`.
-    HC : numeric or array_like
+    HC
         *Hue* :math:`h` composition :math:`H^C`.
-    a : numeric or array_like
+    a
         Opponent signal :math:`A_L`.
-    b : numeric or array_like
+    b
         Opponent signal :math:`B_L`.
 
     Notes
@@ -218,45 +249,55 @@ class CAM_Specification_LLAB(
     :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
+    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    a: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    b: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+
 
 def XYZ_to_LLAB(
-        XYZ,
-        XYZ_0,
-        Y_b,
-        L,
-        surround=VIEWING_CONDITIONS_LLAB[
-            'Reference Samples & Images, Average Surround, Subtending < 4']):
+    XYZ: ArrayLike,
+    XYZ_0: ArrayLike,
+    Y_b: FloatingOrArrayLike,
+    L: FloatingOrArrayLike,
+    surround: InductionFactors_LLAB = VIEWING_CONDITIONS_LLAB[
+        "Reference Samples & Images, Average Surround, Subtending < 4"
+    ],
+) -> CAM_Specification_LLAB:
     """
-    Computes the *:math:`LLAB(l:c)`* colour appearance model correlates.
+    Compute the *:math:`LLAB(l:c)`* colour appearance model correlates.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of test sample / stimulus.
-    XYZ_0 : array_like
+    XYZ_0
         *CIE XYZ* tristimulus values of reference white.
-    Y_b : numeric or array_like
+    Y_b
         Luminance factor of the background in :math:`cd/m^2`.
-    L : numeric or array_like
+    L
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    surround : InductionFactors_LLAB, optional
+    surround
          Surround viewing conditions induction factors.
 
     Returns
     -------
-    CAM_Specification_LLAB
+    :class:`colour.CAM_Specification_LLAB`
         *:math:`LLAB(l:c)`* colour appearance model specification.
 
     Notes
     -----
-
-    +--------------------------+-----------------------+---------------+
-    | **Domain**               | **Scale - Reference** | **Scale - 1** |
-    +==========================+=======================+===============+
-    | ``XYZ``                  | [0, 100]              | [0, 1]        |
-    +--------------------------+-----------------------+---------------+
-    | ``XYZ_0``                | [0, 100]              | [0, 1]        |
-    +--------------------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     +------------------------------+-----------------------+---------------+
     | **Range**                    | **Scale - Reference** | **Scale - 1** |
@@ -296,7 +337,8 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # -------------------------------------------------------------------------
     # Computing opponent colour dimensions.
     L_L, a, b = tsplit(
-        opponent_colour_dimensions(XYZ_r, Y_b, surround.F_S, surround.F_L))
+        opponent_colour_dimensions(XYZ_r, Y_b, surround.F_S, surround.F_L)
+    )
 
     # Computing perceptual correlates.
     # -------------------------------------------------------------------------
@@ -325,22 +367,30 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # -------------------------------------------------------------------------
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
-    return CAM_Specification_LLAB(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
-                                  None, A_L, B_L)
+    return CAM_Specification_LLAB(
+        L_L,
+        Ch_L,
+        as_float(from_range_degrees(h_L)),
+        s_L,
+        C_L,
+        None,
+        A_L,
+        B_L,
+    )
 
 
-def XYZ_to_RGB_LLAB(XYZ):
+def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to normalised cone responses.
+    Convert from *CIE XYZ* tristimulus values to normalised cone responses.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Normalised cone responses.
 
     Examples
@@ -358,28 +408,34 @@ def XYZ_to_RGB_LLAB(XYZ):
     return vector_dot(MATRIX_XYZ_TO_RGB_LLAB, XYZ_n)
 
 
-def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
+def chromatic_adaptation(
+    RGB: ArrayLike,
+    RGB_0: ArrayLike,
+    RGB_0r: ArrayLike,
+    Y: FloatingOrArrayLike,
+    D: FloatingOrArrayLike = 1,
+) -> NDArray:
     """
-    Applies chromatic adaptation to given *RGB* normalised cone responses
+    Apply chromatic adaptation to given *RGB* normalised cone responses
     array.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* normalised cone responses array of test sample / stimulus.
-    RGB_0 : array_like
+    RGB_0
         *RGB* normalised cone responses array of reference white.
-    RGB_0r : array_like
+    RGB_0r
         *RGB* normalised cone responses array of reference illuminant
         *CIE Standard Illuminant D Series* *D65*.
-    Y : numeric or array_like
+    Y
         Tristimulus values :math:`Y` of the stimulus.
-    D : numeric or array_like, optional
+    D
          *Discounting-the-Illuminant* factor normalised to domain [0, 1].
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Adapted *CIE XYZ* tristimulus values.
 
     Examples
@@ -396,6 +452,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     R_0, G_0, B_0 = tsplit(RGB_0)
     R_0r, G_0r, B_0r = tsplit(RGB_0r)
     Y = as_float_array(Y)
+    D = as_float_array(D)
 
     beta = spow(B_0 / B_0r, 0.0834)
 
@@ -412,29 +469,29 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     return XYZ_r
 
 
-def f(x, F_S):
+def f(x: FloatingOrArrayLike, F_S: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the nonlinear response function of the *:math:`LLAB(l:c)`* colour
+    Define the nonlinear response function of the *:math:`LLAB(l:c)`* colour
     appearance model used to model the nonlinear behaviour of various visual
     responses.
 
     Parameters
     ----------
-    x : numeric or array_like or array_like
+    x
         Visual response variable :math:`x`.
-    F_S : numeric or array_like
+    F_S
         Surround induction factor :math:`F_S`.
 
     Returns
     -------
-    numeric or array_like
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Modeled visual response variable :math:`x`.
 
     Examples
     --------
     >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
     >>> f(0.200009186234000, 3)  # doctest: +ELLIPSIS
-    array(0.5848125...)
+    0.5848125...
     """
 
     x = as_float_array(x)
@@ -446,12 +503,17 @@ def f(x, F_S):
         ((spow(0.008856, 1 / F_S) - (16 / 116)) / 0.008856) * x + (16 / 116),
     )
 
-    return x_m
+    return as_float(x_m)
 
 
-def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
+def opponent_colour_dimensions(
+    XYZ: ArrayLike,
+    Y_b: FloatingOrArrayLike,
+    F_S: FloatingOrArrayLike,
+    F_L: FloatingOrArrayLike,
+) -> NDArray:
     """
-    Returns opponent colour dimensions from given adapted *CIE XYZ* tristimulus
+    Return opponent colour dimensions from given adapted *CIE XYZ* tristimulus
     values.
 
     The opponent colour dimensions are based on a modified *CIE L\\*a\\*b\\**
@@ -459,18 +521,18 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         Adapted *CIE XYZ* tristimulus values.
-    Y_b : numeric or array_like
+    Y_b
         Luminance factor of the background in :math:`cd/m^2`.
-    F_S : numeric or array_like
+    F_S
         Surround induction factor :math:`F_S`.
-    F_L : numeric or array_like
+    F_L
         Lightness induction factor :math:`F_L`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Opponent colour dimensions.
 
     Examples
@@ -501,20 +563,22 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     return Lab
 
 
-def hue_angle(a, b):
+def hue_angle(
+    a: FloatingOrArrayLike, b: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
-    Returns the *hue* angle :math:`h_L` in degrees.
+    Return the *hue* angle :math:`h_L` in degrees.
 
     Parameters
     ----------
-    a : numeric or array_like
+    a
         Opponent colour dimension :math:`a`.
-    b : numeric or array_like
+    b
         Opponent colour dimension :math:`b`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *Hue* angle :math:`h_L` in degrees.
 
     Examples
@@ -528,23 +592,25 @@ def hue_angle(a, b):
 
     h_L = np.degrees(np.arctan2(b, a)) % 360
 
-    return h_L
+    return as_float(h_L)
 
 
-def chroma_correlate(a, b):
+def chroma_correlate(
+    a: FloatingOrArrayLike, b: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
-    Returns the correlate of *chroma* :math:`Ch_L`.
+    Return the correlate of *chroma* :math:`Ch_L`.
 
     Parameters
     ----------
-    a : numeric or array_like
+    a
         Opponent colour dimension :math:`a`.
-    b : numeric or array_like
+    b
         Opponent colour dimension :math:`b`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Correlate of *chroma* :math:`Ch_L`.
 
     Examples
@@ -558,30 +624,35 @@ def chroma_correlate(a, b):
     a = as_float_array(a)
     b = as_float_array(b)
 
-    c = spow(a ** 2 + b ** 2, 0.5)
-    Ch_L = 25 * np.log(1 + 0.05 * c)
+    c = spow(a**2 + b**2, 0.5)
+    Ch_L = 25 * np.log1p(0.05 * c)
 
-    return Ch_L
+    return as_float(Ch_L)
 
 
-def colourfulness_correlate(L, L_L, Ch_L, F_C):
+def colourfulness_correlate(
+    L: FloatingOrArrayLike,
+    L_L: FloatingOrArrayLike,
+    Ch_L: FloatingOrArrayLike,
+    F_C: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
     """
-    Returns the correlate of *colourfulness* :math:`C_L`.
+    Return the correlate of *colourfulness* :math:`C_L`.
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
-    L_L : numeric or array_like
+    L_L
         Correlate of *Lightness* :math:`L_L`.
-    Ch_L : numeric or array_like
+    Ch_L
         Correlate of *chroma* :math:`Ch_L`.
-    F_C : numeric or array_like
+    F_C
         Chroma induction factor :math:`F_C`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Correlate of *colourfulness* :math:`C_L`.
 
     Examples
@@ -600,26 +671,28 @@ def colourfulness_correlate(L, L_L, Ch_L, F_C):
     F_C = as_float_array(F_C)
 
     S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
-    S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L ** 2
+    S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L**2
     C_L = Ch_L * S_M * S_C * F_C
 
-    return C_L
+    return as_float(C_L)
 
 
-def saturation_correlate(Ch_L, L_L):
+def saturation_correlate(
+    Ch_L: FloatingOrArrayLike, L_L: FloatingOrArrayLike
+) -> FloatingOrNDArray:
     """
-    Returns the correlate of *saturation* :math:`S_L`.
+    Return the correlate of *saturation* :math:`S_L`.
 
     Parameters
     ----------
-    Ch_L : numeric or array_like
+    Ch_L
         Correlate of *chroma* :math:`Ch_L`.
-    L_L : numeric or array_like
+    L_L
         Correlate of *Lightness* :math:`L_L`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Correlate of *saturation* :math:`S_L`.
 
     Examples
@@ -638,20 +711,22 @@ def saturation_correlate(Ch_L, L_L):
     return S_L
 
 
-def final_opponent_signals(C_L, h_L):
+def final_opponent_signals(
+    C_L: FloatingOrArrayLike, h_L: FloatingOrArrayLike
+) -> NDArray:
     """
-    Returns the final opponent signals :math:`A_L` and :math:`B_L`.
+    Return the final opponent signals :math:`A_L` and :math:`B_L`.
 
     Parameters
     ----------
-    C_L : numeric or array_like
+    C_L
         Correlate of *colourfulness* :math:`C_L`.
-    h_L : numeric or array_like
+    h_L
         Correlate of *hue* :math:`h_L` in degrees.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Final opponent signals :math:`A_L` and :math:`B_L`.
 
     Examples
@@ -662,6 +737,6 @@ def final_opponent_signals(C_L, h_L):
     array([-0.0119478..., -0.0139711...])
     """
 
-    AB_L = polar_to_cartesian(tstack([C_L, np.radians(h_L)]))
+    AB_L = polar_to_cartesian(tstack([as_float_array(C_L), np.radians(h_L)]))
 
     return AB_L

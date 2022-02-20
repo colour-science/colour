@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 RLAB Colour Appearance Model
 ============================
 
-Defines *RLAB* colour appearance model objects:
+Defines the *RLAB* colour appearance model objects:
 
 -   :attr:`colour.VIEWING_CONDITIONS_RLAB`
 -   :attr:`colour.D_FACTOR_RLAB`
@@ -19,61 +18,74 @@ References
     Appearance Models (3rd ed., pp. 5563-5824). Wiley. ISBN:B00DAYO8E2
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
-from collections import namedtuple
+from dataclasses import dataclass, field
 
-from colour.algebra import spow
+from colour.algebra import matrix_dot, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              matrix_dot, vector_dot, from_range_degrees,
-                              to_domain_100, tsplit, row_as_diagonal)
+from colour.hints import (
+    ArrayLike,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    MixinDataclassArray,
+    as_float,
+    as_float_array,
+    from_range_degrees,
+    row_as_diagonal,
+    to_domain_100,
+    tsplit,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'MATRIX_R', 'VIEWING_CONDITIONS_RLAB', 'D_FACTOR_RLAB',
-    'CAM_ReferenceSpecification_RLAB', 'CAM_Specification_RLAB', 'XYZ_to_RLAB'
+    "MATRIX_R",
+    "VIEWING_CONDITIONS_RLAB",
+    "D_FACTOR_RLAB",
+    "CAM_ReferenceSpecification_RLAB",
+    "CAM_Specification_RLAB",
+    "XYZ_to_RLAB",
 ]
 
-MATRIX_R = np.array([
-    [1.9569, -1.1882, 0.2313],
-    [0.3612, 0.6388, 0.0000],
-    [0.0000, 0.0000, 1.0000],
-])
-"""
-*RLAB* colour appearance model precomputed helper matrix.
+MATRIX_R: NDArray = np.array(
+    [
+        [1.9569, -1.1882, 0.2313],
+        [0.3612, 0.6388, 0.0000],
+        [0.0000, 0.0000, 1.0000],
+    ]
+)
+"""*RLAB* colour appearance model precomputed helper matrix."""
 
-MATRIX_R : array_like, (3, 3)
-"""
-
-VIEWING_CONDITIONS_RLAB = CaseInsensitiveMapping({
-    'Average': 1 / 2.3,
-    'Dim': 1 / 2.9,
-    'Dark': 1 / 3.5
-})
+VIEWING_CONDITIONS_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {"Average": 1 / 2.3, "Dim": 1 / 2.9, "Dark": 1 / 3.5}
+)
 VIEWING_CONDITIONS_RLAB.__doc__ = """
 Reference *RLAB* colour appearance model viewing conditions.
 
 References
 ----------
 :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
-
-VIEWING_CONDITIONS_RLAB : CaseInsensitiveMapping
-    **{'Average', 'Dim', 'Dark'}**
 """
 
-D_FACTOR_RLAB = CaseInsensitiveMapping({
-    'Hard Copy Images': 1,
-    'Soft Copy Images': 0,
-    'Projected Transparencies, Dark Room': 0.5
-})
+D_FACTOR_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Hard Copy Images": 1,
+        "Soft Copy Images": 0,
+        "Projected Transparencies, Dark Room": 0.5,
+    }
+)
 D_FACTOR_RLAB.__doc__ = """
 *RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
 
@@ -81,47 +93,42 @@ References
 ----------
 :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 
-D_FACTOR_RLAB : CaseInsensitiveMapping
-    **{'Hard Copy Images',
-    'Soft Copy Images',
-    'Projected Transparencies, Dark Room'}**
-
 Aliases:
 
 -   'hard_cp_img': 'Hard Copy Images'
 -   'soft_cp_img': 'Soft Copy Images'
 -   'projected_dark': 'Projected Transparencies, Dark Room'
 """
-D_FACTOR_RLAB['hard_cp_img'] = D_FACTOR_RLAB['Hard Copy Images']
-D_FACTOR_RLAB['soft_cp_img'] = D_FACTOR_RLAB['Soft Copy Images']
-D_FACTOR_RLAB['projected_dark'] = (
-    D_FACTOR_RLAB['Projected Transparencies, Dark Room'])
+D_FACTOR_RLAB["hard_cp_img"] = D_FACTOR_RLAB["Hard Copy Images"]
+D_FACTOR_RLAB["soft_cp_img"] = D_FACTOR_RLAB["Soft Copy Images"]
+D_FACTOR_RLAB["projected_dark"] = D_FACTOR_RLAB[
+    "Projected Transparencies, Dark Room"
+]
 
 
-class CAM_ReferenceSpecification_RLAB(
-        namedtuple('CAM_ReferenceSpecification_RLAB',
-                   ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))):
+@dataclass
+class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
     """
-    Defines the *RLAB* colour appearance model reference specification.
+    Define the *RLAB* colour appearance model reference specification.
 
     This specification has field names consistent with *Fairchild (2013)*
     reference.
 
     Parameters
     ----------
-    LR : numeric or array_like
+    LR
         Correlate of *Lightness* :math:`L^R`.
-    CR : numeric or array_like
+    CR
         Correlate of *achromatic chroma* :math:`C^R`.
-    hR : numeric or array_like
+    hR
         *Hue* angle :math:`h^R` in degrees.
-    sR : numeric or array_like
+    sR
         Correlate of *saturation* :math:`s^R`.
-    HR : numeric or array_like
+    HR
         *Hue* :math:`h` composition :math:`H^R`.
-    aR : numeric or array_like
+    aR
         Red-green chromatic response :math:`a^R`.
-    bR : numeric or array_like
+    bR
         Yellow-blue chromatic response :math:`b^R`.
 
     References
@@ -129,12 +136,19 @@ class CAM_ReferenceSpecification_RLAB(
     :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
+    LR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    CR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    hR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    sR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    HR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    aR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    bR: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
-class CAM_Specification_RLAB(
-        namedtuple('CAM_Specification_RLAB',
-                   ('J', 'C', 'h', 's', 'HC', 'a', 'b'))):
+
+@dataclass
+class CAM_Specification_RLAB(MixinDataclassArray):
     """
-    Defines the *RLAB* colour appearance model specification.
+    Define the *RLAB* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
     appearance models in :mod:`colour.appearance` but diverge from
@@ -142,19 +156,19 @@ class CAM_Specification_RLAB(
 
     Parameters
     ----------
-    J : numeric or array_like
+    J
         Correlate of *Lightness* :math:`L^R`.
-    C : numeric or array_like
+    C
         Correlate of *achromatic chroma* :math:`C^R`.
-    h : numeric or array_like
+    h
         *Hue* angle :math:`h^R` in degrees.
-    s : numeric or array_like
+    s
         Correlate of *saturation* :math:`s^R`.
-    HC : numeric or array_like
+    HC
         *Hue* :math:`h` composition :math:`H^C`.
-    a : numeric or array_like
+    a
         Red-green chromatic response :math:`a^R`.
-    b : numeric or array_like
+    b
         Yellow-blue chromatic response :math:`b^R`.
 
     Notes
@@ -166,27 +180,37 @@ class CAM_Specification_RLAB(
     :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
+    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    a: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    b: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
-def XYZ_to_RLAB(XYZ,
-                XYZ_n,
-                Y_n,
-                sigma=VIEWING_CONDITIONS_RLAB['Average'],
-                D=D_FACTOR_RLAB['Hard Copy Images']):
+
+def XYZ_to_RLAB(
+    XYZ: ArrayLike,
+    XYZ_n: ArrayLike,
+    Y_n: FloatingOrArrayLike,
+    sigma: FloatingOrArrayLike = VIEWING_CONDITIONS_RLAB["Average"],
+    D: FloatingOrArrayLike = D_FACTOR_RLAB["Hard Copy Images"],
+) -> CAM_Specification_RLAB:
     """
-    Computes the *RLAB* model color appearance correlates.
+    Compute the *RLAB* model color appearance correlates.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of test sample / stimulus.
-    XYZ_n : array_like
+    XYZ_n
         *CIE XYZ* tristimulus values of reference white.
-    Y_n : numeric or array_like
+    Y_n
         Absolute adapting luminance in :math:`cd/m^2`.
-    sigma : numeric or array_like, optional
+    sigma
         Relative luminance of the surround, see
         :attr:`colour.VIEWING_CONDITIONS_RLAB` for reference.
-    D : numeric or array_like, optional
+    D
         *Discounting-the-Illuminant* factor normalised to domain [0, 1].
 
     Returns
@@ -196,14 +220,13 @@ def XYZ_to_RLAB(XYZ,
 
     Notes
     -----
-
-    +--------------------------+-----------------------+---------------+
-    | **Domain**               | **Scale - Reference** | **Scale - 1** |
-    +==========================+=======================+===============+
-    | ``XYZ``                  | [0, 100]              | [0, 1]        |
-    +--------------------------+-----------------------+---------------+
-    | ``XYZ_n``                | [0, 100]              | [0, 1]        |
-    +--------------------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_n``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     +------------------------------+-----------------------\
 +---------------+
@@ -229,7 +252,8 @@ def XYZ_to_RLAB(XYZ,
     >>> D = D_FACTOR_RLAB['Hard Copy Images']
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
     CAM_Specification_RLAB(J=49.8347069..., C=54.8700585..., \
-h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
+h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., \
+b=-52.6142956...)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -242,13 +266,15 @@ h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     LMS_n = XYZ_to_rgb(XYZ_n)
 
     # Computing the :math:`A` matrix.
-    LMS_l_E = (3 * LMS_n) / (LMS_n[0] + LMS_n[1] + LMS_n[2])
-    LMS_p_L = ((1 + spow(Y_n[..., np.newaxis], 1 / 3) + LMS_l_E) /
-               (1 + spow(Y_n[..., np.newaxis], 1 / 3) + (1 / LMS_l_E)))
+    LMS_l_E = (3 * LMS_n) / np.sum(LMS_n, axis=-1)[..., np.newaxis]
+    LMS_p_L = (1 + spow(Y_n[..., np.newaxis], 1 / 3) + LMS_l_E) / (
+        1 + spow(Y_n[..., np.newaxis], 1 / 3) + (1 / LMS_l_E)
+    )
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
-    aR = row_as_diagonal(LMS_a_L)
-    M = matrix_dot(matrix_dot(MATRIX_R, aR), MATRIX_XYZ_TO_HPE)
+    M = matrix_dot(
+        matrix_dot(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE
+    )
     XYZ_ref = vector_dot(M, XYZ)
 
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
@@ -257,8 +283,8 @@ h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     LR = 100 * spow(Y_ref, sigma)
 
     # Computing opponent colour dimensions :math:`a^R` and :math:`b^R`.
-    aR = 430 * (spow(X_ref, sigma) - spow(Y_ref, sigma))
-    bR = 170 * (spow(Y_ref, sigma) - spow(Z_ref, sigma))
+    aR = as_float(430 * (spow(X_ref, sigma) - spow(Y_ref, sigma)))
+    bR = as_float(170 * (spow(Y_ref, sigma) - spow(Z_ref, sigma)))
 
     # Computing the *hue* angle :math:`h^R`.
     hR = np.degrees(np.arctan2(bR, aR)) % 360
@@ -270,5 +296,12 @@ h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     # Computing the correlate of *saturation* :math:`s^R`.
     sR = CR / LR
 
-    return CAM_Specification_RLAB(LR, CR, from_range_degrees(hR), sR, None, aR,
-                                  bR)
+    return CAM_Specification_RLAB(
+        LR,
+        CR,
+        as_float(from_range_degrees(hR)),
+        sR,
+        None,
+        aR,
+        bR,
+    )

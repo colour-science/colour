@@ -1,44 +1,45 @@
-# -*- coding: utf-8 -*-
-"""
-Defines unit tests for :mod:`colour.plotting.graph` module.
-"""
-
-from __future__ import division, unicode_literals
-
+"""Defines the unit tests for the :mod:`colour.plotting.graph` module."""
+import platform
 import tempfile
 import unittest
 
 from colour.plotting import plot_automatic_colour_conversion_graph
 from colour.utilities import is_networkx_installed
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['TestPlotAutomaticColourConversionGraph']
+__all__ = [
+    "TestPlotAutomaticColourConversionGraph",
+]
 
 
 class TestPlotAutomaticColourConversionGraph(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.graph.\
+    Define :func:`colour.plotting.graph.\
 plot_automatic_colour_conversion_graph` definition unit tests methods.
     """
 
     def test_plot_automatic_colour_conversion_graph(self):
         """
-        Tests :func:`colour.plotting.graph.\
+        Test :func:`colour.plotting.graph.\
 plot_automatic_colour_conversion_graph` definition.
         """
 
-        if is_networkx_installed(raise_exception=True):  # pragma: no cover
+        if not is_networkx_installed() or platform.system() in (
+            "Windows",
+            "Microsoft",
+        ):  # pragma: no cover
             return
 
         plot_automatic_colour_conversion_graph(  # pragma: no cover
-            '{0}.png'.format(tempfile.mkstemp()[-1]))
+            f"{tempfile.mkstemp()[-1]}.png"
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

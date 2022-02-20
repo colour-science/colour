@@ -3,7 +3,9 @@
 *.pyo
 .DS_Store
 .coverage
+.dmypy.json
 .idea
+.mypy_cache
 __pycache__
 build
 dist

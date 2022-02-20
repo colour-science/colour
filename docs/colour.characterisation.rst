@@ -1,8 +1,6 @@
 Colour Characterisation
 =======================
 
-.. contents:: :local:
-
 ACES Spectral Conversion
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -14,6 +12,7 @@ ACES Spectral Conversion
     :toctree: generated/
 
     sd_to_aces_relative_exposure_values
+    sd_to_ACES2065_1
 
 **Ancillary Objects**
 
@@ -37,6 +36,7 @@ ACES Input Transform Computation
     :toctree: generated/
 
     matrix_idt
+    camera_RGB_to_ACES2065_1
 
 **Ancillary Objects**
 
@@ -55,7 +55,7 @@ ACES Input Transform Computation
     training_data_sds_to_XYZ
     best_illuminant
     optimisation_factory_rawtoaces_v1
-    optimisation_factory_JzAzBz
+    optimisation_factory_Jzazbz
 
 Colour Fitting
 --------------

@@ -1,14 +1,11 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases colour spectrum computations.
-"""
+"""Showcases colour spectrum computations."""
 
 import numpy as np
 
 import colour
 from colour.utilities import message_box
 
-message_box('Spectrum Computations')
+message_box("Spectrum Computations")
 
 data_sample = {
     380: 0.048,
@@ -91,95 +88,99 @@ data_sample = {
     765: 0.465,
     770: 0.448,
     775: 0.432,
-    780: 0.421
+    780: 0.421,
 }
 
-sd_sample = colour.SpectralDistribution(data_sample, name='Sample')
+sd_sample = colour.SpectralDistribution(data_sample, name="Sample")
 
-message_box('Sample spectral distribution shape.')
+message_box("Sample spectral distribution shape.")
 print(sd_sample.shape)
 
-print('\n')
+print("\n")
 
-message_box('Sample spectral distribution uniformity.')
+message_box("Sample spectral distribution uniformity.")
 print(sd_sample.is_uniform())
 
-print('\n')
+print("\n")
 
-message_box(('Sample spectral distribution cloning:\n'
-             '\n\t("Original Id", "Clone Id")\n'
-             '\nCloning is a convenient way to get a copy of the spectral '
-             'distribution, this an important feature because some '
-             'operations happen in place.'))
+message_box(
+    "Sample spectral distribution cloning:\n\n"
+    '\t("Original Id", "Clone Id")\n'
+    "\nCloning is a convenient way to get a copy of the spectral "
+    "distribution, this an important feature because some operations happen "
+    "in place."
+)
 sd_clone = sd_sample.copy()
 print(id(sd_sample), id(sd_clone))
 
-print('\n')
+print("\n")
 
-message_box('Sample spectral distribution arithmetical operations.')
-message_box('Regular arithmetical operation: adding a constant.')
+message_box("Sample spectral distribution arithmetical operations.")
+message_box("Regular arithmetical operation: adding a constant.")
 sd_clone_alternate = sd_clone + 10
 print(sd_clone[380], sd_clone_alternate[380])
 
-print('\n')
+print("\n")
 
-message_box('Regular arithmetical operation: adding an array.')
+message_box("Regular arithmetical operation: adding an array.")
 print((sd_clone + np.linspace(0, 1, len(sd_clone.wavelengths))).values)
 
-print('\n')
+print("\n")
 
-message_box('Regular arithmetical operation: adding a spectral '
-            'distribution.')
+message_box(
+    "Regular arithmetical operation: adding a spectral " "distribution."
+)
 print((sd_clone + sd_clone).values)
 
-print('\n')
+print("\n")
 
-message_box('In-place arithmetical operation: adding a constant.')
+message_box("In-place arithmetical operation: adding a constant.")
 sd_clone += 10
 print(sd_clone[380])
 
-print('\n')
+print("\n")
 
-message_box('In-place arithmetical operation: adding an array.')
+message_box("In-place arithmetical operation: adding an array.")
 sd_clone += np.linspace(0, 1, len(sd_clone.wavelengths))
 print(sd_clone.values)
 
-print('\n')
+print("\n")
 
-message_box('In-place arithmetical operation: adding a spectral '
-            'distribution.')
+message_box(
+    "In-place arithmetical operation: adding a spectral " "distribution."
+)
 sd_clone += sd_clone
 print(sd_clone.values)
 
-print('\n')
+print("\n")
 
-message_box('Sample spectral distribution interpolation.')
+message_box("Sample spectral distribution interpolation.")
 sd_clone.interpolate(colour.SpectralShape(360, 780, 1))
 print(sd_clone[666])
 
-print('\n')
+print("\n")
 
-message_box('Sample spectral distribution extrapolation.')
-sd_clone.extrapolate(colour.SpectralShape(340, 830))
+message_box("Sample spectral distribution extrapolation.")
+sd_clone.extrapolate(colour.SpectralShape(340, 830, 1))
 print(sd_clone[340], sd_clone[360])
 
-print('\n')
+print("\n")
 
-message_box('Sample spectral distribution align.')
+message_box("Sample spectral distribution align.")
 sd_clone.align(colour.SpectralShape(400, 700, 5))
 print(sd_clone[400], sd_clone[700])
 
-print('\n')
+print("\n")
 
-message_box('Constant value filled spectral distribution.')
+message_box("Constant value filled spectral distribution.")
 print(colour.sd_constant(3.1415)[400])
 
-print('\n')
+print("\n")
 
-message_box('Zeros filled spectral distribution.')
+message_box("Zeros filled spectral distribution.")
 print(colour.sd_zeros()[400])
 
-print('\n')
+print("\n")
 
-message_box('Ones filled spectral distribution.')
+message_box("Ones filled spectral distribution.")
 print(colour.sd_ones()[400])

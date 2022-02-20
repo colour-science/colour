@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.quality.CIE2017` module.
+Defines the unit tests for the :mod:`colour.quality.CIE2017` module.
 
 Notes
 -----
@@ -8,33 +7,44 @@ Notes
     by the CIE at this URL: http://files.cie.co.at/933_TC1-90.zip.
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
-import six
 import unittest
 
-from colour.colorimetry import (SpectralShape, SpectralDistribution,
-                                sd_blackbody, SDS_ILLUMINANTS)
-from colour.quality.cfi2017 import (CCT_reference_illuminant,
-                                    sd_reference_illuminant,
-                                    colour_fidelity_index_CIE2017)
+from colour.colorimetry import (
+    SDS_ILLUMINANTS,
+    SpectralShape,
+    SpectralDistribution,
+    reshape_sd,
+    sd_blackbody,
+)
+from colour.hints import Dict
+from colour.quality.cfi2017 import (
+    CCT_reference_illuminant,
+    sd_reference_illuminant,
+    colour_fidelity_index_CIE2017,
+)
 from colour.utilities import ColourUsageWarning
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_SD_SAMPLE_5NM', 'SD_SAMPLE_5NM', 'DATA_SD_SAMPLE_1NM',
-    'SD_SAMPLE_1NM', 'TestColourFidelityIndexCIE2017',
-    'TestCctReferenceIlluminant', 'TestSdReferenceIlluminant'
+    "DATA_SD_SAMPLE_5NM",
+    "SD_SAMPLE_5NM",
+    "DATA_SD_SAMPLE_1NM",
+    "SD_SAMPLE_1NM",
+    "TestColourFidelityIndexCIE2017",
+    "TestCctReferenceIlluminant",
+    "TestSdReferenceIlluminant",
 ]
 
-DATA_SD_SAMPLE_5NM = {
+DATA_SD_SAMPLE_5NM: Dict = {
     380: 0.000,
     385: 0.000,
     390: 0.001,
@@ -115,12 +125,12 @@ DATA_SD_SAMPLE_5NM = {
     765: 0.040,
     770: 0.035,
     775: 0.031,
-    780: 0.027
+    780: 0.027,
 }
 
-SD_SAMPLE_5NM = SpectralDistribution(DATA_SD_SAMPLE_5NM)
+SD_SAMPLE_5NM: SpectralDistribution = SpectralDistribution(DATA_SD_SAMPLE_5NM)
 
-DATA_SD_SAMPLE_1NM = {
+DATA_SD_SAMPLE_1NM: Dict = {
     380: 0.000,
     381: 0.000,
     382: 0.000,
@@ -521,96 +531,377 @@ DATA_SD_SAMPLE_1NM = {
     777: 0.029,
     778: 0.028,
     779: 0.028,
-    780: 0.027
+    780: 0.027,
 }
 
-SD_SAMPLE_1NM = SpectralDistribution(DATA_SD_SAMPLE_1NM)
+SD_SAMPLE_1NM: SpectralDistribution = SpectralDistribution(DATA_SD_SAMPLE_1NM)
 
 
 class TestColourFidelityIndexCIE2017(unittest.TestCase):
     """
-    Defines :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
+    Define :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
     definition unit tests methods.
     """
 
     def test_colour_fidelity_index_CIE2017(self):
         """
-        Tests :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
+        Test :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
         definition.
         """
 
         for sd in [SD_SAMPLE_5NM, SD_SAMPLE_1NM]:
             specification = colour_fidelity_index_CIE2017(
-                sd, additional_data=True)
+                sd, additional_data=True
+            )
             np.testing.assert_almost_equal(specification.R_f, 81.6, 1)
-            np.testing.assert_almost_equal(specification.R_s, [
-                89.5, 80.5, 81.5, 79.4, 65.9, 79.4, 73.2, 68.5, 95.9, 76.3,
-                71.9, 71.8, 83.3, 93.0, 89.2, 72.9, 75.1, 85.8, 75.1, 63.4,
-                69.4, 71.4, 89.7, 76.8, 67.6, 75.5, 92.7, 87.7, 81.1, 95.0,
-                83.3, 74.4, 90.4, 80.4, 89.0, 86.9, 85.0, 95.7, 98.5, 96.3,
-                98.7, 88.4, 85.2, 99.6, 90.4, 88.6, 94.3, 85.3, 86.4, 90.0,
-                89.3, 88.0, 83.6, 89.6, 86.7, 81.4, 80.2, 80.6, 88.5, 89.7,
-                84.2, 84.2, 79.4, 71.3, 72.8, 65.8, 64.1, 71.7, 77.4, 68.0,
-                63.2, 87.1, 62.4, 92.7, 67.3, 67.6, 80.0, 70.4, 89.0, 87.0,
-                81.5, 94.2, 94.3, 89.4, 79.3, 76.6, 83.7, 87.7, 76.7, 88.6,
-                76.2, 68.5, 80.1, 65.3, 74.9, 83.9, 88.6, 84.2, 77.4
-            ], 1)
+            np.testing.assert_almost_equal(
+                specification.R_s,
+                [
+                    89.5,
+                    80.5,
+                    81.5,
+                    79.4,
+                    65.9,
+                    79.4,
+                    73.2,
+                    68.5,
+                    95.9,
+                    76.3,
+                    71.9,
+                    71.8,
+                    83.3,
+                    93.0,
+                    89.2,
+                    72.9,
+                    75.1,
+                    85.8,
+                    75.1,
+                    63.4,
+                    69.4,
+                    71.4,
+                    89.7,
+                    76.8,
+                    67.6,
+                    75.5,
+                    92.7,
+                    87.7,
+                    81.1,
+                    95.0,
+                    83.3,
+                    74.4,
+                    90.4,
+                    80.4,
+                    89.0,
+                    86.9,
+                    85.0,
+                    95.7,
+                    98.5,
+                    96.3,
+                    98.7,
+                    88.4,
+                    85.2,
+                    99.6,
+                    90.4,
+                    88.6,
+                    94.3,
+                    85.3,
+                    86.4,
+                    90.0,
+                    89.3,
+                    88.0,
+                    83.6,
+                    89.6,
+                    86.7,
+                    81.4,
+                    80.2,
+                    80.6,
+                    88.5,
+                    89.7,
+                    84.2,
+                    84.2,
+                    79.4,
+                    71.3,
+                    72.8,
+                    65.8,
+                    64.1,
+                    71.7,
+                    77.4,
+                    68.0,
+                    63.2,
+                    87.1,
+                    62.4,
+                    92.7,
+                    67.3,
+                    67.6,
+                    80.0,
+                    70.4,
+                    89.0,
+                    87.0,
+                    81.5,
+                    94.2,
+                    94.3,
+                    89.4,
+                    79.3,
+                    76.6,
+                    83.7,
+                    87.7,
+                    76.7,
+                    88.6,
+                    76.2,
+                    68.5,
+                    80.1,
+                    65.3,
+                    74.9,
+                    83.9,
+                    88.6,
+                    84.2,
+                    77.4,
+                ],
+                1,
+            )
 
         specification = colour_fidelity_index_CIE2017(
-            SDS_ILLUMINANTS['FL1'], additional_data=True)
+            SDS_ILLUMINANTS["FL1"], additional_data=True
+        )
         np.testing.assert_almost_equal(specification.R_f, 80.6, 1)
-        np.testing.assert_almost_equal(specification.R_s, [
-            85.1, 68.9, 73.9, 79.7, 51.6, 77.8, 52.1, 47.8, 95.3, 68.9, 67.3,
-            63.6, 71.3, 91.1, 79.0, 63.2, 72.8, 78.4, 75.2, 60.4, 68.0, 67.3,
-            88.6, 78.4, 68.7, 75.7, 91.0, 91.5, 78.3, 83.0, 82.3, 78.7, 85.8,
-            85.6, 92.3, 94.6, 88.3, 87.8, 97.4, 94.4, 95.4, 93.3, 90.5, 99.5,
-            88.9, 87.6, 94.3, 77.7, 88.0, 89.6, 91.0, 87.3, 81.3, 83.8, 85.2,
-            78.1, 78.2, 79.5, 86.9, 94.4, 87.4, 93.7, 88.6, 77.9, 74.5, 78.2,
-            77.2, 79.7, 86.3, 76.3, 81.6, 91.0, 73.3, 98.1, 81.9, 77.4, 86.9,
-            79.4, 90.2, 91.1, 80.6, 96.6, 95.1, 89.3, 84.2, 72.5, 78.6, 75.5,
-            74.4, 75.3, 91.4, 58.2, 74.6, 52.6, 67.0, 76.2, 88.9, 75.2, 55.5
-        ], 1)
+        np.testing.assert_almost_equal(
+            specification.R_s,
+            [
+                85.1,
+                68.9,
+                73.9,
+                79.7,
+                51.6,
+                77.8,
+                52.1,
+                47.8,
+                95.3,
+                68.9,
+                67.3,
+                63.6,
+                71.3,
+                91.1,
+                79.0,
+                63.2,
+                72.8,
+                78.4,
+                75.2,
+                60.4,
+                68.0,
+                67.3,
+                88.6,
+                78.4,
+                68.7,
+                75.7,
+                91.0,
+                91.5,
+                78.3,
+                83.0,
+                82.3,
+                78.7,
+                85.8,
+                85.6,
+                92.3,
+                94.6,
+                88.3,
+                87.8,
+                97.4,
+                94.4,
+                95.4,
+                93.3,
+                90.5,
+                99.5,
+                88.9,
+                87.6,
+                94.3,
+                77.7,
+                88.0,
+                89.6,
+                91.0,
+                87.3,
+                81.3,
+                83.8,
+                85.2,
+                78.1,
+                78.2,
+                79.5,
+                86.9,
+                94.4,
+                87.4,
+                93.7,
+                88.6,
+                77.9,
+                74.5,
+                78.2,
+                77.2,
+                79.7,
+                86.3,
+                76.3,
+                81.6,
+                91.0,
+                73.3,
+                98.1,
+                81.9,
+                77.4,
+                86.9,
+                79.4,
+                90.2,
+                91.1,
+                80.6,
+                96.6,
+                95.1,
+                89.3,
+                84.2,
+                72.5,
+                78.6,
+                75.5,
+                74.4,
+                75.3,
+                91.4,
+                58.2,
+                74.6,
+                52.6,
+                67.0,
+                76.2,
+                88.9,
+                75.2,
+                55.5,
+            ],
+            1,
+        )
 
         specification = colour_fidelity_index_CIE2017(
-            SDS_ILLUMINANTS['FL2'], additional_data=True)
+            SDS_ILLUMINANTS["FL2"], additional_data=True
+        )
         np.testing.assert_almost_equal(specification.R_f, 70.1, 1)
-        np.testing.assert_almost_equal(specification.R_s, [
-            78.9, 59.0, 66.9, 65.7, 35.8, 66.1, 40.4, 34.7, 95.1, 53.5, 47.4,
-            44.6, 64.1, 86.6, 71.6, 48.8, 56.1, 68.9, 56.8, 43.9, 46.9, 46.5,
-            80.0, 62.6, 48.1, 58.4, 82.0, 84.6, 61.5, 69.6, 67.5, 62.3, 73.9,
-            73.6, 85.9, 87.5, 79.4, 76.0, 96.6, 92.8, 90.5, 89.1, 83.0, 99.4,
-            83.1, 80.7, 86.8, 66.1, 79.6, 80.7, 81.3, 76.1, 68.7, 76.8, 77.0,
-            66.1, 65.5, 67.4, 78.8, 90.1, 77.5, 86.9, 76.8, 59.7, 61.2, 57.9,
-            56.2, 62.0, 72.9, 57.7, 63.7, 84.0, 52.7, 96.2, 66.6, 56.6, 76.2,
-            63.3, 81.8, 84.5, 73.5, 93.9, 90.9, 85.7, 80.5, 63.5, 73.7, 69.0,
-            66.1, 67.5, 92.6, 51.3, 69.5, 40.7, 61.5, 70.2, 80.0, 67.0, 45.0
-        ], 1)
+        np.testing.assert_almost_equal(
+            specification.R_s,
+            [
+                78.9,
+                59.0,
+                66.9,
+                65.7,
+                35.8,
+                66.1,
+                40.4,
+                34.7,
+                95.1,
+                53.5,
+                47.4,
+                44.6,
+                64.1,
+                86.6,
+                71.6,
+                48.8,
+                56.1,
+                68.9,
+                56.8,
+                43.9,
+                46.9,
+                46.5,
+                80.0,
+                62.6,
+                48.1,
+                58.4,
+                82.0,
+                84.6,
+                61.5,
+                69.6,
+                67.5,
+                62.3,
+                73.9,
+                73.6,
+                85.9,
+                87.5,
+                79.4,
+                76.0,
+                96.6,
+                92.8,
+                90.5,
+                89.1,
+                83.0,
+                99.4,
+                83.1,
+                80.7,
+                86.8,
+                66.1,
+                79.6,
+                80.7,
+                81.3,
+                76.1,
+                68.7,
+                76.8,
+                77.0,
+                66.1,
+                65.5,
+                67.4,
+                78.8,
+                90.1,
+                77.5,
+                86.9,
+                76.8,
+                59.7,
+                61.2,
+                57.9,
+                56.2,
+                62.0,
+                72.9,
+                57.7,
+                63.7,
+                84.0,
+                52.7,
+                96.2,
+                66.6,
+                56.6,
+                76.2,
+                63.3,
+                81.8,
+                84.5,
+                73.5,
+                93.9,
+                90.9,
+                85.7,
+                80.5,
+                63.5,
+                73.7,
+                69.0,
+                66.1,
+                67.5,
+                92.6,
+                51.3,
+                69.5,
+                40.7,
+                61.5,
+                70.2,
+                80.0,
+                67.0,
+                45.0,
+            ],
+            1,
+        )
 
     def test_raise_exception_colour_fidelity_index_CFI2017(self):
         """
-        Tests :func:`colour.quality.CIE2017.colour_fidelity_index_CFI2017`
+        Test :func:`colour.quality.CIE2017.colour_fidelity_index_CFI2017`
         definition raised exception.
         """
 
-        if six.PY3:  # pragma: no cover
-            sd = SDS_ILLUMINANTS['FL2'].copy().align(
-                SpectralShape(400, 700, 5))
-            self.assertWarns(ColourUsageWarning, colour_fidelity_index_CIE2017,
-                             sd)
+        sd = reshape_sd(SDS_ILLUMINANTS["FL2"], SpectralShape(400, 700, 5))
+        self.assertWarns(ColourUsageWarning, colour_fidelity_index_CIE2017, sd)
 
-        sd = SDS_ILLUMINANTS['FL2'].copy().align(SpectralShape(380, 780, 10))
+        sd = reshape_sd(SDS_ILLUMINANTS["FL2"], SpectralShape(380, 780, 10))
         self.assertRaises(ValueError, colour_fidelity_index_CIE2017, sd)
 
 
 class TestCctReferenceIlluminant(unittest.TestCase):
     """
-    Defines :func:`colour.quality.CIE2017.CCT_reference_illuminant`
+    Define :func:`colour.quality.CIE2017.CCT_reference_illuminant`
     definition unit tests methods.
     """
 
     def test_CCT_reference_illuminant(self):
         """
-        Tests :func:`colour.quality.CIE2017.CCT_reference_illuminant`
+        Test :func:`colour.quality.CIE2017.CCT_reference_illuminant`
         definition.
         """
 
@@ -622,13 +913,13 @@ class TestCctReferenceIlluminant(unittest.TestCase):
 
 class TestSdReferenceIlluminant(unittest.TestCase):
     """
-    Defines :func:`colour.quality.CIE2017.sd_reference_illuminant`
+    Define :func:`colour.quality.CIE2017.sd_reference_illuminant`
     definition unit tests methods.
     """
 
     def test_sd_reference_illuminant(self):
         """
-        Tests :func:`colour.quality.CIE2017.sd_reference_illuminant`
+        Test :func:`colour.quality.CIE2017.sd_reference_illuminant`
         definition.
         """
 
@@ -642,8 +933,9 @@ class TestSdReferenceIlluminant(unittest.TestCase):
             np.testing.assert_allclose(
                 sd_reference.values,
                 sd_blackbody(3288, shape).values,
-                rtol=0.005)
+                rtol=0.005,
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

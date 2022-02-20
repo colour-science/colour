@@ -1,0 +1,17 @@
+name: Question
+description: Ask a question.
+title: "[DISCUSSION]: << Please use a comprehensive title... >>"
+labels: [ Discussion ]
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for taking the time to ask a question or discuss. Before continuing, we would be glad if you were to start this discussion in the dedicated [discussions](https://github.com/colour-science/colour/discussions) area.
+
+  - type: textarea
+    attributes:
+      label: "Question"
+      description: >
+        If you are still here, please consider using the dedicated [discussions](https://github.com/colour-science/colour/discussions) area.
+      placeholder: >
+        << The discussions area is this way: https://github.com/colour-science/colour/discussions...  >>

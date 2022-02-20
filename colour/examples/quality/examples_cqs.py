@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases *Colour Quality Scale* (CQS) computations.
-"""
+"""Showcases *Colour Quality Scale* (CQS) computations."""
 
 from pprint import pprint
 
@@ -10,28 +7,35 @@ from colour.utilities import message_box
 
 message_box('"Colour Quality Scale (CQS)" Computations')
 
-message_box('Computing "F2" illuminant "Colour Quality Scale (CQS)".')
-print(colour.colour_quality_scale(colour.SDS_ILLUMINANTS['FL2']))
+message_box('Computing the "F2" illuminant "Colour Quality Scale (CQS)".')
+print(colour.colour_quality_scale(colour.SDS_ILLUMINANTS["FL2"]))
 
-print('\n')
+print("\n")
 
-message_box(('Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
-             'with detailed output data.'))
+message_box(
+    'Computing the "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" with '
+    "detailed output data."
+)
 pprint(
     colour.colour_quality_scale(
-        colour.SDS_LIGHT_SOURCES['H38HT-100 (Mercury)'], additional_data=True))
+        colour.SDS_LIGHT_SOURCES["H38HT-100 (Mercury)"], additional_data=True
+    )
+)
 
-print('\n')
+print("\n")
 
-message_box('Computing "SDW-T 100W/LV Super HPS" lamp '
-            '"Colour Quality Scale (CQS)".')
+message_box(
+    'Computing the "SDW-T 100W/LV Super HPS" lamp "Colour Quality Scale (CQS)".'
+)
 print(
     colour.colour_quality_scale(
-        colour.SDS_LIGHT_SOURCES['SDW-T 100W/LV (Super HPS)']))
+        colour.SDS_LIGHT_SOURCES["SDW-T 100W/LV (Super HPS)"]
+    )
+)
 
-print('\n')
+print("\n")
 
-message_box('Computing sample light "Colour Quality Scale (CQS)".')
+message_box('Computing the sample light "Colour Quality Scale (CQS)".')
 data_sample = {
     380: 0.00588346,
     385: 0.00315377,
@@ -113,9 +117,11 @@ data_sample = {
     765: 0.00340568,
     770: 0.00261153,
     775: 0.00258850,
-    780: 0.00293663
+    780: 0.00293663,
 }
 
 print(
     colour.colour_quality_scale(
-        colour.SpectralDistribution(data_sample, name='Sample')))
+        colour.SpectralDistribution(data_sample, name="Sample")
+    )
+)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Abstract Continuous Function
 ============================
@@ -9,38 +8,55 @@ function:
 -   :class:`colour.continuous.AbstractContinuousFunction`.
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
-from abc import ABCMeta, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 from copy import deepcopy
 
-# Python 3 compatibility.
-try:
-    from operator import div, idiv
-except ImportError:
-    from operator import truediv, itruediv
+from colour.hints import (
+    ArrayLike,
+    Any,
+    Boolean,
+    Callable,
+    Dict,
+    DTypeFloating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    Integer,
+    Literal,
+    NDArray,
+    Number,
+    Optional,
+    Type,
+    TypeExtrapolator,
+    TypeInterpolator,
+    Union,
+)
+from colour.utilities import (
+    as_float,
+    attest,
+    closest,
+    is_uniform,
+    is_string,
+    optional,
+)
 
-    div = truediv
-    idiv = itruediv
-from six import add_metaclass
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-from colour.utilities import as_float, closest, is_uniform, is_string
-
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
-
-__all__ = ['AbstractContinuousFunction']
+__all__ = [
+    "AbstractContinuousFunction",
+]
 
 
-@add_metaclass(ABCMeta)
-class AbstractContinuousFunction:
+class AbstractContinuousFunction(ABC):
     """
-    Defines the base class for abstract continuous function.
+    Define the base class for abstract continuous function.
 
     This is an :class:`ABCMeta` abstract class that must be inherited by
     sub-classes.
@@ -48,22 +64,23 @@ class AbstractContinuousFunction:
     The sub-classes are expected to implement the
     :meth:`colour.continuous.AbstractContinuousFunction.function` method so
     that evaluating the function for any independent domain
-    :math:`x \\in\\mathbb{R}` variable returns a corresponding range
-    :math:`y \\in\\mathbb{R}` variable. A conventional implementation adopts an
+    variable :math:`x \\in\\mathbb{R}` returns a corresponding range variable
+    :math:`y \\in\\mathbb{R}`. A conventional implementation adopts an
     interpolating function encapsulated inside an extrapolating function.
     The resulting function independent domain, stored as discrete values in the
     :attr:`colour.continuous.AbstractContinuousFunction.domain` attribute
     corresponds with the function dependent and already known range stored in
-    the :attr:`colour.continuous.AbstractContinuousFunction.range` attribute.
+    the :attr:`colour.continuous.AbstractContinuousFunction.range` property.
 
     Parameters
     ----------
-    name : unicode, optional
+    name
         Continuous function name.
 
     Attributes
     ----------
     -   :attr:`~colour.continuous.AbstractContinuousFunction.name`
+    -   :attr:`~colour.continuous.AbstractContinuousFunction.dtype`
     -   :attr:`~colour.continuous.AbstractContinuousFunction.domain`
     -   :attr:`~colour.continuous.AbstractContinuousFunction.range`
     -   :attr:`~colour.continuous.AbstractContinuousFunction.interpolator`
@@ -104,160 +121,170 @@ arithmetical_operation`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.copy`
     """
 
-    def __init__(self, name=None):
-        self._name = '{0} ({1})'.format(self.__class__.__name__, id(self))
-        self.name = name
+    def __init__(self, name: Optional[str] = None):
+        self._name: str = f"{self.__class__.__name__} ({id(self)})"
+        self.name = optional(name, self._name)
 
     @property
-    def name(self):
+    def name(self) -> str:
         """
         Getter and setter property for the abstract continuous function name.
 
         Parameters
         ----------
-        value : unicode
+        value
             Value to set the abstract continuous function name with.
 
         Returns
         -------
-        unicode
+        :class:`str`
             Abstract continuous function name.
         """
 
         return self._name
 
     @name.setter
-    def name(self, value):
-        """
-        Setter for **self.name** property.
-        """
+    def name(self, value: str):
+        """Setter for the **self.name** property."""
 
-        if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" type is not "str" or "unicode"!'
-                 ).format('name', value))
-            self._name = value
+        attest(
+            is_string(value),
+            f'"name" property: "{value}" type is not "str"!',
+        )
 
-    def _get_dtype(self):
+        self._name = value
+
+    # TODO: Remove pragma when https://github.com/python/mypy/issues/4165 is
+    # resolved.
+    @property  # type: ignore[misc]
+    @abstractmethod
+    def dtype(self) -> Type[DTypeFloating]:
         """
         Getter and setter property for the abstract continuous function dtype,
         must be reimplemented by sub-classes.
 
         Parameters
         ----------
-        value : type
+        value
             Value to set the abstract continuous function dtype with.
 
         Returns
         -------
-        type
+        Type[DTypeFloating]
             Abstract continuous function dtype.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def _set_dtype(self, value):
+    @dtype.setter  # type: ignore[misc]
+    @abstractmethod
+    def dtype(self, value: Type[DTypeFloating]):
         """
-        Setter for **self.dtype** property, must be reimplemented by
+        Setter for the **self.dtype** property, must be reimplemented by
         sub-classes.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    domain = abstractproperty(_get_dtype, _set_dtype)
-
-    def _get_domain(self):
+    @property  # type: ignore[misc]
+    @abstractmethod
+    def domain(self) -> NDArray:
         """
         Getter and setter property for the abstract continuous function
-        independent domain :math:`x` variable, must be reimplemented by
+        independent domain variable :math:`x`, must be reimplemented by
         sub-classes.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the abstract continuous function independent domain
-            :math:`x` variable with.
+            variable :math:`x` with.
 
         Returns
         -------
-        ndarray
-            Abstract continuous function independent domain
-            :math:`x` variable.
+        :class:`numpy.ndarray`
+            Abstract continuous function independent domain variable :math:`x`.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def _set_domain(self, value):
+    @domain.setter  # type: ignore[misc]
+    @abstractmethod
+    def domain(self, value: ArrayLike):
         """
         Setter for the **self.domain** property, must be reimplemented by
         sub-classes.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    domain = abstractproperty(_get_domain, _set_domain)
-
-    def _get_range(self):
+    @property  # type: ignore[misc]
+    @abstractmethod
+    def range(self) -> NDArray:
         """
         Getter and setter property for the abstract continuous function
-        corresponding range :math:`y` variable,
-        must be reimplemented by sub-classes.
+        corresponding range variable :math:`y`, must be reimplemented by
+        sub-classes.
 
         Parameters
         ----------
-        value : array_like
+        value
             Value to set the abstract continuous function corresponding range
-            :math:`y` variable with.
+            variable :math:`y` with.
 
         Returns
         -------
-        ndarray
-            Abstract continuous function corresponding range
-            :math:`y` variable.
+        :class:`numpy.ndarray`
+            Abstract continuous function corresponding range variable
+            :math:`y`.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def _set_range(self, value):
+    @range.setter  # type: ignore[misc]
+    @abstractmethod
+    def range(self, value: ArrayLike):
         """
         Setter for the **self.range** property, must be reimplemented by
         sub-classes.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    range = abstractproperty(_get_range, _set_range)
-
-    def _get_interpolator(self):
+    @property  # type: ignore[misc]
+    @abstractmethod
+    def interpolator(self) -> Type[TypeInterpolator]:
         """
         Getter and setter property for the abstract continuous function
         interpolator type, must be reimplemented by sub-classes.
 
         Parameters
         ----------
-        value : type
+        value
             Value to set the abstract continuous function interpolator type
             with.
 
         Returns
         -------
-        type
+        Type[TypeInterpolator]
             Abstract continuous function interpolator type.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def _set_interpolator(self, value):
+    @interpolator.setter  # type: ignore[misc]
+    @abstractmethod
+    def interpolator(self, value: Type[TypeInterpolator]):
         """
         Setter for the **self.interpolator** property, must be reimplemented by
         sub-classes.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    interpolator = abstractproperty(_get_interpolator, _set_interpolator)
-
-    def _get_interpolator_kwargs(self):
+    @property  # type: ignore[misc]
+    @abstractmethod
+    def interpolator_kwargs(self) -> Dict:
         """
         Getter and setter property for the abstract continuous function
         interpolator instantiation time arguments, must be reimplemented by
@@ -265,60 +292,63 @@ arithmetical_operation`
 
         Parameters
         ----------
-        value : dict
+        value
             Value to set the abstract continuous function interpolator
             instantiation time arguments to.
 
         Returns
         -------
-        dict
+        :class:`dict`
             Abstract continuous function interpolator instantiation time
             arguments.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def _set_interpolator_kwargs(self, value):
+    @interpolator_kwargs.setter  # type: ignore[misc]
+    @abstractmethod
+    def interpolator_kwargs(self, value: dict):
         """
         Setter for the **self.interpolator_kwargs** property, must be
         reimplemented by sub-classes.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    interpolator_kwargs = abstractproperty(_get_interpolator_kwargs,
-                                           _set_interpolator_kwargs)
-
-    def _get_extrapolator(self):
+    @property  # type: ignore[misc]
+    @abstractmethod
+    def extrapolator(self) -> Type[TypeExtrapolator]:
         """
         Getter and setter property for the abstract continuous function
         extrapolator type, must be reimplemented by sub-classes.
 
         Parameters
         ----------
-        value : type
+        value
             Value to set the abstract continuous function extrapolator type
             with.
 
         Returns
         -------
-        type
+        Type[TypeExtrapolator]
             Abstract continuous function extrapolator type.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def _set_extrapolator(self, value):
+    @extrapolator.setter  # type: ignore[misc]
+    @abstractmethod
+    def extrapolator(self, value: Type[TypeExtrapolator]):
         """
         Setter for the **self.extrapolator** property, must be reimplemented by
         sub-classes.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    extrapolator = abstractproperty(_get_extrapolator, _set_extrapolator)
-
-    def _get_extrapolator_kwargs(self):
+    @property  # type: ignore[misc]
+    @abstractmethod
+    def extrapolator_kwargs(self) -> Dict:
         """
         Getter and setter property for the abstract continuous function
         extrapolator instantiation time arguments, must be reimplemented by
@@ -326,470 +356,491 @@ arithmetical_operation`
 
         Parameters
         ----------
-        value : dict
+        value
             Value to set the abstract continuous function extrapolator
             instantiation time arguments to.
 
         Returns
         -------
-        dict
+        :class:`dict`
             Abstract continuous function extrapolator instantiation time
             arguments.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def _set_extrapolator_kwargs(self, value):
+    @extrapolator_kwargs.setter  # type: ignore[misc]
+    @abstractmethod
+    def extrapolator_kwargs(self, value: dict):
         """
         Setter for the **self.extrapolator_kwargs** property, must be
         reimplemented by sub-classes.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    extrapolator_kwargs = abstractproperty(_get_extrapolator_kwargs,
-                                           _set_extrapolator_kwargs)
-
-    def _get_function(self):
+    @property
+    @abstractmethod
+    def function(self) -> Callable:
         """
-        Getter and setter property for the abstract continuous function
-        callable, must be reimplemented by sub-classes.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
+        Getter property for the abstract continuous function callable, must be
+        reimplemented by sub-classes.
 
         Returns
         -------
-        callable
+        Callable
             Abstract continuous function callable.
         """
 
-        pass
-
-    def _set_function(self, value):
-        """
-        Setter for the **self.function** property, must be reimplemented by
-        sub-classes.
-        """
-
-        pass
-
-    function = abstractproperty(_get_function, _set_function)
+        ...  # pragma: no cover
 
     @abstractmethod
-    def __str__(self):
+    def __str__(self) -> str:
         """
-        Returns a formatted string representation of the abstract continuous
+        Return a formatted string representation of the abstract continuous
         function, must be reimplemented by sub-classes.
 
         Returns
         -------
-        unicode
+        :class:`str`
             Formatted string representation.
         """
 
-        return '<{0} object at {1}>'.format(self.__class__.__name__, id(self))
+        ...  # pragma: no cover
 
     @abstractmethod
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
-        Returns an evaluable string representation of the abstract continuous
+        Return an evaluable string representation of the abstract continuous
         function, must be reimplemented by sub-classes.
 
         Returns
         -------
-        unicode
+        :class:`str`
             Evaluable string representation.
         """
 
-        return '{0}()'.format(self.__class__.__name__)
+        ...  # pragma: no cover
 
     @abstractmethod
-    def __hash__(self):
+    def __hash__(self) -> Integer:
         """
-        Returns the abstract continuous function hash.
+        Return the abstract continuous function hash.
 
         Returns
         -------
-        int
+        :class:`numpy.integer`
             Object hash.
         """
 
-        pass
+        ...  # pragma: no cover
 
     @abstractmethod
-    def __getitem__(self, x):
+    def __getitem__(
+        self, x: Union[FloatingOrArrayLike, slice]
+    ) -> FloatingOrNDArray:
         """
-        Returns the corresponding range :math:`y` variable for independent
-        domain :math:`x` variable, must be reimplemented by sub-classes.
+        Return the corresponding range variable :math:`y` for independent
+        domain variable :math:`x`, must be reimplemented by sub-classes.
 
         Parameters
         ----------
-        x : numeric, array_like or slice
-            Independent domain :math:`x` variable.
+        x
+            Independent domain variable :math:`x`.
 
         Returns
         -------
-        numeric or ndarray
-            math:`y` range value.
+        :class:`numpy.floating` or :class:`numpy.ndarray`
+            Variable :math:`y` range value.
         """
 
-        pass
+        ...  # pragma: no cover
 
     @abstractmethod
-    def __setitem__(self, x, y):
+    def __setitem__(
+        self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
+    ):
         """
-        Sets the corresponding range :math:`y` variable for independent domain
-        :math:`x` variable, must be reimplemented by sub-classes.
+        Set the corresponding range variable :math:`y` for independent domain
+        variable :math:`x`, must be reimplemented by sub-classes.
 
         Parameters
         ----------
-        x : numeric, array_like or slice
-            Independent domain :math:`x` variable.
-        y : numeric or ndarray
-            Corresponding range :math:`y` variable.
+        x
+            Independent domain variable :math:`x`.
+        y
+            Corresponding range variable :math:`y`.
         """
 
-        pass
+        ...  # pragma: no cover
 
     @abstractmethod
-    def __contains__(self, x):
+    def __contains__(self, x: Union[FloatingOrArrayLike, slice]) -> bool:
         """
-        Returns whether the abstract continuous function contains given
-        independent domain :math:`x` variable, must be reimplemented by
+        Return whether the abstract continuous function contains given
+        independent domain variable :math:`x`, must be reimplemented by
         sub-classes.
 
         Parameters
         ----------
-        x : numeric, array_like or slice
-            Independent domain :math:`x` variable.
+        x
+            Independent domain variable :math:`x`.
 
         Returns
         -------
-        bool
-            Is :math:`x` domain value contained.
+        :class:`bool`
+            Whether :math:`x` domain value is contained.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def __len__(self):
+    def __len__(self) -> Integer:
         """
-        Returns the abstract continuous function independent domain :math:`x`
+        Return the abstract continuous function independent domain :math:`x`
         variable elements count.
 
 
         Returns
         -------
-        int
-            Independent domain :math:`x` variable elements count.
+        :class:`numpy.integer`
+            Independent domain variable :math:`x` elements count.
         """
 
         return len(self.domain)
 
     @abstractmethod
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         """
-        Returns whether the abstract continuous function is equal to given
+        Return whether the abstract continuous function is equal to given
         other object, must be reimplemented by sub-classes.
 
         Parameters
         ----------
-        other : object
+        other
             Object to test whether it is equal to the abstract continuous
             function.
 
         Returns
         -------
-        bool
-            Is given object equal to the abstract continuous function.
+        :class:`bool`
+            Whether given object is equal to the abstract continuous function.
         """
 
-        pass
+        ...  # pragma: no cover
 
     @abstractmethod
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         """
-        Returns whether the abstract continuous function is not equal to given
+        Return whether the abstract continuous function is not equal to given
         other object, must be reimplemented by sub-classes.
 
         Parameters
         ----------
-        other : object
+        other
             Object to test whether it is not equal to the abstract continuous
             function.
 
         Returns
         -------
-        bool
-            Is given object not equal to the abstract continuous function.
+        :class:`bool`
+            Whether given object is not equal to the abstract continuous
+            function.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def __add__(self, a):
+    def __add__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for addition.
+        Implement support for addition.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to add.
+        a
+            Variable :math:`a` to add.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             Variable added abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '+')
+        return self.arithmetical_operation(a, "+")
 
-    def __iadd__(self, a):
+    def __iadd__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place addition.
+        Implement support for in-place addition.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to add in-place.
+        a
+            Variable :math:`a` to add in-place.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             In-place variable added abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '+', True)
+        return self.arithmetical_operation(a, "+", True)
 
-    def __sub__(self, a):
+    def __sub__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for subtraction.
+        Implement support for subtraction.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to subtract.
+        a
+            Variable :math:`a` to subtract.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             Variable subtracted abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '-')
+        return self.arithmetical_operation(a, "-")
 
-    def __isub__(self, a):
+    def __isub__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place subtraction.
+        Implement support for in-place subtraction.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to subtract in-place.
+        a
+            Variable :math:`a` to subtract in-place.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             In-place variable subtracted abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '-', True)
+        return self.arithmetical_operation(a, "-", True)
 
-    def __mul__(self, a):
+    def __mul__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for multiplication.
+        Implement support for multiplication.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to multiply by.
+        a
+            Variable :math:`a` to multiply by.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             Variable multiplied abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '*')
+        return self.arithmetical_operation(a, "*")
 
-    def __imul__(self, a):
+    def __imul__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place multiplication.
+        Implement support for in-place multiplication.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to multiply by in-place.
+        a
+            Variable :math:`a` to multiply by in-place.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             In-place variable multiplied abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '*', True)
+        return self.arithmetical_operation(a, "*", True)
 
-    def __div__(self, a):
+    def __div__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for division.
+        Implement support for division.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to divide by.
+        a
+            Variable :math:`a` to divide by.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             Variable divided abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '/')
+        return self.arithmetical_operation(a, "/")
 
-    def __idiv__(self, a):
+    def __idiv__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place division.
+        Implement support for in-place division.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to divide by in-place.
+        a
+            Variable :math:`a` to divide by in-place.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             In-place variable divided abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '/', True)
+        return self.arithmetical_operation(a, "/", True)
 
     __itruediv__ = __idiv__
     __truediv__ = __div__
 
-    def __pow__(self, a):
+    def __pow__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for exponentiation.
+        Implement support for exponentiation.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to exponentiate by.
+        a
+            Variable :math:`a` to exponentiate by.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             Variable exponentiated abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '**')
+        return self.arithmetical_operation(a, "**")
 
-    def __ipow__(self, a):
+    def __ipow__(
+        self, a: Union[FloatingOrArrayLike, AbstractContinuousFunction]
+    ) -> AbstractContinuousFunction:
         """
-        Implements support for in-place exponentiation.
+        Implement support for in-place exponentiation.
 
         Parameters
         ----------
-        a : numeric or array_like or AbstractContinuousFunction
-            :math:`a` variable to exponentiate by in-place.
+        a
+            Variable :math:`a` to exponentiate by in-place.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             In-place variable exponentiated abstract continuous function.
         """
 
-        return self.arithmetical_operation(a, '**', True)
+        return self.arithmetical_operation(a, "**", True)
 
     @abstractmethod
-    def arithmetical_operation(self, a, operation, in_place=False):
+    def arithmetical_operation(
+        self,
+        a: Union[FloatingOrArrayLike, AbstractContinuousFunction],
+        operation: Literal["+", "-", "*", "/", "**"],
+        in_place: Boolean = False,
+    ) -> AbstractContinuousFunction:
         """
-        Performs given arithmetical operation with :math:`a` operand, the
+        Perform given arithmetical operation with operand :math:`a`, the
         operation can be either performed on a copy or in-place, must be
         reimplemented by sub-classes.
 
         Parameters
         ----------
-        a : numeric or ndarray or AbstractContinuousFunction
-            Operand.
-        operation : object
+        a
+            Operand :math:`a`.
+        operation
             Operation to perform.
-        in_place : bool, optional
+        in_place
             Operation happens in place.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             Abstract continuous function.
         """
 
-        pass
+        ...  # pragma: no cover
 
     @abstractmethod
-    def fill_nan(self, method='Interpolation', default=0):
+    def fill_nan(
+        self,
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
+        default: Number = 0,
+    ) -> AbstractContinuousFunction:
         """
-        Fill NaNs in independent domain :math:`x` variable and corresponding
-        range :math:`y` variable using given method, must be reimplemented by
+        Fill NaNs in independent domain variable :math:`x` and corresponding
+        range variable :math:`y` using given method, must be reimplemented by
         sub-classes.
 
         Parameters
         ----------
-        method : unicode, optional
-            **{'Interpolation', 'Constant'}**,
+        method
             *Interpolation* method linearly interpolates through the NaNs,
             *Constant* method replaces NaNs with ``default``.
-        default : numeric, optional
+        default
             Value to use with the *Constant* method.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             NaNs filled abstract continuous function.
         """
 
-        pass
+        ...  # pragma: no cover
 
-    def domain_distance(self, a):
+    def domain_distance(self, a: FloatingOrArrayLike) -> FloatingOrNDArray:
         """
-        Returns the euclidean distance between given array and independent
+        Return the euclidean distance between given array and independent
         domain :math:`x` closest element.
 
         Parameters
         ----------
-        a : numeric or array_like
-            :math:`a` variable to compute the euclidean distance with
-            independent domain :math:`x` variable.
+        a
+            Variable :math:`a` to compute the euclidean distance with
+            independent domain variable :math:`x`.
 
         Returns
         -------
-        numeric or array_like
-            Euclidean distance between independent domain :math:`x` variable
-            and given :math:`a` variable.
+        :class:`numpy.floating` or :class:`numpy.ndarray`
+            Euclidean distance between independent domain variable :math:`x`
+            and given variable :math:`a`.
         """
 
         n = closest(self.domain, a)
 
         return as_float(np.abs(a - n))
 
-    def is_uniform(self):
+    def is_uniform(self) -> Boolean:
         """
-        Returns if independent domain :math:`x` variable is uniform.
+        Return if independent domain variable :math:`x` is uniform.
 
         Returns
         -------
-        bool
-            Is independent domain :math:`x` variable uniform.
+        :class:`bool`
+            Is independent domain variable :math:`x` uniform.
         """
 
         return is_uniform(self.domain)
 
-    def copy(self):
+    def copy(self) -> AbstractContinuousFunction:
         """
-        Returns a copy of the sub-class instance.
+        Return a copy of the sub-class instance.
 
         Returns
         -------
-        AbstractContinuousFunction
+        :class:`colour.continuous.AbstractContinuousFunction`
             Abstract continuous function copy.
         """
 

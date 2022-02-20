@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 DJI D-Log Log Encoding
 ======================
@@ -16,34 +15,38 @@ References
 D-Log_D-Gamut_Whitepaper.pdf
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
+__all__ = [
+    "log_encoding_DJIDLog",
+    "log_decoding_DJIDLog",
+]
 
 
-def log_encoding_DJIDLog(x):
+def log_encoding_DJIDLog(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *DJI D-Log* log encoding curve.
+    Define the *DJI D-Log* log encoding curve.
 
     Parameters
     ----------
-    x : numeric or array_like
+    x
         Linear reflection data :math`x`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         *DJI D-Log* encoded data :math:`y`.
 
     References
@@ -52,7 +55,6 @@ def log_encoding_DJIDLog(x):
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -73,24 +75,27 @@ def log_encoding_DJIDLog(x):
 
     x = to_domain_1(x)
 
-    y = np.where(x <= 0.0078, 6.025 * x + 0.0929,
-                 (np.log10(x * 0.9892 + 0.0108)) * 0.256663 + 0.584555)
+    y = np.where(
+        x <= 0.0078,
+        6.025 * x + 0.0929,
+        (np.log10(x * 0.9892 + 0.0108)) * 0.256663 + 0.584555,
+    )
 
     return as_float(from_range_1(y))
 
 
-def log_decoding_DJIDLog(y):
+def log_decoding_DJIDLog(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines the *DJI D-Log* log decoding curve.
+    Define the *DJI D-Log* log decoding curve.
 
     Parameters
     ----------
-    y : numeric or array_like
-        Non-linear data :math:`t`.
+    y
+        *DJI D-Log* encoded data :math:`y`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Linear reflection data :math`x`.
 
     References
@@ -99,7 +104,6 @@ def log_decoding_DJIDLog(y):
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -120,7 +124,10 @@ def log_decoding_DJIDLog(y):
 
     y = to_domain_1(y)
 
-    x = np.where(y <= 0.14, (y - 0.0929) / 6.025,
-                 (10 ** (3.89616 * y - 2.27752) - 0.0108) / 0.9892)
+    x = np.where(
+        y <= 0.14,
+        (y - 0.0929) / 6.025,
+        (10 ** (3.89616 * y - 2.27752) - 0.0108) / 0.9892,
+    )
 
     return as_float(from_range_1(x))

@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 """
 Test Colour Samples Spectral Distributions
-================================================
+==========================================
 
 Defines the *CIE 1995* test colour samples spectral distributions.
 
@@ -18,69 +17,68 @@ References
 usp=sharing
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict
 from colour.utilities import CaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'INDEXES_TO_NAMES_TCS', 'APPROXIMATE_MUNSELL_NOTATIONS_TCS', 'DATA_TCS',
-    'SDS_TCS'
+    "INDEXES_TO_NAMES_TCS",
+    "APPROXIMATE_MUNSELL_NOTATIONS_TCS",
+    "DATA_TCS",
+    "SDS_TCS",
 ]
 
-INDEXES_TO_NAMES_TCS = {
-    1: 'TCS01',
-    2: 'TCS02',
-    3: 'TCS03',
-    4: 'TCS04',
-    5: 'TCS05',
-    6: 'TCS06',
-    7: 'TCS07',
-    8: 'TCS08',
-    9: 'TCS09',
-    10: 'TCS10',
-    11: 'TCS11',
-    12: 'TCS12',
-    13: 'TCS13',
-    14: 'TCS14'
+INDEXES_TO_NAMES_TCS: Dict = {
+    1: "TCS01",
+    2: "TCS02",
+    3: "TCS03",
+    4: "TCS04",
+    5: "TCS05",
+    6: "TCS06",
+    7: "TCS07",
+    8: "TCS08",
+    9: "TCS09",
+    10: "TCS10",
+    11: "TCS11",
+    12: "TCS12",
+    13: "TCS13",
+    14: "TCS14",
 }
-"""
-Test colour samples indexes to names mapping.
+"""Test colour samples indexes to names mapping."""
 
-INDEXES_TO_NAMES_TCS : dict
-"""
+APPROXIMATE_MUNSELL_NOTATIONS_TCS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "TCS01": "7.5 R 6/4",
+            "TCS02": "5 Y 6/4",
+            "TCS03": "5 GY 6/8",
+            "TCS04": "2.5 G 6/6",
+            "TCS05": "10 BG 6/4",
+            "TCS06": "5 PB 6/8",
+            "TCS07": "2.5 P 6/8",
+            "TCS08": "10 P 6/8",
+            "TCS09": "4.5 R 4/13",
+            "TCS10": "5 Y 8/10",
+            "TCS11": "4.5 G 5/8",
+            "TCS12": "3 PB 3/11",
+            "TCS13": "5 YR 8/4",
+            "TCS14": "5 GY 4/4",
+        }
+    )
+)
+"""Test colour samples *Munsell* colour approximations."""
 
-APPROXIMATE_MUNSELL_NOTATIONS_TCS = CaseInsensitiveMapping({
-    'TCS01': '7.5 R 6/4',
-    'TCS02': '5 Y 6/4',
-    'TCS03': '5 GY 6/8',
-    'TCS04': '2.5 G 6/6',
-    'TCS05': '10 BG 6/4',
-    'TCS06': '5 PB 6/8',
-    'TCS07': '2.5 P 6/8',
-    'TCS08': '10 P 6/8',
-    'TCS09': '4.5 R 4/13',
-    'TCS10': '5 Y 8/10',
-    'TCS11': '4.5 G 5/8',
-    'TCS12': '3 PB 3/11',
-    'TCS13': '5 YR 8/4',
-    'TCS14': '5 GY 4/4'
-})
-"""
-Test colour samples *Munsell* colour approximations.
-
-APPROXIMATE_MUNSELL_NOTATIONS_TCS : CaseInsensitiveMapping
-"""
-
-DATA_TCS = {
-    'TCS01': {
+DATA_TCS: Dict = {
+    "TCS01": {
         360: 0.116,
         365: 0.136,
         370: 0.159,
@@ -175,9 +173,9 @@ DATA_TCS = {
         815: 0.466,
         820: 0.465,
         825: 0.464,
-        830: 0.464
+        830: 0.464,
     },
-    'TCS02': {
+    "TCS02": {
         360: 0.053,
         365: 0.055,
         370: 0.059,
@@ -272,9 +270,9 @@ DATA_TCS = {
         815: 0.311,
         820: 0.311,
         825: 0.311,
-        830: 0.310
+        830: 0.310,
     },
-    'TCS03': {
+    "TCS03": {
         360: 0.058,
         365: 0.059,
         370: 0.061,
@@ -369,9 +367,9 @@ DATA_TCS = {
         815: 0.544,
         820: 0.548,
         825: 0.552,
-        830: 0.555
+        830: 0.555,
     },
-    'TCS04': {
+    "TCS04": {
         360: 0.057,
         365: 0.059,
         370: 0.062,
@@ -466,9 +464,9 @@ DATA_TCS = {
         815: 0.243,
         820: 0.254,
         825: 0.264,
-        830: 0.274
+        830: 0.274,
     },
-    'TCS05': {
+    "TCS05": {
         360: 0.143,
         365: 0.187,
         370: 0.233,
@@ -563,9 +561,9 @@ DATA_TCS = {
         815: 0.257,
         820: 0.265,
         825: 0.273,
-        830: 0.280
+        830: 0.280,
     },
-    'TCS06': {
+    "TCS06": {
         360: 0.079,
         365: 0.081,
         370: 0.089,
@@ -660,9 +658,9 @@ DATA_TCS = {
         815: 0.525,
         820: 0.529,
         825: 0.532,
-        830: 0.535
+        830: 0.535,
     },
-    'TCS07': {
+    "TCS07": {
         360: 0.150,
         365: 0.177,
         370: 0.218,
@@ -757,9 +755,9 @@ DATA_TCS = {
         815: 0.590,
         820: 0.590,
         825: 0.591,
-        830: 0.592
+        830: 0.592,
     },
-    'TCS08': {
+    "TCS08": {
         360: 0.075,
         365: 0.078,
         370: 0.084,
@@ -854,9 +852,9 @@ DATA_TCS = {
         815: 0.731,
         820: 0.731,
         825: 0.731,
-        830: 0.731
+        830: 0.731,
     },
-    'TCS09': {
+    "TCS09": {
         360: 0.069,
         365: 0.072,
         370: 0.073,
@@ -951,9 +949,9 @@ DATA_TCS = {
         815: 0.837,
         820: 0.837,
         825: 0.836,
-        830: 0.836
+        830: 0.836,
     },
-    'TCS10': {
+    "TCS10": {
         360: 0.042,
         365: 0.043,
         370: 0.045,
@@ -1048,9 +1046,9 @@ DATA_TCS = {
         815: 0.757,
         820: 0.757,
         825: 0.756,
-        830: 0.756
+        830: 0.756,
     },
-    'TCS11': {
+    "TCS11": {
         360: 0.074,
         365: 0.079,
         370: 0.086,
@@ -1145,9 +1143,9 @@ DATA_TCS = {
         815: 0.380,
         820: 0.388,
         825: 0.396,
-        830: 0.403
+        830: 0.403,
     },
-    'TCS12': {
+    "TCS12": {
         360: 0.189,
         365: 0.175,
         370: 0.158,
@@ -1242,9 +1240,9 @@ DATA_TCS = {
         815: 0.694,
         820: 0.697,
         825: 0.700,
-        830: 0.702
+        830: 0.702,
     },
-    'TCS13': {
+    "TCS13": {
         360: 0.071,
         365: 0.076,
         370: 0.082,
@@ -1339,9 +1337,9 @@ DATA_TCS = {
         815: 0.745,
         820: 0.745,
         825: 0.745,
-        830: 0.745
+        830: 0.745,
     },
-    'TCS14': {
+    "TCS14": {
         360: 0.036,
         365: 0.036,
         370: 0.036,
@@ -1436,19 +1434,20 @@ DATA_TCS = {
         815: 0.444,
         820: 0.448,
         825: 0.451,
-        830: 0.454
-    }
+        830: 0.454,
+    },
 }
 
-SDS_TCS = CaseInsensitiveMapping(
-    dict((key, SpectralDistribution(value, name=key))
-         for key, value in DATA_TCS.items()))
+SDS_TCS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        key: SpectralDistribution(value, name=key)
+        for key, value in DATA_TCS.items()
+    }
+)
 """
 Test colour samples spectral distributions.
 
 References
 ----------
 :cite:`Ohno2008a`
-
-SDS_TCS : CaseInsensitiveMapping
 """

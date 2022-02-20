@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Primaries of LCD Displays
 =========================
@@ -8,9 +7,11 @@ Defines the primaries multi-spectral distributions of *LCD* displays.
 Each *LCD* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
 
-    {'name': RGB_DisplayPrimaries,
-    ...,
-    'name': RGB_DisplayPrimaries}
+    {
+        'name': RGB_DisplayPrimaries,
+        ...,
+        'name': RGB_DisplayPrimaries
+    }
 
 The following *LCD* displays are available:
 
@@ -28,22 +29,28 @@ context=article
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
+
+from functools import partial
 
 from colour.characterisation import RGB_DisplayPrimaries
-from colour.utilities import CaseInsensitiveMapping
+from colour.hints import Dict
+from colour.utilities import LazyCaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['DATA_DISPLAY_PRIMARIES_LCD', 'MSDS_DISPLAY_PRIMARIES_LCD']
+__all__ = [
+    "DATA_DISPLAY_PRIMARIES_LCD",
+    "MSDS_DISPLAY_PRIMARIES_LCD",
+]
 
-DATA_DISPLAY_PRIMARIES_LCD = {
-    'Apple Studio Display': {
+DATA_DISPLAY_PRIMARIES_LCD: Dict = {
+    "Apple Studio Display": {
         380: (0.0000, 0.0000, 0.0000),
         385: (0.0000, 0.0000, 0.0000),
         390: (0.0000, 0.0000, 0.0000),
@@ -124,23 +131,25 @@ DATA_DISPLAY_PRIMARIES_LCD = {
         765: (0.0000, 0.0000, 0.0000),
         770: (0.0000, 0.0000, 0.0000),
         775: (0.0000, 0.0119, 0.0000),
-        780: (0.0000, 0.0000, 0.0000)
+        780: (0.0000, 0.0000, 0.0000),
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_LCD = CaseInsensitiveMapping({
-    'Apple Studio Display':
-        RGB_DisplayPrimaries(
-            DATA_DISPLAY_PRIMARIES_LCD['Apple Studio Display'],
-            name='Apple Studio Display')
-})
+MSDS_DISPLAY_PRIMARIES_LCD: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        {
+            "Apple Studio Display": partial(
+                RGB_DisplayPrimaries,
+                DATA_DISPLAY_PRIMARIES_LCD["Apple Studio Display"],
+                name="Apple Studio Display",
+            )
+        }
+    )
+)
 """
 Primaries multi-spectral distributions of *LCD* displays.
 
 References
 ----------
 :cite:`Fairchild1998b`, :cite:`Machado2010a`
-
-MSDS_DISPLAY_PRIMARIES_LCD : CaseInsensitiveMapping
-    **{'Apple Studio Display'}**
 """

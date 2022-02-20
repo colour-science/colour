@@ -1,25 +1,25 @@
-# -*- coding: utf-8 -*-
-"""
-Defines unit tests for :mod:`colour.quality.ssi` module.
-"""
+"""Defines the unit tests for the :mod:`colour.quality.ssi` module."""
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import unittest
 
-from colour.quality import spectral_similarity_index
 from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
+from colour.hints import Dict
+from colour.quality import spectral_similarity_index
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['TestSpectralSimilarityIndex']
+__all__ = [
+    "TestSpectralSimilarityIndex",
+]
 
-DATA_HMI = {
+DATA_HMI: Dict = {
     300: 0.000000000000000,
     301: 0.000000000000000,
     302: 0.000000000000000,
@@ -550,28 +550,32 @@ DATA_HMI = {
     827: 0.000000000000000,
     828: 0.000000000000000,
     829: 0.000000000000000,
-    830: 0.000000000000000
+    830: 0.000000000000000,
 }
 
 
 class TestSpectralSimilarityIndex(unittest.TestCase):
     """
-    Defines :func:`colour.quality.ssi.spectral_similarity_index`
+    Define :func:`colour.quality.ssi.spectral_similarity_index`
     definition unit tests methods.
     """
 
     def test_spectral_similarity_index(self):
-        """
-        Tests :func:`colour.quality.ssi.spectral_similarity_index` definition.
-        """
+        """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
 
-        self.assertEqual(
-            spectral_similarity_index(SDS_ILLUMINANTS['C'],
-                                      SDS_ILLUMINANTS['D65']), 94.0)
         self.assertEqual(
             spectral_similarity_index(
-                SpectralDistribution(DATA_HMI), SDS_ILLUMINANTS['D50']), 72.0)
+                SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"]
+            ),
+            94.0,
+        )
+        self.assertEqual(
+            spectral_similarity_index(
+                SpectralDistribution(DATA_HMI), SDS_ILLUMINANTS["D50"]
+            ),
+            72.0,
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

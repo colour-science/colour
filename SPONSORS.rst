@@ -78,33 +78,6 @@ If you'd like to join them, please consider
                     </a>
                 </td>
             </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-            </tr>
         </tbody>
     </table>
 
@@ -155,77 +128,62 @@ If you'd like to join them, please consider
                     </a>
                 </td>
             </tr>
+        </tbody>
+    </table>
+
+.. raw:: html
+
+    <h2 align="center">Recurring Donations</h2>
+
+.. raw:: html
+
+    <table>
+        <tbody>
             <tr>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/Pablo_g_soriano" target="_blank">
+                        <img width="98px" src="https://images.opencollective.com/cromorama-sp-z-oo/67460ce/avatar/256.png">
+                    </a>
+                    <p><a href="https://twitter.com/Pablo_g_soriano" target="_blank">Pablo Garcia Soriano</a></p>
+                </td>
+                <td align="center" valign="middle">
+                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="126px" src="https://dummyimage.com/126x126/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
+                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
                     </a>
                 </td>
             </tr>
@@ -267,7 +225,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://www.richardlackey.com/" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/555774739629633536/JjxFzBHy.jpeg">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1384145243096829962/CoUQPhrP.jpg">
                     </a>
                     <p><a href="https://www.richardlackey.com/" target="_blank">Richard Lackey</a></p>
                 </td>
@@ -275,13 +233,13 @@ If you'd like to join them, please consider
             <tr>
                 <td align="center" valign="middle">
                     <a href="https://www.artstation.com/monsieur_lixm" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1006611034088595462/HNQh_FZQ.jpg">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1469781977280786433/NncWAxCW.jpg">
                     </a>
                     <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="http://antlerpost.com/" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1175674352/NS_Portrait_1k.jpg">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1394284009329504257/CZxrhA6x.jpg">
                     </a>
                     <p><a href="http://antlerpost.com/" target="_blank">Nick Shaw</a></p>
                 </td>
@@ -293,7 +251,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://twitter.com/ilia_sibiryakov" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1072964248890998796/kAKBzCef.jpg">
+                        <img width="176px" src="https://avatars.githubusercontent.com/u/23642861">
                     </a>
                     <p><a href="https://twitter.com/ilia_sibiryakov" target="_blank">Ilia Sibiryakov</a></p>
                 </td>
@@ -324,9 +282,10 @@ If you'd like to join them, please consider
                     <p><a href="https://chrisbrejon.com/" target="_blank">Christophe Brejon</a></p>
                 </td>
                 <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="176px" src="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here">
+                    <a href="https://twitter.com/MarioRokicki" target="_blank">
+                        <img width="176px" src="https://pbs.twimg.com/profile_images/1801891382/mario_pi_sq_400x400.jpg">
                     </a>
+                    <p><a href="https://twitter.com/MarioRokicki" target="_blank">Mario Rokicki</a></p>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/176x176/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
@@ -357,194 +316,6 @@ If you'd like to join them, please consider
                         <img width="98px" src="https://pbs.twimg.com/profile_images/973315780388540416/KEddjwch_400x400.jpg">
                     </a>
                     <p><a href="https://twitter.com/CLVPTY" target="_blank">Cedric Lejeune</a></p>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
-                </td>
-                <td align="center" valign="middle">
-                    <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">
-                        <img width="98px" src="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here">
-                    </a>
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://dummyimage.com/98x98/f9f9fc/000000.png&text=Your+Logo+Here" target="_blank">

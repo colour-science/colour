@@ -1,27 +1,28 @@
-# -*- coding: utf-8 -*-
-"""
-Defines unit tests for :mod:`colour.temperature.robertson1968` module.
-"""
+"""Defines the unit tests for the :mod:`colour.temperature.robertson1968` module."""
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 import unittest
 from itertools import permutations
 
+from colour.hints import Dict
 from colour.temperature import CCT_to_uv_Robertson1968, uv_to_CCT_Robertson1968
 from colour.utilities import ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['Testuv_to_CCT_Robertson1968', 'TestCCT_to_uv_Robertson1968']
+__all__ = [
+    "Testuv_to_CCT_Robertson1968",
+    "TestCCT_to_uv_Robertson1968",
+]
 
-TEMPERATURE_DUV_TO_UV = {
+TEMPERATURE_DUV_TO_UV: Dict = {
     (2000, -0.0500): np.array([0.309448284638118, 0.309263824757947]),
     (2000, -0.0250): np.array([0.307249142319059, 0.334166912378974]),
     (2000, 0.0000): np.array([0.305050000000000, 0.359070000000000]),
@@ -121,29 +122,30 @@ TEMPERATURE_DUV_TO_UV = {
     (49500, -0.0250): np.array([0.205486370785934, 0.262018880883472]),
     (49500, 0.0000): np.array([0.181345151515151, 0.268515151515151]),
     (49500, 0.0250): np.array([0.157203932244369, 0.275011422146831]),
-    (49500, 0.0500): np.array([0.133062712973587, 0.281507692778510])
+    (49500, 0.0500): np.array([0.133062712973587, 0.281507692778510]),
 }
 
 
 class Testuv_to_CCT_Robertson1968(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+    Define :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
     definition unit tests methods.
     """
 
     def test_uv_to_CCT_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition.
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
             np.testing.assert_allclose(
-                uv_to_CCT_Robertson1968(value), key, atol=0.25)
+                uv_to_CCT_Robertson1968(value), key, atol=0.25
+            )
 
     def test_n_dimensional_uv_to_CCT_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition n-dimensional arrays support.
         """
 
@@ -153,17 +155,19 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
         uv = np.tile(uv, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         np.testing.assert_almost_equal(
-            uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7)
+            uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7
+        )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         np.testing.assert_almost_equal(
-            uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7)
+            uv_to_CCT_Robertson1968(uv), CCT_D_uv, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_uv_to_CCT_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition nan support.
         """
 
@@ -176,23 +180,24 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
 
 class TestCCT_to_uv_Robertson1968(unittest.TestCase):
     """
-    Defines :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+    Define :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
     definition unit tests methods.
     """
 
     def test_CCT_to_uv_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition.
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
             np.testing.assert_almost_equal(
-                CCT_to_uv_Robertson1968(key), value, decimal=7)
+                CCT_to_uv_Robertson1968(key), value, decimal=7
+            )
 
     def test_n_dimensional_CCT_to_uv_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition n-dimensional arrays support.
         """
 
@@ -202,17 +207,19 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
         np.testing.assert_almost_equal(
-            CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7)
+            CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7
+        )
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
         np.testing.assert_almost_equal(
-            CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7)
+            CCT_to_uv_Robertson1968(CCT_D_uv), uv, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_CCT_to_uv_Robertson1968(self):
         """
-        Tests :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+        Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition nan support.
         """
 
@@ -223,5 +230,5 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
             CCT_to_uv_Robertson1968(CCT_D_uv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

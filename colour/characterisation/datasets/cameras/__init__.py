@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 References
 ----------
@@ -8,22 +7,22 @@ References
     doi:10.1364/JOSAA.32.000381
 """
 
-from __future__ import absolute_import
+from __future__ import annotations
 
 from .dslr import MSDS_CAMERA_SENSITIVITIES_DSLR
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import LazyCaseInsensitiveMapping
 
-MSDS_CAMERA_SENSITIVITIES = CaseInsensitiveMapping(
-    MSDS_CAMERA_SENSITIVITIES_DSLR)
+MSDS_CAMERA_SENSITIVITIES: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(MSDS_CAMERA_SENSITIVITIES_DSLR)
+)
 MSDS_CAMERA_SENSITIVITIES.__doc__ = """
 Multi-spectral distributions of camera sensitivities.
 
 References
 ----------
 :cite:`Darrodi2015a`
-
-MSDS_CAMERA_SENSITIVITIES : CaseInsensitiveMapping
-    **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**
 """
 
-__all__ = ['MSDS_CAMERA_SENSITIVITIES']
+__all__ = [
+    "MSDS_CAMERA_SENSITIVITIES",
+]

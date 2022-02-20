@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Primaries of CRT Displays
 =========================
@@ -8,9 +7,11 @@ Defines the primaries multi-spectral distributions of *CRT* displays.
 Each *CRT* display data is in the form of a *dict* of
 :class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
 
-    {'name': RGB_DisplayPrimaries,
-    ...,
-    'name': RGB_DisplayPrimaries}
+    {
+        'name': RGB_DisplayPrimaries,
+        ...,
+        'name': RGB_DisplayPrimaries
+    }
 
 The following *CRT* displays are available:
 
@@ -24,22 +25,28 @@ References
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
+
+from functools import partial
 
 from colour.characterisation import RGB_DisplayPrimaries
-from colour.utilities import CaseInsensitiveMapping
+from colour.hints import Dict
+from colour.utilities import LazyCaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['DATA_DISPLAY_PRIMARIES_CRT', 'MSDS_DISPLAY_PRIMARIES_CRT']
+__all__ = [
+    "DATA_DISPLAY_PRIMARIES_CRT",
+    "MSDS_DISPLAY_PRIMARIES_CRT",
+]
 
-DATA_DISPLAY_PRIMARIES_CRT = {
-    'Typical CRT Brainard 1997': {
+DATA_DISPLAY_PRIMARIES_CRT: Dict = {
+    "Typical CRT Brainard 1997": {
         380.0: (0.0025, 0.0018, 0.0219),
         385.0: (0.0017, 0.0016, 0.0336),
         390.0: (0.0017, 0.0020, 0.0524),
@@ -120,23 +127,25 @@ DATA_DISPLAY_PRIMARIES_CRT = {
         765.0: (0.0067, 0.0018, 0.0015),
         770.0: (0.0070, 0.0021, 0.0028),
         775.0: (0.0073, 0.0015, 0.0046),
-        780.0: (0.0066, 0.0018, 0.0058)
+        780.0: (0.0066, 0.0018, 0.0058),
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_CRT = CaseInsensitiveMapping({
-    'Typical CRT Brainard 1997':
-        RGB_DisplayPrimaries(
-            DATA_DISPLAY_PRIMARIES_CRT['Typical CRT Brainard 1997'],
-            name='Typical CRT Brainard 1997')
-})
+MSDS_DISPLAY_PRIMARIES_CRT: LazyCaseInsensitiveMapping = (
+    LazyCaseInsensitiveMapping(
+        {
+            "Typical CRT Brainard 1997": partial(
+                RGB_DisplayPrimaries,
+                DATA_DISPLAY_PRIMARIES_CRT["Typical CRT Brainard 1997"],
+                name="Typical CRT Brainard 1997",
+            )
+        }
+    )
+)
 """
 Primaries multi-spectral distributions of *CRT* displays.
 
 References
 ----------
 :cite:`Machado2010a`
-
-MSDS_DISPLAY_PRIMARIES_CRT : CaseInsensitiveMapping
-    **{'Typical CRT Brainard 1997'}**
 """

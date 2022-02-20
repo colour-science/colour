@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 References
 ----------
@@ -20,129 +19,196 @@ References
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT2000. In Computational Colour Science Using MATLAB (2nd ed., pp.
     83-86). ISBN:978-0-470-66569-5
+-   :cite:`Zhai2018` : Zhai, Q., & Luo, M. R. (2018). Study of chromatic
+    adaptation via neutral white matches on different viewing media. Optics
+    Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
-from __future__ import absolute_import
+from __future__ import annotations
 
-import sys
+from colour.hints import Any, ArrayLike, Literal, NDArray, Union
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    get_domain_range_scale,
+    as_float_array,
+)
 
-from colour.utilities.deprecation import ModuleAPI, build_API_changes
-from colour.utilities.documentation import is_documentation_building
-
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              get_domain_range_scale, as_float_array)
-
-from .datasets import *  # noqa
-from . import datasets
-from .vonkries import (matrix_chromatic_adaptation_VonKries,
-                       chromatic_adaptation_VonKries)
+from .datasets import CHROMATIC_ADAPTATION_TRANSFORMS
+from .datasets import (
+    CAT_BIANCO2010,
+    CAT_BRADFORD,
+    CAT_CAT02,
+    CAT_CAT02_BRILL2008,
+    CAT_CAT16,
+    CAT_CMCCAT2000,
+    CAT_CMCCAT97,
+    CAT_FAIRCHILD,
+    CAT_PC_BIANCO2010,
+    CAT_SHARP,
+    CAT_VON_KRIES,
+    CAT_XYZ_SCALING,
+)
+from .vonkries import (
+    matrix_chromatic_adaptation_VonKries,
+    chromatic_adaptation_VonKries,
+)
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
 from .cmccat2000 import (
-    InductionFactors_CMCCAT2000, VIEWING_CONDITIONS_CMCCAT2000,
+    InductionFactors_CMCCAT2000,
+    VIEWING_CONDITIONS_CMCCAT2000,
     chromatic_adaptation_forward_CMCCAT2000,
-    chromatic_adaptation_inverse_CMCCAT2000, chromatic_adaptation_CMCCAT2000)
+    chromatic_adaptation_inverse_CMCCAT2000,
+    chromatic_adaptation_CMCCAT2000,
+)
 from .cie1994 import chromatic_adaptation_CIE1994
+from .zhai2018 import chromatic_adaptation_Zhai2018
+from colour.utilities import validate_method
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = ["CHROMATIC_ADAPTATION_TRANSFORMS"]
 __all__ += [
-    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
+    "CAT_BIANCO2010",
+    "CAT_BRADFORD",
+    "CAT_CAT02",
+    "CAT_CAT02_BRILL2008",
+    "CAT_CAT16",
+    "CAT_CMCCAT2000",
+    "CAT_CMCCAT97",
+    "CAT_FAIRCHILD",
+    "CAT_PC_BIANCO2010",
+    "CAT_SHARP",
+    "CAT_VON_KRIES",
+    "CAT_XYZ_SCALING",
 ]
-__all__ += ['chromatic_adaptation_Fairchild1990']
 __all__ += [
-    'InductionFactors_CMCCAT2000', 'VIEWING_CONDITIONS_CMCCAT2000',
-    'chromatic_adaptation_forward_CMCCAT2000',
-    'chromatic_adaptation_inverse_CMCCAT2000',
-    'chromatic_adaptation_CMCCAT2000'
+    "matrix_chromatic_adaptation_VonKries",
+    "chromatic_adaptation_VonKries",
 ]
-__all__ += ['chromatic_adaptation_CIE1994']
+__all__ += [
+    "chromatic_adaptation_Fairchild1990",
+]
+__all__ += [
+    "InductionFactors_CMCCAT2000",
+    "VIEWING_CONDITIONS_CMCCAT2000",
+    "chromatic_adaptation_forward_CMCCAT2000",
+    "chromatic_adaptation_inverse_CMCCAT2000",
+    "chromatic_adaptation_CMCCAT2000",
+]
+__all__ += [
+    "chromatic_adaptation_CIE1994",
+]
+__all__ += [
+    "chromatic_adaptation_Zhai2018",
+]
 
-CHROMATIC_ADAPTATION_METHODS = CaseInsensitiveMapping({
-    'CIE 1994': chromatic_adaptation_CIE1994,
-    'CMCCAT2000': chromatic_adaptation_CMCCAT2000,
-    'Fairchild 1990': chromatic_adaptation_Fairchild1990,
-    'Von Kries': chromatic_adaptation_VonKries,
-})
+CHROMATIC_ADAPTATION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "CIE 1994": chromatic_adaptation_CIE1994,
+        "CMCCAT2000": chromatic_adaptation_CMCCAT2000,
+        "Fairchild 1990": chromatic_adaptation_Fairchild1990,
+        "Von Kries": chromatic_adaptation_VonKries,
+        "Zhai 2018": chromatic_adaptation_Zhai2018,
+    }
+)
 CHROMATIC_ADAPTATION_METHODS.__doc__ = """
 Supported chromatic adaptation methods.
 
 References
 ----------
 :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
-:cite:`Fairchild2013t`, :cite:`Li2002a`, :cite:`Westland2012k`
-
-CHROMATIC_ADAPTATION_METHODS : CaseInsensitiveMapping
-    **{'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}**
+:cite:`Fairchild2013t`, :cite:`Li2002a`, :cite:`Westland2012k`,
+:cite:`Zhai2018`
 """
 
 
-def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
+def chromatic_adaptation(
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    method: Union[
+        Literal[
+            "CIE 1994",
+            "CMCCAT2000",
+            "Fairchild 1990",
+            "Zhai 2018",
+            "Von Kries",
+        ],
+        str,
+    ] = "Von Kries",
+    **kwargs: Any,
+) -> NDArray:
     """
-    Adapts given stimulus from test viewing conditions to reference viewing
+    Adapt given stimulus from test viewing conditions to reference viewing
     conditions.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of stimulus to adapt.
-    XYZ_w : array_like
+    XYZ_w
         Test viewing condition *CIE XYZ* tristimulus values of the whitepoint.
-    XYZ_wr : array_like
+    XYZ_wr
         Reference viewing condition *CIE XYZ* tristimulus values of the
         whitepoint.
-    method : unicode, optional
-        **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    E_o1 : numeric
+    E_o1
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
-    E_o2 : numeric
+    E_o2
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Reference illuminance :math:`E_{o2}` in :math:`cd/m^2`.
-    L_A1 : numeric or array_like
-        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
-    L_A2 : numeric or array_like
-        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
-    Y_n : numeric or array_like
-        {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
-        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
-    Y_o : numeric
+    n
+        {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
+        Noise component in fundamental primary system.
+    Y_o
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Luminance factor :math:`Y_o` of achromatic background normalised to
         domain [0.18, 1] in **'Reference'** domain-range scale.
-    direction : unicode, optional
+    direction
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
-        **{'Forward', 'Inverse'}**,
         Chromatic adaptation direction.
-    discount_illuminant : bool, optional
-        {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
-        Truth value indicating if the illuminant should be discounted.
-    n : numeric, optional
-        {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
-        Noise component in fundamental primary system.
-    surround : InductionFactors_CMCCAT2000, optional
+    L_A1
+        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
+        Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
+    L_A2
+        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
+        Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
+    surround
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Surround viewing conditions induction factors.
-    transform : unicode, optional
-        {:func:`colour.adaptation.chromatic_adaptation_VonKries`},
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    discount_illuminant
+        {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
+        Truth value indicating if the illuminant should be discounted.
+    Y_n
+        {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
+        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
+    D_b
+        {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
+        Degree of adaptation :math:`D_\\beta` of input illuminant
+        :math:`\\beta`.
+    D_d
+        {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
+        Degree of adaptation :math:`D_\\Delta` of output illuminant
+        :math:`\\Delta`.
+    transform
+        {:func:`colour.adaptation.chromatic_adaptation_VonKries`,
+        :func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
         Chromatic adaptation transform.
+    XYZ_wo
+        {:func:`colour.adaptation.chromatic_adaptation_Zhai2018`},
+        Baseline illuminant (:math:`BI`) :math:`o`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -151,6 +217,8 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     | ``XYZ_w``  | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
     | ``XYZ_wr`` | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wo`` | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
     | ``Y_o``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
@@ -168,7 +236,6 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
 
     Examples
     --------
-
     *Von Kries* chromatic adaptation:
 
     >>> import numpy as np
@@ -210,31 +277,55 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     ...     XYZ, XYZ_w, XYZ_wr, method='Fairchild 1990', Y_n=Y_n)
     ... # doctest: +ELLIPSIS
     array([ 0.2332526...,  0.2332455...,  0.7611593...])
+
+    *Zhai and Luo (2018)* chromatic adaptation:
+
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+    >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
+    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Zhai 2018')
+    ... # doctest: +ELLIPSIS
+    array([ 0.2163881...,  0.1257    ,  0.0384749...])
+    >>> chromatic_adaptation(
+    ...     XYZ, XYZ_w, XYZ_wr, method='Zhai 2018', D_b=0.9,
+    ...     XYZ_wo=np.array([100, 100, 100]))
+    ... # doctest: +ELLIPSIS
+    array([ 0.2152436...,  0.1253522...,  0.0388406...])
     """
+
+    method = validate_method(method, CHROMATIC_ADAPTATION_METHODS)
 
     function = CHROMATIC_ADAPTATION_METHODS[method]
 
-    domain_range_reference = get_domain_range_scale() == 'reference'
-    domain_100 = (chromatic_adaptation_CIE1994,
-                  chromatic_adaptation_CMCCAT2000,
-                  chromatic_adaptation_Fairchild1990)
+    domain_range_reference = get_domain_range_scale() == "reference"
+    domain_100 = (
+        chromatic_adaptation_CIE1994,
+        chromatic_adaptation_CMCCAT2000,
+        chromatic_adaptation_Fairchild1990,
+        chromatic_adaptation_Zhai2018,
+    )
 
     if function in domain_100 and domain_range_reference:
         XYZ = as_float_array(XYZ) * 100
         XYZ_w = as_float_array(XYZ_w) * 100
         XYZ_wr = as_float_array(XYZ_wr) * 100
-        if kwargs.get('Y_o'):
-            kwargs['Y_o'] = kwargs['Y_o'] * 100
 
-    kwargs.update({'XYZ_w': XYZ_w, 'XYZ_wr': XYZ_wr})
+        if "Y_o" in kwargs:
+            kwargs["Y_o"] = kwargs["Y_o"] * 100
+
+        if "XYZ_wo" in kwargs:
+            kwargs["XYZ_wo"] = kwargs["XYZ_wo"] * 100
+
+    kwargs.update({"XYZ_w": XYZ_w, "XYZ_wr": XYZ_wr})
 
     if function is chromatic_adaptation_CIE1994:
         from colour import XYZ_to_xy
 
-        kwargs.update({'xy_o1': XYZ_to_xy(XYZ_w), 'xy_o2': XYZ_to_xy(XYZ_wr)})
-
+        kwargs.update({"xy_o1": XYZ_to_xy(XYZ_w), "xy_o2": XYZ_to_xy(XYZ_wr)})
     elif function is chromatic_adaptation_Fairchild1990:
-        kwargs.update({'XYZ_n': XYZ_w, 'XYZ_r': XYZ_wr})
+        kwargs.update({"XYZ_n": XYZ_w, "XYZ_r": XYZ_wr})
+    elif function is chromatic_adaptation_Zhai2018:
+        kwargs.update({"XYZ_wb": XYZ_w, "XYZ_wd": XYZ_wr})
 
     XYZ_c = function(XYZ, **filter_kwargs(function, **kwargs))
 
@@ -244,92 +335,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     return XYZ_c
 
 
-__all__ += ['CHROMATIC_ADAPTATION_METHODS', 'chromatic_adaptation']
-
-
-# ----------------------------------------------------------------------------#
-# ---                API Changes and Deprecation Management                ---#
-# ----------------------------------------------------------------------------#
-class adaptation(ModuleAPI):
-    def __getattr__(self, attribute):
-        return super(adaptation, self).__getattr__(attribute)
-
-
-# v0.3.14
-API_CHANGES = {
-    'ObjectRenamed': [[
-        'colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000',
-        'colour.adaptation.chromatic_adaptation_inverse_CMCCAT2000',
-    ], ]
-}
-"""
-Defines *colour.adaptation* sub-package API changes.
-
-API_CHANGES : dict
-"""
-
-# v0.3.16
-API_CHANGES['ObjectRenamed'] = API_CHANGES['ObjectRenamed'] + [
-    [
-        'colour.adaptation.BRADFORD_CAT',
-        'colour.adaptation.CAT_BRADFORD',
-    ],
-    [
-        'colour.adaptation.BS_CAT',
-        'colour.adaptation.CAT_BIANCO2010',
-    ],
-    [
-        'colour.adaptation.BS_PC_CAT',
-        'colour.adaptation.CAT_PC_BIANCO2010)',
-    ],
-    [
-        'colour.adaptation.CAT02_BRILL_CAT',
-        'colour.adaptation.CAT_CAT02_BRILL2008',
-    ],
-    [
-        'colour.adaptation.CAT02_CAT',
-        'colour.adaptation.CAT_CAT02',
-    ],
-    [
-        'colour.adaptation.CMCCAT97_CAT',
-        'colour.adaptation.CAT_CMCCAT97',
-    ],
-    [
-        'colour.adaptation.CMCCAT2000_CAT',
-        'colour.adaptation.CAT_CMCCAT2000',
-    ],
-    [
-        'colour.adaptation.CMCCAT2000_InductionFactors',
-        'colour.adaptation.InductionFactors_CMCCAT2000',
-    ],
-    [
-        'colour.adaptation.CMCCAT2000_VIEWING_CONDITIONS',
-        'colour.adaptation.VIEWING_CONDITIONS_CMCCAT2000',
-    ],
-    [
-        'colour.adaptation.FAIRCHILD_CAT',
-        'colour.adaptation.CAT_FAIRCHILD',
-    ],
-    [
-        'colour.adaptation.SHARP_CAT',
-        'colour.adaptation.CAT_SHARP',
-    ],
-    [
-        'colour.adaptation.VON_KRIES_CAT',
-        'colour.adaptation.CAT_VON_KRIES',
-    ],
-    [
-        'colour.adaptation.XYZ_SCALING_CAT',
-        'colour.adaptation.CAT_XYZ_SCALING',
-    ],
-    [
-        'colour.adaptation.chromatic_adaptation_matrix_VonKries',
-        'colour.adaptation.matrix_chromatic_adaptation_VonKries)',
-    ],
+__all__ += [
+    "CHROMATIC_ADAPTATION_METHODS",
+    "chromatic_adaptation",
 ]
-
-if not is_documentation_building():
-    sys.modules['colour.adaptation'] = adaptation(
-        sys.modules['colour.adaptation'], build_API_changes(API_CHANGES))
-
-    del ModuleAPI, is_documentation_building, build_API_changes, sys

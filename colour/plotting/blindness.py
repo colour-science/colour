@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Blindness Plotting
 =========================
@@ -8,51 +7,70 @@ Defines the colour blindness plotting objects:
 -   :func:`colour.plotting.plot_cvd_simulation_Machado2009`
 """
 
-from __future__ import division
+from __future__ import annotations
 
+import matplotlib.pyplot as plt
+
+from colour.algebra import vector_dot
 from colour.blindness import matrix_cvd_Machado2009
+from colour.hints import (
+    Any,
+    ArrayLike,
+    Dict,
+    Floating,
+    Literal,
+    Optional,
+    Tuple,
+    Union,
+    cast,
+)
 from colour.plotting import CONSTANTS_COLOUR_STYLE, plot_image, override_style
-from colour.utilities import vector_dot
+from colour.utilities import optional
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['plot_cvd_simulation_Machado2009']
+__all__ = [
+    "plot_cvd_simulation_Machado2009",
+]
 
 
 @override_style()
-def plot_cvd_simulation_Machado2009(RGB,
-                                    deficiency='Protanomaly',
-                                    severity=0.5,
-                                    M_a=None,
-                                    **kwargs):
+def plot_cvd_simulation_Machado2009(
+    RGB: ArrayLike,
+    deficiency: Union[
+        Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"], str
+    ] = "Protanomaly",
+    severity: Floating = 0.5,
+    M_a: Optional[ArrayLike] = None,
+    **kwargs: Any,
+) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Performs colour vision deficiency simulation on given *RGB* colourspace
+    Perform colour vision deficiency simulation on given *RGB* colourspace
     array using *Machado et al. (2009)* model.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
-    deficiency : unicode, optional
-        {'Protanomaly', 'Deuteranomaly', 'Tritanomaly'}
+    deficiency
         Colour blindness / vision deficiency type.
-    severity : numeric, optional
+    severity
         Severity of the colour vision deficiency in domain [0, 1].
-    M_a : array_like, optional
+    M_a
         Anomalous trichromacy matrix to use instead of Machado (2010)
         pre-computed matrix.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`, :func:`colour.plotting.plot_image`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Notes
     -----
@@ -60,7 +78,7 @@ def plot_cvd_simulation_Machado2009(RGB,
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -75,14 +93,20 @@ def plot_cvd_simulation_Machado2009(RGB,
         :alt: plot_cvd_simulation_Machado2009
     """
 
-    if M_a is None:
-        M_a = matrix_cvd_Machado2009(deficiency, severity)
+    M_a = cast(
+        ArrayLike, optional(M_a, matrix_cvd_Machado2009(deficiency, severity))
+    )
 
-    text = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
-
-    settings = {'text_kwargs': {'text': None if M_a is None else text}}
+    settings: Dict[str, Any] = {
+        "text_kwargs": {
+            "text": f"Deficiency: {deficiency} - Severity: {severity}"
+        }
+    }
     settings.update(kwargs)
 
     return plot_image(
         CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
-            vector_dot(M_a, RGB)), **settings)
+            vector_dot(M_a, RGB)
+        ),
+        **settings,
+    )

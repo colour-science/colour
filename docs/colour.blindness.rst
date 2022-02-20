@@ -1,8 +1,6 @@
 Colour Vision Deficiency
 ========================
 
-.. contents:: :local:
-
 Machado, Oliveira and Fernandes (2009)
 --------------------------------------
 

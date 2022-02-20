@@ -1,42 +1,50 @@
-# -*- coding: utf-8 -*-
-"""
-Defines unit tests for :mod:`colour.colorimetry.generation` module.
-"""
-
-from __future__ import division, unicode_literals
+"""Defines the unit tests for the :mod:`colour.colorimetry.generation` module."""
 
 import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    sd_constant, sd_zeros, sd_ones, msds_constant, msds_zeros, msds_ones,
-    sd_gaussian_normal, sd_gaussian_fwhm, sd_single_led_Ohno2005,
-    sd_multi_leds_Ohno2005)
+    sd_constant,
+    sd_zeros,
+    sd_ones,
+    msds_constant,
+    msds_zeros,
+    msds_ones,
+    sd_gaussian_normal,
+    sd_gaussian_fwhm,
+    sd_single_led_Ohno2005,
+    sd_multi_leds_Ohno2005,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestSdConstant', 'TestSdZeros', 'TestSdOnes', 'TestMsdsConstant',
-    'TestMsdsZeros', 'TestMsdsOnes', 'TestSdGaussianNormal',
-    'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005', 'TestSdMultiLedsOhno2005'
+    "TestSdConstant",
+    "TestSdZeros",
+    "TestSdOnes",
+    "TestMsdsConstant",
+    "TestMsdsZeros",
+    "TestMsdsOnes",
+    "TestSdGaussianNormal",
+    "TestSdGaussianFwhm",
+    "TestSdSingleLedOhno2005",
+    "TestSdMultiLedsOhno2005",
 ]
 
 
 class TestSdConstant(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.sd_constant` definition unit
+    Define :func:`colour.colorimetry.generation.sd_constant` definition unit
     tests methods.
     """
 
     def test_sd_constant(self):
-        """
-        Tests :func:`colour.colorimetry.generation.sd_constant` definition.
-        """
+        """Test :func:`colour.colorimetry.generation.sd_constant` definition."""
 
         sd = sd_constant(np.pi)
 
@@ -49,13 +57,13 @@ class TestSdConstant(unittest.TestCase):
 
 class TestSdZeros(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.sd_zeros` definition unit
+    Define :func:`colour.colorimetry.generation.sd_zeros` definition unit
     tests methods.
     """
 
     def test_sd_zeros(self):
         """
-        Tests :func:`colour.colorimetry.generation.sd_zeros`
+        Test :func:`colour.colorimetry.generation.sd_zeros`
         definition.
         """
 
@@ -70,14 +78,12 @@ class TestSdZeros(unittest.TestCase):
 
 class TestSdOnes(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.sd_ones` definition unit
+    Define :func:`colour.colorimetry.generation.sd_ones` definition unit
     tests methods.
     """
 
     def test_sd_ones(self):
-        """
-        Tests :func:`colour.colorimetry.generation.sd_ones` definition.
-        """
+        """Test :func:`colour.colorimetry.generation.sd_ones` definition."""
 
         sd = sd_ones()
 
@@ -90,40 +96,41 @@ class TestSdOnes(unittest.TestCase):
 
 class TestMsdsConstant(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.msds_constant` definition unit
+    Define :func:`colour.colorimetry.generation.msds_constant` definition unit
     tests methods.
     """
 
     def test_msds_constant(self):
-        """
-        Tests :func:`colour.colorimetry.generation.msds_constant` definition.
-        """
+        """Test :func:`colour.colorimetry.generation.msds_constant` definition."""
 
-        msds = msds_constant(np.pi, labels=['a', 'b', 'c'])
+        msds = msds_constant(np.pi, labels=["a", "b", "c"])
 
         np.testing.assert_almost_equal(
-            msds[360], np.array([np.pi, np.pi, np.pi]), decimal=7)
+            msds[360], np.array([np.pi, np.pi, np.pi]), decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            msds[555], np.array([np.pi, np.pi, np.pi]), decimal=7)
+            msds[555], np.array([np.pi, np.pi, np.pi]), decimal=7
+        )
 
         np.testing.assert_almost_equal(
-            msds[780], np.array([np.pi, np.pi, np.pi]), decimal=7)
+            msds[780], np.array([np.pi, np.pi, np.pi]), decimal=7
+        )
 
 
 class TestMsdsZeros(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.msds_zeros` definition unit
+    Define :func:`colour.colorimetry.generation.msds_zeros` definition unit
     tests methods.
     """
 
     def test_msds_zeros(self):
         """
-        Tests :func:`colour.colorimetry.generation.msds_zeros`
+        Test :func:`colour.colorimetry.generation.msds_zeros`
         definition.
         """
 
-        msds = msds_zeros(labels=['a', 'b', 'c'])
+        msds = msds_zeros(labels=["a", "b", "c"])
 
         np.testing.assert_equal(msds[360], np.array([0, 0, 0]))
 
@@ -134,16 +141,14 @@ class TestMsdsZeros(unittest.TestCase):
 
 class TestMsdsOnes(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.msds_ones` definition unit
+    Define :func:`colour.colorimetry.generation.msds_ones` definition unit
     tests methods.
     """
 
     def test_msds_ones(self):
-        """
-        Tests :func:`colour.colorimetry.generation.msds_ones` definition.
-        """
+        """Test :func:`colour.colorimetry.generation.msds_ones` definition."""
 
-        msds = msds_ones(labels=['a', 'b', 'c'])
+        msds = msds_ones(labels=["a", "b", "c"])
 
         np.testing.assert_equal(msds[360], np.array([1, 1, 1]))
 
@@ -154,13 +159,13 @@ class TestMsdsOnes(unittest.TestCase):
 
 class TestSdGaussianNormal(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.sd_gaussian_normal`
+    Define :func:`colour.colorimetry.generation.sd_gaussian_normal`
     definition unit tests methods.
     """
 
     def test_sd_gaussian_normal(self):
         """
-        Tests :func:`colour.colorimetry.generation.sd_gaussian_normal`
+        Test :func:`colour.colorimetry.generation.sd_gaussian_normal`
         definition.
         """
 
@@ -175,13 +180,13 @@ class TestSdGaussianNormal(unittest.TestCase):
 
 class TestSdGaussianFwhm(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.sd_gaussian_fwhm` definition
+    Define :func:`colour.colorimetry.generation.sd_gaussian_fwhm` definition
     unit tests methods.
     """
 
     def test_sd_gaussian_fwhm(self):
         """
-        Tests :func:`colour.colorimetry.generation.sd_gaussian_fwhm`
+        Test :func:`colour.colorimetry.generation.sd_gaussian_fwhm`
         definition.
         """
 
@@ -196,13 +201,13 @@ class TestSdGaussianFwhm(unittest.TestCase):
 
 class TestSdSingleLedOhno2005(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
+    Define :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
     definition unit tests methods.
     """
 
     def test_sd_single_led_Ohno2005(self):
         """
-        Tests :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
+        Test :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
         definition.
         """
 
@@ -217,13 +222,13 @@ class TestSdSingleLedOhno2005(unittest.TestCase):
 
 class TestSdMultiLedsOhno2005(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
+    Define :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
     definition unit tests methods.
     """
 
     def test_sd_multi_leds_Ohno2005(self):
         """
-        Tests :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
+        Test :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
         definition.
         """
 
@@ -251,5 +256,5 @@ class TestSdMultiLedsOhno2005(unittest.TestCase):
         self.assertAlmostEqual(sd[640], 0.070140708922879, places=7)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

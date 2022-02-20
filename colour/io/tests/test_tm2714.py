@@ -1,54 +1,57 @@
-# -*- coding: utf-8 -*-
-"""
-Defines unit tests for :mod:`colour.io.tm2714` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.tm2714` module."""
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 import os
 import shutil
 import unittest
 import tempfile
+from copy import deepcopy
 
 from colour.colorimetry import SpectralDistribution
+from colour.hints import Dict, List, Optional, Tuple, Union, cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
+from colour.utilities import optional
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RESOURCES_DIRECTORY', 'FLUORESCENT_FILE_HEADER',
-    'FLUORESCENT_FILE_SPECTRAL_DESCRIPTION', 'FLUORESCENT_FILE_SPECTRAL_DATA',
-    'TestIES_TM2714_Header', 'TestIES_TM2714_Sd'
+    "RESOURCES_DIRECTORY",
+    "FLUORESCENT_FILE_HEADER",
+    "FLUORESCENT_FILE_SPECTRAL_DESCRIPTION",
+    "FLUORESCENT_FILE_SPECTRAL_DATA",
+    "TestIES_TM2714_Header",
+    "TestIES_TM2714_Sd",
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
-FLUORESCENT_FILE_HEADER = {
-    'Manufacturer': 'Unknown',
-    'CatalogNumber': 'N/A',
-    'Description': 'Rare earth fluorescent lamp',
-    'DocumentCreator': 'byHeart Consultants',
-    'Laboratory': 'N/A',
-    'UniqueIdentifier': 'C3567553-C75B-4354-961E-35CEB9FEB42C',
-    'ReportNumber': 'N/A',
-    'ReportDate': 'N/A',
-    'DocumentCreationDate': '2014-06-23',
-    'Comments': 'Ambient temperature 25 degrees C.'
+FLUORESCENT_FILE_HEADER: Dict = {
+    "Manufacturer": "Unknown",
+    "CatalogNumber": "N/A",
+    "Description": "Rare earth fluorescent lamp",
+    "DocumentCreator": "byHeart Consultants",
+    "Laboratory": "N/A",
+    "UniqueIdentifier": "C3567553-C75B-4354-961E-35CEB9FEB42C",
+    "ReportNumber": "N/A",
+    "ReportDate": "N/A",
+    "DocumentCreationDate": "2014-06-23",
+    "Comments": "Ambient temperature 25 degrees C.",
 }
 
-FLUORESCENT_FILE_SPECTRAL_DESCRIPTION = {
-    'SpectralQuantity': 'relative',
-    'BandwidthFWHM': 2.0,
-    'BandwidthCorrected': True
+FLUORESCENT_FILE_SPECTRAL_DESCRIPTION: Dict = {
+    "SpectralQuantity": "relative",
+    "BandwidthFWHM": 2.0,
+    "BandwidthCorrected": True,
 }
 
-FLUORESCENT_FILE_SPECTRAL_DATA = {
+FLUORESCENT_FILE_SPECTRAL_DATA: Dict = {
     400.0: 0.034,
     403.1: 0.037,
     405.5: 0.069,
@@ -133,118 +136,265 @@ FLUORESCENT_FILE_SPECTRAL_DATA = {
     808.8: 0.029,
     810.7: 0.039,
     812.7: 0.030,
-    850.1: 0.030
+    850.1: 0.030,
 }
 
 
 class TestIES_TM2714_Header(unittest.TestCase):
     """
-    Defines :class:`colour.io.tm2714.Header_IESTM2714` class unit tests
+    Define :class:`colour.io.tm2714.Header_IESTM2714` class unit tests
     methods.
     """
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
-        required_attributes = ('mapping', 'manufacturer', 'catalog_number',
-                               'description', 'document_creator',
-                               'unique_identifier', 'measurement_equipment',
-                               'laboratory', 'report_number', 'report_date',
-                               'document_creation_date', 'comments')
+        required_attributes = (
+            "mapping",
+            "manufacturer",
+            "catalog_number",
+            "description",
+            "document_creator",
+            "unique_identifier",
+            "measurement_equipment",
+            "laboratory",
+            "report_number",
+            "report_date",
+            "document_creation_date",
+            "comments",
+        )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Header_IESTM2714))
 
+    def test_required_methods(self):
+        """Test the presence of required methods."""
+
+        required_methods = (
+            "__init__",
+            "__hash__",
+            "__eq__",
+            "__ne__",
+        )
+
+        for method in required_methods:
+            self.assertIn(method, dir(Header_IESTM2714))
+
+    def test__eq__(self):
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__eq__` method."""
+
+        h0 = Header_IESTM2714(
+            manufacturer="a",
+            catalog_number="b",
+            description="c",
+            document_creator="d",
+            unique_identifier="e",
+            measurement_equipment="f",
+            laboratory="g",
+            report_number="h",
+            report_date="i",
+            document_creation_date="j",
+            comments="k",
+        )
+
+        h1 = deepcopy(h0)
+        self.assertEqual(h0, h1)
+
+    def test__ne__(self):
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method."""
+
+        h0 = Header_IESTM2714(
+            manufacturer="a",
+            catalog_number="b",
+            description="c",
+            document_creator="d",
+            unique_identifier="e",
+            measurement_equipment="f",
+            laboratory="g",
+            report_number="h",
+            report_date="i",
+            document_creation_date="j",
+            comments="k",
+        )
+        h1 = deepcopy(h0)
+
+        h1.manufacturer = "aa"
+        self.assertNotEqual(h0, h1)
+        h1.manufacturer = "a"
+        self.assertEqual(h0, h1)
+
+    def test__hash__(self):
+        """Test :meth:`colour.io.tm2714.Header_IESTM2714.__hash__` method."""
+
+        h0 = Header_IESTM2714(
+            manufacturer="a",
+            catalog_number="b",
+            description="c",
+            document_creator="d",
+            unique_identifier="e",
+            measurement_equipment="f",
+            laboratory="g",
+            report_number="h",
+            report_date="i",
+            document_creation_date="j",
+            comments="k",
+        )
+
+        self.assertIsInstance(hash(h0), int)
+
 
 class TestIES_TM2714_Sd(unittest.TestCase):
     """
-    Defines :class:`colour.io.tm2714.SpectralDistribution_IESTM2714` class unit
+    Define :class:`colour.io.tm2714.SpectralDistribution_IESTM2714` class unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
+        """Test the presence of required attributes."""
 
-        required_attributes = ('mapping', 'path', 'header',
-                               'spectral_quantity', 'reflection_geometry',
-                               'transmission_geometry', 'bandwidth_FWHM',
-                               'bandwidth_corrected')
+        required_attributes = (
+            "mapping",
+            "path",
+            "header",
+            "spectral_quantity",
+            "reflection_geometry",
+            "transmission_geometry",
+            "bandwidth_FWHM",
+            "bandwidth_corrected",
+        )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralDistribution_IESTM2714))
 
     def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
+        """Test the presence of required methods."""
 
-        required_methods = ('__init__', 'read', 'write')
+        required_methods = ("__init__", "read", "write")
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution_IESTM2714))
 
-    def test_read(self, sd=None):
+    def test_read(self, sd: Optional[SpectralDistribution] = None):
         """
-        Tests :attr:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
+        Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
         method.
-_temporary_directory_temporary_directory
+
         Parameters
         ----------
-        sd : SpectralDistribution_IESTM2714, optional
+        sd
             Optional *IES TM-27-14* spectral distribution for read tests.
         """
 
-        if sd is None:
-            sd = SpectralDistribution_IESTM2714(
-                os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx')).read()
+        sd = cast(
+            SpectralDistribution_IESTM2714,
+            optional(
+                sd,
+                SpectralDistribution_IESTM2714(
+                    os.path.join(RESOURCES_DIRECTORY, "Fluorescent.spdx")
+                ).read(),
+            ),
+        )
 
         sd_r = SpectralDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
 
         np.testing.assert_array_equal(sd_r.domain, sd.domain)
         np.testing.assert_almost_equal(sd_r.values, sd.values, decimal=7)
 
-        for test, read in ((FLUORESCENT_FILE_HEADER, sd.header),
-                           (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd)):
+        test_read: List[
+            Tuple[
+                Dict, Union[Header_IESTM2714, SpectralDistribution_IESTM2714]
+            ]
+        ] = [
+            (FLUORESCENT_FILE_HEADER, sd.header),
+            (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd),
+        ]
+        for test, read in test_read:
             for key, value in test.items():
                 for specification in read.mapping.elements:
                     if key == specification.element:
-                        self.assertEquals(
-                            getattr(read, specification.attribute), value)
+                        self.assertEqual(
+                            getattr(read, specification.attribute), value
+                        )
+
+    def test_raise_exception_read(self):
+        """
+        Test :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.read`
+        method raised exception.
+        """
+
+        sd = SpectralDistribution_IESTM2714()
+        self.assertRaises(ValueError, sd.read)
+
+        sd = SpectralDistribution_IESTM2714(
+            os.path.join(RESOURCES_DIRECTORY, "Invalid.spdx")
+        )
+        self.assertRaises(ValueError, sd.read)
 
     def test_write(self):
         """
-        Tests :attr:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
+        Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
         method.
         """
 
         sd_r = SpectralDistribution_IESTM2714(
-            os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx')).read()
+            os.path.join(RESOURCES_DIRECTORY, "Fluorescent.spdx")
+        ).read()
 
-        sd_r.path = os.path.join(self._temporary_directory, 'Fluorescent.spdx')
+        sd_r.path = os.path.join(self._temporary_directory, "Fluorescent.spdx")
         self.assertTrue(sd_r.write())
         sd_t = SpectralDistribution_IESTM2714(sd_r.path).read()
 
         self.test_read(sd_t)
-        self.assertEquals(sd_r, sd_t)
+        self.assertEqual(sd_r, sd_t)
+
+        for attribute in (
+            "manufacturer",
+            "catalog_number",
+            "description",
+            "document_creator",
+            "unique_identifier",
+            "measurement_equipment",
+            "laboratory",
+            "report_number",
+            "report_date",
+            "document_creation_date",
+            "comments",
+        ):
+            self.assertEqual(
+                getattr(sd_r.header, attribute),
+                getattr(sd_t.header, attribute),
+            )
+
+        for attribute in (
+            "spectral_quantity",
+            "reflection_geometry",
+            "transmission_geometry",
+            "bandwidth_FWHM",
+            "bandwidth_corrected",
+        ):
+            self.assertEqual(
+                getattr(sd_r, attribute), getattr(sd_t, attribute)
+            )
+
+    def test_raise_exception_write(self):
+        """
+        Test :func:`colour.io.tm2714.SpectralDistribution_IESTM2714.write`
+        method raised exception.
+        """
+
+        sd = SpectralDistribution_IESTM2714()
+        self.assertRaises(ValueError, sd.write)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

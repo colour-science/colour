@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Colour Notation Systems Plotting
 ================================
@@ -9,49 +8,57 @@ Defines the colour notation systems plotting objects:
 -   :func:`colour.plotting.plot_multi_munsell_value_functions`
 """
 
-from __future__ import division
+from __future__ import annotations
 
+import matplotlib.pyplot as plt
 import numpy as np
 
+from colour.hints import Any, Callable, Dict, Sequence, Tuple, Union
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import (filter_passthrough, plot_multi_functions,
-                             override_style)
+from colour.plotting import (
+    filter_passthrough,
+    plot_multi_functions,
+    override_style,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'plot_single_munsell_value_function', 'plot_multi_munsell_value_functions'
+    "plot_single_munsell_value_function",
+    "plot_multi_munsell_value_functions",
 ]
 
 
 @override_style()
-def plot_single_munsell_value_function(function, **kwargs):
+def plot_single_munsell_value_function(
+    function: Union[Callable, str], **kwargs: Any
+) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *Lightness* function.
+    Plot given *Lightness* function.
 
     Parameters
     ----------
-    function : unicode or object
+    function
         *Munsell* value function to plot. ``function`` can be of any type or
         form supported by the :func:`colour.plotting.filter_passthrough`
         definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -64,35 +71,40 @@ def plot_single_munsell_value_function(function, **kwargs):
         :alt: plot_single_munsell_value_function
     """
 
-    settings = {'title': '{0} - Munsell Value Function'.format(function)}
+    settings: Dict[str, Any] = {
+        "title": f"{function} - Munsell Value Function"
+    }
     settings.update(kwargs)
 
-    return plot_multi_munsell_value_functions((function, ), **settings)
+    return plot_multi_munsell_value_functions((function,), **settings)
 
 
 @override_style()
-def plot_multi_munsell_value_functions(functions, **kwargs):
+def plot_multi_munsell_value_functions(
+    functions: Union[Callable, str, Sequence[Union[Callable, str]]],
+    **kwargs: Any,
+) -> Tuple[plt.Figure, plt.Axes]:
     """
-    Plots given *Munsell* value functions.
+    Plot given *Munsell* value functions.
 
     Parameters
     ----------
-    functions : unicode or object or array_like
+    functions
         *Munsell* value functions to plot. ``functions`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.filter_passthrough` definition.
 
     Other Parameters
     ----------------
-    \\**kwargs : dict, optional
+    kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.plot_multi_functions`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definitions.
+        See the documentation of the previously listed definitions.
 
     Returns
     -------
-    tuple
+    :class:`tuple`
         Current figure and axes.
 
     Examples
@@ -106,16 +118,17 @@ def plot_multi_munsell_value_functions(functions, **kwargs):
         :alt: plot_multi_munsell_value_functions
     """
 
-    functions = filter_passthrough(MUNSELL_VALUE_METHODS, functions)
+    functions_filtered = filter_passthrough(MUNSELL_VALUE_METHODS, functions)
 
-    settings = {
-        'bounding_box': (0, 100, 0, 10),
-        'legend': True,
-        'title': '{0} - Munsell Functions'.format(', '.join(functions)),
-        'x_label': 'Luminance Y',
-        'y_label': 'Munsell Value V',
+    settings: Dict[str, Any] = {
+        "bounding_box": (0, 100, 0, 10),
+        "legend": True,
+        "title": f"{', '.join(functions_filtered)} - Munsell Functions",
+        "x_label": "Luminance Y",
+        "y_label": "Munsell Value V",
     }
     settings.update(kwargs)
 
     return plot_multi_functions(
-        functions, samples=np.linspace(0, 100, 1000), **settings)
+        functions_filtered, samples=np.linspace(0, 100, 1000), **settings
+    )

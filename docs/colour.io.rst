@@ -1,8 +1,6 @@
 Input and Output
 ================
 
-.. contents:: :local:
-
 Image Data
 ----------
 
@@ -34,6 +32,18 @@ Image Data
     read_image_Imageio
     write_image_Imageio
 
+OpenColorIO Processing
+----------------------
+
+``colour.io``
+
+.. currentmodule:: colour.io
+
+.. autosummary::
+    :toctree: generated/
+
+    process_image_OpenColorIO
+
 Look Up Table (LUT) Data
 ------------------------
 
@@ -48,6 +58,7 @@ Look Up Table (LUT) Data
     LUT1D
     LUT3x1D
     LUT3D
+    LUTOperatorMatrix
     LUTSequence
 
 .. autosummary::
@@ -107,6 +118,21 @@ IES TM-27-14 Data
     :template: class.rst
 
     SpectralDistribution_IESTM2714
+
+
+UPRTek and Sekonic Spectral Data
+--------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+    :template: class.rst
+
+    SpectralDistribution_UPRTek
+    SpectralDistribution_Sekonic
 
 X-Rite Data
 -----------

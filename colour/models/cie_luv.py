@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE L*u*v* Colourspace
 ======================
@@ -29,50 +28,71 @@ References
     http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
-from colour.colorimetry import (CCS_ILLUMINANTS, lightness_CIE1976,
-                                luminance_CIE1976)
+from colour.colorimetry import (
+    CCS_ILLUMINANTS,
+    lightness_CIE1976,
+    luminance_CIE1976,
+)
+from colour.hints import ArrayLike, Floating, NDArray
 from colour.models import xy_to_xyY, xyY_to_XYZ, Jab_to_JCh, JCh_to_Jab
-from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
-                              full, to_domain_1, to_domain_100, tsplit, tstack)
+from colour.utilities import (
+    domain_range_scale,
+    as_float_scalar,
+    from_range_1,
+    from_range_100,
+    full,
+    to_domain_1,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'XYZ_to_Luv', 'Luv_to_XYZ', 'Luv_to_uv', 'uv_to_Luv', 'Luv_uv_to_xy',
-    'xy_to_Luv_uv', 'Luv_to_LCHuv', 'LCHuv_to_Luv'
+    "XYZ_to_Luv",
+    "Luv_to_XYZ",
+    "Luv_to_uv",
+    "uv_to_Luv",
+    "Luv_uv_to_xy",
+    "xy_to_Luv_uv",
+    "Luv_to_LCHuv",
+    "LCHuv_to_Luv",
 ]
 
 
-def XYZ_to_Luv(XYZ,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def XYZ_to_Luv(
+    XYZ: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+) -> NDArray:
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
+    Convert from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
     colourspace.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*u\\*v\\** colourspace array.
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -107,43 +127,45 @@ def XYZ_to_Luv(XYZ,
 
     X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    with domain_range_scale('100'):
+    with domain_range_scale("100"):
         L = lightness_CIE1976(Y, Y_r)
 
     X_Y_Z = X + 15 * Y + 3 * Z
     X_r_Y_r_Z_r = X_r + 15 * Y_r + 3 * Z_r
 
-    u = (13 * L * ((4 * X / X_Y_Z) - (4 * X_r / X_r_Y_r_Z_r)))
-    v = (13 * L * ((9 * Y / X_Y_Z) - (9 * Y_r / X_r_Y_r_Z_r)))
+    u = 13 * L * ((4 * X / X_Y_Z) - (4 * X_r / X_r_Y_r_Z_r))
+    v = 13 * L * ((9 * Y / X_Y_Z) - (9 * Y_r / X_r_Y_r_Z_r))
 
     Luv = tstack([L, u, v])
 
     return from_range_100(Luv)
 
 
-def Luv_to_XYZ(Luv,
-               illuminant=CCS_ILLUMINANTS[
-                   'CIE 1931 2 Degree Standard Observer']['D65']):
+def Luv_to_XYZ(
+    Luv: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+) -> NDArray:
     """
-    Converts from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
+    Convert from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
     ----------
-    Luv : array_like
+    Luv
         *CIE L\\*u\\*v\\** colourspace array.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -178,15 +200,22 @@ def Luv_to_XYZ(Luv,
 
     X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    with domain_range_scale('100'):
+    with domain_range_scale("100"):
         Y = luminance_CIE1976(L, Y_r)
 
-    a = 1 / 3 * (
-        (52 * L / (u + 13 * L * (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r)))) - 1)
+    a = (
+        1
+        / 3
+        * (
+            (52 * L / (u + 13 * L * (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r))))
+            - 1
+        )
+    )
     b = -5 * Y
     c = -1 / 3.0
-    d = Y * (39 * L / (v + 13 * L * (9 * Y_r /
-                                     (X_r + 15 * Y_r + 3 * Z_r))) - 5)
+    d = Y * (
+        39 * L / (v + 13 * L * (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))) - 5
+    )
 
     X = (d - b) / (a - c)
     Z = X * a + b
@@ -196,29 +225,31 @@ def Luv_to_XYZ(Luv,
     return from_range_1(XYZ)
 
 
-def Luv_to_uv(Luv,
-              illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-              ['D65']):
+def Luv_to_uv(
+    Luv: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+) -> NDArray:
     """
-    Returns the :math:`uv^p` chromaticity coordinates from given
+    Return the :math:`uv^p` chromaticity coordinates from given
     *CIE L\\*u\\*v\\** colourspace array.
 
     Parameters
     ----------
-    Luv : array_like
+    Luv
         *CIE L\\*u\\*v\\** colourspace array.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         :math:`uv^p` chromaticity coordinates.
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -254,35 +285,37 @@ def Luv_to_uv(Luv,
     return uv
 
 
-def uv_to_Luv(uv,
-              illuminant=CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-              ['D65'],
-              Y=1):
+def uv_to_Luv(
+    uv: ArrayLike,
+    illuminant: ArrayLike = CCS_ILLUMINANTS[
+        "CIE 1931 2 Degree Standard Observer"
+    ]["D65"],
+    Y: Floating = 1,
+) -> NDArray:
     """
-    Returns the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
+    Return the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
     chromaticity coordinates by extending the array last dimension with given
     :math:`L` *Lightness*.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         :math:`uv^p` chromaticity coordinates.
-    illuminant : array_like, optional
+    illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
-    Y : numeric, optional
+    Y
         Optional :math:`Y` *luminance* value used to construct the intermediate
         *CIE XYZ* colourspace array, the default :math:`Y` *luminance* value is
         1.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*u\\*v\\** colourspace array.
 
     Notes
     -----
-
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
@@ -308,28 +341,29 @@ def uv_to_Luv(uv,
     """
 
     u, v = tsplit(uv)
-    Y = to_domain_1(Y)
+    Y = as_float_scalar(to_domain_1(Y))
 
     X = 9 * u / (4 * v)
     Z = (-5 * Y * v - 3 * u / 4 + 3) / v
-    Y = full(u.shape, Y)
 
-    return XYZ_to_Luv(from_range_1(tstack([X, Y, Z])), illuminant)
+    XYZ = tstack([X, full(u.shape, Y), Z])
+
+    return XYZ_to_Luv(from_range_1(XYZ), illuminant)
 
 
-def Luv_uv_to_xy(uv):
+def Luv_uv_to_xy(uv: ArrayLike) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
+    Return the *CIE xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
     colourspace :math:`uv^p` chromaticity coordinates.
 
     Parameters
     ----------
-    uv : array_like
+    uv
         *CIE L\\*u\\*v\\* u"v"* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xy* chromaticity coordinates.
 
     References
@@ -352,19 +386,19 @@ def Luv_uv_to_xy(uv):
     return xy
 
 
-def xy_to_Luv_uv(xy):
+def xy_to_Luv_uv(xy: ArrayLike) -> NDArray:
     """
-    Returns the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
+    Return the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
     coordinates from given *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*u\\*v\\* u"v"* chromaticity coordinates.
 
     References
@@ -387,24 +421,23 @@ def xy_to_Luv_uv(xy):
     return uv
 
 
-def Luv_to_LCHuv(Luv):
+def Luv_to_LCHuv(Luv: ArrayLike) -> NDArray:
     """
-    Converts from *CIE L\\*u\\*v\\** colourspace to *CIE L\\*C\\*Huv*
+    Convert from *CIE L\\*u\\*v\\** colourspace to *CIE L\\*C\\*Huv*
     colourspace.
 
     Parameters
     ----------
-    Luv : array_like
+    Luv
         *CIE L\\*u\\*v\\** colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*C\\*Huv* colourspace array.
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -440,24 +473,23 @@ def Luv_to_LCHuv(Luv):
     return Jab_to_JCh(Luv)
 
 
-def LCHuv_to_Luv(LCHuv):
+def LCHuv_to_Luv(LCHuv: ArrayLike) -> NDArray:
     """
-    Converts from *CIE L\\*C\\*Huv* colourspace to *CIE L\\*u\\*v\\**
+    Convert from *CIE L\\*C\\*Huv* colourspace to *CIE L\\*u\\*v\\**
     colourspace.
 
     Parameters
     ----------
-    LCHuv : array_like
+    LCHuv
         *CIE L\\*C\\*Huv* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE L\\*u\\*v\\** colourspace array.
 
     Notes
     -----
-
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+

@@ -1,46 +1,41 @@
-# -*- coding: utf-8 -*-
-"""
-Defines unit tests for :mod:`colour.plotting.temperature` module.
-"""
-
-from __future__ import division, unicode_literals
+"""Defines the unit tests for the :mod:`colour.plotting.temperature` module."""
 
 import unittest
 from matplotlib.pyplot import Axes, Figure
 
 from colour.plotting import (
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
-    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS)
+    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
+)
 from colour.plotting.temperature import (
-    plot_planckian_locus, plot_planckian_locus_CIE1931,
-    plot_planckian_locus_CIE1960UCS,
-    plot_planckian_locus_in_chromaticity_diagram)
+    plot_planckian_locus,
+    plot_planckian_locus_in_chromaticity_diagram,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'TestPlotPlanckianLocus', 'TestPlotPlanckianLocusCIE1931',
-    'TestPlotPlanckianLocusCIE1960UCS',
-    'TestPlotPlanckianLocusInChromaticityDiagram',
-    'TestPlotPlanckianLocusInChromaticityDiagramCIE1931',
-    'TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS'
+    "TestPlotPlanckianLocus",
+    "TestPlotPlanckianLocusInChromaticityDiagram",
+    "TestPlotPlanckianLocusInChromaticityDiagramCIE1931",
+    "TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS",
 ]
 
 
 class TestPlotPlanckianLocus(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.plot_planckian_locus` definition
+    Define :func:`colour.plotting.temperature.plot_planckian_locus` definition
     unit tests methods.
     """
 
     def test_plot_planckian_locus(self):
         """
-        Tests :func:`colour.plotting.temperature.plot_planckian_locus`
+        Test :func:`colour.plotting.temperature.plot_planckian_locus`
         definition.
         """
 
@@ -50,40 +45,22 @@ class TestPlotPlanckianLocus(unittest.TestCase):
         self.assertIsInstance(axes, Axes)
 
         self.assertRaises(
-            ValueError, lambda: plot_planckian_locus(method='Undefined'))
+            ValueError, lambda: plot_planckian_locus(method="Undefined")
+        )
 
-
-class TestPlotPlanckianLocusCIE1931(unittest.TestCase):
-    """
-    Defines :func:`colour.plotting.temperature.plot_planckian_locus_CIE1931`
-    definition unit tests methods.
-    """
-
-    def test_plot_planckian_locus(self):
-        """
-        Tests :func:`colour.plotting.temperature.plot_planckian_locus_CIE1931`
-        definition.
-        """
-
-        figure, axes = plot_planckian_locus_CIE1931()
+        figure, axes = plot_planckian_locus(method="CIE 1976 UCS")
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
+        figure, axes = plot_planckian_locus(planckian_locus_colours="RGB")
 
-class TestPlotPlanckianLocusCIE1960UCS(unittest.TestCase):
-    """
-    Defines :func:`colour.plotting.temperature.plot_planckian_locus_CIE1960UCS`
-    definition unit tests methods.
-    """
+        self.assertIsInstance(figure, Figure)
+        self.assertIsInstance(axes, Axes)
 
-    def test_plot_planckian_locus(self):
-        """
-        Tests :func:`colour.plotting.temperature.\
-plot_planckian_locus_CIE1960UCS` definition.
-        """
-
-        figure, axes = plot_planckian_locus_CIE1960UCS()
+        figure, axes = plot_planckian_locus(
+            planckian_locus_labels=[5500, 6500]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -91,65 +68,68 @@ plot_planckian_locus_CIE1960UCS` definition.
 
 class TestPlotPlanckianLocusInChromaticityDiagram(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.\
+    Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram` definition unit tests methods.
     """
 
     def test_plot_planckian_locus_in_chromaticity_diagram(self):
         """
-        Tests :func:`colour.plotting.temperature.\
+        Test :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
-            ['A', 'B', 'C'],
-            annotate_kwargs={'arrowprops': {
-                'width': 10
-            }},
+            ["A", "B", "C"],
+            annotate_kwargs={"arrowprops": {"width": 10}},
             plot_kwargs={
-                'markersize': 15,
-            })
+                "markersize": 15,
+            },
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram(
-            ['A', 'B', 'C'],
-            annotate_kwargs=[{
-                'arrowprops': {
-                    'width': 10
+            ["A", "B", "C"],
+            annotate_kwargs=[{"arrowprops": {"width": 10}}] * 3,
+            plot_kwargs=[
+                {
+                    "markersize": 15,
                 }
-            }] * 3,
-            plot_kwargs=[{
-                'markersize': 15,
-            }] * 3)
+            ]
+            * 3,
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
         self.assertRaises(
-            ValueError, lambda: plot_planckian_locus_in_chromaticity_diagram(
-                ['A', 'B', 'C'],
+            ValueError,
+            lambda: plot_planckian_locus_in_chromaticity_diagram(
+                ["A", "B", "C"],
                 chromaticity_diagram_callable=lambda **x: x,
                 planckian_locus_callable=lambda **x: x,
-                method='Undefined'))
+                method="Undefined",
+            ),
+        )
 
 
 class TestPlotPlanckianLocusInChromaticityDiagramCIE1931(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.\
+    Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition unit tests
     methods.
     """
 
     def test_plot_planckian_locus_in_chromaticity_diagram_CIE1931(self):
         """
-        Tests :func:`colour.plotting.temperature.\
+        Test :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-            ['A', 'B', 'C'])
+            ["A", "B", "C"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
@@ -157,23 +137,24 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition.
 
 class TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS(unittest.TestCase):
     """
-    Defines :func:`colour.plotting.temperature.\
+    Define :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition unit tests
     methods.
     """
 
     def test_plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(self):
         """
-        Tests :func:`colour.plotting.temperature.\
+        Test :func:`colour.plotting.temperature.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-            ['A', 'B', 'C'])
+            ["A", "B", "C"]
+        )
 
         self.assertIsInstance(figure, Figure)
         self.assertIsInstance(axes, Axes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

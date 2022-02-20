@@ -1,57 +1,68 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases colorimetry plotting examples.
-"""
+"""Showcases colorimetry plotting examples."""
 
 from pprint import pprint
 
 import colour
 from colour.plotting import (
-    SD_ASTMG173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
-    colour_style, plot_multi_cmfs, plot_multi_illuminant_sds,
-    plot_multi_lightness_functions, plot_multi_sds, plot_single_cmfs,
-    plot_single_illuminant_sd, plot_single_lightness_function, plot_single_sd,
-    plot_visible_spectrum)
+    SD_ASTMG173_ETR,
+    plot_blackbody_colours,
+    plot_blackbody_spectral_radiance,
+    colour_style,
+    plot_multi_cmfs,
+    plot_multi_illuminant_sds,
+    plot_multi_lightness_functions,
+    plot_multi_sds,
+    plot_single_cmfs,
+    plot_single_illuminant_sd,
+    plot_single_lightness_function,
+    plot_single_sd,
+    plot_visible_spectrum,
+)
 from colour.utilities import message_box
 
-message_box('Colorimetry Plots')
+message_box("Colorimetry Plots")
 
 colour_style()
 
-message_box('Plotting a single illuminant spectral ' 'distribution.')
-plot_single_illuminant_sd('FL1')
+message_box("Plotting a single illuminant spectral " "distribution.")
+plot_single_illuminant_sd("FL1")
 
-print('\n')
+print("\n")
 
-message_box('Plotting multiple illuminants spectral distributions.')
+message_box("Plotting multiple illuminants spectral distributions.")
 pprint(sorted(colour.SDS_ILLUMINANTS.keys()))
 plot_multi_illuminant_sds(
-    ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'FL1'])
+    ["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "FL1"]
+)
 
-print('\n')
+print("\n")
 
-message_box(('Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
-             'normalised colours.'))
+message_box(
+    'Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
+    "normalised colours."
+)
 plot_multi_illuminant_sds(
-    ['A', 'B', 'C'],
-    plot_kwargs={
-        'use_sd_colours': True,
-        'normalise_sd_colours': True
-    })
+    ["A", "B", "C"],
+    plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
+)
 
-print('\n')
+print("\n")
 
-message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral '
-             'distributions.'))
+message_box(
+    'Plotting "CIE Standard Illuminant D Series" "S" spectral '
+    "distributions."
+)
 plot_multi_sds(
     [
-        value for key, value in
-        sorted(colour.colorimetry.SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.
-               items())
+        value
+        for key, value in sorted(
+            colour.colorimetry.SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.items()
+        )
     ],
-    title='CIE Standard Illuminant D Series - S Distributions')
+    title="CIE Standard Illuminant D Series - S Distributions",
+)
 
-print('\n')
+print("\n")
 
 data_sample = {
     380: 0.048,
@@ -134,7 +145,7 @@ data_sample = {
     765: 0.465,
     770: 0.448,
     775: 0.432,
-    780: 0.421
+    780: 0.421,
 }
 
 # http://speclib.jpl.nasa.gov/speclibdata/
@@ -361,7 +372,7 @@ data_galvanized_steel_metal = {
     796: 9.31,
     798: 9.26,
     800: 9.21,
-    820: 8.59
+    820: 8.59,
 }
 
 # http://speclib.jpl.nasa.gov/speclibdata/
@@ -588,26 +599,32 @@ data_white_marble = {
     796: 84.31,
     798: 84.34,
     800: 84.34,
-    820: 84.47
+    820: 84.47,
 }
 
-message_box('Plotting various single spectral distributions.')
-plot_single_sd(colour.SpectralDistribution(data_sample, name='Custom'))
+message_box("Plotting various single spectral distributions.")
+plot_single_sd(colour.SpectralDistribution(data_sample, name="Custom"))
 plot_single_sd(
     colour.SpectralDistribution(
-        data_galvanized_steel_metal, name='Galvanized Steel Metal'))
+        data_galvanized_steel_metal, name="Galvanized Steel Metal"
+    )
+)
 
-print('\n')
+print("\n")
 
-message_box('Plotting multiple spectral distributions.')
-plot_multi_sds((colour.SpectralDistribution(
-    data_galvanized_steel_metal, name='Galvanized Steel Metal'),
-                colour.SpectralDistribution(
-                    data_white_marble, name='White Marble')))
+message_box("Plotting multiple spectral distributions.")
+plot_multi_sds(
+    (
+        colour.SpectralDistribution(
+            data_galvanized_steel_metal, name="Galvanized Steel Metal"
+        ),
+        colour.SpectralDistribution(data_white_marble, name="White Marble"),
+    )
+)
 
-print('\n')
+print("\n")
 
-message_box('Plotting spectral bandpass dependence correction.')
+message_box("Plotting spectral bandpass dependence correction.")
 data_street_light = {
     380: 8.9770000e-003,
     382: 5.8380000e-003,
@@ -809,144 +826,172 @@ data_street_light = {
     774: 9.2280000e-002,
     776: 9.0480000e-002,
     778: 9.0020000e-002,
-    780: 8.8190000e-002
+    780: 8.8190000e-002,
 }
 
 sd_street_light = colour.SpectralDistribution(
-    data_street_light, name='Street Light')
+    data_street_light, name="Street Light"
+)
 
 sd_bandpass_corrected_street_light = sd_street_light.copy()
-sd_bandpass_corrected_street_light.name = 'Street Light (Bandpass Corrected)'
+sd_bandpass_corrected_street_light.name = "Street Light (Bandpass Corrected)"
 sd_bandpass_corrected_street_light = colour.bandpass_correction(
-    sd_bandpass_corrected_street_light, method='Stearns 1988')
+    sd_bandpass_corrected_street_light, method="Stearns 1988"
+)
 
 plot_multi_sds(
     (sd_street_light, sd_bandpass_corrected_street_light),
-    title='Stearns Bandpass Correction')
+    title="Stearns Bandpass Correction",
+)
 
-print('\n')
+print("\n")
 
 message_box('Plotting a single "cone fundamentals" colour matching functions.')
 plot_single_cmfs(
-    'Stockman & Sharpe 2 Degree Cone Fundamentals',
-    y_label='Sensitivity',
-    bounding_box=(390, 870, 0, 1.1))
+    "Stockman & Sharpe 2 Degree Cone Fundamentals",
+    y_label="Sensitivity",
+    bounding_box=(390, 870, 0, 1.1),
+)
 
-print('\n')
+print("\n")
 
 message_box('Plotting multiple "cone fundamentals" colour matching functions.')
 plot_multi_cmfs(
     [
-        'Stockman & Sharpe 2 Degree Cone Fundamentals',
-        'Stockman & Sharpe 10 Degree Cone Fundamentals'
+        "Stockman & Sharpe 2 Degree Cone Fundamentals",
+        "Stockman & Sharpe 10 Degree Cone Fundamentals",
     ],
-    y_label='Sensitivity',
-    bounding_box=(390, 870, 0, 1.1))
+    y_label="Sensitivity",
+    bounding_box=(390, 870, 0, 1.1),
+)
 
-print('\n')
+print("\n")
 
-message_box('Plotting various single colour matching functions.')
+message_box("Plotting various single colour matching functions.")
 pprint(sorted(colour.MSDS_CMFS.keys()))
-plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
-plot_single_cmfs('CIE 1964 10 Degree Standard Observer')
+plot_single_cmfs("CIE 1931 2 Degree Standard Observer")
+plot_single_cmfs("CIE 1964 10 Degree Standard Observer")
 plot_single_cmfs(
-    'Stiles & Burch 1955 2 Degree RGB CMFs',
-    bounding_box=(390, 830, -0.5, 3.5))
+    "Stiles & Burch 1955 2 Degree RGB CMFs", bounding_box=(390, 830, -0.5, 3.5)
+)
 plot_single_cmfs(
-    'Stiles & Burch 1959 10 Degree RGB CMFs',
-    bounding_box=(390, 830, -0.5, 3.5))
+    "Stiles & Burch 1959 10 Degree RGB CMFs",
+    bounding_box=(390, 830, -0.5, 3.5),
+)
 
-print('\n')
+print("\n")
 
-message_box('Comparing various colour matching functions.')
-plot_multi_cmfs([
-    'CIE 1931 2 Degree Standard Observer',
-    'CIE 1964 10 Degree Standard Observer'
-])
-plot_multi_cmfs([
-    'CIE 2012 10 Degree Standard Observer',
-    'CIE 1964 10 Degree Standard Observer'
-])
-plot_multi_cmfs([
-    'Wright & Guild 1931 2 Degree RGB CMFs',
-    'Stiles & Burch 1955 2 Degree RGB CMFs'
-])
+message_box("Comparing various colour matching functions.")
+plot_multi_cmfs(
+    [
+        "CIE 1931 2 Degree Standard Observer",
+        "CIE 1964 10 Degree Standard Observer",
+    ]
+)
+plot_multi_cmfs(
+    [
+        "CIE 2012 10 Degree Standard Observer",
+        "CIE 1964 10 Degree Standard Observer",
+    ]
+)
+plot_multi_cmfs(
+    [
+        "Wright & Guild 1931 2 Degree RGB CMFs",
+        "Stiles & Burch 1955 2 Degree RGB CMFs",
+    ]
+)
 
-print('\n')
+print("\n")
 
-message_box('Plotting visible colours under given standard observer.')
-plot_visible_spectrum('CIE 1931 2 Degree Standard Observer')
-plot_visible_spectrum('CIE 2012 2 Degree Standard Observer')
+message_box("Plotting visible colours under given standard observer.")
+plot_visible_spectrum("CIE 1931 2 Degree Standard Observer")
+plot_visible_spectrum("CIE 2012 2 Degree Standard Observer")
 
-print('\n')
+print("\n")
 
-message_box('Plotting photopic luminous efficiency functions.')
+message_box("Plotting photopic luminous efficiency functions.")
 plot_multi_sds(
     colour.colorimetry.SDS_LEFS_PHOTOPIC.values(),
-    title='Luminous Efficiency Functions',
-    y_label='Luminous Efficiency')
+    title="Luminous Efficiency Functions",
+    y_label="Luminous Efficiency",
+)
 
-print('\n')
+print("\n")
 
-message_box('Comparing photopic and scotopic luminous efficiency functions.')
+message_box("Comparing photopic and scotopic luminous efficiency functions.")
 LEF_PHOTOPIC = colour.colorimetry.SDS_LEFS_PHOTOPIC[
-    'CIE 2008 2 Degree Physiologically Relevant LEF']
+    "CIE 2008 2 Degree Physiologically Relevant LEF"
+]
 LEF_SCOTOPIC = colour.colorimetry.SDS_LEFS_SCOTOPIC[
-    'CIE 1951 Scotopic Standard Observer']
+    "CIE 1951 Scotopic Standard Observer"
+]
 plot_multi_sds(
     (LEF_PHOTOPIC, LEF_SCOTOPIC),
-    title='Photopic & Scotopic Luminous Efficiency Functions',
-    y_label='Luminous Efficiency')
+    title="Photopic & Scotopic Luminous Efficiency Functions",
+    y_label="Luminous Efficiency",
+)
 
-print('\n')
+print("\n")
 
-message_box(('Plotting a mesopic luminous efficiency function with given '
-             'photopic luminance value:\n'
-             '\n\t0.2'))
+message_box(
+    "Plotting a mesopic luminous efficiency function with given photopic "
+    "luminance value:\n\n\t0.2"
+)
 sd_mesopic_luminous_efficiency_function = (
-    colour.sd_mesopic_luminous_efficiency_function(0.2))
+    colour.sd_mesopic_luminous_efficiency_function(0.2)
+)
 
 plot_multi_sds(
-    (sd_mesopic_luminous_efficiency_function, colour.colorimetry.
-     SDS_LEFS_PHOTOPIC['CIE 1924 Photopic Standard Observer'], colour.
-     colorimetry.SDS_LEFS_SCOTOPIC['CIE 1951 Scotopic Standard Observer']),
-    y_label='Luminous Efficiency')
+    (
+        sd_mesopic_luminous_efficiency_function,
+        colour.colorimetry.SDS_LEFS_PHOTOPIC[
+            "CIE 1924 Photopic Standard Observer"
+        ],
+        colour.colorimetry.SDS_LEFS_SCOTOPIC[
+            "CIE 1951 Scotopic Standard Observer"
+        ],
+    ),
+    y_label="Luminous Efficiency",
+)
 
-print('\n')
+print("\n")
 
 message_box('Plotting a single "Lightness" function.')
-plot_single_lightness_function('CIE 1976')
+plot_single_lightness_function("CIE 1976")
 
-print('\n')
+print("\n")
 
 message_box('Plotting multiple "Lightness" functions.')
-plot_multi_lightness_functions(['CIE 1976', 'Glasser 1958'])
+plot_multi_lightness_functions(["CIE 1976", "Glasser 1958"])
 
-print('\n')
+print("\n")
 
-message_box('Plotting various blackbody spectral radiance.')
+message_box("Plotting various blackbody spectral radiance.")
 plot_blackbody_spectral_radiance(
-    temperature=3500, blackbody='VY Canis Majoris')
-plot_blackbody_spectral_radiance(temperature=5778, blackbody='The Sun')
-plot_blackbody_spectral_radiance(temperature=12130, blackbody='Rigel')
+    temperature=3500, blackbody="VY Canis Majoris"
+)
+plot_blackbody_spectral_radiance(temperature=5778, blackbody="The Sun")
+plot_blackbody_spectral_radiance(temperature=12130, blackbody="Rigel")
 
-print('\n')
+print("\n")
 
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
 sd_ASTMG173 = SD_ASTMG173_ETR.copy()
 
 sd_ASTMG173.interpolate(
-    colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)
+    colour.SpectralShape(sd_ASTMG173.shape.start, sd_ASTMG173.shape.end, 5),
+    interpolator=colour.LinearInterpolator,
+)
 
 sd_blackbody = colour.sd_blackbody(5778, sd_ASTMG173.shape)
-sd_blackbody.name = 'The Sun - 5778K'
+sd_blackbody.name = "The Sun - 5778K"
 
 sd_blackbody /= colour.sd_to_XYZ(sd_blackbody)[1]
 sd_blackbody *= colour.sd_to_XYZ(sd_ASTMG173)[1]
 
-plot_multi_sds([sd_ASTMG173, sd_blackbody], y_label='W / (sr m$^2$) / m')
+plot_multi_sds([sd_ASTMG173, sd_blackbody], y_label="W / (sr m$^2$) / m")
 
-print('\n')
+print("\n")
 
 message_box('Plotting various "blackbody" spectral distributions.')
 sds_blackbody = [
@@ -956,13 +1001,11 @@ sds_blackbody = [
 
 plot_multi_sds(
     sds_blackbody,
-    y_label='W / (sr m$^2$) / m',
-    plot_kwargs={
-        'use_sd_colours': True,
-        'normalise_sd_colours': True
-    })
+    y_label="W / (sr m$^2$) / m",
+    plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
+)
 
-print('\n')
+print("\n")
 
 message_box('Plotting "blackbody" colours.')
 plot_blackbody_colours()

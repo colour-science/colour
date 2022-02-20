@@ -1,12 +1,8 @@
-Basics
-======
+Basic Concepts
+==============
 
 This page puts an emphasis on basic concepts of **Colour**, those are important
 to understand.
-
-.. contents:: Table of Contents
-    :local:
-    :depth: 3
 
 Object Name Categorisation
 --------------------------

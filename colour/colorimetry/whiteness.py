@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Whiteness Index :math:`W`
 =========================
 
-Defines *whiteness* index :math:`W` computation objects:
+Defines the *whiteness* index :math:`W` computation objects:
 
 -   :func:`colour.colorimetry.whiteness_Berger1959`: *Whiteness* index
     :math:`WI` computation of given sample *CIE XYZ* tristimulus values using
@@ -43,46 +42,69 @@ References
 c/09_color_calculations_en.pdf
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
-from colour.utilities import (CaseInsensitiveMapping, get_domain_range_scale,
-                              filter_kwargs, from_range_100, to_domain_100,
-                              tsplit, tstack)
+from colour.hints import (
+    Any,
+    ArrayLike,
+    FloatingOrNDArray,
+    Literal,
+    NDArray,
+    Union,
+)
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_float,
+    as_float_array,
+    get_domain_range_scale,
+    filter_kwargs,
+    from_range_100,
+    to_domain_100,
+    tsplit,
+    tstack,
+    validate_method,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'whiteness_Berger1959', 'whiteness_Taube1960', 'whiteness_Stensby1968',
-    'whiteness_ASTME313', 'whiteness_Ganz1979', 'whiteness_CIE2004',
-    'WHITENESS_METHODS', 'whiteness'
+    "whiteness_Berger1959",
+    "whiteness_Taube1960",
+    "whiteness_Stensby1968",
+    "whiteness_ASTME313",
+    "whiteness_Ganz1979",
+    "whiteness_CIE2004",
+    "WHITENESS_METHODS",
+    "whiteness",
 ]
 
 
-def whiteness_Berger1959(XYZ, XYZ_0):
+def whiteness_Berger1959(
+    XYZ: ArrayLike, XYZ_0: ArrayLike
+) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
+    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *Berger (1959)* method.
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values of sample.
-    XYZ_0 : array_like
-        *CIE XYZ* tristimulus values of reference white.
+    XYZ
+        *CIE XYZ* tristimulus values of the sample.
+    XYZ_0
+        *CIE XYZ* tristimulus values of the reference white.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`np.floating` or :class:`numpy.ndarray`
         *Whiteness* :math:`WI`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -118,29 +140,28 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
-def whiteness_Taube1960(XYZ, XYZ_0):
+def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
+    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *Taube (1960)* method.
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values of sample.
-    XYZ_0 : array_like
-        *CIE XYZ* tristimulus values of reference white.
+    XYZ
+        *CIE XYZ* tristimulus values of the sample.
+    XYZ_0
+        *CIE XYZ* tristimulus values of the reference white.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`np.floating` or :class:`numpy.ndarray`
         *Whiteness* :math:`WI`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -176,27 +197,26 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     WI = 400 * (Z / Z_0) - 3 * Y
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
-def whiteness_Stensby1968(Lab):
+def whiteness_Stensby1968(Lab: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE L\\*a\\*b\\**
+    Return the *whiteness* index :math:`WI` of given sample *CIE L\\*a\\*b\\**
     colourspace array using *Stensby (1968)* method.
 
     Parameters
     ----------
-    Lab : array_like
-        *CIE L\\*a\\*b\\** colourspace array of sample.
+    Lab
+        *CIE L\\*a\\*b\\** colourspace array of the sample.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`np.floating` or :class:`numpy.ndarray`
         *Whiteness* :math:`WI`.
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -232,27 +252,26 @@ def whiteness_Stensby1968(Lab):
 
     WI = L - 3 * b + 3 * a
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
-def whiteness_ASTME313(XYZ):
+def whiteness_ASTME313(XYZ: ArrayLike) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
+    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
     tristimulus values using *ASTM E313* method.
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values of sample.
+    XYZ
+        *CIE XYZ* tristimulus values of the sample.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`np.floating` or :class:`numpy.ndarray`
         *Whiteness* :math:`WI`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -281,30 +300,29 @@ def whiteness_ASTME313(XYZ):
 
     WI = 3.388 * Z - 3 * Y
 
-    return from_range_100(WI)
+    return as_float(from_range_100(WI))
 
 
-def whiteness_Ganz1979(xy, Y):
+def whiteness_Ganz1979(xy: ArrayLike, Y: FloatingOrNDArray) -> NDArray:
     """
-    Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
+    Return the *whiteness* index :math:`W` and *tint* :math:`T` of given
     sample *CIE xy* chromaticity coordinates using *Ganz and Griesser (1979)*
     method.
 
     Parameters
     ----------
-    xy : array_like
-        Chromaticity coordinates *CIE xy* of sample.
-    Y : numeric or array_like
-        Tristimulus :math:`Y` value of sample.
+    xy
+        Chromaticity coordinates *CIE xy* of the sample.
+    Y
+        Tristimulus :math:`Y` value of the sample.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Whiteness* :math:`W` and *tint* :math:`T`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -350,38 +368,40 @@ def whiteness_Ganz1979(xy, Y):
     return from_range_100(WT)
 
 
-def whiteness_CIE2004(xy,
-                      Y,
-                      xy_n,
-                      observer='CIE 1931 2 Degree Standard Observer'):
+def whiteness_CIE2004(
+    xy: ArrayLike,
+    Y: FloatingOrNDArray,
+    xy_n: ArrayLike,
+    observer: Literal[
+        "CIE 1931 2 Degree Standard Observer",
+        "CIE 1964 10 Degree Standard Observer",
+    ] = ("CIE 1931 2 Degree Standard Observer"),
+) -> NDArray:
     """
-    Returns the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
+    Return the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
     or :math:`T_{10}` of given sample *CIE xy* chromaticity coordinates using
     *CIE 2004* method.
 
     Parameters
     ----------
-    xy : array_like
-        Chromaticity coordinates *CIE xy* of sample.
-    Y : numeric or array_like
-        Tristimulus :math:`Y` value of sample.
-    xy_n : array_like
-        Chromaticity coordinates *xy_n* of perfect diffuser.
-    observer : unicode, optional
-        **{'CIE 1931 2 Degree Standard Observer',
-        'CIE 1964 10 Degree Standard Observer'}**,
+    xy
+        Chromaticity coordinates *CIE xy* of the sample.
+    Y
+        Tristimulus :math:`Y` value of the sample.
+    xy_n
+        Chromaticity coordinates *xy_n* of a perfect diffuser.
+    observer
         *CIE Standard Observer* used for computations, *tint* :math:`T` or
         :math:`T_{10}` value is dependent on viewing field angular subtense.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T` or
         :math:`T_{10}` of given sample.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -424,21 +444,23 @@ def whiteness_CIE2004(xy,
     x_n, y_n = tsplit(xy_n)
 
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
-    T = (1000 if '1931' in observer else 900) * (x_n - x) - 650 * (y_n - y)
+    T = (1000 if "1931" in observer else 900) * (x_n - x) - 650 * (y_n - y)
 
     WT = tstack([W, T])
 
     return from_range_100(WT)
 
 
-WHITENESS_METHODS = CaseInsensitiveMapping({
-    'Berger 1959': whiteness_Berger1959,
-    'Taube 1960': whiteness_Taube1960,
-    'Stensby 1968': whiteness_Stensby1968,
-    'ASTM E313': whiteness_ASTME313,
-    'Ganz 1979': whiteness_Ganz1979,
-    'CIE 2004': whiteness_CIE2004
-})
+WHITENESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {
+        "Berger 1959": whiteness_Berger1959,
+        "Taube 1960": whiteness_Taube1960,
+        "Stensby 1968": whiteness_Stensby1968,
+        "ASTM E313": whiteness_ASTME313,
+        "Ganz 1979": whiteness_Ganz1979,
+        "CIE 2004": whiteness_CIE2004,
+    }
+)
 WHITENESS_METHODS.__doc__ = """
 Supported *whiteness* computation methods.
 
@@ -446,49 +468,55 @@ References
 ----------
 :cite:`CIETC1-482004k`, :cite:`X-Rite2012a`
 
-WHITENESS_METHODS : CaseInsensitiveMapping
-    **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM E313',
-    'Ganz 1979', 'CIE 2004'}**
-
 Aliases:
 
 -   'cie2004': 'CIE 2004'
 """
-WHITENESS_METHODS['cie2004'] = WHITENESS_METHODS['CIE 2004']
+WHITENESS_METHODS["cie2004"] = WHITENESS_METHODS["CIE 2004"]
 
 
-def whiteness(XYZ, XYZ_0, method='CIE 2004', **kwargs):
+def whiteness(
+    XYZ: ArrayLike,
+    XYZ_0: ArrayLike,
+    method: Union[
+        Literal[
+            "ASTM E313",
+            "CIE 2004",
+            "Berger 1959",
+            "Ganz 1979",
+            "Stensby 1968",
+            "Taube 1960",
+        ],
+        str,
+    ] = "CIE 2004",
+    **kwargs: Any,
+) -> FloatingOrNDArray:
     """
-    Returns the *whiteness* :math:`W` using given method.
+    Return the *whiteness* :math:`W` using given method.
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values of sample.
-    XYZ_0 : array_like
-        *CIE XYZ* tristimulus values of reference white.
-    method : unicode, optional
-        **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968',
-        'ASTM E313', 'Ganz 1979'}**,
+    XYZ
+        *CIE XYZ* tristimulus values of the sample.
+    XYZ_0
+        *CIE XYZ* tristimulus values of the reference white.
+    method
         Computation method.
 
     Other Parameters
     ----------------
-    observer : unicode, optional
+    observer
         {:func:`colour.colorimetry.whiteness_CIE2004`},
-        **{'CIE 1931 2 Degree Standard Observer',
-        'CIE 1964 10 Degree Standard Observer'}**,
         *CIE Standard Observer* used for computations, *tint* :math:`T` or
         :math:`T_{10}` value is dependent on viewing field angular subtense.
 
     Returns
     -------
-    numeric or ndarray
-        *whiteness* :math:`W`.
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Whiteness* :math:`W`.
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** |   **Scale - 1** |
     +============+=======================+=================+
@@ -523,26 +551,29 @@ def whiteness(XYZ, XYZ_0, method='CIE 2004', **kwargs):
     91.4071738...
     """
 
-    kwargs.update({'XYZ': XYZ, 'XYZ_0': XYZ_0})
+    XYZ = as_float_array(XYZ)
+    XYZ_0 = as_float_array(XYZ_0)
 
-    function = WHITENESS_METHODS.get(method)
+    method = validate_method(method, WHITENESS_METHODS)
+
+    kwargs.update({"XYZ": XYZ, "XYZ_0": XYZ_0})
+
+    function = WHITENESS_METHODS[method]
 
     if function is whiteness_Stensby1968:
         from colour.models import XYZ_to_Lab, XYZ_to_xy
 
-        if get_domain_range_scale() == 'reference':
+        if get_domain_range_scale() == "reference":
             XYZ = XYZ / 100
             XYZ_0 = XYZ_0 / 100
 
-        kwargs.update({'Lab': XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_0))})
+        kwargs.update({"Lab": XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_0))})
     elif function in (whiteness_Ganz1979, whiteness_CIE2004):
         from colour.models import XYZ_to_xy
 
         _X_0, Y_0, _Z_0 = tsplit(XYZ_0)
-        kwargs.update({
-            'xy': XYZ_to_xy(XYZ),
-            'Y': Y_0,
-            'xy_n': XYZ_to_xy(XYZ_0)
-        })
+        kwargs.update(
+            {"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)}
+        )
 
     return function(**filter_kwargs(function, **kwargs))

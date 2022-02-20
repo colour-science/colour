@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 ITU-R BT.1886
 =============
 
-Defines *Recommendation ITU-R BT.1886* electro-optical transfer function (EOTF
-/ EOCF) and its inverse:
+Defines the *Recommendation ITU-R BT.1886* electro-optical transfer function
+(EOTF) and its inverse:
 
 -   :func:`colour.models.eotf_inverse_BT1886`
 -   :func:`colour.models.eotf_BT1886`
@@ -19,45 +18,50 @@ References
 R-REC-BT.1886-0-201103-I!!PDF-E.pdf
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1
+from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
+from colour.utilities import as_float, from_range_1, to_domain_1
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['eotf_inverse_BT1886', 'eotf_BT1886']
+__all__ = [
+    "eotf_inverse_BT1886",
+    "eotf_BT1886",
+]
 
 
-def eotf_inverse_BT1886(L, L_B=0, L_W=1):
+def eotf_inverse_BT1886(
+    L: FloatingOrArrayLike, L_B: Floating = 0, L_W: Floating = 1
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.1886* inverse electro-optical transfer
-    function (EOTF / EOCF).
+    Define *Recommendation ITU-R BT.1886* inverse electro-optical transfer
+    function (EOTF).
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         Screen luminance in :math:`cd/m^2`.
-    L_B : numeric, optional
+    L_B
         Screen luminance for black.
-    L_W : numeric, optional
+    L_W
         Screen luminance for white.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Input video signal level (normalised, black at :math:`V = 0`, to white
         at :math:`V = 1`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -85,41 +89,42 @@ def eotf_inverse_BT1886(L, L_B=0, L_W=1):
     gamma = 2.40
     gamma_d = 1 / gamma
 
-    n = L_W ** gamma_d - L_B ** gamma_d
-    a = n ** gamma
-    b = L_B ** gamma_d / n
+    n = L_W**gamma_d - L_B**gamma_d
+    a = n**gamma
+    b = L_B**gamma_d / n
 
     V = (L / a) ** gamma_d - b
 
-    return from_range_1(V)
+    return as_float(from_range_1(V))
 
 
-def eotf_BT1886(V, L_B=0, L_W=1):
+def eotf_BT1886(
+    V: FloatingOrArrayLike, L_B: Floating = 0, L_W: Floating = 1
+) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
-    (EOTF / EOCF).
+    Define *Recommendation ITU-R BT.1886* electro-optical transfer function
+    (EOTF).
 
     Parameters
     ----------
-    V : numeric or array_like
+    V
         Input video signal level (normalised, black at :math:`V = 0`, to white
         at :math:`V = 1`. For content mastered per
         *Recommendation ITU-R BT.709*, 10-bit digital code values :math:`D` map
         into values of :math:`V` per the following equation:
         :math:`V = (D-64)/876`
-    L_B : numeric, optional
+    L_B
         Screen luminance for black.
-    L_W : numeric, optional
+    L_W
         Screen luminance for white.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Screen luminance in :math:`cd/m^2`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -147,9 +152,9 @@ def eotf_BT1886(V, L_B=0, L_W=1):
     gamma = 2.40
     gamma_d = 1 / gamma
 
-    n = L_W ** gamma_d - L_B ** gamma_d
-    a = n ** gamma
-    b = L_B ** gamma_d / n
+    n = L_W**gamma_d - L_B**gamma_d
+    a = n**gamma
+    b = L_B**gamma_d / n
     L = a * np.maximum(V + b, 0) ** gamma
 
-    return from_range_1(L)
+    return as_float(from_range_1(L))

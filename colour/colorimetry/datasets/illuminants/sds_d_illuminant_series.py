@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CIE Illuminant D Series :math:`S_n(\\lambda)` Distributions
 ===========================================================
@@ -18,25 +17,28 @@ References
     ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
+
+from functools import partial
 
 from colour.colorimetry import SpectralDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.hints import Dict
+from colour.utilities import LazyCaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES',
-    'SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES'
+    "DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES",
+    "SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES",
 ]
 
-DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = {
-    'S0': {
+DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: Dict = {
+    "S0": {
         300: 0.04,
         305: 3.02,
         310: 6.00,
@@ -143,9 +145,9 @@ DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = {
         815: 56.10,
         820: 58.90,
         825: 60.40,
-        830: 61.90
+        830: 61.90,
     },
-    'S1': {
+    "S1": {
         300: 0.02,
         305: 2.26,
         310: 4.50,
@@ -252,9 +254,9 @@ DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = {
         815: -8.80,
         820: -9.30,
         825: -9.55,
-        830: -9.80
+        830: -9.80,
     },
-    'S2': {
+    "S2": {
         300: 0.00,
         305: 1.00,
         310: 2.00,
@@ -362,27 +364,34 @@ DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = {
         820: 6.10,
         825: 6.30,
         830: 6.50,
-    }
+    },
 }
 
-SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES = CaseInsensitiveMapping({
-    'S0':
-        SpectralDistribution(
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S0'], name='S0'),
-    'S1':
-        SpectralDistribution(
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S1'], name='S1'),
-    'S2':
-        SpectralDistribution(
-            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES['S2'], name='S2')
-})
+SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
+    {
+        "S0": partial(
+            SpectralDistribution,
+            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"],
+            name="S0",
+        ),
+        "S1": partial(
+            SpectralDistribution,
+            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"],
+            name="S1",
+        ),
+        "S2": partial(
+            SpectralDistribution,
+            DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"],
+            name="S2",
+        ),
+    }
+)
 SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.__doc__ = """
 *CIE Illuminant D Series* :math:`S_n(\\lambda)` spectral distributions.
 
 References
 ----------
 :cite:`Lindbloom2007a`, :cite:`Wyszecki2000z`
-
-SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES : CaseInsensitiveMapping
-   **{'S0', 'S1', 'S1'}**
 """

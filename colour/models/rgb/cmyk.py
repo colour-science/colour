@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 CMYK Colour Transformations
 ===========================
@@ -22,40 +21,50 @@ References
     from http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import (as_float_array, from_range_1, to_domain_1,
-                              tsplit, tstack)
+from colour.hints import ArrayLike, NDArray
+from colour.utilities import (
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['RGB_to_CMY', 'CMY_to_RGB', 'CMY_to_CMYK', 'CMYK_to_CMY']
+__all__ = [
+    "RGB_to_CMY",
+    "CMY_to_RGB",
+    "CMY_to_CMYK",
+    "CMYK_to_CMY",
+]
 
 
-def RGB_to_CMY(RGB):
+def RGB_to_CMY(RGB: ArrayLike) -> NDArray:
     """
-    Converts from *RGB* colourspace to *CMY* colourspace.
+    Convert from *RGB* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CMY* array.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -84,23 +93,22 @@ def RGB_to_CMY(RGB):
     return from_range_1(CMY)
 
 
-def CMY_to_RGB(CMY):
+def CMY_to_RGB(CMY: ArrayLike) -> NDArray:
     """
-    Converts from *CMY* colourspace to *CMY* colourspace.
+    Convert from *CMY* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
-    CMY : array_like
+    CMY
         *CMY* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -129,23 +137,22 @@ def CMY_to_RGB(CMY):
     return from_range_1(RGB)
 
 
-def CMY_to_CMYK(CMY):
+def CMY_to_CMYK(CMY: ArrayLike) -> NDArray:
     """
-    Converts from *CMY* colourspace to *CMYK* colourspace.
+    Convert from *CMY* colourspace to *CMYK* colourspace.
 
     Parameters
     ----------
-    CMY : array_like
+    CMY
         *CMY* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CMYK* array.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -188,23 +195,22 @@ def CMY_to_CMYK(CMY):
     return from_range_1(CMYK)
 
 
-def CMYK_to_CMY(CMYK):
+def CMYK_to_CMY(CMYK: ArrayLike) -> NDArray:
     """
-    Converts from *CMYK* colourspace to *CMY* colourspace.
+    Convert from *CMYK* colourspace to *CMY* colourspace.
 
     Parameters
     ----------
-    CMYK : array_like
+    CMYK
         *CMYK* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CMY* array.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

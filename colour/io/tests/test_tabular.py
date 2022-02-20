@@ -1,37 +1,38 @@
-# -*- coding: utf-8 -*-
-"""
-Defines unit tests for :mod:`colour.io.tabular` module.
-"""
+"""Defines the unit tests for the :mod:`colour.io.tabular` module."""
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
-import numpy as np
 import os
 import shutil
 import unittest
 import tempfile
-from six import PY2, text_type
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
-from colour.io import (read_spectral_data_from_csv_file,
-                       read_sds_from_csv_file, write_sds_to_csv_file)
+from colour.hints import Dict
+from colour.io import (
+    read_spectral_data_from_csv_file,
+    read_sds_from_csv_file,
+    write_sds_to_csv_file,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'RESOURCES_DIRECTORY', 'COLOURCHECKER_N_OHTA_1',
-    'TestReadSpectralDataFromCsvFile', 'TestReadSdsFromCsvFile',
-    'TestWriteSdsToCsvFile'
+    "RESOURCES_DIRECTORY",
+    "COLOURCHECKER_N_OHTA_1",
+    "TestReadSpectralDataFromCsvFile",
+    "TestReadSdsFromCsvFile",
+    "TestWriteSdsToCsvFile",
 ]
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
+RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
-COLOURCHECKER_N_OHTA_1 = {
+COLOURCHECKER_N_OHTA_1: Dict = {
     380.0: 0.048,
     385.0: 0.051,
     390.0: 0.055,
@@ -112,134 +113,131 @@ COLOURCHECKER_N_OHTA_1 = {
     765.0: 0.465,
     770.0: 0.448,
     775.0: 0.432,
-    780.0: 0.421
+    780.0: 0.421,
 }
 
 
 class TestReadSpectralDataFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.read_spectral_data_from_csv_file`
+    Define :func:`colour.io.tabular.read_spectral_data_from_csv_file`
     definition unit tests methods.
     """
 
     def test_read_spectral_data_from_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.read_spectral_data_from_csv_file`
+        Test :func:`colour.io.tabular.read_spectral_data_from_csv_file`
         definition.
         """
 
-        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                             'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+        )
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(
-            sorted(data), sorted([text_type(x) for x in range(1, 25)]))
-        self.assertDictEqual(data['1'], COLOURCHECKER_N_OHTA_1)
+            list(data.keys()), ["wavelength"] + [str(x) for x in range(1, 25)]
+        )
+        self.assertDictEqual(
+            dict(zip(data["wavelength"], data["1"])), COLOURCHECKER_N_OHTA_1
+        )
 
-        linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, 'linss2_10e_5.csv')
+        colour_checker_n_ohta_transposed = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta_transposed.csv"
+        )
         data = read_spectral_data_from_csv_file(
-            linss2_10e_5, fields=['wavelength', 'l_bar', 'm_bar', 's_bar'])
-        self.assertListEqual(sorted(data), ['l_bar', 'm_bar', 's_bar'])
-        self.assertEqual(data['s_bar'][760], 0)
+            colour_checker_n_ohta_transposed, transpose=True, delimiter="\t"
+        )
+        self.assertListEqual(
+            list(data.keys()), ["wavelength"] + [str(x) for x in range(1, 25)]
+        )
+        self.assertDictEqual(
+            dict(zip(data["wavelength"], data["1"])), COLOURCHECKER_N_OHTA_1
+        )
+
+        linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, "linss2_10e_5.csv")
         data = read_spectral_data_from_csv_file(
             linss2_10e_5,
-            fields=['wavelength', 'l_bar', 'm_bar', 's_bar'],
-            default=-1)
-        self.assertEqual(data['s_bar'][760], -1)
-
-    def test_raise_exception_read_spectral_data_from_csv_file(self):
-        """
-        Tests :attr:`colour.io.tabular.read_spectral_data_from_csv_file`
-        definition raised exception.
-        """
-
-        self.assertRaises(RuntimeError, read_spectral_data_from_csv_file,
-                          os.path.join(RESOURCES_DIRECTORY, 'Invalid.csv'))
+            names=["wavelength", "l_bar", "m_bar", "s_bar"],
+            filling_values=0,
+        )
+        self.assertListEqual(
+            list(data.keys()), ["wavelength", "l_bar", "m_bar", "s_bar"]
+        )
+        self.assertEqual(data["s_bar"][77], 0)
+        data = read_spectral_data_from_csv_file(
+            linss2_10e_5,
+            names=["wavelength", "l_bar", "m_bar", "s_bar"],
+            filling_values=-1,
+        )
+        self.assertEqual(data["s_bar"][77], -1)
 
 
 class TestReadSdsFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.read_sds_from_csv_file` definition units
+    Define :func:`colour.io.tabular.read_sds_from_csv_file` definition unit
     tests methods.
     """
 
     def test_read_sds_from_csv_file(self):
-        """
-        Tests :func:`colour.io.tabular.read_sds_from_csv_file` definition.
-        """
+        """Test :func:`colour.io.tabular.read_sds_from_csv_file` definition."""
 
-        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                             'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+        )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         for sd in sds.values():
             self.assertIsInstance(sd, SpectralDistribution)
 
         self.assertEqual(
-            sds['1'], SpectralDistribution(COLOURCHECKER_N_OHTA_1, name='1'))
+            sds["1"], SpectralDistribution(COLOURCHECKER_N_OHTA_1, name="1")
+        )
 
 
 class TestWriteSdsToCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.write_sds_to_csv_file` definition units
+    Define :func:`colour.io.tabular.write_sds_to_csv_file` definition unit
     tests methods.
     """
 
     def setUp(self):
-        """
-        Initialises common tests attributes.
-        """
+        """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
-        """
-        After tests actions.
-        """
+        """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
     def test_write_sds_to_csv_file(self):
-        """
-        Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition.
-        """
+        """Test :func:`colour.io.tabular.write_sds_to_csv_file` definition."""
 
-        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                             'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+        )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
-        colour_checker_n_ohta_test = os.path.join(self._temporary_directory,
-                                                  'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta_test = os.path.join(
+            self._temporary_directory, "colorchecker_n_ohta.csv"
+        )
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
-            if PY2:  # pragma: no cover
-                # Running into precision issues with Python 2.x, applying
-                # conservative rounding.
-                value.wavelengths = np.around(value.wavelengths, decimals=7)
-                value.values = np.around(value.values, decimals=7)
-                sds_test[key].wavelengths = np.around(
-                    sds_test[key].wavelengths, decimals=7)
-                sds_test[key].values = np.around(
-                    sds_test[key].values, decimals=7)
-
             self.assertEqual(value, sds_test[key])
-
-        write_sds_to_csv_file(sds, colour_checker_n_ohta_test, fields=['1'])
-        sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
-        self.assertEqual(len(sds_test), 1)
 
     def test_raise_exception_write_sds_to_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition
+        Test :func:`colour.io.tabular.write_sds_to_csv_file` definition
         raised exception.
         """
 
-        colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
-                                             'colorchecker_n_ohta.csv')
+        colour_checker_n_ohta = os.path.join(
+            RESOURCES_DIRECTORY, "colorchecker_n_ohta.csv"
+        )
         sds = read_sds_from_csv_file(colour_checker_n_ohta)
         key = list(sds.keys())[0]
         sds[key] = sds[key].align(SpectralShape(400, 700, 10))
 
-        self.assertRaises(RuntimeError, write_sds_to_csv_file, sds, '')
+        self.assertRaises(ValueError, write_sds_to_csv_file, sds, "")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

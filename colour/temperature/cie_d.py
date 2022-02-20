@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 CIE Illuminant D Series Correlated Colour Temperature
 =====================================================
 
-Defines *CIE Illuminant D Series* correlated colour temperature :math:`T_{cp}
-computations objects:
+Defines the *CIE Illuminant D Series* correlated colour temperature
+:math:`T_{cp} computations objects:
 
 -   :func:`colour.temperature.xy_to_CCT_CIE_D`: Correlated colour temperature
     :math:`T_{cp}` computation of a *CIE Illuminant D Series* from its *CIE xy*
@@ -21,45 +20,52 @@ References
     ISBN:978-0-471-39918-6
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import daylight_locus_function
-from colour.utilities import as_float_array, as_numeric, tstack, usage_warning
-from colour.utilities.deprecation import handle_arguments_deprecation
+from colour.hints import (
+    ArrayLike,
+    Dict,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+)
+from colour.utilities import as_float_array, as_float, tstack, usage_warning
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['xy_to_CCT_CIE_D', 'CCT_to_xy_CIE_D']
+__all__ = [
+    "xy_to_CCT_CIE_D",
+    "CCT_to_xy_CIE_D",
+]
 
 
-def xy_to_CCT_CIE_D(xy, optimisation_kwargs=None, **kwargs):
+def xy_to_CCT_CIE_D(
+    xy: ArrayLike, optimisation_kwargs: Optional[Dict] = None
+) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` of a
+    Return the correlated colour temperature :math:`T_{cp}` of a
     *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
-    xy : array_like
+    xy
         *CIE xy* chromaticity coordinates.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     Warnings
@@ -81,58 +87,57 @@ def xy_to_CCT_CIE_D(xy, optimisation_kwargs=None, **kwargs):
     6504.3895840...
     """
 
-    optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
-                            ],
-    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
-
     xy = as_float_array(xy)
     shape = xy.shape
     xy = np.atleast_1d(xy.reshape([-1, 2]))
 
-    def objective_function(CCT, xy):
-        """
-        Objective function.
-        """
+    def objective_function(
+        CCT: FloatingOrArrayLike, xy: ArrayLike
+    ) -> FloatingOrNDArray:
+        """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_CIE_D(CCT) - xy)
 
-        return objective
+        return as_float(objective)
 
     optimisation_settings = {
-        'method': 'Nelder-Mead',
-        'options': {
-            'fatol': 1e-10,
+        "method": "Nelder-Mead",
+        "options": {
+            "fatol": 1e-10,
         },
     }
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    CCT = as_float_array([
-        minimize(
-            objective_function,
-            x0=6500,
-            args=(xy_i, ),
-            **optimisation_settings).x for xy_i in xy
-    ])
+    CCT = as_float_array(
+        [
+            minimize(
+                objective_function,
+                x0=6500,
+                args=(xy_i,),
+                **optimisation_settings,
+            ).x
+            for xy_i in as_float_array(xy)
+        ]
+    )
 
-    return as_numeric(CCT.reshape(shape[:-1]))
+    return as_float(np.reshape(CCT, shape[:-1]))
 
 
-def CCT_to_xy_CIE_D(CCT):
+def CCT_to_xy_CIE_D(CCT: FloatingOrArrayLike) -> NDArray:
     """
-    Returns the *CIE xy* chromaticity coordinates of a
+    Return the *CIE xy* chromaticity coordinates of a
     *CIE Illuminant D Series* from its correlated colour temperature
     :math:`T_{cp}`.
 
     Parameters
     ----------
-    CCT : numeric or array_like
+    CCT
         Correlated colour temperature :math:`T_{cp}`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE xy* chromaticity coordinates.
 
     Raises
@@ -153,22 +158,26 @@ def CCT_to_xy_CIE_D(CCT):
     CCT = as_float_array(CCT)
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 4000, CCT > 25000))]):
-        usage_warning(('Correlated colour temperature must be in domain '
-                       '[4000, 25000], unpredictable results may occur!'))
+        usage_warning(
+            "Correlated colour temperature must be in domain "
+            "[4000, 25000], unpredictable results may occur!"
+        )
 
-    CCT_3 = CCT ** 3
-    CCT_2 = CCT ** 2
+    CCT_3 = CCT**3
+    CCT_2 = CCT**2
 
     x = np.where(
         CCT <= 7000,
-        -4.607 * 10 ** 9 / CCT_3 + 2.9678 * 10 ** 6 / CCT_2 +
-        0.09911 * 10 ** 3 / CCT + 0.244063,
-        -2.0064 * 10 ** 9 / CCT_3 + 1.9018 * 10 ** 6 / CCT_2 +
-        0.24748 * 10 ** 3 / CCT + 0.23704,
+        -4.607 * 10**9 / CCT_3
+        + 2.9678 * 10**6 / CCT_2
+        + 0.09911 * 10**3 / CCT
+        + 0.244063,
+        -2.0064 * 10**9 / CCT_3
+        + 1.9018 * 10**6 / CCT_2
+        + 0.24748 * 10**3 / CCT
+        + 0.23704,
     )
 
     y = daylight_locus_function(x)
 
-    xy = tstack([x, y])
-
-    return xy
+    return tstack([x, y])

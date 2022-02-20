@@ -1,8 +1,6 @@
 Chromatic Adaptation
 ====================
 
-.. contents:: :local:
-
 Chromatic Adaptation
 --------------------
 
@@ -99,6 +97,7 @@ Von Kries
     CAT_PC_BIANCO2010
     CAT_CAT02_BRILL2008
     CAT_CAT02
+    CAT_CAT16
     CAT_CMCCAT2000
     CAT_CMCCAT97
     CAT_FAIRCHILD
@@ -114,3 +113,15 @@ Von Kries
     :toctree: generated/
 
     matrix_chromatic_adaptation_VonKries
+
+Zhai and Luo (2018)
+-------------------
+
+``colour.adaptation``
+
+.. currentmodule:: colour.adaptation
+
+.. autosummary::
+    :toctree: generated/
+
+    chromatic_adaptation_Zhai2018

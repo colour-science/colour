@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Von Kries Chromatic Adaptation Model
 ====================================
 
-Defines *Von Kries* chromatic adaptation model objects:
+Defines the *Von Kries* chromatic adaptation model objects:
 
 -   :func:`colour.adaptation.matrix_chromatic_adaptation_VonKries`
 -   :func:`colour.adaptation.chromatic_adaptation_VonKries`
@@ -15,56 +14,75 @@ References
     ISBN:B00DAYO8E2
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import (matrix_dot, vector_dot, from_range_1,
-                              row_as_diagonal, to_domain_1)
+from colour.algebra import matrix_dot, vector_dot
+from colour.hints import ArrayLike, Literal, NDArray, Union
+from colour.utilities import (
+    from_range_1,
+    row_as_diagonal,
+    to_domain_1,
+    validate_method,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'matrix_chromatic_adaptation_VonKries', 'chromatic_adaptation_VonKries'
+    "matrix_chromatic_adaptation_VonKries",
+    "chromatic_adaptation_VonKries",
 ]
 
 
-def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
+def matrix_chromatic_adaptation_VonKries(
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+) -> NDArray:
     """
-    Computes the *chromatic adaptation* matrix from test viewing conditions
+    Compute the *chromatic adaptation* matrix from test viewing conditions
     to reference viewing conditions.
 
     Parameters
     ----------
-    XYZ_w : array_like
-        Test viewing condition *CIE XYZ* tristimulus values of whitepoint.
-    XYZ_wr : array_like
-        Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
-    transform : unicode, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    XYZ_w
+        Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+    XYZ_wr
+        Reference viewing conditions *CIE XYZ* tristimulus values of
+        whitepoint.
+    transform
         Chromatic adaptation transform.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         Chromatic adaptation matrix :math:`M_{cat}`.
-
-    Raises
-    ------
-    KeyError
-        If chromatic adaptation method is not defined.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -102,18 +120,19 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     XYZ_w = to_domain_1(XYZ_w)
     XYZ_wr = to_domain_1(XYZ_wr)
 
-    M = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
+    transform = validate_method(
+        transform,
+        CHROMATIC_ADAPTATION_TRANSFORMS,
+        '"{0}" chromatic adaptation transform is invalid, '
+        "it must be one of {1}!",
+    )
 
-    if M is None:
-        raise KeyError(
-            '"{0}" chromatic adaptation transform is not defined! Supported '
-            'methods: "{1}".'.format(transform,
-                                     CHROMATIC_ADAPTATION_TRANSFORMS.keys()))
+    M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    rgb_w = np.einsum('...i,...ij->...j', XYZ_w, np.transpose(M))
-    rgb_wr = np.einsum('...i,...ij->...j', XYZ_wr, np.transpose(M))
+    RGB_w = np.einsum("...i,...ij->...j", XYZ_w, np.transpose(M))
+    RGB_wr = np.einsum("...i,...ij->...j", XYZ_wr, np.transpose(M))
 
-    D = rgb_wr / rgb_w
+    D = RGB_wr / RGB_w
 
     D = row_as_diagonal(D)
 
@@ -123,33 +142,51 @@ def matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     return M_CAT
 
 
-def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
+def chromatic_adaptation_VonKries(
+    XYZ: ArrayLike,
+    XYZ_w: ArrayLike,
+    XYZ_wr: ArrayLike,
+    transform: Union[
+        Literal[
+            "Bianco 2010",
+            "Bianco PC 2010",
+            "Bradford",
+            "CAT02 Brill 2008",
+            "CAT02",
+            "CAT16",
+            "CMCCAT2000",
+            "CMCCAT97",
+            "Fairchild",
+            "Sharp",
+            "Von Kries",
+            "XYZ Scaling",
+        ],
+        str,
+    ] = "CAT02",
+) -> NDArray:
     """
-    Adapts given stimulus from test viewing conditions to reference viewing
+    Adapt given stimulus from test viewing conditions to reference viewing
     conditions.
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ
         *CIE XYZ* tristimulus values of stimulus to adapt.
-    XYZ_w : array_like
-        Test viewing condition *CIE XYZ* tristimulus values of whitepoint.
-    XYZ_wr : array_like
-        Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
-    transform : unicode, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02 Brill 2008',
-        'Bianco 2010', 'Bianco PC 2010'}**,
+    XYZ_w
+        Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+    XYZ_wr
+        Reference viewing conditions *CIE XYZ* tristimulus values of
+        whitepoint.
+    transform
         Chromatic adaptation transform.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Krystek (1985) Correlated Colour Temperature
 ============================================
 
-Defines *Krystek (1985)* correlated colour temperature :math:`T_{cp}`
+Defines the *Krystek (1985)* correlated colour temperature :math:`T_{cp}`
 computations objects:
 
 -   :func:`colour.temperature.uv_to_CCT_Krystek1985`: Correlated colour
@@ -20,45 +19,52 @@ References
     doi:10.1002/col.5080100109
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.utilities import as_float_array, as_numeric, tstack
-from colour.utilities.deprecation import handle_arguments_deprecation
+from colour.hints import (
+    ArrayLike,
+    Dict,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    Optional,
+)
+from colour.utilities import as_float_array, as_float, tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['uv_to_CCT_Krystek1985', 'CCT_to_uv_Krystek1985']
+__all__ = [
+    "uv_to_CCT_Krystek1985",
+    "CCT_to_uv_Krystek1985",
+]
 
 
-def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
+def uv_to_CCT_Krystek1985(
+    uv: ArrayLike, optimisation_kwargs: Optional[Dict] = None
+) -> FloatingOrNDArray:
     """
-    Returns the correlated colour temperature :math:`T_{cp}` from given
+    Return the correlated colour temperature :math:`T_{cp}` from given
     *CIE UCS* colourspace *uv* chromaticity coordinates using *Krystek (1985)*
     method.
 
     Parameters
     ----------
-    uv : array_like
+    uv
          *CIE UCS* colourspace *uv* chromaticity coordinates.
-    optimisation_kwargs : dict_like, optional
+    optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments for deprecation management.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`.
 
     Warnings
@@ -85,57 +91,56 @@ def uv_to_CCT_Krystek1985(uv, optimisation_kwargs=None, **kwargs):
     6504.3894290...
     """
 
-    optimisation_kwargs = handle_arguments_deprecation({
-        'ArgumentRenamed': [['optimisation_parameters', 'optimisation_kwargs']
-                            ],
-    }, **kwargs).get('optimisation_kwargs', optimisation_kwargs)
-
     uv = as_float_array(uv)
     shape = uv.shape
     uv = np.atleast_1d(uv.reshape([-1, 2]))
 
-    def objective_function(CCT, uv):
-        """
-        Objective function.
-        """
+    def objective_function(
+        CCT: FloatingOrArrayLike, uv: ArrayLike
+    ) -> FloatingOrNDArray:
+        """Objective function."""
 
         objective = np.linalg.norm(CCT_to_uv_Krystek1985(CCT) - uv)
 
-        return objective
+        return as_float(objective)
 
     optimisation_settings = {
-        'method': 'Nelder-Mead',
-        'options': {
-            'fatol': 1e-10,
+        "method": "Nelder-Mead",
+        "options": {
+            "fatol": 1e-10,
         },
     }
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    CCT = as_float_array([
-        minimize(
-            objective_function,
-            x0=6500,
-            args=(uv_i, ),
-            **optimisation_settings).x for uv_i in uv
-    ])
+    CCT = as_float_array(
+        [
+            minimize(
+                objective_function,
+                x0=6500,
+                args=(uv_i,),
+                **optimisation_settings,
+            ).x
+            for uv_i in as_float_array(uv)
+        ]
+    )
 
-    return as_numeric(CCT.reshape(shape[:-1]))
+    return as_float(np.reshape(CCT, shape[:-1]))
 
 
-def CCT_to_uv_Krystek1985(CCT):
+def CCT_to_uv_Krystek1985(CCT: FloatingOrArrayLike) -> NDArray:
     """
-    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}` using *Krystek (1985)* method.
 
     Parameters
     ----------
-    CCT : array_like
+    CCT
         Correlated colour temperature :math:`T_{cp}`.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
     Notes
@@ -155,13 +160,13 @@ def CCT_to_uv_Krystek1985(CCT):
 
     T = as_float_array(CCT)
 
-    T_2 = T ** 2
+    T_2 = T**2
 
     u = (
-        (0.860117757 + 1.54118254 * 10 ** -4 * T + 1.28641212 * 10 ** -7 * T_2)
-        / (1 + 8.42420235 * 10 ** -4 * T + 7.08145163 * 10 ** -7 * T_2))
+        0.860117757 + 1.54118254 * 10**-4 * T + 1.28641212 * 10**-7 * T_2
+    ) / (1 + 8.42420235 * 10**-4 * T + 7.08145163 * 10**-7 * T_2)
     v = (
-        (0.317398726 + 4.22806245 * 10 ** -5 * T + 4.20481691 * 10 ** -8 * T_2)
-        / (1 - 2.89741816 * 10 ** -5 * T + 1.61456053 * 10 ** -7 * T_2))
+        0.317398726 + 4.22806245 * 10**-5 * T + 4.20481691 * 10**-8 * T_2
+    ) / (1 - 2.89741816 * 10**-5 * T + 1.61456053 * 10**-7 * T_2)
 
     return tstack([u, v])

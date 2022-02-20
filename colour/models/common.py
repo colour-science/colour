@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Common Colour Models Utilities
 ==============================
@@ -7,6 +6,7 @@ Defines various colour models common utilities:
 
 -   :func:`colour.models.Jab_to_JCh`
 -   :func:`colour.models.JCh_to_Jab`
+-   :attr:`colour.COLOURSPACE_MODELS`
 
 References
 ----------
@@ -15,30 +15,44 @@ References
     ISBN:978-3-901906-33-6
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.utilities import (domain_range_scale, from_range_degrees,
-                              to_domain_degrees, tsplit, tstack)
+from colour.hints import ArrayLike, NDArray, Tuple
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    attest,
+    from_range_degrees,
+    to_domain_degrees,
+    tsplit,
+    tstack,
+)
+from colour.utilities.documentation import (
+    DocstringTuple,
+    is_documentation_building,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'Jab_to_JCh', 'JCh_to_Jab', 'COLOURSPACE_MODELS',
-    'COLOURSPACE_MODELS_AXIS_LABELS', 'XYZ_to_colourspace_model'
+    "Jab_to_JCh",
+    "JCh_to_Jab",
+    "COLOURSPACE_MODELS",
+    "COLOURSPACE_MODELS_AXIS_LABELS",
+    "COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE",
 ]
 
 
-def Jab_to_JCh(Jab):
+def Jab_to_JCh(Jab: ArrayLike) -> NDArray:
     """
-    Converts from *Jab** colour representation to *JCh* colour representation.
+    Convert from *Jab* colour representation to *JCh* colour representation.
 
     This definition is used to perform conversion from *CIE L\\*a\\*b\\**
     colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
@@ -49,17 +63,16 @@ def Jab_to_JCh(Jab):
 
     Parameters
     ----------
-    Jab : array_like
-        *Jab** colour representation array.
+    Jab
+        *Jab* colour representation array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *JCh* colour representation array.
 
     Notes
     -----
-
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
@@ -100,9 +113,9 @@ def Jab_to_JCh(Jab):
     return JCh
 
 
-def JCh_to_Jab(JCh):
+def JCh_to_Jab(JCh: ArrayLike) -> NDArray:
     """
-    Converts from *JCh* colour representation to *Jab** colour representation.
+    Convert from *JCh* colour representation to *Jab* colour representation.
 
     This definition is used to perform conversion from *CIE L\\*C\\*Hab*
     colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
@@ -112,17 +125,16 @@ def JCh_to_Jab(JCh):
 
     Parameters
     ----------
-    JCh : array_like
+    JCh
         *JCh* colour representation array.
 
     Returns
     -------
-    ndarray
-        *Jab** colour representation array.
+    :class:`numpy.ndarray`
+        *Jab* colour representation array.
 
     Notes
     -----
-
     +-------------+-----------------------+-----------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1**   |
     +=============+=======================+=================+
@@ -157,210 +169,109 @@ def JCh_to_Jab(JCh):
     L, C, H = tsplit(JCh)
 
     a, b = tsplit(
-        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
+        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))]))
+    )
 
     Jab = tstack([L, a, b])
 
     return Jab
 
 
-COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-                      'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
-                      'CIE UVW', 'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IPT',
-                      'JzAzBz', 'OSA UCS', 'hdr-CIELAB', 'hdr-IPT')
-
-COLOURSPACE_MODELS_AXIS_LABELS = {
-    'CIE XYZ': ('X', 'Y', 'Z'),
-    'CIE xyY': ('x', 'y', 'Y'),
-    'CIE Lab': ('$L^*$', '$a^*$', '$b^*$'),
-    'CIE LCHab': ('$L^*$', 'CH', 'ab'),
-    'CIE Luv': ('$L^*$', '$u^\\prime$', '$v^\\prime$'),
-    'CIE Luv uv': ('$u^\\prime$', '$v^\\prime$'),
-    'CIE LCHuv': ('$L^*$', 'CH', 'uv'),
-    'CIE UCS': ('U', 'V', 'W'),
-    'CIE UCS uv': ('u', 'v'),
-    'CIE UVW': ('U', 'V', 'W'),
-    'DIN 99': ('L99', 'a99', 'b99'),
-    'Hunter Lab': ('$L^*$', '$a^*$', '$b^*$'),
-    'Hunter Rdab': ('Rd', 'a', 'b'),
-    'IGPGTG': ('$I_G$', '$P_G$', '$T_G$'),
-    'IPT': ('I', 'P', 'T'),
-    'JzAzBz': ('$J_z$', '$A_z$', '$B_z$'),
-    'OSA UCS': ('L', 'j', 'g'),
-    'hdr-CIELAB': ('L hdr', 'a hdr', 'b hdr'),
-    'hdr-IPT': ('I hdr', 'P hdr', 'T hdr'),
-}
-"""
-Colourspace models labels mapping.
-
-COLOURSPACE_MODELS_AXIS_LABELS : dict
-    **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
-    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'Hunter Lab',
-    'Hunter Rdab', 'IGPGTG', 'IPT', 'JzAzBz', 'OSA UCS', 'hdr-CIELAB',
-    'hdr-IPT'}**
+COLOURSPACE_MODELS: Tuple = (
+    "CAM02LCD",
+    "CAM02SCD",
+    "CAM02UCS",
+    "CAM16LCD",
+    "CAM16SCD",
+    "CAM16UCS",
+    "CIE XYZ",
+    "CIE xyY",
+    "CIE Lab",
+    "CIE Luv",
+    "CIE UCS",
+    "CIE UVW",
+    "DIN99",
+    "Hunter Lab",
+    "Hunter Rdab",
+    "ICaCb",
+    "ICtCp",
+    "IPT",
+    "IgPgTg",
+    "Jzazbz",
+    "OSA UCS",
+    "Oklab",
+    "hdr-CIELAB",
+    "hdr-IPT",
+)
+if is_documentation_building():  # pragma: no cover
+    COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
+    COLOURSPACE_MODELS.__doc__ = """
+Colourspace models supporting a direct conversion to *CIE XYZ* tristimulus
+values.
 """
 
+COLOURSPACE_MODELS_AXIS_LABELS: CaseInsensitiveMapping = (
+    CaseInsensitiveMapping(
+        {
+            "CAM02LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM02SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM02UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM16LCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM16SCD": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CAM16UCS": ("$J^\\prime$", "$a^\\prime$", "$b^\\prime$"),
+            "CIE XYZ": ("X", "Y", "Z"),
+            "CIE xyY": ("x", "y", "Y"),
+            "CIE Lab": ("$L^*$", "$a^*$", "$b^*$"),
+            "CIE Luv": ("$L^*$", "$u^\\prime$", "$v^\\prime$"),
+            "CIE UCS": ("U", "V", "W"),
+            "CIE UVW": ("U", "V", "W"),
+            "DIN99": ("$L_{99}$", "$a_{99}$", "$b_{99}$"),
+            "Hunter Lab": ("$L^*$", "$a^*$", "$b^*$"),
+            "Hunter Rdab": ("Rd", "a", "b"),
+            "ICaCb": ("$I$", "$C_a$", "$C_b$"),
+            "ICtCp": ("$I$", "$C_T$", "$C_P$"),
+            "IPT": ("I", "P", "T"),
+            "IgPgTg": ("$I_G$", "$P_G$", "$T_G$"),
+            "Jzazbz": ("$J_z$", "$a_z$", "$b_z$"),
+            "OSA UCS": ("L", "j", "g"),
+            "Oklab": ("$L$", "$a$", "$b$"),
+            "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
+            "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
+        }
+    )
+)
+"""Colourspace models labels mapping."""
 
-def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
-    """
-    Converts from *CIE XYZ* tristimulus values to given colourspace model.
+attest(COLOURSPACE_MODELS == tuple(COLOURSPACE_MODELS_AXIS_LABELS.keys()))
 
-    Parameters
-    ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values.
-    illuminant : array_like
-        Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
-        colourspace array.
-    model : unicode
-        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'Hunter Lab', 'Hunter Rdab', 'IGPGTG', 'IPT', 'JzAzBz,
-        'OSA UCS', 'hdr-CIELAB', 'hdr-IPT'}**,
-        Colourspace model to convert the *CIE XYZ* tristimulus values to.
-
-    Other Parameters
-    ----------------
-    \\**kwargs : dict, optional
-        Keywords arguments.
-
-    Returns
-    -------
-    ndarray
-        Colourspace model values.
-
-    Warnings
-    --------
-    This definition is is deprecated and will be removed in a future release.
-    :func:`colour.convert` definition should be used instead.
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> W = np.array([0.31270, 0.32900])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE XYZ')
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE xyY')
-    array([ 0.5436955...,  0.3210794...,  0.1219722...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE xy')
-    array([ 0.5436955...,  0.3210794...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE Lab')
-    array([ 0.4152787...,  0.5263858...,  0.2692317...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE LCHab')
-    array([ 0.4152787...,  0.5912425...,  0.0752458...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE Luv')
-    array([ 0.4152787...,  0.9683626...,  0.1775210...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE Luv uv')
-    array([ 0.3772021...,  0.5012026...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE LCHuv')
-    array([ 0.4152787...,  0.9844997...,  0.0288560...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE UCS')
-    array([ 0.1376933...,  0.1219722...,  0.1053731...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE UCS uv')
-    array([ 0.3772021...,  0.3341350...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE UVW')
-    array([ 0.9455035...,  0.1155536...,  0.4054757...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'DIN 99')
-    array([ 0.5322822...,  0.2841634...,  0.0389839...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'Hunter Lab')
-    array([ 0.3492452...,  0.4703302...,  0.1439330...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'Hunter Rdab')
-    array([ 0.1219722...,  0.5709032...,  0.1747109...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'IGPGTG')
-    array([ 0.4242125...,  0.1863249...,  0.1068922...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'IPT')
-    array([ 0.3842619...,  0.3848730...,  0.1888683...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'JzAzBz')
-    array([ 0.0053504...,  0.0092430...,  0.0052600...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'OSA UCS')
-    array([-0.0300499...,  0.0299713..., -0.0966784...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'hdr-CIELAB')
-    array([ 0.5187002...,  0.6047633...,  0.3214551...])
-    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'hdr-IPT')
-    array([ 0.4839376...,  0.4244990...,  0.2201954...])
-    >>> try:
-    ...     XYZ_to_colourspace_model(XYZ, W, 'Undefined')
-    ... except ValueError as error:
-    ...     print(error)
-    "Undefined" not found in colourspace models: "CIE XYZ, CIE xyY, CIE Lab, \
-CIE LCHab, CIE Luv, CIE Luv uv, CIE LCHuv, CIE UCS, CIE UCS uv, CIE UVW, \
-DIN 99, Hunter Lab, Hunter Rdab, IPT, JzAzBz, OSA UCS, hdr-CIELAB, hdr-IPT".
-    """
-
-    from colour.models import (
-        Lab_to_DIN99, Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv,
-        XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_IGPGTG, XYZ_to_IPT,
-        XYZ_to_Lab, XYZ_to_Luv, XYZ_to_OSA_UCS, XYZ_to_UCS, XYZ_to_UVW,
-        XYZ_to_hdr_CIELab, XYZ_to_hdr_IPT, XYZ_to_JzAzBz, XYZ_to_xy,
-        XYZ_to_xyY, xy_to_XYZ)
-
-    with domain_range_scale(1):
-        values = None
-        if model == 'CIE XYZ':
-            values = XYZ
-        elif model == 'CIE xyY':
-            values = XYZ_to_xyY(XYZ, illuminant)
-        elif model == 'CIE xy':
-            values = XYZ_to_xy(XYZ, illuminant)
-        elif model == 'CIE Lab':
-            values = XYZ_to_Lab(XYZ, illuminant)
-        elif model == 'CIE LCHab':
-            values = Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant))
-        elif model == 'CIE Luv':
-            values = XYZ_to_Luv(XYZ, illuminant)
-        elif model == 'CIE Luv uv':
-            values = Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant)
-        elif model == 'CIE LCHuv':
-            values = Luv_to_LCHuv(XYZ_to_Luv(XYZ, illuminant))
-        elif model == 'CIE UCS':
-            values = XYZ_to_UCS(XYZ)
-        elif model == 'CIE UCS uv':
-            values = UCS_to_uv(XYZ_to_UCS(XYZ))
-        elif model == 'CIE UVW':
-            values = XYZ_to_UVW(XYZ, illuminant)
-        elif model == 'DIN 99':
-            values = Lab_to_DIN99(XYZ_to_Lab(XYZ, illuminant))
-        elif model == 'Hunter Lab':
-            values = XYZ_to_Hunter_Lab(XYZ, xy_to_XYZ(illuminant))
-        elif model == 'Hunter Rdab':
-            values = XYZ_to_Hunter_Rdab(XYZ, xy_to_XYZ(illuminant))
-        elif model == 'IGPGTG':
-            values = XYZ_to_IGPGTG(XYZ)
-        elif model == 'IPT':
-            values = XYZ_to_IPT(XYZ)
-        elif model == 'JzAzBz':
-            values = XYZ_to_JzAzBz(XYZ)
-        elif model == 'OSA UCS':
-            values = XYZ_to_OSA_UCS(XYZ)
-        elif model == 'hdr-CIELAB':
-            values = XYZ_to_hdr_CIELab(XYZ, illuminant, **kwargs)
-        elif model == 'hdr-IPT':
-            values = XYZ_to_hdr_IPT(XYZ, **kwargs)
-
-        if values is None:
-            raise ValueError(
-                '"{0}" not found in colourspace models: "{1}".'.format(
-                    model, ', '.join(COLOURSPACE_MODELS)))
-
-        return values
+COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: (
+    CaseInsensitiveMapping
+) = CaseInsensitiveMapping(
+    {
+        "CAM02LCD": np.array([100, 100, 100]),
+        "CAM02SCD": np.array([100, 100, 100]),
+        "CAM02UCS": np.array([100, 100, 100]),
+        "CAM16LCD": np.array([100, 100, 100]),
+        "CAM16SCD": np.array([100, 100, 100]),
+        "CAM16UCS": np.array([100, 100, 100]),
+        "CIE XYZ": np.array([1, 1, 1]),
+        "CIE xyY": np.array([1, 1, 1]),
+        "CIE Lab": np.array([100, 100, 100]),
+        "CIE Luv": np.array([100, 100, 100]),
+        "CIE UCS": np.array([1, 1, 1]),
+        "CIE UVW": np.array([100, 100, 100]),
+        "DIN99": np.array([100, 100, 100]),
+        "Hunter Lab": np.array([100, 100, 100]),
+        "Hunter Rdab": np.array([100, 100, 100]),
+        "ICaCb": np.array([1, 1, 1]),
+        "ICtCp": np.array([1, 1, 1]),
+        "IPT": np.array([1, 1, 1]),
+        "IgPgTg": np.array([1, 1, 1]),
+        "Jzazbz": np.array([1, 1, 1]),
+        "OSA UCS": np.array([100, 100, 100]),
+        "Oklab": np.array([1, 1, 1]),
+        "hdr-CIELAB": np.array([100, 100, 100]),
+        "hdr-IPT": np.array([100, 100, 100]),
+    }
+)
+"""Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""

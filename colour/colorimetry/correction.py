@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Bandpass Dependence Correction
 =======================================
 
-Defines objects to perform spectral bandpass dependence correction.
+Defines the objects to perform spectral bandpass dependence correction.
 
 The following correction methods are available:
 
@@ -25,40 +24,45 @@ References
     MATLAB (2nd ed., p. 38). ISBN:978-0-470-66569-5
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.colorimetry import SpectralDistribution
+from colour.hints import Floating, Literal, Union
+from colour.utilities import CaseInsensitiveMapping, validate_method
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'bandpass_correction_Stearns1988', 'BANDPASS_CORRECTION_METHODS',
-    'bandpass_correction'
+    "bandpass_correction_Stearns1988",
+    "BANDPASS_CORRECTION_METHODS",
+    "bandpass_correction",
 ]
 
-CONSTANT_ALPHA_STEARNS = 0.083
+CONSTANT_ALPHA_STEARNS: Floating = 0.083
 
 
-def bandpass_correction_Stearns1988(sd):
+def bandpass_correction_Stearns1988(
+    sd: SpectralDistribution,
+) -> SpectralDistribution:
     """
-    Implements spectral bandpass dependence correction on given spectral
+    Implement spectral bandpass dependence correction on given spectral
     distribution using *Stearns and Stearns (1988)* method.
 
     Parameters
     ----------
-    sd : SpectralDistribution
+    sd
         Spectral distribution.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Spectral bandpass dependence corrected spectral distribution.
 
     References
@@ -93,47 +97,50 @@ def bandpass_correction_Stearns1988(sd):
     """
 
     values = np.copy(sd.values)
-    values[0] = (1 + CONSTANT_ALPHA_STEARNS
-                 ) * values[0] - CONSTANT_ALPHA_STEARNS * values[1]
-    values[-1] = (1 + CONSTANT_ALPHA_STEARNS
-                  ) * values[-1] - CONSTANT_ALPHA_STEARNS * values[-2]
+    values[0] = (1 + CONSTANT_ALPHA_STEARNS) * values[
+        0
+    ] - CONSTANT_ALPHA_STEARNS * values[1]
+    values[-1] = (1 + CONSTANT_ALPHA_STEARNS) * values[
+        -1
+    ] - CONSTANT_ALPHA_STEARNS * values[-2]
     for i in range(1, len(values) - 1):
-        values[i] = (-CONSTANT_ALPHA_STEARNS * values[i - 1] +
-                     (1 + 2 * CONSTANT_ALPHA_STEARNS) * values[i] -
-                     CONSTANT_ALPHA_STEARNS * values[i + 1])
+        values[i] = (
+            -CONSTANT_ALPHA_STEARNS * values[i - 1]
+            + (1 + 2 * CONSTANT_ALPHA_STEARNS) * values[i]
+            - CONSTANT_ALPHA_STEARNS * values[i + 1]
+        )
 
     sd.values = values
 
     return sd
 
 
-BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping({
-    'Stearns 1988': bandpass_correction_Stearns1988
-})
+BANDPASS_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    {"Stearns 1988": bandpass_correction_Stearns1988}
+)
 BANDPASS_CORRECTION_METHODS.__doc__ = """
 Supported spectral bandpass dependence correction methods.
-
-BANDPASS_CORRECTION_METHODS : CaseInsensitiveMapping
-    **{'Stearns 1988', }**
 """
 
 
-def bandpass_correction(sd, method='Stearns 1988'):
+def bandpass_correction(
+    sd: SpectralDistribution,
+    method: Union[Literal["Stearns 1988"], str] = "Stearns 1988",
+) -> SpectralDistribution:
     """
-    Implements spectral bandpass dependence correction on given spectral
+    Implement spectral bandpass dependence correction on given spectral
     distribution using given method.
 
     Parameters
     ----------
-    sd : SpectralDistribution
+    sd
         Spectral distribution.
-    method : unicode, optional
-        {'Stearns 1988', }
+    method
         Correction method.
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Spectral bandpass dependence corrected spectral distribution.
 
     References
@@ -167,4 +174,6 @@ def bandpass_correction(sd, method='Stearns 1988'):
                          extrapolator_kwargs={...})
     """
 
-    return BANDPASS_CORRECTION_METHODS.get(method)(sd)
+    method = validate_method(method, BANDPASS_CORRECTION_METHODS)
+
+    return BANDPASS_CORRECTION_METHODS[method](sd)

@@ -1,37 +1,39 @@
-# -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.exponent`
-module.
+Defines the unit tests for the
+:mod:`colour.models.rgb.transfer_functions.exponent` module.
 """
-
-from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    exponent_function_basic, exponent_function_monitor_curve)
+    exponent_function_basic,
+    exponent_function_monitor_curve,
+)
 from colour.utilities import ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['TestBasicExponentFunction', 'TestMonitorCurveExponentFunction']
+__all__ = [
+    "TestExponentFunctionBasic",
+    "TestExponentFunctionMonitorCurve",
+]
 
 
-class TestBasicExponentFunction(unittest.TestCase):
+class TestExponentFunctionBasic(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.exponent.\
+    Define :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition unit tests methods.
     """
 
     def test_exponent_function_basic(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition.
         """
 
@@ -40,50 +42,60 @@ exponent_function_basic` definition.
         self.assertAlmostEqual(exponent_function_basic(a, 2.2), a_p, places=7)
 
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicMirrorFwd'), a_p, places=7)
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, places=7
+        )
 
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicPassThruFwd'), a_p, places=7)
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, places=7
+        )
 
         a = 0.0229932049927
         a_p = 0.18
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicRev'), a_p, places=7)
+            exponent_function_basic(a, 2.2, "basicRev"), a_p, places=7
+        )
 
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicMirrorRev'), a_p, places=7)
+            exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, places=7
+        )
 
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicPassThruRev'), a_p, places=7)
+            exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, places=7
+        )
 
         a = -0.18
         self.assertAlmostEqual(exponent_function_basic(a, 2.2), 0.0, places=7)
 
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicMirrorFwd'),
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
             -0.0229932049927,
-            places=7)
+            places=7,
+        )
 
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicPassThruFwd'),
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"),
             -0.18,
-            places=7)
+            places=7,
+        )
 
         a = -0.0229932049927
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicRev'), 0.0, places=7)
+            exponent_function_basic(a, 2.2, "basicRev"), 0.0, places=7
+        )
 
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicMirrorRev'), -0.18, places=7)
+            exponent_function_basic(a, 2.2, "basicMirrorRev"), -0.18, places=7
+        )
 
         self.assertAlmostEqual(
-            exponent_function_basic(a, 2.2, 'basicPassThruRev'),
+            exponent_function_basic(a, 2.2, "basicPassThruRev"),
             -0.0229932049927,
-            places=7)
+            places=7,
+        )
 
     def test_n_dimensional_exponent_function_basic(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition n-dimensional arrays support.
         """
 
@@ -93,35 +105,38 @@ exponent_function_basic` definition n-dimensional arrays support.
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2), a_p, decimal=7)
+            exponent_function_basic(a, 2.2), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicMirrorFwd'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicPassThruFwd'),
-            a_p,
-            decimal=7)
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2), a_p, decimal=7)
+            exponent_function_basic(a, 2.2), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicMirrorFwd'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicPassThruFwd'),
-            a_p,
-            decimal=7)
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2), a_p, decimal=7)
+            exponent_function_basic(a, 2.2), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicMirrorFwd'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicPassThruFwd'),
-            a_p,
-            decimal=7)
+            exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
+        )
 
         a = 0.0229932049927
         a_p = 0.18
@@ -129,49 +144,43 @@ exponent_function_basic` definition n-dimensional arrays support.
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicRev'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicMirrorRev'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicPassThruRev'),
-            a_p,
-            decimal=7)
+            exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicRev'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicMirrorRev'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicPassThruRev'),
-            a_p,
-            decimal=7)
+            exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
+        )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicRev'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicMirrorRev'), a_p, decimal=7)
+            exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_basic(a, 2.2, 'basicPassThruRev'),
-            a_p,
-            decimal=7)
-
-    def test_raise_exception_exponent_function_basic(self):
-        """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
-exponent_function_basic` definition raised exception.
-        """
-
-        self.assertRaises(ValueError, exponent_function_basic, 0.18, 1,
-                          'Undefined')
+            exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
+        )
 
     @ignore_numpy_errors
     def test_nan_exponent_function_basic(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition nan support.
         """
 
@@ -181,69 +190,81 @@ exponent_function_basic` definition nan support.
             exponent_function_basic(case, case)
 
 
-class TestMonitorCurveExponentFunction(unittest.TestCase):
+class TestExponentFunctionMonitorCurve(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.exponent.\
+    Define :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition unit tests methods.
     """
 
     def test_exponent_function_monitor_curve(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition.
         """
 
         a = 0.18
         a_p = 0.0232240466001
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, places=7)
+            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, places=7
+        )
 
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorFwd'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
-            places=7)
+            places=7,
+        )
 
         a = 0.0232240466001
         a_p = 0.18
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001, 'monCurveRev'),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
-            places=7)
+            places=7,
+        )
 
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorRev'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
-            places=7)
+            places=7,
+        )
 
         a = -0.18
         self.assertAlmostEqual(
             exponent_function_monitor_curve(a, 2.2, 0.001),
             -0.000205413951,
-            places=7)
+            places=7,
+        )
 
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorFwd'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             -0.0232240466001,
-            places=7)
+            places=7,
+        )
 
         a = -0.000205413951
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001, 'monCurveRev'),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             -0.18,
-            places=7)
+            places=7,
+        )
 
         self.assertAlmostEqual(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorRev'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             -0.0201036111565,
-            places=7)
+            places=7,
+        )
 
     def test_n_dimensional_exponent_function_monitor_curve(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition n-dimensional arrays support.
         """
 
@@ -253,32 +274,41 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7)
+            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorFwd'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
-            decimal=7)
+            decimal=7,
+        )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7)
+            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorFwd'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
-            decimal=7)
+            decimal=7,
+        )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7)
+            exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
+        )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorFwd'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
-            decimal=7)
+            decimal=7,
+        )
 
         a = 0.0232240466001
         a_p = 0.18
@@ -286,52 +316,52 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, 'monCurveRev'),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
-            decimal=7)
+            decimal=7,
+        )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorRev'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
-            decimal=7)
+            decimal=7,
+        )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, 'monCurveRev'),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
-            decimal=7)
+            decimal=7,
+        )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorRev'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
-            decimal=7)
+            decimal=7,
+        )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001, 'monCurveRev'),
+            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
-            decimal=7)
+            decimal=7,
+        )
         np.testing.assert_almost_equal(
-            exponent_function_monitor_curve(a, 2.2, 0.001,
-                                            'monCurveMirrorRev'),
+            exponent_function_monitor_curve(
+                a, 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
-            decimal=7)
-
-    def test_raise_exception_exponent_function_monitor_curve(self):
-        """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
-exponent_function_monitor_curve` definition raised exception.
-        """
-
-        self.assertRaises(ValueError, exponent_function_monitor_curve, 0.18, 1,
-                          'Undefined')
+            decimal=7,
+        )
 
     @ignore_numpy_errors
     def test_nan_exponent_function_monitor_curve(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.exponent.\
+        Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition nan support.
         """
 
@@ -341,5 +371,5 @@ exponent_function_monitor_curve` definition nan support.
             exponent_function_monitor_curve(case, case, case)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

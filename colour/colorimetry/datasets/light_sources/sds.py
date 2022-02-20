@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spectral Distributions of the Light Sources
 ===========================================
@@ -49,30 +48,38 @@ usp=sharing
     http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
+
+from functools import partial
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.hints import Dict
+from colour.utilities import LazyCaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'DATA_LIGHT_SOURCES_RIT', 'SDS_LIGHT_SOURCES_RIT',
-    'DATA_LIGHT_SOURCES_NIST_TRADITIONAL',
-    'SDS_LIGHT_SOURCES_NIST_TRADITIONAL', 'DATA_LIGHT_SOURCES_NIST_LED',
-    'SDS_LIGHT_SOURCES_NIST_LED', 'DATA_LIGHT_SOURCES_NIST_PHILIPS',
-    'SDS_LIGHT_SOURCES_NIST_PHILIPS', 'DATA_LIGHT_SOURCES_COMMON',
-    'SDS_LIGHT_SOURCES_COMMON', 'SDS_LIGHT_SOURCES'
+    "DATA_LIGHT_SOURCES_RIT",
+    "SDS_LIGHT_SOURCES_RIT",
+    "DATA_LIGHT_SOURCES_NIST_TRADITIONAL",
+    "SDS_LIGHT_SOURCES_NIST_TRADITIONAL",
+    "DATA_LIGHT_SOURCES_NIST_LED",
+    "SDS_LIGHT_SOURCES_NIST_LED",
+    "DATA_LIGHT_SOURCES_NIST_PHILIPS",
+    "SDS_LIGHT_SOURCES_NIST_PHILIPS",
+    "DATA_LIGHT_SOURCES_COMMON",
+    "SDS_LIGHT_SOURCES_COMMON",
+    "SDS_LIGHT_SOURCES",
 ]
 
-DATA_LIGHT_SOURCES_RIT = {
-    'Natural': {
+DATA_LIGHT_SOURCES_RIT: Dict = {
+    "Natural": {
         380: 1.88,
         385: 2.24,
         390: 2.65,
@@ -153,9 +160,9 @@ DATA_LIGHT_SOURCES_RIT = {
         765: 1.65,
         770: 1.47,
         775: 1.30,
-        780: 1.20
+        780: 1.20,
     },
-    'Philips TL-84': {
+    "Philips TL-84": {
         380: 0.784,
         385: 0.553,
         390: 0.416,
@@ -236,9 +243,9 @@ DATA_LIGHT_SOURCES_RIT = {
         765: 0.100,
         770: 0.110,
         775: 0.110,
-        780: 0.100
+        780: 0.100,
     },
-    'SA': {
+    "SA": {
         380: 9.80,
         385: 10.90,
         390: 12.09,
@@ -319,9 +326,9 @@ DATA_LIGHT_SOURCES_RIT = {
         765: 234.59,
         770: 237.01,
         775: 239.37,
-        780: 241.68
+        780: 241.68,
     },
-    'SC': {
+    "SC": {
         380: 33.00,
         385: 39.92,
         390: 47.40,
@@ -402,9 +409,9 @@ DATA_LIGHT_SOURCES_RIT = {
         765: 58.00,
         770: 58.20,
         775: 58.50,
-        780: 59.10
+        780: 59.10,
     },
-    'T8 Luxline Plus White': {
+    "T8 Luxline Plus White": {
         380: 0.833,
         385: 1.040,
         390: 1.296,
@@ -485,9 +492,9 @@ DATA_LIGHT_SOURCES_RIT = {
         765: 0.360,
         770: 0.320,
         775: 0.300,
-        780: 0.300
+        780: 0.300,
     },
-    'T8 Polylux 3000': {
+    "T8 Polylux 3000": {
         380: 0.552,
         385: 0.381,
         390: 0.289,
@@ -568,9 +575,9 @@ DATA_LIGHT_SOURCES_RIT = {
         765: 0.064,
         770: 0.093,
         775: 0.051,
-        780: 0.027
+        780: 0.027,
     },
-    'T8 Polylux 4000': {
+    "T8 Polylux 4000": {
         380: 0.498,
         385: 0.384,
         390: 0.394,
@@ -651,9 +658,9 @@ DATA_LIGHT_SOURCES_RIT = {
         765: 0.064,
         770: 0.093,
         775: 0.051,
-        780: 0.055
+        780: 0.055,
     },
-    'Thorn Kolor-rite': {
+    "Thorn Kolor-rite": {
         380: 1.111,
         385: 1.316,
         390: 1.565,
@@ -734,45 +741,25 @@ DATA_LIGHT_SOURCES_RIT = {
         765: 1.710,
         770: 1.500,
         775: 1.330,
-        780: 1.200
-    }
+        780: 1.200,
+    },
 }
 
-SDS_LIGHT_SOURCES_RIT = CaseInsensitiveMapping({
-    'Natural':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_RIT['Natural'],
-            name='Natural'),
-    'Philips TL-84':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_RIT['Philips TL-84'],
-            name='Philips TL-84'),
-    'SA':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_RIT['SA'],
-            name='SA'),
-    'SC':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_RIT['SC'],
-            name='SC'),
-    'T8 Luxline Plus White':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_RIT['T8 Luxline Plus White'],
-            name='T8 Luxline Plus White'),
-    'T8 Polylux 3000':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_RIT['T8 Polylux 3000'],
-            name='T8 Polylux 3000'),
-    'T8 Polylux 4000':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_RIT['T8 Polylux 4000'],
-            name='T8 Polylux 4000'),
-    'Thorn Kolor-rite':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_RIT['Thorn Kolor-rite'],
-            name='Thorn Kolor-rite')
-})  # yapf: disable
-"""
+SDS_LIGHT_SOURCES_RIT: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
+    (
+        key,
+        partial(
+            SpectralDistribution,
+            value,
+            name=key,
+            interpolator=LinearInterpolator,
+        ),
+    )
+    for key, value in DATA_LIGHT_SOURCES_RIT.items()
+)
+SDS_LIGHT_SOURCES_RIT.__doc__ = """
 Spectral distributions of the light sources from the *RIT* *PointerData.xls*
 spreadsheet.
 
@@ -785,14 +772,10 @@ light source names cannot be accurately verified.
 References
 ----------
 :cite:`Pointer1980a`
-
-DATA_LIGHT_SOURCES_RIT : CaseInsensitiveMapping
-    **{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
-    'T8 Polylux 3000', 'T8 Polylux 4000', 'Thorn Kolor-rite'}**
 """
 
-DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
-    'Cool White FL': {
+DATA_LIGHT_SOURCES_NIST_TRADITIONAL: Dict = {
+    "Cool White FL": {
         380: 0.03353465,
         385: 0.04082136,
         390: 0.04995733,
@@ -873,9 +856,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.01817522,
         770: 0.01183473,
         775: 0.00953278,
-        780: 0.00920353
+        780: 0.00920353,
     },
-    'Daylight FL': {
+    "Daylight FL": {
         380: 0.04474924,
         385: 0.05659396,
         390: 0.07026586,
@@ -956,9 +939,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.01382840,
         770: 0.01316616,
         775: 0.01241027,
-        780: 0.01204411
+        780: 0.01204411,
     },
-    'HPS': {
+    "HPS": {
         380: 0.0083939426,
         385: 0.0091861681,
         390: 0.0106542846,
@@ -1039,9 +1022,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.0802690011,
         770: 0.0540981011,
         775: 0.0326486660,
-        780: 0.0352925378
+        780: 0.0352925378,
     },
-    'Incandescent': {
+    "Incandescent": {
         380: 0.0221129274,
         385: 0.0257550191,
         390: 0.0303031416,
@@ -1122,9 +1105,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.9669876832,
         770: 0.9766525623,
         775: 0.9854043089,
-        780: 1.0000000000
+        780: 1.0000000000,
     },
-    'LPS': {
+    "LPS": {
         380: 0.0,
         385: 0.0,
         390: 0.0,
@@ -1205,9 +1188,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.0,
         770: 0.0,
         775: 0.0,
-        780: 0.0
+        780: 0.0,
     },
-    'Mercury': {
+    "Mercury": {
         380: 0.0104373669,
         385: 0.0078158007,
         390: 0.0200578779,
@@ -1288,9 +1271,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.0096855504,
         770: 0.0113490129,
         775: 0.0099005410,
-        780: 0.0094954250
+        780: 0.0094954250,
     },
-    'Metal Halide': {
+    "Metal Halide": {
         380: 0.0601404826,
         385: 0.0630286148,
         390: 0.2366604181,
@@ -1371,9 +1354,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.0414979164,
         770: 0.0344678340,
         775: 0.0236333145,
-        780: 0.0254235315
+        780: 0.0254235315,
     },
-    'Neodimium Incandescent': {
+    "Neodimium Incandescent": {
         380: 0.0334673674,
         385: 0.0367106969,
         390: 0.0410280255,
@@ -1454,9 +1437,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.8999932814,
         770: 0.9622718511,
         775: 0.9966525876,
-        780: 1.0000000000
+        780: 1.0000000000,
     },
-    'Super HPS': {
+    "Super HPS": {
         380: 0.0000000000,
         385: 0.0035961070,
         390: 0.0045981474,
@@ -1537,9 +1520,9 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.0604807146,
         770: 0.0604807146,
         775: 0.0604807146,
-        780: 0.0604807146
+        780: 0.0604807146,
     },
-    'Triphosphor FL': {
+    "Triphosphor FL": {
         380: 0.0000000000,
         385: 0.0000000000,
         390: 0.0000000000,
@@ -1620,64 +1603,35 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL = {
         765: 0.0079622762,
         770: 0.0024428504,
         775: 0.0029993177,
-        780: 0.0005290507
-    }
+        780: 0.0005290507,
+    },
 }
 
-SDS_LIGHT_SOURCES_NIST_TRADITIONAL = CaseInsensitiveMapping({
-    'Cool White FL':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['Cool White FL'],
-            name='Cool White FL'),
-    'Daylight FL':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['Daylight FL'],
-            name='Daylight FL'),
-    'HPS':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['HPS'], name='HPS'),
-    'Incandescent':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['Incandescent'],
-            name='Incandescent'),
-    'LPS':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['LPS'], name='LPS'),
-    'Mercury':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['Mercury'], name='Mercury'),
-    'Metal Halide':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['Metal Halide'],
-            name='Metal Halide'),
-    'Neodimium Incandescent':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['Neodimium Incandescent'],
-            name='Neodimium Incandescent'),
-    'Super HPS':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['Super HPS'],
-            name='Super HPS'),
-    'Triphosphor FL':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_TRADITIONAL['Triphosphor FL'],
-            name='Triphosphor FL')
-})
-"""
+SDS_LIGHT_SOURCES_NIST_TRADITIONAL: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
+    (
+        key,
+        partial(
+            SpectralDistribution,
+            value,
+            name=key,
+            interpolator=LinearInterpolator,
+        ),
+    )
+    for key, value in DATA_LIGHT_SOURCES_NIST_TRADITIONAL.items()
+)
+SDS_LIGHT_SOURCES_NIST_TRADITIONAL.__doc__ = """
 Spectral distributions of the traditional light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet.
 
 References
 ----------
 :cite:`Ohno2008a`
-
-SDS_LIGHT_SOURCES_NIST_TRADITIONAL : CaseInsensitiveMapping
-    **{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
-    'Metal Halide', 'Neodimium Incandescent', 'Super HPS', 'Triphosphor FL'}**
 """
 
-DATA_LIGHT_SOURCES_NIST_LED = {
-    '3-LED-1 (457/540/605)': {
+DATA_LIGHT_SOURCES_NIST_LED: Dict = {
+    "3-LED-1 (457/540/605)": {
         380: 8.47479023841784e-08,
         385: 5.45760813791522e-07,
         390: 3.10162282092079e-06,
@@ -1758,9 +1712,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 1.24216741363154e-25,
         770: 9.91044375901472e-27,
         775: 7.48346361630974e-28,
-        780: 5.34607293395408e-29
+        780: 5.34607293395408e-29,
     },
-    '3-LED-2 (473/545/616)': {
+    "3-LED-2 (473/545/616)": {
         380: 8.80700887841404e-11,
         385: 8.64191446543499e-10,
         390: 7.48391162992935e-09,
@@ -1841,9 +1795,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 1.96520133984630e-24,
         770: 1.19562718661274e-25,
         775: 8.49126403034339e-27,
-        780: 6.18707499978848e-28
+        780: 6.18707499978848e-28,
     },
-    '3-LED-2 Yellow': {
+    "3-LED-2 Yellow": {
         380: 5.28857670457154e-11,
         385: 5.18882652575306e-10,
         390: 4.49324294120251e-09,
@@ -1924,9 +1878,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 2.18831363146954e-24,
         770: 1.38312763678070e-25,
         775: 9.98183844142717e-27,
-        780: 7.30800253280185e-28
+        780: 7.30800253280185e-28,
     },
-    '3-LED-3 (465/546/614)': {
+    "3-LED-3 (465/546/614)": {
         380: 4.24356931933744e-09,
         385: 3.35055502496331e-08,
         390: 2.33461667941402e-07,
@@ -2007,9 +1961,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 2.09993710079583e-24,
         770: 1.70971251548166e-25,
         775: 1.35854661437952e-26,
-        780: 1.03007323231651e-27
+        780: 1.03007323231651e-27,
     },
-    '3-LED-4 (455/547/623)': {
+    "3-LED-4 (455/547/623)": {
         380: 1.48554815599882e-07,
         385: 9.10000000000000e-07,
         390: 4.91945989968639e-06,
@@ -2090,9 +2044,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 7.96184389637815e-23,
         770: 2.37929410472859e-24,
         775: 7.60786774257376e-26,
-        780: 3.1397886480576e-27
+        780: 3.1397886480576e-27,
     },
-    '4-LED No Yellow': {
+    "4-LED No Yellow": {
         380: 5.00830470941566e-06,
         385: 2.37160686348979e-05,
         390: 9.94095202401805e-05,
@@ -2173,9 +2127,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 1.55965542079349e-24,
         770: 3.62239387510338e-26,
         775: 7.42464806370353e-28,
-        780: 1.34297913021045e-29
+        780: 1.34297913021045e-29,
     },
-    '4-LED Yellow': {
+    "4-LED Yellow": {
         380: 8.34073345191213e-07,
         385: 4.62309206822133e-06,
         390: 2.26138576311572e-05,
@@ -2256,9 +2210,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 6.93791409316552e-22,
         770: 2.01795866069721e-23,
         775: 5.17975154307456e-25,
-        780: 1.17332723412027e-26
+        780: 1.17332723412027e-26,
     },
-    '4-LED-1 (461/526/576/624)': {
+    "4-LED-1 (461/526/576/624)": {
         380: 2.47034736673368e-08,
         385: 1.74863383163897e-07,
         390: 1.09241483462778e-06,
@@ -2339,9 +2293,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 2.27129761972571e-22,
         770: 6.31463339864241e-24,
         775: 1.54930155880890e-25,
-        780: 3.35458329193818e-27
+        780: 3.35458329193818e-27,
     },
-    '4-LED-2 (447/512/573/627)': {
+    "4-LED-2 (447/512/573/627)": {
         380: 3.47088525590474e-06,
         385: 1.73227787723854e-05,
         390: 7.62995752388568e-05,
@@ -2422,9 +2376,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 1.61410755281383e-21,
         770: 4.81433876182624e-23,
         775: 1.26722581811040e-24,
-        780: 2.94363913832964e-26
+        780: 2.94363913832964e-26,
     },
-    'Luxeon WW 2880': {
+    "Luxeon WW 2880": {
         380: 0.0000000000,
         385: 0.0000000000,
         390: 0.0000000000,
@@ -2505,9 +2459,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 1.0039448e-05,
         770: 8.9298495e-06,
         775: 7.6177480e-06,
-        780: 7.0016420e-06
+        780: 7.0016420e-06,
     },
-    'PHOS-1': {
+    "PHOS-1": {
         380: 0.0111298531,
         385: 0.0181132825,
         390: 0.0278369484,
@@ -2588,9 +2542,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 7.47174315193493e-05,
         770: 2.58870000000000e-05,
         775: 8.46950409085507e-06,
-        780: 2.61668300203868e-06
+        780: 2.61668300203868e-06,
     },
-    'PHOS-2': {
+    "PHOS-2": {
         380: 6.24336458874078e-06,
         385: 1.80201765628625e-05,
         390: 4.91152235508884e-05,
@@ -2671,9 +2625,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 1.31785543464018e-10,
         770: 2.57451133233467e-11,
         775: 4.74939818412281e-12,
-        780: 8.27368713020501e-13
+        780: 8.27368713020501e-13,
     },
-    'PHOS-3': {
+    "PHOS-3": {
         380: 2.51463414652205e-05,
         385: 6.85384929115295e-05,
         390: 0.0001764051,
@@ -2754,9 +2708,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 2.97187556394679e-11,
         770: 5.48247997165375e-12,
         775: 9.55081042264917e-13,
-        780: 1.57115898612229e-13
+        780: 1.57115898612229e-13,
     },
-    'PHOS-4': {
+    "PHOS-4": {
         380: 2.65174294164563e-05,
         385: 7.20892236476949e-05,
         390: 0.0001850652,
@@ -2837,9 +2791,9 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 3.17087855185187e-11,
         770: 5.84959831217044e-12,
         775: 1.01903527241427e-12,
-        780: 1.67636709023523e-13
+        780: 1.67636709023523e-13,
     },
-    'Phosphor LED YAG': {
+    "Phosphor LED YAG": {
         380: 0.0007674402,
         385: 0.0007988052,
         390: 0.0009481510,
@@ -2920,81 +2874,31 @@ DATA_LIGHT_SOURCES_NIST_LED = {
         765: 0.0102635827,
         770: 0.0091149715,
         775: 0.0079991914,
-        780: 0.0070995878
-    }
+        780: 0.0070995878,
+    },
 }
 
-SDS_LIGHT_SOURCES_NIST_LED = CaseInsensitiveMapping({
-    '3-LED-1 (457/540/605)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['3-LED-1 (457/540/605)'],
-            name='3-LED-1 (457/540/605)'),
-    '3-LED-2 (473/545/616)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['3-LED-2 (473/545/616)'],
-            name='3-LED-2 (473/545/616)'),
-    '3-LED-2 Yellow':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['3-LED-2 Yellow'],
-            name='3-LED-2 Yellow'),
-    '3-LED-3 (465/546/614)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['3-LED-3 (465/546/614)'],
-            name='3-LED-3 (465/546/614)'),
-    '3-LED-4 (455/547/623)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['3-LED-4 (455/547/623)'],
-            name='3-LED-4 (455/547/623)'),
-    '4-LED No Yellow':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['4-LED No Yellow'],
-            name='4-LED No Yellow'),
-    '4-LED Yellow':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['4-LED Yellow'], name='4-LED Yellow'),
-    '4-LED-1 (461/526/576/624)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['4-LED-1 (461/526/576/624)'],
-            name='4-LED-1 (461/526/576/624)'),
-    '4-LED-2 (447/512/573/627)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['4-LED-2 (447/512/573/627)'],
-            name='4-LED-2 (447/512/573/627)'),
-    'Luxeon WW 2880':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['Luxeon WW 2880'],
-            name='Luxeon WW 2880'),
-    'PHOS-1':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['PHOS-1'], name='PHOS-1'),
-    'PHOS-2':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['PHOS-2'], name='PHOS-2'),
-    'PHOS-3':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['PHOS-3'], name='PHOS-3'),
-    'PHOS-4':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['PHOS-4'], name='PHOS-4'),
-    'Phosphor LED YAG':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_LED['Phosphor LED YAG'],
-            name='Phosphor LED YAG')
-})
-"""
+SDS_LIGHT_SOURCES_NIST_LED: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
+    (
+        key,
+        partial(
+            SpectralDistribution,
+            value,
+            name=key,
+            interpolator=LinearInterpolator,
+        ),
+    )
+    for key, value in DATA_LIGHT_SOURCES_NIST_LED.items()
+)
+SDS_LIGHT_SOURCES_NIST_LED.__doc__ = """
 Spectral distributions of the LED light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet.
-
-SDS_LIGHT_SOURCES_NIST_LED : CaseInsensitiveMapping
-    **{'3-LED-1 (457/540/605)', '3-LED-2 (473/545/616)', '3-LED-2 Yellow',
-    '3-LED-3 (465/546/614)', '3-LED-4 (455/547/623)', '4-LED No Yellow',
-    '4-LED Yellow', '4-LED-1 (461/526/576/624)', '4-LED-2 (447/512/573/627)',
-    'Luxeon WW 2880', 'PHOS-1', 'PHOS-2', 'PHOS-3', 'PHOS-4',
-    'Phosphor LED YAG'}**
 """
 
-DATA_LIGHT_SOURCES_NIST_PHILIPS = {
-    '60 A/W (Soft White)': {
+DATA_LIGHT_SOURCES_NIST_PHILIPS: Dict = {
+    "60 A/W (Soft White)": {
         380: 0.0221129274,
         385: 0.0257550191,
         390: 0.0303031416,
@@ -3075,9 +2979,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.9669876832,
         770: 0.9766525623,
         775: 0.9854043089,
-        780: 1.0000000000
+        780: 1.0000000000,
     },
-    'C100S54 (HPS)': {
+    "C100S54 (HPS)": {
         380: 0.0090968865,
         385: 0.0099177519,
         390: 0.0106049886,
@@ -3158,9 +3062,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0290665851,
         770: 0.0318508294,
         775: 0.0300437580,
-        780: 0.0343141879
+        780: 0.0343141879,
     },
-    'C100S54C (HPS)': {
+    "C100S54C (HPS)": {
         380: 0.0000000000,
         385: 0.0091384562,
         390: 0.0210275171,
@@ -3241,9 +3145,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.1421969643,
         770: 0.1445350862,
         775: 0.1425608179,
-        780: 0.1393291025
+        780: 0.1393291025,
     },
-    'F32T8/TL830 (Triphosphor)': {
+    "F32T8/TL830 (Triphosphor)": {
         380: 0.0039380786,
         385: 0.0021247895,
         390: 0.0010924490,
@@ -3324,9 +3228,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0021757603,
         770: 0.0016340710,
         775: 0.0007446283,
-        780: 0.0000000000
+        780: 0.0000000000,
     },
-    'F32T8/TL835 (Triphosphor)': {
+    "F32T8/TL835 (Triphosphor)": {
         380: 0.0044539119,
         385: 0.0027246990,
         390: 0.0014395978,
@@ -3407,9 +3311,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0028316149,
         770: 0.0020137199,
         775: 0.0020856503,
-        780: 0.0015424431
+        780: 0.0015424431,
     },
-    'F32T8/TL841 (Triphosphor)': {
+    "F32T8/TL841 (Triphosphor)": {
         380: 0.0040371862,
         385: 0.0024796605,
         390: 0.0014675082,
@@ -3490,9 +3394,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0019168880,
         770: 0.0010922856,
         775: 0.0004971904,
-        780: 0.0000000000
+        780: 0.0000000000,
     },
-    'F32T8/TL850 (Triphosphor)': {
+    "F32T8/TL850 (Triphosphor)": {
         380: 0.0034742373,
         385: 0.0023983574,
         390: 0.0018341880,
@@ -3573,9 +3477,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0029392159,
         770: 0.0029753244,
         775: 0.0019264764,
-        780: 0.0031394812
+        780: 0.0031394812,
     },
-    'F32T8/TL865 /PLUS (Triphosphor)': {
+    "F32T8/TL865 /PLUS (Triphosphor)": {
         380: 0.0043823207,
         385: 0.0033077391,
         390: 0.0028637083,
@@ -3656,9 +3560,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0072031048,
         770: 0.0075045320,
         775: 0.0070549007,
-        780: 0.0062780959
+        780: 0.0062780959,
     },
-    'F34/CW/RS/EW (Cool White FL)': {
+    "F34/CW/RS/EW (Cool White FL)": {
         380: 0.0296401248,
         385: 0.0373569560,
         390: 0.0467012986,
@@ -3739,9 +3643,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0114365646,
         770: 0.0102565619,
         775: 0.0107649726,
-        780: 0.0787313519
+        780: 0.0787313519,
     },
-    'F34T12/LW/RS /EW': {
+    "F34T12/LW/RS /EW": {
         380: 0.0138848383,
         385: 0.0171879452,
         390: 0.0227765198,
@@ -3822,9 +3726,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0048038975,
         770: 0.0058633690,
         775: 0.0077827634,
-        780: 0.0553820445
+        780: 0.0553820445,
     },
-    'F34T12WW/RS /EW (Warm White FL)': {
+    "F34T12WW/RS /EW (Warm White FL)": {
         380: 0.0183484283,
         385: 0.0208397838,
         390: 0.0263238473,
@@ -3905,9 +3809,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0162500215,
         770: 0.0154892424,
         775: 0.0161230441,
-        780: 0.0941165395
+        780: 0.0941165395,
     },
-    'F40/C50 (Broadband FL)': {
+    "F40/C50 (Broadband FL)": {
         380: 0.0279518444,
         385: 0.0297109166,
         390: 0.0329570640,
@@ -3988,9 +3892,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0689298270,
         770: 0.0730299188,
         775: 0.0751929522,
-        780: 0.0561935817
+        780: 0.0561935817,
     },
-    'F40/C75 (Broadband FL)': {
+    "F40/C75 (Broadband FL)": {
         380: 0.0560479743,
         385: 0.0650016588,
         390: 0.0822455418,
@@ -4071,9 +3975,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0765039678,
         770: 0.0585353785,
         775: 0.0536685951,
-        780: 0.0000000000
+        780: 0.0000000000,
     },
-    'F40/CWX (Broadband FL)': {
+    "F40/CWX (Broadband FL)": {
         380: 0.0273834847,
         385: 0.0335910321,
         390: 0.0415441874,
@@ -4154,9 +4058,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0216177183,
         770: 0.0225290016,
         775: 0.0228098117,
-        780: 0.0234304973
+        780: 0.0234304973,
     },
-    'F40/DX (Broadband FL)': {
+    "F40/DX (Broadband FL)": {
         380: 0.0377831211,
         385: 0.0479805195,
         390: 0.0605756851,
@@ -4237,9 +4141,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0096318955,
         770: 0.0121471762,
         775: 0.0047304152,
-        780: 0.0000000000
+        780: 0.0000000000,
     },
-    'F40/DXTP (Delux FL)': {
+    "F40/DXTP (Delux FL)": {
         380: 0.0453299851,
         385: 0.0565911781,
         390: 0.0698329640,
@@ -4320,9 +4224,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0178226176,
         770: 0.0166535773,
         775: 0.0162608849,
-        780: 0.0131835384
+        780: 0.0131835384,
     },
-    'F40/N (Natural FL)': {
+    "F40/N (Natural FL)": {
         380: 0.0310803197,
         385: 0.0378149459,
         390: 0.0472093878,
@@ -4403,9 +4307,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0816302019,
         770: 0.0794656172,
         775: 0.0624670576,
-        780: 0.0538005265
+        780: 0.0538005265,
     },
-    'H38HT-100 (Mercury)': {
+    "H38HT-100 (Mercury)": {
         380: 0.0000000000,
         385: 0.0116674647,
         390: 0.0303725622,
@@ -4486,9 +4390,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.0850852124,
         770: 0.0864842549,
         775: 0.0853029284,
-        780: 0.0833691938
+        780: 0.0833691938,
     },
-    'H38JA-100/DX (Mercury DX)': {
+    "H38JA-100/DX (Mercury DX)": {
         380: 0.0000000000,
         385: 0.0142531794,
         390: 0.0355109960,
@@ -4569,9 +4473,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.1137426110,
         770: 0.1156128625,
         775: 0.1140336555,
-        780: 0.1114486233
+        780: 0.1114486233,
     },
-    'MHC100/U/MP /3K': {
+    "MHC100/U/MP /3K": {
         380: 0.0376147854,
         385: 0.0647066508,
         390: 0.0898482711,
@@ -4652,9 +4556,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.1081531758,
         770: 0.1143784298,
         775: 0.1376604646,
-        780: 0.1168708812
+        780: 0.1168708812,
     },
-    'MHC100/U/MP /4K': {
+    "MHC100/U/MP /4K": {
         380: 0.0637674013,
         385: 0.1123934055,
         390: 0.1593879234,
@@ -4735,9 +4639,9 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.1418151423,
         770: 0.1594540493,
         775: 0.2387771482,
-        780: 0.1694033761
+        780: 0.1694033761,
     },
-    'SDW-T 100W/LV (Super HPS)': {
+    "SDW-T 100W/LV (Super HPS)": {
         380: 0.0000000000,
         385: 0.0141961629,
         390: 0.0271220229,
@@ -4818,118 +4722,31 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS = {
         765: 0.2452291219,
         770: 0.2492613850,
         775: 0.2458566141,
-        780: 0.2402832833
-    }
+        780: 0.2402832833,
+    },
 }
 
-SDS_LIGHT_SOURCES_NIST_PHILIPS = CaseInsensitiveMapping({
-    '60 A/W (Soft White)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['60 A/W (Soft White)'],
-            name='60 A/W (Soft White)'),
-    'C100S54 (HPS)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['C100S54 (HPS)'],
-            name='C100S54 (HPS)'),
-    'C100S54C (HPS)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['C100S54C (HPS)'],
-            name='C100S54C (HPS)'),
-    'F32T8/TL830 (Triphosphor)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F32T8/TL830 (Triphosphor)'],
-            name='F32T8/TL830 (Triphosphor)'),
-    'F32T8/TL835 (Triphosphor)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F32T8/TL835 (Triphosphor)'],
-            name='F32T8/TL835 (Triphosphor)'),
-    'F32T8/TL841 (Triphosphor)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F32T8/TL841 (Triphosphor)'],
-            name='F32T8/TL841 (Triphosphor)'),
-    'F32T8/TL850 (Triphosphor)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F32T8/TL850 (Triphosphor)'],
-            name='F32T8/TL850 (Triphosphor)'),
-    'F32T8/TL865 /PLUS (Triphosphor)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F32T8/TL865 /PLUS (Triphosphor)'],
-            name='F32T8/TL865 /PLUS (Triphosphor)'),
-    'F34/CW/RS/EW (Cool White FL)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F34/CW/RS/EW (Cool White FL)'],
-            name='F34/CW/RS/EW (Cool White FL)'),
-    'F34T12/LW/RS /EW':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F34T12/LW/RS /EW'],
-            name='F34T12/LW/RS /EW'),
-    'F34T12WW/RS /EW (Warm White FL)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F34T12WW/RS /EW (Warm White FL)'],
-            name='F34T12WW/RS /EW (Warm White FL)'),
-    'F40/C50 (Broadband FL)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F40/C50 (Broadband FL)'],
-            name='F40/C50 (Broadband FL)'),
-    'F40/C75 (Broadband FL)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F40/C75 (Broadband FL)'],
-            name='F40/C75 (Broadband FL)'),
-    'F40/CWX (Broadband FL)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F40/CWX (Broadband FL)'],
-            name='F40/CWX (Broadband FL)'),
-    'F40/DX (Broadband FL)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F40/DX (Broadband FL)'],
-            name='F40/DX (Broadband FL)'),
-    'F40/DXTP (Delux FL)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F40/DXTP (Delux FL)'],
-            name='F40/DXTP (Delux FL)'),
-    'F40/N (Natural FL)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['F40/N (Natural FL)'],
-            name='F40/N (Natural FL)'),
-    'H38HT-100 (Mercury)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['H38HT-100 (Mercury)'],
-            name='H38HT-100 (Mercury)'),
-    'H38JA-100/DX (Mercury DX)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['H38JA-100/DX (Mercury DX)'],
-            name='H38JA-100/DX (Mercury DX)'),
-    'MHC100/U/MP /3K':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['MHC100/U/MP /3K'],
-            name='MHC100/U/MP /3K'),
-    'MHC100/U/MP /4K':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['MHC100/U/MP /4K'],
-            name='MHC100/U/MP /4K'),
-    'SDW-T 100W/LV (Super HPS)':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_NIST_PHILIPS['SDW-T 100W/LV (Super HPS)'],
-            name='SDW-T 100W/LV (Super HPS)')
-})
-"""
+SDS_LIGHT_SOURCES_NIST_PHILIPS: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
+    (
+        key,
+        partial(
+            SpectralDistribution,
+            value,
+            name=key,
+            interpolator=LinearInterpolator,
+        ),
+    )
+    for key, value in DATA_LIGHT_SOURCES_NIST_PHILIPS.items()
+)
+SDS_LIGHT_SOURCES_NIST_PHILIPS.__doc__ = """
 Spectral distributions of the Philips light sources from the *NIST*
 *NIST CQS simulation 7.4.xls* spreadsheet.
-
-SDS_LIGHT_SOURCES_NIST_PHILIPS : CaseInsensitiveMapping
-    **{'60 A/W (Soft White)', 'C100S54 (HPS)', 'C100S54C (HPS)',
-    'F32T8/TL830 (Triphosphor)', 'F32T8/TL835 (Triphosphor)',
-    'F32T8/TL841 (Triphosphor)', 'F32T8/TL850 (Triphosphor)',
-    'F32T8/TL865 /PLUS (Triphosphor)', 'F34/CW/RS/EW (Cool White FL)',
-    'F34T12/LW/RS /EW', 'F34T12WW/RS /EW (Warm White FL)',
-    'F40/C50 (Broadband FL)', 'F40/C75 (Broadband FL)',
-    'F40/CWX (Broadband FL)', 'F40/DX (Broadband FL)', 'F40/DXTP (Delux FL)',
-    'F40/N (Natural FL)', 'H38HT-100 (Mercury)', 'H38JA-100/DX (Mercury DX)',
-    'MHC100/U/MP /3K', 'MHC100/U/MP /4K', 'SDW-T 100W/LV (Super HPS)'}**
 """
 
-DATA_LIGHT_SOURCES_COMMON = {
-    'Kinoton 75P': {
+DATA_LIGHT_SOURCES_COMMON: Dict = {
+    "Kinoton 75P": {
         380: 0.0001099667,
         382: 0.0001415667,
         384: 0.0001502000,
@@ -5130,44 +4947,48 @@ DATA_LIGHT_SOURCES_COMMON = {
         774: 0.0000183800,
         776: 0.0000155000,
         778: 0.0000097800,
-        780: 0.0000141000
+        780: 0.0000141000,
     }
 }
 
-SDS_LIGHT_SOURCES_COMMON = CaseInsensitiveMapping({
-    'Kinoton 75P':
-        SpectralDistribution(
-            DATA_LIGHT_SOURCES_COMMON['Kinoton 75P'], name='Kinoton 75P')
-})
+SDS_LIGHT_SOURCES_COMMON: (
+    LazyCaseInsensitiveMapping
+) = LazyCaseInsensitiveMapping(
+    {
+        "Kinoton 75P": partial(
+            SpectralDistribution,
+            DATA_LIGHT_SOURCES_COMMON["Kinoton 75P"],
+            name="Kinoton 75P",
+            interpolator=LinearInterpolator,
+        )
+    }
+)
 """
 Spectral distributions of the common light sources.
 
 References
 ----------
 :cite:`Houston2015a`
-
-SDS_LIGHT_SOURCES_COMMON : CaseInsensitiveMapping
-    **{'Kinoton 75P', }**
 """
 
-SDS_LIGHT_SOURCES = CaseInsensitiveMapping(SDS_LIGHT_SOURCES_RIT)
+SDS_LIGHT_SOURCES: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+    SDS_LIGHT_SOURCES_RIT
+)
 SDS_LIGHT_SOURCES.__doc__ = """
 Spectral distributions of the light sources.
+
+Notes
+-----
+-   *CIE 15:2004* recommends using linear interpolation for
+    *CIE Standard Illuminant D Series*, for consistency all the illuminants are
+    using a linear interpolator.
 
 References
 ----------
 :cite:`Houston2015a`, :cite:`Ohno2008a`, :cite:`Pointer1980a`
-
-SDS_LIGHT_SOURCES : CaseInsensitiveMapping
 """
 
 SDS_LIGHT_SOURCES.update(SDS_LIGHT_SOURCES_NIST_TRADITIONAL)
 SDS_LIGHT_SOURCES.update(SDS_LIGHT_SOURCES_NIST_LED)
 SDS_LIGHT_SOURCES.update(SDS_LIGHT_SOURCES_NIST_PHILIPS)
 SDS_LIGHT_SOURCES.update(SDS_LIGHT_SOURCES_COMMON)
-
-# *CIE 15:2004* recommends using linear interpolation for
-# *CIE Standard Illuminant D Series*, for consistency all the light sources are
-# using a linear interpolator.
-for _sd in SDS_LIGHT_SOURCES.values():
-    _sd.interpolator = LinearInterpolator

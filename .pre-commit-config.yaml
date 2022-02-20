@@ -1,11 +1,26 @@
 repos:
--   repo: https://gitlab.com/pycqa/flake8
-    rev: 3.7.8
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v2.31.0
+    hooks:
+    -   id: pyupgrade
+        args: [--py38-plus]
+-   repo: https://github.com/ikamensh/flynt/
+    rev: '0.76'
+    hooks:
+    -   id: flynt
+-   repo: https://github.com/psf/black
+    rev: 22.1.0
+    hooks:
+    - id: black
+      language_version: python3.8
+-   repo: https://github.com/PyCQA/flake8
+    rev: 4.0.1
     hooks:
     -   id: flake8
-        exclude: examples|setup\.py
--   repo: https://github.com/pre-commit/mirrors-yapf
-    rev: v0.23.0
+-   repo: https://github.com/pycqa/pydocstyle
+    rev: 6.1.1
     hooks:
-    -   id: yapf
-        exclude: setup\.py
+    -   id: pydocstyle
+        args:
+        - --convention=numpy
+        - --add-ignore=D104,D200,D202,D205,D301,D400

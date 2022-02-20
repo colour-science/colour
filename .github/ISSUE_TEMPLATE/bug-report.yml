@@ -1,0 +1,43 @@
+name: Bug Report
+description: Report an issue or a bug.
+title: "[BUG]: << Please use a comprehensive title... >>"
+labels: [ Defect ]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for taking the time to file a bug report. Before continuing, please take some time to check the existing [issues](https://github.com/colour-science/colour/issues) and also the [draft release notes](https://gist.github.com/KelSolaar/4a6ebe9ec3d389f0934b154fec8df51d).
+        The issue could already be fixed in the [develop](https://github.com/colour-science/colour) branch. If you have an installation problem, the [installation guide](https://www.colour-science.org/installation-guide/) describes the recommended process.
+
+  - type: textarea
+    attributes:
+      label: "Description"
+      description: >
+        Please describe the issue in a few short sentences.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Code for Reproduction"
+      description: >
+        If possible, please provide a minimum self-contained example reproducing the issue.
+      placeholder: |
+        << Your code here... >>
+      render: python
+
+  - type: textarea
+    attributes:
+      label: "Exception Message"
+      description: >
+        If any, please paste the *full* exception message.
+      placeholder: |
+        << Full traceback starting from `Traceback (most recent call last):`... >>
+      render: shell
+
+  - type: textarea
+    attributes:
+      label: "Environment Information"
+      description: If possible, please paste the output from `import colour; colour.utilities.describe_environment()`.
+      render: shell

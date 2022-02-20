@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Mock for Colour
 ===============
@@ -13,34 +12,35 @@ References
 master/sphinx/ext/autodoc/mock.py
 """
 
-from __future__ import division, unicode_literals
-
 import os
 
 from types import FunctionType, MethodType, ModuleType
 
-__author__ = 'Sphinx Team, Colour Developers'
-__copyright__ = 'Copyright 2007-2019 - Sphinx Team'
-__copyright__ += ', '
-__copyright__ += 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Sphinx Team, Colour Developers"
+__copyright__ = "Copyright 2007-2019 - Sphinx Team"
+__copyright__ += ", "
+__copyright__ += "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['MockObject', 'MockModule', 'mock_scipy_for_colour']
+__all__ = [
+    "MockObject",
+    "MockModule",
+    "mock_scipy_for_colour",
+]
 
 
-class MockObject(object):
+class MockObject:
     """
-    A generic mock object used for helping to mock tricky *Colour* requirements
-    such as *Scipy*.
+    Mock an object to handle *Colour* requirements such as *Scipy*.
 
     Other Parameters
     ----------------
-    \\*args : list, optional
+    args
         Arguments.
-    \\**kwargs : dict, optional
+    kwargs
         Keywords arguments.
 
     References
@@ -48,17 +48,17 @@ class MockObject(object):
     :cite:`SphinxTeam`
     """
 
-    __display_name__ = 'MockObject'
+    __display_name__ = "MockObject"
 
     def __new__(cls, *args, **kwargs):
         """
-        Returns a new instance of the :class:`MockObject` class.
+        Return a new instance of the :class:`MockObject` class.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
-        \\**kwargs : dict, optional
+        kwargs
             Keywords arguments.
         """
 
@@ -69,28 +69,27 @@ class MockObject(object):
                     args[0],
                     superclass.__display_name__,
                     superclass=superclass,
-                    attributes=args[2])
+                    attributes=args[2],
+                )
 
-        return super(MockObject, cls).__new__(cls)
+        return super().__new__(cls)
 
     def __init__(self, *args, **kwargs):
         pass
 
     def __len__(self):
-        """
-        Returns the length of the :class:`MockObject` class instance, i.e. 0.
-        """
+        """Return the length of the :class:`MockObject` class instance, i.e. 0."""
 
         return 0
 
     def __contains__(self, key):
         """
-        Returns whether the :class:`MockObject` class instance contains given
+        Return whether the :class:`MockObject` class instance contains given
         key.
 
         Parameters
         ----------
-        key : unicode
+        key
             Key to check whether is is contained in the :class:`MockObject`
             class instance.
         """
@@ -98,9 +97,7 @@ class MockObject(object):
         return False
 
     def __iter__(self):
-        """
-        Iterates over the :class:`MockObject` class instance.
-        """
+        """Iterate over the :class:`MockObject` class instance."""
 
         return iter([])
 
@@ -110,16 +107,16 @@ class MockObject(object):
         of a class definition, then method __mro_entries__ is searched on it.
         """
 
-        return (self.__class__, )
+        return (self.__class__,)
 
     def __getitem__(self, key):
         """
-        Returns the value at given key from the :class:`MockObject` class
+        Return the value at given key from the :class:`MockObject` class
         instance.
 
         Parameters
         ----------
-        key : unicode
+        key
             Key to return the value at.
         """
 
@@ -127,12 +124,12 @@ class MockObject(object):
 
     def __getattr__(self, key):
         """
-        Returns the attribute at given key from the :class:`MockObject` class
+        Return the attribute at given key from the :class:`MockObject` class
         instance.
 
         Parameters
         ----------
-        key : unicode
+        key
             Key to return the attribute at.
         """
 
@@ -140,13 +137,13 @@ class MockObject(object):
 
     def __call__(self, *args, **kwargs):
         """
-        Calls the :class:`MockObject` class instance.
+        Call the :class:`MockObject` class instance.
 
         Other Parameters
         ----------------
-        \\*args : list, optional
+        args
             Arguments.
-        \\**kwargs : dict, optional
+        kwargs
             Keywords arguments.
         """
 
@@ -157,33 +154,35 @@ class MockObject(object):
 
     def __repr__(self):
         """
-        Returns an evaluable string representation of the :class:`MockObject`
+        Return an evaluable string representation of the :class:`MockObject`
         class instance.
         """
 
         return self.__display_name__
 
 
-def _make_subclass(name, module, superclass=MockObject, attributes=None):
+def _make_subclass(
+    name, module, superclass=MockObject, attributes=None
+):  # noqa: D405,D407,D410,D411
     """
-    A sub-class factory that makes sub-classes of given super-class type.
+    Produce sub-classes of given super-class type.
 
     Parameters
     ----------
-    name : unicode
+    name
         Name of the sub-class.
-    module : unicode
+    module
         Name of the sub-class module.
-    superclass : object
+    superclass
         Super-class type.
-    attributes : dict
+    attributes
         Attributes to set the sub-class with.
     """
 
-    attrs = {'__module__': module, '__display_name__': module + '.' + name}
+    attrs = {"__module__": module, "__display_name__": module + "." + name}
     attrs.update(attributes or {})
 
-    return type(name, (superclass, ), attrs)
+    return type(name, (superclass,), attrs)
 
 
 class MockModule(ModuleType):
@@ -192,7 +191,7 @@ class MockModule(ModuleType):
 
     Parameters
     ----------
-    name : unicode
+    name
         Name of the mocked module.
 
     References
@@ -203,18 +202,18 @@ class MockModule(ModuleType):
     __file__ = os.devnull
 
     def __init__(self, name):
-        super(MockModule, self).__init__(name)
+        super().__init__(name)
         self.__all__ = []
         self.__path__ = []
 
     def __getattr__(self, name):
         """
-        Returns the attribute at given name from the :class:`MockModule` class
+        Return the attribute at given name from the :class:`MockModule` class
         instance.
 
         Parameters
         ----------
-        name : unicode
+        name
             Name to return the attribute at.
         """
 
@@ -222,7 +221,7 @@ class MockModule(ModuleType):
 
     def __repr__(self):
         """
-        Returns an evaluable string representation of the :class:`MockModule`
+        Return an evaluable string representation of the :class:`MockModule`
         class instance.
         """
 
@@ -230,22 +229,36 @@ class MockModule(ModuleType):
 
 
 def mock_scipy_for_colour():
-    """
-    Mocks *Scipy* for *Colour*.
-    """
+    """Mock *Scipy* for *Colour*."""
 
     import sys
 
-    for module in ('scipy', 'scipy.interpolate', 'scipy.spatial',
-                   'scipy.spatial.distance', 'scipy.optimize'):
+    for module in (
+        "scipy",
+        "scipy.interpolate",
+        "scipy.linalg",
+        "scipy.ndimage",
+        "scipy.ndimage.filters",
+        "scipy.spatial",
+        "scipy.spatial.distance",
+        "scipy.optimize",
+    ):
         sys.modules[str(module)] = MockModule(str(module))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
 
-    for module in ('scipy', 'scipy.interpolate', 'scipy.spatial',
-                   'scipy.spatial.distance', 'scipy.optimize'):
+    for module in (
+        "scipy",
+        "scipy.interpolate",
+        "scipy.linalg",
+        "scipy.ndimage",
+        "scipy.ndimage.filters",
+        "scipy.spatial",
+        "scipy.spatial.distance",
+        "scipy.optimize",
+    ):
         sys.modules[str(module)] = MockModule(str(module))
 
     import colour

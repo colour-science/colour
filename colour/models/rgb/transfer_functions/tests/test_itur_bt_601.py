@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.itur_bt_601`
-module.
+Defines the unit tests for the
+:mod:`colour.models.rgb.transfer_functions.itur_bt_601` module.
 """
-
-from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
@@ -12,25 +9,28 @@ import unittest
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['TestOetf_BT601', 'TestOetf_inverse_BT601']
+__all__ = [
+    "TestOetf_BT601",
+    "TestOetf_inverse_BT601",
+]
 
 
 class TestOetf_BT601(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_601.oetf_BT601`
+    Define :func:`colour.models.rgb.transfer_functions.itur_bt_601.oetf_BT601`
     definition unit tests methods.
     """
 
     def test_oetf_BT601(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_BT601` definition.
         """
 
@@ -44,7 +44,7 @@ oetf_BT601` definition.
 
     def test_n_dimensional_oetf_BT601(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_BT601` definition n-dimensional arrays support.
         """
 
@@ -65,23 +65,24 @@ oetf_BT601` definition n-dimensional arrays support.
 
     def test_domain_range_scale_oetf_BT601(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_BT601` definition domain and range scale support.
         """
 
         L = 0.18
         E = oetf_BT601(L)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    oetf_BT601(L * factor), E * factor, decimal=7)
+                    oetf_BT601(L * factor), E * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_oetf_BT601(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_BT601` definition nan support.
         """
 
@@ -90,29 +91,31 @@ oetf_BT601` definition nan support.
 
 class TestOetf_inverse_BT601(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+    Define :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_inverse_BT601` definition unit tests methods.
     """
 
     def test_oetf_inverse_BT601(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_inverse_BT601` definition.
         """
 
         self.assertAlmostEqual(oetf_inverse_BT601(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            oetf_inverse_BT601(0.067500000000000), 0.015, places=7)
+            oetf_inverse_BT601(0.067500000000000), 0.015, places=7
+        )
 
         self.assertAlmostEqual(
-            oetf_inverse_BT601(0.409007728864150), 0.18, places=7)
+            oetf_inverse_BT601(0.409007728864150), 0.18, places=7
+        )
 
         self.assertAlmostEqual(oetf_inverse_BT601(1.0), 1.0, places=7)
 
     def test_n_dimensional_oetf_inverse_BT601(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_inverse_BT601` definition n-dimensional arrays support.
         """
 
@@ -133,28 +136,29 @@ oetf_inverse_BT601` definition n-dimensional arrays support.
 
     def test_domain_range_scale_oetf_inverse_BT601(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_inverse_BT601` definition domain and range scale support.
         """
 
         E = 0.409007728864150
         L = oetf_inverse_BT601(E)
 
-        d_r = (('reference', 1), (1, 1), (100, 100))
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    oetf_inverse_BT601(E * factor), L * factor, decimal=7)
+                    oetf_inverse_BT601(E * factor), L * factor, decimal=7
+                )
 
     @ignore_numpy_errors
     def test_nan_oetf_inverse_BT601(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_601.\
 oetf_inverse_BT601` definition nan support.
         """
 
         oetf_inverse_BT601(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

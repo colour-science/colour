@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 ITU-R BT.601-7
 ==============
 
-Defines *ITU-R BT.601-7* opto-electrical transfer function (OETF / OECF) and
-its inverse:
+Defines the *ITU-R BT.601-7* opto-electrical transfer function (OETF)
+and its inverse:
 
 -   :func:`colour.models.oetf_BT601`
 -   :func:`colour.models.oetf_inverse_BT601`
@@ -19,42 +18,49 @@ References
 R-REC-BT.601-7-201103-I!!PDF-E.pdf
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (as_float, domain_range_scale, from_range_1,
-                              to_domain_1)
+from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
+from colour.utilities import (
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['oetf_BT601', 'oetf_inverse_BT601']
+__all__ = [
+    "oetf_BT601",
+    "oetf_inverse_BT601",
+]
 
 
-def oetf_BT601(L):
+def oetf_BT601(L: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.601-7* opto-electronic transfer function
-    (OETF / OECF).
+    Define *Recommendation ITU-R BT.601-7* opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
-    L : numeric or array_like
+    L
         *Luminance* :math:`L` of the image.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Corresponding electrical signal :math:`E`.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -84,24 +90,23 @@ def oetf_BT601(L):
     return as_float(from_range_1(E))
 
 
-def oetf_inverse_BT601(E):
+def oetf_inverse_BT601(E: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
-    Defines *Recommendation ITU-R BT.601-7* inverse opto-electronic transfer
-    function (OETF / OECF).
+    Define *Recommendation ITU-R BT.601-7* inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
-    E : numeric or array_like
+    E
         Electrical signal :math:`E`.
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Corresponding *luminance* :math:`L` of the image.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -126,7 +131,7 @@ def oetf_inverse_BT601(E):
 
     E = to_domain_1(E)
 
-    with domain_range_scale('ignore'):
+    with domain_range_scale("ignore"):
         L = np.where(
             E < oetf_BT601(0.018),
             E / 4.5,

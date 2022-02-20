@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 Blackbody - Planckian Radiator
 ==============================
 
-Defines objects to compute the spectral radiance of a planckian radiator and
-its spectral distribution.
+Defines the objects to compute the spectral radiance of a planckian radiator
+and its spectral distribution.
 
 References
 ----------
@@ -13,60 +12,71 @@ References
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import (SPECTRAL_SHAPE_DEFAULT, SpectralDistribution)
-from colour.utilities import as_float_array, usage_warning
+from colour.colorimetry import (
+    SPECTRAL_SHAPE_DEFAULT,
+    SpectralDistribution,
+    SpectralShape,
+)
+from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
+from colour.utilities import as_float_array
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
 __all__ = [
-    'CONSTANT_C1', 'CONSTANT_C2', 'CONSTANT_N', 'planck_law',
-    'blackbody_spectral_radiance', 'sd_blackbody'
+    "CONSTANT_C1",
+    "CONSTANT_C2",
+    "CONSTANT_N",
+    "planck_law",
+    "blackbody_spectral_radiance",
+    "sd_blackbody",
 ]
 
 # 2 * math.pi * CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED ** 2
-CONSTANT_C1 = 3.741771e-16
+CONSTANT_C1: float = 3.741771e-16
 
 # CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED / CONSTANT_BOLTZMANN
-CONSTANT_C2 = 1.4388e-2
+CONSTANT_C2: float = 1.4388e-2
 
-CONSTANT_N = 1
+CONSTANT_N: float = 1
 
 
-def planck_law(wavelength,
-               temperature,
-               c1=CONSTANT_C1,
-               c2=CONSTANT_C2,
-               n=CONSTANT_N):
+def planck_law(
+    wavelength: FloatingOrArrayLike,
+    temperature: FloatingOrArrayLike,
+    c1: Floating = CONSTANT_C1,
+    c2: Floating = CONSTANT_C2,
+    n: Floating = CONSTANT_N,
+) -> FloatingOrNDArray:
     """
-    Returns the spectral radiance of a blackbody at thermodynamic temperature
+    Return the spectral radiance of a blackbody at thermodynamic temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
 
     Parameters
     ----------
-    wavelength : numeric or array_like
+    wavelength
         Wavelength in meters.
-    temperature : numeric or array_like
+    temperature
         Temperature :math:`T[K]` in kelvin degrees.
-    c1 : numeric or array_like, optional
+    c1
         The official value of :math:`c1` is provided by the Committee on Data
         for Science and Technology (CODATA) and is
         :math:`c1=3,741771x10.16\\ W/m_2` *(Mohr and Taylor, 2000)*.
-    c2 : numeric or array_like, optional
+    c2
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
         *(Preston-Thomas, 1990; Mielenz et aI., 1991)*, namely
         :math:`c2=1,4388x10.2\\ m/K`.
-    n : numeric or array_like, optional
+    n
         Medium index of refraction. For dry air at 15C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
@@ -74,7 +84,7 @@ def planck_law(wavelength,
 
     Returns
     -------
-    numeric or ndarray
+    :class:`numpy.floating` or :class:`numpy.ndarray`
         Radiance in *watts per steradian per square metre* (:math:`W/sr/m^2`).
 
     Notes
@@ -89,7 +99,6 @@ def planck_law(wavelength,
 
     Examples
     --------
-    >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> planck_law(500 * 1e-9, 5500)  # doctest: +ELLIPSIS
     20472701909806.5...
     """
@@ -97,8 +106,7 @@ def planck_law(wavelength,
     l = as_float_array(wavelength)  # noqa
     t = as_float_array(temperature)
 
-    p = (((c1 * n ** -2 * l ** -5) / np.pi) * (np.exp(c2 / (n * l * t)) - 1) **
-         -1)
+    p = ((c1 * n**-2 * l**-5) / np.pi) * (np.expm1(c2 / (n * l * t))) ** -1
 
     return p
 
@@ -106,34 +114,36 @@ def planck_law(wavelength,
 blackbody_spectral_radiance = planck_law
 
 
-def sd_blackbody(temperature,
-                 shape=SPECTRAL_SHAPE_DEFAULT,
-                 c1=CONSTANT_C1,
-                 c2=CONSTANT_C2,
-                 n=CONSTANT_N):
+def sd_blackbody(
+    temperature: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    c1: Floating = CONSTANT_C1,
+    c2: Floating = CONSTANT_C2,
+    n: Floating = CONSTANT_N,
+) -> SpectralDistribution:
     """
-    Returns the spectral distribution of the planckian radiator for given
+    Return the spectral distribution of the planckian radiator for given
     temperature :math:`T[K]` with values in
     *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`).
 
     Parameters
     ----------
-    temperature : numeric
+    temperature
         Temperature :math:`T[K]` in kelvin degrees.
-    shape : SpectralShape, optional
+    shape
         Spectral shape used to create the spectral distribution of the
         planckian radiator.
-    c1 : numeric, optional
+    c1
         The official value of :math:`c1` is provided by the Committee on Data
         for Science and Technology (CODATA) and is
         :math:`c1=3,741771x10.16\\ W/m_2` *(Mohr and Taylor, 2000)*.
-    c2 : numeric, optional
+    c2
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
         *(Preston-Thomas, 1990; Mielenz et aI., 1991)*, namely
         :math:`c2=1,4388x10.2\\ m/K`.
-    n : numeric, optional
+    n
         Medium index of refraction. For dry air at 15C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
@@ -141,7 +151,7 @@ def sd_blackbody(temperature,
 
     Returns
     -------
-    SpectralDistribution
+    :class:`colour.SpectralDistribution`
         Blackbody spectral distribution with values in
         *watts per steradian per square metre per nanometer*
         (:math:`W/sr/m^2/nm`).
@@ -578,17 +588,9 @@ def sd_blackbody(temperature,
                          extrapolator_kwargs={...})
     """
 
-    # TODO: Remove warning when deemed appropriate.
-    usage_warning(
-        'For consistency reasons, the unit of the planckian radiator spectral '
-        'distribution values has been changed from "W/sr/m^2/m" to '
-        '"W/sr/m^2/nm".\nThey are now multiplied by 1e-9. Note that this only '
-        'affects computations requiring absolute quantities.\n'
-        'See https://github.com/colour-science/colour/issues/559 for more '
-        'background information.')
-
     wavelengths = shape.range()
     return SpectralDistribution(
         planck_law(wavelengths * 1e-9, temperature, c1, c2, n) * 1e-9,
         wavelengths,
-        name='{0}K Blackbody'.format(temperature))
+        name=f"{temperature}K Blackbody",
+    )

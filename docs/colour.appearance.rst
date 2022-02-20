@@ -1,8 +1,6 @@
 Colour Appearance Models
 ========================
 
-.. contents:: :local:
-
 ATD (1995)
 ----------
 
@@ -40,6 +38,7 @@ CIECAM02
 .. autosummary::
     :toctree: generated/
 
+    CAM_KWARGS_CIECAM02_sRGB
     InductionFactors_CIECAM02
 
 CAM16
@@ -56,7 +55,6 @@ CAM16
     CAM16_to_XYZ
     CAM_Specification_CAM16
     VIEWING_CONDITIONS_CAM16
-
 
 **Ancillary Objects**
 
@@ -82,6 +80,34 @@ Hunt
     XYZ_to_Hunt
     CAM_Specification_Hunt
     VIEWING_CONDITIONS_HUNT
+
+Kim, Weyrich and Kautz (2009)
+-----------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Kim2009
+    Kim2009_to_XYZ
+    CAM_Specification_Kim2009
+    MEDIA_PARAMETERS_KIM2009
+    VIEWING_CONDITIONS_KIM2009
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    InductionFactors_Kim2009
+    MediaParameters_Kim2009
 
 :math:`LLAB(l:c)`
 -----------------
@@ -145,3 +171,55 @@ RLAB
     :toctree: generated/
 
     D_FACTOR_RLAB
+
+ZCAM
+----
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_ZCAM
+    ZCAM_to_XYZ
+    CAM_Specification_ZCAM
+    VIEWING_CONDITIONS_ZCAM
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    InductionFactors_ZCAM
+
+Helmholtz-Kohlrausch Effect Estimation
+--------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    HKE_NAYATANI1997_METHODS
+    HelmholtzKohlrausch_effect_object_Nayatani1997
+    HelmholtzKohlrausch_effect_luminous_Nayatani1997
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    coefficient_q_Nayatani1997
+    coefficient_K_Br_Nayatani1997

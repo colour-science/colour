@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Prismatic Colourspace
 =====================
@@ -14,40 +13,43 @@ References
     space for rgb computations (pp. 2-7).
 """
 
-from __future__ import division, unicode_literals
+from __future__ import annotations
 
 import numpy as np
 
+from colour.hints import ArrayLike, NDArray
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
-__license__ = 'New BSD License - https://opensource.org/licenses/BSD-3-Clause'
-__maintainer__ = 'Colour Developers'
-__email__ = 'colour-developers@colour-science.org'
-__status__ = 'Production'
+__author__ = "Colour Developers"
+__copyright__ = "Copyright 2013 Colour Developers"
+__license__ = "New BSD License - https://opensource.org/licenses/BSD-3-Clause"
+__maintainer__ = "Colour Developers"
+__email__ = "colour-developers@colour-science.org"
+__status__ = "Production"
 
-__all__ = ['RGB_to_Prismatic', 'Prismatic_to_RGB']
+__all__ = [
+    "RGB_to_Prismatic",
+    "Prismatic_to_RGB",
+]
 
 
-def RGB_to_Prismatic(RGB):
+def RGB_to_Prismatic(RGB: ArrayLike) -> NDArray:
     """
-    Converts from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
+    Convert from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
     colourspace array.
 
     Parameters
     ----------
-    RGB : array_like
+    RGB
         *RGB* colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
@@ -92,24 +94,23 @@ def RGB_to_Prismatic(RGB):
     return from_range_1(Lrgb)
 
 
-def Prismatic_to_RGB(Lrgb):
+def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArray:
     """
-    Converts from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
+    Convert from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
     *RGB* colourspace.
 
     Parameters
     ----------
-    Lrgb : array_like
+    Lrgb
         *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array.
 
     Returns
     -------
-    ndarray
+    :class:`numpy.ndarray`
         *RGB* colourspace array.
 
     Notes
     -----
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+

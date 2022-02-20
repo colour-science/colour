@@ -1,30 +1,30 @@
-# -*- coding: utf-8 -*-
-"""
-Showcases *Rayleigh Optical Depth* computations examples.
-"""
+"""Showcases *Rayleigh Optical Depth* computations examples."""
 
 import colour
 from colour.utilities import message_box
 
 message_box('"Rayleigh" Optical Depth Computations')
 
-message_box(('Creating a "Rayleigh" spectral distribution with default '
-             'spectral shape:\n'
-             '\n\t{0}'.format(colour.SPECTRAL_SHAPE_DEFAULT)))
+message_box(
+    f'Creating a "Rayleigh" spectral distribution with default spectral '
+    f"shape:\n\n\t{colour.SPECTRAL_SHAPE_DEFAULT}"
+)
 sd_rayleigh = colour.sd_rayleigh_scattering()
 print(sd_rayleigh[555])
 
-print('\n')
+print("\n")
 
 wavelength = 555 * 10e-8
-message_box(('Computing the scattering cross section per molecule at given '
-             'wavelength in cm:\n'
-             '\n\tWavelength: {0} cm'.format(wavelength)))
+message_box(
+    f"Computing the scattering cross section per molecule at given wavelength "
+    f"in cm:\n\n\tWavelength: {wavelength}cm"
+)
 print(colour.phenomena.scattering_cross_section(wavelength))
 
-print('\n')
+print("\n")
 
-message_box(('Computing the "Rayleigh" optical depth as function of '
-             'wavelength in cm:\n'
-             '\n\tWavelength: {0} cm'.format(wavelength)))
+message_box(
+    f'Computing the "Rayleigh" optical depth as function of wavelength in '
+    f"cm:\n\n\tWavelength: {wavelength}cm"
+)
 print(colour.phenomena.rayleigh_optical_depth(wavelength))
