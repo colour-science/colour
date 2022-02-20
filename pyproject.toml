@@ -51,7 +51,6 @@ typing-extensions = ">= 4, < 5"  # Convenience for Google Colab.
 
 matplotlib = { version = ">= 3.2, != 3.5.0, != 3.5.1", optional = true }
 networkx = { version = ">= 2, < 3", optional = true }
-opencolorio = { version = ">= 2, < 3", optional = true }
 pandas = { version = ">= 1, < 2", optional = true }
 pygraphviz = { version = ">= 1, < 2", optional = true }
 scikit-learn = { version = ">= 1, < 2", optional = true }
@@ -126,7 +125,7 @@ development = [
 ]
 graphviz = [ "pygraphviz" ]
 meshing = [ "trimesh" ]
-optional = [ "networkx",  "opencolorio", "pandas", "scikit-learn", "tqdm" ]
+optional = [ "networkx", "pandas", "scikit-learn", "tqdm" ]
 plotting = [ "matplotlib" ]
 read-the-docs = [
     "matplotlib",

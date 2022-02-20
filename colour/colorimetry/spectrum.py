@@ -513,9 +513,8 @@ class SpectralShape:
         if interval_effective != self._interval:
             self._interval = interval_effective
             runtime_warning(
-                ('"{}" shape could not be honoured, using ' '"{}"!').format(
-                    (self._start, self._end, self._interval), self
-                )
+                f'"{(self._start, self._end, self._interval)}" shape could '
+                f'not be honoured, using "{self}"!'
             )
 
         return range_

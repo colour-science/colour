@@ -229,11 +229,10 @@ __all__ = [
 
 MUNSELL_GRAY_PATTERN: str = f"N(?P<value>{FLOATING_POINT_NUMBER_PATTERN})"
 MUNSELL_COLOUR_PATTERN: str = (
-    "(?P<hue>{0})\\s*"
-    "(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\\s*"
-    "(?P<value>{0})\\s*\\/\\s*(?P<chroma>[-+]?{0})".format(
-        FLOATING_POINT_NUMBER_PATTERN
-    )
+    f"(?P<hue>{FLOATING_POINT_NUMBER_PATTERN})\\s*"
+    f"(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\\s*"
+    f"(?P<value>{FLOATING_POINT_NUMBER_PATTERN})\\s*\\/\\s*"
+    f"(?P<chroma>[-+]?{FLOATING_POINT_NUMBER_PATTERN})"
 )
 
 MUNSELL_GRAY_FORMAT: str = "N{0}"
@@ -1521,10 +1520,8 @@ def parse_munsell_colour(munsell_colour: str) -> NDArray:
         )
 
     raise ValueError(
-        (
-            '"{}" is not a valid "Munsell Renotation System" colour '
-            "specification!"
-        ).format(munsell_colour)
+        f'"{munsell_colour}" is not a valid "Munsell Renotation System" '
+        f"colour specification!"
     )
 
 
@@ -1750,10 +1747,8 @@ def xyY_from_renotation(specification: ArrayLike) -> NDArray:
         return MUNSELL_COLOURS_ALL[int(index[0])][1]
     except Exception:
         raise ValueError(
-            (
-                '"{}" specification does not exists in '
-                '"Munsell Renotation System" data!'
-            ).format(specification)
+            f'"{specification}" specification does not exists in '
+            '"Munsell Renotation System" data!'
         )
 
 

@@ -995,9 +995,7 @@ def describe_conversion_path(
         "[ Conversion Path ]\n\n{}".format(
             " --> ".join(
                 [
-                    '"{}"'.format(
-                        _lower_order_function(conversion_function).__name__
-                    )
+                    f'"{_lower_order_function(conversion_function).__name__}"'
                     for conversion_function in conversion_path
                 ]
             )
@@ -1023,13 +1021,15 @@ def describe_conversion_path(
         return_value = filtered_kwargs.pop("return", None)
 
         if mode in ("long", "extended"):
-            message = ('[ "{}" ]' "\n\n[ Signature ]\n\n{}").format(
-                _lower_order_function(conversion_function).__name__,
-                pformat(
-                    signature_inspection(
-                        _lower_order_function(conversion_function)
-                    )
-                ),
+            signature = pformat(
+                signature_inspection(
+                    _lower_order_function(conversion_function)
+                )
+            )
+            message = (
+                f'[ "{_lower_order_function(conversion_function).__name__}" ]\n\n'
+                f"[ Signature ]\n\n"
+                f"{signature}"
             )
 
             if filtered_kwargs:

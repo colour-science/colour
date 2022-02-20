@@ -571,12 +571,11 @@ def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                (
-                    '"Matplotlib" related API features are not available: '
-                    '"{}".\nSee the installation guide for more information: '
-                    "https://www.colour-science.org/installation-guide/"
-                ).format(error)
+                '"Matplotlib" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
             )
+
         return False
 
 
@@ -608,13 +607,12 @@ def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                (
-                    '"NetworkX" related API features, e.g. the automatic colour '
-                    'conversion graph, are not available: "{}".\nPlease refer '
-                    "to the installation guide for more information: "
-                    "https://www.colour-science.org/installation-guide/"
-                ).format(error)
+                '"NetworkX" related API features, e.g. the automatic colour '
+                f'conversion graph, are not available: "{error}".\nPlease refer '
+                "to the installation guide for more information: "
+                "https://www.colour-science.org/installation-guide/"
             )
+
         return False
 
 
@@ -646,12 +644,11 @@ def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                (
-                    '"OpenColorIO" related API features are not available: '
-                    '"{}".\nSee the installation guide for more information: '
-                    "https://www.colour-science.org/installation-guide/"
-                ).format(error)
+                '"OpenColorIO" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
             )
+
         return False
 
 
@@ -683,12 +680,11 @@ def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                (
-                    '"OpenImageIO" related API features are not available: '
-                    '"{}".\nSee the installation guide for more information: '
-                    "https://www.colour-science.org/installation-guide/"
-                ).format(error)
+                '"OpenImageIO" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
             )
+
         return False
 
 
@@ -720,12 +716,11 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                (
-                    '"Pandas" related API features are not available: "{}".\n'
-                    "See the installation guide for more information: "
-                    "https://www.colour-science.org/installation-guide/"
-                ).format(error)
+                f'"Pandas" related API features are not available: "{error}".\n'
+                "See the installation guide for more information: "
+                "https://www.colour-science.org/installation-guide/"
             )
+
         return False
 
 
@@ -758,13 +753,11 @@ def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                (
-                    '"Scikit-Learn" related API features are not available: '
-                    '"{}".\n'
-                    "See the installation guide for more information: "
-                    "https://www.colour-science.org/installation-guide/"
-                ).format(error)
+                '"Scikit-Learn" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
             )
+
         return False
 
 
@@ -796,12 +789,11 @@ def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                (
-                    '"tqdm" related API features are not available: "{}".\n'
-                    "See the installation guide for more information: "
-                    "https://www.colour-science.org/installation-guide/"
-                ).format(error)
+                f'"tqdm" related API features are not available: "{error}".\n'
+                "See the installation guide for more information: "
+                "https://www.colour-science.org/installation-guide/"
             )
+
         return False
 
 
@@ -833,12 +825,11 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
     except ImportError as error:  # pragma: no cover
         if raise_exception:
             raise ImportError(
-                (
-                    '"Trimesh" related API features are not available: '
-                    '"{}".\nSee the installation guide for more information: '
-                    "https://www.colour-science.org/installation-guide/"
-                ).format(error)
+                '"Trimesh" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
             )
+
         return False
 
 

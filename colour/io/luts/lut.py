@@ -324,25 +324,23 @@ class AbstractLUT(ABC):
 
             return str(a).replace(" [", " " * 14 + "[")
 
-        comments = [
-            f"Comment {str(i + 1).zfill(2)} : {comment}"
-            for i, comment in enumerate(self.comments)
-        ]
+        comments = "\n".join(
+            [
+                f"Comment {str(i + 1).zfill(2)} : {comment}"
+                for i, comment in enumerate(self.comments)
+            ]
+        )
+        comments = f"\n{comments}" if comments else ""
+
+        underline = "-" * (len(self.__class__.__name__) + 3 + len(self.name))
 
         return (
-            "{} - {}\n"
-            "{}\n\n"
-            "Dimensions : {}\n"
-            "Domain     : {}\n"
-            "Size       : {!s}{}"
-        ).format(
-            self.__class__.__name__,
-            self.name,
-            "-" * (len(self.__class__.__name__) + 3 + len(self.name)),
-            self.dimensions,
-            _indent_array(self.domain),
-            str(self.table.shape).replace("L", ""),
-            "\n{}".format("\n".join(comments)) if comments else "",
+            f"{self.__class__.__name__} - {self.name}\n"
+            f"{underline}\n\n"
+            f"Dimensions : {self.dimensions}\n"
+            f"Domain     : {_indent_array(self.domain)}\n"
+            f'Size       : {str(self.table.shape).replace("L", "")}'
+            f"{comments}"
         )
 
     def __repr__(self) -> str:
@@ -369,19 +367,18 @@ class AbstractLUT(ABC):
         )
 
         indentation = " " * (len(self.__class__.__name__) + 1)
-        representation = (
-            "{0},\n" "{1}name='{2}',\n" "{1}domain={3}{4})"
-        ).format(
-            representation[:-1],
-            indentation,
-            self.name,
-            domain,
-            f",\n{indentation}comments={repr(self.comments)}"
+        comments = (
+            f",\n\n{indentation}comments={repr(self.comments)}"
             if self.comments
-            else "",
+            else ""
         )
 
-        return representation
+        return (
+            f"{representation[:-1]},\n"
+            f"{indentation}name='{self.name}',\n"
+            f"{indentation}domain={domain}"
+            f"{comments})"
+        )
 
     def __eq__(self, other: Any) -> bool:
         """
@@ -2556,13 +2553,12 @@ def LUT_to_LUT(
     if path in ((1, 3), (2, 1), (2, 3), (3, 1), (3, 2)):
         if not force_conversion:
             raise ValueError(
-                'Conversion of a "LUT" {} to a "LUT" {} is destructive, '
-                'please use the "force_conversion" argument to proceed.'.format(
-                    *path_verbose
-                )
+                f'Conversion of a "LUT" {path_verbose[0]} to a "LUT" '
+                f"{path_verbose[1]} is destructive, please use the "
+                f'"force_conversion" argument to proceed!'
             )
 
-    suffix = " - Converted {} to {}".format(*path_verbose)
+    suffix = f" - Converted {path_verbose[0]} to {path_verbose[1]}"
     name = f"{LUT.name}{suffix}"
 
     # Same dimension conversion, returning a copy.

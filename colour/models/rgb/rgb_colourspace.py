@@ -679,33 +679,19 @@ class RGB_Colourspace:
             return str(a).replace(" [", " " * 22 + "[")
 
         return (
-            "{}\n"
-            "{}\n\n"
-            "Primaries          : {}\n"
-            "Whitepoint         : {}\n"
-            "Whitepoint Name    : {}\n"
-            "Encoding CCTF      : {}\n"
-            "Decoding CCTF      : {}\n"
-            "NPM                : {}\n"
-            "NPM -1             : {}\n"
-            "Derived NPM        : {}\n"
-            "Derived NPM -1     : {}\n"
-            "Use Derived NPM    : {}\n"
-            "Use Derived NPM -1 : {}"
-        ).format(
-            self.name,
-            "-" * len(self.name),
-            _indent_array(self.primaries),
-            self.whitepoint,
-            self.whitepoint_name,
-            self.cctf_encoding,
-            self.cctf_decoding,
-            _indent_array(self._matrix_RGB_to_XYZ),
-            _indent_array(self._matrix_XYZ_to_RGB),
-            _indent_array(self._derived_matrix_RGB_to_XYZ),
-            _indent_array(self._derived_matrix_XYZ_to_RGB),
-            self.use_derived_matrix_RGB_to_XYZ,
-            self.use_derived_matrix_XYZ_to_RGB,
+            f"{self.name}\n"
+            f'{"-" * len(self.name)}\n\n'
+            f"Primaries          : {_indent_array(self.primaries)}\n"
+            f"Whitepoint         : {self.whitepoint}\n"
+            f"Whitepoint Name    : {self.whitepoint_name}\n"
+            f"Encoding CCTF      : {self.cctf_encoding}\n"
+            f"Decoding CCTF      : {self.cctf_decoding}\n"
+            f"NPM                : {_indent_array(self._matrix_RGB_to_XYZ)}\n"
+            f"NPM -1             : {_indent_array(self._matrix_XYZ_to_RGB)}\n"
+            f"Derived NPM        : {_indent_array(self._derived_matrix_RGB_to_XYZ)}\n"
+            f"Derived NPM -1     : {_indent_array(self._derived_matrix_XYZ_to_RGB)}\n"
+            f"Use Derived NPM    : {self.use_derived_matrix_RGB_to_XYZ}\n"
+            f"Use Derived NPM -1 : {self.use_derived_matrix_XYZ_to_RGB}"
         )
 
     def __repr__(self) -> str:
@@ -756,29 +742,18 @@ class RGB_Colourspace:
             representation = representation.replace("array(", " " * 16)
             return representation.replace(")", "")
 
+        indentation = " " * 16
         return (
-            "RGB_Colourspace({0},\n"
-            "{2},\n"
-            "{3},\n"
-            "{1}{4},\n"
-            "{5},\n"
-            "{6},\n"
-            "{1}{7},\n"
-            "{1}{8},\n"
-            "{1}{9},\n"
-            "{1}{10})"
-        ).format(
-            self.name,
-            " " * 16,
-            _indent_array(self.primaries),
-            _indent_array(self.whitepoint),
-            self.whitepoint_name,
-            _indent_array(self.matrix_RGB_to_XYZ),
-            _indent_array(self.matrix_XYZ_to_RGB),
-            self.cctf_encoding,
-            self.cctf_decoding,
-            self.use_derived_matrix_RGB_to_XYZ,
-            self.use_derived_matrix_XYZ_to_RGB,
+            f"RGB_Colourspace({self.name},\n"
+            f"{_indent_array(self.primaries)},\n"
+            f"{_indent_array(self.whitepoint)},\n"
+            f"{indentation}{self.whitepoint_name},\n"
+            f"{_indent_array(self.matrix_RGB_to_XYZ)},\n"
+            f"{_indent_array(self.matrix_XYZ_to_RGB)},\n"
+            f"{indentation}{self.cctf_encoding},\n"
+            f"{indentation}{self.cctf_decoding},\n"
+            f"{indentation}{self.use_derived_matrix_RGB_to_XYZ},\n"
+            f"{indentation}{self.use_derived_matrix_XYZ_to_RGB})"
         )
 
     def _derive_transformation_matrices(self):

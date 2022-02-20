@@ -132,7 +132,11 @@ package_data = {
     "colour.plotting.tm3018": ["resources/*"],
 }
 
-install_requires = ["imageio>=2,<3", "scipy>=1.5,<2"]
+install_requires = [
+    "imageio>=2,<3",
+    "scipy>=1.5,<2",
+    "typing-extensions>=4,<5",
+]
 
 extras_require = {
     ':extra == "read-the-docs"': ["numpy>=1.19,<2"],
@@ -142,30 +146,38 @@ extras_require = {
         "coverage!=6.3",
         "coveralls",
         "flake8",
+        "flynt",
         "invoke",
         "jupyter",
         "mypy",
         "pre-commit",
+        "pydata-sphinx-theme",
+        "pydocstyle",
         "pytest",
         "pytest-cov",
+        "pyupgrade",
         "restructuredtext-lint",
-        "sphinx",
-        "sphinx_rtd_theme",
+        "sphinx>=4,<5",
         "sphinxcontrib-bibtex",
         "toml",
         "twine",
-        "typing-extensions",
     ],
-    "graphviz": ["pygraphviz"],
-    "meshing": ["trimesh"],
-    "optional": ["networkx", "opencolorio", "pandas", "scikit-learn", "tqdm"],
+    "graphviz": ["pygraphviz>=1,<2"],
+    "meshing": ["trimesh>=3,<4"],
+    "optional": [
+        "networkx>=2,<3",
+        "pandas>=1,<2",
+        "scikit-learn>=1,<2",
+        "tqdm>=4,<5",
+    ],
     "plotting": ["matplotlib>=3.2,!=3.5.0,!=3.5.1"],
     "read-the-docs": [
         "matplotlib>=3.2,!=3.5.0,!=3.5.1",
-        "networkx",
-        "pygraphviz",
+        "networkx>=2,<3",
+        "pygraphviz>=1,<2",
+        "trimesh>=3,<4",
+        "pydata-sphinx-theme",
         "sphinxcontrib-bibtex",
-        "trimesh",
     ],
 }
 

@@ -1664,7 +1664,8 @@ def plot_image(
     >>> import colour
     >>> from colour import read_image
     >>> path = os.path.join(
-    ...     colour.__path__[0], '..', 'docs', '_static', 'Logo_Medium_001.png')
+    ...     colour.__path__[0], 'examples', 'plotting', 'resources',
+    ...     'Ishihara_Colour_Blindness_Test_Plate_3.png')
     >>> plot_image(read_image(path))  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 

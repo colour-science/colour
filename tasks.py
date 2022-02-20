@@ -369,7 +369,7 @@ def requirements(ctx: Context):
     message_box('Exporting "requirements.txt" file...')
     ctx.run(
         "poetry run pip list --format=freeze | "
-        'egrep -v "colour==" '
+        'egrep -v "colour==|colour-science==" '
         "> requirements.txt"
     )
 
@@ -448,7 +448,14 @@ setup({0}
 
     source = re.sub(
         "from setuptools import setup",
-        "import codecs\nfrom setuptools import setup",
+        (
+            '"""\n'
+            "Colour - Setup\n"
+            "==============\n"
+            '"""\n\n'
+            "import codecs\n"
+            "from setuptools import setup"
+        ),
         source,
     )
     source = re.sub(
@@ -472,6 +479,8 @@ setup({0}
     with open("setup.py", "w") as setup_file:
         setup_file.write(source)
 
+    ctx.run("poetry run pre-commit run --files setup.py || true")
+
     ctx.run("twine check dist/*")
 
 
@@ -493,15 +502,23 @@ def virtualise(ctx: Context, tests: Boolean = True):
         ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
         ctx.run(f"mv {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION} {unique_name}")
         with ctx.cd(unique_name):
-            ctx.run("poetry env use 3")
-            ctx.run('poetry install --extras "optional plotting"')
+            ctx.run(
+                'poetry install --extras "graphviz meshing optional plotting"'
+            )
             ctx.run("source $(poetry env info -p)/bin/activate")
             ctx.run(
                 'python -c "import imageio;'
                 'imageio.plugins.freeimage.download()"'
             )
             if tests:
-                ctx.run("poetry run nosetests", env={"MPLBACKEND": "AGG"})
+                ctx.run(
+                    "poetry run py.test "
+                    "--disable-warnings "
+                    "--doctest-modules "
+                    f"--ignore={PYTHON_PACKAGE_NAME}/examples "
+                    f"{PYTHON_PACKAGE_NAME}",
+                    env={"MPLBACKEND": "AGG"},
+                )
 
 
 @task

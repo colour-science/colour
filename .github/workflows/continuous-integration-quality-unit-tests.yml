@@ -40,7 +40,7 @@ jobs:
     - name: Install Poetry
       run: |
         curl -L https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py -o get-poetry.py
-        python get-poetry.py
+        python get-poetry.py --version 1.1.12
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       shell: bash
     - name: Install Package Dependencies (macOS & Ubuntu)
