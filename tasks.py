@@ -542,17 +542,17 @@ def tag(ctx: Context):
     with open(os.path.join(PYTHON_PACKAGE_NAME, "__init__.py")) as file_handle:
         file_content = file_handle.read()
         major_version = re.search(
-            "__major_version__\\s+=\\s+'(.*)'", file_content
+            '__major_version__\\s+=\\s+"(.*)"', file_content
         ).group(  # type: ignore[union-attr]
             1
         )
         minor_version = re.search(
-            "__minor_version__\\s+=\\s+'(.*)'", file_content
+            '__minor_version__\\s+=\\s+"(.*)"', file_content
         ).group(  # type: ignore[union-attr]
             1
         )
         change_version = re.search(
-            "__change_version__\\s+=\\s+'(.*)'", file_content
+            '__change_version__\\s+=\\s+"(.*)"', file_content
         ).group(  # type: ignore[union-attr]
             1
         )
