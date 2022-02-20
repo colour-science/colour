@@ -21,8 +21,8 @@
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.org/project/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.3757045-blue.svg?style=flat-square
-    :target: https://dx.doi.org/10.5281/zenodo.3757045
+.. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.4445350-blue.svg?style=flat-square
+    :target: https://dx.doi.org/10.5281/zenodo.4445350
     :alt: DOI
 
 .. end-badges
