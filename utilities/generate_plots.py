@@ -482,7 +482,13 @@ def generate_documentation_plots(output_directory: str):
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Image.png"
     )
-    path = os.path.join(output_directory, "Logo_Medium_001.png")
+    path = os.path.join(
+        colour.__path__[0],
+        "examples",
+        "plotting",
+        "resources",
+        "Ishihara_Colour_Blindness_Test_Plate_3.png",
+    )
     plt.close(plot_image(read_image(str(path)), **arguments)[0])
 
     arguments["filename"] = os.path.join(
