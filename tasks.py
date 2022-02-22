@@ -458,6 +458,7 @@ setup({0}
         ),
         source,
     )
+    source = re.sub('{.*extra == "read-the-docs".*', "{", source)
     source = re.sub(
         "setup_kwargs = {(.*)}.*setup\\(\\*\\*setup_kwargs\\)",
         sub_callable,
