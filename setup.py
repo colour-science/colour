@@ -139,7 +139,6 @@ install_requires = [
 ]
 
 extras_require = {
-    ':extra == "read-the-docs"': ["numpy>=1.19,<2"],
     "development": [
         "biblib-simple",
         "black",
