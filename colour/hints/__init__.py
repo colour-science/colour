@@ -170,7 +170,12 @@ Literal = Literal
 # TODO: Revisit to use Protocol.
 Dataclass = Any
 
-NestedSequence = npt._NestedSequence
+# TODO: Drop mocking when minimal "Numpy" version is 1.21.x.
+try:
+    NestedSequence = npt._NestedSequence
+except AttributeError:
+    NestedSequence = Any  # type: ignore[assignment, misc]
+
 ArrayLike = npt.ArrayLike
 
 IntegerOrArrayLike = Union[Integer, ArrayLike]
