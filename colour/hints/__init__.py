@@ -10,7 +10,14 @@ imports.
 from __future__ import annotations
 
 import numpy as np
-import numpy.typing as npt
+
+# TODO: Drop mocking when minimal "Numpy" version is 1.20.x.
+try:
+    import numpy.typing as npt
+except ImportError:  # pragma: no cover
+    from unittest import mock
+
+    npt = mock.MagicMock()
 import re
 from types import ModuleType
 from typing import (
