@@ -134,6 +134,7 @@ package_data = {
 
 install_requires = [
     "imageio>=2,<3",
+    "numpy>=1.19,<2",
     "scipy>=1.5,<2",
     "typing-extensions>=4,<5",
 ]
