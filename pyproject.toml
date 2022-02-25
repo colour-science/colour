@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "colour"
-version = "0.4.0"
+version = "0.4.1"
 description = "Colour Science for Python"
 license = "BSD-3-Clause"
 authors = [ "Colour Developers <colour-developers@colour-science.org>" ]
@@ -130,7 +130,6 @@ plotting = [ "matplotlib" ]
 read-the-docs = [
     "matplotlib",
     "networkx",
-    "numpy",
     "pydata-sphinx-theme",
     "pygraphviz",
     "sphinxcontrib-bibtex",
@@ -160,5 +159,5 @@ convention = "numpy"
 add-ignore = "D104,D200,D202,D205,D301,D400"
 
 [build-system]
-requires = [ "poetry>=0.12" ]
-build-backend = "poetry.masonry.api"
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

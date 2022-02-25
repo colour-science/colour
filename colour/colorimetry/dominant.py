@@ -125,7 +125,9 @@ def closest_spectral_locus_wavelength(
         np.concatenate((xy_n, xy_e), -1),
         np.hstack([xy_s, np.roll(xy_s, 1, axis=0)]),
     ).xy
-    xy_wl = xy_wl[~np.isnan(xy_wl).any(axis=-1)]
+    # Extracting the first intersection per-wavelength.
+    xy_wl = np.sort(xy_wl, 1)[:, 0, :]
+
     if not len(xy_wl):
         raise ValueError(
             f"No closest spectral locus wavelength index and coordinates "

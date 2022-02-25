@@ -167,11 +167,13 @@ TODO
 
 -   colour/hints/__init__.py
 
-    -   Line 45 : # TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
-    -   Line 160 : # TODO: Use "typing.Literal" when minimal Python version is raised to 3.8.
-    -   Line 163 : # TODO: Revisit to use Protocol.
-    -   Line 180 : # TODO: Use "numpy.typing.NDArray" when minimal Numpy version is raised to 1.21.
-    -   Line 187 : # TODO: Drop when minimal Python is raised to 3.9.
+    -   Line 14 : # TODO: Drop mocking when minimal "Numpy" version is 1.20.x.
+    -   Line 52 : # TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
+    -   Line 167 : # TODO: Use "typing.Literal" when minimal Python version is raised to 3.8.
+    -   Line 170 : # TODO: Revisit to use Protocol.
+    -   Line 173 : # TODO: Drop mocking when minimal "Numpy" version is 1.21.x.
+    -   Line 192 : # TODO: Use "numpy.typing.NDArray" when minimal Numpy version is raised to 1.21.
+    -   Line 199 : # TODO: Drop when minimal Python is raised to 3.9.
 
 
 -   colour/algebra/interpolation.py

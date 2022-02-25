@@ -134,12 +134,12 @@ package_data = {
 
 install_requires = [
     "imageio>=2,<3",
+    "numpy>=1.19,<2",
     "scipy>=1.5,<2",
     "typing-extensions>=4,<5",
 ]
 
 extras_require = {
-    ':extra == "read-the-docs"': ["numpy>=1.19,<2"],
     "development": [
         "biblib-simple",
         "black",
@@ -183,7 +183,7 @@ extras_require = {
 
 setup(
     name="colour-science",
-    version="0.4.0",
+    version="0.4.1",
     description="Colour Science for Python",
     long_description=codecs.open("README.rst", encoding="utf8").read(),
     author="Colour Developers",
