@@ -130,7 +130,6 @@ plotting = [ "matplotlib" ]
 read-the-docs = [
     "matplotlib",
     "networkx",
-    "numpy",
     "pydata-sphinx-theme",
     "pygraphviz",
     "sphinxcontrib-bibtex",
