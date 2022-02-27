@@ -20,7 +20,9 @@ if os.environ.get("READTHEDOCS") == "True":
         os.environ["READTHEDOCS_VERSION"]
         .replace("experimental-", "experimental/")
         .replace("feature-", "feature/")
-        .replace("hotfix-", "hotfix/"),
+        .replace("hotfix-", "hotfix/")
+        .replace("latest", "develop")
+        .replace("stable", "master"),
         safe="",
     )
     url = (
