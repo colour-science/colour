@@ -1459,12 +1459,11 @@ class MultiSignals(AbstractContinuousFunction):
         ):
             data_sequence = list(data)  # type: ignore[arg-type]
 
-            is_signal = all(
-                [
-                    True if isinstance(i, Signal) else False
-                    for i in data_sequence
-                ]
-            )
+            is_signal = True
+            for i in data_sequence:
+                if not isinstance(i, Signal):
+                    is_signal = False
+                    break
 
             if is_signal:
                 for signal in data_sequence:
@@ -1540,6 +1539,9 @@ class MultiSignals(AbstractContinuousFunction):
                 'User "labels" length is not compatible with unpacked '
                 '"signals"!',
             )
+
+            if len(labels) != len(set(labels)):
+                labels = [f"{label} - {i}" for i, label in enumerate(labels)]
 
             signals = {
                 str(labels[i]): signal
