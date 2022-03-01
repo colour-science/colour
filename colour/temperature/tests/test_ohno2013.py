@@ -22,7 +22,7 @@ __status__ = "Production"
 __all__ = [
     "TestPlanckianTable",
     "TestPlanckianTableMinimalDistanceIndex",
-    "Testuv_to_CCT_Ohno2013",
+    "TestUv_to_CCT_Ohno2013",
     "TestCCT_to_uv_Ohno2013",
 ]
 
@@ -92,7 +92,7 @@ planckian_table_minimal_distance_index` definition.
         )
 
 
-class Testuv_to_CCT_Ohno2013(unittest.TestCase):
+class TestUv_to_CCT_Ohno2013(unittest.TestCase):
     """
     Define :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
     unit tests methods.

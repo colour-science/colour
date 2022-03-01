@@ -18,7 +18,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "Testuv_to_CCT_Robertson1968",
+    "TestUv_to_CCT_Robertson1968",
     "TestCCT_to_uv_Robertson1968",
 ]
 
@@ -126,7 +126,7 @@ TEMPERATURE_DUV_TO_UV: Dict = {
 }
 
 
-class Testuv_to_CCT_Robertson1968(unittest.TestCase):
+class TestUv_to_CCT_Robertson1968(unittest.TestCase):
     """
     Define :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
     definition unit tests methods.
