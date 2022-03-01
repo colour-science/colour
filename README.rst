@@ -1184,7 +1184,7 @@ Correlated Colour Temperature Computation Methods - ``colour.temperature``
     >>> colour.uv_to_CCT([0.1978, 0.3122])
     array([  6.50751282e+03,   3.22335875e-03])
     >>> sorted(colour.UV_TO_CCT_METHODS)
-    ['Krystek 1985', 'Ohno 2013', 'Robertson 1968', 'ohno2013', 'robertson1968']
+    ['Krystek 1985', 'Ohno 2013', 'Planck 1900', 'Robertson 1968', 'ohno2013', 'robertson1968']
     >>> sorted(colour.XY_TO_CCT_METHODS)
     ['CIE Illuminant D Series',
      'Hernandez 1999',
