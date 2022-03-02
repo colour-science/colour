@@ -699,7 +699,11 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
             if source == "Wavelength":
                 a = 555
 
-            if source.endswith(" xy") or source.endswith(" uv"):
+            if (
+                source.startswith("CCT")
+                or source.endswith(" xy")
+                or source.endswith(" uv")
+            ):
                 a = np.array([(0.25, 0.5), (0.25, 0.5)])
 
             def dtype_getter(x):

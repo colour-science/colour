@@ -6,7 +6,11 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import SpectralShape, planck_law, sd_blackbody
+from colour.colorimetry import (
+    SpectralShape,
+    planck_law,
+    sd_blackbody,
+)
 from colour.hints import Dict, NDArray
 from colour.utilities import ignore_numpy_errors
 
@@ -4541,12 +4545,22 @@ class TestPlanckLaw(unittest.TestCase):
         np.testing.assert_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3))
-        p = np.reshape(p, (2, 3))
+        # The "colour.colorimetry.planck_law" definition behaviour with
+        # n-dimensional arrays is unusual.
+        # p = np.np.reshape(p, (2, 3))
         np.testing.assert_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3, 1))
-        p = np.reshape(p, (2, 3, 1))
+        # The "colour.colorimetry.planck_law" definition behaviour with
+        # n-dimensional arrays is unusual.
+        # p = np.reshape(p, (2, 3, 1))
         np.testing.assert_almost_equal(planck_law(wl, 5500), p)
+
+        # The "colour.colorimetry.planck_law" definition behaviour with
+        # n-dimensional arrays is unusual.
+        p = planck_law(500 * 1e-9, [5000, 5500, 6000])
+        p = np.tile(p, (6, 1))
+        np.testing.assert_almost_equal(planck_law(wl, [5000, 5500, 6000]), p)
 
     @ignore_numpy_errors
     def test_nan_planck_law(self):

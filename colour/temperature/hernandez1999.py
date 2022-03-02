@@ -139,13 +139,11 @@ def CCT_to_xy_Hernandez1999(
     """
 
     usage_warning(
-        '"Hernandez-Andres et al. (1999)" method for computing '
-        '"CIE xy" chromaticity coordinates from given correlated '
-        "colour temperature is not a bijective function and and"
-        "might produce unexpected results. It is given for "
-        "consistency with other correlated colour temperature "
-        "computation methods but should be avoided for practical "
-        "applications."
+        '"Hernandez-Andres et al. (1999)" method for computing "CIE xy" '
+        "chromaticity coordinates from given correlated colour temperature is "
+        "not a bijective function and might produce unexpected results. It is "
+        "given for consistency with other correlated colour temperature "
+        "computation methods but should be avoided for practical applications."
     )
 
     CCT = as_float_array(CCT)
