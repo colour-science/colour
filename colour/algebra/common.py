@@ -48,15 +48,14 @@ __all__ = [
     "is_identity",
 ]
 
-# TODO: Annotate with "bool" when Python 3.7 is dropped.
-_SPOW_ENABLED = True
+_SPOW_ENABLED: Boolean = True
 """
 Global variable storing the current *Colour* safe / symmetrical power function
 enabled state.
 """
 
 
-def is_spow_enabled() -> bool:
+def is_spow_enabled() -> Boolean:
     """
     Return whether *Colour* safe / symmetrical power function is enabled.
 
@@ -78,7 +77,7 @@ def is_spow_enabled() -> bool:
     return _SPOW_ENABLED
 
 
-def set_spow_enable(enable: bool):
+def set_spow_enable(enable: Boolean):
     """
     Set *Colour* safe / symmetrical power function enabled state.
 
@@ -114,7 +113,7 @@ class spow_enable:
         function.
     """
 
-    def __init__(self, enable: bool):
+    def __init__(self, enable: Boolean):
         self._enable = enable
         self._previous_state = is_spow_enabled()
 
