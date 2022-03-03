@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.algebra.random` module.
+Defines the unit tests for the :mod:`colour.algebra.prng` module.
 
 References
 ----------
@@ -48,14 +48,13 @@ RANDOM_TRIPLETS: NDArray = np.array(
 
 class TestRandomTripletGenerator(unittest.TestCase):
     """
-    Define :func:`colour.algebra.random.random_triplet_generator` definition
+    Define :func:`colour.algebra.prng.random_triplet_generator` definition
     unit tests methods.
     """
 
     def test_random_triplet_generator(self):
         """
-        Test :func:`colour.algebra.random.random_triplet_generator`
-        definition.
+        Test :func:`colour.algebra.prng.random_triplet_generator` definition.
 
         Notes
         -----

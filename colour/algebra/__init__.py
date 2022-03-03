@@ -49,7 +49,7 @@ from .interpolation import (
     table_interpolation,
 )
 from .extrapolation import Extrapolator
-from .random import random_triplet_generator
+from .prng import random_triplet_generator
 from .regression import least_square_mapping_MoorePenrose
 
 __all__ = []
