@@ -146,6 +146,10 @@ Common
 .. autosummary::
     :toctree: generated/
 
+    get_sdiv_mode
+    set_sdiv_mode
+    sdiv_mode
+    sdiv
     is_spow_enabled
     set_spow_enable
     spow_enable

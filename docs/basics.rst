@@ -610,3 +610,86 @@ scale upon child processes spawning.
 The :class:`colour.utilities.multiprocessing_pool` context manager conveniently
 performs the required initialisation so that the domain-range scale is
 propagated appropriately to child processes.
+
+Safe Power and Division
+-----------------------
+
+**Colour** default handling of fractional power and zero-division occurring
+during practical applications is managed via varous definitions and context
+managers.
+
+Safe Power
+~~~~~~~~~~
+
+NaNs generation occurs when a negative number :math:`a` is raised to the
+fractional power :math:`p`. This can be avoided using the
+:func:`colour.algebra.spow` definition that raises to the power as follows:
+:math:`sign(a) * |a|^p`.
+
+To the extent possible, the :func:`colour.algebra.spow` definition has been
+used throughout the codebase. The default behaviour is controlled with the
+following definitions:
+
+-   :func:`colour.algebra.is_spow_enabled`
+-   :func:`colour.algebra.set_spow_enabled`
+-   :func:`colour.algebra.spow_enable` (Context Manager & Decorator)
+
+Safe Division
+~~~~~~~~~~~~~
+
+NaNs and +/- infs generation occurs when a number :math:`a` is divided 0. This
+can be avoided using the :func:`colour.algebra.sdiv` definition. It has been
+used wherever deemed relevant in the codebase. The default behaviour is
+controlled with the following definitions:
+
+-   :func:`colour.algebra.get_sdiv_mode`
+-   :func:`colour.algebra.set_sdiv_mode`
+-   :func:`colour.algebra.sdiv_mode` (Context Manager & Decorator)
+
+The following modes are available:
+
+-   ``Numpy``: The current *Numpy* zero-division handling occurs.
+-   ``Ignore``: Zero-division occurs silently.
+-   ``Warning``: Zero-division occurs with a warning.
+-   ``Ignore Zero Conversion``: Zero-division occurs silently and NaNs or
+    +/- infs values are converted to zeros. See :func:`numpy.nan_to_num`
+    definition for more details.
+-   ``Warning Zero Conversion``: Zero-division occurs with a warning and NaNs
+    or +/- infs values are converted to zeros. See :func:`numpy.nan_to_num`
+    definition for more details.
+-   ``Ignore Limit Conversion``: Zero-division occurs silently and NaNs or
+    +/- infs values are converted to zeros or the largest +/- finite floating
+    point values representable by the division result :class:`numpy.dtype`.
+    See :func:`numpy.nan_to_num` definition for more details.
+-   ``Warning Limit Conversion``: Zero-division occurs  with a warning and
+    NaNs or +/- infs values are converted to zeros or the largest +/- finite
+    floating point values representable by the division result
+    :class:`numpy.dtype`.
+
+.. code:: python
+
+    colour.algebra.get_sdiv_mode()
+
+.. code-block:: text
+
+    'Ignore Zero Conversion'
+
+.. code:: python
+
+    colour.algebra.set_sdiv_mode("Numpy")
+    colour.UCS_to_uv([0, 0, 0])
+
+.. code-block:: text
+
+    /Users/kelsolaar/Documents/Development/colour-science/colour/colour/algebra/common.py:317: RuntimeWarning: invalid value encountered in true_divide
+      c = a / b
+    array([ nan,  nan])
+
+.. code:: python
+
+    colour.algebra.set_sdiv_mode("Ignore Zero Conversion")
+    colour.UCS_to_uv([0, 0, 0])
+
+.. code-block:: text
+
+    array([ 0.,  0.])

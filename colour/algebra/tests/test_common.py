@@ -4,6 +4,10 @@ import numpy as np
 import unittest
 
 from colour.algebra import (
+    get_sdiv_mode,
+    set_sdiv_mode,
+    sdiv_mode,
+    sdiv,
     is_spow_enabled,
     set_spow_enable,
     spow_enable,
@@ -25,6 +29,10 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestGetSdivMode",
+    "TestSetSdivMode",
+    "TestSdivMode",
+    "TestSdiv",
     "TestIsSpowEnabled",
     "TestSetSpowEnabled",
     "TestSpowEnable",
@@ -37,6 +45,151 @@ __all__ = [
     "TestLinstepFunction",
     "TestIsIdentity",
 ]
+
+
+class TestGetSdivMode(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.get_sdiv_mode` definition unit tests
+    methods.
+    """
+
+    def test_get_sdiv_mode(self):
+        """Test :func:`colour.algebra.common.get_sdiv_mode` definition."""
+
+        with sdiv_mode("Numpy"):
+            self.assertEqual(get_sdiv_mode(), "numpy")
+
+        with sdiv_mode("Ignore"):
+            self.assertEqual(get_sdiv_mode(), "ignore")
+
+        with sdiv_mode("Warning"):
+            self.assertEqual(get_sdiv_mode(), "warning")
+
+        with sdiv_mode("Raise"):
+            self.assertEqual(get_sdiv_mode(), "raise")
+
+        with sdiv_mode("Ignore Zero Conversion"):
+            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+
+        with sdiv_mode("Warning Zero Conversion"):
+            self.assertEqual(get_sdiv_mode(), "warning zero conversion")
+
+        with sdiv_mode("Ignore Limit Conversion"):
+            self.assertEqual(get_sdiv_mode(), "ignore limit conversion")
+
+        with sdiv_mode("Warning Limit Conversion"):
+            self.assertEqual(get_sdiv_mode(), "warning limit conversion")
+
+
+class TestSetSdivMode(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.set_sdiv_mode` definition unit tests
+    methods.
+    """
+
+    def test_set_sdiv_mode(self):
+        """Test :func:`colour.algebra.common.set_sdiv_mode` definition."""
+
+        with sdiv_mode(get_sdiv_mode()):
+            set_sdiv_mode("Numpy")
+            self.assertEqual(get_sdiv_mode(), "numpy")
+
+            set_sdiv_mode("Ignore")
+            self.assertEqual(get_sdiv_mode(), "ignore")
+
+            set_sdiv_mode("Warning")
+            self.assertEqual(get_sdiv_mode(), "warning")
+
+            set_sdiv_mode("Raise")
+            self.assertEqual(get_sdiv_mode(), "raise")
+
+            set_sdiv_mode("Ignore Zero Conversion")
+            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+
+            set_sdiv_mode("Warning Zero Conversion")
+            self.assertEqual(get_sdiv_mode(), "warning zero conversion")
+
+            set_sdiv_mode("Ignore Limit Conversion")
+            self.assertEqual(get_sdiv_mode(), "ignore limit conversion")
+
+            set_sdiv_mode("Warning Limit Conversion")
+            self.assertEqual(get_sdiv_mode(), "warning limit conversion")
+
+
+class TestSdivMode(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.sdiv_mode` definition unit
+    tests methods.
+    """
+
+    def test_sdiv_mode(self):
+        """Test :func:`colour.algebra.common.sdiv_mode` definition."""
+
+        with sdiv_mode("Raise"):
+            self.assertEqual(get_sdiv_mode(), "raise")
+
+        with sdiv_mode("Ignore Zero Conversion"):
+            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+
+        @sdiv_mode("Raise")
+        def fn_a():
+            """:func:`sdiv_mode` unit tests :func:`fn_a` definition."""
+
+            self.assertEqual(get_sdiv_mode(), "raise")
+
+        fn_a()
+
+        @sdiv_mode("Ignore Zero Conversion")
+        def fn_b():
+            """:func:`sdiv_mode` unit tests :func:`fn_b` definition."""
+
+            self.assertEqual(get_sdiv_mode(), "ignore zero conversion")
+
+        fn_b()
+
+
+class TestSdiv(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.sdiv` definition unit
+    tests methods.
+    """
+
+    def test_sdiv(self):
+        """Test :func:`colour.algebra.common.sdiv` definition."""
+
+        a = np.array([0, 1, 2])
+        b = np.array([2, 1, 0])
+
+        with sdiv_mode("Numpy"):
+            self.assertWarns(RuntimeWarning, sdiv, a, b)
+
+        with sdiv_mode("Ignore"):
+            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, np.inf]))
+
+        with sdiv_mode("Warning"):
+            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, np.inf]))
+
+        with sdiv_mode("Raise"):
+            self.assertRaises(FloatingPointError, sdiv, a, b)
+
+        with sdiv_mode("Ignore Zero Conversion"):
+            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
+
+        with sdiv_mode("Warning Zero Conversion"):
+            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
+
+        with sdiv_mode("Ignore Limit Conversion"):
+            np.testing.assert_equal(
+                sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf]))
+            )
+
+        with sdiv_mode("Warning Limit Conversion"):
+            self.assertWarns(RuntimeWarning, sdiv, a, b)
+            np.testing.assert_equal(
+                sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf]))
+            )
 
 
 class TestIsSpowEnabled(unittest.TestCase):

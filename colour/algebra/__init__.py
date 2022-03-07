@@ -1,6 +1,8 @@
-from .coordinates import *  # noqa
-from . import coordinates
 from .common import (
+    get_sdiv_mode,
+    set_sdiv_mode,
+    sdiv_mode,
+    sdiv,
     is_spow_enabled,
     set_spow_enable,
     spow_enable,
@@ -15,6 +17,8 @@ from .common import (
     smooth,
     is_identity,
 )
+from .coordinates import *  # noqa
+from . import coordinates
 from .geometry import (
     normalise_vector,
     euclidean_distance,
@@ -53,8 +57,11 @@ from .prng import random_triplet_generator
 from .regression import least_square_mapping_MoorePenrose
 
 __all__ = []
-__all__ += coordinates.__all__
 __all__ += [
+    "get_sdiv_mode",
+    "set_sdiv_mode",
+    "sdiv_mode",
+    "sdiv",
     "is_spow_enabled",
     "set_spow_enable",
     "spow_enable",
@@ -69,6 +76,7 @@ __all__ += [
     "smooth",
     "is_identity",
 ]
+__all__ += coordinates.__all__
 __all__ += [
     "normalise_vector",
     "euclidean_distance",
