@@ -20,6 +20,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import sd_to_XYZ
 from colour.hints import (
     Any,
@@ -250,16 +251,20 @@ def plot_spectra_ANSIIESTM3018(
     Y_reference = sd_to_XYZ(specification.sd_reference)[1]
     Y_test = sd_to_XYZ(specification.sd_test)[1]
 
+    with sdiv_mode():
+        reference_values = sdiv(specification.sd_reference.values, Y_reference)
+        test_values = sdiv(specification.sd_test.values, Y_test)
+
     axes.plot(
         specification.sd_reference.wavelengths,
-        specification.sd_reference.values / Y_reference,
+        reference_values,
         "black",
         label="Reference",
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
     )
     axes.plot(
         specification.sd_test.wavelengths,
-        specification.sd_test.values / Y_test,
+        test_values,
         "#F05046",
         label="Test",
         zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,

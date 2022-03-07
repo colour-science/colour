@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
@@ -393,9 +394,13 @@ def CCT_to_uv_Ohno2013(
 
     h = np.hypot(du, dv)
 
-    uv = tstack(
-        [uv_0[..., 0] - D_uv * (dv / h), uv_0[..., 1] + D_uv * (du / h)]
-    )
+    with sdiv_mode():
+        uv = tstack(
+            [
+                uv_0[..., 0] - D_uv * sdiv(dv, h),
+                uv_0[..., 1] + D_uv * sdiv(du, h),
+            ]
+        )
 
     uv[D_uv == 0] = uv_0[D_uv == 0]
 

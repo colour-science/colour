@@ -511,7 +511,8 @@ def CAM16_to_XYZ(
 
     # Step 3
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
-    a, b = tsplit(opponent_colour_dimensions_inverse(P_n, h))
+    ab = opponent_colour_dimensions_inverse(P_n, h)
+    a, b = tsplit(ab) * np.where(t == 0, 0, 1)
 
     # Step 4
     # Applying post-adaptation non-linear response compression matrix.

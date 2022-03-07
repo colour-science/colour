@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
     Floating,
     FloatingOrArrayLike,
@@ -56,6 +57,7 @@ from colour.utilities import (
     optional,
     to_domain_1,
     validate_method,
+    zeros,
 )
 
 __author__ = "Colour Developers"
@@ -213,7 +215,7 @@ def logarithmic_function_quasilog(
     )
 
     if style == "lintolog":
-        return as_float(
+        y = (
             log_side_slope
             * (
                 np.log(
@@ -224,13 +226,14 @@ def logarithmic_function_quasilog(
             + log_side_offset
         )
     else:  # style == 'logtolin'
-        return as_float(
-            (
-                base ** ((x - log_side_offset) / log_side_slope)
-                - lin_side_offset
+        with sdiv_mode():
+            y = sdiv(
+                base ** sdiv(x - log_side_offset, log_side_slope)
+                - lin_side_offset,
+                lin_side_slope,
             )
-            / lin_side_slope
-        )
+
+    return as_float(y)
 
 
 def logarithmic_function_camera(
@@ -313,57 +316,54 @@ def logarithmic_function_camera(
         + log_side_offset
     )
 
-    linear_slope = cast(
-        Floating,
-        optional(
-            linear_slope,
-            (
-                log_side_slope
-                * (
-                    lin_side_slope
-                    / (
-                        (lin_side_slope * lin_side_break + lin_side_offset)
-                        * np.log(base)
+    with sdiv_mode():
+        linear_slope = cast(
+            Floating,
+            optional(
+                linear_slope,
+                (
+                    log_side_slope
+                    * (
+                        sdiv(
+                            lin_side_slope,
+                            (lin_side_slope * lin_side_break + lin_side_offset)
+                            * np.log(base),
+                        )
                     )
-                )
+                ),
             ),
-        ),
-    )
+        )
 
     linear_offset = log_side_break - linear_slope * lin_side_break
 
+    y = zeros(x.shape)
     if style == "cameralintolog":
-        return as_float(
-            np.where(
-                x <= lin_side_break,
-                linear_slope * x + linear_offset,
-                logarithmic_function_quasilog(
-                    x,
-                    "linToLog",
-                    base,
-                    log_side_slope,
-                    lin_side_slope,
-                    log_side_offset,
-                    lin_side_offset,
-                ),
-            )
+        m_x = x <= lin_side_break
+        y[m_x] = linear_slope * x[m_x] + linear_offset
+        y[~m_x] = logarithmic_function_quasilog(
+            x[~m_x],
+            "linToLog",
+            base,
+            log_side_slope,
+            lin_side_slope,
+            log_side_offset,
+            lin_side_offset,
         )
     else:  # style == 'cameralogtolin'
-        return as_float(
-            np.where(
-                x <= log_side_break,
-                (x - linear_offset) / linear_slope,
-                logarithmic_function_quasilog(
-                    x,
-                    "logToLin",
-                    base,
-                    log_side_slope,
-                    lin_side_slope,
-                    log_side_offset,
-                    lin_side_offset,
-                ),
+        with sdiv_mode():
+            m_x = x <= log_side_break
+            y[m_x] = sdiv(x[m_x] - linear_offset, linear_slope)
+            y[~m_x] = logarithmic_function_quasilog(
+                x[~m_x],
+                "logToLin",
+                base,
+                log_side_slope,
+                lin_side_slope,
+                log_side_offset,
+                lin_side_offset,
             )
-        )
+
+    return as_float(y)
 
 
 def log_encoding_Log2(

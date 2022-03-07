@@ -41,13 +41,16 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
     ArrayLike,
     Floating,
+    FloatingOrArrayLike,
     FloatingOrNDArray,
     Literal,
     NDArray,
     Union,
+    cast,
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
@@ -82,7 +85,7 @@ __all__ = [
 ]
 
 
-def normalise_vector(a: ArrayLike) -> NDArray:
+def normalise_vector(a: FloatingOrArrayLike) -> FloatingOrNDArray:
     """
     Normalise given vector :math:`a`.
 
@@ -105,7 +108,8 @@ def normalise_vector(a: ArrayLike) -> NDArray:
 
     a = as_float_array(a)
 
-    return a / np.linalg.norm(a)
+    with sdiv_mode():
+        return sdiv(a, np.linalg.norm(a))
 
 
 def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
@@ -218,8 +222,9 @@ def extend_line_segment(
 
     d = euclidean_distance(a, b)
 
-    x_c = x_b + (x_b - x_a) / d * distance
-    y_c = y_b + (y_b - y_a) / d * distance
+    with sdiv_mode():
+        x_c = x_b + sdiv(x_b - x_a, d) * distance
+        y_c = y_b + sdiv(y_b - y_a, d) * distance
 
     xy_c = tstack([x_c, y_c])
 
@@ -350,8 +355,9 @@ def intersect_line_segments(
     numerator_b = x_2_x_1 * y_1_y_3 - y_2_y_1 * x_1_x_3
     denominator = y_4_y_3 * x_2_x_1 - x_4_x_3 * y_2_y_1
 
-    u_a = numerator_a / denominator
-    u_b = numerator_b / denominator
+    with sdiv_mode("Ignore"):
+        u_a = cast(NDArray, sdiv(numerator_a, denominator))
+        u_b = cast(NDArray, sdiv(numerator_b, denominator))
 
     intersect = np.logical_and.reduce((u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
@@ -458,8 +464,8 @@ def ellipse_coefficients_canonical_form(coefficients: ArrayLike) -> NDArray:
     n_p_1 = 2 * (a * e**2 + c * d**2 - b * d * e + d_1 * f)
     n_p_2 = np.sqrt((a - c) ** 2 + b**2)
 
-    a_a = -np.sqrt(n_p_1 * (a + c + n_p_2)) / d_1
-    a_b = -np.sqrt(n_p_1 * (a + c - n_p_2)) / d_1
+    a_a = (-np.sqrt(n_p_1 * (a + c + n_p_2))) / d_1
+    a_b = (-np.sqrt(n_p_1 * (a + c - n_p_2))) / d_1
 
     x_c = (2 * c * d - b * e) / d_1
     y_c = (2 * a * e - b * d) / d_1

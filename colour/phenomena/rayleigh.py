@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     SpectralDistribution,
@@ -451,7 +452,8 @@ def molecular_density(
     T = as_float_array(temperature)
     avogadro_constant = as_float_array(avogadro_constant)
 
-    N_s = (avogadro_constant / 22.4141) * (273.15 / T) * (1 / 1000)
+    with sdiv_mode():
+        N_s = (avogadro_constant / 22.4141) * sdiv(273.15, T) * (1 / 1000)
 
     return N_s
 

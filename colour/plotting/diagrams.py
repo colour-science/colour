@@ -75,7 +75,6 @@ from colour.utilities import (
     optional,
     tsplit,
     tstack,
-    suppress_warnings,
     validate_method,
 )
 
@@ -343,7 +342,7 @@ def plot_spectral_locus(
             > 0
             else np.array([dy, -dx])
         )
-        normal = normalise_vector(normal) / 30
+        normal = as_float_array(normalise_vector(normal) / 30)
 
         label_colour = (
             spectral_locus_colours
@@ -483,16 +482,12 @@ def plot_chromaticity_diagram_colours(
         )
         ij = tstack([ii, jj])
 
-        # NOTE: Various values in the grid have potential to generate
-        # zero-divisions, they could be avoided by perturbing the grid, e.g.
-        # adding a small epsilon. It was decided instead to disable warnings.
-        with suppress_warnings(python_warnings=True):
-            if method == "cie 1931":
-                XYZ = xy_to_XYZ(ij)
-            elif method == "cie 1960 ucs":
-                XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-            elif method == "cie 1976 ucs":
-                XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+        if method == "cie 1931":
+            XYZ = xy_to_XYZ(ij)
+        elif method == "cie 1960 ucs":
+            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
+        elif method == "cie 1976 ucs":
+            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
 
         diagram_colours = normalise_maximum(
             XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1

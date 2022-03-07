@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.algebra import matrix_dot, vector_dot
+from colour.algebra import matrix_dot, vector_dot, sdiv, sdiv_mode
 from colour.hints import ArrayLike, Literal, NDArray, Union
 from colour.utilities import (
     from_range_1,
@@ -132,7 +132,8 @@ def matrix_chromatic_adaptation_VonKries(
     RGB_w = np.einsum("...i,...ij->...j", XYZ_w, np.transpose(M))
     RGB_wr = np.einsum("...i,...ij->...j", XYZ_wr, np.transpose(M))
 
-    D = RGB_wr / RGB_w
+    with sdiv_mode():
+        D = sdiv(RGB_wr, RGB_w)
 
     D = row_as_diagonal(D)
 

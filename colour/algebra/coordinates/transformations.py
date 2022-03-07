@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, NDArray
 from colour.utilities import as_float_array, tsplit, tstack
 
@@ -85,7 +86,8 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArray:
     x, y, z = tsplit(a)
 
     rho = np.linalg.norm(a, axis=-1)
-    theta = np.arccos(z / rho)
+    with sdiv_mode():
+        theta = np.arccos(sdiv(z, rho))
     phi = np.arctan2(y, x)
 
     rtp = tstack([rho, theta, phi])

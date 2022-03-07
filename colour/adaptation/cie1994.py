@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
 from colour.hints import (
     ArrayLike,
@@ -319,7 +319,9 @@ def beta_1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     4.6106222...
     """
 
-    return (6.469 + 6.362 * spow(x, 0.4495)) / (6.469 + spow(x, 0.4495))
+    x_p = spow(x, 0.4495)
+
+    return (6.469 + 6.362 * x_p) / (6.469 + x_p)
 
 
 def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
@@ -343,9 +345,9 @@ def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     4.6522416...
     """
 
-    return (
-        0.7844 * (8.414 + 8.091 * spow(x, 0.5128)) / (8.414 + spow(x, 0.5128))
-    )
+    x_p = spow(x, 0.5128)
+
+    return 0.7844 * (8.414 + 8.091 * x_p) / (8.414 + x_p)
 
 
 def exponential_factors(RGB_o: ArrayLike) -> NDArray:
@@ -527,9 +529,10 @@ def corresponding_colour(
     ) -> NDArray:
         """Compute the corresponding colour cone responses component."""
 
-        return (Y_o * x_2 + n) * spow(K, 1 / y_2) * spow(
-            (z + n) / (Y_o * x_1 + n), y_1 / y_2
-        ) - n
+        with sdiv_mode():
+            return (Y_o * x_2 + n) * spow(K, sdiv(1, y_2)) * spow(
+                (z + n) / (Y_o * x_1 + n), sdiv(y_1, y_2)
+            ) - n
 
     R_2 = RGB_c(xi_1, xi_2, bR_o1, bR_o2, R_1, n)
     G_2 = RGB_c(eta_1, eta_2, bG_o1, bG_o2, G_1, n)

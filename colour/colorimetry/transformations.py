@@ -116,8 +116,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         ]
     )
 
-    xyz = vector_dot(M1, rgb)
-    xyz /= vector_dot(M2, rgb)
+    xyz = vector_dot(M1, rgb) / vector_dot(M2, rgb)
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 

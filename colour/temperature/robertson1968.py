@@ -38,6 +38,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, Floating, List, NDArray, Tuple
 from colour.utilities import as_float_array, tsplit
 
@@ -263,9 +264,10 @@ def _CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
 
     CCT, D_uv = tsplit(CCT_D_uv)
 
-    r = 1.0e6 / CCT
+    with sdiv_mode():
+        r = sdiv(1.0e6, CCT)
 
-    u, v = np.nan, np.nan
+    u, v = 0, 0
     for i in range(30):
         wr_ruvt = ISOTEMPERATURE_LINES_ROBERTSON1968[i]
         wr_ruvt_next = ISOTEMPERATURE_LINES_ROBERTSON1968[i + 1]

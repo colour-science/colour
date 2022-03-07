@@ -30,6 +30,7 @@ References
 
 from __future__ import annotations
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     lightness_CIE1976,
@@ -133,8 +134,9 @@ def XYZ_to_Luv(
     X_Y_Z = X + 15 * Y + 3 * Z
     X_r_Y_r_Z_r = X_r + 15 * Y_r + 3 * Z_r
 
-    u = 13 * L * ((4 * X / X_Y_Z) - (4 * X_r / X_r_Y_r_Z_r))
-    v = 13 * L * ((9 * Y / X_Y_Z) - (9 * Y_r / X_r_Y_r_Z_r))
+    with sdiv_mode():
+        u = 13 * L * ((4 * sdiv(X, X_Y_Z)) - (4 * sdiv(X_r, X_r_Y_r_Z_r)))
+        v = 13 * L * ((9 * sdiv(Y, X_Y_Z)) - (9 * sdiv(Y_r, X_r_Y_r_Z_r)))
 
     Luv = tstack([L, u, v])
 
@@ -203,21 +205,19 @@ def Luv_to_XYZ(
     with domain_range_scale("100"):
         Y = luminance_CIE1976(L, Y_r)
 
-    a = (
-        1
-        / 3
-        * (
-            (52 * L / (u + 13 * L * (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r))))
-            - 1
-        )
-    )
-    b = -5 * Y
-    c = -1 / 3.0
-    d = Y * (
-        39 * L / (v + 13 * L * (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))) - 5
-    )
+    X_r_Y_r_Z_r = X_r + 15 * Y_r + 3 * Z_r
 
-    X = (d - b) / (a - c)
+    with sdiv_mode():
+        a_1 = u + 13 * L * (4 * sdiv(X_r, X_r_Y_r_Z_r))
+        d_1 = v + 13 * L * (9 * sdiv(Y_r, X_r_Y_r_Z_r))
+
+        a = 1 / 3 * (52 * sdiv(L, a_1) - 1)
+        b = -5 * Y
+        c = -1 / 3
+        d = Y * (39 * sdiv(L, d_1) - 5)
+
+        X = sdiv(d - b, a - c)
+
     Z = X * a + b
 
     XYZ = tstack([X, Y, Z])
@@ -280,7 +280,8 @@ def Luv_to_uv(
 
     X_Y_Z = X + 15 * Y + 3 * Z
 
-    uv = tstack([4 * X / X_Y_Z, 9 * Y / X_Y_Z])
+    with sdiv_mode():
+        uv = tstack([4 * sdiv(X, X_Y_Z), 9 * sdiv(Y, X_Y_Z)])
 
     return uv
 
@@ -343,8 +344,9 @@ def uv_to_Luv(
     u, v = tsplit(uv)
     Y = as_float_scalar(to_domain_1(Y))
 
-    X = 9 * u / (4 * v)
-    Z = (-5 * Y * v - 3 * u / 4 + 3) / v
+    with sdiv_mode():
+        X = 9 * sdiv(u, 4 * v)
+        Z = sdiv(-5 * Y * v - 3 * u / 4 + 3, v)
 
     XYZ = tstack([X, full(u.shape, Y), Z])
 

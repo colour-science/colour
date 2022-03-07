@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import NullInterpolator
+from colour.algebra import NullInterpolator, sdiv, sdiv_mode
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     DTypeNumber,
@@ -331,12 +331,13 @@ class Extrapolator:
         y = np.empty_like(x)
 
         if self._method == "linear":
-            y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) / (
-                xi[1] - xi[0]
-            )
-            y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * (
-                yi[-1] - yi[-2]
-            ) / (xi[-1] - xi[-2])
+            with sdiv_mode():
+                y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * sdiv(
+                    yi[1] - yi[0], xi[1] - xi[0]
+                )
+                y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * sdiv(
+                    yi[-1] - yi[-2], xi[-1] - xi[-2]
+                )
         elif self._method == "constant":
             y[x < xi[0]] = yi[0]
             y[x > xi[-1]] = yi[-1]

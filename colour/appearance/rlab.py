@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass, field
 
-from colour.algebra import matrix_dot, spow, vector_dot
+from colour.algebra import matrix_dot, sdiv, sdiv_mode, spow, vector_dot
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 from colour.hints import (
     ArrayLike,
@@ -266,10 +266,11 @@ b=-52.6142956...)
     LMS_n = XYZ_to_rgb(XYZ_n)
 
     # Computing the :math:`A` matrix.
-    LMS_l_E = (3 * LMS_n) / np.sum(LMS_n, axis=-1)[..., np.newaxis]
+    LMS_l_E = 3 * LMS_n / np.sum(LMS_n, axis=-1)[..., np.newaxis]
     LMS_p_L = (1 + spow(Y_n[..., np.newaxis], 1 / 3) + LMS_l_E) / (
-        1 + spow(Y_n[..., np.newaxis], 1 / 3) + (1 / LMS_l_E)
+        1 + spow(Y_n[..., np.newaxis], 1 / 3) + 1 / LMS_l_E
     )
+
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
     M = matrix_dot(
@@ -294,7 +295,8 @@ b=-52.6142956...)
     CR = np.hypot(aR, bR)
 
     # Computing the correlate of *saturation* :math:`s^R`.
-    sR = CR / LR
+    with sdiv_mode():
+        sR = sdiv(CR, LR)
 
     return CAM_Specification_RLAB(
         LR,

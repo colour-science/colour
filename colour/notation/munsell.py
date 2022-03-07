@@ -124,6 +124,8 @@ from colour.algebra import (
     cartesian_to_cylindrical,
     euclidean_distance,
     polar_to_cartesian,
+    sdiv,
+    sdiv_mode,
     spow,
 )
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
@@ -672,17 +674,18 @@ def munsell_value_McCamy1987(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Y = to_domain_100(Y)
 
-    V = np.where(
-        Y <= 0.9,
-        0.87445 * spow(Y, 0.9967),
-        2.49268 * spow(Y, 1 / 3)
-        - 1.5614
-        - (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54))
-        + (0.0133 / spow(Y, 2.3))
-        + 0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1)
-        + (0.0221 / Y) * np.sin(0.39 * (Y - 2))
-        - (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53)),
-    )
+    with sdiv_mode():
+        V = np.where(
+            Y <= 0.9,
+            0.87445 * spow(Y, 0.9967),
+            2.49268 * spow(Y, 1 / 3)
+            - 1.5614
+            - (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54))
+            + sdiv(0.0133, spow(Y, 2.3))
+            + 0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1)
+            + sdiv(0.0221, Y) * np.sin(0.39 * (Y - 2))
+            - (sdiv(0.0037, 0.44 * Y)) * np.sin(1.28 * (Y - 0.53)),
+        )
 
     return as_float(from_range_10(V))
 
@@ -1061,6 +1064,8 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
         a result.
     """
 
+    xyY = as_float_array(xyY)
+
     x, y, Y = tsplit(xyY)
     Y = to_domain_1(Y)
 
@@ -1090,14 +1095,16 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
     if rho_input < grey_threshold:
         return from_range_10(normalise_munsell_specification(value))
 
-    X, Y, Z = xyY_to_XYZ([x, y, Y])
-    xi, yi = CCS_ILLUMINANT_MUNSELL
-    Xr, Yr, Zr = xyY_to_XYZ([xi, yi, Y])
+    XYZ = xyY_to_XYZ(xyY)
 
-    XYZ = np.array([X, Y, Z])
-    XYZr = np.array([(1 / Yr) * Xr, 1, (1 / Yr) * Zr])
+    X, Y, Z = tsplit(XYZ)
+    x_i, y_i = CCS_ILLUMINANT_MUNSELL
+    X_r, Y_r, Z_r = xyY_to_XYZ([x_i, y_i, Y])
 
-    Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZr))
+    with sdiv_mode():
+        XYZ_r = np.array([(1 / Y_r) * X_r, 1, (1 / Y_r) * Z_r])
+
+    Lab = XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_r))
     LCHab = Lab_to_LCHab(Lab)
     hue_initial, _value_initial, chroma_initial, code_initial = tsplit(
         LCHab_to_munsell_specification(LCHab)
@@ -1281,9 +1288,11 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
                     "without convergence!"
                 )
 
-            chroma_inner = (
-                (rho_input / rho_current) ** iterations_inner
-            ) * chroma_current
+            with sdiv_mode():
+                chroma_inner = (
+                    (rho_input / rho_current) ** iterations_inner
+                ) * chroma_current
+
             if chroma_inner > chroma_maximum:
                 chroma_inner = specification_current[2] = chroma_maximum
 
