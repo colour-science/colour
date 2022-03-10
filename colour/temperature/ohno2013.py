@@ -27,8 +27,6 @@ from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
-    msds_to_XYZ_integration,
-    planck_law,
 )
 from colour.hints import (
     ArrayLike,
@@ -38,7 +36,7 @@ from colour.hints import (
     NDArray,
     Optional,
 )
-from colour.models import UCS_to_uv, XYZ_to_UCS
+from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
     CACHE_REGISTRY,
     as_float_array,
@@ -61,7 +59,6 @@ __all__ = [
     "CCT_SAMPLES_OHNO2013",
     "CCT_ITERATIONS_OHNO2013",
     "planckian_table",
-    "CCT_to_uv_Planck1900",
     "uv_to_CCT_Ohno2013",
     "CCT_to_uv_Ohno2013",
 ]
@@ -75,49 +72,6 @@ CCT_ITERATIONS_OHNO2013: Integer = 6
 _CACHE_PLANCKIAN_TABLE_ROW: Dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_PLANCKIAN_TABLE_ROW"
 )
-
-
-def CCT_to_uv_Planck1900(CCT, cmfs=None):
-    """
-    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` and colour matching functions
-    using the spectral radiance of a blackbody at the given thermodynamic
-    temperature.
-
-    Parameters
-    ----------
-    CCT
-        Colour temperature :math:`T_{cp}`.
-    cmfs
-        Standard observer colour matching functions, default to the
-        *CIE 1931 2 Degree Standard Observer*.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *CIE UCS* colourspace *uv* chromaticity coordinates.
-
-    Examples
-    --------
-    >>> CCT_to_uv_Planck1900(6504)  # doctest: +ELLIPSIS
-    array([ 0.2004280...,  0.3103334...])
-    """
-
-    CCT = as_float_array(CCT)
-    cmfs, _illuminant = handle_spectral_arguments(cmfs)
-
-    XYZ = msds_to_XYZ_integration(
-        np.transpose(
-            planck_law(cmfs.wavelengths * 1e-9, np.ravel(CCT)) * 1e-9
-        ),
-        cmfs,
-        shape=cmfs.shape,
-    )
-
-    UVW = XYZ_to_UCS(XYZ)
-    uv = UCS_to_uv(UVW)
-
-    return np.reshape(uv, list(CCT.shape) + [2])
 
 
 def planckian_table(
