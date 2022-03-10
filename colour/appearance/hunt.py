@@ -739,6 +739,7 @@ def chromatic_adaptation(
     array([ 9.2069020...,  9.2070219...,  9.2078373...])
     """
 
+    XYZ = as_float_array(XYZ)
     XYZ_w = as_float_array(XYZ_w)
     XYZ_b = as_float_array(XYZ_b)
     L_A = as_float_array(L_A)
@@ -754,20 +755,19 @@ def chromatic_adaptation(
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
         L_A_p = spow(L_A, 1 / 3)
-        F_rgb = (1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb))
+        F_rgb = cast(NDArray, (1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb)))
     else:
-        F_rgb = ones(h_rgb.shape)
+        F_rgb = ones(cast(NDArray, h_rgb).shape)
 
     # Computing Helson-Judd effect parameters.
     if helson_judd_effect:
-        D_rgb = f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) - f_n(
-            (Y_b / Y_w) * F_L * F_rgb
-        )
+        Y_b_Y_w = Y_b / Y_w
+        D_rgb = f_n(Y_b_Y_w * F_L * F_rgb[..., 1]) - f_n(Y_b_Y_w * F_L * F_rgb)
     else:
         D_rgb = zeros(F_rgb.shape)
 
     # Computing cone bleach factors.
-    B_rgb = (10**7) / ((10**7) + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
+    B_rgb = 10**7 / (10**7 + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
 
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
@@ -1219,18 +1219,22 @@ def achromatic_signal(
     N_bb = as_float_array(N_bb)
     A_a = as_float_array(A_a)
 
-    j = 0.00001 / ((5 * L_AS / 2.26) + 0.00001)
+    L_AS_226 = L_AS / 2.26
+
+    j = 0.00001 / ((5 * L_AS_226) + 0.00001)
+
+    S_S_w = S / S_w
 
     # Computing scotopic luminance level adaptation factor :math:`F_{LS}`.
-    F_LS = 3800 * (j**2) * (5 * L_AS / 2.26)
-    F_LS += 0.2 * (spow(1 - (j**2), 0.4)) * (spow(5 * L_AS / 2.26, 1 / 6))
+    F_LS = 3800 * (j**2) * (5 * L_AS_226)
+    F_LS += 0.2 * (spow(1 - (j**2), 0.4)) * (spow(5 * L_AS_226, 1 / 6))
 
     # Computing cone bleach factors :math:`B_S`.
-    B_S = 0.5 / (1 + 0.3 * spow((5 * L_AS / 2.26) * (S / S_w), 0.3))
-    B_S += 0.5 / (1 + 5 * (5 * L_AS / 2.26))
+    B_S = 0.5 / (1 + 0.3 * spow((5 * L_AS_226) * S_S_w, 0.3))
+    B_S += 0.5 / (1 + 5 * (5 * L_AS_226))
 
     # Computing adapted scotopic signal :math:`A_S`.
-    A_S = (f_n(F_LS * S / S_w) * 3.05 * B_S) + 0.3
+    A_S = (f_n(F_LS * S_S_w) * 3.05 * B_S) + 0.3
 
     # Computing achromatic signal :math:`A`.
     A = N_bb * (A_a - 1 + A_S - 0.3 + np.sqrt(1 + (0.3**2)))
@@ -1278,7 +1282,7 @@ def brightness_correlate(
     M = as_float_array(M)
     N_b = as_float_array(N_b)
 
-    N_1 = (spow(7 * A_w, 0.5)) / (5.33 * spow(N_b, 0.13))
+    N_1 = spow(7 * A_w, 0.5) / (5.33 * spow(N_b, 0.13))
     N_2 = (7 * A_w * spow(N_b, 0.362)) / 200
 
     Q = spow(7 * (A + (M / 100)), 0.6) * N_1 - N_2
@@ -1377,11 +1381,13 @@ def chroma_correlate(
     Q = as_float_array(Q)
     Q_w = as_float_array(Q_w)
 
+    Y_b_Y_w = Y_b / Y_w
+
     C_94 = (
         2.44
         * spow(s, 0.69)
-        * (spow(Q / Q_w, Y_b / Y_w))
-        * (1.64 - spow(0.29, Y_b / Y_w))
+        * (spow(Q / Q_w, Y_b_Y_w))
+        * (1.64 - spow(0.29, Y_b_Y_w))
     )
 
     return C_94

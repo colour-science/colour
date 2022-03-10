@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
     Any,
     ArrayLike,
@@ -118,7 +119,8 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
 
-    YI = (100 * (1.28 * X - 1.06 * Z)) / Y
+    with sdiv_mode():
+        YI = sdiv(100 * (1.28 * X - 1.06 * Z), Y)
 
     return as_float(from_range_100(YI))
 
@@ -176,7 +178,8 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     _X, Y, Z = tsplit(to_domain_100(XYZ))
 
-    WI = 100 * (1 - (0.847 * Z) / Y)
+    with sdiv_mode():
+        WI = 100 * (1 - sdiv(0.847 * Z, Y))
 
     return as_float(from_range_100(WI))
 
@@ -276,7 +279,8 @@ def yellowness_ASTME313(
     X, Y, Z = tsplit(to_domain_100(XYZ))
     C_X, C_Z = tsplit(C_XZ)
 
-    WI = 100 * (C_X * X - C_Z * Z) / Y
+    with sdiv_mode():
+        WI = 100 * sdiv(C_X * X - C_Z * Z, Y)
 
     return as_float(from_range_100(WI))
 

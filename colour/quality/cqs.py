@@ -26,7 +26,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass
 
-from colour.algebra import euclidean_distance
+from colour.algebra import euclidean_distance, sdiv, sdiv_mode
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     MSDS_CMFS,
@@ -50,6 +50,7 @@ from colour.hints import (
     Optional,
     Tuple,
     Union,
+    cast,
 )
 from colour.models import (
     Lab_to_LCHab,
@@ -407,10 +408,15 @@ def vs_colorimetry_data(
     """
 
     XYZ_t = sd_to_XYZ(sd_test, cmfs)
-    XYZ_t /= XYZ_t[1]
+
+    with sdiv_mode():
+        XYZ_t = cast(NDArray, sdiv(XYZ_t, XYZ_t[1]))
 
     XYZ_r = sd_to_XYZ(sd_reference, cmfs)
-    XYZ_r /= XYZ_r[1]
+
+    with sdiv_mode():
+        XYZ_r = cast(NDArray, sdiv(XYZ_r, XYZ_r[1]))
+
     xy_r = XYZ_to_xy(XYZ_r)
 
     vs_data = []

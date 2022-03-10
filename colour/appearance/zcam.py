@@ -36,7 +36,7 @@ from colour.appearance.ciecam02 import (
     degree_of_adaptation,
     hue_angle,
 )
-from colour.algebra import spow
+from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import (
     ArrayLike,
@@ -475,12 +475,12 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
 
     # Step 5 (Forward) - Computing brightness :math:`Q_z`,
     # lightness :math:`J_z`, colourfulness :math`M_z`, and chroma :math:`C_z`
-    Q_z_p = (1.6 * F_s) / F_b**0.12
+    Q_z_p = (1.6 * F_s) / (F_b**0.12)
     Q_z_m = F_s**2.2 * F_b**0.5 * spow(F_L, 0.2)
     Q_z = 2700 * spow(I_z, Q_z_p) * Q_z_m
     Q_z_w = 2700 * spow(I_z_w, Q_z_p) * Q_z_m
 
-    J_z = 100 * (Q_z / Q_z_w)
+    J_z = 100 * Q_z / Q_z_w
 
     M_z = (
         100
@@ -491,11 +491,12 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
         )
     )
 
-    C_z = 100 * (M_z / Q_z_w)
+    C_z = 100 * M_z / Q_z_w
 
     # Step 6 (Forward) - Computing saturation :math:`S_z`,
     # vividness :math:`V_z`, blackness :math:`K_z`, and whiteness :math:`W_z`.
-    S_z = 100 * spow(F_L, 0.6) * np.sqrt(M_z / Q_z)
+    with sdiv_mode():
+        S_z = 100 * spow(F_L, 0.6) * np.sqrt(sdiv(M_z, Q_z))
 
     V_z = np.sqrt((J_z - 58) ** 2 + 3.4 * C_z**2)
 
@@ -687,11 +688,11 @@ def ZCAM_to_XYZ(
         )
 
     # Step 1 (Inverse) - Computing achromatic response (:math:`I_z`).
-    Q_z_p = (1.6 * F_s) / F_b**0.12
-    Q_z_m = F_s**2.2 * F_b**0.5 * spow(F_L, 0.2)
+    Q_z_p = (1.6 * F_s) / spow(F_b, 0.12)
+    Q_z_m = spow(F_s, 2.2) * spow(F_b, 0.5) * spow(F_L, 0.2)
     Q_z_w = 2700 * spow(I_z_w, Q_z_p) * Q_z_m
 
-    I_z_p = (F_b**0.12) / (1.6 * F_s)
+    I_z_p = spow(F_b, 0.12) / (1.6 * F_s)
     I_z_d = 2700 * 100 * Q_z_m
 
     I_z = spow((J_z * Q_z_w) / I_z_d, I_z_p)
@@ -717,8 +718,8 @@ def ZCAM_to_XYZ(
     # C_z_p_e = 1.3514
     C_z_p_e = 50 / 37
     C_z_p = spow(
-        (M_z * spow(I_z_w, 0.78) * F_b**0.1)
-        / (100 * e_z**0.068 * spow(F_L, 0.2)),
+        (M_z * spow(I_z_w, 0.78) * spow(F_b, 0.1))
+        / (100 * spow(e_z, 0.068) * spow(F_L, 0.2)),
         C_z_p_e,
     )
     a_z = C_z_p * np.cos(h_z_r)
@@ -773,8 +774,8 @@ def hue_quadrature(h: FloatingOrArrayLike) -> FloatingOrNDArray:
     h_ii1 = h_i[i + 1]
     e_ii1 = e_i[i + 1]
 
-    H = H_ii + (
-        (100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1)
-    )
+    h_h_ii = h - h_ii
+
+    H = H_ii + (100 * h_h_ii / e_ii) / (h_h_ii / e_ii + (h_ii1 - h) / e_ii1)
 
     return as_float(H)

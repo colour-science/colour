@@ -30,6 +30,8 @@ from colour.algebra import (
     euclidean_distance,
     extend_line_segment,
     intersect_line_segments,
+    sdiv,
+    sdiv_mode,
 )
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -352,7 +354,11 @@ def excitation_purity(
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
 
-    P_e = euclidean_distance(xy_n, xy) / euclidean_distance(xy_n, xy_wl)
+    with sdiv_mode():
+        P_e = sdiv(
+            euclidean_distance(xy_n, xy),
+            euclidean_distance(xy_n, xy_wl),
+        )
 
     return P_e
 
@@ -400,6 +406,7 @@ def colorimetric_purity(
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
     P_e = excitation_purity(xy, xy_n, cmfs)
 
-    P_c = P_e * xy_wl[..., 1] / xy[..., 1]
+    with sdiv_mode():
+        P_c = P_e * sdiv(xy_wl[..., 1], xy[..., 1])
 
     return P_c

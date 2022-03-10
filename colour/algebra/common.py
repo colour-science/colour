@@ -20,10 +20,19 @@ from colour.hints import (
     FloatingOrArrayLike,
     FloatingOrNDArray,
     Integer,
+    Literal,
     NDArray,
     Optional,
+    Union,
+    cast,
 )
-from colour.utilities import as_float_array, as_float, tsplit
+from colour.utilities import (
+    as_float_array,
+    as_float,
+    optional,
+    tsplit,
+    validate_method,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -33,6 +42,10 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "get_sdiv_mode",
+    "set_sdiv_mode",
+    "sdiv_mode",
+    "sdiv",
     "is_spow_enabled",
     "set_spow_enable",
     "spow_enable",
@@ -48,15 +61,294 @@ __all__ = [
     "is_identity",
 ]
 
-# TODO: Annotate with "bool" when Python 3.7 is dropped.
-_SPOW_ENABLED = True
+_SDIV_MODE: Literal[
+    "Numpy",
+    "Ignore",
+    "Warning",
+    "Raise",
+    "Ignore Zero Conversion",
+    "Warning Zero Conversion",
+    "Ignore Limit Conversion",
+    "Warning Limit Conversion",
+] = "Ignore Zero Conversion"
+"""
+Global variable storing the current *Colour* safe division function mode.
+"""
+
+
+def get_sdiv_mode() -> Literal[
+    "Numpy",
+    "Ignore",
+    "Warning",
+    "Raise",
+    "Ignore Zero Conversion",
+    "Warning Zero Conversion",
+    "Ignore Limit Conversion",
+    "Warning Limit Conversion",
+]:
+    """
+    Return *Colour* safe division mode.
+
+    Returns
+    -------
+    :class:`str`
+        *Colour* safe division mode, see :func:`colour.algebra.sdiv` definition
+        for an explanation about the possible modes.
+
+    Examples
+    --------
+    >>> with sdiv_mode("Numpy"):
+    ...     get_sdiv_mode()
+    'numpy'
+    >>> with sdiv_mode("Ignore Zero Conversion"):
+    ...     get_sdiv_mode()
+    'ignore zero conversion'
+    """
+
+    return _SDIV_MODE
+
+
+def set_sdiv_mode(
+    mode: Union[
+        Literal[
+            "Numpy",
+            "Ignore",
+            "Warning",
+            "Raise",
+            "Ignore Zero Conversion",
+            "Warning Zero Conversion",
+            "Ignore Limit Conversion",
+            "Warning Limit Conversion",
+        ],
+        str,
+    ]
+):
+    """
+    Set *Colour* safe division function mode.
+
+    Parameters
+    ----------
+    mode
+        *Colour* safe division mode, see :func:`colour.algebra.sdiv` definition
+        for an explanation about the possible modes.
+
+    Examples
+    --------
+    >>> with sdiv_mode(get_sdiv_mode()):
+    ...     print(get_sdiv_mode())
+    ...     set_sdiv_mode("Raise")
+    ...     print(get_sdiv_mode())
+    ignore zero conversion
+    raise
+    """
+
+    global _SDIV_MODE
+
+    _SDIV_MODE = cast(
+        Literal[
+            "Numpy",
+            "Ignore",
+            "Warning",
+            "Raise",
+            "Ignore Zero Conversion",
+            "Warning Zero Conversion",
+            "Ignore Limit Conversion",
+            "Warning Limit Conversion",
+        ],
+        validate_method(
+            mode,
+            [
+                "Numpy",
+                "Ignore",
+                "Warning",
+                "Raise",
+                "Ignore Zero Conversion",
+                "Warning Zero Conversion",
+                "Ignore Limit Conversion",
+                "Warning Limit Conversion",
+            ],
+        ),
+    )
+
+
+class sdiv_mode:
+    """
+    Define a context manager and decorator temporarily setting *Colour* safe
+    division function mode.
+
+    Parameters
+    ----------
+    mode
+       *Colour* safe division function mode, see :func:`colour.algebra.sdiv`
+       definition for an explanation about the possible modes.
+    """
+
+    def __init__(
+        self,
+        mode: Optional[
+            Literal[
+                "Numpy",
+                "Ignore",
+                "Warning",
+                "Raise",
+                "Ignore Zero Conversion",
+                "Warning Zero Conversion",
+                "Ignore Limit Conversion",
+                "Warning Limit Conversion",
+            ]
+        ] = None,
+    ):
+        self._mode = optional(mode, get_sdiv_mode())
+        self._previous_mode = get_sdiv_mode()
+
+    def __enter__(self) -> sdiv_mode:
+        """
+        Set the *Colour* safe division function mode upon entering the context
+        manager.
+        """
+
+        set_sdiv_mode(self._mode)
+
+        return self
+
+    def __exit__(self, *args: Any):
+        """
+        Set the *Colour* safe division function mode upon exiting the context
+        manager.
+        """
+
+        set_sdiv_mode(self._previous_mode)
+
+    def __call__(self, function: Callable) -> Callable:
+        """Call the wrapped definition."""
+
+        @functools.wraps(function)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            with self:
+                return function(*args, **kwargs)
+
+        return wrapper
+
+
+def sdiv(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
+    """
+    Divide given array :math:`b` with array :math:`b` while handling
+    zero-division.
+
+    This definition avoids NaNs and +/- infs generation when array :math:`b`
+    is equal to zero. This behaviour can be controlled with the
+    :func:`colour.algebra.set_sdiv_mode` definition or with the
+    :func:`sdiv_mode` context manager. The following modes are available:
+
+    -   ``Numpy``: The current *Numpy* zero-division handling occurs.
+    -   ``Ignore``: Zero-division occurs silently.
+    -   ``Warning``: Zero-division occurs with a warning.
+    -   ``Ignore Zero Conversion``: Zero-division occurs silently and NaNs or
+        +/- infs values are converted to zeros. See :func:`numpy.nan_to_num`
+        definition for more details.
+    -   ``Warning Zero Conversion``: Zero-division occurs with a warning and
+        NaNs or +/- infs values are converted to zeros. See
+        :func:`numpy.nan_to_num` definition for more details.
+    -   ``Ignore Limit Conversion``: Zero-division occurs silently and
+        NaNs or +/- infs values are converted to zeros or the largest +/-
+        finite floating point values representable by the division result
+        :class:`numpy.dtype`. See :func:`numpy.nan_to_num` definition for more
+        details.
+    -   ``Warning Limit Conversion``: Zero-division occurs  with a warning and
+        NaNs or +/- infs values are converted to zeros or the largest +/-
+        finite floating point values representable by the division result
+        :class:`numpy.dtype`.
+
+    Parameters
+    ----------
+    a
+        Numerator array :math:`a`.
+    b
+        Denominator array :math:`b`.
+
+    Returns
+    -------
+    :class:`np.floating` or :class:`numpy.ndarray`
+        Array :math:`b` safely divided by :math:`a`.
+
+    Examples
+    --------
+    >>> a = np.array([0, 1, 2])
+    >>> b = np.array([2, 1, 0])
+    >>> sdiv(a, b)
+    array([ 0.,  1.,  0.])
+    >>> try:
+    ...     with sdiv_mode("Raise"):
+    ...         sdiv(a, b)
+    ... except Exception as error:
+    ...     error
+    FloatingPointError('divide by zero encountered in true_divide')
+    >>> with sdiv_mode("Ignore Zero Conversion"):
+    ...     sdiv(a, b)
+    array([ 0.,  1.,  0.])
+    >>> with sdiv_mode("Warning Zero Conversion"):
+    ...     sdiv(a, b)
+    array([ 0.,  1.,  0.])
+    >>> with sdiv_mode("Ignore Limit Conversion"):
+    ...     sdiv(a, b)  # doctest: +SKIP
+    array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
+    >>> with sdiv_mode("Warning Limit Conversion"):
+    ...     sdiv(a, b)  # doctest: +SKIP
+    array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
+    """
+
+    a = as_float_array(a)
+    b = as_float_array(b)
+
+    mode = validate_method(
+        _SDIV_MODE,
+        [
+            "Numpy",
+            "Ignore",
+            "Warning",
+            "Raise",
+            "Ignore Zero Conversion",
+            "Warning Zero Conversion",
+            "Ignore Limit Conversion",
+            "Warning Limit Conversion",
+        ],
+    )
+
+    if mode == "numpy":
+        c = a / b
+    elif mode == "ignore":
+        with np.errstate(divide="ignore", invalid="ignore"):
+            c = a / b
+    elif mode == "warning":
+        with np.errstate(divide="warn", invalid="warn"):
+            c = a / b
+    elif mode == "raise":
+        with np.errstate(divide="raise", invalid="raise"):
+            c = a / b
+    elif mode == "ignore zero conversion":
+        with np.errstate(divide="ignore", invalid="ignore"):
+            c = np.nan_to_num(a / b, nan=0, posinf=0, neginf=0)
+    elif mode == "warning zero conversion":
+        with np.errstate(divide="warn", invalid="warn"):
+            c = np.nan_to_num(a / b, nan=0, posinf=0, neginf=0)
+    elif mode == "ignore limit conversion":
+        with np.errstate(divide="ignore", invalid="ignore"):
+            c = np.nan_to_num(a / b)
+    elif mode == "warning limit conversion":
+        with np.errstate(divide="warn", invalid="warn"):
+            c = np.nan_to_num(a / b)
+
+    return c
+
+
+_SPOW_ENABLED: Boolean = True
 """
 Global variable storing the current *Colour* safe / symmetrical power function
 enabled state.
 """
 
 
-def is_spow_enabled() -> bool:
+def is_spow_enabled() -> Boolean:
     """
     Return whether *Colour* safe / symmetrical power function is enabled.
 
@@ -78,7 +370,7 @@ def is_spow_enabled() -> bool:
     return _SPOW_ENABLED
 
 
-def set_spow_enable(enable: bool):
+def set_spow_enable(enable: Boolean):
     """
     Set *Colour* safe / symmetrical power function enabled state.
 
@@ -114,7 +406,7 @@ class spow_enable:
         function.
     """
 
-    def __init__(self, enable: bool):
+    def __init__(self, enable: Boolean):
         self._enable = enable
         self._previous_state = is_spow_enabled()
 
@@ -228,7 +520,9 @@ def normalise_maximum(
     a = as_float_array(a)
 
     maximum = np.max(a, axis=axis)
-    a = a * (1 / maximum[..., np.newaxis]) * factor
+
+    with sdiv_mode():
+        a = a * sdiv(1, maximum[..., np.newaxis]) * factor
 
     return np.clip(a, 0, factor) if clip else a
 

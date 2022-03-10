@@ -51,7 +51,7 @@ class TestMetricPsnr(unittest.TestCase):
         """Test :func:`colour.utilities.metrics.metric_psnr` definition."""
 
         a = np.array([0.48222001, 0.31654775, 0.22070353])
-        self.assertEqual(metric_psnr(a, a), np.inf)
+        self.assertEqual(metric_psnr(a, a), 0)
 
         b = a * 0.9
         self.assertAlmostEqual(metric_psnr(a, b), 28.956851563141299, places=7)

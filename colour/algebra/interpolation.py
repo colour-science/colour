@@ -65,6 +65,7 @@ import scipy.interpolate
 from collections.abc import Mapping
 from functools import reduce
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import (
     Any,
@@ -1225,7 +1226,8 @@ class SpragueInterpolator:
         self._validate_interpolation_range(x)
 
         i = np.searchsorted(self._xp, x) - 1
-        X = (x - self._xp[i]) / (self._xp[i + 1] - self._xp[i])
+        with sdiv_mode():
+            X = sdiv(x - self._xp[i], self._xp[i + 1] - self._xp[i])
 
         r = self._yp
 

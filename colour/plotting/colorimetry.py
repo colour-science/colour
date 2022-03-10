@@ -31,7 +31,12 @@ import numpy as np
 from functools import reduce
 from matplotlib.patches import Polygon
 
-from colour.algebra import LinearInterpolator, normalise_maximum
+from colour.algebra import (
+    LinearInterpolator,
+    normalise_maximum,
+    sdiv,
+    sdiv_mode,
+)
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     SDS_ILLUMINANTS,
@@ -53,6 +58,7 @@ from colour.hints import (
     Dict,
     Floating,
     List,
+    NDArray,
     Optional,
     Sequence,
     Tuple,
@@ -207,7 +213,8 @@ def plot_single_sd(
     RGB = normalise_maximum(RGB)
 
     if modulate_colours_with_sd_amplitude:
-        RGB *= (values / np.max(values))[..., np.newaxis]
+        with sdiv_mode():
+            RGB *= cast(NDArray, sdiv(values, np.max(values)))[..., np.newaxis]
 
     RGB = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(RGB)
 

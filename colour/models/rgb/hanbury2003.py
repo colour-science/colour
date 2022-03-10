@@ -19,8 +19,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import vector_dot
-from colour.hints import ArrayLike, NDArray
+from colour.algebra import sdiv, sdiv_mode, vector_dot
+from colour.hints import ArrayLike, NDArray, cast
 from colour.utilities import (
     from_range_1,
     to_domain_1,
@@ -100,9 +100,13 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArray:
 
     C = np.sqrt(C_1**2 + C_2**2)
 
-    acos_C_1_C_2 = zeros(C.shape)
-    acos_C_1_C_2[C != 0] = np.arccos(C_1[C != 0] / C[C != 0])
-    H = np.where(C_2 <= 0, acos_C_1_C_2, (np.pi * 2) - acos_C_1_C_2)
+    with sdiv_mode():
+        C_1_C = cast(NDArray, sdiv(C_1, C))
+
+    arcos_C_1_C_2 = zeros(C_1_C.shape)
+    arcos_C_1_C_2[C_1_C != 0] = np.arccos(C_1_C[C_1_C != 0])
+
+    H = np.where(C_2 <= 0, arcos_C_1_C_2, (np.pi * 2) - arcos_C_1_C_2)
 
     S = np.maximum(np.maximum(R, G), B) - np.minimum(np.minimum(R, G), B)
 
@@ -154,9 +158,9 @@ def IHLS_to_RGB(HYS: ArrayLike) -> NDArray:
 
     pi_3 = np.pi / 3
 
-    k = np.floor(H / (pi_3))
-    H_s = H - k * (pi_3)
-    C = (np.sqrt(3) * S) / (2 * np.sin((2 * pi_3) - H_s))
+    k = np.floor(H / pi_3)
+    H_s = H - k * pi_3
+    C = (np.sqrt(3) * S) / (2 * np.sin(2 * pi_3 - H_s))
 
     C_1 = C * np.cos(H)
     C_2 = -C * np.sin(H)

@@ -34,6 +34,8 @@ from colour.algebra import (
     Extrapolator,
     CubicSplineInterpolator,
     SpragueInterpolator,
+    sdiv,
+    sdiv_mode,
 )
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignals
@@ -1564,7 +1566,8 @@ class SpectralDistribution(Signal):
          [ 600.            1.       ...]]
         """
 
-        self *= 1 / max(self.values) * factor  # type: ignore[misc]
+        with sdiv_mode():
+            self *= sdiv(1, max(self.values)) * factor  # type: ignore[misc]
 
         return self
 

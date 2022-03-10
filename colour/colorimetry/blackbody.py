@@ -16,12 +16,19 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     SpectralDistribution,
     SpectralShape,
 )
-from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
+from colour.hints import (
+    Floating,
+    FloatingOrArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    cast,
+)
 from colour.utilities import as_float, as_float_array
 
 __author__ = "Colour Developers"
@@ -114,12 +121,17 @@ def planck_law(
     array([  1.2106064...e+13,   2.0472701...e+13,   3.1754431...e+13])
     """
 
-    l = np.ravel(as_float_array(wavelength))  # noqa
-    t = np.ravel(as_float_array(temperature))
+    l = as_float_array(wavelength)  # noqa
+    t = as_float_array(temperature)
 
-    p = ((c1 * n**-2 * l[..., np.newaxis] ** -5) / np.pi) * (
-        np.expm1(c2 / (n * l[..., np.newaxis] * t[np.newaxis, ...]))
-    ) ** -1
+    l = np.ravel(l)[..., np.newaxis]  # noqa
+    t = np.ravel(t)[np.newaxis, ...]
+
+    with sdiv_mode():
+        d = cast(NDArray, sdiv(c2, (n * l * t)))
+
+    d[d != 0] = np.expm1(d[d != 0]) ** -1
+    p = ((c1 * n**-2 * l**-5) / np.pi) * d
 
     return as_float(np.squeeze(p))
 

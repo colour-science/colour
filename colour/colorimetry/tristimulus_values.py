@@ -38,7 +38,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.algebra import lagrange_coefficients
+from colour.algebra import lagrange_coefficients, sdiv, sdiv_mode
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
     MultiSpectralDistributions,
@@ -444,7 +444,8 @@ def tristimulus_weighting_factors_ASTME2022(
         for j in range(as_int_scalar(w_c - ((w_c - 1) % interval_i)), w_c, 1):
             W[i_cm, i] = W[i_cm, i] + S[j] * Y[j, i]
 
-    W *= cast(Number, optional(k_n, 100 / np.sum(W, axis=0)[1]))
+    with sdiv_mode():
+        W *= cast(Number, optional(k_n, sdiv(100, np.sum(W, axis=0)[1])))
 
     _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key] = np.copy(W)
 
@@ -689,7 +690,10 @@ def sd_to_XYZ_integration(
 
     d_w = cmfs.shape.interval
 
-    k = cast(Number, optional(k, 100 / (np.sum(XYZ_b[..., 1] * S) * d_w)))
+    with sdiv_mode():
+        k = cast(
+            Number, optional(k, sdiv(100, (np.sum(XYZ_b[..., 1] * S) * d_w)))
+        )
 
     XYZ = k * np.dot(R * S, XYZ_b) * d_w
 

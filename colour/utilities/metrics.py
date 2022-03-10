@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import as_float, as_float_array
+from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
     ArrayLike,
     FloatingOrNDArray,
@@ -30,6 +30,7 @@ from colour.hints import (
     Tuple,
     Union,
 )
+from colour.utilities import as_float, as_float_array, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -128,4 +129,10 @@ def metric_psnr(
     28.9568515...
     """
 
-    return as_float(10 * np.log10(max_a**2 / metric_mse(a, b, axis)))
+    mse = as_float_array(metric_mse(a, b, axis))
+    psnr = zeros(mse.shape)
+
+    with sdiv_mode():
+        psnr[mse != 0] = 10 * np.log10(sdiv(max_a**2, mse[mse != 0]))
+
+    return as_float(psnr)

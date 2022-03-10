@@ -23,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import fmin
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.hints import ArrayLike, Dict, FloatingOrNDArray, NDArray, Optional
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
@@ -134,7 +134,9 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
     RGB = vector_dot(MATRIX_XYZ_TO_RGB_OSA_UCS, XYZ)
     RGB_3 = spow(RGB, 1 / 3)
 
-    C = Lambda / (5.9 * Y_0_es)
+    with sdiv_mode():
+        C = sdiv(Lambda, 5.9 * Y_0_es)
+
     L = (Lambda - 14.4) / spow(2, 1 / 2)
     j = C * np.dot(RGB_3, np.array([1.7, 8, -9.7]))
     g = C * np.dot(RGB_3, np.array([-13.7, 17.7, -4]))

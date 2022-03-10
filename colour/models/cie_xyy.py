@@ -103,20 +103,22 @@ def XYZ_to_xyY(
     """
 
     XYZ = to_domain_1(XYZ)
-    X, Y, Z = tsplit(XYZ)
     xy_w = as_float_array(illuminant)
 
-    XYZ_n = zeros(XYZ.shape)
-    XYZ_n[..., 0:2] = xy_w
+    X, Y, Z = tsplit(XYZ)
 
-    xyY = np.where(
-        np.all(XYZ == 0, axis=-1)[..., np.newaxis],
-        XYZ_n,
+    xyY = zeros(XYZ.shape)
+    xyY[..., 0:2] = xy_w
+
+    m_xyY = ~np.all(XYZ == 0, axis=-1)
+    X_Y_Z = (X + Y + Z)[m_xyY]
+
+    xyY[m_xyY] = (
         tstack(
             [
-                X / (X + Y + Z),
-                Y / (X + Y + Z),
-                from_range_1(Y),
+                X[m_xyY] / X_Y_Z,
+                Y[m_xyY] / X_Y_Z,
+                from_range_1(Y[m_xyY]),
             ]
         ),
     )
@@ -163,13 +165,18 @@ def xyY_to_XYZ(xyY: ArrayLike) -> NDArray:
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
+    xyY = as_float_array(xyY)
+
     x, y, Y = tsplit(xyY)
     Y = to_domain_1(Y)
 
-    XYZ = np.where(
-        (y == 0)[..., np.newaxis],
-        tstack([y, y, y]),
-        tstack([x * Y / y, Y, (1 - x - y) * Y / y]),
+    XYZ = zeros(xyY.shape)
+    m_XYZ = ~(y == 0)
+
+    Y_y = Y[m_XYZ] / y[m_XYZ]
+
+    XYZ[m_XYZ] = tstack(
+        [x[m_XYZ] * Y_y, Y[m_XYZ], (1 - x[m_XYZ] - y[m_XYZ]) * Y_y]
     )
 
     return from_range_1(XYZ)

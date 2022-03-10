@@ -20,7 +20,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass
 
-from colour.algebra import euclidean_distance, spow
+from colour.algebra import euclidean_distance, sdiv, sdiv_mode, spow
 from colour.colorimetry import (
     MSDS_CMFS,
     MultiSpectralDistributions,
@@ -250,24 +250,29 @@ def tcs_colorimetry_data(
             ) -> FloatingOrNDArray:
                 """Compute the :math:`c` term."""
 
-                return (4 - x - 10 * y) / y
+                with sdiv_mode():
+                    return sdiv(4 - x - 10 * y, y)
 
             def d(
                 x: FloatingOrNDArray, y: FloatingOrNDArray
             ) -> FloatingOrNDArray:
                 """Compute the :math:`d` term."""
 
-                return (1.708 * y + 0.404 - 1.481 * x) / y
+                with sdiv_mode():
+                    return sdiv(1.708 * y + 0.404 - 1.481 * x, y)
 
             c_t, d_t = c(u_t, v_t), d(u_t, v_t)
             c_r, d_r = c(u_r, v_r), d(u_r, v_r)
             tcs_c, tcs_d = c(u_tcs, v_tcs), d(u_tcs, v_tcs)
+
+            with sdiv_mode():
+                c_r_c_t = sdiv(c_r, c_t)
+                d_r_d_t = sdiv(d_r, d_t)
+
             u_tcs = (
-                10.872 + 0.404 * c_r / c_t * tcs_c - 4 * d_r / d_t * tcs_d
-            ) / (16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d)
-            v_tcs = 5.52 / (
-                16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d
-            )
+                10.872 + 0.404 * c_r_c_t * tcs_c - 4 * d_r_d_t * tcs_d
+            ) / (16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d)
+            v_tcs = 5.52 / (16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d)
 
         W_tcs = 25 * spow(xyY_tcs[-1], 1 / 3) - 17
         U_tcs = 13 * W_tcs * (u_tcs - u_r)
