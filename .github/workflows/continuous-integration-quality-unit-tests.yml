@@ -3,7 +3,7 @@ name: Continuous Integration - Quality & Unit Tests
 on: [push, pull_request]
 
 jobs:
-  continuous-integration-package:
+  continuous-integration-quality-unit-tests:
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     strategy:
       matrix:

@@ -3,7 +3,7 @@ name: Continuous Integration - Static Type Checking
 on: [push, pull_request]
 
 jobs:
-  continuous-integration-package:
+  continuous-integration-static-type-checking:
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     strategy:
       matrix:
