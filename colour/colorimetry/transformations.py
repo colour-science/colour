@@ -245,7 +245,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
 ) -> NDArray:
     """
     Convert *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
-    functions into the *CIE 2012 2 Degree Standard Observer* colour matching
+    functions into the *CIE 2015 2 Degree Standard Observer* colour matching
     functions.
 
     Parameters
@@ -256,11 +256,11 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE 2012 2 Degree Standard Observer* spectral tristimulus values.
+        *CIE 2015 2 Degree Standard Observer* spectral tristimulus values.
 
     Notes
     -----
-    -   Data for the *CIE 2012 2 Degree Standard Observer* already exists,
+    -   Data for the *CIE 2015 2 Degree Standard Observer* already exists,
         this definition is intended for educational purpose.
 
     References
@@ -297,7 +297,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
 ) -> NDArray:
     """
     Convert *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
-    functions into the *CIE 2012 10 Degree Standard Observer* colour matching
+    functions into the *CIE 2015 10 Degree Standard Observer* colour matching
     functions.
 
     Parameters
@@ -308,11 +308,11 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE 2012 10 Degree Standard Observer* spectral tristimulus values.
+        *CIE 2015 10 Degree Standard Observer* spectral tristimulus values.
 
     Notes
     -----
-    -   Data for the *CIE 2012 10 Degree Standard Observer* already exists,
+    -   Data for the *CIE 2015 10 Degree Standard Observer* already exists,
         this definition is intended for educational purpose.
 
     References

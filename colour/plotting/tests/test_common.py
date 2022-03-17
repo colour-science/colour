@@ -381,7 +381,7 @@ class TestFilterCmfs(unittest.TestCase):
             ),
             [
                 "CIE 1931 2 Degree Standard Observer",
-                "CIE 2012 2 Degree Standard Observer",
+                "CIE 2015 2 Degree Standard Observer",
                 "Stiles & Burch 1955 2 Degree RGB CMFs",
                 "Stockman & Sharpe 2 Degree Cone Fundamentals",
                 "Wright & Guild 1931 2 Degree RGB CMFs",
