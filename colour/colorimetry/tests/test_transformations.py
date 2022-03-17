@@ -251,7 +251,7 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
 LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
-        cmfs = MSDS_CMFS["CIE 2012 2 Degree Standard Observer"]
+        cmfs = MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
         np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs[435],
@@ -322,7 +322,7 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
 LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
-        cmfs = MSDS_CMFS["CIE 2012 10 Degree Standard Observer"]
+        cmfs = MSDS_CMFS["CIE 2015 10 Degree Standard Observer"]
         np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs[435],

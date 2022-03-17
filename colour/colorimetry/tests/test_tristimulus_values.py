@@ -600,14 +600,14 @@ handle_spectral_arguments` definition.
         self.assertEqual(illuminant.shape, shape)
 
         cmfs, illuminant = handle_spectral_arguments(
-            cmfs_default="CIE 2012 2 Degree Standard Observer",
+            cmfs_default="CIE 2015 2 Degree Standard Observer",
             illuminant_default="E",
             shape_default=shape,
         )
         self.assertEqual(
             cmfs,
             reshape_msds(
-                MSDS_CMFS["CIE 2012 2 Degree Standard Observer"], shape=shape
+                MSDS_CMFS["CIE 2015 2 Degree Standard Observer"], shape=shape
             ),
         )
         self.assertEqual(
@@ -1498,7 +1498,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
-                480, MSDS_CMFS["CIE 2012 2 Degree Standard Observer"]
+                480, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
             ),
             np.array([0.08182895, 0.17880480, 0.75523790]),
             decimal=7,
@@ -1506,7 +1506,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
-                641.5, MSDS_CMFS["CIE 2012 2 Degree Standard Observer"]
+                641.5, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
             ),
             np.array([0.44575583, 0.18184213, 0.00000000]),
             decimal=7,

@@ -890,7 +890,7 @@ plot_multi_cmfs(
 )
 plot_multi_cmfs(
     [
-        "CIE 2012 10 Degree Standard Observer",
+        "CIE 2015 10 Degree Standard Observer",
         "CIE 1964 10 Degree Standard Observer",
     ]
 )
@@ -905,7 +905,7 @@ print("\n")
 
 message_box("Plotting visible colours under given standard observer.")
 plot_visible_spectrum("CIE 1931 2 Degree Standard Observer")
-plot_visible_spectrum("CIE 2012 2 Degree Standard Observer")
+plot_visible_spectrum("CIE 2015 2 Degree Standard Observer")
 
 print("\n")
 
