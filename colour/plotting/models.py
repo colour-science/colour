@@ -1042,9 +1042,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram.png
         first_item(filter_RGB_colourspaces(colourspace).values()),
     )
 
-    settings["colourspaces"] = [f"^{colourspace.name}$"] + settings.get(
-        "colourspaces", []
-    )
+    settings["colourspaces"] = [colourspace] + settings.get("colourspaces", [])
 
     chromaticity_diagram_callable(**settings)
 
