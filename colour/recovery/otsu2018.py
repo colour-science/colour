@@ -570,7 +570,7 @@ class PartitionAxis:
     origin: Floating
     direction: Integer
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Return a formatted string representation of the partition axis.
 
