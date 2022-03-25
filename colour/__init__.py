@@ -190,6 +190,7 @@ from .geometry import (
     primitive_vertices,
 )
 from .io import (
+    Header_IESTM2714,
     LUT1D,
     LUT3x1D,
     LUT3D,
@@ -597,6 +598,7 @@ __all__ += [
     "primitive_vertices",
 ]
 __all__ += [
+    "Header_IESTM2714",
     "LUT1D",
     "LUT3x1D",
     "LUT3D",
