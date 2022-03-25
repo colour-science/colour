@@ -49,6 +49,7 @@ numpy = ">= 1.19, < 2"
 scipy = ">= 1.5, < 2"
 typing-extensions = ">= 4, < 5"  # Convenience for Google Colab.
 
+asv = { version = "*", optional = true }
 matplotlib = { version = ">= 3.2, != 3.5.0, != 3.5.1", optional = true }
 networkx = { version = ">= 2, < 3", optional = true }
 pandas = { version = ">= 1, < 2", optional = true }
@@ -123,6 +124,7 @@ development = [
     "toml",
     "twine",
 ]
+benchmarks = [ "asv" ]
 graphviz = [ "pygraphviz" ]
 meshing = [ "trimesh" ]
 optional = [ "networkx", "pandas", "scikit-learn", "tqdm" ]

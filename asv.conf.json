@@ -1,0 +1,12 @@
+{
+    "version": 1,
+    "project": "colour",
+    "project_url": "https://www.colour-science.org/",
+    "repo": ".",
+    "branches": ["feature/benchmarks"],
+    "environment_type": "virtualenv",
+    "env_dir": ".asv/env",
+    "results_dir": ".asv/results",
+    "html_dir": ".asv/html",
+    "matrix": {"req": {"poetry-core": []}}
+}

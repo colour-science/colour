@@ -33,6 +33,7 @@ __all__ = [
     "clean",
     "formatting",
     "quality",
+    "benchmarks",
     "precommit",
     "tests",
     "examples",
@@ -215,6 +216,21 @@ def quality(
     if rstlint:
         message_box('Linting "README.rst" file...')
         ctx.run("rst-lint README.rst")
+
+
+@task
+def benchmarks(ctx: Context):
+    """
+    Run the *Airspeed Velocity* benchmarks.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    """
+
+    message_box('Running "Airspeed Velocity" benchmarks...')
+    ctx.run("asv run")
 
 
 @task
