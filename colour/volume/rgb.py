@@ -27,6 +27,7 @@ from colour.hints import (
     Integer,
     Literal,
     NDArray,
+    Optional,
     Tuple,
     Union,
 )
@@ -83,22 +84,24 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     random_generator: Callable = random_triplet_generator,
     random_state: np.random.RandomState = None,
@@ -231,22 +234,24 @@ def RGB_colourspace_volume_MonteCarlo(
     illuminant_Lab: ArrayLike = CCS_ILLUMINANTS[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     random_generator: Callable = random_triplet_generator,
     random_state: np.random.RandomState = None,

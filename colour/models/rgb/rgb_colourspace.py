@@ -900,22 +900,24 @@ def XYZ_to_RGB(
     illuminant_XYZ: ArrayLike,
     illuminant_RGB: ArrayLike,
     matrix_XYZ_to_RGB: ArrayLike,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     cctf_encoding: Optional[Callable] = None,
 ) -> NDArray:
@@ -1006,22 +1008,24 @@ def RGB_to_XYZ(
     illuminant_RGB: ArrayLike,
     illuminant_XYZ: ArrayLike,
     matrix_RGB_to_XYZ: ArrayLike,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     cctf_decoding: Optional[Callable] = None,
 ) -> NDArray:
@@ -1110,22 +1114,24 @@ def RGB_to_XYZ(
 def matrix_RGB_to_RGB(
     input_colourspace: RGB_Colourspace,
     output_colourspace: RGB_Colourspace,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
 ) -> NDArray:
     """
@@ -1179,22 +1185,24 @@ def RGB_to_RGB(
     RGB: ArrayLike,
     input_colourspace: RGB_Colourspace,
     output_colourspace: RGB_Colourspace,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     apply_cctf_decoding: Boolean = False,
     apply_cctf_encoding: Boolean = False,
