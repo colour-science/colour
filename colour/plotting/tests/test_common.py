@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.plotting.common` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.plotting.common` module."""
 
 import matplotlib.pyplot as plt
 import numpy as np

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.geometry.vertices` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.geometry.vertices` module."""
 
 import numpy as np
 import unittest

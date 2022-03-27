@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.models.hunter_rdab` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
 from itertools import permutations
 import numpy as np

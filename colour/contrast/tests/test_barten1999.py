@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.contrast.barten1999` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.contrast.barten1999` module."""
 
 import numpy as np
 import unittest

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.colorimetry.spectrum` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.colorimetry.spectrum` module."""
 
 import colour
 import numpy as np

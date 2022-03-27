@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.characterisation.aces_it` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.characterisation.aces_it` module."""
 
 from __future__ import annotations
 

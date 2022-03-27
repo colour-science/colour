@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.recovery.mallett2019` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.recovery.mallett2019` module."""
 
 import unittest
 import numpy as np

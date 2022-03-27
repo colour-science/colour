@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.notation.munsell` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.notation.munsell` module."""
 
 from __future__ import annotations
 

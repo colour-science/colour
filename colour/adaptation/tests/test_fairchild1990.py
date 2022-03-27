@@ -1,5 +1,5 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.adaptation.fairchild1990` module."""
+"""Define the unit tests for the :mod:`colour.adaptation.fairchild1990` module."""
 
 import numpy as np
 import unittest

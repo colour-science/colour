@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.plotting.tm3018.components` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.plotting.tm3018.components` module."""
 
 from __future__ import annotations
 

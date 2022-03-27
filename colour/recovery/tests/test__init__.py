@@ -1,5 +1,5 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.recovery` module."""
+"""Define the unit tests for the :mod:`colour.recovery` module."""
 
 import numpy as np
 import unittest

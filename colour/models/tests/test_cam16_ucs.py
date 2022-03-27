@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.models.cam16_ucs` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.cam16_ucs` module."""
 
 import unittest
 

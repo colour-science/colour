@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.luts.iridas_cube` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.luts.iridas_cube` module."""
 
 from __future__ import annotations
 

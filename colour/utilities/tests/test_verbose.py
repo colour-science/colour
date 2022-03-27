@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.utilities.verbose` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.utilities.verbose` module."""
 
 import os
 import sys

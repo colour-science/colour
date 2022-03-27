@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.luts.sony_spi3d` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.luts.sony_spi3d` module."""
 
 from __future__ import annotations
 

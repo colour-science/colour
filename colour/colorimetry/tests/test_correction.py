@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.colorimetry.correction` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.colorimetry.correction` module."""
 
 import numpy as np
 import unittest

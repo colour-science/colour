@@ -980,6 +980,8 @@ def multiline_repr(
     justify = len(f"{object.__class__.__name__}") + 1
 
     def _format(attribute: Dict) -> str:
+        """Format given attribute and its value."""
+
         if attribute["name"] is not None:
             value = attribute["formatter"](getattr(object, attribute["name"]))
         else:
