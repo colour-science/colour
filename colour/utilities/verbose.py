@@ -863,15 +863,18 @@ def multiline_str(
         "line_break": False,
     }
 
-    justify = max(
-        len(attribute["label"])
-        for attribute in attributes
-        if (
-            attribute.get("label")
-            and not attribute.get("header")
-            and not attribute.get("section")
+    try:
+        justify = max(
+            len(attribute["label"])
+            for attribute in attributes
+            if (
+                attribute.get("label")
+                and not attribute.get("header")
+                and not attribute.get("section")
+            )
         )
-    )
+    except ValueError:
+        justify = 0
 
     representation = []
     for attribute in attributes:
