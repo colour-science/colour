@@ -353,8 +353,8 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Offset     : [ 0.  0.  0.  0.]
         """
 
-        def _indent_array(a: ArrayLike) -> str:
-            """Indent given array string representation."""
+        def _format(a: ArrayLike) -> str:
+            """Format given array string representation."""
 
             return str(a).replace(" [", " " * 14 + "[")
 
@@ -363,12 +363,14 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         underline = "-" * (len(self.__class__.__name__) + 3 + len(self._name))
 
-        return (
-            f"{self.__class__.__name__} - {self._name}\n"
-            f"{underline}\n\n"
-            f"Matrix     : {_indent_array(self._matrix)}\n"
-            f"Offset     : {_indent_array(self._offset)}"
-            f"{comments}"
+        return "\n".join(
+            [
+                f"{self.__class__.__name__} - {self._name}",
+                f"{underline}",
+                "",
+                f"Matrix     : {_format(self._matrix)}",
+                f"Offset     : {_format(self._offset)}{comments}",
+            ]
         )
 
     def __repr__(self) -> str:
@@ -410,12 +412,13 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             else ""
         )
 
-        return (
-            f"{representation[:-1]},\n"
-            f"{indentation}"
-            f'{repr(self._offset).replace("array(", "").replace(")", "")},\n'
-            f"{indentation}name='{self._name}'"
-            f"{comments})"
+        return "\n".join(
+            [
+                f"{representation[:-1]},",
+                f"{indentation}"
+                f'{repr(self._offset).replace("array(", "").replace(")", "")},',
+                f"{indentation}name='{self._name}'{comments})",
+            ]
         )
 
     def __eq__(self, other: Any) -> bool:

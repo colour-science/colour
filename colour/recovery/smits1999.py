@@ -139,10 +139,10 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
                           [ 644.4444    ,    0.3836164...],
                           [ 682.2222    ,    0.3836164...],
                           [ 720.        ,    0.3835649...]],
-                         interpolator=LinearInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         LinearInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """

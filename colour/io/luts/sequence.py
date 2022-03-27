@@ -230,13 +230,19 @@ class LUTSequence(MutableSequence):
         )
         operations = re.sub("^\\s+$", "", operations, flags=re.MULTILINE)
 
-        return (
-            "LUT Sequence\n"
-            "------------\n\n"
-            "Overview\n\n"
-            f"    {sequence}\n\n"
-            "Operations\n\n"
-            f"{operations}"
+        return "\n".join(
+            [
+                "LUT Sequence",
+                "------------",
+                "",
+                "Overview",
+                "",
+                f"    {sequence}",
+                "",
+                "Operations",
+                "",
+                f"{operations}",
+            ]
         )
 
     def __repr__(self) -> str:

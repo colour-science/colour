@@ -183,10 +183,10 @@ def sd_Jakob2019(
                           [ 660.        ,    0.0240879...],
                           [ 680.        ,    0.0163316...],
                           [ 700.        ,    0.0114118...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     c_0, c_1, c_2 = as_float_array(coefficients)
@@ -597,10 +597,10 @@ def XYZ_to_sd_Jakob2019(
                           [ 760.        ,    0.9955066...],
                           [ 770.        ,    0.9962855...],
                           [ 780.        ,    0.9968976...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2066217...,  0.1220128...,  0.0513958...])
     """
@@ -725,10 +725,10 @@ class LUT3D_Jakob2019:
                           [ 760.        ,    0.9970543...],
                           [ 770.        ,    0.9975190...],
                           [ 780.        ,    0.9978936...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     def __init__(self):
@@ -1101,10 +1101,10 @@ class LUT3D_Jakob2019:
                               [ 760.        ,    0.9970543...],
                               [ 770.        ,    0.9975190...],
                               [ 780.        ,    0.9978936...]],
-                             interpolator=SpragueInterpolator,
-                             interpolator_kwargs={},
-                             extrapolator=Extrapolator,
-                             extrapolator_kwargs={...})
+                             SpragueInterpolator,
+                             {},
+                             Extrapolator,
+                             {'method': 'Constant', 'left': None, 'right': None})
         """
 
         sd = sd_Jakob2019(self.RGB_to_coefficients(RGB), shape)

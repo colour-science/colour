@@ -38,6 +38,7 @@ from colour.hints import (
     Any,
     ArrayLike,
     Boolean,
+    Dict,
     FloatingOrArrayLike,
     Integer,
     IntegerOrArrayLike,
@@ -60,6 +61,8 @@ from colour.utilities import (
     is_iterable,
     is_string,
     full,
+    multiline_str,
+    multiline_repr,
     optional,
     required,
     runtime_warning,
@@ -319,29 +322,35 @@ class AbstractLUT(ABC):
             Formatted string representation.
         """
 
-        def _indent_array(a: ArrayLike) -> str:
-            """Indent given array string representation."""
+        attributes = [
+            {
+                "formatter": lambda x: (
+                    f"{self.__class__.__name__} - {self.name}"
+                ),
+                "section": True,
+            },
+            {"line_break": True},
+            {"name": "dimensions", "label": "Dimensions"},
+            {"name": "domain", "label": "Domain"},
+            {
+                "label": "Size",
+                "formatter": lambda x: str(self.table.shape),
+            },
+        ]
 
-            return str(a).replace(" [", " " * 14 + "[")
+        if self.comments:
+            attributes.append(
+                {
+                    "formatter": lambda x: "\n".join(
+                        [
+                            f"Comment {str(i + 1).zfill(2)} : {comment}"
+                            for i, comment in enumerate(self.comments)
+                        ]
+                    ),
+                }
+            )
 
-        comments = "\n".join(
-            [
-                f"Comment {str(i + 1).zfill(2)} : {comment}"
-                for i, comment in enumerate(self.comments)
-            ]
-        )
-        comments = f"\n{comments}" if comments else ""
-
-        underline = "-" * (len(self.__class__.__name__) + 3 + len(self.name))
-
-        return (
-            f"{self.__class__.__name__} - {self.name}\n"
-            f"{underline}\n\n"
-            f"Dimensions : {self.dimensions}\n"
-            f"Domain     : {_indent_array(self.domain)}\n"
-            f'Size       : {str(self.table.shape).replace("L", "")}'
-            f"{comments}"
-        )
+        return multiline_str(self, cast(List[Dict], attributes))
 
     def __repr__(self) -> str:
         """
@@ -353,32 +362,17 @@ class AbstractLUT(ABC):
             Evaluable string representation.
         """
 
-        representation = repr(self.table)
-        representation = representation.replace(
-            "array", self.__class__.__name__
-        )
-        representation = representation.replace(
-            "       [", f"{' ' * (len(self.__class__.__name__) + 2)}["
-        )
+        attributes = [
+            {"name": "table"},
+            {"name": "name"},
+            {"name": "domain"},
+            {"name": "size"},
+        ]
 
-        domain = repr(self.domain).replace("array(", "").replace(")", "")
-        domain = domain.replace(
-            "       [", f"{' ' * (len(self.__class__.__name__) + 9)}["
-        )
+        if self.comments:
+            attributes.append({"name": "comments"})
 
-        indentation = " " * (len(self.__class__.__name__) + 1)
-        comments = (
-            f",\n\n{indentation}comments={repr(self.comments)}"
-            if self.comments
-            else ""
-        )
-
-        return (
-            f"{representation[:-1]},\n"
-            f"{indentation}name='{self.name}',\n"
-            f"{indentation}domain={domain}"
-            f"{comments})"
-        )
+        return multiline_repr(self, attributes)
 
     def __eq__(self, other: Any) -> bool:
         """
@@ -1097,7 +1091,7 @@ class LUT1D(AbstractLUT):
         Dimensions : 1
         Domain     : [ 0.          0.3683438...  0.5047603...  0.6069133...  \
 0.6916988...  0.7655385...
-          0.8316843...  0.8920493...  0.9478701...  1.        ]
+                       0.8316843...  0.8920493...  0.9478701...  1.        ]
         Size       : (10,)
         >>> print(LUT.invert().table)  # doctest: +ELLIPSIS
         [ 0.       ...  0.1111111...  0.2222222...  0.3333333...  \

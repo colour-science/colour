@@ -2,7 +2,6 @@
 
 import numpy as np
 import unittest
-import re
 import textwrap
 
 from colour.algebra import (
@@ -448,11 +447,7 @@ function` property raised exception.
         """
 
         self.assertEqual(
-            re.sub(
-                r"extrapolator_kwargs={.*}",
-                "extrapolator_kwargs={...}",
-                repr(self._multi_signals),
-            ),
+            repr(self._multi_signals),
             textwrap.dedent(
                 """
                 MultiSignals([[   0.,   10.,   20.,   30.],
@@ -465,12 +460,13 @@ function` property raised exception.
                               [   7.,   80.,   90.,  100.],
                               [   8.,   90.,  100.,  110.],
                               [   9.,  100.,  110.,  120.]],
-                             labels=['0', '1', '2'],
-                             interpolator=KernelInterpolator,
-                             interpolator_kwargs={},
-                             extrapolator=Extrapolator,
-                             extrapolator_kwargs={...})"""
-            )[1:],
+                             ['0', '1', '2'],
+                             KernelInterpolator,
+                             {},
+                             Extrapolator,
+                             {'method': 'Constant', 'left': nan, 'right': nan})
+                """
+            ).strip(),
         )
 
         self.assertIsInstance(repr(MultiSignals()), str)

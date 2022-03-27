@@ -166,6 +166,8 @@ Verbose
     suppress_warnings
     numpy_print_options
     describe_environment
+    multiline_str
+    multiline_repr
 
 **Ancillary Objects**
 

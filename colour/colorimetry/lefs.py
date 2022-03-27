@@ -565,10 +565,10 @@ def sd_mesopic_luminous_efficiency_function(
                           [ 778.        ,    0.0000086...],
                           [ 779.        ,    0.0000080...],
                           [ 780.        ,    0.0000075...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     photopic_lef = cast(

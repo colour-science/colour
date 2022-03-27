@@ -612,10 +612,10 @@ class SpectralDistribution(Signal):
                           [ 560.    ,    0.087 ],
                           [ 580.    ,    0.1128],
                           [ 600.    ,    0.136 ]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
 
     Instantiating a spectral distribution with a non-uniformly spaced
     independent variable:
@@ -630,10 +630,10 @@ class SpectralDistribution(Signal):
                           [ 560.     ,    0.087  ],
                           [ 580.     ,    0.1128 ],
                           [ 600.     ,    0.136  ]],
-                         interpolator=CubicSplineInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         CubicSplineInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
 
     Instantiation with a *Pandas* :class:`pandas.Series`:
 
@@ -1673,11 +1673,11 @@ class MultiSpectralDistributions(MultiSignals):
                  ...  [ 540.     ,    0.2904 ,    0.954  ,    0.0203 ],
                  ...  [ 550.     ,    0.43345,    0.99495,    0.00875],
                  ...  [ 560.     ,    0.5945 ,    0.995  ,    0.0039 ]],
-                 ... labels=[...'x_bar', ...'y_bar', ...'z_bar'],
-                 ... interpolator=SpragueInterpolator,
-                 ... interpolator_kwargs={},
-                 ... extrapolator=Extrapolator,
-                 ... extrapolator_kwargs={...})
+                 ... [...'x_bar', ...'y_bar', ...'z_bar'],
+                 ... SpragueInterpolator,
+                 ... {},
+                 ... Extrapolator,
+                 ... {'method': 'Constant', 'left': None, 'right': None})
 
     Instantiating a spectral distribution with a non-uniformly spaced
     independent variable:
@@ -1694,11 +1694,11 @@ class MultiSpectralDistributions(MultiSignals):
                  ...  [ 540.     ,    0.2904 ,    0.954  ,    0.0203 ],
                  ...  [ 550.     ,    0.43345,    0.99495,    0.00875],
                  ...  [ 560.     ,    0.5945 ,    0.995  ,    0.0039 ]],
-                 ... labels=[...'x_bar', ...'y_bar', ...'z_bar'],
-                 ... interpolator=CubicSplineInterpolator,
-                 ... interpolator_kwargs={},
-                 ... extrapolator=Extrapolator,
-                 ... extrapolator_kwargs={...})
+                 ... [...'x_bar', ...'y_bar', ...'z_bar'],
+                 ... CubicSplineInterpolator,
+                 ... {},
+                 ... Extrapolator,
+                 ... {'method': 'Constant', 'left': None, 'right': None})
 
     Instantiation with a *Pandas* `DataFrame`:
 

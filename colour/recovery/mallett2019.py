@@ -344,10 +344,10 @@ def RGB_to_sd_Mallett2019(
                           [ 770.        ,    0.1761803...],
                           [ 775.        ,    0.1761195...],
                           [ 780.        ,    0.1760763...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100
     ... # doctest: +ELLIPSIS
     array([ 0.2065436...,  0.1219996...,  0.0513764...])

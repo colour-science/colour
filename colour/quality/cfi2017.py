@@ -380,10 +380,10 @@ def sd_reference_illuminant(
                           [ 740.        ,    0.0111582...],
                           [ 760.        ,    0.0101299...],
                           [ 780.        ,    0.0105638...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     if CCT <= 5000:
