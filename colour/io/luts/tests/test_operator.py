@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.luts.operator` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.luts.operator` module."""
 
 import numpy as np
 import textwrap

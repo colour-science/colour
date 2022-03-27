@@ -120,10 +120,10 @@ def sd_CIE_standard_illuminant_A(
                           [ 680.        ,  185.4292591...],
                           [ 690.        ,  191.9309499...],
                           [ 700.        ,  198.2612232...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     wavelengths = shape.range()
@@ -289,10 +289,10 @@ def sd_CIE_illuminant_D_series(
                           [ 820.     ,   57.4406...],
                           [ 825.     ,   58.8765...],
                           [ 830.     ,   60.3125...]],
-                         interpolator=LinearInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         LinearInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     xy = as_float_array(xy)

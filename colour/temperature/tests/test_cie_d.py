@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.temperature.cie_d` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.temperature.cie_d` module."""
 
 import numpy as np
 import unittest

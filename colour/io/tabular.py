@@ -260,10 +260,10 @@ def read_sds_from_csv_file(
                           [ 770.   ,    0.448],
                           [ 775.   ,    0.432],
                           [ 780.   ,    0.421]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     data = read_spectral_data_from_csv_file(path, **kwargs)

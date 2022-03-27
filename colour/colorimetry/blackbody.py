@@ -203,10 +203,10 @@ def sd_blackbody(
                           [   660.        ,  12310.3119640...],
                           [   680.        ,  12075.5205176...],
                           [   700.        ,  11811.1793602...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     wavelengths = shape.range()

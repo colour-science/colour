@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.utilities.deprecation` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.utilities.deprecation` module."""
 
 import sys
 import unittest

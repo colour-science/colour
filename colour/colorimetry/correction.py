@@ -90,10 +90,10 @@ def bandpass_correction_Stearns1988(
                           [ 560.        ,    0.0856928...],
                           [ 580.        ,    0.1129644...],
                           [ 600.        ,    0.1379256...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     values = np.copy(sd.values)
@@ -168,10 +168,10 @@ def bandpass_correction(
                           [ 560.        ,    0.0856928...],
                           [ 580.        ,    0.1129644...],
                           [ 600.        ,    0.1379256...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     method = validate_method(method, BANDPASS_CORRECTION_METHODS)

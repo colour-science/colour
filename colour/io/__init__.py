@@ -11,7 +11,7 @@ from .tabular import (
     read_sds_from_csv_file,
     write_sds_to_csv_file,
 )
-from .tm2714 import SpectralDistribution_IESTM2714
+from .tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from .uprtek_sekonic import (
     SpectralDistribution_UPRTek,
     SpectralDistribution_Sekonic,
@@ -53,6 +53,7 @@ __all__ += [
     "SpectralDistribution_Sekonic",
 ]
 __all__ += [
+    "Header_IESTM2714",
     "SpectralDistribution_IESTM2714",
 ]
 __all__ += [

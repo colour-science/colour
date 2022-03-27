@@ -31,7 +31,7 @@ import numpy as np
 
 from colour.algebra import vector_dot
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Floating, Literal, NDArray, Union
+from colour.hints import ArrayLike, Floating, Literal, NDArray, Optional, Union
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
@@ -404,22 +404,24 @@ def ICtCp_to_RGB(
 def XYZ_to_ICtCp(
     XYZ: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     method: Union[
         Literal[
@@ -542,22 +544,24 @@ def XYZ_to_ICtCp(
 def ICtCp_to_XYZ(
     ICtCp: ArrayLike,
     illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     method: Union[
         Literal[

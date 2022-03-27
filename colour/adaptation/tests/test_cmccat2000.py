@@ -1,5 +1,5 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.adaptation.cmccat2000."""
+"""Define the unit tests for the :mod:`colour.adaptation.cmccat2000."""
 
 import numpy as np
 import unittest

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.io.luts.lut` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.io.luts.lut` module."""
 
 from __future__ import annotations
 
@@ -673,15 +674,18 @@ class TestLUT1D(AbstractLUTTest):
 
             Dimensions : 1
             Domain     : [ 0.  1.]
-            Size       : (10,)"""
-        )[1:]
+            Size       : (10,)
+            """
+        ).strip()
         self._repr = textwrap.dedent(
             """
     LUT1D([ 0.        ,  0.11111111,  0.22222222,  0.33333333,  0.44444444,
             0.55555556,  0.66666667,  0.77777778,  0.88888889,  1.        ],
-          name='Nemo',
-          domain=[ 0.,  1.])"""
-        )[1:]
+          'Nemo',
+          [ 0.,  1.],
+          10)
+          """
+        ).strip()
         self._inverted_apply_1 = np.array(
             [
                 [
@@ -831,8 +835,9 @@ class TestLUT3x1D(AbstractLUTTest):
             Dimensions : 2
             Domain     : [[ 0.  0.  0.]
                           [ 1.  1.  1.]]
-            Size       : (10, 3)"""
-        )[1:]
+            Size       : (10, 3)
+            """
+        ).strip()
         self._repr = textwrap.dedent(
             """
             LUT3x1D([[ 0.        ,  0.        ,  0.        ],
@@ -845,10 +850,12 @@ class TestLUT3x1D(AbstractLUTTest):
                      [ 0.77777778,  0.77777778,  0.77777778],
                      [ 0.88888889,  0.88888889,  0.88888889],
                      [ 1.        ,  1.        ,  1.        ]],
-                    name='Nemo',
-                    domain=[[ 0.,  0.,  0.],
-                            [ 1.,  1.,  1.]])"""
-        )[1:]
+                    'Nemo',
+                    [[ 0.,  0.,  0.],
+                     [ 1.,  1.,  1.]],
+                    10)
+                    """
+        ).strip()
         self._inverted_apply_1 = np.array(
             [
                 [
@@ -1016,8 +1023,9 @@ class TestLUT3D(AbstractLUTTest):
             Dimensions : 3
             Domain     : [[ 0.  0.  0.]
                           [ 1.  1.  1.]]
-            Size       : (33, 33, 33, 3)"""
-        )[1:]
+            Size       : (33, 33, 33, 3)
+            """
+        ).strip()
         self._repr = None
         self._inverted_apply_1 = np.array(
             [

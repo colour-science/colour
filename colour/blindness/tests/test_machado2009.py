@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.blindness.machado2009` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.blindness.machado2009` module."""
 
 import numpy as np
 import unittest

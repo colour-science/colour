@@ -342,22 +342,24 @@ def override_style(**kwargs: Any) -> Callable:
 def XYZ_to_plotting_colourspace(
     XYZ: ArrayLike,
     illuminant: ArrayLike = RGB_COLOURSPACES["sRGB"].whitepoint,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     apply_cctf_encoding: Boolean = True,
 ) -> NDArray:

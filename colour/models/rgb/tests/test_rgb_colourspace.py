@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module."""
 
 import numpy as np
 import re
@@ -11,13 +12,14 @@ from colour.models import (
     RGB_Colourspace,
     XYZ_to_RGB,
     RGB_to_XYZ,
-    matrix_RGB_to_RGB,
     RGB_to_RGB,
+    matrix_RGB_to_RGB,
     chromatically_adapted_primaries,
     normalised_primary_matrix,
     eotf_inverse_sRGB,
     eotf_sRGB,
 )
+from colour.models import linear_function
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -56,8 +58,8 @@ class TestRGB_Colourspace(unittest.TestCase):
             "ACES",
             matrix_RGB_to_XYZ,
             matrix_XYZ_to_RGB,
-            lambda x: x,
-            lambda x: x,
+            linear_function,
+            linear_function,
         )
 
     def test_required_attributes(self):
@@ -112,8 +114,8 @@ class TestRGB_Colourspace(unittest.TestCase):
                           [  1.00000000e-04  -7.70000000e-02]]
     Whitepoint         : [ 0.32168  0.33767]
     Whitepoint Name    : ACES
-    Encoding CCTF      : <function TestRGB_Colourspace.setUp.<locals>.<lambda>
-    Decoding CCTF      : <function TestRGB_Colourspace.setUp.<locals>.<lambda>
+    Encoding CCTF      : <function linear_function
+    Decoding CCTF      : <function linear_function
     NPM                : [[ 1.  0.  0.]
                           [ 0.  1.  0.]
                           [ 0.  0.  1.]]
@@ -127,8 +129,9 @@ class TestRGB_Colourspace(unittest.TestCase):
                           [ -4.95903023e-01   1.37331305e+00   9.82400361e-02]
                           [  0.00000000e+00   0.00000000e+00   9.91252018e-01]]
     Use Derived NPM    : False
-    Use Derived NPM -1 : False"""
-            )[1:],
+    Use Derived NPM -1 : False
+                """
+            ).strip(),
         )
 
     def test__repr__(self):
@@ -141,23 +144,24 @@ __repr__` method.
             re.sub(" at 0x\\w+>", "", repr(self._colourspace)),
             textwrap.dedent(
                 """
-        RGB_Colourspace(RGB Colourspace,
+        RGB_Colourspace('RGB Colourspace',
                         [[  7.34700000e-01,   2.65300000e-01],
                          [  0.00000000e+00,   1.00000000e+00],
                          [  1.00000000e-04,  -7.70000000e-02]],
                         [ 0.32168,  0.33767],
-                        ACES,
+                        'ACES',
                         [[ 1.,  0.,  0.],
                          [ 0.,  1.,  0.],
                          [ 0.,  0.,  1.]],
                         [[ 1.,  0.,  0.],
                          [ 0.,  1.,  0.],
                          [ 0.,  0.,  1.]],
-                        <function TestRGB_Colourspace.setUp.<locals>.<lambda>,
-                        <function TestRGB_Colourspace.setUp.<locals>.<lambda>,
+                        linear_function,
+                        linear_function,
                         False,
-                        False)"""
-            )[1:],
+                        False)
+                """
+            ).strip(),
         )
 
     def test_use_derived_transformation_matrices(self):

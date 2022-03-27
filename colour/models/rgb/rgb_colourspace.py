@@ -52,6 +52,8 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     from_range_1,
+    multiline_str,
+    multiline_repr,
     optional,
     to_domain_1,
     is_string,
@@ -673,25 +675,35 @@ class RGB_Colourspace:
         Use Derived NPM -1 : False
         """
 
-        def _indent_array(a: Optional[NDArray]) -> str:
-            """Indent given array string representation."""
-
-            return str(a).replace(" [", " " * 22 + "[")
-
-        return (
-            f"{self.name}\n"
-            f'{"-" * len(self.name)}\n\n'
-            f"Primaries          : {_indent_array(self.primaries)}\n"
-            f"Whitepoint         : {self.whitepoint}\n"
-            f"Whitepoint Name    : {self.whitepoint_name}\n"
-            f"Encoding CCTF      : {self.cctf_encoding}\n"
-            f"Decoding CCTF      : {self.cctf_decoding}\n"
-            f"NPM                : {_indent_array(self._matrix_RGB_to_XYZ)}\n"
-            f"NPM -1             : {_indent_array(self._matrix_XYZ_to_RGB)}\n"
-            f"Derived NPM        : {_indent_array(self._derived_matrix_RGB_to_XYZ)}\n"
-            f"Derived NPM -1     : {_indent_array(self._derived_matrix_XYZ_to_RGB)}\n"
-            f"Use Derived NPM    : {self.use_derived_matrix_RGB_to_XYZ}\n"
-            f"Use Derived NPM -1 : {self.use_derived_matrix_XYZ_to_RGB}"
+        return multiline_str(
+            self,
+            [
+                {"name": "name", "section": True},
+                {"line_break": True},
+                {"name": "primaries", "label": "Primaries"},
+                {"name": "whitepoint", "label": "Whitepoint"},
+                {"name": "whitepoint_name", "label": "Whitepoint Name"},
+                {"name": "cctf_encoding", "label": "Encoding CCTF"},
+                {"name": "cctf_decoding", "label": "Decoding CCTF"},
+                {"name": "_matrix_RGB_to_XYZ", "label": "NPM"},
+                {"name": "_matrix_XYZ_to_RGB", "label": "NPM -1"},
+                {
+                    "name": "_derived_matrix_RGB_to_XYZ",
+                    "label": "Derived NPM",
+                },
+                {
+                    "name": "_derived_matrix_XYZ_to_RGB",
+                    "label": "Derived NPM -1",
+                },
+                {
+                    "name": "use_derived_matrix_RGB_to_XYZ",
+                    "label": "Use Derived NPM",
+                },
+                {
+                    "name": "use_derived_matrix_XYZ_to_RGB",
+                    "label": "Use Derived NPM -1",
+                },
+            ],
         )
 
     def __repr__(self) -> str:
@@ -706,54 +718,62 @@ class RGB_Colourspace:
 
         Examples
         --------
+        >>> from colour.models import linear_function
         >>> p = np.array(
         ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = np.array([0.32168, 0.33767])
         >>> matrix_RGB_to_XYZ = np.identity(3)
         >>> matrix_XYZ_to_RGB = np.identity(3)
-        >>> cctf_encoding = lambda x: x
-        >>> cctf_decoding = lambda x: x
         >>> RGB_Colourspace('RGB Colourspace', p, whitepoint, 'ACES',
         ...                 matrix_RGB_to_XYZ, matrix_XYZ_to_RGB,
-        ...                 cctf_encoding, cctf_decoding)
+        ...                 linear_function, linear_function)
         ... # doctest: +ELLIPSIS
-        RGB_Colourspace(RGB Colourspace,
+        RGB_Colourspace('RGB Colourspace',
                         [[  7.34700000e-01,   2.65300000e-01],
                          [  0.00000000e+00,   1.00000000e+00],
                          [  1.00000000e-04,  -7.70000000e-02]],
                         [ 0.32168,  0.33767],
-                        ACES,
+                        'ACES',
                         [[ 1.,  0.,  0.],
                          [ 0.,  1.,  0.],
                          [ 0.,  0.,  1.]],
                         [[ 1.,  0.,  0.],
                          [ 0.,  1.,  0.],
                          [ 0.,  0.,  1.]],
-                        <function <lambda> at 0x...>,
-                        <function <lambda> at 0x...>,
+                        linear_function,
+                        linear_function,
                         False,
                         False)
         """
 
-        def _indent_array(a: Optional[NDArray]) -> str:
-            """Indent given array evaluable string representation."""
-
-            representation = repr(a).replace(" [", f"{' ' * 11}[")
-            representation = representation.replace("array(", " " * 16)
-            return representation.replace(")", "")
-
-        indentation = " " * 16
-        return (
-            f"RGB_Colourspace({self.name},\n"
-            f"{_indent_array(self.primaries)},\n"
-            f"{_indent_array(self.whitepoint)},\n"
-            f"{indentation}{self.whitepoint_name},\n"
-            f"{_indent_array(self.matrix_RGB_to_XYZ)},\n"
-            f"{_indent_array(self.matrix_XYZ_to_RGB)},\n"
-            f"{indentation}{self.cctf_encoding},\n"
-            f"{indentation}{self.cctf_decoding},\n"
-            f"{indentation}{self.use_derived_matrix_RGB_to_XYZ},\n"
-            f"{indentation}{self.use_derived_matrix_XYZ_to_RGB})"
+        return multiline_repr(
+            self,
+            [
+                {"name": "name"},
+                {"name": "primaries"},
+                {"name": "whitepoint"},
+                {"name": "whitepoint_name"},
+                {"name": "matrix_RGB_to_XYZ"},
+                {"name": "matrix_XYZ_to_RGB"},
+                {
+                    "name": "cctf_encoding",
+                    "formatter": lambda x: (
+                        None
+                        if self.cctf_encoding is None
+                        else self.cctf_encoding.__name__
+                    ),
+                },
+                {
+                    "name": "cctf_decoding",
+                    "formatter": lambda x: (
+                        None
+                        if self.cctf_decoding is None
+                        else self.cctf_decoding.__name__
+                    ),
+                },
+                {"name": "use_derived_matrix_RGB_to_XYZ"},
+                {"name": "use_derived_matrix_XYZ_to_RGB"},
+            ],
         )
 
     def _derive_transformation_matrices(self):
@@ -900,22 +920,24 @@ def XYZ_to_RGB(
     illuminant_XYZ: ArrayLike,
     illuminant_RGB: ArrayLike,
     matrix_XYZ_to_RGB: ArrayLike,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     cctf_encoding: Optional[Callable] = None,
 ) -> NDArray:
@@ -1006,22 +1028,24 @@ def RGB_to_XYZ(
     illuminant_RGB: ArrayLike,
     illuminant_XYZ: ArrayLike,
     matrix_RGB_to_XYZ: ArrayLike,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     cctf_decoding: Optional[Callable] = None,
 ) -> NDArray:
@@ -1110,22 +1134,24 @@ def RGB_to_XYZ(
 def matrix_RGB_to_RGB(
     input_colourspace: RGB_Colourspace,
     output_colourspace: RGB_Colourspace,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
 ) -> NDArray:
     """
@@ -1179,22 +1205,24 @@ def RGB_to_RGB(
     RGB: ArrayLike,
     input_colourspace: RGB_Colourspace,
     output_colourspace: RGB_Colourspace,
-    chromatic_adaptation_transform: Union[
-        Literal[
-            "Bianco 2010",
-            "Bianco PC 2010",
-            "Bradford",
-            "CAT02 Brill 2008",
-            "CAT02",
-            "CAT16",
-            "CMCCAT2000",
-            "CMCCAT97",
-            "Fairchild",
-            "Sharp",
-            "Von Kries",
-            "XYZ Scaling",
-        ],
-        str,
+    chromatic_adaptation_transform: Optional[
+        Union[
+            Literal[
+                "Bianco 2010",
+                "Bianco PC 2010",
+                "Bradford",
+                "CAT02 Brill 2008",
+                "CAT02",
+                "CAT16",
+                "CMCCAT2000",
+                "CMCCAT97",
+                "Fairchild",
+                "Sharp",
+                "Von Kries",
+                "XYZ Scaling",
+            ],
+            str,
+        ]
     ] = "CAT02",
     apply_cctf_decoding: Boolean = False,
     apply_cctf_encoding: Boolean = False,

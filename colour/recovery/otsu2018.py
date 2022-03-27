@@ -504,10 +504,10 @@ def XYZ_to_sd_Otsu2018(
                           [ 710.        ,    0.7084128...],
                           [ 720.        ,    0.7154674...],
                           [ 730.        ,    0.7234334...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2065494...,  0.1219712...,  0.0514002...])
     """
@@ -570,7 +570,7 @@ class PartitionAxis:
     origin: Floating
     direction: Integer
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Return a formatted string representation of the partition axis.
 
@@ -1275,10 +1275,10 @@ class Tree_Otsu2018(Node_Otsu2018):
                           [ 760.        ,    0.5860973...],
                           [ 770.        ,    0.5614878...],
                           [ 780.        ,    0.5289331...]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={...})
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
     """
 
     def __init__(

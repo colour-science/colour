@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.colorimetry.blackbody` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.colorimetry.blackbody` module."""
 
 from __future__ import annotations
 

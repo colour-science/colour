@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.quality.cri` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.quality.cri` module."""
 
 from __future__ import annotations
 

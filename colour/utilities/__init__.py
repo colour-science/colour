@@ -62,6 +62,8 @@ from .verbose import (
     ANCILLARY_DEVELOPMENT_PACKAGES,
     ANCILLARY_EXTRAS_PACKAGES,
     describe_environment,
+    multiline_str,
+    multiline_repr,
 )
 from .array import (
     MixinDataclassFields,
@@ -178,6 +180,8 @@ __all__ += [
     "ANCILLARY_DEVELOPMENT_PACKAGES",
     "ANCILLARY_EXTRAS_PACKAGES",
     "describe_environment",
+    "multiline_str",
+    "multiline_repr",
 ]
 __all__ += [
     "MixinDataclassFields",

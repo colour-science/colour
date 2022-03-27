@@ -1,5 +1,5 @@
 # !/usr/bin/env python
-"""Defines the unit tests for the :mod:`colour.corresponding.prediction` module."""
+"""Define the unit tests for the :mod:`colour.corresponding.prediction` module."""
 
 from __future__ import annotations
 

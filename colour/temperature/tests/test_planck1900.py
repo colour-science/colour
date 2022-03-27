@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.temperature.planck1900` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.temperature.planck1900` module."""
 
 import numpy as np
 import unittest

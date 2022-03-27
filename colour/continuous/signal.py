@@ -53,6 +53,7 @@ from colour.utilities import (
     fill_nan,
     full,
     is_pandas_installed,
+    multiline_repr,
     optional,
     required,
     runtime_warning,
@@ -565,7 +566,7 @@ class Signal(AbstractContinuousFunction):
         Examples
         --------
         >>> range_ = np.linspace(10, 100, 10)
-        >>> Signal(range_)  # doctest: +ELLIPSIS
+        >>> Signal(range_)
         Signal([[   0.,   10.],
                 [   1.,   20.],
                 [   2.,   30.],
@@ -576,36 +577,36 @@ class Signal(AbstractContinuousFunction):
                 [   7.,   80.],
                 [   8.,   90.],
                 [   9.,  100.]],
-               interpolator=KernelInterpolator,
-               interpolator_kwargs={},
-               extrapolator=Extrapolator,
-               extrapolator_kwargs={...})
+               KernelInterpolator,
+               {},
+               Extrapolator,
+               {'method': 'Constant', 'left': nan, 'right': nan})
         """
 
         if is_documentation_building():  # pragma: no cover
             return f"{self.__class__.__name__}(name='{self.name}', ...)"
 
         try:
-            representation = repr(tstack([self.domain, self.range]))
-            representation = representation.replace(
-                "array", self.__class__.__name__
+            return multiline_repr(
+                self,
+                [
+                    {
+                        "formatter": lambda x: repr(
+                            tstack([self.domain, self.range])
+                        ),
+                    },
+                    {
+                        "name": "interpolator",
+                        "formatter": lambda x: self.interpolator.__name__,
+                    },
+                    {"name": "interpolator_kwargs"},
+                    {
+                        "name": "extrapolator",
+                        "formatter": lambda x: self.extrapolator.__name__,
+                    },
+                    {"name": "extrapolator_kwargs"},
+                ],
             )
-            representation = representation.replace(
-                "       [",
-                f"{' ' * (len(self.__class__.__name__) + 2)}[",
-            )
-            indentation = " " * (len(self.__class__.__name__) + 1)
-            representation = (
-                f"{representation[:-1]},\n"
-                f"{indentation}interpolator={self.interpolator.__name__},\n"
-                f"{indentation}interpolator_kwargs="
-                f"{repr(self.interpolator_kwargs)},\n"
-                f"{indentation}extrapolator={self.extrapolator.__name__},\n"
-                f"{indentation}extrapolator_kwargs="
-                f"{repr(self.extrapolator_kwargs)})"
-            )
-
-            return representation
         except TypeError:
             return super().__repr__()
 

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.plotting.volume` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.plotting.volume` module."""
 
 import numpy as np
 import unittest

@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.difference` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.difference` module."""
 
 import numpy as np
 import unittest

@@ -61,6 +61,35 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     >>> sd = SpectralDistribution_UPRTek(
     ...     join(directory, 'ESPD2021_0104_231446.xls'))
     >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+    ... # doctest: +ELLIPSIS
+    IES TM-27-14 Spectral Distribution
+    ==================================
+    <BLANKLINE>
+    Path                  : ...
+    Spectral Quantity     : irradiance
+    Reflection Geometry   : None
+    Transmission Geometry : None
+    Bandwidth (FWHM)      : None
+    Bandwidth Corrected   : None
+    <BLANKLINE>
+    Header
+    ------
+    <BLANKLINE>
+    Manufacturer           : UPRTek
+    Catalog Number         : None
+    Description            : None
+    Document Creator       : None
+    Unique Identifier      : None
+    Measurement Equipment  : CV600
+    Laboratory             : None
+    Report Number          : None
+    Report Date            : 2021/01/04_23:14:46
+    Document Creation Date : None
+    Comments               : {...}
+    <BLANKLINE>
+    Spectral Data
+    -------------
+    <BLANKLINE>
     [[  3.80000000e+02   3.02670000e-02]
      [  3.90000000e+02   3.52230000e-02]
      [  4.00000000e+02   1.93250000e-02]
@@ -102,6 +131,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
      [  7.60000000e+02   6.90947000e-01]
      [  7.70000000e+02   5.08426000e-01]
      [  7.80000000e+02   4.11766000e-01]]
+
     >>> sd.header.comments
     '{"Model Name": "CV600", "Serial Number": "19J00789", \
 "Time": "2021/01/04_23:14:46", "Memo": [], "LUX": 695.154907, \
@@ -163,6 +193,35 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         >>> sd = SpectralDistribution_UPRTek(
         ...     join(directory, 'ESPD2021_0104_231446.xls'))
         >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+        ... # doctest: +ELLIPSIS
+        IES TM-27-14 Spectral Distribution
+        ==================================
+        <BLANKLINE>
+        Path                  : ...
+        Spectral Quantity     : irradiance
+        Reflection Geometry   : None
+        Transmission Geometry : None
+        Bandwidth (FWHM)      : None
+        Bandwidth Corrected   : None
+        <BLANKLINE>
+        Header
+        ------
+        <BLANKLINE>
+        Manufacturer           : UPRTek
+        Catalog Number         : None
+        Description            : None
+        Document Creator       : None
+        Unique Identifier      : None
+        Measurement Equipment  : CV600
+        Laboratory             : None
+        Report Number          : None
+        Report Date            : 2021/01/04_23:14:46
+        Document Creation Date : None
+        Comments               : {...}
+        <BLANKLINE>
+        Spectral Data
+        -------------
+        <BLANKLINE>
         [[  3.80000000e+02   3.02670000e-02]
          [  3.90000000e+02   3.52230000e-02]
          [  4.00000000e+02   1.93250000e-02]
@@ -293,6 +352,35 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     >>> sd = SpectralDistribution_Sekonic(
     ...     join(directory, 'RANDOM_001_02._3262K.csv'))
     >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+    ... # doctest: +ELLIPSIS
+    IES TM-27-14 Spectral Distribution
+    ==================================
+    <BLANKLINE>
+    Path                  : ...
+    Spectral Quantity     : irradiance
+    Reflection Geometry   : None
+    Transmission Geometry : None
+    Bandwidth (FWHM)      : None
+    Bandwidth Corrected   : None
+    <BLANKLINE>
+    Header
+    ------
+    <BLANKLINE>
+    Manufacturer           : Sekonic
+    Catalog Number         : None
+    Description            : None
+    Document Creator       : None
+    Unique Identifier      : None
+    Measurement Equipment  : None
+    Laboratory             : None
+    Report Number          : None
+    Report Date            : 15/03/2021 3:44:14 p.m.
+    Document Creation Date : None
+    Comments               : {...}
+    <BLANKLINE>
+    Spectral Data
+    -------------
+    <BLANKLINE>
     [[  3.80000000e+02   1.69406589e-21]
      [  3.90000000e+02   2.11758237e-22]
      [  4.00000000e+02   1.19813650e-05]
@@ -365,6 +453,35 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
         >>> sd = SpectralDistribution_Sekonic(
         ...     join(directory, 'RANDOM_001_02._3262K.csv'))
         >>> print(sd.read().align(SpectralShape(380, 780, 10)))
+        ... # doctest: +ELLIPSIS
+        IES TM-27-14 Spectral Distribution
+        ==================================
+        <BLANKLINE>
+        Path                  : ...
+        Spectral Quantity     : irradiance
+        Reflection Geometry   : None
+        Transmission Geometry : None
+        Bandwidth (FWHM)      : None
+        Bandwidth Corrected   : None
+        <BLANKLINE>
+        Header
+        ------
+        <BLANKLINE>
+        Manufacturer           : Sekonic
+        Catalog Number         : None
+        Description            : None
+        Document Creator       : None
+        Unique Identifier      : None
+        Measurement Equipment  : None
+        Laboratory             : None
+        Report Number          : None
+        Report Date            : 15/03/2021 3:44:14 p.m.
+        Document Creation Date : None
+        Comments               : {...}
+        <BLANKLINE>
+        Spectral Data
+        -------------
+        <BLANKLINE>
         [[  3.80000000e+02   1.69406589e-21]
          [  3.90000000e+02   2.11758237e-22]
          [  4.00000000e+02   1.19813650e-05]

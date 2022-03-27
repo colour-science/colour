@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.geometry.primitives` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.geometry.primitives` module."""
 
 import numpy as np
 import unittest

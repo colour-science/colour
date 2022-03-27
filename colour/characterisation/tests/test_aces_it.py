@@ -1,4 +1,5 @@
-"""Defines the unit tests for the :mod:`colour.characterisation.aces_it` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.characterisation.aces_it` module."""
 
 from __future__ import annotations
 
@@ -48,7 +49,7 @@ __status__ = "Production"
 __all__ = [
     "MSDS_CANON_EOS_5DMARK_II",
     "SD_AMPAS_ISO7589_STUDIO_TUNGSTEN",
-    "TestSpectralToAcesRelativeExposureValues",
+    "TestSdToAcesRelativeExposureValues",
     "TestReadTrainingDataRawtoacesV1",
     "TestGenerateIlluminantsRawtoacesV1",
     "TestWhiteBalanceMultipliers",
@@ -82,16 +83,16 @@ SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = (
 )
 
 
-class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
+class TestSdToAcesRelativeExposureValues(unittest.TestCase):
     """
     Define :func:`colour.characterisation.aces_it.\
 sd_to_aces_relative_exposure_values` definition unit tests methods.
     """
 
-    def test_spectral_to_aces_relative_exposure_values(self):
+    def sd_to_aces_relative_exposure_values(self):
         """
-                Test :func:`colour.characterisation.aces_it.
-        sd_to_aces_relative_exposure_values` definition.
+        Test :func:`colour.characterisation.aces_it.\
+sd_to_aces_relative_exposure_values` definition.
         """
 
         shape = MSDS_ACES_RICD.shape
@@ -127,9 +128,7 @@ sd_to_aces_relative_exposure_values` definition unit tests methods.
 
         dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
         np.testing.assert_almost_equal(
-            sd_to_aces_relative_exposure_values(
-                dark_skin, apply_chromatic_adaptation=True
-            ),
+            sd_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11807796, 0.08690312, 0.05891252]),
             decimal=7,
         )
@@ -138,7 +137,6 @@ sd_to_aces_relative_exposure_values` definition unit tests methods.
         np.testing.assert_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin,
-                apply_chromatic_adaptation=True,
                 chromatic_adaptation_transform="Bradford",
             ),
             np.array([0.11805993, 0.08689013, 0.05900396]),

@@ -42,6 +42,7 @@ from colour.utilities import (
     first_item,
     is_iterable,
     is_pandas_installed,
+    multiline_repr,
     optional,
     required,
     tsplit,
@@ -679,7 +680,7 @@ class MultiSignals(AbstractContinuousFunction):
         >>> domain = np.arange(0, 10, 1)
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> MultiSignals(range_)  # doctest: +ELLIPSIS
+        >>> MultiSignals(range_)
         MultiSignals([[   0.,   10.,   20.,   30.],
                       [   1.,   20.,   30.,   40.],
                       [   2.,   30.,   40.,   50.],
@@ -690,17 +691,39 @@ class MultiSignals(AbstractContinuousFunction):
                       [   7.,   80.,   90.,  100.],
                       [   8.,   90.,  100.,  110.],
                       [   9.,  100.,  110.,  120.]],
-                     labels=['0', '1', '2'],
-                     interpolator=KernelInterpolator,
-                     interpolator_kwargs={},
-                     extrapolator=Extrapolator,
-                     extrapolator_kwargs={...)
+                     ['0', '1', '2'],
+                     KernelInterpolator,
+                     {},
+                     Extrapolator,
+                     {'method': 'Constant', 'left': nan, 'right': nan})
         """
 
         if is_documentation_building():  # pragma: no cover
             return f"{self.__class__.__name__}(name='{self.name}', ...)"
 
         try:
+            return multiline_repr(
+                self,
+                [
+                    {
+                        "formatter": lambda x: repr(
+                            np.hstack([self.domain[:, np.newaxis], self.range])
+                        ),
+                    },
+                    {"name": "labels"},
+                    {
+                        "name": "interpolator",
+                        "formatter": lambda x: self.interpolator.__name__,
+                    },
+                    {"name": "interpolator_kwargs"},
+                    {
+                        "name": "extrapolator",
+                        "formatter": lambda x: self.extrapolator.__name__,
+                    },
+                    {"name": "extrapolator_kwargs"},
+                ],
+            )
+
             representation = repr(
                 np.hstack([self.domain[:, np.newaxis], self.range])
             )

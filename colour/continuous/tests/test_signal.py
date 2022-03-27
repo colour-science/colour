@@ -1,8 +1,8 @@
-"""Defines the unit tests for the :mod:`colour.continuous.signal` module."""
+# !/usr/bin/env python
+"""Define the unit tests for the :mod:`colour.continuous.signal` module."""
 
 import numpy as np
 import unittest
-import re
 import textwrap
 
 from colour.algebra import (
@@ -298,11 +298,7 @@ class TestSignal(unittest.TestCase):
         """Test :func:`colour.continuous.signal.Signal.__repr__` method."""
 
         self.assertEqual(
-            re.sub(
-                r"extrapolator_kwargs={.*}",
-                "extrapolator_kwargs={...}",
-                repr(self._signal),
-            ),
+            repr(self._signal),
             textwrap.dedent(
                 """
                 Signal([[   0.,   10.],
@@ -315,11 +311,12 @@ class TestSignal(unittest.TestCase):
                         [   7.,   80.],
                         [   8.,   90.],
                         [   9.,  100.]],
-                       interpolator=KernelInterpolator,
-                       interpolator_kwargs={},
-                       extrapolator=Extrapolator,
-                       extrapolator_kwargs={...})"""
-            )[1:],
+                       KernelInterpolator,
+                       {},
+                       Extrapolator,
+                       {'method': 'Constant', 'left': nan, 'right': nan})
+                """
+            ).strip(),
         )
 
         self.assertIsInstance(repr(Signal()), str)
