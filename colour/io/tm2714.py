@@ -1514,7 +1514,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> SpectralDistribution_IESTM2714(
         ...     join(directory, 'Fluorescent.spdx')).read()
         ...     # doctest: +ELLIPSIS
-        SpectralDistribution_IESTM2714('.../tests/resources/Fluorescent.spdx',
+        SpectralDistribution_IESTM2714('...',
                                        Header_IESTM2714('Unknown',
                                                         'N/A',
                                                         'Rare earth ...',
