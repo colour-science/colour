@@ -52,6 +52,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         self._sd_factory: Any = None
         self._path: Optional[str] = None
         self._spectral_data: Optional[Dict] = None
+        self._prefix: Optional[str] = None
 
     def test_required_attributes(self):
         """Test the presence of required attributes."""
@@ -74,10 +75,27 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
     def test_required_methods(self):
         """Test the presence of required methods."""
 
-        required_methods = ("__init__", "read", "write")
+        required_methods = ("__init__", "__str__", "read", "write")
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution_UPRTek))
+
+    def test__str__(self):
+        """
+        Test :meth:`colour.SpectralDistribution_UPRTek.__str__` and
+        :meth:`colour.SpectralDistribution_Sekonic.__str__` methods.
+        """
+
+        if self._sd_factory is None:
+            return
+
+        self.assertTrue(
+            str(
+                self._sd_factory(
+                    os.path.join(RESOURCES_DIRECTORY, self._path)
+                ).read()
+            ).startswith(self._prefix)
+        )
 
     def test_read(self):
         """
@@ -588,6 +606,7 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
                 "IRR": 2.607891,
             },
         }
+        self._prefix = "UPRTek"
 
 
 class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
@@ -1094,6 +1113,7 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
             },
             "SpectralQuantity": "Irradiance",
         }
+        self._prefix = "Sekonic"
 
 
 if __name__ == "__main__":
