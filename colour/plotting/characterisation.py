@@ -218,5 +218,6 @@ def plot_multi_colour_checkers(
             "title": ", ".join(colour_checker_names),
         }
     )
+    settings.update(kwargs)
 
     return render(**settings)
