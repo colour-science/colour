@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
+Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 filmlight_tlog` module.
 """
 

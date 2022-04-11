@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the
+Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.exponent` module.
 """
 

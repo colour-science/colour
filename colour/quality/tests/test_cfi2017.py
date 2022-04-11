@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.quality.CIE2017` module.
+Define the unit tests for the :mod:`colour.quality.CIE2017` module.
 
 Notes
 -----

@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.characterisation.correction`
+Define the unit tests for the :mod:`colour.characterisation.correction`
 module.
 """
 

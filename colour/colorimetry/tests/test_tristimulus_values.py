@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.colorimetry.tristimulus_values`
+Define the unit tests for the :mod:`colour.colorimetry.tristimulus_values`
 module.
 
 References

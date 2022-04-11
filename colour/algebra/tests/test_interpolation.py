@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.algebra.interpolation` module.
+Define the unit tests for the :mod:`colour.algebra.interpolation` module.
 
 References
 ----------

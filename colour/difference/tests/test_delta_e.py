@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.difference.delta_e` module.
+Define the unit tests for the :mod:`colour.difference.delta_e` module.
 
 References
 ----------

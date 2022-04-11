@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.quality.tm3018` module.
+Define the unit tests for the :mod:`colour.quality.tm3018` module.
 
 Notes
 -----

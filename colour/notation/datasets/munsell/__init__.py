@@ -21,7 +21,7 @@ MUNSELL_COLOURS = CaseInsensitiveMapping(
     }
 )
 MUNSELL_COLOURS.__doc__ = """
-Defines the *Munsell Renotation System* datasets.
+Define the *Munsell Renotation System* datasets.
 
 -   ``Munsell Colours All``: *all* published *Munsell* colours, including the
     extrapolated colors.
