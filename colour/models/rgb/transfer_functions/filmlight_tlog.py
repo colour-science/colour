@@ -108,13 +108,13 @@ def log_encoding_FilmLightTLog(
 
     x = to_domain_1(x)
 
-    b = 1.0 / (0.7107 + 1.2359 * np.log(w * g))
-    gs = g / (1.0 - o)
+    b = 1 / (0.7107 + 1.2359 * np.log(w * g))
+    gs = g / (1 - o)
     C = b / gs
-    a = 1.0 - b * np.log(w + C)
+    a = 1 - b * np.log(w + C)
     y0 = a + b * np.log(C)
-    s = (1.0 - o) / (1.0 - y0)
-    A = 1.0 + (a - 1.0) * s
+    s = (1 - o) / (1 - y0)
+    A = 1 + (a - 1) * s
     B = b * s
     G = gs * s
 
@@ -202,13 +202,13 @@ def log_decoding_FilmLightTLog(
 
     t = to_domain_1(t)
 
-    b = 1.0 / (0.7107 + 1.2359 * np.log(w * g))
-    gs = g / (1.0 - o)
+    b = 1 / (0.7107 + 1.2359 * np.log(w * g))
+    gs = g / (1 - o)
     C = b / gs
-    a = 1.0 - b * np.log(w + C)
+    a = 1 - b * np.log(w + C)
     y0 = a + b * np.log(C)
-    s = (1.0 - o) / (1.0 - y0)
-    A = 1.0 + (a - 1.0) * s
+    s = (1 - o) / (1 - y0)
+    A = 1 + (a - 1) * s
     B = b * s
     G = gs * s
 
