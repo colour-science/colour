@@ -262,17 +262,17 @@ CCS_ILLUMINANT_MUNSELL: NDArray = CCS_ILLUMINANTS[
     "CIE 1931 2 Degree Standard Observer"
 ][ILLUMINANT_NAME_MUNSELL]
 
-_MUNSELL_SPECIFICATIONS_CACHE: Dict = CACHE_REGISTRY.register_cache(
-    f"{__name__}._MUNSELL_SPECIFICATIONS_CACHE"
+_CACHE_MUNSELL_SPECIFICATIONS: Dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_MUNSELL_SPECIFICATIONS"
 )
-_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE: Dict = (
+_CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR: Dict = (
     CACHE_REGISTRY.register_cache(
-        f"{__name__}._MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE"
+        f"{__name__}._CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR"
     )
 )
-_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE: Dict = (
+_CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION: Dict = (
     CACHE_REGISTRY.register_cache(
-        f"{__name__}._MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE"
+        f"{__name__}._CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION"
     )
 )
 
@@ -304,10 +304,10 @@ def _munsell_specifications() -> NDArray:
         *Munsell Renotation System* specifications.
     """
 
-    global _MUNSELL_SPECIFICATIONS_CACHE
+    global _CACHE_MUNSELL_SPECIFICATIONS
 
-    if "All" in _MUNSELL_SPECIFICATIONS_CACHE:
-        return _MUNSELL_SPECIFICATIONS_CACHE["All"]
+    if "All" in _CACHE_MUNSELL_SPECIFICATIONS:
+        return _CACHE_MUNSELL_SPECIFICATIONS["All"]
 
     munsell_specifications = np.array(
         [
@@ -318,7 +318,7 @@ def _munsell_specifications() -> NDArray:
         ]
     )
 
-    _MUNSELL_SPECIFICATIONS_CACHE["All"] = munsell_specifications
+    _CACHE_MUNSELL_SPECIFICATIONS["All"] = munsell_specifications
 
     return munsell_specifications
 
@@ -334,12 +334,12 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
         *Munsell* value interpolator for *ASTM D1535-08e1* method.
     """
 
-    global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
+    global _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR
 
     if "ASTM D1535-08 Interpolator" in (
-        _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
+        _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR
     ):
-        return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE[
+        return _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[
             "ASTM D1535-08 Interpolator"
         ]
 
@@ -349,7 +349,7 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
     )
     extrapolator = Extrapolator(interpolator)
 
-    _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE[
+    _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[
         "ASTM D1535-08 Interpolator"
     ] = extrapolator
 
@@ -369,12 +369,12 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
         Maximum *Munsell* chromas.
     """
 
-    global _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
+    global _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION
 
     if "Maximum Chromas From Renotation" in (
-        _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
+        _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION
     ):
-        return _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE[
+        return _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION[
             "Maximum Chromas From Renotation"
         ]
 
@@ -395,7 +395,7 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
         zip(chromas.keys(), chromas.values())
     )
 
-    _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE[
+    _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION[
         "Maximum Chromas From Renotation"
     ] = maximum_chromas_from_renotation
 

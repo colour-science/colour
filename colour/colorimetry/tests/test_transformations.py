@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.colorimetry.transformations`
+Define the unit tests for the :mod:`colour.colorimetry.transformations`
 module.
 """
 

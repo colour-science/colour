@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.models.rgb.transfer_functions.dcdm`
+Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.dcdm`
 module.
 """
 

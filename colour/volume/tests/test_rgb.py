@@ -1,5 +1,5 @@
 """
-Defines the unit tests for the :mod:`colour.volume.rgb` module.
+Define the unit tests for the :mod:`colour.volume.rgb` module.
 
 Notes
 -----

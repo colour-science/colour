@@ -287,7 +287,7 @@ API_CHANGES: Dict = {
     ],
 }
 """
-Defines the *colour.utilities* sub-package API changes.
+Define the *colour.utilities* sub-package API changes.
 
 API_CHANGES
 """
