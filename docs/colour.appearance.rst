@@ -67,6 +67,32 @@ CAM16
 
     InductionFactors_CAM16
 
+Hellwig and Fairchild (2022) Colour Appearance Model
+----------------------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Hellwig2022
+    Hellwig2022_to_XYZ
+    CAM_Specification_Hellwig2022
+    VIEWING_CONDITIONS_Hellwig2022
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    InductionFactors_Hellwig2022
+
 Hunt
 ----
 
