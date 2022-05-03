@@ -14,7 +14,6 @@ Defines various RGB colourspace volume computation objects:
 from __future__ import annotations
 
 import itertools
-import multiprocessing
 import numpy as np
 
 from colour.algebra import random_triplet_generator
@@ -305,6 +304,8 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     ... # doctest: +SKIP
     8...
     """
+
+    import multiprocessing
 
     processes = multiprocessing.cpu_count()
     process_samples = DEFAULT_INT_DTYPE(np.round(samples / processes))
