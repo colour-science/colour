@@ -163,13 +163,16 @@ from colour.notation import (
 from colour.quality import colour_quality_scale, colour_rendering_index
 from colour.appearance import (
     CAM_Specification_CAM16,
-    CAM16_to_XYZ,
     CAM_Specification_CIECAM02,
+    CAM_Specification_Hellwig2022,
+    CAM16_to_XYZ,
     CIECAM02_to_XYZ,
     Kim2009_to_XYZ,
+    Hellwig2022_to_XYZ,
     XYZ_to_ATD95,
     XYZ_to_CAM16,
     XYZ_to_CIECAM02,
+    XYZ_to_Hellwig2022,
     XYZ_to_Hunt,
     XYZ_to_Kim2009,
     XYZ_to_LLAB,
@@ -207,6 +210,8 @@ __all__ = [
     "JMh_CIECAM02_to_CIECAM02",
     "CAM16_to_JMh_CAM16",
     "JMh_CAM16_to_CAM16",
+    "Hellwig2022_to_JMh_Hellwig2022",
+    "JMh_Hellwig2022_to_Hellwig2022",
     "XYZ_to_luminance",
     "RGB_luminance_to_RGB",
     "CONVERSION_SPECIFICATIONS_DATA",
@@ -393,6 +398,64 @@ Q=None, M=0.1074367..., H=None, HC=None)
     J, M, h = tsplit(JMh)
 
     return CAM_Specification_CAM16(J=J, M=M, h=h)
+
+
+def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArray:
+    """
+    Convert from *Hellwig and Fairchild (2022)* specification to
+    *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
+
+    Parameters
+    ----------
+    specification
+        *Hellwig and Fairchild (2022)* colour appearance model specification.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
+
+    Examples
+    --------
+    >>> specification = CAM_Specification_Hellwig2022(J=41.731207905126638,
+    ...                                               M=0.029382869535427687,
+    ...                                               h=217.06795976739301)
+    >>> Hellwig2022_to_JMh_Hellwig2022(specification)  # doctest: +ELLIPSIS
+    array([  4.1731207...e+01,   2.9382869...e-02,   2.1706796...e+02])
+    """
+
+    return tstack([specification.J, specification.M, specification.h])
+
+
+def JMh_Hellwig2022_to_Hellwig2022(
+    JMh: ArrayLike,
+) -> CAM_Specification_Hellwig2022:
+    """
+    Convert from *Hellwig and Fairchild (2022)* :math:`JMh` correlates to
+    *Hellwig and Fairchild (2022)* specification.
+
+    Parameters
+    ----------
+    JMh
+         *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
+
+    Returns
+    -------
+    :class:`colour.CAM6_Specification`
+        *Hellwig and Fairchild (2022)* colour appearance model specification.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> JMh = np.array([4.17312079e+01,  2.93828695e-02, 2.17067960e+02])
+    >>> JMh_Hellwig2022_to_Hellwig2022(JMh)  # doctest: +ELLIPSIS
+    CAM_Specification_Hellwig2022(J=41.7312079..., C=None, h=217.06796, \
+s=None, Q=None, M=0.0293828..., H=None, HC=None)
+    """
+
+    J, M, h = tsplit(JMh)
+
+    return CAM_Specification_Hellwig2022(J=J, M=M, h=h)
 
 
 def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
@@ -726,6 +789,18 @@ CONVERSION_SPECIFICATIONS_DATA: List = [
     ("CAM16", "CIE XYZ", partial(CAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ("CAM16", "CAM16 JMh", CAM16_to_JMh_CAM16),
     ("CAM16 JMh", "CAM16", JMh_CAM16_to_CAM16),
+    (
+        "CIE XYZ",
+        "Hellwig 2022",
+        partial(XYZ_to_Hellwig2022, **_CAM_KWARGS_CIECAM02_sRGB),
+    ),
+    (
+        "Hellwig 2022",
+        "CIE XYZ",
+        partial(Hellwig2022_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
+    ),
+    ("Hellwig 2022", "Hellwig 2022 JMh", Hellwig2022_to_JMh_Hellwig2022),
+    ("Hellwig 2022 JMh", "Hellwig 2022", JMh_Hellwig2022_to_Hellwig2022),
     (
         "CIE XYZ",
         "Kim 2009",
