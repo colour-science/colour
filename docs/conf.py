@@ -75,7 +75,6 @@ autodoc_mock_imports = [
     "scipy",
     "scipy.interpolate",
     "scipy.ndimage",
-    "scipy.ndimage.filters",
     "scipy.optimize",
     "scipy.spatial",
     "scipy.spatial.distance",
