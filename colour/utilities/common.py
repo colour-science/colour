@@ -19,6 +19,7 @@ import inspect
 import functools
 import numpy as np
 import re
+import subprocess
 import types
 import warnings
 from contextlib import contextmanager
@@ -64,6 +65,7 @@ __all__ = [
     "batch",
     "disable_multiprocessing",
     "multiprocessing_pool",
+    "is_ctlrender_installed",
     "is_matplotlib_installed",
     "is_networkx_installed",
     "is_opencolorio_installed",
@@ -559,6 +561,46 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         pool.terminate()
 
 
+def is_ctlrender_installed(raise_exception: Boolean = False) -> Boolean:
+    """
+    Return whether *ctlrender* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *ctlrender* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *ctlrender* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *ctlrender* is not installed.
+    """
+
+    try:  # pragma: no cover
+        stdout = subprocess.run(
+            ["ctlrender", "-help"], capture_output=True
+        ).stdout.decode("utf-8")
+
+        if "transforms an image using one or more CTL scripts" not in stdout:
+            raise FileNotFoundError()
+
+        return True
+    except FileNotFoundError as error:  # pragma: no cover
+        if raise_exception:
+            raise FileNotFoundError(
+                '"ctlrender" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+        return False
+
+
 def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     """
     Return whether *Matplotlib* is installed and available.
@@ -851,6 +893,7 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
 
 _REQUIREMENTS_TO_CALLABLE: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
+        "ctlrender": is_ctlrender_installed,
         "Matplotlib": is_matplotlib_installed,
         "NetworkX": is_networkx_installed,
         "OpenColorIO": is_opencolorio_installed,
@@ -863,15 +906,12 @@ _REQUIREMENTS_TO_CALLABLE: CaseInsensitiveMapping = CaseInsensitiveMapping(
 )
 """
 Mapping of requirements to their respective callables.
-
-_REQUIREMENTS_TO_CALLABLE
-    **{'Matplotlib', 'NetworkX', 'OpenColorIO', 'OpenImageIO', 'Pandas',
-    'Scikit-Learn', 'tqdm', 'trimesh'}**
 """
 
 
 def required(
     *requirements: Literal[
+        "ctlrender",
         "Matplotlib",
         "NetworkX",
         "OpenColorIO",

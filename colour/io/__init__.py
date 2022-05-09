@@ -6,6 +6,12 @@ from .image import read_image_Imageio, write_image_Imageio
 from .image import READ_IMAGE_METHODS, WRITE_IMAGE_METHODS
 from .image import read_image, write_image
 from .image import as_3_channels_image
+from .ctl import (
+    ctl_render,
+    process_image_ctl,
+    template_ctl_transform_float,
+    template_ctl_transform_float3,
+)
 from .ocio import process_image_OpenColorIO
 from .tabular import (
     read_spectral_data_from_csv_file,
@@ -40,6 +46,12 @@ __all__ += [
 __all__ += [
     "read_image",
     "write_image",
+]
+__all__ += [
+    "ctl_render",
+    "process_image_ctl",
+    "template_ctl_transform_float",
+    "template_ctl_transform_float3",
 ]
 __all__ += [
     "as_3_channels_image",
