@@ -34,6 +34,7 @@ from colour.utilities import (
     filter_kwargs,
     optional,
     required,
+    tstack,
     usage_warning,
     validate_method,
 )
@@ -57,6 +58,7 @@ __all__ = [
     "write_image_Imageio",
     "WRITE_IMAGE_METHODS",
     "write_image",
+    "as_3_channels_image",
 ]
 
 
@@ -221,7 +223,7 @@ def read_image_OpenImageIO(
     attributes: Boolean = False,
 ) -> Union[NDArray, Tuple[NDArray, List]]:  # noqa: D405,D410,D407,D411
     """
-    Read the image at given path using *OpenImageIO*.
+    Read the image data at given path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -299,7 +301,7 @@ def read_image_Imageio(
     **kwargs: Any,
 ) -> NDArray:
     """
-    Read the image at given path using *Imageio*.
+    Read the image data at given path using *Imageio*.
 
     Parameters
     ----------
@@ -364,7 +366,7 @@ def read_image(
     **kwargs: Any,
 ) -> NDArray:  # noqa: D405,D407,D410,D411,D414
     """
-    Read the image at given path using given method.
+    Read the image data at given path using given method.
 
     Parameters
     ----------
@@ -439,7 +441,7 @@ def write_image_OpenImageIO(
     attributes: Optional[Sequence] = None,
 ) -> Boolean:  # noqa: D405,D407,D410,D411
     """
-    Write given image at given path using *OpenImageIO*.
+    Write given image data at given path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -552,7 +554,7 @@ def write_image_Imageio(
     **kwargs: Any,
 ) -> Boolean:
     """
-    Write given image at given path using *Imageio*.
+    Write given image data at given path using *Imageio*.
 
     Parameters
     ----------
@@ -616,7 +618,7 @@ def write_image(
     **kwargs: Any,
 ) -> Boolean:  # noqa: D405,D407,D410,D411,D414
     """
-    Write given image at given path using given method.
+    Write given image data at given path using given method.
 
     Parameters
     ----------
@@ -688,3 +690,46 @@ def write_image(
         kwargs = filter_kwargs(function, **kwargs)
 
     return function(image, path, bit_depth, **kwargs)
+
+
+def as_3_channels_image(a: ArrayLike) -> NDArray:
+    """
+    Convert given array :math:`a` to a 3-channels image-like representation.
+
+    Parameters
+    ----------
+    a
+         Array :math:`a` to convert to a 3-channels image-like representation.
+
+    Returns
+    -------
+    :class`numpy.ndarray`
+        3-channels image-like representation of array :math:`a`.
+
+    Examples
+    --------
+    >>> as_3_channels_image(0.18)
+    array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([0.18])
+    array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([0.18, 0.18, 0.18])
+    array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([[0.18, 0.18, 0.18]])
+    array([[[ 0.18,  0.18,  0.18]]])
+    >>> as_3_channels_image([[[0.18, 0.18, 0.18]]])
+    array([[[ 0.18,  0.18,  0.18]]])
+    """
+    a = as_float_array(a)
+
+    if len(a.shape) == 0:
+        a = tstack([a, a, a])
+
+    if a.shape[-1] == 1:
+        a = tstack([a, a, a])
+
+    if len(a.shape) == 1:
+        a = a[np.newaxis, np.newaxis, ...]
+    elif len(a.shape) == 2:
+        a = a[np.newaxis, ...]
+
+    return a

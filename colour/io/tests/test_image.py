@@ -13,6 +13,7 @@ from colour.io import convert_bit_depth
 from colour.io import read_image_OpenImageIO, write_image_OpenImageIO
 from colour.io import read_image_Imageio, write_image_Imageio
 from colour.io import read_image, write_image
+from colour.io import as_3_channels_image
 from colour.io import ImageAttribute_Specification
 from colour.utilities import attest, is_openimageio_installed
 
@@ -558,6 +559,28 @@ class TestWriteImage(unittest.TestCase):
         image = read_image(target_image_path)
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float32"))
+
+
+class TestAs3ChannelsImage(unittest.TestCase):
+    """
+    Define :func:`colour.io.image.as_3_channels_image` definition unit tests
+    methods.
+    """
+
+    def test_as_3_channels_image(self):
+        """Test :func:`colour.io.image.as_3_channels_image` definition."""
+
+        a = 0.18
+        b = np.array([[[0.18, 0.18, 0.18]]])
+        np.testing.assert_equal(as_3_channels_image(a), b)
+        a = np.array([0.18])
+        np.testing.assert_equal(as_3_channels_image(a), b)
+        a = np.array([0.18, 0.18, 0.18])
+        np.testing.assert_equal(as_3_channels_image(a), b)
+        a = np.array([[0.18, 0.18, 0.18]])
+        np.testing.assert_equal(as_3_channels_image(a), b)
+        a = np.array([[[0.18, 0.18, 0.18]]])
+        np.testing.assert_equal(as_3_channels_image(a), b)
 
 
 if __name__ == "__main__":
