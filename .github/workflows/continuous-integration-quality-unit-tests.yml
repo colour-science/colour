@@ -30,7 +30,7 @@ jobs:
     - name: Install Dependencies (macOS)
       if: matrix.os == 'macOS-latest'
       run: |
-        brew install gnu-sed graphviz
+        brew install ctl gnu-sed graphviz
         ln -s /usr/local/bin/gsed /usr/local/bin/sed
       shell: bash
     - name: Install Dependencies (Ubuntu)
