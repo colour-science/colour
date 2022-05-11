@@ -615,6 +615,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (110, 82, 69), Dark Skin
                 np.array([0.4885468072, -0.04739350675, 0.07475401302]),
                 np.array([0.4899203231, -0.04567508203, 0.07361341775]),
             ),
@@ -624,6 +625,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (110, 82, 69), 100% White
                 np.array([0.7538438727, 0, -6.25e-16]),
                 np.array([0.7538912244, 0.001930922514, -0.0003599955951]),
             ),
@@ -633,6 +635,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (0, 0, 0), 100% Black
                 np.array([0.1596179061, 0, -1.21e-16]),
                 np.array([0.1603575152, 0.02881444889, -0.009908665843]),
             ),
@@ -642,6 +645,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (255, 0, 0), 100% Red
                 np.array([0.5965650331, -0.2083210482, 0.3699729716]),
                 np.array([0.596263079, -0.1629742033, 0.3617767026]),
             ),
@@ -651,6 +655,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (0, 255, 0), 100% Green
                 np.array([0.7055787513, -0.4063731514, -0.07278767382]),
                 np.array([0.7046946082, -0.3771037586, -0.07141626753]),
             ),
@@ -660,6 +665,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (255, 0, 0), 100% Blue
                 np.array([0.5180652611, 0.2932420978, -0.1873112695]),
                 np.array([0.5167090868, 0.298191609, -0.1824609953]),
             ),
@@ -669,6 +675,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (0, 255, 255), 100% Cyan
                 np.array([0.7223275939, -0.01290632441, -0.1139004748]),
                 np.array([0.7215329274, -0.007863821961, -0.1106683944]),
             ),
@@ -678,6 +685,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (255, 0, 255), 100% Magenta
                 np.array([0.6401125212, 0.280225698, 0.1665590804]),
                 np.array([0.640473651, 0.2819981563, 0.1654050172]),
             ),
@@ -687,6 +695,7 @@ class TestDelta_E_ITP(unittest.TestCase):
 
         self.assertAlmostEqual(
             delta_E_ITP(
+                # RGB: (255, 255, 0), 100% Yellow
                 np.array([0.7413041405, -0.3638807621, 0.04959414794]),
                 np.array([0.7412815181, -0.3299076141, 0.04545287368]),
             ),
