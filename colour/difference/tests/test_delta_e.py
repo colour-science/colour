@@ -631,6 +631,69 @@ class TestDelta_E_ITP(unittest.TestCase):
             places=7,
         )
 
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.1596179061, 0, -1.21e-16]),
+                np.array([0.1603575152, 0.02881444889, -0.009908665843]),
+            ),
+            12.60096264,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.5965650331, -0.2083210482, 0.3699729716]),
+                np.array([0.596263079, -0.1629742033, 0.3617767026]),
+            ),
+            17.36012552,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.7055787513, -0.4063731514, -0.07278767382]),
+                np.array([0.7046946082, -0.3771037586, -0.07141626753]),
+            ),
+            10.60227327,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.5180652611, 0.2932420978, -0.1873112695]),
+                np.array([0.5167090868, 0.298191609, -0.1824609953]),
+            ),
+            4.040270489,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.7223275939, -0.01290632441, -0.1139004748]),
+                np.array([0.7215329274, -0.007863821961, -0.1106683944]),
+            ),
+            3.00633812,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.6401125212, 0.280225698, 0.1665590804]),
+                np.array([0.640473651, 0.2819981563, 0.1654050172]),
+            ),
+            1.07944277,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.7413041405, -0.3638807621, 0.04959414794]),
+                np.array([0.7412815181, -0.3299076141, 0.04545287368]),
+            ),
+            12.5885645,
+            places=7,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
