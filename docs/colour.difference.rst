@@ -63,6 +63,18 @@ CMC
 
     delta_E_CMC
 
+ITP
+---
+
+``colour.difference``
+
+.. currentmodule:: colour.difference
+
+.. autosummary::
+    :toctree: generated/
+
+    delta_E_ITP
+
 Luo, Cui and Li (2006)
 ----------------------
 
