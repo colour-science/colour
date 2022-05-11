@@ -57,6 +57,7 @@ __all__ = [
     "delta_E_CIE1994",
     "delta_E_CIE2000",
     "delta_E_CMC",
+    "delta_E_ITP",
 ]
 
 JND_CIE1976 = 2.3
@@ -472,3 +473,26 @@ def delta_E_CMC(
     d_E = np.sqrt(v_1**2 + v_2**2 + (delta_H2 / (v_3 * v_3)))
 
     return as_float(d_E)
+
+
+def delta_E_ITP(
+    target_ICtCp: ArrayLike, actual_ICtCp: ArrayLike
+) -> FloatingOrNDArray:
+    """
+    Initialize dEITP
+    """
+    target_I = target_ICtCp[0]
+    target_T = 0.5 * target_ICtCp[1]
+    target_P = target_ICtCp[2]
+
+    actual_I = actual_ICtCp[0]
+    actual_T = 0.5 * actual_ICtCp[1]
+    actual_P = actual_ICtCp[2]
+
+    dEITP = 720 * np.sqrt(
+        ((actual_I - target_I) ** 2)
+        + ((actual_T - target_T) ** 2)
+        + ((actual_P - target_P) ** 2)
+    )
+
+    return dEITP

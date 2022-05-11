@@ -18,6 +18,7 @@ from colour.difference import (
     delta_E_CIE1994,
     delta_E_CIE2000,
     delta_E_CMC,
+    delta_E_ITP,
 )
 
 from colour.algebra import euclidean_distance
@@ -601,6 +602,34 @@ class TestDelta_E_CMC(unittest.TestCase):
             Lab_1 = np.array(case)
             Lab_2 = np.array(case)
             delta_E_CMC(Lab_1, Lab_2)
+
+
+class TestDelta_E_ITP(unittest.TestCase):
+    """
+    Define :func:`colour.difference.delta_e.delta_E_ITP` definition unit
+    tests methods.
+    """
+
+    def test_delta_E_ITP(self):
+        """Test :func:`colour.difference.delta_e.delta_E_ITP` definition."""
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.4885468072, -0.04739350675, 0.07475401302]),
+                np.array([0.4899203231, -0.04567508203, 0.07361341775]),
+            ),
+            1.426572247,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                np.array([0.7538438727, 0, -6.25e-16]),
+                np.array([0.7538912244, 0.001930922514, -0.0003599955951]),
+            ),
+            0.7426668055,
+            places=7,
+        )
 
 
 if __name__ == "__main__":

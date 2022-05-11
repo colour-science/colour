@@ -47,6 +47,7 @@ from .delta_e import (
     delta_E_CIE1994,
     delta_E_CIE2000,
     delta_E_CMC,
+    delta_E_ITP,
 )
 from .din99 import delta_E_DIN99
 from .huang2015 import power_function_Huang2015
@@ -68,6 +69,7 @@ __all__ += [
     "delta_E_CIE1994",
     "delta_E_CIE2000",
     "delta_E_CMC",
+    "delta_E_ITP",
 ]
 __all__ += [
     "delta_E_DIN99",
@@ -87,6 +89,7 @@ DELTA_E_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "CIE 1994": delta_E_CIE1994,
         "CIE 2000": delta_E_CIE2000,
         "CMC": delta_E_CMC,
+        "ITP": delta_E_ITP,
         "CAM02-LCD": delta_E_CAM02LCD,
         "CAM02-SCD": delta_E_CAM02SCD,
         "CAM02-UCS": delta_E_CAM02UCS,
@@ -125,6 +128,7 @@ def delta_E(
             "CIE 1994",
             "CIE 2000",
             "CMC",
+            "ITP",
             "CAM02-LCD",
             "CAM02-SCD",
             "CAM02-UCS",
