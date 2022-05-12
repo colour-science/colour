@@ -37,12 +37,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "NLOG_CONSTANTS",
+    "CONSTANTS_NLOG",
     "log_encoding_NLog",
     "log_decoding_NLog",
 ]
 
-NLOG_CONSTANTS: Structure = Structure(
+CONSTANTS_NLOG: Structure = Structure(
     cut1=0.328,
     cut2=(452 / 1023),
     a=(650 / 1023),
@@ -58,7 +58,7 @@ def log_encoding_NLog(
     bit_depth: Integer = 10,
     out_normalised_code_value: Boolean = True,
     in_reflection: Boolean = True,
-    constants: Structure = NLOG_CONSTANTS,
+    constants: Structure = CONSTANTS_NLOG,
 ) -> FloatingOrNDArray:
     """
     Define the *Nikon N-Log* log encoding curve / opto-electronic transfer
@@ -136,7 +136,7 @@ def log_decoding_NLog(
     bit_depth: Integer = 10,
     in_normalised_code_value: Boolean = True,
     out_reflection: Boolean = True,
-    constants: Structure = NLOG_CONSTANTS,
+    constants: Structure = CONSTANTS_NLOG,
 ) -> FloatingOrNDArray:
     """
     Define the *Nikon N-Log* log decoding curve / electro-optical transfer
