@@ -86,8 +86,8 @@ print(colour.difference.delta_E_DIN99(Lab_1, Lab_2))
 
 print("\n")
 
-ICtCp_1 = np.array([0.3568, 0.1321, -0.1629])
-ICtCp_2 = np.array([0.3554, 0.1346, -0.1613])
+ICtCp_1 = np.array([0.7413041405, -0.3638807621, 0.04959414794])
+ICtCp_2 = np.array([0.7412815181, -0.3299076141, 0.04545287368])
 message_box(
     f'Computing "Delta E" with "ITU ITP" method from given "ITU ICtCp" '
     f"colour encoding matrices:\n\n"
