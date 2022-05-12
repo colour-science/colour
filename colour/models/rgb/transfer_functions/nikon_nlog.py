@@ -54,7 +54,7 @@ CONSTANTS_NLOG: Structure = Structure(
 
 
 def log_encoding_NLog(
-    in_r: FloatingOrArrayLike,
+    y: FloatingOrArrayLike,
     bit_depth: Integer = 10,
     out_normalised_code_value: Boolean = True,
     in_reflection: Boolean = True,
@@ -66,12 +66,12 @@ def log_encoding_NLog(
 
     Parameters
     ----------
-    in_r
-        Linear reflection data :math`in`.
+    y
+        Reflectance :math:`y`, "y = 0.18" is equivalent to Stop 0.
     bit_depth
         Bit depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Nikon N-Log* data :math:`out` is encoded as
+        Whether the non-linear *Nikon N-Log* data :math:`x` is encoded as
         normalised code values.
     in_reflection
         Whether the light level :math`in` to a camera is reflection.
@@ -81,7 +81,7 @@ def log_encoding_NLog(
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
-        Non-linear data :math:`out`.
+        *N-Log* 10-bit equivalent code value :math:`x`.
 
     Notes
     -----
@@ -94,7 +94,7 @@ def log_encoding_NLog(
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``out_r``  | [0, 1]                | [0, 1]        |
+    | ``x``  | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References
@@ -107,10 +107,10 @@ def log_encoding_NLog(
     0.3636677...
     """
 
-    in_r = to_domain_1(in_r)
+    y = to_domain_1(y)
 
     if not in_reflection:
-        in_r = in_r * 0.9
+        y = y * 0.9
 
     cut1 = constants.cut1
     a = constants.a
@@ -118,21 +118,19 @@ def log_encoding_NLog(
     c = constants.c
     d = constants.d
 
-    out_r = np.where(
-        in_r < cut1,
-        a * spow(in_r + b, 1 / 3),
-        c * np.log(in_r) + d,
+    x = np.where(
+        y < cut1,
+        a * spow(y + b, 1 / 3),
+        c * np.log(y) + d,
     )
 
-    out_r_cv = (
-        out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
-    )
+    x_cv = x if out_normalised_code_value else legal_to_full(x, bit_depth)
 
-    return as_float(from_range_1(out_r_cv))
+    return as_float(from_range_1(x_cv))
 
 
 def log_decoding_NLog(
-    out_r: FloatingOrArrayLike,
+    x: FloatingOrArrayLike,
     bit_depth: Integer = 10,
     in_normalised_code_value: Boolean = True,
     out_reflection: Boolean = True,
@@ -144,12 +142,12 @@ def log_decoding_NLog(
 
     Parameters
     ----------
-    out_r
-        Non-linear data :math:`out`.
+    x
+        *N-Log* 10-bit equivalent code value :math:`x`
     bit_depth
         Bit depth used for conversion.
     in_normalised_code_value
-        Whether the non-linear *Nikon N-Log* data :math:`out` is encoded as
+        Whether the non-linear *Nikon N-Log* data :math:`x` is encoded as
         normalised code values.
     out_reflection
         Whether the light level :math`in` to a camera is reflection.
@@ -159,7 +157,7 @@ def log_decoding_NLog(
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
-        Linear reflection data :math`in`.
+        Reflectance :math:`y`.
 
     Notes
     -----
@@ -172,7 +170,7 @@ def log_decoding_NLog(
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``in_r``   | [0, 1]                | [0, 1]        |
+    | ``y``   | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References
@@ -185,11 +183,9 @@ def log_decoding_NLog(
     0.1799999...
     """
 
-    out_r = to_domain_1(out_r)
+    x = to_domain_1(x)
 
-    out_r = (
-        out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
-    )
+    x = x if in_normalised_code_value else full_to_legal(x, bit_depth)
 
     cut2 = constants.cut2
     a = constants.a
@@ -197,13 +193,13 @@ def log_decoding_NLog(
     c = constants.c
     d = constants.d
 
-    in_r = np.where(
-        out_r < cut2,
-        spow(out_r / a, 3) - b,
-        np.exp((out_r - d) / c),
+    y = np.where(
+        x < cut2,
+        spow(x / a, 3) - b,
+        np.exp((x - d) / c),
     )
 
     if not out_reflection:
-        in_r = in_r / 0.9
+        y = y / 0.9
 
-    return as_float(from_range_1(in_r))
+    return as_float(from_range_1(y))
