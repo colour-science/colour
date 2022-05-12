@@ -94,7 +94,7 @@ message_box(
     f"\t{ICtCp_1}\n"
     f"\t{ICtCp_2}"
 )
-print(colour.delta_E(ICtCp_1, ICtCp_2, method="ITU ITP"))
+print(colour.delta_E(ICtCp_1, ICtCp_2, method="ITP"))
 print(colour.difference.delta_E_ITP(ICtCp_1, ICtCp_2))
 
 print("\n")

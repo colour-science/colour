@@ -703,6 +703,20 @@ class TestDelta_E_ITP(unittest.TestCase):
             places=7,
         )
 
+        @ignore_numpy_errors
+        def test_nan_delta_E_ITP(self):
+            """
+            Test :func:`colour.difference.delta_e.delta_E_ITP` definition nan
+            support.
+            """
+
+            cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+            cases = set(permutations(cases * 3, r=3))
+            for case in cases:
+                ICtCp_1 = np.array(case)
+                ICtCp_2 = np.array(case)
+                delta_E_ITP(ICtCp_1, ICtCp_2)
+
 
 if __name__ == "__main__":
     unittest.main()
