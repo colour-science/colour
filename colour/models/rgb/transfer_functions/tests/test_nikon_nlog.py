@@ -69,26 +69,20 @@ log_encoding_NLog` definition.
 log_encoding_NLog` definition n-dimensional arrays support.
         """
 
-        L_in = 0.18
-        V_out = log_encoding_NLog(L_in)
+        y = 0.18
+        x = log_encoding_NLog(y)
 
-        L_in = np.tile(L_in, 6)
-        V_out = np.tile(V_out, 6)
-        np.testing.assert_almost_equal(
-            log_encoding_NLog(L_in), V_out, decimal=7
-        )
+        y = np.tile(y, 6)
+        x = np.tile(x, 6)
+        np.testing.assert_almost_equal(log_encoding_NLog(y), x, decimal=7)
 
-        L_in = np.reshape(L_in, (2, 3))
-        V_out = np.reshape(V_out, (2, 3))
-        np.testing.assert_almost_equal(
-            log_encoding_NLog(L_in), V_out, decimal=7
-        )
+        y = np.reshape(y, (2, 3))
+        x = np.reshape(x, (2, 3))
+        np.testing.assert_almost_equal(log_encoding_NLog(y), x, decimal=7)
 
-        L_in = np.reshape(L_in, (2, 3, 1))
-        V_out = np.reshape(V_out, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            log_encoding_NLog(L_in), V_out, decimal=7
-        )
+        y = np.reshape(y, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
+        np.testing.assert_almost_equal(log_encoding_NLog(y), x, decimal=7)
 
     def test_domain_range_scale_log_encoding_NLog(self):
         """
@@ -96,14 +90,14 @@ log_encoding_NLog` definition n-dimensional arrays support.
 log_encoding_NLog` definition domain and range scale support.
         """
 
-        L_in = 0.18
-        V_out = log_encoding_NLog(L_in)
+        y = 0.18
+        x = log_encoding_NLog(y)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_encoding_NLog(L_in * factor), V_out * factor, decimal=7
+                    log_encoding_NLog(y * factor), x * factor, decimal=7
                 )
 
     @ignore_numpy_errors
@@ -160,26 +154,20 @@ log_decoding_NLog` definition.
 log_decoding_NLog` definition n-dimensional arrays support.
         """
 
-        V_out = 0.363667770117139
-        L_in = log_decoding_NLog(V_out)
+        x = 0.363667770117139
+        y = log_decoding_NLog(x)
 
-        V_out = np.tile(V_out, 6)
-        L_in = np.tile(L_in, 6)
-        np.testing.assert_almost_equal(
-            log_decoding_NLog(V_out), L_in, decimal=7
-        )
+        x = np.tile(x, 6)
+        y = np.tile(y, 6)
+        np.testing.assert_almost_equal(log_decoding_NLog(x), y, decimal=7)
 
-        V_out = np.reshape(V_out, (2, 3))
-        L_in = np.reshape(L_in, (2, 3))
-        np.testing.assert_almost_equal(
-            log_decoding_NLog(V_out), L_in, decimal=7
-        )
+        x = np.reshape(x, (2, 3))
+        y = np.reshape(y, (2, 3))
+        np.testing.assert_almost_equal(log_decoding_NLog(x), y, decimal=7)
 
-        V_out = np.reshape(V_out, (2, 3, 1))
-        L_in = np.reshape(L_in, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            log_decoding_NLog(V_out), L_in, decimal=7
-        )
+        x = np.reshape(x, (2, 3, 1))
+        y = np.reshape(y, (2, 3, 1))
+        np.testing.assert_almost_equal(log_decoding_NLog(x), y, decimal=7)
 
     def test_domain_range_scale_log_decoding_NLog(self):
         """
@@ -187,14 +175,14 @@ log_decoding_NLog` definition n-dimensional arrays support.
 log_decoding_NLog` definition domain and range scale support.
         """
 
-        V_out = 0.363667770117139
-        L_in = log_decoding_NLog(V_out)
+        x = 0.363667770117139
+        y = log_decoding_NLog(x)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_decoding_NLog(V_out * factor), L_in * factor, decimal=7
+                    log_decoding_NLog(x * factor), y * factor, decimal=7
                 )
 
     @ignore_numpy_errors
