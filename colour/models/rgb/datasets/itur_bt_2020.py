@@ -25,8 +25,8 @@ from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
-    eotf_inverse_BT2020,
-    eotf_BT2020,
+    oetf_BT2020,
+    oetf_inverse_BT2020,
 )
 
 __author__ = "Colour Developers"
@@ -77,8 +77,8 @@ RGB_COLOURSPACE_BT2020: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_BT2020,
     MATRIX_BT2020_TO_XYZ,
     MATRIX_XYZ_TO_BT2020,
-    eotf_inverse_BT2020,
-    eotf_BT2020,
+    oetf_BT2020,
+    oetf_inverse_BT2020,
 )
 RGB_COLOURSPACE_BT2020.__doc__ = """
 *ITU-R BT.2020* colourspace.

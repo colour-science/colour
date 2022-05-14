@@ -151,14 +151,14 @@ from .rgb import (
     log_decoding_FilmLightTLog,
     log_encoding_Protune,
     log_decoding_Protune,
+    oetf_BT2020,
+    oetf_inverse_BT2020,
     oetf_BT601,
     oetf_inverse_BT601,
     oetf_BT709,
     oetf_inverse_BT709,
     eotf_inverse_BT1886,
     eotf_BT1886,
-    eotf_inverse_BT2020,
-    eotf_BT2020,
     eotf_inverse_ST2084,
     eotf_ST2084,
     oetf_PQ_BT2100,
@@ -520,14 +520,14 @@ __all__ += [
     "log_decoding_FilmLightTLog",
     "log_encoding_Protune",
     "log_decoding_Protune",
+    "oetf_BT2020",
+    "oetf_inverse_BT2020",
     "oetf_BT601",
     "oetf_inverse_BT601",
     "oetf_BT709",
     "oetf_inverse_BT709",
     "eotf_inverse_BT1886",
     "eotf_BT1886",
-    "eotf_inverse_BT2020",
-    "eotf_BT2020",
     "eotf_inverse_ST2084",
     "eotf_ST2084",
     "oetf_PQ_BT2100",
@@ -745,6 +745,20 @@ API_CHANGES = {
         ],
     ]
 }
+
+# v0.4.2
+API_CHANGES["ObjectRenamed"].extend(
+    [
+        [
+            "colour.models.eotf_inverse_BT2020",
+            "colour.models.oetf_BT2020",
+        ],
+        [
+            "colour.models.eotf_BT2020",
+            "colour.models.oetf_inverse_BT2020",
+        ],
+    ]
+)
 """Defines the *colour.models* sub-package API changes."""
 
 if not is_documentation_building():
