@@ -58,7 +58,7 @@ from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_inverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_inverse_BT709
 from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
-from .itur_bt_2020 import eotf_inverse_BT2020, eotf_BT2020
+from .itur_bt_2020 import oetf_BT2020, oetf_inverse_BT2020
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
     oetf_PQ_BT2100,
@@ -210,8 +210,8 @@ __all__ += [
     "eotf_BT1886",
 ]
 __all__ += [
-    "eotf_inverse_BT2020",
-    "eotf_BT2020",
+    "oetf_BT2020",
+    "oetf_inverse_BT2020",
 ]
 __all__ += [
     "eotf_inverse_ST2084",
@@ -612,6 +612,7 @@ OETFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "ARIB STD-B67": oetf_ARIBSTDB67,
         "Blackmagic Film Generation 5": oetf_BlackmagicFilmGeneration5,
         "DaVinci Intermediate": oetf_DaVinciIntermediate,
+        "ITU-R BT.2020": oetf_BT2020,
         "ITU-R BT.2100 HLG": oetf_HLG_BT2100,
         "ITU-R BT.2100 PQ": oetf_PQ_BT2100,
         "ITU-R BT.601": oetf_BT601,
@@ -631,6 +632,7 @@ def oetf(
             "ARIB STD-B67",
             "Blackmagic Film Generation 5",
             "DaVinci Intermediate",
+            "ITU-R BT.2020",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
             "ITU-R BT.601",
@@ -659,6 +661,7 @@ def oetf(
         {:func:`colour.models.oetf_ARIBSTDB67`,
         :func:`colour.models.oetf_BlackmagicFilmGeneration5`,
         :func:`colour.models.oetf_DaVinciIntermediate`,
+        :func:`colour.models.oetf_BT2020`,
         :func:`colour.models.oetf_HLG_BT2100`,
         :func:`colour.models.oetf_PQ_BT2100`,
         :func:`colour.models.oetf_BT601`,
@@ -693,6 +696,7 @@ OETF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "ARIB STD-B67": oetf_inverse_ARIBSTDB67,
         "Blackmagic Film Generation 5": oetf_inverse_BlackmagicFilmGeneration5,
         "DaVinci Intermediate": oetf_inverse_DaVinciIntermediate,
+        "ITU-R BT.2020": oetf_inverse_BT2020,
         "ITU-R BT.2100 HLG": oetf_inverse_HLG_BT2100,
         "ITU-R BT.2100 PQ": oetf_inverse_PQ_BT2100,
         "ITU-R BT.601": oetf_inverse_BT601,
@@ -711,6 +715,7 @@ def oetf_inverse(
             "ARIB STD-B67",
             "Blackmagic Film Generation 5",
             "DaVinci Intermediate",
+            "ITU-R BT.2020",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
             "ITU-R BT.601",
@@ -738,6 +743,7 @@ def oetf_inverse(
         {:func:`colour.models.oetf_inverse_ARIBSTDB67`,
         :func:`colour.models.oetf_inverse_BlackmagicFilmGeneration5`,
         :func:`colour.models.oetf_inverse_DaVinciIntermediate`,
+        :func:`colour.models.oetf_inverse_BT2020`,
         :func:`colour.models.oetf_inverse_HLG_BT2100`,
         :func:`colour.models.oetf_inverse_PQ_BT2100`,
         :func:`colour.models.oetf_inverse_BT601`,
@@ -775,7 +781,6 @@ EOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "DCDM": eotf_DCDM,
         "DICOM GSDF": eotf_DICOMGSDF,
         "ITU-R BT.1886": eotf_BT1886,
-        "ITU-R BT.2020": eotf_BT2020,
         "ITU-R BT.2100 HLG": eotf_HLG_BT2100,
         "ITU-R BT.2100 PQ": eotf_PQ_BT2100,
         "SMPTE 240M": eotf_SMPTE240M,
@@ -795,7 +800,6 @@ def eotf(
             "DCDM",
             "DICOM GSDF",
             "ITU-R BT.1886",
-            "ITU-R BT.2020",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
             "SMPTE 240M",
@@ -823,7 +827,6 @@ def eotf(
         {:func:`colour.models.eotf_DCDM`,
         :func:`colour.models.eotf_DICOMGSDF`,
         :func:`colour.models.eotf_BT1886`,
-        :func:`colour.models.eotf_BT2020`,
         :func:`colour.models.eotf_HLG_BT2100`,
         :func:`colour.models.eotf_PQ_BT2100`,
         :func:`colour.models.eotf_SMPTE240M`,
@@ -839,9 +842,6 @@ def eotf(
     Examples
     --------
     >>> eotf(0.461356129500442)  # doctest: +ELLIPSIS
-    0.1...
-    >>> eotf(0.409007728864150, function='ITU-R BT.2020')
-    ... # doctest: +ELLIPSIS
     0.1...
     >>> eotf(0.182011532850008, function='ST 2084', L_p=1000)
     ... # doctest: +ELLIPSIS
@@ -862,7 +862,6 @@ EOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "DCDM": eotf_inverse_DCDM,
         "DICOM GSDF": eotf_inverse_DICOMGSDF,
         "ITU-R BT.1886": eotf_inverse_BT1886,
-        "ITU-R BT.2020": eotf_inverse_BT2020,
         "ITU-R BT.2100 HLG": eotf_inverse_HLG_BT2100,
         "ITU-R BT.2100 PQ": eotf_inverse_PQ_BT2100,
         "ST 2084": eotf_inverse_ST2084,
@@ -881,7 +880,6 @@ def eotf_inverse(
             "DCDM",
             "DICOM GSDF",
             "ITU-R BT.1886",
-            "ITU-R BT.2020",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
             "ST 2084",
@@ -909,7 +907,6 @@ def eotf_inverse(
         {:func:`colour.models.eotf_inverse_DCDM`,
         :func:`colour.models.eotf_inverse_DICOMGSDF`,
         :func:`colour.models.eotf_inverse_BT1886`,
-        :func:`colour.models.eotf_inverse_BT2020`,
         :func:`colour.models.eotf_inverse_HLG_BT2100`,
         :func:`colour.models.eotf_inverse_PQ_BT2100`,
         :func:`colour.models.eotf_inverse_ST2084`,

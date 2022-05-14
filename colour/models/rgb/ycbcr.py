@@ -52,8 +52,8 @@ import numpy as np
 from colour.hints import Any, ArrayLike, Boolean, Integer, NDArray
 from colour.models.rgb.transfer_functions import (
     CV_range,
-    eotf_inverse_BT2020,
-    eotf_BT2020,
+    oetf_BT2020,
+    oetf_inverse_BT2020,
 )
 from colour.utilities import (
     CaseInsensitiveMapping,
@@ -688,9 +688,9 @@ def RGB_to_YcCbcCrc(
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
 
     with domain_range_scale("ignore"):
-        Yc = eotf_inverse_BT2020(Yc, is_12_bits_system=is_12_bits_system)
-        R = eotf_inverse_BT2020(R, is_12_bits_system=is_12_bits_system)
-        B = eotf_inverse_BT2020(B, is_12_bits_system=is_12_bits_system)
+        Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+        R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
+        B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
 
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
@@ -808,9 +808,9 @@ def YcCbcCrc_to_RGB(
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
 
     with domain_range_scale("ignore"):
-        Yc = as_float_array(eotf_BT2020(Yc, is_12_bits_system))
-        B = as_float_array(eotf_BT2020(B, is_12_bits_system))
-        R = as_float_array(eotf_BT2020(R, is_12_bits_system))
+        Yc = as_float_array(oetf_inverse_BT2020(Yc, is_12_bits_system))
+        B = as_float_array(oetf_inverse_BT2020(B, is_12_bits_system))
+        R = as_float_array(oetf_inverse_BT2020(R, is_12_bits_system))
 
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 

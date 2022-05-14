@@ -401,7 +401,7 @@ def get_attribute(attribute: str) -> Any:
     ----------
     attribute
         Attribute to retrieve, ``attribute`` must have a namespace module, e.g.
-        *colour.models.eotf_BT2020*.
+        *colour.models.oetf_inverse_BT2020*.
 
     Returns
     -------
@@ -410,8 +410,8 @@ def get_attribute(attribute: str) -> Any:
 
     Examples
     --------
-    >>> get_attribute('colour.models.eotf_BT2020')  # doctest: +ELLIPSIS
-    <function eotf_BT2020 at 0x...>
+    >>> get_attribute('colour.models.oetf_inverse_BT2020')  # doctest: +ELLIPSIS
+    <function oetf_inverse_BT2020 at 0x...>
     """
 
     attest("." in attribute, '"{0}" attribute has no namespace!')
