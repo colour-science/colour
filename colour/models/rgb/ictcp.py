@@ -36,8 +36,8 @@ from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_ST2084,
     eotf_inverse_ST2084,
-    oetf_HLG_BT2100,
-    oetf_inverse_HLG_BT2100,
+    oetf_BT2100_HLG,
+    oetf_inverse_BT2100_HLG,
 )
 from colour.utilities import (
     as_float_array,
@@ -57,8 +57,8 @@ __all__ = [
     "MATRIX_ICTCP_LMS_TO_RGB",
     "MATRIX_ICTCP_LMS_P_TO_ICTCP",
     "MATRIX_ICTCP_ICTCP_TO_LMS_P",
-    "MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2",
-    "MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2",
+    "MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2",
+    "MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2",
     "RGB_to_ICtCp",
     "ICtCp_to_RGB",
     "XYZ_to_ICtCp",
@@ -106,7 +106,7 @@ MATRIX_ICTCP_ICTCP_TO_LMS_P: NDArray = np.linalg.inv(
 normalised cone responses matrix.
 """
 
-MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2: NDArray = (
+MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2: NDArray = (
     np.array(
         [
             [2048, 2048, 0],
@@ -121,8 +121,8 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2: NDArray = (
 :math:`IC_TC_P` colour encoding matrix as given in *ITU-R BT.2100-2*.
 """
 
-MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2: NDArray = np.linalg.inv(
-    MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2
+MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2: NDArray = np.linalg.inv(
+    MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2
 )
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
@@ -252,13 +252,13 @@ def RGB_to_ICtCp(
 
     with domain_range_scale("ignore"):
         LMS_p = (
-            oetf_HLG_BT2100(LMS)
+            oetf_BT2100_HLG(LMS)
             if is_hlg_method
             else eotf_inverse_ST2084(LMS, L_p)
         )
 
     ICtCp = (
-        vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2, LMS_p)
+        vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2, LMS_p)
         if (is_hlg_method and is_BT2100_2_method)
         else vector_dot(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
     )
@@ -384,14 +384,14 @@ def ICtCp_to_RGB(
     is_BT2100_2_method = "2100-2" in method
 
     LMS_p = (
-        vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P_HLG_BT2100_2, ICtCp)
+        vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2, ICtCp)
         if (is_hlg_method and is_BT2100_2_method)
         else vector_dot(MATRIX_ICTCP_ICTCP_TO_LMS_P, ICtCp)
     )
 
     with domain_range_scale("ignore"):
         LMS = (
-            oetf_inverse_HLG_BT2100(LMS_p)
+            oetf_inverse_BT2100_HLG(LMS_p)
             if is_hlg_method
             else eotf_ST2084(LMS_p, L_p)
         )

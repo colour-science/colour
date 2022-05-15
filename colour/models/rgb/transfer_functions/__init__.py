@@ -61,22 +61,22 @@ from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
 from .itur_bt_2020 import oetf_BT2020, oetf_inverse_BT2020
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
 from .itur_bt_2100 import (
-    oetf_PQ_BT2100,
-    oetf_inverse_PQ_BT2100,
-    eotf_PQ_BT2100,
-    eotf_inverse_PQ_BT2100,
-    ootf_PQ_BT2100,
-    ootf_inverse_PQ_BT2100,
-    oetf_HLG_BT2100,
-    oetf_inverse_HLG_BT2100,
+    oetf_BT2100_PQ,
+    oetf_inverse_BT2100_PQ,
+    eotf_BT2100_PQ,
+    eotf_inverse_BT2100_PQ,
+    ootf_BT2100_PQ,
+    ootf_inverse_BT2100_PQ,
+    oetf_BT2100_HLG,
+    oetf_inverse_BT2100_HLG,
     BT2100_HLG_EOTF_METHODS,
-    eotf_HLG_BT2100,
+    eotf_BT2100_HLG,
     BT2100_HLG_EOTF_INVERSE_METHODS,
-    eotf_inverse_HLG_BT2100,
+    eotf_inverse_BT2100_HLG,
     BT2100_HLG_OOTF_METHODS,
-    ootf_HLG_BT2100,
+    ootf_BT2100_HLG,
     BT2100_HLG_OOTF_INVERSE_METHODS,
-    ootf_inverse_HLG_BT2100,
+    ootf_inverse_BT2100_HLG,
 )
 from .linear import linear_function
 from .log import (
@@ -218,22 +218,22 @@ __all__ += [
     "eotf_ST2084",
 ]
 __all__ += [
-    "oetf_PQ_BT2100",
-    "oetf_inverse_PQ_BT2100",
-    "eotf_PQ_BT2100",
-    "eotf_inverse_PQ_BT2100",
-    "ootf_PQ_BT2100",
-    "ootf_inverse_PQ_BT2100",
-    "oetf_HLG_BT2100",
-    "oetf_inverse_HLG_BT2100",
+    "oetf_BT2100_PQ",
+    "oetf_inverse_BT2100_PQ",
+    "eotf_BT2100_PQ",
+    "eotf_inverse_BT2100_PQ",
+    "ootf_BT2100_PQ",
+    "ootf_inverse_BT2100_PQ",
+    "oetf_BT2100_HLG",
+    "oetf_inverse_BT2100_HLG",
     "BT2100_HLG_EOTF_METHODS",
-    "eotf_HLG_BT2100",
+    "eotf_BT2100_HLG",
     "BT2100_HLG_EOTF_INVERSE_METHODS",
-    "eotf_inverse_HLG_BT2100",
+    "eotf_inverse_BT2100_HLG",
     "BT2100_HLG_OOTF_METHODS",
-    "ootf_HLG_BT2100",
+    "ootf_BT2100_HLG",
     "BT2100_HLG_OOTF_INVERSE_METHODS",
-    "ootf_inverse_HLG_BT2100",
+    "ootf_inverse_BT2100_HLG",
 ]
 __all__ += [
     "linear_function",
@@ -613,8 +613,8 @@ OETFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "Blackmagic Film Generation 5": oetf_BlackmagicFilmGeneration5,
         "DaVinci Intermediate": oetf_DaVinciIntermediate,
         "ITU-R BT.2020": oetf_BT2020,
-        "ITU-R BT.2100 HLG": oetf_HLG_BT2100,
-        "ITU-R BT.2100 PQ": oetf_PQ_BT2100,
+        "ITU-R BT.2100 HLG": oetf_BT2100_HLG,
+        "ITU-R BT.2100 PQ": oetf_BT2100_PQ,
         "ITU-R BT.601": oetf_BT601,
         "ITU-R BT.709": oetf_BT709,
         "SMPTE 240M": oetf_SMPTE240M,
@@ -662,8 +662,8 @@ def oetf(
         :func:`colour.models.oetf_BlackmagicFilmGeneration5`,
         :func:`colour.models.oetf_DaVinciIntermediate`,
         :func:`colour.models.oetf_BT2020`,
-        :func:`colour.models.oetf_HLG_BT2100`,
-        :func:`colour.models.oetf_PQ_BT2100`,
+        :func:`colour.models.oetf_BT2100_HLG`,
+        :func:`colour.models.oetf_BT2100_PQ`,
         :func:`colour.models.oetf_BT601`,
         :func:`colour.models.oetf_BT709`,
         :func:`colour.models.oetf_SMPTE240M`},
@@ -697,8 +697,8 @@ OETF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "Blackmagic Film Generation 5": oetf_inverse_BlackmagicFilmGeneration5,
         "DaVinci Intermediate": oetf_inverse_DaVinciIntermediate,
         "ITU-R BT.2020": oetf_inverse_BT2020,
-        "ITU-R BT.2100 HLG": oetf_inverse_HLG_BT2100,
-        "ITU-R BT.2100 PQ": oetf_inverse_PQ_BT2100,
+        "ITU-R BT.2100 HLG": oetf_inverse_BT2100_HLG,
+        "ITU-R BT.2100 PQ": oetf_inverse_BT2100_PQ,
         "ITU-R BT.601": oetf_inverse_BT601,
         "ITU-R BT.709": oetf_inverse_BT709,
     }
@@ -744,8 +744,8 @@ def oetf_inverse(
         :func:`colour.models.oetf_inverse_BlackmagicFilmGeneration5`,
         :func:`colour.models.oetf_inverse_DaVinciIntermediate`,
         :func:`colour.models.oetf_inverse_BT2020`,
-        :func:`colour.models.oetf_inverse_HLG_BT2100`,
-        :func:`colour.models.oetf_inverse_PQ_BT2100`,
+        :func:`colour.models.oetf_inverse_BT2100_HLG`,
+        :func:`colour.models.oetf_inverse_BT2100_PQ`,
         :func:`colour.models.oetf_inverse_BT601`,
         :func:`colour.models.oetf_inverse_BT709`},
         See the documentation of the previously listed definitions.
@@ -781,8 +781,8 @@ EOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "DCDM": eotf_DCDM,
         "DICOM GSDF": eotf_DICOMGSDF,
         "ITU-R BT.1886": eotf_BT1886,
-        "ITU-R BT.2100 HLG": eotf_HLG_BT2100,
-        "ITU-R BT.2100 PQ": eotf_PQ_BT2100,
+        "ITU-R BT.2100 HLG": eotf_BT2100_HLG,
+        "ITU-R BT.2100 PQ": eotf_BT2100_PQ,
         "SMPTE 240M": eotf_SMPTE240M,
         "ST 2084": eotf_ST2084,
         "sRGB": eotf_sRGB,
@@ -827,8 +827,8 @@ def eotf(
         {:func:`colour.models.eotf_DCDM`,
         :func:`colour.models.eotf_DICOMGSDF`,
         :func:`colour.models.eotf_BT1886`,
-        :func:`colour.models.eotf_HLG_BT2100`,
-        :func:`colour.models.eotf_PQ_BT2100`,
+        :func:`colour.models.eotf_BT2100_HLG`,
+        :func:`colour.models.eotf_BT2100_PQ`,
         :func:`colour.models.eotf_SMPTE240M`,
         :func:`colour.models.eotf_ST2084`,
         :func:`colour.models.eotf_sRGB`},
@@ -862,8 +862,8 @@ EOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "DCDM": eotf_inverse_DCDM,
         "DICOM GSDF": eotf_inverse_DICOMGSDF,
         "ITU-R BT.1886": eotf_inverse_BT1886,
-        "ITU-R BT.2100 HLG": eotf_inverse_HLG_BT2100,
-        "ITU-R BT.2100 PQ": eotf_inverse_PQ_BT2100,
+        "ITU-R BT.2100 HLG": eotf_inverse_BT2100_HLG,
+        "ITU-R BT.2100 PQ": eotf_inverse_BT2100_PQ,
         "ST 2084": eotf_inverse_ST2084,
         "sRGB": eotf_inverse_sRGB,
     }
@@ -907,8 +907,8 @@ def eotf_inverse(
         {:func:`colour.models.eotf_inverse_DCDM`,
         :func:`colour.models.eotf_inverse_DICOMGSDF`,
         :func:`colour.models.eotf_inverse_BT1886`,
-        :func:`colour.models.eotf_inverse_HLG_BT2100`,
-        :func:`colour.models.eotf_inverse_PQ_BT2100`,
+        :func:`colour.models.eotf_inverse_BT2100_HLG`,
+        :func:`colour.models.eotf_inverse_BT2100_PQ`,
         :func:`colour.models.eotf_inverse_ST2084`,
         :func:`colour.models.eotf_inverse_sRGB`},
         See the documentation of the previously listed definitions.
@@ -1265,8 +1265,8 @@ __all__ += [
 
 OOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
-        "ITU-R BT.2100 HLG": ootf_HLG_BT2100,
-        "ITU-R BT.2100 PQ": ootf_PQ_BT2100,
+        "ITU-R BT.2100 HLG": ootf_BT2100_HLG,
+        "ITU-R BT.2100 PQ": ootf_BT2100_PQ,
     }
 )
 OOTFS.__doc__ = """
@@ -1295,8 +1295,8 @@ def ootf(
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.models.ootf_HLG_BT2100`,
-        :func:`colour.models.ootf_PQ_BT2100`},
+        {:func:`colour.models.ootf_BT2100_HLG`,
+        :func:`colour.models.ootf_BT2100_PQ`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -1323,8 +1323,8 @@ def ootf(
 
 OOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
     {
-        "ITU-R BT.2100 HLG": ootf_inverse_HLG_BT2100,
-        "ITU-R BT.2100 PQ": ootf_inverse_PQ_BT2100,
+        "ITU-R BT.2100 HLG": ootf_inverse_BT2100_HLG,
+        "ITU-R BT.2100 PQ": ootf_inverse_BT2100_PQ,
     }
 )
 OOTF_INVERSES.__doc__ = """
@@ -1353,8 +1353,8 @@ def ootf_inverse(
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.models.ootf_inverse_HLG_BT2100`,
-        :func:`colour.models.ootf_inverse_PQ_BT2100`},
+        {:func:`colour.models.ootf_inverse_BT2100_HLG`,
+        :func:`colour.models.ootf_inverse_BT2100_PQ`},
         See the documentation of the previously listed definitions.
 
     Returns
