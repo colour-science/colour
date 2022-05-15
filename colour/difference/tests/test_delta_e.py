@@ -36,6 +36,7 @@ __all__ = [
     "TestDelta_E_CIE1994",
     "TestDelta_E_CIE2000",
     "TestDelta_E_CMC",
+    "TestDelta_E_ITP",
 ]
 
 
@@ -482,8 +483,8 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
 class TestDelta_E_CMC(unittest.TestCase):
     """
-    Define :func:`colour.difference.delta_e.delta_E_CMC` definition unit
-    tests methods.
+    Define :func:`colour.difference.delta_e.delta_E_CMC` definition unit tests
+    methods.
     """
 
     def test_delta_E_CMC(self):
@@ -606,8 +607,8 @@ class TestDelta_E_CMC(unittest.TestCase):
 
 class TestDelta_E_ITP(unittest.TestCase):
     """
-    Define :func:`colour.difference.delta_e.delta_E_ITP` definition unit
-    tests methods.
+    Define :func:`colour.difference.delta_e.delta_E_ITP` definition unit tests
+    methods.
     """
 
     def test_delta_E_ITP(self):

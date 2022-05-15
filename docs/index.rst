@@ -356,6 +356,7 @@ Colour Difference - ``colour.difference``
      'CIE 2000',
      'CMC',
      'DIN99',
+     'ITP',
      'cie1976',
      'cie1994',
      'cie2000']
