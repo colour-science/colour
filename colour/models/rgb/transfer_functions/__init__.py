@@ -78,6 +78,7 @@ from .itur_bt_2100 import (
     BT2100_HLG_OOTF_INVERSE_METHODS,
     ootf_inverse_BT2100_HLG,
 )
+from .leica_llog import log_encoding_LLog, log_decoding_LLog
 from .linear import linear_function
 from .log import (
     logarithmic_function_basic,
@@ -236,6 +237,10 @@ __all__ += [
     "ootf_inverse_BT2100_HLG",
 ]
 __all__ += [
+    "log_encoding_LLog",
+    "log_decoding_LLog",
+]
+__all__ += [
     "linear_function",
 ]
 __all__ += [
@@ -322,6 +327,7 @@ LOG_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "ERIMM RGB": log_encoding_ERIMMRGB,
         "F-Log": log_encoding_FLog,
         "Filmic Pro 6": log_encoding_FilmicPro6,
+        "L-Log": log_encoding_LLog,
         "Log2": log_encoding_Log2,
         "Log3G10": log_encoding_Log3G10,
         "Log3G12": log_encoding_Log3G12,
@@ -360,6 +366,7 @@ def log_encoding(
             "ERIMM RGB",
             "F-Log",
             "Filmic Pro 6",
+            "L-Log",
             "Log2",
             "Log3G10",
             "Log3G12",
@@ -406,6 +413,7 @@ def log_encoding(
         :func:`colour.models.log_encoding_ERIMMRGB`,
         :func:`colour.models.log_encoding_FLog`,
         :func:`colour.models.log_encoding_FilmicPro6`,
+        :func:`colour.models.log_encoding_LLog`,
         :func:`colour.models.log_encoding_Log2`,
         :func:`colour.models.log_encoding_Log3G10`,
         :func:`colour.models.log_encoding_Log3G12`,
@@ -466,6 +474,7 @@ LOG_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
         "ERIMM RGB": log_decoding_ERIMMRGB,
         "F-Log": log_decoding_FLog,
         "Filmic Pro 6": log_decoding_FilmicPro6,
+        "L-Log": log_decoding_LLog,
         "Log2": log_decoding_Log2,
         "Log3G10": log_decoding_Log3G10,
         "Log3G12": log_decoding_Log3G12,
@@ -504,6 +513,7 @@ def log_decoding(
             "ERIMM RGB",
             "F-Log",
             "Filmic Pro 6",
+            "L-Log",
             "Log2",
             "Log3G10",
             "Log3G12",
@@ -550,6 +560,7 @@ def log_decoding(
         :func:`colour.models.log_decoding_ERIMMRGB`,
         :func:`colour.models.log_decoding_FLog`,
         :func:`colour.models.log_decoding_FilmicPro6`,
+        :func:`colour.models.log_decoding_LLog`,
         :func:`colour.models.log_decoding_Log2`,
         :func:`colour.models.log_decoding_Log3G10`,
         :func:`colour.models.log_decoding_Log3G12`,

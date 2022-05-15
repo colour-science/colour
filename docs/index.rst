@@ -787,6 +787,7 @@ Log Encoding / Decoding
      'ERIMM RGB',
      'F-Log',
      'Filmic Pro 6',
+     'L-Log',
      'Log2',
      'Log3G10',
      'Log3G12',
