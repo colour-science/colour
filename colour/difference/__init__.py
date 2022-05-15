@@ -8,7 +8,7 @@ References
 -   :cite:`InternationalTelecommunicationUnion2019` : International
     Telecommunication Union. (2019). Recommendation ITU-R BT.2124-0 -
     Objective metric for the assessment of the potential visibility of colour
-    differences in television (pp. 1–36). http://www.itu.int/dms_pubrec/itu-r/\
+    differences in television (pp. 1-36). http://www.itu.int/dms_pubrec/itu-r/\
 rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
     Melgosa, M., Brill, M. H., & Pointer, M. (2017). Comprehensive color
