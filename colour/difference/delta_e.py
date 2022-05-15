@@ -11,9 +11,15 @@ The following attributes and methods are available:
 -   :func:`colour.difference.delta_E_CIE1994`
 -   :func:`colour.difference.delta_E_CIE2000`
 -   :func:`colour.difference.delta_E_CMC`
+-   :func:`colour.difference.delta_E_ITP`
 
 References
 ----------
+-   :cite:`InternationalTelecommunicationUnion2019` : International
+    Telecommunication Union. (2019). Recommendation ITU-R BT.2124-0 -
+    Objective metric for the assessment of the potential visibility of colour
+    differences in television (pp. 1–36). http://www.itu.int/dms_pubrec/itu-r/\
+rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
@@ -478,19 +484,25 @@ def delta_E_CMC(
 def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> FloatingOrNDArray:
     """
     Return the difference :math:`\\Delta E_{ITP}` between two given
-    :math:`IC_TC_P` colour encoding arrays using ITU-R BT.2124 recommendation.
+    :math:`IC_TC_P` colour encoding arrays using
+    *Recommendation ITU-R BT.2124*.
 
     Parameters
     ----------
     ICtCp_1
-        ITU :math:`IC_TC_P` colour encoding array 1.
+        :math:`IC_TC_P` colour encoding array 1.
     ICtCp_2
-        ITU :math:`IC_TC_P` colour encoding array 2.
+        :math:`IC_TC_P` colour encoding array 2.
 
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
         Colour difference :math:`\\Delta E_{ITP}`.
+
+    Notes
+    -----
+    -   A value of 1 is equivalent to a just noticeable difference when viewed
+        in the most critical adaptation state.
 
     References
     ----------
@@ -510,8 +522,8 @@ def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> FloatingOrNDArray:
     I_2, T_2, P_2 = tsplit(ICtCp_2)
     T_2 *= 0.5
 
-    dEITP = 720 * np.sqrt(
+    d_E_ITP = 720 * np.sqrt(
         ((I_2 - I_1) ** 2) + ((T_2 - T_1) ** 2) + ((P_2 - P_1) ** 2)
     )
 
-    return as_float(dEITP)
+    return as_float(d_E_ITP)
