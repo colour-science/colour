@@ -18,6 +18,7 @@ from colour.difference import (
     delta_E_CIE1994,
     delta_E_CIE2000,
     delta_E_CMC,
+    delta_E_ITP,
 )
 
 from colour.algebra import euclidean_distance
@@ -601,6 +602,120 @@ class TestDelta_E_CMC(unittest.TestCase):
             Lab_1 = np.array(case)
             Lab_2 = np.array(case)
             delta_E_CMC(Lab_1, Lab_2)
+
+
+class TestDelta_E_ITP(unittest.TestCase):
+    """
+    Define :func:`colour.difference.delta_e.delta_E_ITP` definition unit
+    tests methods.
+    """
+
+    def test_delta_E_ITP(self):
+        """Test :func:`colour.difference.delta_e.delta_E_ITP` definition."""
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (110, 82, 69), Dark Skin
+                np.array([0.4885468072, -0.04739350675, 0.07475401302]),
+                np.array([0.4899203231, -0.04567508203, 0.07361341775]),
+            ),
+            1.426572247,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (110, 82, 69), 100% White
+                np.array([0.7538438727, 0, -6.25e-16]),
+                np.array([0.7538912244, 0.001930922514, -0.0003599955951]),
+            ),
+            0.7426668055,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (0, 0, 0), 100% Black
+                np.array([0.1596179061, 0, -1.21e-16]),
+                np.array([0.1603575152, 0.02881444889, -0.009908665843]),
+            ),
+            12.60096264,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (255, 0, 0), 100% Red
+                np.array([0.5965650331, -0.2083210482, 0.3699729716]),
+                np.array([0.596263079, -0.1629742033, 0.3617767026]),
+            ),
+            17.36012552,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (0, 255, 0), 100% Green
+                np.array([0.7055787513, -0.4063731514, -0.07278767382]),
+                np.array([0.7046946082, -0.3771037586, -0.07141626753]),
+            ),
+            10.60227327,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (255, 0, 0), 100% Blue
+                np.array([0.5180652611, 0.2932420978, -0.1873112695]),
+                np.array([0.5167090868, 0.298191609, -0.1824609953]),
+            ),
+            4.040270489,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (0, 255, 255), 100% Cyan
+                np.array([0.7223275939, -0.01290632441, -0.1139004748]),
+                np.array([0.7215329274, -0.007863821961, -0.1106683944]),
+            ),
+            3.00633812,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (255, 0, 255), 100% Magenta
+                np.array([0.6401125212, 0.280225698, 0.1665590804]),
+                np.array([0.640473651, 0.2819981563, 0.1654050172]),
+            ),
+            1.07944277,
+            places=7,
+        )
+
+        self.assertAlmostEqual(
+            delta_E_ITP(
+                # RGB: (255, 255, 0), 100% Yellow
+                np.array([0.7413041405, -0.3638807621, 0.04959414794]),
+                np.array([0.7412815181, -0.3299076141, 0.04545287368]),
+            ),
+            12.5885645,
+            places=7,
+        )
+
+    @ignore_numpy_errors
+    def test_nan_delta_E_ITP(self):
+        """
+        Test :func:`colour.difference.delta_e.delta_E_ITP` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            ICtCp_1 = np.array(case)
+            ICtCp_2 = np.array(case)
+            delta_E_ITP(ICtCp_1, ICtCp_2)
 
 
 if __name__ == "__main__":

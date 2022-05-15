@@ -57,6 +57,7 @@ __all__ = [
     "delta_E_CIE1994",
     "delta_E_CIE2000",
     "delta_E_CMC",
+    "delta_E_ITP",
 ]
 
 JND_CIE1976 = 2.3
@@ -472,3 +473,45 @@ def delta_E_CMC(
     d_E = np.sqrt(v_1**2 + v_2**2 + (delta_H2 / (v_3 * v_3)))
 
     return as_float(d_E)
+
+
+def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> FloatingOrNDArray:
+    """
+    Return the difference :math:`\\Delta E_{ITP}` between two given
+    :math:`IC_TC_P` colour encoding arrays using ITU-R BT.2124 recommendation.
+
+    Parameters
+    ----------
+    ICtCp_1
+        ITU :math:`IC_TC_P` colour encoding array 1.
+    ICtCp_2
+        ITU :math:`IC_TC_P` colour encoding array 2.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Colour difference :math:`\\Delta E_{ITP}`.
+
+    References
+    ----------
+    :cite:`InternationalTelecommunicationUnion2019`
+
+    Examples
+    --------
+    >>> ICtCp_1 = np.array([0.4885468072, -0.04739350675, 0.07475401302])
+    >>> ICtCp_2 = np.array([0.4899203231, -0.04567508203, 0.07361341775])
+    >>> delta_E_ITP(ICtCp_1, ICtCp_2)  # doctest: +ELLIPSIS
+    1.42657228...
+    """
+
+    I_1, T_1, P_1 = tsplit(ICtCp_1)
+    T_1 *= 0.5
+
+    I_2, T_2, P_2 = tsplit(ICtCp_2)
+    T_2 *= 0.5
+
+    dEITP = 720 * np.sqrt(
+        ((I_2 - I_1) ** 2) + ((T_2 - T_1) ** 2) + ((P_2 - P_1) ** 2)
+    )
+
+    return as_float(dEITP)
