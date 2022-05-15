@@ -20,12 +20,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "TestLogEncoding_VLog",
-    "TestLogDecoding_VLog",
+    "TestLogEncoding_NLog",
+    "TestLogDecoding_NLog",
 ]
 
 
-class TestLogEncoding_VLog(unittest.TestCase):
+class TestLogEncoding_NLog(unittest.TestCase):
     """
     Define :func:`colour.models.rgb.transfer_functions.nikon_nlog.\
 log_encoding_NLog` definition unit tests methods.
@@ -110,7 +110,7 @@ log_encoding_NLog` definition nan support.
         log_encoding_NLog(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLogDecoding_VLog(unittest.TestCase):
+class TestLogDecoding_NLog(unittest.TestCase):
     """
     Define :func:`colour.models.rgb.transfer_functions.nikon_nlog.\
 log_decoding_NLog` definition unit tests methods.
