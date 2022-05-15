@@ -100,7 +100,7 @@ class TestTransferFunctions(unittest.TestCase):
             "Filmic Pro 6",
         )
 
-        decimals = {"D-Log": 1, "F-Log": 4, "N-Log": 3}
+        decimals = {"D-Log": 1, "F-Log": 4, "L-Log": 4, "N-Log": 3}
 
         reciprocal_mappings = [
             (LOG_ENCODINGS, LOG_DECODINGS),
