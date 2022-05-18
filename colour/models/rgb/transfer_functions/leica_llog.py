@@ -36,12 +36,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "CONSTANTS_NLOG",
+    "CONSTANTS_LLOG",
     "log_encoding_LLog",
     "log_decoding_LLog",
 ]
 
-CONSTANTS_NLOG: Structure = Structure(
+CONSTANTS_LLOG: Structure = Structure(
     cut1=0.006,
     cut2=0.1380,
     a=8,
@@ -59,7 +59,7 @@ def log_encoding_LLog(
     bit_depth: Integer = 10,
     out_normalised_code_value: Boolean = True,
     in_reflection: Boolean = True,
-    constants: Structure = CONSTANTS_NLOG,
+    constants: Structure = CONSTANTS_LLOG,
 ) -> FloatingOrNDArray:
     """
     Define the *Leica L-Log* log encoding curve / opto-electronic transfer
@@ -139,7 +139,7 @@ def log_decoding_LLog(
     bit_depth: Integer = 10,
     in_normalised_code_value: Boolean = True,
     out_reflection: Boolean = True,
-    constants: Structure = CONSTANTS_NLOG,
+    constants: Structure = CONSTANTS_LLOG,
 ) -> FloatingOrNDArray:
     """
     Define the *Leica L-Log* log decoding curve / electro-optical transfer
