@@ -59,7 +59,15 @@ from .itur_bt_601 import oetf_BT601, oetf_inverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_inverse_BT709
 from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
 from .itur_bt_2020 import oetf_BT2020, oetf_inverse_BT2020
+from .itur_bt_1361 import oetf_BT1361_extended
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
+from .st_428 import eotf_inverse_ST428_1
+from .itut_h_273 import (
+    oetf_linear,
+    oetf_log,
+    oetf_log_sqrt,
+)
+from .iec_61966_2 import oetf_iec_61966_2_unbounded
 from .itur_bt_2100 import (
     oetf_BT2100_PQ,
     oetf_inverse_BT2100_PQ,
@@ -307,6 +315,20 @@ __all__ += [
 __all__ += [
     "eotf_inverse_sRGB",
     "eotf_sRGB",
+]
+__all__ += [
+    "oetf_linear",
+    "oetf_log",
+    "oetf_log_sqrt",
+]
+__all__ += [
+    "oetf_iec_61966_2_unbounded",
+]
+__all__ += [
+    "eotf_inverse_ST428_1",
+]
+__all__ += [
+    "oetf_BT1361_extended",
 ]
 __all__ += [
     "log_encoding_ViperLog",
