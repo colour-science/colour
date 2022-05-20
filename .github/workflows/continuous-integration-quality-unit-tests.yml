@@ -27,15 +27,10 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies (macOS)
-      if: matrix.os == 'macOS-latest'
-      run: |
-        brew install ctl gnu-sed graphviz
-        ln -s /usr/local/bin/gsed /usr/local/bin/sed
-      shell: bash
     - name: Install Dependencies (Ubuntu)
       if: matrix.os == 'ubuntu-20.04'
       run: |
+        sudo apt-get update
         sudo apt-get --yes install graphviz graphviz-dev libboost-all-dev libilmbase-dev libopenexr-dev libpng-dev libtiff5-dev
     - name: Install Poetry
       run: |
