@@ -27,6 +27,12 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies (macOS)
+      if: matrix.os == 'macOS-latest'
+      run: |
+        brew install graphviz
+        export GRAPHVIZ_DIR="/usr/local/Cellar/graphviz/<VERSION>"
+        pip install pygraphviz --global-option=build_ext --global-option="-I$GRAPHVIZ_DIR/include" --global-option="-L$GRAPHVIZ_DIR/lib"
     - name: Install Dependencies (Ubuntu)
       if: matrix.os == 'ubuntu-20.04'
       run: |
