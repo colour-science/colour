@@ -19,7 +19,7 @@ import inspect
 import functools
 import numpy as np
 import re
-import subprocess
+import subprocess  # nosec
 import types
 import warnings
 from contextlib import contextmanager
@@ -584,7 +584,9 @@ def is_ctlrender_installed(raise_exception: Boolean = False) -> Boolean:
     try:  # pragma: no cover
         stdout = subprocess.run(
             ["ctlrender", "-help"], capture_output=True
-        ).stdout.decode("utf-8")
+        ).stdout.decode(
+            "utf-8"
+        )  # nosec
 
         if "transforms an image using one or more CTL scripts" not in stdout:
             raise FileNotFoundError()

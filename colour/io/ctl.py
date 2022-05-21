@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import os
 import numpy as np
-import subprocess
+import subprocess  # nosec
 import textwrap
 import tempfile
 
@@ -63,6 +63,9 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: Tuple = ("-verbose", "-force")
 *ctlrender* invocation default arguments.
 """
 
+# TODO: Reinstate coverage when "ctlrender" is tivially available
+# cross-platform.
+
 
 @required("ctlrender")
 def ctl_render(
@@ -71,7 +74,7 @@ def ctl_render(
     ctl_transforms: Union[Sequence[str], Dict[str, Sequence[str]]],
     *args: Any,
     **kwargs: Any,
-) -> subprocess.CompletedProcess:
+) -> subprocess.CompletedProcess:  # pragma: no cover
     """
     Call *ctlrender* on given input image using given *CTL* transforms.
 
@@ -180,7 +183,7 @@ def ctl_render(
     for arg in args:
         command += arg.split()
 
-    completed_process = subprocess.run(command, **kwargs)
+    completed_process = subprocess.run(command, **kwargs)  # nosec
 
     for temp_filename in temp_filenames:
         os.remove(temp_filename)
@@ -194,7 +197,7 @@ def process_image_ctl(
     ctl_transforms: Union[Sequence[str], Dict[str, Sequence[str]]],
     *args: Any,
     **kwargs: Any,
-) -> FloatingOrNDArray:
+) -> FloatingOrNDArray:  # pragma: no cover
     """
     Process given image data with *ctlrender* using given *CTL* transforms.
 
