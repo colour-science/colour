@@ -27,10 +27,14 @@ __all__ = [
 ]
 
 
+# TODO: Reinstate coverage and doctests when "Pypi" wheel compatible with "ARM"
+#  on "macOS" is released.
+
+
 @required("OpenColorIO")
 def process_image_OpenColorIO(
     a: ArrayLike, *args: Any, **kwargs: Any
-) -> FloatingOrNDArray:
+) -> FloatingOrNDArray:  # pragma: no cover
     """
     Process given image data with *OpenColorIO*.
 
@@ -57,9 +61,6 @@ def process_image_OpenColorIO(
 
     Examples
     --------
-    # TODO: Reinstate when "Pypi" wheel compatible with "ARM" on "macOS" is
-    # released.
-
     >>> import os
     >>> import PyOpenColorIO as ocio  # doctest: +SKIP
     >>> from colour.utilities import full

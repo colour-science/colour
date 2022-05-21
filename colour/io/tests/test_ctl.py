@@ -36,6 +36,9 @@ __all__ = [
 
 RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
 
+# TODO: Reinstate coverage when "ctlrender" is tivially available
+# cross-platform.
+
 
 class TestCtlRender(unittest.TestCase):
     """Define :func:`colour.io.ctl.ctl_render` definition unit tests methods."""
@@ -50,10 +53,10 @@ class TestCtlRender(unittest.TestCase):
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_ctl_render(self):
+    def test_ctl_render(self):  # pragma: no cover
         """Test :func:`colour.io.ctl.ctl_render` definition."""
 
-        if not is_ctlrender_installed():  # pragma: no cover
+        if not is_ctlrender_installed():
             return
 
         ctl_adjust_gain_float = template_ctl_transform_float(
@@ -120,10 +123,10 @@ class TestProcessImageCtl(unittest.TestCase):
     methods.
     """
 
-    def test_process_image_ctl(self):
+    def test_process_image_ctl(self):  # pragma: no cover
         """Test :func:`colour.io.ctl.process_image_ctl` definition."""
 
-        if not is_ctlrender_installed():  # pragma: no cover
+        if not is_ctlrender_installed():
             return
 
         ctl_adjust_gain_float = template_ctl_transform_float(
