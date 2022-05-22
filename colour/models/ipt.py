@@ -20,16 +20,12 @@ References
 from __future__ import annotations
 
 import numpy as np
+from functools import partial
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow
+from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.hints import ArrayLike, FloatingOrNDArray, NDArray
-from colour.utilities import (
-    as_float,
-    from_range_1,
-    from_range_degrees,
-    to_domain_1,
-    tsplit,
-)
+from colour.utilities import as_float, from_range_degrees, to_domain_1, tsplit
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -119,13 +115,12 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
     array([ 0.3842619...,  0.3848730...,  0.1888683...])
     """
 
-    XYZ = to_domain_1(XYZ)
-
-    LMS = vector_dot(MATRIX_IPT_XYZ_TO_LMS, XYZ)
-    LMS_prime = spow(LMS, 0.43)
-    IPT = vector_dot(MATRIX_IPT_LMS_P_TO_IPT, LMS_prime)
-
-    return from_range_1(IPT)
+    return XYZ_to_Iab(
+        XYZ,
+        partial(spow, p=0.43),
+        MATRIX_IPT_XYZ_TO_LMS,
+        MATRIX_IPT_LMS_P_TO_IPT,
+    )
 
 
 def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
@@ -171,13 +166,12 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    IPT = to_domain_1(IPT)
-
-    LMS = vector_dot(MATRIX_IPT_IPT_TO_LMS_P, IPT)
-    LMS_prime = spow(LMS, 1 / 0.43)
-    XYZ = vector_dot(MATRIX_IPT_LMS_TO_XYZ, LMS_prime)
-
-    return from_range_1(XYZ)
+    return Iab_to_XYZ(
+        IPT,
+        partial(spow, p=1 / 0.43),
+        MATRIX_IPT_IPT_TO_LMS_P,
+        MATRIX_IPT_LMS_TO_XYZ,
+    )
 
 
 def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:

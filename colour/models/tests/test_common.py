@@ -5,7 +5,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models import Jab_to_JCh, JCh_to_Jab
+from colour.models import Iab_to_XYZ, Jab_to_JCh, JCh_to_Jab, XYZ_to_Iab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -18,6 +18,8 @@ __status__ = "Production"
 __all__ = [
     "TestJab_to_JCh",
     "TestJCh_to_Jab",
+    "TestXYZ_to_Iab",
+    "TestIab_to_XYZ",
 ]
 
 
@@ -169,6 +171,267 @@ class TestJCh_to_Jab(unittest.TestCase):
         for case in cases:
             LCHab = np.array(case)
             JCh_to_Jab(LCHab)
+
+
+class TestXYZ_to_Iab(unittest.TestCase):
+    """Define :func:`colour.models.common.XYZ_to_Iab` definition unit tests methods."""
+
+    def setUp(self):
+        """Initialise the common tests attributes."""
+
+        self.LMS_to_LMS_p = lambda x: x**0.43
+        self.M_XYZ_to_LMS = np.array(
+            [
+                [0.4002, 0.7075, -0.0807],
+                [-0.2280, 1.1500, 0.0612],
+                [0.0000, 0.0000, 0.9184],
+            ]
+        )
+        self.M_LMS_p_to_Iab = np.array(
+            [
+                [0.4000, 0.4000, 0.2000],
+                [4.4550, -4.8510, 0.3960],
+                [0.8056, 0.3572, -1.1628],
+            ]
+        )
+
+    def test_XYZ_to_Iab(self):
+        """Test :func:`colour.models.common.XYZ_to_Iab` definition."""
+
+        np.testing.assert_almost_equal(
+            XYZ_to_Iab(
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                self.LMS_to_LMS_p,
+                self.M_XYZ_to_LMS,
+                self.M_LMS_p_to_Iab,
+            ),
+            np.array([0.38426191, 0.38487306, 0.18886838]),
+            decimal=7,
+        )
+
+        np.testing.assert_almost_equal(
+            XYZ_to_Iab(
+                np.array([0.14222010, 0.23042768, 0.10495772]),
+                self.LMS_to_LMS_p,
+                self.M_XYZ_to_LMS,
+                self.M_LMS_p_to_Iab,
+            ),
+            np.array([0.49437481, -0.19251742, 0.18080304]),
+            decimal=7,
+        )
+
+        np.testing.assert_almost_equal(
+            XYZ_to_Iab(
+                np.array([0.07818780, 0.06157201, 0.28099326]),
+                self.LMS_to_LMS_p,
+                self.M_XYZ_to_LMS,
+                self.M_LMS_p_to_Iab,
+            ),
+            np.array([0.35167774, -0.07525627, -0.30921279]),
+            decimal=7,
+        )
+
+    def test_n_dimensional_XYZ_to_Iab(self):
+        """
+        Test :func:`colour.models.common.XYZ_to_Iab` definition n-dimensional
+        support.
+        """
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        Iab = XYZ_to_Iab(
+            XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
+        )
+
+        XYZ = np.tile(XYZ, (6, 1))
+        Iab = np.tile(Iab, (6, 1))
+        np.testing.assert_almost_equal(
+            XYZ_to_Iab(
+                XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
+            ),
+            Iab,
+            decimal=7,
+        )
+
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        Iab = np.reshape(Iab, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            XYZ_to_Iab(
+                XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
+            ),
+            Iab,
+            decimal=7,
+        )
+
+    def test_domain_range_scale_XYZ_to_Iab(self):
+        """
+        Test :func:`colour.models.common.XYZ_to_Iab` definition domain and
+        range scale support.
+        """
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        Iab = XYZ_to_Iab(
+            XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
+        )
+
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_Iab(
+                        XYZ * factor,
+                        self.LMS_to_LMS_p,
+                        self.M_XYZ_to_LMS,
+                        self.M_LMS_p_to_Iab,
+                    ),
+                    Iab * factor,
+                    decimal=7,
+                )
+
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_Iab(self):
+        """Test :func:`colour.models.common.XYZ_to_Iab` definition nan support."""
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_to_Iab(
+                XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
+            )
+
+
+class TestIab_to_XYZ(unittest.TestCase):
+    """
+    Define :func:`colour.models.common.Iab_to_XYZ` definition unit tests
+    methods.
+    """
+
+    def setUp(self):
+        """Initialise the common tests attributes."""
+
+        self.LMS_p_to_LMS = lambda x: x ** (1 / 0.43)
+        self.M_Iab_to_LMS_p = np.linalg.inv(
+            np.array(
+                [
+                    [0.4000, 0.4000, 0.2000],
+                    [4.4550, -4.8510, 0.3960],
+                    [0.8056, 0.3572, -1.1628],
+                ]
+            )
+        )
+        self.M_LMS_to_XYZ = np.linalg.inv(
+            np.array(
+                [
+                    [0.4002, 0.7075, -0.0807],
+                    [-0.2280, 1.1500, 0.0612],
+                    [0.0000, 0.0000, 0.9184],
+                ]
+            )
+        )
+
+    def test_Iab_to_XYZ(self):
+        """Test :func:`colour.models.common.Iab_to_XYZ` definition."""
+
+        np.testing.assert_almost_equal(
+            Iab_to_XYZ(
+                np.array([0.38426191, 0.38487306, 0.18886838]),
+                self.LMS_p_to_LMS,
+                self.M_Iab_to_LMS_p,
+                self.M_LMS_to_XYZ,
+            ),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
+            decimal=7,
+        )
+
+        np.testing.assert_almost_equal(
+            Iab_to_XYZ(
+                np.array([0.49437481, -0.19251742, 0.18080304]),
+                self.LMS_p_to_LMS,
+                self.M_Iab_to_LMS_p,
+                self.M_LMS_to_XYZ,
+            ),
+            np.array([0.14222010, 0.23042768, 0.10495772]),
+            decimal=7,
+        )
+
+        np.testing.assert_almost_equal(
+            Iab_to_XYZ(
+                np.array([0.35167774, -0.07525627, -0.30921279]),
+                self.LMS_p_to_LMS,
+                self.M_Iab_to_LMS_p,
+                self.M_LMS_to_XYZ,
+            ),
+            np.array([0.07818780, 0.06157201, 0.28099326]),
+            decimal=7,
+        )
+
+    def test_n_dimensional_Iab_to_XYZ(self):
+        """
+        Test :func:`colour.models.common.Iab_to_XYZ` definition n-dimensional
+        support.
+        """
+
+        Iab = np.array([0.38426191, 0.38487306, 0.18886838])
+        XYZ = Iab_to_XYZ(
+            Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
+        )
+
+        Iab = np.tile(Iab, (6, 1))
+        XYZ = np.tile(XYZ, (6, 1))
+        np.testing.assert_almost_equal(
+            Iab_to_XYZ(
+                Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
+            ),
+            XYZ,
+            decimal=7,
+        )
+
+        Iab = np.reshape(Iab, (2, 3, 3))
+        XYZ = np.reshape(XYZ, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            Iab_to_XYZ(
+                Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
+            ),
+            XYZ,
+            decimal=7,
+        )
+
+    def test_domain_range_scale_Iab_to_XYZ(self):
+        """
+        Test :func:`colour.models.common.Iab_to_XYZ` definition domain and
+        range scale support.
+        """
+
+        Iab = np.array([0.38426191, 0.38487306, 0.18886838])
+        XYZ = Iab_to_XYZ(
+            Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
+        )
+
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    Iab_to_XYZ(
+                        Iab * factor,
+                        self.LMS_p_to_LMS,
+                        self.M_Iab_to_LMS_p,
+                        self.M_LMS_to_XYZ,
+                    ),
+                    XYZ * factor,
+                    decimal=7,
+                )
+
+    @ignore_numpy_errors
+    def test_nan_Iab_to_XYZ(self):
+        """Test :func:`colour.models.common.Iab_to_XYZ` definition nan support."""
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            Iab = np.array(case)
+            Iab_to_XYZ(
+                Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
+            )
 
 
 if __name__ == "__main__":
