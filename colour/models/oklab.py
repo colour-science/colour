@@ -17,10 +17,11 @@ References
 from __future__ import annotations
 
 import numpy as np
+from functools import partial
 
-from colour.algebra import spow, vector_dot
+from colour.algebra import spow
+from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.hints import ArrayLike, NDArray
-from colour.utilities import from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -109,13 +110,12 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
     array([ 0.5163401...,  0.154695 ...,  0.0628957...])
     """
 
-    XYZ = to_domain_1(XYZ)
-
-    LMS = vector_dot(MATRIX_1_XYZ_TO_LMS, XYZ)
-    LMS_prime = spow(LMS, 1 / 3)
-    Lab = vector_dot(MATRIX_2_LMS_TO_LAB, LMS_prime)
-
-    return from_range_1(Lab)
+    return XYZ_to_Iab(
+        XYZ,
+        partial(spow, p=1 / 3),
+        MATRIX_1_XYZ_TO_LMS,
+        MATRIX_2_LMS_TO_LAB,
+    )
 
 
 def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
@@ -161,10 +161,9 @@ def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    Lab = to_domain_1(Lab)
-
-    LMS = vector_dot(MATRIX_2_LAB_TO_LMS, Lab)
-    LMS_prime = spow(LMS, 3)
-    XYZ = vector_dot(MATRIX_1_LMS_TO_XYZ, LMS_prime)
-
-    return from_range_1(XYZ)
+    return Iab_to_XYZ(
+        Lab,
+        partial(spow, p=3),
+        MATRIX_2_LAB_TO_LMS,
+        MATRIX_1_LMS_TO_XYZ,
+    )

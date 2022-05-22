@@ -6,11 +6,13 @@ from colour.utilities.documentation import is_documentation_building
 from colour.hints import Any
 
 from .common import (
-    Jab_to_JCh,
-    JCh_to_Jab,
     COLOURSPACE_MODELS,
     COLOURSPACE_MODELS_AXIS_LABELS,
     COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
+    Jab_to_JCh,
+    JCh_to_Jab,
+    XYZ_to_Iab,
+    Iab_to_XYZ,
 )
 from .cam02_ucs import (
     JMh_CIECAM02_to_CAM02LCD,
@@ -337,11 +339,13 @@ from .rgb import RGB_to_YCoCg, YCoCg_to_RGB
 from .rgb import RGB_to_ICtCp, ICtCp_to_RGB, XYZ_to_ICtCp, ICtCp_to_XYZ
 
 __all__ = [
-    "Jab_to_JCh",
-    "JCh_to_Jab",
     "COLOURSPACE_MODELS",
     "COLOURSPACE_MODELS_AXIS_LABELS",
     "COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE",
+    "Jab_to_JCh",
+    "JCh_to_Jab",
+    "XYZ_to_Iab",
+    "Iab_to_XYZ",
 ]
 __all__ += [
     "JMh_CIECAM02_to_CAM02LCD",

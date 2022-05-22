@@ -39,6 +39,8 @@ Common Models
 
     Jab_to_JCh
     JCh_to_Jab
+    XYZ_to_Iab
+    Iab_to_XYZ
 
 CIE L*a*b* Colourspace
 ----------------------
