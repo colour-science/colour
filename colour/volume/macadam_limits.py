@@ -239,7 +239,7 @@ def macadam_limits(target_brightness, illuminant=()):
     # an illuminant chosen with no influence
     # If the illuminants do not match the format of the Standard Observer,
     # they have to be adapted
-    illuminant.extrapolate(SpectralShape(360, 830))
+    illuminant.extrapolate(SpectralShape(360, 830, 1))
     illuminant.interpolate(SpectralShape(360, 830, 1))
     # The cie31 cmfs are convolved with the given illuminant
     X_illuminated = X_cie31 * illuminant.values
