@@ -222,16 +222,18 @@ def macadam_limits(target_brightness, illuminant=()):
     """
     target_bright = target_brightness
     if target_bright > 1 or target_bright < 0:
-        raise TypeError('brightness of function macadam_limits( )'
-                        'has to be between 0 and 1')
-    standard_cfms = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+        raise TypeError(
+            "brightness of function macadam_limits( )"
+            "has to be between 0 and 1"
+        )
+    standard_cfms = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     X_cie31 = standard_cfms.values[..., 0]
     Y_cie31 = standard_cfms.values[..., 1]
     Z_cie31 = standard_cfms.values[..., 2]
     try:
         illuminant.interpolator
     except AttributeError:
-        illuminant = SDS_ILLUMINANTS['E']
+        illuminant = SDS_ILLUMINANTS["E"]
 
     # If there is no illuminant or it has the wrong form,
     # an illuminant chosen with no influence
@@ -265,18 +267,25 @@ def macadam_limits(target_brightness, illuminant=()):
         half_width = width
         center_opti_colour = center
         middle_opti_colour = 235
-        opti_colour[middle_opti_colour - half_width:middle_opti_colour +
-                    half_width + 1] = 1
+        opti_colour[
+            middle_opti_colour
+            - half_width : middle_opti_colour
+            + half_width
+            + 1
+        ] = 1
         # we start the construction of the optimum color
         # at the center of the opti_colour-array
-        opti_colour = np.roll(opti_colour,
-                              center_opti_colour - middle_opti_colour)
+        opti_colour = np.roll(
+            opti_colour, center_opti_colour - middle_opti_colour
+        )
         # the optimum colour is rolled to the right wavelength
         return opti_colour
 
     def bright_opti_colour(width, center, lightsource):
-        brightness = np.sum(
-            optimum_colour(width, center) * lightsource) / maximum_brightness
+        brightness = (
+            np.sum(optimum_colour(width, center) * lightsource)
+            / maximum_brightness
+        )
         return brightness
 
     step_size = np.array([64, 32, 16, 8, 4, 2, 1])
@@ -302,11 +311,13 @@ def macadam_limits(target_brightness, illuminant=()):
         # discrimination for single-wavelength-spectra
         if width > 0:
             opti_colour = np.zeros(471)
-            opti_colour[middle_opti_colour - width:middle_opti_colour + width +
-                        1] = 1
+            opti_colour[
+                middle_opti_colour - width : middle_opti_colour + width + 1
+            ] = 1
             # instead rolling forward opti_colour, light is rolled backward
-            rolled_light = np.roll(Y_illuminated,
-                                   middle_opti_colour - wavelength)
+            rolled_light = np.roll(
+                Y_illuminated, middle_opti_colour - wavelength
+            )
             opti_colour_light = opti_colour * rolled_light
             left_opti = opti_colour_light[middle_opti_colour - width]
             right_opti = opti_colour_light[middle_opti_colour + width]
@@ -314,8 +325,9 @@ def macadam_limits(target_brightness, illuminant=()):
             opti_colour[middle_opti_colour - width] = interpolation
             opti_colour[middle_opti_colour + width] = interpolation
             # opti_colour is rolled to right position
-            final_optimum = np.roll(opti_colour,
-                                    wavelength - middle_opti_colour)
+            final_optimum = np.roll(
+                opti_colour, wavelength - middle_opti_colour
+            )
         else:
             final_optimum = rough_optimum / brightness * target_bright
 
@@ -324,4 +336,4 @@ def macadam_limits(target_brightness, illuminant=()):
         out_Z = np.sum(final_optimum * Z_illuminated) / maximum_brightness
         triple = np.array([out_X, out_Y, out_Z])
         out_limits[wavelength] = triple
-    return (out_limits)
+    return out_limits
