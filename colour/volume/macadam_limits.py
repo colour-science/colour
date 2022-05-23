@@ -147,7 +147,7 @@ def is_within_macadam_limits(
 
 def macadam_limits(target_brightness, illuminant=()):
     """
-    wavelength reaches from 360 to 830 nm, in within the program it is
+    Wavelength reaches from 360 to 830 nm, in within the program it is
     handled as 0 to 470. Beyond the references this program is very fast,
     because the possible optimums are not simply tested step by step but
     more effectively targeted by steps of power of two. The wavelengths
