@@ -92,6 +92,7 @@ from .jzazbz import (
     Izazbz_to_XYZ,
     Jzazbz_to_XYZ,
 )
+from .munish2021 import XYZ_to_IPT_Munish2021, IPT_Munish2021_to_XYZ
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
@@ -451,6 +452,10 @@ __all__ += [
     "XYZ_to_Jzazbz",
     "Izazbz_to_XYZ",
     "Jzazbz_to_XYZ",
+]
+__all__ += [
+    "XYZ_to_IPT_Munish2021",
+    "IPT_Munish2021_to_XYZ",
 ]
 __all__ += [
     "HDR_IPT_METHODS",

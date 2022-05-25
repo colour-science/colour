@@ -307,7 +307,6 @@ message_box(
 )
 print(colour.ICaCb_to_XYZ(ICaCb))
 
-XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 message_box(
     f'Converting to "IgPgTg" colourspace from given "CIE XYZ" tristimulus '
     f"values:\n\n\t{XYZ}"
@@ -325,7 +324,6 @@ print(colour.IgPgTg_to_XYZ(IgPgTg))
 
 print("\n")
 
-XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 message_box(
     f'Converting to "IPT" colourspace from given "CIE XYZ" tristimulus '
     f"values:\n\n\t{XYZ}"
@@ -340,6 +338,24 @@ message_box(
     f"values:\n\n\t{IPT}"
 )
 print(colour.IPT_to_XYZ(IPT))
+
+print("\n")
+
+message_box(
+    f'Converting to "Munish Ragoo and Farup (2021)" "Optimised IPT" '
+    f'colourspace from given "CIE XYZ" tristimulus values:\n\n\t{XYZ}'
+)
+print(colour.XYZ_to_IPT_Munish2021(XYZ))
+
+print("\n")
+
+IPT = np.array([0.42248243, 4.05710276, 0.20410663])
+message_box(
+    f'Converting to "CIE XYZ" tristimulus values from given'
+    f'"Munish Ragoo and Farup (2021)" "Optimised IPT" colourspace '
+    f"values:\n\n\t{IPT}"
+)
+print(colour.IPT_Munish2021_to_XYZ(IPT))
 
 print("\n")
 
