@@ -629,7 +629,7 @@ def XYZ_to_sd_Jakob2019(
 
 class LUT3D_Jakob2019:
     """
-    Clas for working with pre-computed lookup tables for the
+    Define a class for working with pre-computed lookup tables for the
     *Jakob and Hanika (2019)* spectral upsampling method. It allows significant
     time savings by performing the expensive numerical optimization ahead of
     time and storing the results in a file.
