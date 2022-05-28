@@ -16,11 +16,11 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow, vector_dot
 from colour.hints import ArrayLike, NDArray
-from colour.utilities import from_range_1, to_domain_1
+from colour.utilities import from_range_1, to_domain_1, as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -107,7 +107,8 @@ def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_IgPgTg(XYZ)  # doctest: +ELLIPSIS
     array([ 0.4242125...,  0.1863249...,  0.1068922...])
     """
@@ -160,7 +161,8 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> IgPgTg = np.array([0.42421258, 0.18632491, 0.10689223])
+    >>> from colour.utilities import as_float_array
+    >>> IgPgTg = as_float_array([0.42421258, 0.18632491, 0.10689223])
     >>> IgPgTg_to_XYZ(IgPgTg)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
@@ -168,7 +170,7 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArray:
     IgPgTg = to_domain_1(IgPgTg)
 
     LMS = vector_dot(MATRIX_IGPGTG_IGPGTG_TO_LMS_P, IgPgTg)
-    LMS_prime = spow(LMS, 1 / 0.427) * np.array([18.36, 21.46, 19435])
+    LMS_prime = as_float_array(spow(LMS, 1 / 0.427)) * as_float_array([18.36, 21.46, 19435])
     XYZ = vector_dot(MATRIX_IGPGTG_LMS_TO_XYZ, LMS_prime)
 
     return from_range_1(XYZ)

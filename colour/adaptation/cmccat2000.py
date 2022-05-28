@@ -22,7 +22,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from typing import NamedTuple
 
 from colour.adaptation import CAT_CMCCAT2000
@@ -160,9 +160,10 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
     Examples
     --------
-    >>> XYZ = np.array([22.48, 22.74, 8.54])
-    >>> XYZ_w = np.array([111.15, 100.00, 35.20])
-    >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([22.48, 22.74, 8.54])
+    >>> XYZ_w = as_float_array([111.15, 100.00, 35.20])
+    >>> XYZ_wr = as_float_array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
     >>> chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
@@ -257,9 +258,10 @@ def chromatic_adaptation_inverse_CMCCAT2000(
 
     Examples
     --------
-    >>> XYZ_c = np.array([19.53, 23.07, 24.97])
-    >>> XYZ_w = np.array([111.15, 100.00, 35.20])
-    >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ_c = as_float_array([19.53, 23.07, 24.97])
+    >>> XYZ_w = as_float_array([111.15, 100.00, 35.20])
+    >>> XYZ_wr = as_float_array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
     >>> chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,
@@ -362,9 +364,10 @@ def chromatic_adaptation_CMCCAT2000(
 
     Examples
     --------
-    >>> XYZ = np.array([22.48, 22.74, 8.54])
-    >>> XYZ_w = np.array([111.15, 100.00, 35.20])
-    >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([22.48, 22.74, 8.54])
+    >>> XYZ_w = as_float_array([111.15, 100.00, 35.20])
+    >>> XYZ_wr = as_float_array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
     >>> chromatic_adaptation_CMCCAT2000(
@@ -374,9 +377,9 @@ def chromatic_adaptation_CMCCAT2000(
 
     Using the *CMCCAT2000* inverse model:
 
-    >>> XYZ = np.array([19.52698326, 23.06833960, 24.97175229])
-    >>> XYZ_w = np.array([111.15, 100.00, 35.20])
-    >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
+    >>> XYZ = as_float_array([19.52698326, 23.06833960, 24.97175229])
+    >>> XYZ_w = as_float_array([111.15, 100.00, 35.20])
+    >>> XYZ_wr = as_float_array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
     >>> chromatic_adaptation_CMCCAT2000(

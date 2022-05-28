@@ -84,8 +84,9 @@ def XYZ_to_UCS(XYZ: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
     array([ 0.1376933...,  0.1219722...,  0.1053731...])
     """
@@ -131,8 +132,9 @@ def UCS_to_XYZ(UVW: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> UVW = as_float_array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
@@ -173,8 +175,9 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> UVW = as_float_array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_uv(UVW)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.3341350...])
     """
@@ -214,8 +217,9 @@ def uv_to_UCS(uv: ArrayLike, V: Floating = 1) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> uv = np.array([0.37720213, 0.33413508])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> uv = as_float_array([0.37720213, 0.33413508])
     >>> uv_to_UCS(uv)  # doctest: +ELLIPSIS
     array([ 1.1288911...,  1.        ,  0.8639104...])
     """
@@ -252,8 +256,9 @@ def UCS_uv_to_xy(uv: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> uv = np.array([0.37720213, 0.33413508])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> uv = as_float_array([0.37720213, 0.33413508])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...])
     """
@@ -287,8 +292,9 @@ def xy_to_UCS_uv(xy: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> xy = np.array([0.54369555, 0.32107941])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> xy = as_float_array([0.54369555, 0.32107941])
     >>> xy_to_UCS_uv(xy)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.3341350...])
     """

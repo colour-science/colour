@@ -7,10 +7,11 @@ Defines the helpers objects related to volume computations.
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.spatial import Delaunay
 
 from colour.hints import ArrayLike, Floating, NDArray, Optional
+from colour.utilities import as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -47,24 +48,29 @@ def is_within_mesh_volume(
 
     Examples
     --------
-    >>> mesh = np.array(
+    >>> from colour.utilities import as_float_array
+    >>> mesh = as_float_array(
     ...     [[-1.0, -1.0, 1.0],
     ...       [1.0, -1.0, 1.0],
     ...       [1.0, -1.0, -1.0],
     ...       [-1.0, -1.0, -1.0],
     ...       [0.0, 1.0, 0.0]]
     ... )
-    >>> is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), mesh)
+    >>> is_within_mesh_volume(as_float_array([0.0005, 0.0031, 0.0010]), mesh)
     array(True, dtype=bool)
-    >>> a = np.array([[0.0005, 0.0031, 0.0010],
+    >>> a = as_float_array([[0.0005, 0.0031, 0.0010],
     ...               [0.3205, 0.4131, 0.5100]])
     >>> is_within_mesh_volume(a, mesh)
     array([ True, False], dtype=bool)
     """
 
+    if(np.__name__ == 'cupy'):
+        mesh = mesh.get()
+        points = points.get()
+
     triangulation = Delaunay(mesh)
 
     simplex = triangulation.find_simplex(points, tol=tolerance)
-    simplex = np.where(simplex >= 0, True, False)
+    simplex = np.where(as_float_array(simplex) >= 0, True, False)
 
     return simplex

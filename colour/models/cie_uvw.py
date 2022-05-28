@@ -16,7 +16,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
@@ -28,7 +28,7 @@ from colour.models import (
     xyY_to_XYZ,
     xyY_to_xy,
 )
-from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
+from colour.utilities import from_range_100, to_domain_100, tsplit, tstack, as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -92,8 +92,9 @@ def XYZ_to_UVW(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
     array([ 94.5503572...,  11.5553652...,  40.5475740...])
     """
@@ -108,8 +109,10 @@ def XYZ_to_UVW(
     uv_0 = xy_to_UCS_uv(xy_n)
 
     W = 25 * cast(NDArray, spow(Y, 1 / 3)) - 17
-    U, V = tsplit(13 * W[..., np.newaxis] * (uv - uv_0))
+    U, V = tsplit(as_float_array(13 * W[..., np.newaxis]) * (uv - uv_0))
 
+    if(np.__name__ == 'cupy'):
+        W = as_float_array(W)
     UVW = tstack([U, V, W])
 
     return from_range_100(UVW)
@@ -164,8 +167,9 @@ def UVW_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> UVW = np.array([94.55035725, 11.55536523, 40.54757405])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> UVW = as_float_array([94.55035725, 11.55536523, 40.54757405])
     >>> UVW_to_XYZ(UVW)
     array([ 20.654008,  12.197225,   5.136952])
     """

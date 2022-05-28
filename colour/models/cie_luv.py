@@ -30,6 +30,7 @@ References
 
 from __future__ import annotations
 
+import colour.ndarray as np
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
@@ -48,6 +49,7 @@ from colour.utilities import (
     to_domain_100,
     tsplit,
     tstack,
+    as_float_array
 )
 
 __author__ = "Colour Developers"
@@ -118,8 +120,9 @@ def XYZ_to_Luv(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  96.8362605...,  17.7521014...])
     """
@@ -138,6 +141,9 @@ def XYZ_to_Luv(
         u = 13 * L * ((4 * sdiv(X, X_Y_Z)) - (4 * sdiv(X_r, X_r_Y_r_Z_r)))
         v = 13 * L * ((9 * sdiv(Y, X_Y_Z)) - (9 * sdiv(Y_r, X_r_Y_r_Z_r)))
 
+    if(np.__name__ == 'cupy'):
+        L = as_float_array(L)
+    
     Luv = tstack([L, u, v])
 
     return from_range_100(Luv)
@@ -192,8 +198,9 @@ def Luv_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Luv = as_float_array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
@@ -219,6 +226,9 @@ def Luv_to_XYZ(
         X = sdiv(d - b, a - c)
 
     Z = X * a + b
+
+    if(np.__name__ == 'cupy'):
+        Y = as_float_array(Y)
 
     XYZ = tstack([X, Y, Z])
 
@@ -268,8 +278,9 @@ def Luv_to_uv(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Luv = as_float_array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.5012026...])
     """
@@ -335,8 +346,9 @@ def uv_to_Luv(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> uv = np.array([0.37720213, 0.50120264])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> uv = as_float_array([0.37720213, 0.50120264])
     >>> uv_to_Luv(uv)  # doctest: +ELLIPSIS
     array([ 100.        ,  233.1837603...,   42.7474385...])
     """
@@ -374,8 +386,9 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> uv = np.array([0.37720213, 0.50120264])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> uv = as_float_array([0.37720213, 0.50120264])
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...])
     """
@@ -409,8 +422,9 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> xy = np.array([0.54369558, 0.32107944])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> xy = as_float_array([0.54369558, 0.32107944])
     >>> xy_to_Luv_uv(xy)  # doctest: +ELLIPSIS
     array([ 0.3772021...,  0.5012026...])
     """
@@ -466,8 +480,9 @@ def Luv_to_LCHuv(Luv: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Luv = as_float_array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  98.4499795...,  10.3881634...])
     """
@@ -518,8 +533,9 @@ def LCHuv_to_Luv(LCHuv: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> LCHuv = as_float_array([41.52787529, 98.44997950, 10.38816348])
     >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  96.8362605...,  17.7521014...])
     """

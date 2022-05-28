@@ -58,10 +58,11 @@ def is_within_pointer_gamut(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.5100]))
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> is_within_pointer_gamut(as_float_array([0.3205, 0.4131, 0.5100]))
     array(True, dtype=bool)
-    >>> a = np.array([[0.3205, 0.4131, 0.5100], [0.0005, 0.0031, 0.0010]])
+    >>> a = as_float_array([[0.3205, 0.4131, 0.5100], [0.0005, 0.0031, 0.0010]])
     >>> is_within_pointer_gamut(a)
     array([ True, False], dtype=bool)
     """

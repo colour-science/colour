@@ -35,7 +35,7 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from dataclasses import dataclass
 
 from colour.algebra import sdiv, sdiv_mode
@@ -233,7 +233,8 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> uv = np.array([0.193741375998230, 0.315221043940594])
+    >>> from colour.utilities import as_float_array
+    >>> uv = as_float_array([0.193741375998230, 0.315221043940594])
     >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
     array([  6.5000162...e+03,   8.3333289...e-03])
     """
@@ -328,7 +329,8 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> CCT_D_uv = np.array([6500.0081378199056, 0.008333331244225])
+    >>> from colour.utilities import as_float_array
+    >>> CCT_D_uv = as_float_array([6500.0081378199056, 0.008333331244225])
     >>> CCT_to_uv_Robertson1968(CCT_D_uv)  # doctest: +ELLIPSIS
     array([ 0.1937413...,  0.3152210...])
     """

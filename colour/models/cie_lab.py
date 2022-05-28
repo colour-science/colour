@@ -98,8 +98,9 @@ def XYZ_to_Lab(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
@@ -169,8 +170,9 @@ def Lab_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Lab = as_float_array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
@@ -235,8 +237,9 @@ def Lab_to_LCHab(Lab: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Lab = as_float_array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  59.1242590...,  27.0884878...])
     """
@@ -287,8 +290,9 @@ def LCHab_to_Lab(LCHab: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> LCHab = as_float_array([41.52787529, 59.12425901, 27.08848784])
     >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """

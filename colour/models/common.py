@@ -17,7 +17,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.hints import ArrayLike, NDArray, Tuple
@@ -99,7 +99,8 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> Jab = np.array([41.52787529, 52.63858304, 26.92317922])
+    >>> from colour.utilities import as_float_array
+    >>> Jab = as_float_array([41.52787529, 52.63858304, 26.92317922])
     >>> Jab_to_JCh(Jab)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  59.1242590...,  27.0884878...])
     """
@@ -161,7 +162,8 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> JCh = np.array([41.52787529, 59.12425901, 27.08848784])
+    >>> from colour.utilities import as_float_array
+    >>> JCh = as_float_array([41.52787529, 59.12425901, 27.08848784])
     >>> JCh_to_Jab(JCh)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """

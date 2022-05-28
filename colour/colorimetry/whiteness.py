@@ -128,9 +128,10 @@ def whiteness_Berger1959(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = as_float_array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Berger1959(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     30.3638017...
     """
@@ -185,9 +186,10 @@ def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = as_float_array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Taube1960(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     91.4071738...
     """
@@ -242,8 +244,9 @@ def whiteness_Stensby1968(Lab: ArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Lab = np.array([100.00000000, -2.46875131, -16.72486654])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Lab = as_float_array([100.00000000, -2.46875131, -16.72486654])
     >>> whiteness_Stensby1968(Lab)  # doctest: +ELLIPSIS
     142.7683456...
     """
@@ -290,8 +293,9 @@ def whiteness_ASTME313(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([95.00000000, 100.00000000, 105.00000000])
     >>> whiteness_ASTME313(XYZ)  # doctest: +ELLIPSIS
     55.7400000...
     """
@@ -351,8 +355,9 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: FloatingOrNDArray) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> xy = np.array([0.3167, 0.3334])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> xy = as_float_array([0.3167, 0.3334])
     >>> whiteness_Ganz1979(xy, 100)  # doctest: +ELLIPSIS
     array([ 85.6003766...,   0.6789003...])
     """
@@ -432,9 +437,10 @@ def whiteness_CIE2004(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> xy = np.array([0.3167, 0.3334])
-    >>> xy_n = np.array([0.3139, 0.3311])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> xy = as_float_array([0.3167, 0.3334])
+    >>> xy_n = as_float_array([0.3139, 0.3311])
     >>> whiteness_CIE2004(xy, 100, xy_n)  # doctest: +ELLIPSIS
     array([ 93.85...,  -1.305...])
     """
@@ -539,14 +545,15 @@ def whiteness(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
     >>> from colour.models import xyY_to_XYZ
-    >>> XYZ = xyY_to_XYZ(np.array([0.3167, 0.3334, 100]))
-    >>> XYZ_0 = xyY_to_XYZ(np.array([0.3139, 0.3311, 100]))
+    >>> XYZ = xyY_to_XYZ(as_float_array([0.3167, 0.3334, 100]))
+    >>> XYZ_0 = xyY_to_XYZ(as_float_array([0.3139, 0.3311, 100]))
     >>> whiteness(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     array([ 93.85...,  -1.305...])
-    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-    >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
+    >>> XYZ = as_float_array([95.00000000, 100.00000000, 105.00000000])
+    >>> XYZ_0 = as_float_array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness(XYZ, XYZ_0, method='Taube 1960')  # doctest: +ELLIPSIS
     91.4071738...
     """

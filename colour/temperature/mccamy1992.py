@@ -20,7 +20,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.algebra import sdiv, sdiv_mode
@@ -69,8 +69,9 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> import numpy as np
-    >>> xy = np.array([0.31270, 0.32900])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> xy = as_float_array([0.31270, 0.32900])
     >>> xy_to_CCT_McCamy1992(xy)  # doctest: +ELLIPSIS
     6505.0805913...
     """

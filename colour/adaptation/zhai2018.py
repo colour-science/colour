@@ -13,7 +13,7 @@ References
     Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import vector_dot
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
@@ -127,16 +127,17 @@ def chromatic_adaptation_Zhai2018(
 
     Examples
     --------
-    >>> XYZ_b = np.array([48.900, 43.620, 6.250])
-    >>> XYZ_wb = np.array([109.850, 100, 35.585])
-    >>> XYZ_wd = np.array([95.047, 100, 108.883])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ_b = as_float_array([48.900, 43.620, 6.250])
+    >>> XYZ_wb = as_float_array([109.850, 100, 35.585])
+    >>> XYZ_wd = as_float_array([95.047, 100, 108.883])
     >>> D_b = 0.9407
     >>> D_d = 0.9800
-    >>> XYZ_wo = np.array([100, 100, 100])
+    >>> XYZ_wo = as_float_array([100, 100, 100])
     >>> chromatic_adaptation_Zhai2018(
     ...     XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo)  # doctest: +ELLIPSIS
     array([ 39.1856164...,  42.1546179...,  19.2367203...])
-    >>> XYZ_d = np.array([39.18561644, 42.15461798, 19.23672036])
+    >>> XYZ_d = as_float_array([39.18561644, 42.15461798, 19.23672036])
     >>> chromatic_adaptation_Zhai2018(
     ...     XYZ_d, XYZ_wd, XYZ_wb, D_d, D_b, XYZ_wo)  # doctest: +ELLIPSIS
     array([ 48.9 ,  43.62,   6.25])
@@ -168,6 +169,6 @@ def chromatic_adaptation_Zhai2018(
 
     RGB_d = D_RGB * RGB_b
 
-    XYZ_d = vector_dot(np.linalg.inv(M), RGB_d)
+    XYZ_d = vector_dot(np.linalg.inv(as_float_array(M)), RGB_d)
 
     return from_range_100(XYZ_d)

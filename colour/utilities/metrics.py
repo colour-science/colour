@@ -18,7 +18,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
@@ -77,7 +77,8 @@ def metric_mse(
 
     Examples
     --------
-    >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
+    >>> from colour.utilities import as_float_array
+    >>> a = as_float_array([0.48222001, 0.31654775, 0.22070353])
     >>> b = a * 0.9
     >>> metric_mse(a, b)  # doctest: +ELLIPSIS
     0.0012714...
@@ -123,7 +124,8 @@ def metric_psnr(
 
     Examples
     --------
-    >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
+    >>> from colour.utilities import as_float_array
+    >>> a = as_float_array([0.48222001, 0.31654775, 0.22070353])
     >>> b = a * 0.9
     >>> metric_psnr(a, b)  # doctest: +ELLIPSIS
     28.9568515...

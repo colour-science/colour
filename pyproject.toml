@@ -78,6 +78,7 @@ sphinx = { version = ">= 4, < 5", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
 toml = { version = "*", optional = true }  # Development dependency.
 twine = { version = "*", optional = true }  # Development dependency.
+cupy = "^10.3.0"
 
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"

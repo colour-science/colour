@@ -21,7 +21,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.hints import (
@@ -86,7 +86,8 @@ def uv_to_CCT_Krystek1985(
 
     Examples
     --------
-    >>> uv_to_CCT_Krystek1985(np.array([0.20047203, 0.31029290]))
+    >>> from colour.utilities import as_float_array
+    >>> uv_to_CCT_Krystek1985(as_float_array([0.20047203, 0.31029290]))
     ... # doctest: +ELLIPSIS
     6504.3894290...
     """

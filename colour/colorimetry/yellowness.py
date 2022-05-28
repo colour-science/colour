@@ -31,7 +31,7 @@ c/09_color_calculations_en.pdf
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (
@@ -112,7 +112,8 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness_ASTMD1925(XYZ)  # doctest: +ELLIPSIS
     10.2999999...
     """
@@ -171,7 +172,8 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness_ASTME313_alternative(XYZ)  # doctest: +ELLIPSIS
     11.0650000...
     """
@@ -271,7 +273,8 @@ def yellowness_ASTME313(
 
     Examples
     --------
-    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness_ASTME313(XYZ)  # doctest: +ELLIPSIS
     4.3400000...
     """
@@ -352,7 +355,8 @@ def yellowness(
 
     Examples
     --------
-    >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness(XYZ)  # doctest: +ELLIPSIS
     4.3400000...
     >>> yellowness(XYZ, method='ASTM E313 Alternative')  # doctest: +ELLIPSIS

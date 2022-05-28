@@ -16,7 +16,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import ArrayLike, NDArray
@@ -130,7 +130,8 @@ def XYZ_to_ProLab(
 
     Examples
     --------
-    >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
+    >>> from colour.utilities import as_float_array
+    >>> Lab = as_float_array([0.51634019, 0.15469500, 0.06289579])
     >>> XYZ_to_ProLab(Lab) # doctest: +ELLIPSIS
     array([  59.846628... ,  115.039635... ,   20.1251035...])
     """
@@ -189,7 +190,8 @@ def ProLab_to_XYZ(
 
     Examples
     --------
-    >>> ProLab = np.array([59.8466286, 115.0396354, 20.12510352])
+    >>> from colour.utilities import as_float_array
+    >>> ProLab = as_float_array([59.8466286, 115.0396354, 20.12510352])
     >>> ProLab_to_XYZ(ProLab) # doctest: +ELLIPSIS
     array([ 0.5163401...,  0.154695 ...,  0.0628957...])
     """

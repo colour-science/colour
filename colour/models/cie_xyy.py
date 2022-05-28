@@ -23,7 +23,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import ArrayLike, Floating, NDArray
@@ -97,30 +97,24 @@ def XYZ_to_xyY(
 
     Examples
     --------
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_xyY(XYZ)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...,  0.1219722...])
     """
 
     XYZ = to_domain_1(XYZ)
     xy_w = as_float_array(illuminant)
-
     X, Y, Z = tsplit(XYZ)
 
-    xyY = zeros(XYZ.shape)
-    xyY[..., 0:2] = xy_w
+    XYZ_n = zeros(XYZ.shape)
+    XYZ_n[..., 0:2] = xy_w
 
-    m_xyY = ~np.all(XYZ == 0, axis=-1)
-    X_Y_Z = (X + Y + Z)[m_xyY]
-
-    xyY[m_xyY] = (
-        tstack(
-            [
-                X[m_xyY] / X_Y_Z,
-                Y[m_xyY] / X_Y_Z,
-                from_range_1(Y[m_xyY]),
-            ]
-        ),
+    xyY = np.where(
+        np.all(XYZ == 0, axis=-1)[..., np.newaxis],
+        XYZ_n,
+        tstack([X / (X + Y + Z), Y / (X + Y + Z),
+                from_range_1(Y)]),
     )
 
     return xyY
@@ -160,7 +154,8 @@ def xyY_to_XYZ(xyY: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> xyY = np.array([0.54369557, 0.32107944, 0.12197225])
+    >>> from colour.utilities import as_float_array
+    >>> xyY = as_float_array([0.54369557, 0.32107944, 0.12197225])
     >>> xyY_to_XYZ(xyY)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
@@ -214,10 +209,11 @@ def xyY_to_xy(xyY: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> xyY = np.array([0.54369557, 0.32107944, 0.12197225])
+    >>> from colour.utilities import as_float_array
+    >>> xyY = as_float_array([0.54369557, 0.32107944, 0.12197225])
     >>> xyY_to_xy(xyY)  # doctest: +ELLIPSIS
     array([ 0.54369557...,  0.32107944...])
-    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy = as_float_array([0.54369557, 0.32107944])
     >>> xyY_to_xy(xy)  # doctest: +ELLIPSIS
     array([ 0.54369557...,  0.32107944...])
     """
@@ -281,13 +277,14 @@ def xy_to_xyY(xy: ArrayLike, Y: Floating = 1) -> NDArray:
 
     Examples
     --------
-    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> from colour.utilities import as_float_array
+    >>> xy = as_float_array([0.54369557, 0.32107944])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...,  1.        ])
-    >>> xy = np.array([0.54369557, 0.32107944, 1.00000000])
+    >>> xy = as_float_array([0.54369557, 0.32107944, 1.00000000])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...,  1.        ])
-    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy = as_float_array([0.54369557, 0.32107944])
     >>> xy_to_xyY(xy, 100)  # doctest: +ELLIPSIS
     array([   0.5436955...,    0.3210794...,  100.        ])
     """
@@ -343,7 +340,8 @@ def XYZ_to_xy(
 
     Examples
     --------
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_xy(XYZ)  # doctest: +ELLIPSIS
     array([ 0.5436955...,  0.3210794...])
     """
@@ -386,7 +384,8 @@ def xy_to_XYZ(xy: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> from colour.utilities import as_float_array
+    >>> xy = as_float_array([0.54369557, 0.32107944])
     >>> xy_to_XYZ(xy)  # doctest: +ELLIPSIS
     array([ 1.6933366...,  1.        ,  0.4211574...])
     """

@@ -23,7 +23,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
@@ -136,8 +136,9 @@ def Lab_to_DIN99(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Lab = as_float_array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_DIN99(Lab)  # doctest: +ELLIPSIS
     array([ 53.2282198...,  28.4163465...,   3.8983955...])
     """
@@ -228,8 +229,9 @@ def DIN99_to_Lab(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Lab_99 = as_float_array([53.22821988, 28.41634656, 3.89839552])
     >>> DIN99_to_Lab(Lab_99)  # doctest: +ELLIPSIS
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
@@ -324,8 +326,9 @@ def XYZ_to_DIN99(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_DIN99(XYZ)  # doctest: +ELLIPSIS
     array([ 53.2282198...,  28.4163465...,   3.8983955...])
     """
@@ -399,8 +402,9 @@ def DIN99_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> Lab_99 = np.array([53.22821989, 28.41634656, 3.89839552])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> Lab_99 = as_float_array([53.22821989, 28.41634656, 3.89839552])
     >>> DIN99_to_XYZ(Lab_99)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """

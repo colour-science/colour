@@ -9,7 +9,7 @@ imports.
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 # TODO: Drop mocking when minimal "Numpy" version is 1.20.x.
 try:

@@ -19,7 +19,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow, vector_dot
 from colour.hints import ArrayLike, FloatingOrNDArray, NDArray
@@ -114,7 +114,8 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_IPT(XYZ)  # doctest: +ELLIPSIS
     array([ 0.3842619...,  0.3848730...,  0.1888683...])
     """
@@ -166,7 +167,8 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> IPT = np.array([0.38426191, 0.38487306, 0.18886838])
+    >>> from colour.utilities import as_float_array
+    >>> IPT = as_float_array([0.38426191, 0.38487306, 0.18886838])
     >>> IPT_to_XYZ(IPT)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
@@ -218,7 +220,8 @@ def IPT_hue_angle(IPT: ArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> IPT = np.array([0.96907232, 1, 1.12179215])
+    >>> from colour.utilities import as_float_array
+    >>> IPT = as_float_array([0.96907232, 1, 1.12179215])
     >>> IPT_hue_angle(IPT)  # doctest: +ELLIPSIS
     48.2852074...
     """

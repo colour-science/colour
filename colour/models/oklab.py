@@ -16,7 +16,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import spow, vector_dot
 from colour.hints import ArrayLike, NDArray
@@ -104,7 +104,8 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Oklab(XYZ)  # doctest: +ELLIPSIS
     array([ 0.5163401...,  0.154695 ...,  0.0628957...])
     """
@@ -156,7 +157,8 @@ def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
+    >>> from colour.utilities import as_float_array
+    >>> Lab = as_float_array([0.51634019, 0.15469500, 0.06289579])
     >>> Oklab_to_XYZ(Lab)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """

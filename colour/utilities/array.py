@@ -19,7 +19,7 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import annotations
 
 import functools
-import numpy as np
+import colour.ndarray as np
 import sys
 from collections.abc import KeysView, ValuesView
 from contextlib import contextmanager
@@ -604,6 +604,12 @@ def as_int(
 
     # TODO: Reassess implementation when and if
     # https://github.com/numpy/numpy/issues/11956 is addressed.
+
+    if(np.__name__ == 'cupy'):
+        try:
+            a = a.get()
+        except:
+            pass
     return dtype(np.squeeze(a))  # type: ignore[return-value]
 
 
@@ -645,6 +651,11 @@ def as_float(
         f'"dtype" must be one of the following types: {args}',
     )
 
+    if(np.__name__ == 'cupy'):
+        try:
+            a = a.get()
+        except:
+            pass
     return dtype(a)  # type: ignore[arg-type, return-value]
 
 
@@ -1759,6 +1770,7 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
 
     a = np.ravel(a)[:, np.newaxis]
+    b = np.array(b)
     b = np.ravel(b)[np.newaxis, :]
 
     return np.abs(a - b).argmin(axis=0)
@@ -1977,7 +1989,6 @@ def tstack(
     """
 
     dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
-
     a = as_array(a, dtype)
 
     return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)

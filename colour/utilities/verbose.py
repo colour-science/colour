@@ -7,7 +7,7 @@ Defines the verbose related objects.
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 import os
 import sys
 import traceback
@@ -463,10 +463,11 @@ def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
 
     Examples
     --------
-    >>> np.array([np.pi])  # doctest: +ELLIPSIS
+    >>> from colour.utilities import as_float_array
+    >>> as_float_array([np.pi])  # doctest: +ELLIPSIS
     array([ 3.1415926...])
     >>> with numpy_print_options(formatter={'float': '{:0.1f}'.format}):
-    ...      np.array([np.pi])
+    ...      as_float_array([np.pi])
     array([3.1])
     """
 

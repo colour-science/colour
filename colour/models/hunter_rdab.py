@@ -89,8 +89,9 @@ def XYZ_to_Hunter_Rdab(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> D65 = TVS_ILLUMINANTS_HUNTERLAB[
     ...     'CIE 1931 2 Degree Standard Observer']['D65']
     >>> XYZ_to_Hunter_Rdab(XYZ, D65.XYZ_n, D65.K_ab)
@@ -172,8 +173,9 @@ def Hunter_Rdab_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
-    >>> R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
+    >>> import colour.ndarray as np
+    >>> from colour.utilities import as_float_array
+    >>> R_d_ab = as_float_array([12.19722500, 57.12537874, 17.46241341])
     >>> D65 = TVS_ILLUMINANTS_HUNTERLAB[
     ...     'CIE 1931 2 Degree Standard Observer']['D65']
     >>> Hunter_Rdab_to_XYZ(R_d_ab, D65.XYZ_n, D65.K_ab)

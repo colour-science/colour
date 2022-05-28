@@ -30,7 +30,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import ArrayLike, NDArray
@@ -78,7 +78,8 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> a = np.array([3, 1, 6])
+    >>> from colour.utilities import as_float_array
+    >>> a = as_float_array([3, 1, 6])
     >>> cartesian_to_spherical(a)  # doctest: +ELLIPSIS
     array([ 6.7823299...,  0.4850497...,  0.3217505...])
     """
@@ -120,7 +121,8 @@ def spherical_to_cartesian(a: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> a = np.array([6.78232998, 0.48504979, 0.32175055])
+    >>> from colour.utilities import as_float_array
+    >>> a = as_float_array([6.78232998, 0.48504979, 0.32175055])
     >>> spherical_to_cartesian(a)  # doctest: +ELLIPSIS
     array([ 3.0000000...,  0.9999999...,  5.9999999...])
     """
@@ -160,7 +162,8 @@ def cartesian_to_polar(a: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> a = np.array([3, 1])
+    >>> from colour.utilities import as_float_array
+    >>> a = as_float_array([3, 1])
     >>> cartesian_to_polar(a)  # doctest: +ELLIPSIS
     array([ 3.1622776...,  0.3217505...])
     """
@@ -196,7 +199,8 @@ def polar_to_cartesian(a: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> a = np.array([3.16227766, 0.32175055])
+    >>> from colour.utilities import as_float_array
+    >>> a = as_float_array([3.16227766, 0.32175055])
     >>> polar_to_cartesian(a)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...])
     """
@@ -233,7 +237,8 @@ def cartesian_to_cylindrical(a: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> a = np.array([3, 1, 6])
+    >>> from colour.utilities import as_float_array
+    >>> a = as_float_array([3, 1, 6])
     >>> cartesian_to_cylindrical(a)  # doctest: +ELLIPSIS
     array([ 3.1622776...,  0.3217505...,  6.        ])
     """
@@ -270,7 +275,8 @@ def cylindrical_to_cartesian(a: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> a = np.array([3.16227766, 0.32175055, 6.00000000])
+    >>> from colour.utilities import as_float_array
+    >>> a = as_float_array([3.16227766, 0.32175055, 6.00000000])
     >>> cylindrical_to_cartesian(a)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """

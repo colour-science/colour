@@ -21,7 +21,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.hints import (
@@ -80,7 +80,8 @@ def xy_to_CCT_Kang2002(
 
     Examples
     --------
-    >>> xy_to_CCT_Kang2002(np.array([0.31342600, 0.32359597]))
+    >>> from colour.utilities import as_float_array
+    >>> xy_to_CCT_Kang2002(as_float_array([0.31342600, 0.32359597]))
     ... # doctest: +ELLIPSIS
     6504.3893128...
     """

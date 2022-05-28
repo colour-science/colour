@@ -16,7 +16,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES
@@ -131,9 +131,10 @@ def chromatic_adaptation_CIE1994(
 
     Examples
     --------
-    >>> XYZ_1 = np.array([28.00, 21.26, 5.27])
-    >>> xy_o1 = np.array([0.4476, 0.4074])
-    >>> xy_o2 = np.array([0.3127, 0.3290])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ_1 = as_float_array([28.00, 21.26, 5.27])
+    >>> xy_o1 = as_float_array([0.4476, 0.4074])
+    >>> xy_o2 = as_float_array([0.3127, 0.3290])
     >>> Y_o = 20
     >>> E_o1 = 1000
     >>> E_o2 = 1000
@@ -190,7 +191,8 @@ def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> XYZ = np.array([28.00, 21.26, 5.27])
+    >>> from colour.utilities import as_float_array
+    >>> XYZ = as_float_array([28.00, 21.26, 5.27])
     >>> XYZ_to_RGB_CIE1994(XYZ)  # doctest: +ELLIPSIS
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
@@ -214,7 +216,8 @@ def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> RGB = np.array([25.82442730, 18.67914220, 4.83901940])
+    >>> from colour.utilities import as_float_array
+    >>> RGB = as_float_array([25.82442730, 18.67914220, 4.83901940])
     >>> RGB_to_XYZ_CIE1994(RGB)  # doctest: +ELLIPSIS
     array([ 28.  ,  21.26,   5.27])
     """
@@ -239,7 +242,8 @@ def intermediate_values(xy_o: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> xy_o = np.array([0.4476, 0.4074])
+    >>> from colour.utilities import as_float_array
+    >>> xy_o = as_float_array([0.4476, 0.4074])
     >>> intermediate_values(xy_o)  # doctest: +ELLIPSIS
     array([ 1.1185719...,  0.9329553...,  0.3268087...])
     """
@@ -280,7 +284,8 @@ def effective_adapting_responses(
 
     Examples
     --------
-    >>> xez = np.array([1.11857195, 0.93295530, 0.32680879])
+    >>> from colour.utilities import as_float_array
+    >>> xez = as_float_array([1.11857195, 0.93295530, 0.32680879])
     >>> E_o = 1000
     >>> Y_o = 20
     >>> effective_adapting_responses(xez, Y_o, E_o)  # doctest: +ELLIPSIS
@@ -319,7 +324,7 @@ def beta_1(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     4.6106222...
     """
 
-    x_p = spow(x, 0.4495)
+    x_p = spow(as_float_array(x), 0.4495)
 
     return (6.469 + 6.362 * x_p) / (6.469 + x_p)
 
@@ -345,7 +350,7 @@ def beta_2(x: FloatingOrArrayLike) -> FloatingOrNDArray:
     4.6522416...
     """
 
-    x_p = spow(x, 0.5128)
+    x_p = spow(as_float_array(x), 0.5128)
 
     return 0.7844 * (8.414 + 8.091 * x_p) / (8.414 + x_p)
 
@@ -368,7 +373,8 @@ def exponential_factors(RGB_o: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> RGB_o = np.array([318.32331631, 318.30352317, 318.23283482])
+    >>> from colour.utilities import as_float_array
+    >>> RGB_o = as_float_array([318.32331631, 318.30352317, 318.23283482])
     >>> exponential_factors(RGB_o)  # doctest: +ELLIPSIS
     array([ 4.6106222...,  4.6105892...,  4.6520698...])
     """
@@ -424,10 +430,11 @@ def K_coefficient(
 
     Examples
     --------
-    >>> xez_1 = np.array([1.11857195, 0.93295530, 0.32680879])
-    >>> xez_2 = np.array([1.00000372, 1.00000176, 0.99999461])
-    >>> bRGB_o1 = np.array([3.74852518, 3.63920879, 2.78924811])
-    >>> bRGB_o2 = np.array([3.68102374, 3.68102256, 3.56557351])
+    >>> from colour.utilities import as_float_array
+    >>> xez_1 = as_float_array([1.11857195, 0.93295530, 0.32680879])
+    >>> xez_2 = as_float_array([1.00000372, 1.00000176, 0.99999461])
+    >>> bRGB_o1 = as_float_array([3.74852518, 3.63920879, 2.78924811])
+    >>> bRGB_o2 = as_float_array([3.68102374, 3.68102256, 3.56557351])
     >>> Y_o = 20
     >>> K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o)
     1.0
@@ -498,11 +505,12 @@ def corresponding_colour(
 
     Examples
     --------
-    >>> RGB_1 = np.array([25.82442730, 18.67914220, 4.83901940])
-    >>> xez_1 = np.array([1.11857195, 0.93295530, 0.32680879])
-    >>> xez_2 = np.array([1.00000372, 1.00000176, 0.99999461])
-    >>> bRGB_o1 = np.array([3.74852518, 3.63920879, 2.78924811])
-    >>> bRGB_o2 = np.array([3.68102374, 3.68102256, 3.56557351])
+    >>> from colour.utilities import as_float_array
+    >>> RGB_1 = as_float_array([25.82442730, 18.67914220, 4.83901940])
+    >>> xez_1 = as_float_array([1.11857195, 0.93295530, 0.32680879])
+    >>> xez_2 = as_float_array([1.00000372, 1.00000176, 0.99999461])
+    >>> bRGB_o1 = as_float_array([3.74852518, 3.63920879, 2.78924811])
+    >>> bRGB_o2 = as_float_array([3.68102374, 3.68102256, 3.56557351])
     >>> Y_o = 20
     >>> K = 1
     >>> corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K)
