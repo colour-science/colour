@@ -1,6 +1,6 @@
 """Showcases Cyan-Magenta-Yellow (Black) (CMY(K)) colour transformations."""
 
-import numpy as np
+import colour.ndarray as np
 
 import colour
 from colour.utilities import message_box

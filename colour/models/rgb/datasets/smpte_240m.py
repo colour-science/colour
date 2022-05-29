@@ -17,7 +17,7 @@ SMPTE%20normes%20et%20confs/s240m.pdf
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArray

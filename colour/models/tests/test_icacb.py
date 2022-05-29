@@ -1,7 +1,7 @@
 """Defines the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
 from itertools import permutations
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models import XYZ_to_ICaCb, ICaCb_to_XYZ

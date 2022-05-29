@@ -43,7 +43,7 @@ References
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 import scipy.optimize
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path

@@ -36,7 +36,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import lagrange_coefficients, sdiv, sdiv_mode
 from colour.colorimetry import (
@@ -1101,7 +1101,7 @@ def sd_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> from colour import (
     ...     MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution, SpectralShape)
     >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']

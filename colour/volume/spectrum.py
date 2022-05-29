@@ -22,7 +22,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -430,7 +430,7 @@ def is_within_visible_spectrum(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.51]))
     array(True, dtype=bool)
     >>> a = np.array([[0.3205, 0.4131, 0.51],

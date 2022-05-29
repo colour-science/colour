@@ -16,7 +16,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title

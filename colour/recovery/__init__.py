@@ -187,7 +187,7 @@ def XYZ_to_sd(
     --------
     *Jakob and Hanika (2009)* reflectance recovery:
 
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options

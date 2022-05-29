@@ -4,7 +4,7 @@ Suite Factories
 """
 
 
-import numpy as np
+import colour.ndarray as np
 import sys
 from functools import partial
 

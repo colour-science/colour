@@ -17,11 +17,12 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import sdiv, sdiv_mode, vector_dot
 from colour.hints import ArrayLike, NDArray, cast
 from colour.utilities import (
+as_float_scalar,
     from_range_1,
     to_domain_1,
     tstack,
@@ -41,11 +42,13 @@ __all__ = [
     "IHLS_to_RGB",
 ]
 
+_SQRT_3_2 = as_float_scalar(-np.sqrt(3) / 2)
+
 MATRIX_RGB_TO_YC_1_C_2: NDArray = np.array(
     [
         [0.2126, 0.7152, 0.0722],
         [1, -0.5, -0.5],
-        [0, -np.sqrt(3) / 2, np.sqrt(3) / 2],
+        [0, -_SQRT_3_2, _SQRT_3_2],
     ]
 )
 """*RGB* colourspace to *YC_1C_2* colourspace matrix."""

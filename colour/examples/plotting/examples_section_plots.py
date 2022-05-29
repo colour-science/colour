@@ -1,6 +1,6 @@
 """Showcases gamut section plotting examples."""
 
-import numpy as np
+import colour.ndarray as np
 from matplotlib.lines import Line2D
 
 import colour.plotting

@@ -19,7 +19,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray
 from colour.models.rgb.transfer_functions import gamma_function

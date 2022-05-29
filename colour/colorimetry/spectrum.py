@@ -27,7 +27,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from collections.abc import Mapping
 
 from colour.algebra import (
@@ -63,7 +63,7 @@ from colour.hints import (
 from colour.utilities import (
     CACHE_REGISTRY,
     as_float_array,
-    as_int,
+    as_int_scalar,
     attest,
     filter_kwargs,
     first_item,
@@ -505,7 +505,7 @@ class SpectralShape:
             dtype(self._interval),
         )
 
-        samples = as_int(round((interval + end - start) / interval))
+        samples = as_int_scalar(round((interval + end - start) / interval))
         range_, interval_effective = np.linspace(
             start, end, samples, retstep=True, dtype=dtype
         )

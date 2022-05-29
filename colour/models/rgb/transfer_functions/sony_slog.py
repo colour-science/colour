@@ -24,7 +24,7 @@ large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import (
     Boolean,

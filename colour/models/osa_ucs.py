@@ -20,7 +20,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import fmin
 
 from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
@@ -107,7 +107,7 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> XYZ_to_OSA_UCS(XYZ)  # doctest: +ELLIPSIS
     array([-3.0049979...,  2.9971369..., -9.6678423...])
@@ -200,7 +200,7 @@ def OSA_UCS_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Ljg = np.array([-3.00499790, 2.99713697, -9.66784231])
     >>> OSA_UCS_to_XYZ(Ljg)  # doctest: +ELLIPSIS
     array([ 20.6540240...,  12.1972369...,   5.1369372...])

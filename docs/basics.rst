@@ -115,7 +115,7 @@ arrays:
 
 .. code:: python
 
-    import numpy as np
+    import colour.ndarray as np
 
     xyY = np.array([0.4316, 0.3777, 0.1008])
     xyY = np.tile(xyY, (6, 1))

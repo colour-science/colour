@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.models.rgb.common` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models import XYZ_to_sRGB, sRGB_to_XYZ

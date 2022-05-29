@@ -179,7 +179,7 @@ def uv_to_CCT(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT(uv)  # doctest: +ELLIPSIS
     array([  6.507473...e+03,   3.223346...e-03])
@@ -257,7 +257,7 @@ def CCT_to_uv(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> CCT_D_uv = np.array([6507.47380460, 0.00322335])
     >>> CCT_to_uv(CCT_D_uv)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3121999...])
@@ -351,7 +351,7 @@ def xy_to_CCT(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> xy_to_CCT(np.array([0.31270, 0.32900]))  # doctest: +ELLIPSIS
     6508.1175148...
     >>> xy_to_CCT(np.array([0.31270, 0.32900]), 'Hernandez 1999')

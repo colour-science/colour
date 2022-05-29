@@ -1064,7 +1064,7 @@ this tutorial but the core capability can be described.
 
 .. code:: python
 
-    import numpy as np
+    import colour.ndarray as np
 
     range_ = np.linspace(10, 100, 10)
     signal = colour.continuous.Signal(range_)

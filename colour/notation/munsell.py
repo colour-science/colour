@@ -115,7 +115,7 @@ MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 import re
 
 from colour.algebra import (

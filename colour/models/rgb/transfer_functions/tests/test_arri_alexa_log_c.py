@@ -3,7 +3,7 @@ Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.arri_alexa_log_c` module.
 """
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (

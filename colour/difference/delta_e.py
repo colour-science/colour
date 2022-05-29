@@ -34,7 +34,7 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import euclidean_distance
 from colour.hints import ArrayLike, Boolean, Floating, FloatingOrNDArray

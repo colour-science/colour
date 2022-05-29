@@ -58,7 +58,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import least_square_mapping_MoorePenrose, spow
 from colour.hints import (

@@ -267,47 +267,47 @@ def number_or_arraylike(
 ) -> NDArray:
     ...
 
+if np.ndarray_backend == "Numpy":
+    a: DTypeFloating = np.float64(1)
+    b: float = 1
+    c: Floating = 1
+    d: ArrayLike = [c, c]
+    e: FloatingOrArrayLike = d
+    s_a: Sequence[DTypeFloating] = [a, a]
+    s_b: Sequence[float] = [b, b]
+    s_c: Sequence[Floating] = [c, c]
 
-a: DTypeFloating = np.float64(1)
-b: float = 1
-c: Floating = 1
-d: ArrayLike = [c, c]
-e: FloatingOrArrayLike = d
-s_a: Sequence[DTypeFloating] = [a, a]
-s_b: Sequence[float] = [b, b]
-s_c: Sequence[Floating] = [c, c]
+    arraylike(a)
+    arraylike(b)
+    arraylike(c)
+    arraylike(d)
+    arraylike([d, d])
+    arraylike(e)
+    arraylike([e, e])
+    arraylike(s_a)
+    arraylike(s_b)
+    arraylike(s_c)
 
-arraylike(a)
-arraylike(b)
-arraylike(c)
-arraylike(d)
-arraylike([d, d])
-arraylike(e)
-arraylike([e, e])
-arraylike(s_a)
-arraylike(s_b)
-arraylike(s_c)
+    number_or_arraylike(a)
+    number_or_arraylike(b)
+    number_or_arraylike(c)
+    number_or_arraylike(d)
+    number_or_arraylike([d, d])
+    number_or_arraylike(e)
+    number_or_arraylike([e, e])
+    number_or_arraylike(s_a)
+    number_or_arraylike(s_b)
+    number_or_arraylike(s_c)
 
-number_or_arraylike(a)
-number_or_arraylike(b)
-number_or_arraylike(c)
-number_or_arraylike(d)
-number_or_arraylike([d, d])
-number_or_arraylike(e)
-number_or_arraylike([e, e])
-number_or_arraylike(s_a)
-number_or_arraylike(s_b)
-number_or_arraylike(s_c)
+    np.atleast_1d(a)
+    np.atleast_1d(b)
+    np.atleast_1d(c)
+    np.atleast_1d(arraylike(d))
+    np.atleast_1d(arraylike([d, d]))
+    np.atleast_1d(arraylike(e))
+    np.atleast_1d(arraylike([e, e]))
+    np.atleast_1d(s_a)
+    np.atleast_1d(s_b)
+    np.atleast_1d(s_c)
 
-np.atleast_1d(a)
-np.atleast_1d(b)
-np.atleast_1d(c)
-np.atleast_1d(arraylike(d))
-np.atleast_1d(arraylike([d, d]))
-np.atleast_1d(arraylike(e))
-np.atleast_1d(arraylike([e, e]))
-np.atleast_1d(s_a)
-np.atleast_1d(s_b)
-np.atleast_1d(s_c)
-
-del a, b, c, d, e, s_a, s_b, s_c
+    del a, b, c, d, e, s_a, s_b, s_c

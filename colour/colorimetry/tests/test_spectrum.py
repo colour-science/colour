@@ -1,7 +1,7 @@
 """Defines the unit tests for the :mod:`colour.colorimetry.spectrum` module."""
 
 import colour
-import numpy as np
+import colour.ndarray as np
 import unittest
 import scipy
 from distutils.version import LooseVersion

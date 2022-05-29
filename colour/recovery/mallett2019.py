@@ -17,7 +17,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.linalg import block_diag
 from scipy.optimize import Bounds, LinearConstraint, minimize
 

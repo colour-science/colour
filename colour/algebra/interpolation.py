@@ -60,7 +60,7 @@ References
 from __future__ import annotations
 
 import itertools
-import numpy as np
+import colour.ndarray as np
 import scipy.interpolate
 from collections.abc import Mapping
 from functools import reduce
@@ -91,6 +91,7 @@ from colour.utilities import (
     as_float_array,
     as_float,
     as_int_array,
+    as_int_scalar,
     attest,
     closest_indexes,
     interval,
@@ -480,11 +481,11 @@ class KernelInterpolator:
 
         self._x_p = np.pad(
             self._x,
-            as_int_array([self._window, self._window]),
+            [as_int_scalar(self._window), as_int_scalar(self._window)],
             "linear_ramp",
             end_values=(
-                np.min(self._x) - self._window * value_interval[0],
-                np.max(self._x) + self._window * value_interval[0],
+                as_int_scalar(np.min(self._x) - self._window * value_interval[0]),
+                as_int_scalar(np.max(self._x) + self._window * value_interval[0]),
             ),
         )
 
@@ -1310,7 +1311,13 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     """
 
     def __init__(self, *args: Any, **kwargs: Any):
-        super().__init__(kind="cubic", *args, **kwargs)
+
+        x, y, args = args[0], args[1], args[2:]
+        if np.get_ndimensional_array_backend() == "cupy":
+            x = x.get()
+            y = y.get()
+
+        super().__init__(x, y, kind="cubic", *args, **kwargs)
 
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):

@@ -7,7 +7,7 @@ Defines the objects related to *Optimal Colour Stimuli* computations.
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.spatial import Delaunay
 
 from colour.hints import (

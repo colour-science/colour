@@ -9,7 +9,7 @@ category.
 from __future__ import annotations
 
 import functools
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import (
     Any,

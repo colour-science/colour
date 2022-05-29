@@ -9,7 +9,7 @@ Defines the class implementing support for multi-continuous signals:
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from collections.abc import Iterator, Mapping, ValuesView
 
 from colour.constants import DEFAULT_FLOAT_DTYPE

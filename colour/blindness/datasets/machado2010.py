@@ -13,7 +13,7 @@ References
     http://www.lume.ufrgs.br/handle/10183/26950
 """
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.utilities import CaseInsensitiveMapping
 

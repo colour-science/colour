@@ -13,7 +13,7 @@ Defines the gamut section plotting objects:
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 

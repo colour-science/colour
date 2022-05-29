@@ -20,7 +20,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union

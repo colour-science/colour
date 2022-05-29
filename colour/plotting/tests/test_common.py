@@ -1,7 +1,7 @@
 """Defines the unit tests for the :mod:`colour.plotting.common` module."""
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 import os
 import shutil
 import tempfile

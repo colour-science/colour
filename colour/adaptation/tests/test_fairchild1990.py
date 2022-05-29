@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 """Defines the unit tests for the :mod:`colour.adaptation.fairchild1990` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 from numpy.linalg import LinAlgError

@@ -25,7 +25,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from copy import deepcopy
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries

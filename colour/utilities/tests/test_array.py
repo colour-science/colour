@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.utilities.array` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from dataclasses import dataclass, field, fields
 from copy import deepcopy

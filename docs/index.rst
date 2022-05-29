@@ -129,7 +129,7 @@ Colour Blindness - ``colour.blindness``
 
 .. code-block:: python
 
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
     >>> colour.msds_cmfs_anomalous_trichromacy_Machado2009(cmfs, np.array([15, 0, 0]))[450]
     array([ 0.08912884,  0.0870524 ,  0.955393  ])
@@ -145,7 +145,7 @@ Colour Correction - ``colour characterisation``
 
 .. code-block:: python
 
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> RGB = [0.17224810, 0.09170660, 0.06416938]
     >>> M_T = np.random.random((24, 3))
     >>> M_R = M_T + (np.random.random((24, 3)) - 0.5) * 0.5
@@ -1131,7 +1131,7 @@ Chromaticities
 
 .. code-block:: python
 
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> RGB = np.random.random((32, 32, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     ...     RGB, 'ITU-R BT.709',

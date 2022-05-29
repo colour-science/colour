@@ -10,7 +10,7 @@ Defines *Sony* *.spimtx* *LUT* format related input / output utilities objects.
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.hints import Integer

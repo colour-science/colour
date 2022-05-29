@@ -180,7 +180,7 @@ def delta_E(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
     >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E(a, b)  # doctest: +ELLIPSIS

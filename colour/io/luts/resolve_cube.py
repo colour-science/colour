@@ -17,7 +17,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import Boolean, Integer, List, Tuple, Union
 from colour.io.luts import LUT1D, LUT3x1D, LUT3D, LUTSequence

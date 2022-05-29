@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.difference.huang2015` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.difference import power_function_Huang2015

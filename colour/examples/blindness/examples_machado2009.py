@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Showcases Machado (2009) simulation of colour vision deficiency."""
 
-import numpy as np
+import colour.ndarray as np
 
 import colour
 from colour.utilities.verbose import message_box

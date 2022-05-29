@@ -28,7 +28,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import matrix_dot, vector_dot
 from colour.blindness import CVD_MATRICES_MACHADO2010

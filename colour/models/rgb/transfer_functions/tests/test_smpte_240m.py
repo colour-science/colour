@@ -3,7 +3,7 @@ Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.smpte_240m` module.
 """
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import oetf_SMPTE240M, eotf_SMPTE240M

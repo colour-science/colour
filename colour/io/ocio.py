@@ -9,7 +9,7 @@ Defines the object for *OpenColorIO* processing:
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import Any, ArrayLike, NDArray
 from colour.utilities import as_float_array, required

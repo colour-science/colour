@@ -17,7 +17,7 @@ usp=sharing
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from dataclasses import dataclass
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode, spow

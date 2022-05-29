@@ -13,7 +13,7 @@ References
     doi:10.1364/JOSAA.4.001115
 """
 
-import numpy as np
+import colour.ndarray as np
 
 from collections import namedtuple
 
@@ -88,9 +88,9 @@ BrenemanExperimentResult` class.
             name,
             np.array(uv_t),
             np.array(uv_m),
-            np.array(s_uv),
-            np.array(d_uv_i),
-            np.array(d_uv_g),
+            np.array([]) if s_uv is None else np.array(s_uv),
+            np.array([]) if d_uv_i is None else np.array(d_uv_i),
+            np.array([]) if d_uv_g is None else np.array(d_uv_g),
         )
 
 
@@ -131,11 +131,11 @@ PrimariesChromaticityCoordinates` class.
         return super().__new__(
             cls,
             experiment,
-            np.array(illuminants),
+            tuple(illuminants),
             np.array(Y),
-            np.array(P_uvp),
-            np.array(D_uvp),
-            np.array(T_uvp),
+            np.array([]) if P_uvp is None else np.array(P_uvp),
+            np.array([]) if D_uvp is None else np.array(D_uvp),
+            np.array([]) if T_uvp is None else np.array(T_uvp),
         )
 
 
@@ -557,22 +557,22 @@ BRENEMAN_EXPERIMENT_9_RESULTS = (
     ),
     BrenemanExperimentResult("(Gray)h", (0.256, 0.525), (0.208, 0.498)),
     BrenemanExperimentResult(
-        "(Red)h", (0.456, 0.521), (0.416, 0.501), (15, 7), None, (-6, -9)
+        "(Red)h", (0.456, 0.521), (0.416, 0.501), (15, 7), d_uv_g=(-6, -9)
     ),
     BrenemanExperimentResult(
-        "(Brown)h", (0.349, 0.539), (0.306, 0.526), (11, 8), None, (-8, 7)
+        "(Brown)h", (0.349, 0.539), (0.306, 0.526), (11, 8), d_uv_g=(-8, 7)
     ),
     BrenemanExperimentResult(
-        "(Foliage)h", (0.260, 0.545), (0.213, 0.528), (7, 9), None, (-4, 5)
+        "(Foliage)h", (0.260, 0.545), (0.213, 0.528), (7, 9), d_uv_g=(-4, 5)
     ),
     BrenemanExperimentResult(
-        "(Green)h", (0.193, 0.543), (0.149, 0.525), (10, 8), None, (-1, -1)
+        "(Green)h", (0.193, 0.543), (0.149, 0.525), (10, 8), d_uv_g=(-1, -1)
     ),
     BrenemanExperimentResult(
-        "(Blue)h", (0.184, 0.444), (0.156, 0.419), (7, 8), None, (4, -45)
+        "(Blue)h", (0.184, 0.444), (0.156, 0.419), (7, 8), d_uv_g=(4, -45)
     ),
     BrenemanExperimentResult(
-        "(Purple)h", (0.277, 0.456), (0.236, 0.422), (6, 11), None, (-2, -29)
+        "(Purple)h", (0.277, 0.456), (0.236, 0.422), (6, 11), d_uv_g=(-2, -29)
     ),
 )
 # yapf: enable

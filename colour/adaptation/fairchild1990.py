@@ -17,7 +17,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.adaptation import CAT_VON_KRIES

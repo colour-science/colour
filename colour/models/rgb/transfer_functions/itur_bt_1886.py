@@ -20,7 +20,7 @@ R-REC-BT.1886-0-201103-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import Floating, FloatingOrArrayLike, FloatingOrNDArray
 from colour.utilities import as_float, from_range_1, to_domain_1

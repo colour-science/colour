@@ -1,6 +1,6 @@
 """Showcases colour models volume and gamut plotting examples."""
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.plotting import (
     plot_RGB_colourspaces_gamuts,

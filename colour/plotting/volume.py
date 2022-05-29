@@ -11,7 +11,7 @@ Defines the colour models volume and gamut plotting objects:
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.colorimetry import MultiSpectralDistributions

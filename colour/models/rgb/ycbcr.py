@@ -47,7 +47,7 @@ INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import Any, ArrayLike, Boolean, Integer, NDArray
 from colour.models.rgb.transfer_functions import (

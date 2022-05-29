@@ -18,7 +18,7 @@ References
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models import (

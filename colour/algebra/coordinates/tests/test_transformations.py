@@ -3,7 +3,7 @@ Defines the unit tests for the
 :mod:`colour.algebra.coordinates.transformations` module.
 """
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 

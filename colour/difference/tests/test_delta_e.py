@@ -9,7 +9,7 @@ References
     30(1), 21-30. doi:10.1002/col.20070
 """
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 

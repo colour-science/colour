@@ -7,7 +7,7 @@ Defines the image related input / output utilities objects.
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from dataclasses import dataclass, field
 
 from colour.hints import (

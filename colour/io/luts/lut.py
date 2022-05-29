@@ -12,7 +12,7 @@ Defines the classes and definitions handling *LUT* processing:
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from operator import (

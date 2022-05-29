@@ -352,7 +352,7 @@ class LUTSequence(MutableSequence):
 
         Examples
         --------
-        >>> import numpy as np
+        >>> import colour.ndarray as np
         >>> from colour.io.luts import  LUT1D, LUT3x1D, LUT3D
         >>> from colour.utilities import tstack
         >>> LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125)

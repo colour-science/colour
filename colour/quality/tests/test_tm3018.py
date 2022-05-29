@@ -8,7 +8,7 @@ Notes
     http://media.ies.org/docs/errata/TM-30-18_tools_etc.zip.
 """
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.colorimetry import SDS_ILLUMINANTS

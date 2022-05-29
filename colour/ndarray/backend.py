@@ -24,7 +24,7 @@ __all__ = [
 ]
 
 _NDIMENSIONAL_ARRAY_BACKEND = os.environ.get(
-    'COLOUR_SCIENCE__NDIMENSIONAL_ARRAY_BACKEND', 'Numpy').lower()
+    'COLOUR_SCIENCE__NDIMENSIONAL_ARRAY_BACKEND', 'Cupy').lower()
 
 
 def _get_ndimensional_array_backend():
@@ -86,7 +86,7 @@ class NDimensionalArrayBackend(object):
     def __getattr__(self, attribute):
         try:
             failsafe = getattr(self._failsafe, attribute)
-        except Exception:
+        except AttributeError:
             failsafe = None
 
         if _NDIMENSIONAL_ARRAY_BACKEND == 'numpy':
@@ -106,3 +106,9 @@ class NDimensionalArrayBackend(object):
 
     def ndarray_backend(self, backend):
         return _ndarray_backend(backend)
+
+    def get_ndimensional_array_backend(self):
+        return _get_ndimensional_array_backend()
+
+    def set_ndimensional_array_backend(self, backend='Numpy'):
+        return _set_ndimensional_array_backend(backend)

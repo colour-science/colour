@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.io.luts.operator` module."""
 
-import numpy as np
+import colour.ndarray as np
 import textwrap
 import unittest
 

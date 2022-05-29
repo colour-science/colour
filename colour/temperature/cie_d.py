@@ -22,7 +22,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import daylight_locus_function

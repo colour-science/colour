@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 """Defines the unit tests for the :mod:`colour.appearance.llab` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from unittest import mock
 from itertools import permutations

@@ -31,7 +31,7 @@ import matplotlib.cm
 import matplotlib.patches as Patch
 import matplotlib.pyplot as plt
 import matplotlib.ticker
-import numpy as np
+import colour.ndarray as np
 import re
 from dataclasses import dataclass, field
 from functools import partial
@@ -384,7 +384,7 @@ def XYZ_to_plotting_colourspace(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_plotting_colourspace(XYZ)  # doctest: +ELLIPSIS
     array([ 0.7057393...,  0.1924826...,  0.2235416...])

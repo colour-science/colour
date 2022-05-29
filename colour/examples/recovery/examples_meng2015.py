@@ -1,6 +1,6 @@
 """Showcases reflectance recovery computations using *Meng et al. (2015)* method."""
 
-import numpy as np
+import colour.ndarray as np
 
 import colour
 from colour.utilities import message_box

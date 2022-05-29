@@ -14,7 +14,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 from matplotlib.collections import LineCollection
 
 from colour.algebra import normalise_maximum

@@ -38,7 +38,7 @@ extend-a-line-segment-a-specific-distance
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from dataclasses import dataclass
 
 from colour.algebra import sdiv, sdiv_mode

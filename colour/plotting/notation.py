@@ -11,7 +11,7 @@ Defines the colour notation systems plotting objects:
 from __future__ import annotations
 
 import matplotlib.pyplot as plt
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import Any, Callable, Dict, Sequence, Tuple, Union
 from colour.notation import MUNSELL_VALUE_METHODS

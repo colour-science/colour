@@ -15,7 +15,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from scipy.ndimage.filters import convolve1d
 
 from colour.algebra import LinearInterpolator, sdiv, sdiv_mode

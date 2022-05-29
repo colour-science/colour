@@ -9,7 +9,7 @@ Defines various objects to compute hull sections:
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import linear_conversion
 from colour.constants import DEFAULT_FLOAT_DTYPE

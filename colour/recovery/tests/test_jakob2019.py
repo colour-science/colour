@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
-import numpy as np
+import colour.ndarray as np
 import os
 import shutil
 import tempfile

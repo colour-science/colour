@@ -36,7 +36,7 @@ nuke-default/make.py
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.hints import (
     FloatingOrArrayLike,

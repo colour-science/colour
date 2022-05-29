@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.utilities.data_structures` module."""
 
-import numpy as np
+import colour.ndarray as np
 import operator
 import pickle
 import unittest

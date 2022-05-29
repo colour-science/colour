@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.plotting.blindness` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from matplotlib.pyplot import Axes, Figure
 

@@ -16,7 +16,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import matrix_dot, vector_dot, sdiv, sdiv_mode

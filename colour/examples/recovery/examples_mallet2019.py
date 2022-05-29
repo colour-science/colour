@@ -3,7 +3,7 @@ Showcases reflectance recovery computations using *Mallett et al. (2019)*
 method.
 """
 
-import numpy as np
+import colour.ndarray as np
 
 import colour
 from colour.utilities import message_box

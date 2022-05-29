@@ -10,7 +10,7 @@ Defines the characterisation plotting objects:
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 import matplotlib.pyplot as plt
 
 from colour.hints import Any, Dict, Sequence, Tuple, Union

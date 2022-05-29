@@ -229,7 +229,7 @@ def XYZ_to_UCS_Li2017(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS_Li2017(XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
     ... # doctest: +ELLIPSIS
@@ -318,7 +318,7 @@ def UCS_Li2017_to_XYZ(
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> Jpapbp = np.array([46.06586037, 41.07586491, 14.51025828])
     >>> UCS_Li2017_to_XYZ(
     ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])

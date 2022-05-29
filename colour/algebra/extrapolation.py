@@ -18,7 +18,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import NullInterpolator, sdiv, sdiv_mode
 from colour.constants import DEFAULT_FLOAT_DTYPE

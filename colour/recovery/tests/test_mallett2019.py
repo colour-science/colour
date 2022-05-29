@@ -1,7 +1,7 @@
 """Defines the unit tests for the :mod:`colour.recovery.mallett2019` module."""
 
 import unittest
-import numpy as np
+import colour.ndarray as np
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (

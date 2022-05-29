@@ -3,7 +3,7 @@ Defines the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_709` module.
 """
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.models.rgb.transfer_functions import oetf_BT709, oetf_inverse_BT709

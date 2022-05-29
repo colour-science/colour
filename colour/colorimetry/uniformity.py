@@ -15,7 +15,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.colorimetry import (
     MultiSpectralDistributions,

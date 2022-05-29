@@ -1,6 +1,6 @@
 """Defines unit tests for :mod:`colour.models.rgb.hanbury2003` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 from itertools import permutations
 

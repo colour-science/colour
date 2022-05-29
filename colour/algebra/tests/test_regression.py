@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.algebra.regression` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.algebra import least_square_mapping_MoorePenrose

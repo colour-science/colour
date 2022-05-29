@@ -12,7 +12,7 @@ Defines various input / output objects for *CSV* tabular data files:
 from __future__ import annotations
 
 import csv
-import numpy as np
+import colour.ndarray as np
 import os
 import tempfile
 

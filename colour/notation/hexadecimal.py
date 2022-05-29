@@ -10,7 +10,7 @@ Defines the objects for hexadecimal notation:
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 
 from colour.algebra import normalise_maximum
 from colour.hints import ArrayLike, List, NDArray, StrOrArrayLike, StrOrNDArray

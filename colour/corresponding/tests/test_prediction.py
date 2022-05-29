@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.corresponding.prediction import (

@@ -20,7 +20,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import colour.ndarray as np
 from dataclasses import dataclass, field
 
 from colour.algebra import spow, vector_dot

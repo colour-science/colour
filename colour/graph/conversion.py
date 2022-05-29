@@ -11,7 +11,7 @@ Defines the automatic colour conversion graph objects:
 from __future__ import annotations
 
 import inspect
-import numpy as np
+import colour.ndarray as np
 import textwrap
 from collections import namedtuple
 from copy import copy
@@ -329,7 +329,7 @@ def JMh_CIECAM02_to_CIECAM02(JMh: ArrayLike) -> CAM_Specification_CIECAM02:
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> JMh = np.array([4.17310911e+01, 1.08842176e-01, 2.19048433e+02])
     >>> JMh_CIECAM02_to_CIECAM02(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=None, h=219.0484329..., \
@@ -383,7 +383,7 @@ def JMh_CAM16_to_CAM16(JMh: ArrayLike) -> CAM_Specification_CAM16:
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> JMh = np.array([4.17312079e+01, 1.07436772e-01, 2.17067960e+02])
     >>> JMh_CAM16_to_CAM16(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CAM16(J=41.7312079..., C=None, h=217.06796..., s=None, \
@@ -411,7 +411,7 @@ def XYZ_to_luminance(XYZ: ArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_luminance(XYZ)  # doctest: +ELLIPSIS
     0.1219722...
@@ -1201,7 +1201,7 @@ verbose={'mode': 'Long'})
 
     Examples
     --------
-    >>> import numpy as np
+    >>> import colour.ndarray as np
     >>> from colour import SDS_COLOURCHECKERS
     >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',

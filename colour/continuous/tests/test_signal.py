@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.continuous.signal` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 import re
 import textwrap

@@ -1,6 +1,6 @@
 """Defines the unit tests for the :mod:`colour.geometry.section` module."""
 
-import numpy as np
+import colour.ndarray as np
 import unittest
 
 from colour.geometry.section import (
