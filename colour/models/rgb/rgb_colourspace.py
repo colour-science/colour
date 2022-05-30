@@ -761,6 +761,8 @@ class RGB_Colourspace:
                         None
                         if self.cctf_encoding is None
                         else self.cctf_encoding.__name__
+                        if hasattr(self.cctf_encoding, "__name__")
+                        else str(self.cctf_encoding)
                     ),
                 },
                 {
@@ -769,6 +771,8 @@ class RGB_Colourspace:
                         None
                         if self.cctf_decoding is None
                         else self.cctf_decoding.__name__
+                        if hasattr(self.cctf_decoding, "__name__")
+                        else str(self.cctf_decoding)
                     ),
                 },
                 {"name": "use_derived_matrix_RGB_to_XYZ"},
