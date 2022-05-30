@@ -56,31 +56,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "attest",
     "Structure",
     "Lookup",
     "CaseInsensitiveMapping",
     "LazyCaseInsensitiveMapping",
     "Node",
 ]
-
-
-def attest(condition: Boolean, message: str = ""):
-    """
-    Provide the `assert` statement functionality without being disabled by
-    optimised Python execution.
-
-    See :func:`colour.utilities.assert` for more information.
-
-    Notes
-    -----
-    -   This definition is duplicated to avoid import circular dependency.
-    """
-
-    # Avoiding circular dependency.
-    import colour.utilities
-
-    colour.utilities.attest(condition, message)
 
 
 class Structure(dict):
@@ -759,6 +740,8 @@ class Node:
     def name(self, value: str):
         """Setter for the **self.name** property."""
 
+        from colour.utilities import attest
+
         attest(
             isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
@@ -787,6 +770,8 @@ class Node:
     @parent.setter
     def parent(self, value: Optional[Node]):
         """Setter for the **self.parent** property."""
+
+        from colour.utilities import attest
 
         if value is not None:
             attest(
@@ -820,6 +805,8 @@ class Node:
     @children.setter
     def children(self, value: List[Node]):
         """Setter for the **self.children** property."""
+
+        from colour.utilities import attest
 
         attest(
             isinstance(value, list),
