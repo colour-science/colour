@@ -266,7 +266,7 @@ class CaseInsensitiveMapping(MutableMapping):
     """
     Implement a case-insensitive :class:`dict`-like object.
 
-    Allows values retrieving from keys while ignoring the key case.
+    Allows value retrieving from key while ignoring the key case.
     The keys are expected to be str or :class:`str`-like objects supporting the
     :meth:`str.lower` method.
 
@@ -571,7 +571,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     Implement a lazy case-insensitive :class:`dict`-like object inheriting
     from :class:`CaseInsensitiveMapping` class.
 
-    Allows lay values retrieving from keys while ignoring the key case.
+    Allows lazy value retrieving from key while ignoring the key case.
     The keys are expected to be str or :class:`str`-like objects supporting the
     :meth:`str.lower` method.
 
