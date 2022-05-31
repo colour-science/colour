@@ -172,6 +172,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
             "__eq__",
             "__ne__",
             "copy",
+            "lower_keys",
             "lower_items",
         )
 
@@ -351,6 +352,19 @@ CaseInsensitiveMapping.copy` method.
         self.assertEqual(mapping1, mapping2)
 
         self.assertNotEqual(id(mapping1), id(mapping2))
+
+    def test_lower_keys(self):
+        """
+        Test :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.lowerlower_keys` method.
+        """
+
+        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+
+        self.assertListEqual(
+            sorted(item for item in mapping.lower_keys()),
+            ["jane", "john"],
+        )
 
     def test_lower_items(self):
         """
