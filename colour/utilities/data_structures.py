@@ -279,6 +279,7 @@ class CaseInsensitiveMapping(MutableMapping):
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__eq__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__ne__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_keys`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
 
     References
@@ -529,6 +530,19 @@ class CaseInsensitiveMapping(MutableMapping):
 
         return CaseInsensitiveMapping(dict(self._data.values()))
 
+    def lower_keys(self) -> Generator:
+        """
+        Iterate over the lower-case keys of the case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        yield from self._data.keys()
+
     def lower_items(self) -> Generator:
         """
         Iterate over the lower-case items of the case-insensitive
@@ -544,7 +558,7 @@ class CaseInsensitiveMapping(MutableMapping):
         -   The iterated items are the lower-case items.
         """
 
-        return ((item, value[1]) for (item, value) in self._data.items())
+        yield from ((item, value[1]) for (item, value) in self._data.items())
 
 
 class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
