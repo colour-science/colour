@@ -245,9 +245,10 @@ class Lookup(dict):
 
 class CaseInsensitiveMapping(MutableMapping):
     """
-    Implement a case-insensitive :class:`dict`-like object.
+    Implement a case-insensitive :class:`dict`-like object with support for
+    slugs, i.e. *SEO* friendly and human-readable version of the keys.
 
-    Allows value retrieving from key while ignoring the key case.
+    Allow value retrieving by key while ignoring the key case.
     The keys are expected to be str or :class:`str`-like objects supporting the
     :meth:`str.lower` method.
 
@@ -281,6 +282,8 @@ class CaseInsensitiveMapping(MutableMapping):
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_keys`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.slugified_keys`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.slugified_items`
 
     References
     ----------
@@ -288,8 +291,12 @@ class CaseInsensitiveMapping(MutableMapping):
 
     Examples
     --------
-    >>> methods = CaseInsensitiveMapping({'McCamy': 1, 'Hernandez': 2})
-    >>> methods['mccamy']
+    >>> methods = CaseInsensitiveMapping({'McCamy 1992': 1, 'Hernandez 1999': 2})
+    >>> methods['mccamy 1992']
+    1
+    >>> methods['MCCAMY 1992']
+    1
+    >>> methods['mccamy-1992']
     1
     """
 
@@ -373,10 +380,14 @@ class CaseInsensitiveMapping(MutableMapping):
 
         Notes
         -----
-        -   The item value is retrieved by using its lower-case variant.
+        -   The item value can be retrieved by using either its lower-case or
+            slugified variant.
         """
 
-        return self._data[self._lower_key(item)][1]
+        try:
+            return self._data[self._lower_key(item)][1]
+        except KeyError:
+            return self[dict(zip(self.slugified_keys(), self.keys()))[item]]
 
     def __delitem__(self, item: Union[str, Any]):
         """
@@ -389,10 +400,14 @@ class CaseInsensitiveMapping(MutableMapping):
 
         Notes
         -----
-        -   The item is deleted by using its lower-case variant.
+        -   The item can be deleted by using either its lower-case or slugified
+            variant.
         """
 
-        del self._data[self._lower_key(item)]
+        try:
+            del self._data[self._lower_key(item)]
+        except KeyError:
+            del self[dict(zip(self.slugified_keys(), self.keys()))[item]]
 
     def __contains__(self, item: Union[str, Any]) -> bool:
         """
@@ -410,9 +425,20 @@ class CaseInsensitiveMapping(MutableMapping):
         :class:`bool`
             Whether given item is in the case-insensitive :class:`dict`-like
             object.
+
+        Notes
+        -----
+        -   The item presence can be checked by using either its lower-case or
+            slugified variant.
         """
 
-        return self._lower_key(item) in self._data
+        if (
+            self._lower_key(item) in self._data
+            or item in self.slugified_keys()
+        ):
+            return True
+        else:
+            return False
 
     def __iter__(self) -> Generator:
         """
@@ -552,23 +578,43 @@ class CaseInsensitiveMapping(MutableMapping):
         ------
         Generator
             Item generator.
-
-        Notes
-        -----
-        -   The iterated items are the lower-case items.
         """
 
         yield from ((item, value[1]) for (item, value) in self._data.items())
+
+    def slugified_keys(self) -> Generator:
+        """
+        Iterate over the slugified keys of the case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        from colour.utilities import slugify
+
+        yield from (slugify(key) for key in self.lower_keys())
+
+    def slugified_items(self) -> Generator:
+        """
+        Iterate over the slugified items of the case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        yield from zip(self.slugified_keys(), self.values())
 
 
 class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     """
     Implement a lazy case-insensitive :class:`dict`-like object inheriting
     from :class:`CaseInsensitiveMapping` class.
-
-    Allows lazy value retrieving from key while ignoring the key case.
-    The keys are expected to be str or :class:`str`-like objects supporting the
-    :meth:`str.lower` method.
 
     The lazy retrieval is performed as follows: If the value is a callable,
     then it is evaluated and its return value is stored in place of the current

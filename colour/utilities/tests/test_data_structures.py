@@ -174,6 +174,8 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
             "copy",
             "lower_keys",
             "lower_items",
+            "slugified_keys",
+            "slugified_items",
         )
 
         for method in required_methods:
@@ -224,16 +226,20 @@ CaseInsensitiveMapping.__getitem__` method.
         mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
 
         self.assertEqual(mapping["John"], "Doe")
-
         self.assertEqual(mapping["john"], "Doe")
-
         self.assertEqual(mapping["Jane"], "Doe")
-
         self.assertEqual(mapping["jane"], "Doe")
 
         mapping = CaseInsensitiveMapping({1: "Foo", 2: "Bar"})
 
         self.assertEqual(mapping[1], "Foo")
+
+        mapping = CaseInsensitiveMapping(
+            {"McCamy 1992": 1, "Hernandez 1999": 2}
+        )
+
+        self.assertEqual(mapping["mccamy-1992"], 1)
+        self.assertEqual(mapping["hernandez-1999"], 2)
 
     def test__delitem__(self):
         """
@@ -250,6 +256,18 @@ CaseInsensitiveMapping.__delitem__` method.
         self.assertNotIn("jane", mapping)
         self.assertEqual(len(mapping), 0)
 
+        mapping = CaseInsensitiveMapping(
+            {"McCamy 1992": 1, "Hernandez 1999": 2}
+        )
+
+        del mapping["mccamy-1992"]
+        self.assertNotIn("McCamy 1992", mapping)
+
+        del mapping["hernandez-1999"]
+        self.assertNotIn("Hernandez 1999", mapping)
+
+        self.assertEqual(len(mapping), 0)
+
     def test__contains__(self):
         """
         Test :meth:`colour.utilities.data_structures.\
@@ -259,12 +277,16 @@ CaseInsensitiveMapping.__contains__` method.
         mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
 
         self.assertIn("John", mapping)
-
         self.assertIn("john", mapping)
-
         self.assertIn("Jane", mapping)
-
         self.assertIn("jane", mapping)
+
+        mapping = CaseInsensitiveMapping(
+            {"McCamy 1992": 1, "Hernandez 1999": 2}
+        )
+
+        self.assertIn("mccamy-1992", mapping)
+        self.assertIn("hernandez-1999", mapping)
 
     def test__iter__(self):
         """
@@ -356,7 +378,7 @@ CaseInsensitiveMapping.copy` method.
     def test_lower_keys(self):
         """
         Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.lowerlower_keys` method.
+CaseInsensitiveMapping.lower_keys` method.
         """
 
         mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
@@ -377,6 +399,35 @@ CaseInsensitiveMapping.lower_items` method.
         self.assertListEqual(
             sorted(item for item in mapping.lower_items()),
             [("jane", "Doe"), ("john", "Doe")],
+        )
+
+    def test_slugified_keys(self):
+        """
+        Test :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.slugified_keys` method.
+        """
+
+        mapping = CaseInsensitiveMapping(
+            {"McCamy 1992": 1, "Hernandez 1999": 2}
+        )
+
+        self.assertListEqual(
+            sorted(item for item in mapping.slugified_keys()),
+            ["hernandez-1999", "mccamy-1992"],
+        )
+
+    def test_slugified_items(self):
+        """
+        Test :meth:`colour.utilities.data_structures.\
+CaseInsensitiveMapping.slugified_items` method.
+        """
+
+        mapping = CaseInsensitiveMapping(
+            {"McCamy 1992": 1, "Hernandez 1999": 2}
+        )
+        self.assertListEqual(
+            sorted(item for item in mapping.slugified_items()),
+            [("hernandez-1999", 2), ("mccamy-1992", 1)],
         )
 
 
@@ -411,11 +462,8 @@ LazyCaseInsensitiveMapping.__getitem__` method.
         mapping = LazyCaseInsensitiveMapping(John="Doe", Jane=lambda: "Doe")
 
         self.assertEqual(mapping["John"], "Doe")
-
         self.assertEqual(mapping["john"], "Doe")
-
         self.assertEqual(mapping["Jane"], "Doe")
-
         self.assertEqual(mapping["jane"], "Doe")
 
 
