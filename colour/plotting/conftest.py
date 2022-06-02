@@ -4,6 +4,7 @@ Plotting - Tests
 Configures pytest to use the AGG headless backend. This allows the plotting
 unittests to run without creating windows in IDEs such as VSCode.
 """
+from typing import Generator
 import pytest
 import matplotlib
 
@@ -16,7 +17,7 @@ __status__ = "Production"
 
 
 @pytest.fixture(autouse=True, scope="session")
-def mplHeadlessBackend() -> None:
+def mplHeadlessBackend() -> Generator[None, None, None]:
     """
     Configure matplotlib for headless testing.
 
