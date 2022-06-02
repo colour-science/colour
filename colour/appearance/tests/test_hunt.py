@@ -257,3 +257,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
             surround = InductionFactors_Hunt(case[0], case[0])
             CCT_w = case[0]
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
+
+
+if __name__ == "__main__":
+    unittest.main()

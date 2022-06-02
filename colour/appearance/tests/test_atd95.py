@@ -213,3 +213,7 @@ class TestXYZ_to_ATD95(unittest.TestCase):
             k_1 = np.array(case[0])
             k_2 = np.array(case[0])
             XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)
+
+
+if __name__ == "__main__":
+    unittest.main()
