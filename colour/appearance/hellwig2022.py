@@ -282,7 +282,7 @@ H=275.5949861..., HC=None)
         else ones(L_A.shape)
     )
 
-    F_L, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
+    F_L, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
     D_RGB = (
         D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
@@ -493,7 +493,7 @@ def Hellwig2022_to_XYZ(
         else ones(L_A.shape)
     )
 
-    F_L, z = viewing_condition_dependent_parameters(Y_b, Y_w, L_A)
+    F_L, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
     D_RGB = (
         D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
@@ -554,7 +554,7 @@ def Hellwig2022_to_XYZ(
     return from_range_100(XYZ)
 
 
-def viewing_condition_dependent_parameters(
+def viewing_conditions_dependent_parameters(
     Y_b: FloatingOrArrayLike,
     Y_w: FloatingOrArrayLike,
     L_A: FloatingOrArrayLike,
@@ -578,7 +578,7 @@ def viewing_condition_dependent_parameters(
 
     Examples
     --------
-    >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
+    >>> viewing_conditions_dependent_parameters(20.0, 100.0, 318.31)
     ... # doctest: +ELLIPSIS
     (1.1675444..., 1.9272135...)
     """

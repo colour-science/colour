@@ -47,7 +47,7 @@ from colour.appearance.ciecam02 import (
     matrix_post_adaptation_non_linear_response_compression,
     saturation_correlate,
     temporary_magnitude_quantity_inverse,
-    viewing_condition_dependent_parameters,
+    viewing_conditions_dependent_parameters,
 )
 from colour.hints import (
     ArrayLike,
@@ -275,7 +275,7 @@ H=275.5949861..., HC=None)
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
         Y_b, Y_w, L_A
     )
 
@@ -467,7 +467,7 @@ def CAM16_to_XYZ(
         else ones(L_A.shape)
     )
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
         Y_b, Y_w, L_A
     )
 
