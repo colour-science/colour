@@ -191,3 +191,7 @@ class TestXYZ_to_LLAB(unittest.TestCase):
             L = case[0]
             surround = InductionFactors_LLAB(1, case[0], case[0], case[0])
             XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
+
+
+if __name__ == "__main__":
+    unittest.main()

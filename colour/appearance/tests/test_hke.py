@@ -391,3 +391,7 @@ class TestCoefficient_q_Nayatani1997(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         for case in cases:
             coefficient_q_Nayatani1997(case)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -171,3 +171,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
             E_o = case[0]
             E_or = case[0]
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
+
+
+if __name__ == "__main__":
+    unittest.main()
