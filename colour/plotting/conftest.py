@@ -15,6 +15,9 @@ __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
+__all__ = [
+    "mpl_headless_backend",
+]
 
 @pytest.fixture(autouse=True, scope="session")
 def mpl_headless_backend() -> Generator[None, None, None]:
