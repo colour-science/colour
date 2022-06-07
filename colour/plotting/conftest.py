@@ -1,8 +1,9 @@
 """
-Plotting - Tests
+Plotting - Pytest Configuration
 ================
-Configures pytest to use the AGG headless backend. This allows the plotting
-unittests to run without creating windows in IDEs such as VSCode.
+
+Configures *pytest* to use the *Matplotlib* *AGG* headless backend. This allows
+the plotting unittests to run without creating windows in IDEs such as *VSCode*.
 """
 
 import matplotlib
@@ -25,12 +26,17 @@ __all__ = [
 @pytest.fixture(autouse=True, scope="session")
 def mpl_headless_backend() -> Generator[None, None, None]:
     """
-    Configure matplotlib for headless testing.
+    Configure *Matplotlib* for headless testing.
 
-    pytest Fixture automatically applied to any tests in this package or any
-    subpackages at the beginning of the pytest session.
+    This pytest fixture is automatically applied to any tests in this package
+    or any subpackages at the beginning of the pytest session.
+
+    Yields
+    ------
+    Generator
+        *Matplotlib* unit tests
     """
-    curBackend = matplotlib.get_backend()
+    current_backend = matplotlib.get_backend()
     matplotlib.use("AGG")
     yield
-    matplotlib.use(curBackend)
+    matplotlib.use(current_backend)
