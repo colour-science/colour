@@ -17,7 +17,7 @@ __status__ = "Production"
 
 
 @pytest.fixture(autouse=True, scope="session")
-def mplHeadlessBackend() -> Generator[None, None, None]:
+def mpl_headless_backend() -> Generator[None, None, None]:
     """
     Configure matplotlib for headless testing.
 
