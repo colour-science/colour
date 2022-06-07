@@ -4,9 +4,11 @@ Plotting - Tests
 Configures pytest to use the AGG headless backend. This allows the plotting
 unittests to run without creating windows in IDEs such as VSCode.
 """
-from typing import Generator
-import pytest
+
 import matplotlib
+import pytest
+
+from colour.hints import Generator
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
