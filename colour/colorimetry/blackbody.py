@@ -10,6 +10,8 @@ References
 -   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON
     THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
+-   :cite:`Wikipedia2003f` : Wikipedia. (2003). Rayleigh–Jeans law. Retrieved
+    February 12, 2022, from https://en.wikipedia.org/wiki/Rayleigh–Jeans_law
 """
 
 from __future__ import annotations
@@ -22,6 +24,7 @@ from colour.colorimetry import (
     SpectralDistribution,
     SpectralShape,
 )
+from colour.constants import CONSTANT_BOLTZMANN, CONSTANT_LIGHT_SPEED
 from colour.hints import (
     Floating,
     FloatingOrArrayLike,
@@ -45,6 +48,8 @@ __all__ = [
     "planck_law",
     "blackbody_spectral_radiance",
     "sd_blackbody",
+    "rayleigh_jeans_law",
+    "sd_rayleigh_jeans",
 ]
 
 # 2 * math.pi * CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED ** 2
@@ -64,8 +69,9 @@ def planck_law(
     n: Floating = CONSTANT_N,
 ) -> FloatingOrNDArray:
     """
-    Return the spectral radiance of a blackbody at thermodynamic temperature
-    :math:`T[K]` in a medium having index of refraction :math:`n`.
+    Return the spectral radiance of a blackbody as a function of wavelength at
+    thermodynamic temperature :math:`T[K]` in a medium having index of
+    refraction :math:`n`.
 
     Parameters
     ----------
@@ -105,7 +111,7 @@ def planck_law(
 
     Notes
     -----
-    -   The following form implementation is expressed in terms of wavelength.
+    -   The following implementation is expressed in terms of wavelength.
     -   The SI unit of radiance is *watts per steradian per square metre*
         (:math:`W/sr/m^2`).
 
@@ -214,4 +220,140 @@ def sd_blackbody(
         planck_law(wavelengths * 1e-9, temperature, c1, c2, n) * 1e-9,
         wavelengths,
         name=f"{temperature}K Blackbody",
+    )
+
+
+def rayleigh_jeans_law(
+    wavelength: FloatingOrArrayLike, temperature: FloatingOrArrayLike
+) -> FloatingOrNDArray:
+    """
+    Return the approximation of the spectral radiance of a blackbody as a
+    function of wavelength at thermodynamic temperature :math:`T[K]` according
+    to *Rayleigh–Jeans* law.
+
+    Parameters
+    ----------
+    wavelength
+        Wavelength in meters.
+    temperature
+        Temperature :math:`T[K]` in kelvin degrees.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Radiance in *watts per steradian per square metre* (:math:`W/sr/m^2`).
+
+    Warnings
+    --------
+    The :func:`colour.colorimetry.rayleigh_jeans_law` definition behaviour with
+    n-dimensional arrays is unusual: The ``wavelength`` and ``temperature``
+    parameters are first raveled using :func:`numpy.ravel`. Then, they are
+    *broadcasted* together by transposing the ``temperature`` parameter.
+    Finally, and for convenience, the return value is squeezed using
+    :func:`numpy.squeeze`.
+
+    Notes
+    -----
+    -   The *Rayleigh–Jeans* law agrees with experimental results at large
+        wavelengths (low frequencies) but strongly disagrees at short
+        wavelengths (high frequencies). This inconsistency between observations
+        and the predictions of classical physics is commonly known as the
+        *ultraviolet catastrophe*.
+    -   The following implementation is expressed in terms of wavelength.
+    -   The SI unit of radiance is *watts per steradian per square metre*
+        (:math:`W/sr/m^2`).
+
+    References
+    ----------
+    :cite:`Wikipedia2003f`
+
+    Examples
+    --------
+    >>> rayleigh_jeans_law(500 * 1e-9, 5500)  # doctest: +ELLIPSIS
+    728478884562351.5...
+    >>> rayleigh_jeans_law(500 * 1e-9, [5000, 5500, 6000])
+    ... # doctest: +ELLIPSIS
+    array([  6.6225353...e+14,   7.2847888...e+14,   7.9470423...e+14])
+    """
+
+    l = as_float_array(wavelength)  # noqa
+    t = as_float_array(temperature)
+
+    l = np.ravel(l)[..., np.newaxis]  # noqa
+    t = np.ravel(t)[np.newaxis, ...]
+
+    c = CONSTANT_LIGHT_SPEED
+    k_B = CONSTANT_BOLTZMANN
+
+    B = (2 * c * k_B * t) / (l**4)
+
+    return as_float(np.squeeze(B))
+
+
+def sd_rayleigh_jeans(
+    temperature: Floating,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+) -> SpectralDistribution:
+    """
+    Return the spectral distribution of the planckian radiator for given
+    temperature :math:`T[K]` with values in
+    *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`)
+    according to *Rayleigh–Jeans* law.
+
+    Parameters
+    ----------
+    temperature
+        Temperature :math:`T[K]` in kelvin degrees.
+    shape
+        Spectral shape used to create the spectral distribution of the
+        planckian radiator.
+
+    Returns
+    -------
+    :class:`colour.SpectralDistribution`
+        Blackbody spectral distribution with values in
+        *watts per steradian per square metre per nanometer*
+        (:math:`W/sr/m^2/nm`).
+
+    Notes
+    -----
+    -   The *Rayleigh–Jeans* law agrees with experimental results at large
+        wavelengths (low frequencies) but strongly disagrees at short
+        wavelengths (high frequencies). This inconsistency between observations
+        and the predictions of classical physics is commonly known as the
+        *ultraviolet catastrophe*.
+
+    Examples
+    --------
+    >>> from colour.utilities import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     sd_rayleigh_jeans(5000, shape=SpectralShape(400, 700, 20))
+    ...     # doctest: +ELLIPSIS
+    SpectralDistribution([[     400.        ,  1616829.9106941...],
+                          [     420.        ,  1330169.9688456...],
+                          [     440.        ,  1104316.5840408...],
+                          [     460.        ,   924427.7490112...],
+                          [     480.        ,   779721.2146480...],
+                          [     500.        ,   662253.5314203...],
+                          [     520.        ,   566097.0941823...],
+                          [     540.        ,   486776.1157138...],
+                          [     560.        ,   420874.0917050...],
+                          [     580.        ,   365756.7299433...],
+                          [     600.        ,   319373.8095198...],
+                          [     620.        ,   280115.7588306...],
+                          [     640.        ,   246708.6655722...],
+                          [     660.        ,   218136.6091932...],
+                          [     680.        ,   193583.6389284...],
+                          [     700.        ,   172390.0279623...]],
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
+    """
+
+    wavelengths = shape.range()
+    return SpectralDistribution(
+        rayleigh_jeans_law(wavelengths * 1e-9, temperature) * 1e-9,
+        wavelengths,
+        name=f"{temperature}K Rayleigh-Jeans",
     )

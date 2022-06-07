@@ -433,3 +433,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
                 Y_b,
                 surround,
             )
+
+
+if __name__ == "__main__":
+    unittest.main()

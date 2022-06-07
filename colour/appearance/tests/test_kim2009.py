@@ -451,3 +451,7 @@ class TestKim2009_to_XYZ(unittest.TestCase):
                 media,
                 surround,
             )
+
+
+if __name__ == "__main__":
+    unittest.main()

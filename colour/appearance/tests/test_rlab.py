@@ -158,3 +158,7 @@ class TestXYZ_to_RLAB(unittest.TestCase):
             sigma = case[0]
             D = case[0]
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)
+
+
+if __name__ == "__main__":
+    unittest.main()
