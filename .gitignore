@@ -6,7 +6,11 @@
 .dmypy.json
 .idea
 .mypy_cache
+.vscode
+.sandbox
+
 __pycache__
+
 build
 dist
 docs/_build
@@ -17,5 +21,3 @@ docs/_static/Tutorial_*.png
 docs/generated
 poetry.lock
 references
-
-.vscode/
