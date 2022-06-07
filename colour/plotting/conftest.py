@@ -21,6 +21,7 @@ __all__ = [
     "mpl_headless_backend",
 ]
 
+
 @pytest.fixture(autouse=True, scope="session")
 def mpl_headless_backend() -> Generator[None, None, None]:
     """
