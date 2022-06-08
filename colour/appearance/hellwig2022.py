@@ -5,7 +5,7 @@ Hellwig and Fairchild (2022) Colour Appearance Model
 Defines the *Hellwig and Fairchild (2022)* colour appearance model objects:
 
 -   :class:`colour.appearance.InductionFactors_Hellwig2022`
--   :attr:`colour.VIEWING_CONDITIONS_Hellwig2022`
+-   :attr:`colour.VIEWING_CONDITIONS_HELLWIG2022`
 -   :class:`colour.CAM_Specification_Hellwig2022`
 -   :func:`colour.XYZ_to_Hellwig2022`
 -   :func:`colour.Hellwig2022_to_XYZ`
@@ -76,7 +76,7 @@ __status__ = "Production"
 
 __all__ = [
     "InductionFactors_Hellwig2022",
-    "VIEWING_CONDITIONS_Hellwig2022",
+    "VIEWING_CONDITIONS_HELLWIG2022",
     "CAM_Specification_Hellwig2022",
     "XYZ_to_Hellwig2022",
     "Hellwig2022_to_XYZ",
@@ -109,10 +109,10 @@ class InductionFactors_Hellwig2022(
     """
 
 
-VIEWING_CONDITIONS_Hellwig2022: CaseInsensitiveMapping = (
+VIEWING_CONDITIONS_HELLWIG2022: CaseInsensitiveMapping = (
     CaseInsensitiveMapping(VIEWING_CONDITIONS_CIECAM02)
 )
-VIEWING_CONDITIONS_Hellwig2022.__doc__ = """
+VIEWING_CONDITIONS_HELLWIG2022.__doc__ = """
 Reference *Hellwig and Fairchild (2022)* colour appearance model viewing
 conditions.
 
@@ -169,7 +169,7 @@ def XYZ_to_Hellwig2022(
     Y_b: FloatingOrArrayLike,
     surround: Union[
         InductionFactors_CIECAM02, InductionFactors_Hellwig2022
-    ] = VIEWING_CONDITIONS_Hellwig2022["Average"],
+    ] = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: Boolean = False,
 ) -> CAM_Specification_Hellwig2022:
     """
@@ -257,7 +257,7 @@ def XYZ_to_Hellwig2022(
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_Hellwig2022['Average']
+    >>> surround = VIEWING_CONDITIONS_HELLWIG2022['Average']
     >>> XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
     ... # doctest: +ELLIPSIS
     CAM_Specification_Hellwig2022(J=41.7312079..., C=0.0257636..., \
@@ -366,7 +366,7 @@ def Hellwig2022_to_XYZ(
     Y_b: FloatingOrArrayLike,
     surround: Union[
         InductionFactors_CIECAM02, InductionFactors_Hellwig2022
-    ] = VIEWING_CONDITIONS_Hellwig2022["Average"],
+    ] = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
