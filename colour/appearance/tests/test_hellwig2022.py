@@ -13,7 +13,7 @@ import unittest
 from itertools import permutations
 
 from colour.appearance import (
-    VIEWING_CONDITIONS_Hellwig2022,
+    VIEWING_CONDITIONS_HELLWIG2022,
     InductionFactors_Hellwig2022,
     CAM_Specification_Hellwig2022,
     XYZ_to_Hellwig2022,
@@ -55,7 +55,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         np.testing.assert_allclose(
             XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround),
             np.array(
@@ -146,7 +146,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         specification = XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
 
         XYZ = np.tile(XYZ, (6, 1))
@@ -184,7 +184,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         specification = XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
 
         d_r = (
@@ -257,7 +257,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         np.testing.assert_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([19.01, 20.00, 21.78]),
@@ -305,7 +305,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         specification = XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
         XYZ = Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
@@ -348,7 +348,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         specification = XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
         XYZ = Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
@@ -406,7 +406,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
             np.array([95.05, 100.00, 108.88]),
             318.31,
             20.0,
-            VIEWING_CONDITIONS_Hellwig2022["Average"],
+            VIEWING_CONDITIONS_HELLWIG2022["Average"],
         )
 
     @ignore_numpy_errors

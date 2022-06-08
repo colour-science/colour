@@ -80,7 +80,7 @@ Hellwig and Fairchild (2022) Colour Appearance Model
     XYZ_to_Hellwig2022
     Hellwig2022_to_XYZ
     CAM_Specification_Hellwig2022
-    VIEWING_CONDITIONS_Hellwig2022
+    VIEWING_CONDITIONS_HELLWIG2022
 
 **Ancillary Objects**
 
