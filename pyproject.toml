@@ -71,13 +71,13 @@ pydata-sphinx-theme = { version = "*", optional = true }  # Development dependen
 pydocstyle = { version = "*", optional = true }  # Development dependency.
 pytest = { version = "*", optional = true }  # Development dependency.
 pytest-cov = { version = "*", optional = true }  # Development dependency.
+pytest-xdist = { version = "*", optional = true} #Development dependency
 pyupgrade = { version = "*", optional = true }  # Development dependency.
 restructuredtext-lint = { version = "*", optional = true }  # Development dependency.
 sphinx = { version = ">= 4, < 5", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
 toml = { version = "*", optional = true }  # Development dependency.
 twine = { version = "*", optional = true }  # Development dependency.
-pytest-xdist = { version = "*", optional = true} #Development dependency
 
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
