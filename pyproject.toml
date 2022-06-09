@@ -77,6 +77,7 @@ sphinx = { version = ">= 4, < 5", optional = true }  # Development dependency.
 sphinxcontrib-bibtex = { version = "*", optional = true }  # Development dependency.
 toml = { version = "*", optional = true }  # Development dependency.
 twine = { version = "*", optional = true }  # Development dependency.
+pytest-xdist = { version = "*", optional = true} #Development dependency
 
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
@@ -93,6 +94,7 @@ pydata-sphinx-theme = "*"
 pydocstyle = "*"
 pytest = "*"
 pytest-cov = "*"
+pytest-xdist = "*"
 pyupgrade = "*"
 restructuredtext-lint = "*"
 sphinx = ">= 4, < 5"
@@ -116,6 +118,7 @@ development = [
     "pydocstyle",
     "pytest",
     "pytest-cov",
+    "pytest-xdist",
     "pyupgrade",
     "restructuredtext-lint",
     "sphinx",
@@ -157,6 +160,9 @@ ignore_missing_imports = true
 [tool.pydocstyle]
 convention = "numpy"
 add-ignore = "D104,D200,D202,D205,D301,D400"
+
+[tool.pytest.ini_options]
+addopts = "-n auto --durations=5"
 
 [build-system]
 requires = [ "poetry_core>=1.0.0" ]

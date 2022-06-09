@@ -6,7 +6,11 @@
 .dmypy.json
 .idea
 .mypy_cache
+.vscode
+.sandbox
+
 __pycache__
+
 build
 dist
 docs/_build

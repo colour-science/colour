@@ -245,12 +245,11 @@ def tests(ctx: Context):
 
     message_box('Running "Pytest"...')
     ctx.run(
-        "py.test "
+        "pytest "
         "--disable-warnings "
         "--doctest-modules "
         f"--ignore={PYTHON_PACKAGE_NAME}/examples "
-        f"{PYTHON_PACKAGE_NAME}",
-        env={"MPLBACKEND": "AGG"},
+        f"{PYTHON_PACKAGE_NAME}"
     )
 
 
