@@ -570,6 +570,11 @@ class SpectralDistribution(Signal):
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.
 
+    Warnings
+    --------
+    The *Cubic Spline* method might produce unexpected results with
+    exceptionally noisy or non-uniformly spaced data.
+
     Attributes
     ----------
     -   :attr:`~colour.SpectralDistribution.strict_name`
@@ -1624,6 +1629,11 @@ class MultiSpectralDistributions(MultiSignals):
     strict_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.MultiSpectralDistributions.labels` property value.
+
+    Warnings
+    --------
+    The *Cubic Spline* method might produce unexpected results with
+    exceptionally noisy or non-uniformly spaced data.
 
     Attributes
     ----------
