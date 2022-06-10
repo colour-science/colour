@@ -515,8 +515,8 @@ class SpectralShape:
         if interval_effective != self._interval:
             self._interval = interval_effective
             runtime_warning(
-                f'"{(self._start, self._end, self._interval)}" shape could '
-                f'not be honoured, using "{self}"!'
+                f'"{(start, end, interval)}" shape could not be honoured, '
+                f'using "{self}"!'
             )
 
         return range_
