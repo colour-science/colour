@@ -4,7 +4,7 @@
 import numpy as np
 import re
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     normalised_primary_matrix,
@@ -82,9 +82,8 @@ class Testxy_to_z(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy_to_z(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_z(cases)
 
 
 class TestNormalisedPrimaryMatrix(unittest.TestCase):
@@ -139,10 +138,10 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             P = np.array(np.vstack([case, case, case]))
-            W = np.array(case)
+            W = case
             try:
                 normalised_primary_matrix(P, W)
             except np.linalg.linalg.LinAlgError:
@@ -220,10 +219,10 @@ chromatically_adapted_primaries` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             P = np.array(np.vstack([case, case, case]))
-            W = np.array(case)
+            W = case
             chromatically_adapted_primaries(P, W, W)
 
 
@@ -295,7 +294,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             M = np.array(np.vstack([case, case, case]))
             primaries_whitepoint(M)
@@ -414,11 +413,11 @@ class TestRGBLuminance(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            RGB = np.array(case)
+            RGB = case
             P = np.array(np.vstack([case[0:2], case[0:2], case[0:2]]))
-            W = np.array(case[0:2])
+            W = case[0:2]
             try:
                 RGB_luminance(RGB, P, W)
             except np.linalg.linalg.LinAlgError:

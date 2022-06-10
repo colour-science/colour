@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
 from colour.models import (
@@ -93,9 +93,8 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_to_K_ab_HunterLab1966(np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_K_ab_HunterLab1966(cases)
 
 
 class TestXYZ_to_Hunter_Lab(unittest.TestCase):
@@ -229,12 +228,8 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_n = np.array(case[0:3])
-            K_ab = np.array(case[0:2])
-            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Hunter_Lab(cases, cases, cases[..., 0:2])
 
 
 class TestHunter_Lab_to_XYZ(unittest.TestCase):
@@ -368,12 +363,8 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab = np.array(case)
-            XYZ_n = np.array(case[0:3])
-            K_ab = np.array(case[0:2])
-            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Hunter_Lab_to_XYZ(cases, cases, cases[..., 0:2])
 
 
 if __name__ == "__main__":

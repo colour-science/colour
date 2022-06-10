@@ -235,8 +235,7 @@ class TestDaylightLocusFunction(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        for case in cases:
-            daylight_locus_function(case)
+        daylight_locus_function(cases)
 
 
 if __name__ == "__main__":

@@ -185,7 +185,6 @@ exponent_function_basic` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-
         for case in cases:
             exponent_function_basic(case, case)
 
@@ -366,7 +365,6 @@ exponent_function_monitor_curve` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-
         for case in cases:
             exponent_function_monitor_curve(case, case, case)
 

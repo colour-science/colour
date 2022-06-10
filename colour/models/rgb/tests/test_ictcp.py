@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb import (
     RGB_to_ICtCp,
@@ -136,10 +136,8 @@ class TestRGB_to_ICtCp(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_ICtCp(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_ICtCp(cases)
 
 
 class TestICtCp_to_RGB(unittest.TestCase):
@@ -250,10 +248,8 @@ class TestICtCp_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            ICtCp = np.array(case)
-            ICtCp_to_RGB(ICtCp)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        ICtCp_to_RGB(cases)
 
 
 class TestXYZ_to_ICtCp(unittest.TestCase):
@@ -383,10 +379,8 @@ class TestXYZ_to_ICtCp(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_ICtCp(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_ICtCp(cases)
 
 
 class TestICtCp_to_XYZ(unittest.TestCase):
@@ -516,10 +510,8 @@ class TestICtCp_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            ICtCp = np.array(case)
-            ICtCp_to_XYZ(ICtCp)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        ICtCp_to_XYZ(cases)
 
 
 if __name__ == "__main__":

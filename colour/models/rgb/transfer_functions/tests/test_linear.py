@@ -68,9 +68,7 @@ linear_function` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-
-        for case in cases:
-            linear_function(case)
+        linear_function(cases)
 
 
 if __name__ == "__main__":

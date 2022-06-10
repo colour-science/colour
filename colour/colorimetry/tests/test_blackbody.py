@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import (
     SpectralShape,
@@ -1253,9 +1253,8 @@ class TestPlanckLaw(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            planck_law(case, case),
+        cases = np.array(list(set(product(cases, repeat=3))))
+        planck_law(cases, cases)
 
 
 class TestSdBlackbody(unittest.TestCase):
@@ -1338,9 +1337,8 @@ class TestRayleighJeansLaw(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            rayleigh_jeans_law(case, case),
+        cases = np.array(list(set(product(cases, repeat=3))))
+        rayleigh_jeans_law(cases, cases)
 
 
 class TestSdRayleighJeans(unittest.TestCase):

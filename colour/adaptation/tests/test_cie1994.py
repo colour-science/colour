@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.adaptation import chromatic_adaptation_CIE1994
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -154,15 +154,15 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_1 = np.array(case)
-            xy_o1 = np.array(case[0:2])
-            xy_o2 = np.array(case[0:2])
-            Y_o = case[0]
-            E_o1 = case[0]
-            E_o2 = case[0]
-            chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        chromatic_adaptation_CIE1994(
+            cases,
+            cases[..., 0:2],
+            cases[..., 0:2],
+            cases[..., 0],
+            cases[..., 0],
+            cases[..., 0],
+        )
 
 
 if __name__ == "__main__":

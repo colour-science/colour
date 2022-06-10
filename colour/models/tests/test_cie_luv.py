@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     XYZ_to_Luv,
@@ -142,11 +142,8 @@ class TestXYZ_to_Luv(unittest.TestCase):
         """Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            XYZ_to_Luv(XYZ, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Luv(cases, cases[..., 0:2])
 
 
 class TestLuv_to_XYZ(unittest.TestCase):
@@ -255,11 +252,8 @@ class TestLuv_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Luv = np.array(case)
-            illuminant = np.array(case[0:2])
-            Luv_to_XYZ(Luv, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Luv_to_XYZ(cases, cases[..., 0:2])
 
 
 class TestLuv_to_uv(unittest.TestCase):
@@ -366,11 +360,8 @@ class TestLuv_to_uv(unittest.TestCase):
         """Test :func:`colour.models.cie_luv.Luv_to_uv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Luv = np.array(case)
-            illuminant = np.array(case[0:2])
-            Luv_to_uv(Luv, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Luv_to_uv(cases, cases[..., 0:2])
 
 
 class Testuv_to_Luv(unittest.TestCase):
@@ -486,11 +477,8 @@ class Testuv_to_Luv(unittest.TestCase):
         """Test :func:`colour.models.cie_luv.uv_to_Luv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            illuminant = np.array(case[0:2])
-            uv_to_Luv(uv, illuminant)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_Luv(cases, cases[..., 0:2])
 
 
 class TestLuv_uv_to_xy(unittest.TestCase):
@@ -545,10 +533,8 @@ class TestLuv_uv_to_xy(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            Luv_uv_to_xy(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        Luv_uv_to_xy(cases)
 
 
 class TestXy_to_Luv_uv(unittest.TestCase):
@@ -603,10 +589,8 @@ class TestXy_to_Luv_uv(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy = np.array(case)
-            xy_to_Luv_uv(xy)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_Luv_uv(cases)
 
 
 class TestLuv_to_LCHuv(unittest.TestCase):
@@ -681,10 +665,8 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Luv = np.array(case)
-            Luv_to_LCHuv(Luv)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Luv_to_LCHuv(cases)
 
 
 class TestLCHuv_to_Luv(unittest.TestCase):
@@ -759,10 +741,8 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            LCHuv = np.array(case)
-            LCHuv_to_Luv(LCHuv)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        LCHuv_to_Luv(cases)
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
     CAM_KWARGS_CIECAM02_sRGB,
@@ -187,12 +187,10 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            JMh = np.array(case)
-            JMh_CIECAM02_to_UCS_Luo2006(
-                JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        JMh_CIECAM02_to_UCS_Luo2006(
+            cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+        )
 
 
 class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
@@ -333,12 +331,10 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Jpapbp = np.array(case)
-            UCS_Luo2006_to_JMh_CIECAM02(
-                Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        UCS_Luo2006_to_JMh_CIECAM02(
+            cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+        )
 
 
 class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
@@ -460,10 +456,8 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_UCS_Luo2006(cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
 class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
@@ -585,13 +579,10 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            Jpapbp = np.array(case)
             try:
-                UCS_Luo2006_to_XYZ(
-                    Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-                )
+                UCS_Luo2006_to_XYZ(case, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
             except ValueError as error:
                 attest("CAM_Specification_CIECAM02" in str(error))
 

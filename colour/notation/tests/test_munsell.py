@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.hints import List, NDArray, Tuple
 from colour.notation.munsell import (
@@ -1776,11 +1776,10 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=4))
+        cases = np.array(list(set(product(cases, repeat=4))))
         for case in cases:
-            specification = np.array(case)
             try:
-                munsell_specification_to_xyY(specification)
+                munsell_specification_to_xyY(case)
             except (AssertionError, TypeError, ValueError):
                 pass
 
@@ -1955,11 +1954,10 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            specification = np.array(case)
             try:
-                xyY_to_munsell_specification(specification)
+                xyY_to_munsell_specification(case)
             except (AssertionError, TypeError, ValueError):
                 pass
 

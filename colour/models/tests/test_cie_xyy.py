@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     XYZ_to_xyY,
@@ -140,11 +140,8 @@ class TestXYZ_to_xyY(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.XYZ_to_xyY` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            XYZ_to_xyY(XYZ, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_xyY(cases, cases[..., 0:2])
 
 
 class TestxyY_to_XYZ(unittest.TestCase):
@@ -244,10 +241,8 @@ class TestxyY_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.xyY_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            xyY = np.array(case)
-            xyY_to_XYZ(xyY)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        xyY_to_XYZ(cases)
 
 
 class TestxyY_to_xy(unittest.TestCase):
@@ -327,10 +322,8 @@ class TestxyY_to_xy(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.xyY_to_xy` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xyY = np.array(case)
-            xyY_to_xy(xyY)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xyY_to_xy(cases)
 
 
 class Testxy_to_xyY(unittest.TestCase):
@@ -420,10 +413,8 @@ class Testxy_to_xyY(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.xy_to_xyY` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy = np.array(case)
-            xy_to_xyY(xy)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_xyY(cases)
 
 
 class TestXYZ_to_xy(unittest.TestCase):
@@ -510,11 +501,8 @@ class TestXYZ_to_xy(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.XYZ_to_xy` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            XYZ_to_xy(XYZ, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_xy(cases, cases[..., 0:2])
 
 
 class Testxy_to_XYZ(unittest.TestCase):
@@ -594,10 +582,8 @@ class Testxy_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_xyy.xy_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy = np.array(case)
-            xy_to_XYZ(xy)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_XYZ(cases)
 
 
 if __name__ == "__main__":

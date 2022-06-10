@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb.cmyk import (
     RGB_to_CMY,
@@ -96,10 +96,8 @@ class TestRGB_to_CMY(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_CMY(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_CMY(cases)
 
 
 class TestCMY_to_RGB(unittest.TestCase):
@@ -167,10 +165,8 @@ class TestCMY_to_RGB(unittest.TestCase):
         """Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            CMY = np.array(case)
-            CMY_to_RGB(CMY)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        CMY_to_RGB(cases)
 
 
 class TestCMY_to_CMYK(unittest.TestCase):
@@ -241,10 +237,8 @@ class TestCMY_to_CMYK(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            CMY = np.array(case)
-            CMY_to_CMYK(CMY)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        CMY_to_CMYK(cases)
 
 
 class TestCMYK_to_CMY(unittest.TestCase):
@@ -321,10 +315,8 @@ class TestCMYK_to_CMY(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=4))
-        for case in cases:
-            CMYK = np.array(case)
-            CMYK_to_CMY(CMYK)
+        cases = np.array(list(set(product(cases, repeat=4))))
+        CMYK_to_CMY(cases)
 
 
 if __name__ == "__main__":

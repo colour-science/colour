@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import Iab_to_XYZ, Jab_to_JCh, JCh_to_Jab, XYZ_to_Iab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -92,10 +92,8 @@ class TestJab_to_JCh(unittest.TestCase):
         """Test :func:`colour.models.common.Jab_to_JCh` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab = np.array(case)
-            Jab_to_JCh(Lab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Jab_to_JCh(cases)
 
 
 class TestJCh_to_Jab(unittest.TestCase):
@@ -167,10 +165,8 @@ class TestJCh_to_Jab(unittest.TestCase):
         """Test :func:`colour.models.common.JCh_to_Jab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            LCHab = np.array(case)
-            JCh_to_Jab(LCHab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        JCh_to_Jab(cases)
 
 
 class TestXYZ_to_Iab(unittest.TestCase):
@@ -292,12 +288,10 @@ class TestXYZ_to_Iab(unittest.TestCase):
         """Test :func:`colour.models.common.XYZ_to_Iab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_Iab(
-                XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Iab(
+            cases, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
+        )
 
 
 class TestIab_to_XYZ(unittest.TestCase):
@@ -426,12 +420,10 @@ class TestIab_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.common.Iab_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Iab = np.array(case)
-            Iab_to_XYZ(
-                Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Iab_to_XYZ(
+            cases, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
+        )
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.adaptation import (
     matrix_chromatic_adaptation_VonKries,
@@ -182,11 +182,8 @@ matrix_chromatic_adaptation_VonKries` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_w = np.array(case)
-            XYZ_wr = np.array(case)
-            matrix_chromatic_adaptation_VonKries(XYZ_w, XYZ_wr)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        matrix_chromatic_adaptation_VonKries(cases, cases)
 
 
 class TestChromaticAdaptationVonKries(unittest.TestCase):
@@ -321,12 +318,8 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            XYZ_wr = np.array(case)
-            chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        chromatic_adaptation_VonKries(cases, cases, cases)
 
 
 if __name__ == "__main__":

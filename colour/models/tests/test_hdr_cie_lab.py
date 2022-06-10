@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import XYZ_to_hdr_CIELab, hdr_CIELab_to_XYZ
 from colour.models.hdr_cie_lab import exponent_hdr_CIELab
@@ -229,13 +229,8 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            Y_s = case[0]
-            Y_abs = case[0]
-            XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_hdr_CIELab(cases, cases[..., 0:2], cases[..., 0], cases[..., 0])
 
 
 class TestHdr_CIELab_to_XYZ(unittest.TestCase):
@@ -355,13 +350,8 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab_hdr = np.array(case)
-            illuminant = np.array(case[0:2])
-            Y_s = case[0]
-            Y_abs = case[0]
-            hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        hdr_CIELab_to_XYZ(cases, cases[..., 0:2], cases[..., 0], cases[..., 0])
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ References
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.difference import (
     delta_E_CIE1976,
@@ -219,11 +219,8 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab_1 = np.array(case)
-            Lab_2 = np.array(case)
-            delta_E_CIE1994(Lab_1, Lab_2)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        delta_E_CIE1994(cases, cases)
 
 
 class TestDelta_E_CIE2000(unittest.TestCase):
@@ -343,11 +340,8 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab_1 = np.array(case)
-            Lab_2 = np.array(case)
-            delta_E_CIE2000(Lab_1, Lab_2)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        delta_E_CIE2000(cases, cases)
 
     def test_delta_E_CIE2000_Sharma2004(self):
         """
@@ -598,11 +592,8 @@ class TestDelta_E_CMC(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab_1 = np.array(case)
-            Lab_2 = np.array(case)
-            delta_E_CMC(Lab_1, Lab_2)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        delta_E_CMC(cases, cases)
 
 
 class TestDelta_E_ITP(unittest.TestCase):
@@ -712,11 +703,8 @@ class TestDelta_E_ITP(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            ICtCp_1 = np.array(case)
-            ICtCp_2 = np.array(case)
-            delta_E_ITP(ICtCp_1, ICtCp_2)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        delta_E_ITP(cases, cases)
 
 
 if __name__ == "__main__":

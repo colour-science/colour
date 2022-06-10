@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import XYZ_to_IgPgTg, IgPgTg_to_XYZ
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -89,10 +89,8 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_IgPgTg(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_IgPgTg(cases)
 
 
 class TestIgPgTg_to_XYZ(unittest.TestCase):
@@ -163,10 +161,8 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            IgPgTg = np.array(case)
-            IgPgTg_to_XYZ(IgPgTg)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        IgPgTg_to_XYZ(cases)
 
 
 if __name__ == "__main__":

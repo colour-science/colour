@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
     VIEWING_CONDITIONS_HUNT,
@@ -248,15 +248,17 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            XYZ_b = np.array(case)
-            L_A = case[0]
-            surround = InductionFactors_Hunt(case[0], case[0])
-            CCT_w = case[0]
-            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        surround = InductionFactors_Hunt(cases[0, 0], cases[0, 0])
+        XYZ_to_Hunt(
+            cases,
+            cases,
+            cases,
+            cases[0, 0],
+            surround,
+            cases[0, 0],
+            CCT_w=cases,
+        )
 
 
 if __name__ == "__main__":

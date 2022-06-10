@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.contrast import (
     optical_MTF_Barten1999,
@@ -88,9 +88,8 @@ class TestOpticalMTFBarten1999(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            optical_MTF_Barten1999(np.array(case), np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        optical_MTF_Barten1999(cases, cases)
 
 
 class TestPupilDiameterBarten1999(unittest.TestCase):
@@ -150,11 +149,8 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            pupil_diameter_Barten1999(
-                np.array(case), np.array(case), np.array(case)
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        pupil_diameter_Barten1999(cases, cases, cases)
 
 
 class TestSigmaBarten1999(unittest.TestCase):
@@ -223,9 +219,8 @@ class TestSigmaBarten1999(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            sigma_Barten1999(np.array(case), np.array(case), np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        sigma_Barten1999(cases, cases, cases)
 
 
 class TestRetinalIlluminanceBarten1999(unittest.TestCase):
@@ -290,9 +285,8 @@ class TestRetinalIlluminanceBarten1999(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            retinal_illuminance_Barten1999(np.array(case), np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        retinal_illuminance_Barten1999(cases, cases)
 
 
 class TestMaximumAngularSizeBarten1999(unittest.TestCase):
@@ -371,11 +365,8 @@ maximum_angular_size_Barten1999` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            maximum_angular_size_Barten1999(
-                np.array(case), np.array(case), np.array(case), np.array(case)
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        maximum_angular_size_Barten1999(cases, cases, cases, cases)
 
 
 class TestContrastSensitivityFunctionBarten1999(unittest.TestCase):
@@ -563,14 +554,10 @@ contrast_sensitivity_function_Barten1999` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            contrast_sensitivity_function_Barten1999(
-                u=np.array(case),
-                sigma=np.array(case),
-                E=np.array(case),
-                X_0=np.array(case),
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        contrast_sensitivity_function_Barten1999(
+            u=cases, sigma=cases, E=cases, X_0=cases
+        )
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.temperature import uv_to_CCT_Planck1900, CCT_to_uv_Planck1900
 from colour.utilities import ignore_numpy_errors
@@ -92,9 +92,8 @@ class TestUv_to_CCT_Planck1900(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv_to_CCT_Planck1900(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_CCT_Planck1900(cases)
 
 
 class TestCCT_to_uv_Planck1900(unittest.TestCase):
@@ -156,9 +155,8 @@ class TestCCT_to_uv_Planck1900(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            CCT_to_uv_Planck1900(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_uv_Planck1900(cases)
 
 
 if __name__ == "__main__":
