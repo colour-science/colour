@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb.cylindrical import (
     RGB_to_HSV,
@@ -106,10 +106,8 @@ class TestRGB_to_HSV(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_HSV(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_HSV(cases)
 
 
 class TestHSV_to_RGB(unittest.TestCase):
@@ -186,10 +184,8 @@ class TestHSV_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            HSV = np.array(case)
-            HSV_to_RGB(HSV)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        HSV_to_RGB(cases)
 
 
 class TestRGB_to_HSL(unittest.TestCase):
@@ -266,10 +262,8 @@ class TestRGB_to_HSL(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_HSL(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_HSL(cases)
 
 
 class TestHSL_to_RGB(unittest.TestCase):
@@ -346,10 +340,8 @@ class TestHSL_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            HSL = np.array(case)
-            HSL_to_RGB(HSL)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        HSL_to_RGB(cases)
 
 
 class TestRGB_to_HCL(unittest.TestCase):
@@ -426,10 +418,8 @@ class TestRGB_to_HCL(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_HCL(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_HCL(cases)
 
 
 class TestHCL_to_RGB(unittest.TestCase):
@@ -506,10 +496,8 @@ class TestHCL_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            HCL = np.array(case)
-            HCL_to_RGB(HCL)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        HCL_to_RGB(cases)
 
 
 if __name__ == "__main__":

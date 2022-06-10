@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import (
     yellowness_ASTMD1925,
@@ -110,10 +110,8 @@ class TestYellownessASTMD1925(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            yellowness_ASTMD1925(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        yellowness_ASTMD1925(cases)
 
 
 class TestYellownessASTM313Alternative(unittest.TestCase):
@@ -199,10 +197,8 @@ yellowness_ASTME313_alternative` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            yellowness_ASTME313_alternative(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        yellowness_ASTME313_alternative(cases)
 
 
 class TestYellownessASTM313(unittest.TestCase):
@@ -293,10 +289,8 @@ class TestYellownessASTM313(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            yellowness_ASTME313(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        yellowness_ASTME313(cases)
 
 
 class TestYellowness(unittest.TestCase):

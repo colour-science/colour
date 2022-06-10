@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.algebra import (
     normalise_vector,
@@ -134,11 +134,8 @@ class TestEuclideanDistance(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            a = np.array(case)
-            b = np.array(case)
-            euclidean_distance(a, b)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        euclidean_distance(cases, cases)
 
 
 class TestManhattanDistance(unittest.TestCase):
@@ -209,11 +206,8 @@ class TestManhattanDistance(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            a = np.array(case)
-            b = np.array(case)
-            manhattan_distance(a, b)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        manhattan_distance(cases, cases)
 
 
 class TestExtendLineSegment(unittest.TestCase):

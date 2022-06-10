@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     XYZ_to_UCS,
@@ -97,10 +97,8 @@ class TestXYZ_to_UCS(unittest.TestCase):
         """Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_UCS(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_UCS(cases)
 
 
 class TestUCS_to_XYZ(unittest.TestCase):
@@ -168,10 +166,8 @@ class TestUCS_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            UCS = np.array(case)
-            UCS_to_XYZ(UCS)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        UCS_to_XYZ(cases)
 
 
 class TestUCS_to_uv(unittest.TestCase):
@@ -239,10 +235,8 @@ class TestUCS_to_uv(unittest.TestCase):
         """Test :func:`colour.models.cie_ucs.UCS_to_uv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            UCS = np.array(case)
-            UCS_to_uv(UCS)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        UCS_to_uv(cases)
 
 
 class Testuv_to_UCS(unittest.TestCase):
@@ -317,10 +311,8 @@ class Testuv_to_UCS(unittest.TestCase):
         """Test :func:`colour.models.cie_ucs.uv_to_UCS` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            uv_to_UCS(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_UCS(cases)
 
 
 class TestUCS_uv_to_xy(unittest.TestCase):
@@ -375,10 +367,8 @@ class TestUCS_uv_to_xy(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            UCS_uv_to_xy(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        UCS_uv_to_xy(cases)
 
 
 class TestXy_to_UCS_uv(unittest.TestCase):
@@ -433,10 +423,8 @@ class TestXy_to_UCS_uv(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy = np.array(case)
-            xy_to_UCS_uv(xy)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_UCS_uv(cases)
 
 
 if __name__ == "__main__":

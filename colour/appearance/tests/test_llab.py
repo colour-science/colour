@@ -4,7 +4,7 @@
 import numpy as np
 import unittest
 from unittest import mock
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
     VIEWING_CONDITIONS_LLAB,
@@ -183,14 +183,11 @@ class TestXYZ_to_LLAB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_0 = np.array(case)
-            Y_b = case[0]
-            L = case[0]
-            surround = InductionFactors_LLAB(1, case[0], case[0], case[0])
-            XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        surround = InductionFactors_LLAB(
+            1, cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        XYZ_to_LLAB(cases, cases, cases[..., 0], cases[..., 0], surround)
 
 
 if __name__ == "__main__":

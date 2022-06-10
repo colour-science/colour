@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb import RGB_to_Prismatic, Prismatic_to_RGB
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -83,10 +83,8 @@ class TestRGB_to_Prismatic(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_Prismatic(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_Prismatic(cases)
 
 
 class TestPrismatic_to_RGB(unittest.TestCase):
@@ -153,10 +151,8 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Prismatic = np.array(case)
-            Prismatic_to_RGB(Prismatic)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Prismatic_to_RGB(cases)
 
 
 if __name__ == "__main__":

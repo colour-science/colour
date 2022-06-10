@@ -5,7 +5,7 @@ import numpy as np
 import re
 import textwrap
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     RGB_COLOURSPACES,
@@ -437,13 +437,11 @@ class TestXYZ_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            W_R = np.array(case[0:2])
-            W_T = np.array(case[0:2])
-            M = np.vstack([case, case, case]).reshape([3, 3])
-            XYZ_to_RGB(XYZ, W_R, W_T, M)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        M = np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]).reshape(
+            [3, 3]
+        )
+        XYZ_to_RGB(cases, cases[..., 0:2], cases[..., 0:2], M)
 
 
 class TestRGB_to_XYZ(unittest.TestCase):
@@ -600,13 +598,11 @@ class TestRGB_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            W_R = np.array(case[0:2])
-            W_T = np.array(case[0:2])
-            M = np.vstack([case, case, case]).reshape([3, 3])
-            RGB_to_XYZ(RGB, W_R, W_T, M)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        M = np.vstack([cases[0, ...], cases[0, ...], cases[0, ...]]).reshape(
+            [3, 3]
+        )
+        RGB_to_XYZ(cases, cases[..., 0:2], cases[..., 0:2], M)
 
 
 class TestMatrix_RGB_to_RGB(unittest.TestCase):
@@ -844,10 +840,8 @@ class TestRGB_to_RGB(unittest.TestCase):
         sRGB_colourspace = RGB_COLOURSPACES["sRGB"]
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_RGB(RGB, aces_2065_1_colourspace, sRGB_colourspace)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_RGB(cases, aces_2065_1_colourspace, sRGB_colourspace)
 
 
 if __name__ == "__main__":

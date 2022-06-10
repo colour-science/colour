@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.volume import is_within_mesh_volume
 from colour.utilities import ignore_numpy_errors
@@ -91,9 +91,8 @@ class TestIsWithinMeshVolume(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            is_within_mesh_volume(case, self._mesh)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        is_within_mesh_volume(cases, self._mesh)
 
 
 if __name__ == "__main__":

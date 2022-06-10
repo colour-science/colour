@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
     MEDIA_PARAMETERS_KIM2009,
@@ -216,14 +216,12 @@ class TestXYZ_to_Kim2009(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            L_a = case[0]
-            media = MediaParameters_Kim2009(case[0])
-            surround = InductionFactors_Kim2009(case[0], case[0], case[0])
-            XYZ_to_Kim2009(XYZ, XYZ_w, L_a, media, surround)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        media = MediaParameters_Kim2009(cases[0, 0])
+        surround = InductionFactors_Kim2009(
+            cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        XYZ_to_Kim2009(cases, cases, cases[0, 0], media, surround)
 
 
 class TestKim2009_to_XYZ(unittest.TestCase):
@@ -435,22 +433,20 @@ class TestKim2009_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            J = case[0]
-            C = case[0]
-            h = case[0]
-            XYZ_w = np.array(case)
-            L_a = case[0]
-            media = MediaParameters_Kim2009(case[0])
-            surround = InductionFactors_Kim2009(case[0], case[0], case[0])
-            Kim2009_to_XYZ(
-                CAM_Specification_Kim2009(J, C, h, M=50),
-                XYZ_w,
-                L_a,
-                media,
-                surround,
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        media = MediaParameters_Kim2009(cases[0, 0])
+        surround = InductionFactors_Kim2009(
+            cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        Kim2009_to_XYZ(
+            CAM_Specification_Kim2009(
+                cases[..., 0], cases[..., 0], cases[..., 0], M=50
+            ),
+            cases,
+            cases[0, 0],
+            media,
+            surround,
+        )
 
 
 if __name__ == "__main__":

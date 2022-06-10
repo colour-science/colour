@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.algebra import (
     Extrapolator,
@@ -166,11 +166,9 @@ class TestExtrapolator(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            extrapolator = Extrapolator(
-                LinearInterpolator(np.array(case), np.array(case))
-            )
+            extrapolator = Extrapolator(LinearInterpolator(case, case))
             extrapolator(case[0])
 
 

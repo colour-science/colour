@@ -8,7 +8,7 @@ from __future__ import annotations
 import numpy as np
 import platform
 import unittest
-from itertools import permutations
+from itertools import product
 from numpy.linalg import LinAlgError
 
 from colour.characterisation.correction import (
@@ -340,9 +340,8 @@ matrix_augmented_Cheung2004` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            matrix_augmented_Cheung2004(case)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        matrix_augmented_Cheung2004(cases)
 
 
 class TestPolynomialExpansionFinlayson2015(unittest.TestCase):
@@ -532,9 +531,8 @@ polynomial_expansion_Finlayson2015` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            polynomial_expansion_Finlayson2015(case)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        polynomial_expansion_Finlayson2015(cases)
 
 
 class TestPolynomialExpansionVandermonde(unittest.TestCase):
@@ -612,9 +610,8 @@ polynomial_expansion_Vandermonde` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            polynomial_expansion_Vandermonde(case)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        polynomial_expansion_Vandermonde(cases)
 
 
 class TestMatrixColourCorrectionCheung2004(unittest.TestCase):
@@ -691,7 +688,7 @@ matrix_colour_correction_Cheung2004` definition.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 matrix_colour_correction_Cheung2004(
@@ -798,7 +795,7 @@ matrix_colour_correction_Finlayson2015` definition.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 matrix_colour_correction_Finlayson2015(
@@ -896,7 +893,7 @@ matrix_colour_correction_Vandermonde` definition.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 matrix_colour_correction_Vandermonde(
@@ -974,7 +971,7 @@ colour_correction_Cheung2004` definition nan support.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 colour_correction_Cheung2004(
@@ -1059,7 +1056,7 @@ colour_correction_Finlayson2015` definition n-dimensional support.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 colour_correction_Finlayson2015(
@@ -1138,7 +1135,7 @@ colour_correction_Vandermonde` definition nan support.
             return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = list(set(permutations(cases * 3, r=3)))[0:4]
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
                 colour_correction_Vandermonde(

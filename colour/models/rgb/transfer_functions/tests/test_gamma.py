@@ -174,9 +174,7 @@ gamma_function` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-
-        for case in cases:
-            gamma_function(case, case)
+        gamma_function(cases, cases)
 
 
 if __name__ == "__main__":

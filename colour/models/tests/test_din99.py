@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     Lab_to_DIN99,
@@ -138,12 +138,11 @@ class TestLab_to_DIN99(unittest.TestCase):
         """Test :func:`colour.models.din99.Lab_to_DIN99` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab_to_DIN99(np.array(case))
-            Lab_to_DIN99(np.array(case), method="DIN99b")
-            Lab_to_DIN99(np.array(case), method="DIN99c")
-            Lab_to_DIN99(np.array(case), method="DIN99d")
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Lab_to_DIN99(cases)
+        Lab_to_DIN99(cases, method="DIN99b")
+        Lab_to_DIN99(cases, method="DIN99c")
+        Lab_to_DIN99(cases, method="DIN99d")
 
 
 class TestDIN99_to_Lab(unittest.TestCase):
@@ -256,12 +255,11 @@ class TestDIN99_to_Lab(unittest.TestCase):
         """Test :func:`colour.models.din99.DIN99_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            DIN99_to_Lab(np.array(case))
-            DIN99_to_Lab(np.array(case), method="DIN99b")
-            DIN99_to_Lab(np.array(case), method="DIN99c")
-            DIN99_to_Lab(np.array(case), method="DIN99d")
+        cases = np.array(list(set(product(cases, repeat=3))))
+        DIN99_to_Lab(cases)
+        DIN99_to_Lab(cases, method="DIN99b")
+        DIN99_to_Lab(cases, method="DIN99c")
+        DIN99_to_Lab(cases, method="DIN99d")
 
 
 class TestXYZ_to_DIN99(unittest.TestCase):
@@ -337,9 +335,8 @@ class TestXYZ_to_DIN99(unittest.TestCase):
         """Test :func:`colour.models.din99.XYZ_to_DIN99` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_to_DIN99(np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_DIN99(cases)
 
 
 class TestDIN99_to_XYZ(unittest.TestCase):
@@ -416,9 +413,8 @@ class TestDIN99_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.din99.DIN99_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            DIN99_to_XYZ(np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        DIN99_to_XYZ(cases)
 
 
 if __name__ == "__main__":

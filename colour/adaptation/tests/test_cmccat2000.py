@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.adaptation.cmccat2000 import (
     chromatic_adaptation_forward_CMCCAT2000,
@@ -164,16 +164,10 @@ chromatic_adaptation_forward_CMCCAT2000` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            XYZ_wr = np.array(case)
-            L_A1 = case[0]
-            L_A2 = case[0]
-            chromatic_adaptation_forward_CMCCAT2000(
-                XYZ, XYZ_w, XYZ_wr, L_A1, L_A2
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        chromatic_adaptation_forward_CMCCAT2000(
+            cases, cases, cases, cases[..., 0], cases[..., 0]
+        )
 
 
 class TestChromaticAdaptationInverseCMCCAT2000(unittest.TestCase):
@@ -315,16 +309,10 @@ chromatic_adaptation_inverse_CMCCAT2000` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_c = np.array(case)
-            XYZ_w = np.array(case)
-            XYZ_wr = np.array(case)
-            L_A1 = case[0]
-            L_A2 = case[0]
-            chromatic_adaptation_inverse_CMCCAT2000(
-                XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        chromatic_adaptation_inverse_CMCCAT2000(
+            cases, cases, cases, cases[..., 0], cases[..., 0]
+        )
 
 
 if __name__ == "__main__":

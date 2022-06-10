@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -129,11 +129,8 @@ class TestXYZ_to_Lab(unittest.TestCase):
         """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            XYZ_to_Lab(XYZ, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Lab(cases, cases[..., 0:2])
 
 
 class TestLab_to_XYZ(unittest.TestCase):
@@ -242,11 +239,8 @@ class TestLab_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab = np.array(case)
-            illuminant = np.array(case[0:2])
-            Lab_to_XYZ(Lab, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Lab_to_XYZ(cases, cases[..., 0:2])
 
 
 class TestLab_to_LCHab(unittest.TestCase):
@@ -321,10 +315,8 @@ class TestLab_to_LCHab(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab = np.array(case)
-            Lab_to_LCHab(Lab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Lab_to_LCHab(cases)
 
 
 class TestLCHab_to_Lab(unittest.TestCase):
@@ -399,10 +391,8 @@ class TestLCHab_to_Lab(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            LCHab = np.array(case)
-            LCHab_to_Lab(LCHab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        LCHab_to_Lab(cases)
 
 
 if __name__ == "__main__":

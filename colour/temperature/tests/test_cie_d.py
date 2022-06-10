@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.temperature import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
@@ -85,9 +85,8 @@ class TestXy_to_CCT_CIE_D(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            xy_to_CCT_CIE_D(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        xy_to_CCT_CIE_D(cases)
 
 
 class TestCCT_to_xy_CIE_D(unittest.TestCase):
@@ -142,9 +141,8 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            CCT_to_xy_CIE_D(case)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_xy_CIE_D(cases)
 
 
 if __name__ == "__main__":

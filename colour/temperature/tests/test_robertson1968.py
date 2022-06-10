@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.hints import Dict
 from colour.temperature import CCT_to_uv_Robertson1968, uv_to_CCT_Robertson1968
@@ -173,10 +173,8 @@ class TestUv_to_CCT_Robertson1968(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            uv_to_CCT_Robertson1968(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_CCT_Robertson1968(cases)
 
 
 class TestCCT_to_uv_Robertson1968(unittest.TestCase):
@@ -225,10 +223,8 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            CCT_D_uv = np.array(case)
-            CCT_to_uv_Robertson1968(CCT_D_uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_uv_Robertson1968(cases)
 
 
 if __name__ == "__main__":

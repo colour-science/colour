@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import numpy as np
 import unittest
-from itertools import permutations
 
 from colour.hints import Tuple
 from colour.phenomena.rayleigh import (
@@ -760,11 +759,7 @@ air_refraction_index_Bodhaine1999` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=1))
-        for case in cases:
-            wavelength = case
-            CO2_concentration = case
-            air_refraction_index_Bodhaine1999(wavelength, CO2_concentration)
+        air_refraction_index_Bodhaine1999(cases, cases)
 
 
 class TestN2Depolarisation(unittest.TestCase):
@@ -1075,11 +1070,7 @@ class TestF_airBodhaine1999(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=1))
-        for case in cases:
-            wavelength = case
-            CO2_concentration = case
-            F_air_Bodhaine1999(wavelength, CO2_concentration)
+        F_air_Bodhaine1999(cases, cases)
 
 
 class TestMolecularDensity(unittest.TestCase):
@@ -1248,11 +1239,7 @@ class TestGravityList1968(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=1))
-        for case in cases:
-            latitude = case
-            altitude = case
-            gravity_List1968(latitude, altitude)
+        gravity_List1968(cases, cases)
 
 
 class TestScatteringCrossSection(unittest.TestCase):
@@ -1353,14 +1340,7 @@ class TestScatteringCrossSection(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=1))
-        for case in cases:
-            wavelength = case
-            CO2_concentration = case
-            temperature = case
-            scattering_cross_section(
-                wavelength, CO2_concentration, temperature
-            )
+        scattering_cross_section(cases, cases, cases)
 
 
 class TestRayleighOpticalDepth(unittest.TestCase):
@@ -1489,16 +1469,7 @@ class TestRayleighOpticalDepth(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=1))
-        for case in cases:
-            wavelength = case
-            CO2_concentration = case
-            temperature = case
-            latitude = case
-            altitude = case
-            rayleigh_optical_depth(
-                wavelength, CO2_concentration, temperature, latitude, altitude
-            )
+        rayleigh_optical_depth(cases, cases, cases, cases, cases)
 
 
 class TestSdRayleighScattering(unittest.TestCase):

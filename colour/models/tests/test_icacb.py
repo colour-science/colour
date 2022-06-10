@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 """Define the unit tests for the :mod:`colour.models.hunter_rdab` module."""
 
-from itertools import permutations
+from itertools import product
 import numpy as np
 import unittest
 
@@ -92,10 +92,8 @@ class TestXYZ_to_ICaCb(unittest.TestCase):
         """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_ICaCb(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_ICaCb(cases)
 
 
 class TestICaCb_to_XYZ(unittest.TestCase):
@@ -168,10 +166,8 @@ class TestICaCb_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            ICaCb = np.array(case)
-            ICaCb_to_XYZ(ICaCb)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        ICaCb_to_XYZ(cases)
 
 
 if __name__ == "__main__":

@@ -243,9 +243,8 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(product(cases, repeat=3)) - {(0, 0, 0)}
-        isVisible = is_within_visible_spectrum(list(cases))
-        assert all(~isVisible)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        is_within_visible_spectrum(cases)
 
 
 if __name__ == "__main__":
