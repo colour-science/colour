@@ -176,6 +176,8 @@ class TestCanonicalMapping(unittest.TestCase):
             "lower_items",
             "slugified_keys",
             "slugified_items",
+            "canonical_keys",
+            "canonical_items",
         )
 
         for method in required_methods:
@@ -189,7 +191,7 @@ class TestCanonicalMapping(unittest.TestCase):
 
         self.assertDictEqual(
             CanonicalMapping({"John": "Doe", "Jane": "Doe"}).data,
-            {"jane": ("Jane", "Doe"), "john": ("John", "Doe")},
+            {"John": "Doe", "Jane": "Doe"},
         )
 
     def test__repr__(self):
@@ -225,8 +227,10 @@ __getitem__` method.
 
         self.assertEqual(mapping["John"], "Doe")
         self.assertEqual(mapping["john"], "Doe")
+        self.assertEqual(mapping["JOHN"], "Doe")
         self.assertEqual(mapping["Jane"], "Doe")
         self.assertEqual(mapping["jane"], "Doe")
+        self.assertEqual(mapping["JANE"], "Doe")
 
         mapping = CanonicalMapping({1: "Foo", 2: "Bar"})
 
@@ -236,6 +240,8 @@ __getitem__` method.
 
         self.assertEqual(mapping["mccamy-1992"], 1)
         self.assertEqual(mapping["hernandez-1999"], 2)
+        self.assertEqual(mapping["mccamy1992"], 1)
+        self.assertEqual(mapping["hernandez1999"], 2)
 
     def test__delitem__(self):
         """
@@ -252,12 +258,30 @@ __delitem__` method.
         self.assertNotIn("jane", mapping)
         self.assertEqual(len(mapping), 0)
 
+        mapping = CanonicalMapping(John="Doe", Jane="Doe")
+        del mapping["JOHN"]
+        self.assertNotIn("John", mapping)
+
+        del mapping["jane"]
+        self.assertNotIn("jane", mapping)
+        self.assertEqual(len(mapping), 0)
+
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
         del mapping["mccamy-1992"]
         self.assertNotIn("McCamy 1992", mapping)
 
         del mapping["hernandez-1999"]
+        self.assertNotIn("Hernandez 1999", mapping)
+
+        self.assertEqual(len(mapping), 0)
+
+        mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
+
+        del mapping["mccamy1992"]
+        self.assertNotIn("McCamy 1992", mapping)
+
+        del mapping["hernandez1999"]
         self.assertNotIn("Hernandez 1999", mapping)
 
         self.assertEqual(len(mapping), 0)
@@ -272,13 +296,17 @@ __contains__` method.
 
         self.assertIn("John", mapping)
         self.assertIn("john", mapping)
+        self.assertIn("JOHN", mapping)
         self.assertIn("Jane", mapping)
         self.assertIn("jane", mapping)
+        self.assertIn("JANE", mapping)
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
         self.assertIn("mccamy-1992", mapping)
         self.assertIn("hernandez-1999", mapping)
+        self.assertIn("mccamy1992", mapping)
+        self.assertIn("hernandez1999", mapping)
 
     def test__iter__(self):
         """
@@ -313,7 +341,7 @@ __contains__` method.
 
         self.assertEqual(mapping1, mapping2)
 
-        self.assertEqual(mapping2, mapping3)
+        self.assertNotEqual(mapping2, mapping3)
 
     def test_raise_exception__eq__(self):
         """
@@ -414,6 +442,31 @@ slugified_items` method.
         self.assertListEqual(
             sorted(item for item in mapping.slugified_items()),
             [("hernandez-1999", 2), ("mccamy-1992", 1)],
+        )
+
+    def test_canonical_keys(self):
+        """
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+canonical_keys` method.
+        """
+
+        mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
+
+        self.assertListEqual(
+            sorted(item for item in mapping.canonical_keys()),
+            ["hernandez1999", "mccamy1992"],
+        )
+
+    def test_canonical_items(self):
+        """
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+canonical_items` method.
+        """
+
+        mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
+        self.assertListEqual(
+            sorted(item for item in mapping.canonical_items()),
+            [("hernandez1999", 2), ("mccamy1992", 1)],
         )
 
 

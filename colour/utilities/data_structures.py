@@ -25,13 +25,11 @@ data_structures.py
 -   :cite:`Rakotoarison2017` : Rakotoarison, H. (2017). Bunch. Retrieved
     December 4, 2021, from https://github.com/scikit-learn/scikit-learn/blob/\
 0d378913b/sklearn/utils/__init__.py#L83
--   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict.
-    https://github.com/kennethreitz/requests/blob/v1.2.3/requests/\
-structures.py#L37
 """
 
 from __future__ import annotations
 
+import re
 from collections.abc import MutableMapping
 
 from colour.hints import (
@@ -247,11 +245,24 @@ class CanonicalMapping(MutableMapping):
     """
     Implement a delimiter and case-insensitive :class:`dict`-like object with
     support for slugs, i.e. *SEO* friendly and human-readable version of the
-    keys.
+    keys but also canonical keys, i.e. slugified keys without delimiters.
 
-    Allow value retrieving by key while ignoring the key case.
-    The keys are expected to be str or :class:`str`-like objects supporting the
-    :meth:`str.lower` method.
+    The item keys are expected to be :class:`str`-like objects thus supporting
+    the :meth:`str.lower` method. Setting items is done by using the given
+    keys. Retrieving or deleting an item and testing whether an item exist is
+    done by transforming the item's key in a sequence as follows:
+
+    -   *Original Key*
+    -   *Lowercase Key*
+    -   *Slugified Key*
+    -   *Canonical Key*
+
+    For example, given the ``McCamy 1992`` key:
+
+    -   *Original Key* : ``McCamy 1992``
+    -   *Lowercase Key* : ``mccamy 1992``
+    -   *Slugified Key* : ``mccamy-1992``
+    -   *Canonical Key* : ``mccamy1992``
 
     Parameters
     ----------
@@ -285,10 +296,8 @@ class CanonicalMapping(MutableMapping):
     -   :meth:`~colour.utilities.CanonicalMapping.lower_items`
     -   :meth:`~colour.utilities.CanonicalMapping.slugified_keys`
     -   :meth:`~colour.utilities.CanonicalMapping.slugified_items`
-
-    References
-    ----------
-    :cite:`Reitza`
+    -   :meth:`~colour.utilities.CanonicalMapping.canonical_keys`
+    -   :meth:`~colour.utilities.CanonicalMapping.canonical_items`
 
     Examples
     --------
@@ -298,6 +307,8 @@ class CanonicalMapping(MutableMapping):
     >>> methods['MCCAMY 1992']
     1
     >>> methods['mccamy-1992']
+    1
+    >>> methods['mccamy1992']
     1
     """
 
@@ -354,16 +365,9 @@ class CanonicalMapping(MutableMapping):
         value
             Value to store in the delimiter and case-insensitive
             :class:`dict`-like object.
-
-        Notes
-        -----
-        -   The item is stored as lower-case while the original name and its
-            value are stored together as the value in a *tuple*::
-
-            {"item.lower()": ("item", value)}
         """
 
-        self._data[self._lower_key(item)] = (item, value)
+        self._data[item] = value
 
     def __getitem__(self, item: Union[str, Any]) -> Any:
         """
@@ -383,14 +387,28 @@ class CanonicalMapping(MutableMapping):
 
         Notes
         -----
-        -   The item value can be retrieved by using either its lower-case or
-            slugified variant.
+        -   The item value can be retrieved by using either its lower-case,
+            slugified or canonical variant.
         """
 
         try:
-            return self._data[self._lower_key(item)][1]
+            return self._data[item]
         except KeyError:
+            pass
+
+        try:
+            return self[
+                dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]
+            ]
+        except KeyError:
+            pass
+
+        try:
             return self[dict(zip(self.slugified_keys(), self.keys()))[item]]
+        except KeyError:
+            pass
+
+        return self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
     def __delitem__(self, item: Union[str, Any]):
         """
@@ -405,14 +423,31 @@ class CanonicalMapping(MutableMapping):
 
         Notes
         -----
-        -   The item can be deleted by using either its lower-case or slugified
-            variant.
+        -   The item can be deleted by using either its lower-case, slugified
+            or canonical variant.
         """
 
         try:
-            del self._data[self._lower_key(item)]
+            del self._data[item]
+            return
         except KeyError:
+            pass
+
+        try:
+            del self._data[
+                dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]
+            ]
+            return
+        except KeyError:
+            pass
+
+        try:
             del self[dict(zip(self.slugified_keys(), self.keys()))[item]]
+            return
+        except KeyError:
+            pass
+
+        del self[dict(zip(self.canonical_keys(), self.keys()))[item]]
 
     def __contains__(self, item: Union[str, Any]) -> bool:
         """
@@ -433,13 +468,17 @@ class CanonicalMapping(MutableMapping):
 
         Notes
         -----
-        -   The item presence can be checked by using either its lower-case or
-            slugified variant.
+        -   The item presence can be checked by using either its lower-case,
+            slugified or canonical variant.
         """
 
-        if (
-            self._lower_key(item) in self._data
-            or item in self.slugified_keys()
+        if any(
+            [
+                item in self._data,
+                str(item).lower() in self.lower_keys(),
+                item in self.slugified_keys(),
+                item in self.canonical_keys(),
+            ]
         ):
             return True
         else:
@@ -460,7 +499,7 @@ class CanonicalMapping(MutableMapping):
         -   The iterated items are the original items.
         """
 
-        return (item for item, value in self._data.values())
+        yield from self._data.keys()
 
     def __len__(self) -> Integer:
         """
@@ -500,7 +539,7 @@ class CanonicalMapping(MutableMapping):
                 f'"{other.__class__.__name__}" class type!'
             )
 
-        return dict(self.lower_items()) == dict(other_mapping.lower_items())
+        return self._data == other_mapping.data
 
     def __ne__(self, other: Any) -> bool:
         """
@@ -522,28 +561,6 @@ class CanonicalMapping(MutableMapping):
 
         return not (self == other)
 
-    @staticmethod
-    def _lower_key(key: Union[str, Any]) -> Union[str, Any]:
-        """
-        Return the lower-case variant of given key, if the key cannot be
-        lower-cased, it is passed unmodified.
-
-        Parameters
-        ----------
-        key
-            Key to return the lower-case variant.
-
-        Returns
-        -------
-        :class:`str` or :class:`object`
-            Key lower-case variant.
-        """
-
-        try:
-            return key.lower()
-        except AttributeError:
-            return key
-
     def copy(self) -> CanonicalMapping:
         """
         Return a copy of the delimiter and case-insensitive :class:`dict`-like
@@ -560,7 +577,7 @@ class CanonicalMapping(MutableMapping):
             *copy* of the object not a *deepcopy*!
         """
 
-        return CanonicalMapping(dict(self._data.values()))
+        return CanonicalMapping(dict(**self._data))
 
     def lower_keys(self) -> Generator:
         """
@@ -573,7 +590,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from self._data.keys()
+        yield from (str(key).lower() for key in self._data)
 
     def lower_items(self) -> Generator:
         """
@@ -586,7 +603,9 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from ((item, value[1]) for (item, value) in self._data.items())
+        yield from (
+            (str(key).lower(), value) for (key, value) in self._data.items()
+        )
 
     def slugified_keys(self) -> Generator:
         """
@@ -615,6 +634,32 @@ class CanonicalMapping(MutableMapping):
         """
 
         yield from zip(self.slugified_keys(), self.values())
+
+    def canonical_keys(self) -> Generator:
+        """
+        Iterate over the canonical keys of the delimiter and case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        yield from (re.sub("-|_", "", key) for key in self.slugified_keys())
+
+    def canonical_items(self) -> Generator:
+        """
+        Iterate over the canonical items of the delimiter and case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        yield from zip(self.canonical_keys(), self.values())
 
 
 class LazyCanonicalMapping(CanonicalMapping):
@@ -670,10 +715,6 @@ class LazyCanonicalMapping(CanonicalMapping):
         -------
         :class:`object`
             Item value.
-
-        Notes
-        -----
-        -   The item value is retrieved by using its lower-case variant.
         """
 
         import colour
