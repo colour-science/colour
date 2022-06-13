@@ -30,6 +30,7 @@ data_structures.py
 from __future__ import annotations
 
 import re
+from collections import Counter
 from collections.abc import MutableMapping
 
 from colour.hints import (
@@ -561,6 +562,25 @@ class CanonicalMapping(MutableMapping):
 
         return not (self == other)
 
+    @staticmethod
+    def _collision_warning(keys: List):
+        """
+        Issue a runtime warning when given keys are colliding.
+
+        Parameters
+        ----------
+        keys
+        """
+
+        from colour.utilities import usage_warning
+
+        collisions = [
+            key for (key, value) in Counter(keys).items() if value > 1
+        ]
+
+        if collisions:
+            usage_warning(f"{list(set(keys))} key(s) collide(s)!")
+
     def copy(self) -> CanonicalMapping:
         """
         Return a copy of the delimiter and case-insensitive :class:`dict`-like
@@ -590,7 +610,11 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from (str(key).lower() for key in self._data)
+        lower_keys = [str(key).lower() for key in self._data]
+
+        self._collision_warning(lower_keys)
+
+        yield from iter(lower_keys)
 
     def lower_items(self) -> Generator:
         """
@@ -620,7 +644,11 @@ class CanonicalMapping(MutableMapping):
 
         from colour.utilities import slugify
 
-        yield from (slugify(key) for key in self.lower_keys())
+        slugified_keys = [slugify(key) for key in self.lower_keys()]
+
+        self._collision_warning(slugified_keys)
+
+        yield from iter(slugified_keys)
 
     def slugified_items(self) -> Generator:
         """
@@ -646,7 +674,13 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from (re.sub("-|_", "", key) for key in self.slugified_keys())
+        canonical_keys = [
+            re.sub("-|_", "", key) for key in self.slugified_keys()
+        ]
+
+        self._collision_warning(canonical_keys)
+
+        yield from iter(canonical_keys)
 
     def canonical_items(self) -> Generator:
         """
