@@ -7,6 +7,7 @@ import pickle
 import unittest
 
 from colour.utilities import (
+    ColourUsageWarning,
     Structure,
     Lookup,
     CanonicalMapping,
@@ -406,6 +407,12 @@ lower_keys` method.
             ["jane", "john"],
         )
 
+        mapping = CanonicalMapping(John="Doe", john="Doe")
+
+        self.assertWarns(
+            ColourUsageWarning, lambda: list(mapping.lower_keys())
+        )
+
     def test_lower_items(self):
         """
         Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
@@ -432,6 +439,12 @@ slugified_keys` method.
             ["hernandez-1999", "mccamy-1992"],
         )
 
+        mapping = CanonicalMapping({"McCamy 1992": 1, "McCamy-1992": 2})
+
+        self.assertWarns(
+            ColourUsageWarning, lambda: list(mapping.slugified_keys())
+        )
+
     def test_slugified_items(self):
         """
         Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
@@ -455,6 +468,12 @@ canonical_keys` method.
         self.assertListEqual(
             sorted(item for item in mapping.canonical_keys()),
             ["hernandez1999", "mccamy1992"],
+        )
+
+        mapping = CanonicalMapping({"McCamy_1992": 1, "McCamy-1992": 2})
+
+        self.assertWarns(
+            ColourUsageWarning, lambda: list(mapping.canonical_keys())
         )
 
     def test_canonical_items(self):
