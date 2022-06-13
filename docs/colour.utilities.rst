@@ -145,8 +145,8 @@ Data Structures
     :toctree: generated/
     :template: class.rst
 
-    CaseInsensitiveMapping
-    LazyCaseInsensitiveMapping
+    CanonicalMapping
+    LazyCanonicalMapping
     Lookup
     Node
     Structure

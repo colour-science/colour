@@ -44,7 +44,7 @@ from colour.hints import (
     Optional,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -104,7 +104,7 @@ class InductionFactors_LLAB(
     """
 
 
-VIEWING_CONDITIONS_LLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_LLAB: CanonicalMapping = CanonicalMapping(
     {
         "Reference Samples & Images, Average Surround, Subtending > 4": (
             InductionFactors_LLAB(1, 3, 0, 1)

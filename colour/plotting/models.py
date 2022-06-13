@@ -113,7 +113,7 @@ from colour.plotting import (
 )
 from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_array,
     as_float_array,
     as_int_array,
@@ -153,7 +153,7 @@ __all__ = [
     "plot_constant_hue_loci",
 ]
 
-COLOURSPACE_MODELS_AXIS_ORDER: CaseInsensitiveMapping = CaseInsensitiveMapping(
+COLOURSPACE_MODELS_AXIS_ORDER: CanonicalMapping = CanonicalMapping(
     {
         "CAM02LCD": (1, 2, 0),
         "CAM02SCD": (1, 2, 0),

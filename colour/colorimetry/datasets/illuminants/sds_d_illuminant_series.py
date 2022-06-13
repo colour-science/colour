@@ -23,7 +23,7 @@ from functools import partial
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -368,8 +368,8 @@ DATA_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: Dict = {
 }
 
 SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: (
-    LazyCaseInsensitiveMapping
-) = LazyCaseInsensitiveMapping(
+    LazyCanonicalMapping
+) = LazyCanonicalMapping(
     {
         "S0": partial(
             SpectralDistribution,

@@ -15,7 +15,7 @@ References
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -28,7 +28,7 @@ __all__ = [
     "CVD_MATRICES_MACHADO2010",
 ]
 
-CVD_MATRICES_MACHADO2010: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CVD_MATRICES_MACHADO2010: CanonicalMapping = CanonicalMapping(
     {
         "Protanomaly": {
             0.0: np.array(

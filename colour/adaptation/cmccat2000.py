@@ -36,7 +36,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     from_range_100,
     to_domain_100,
@@ -84,7 +84,7 @@ class InductionFactors_CMCCAT2000(NamedTuple):
     F: Floating
 
 
-VIEWING_CONDITIONS_CMCCAT2000: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_CMCCAT2000: CanonicalMapping = CanonicalMapping(
     {
         "Average": InductionFactors_CMCCAT2000(1),
         "Dim": InductionFactors_CMCCAT2000(0.8),

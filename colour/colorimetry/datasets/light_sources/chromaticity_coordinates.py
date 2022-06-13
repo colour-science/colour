@@ -46,7 +46,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -70,8 +70,8 @@ __all__ = [
 ]
 
 CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "Natural": np.array([0.381585730647787, 0.359224138274067]),
         "Philips TL-84": np.array([0.378413599970988, 0.379290254544090]),
@@ -101,8 +101,8 @@ References
 """
 
 CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "Natural": np.array([0.384870991183035, 0.353869223366545]),
         "Philips TL-84": np.array([0.383592002892950, 0.373922741815762]),
@@ -122,8 +122,8 @@ spreadsheet for the *CIE 1964 10 Degree Standard Observer*.
 """
 
 CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "Cool White FL": np.array([0.369256318971281, 0.372549878176631]),
         "Daylight FL": np.array([0.312662993963651, 0.331985688793009]),
@@ -150,8 +150,8 @@ References
 """
 
 CCS_LIGHT_SOURCES_NIST_TRADITIONAL_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "Cool White FL": np.array([0.376715047518455, 0.364576802118673]),
         "Daylight FL": np.array([0.317395878738965, 0.330780819136676]),
@@ -174,8 +174,8 @@ Chromaticity coordinates of the traditional light sources from the *NIST*
 """
 
 CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "3-LED-1 (457/540/605)": np.array(
             [0.417057686949170, 0.396262457986602]
@@ -213,8 +213,8 @@ Chromaticity coordinates of the LED light sources from the *NIST*
 """
 
 CCS_LIGHT_SOURCES_NIST_LED_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "3-LED-1 (457/540/605)": np.array(
             [0.425099988926548, 0.389451349911075]
@@ -252,8 +252,8 @@ Chromaticity coordinates of the LED light sources from the *NIST*
 """
 
 CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "60 A/W (Soft White)": np.array(
             [0.450730217519680, 0.408046128945005]
@@ -318,8 +318,8 @@ Chromaticity coordinates of the Philips light sources from the *NIST*
 """
 
 CCS_LIGHT_SOURCES_NIST_PHILIPS_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "60 A/W (Soft White)": np.array(
             [0.454365604973572, 0.406573684216774]
@@ -384,8 +384,8 @@ Chromaticity coordinates of the Philips light sources from the *NIST*
 """
 
 CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {"Kinoton 75P": np.array([0.315252413629716, 0.332870794805328])}
 )
 """
@@ -398,8 +398,8 @@ References
 """
 
 CCS_LIGHT_SOURCES_COMMON_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {"Kinoton 75P": np.array([0.317086642148234, 0.336222428041514])}
 )
 """
@@ -407,12 +407,12 @@ Chromaticity coordinates of the common light sources for the
 *CIE 1964 10 Degree Standard Observer*.
 """
 
-CCS_LIGHT_SOURCES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCS_LIGHT_SOURCES: CanonicalMapping = CanonicalMapping(
     {
-        "CIE 1931 2 Degree Standard Observer": CaseInsensitiveMapping(
+        "CIE 1931 2 Degree Standard Observer": CanonicalMapping(
             CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_2_DEGREE_CIE1931
         ),
-        "CIE 1964 10 Degree Standard Observer": CaseInsensitiveMapping(
+        "CIE 1964 10 Degree Standard Observer": CanonicalMapping(
             CCS_LIGHT_SOURCES_RIT_STANDARD_OBSERVER_10_DEGREE_CIE1964
         ),
     }

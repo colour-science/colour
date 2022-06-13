@@ -31,7 +31,7 @@ from functools import partial
 
 from colour.characterisation import RGB_DisplayPrimaries
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -131,16 +131,14 @@ DATA_DISPLAY_PRIMARIES_CRT: Dict = {
     }
 }
 
-MSDS_DISPLAY_PRIMARIES_CRT: LazyCaseInsensitiveMapping = (
-    LazyCaseInsensitiveMapping(
-        {
-            "Typical CRT Brainard 1997": partial(
-                RGB_DisplayPrimaries,
-                DATA_DISPLAY_PRIMARIES_CRT["Typical CRT Brainard 1997"],
-                name="Typical CRT Brainard 1997",
-            )
-        }
-    )
+MSDS_DISPLAY_PRIMARIES_CRT: LazyCanonicalMapping = LazyCanonicalMapping(
+    {
+        "Typical CRT Brainard 1997": partial(
+            RGB_DisplayPrimaries,
+            DATA_DISPLAY_PRIMARIES_CRT["Typical CRT Brainard 1997"],
+            name="Typical CRT Brainard 1997",
+        )
+    }
 )
 """
 Primaries multi-spectral distributions of *CRT* displays.

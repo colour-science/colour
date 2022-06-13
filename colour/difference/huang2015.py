@@ -24,7 +24,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
-from colour.utilities import CaseInsensitiveMapping, tsplit, validate_method
+from colour.utilities import CanonicalMapping, tsplit, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -37,7 +37,7 @@ __all__ = [
     "power_function_Huang2015",
 ]
 
-COEFFICIENTS_HUANG2015: CaseInsensitiveMapping = CaseInsensitiveMapping(
+COEFFICIENTS_HUANG2015: CanonicalMapping = CanonicalMapping(
     {
         "CIE 1976": np.array([1.26, 0.55]),
         "CIE 1994": np.array([1.41, 0.70]),

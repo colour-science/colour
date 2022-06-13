@@ -49,7 +49,7 @@ from colour.hints import (
 )
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -109,7 +109,7 @@ class InductionFactors_ZCAM(
     """
 
 
-VIEWING_CONDITIONS_ZCAM: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_ZCAM: CanonicalMapping = CanonicalMapping(
     {
         "Average": InductionFactors_ZCAM(
             0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]

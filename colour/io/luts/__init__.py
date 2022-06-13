@@ -17,7 +17,7 @@ import os
 
 from colour.hints import Any, Boolean, Integer, Literal, Optional, Union, cast
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     optional,
     validate_method,
@@ -71,20 +71,18 @@ __all__ += [
     "write_LUT_Cinespace",
 ]
 
-MAPPING_EXTENSION_TO_LUT_FORMAT: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            ".cube": "Iridas Cube",
-            ".spi1d": "Sony SPI1D",
-            ".spi3d": "Sony SPI3D",
-            ".spimtx": "Sony SPImtx",
-            ".csp": "Cinespace",
-        }
-    )
+MAPPING_EXTENSION_TO_LUT_FORMAT: CanonicalMapping = CanonicalMapping(
+    {
+        ".cube": "Iridas Cube",
+        ".spi1d": "Sony SPI1D",
+        ".spi3d": "Sony SPI3D",
+        ".spimtx": "Sony SPImtx",
+        ".csp": "Cinespace",
+    }
 )
 """Extension to *LUT* format."""
 
-LUT_READ_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LUT_READ_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Cinespace": read_LUT_Cinespace,
         "Iridas Cube": read_LUT_IridasCube,
@@ -229,7 +227,7 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
             raise error
 
 
-LUT_WRITE_METHODS = CaseInsensitiveMapping(
+LUT_WRITE_METHODS = CanonicalMapping(
     {
         "Cinespace": write_LUT_Cinespace,
         "Iridas Cube": write_LUT_IridasCube,

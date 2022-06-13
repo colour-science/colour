@@ -53,7 +53,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -109,8 +109,8 @@ class InductionFactors_Hellwig2022(
     """
 
 
-VIEWING_CONDITIONS_HELLWIG2022: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(VIEWING_CONDITIONS_CIECAM02)
+VIEWING_CONDITIONS_HELLWIG2022: CanonicalMapping = CanonicalMapping(
+    VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_HELLWIG2022.__doc__ = """
 Reference *Hellwig and Fairchild (2022)* colour appearance model viewing

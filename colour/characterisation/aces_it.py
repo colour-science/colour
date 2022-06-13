@@ -95,7 +95,7 @@ from colour.models.rgb import (
 )
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     from_range_1,
@@ -342,10 +342,10 @@ def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     return training_data
 
 
-_ILLUMINANTS_RAWTOACES_V1: Optional[CaseInsensitiveMapping] = None
+_ILLUMINANTS_RAWTOACES_V1: Optional[CanonicalMapping] = None
 
 
-def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
+def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
     """
     Generate a series of illuminants according to *RAW to ACES* v1:
 
@@ -355,7 +355,7 @@ def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
 
     Returns
     -------
-    :class:`colour.utilities.CaseInsensitiveMapping`
+    :class:`colour.utilities.CanonicalMapping`
         Series of illuminants.
 
     Notes
@@ -386,7 +386,7 @@ def generate_illuminants_rawtoaces_v1() -> CaseInsensitiveMapping:
     if _ILLUMINANTS_RAWTOACES_V1 is not None:
         illuminants = _ILLUMINANTS_RAWTOACES_V1
     else:
-        illuminants = CaseInsensitiveMapping()
+        illuminants = CanonicalMapping()
 
         # CIE Illuminants D Series from 4000K to 25000K.
         for i in np.arange(4000, 25000 + 500, 500):

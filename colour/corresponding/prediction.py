@@ -69,7 +69,7 @@ from colour.models import (
     xyY_to_XYZ,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     attest,
     as_float,
     as_float_scalar,
@@ -700,7 +700,7 @@ def corresponding_chromaticities_prediction_Zhai2018(
         )
 
 
-CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping(
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CanonicalMapping(
     {
         "CIE 1994": corresponding_chromaticities_prediction_CIE1994,
         "CMCCAT2000": corresponding_chromaticities_prediction_CMCCAT2000,

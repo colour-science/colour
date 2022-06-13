@@ -59,7 +59,7 @@ from colour.plotting import (
 )
 from colour.volume import solid_RoschMacAdam
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_int_array,
     first_item,
     full,
@@ -85,7 +85,7 @@ __all__ = [
     "plot_RGB_colourspace_section",
 ]
 
-MAPPING_AXIS_TO_PLANE: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MAPPING_AXIS_TO_PLANE: CanonicalMapping = CanonicalMapping(
     {"+x": (1, 2), "+y": (0, 2), "+z": (0, 1)}
 )
 MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""

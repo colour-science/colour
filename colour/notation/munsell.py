@@ -154,7 +154,7 @@ from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (
     CACHE_REGISTRY,
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     Lookup,
     as_float,
     as_float_array,
@@ -739,7 +739,7 @@ def munsell_value_ASTMD1535(Y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_10(V))
 
 
-MUNSELL_VALUE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MUNSELL_VALUE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Priest 1920": munsell_value_Priest1920,
         "Munsell 1933": munsell_value_Munsell1933,

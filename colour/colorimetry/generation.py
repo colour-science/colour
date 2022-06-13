@@ -53,7 +53,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     full,
     ones,
@@ -480,7 +480,7 @@ def sd_gaussian_fwhm(
     return SpectralDistribution(values, wavelengths, **settings)
 
 
-SD_GAUSSIAN_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SD_GAUSSIAN_METHODS: CanonicalMapping = CanonicalMapping(
     {"Normal": sd_gaussian_normal, "FWHM": sd_gaussian_fwhm}
 )
 SD_GAUSSIAN_METHODS.__doc__ = """
@@ -617,7 +617,7 @@ def sd_single_led_Ohno2005(
     return sd
 
 
-SD_SINGLE_LED_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SD_SINGLE_LED_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Ohno 2005": sd_single_led_Ohno2005,
     }
@@ -786,7 +786,7 @@ def sd_multi_leds_Ohno2005(
     return sd
 
 
-SD_MULTI_LEDS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SD_MULTI_LEDS_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Ohno 2005": sd_multi_leds_Ohno2005,
     }

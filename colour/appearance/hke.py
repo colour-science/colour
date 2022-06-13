@@ -36,7 +36,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     tsplit,
     validate_method,
@@ -57,7 +57,7 @@ __all__ = [
     "coefficient_K_Br_Nayatani1997",
 ]
 
-HKE_NAYATANI1997_METHODS = CaseInsensitiveMapping(
+HKE_NAYATANI1997_METHODS = CanonicalMapping(
     {
         "VAC": -0.1340,
         "VCC": -0.8660,

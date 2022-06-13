@@ -71,7 +71,7 @@ from colour.colorimetry import (
     XYZ_ColourMatchingFunctions,
 )
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping, usage_warning
+from colour.utilities import LazyCanonicalMapping, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -1064,7 +1064,7 @@ DATA_CMFS_LMS: Dict = {
     },
 }
 
-MSDS_CMFS_LMS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+MSDS_CMFS_LMS: LazyCanonicalMapping = LazyCanonicalMapping(
     {
         "Stockman & Sharpe 2 Degree Cone Fundamentals": partial(
             LMS_ConeFundamentals,
@@ -1342,7 +1342,7 @@ DATA_CMFS_RGB: Dict = {
     },
 }
 
-MSDS_CMFS_RGB: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+MSDS_CMFS_RGB: LazyCanonicalMapping = LazyCanonicalMapping(
     {
         "Wright & Guild 1931 2 Degree RGB CMFs": partial(
             RGB_ColourMatchingFunctions,
@@ -3236,9 +3236,7 @@ def _CIE_2012_10_Degree_Standard_Observer():
     )
 
 
-MSDS_CMFS_STANDARD_OBSERVER: (
-    LazyCaseInsensitiveMapping
-) = LazyCaseInsensitiveMapping(
+MSDS_CMFS_STANDARD_OBSERVER: (LazyCanonicalMapping) = LazyCanonicalMapping(
     {
         "CIE 1931 2 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
@@ -3296,7 +3294,7 @@ MSDS_CMFS_STANDARD_OBSERVER["cie_10_1964"] = MSDS_CMFS_STANDARD_OBSERVER[
     "CIE 1964 10 Degree Standard Observer"
 ]
 
-MSDS_CMFS = LazyCaseInsensitiveMapping(MSDS_CMFS_LMS)
+MSDS_CMFS = LazyCanonicalMapping(MSDS_CMFS_LMS)
 MSDS_CMFS.__doc__ = """
 Multi-spectral distributions of the colour matching functions.
 

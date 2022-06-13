@@ -81,7 +81,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -103,8 +103,8 @@ __all__ = [
 ]
 
 CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "A": np.array([0.44758, 0.40745]),
         "B": np.array([0.34842, 0.35161]),
@@ -170,8 +170,8 @@ References
 """
 
 CCS_ILLUMINANTS_ACES_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "ACES": np.array([0.32168, 0.33767]),
     }
@@ -186,8 +186,8 @@ References
 """
 
 CCS_ILLUMINANTS_BLACKMAGIC_DESIGN_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "Blackmagic Wide Gamut": np.array([0.3127170, 0.3290312]),
     }
@@ -202,8 +202,8 @@ References
 """
 
 CCS_ILLUMINANTS_DCI_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "DCI-P3": np.array([0.31400, 0.35100]),
     }
@@ -218,8 +218,8 @@ References
 """
 
 CCS_ILLUMINANTS_ICC_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {"ICC D50": np.array([0.345702914918791, 0.358538596679933])}
 )
 """
@@ -232,8 +232,8 @@ References
 """
 
 CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "ISO 7589 Photographic Daylight": np.array(
             [0.332039098470978, 0.347263885596614]
@@ -268,8 +268,8 @@ References
 """
 
 CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "A": np.array([0.45117, 0.40594]),
         "B": np.array([0.34980, 0.35270]),
@@ -335,8 +335,8 @@ References
 """
 
 CCS_ILLUMINANTS_ISO_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "ISO 7589 Photographic Daylight": np.array(
             [0.333716908394534, 0.348592494683065]
@@ -370,12 +370,12 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-CCS_ILLUMINANTS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCS_ILLUMINANTS: CanonicalMapping = CanonicalMapping(
     {
-        "CIE 1931 2 Degree Standard Observer": CaseInsensitiveMapping(
+        "CIE 1931 2 Degree Standard Observer": CanonicalMapping(
             CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931
         ),
-        "CIE 1964 10 Degree Standard Observer": CaseInsensitiveMapping(
+        "CIE 1964 10 Degree Standard Observer": CanonicalMapping(
             CCS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964
         ),
     }

@@ -64,7 +64,7 @@ from colour.hints import (
 )
 from colour.utilities import (
     CACHE_REGISTRY,
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     as_int_scalar,
     attest,
@@ -987,7 +987,7 @@ def sd_to_XYZ_ASTME308(
     return XYZ
 
 
-SD_TO_XYZ_METHODS = CaseInsensitiveMapping(
+SD_TO_XYZ_METHODS = CanonicalMapping(
     {"ASTM E308": sd_to_XYZ_ASTME308, "Integration": sd_to_XYZ_integration}
 )
 SD_TO_XYZ_METHODS.__doc__ = """
@@ -1478,7 +1478,7 @@ def msds_to_XYZ_ASTME308(
         )
 
 
-MSDS_TO_XYZ_METHODS = CaseInsensitiveMapping(
+MSDS_TO_XYZ_METHODS = CanonicalMapping(
     {"ASTM E308": msds_to_XYZ_ASTME308, "Integration": msds_to_XYZ_integration}
 )
 MSDS_TO_XYZ_METHODS.__doc__ = """

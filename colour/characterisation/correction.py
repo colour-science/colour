@@ -71,7 +71,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     as_int,
     closest,
@@ -595,7 +595,7 @@ def polynomial_expansion_Vandermonde(
     return np.squeeze(a_e[:, 0 : a_e.shape[-1] - a.shape[-1] + 1])
 
 
-POLYNOMIAL_EXPANSION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+POLYNOMIAL_EXPANSION_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Cheung 2004": matrix_augmented_Cheung2004,
         "Finlayson 2015": polynomial_expansion_Finlayson2015,
@@ -803,14 +803,12 @@ def matrix_colour_correction_Vandermonde(
     )
 
 
-MATRIX_COLOUR_CORRECTION_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "Cheung 2004": matrix_colour_correction_Cheung2004,
-            "Finlayson 2015": matrix_colour_correction_Finlayson2015,
-            "Vandermonde": matrix_colour_correction_Vandermonde,
-        }
-    )
+MATRIX_COLOUR_CORRECTION_METHODS: CanonicalMapping = CanonicalMapping(
+    {
+        "Cheung 2004": matrix_colour_correction_Cheung2004,
+        "Finlayson 2015": matrix_colour_correction_Finlayson2015,
+        "Vandermonde": matrix_colour_correction_Vandermonde,
+    }
 )
 MATRIX_COLOUR_CORRECTION_METHODS.__doc__ = """
 Supported colour correction matrix methods.
@@ -1103,7 +1101,7 @@ def colour_correction_Vandermonde(
     return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
-COLOUR_CORRECTION_METHODS = CaseInsensitiveMapping(
+COLOUR_CORRECTION_METHODS = CanonicalMapping(
     {
         "Cheung 2004": colour_correction_Cheung2004,
         "Finlayson 2015": colour_correction_Finlayson2015,

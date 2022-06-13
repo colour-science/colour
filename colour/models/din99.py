@@ -30,7 +30,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import ArrayLike, Floating, Literal, NDArray, Union
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     from_range_100,
     tsplit,
     tstack,
@@ -53,7 +53,7 @@ __all__ = [
     "DIN99_to_XYZ",
 ]
 
-DIN99_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+DIN99_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "ASTMD2244-07": np.array(
             [105.509, 0.0158, 16.0, 0.7, 1, 9 / 200, 0.0, 9 / 200]

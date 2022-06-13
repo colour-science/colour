@@ -79,7 +79,7 @@ from colour.models.rgb.transfer_functions.arib_std_b67 import (
     CONSTANTS_ARIBSTDB67,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     Structure,
     as_float,
     as_float_array,
@@ -748,7 +748,7 @@ def eotf_BT2100_HLG_2(
     )
 
 
-BT2100_HLG_EOTF_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+BT2100_HLG_EOTF_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "ITU-R BT.2100-1": eotf_BT2100_HLG_1,
         "ITU-R BT.2100-2": eotf_BT2100_HLG_2,
@@ -983,13 +983,11 @@ def eotf_inverse_BT2100_HLG_2(
     ) / (1 - beta)
 
 
-BT2100_HLG_EOTF_INVERSE_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "ITU-R BT.2100-1": eotf_inverse_BT2100_HLG_1,
-            "ITU-R BT.2100-2": eotf_inverse_BT2100_HLG_2,
-        }
-    )
+BT2100_HLG_EOTF_INVERSE_METHODS: CanonicalMapping = CanonicalMapping(
+    {
+        "ITU-R BT.2100-1": eotf_inverse_BT2100_HLG_1,
+        "ITU-R BT.2100-2": eotf_inverse_BT2100_HLG_2,
+    }
 )
 BT2100_HLG_EOTF_INVERSE_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* inverse
@@ -1255,7 +1253,7 @@ def ootf_BT2100_HLG_2(
         return from_range_1(RGB_D)
 
 
-BT2100_HLG_OOTF_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+BT2100_HLG_OOTF_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "ITU-R BT.2100-1": ootf_BT2100_HLG_1,
         "ITU-R BT.2100-2": ootf_BT2100_HLG_2,
@@ -1548,13 +1546,11 @@ def ootf_inverse_BT2100_HLG_2(
         return from_range_1(RGB_S)
 
 
-BT2100_HLG_OOTF_INVERSE_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "ITU-R BT.2100-1": ootf_inverse_BT2100_HLG_1,
-            "ITU-R BT.2100-2": ootf_inverse_BT2100_HLG_2,
-        }
-    )
+BT2100_HLG_OOTF_INVERSE_METHODS: CanonicalMapping = CanonicalMapping(
+    {
+        "ITU-R BT.2100-1": ootf_inverse_BT2100_HLG_1,
+        "ITU-R BT.2100-2": ootf_inverse_BT2100_HLG_2,
+    }
 )
 BT2100_HLG_OOTF_INVERSE_METHODS.__doc__ = """
 Supported *Recommendation ITU-R BT.2100* *Reference HLG* inverse opto-optical

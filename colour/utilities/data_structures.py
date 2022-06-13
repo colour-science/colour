@@ -8,11 +8,11 @@ Defines various data structures classes:
     type.
 -   :class:`colour.utilities.Lookup`: A :class:`dict` sub-class acting as a
     lookup to retrieve keys by values.
--   :class:`CaseInsensitiveMapping`: A case insensitive
-    :class:`dict`-like object allowing values retrieving from keys while
-    ignoring the key case.
--   :class:`colour.utilities.LazyCaseInsensitiveMapping`: Another case
-    insensitive mapping allowing lazy values retrieving from keys while
+-   :class:`colour.utilities.CanonicalMapping`: A delimiter and
+    case-insensitive :class:`dict`-like object allowing values retrieving from
+    keys while ignoring the key case.
+-   :class:`colour.utilities.LazyCanonicalMapping`: Another delimiter and
+    case-insensitive mapping allowing lazy values retrieving from keys while
     ignoring the key case.
 -   :class:`colour.utilities.Node`: A basic node object supporting creation of
     basic node trees.
@@ -58,8 +58,8 @@ __status__ = "Production"
 __all__ = [
     "Structure",
     "Lookup",
-    "CaseInsensitiveMapping",
-    "LazyCaseInsensitiveMapping",
+    "CanonicalMapping",
+    "LazyCanonicalMapping",
     "Node",
 ]
 
@@ -243,10 +243,11 @@ class Lookup(dict):
         return self.keys_from_value(value)[0]
 
 
-class CaseInsensitiveMapping(MutableMapping):
+class CanonicalMapping(MutableMapping):
     """
-    Implement a case-insensitive :class:`dict`-like object with support for
-    slugs, i.e. *SEO* friendly and human-readable version of the keys.
+    Implement a delimiter and case-insensitive :class:`dict`-like object with
+    support for slugs, i.e. *SEO* friendly and human-readable version of the
+    keys.
 
     Allow value retrieving by key while ignoring the key case.
     The keys are expected to be str or :class:`str`-like objects supporting the
@@ -255,8 +256,8 @@ class CaseInsensitiveMapping(MutableMapping):
     Parameters
     ----------
     data
-        Data to store into the case-insensitive :class:`dict`-like object at
-        initialisation.
+        Data to store into the delimiter and case-insensitive
+        :class:`dict`-like object at initialisation.
 
     Other Parameters
     ----------------
@@ -265,25 +266,25 @@ class CaseInsensitiveMapping(MutableMapping):
 
     Attributes
     ----------
-    -   :attr:`~colour.utilities.CaseInsensitiveMapping.data`
+    -   :attr:`~colour.utilities.CanonicalMapping.data`
 
     Methods
     -------
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__init__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__repr__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__setitem__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__getitem__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__delitem__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__contains__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__iter__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__len__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__eq__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.__ne__`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_keys`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.slugified_keys`
-    -   :meth:`~colour.utilities.CaseInsensitiveMapping.slugified_items`
+    -   :meth:`~colour.utilities.CanonicalMapping.__init__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__repr__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__setitem__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__getitem__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__delitem__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__contains__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__iter__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__len__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__eq__`
+    -   :meth:`~colour.utilities.CanonicalMapping.__ne__`
+    -   :meth:`~colour.utilities.CanonicalMapping.copy`
+    -   :meth:`~colour.utilities.CanonicalMapping.lower_keys`
+    -   :meth:`~colour.utilities.CanonicalMapping.lower_items`
+    -   :meth:`~colour.utilities.CanonicalMapping.slugified_keys`
+    -   :meth:`~colour.utilities.CanonicalMapping.slugified_items`
 
     References
     ----------
@@ -291,7 +292,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     Examples
     --------
-    >>> methods = CaseInsensitiveMapping({'McCamy 1992': 1, 'Hernandez 1999': 2})
+    >>> methods = CanonicalMapping({'McCamy 1992': 1, 'Hernandez 1999': 2})
     >>> methods['mccamy 1992']
     1
     >>> methods['MCCAMY 1992']
@@ -310,8 +311,8 @@ class CaseInsensitiveMapping(MutableMapping):
     @property
     def data(self) -> Dict:
         """
-        Getter property for the case-insensitive :class:`dict`-like object
-        data.
+        Getter property for the delimiter and case-insensitive
+        :class:`dict`-like object data.
 
         Returns
         -------
@@ -323,8 +324,8 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __repr__(self) -> str:
         """
-        Return an evaluable string representation of the case-insensitive
-        :class:`dict`-like object.
+        Return an evaluable string representation of the delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Returns
         -------
@@ -342,15 +343,17 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __setitem__(self, item: Union[str, Any], value: Any):
         """
-        Set given item with given value in the case-insensitive
+        Set given item with given value in the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Parameters
         ----------
         item
-            Item to set in the case-insensitive :class:`dict`-like object.
+            Item to set in the delimiter and case-insensitive
+            :class:`dict`-like object.
         value
-            Value to store in the case-insensitive :class:`dict`-like object.
+            Value to store in the delimiter and case-insensitive
+            :class:`dict`-like object.
 
         Notes
         -----
@@ -364,14 +367,14 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __getitem__(self, item: Union[str, Any]) -> Any:
         """
-        Return the value of given item from the case-insensitive
+        Return the value of given item from the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Parameters
         ----------
         item
-            Item to retrieve the value of from the case-insensitive
-            :class:`dict`-like object.
+            Item to retrieve the value of from the delimiter and
+            case-insensitive :class:`dict`-like object.
 
         Returns
         -------
@@ -391,12 +394,14 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __delitem__(self, item: Union[str, Any]):
         """
-        Delete given item from the case-insensitive :class:`dict`-like object.
+        Delete given item from the delimiter and case-insensitive
+        :class:`dict`-like object.
 
         Parameters
         ----------
         item
-            Item to delete from the case-insensitive :class:`dict`-like object.
+            Item to delete from the delimiter and case-insensitive
+            :class:`dict`-like object.
 
         Notes
         -----
@@ -411,20 +416,20 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __contains__(self, item: Union[str, Any]) -> bool:
         """
-        Return whether the case-insensitive :class:`dict`-like object contains
-        given item.
+        Return whether the delimiter and case-insensitive :class:`dict`-like
+        object contains given item.
 
         Parameters
         ----------
         item
-            Item to find whether it is in the case-insensitive
+            Item to find whether it is in the delimiter and case-insensitive
             :class:`dict`-like object.
 
         Returns
         -------
         :class:`bool`
-            Whether given item is in the case-insensitive :class:`dict`-like
-            object.
+            Whether given item is in the delimiter and case-insensitive
+            :class:`dict`-like object.
 
         Notes
         -----
@@ -442,8 +447,8 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __iter__(self) -> Generator:
         """
-        Iterate over the items of the case-insensitive :class:`dict`-like
-        object.
+        Iterate over the items of the delimiter and case-insensitive
+        :class:`dict`-like object.
 
         Yields
         ------
@@ -471,24 +476,24 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __eq__(self, other: Any) -> bool:
         """
-        Return whether the case-insensitive :class:`dict`-like object is equal
-        to given other object.
+        Return whether the delimiter and case-insensitive :class:`dict`-like
+        object is equal to given other object.
 
         Parameters
         ----------
         other
-            Object to test whether it is equal to the case-insensitive
-            :class:`dict`-like object
+            Object to test whether it is equal to the delimiter and
+            case-insensitive :class:`dict`-like object
 
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the case-insensitive
+            Whether given object is equal to the delimiter and case-insensitive
             :class:`dict`-like object.
         """
 
         if isinstance(other, Mapping):
-            other_mapping = CaseInsensitiveMapping(other)
+            other_mapping = CanonicalMapping(other)
         else:
             raise ValueError(
                 f"Impossible to test equality with "
@@ -499,20 +504,20 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def __ne__(self, other: Any) -> bool:
         """
-        Return whether the case-insensitive :class:`dict`-like object is not
-        equal to given other object.
+        Return whether the delimiter and case-insensitive :class:`dict`-like
+        object is not equal to given other object.
 
         Parameters
         ----------
         other
-            Object to test whether it is not equal to the case-insensitive
-            :class:`dict`-like object
+            Object to test whether it is not equal to the delimiter and
+            case-insensitive :class:`dict`-like object
 
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the case-insensitive
-            :class:`dict`-like object.
+            Whether given object is not equal to the delimiter and
+            case-insensitive :class:`dict`-like object.
         """
 
         return not (self == other)
@@ -539,26 +544,27 @@ class CaseInsensitiveMapping(MutableMapping):
         except AttributeError:
             return key
 
-    def copy(self) -> CaseInsensitiveMapping:
+    def copy(self) -> CanonicalMapping:
         """
-        Return a copy of the case-insensitive :class:`dict`-like object.
+        Return a copy of the delimiter and case-insensitive :class:`dict`-like
+        object.
 
         Returns
         -------
-        :class:`CaseInsensitiveMapping`
+        :class:`CanonicalMapping`
             Case-insensitive :class:`dict`-like object copy.
 
         Warnings
         --------
-        -   The :class:`CaseInsensitiveMapping` class copy returned is a
+        -   The :class:`CanonicalMapping` class copy returned is a
             *copy* of the object not a *deepcopy*!
         """
 
-        return CaseInsensitiveMapping(dict(self._data.values()))
+        return CanonicalMapping(dict(self._data.values()))
 
     def lower_keys(self) -> Generator:
         """
-        Iterate over the lower-case keys of the case-insensitive
+        Iterate over the lower-case keys of the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Yields
@@ -571,7 +577,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def lower_items(self) -> Generator:
         """
-        Iterate over the lower-case items of the case-insensitive
+        Iterate over the lower-case items of the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Yields
@@ -584,7 +590,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def slugified_keys(self) -> Generator:
         """
-        Iterate over the slugified keys of the case-insensitive
+        Iterate over the slugified keys of the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Yields
@@ -599,7 +605,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     def slugified_items(self) -> Generator:
         """
-        Iterate over the slugified items of the case-insensitive
+        Iterate over the slugified items of the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Yields
@@ -611,10 +617,10 @@ class CaseInsensitiveMapping(MutableMapping):
         yield from zip(self.slugified_keys(), self.values())
 
 
-class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
+class LazyCanonicalMapping(CanonicalMapping):
     """
-    Implement a lazy case-insensitive :class:`dict`-like object inheriting
-    from :class:`CaseInsensitiveMapping` class.
+    Implement a lazy delimiter and case-insensitive :class:`dict`-like object
+    inheriting from :class:`colour.utilities.CanonicalMapping` class.
 
     The lazy retrieval is performed as follows: If the value is a callable,
     then it is evaluated and its return value is stored in place of the current
@@ -623,8 +629,8 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     Parameters
     ----------
     data
-        Data to store into the lazy case-insensitive :class:`dict`-like object
-        at initialisation.
+        Data to store into the lazy delimiter and case-insensitive
+        :class:`dict`-like object at initialisation.
 
     Other Parameters
     ----------------
@@ -633,14 +639,14 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
     Methods
     -------
-    -   :meth:`~colour.utilities.LazyCaseInsensitiveMapping.__getitem__`
+    -   :meth:`~colour.utilities.LazyCanonicalMapping.__getitem__`
 
     Examples
     --------
     >>> def callable_a():
     ...     print(2)
     ...     return 2
-    >>> methods = LazyCaseInsensitiveMapping(
+    >>> methods = LazyCanonicalMapping(
     ...     {'McCamy': 1, 'Hernandez': callable_a})
     >>> methods['mccamy']
     1
@@ -651,14 +657,14 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
 
     def __getitem__(self, item: Union[str, Any]) -> Any:
         """
-        Return the value of given item from the case-insensitive
-        :class:`dict`-like object.
+        Return the value of given item from the lazy delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Parameters
         ----------
         item
-            Item to retrieve the value of from the case-insensitive
-            :class:`dict`-like object.
+            Item to retrieve the value of from the lazy delimiter and
+            case-insensitive :class:`dict`-like object.
 
         Returns
         -------

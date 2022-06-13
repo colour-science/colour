@@ -33,7 +33,7 @@ from collections import namedtuple
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.hints import Any, ArrayLike, NDArray
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     from_range_100,
     from_range_degrees,
@@ -82,7 +82,7 @@ class Coefficients_UCS_Luo2006(
     """
 
 
-COEFFICIENTS_UCS_LUO2006: CaseInsensitiveMapping = CaseInsensitiveMapping(
+COEFFICIENTS_UCS_LUO2006: CanonicalMapping = CanonicalMapping(
     {
         "CAM02-LCD": Coefficients_UCS_Luo2006(0.77, 0.007, 0.0053),
         "CAM02-SCD": Coefficients_UCS_Luo2006(1.24, 0.007, 0.0363),

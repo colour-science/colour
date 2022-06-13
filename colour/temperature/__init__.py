@@ -51,7 +51,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     validate_method,
 )
@@ -98,7 +98,7 @@ __all__ += [
     "CCT_to_uv_Robertson1968",
 ]
 
-UV_TO_CCT_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+UV_TO_CCT_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Krystek 1985": uv_to_CCT_Krystek1985,
         "Ohno 2013": uv_to_CCT_Ohno2013,
@@ -192,7 +192,7 @@ def uv_to_CCT(
     return function(uv, **filter_kwargs(function, **kwargs))
 
 
-CCT_TO_UV_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCT_TO_UV_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Krystek 1985": CCT_to_uv_Krystek1985,
         "Ohno 2013": CCT_to_uv_Ohno2013,
@@ -279,7 +279,7 @@ __all__ += [
     "CCT_to_uv",
 ]
 
-XY_TO_CCT_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+XY_TO_CCT_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "CIE Illuminant D Series": xy_to_CCT_CIE_D,
         "Hernandez 1999": xy_to_CCT_Hernandez1999,
@@ -364,7 +364,7 @@ def xy_to_CCT(
     return XY_TO_CCT_METHODS[method](xy)
 
 
-CCT_TO_XY_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCT_TO_XY_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "CIE Illuminant D Series": CCT_to_xy_CIE_D,
         "Hernandez 1999": CCT_to_xy_Hernandez1999,

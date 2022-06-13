@@ -7,8 +7,8 @@ from colour.hints import Any, Dict
 from .data_structures import (
     Lookup,
     Structure,
-    CaseInsensitiveMapping,
-    LazyCaseInsensitiveMapping,
+    CanonicalMapping,
+    LazyCanonicalMapping,
     Node,
 )
 from .common import (
@@ -127,8 +127,8 @@ from colour.utilities.documentation import is_documentation_building
 __all__ = [
     "Lookup",
     "Structure",
-    "CaseInsensitiveMapping",
-    "LazyCaseInsensitiveMapping",
+    "CanonicalMapping",
+    "LazyCanonicalMapping",
     "Node",
 ]
 __all__ += [
@@ -290,6 +290,20 @@ API_CHANGES: Dict = {
         ],
     ],
 }
+
+# v0.4.2
+API_CHANGES["ObjectRenamed"].extend(
+    [
+        [
+            "colour.utilities.CaseInsensitiveMapping",
+            "colour.utilities.CanonicalMapping",
+        ],
+        [
+            "colour.utilities.LazyCaseInsensitiveMapping",
+            "colour.utilities.LazyCanonicalMapping",
+        ],
+    ]
+)
 """
 Define the *colour.utilities* sub-package API changes.
 
