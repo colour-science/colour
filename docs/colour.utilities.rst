@@ -63,6 +63,7 @@ Common
     copy_definition
     validate_method
     optional
+    slugify
 
 Array
 -----

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import numpy as np
 import unittest
+import unicodedata
 from functools import partial
 
 from colour.hints import Any, Floating, Number, Tuple
@@ -23,6 +24,7 @@ from colour.utilities import (
     first_item,
     validate_method,
     optional,
+    slugify,
 )
 
 __author__ = "Colour Developers"
@@ -47,6 +49,7 @@ __all__ = [
     "TestFirstItem",
     "TestValidateMethod",
     "TestOptional",
+    "TestSlugify",
 ]
 
 
@@ -508,6 +511,44 @@ class TestOptional(unittest.TestCase):
         self.assertEqual(optional("Foo", "Bar"), "Foo")
 
         self.assertEqual(optional(None, "Bar"), "Bar")
+
+
+class TestSlugify(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.common.slugify` definition unit tests
+    methods.
+    """
+
+    def test_slugify(self):
+        """Test :func:`colour.utilities.common.optional` definition."""
+
+        self.assertEqual(
+            slugify(
+                " Jack & Jill like numbers 1,2,3 and 4 and "
+                "silly characters ?%.$!/"
+            ),
+            "jack-jill-like-numbers-123-and-4-and-silly-characters",
+        )
+
+        self.assertEqual(
+            slugify("Un \xe9l\xe9phant \xe0 l'or\xe9e du bois"),
+            "un-elephant-a-loree-du-bois",
+        )
+
+        # NOTE: Our "utilities/unicode_to_ascii.py" utility script normalises
+        # the reference string.
+        self.assertEqual(
+            unicodedata.normalize(
+                "NFD",
+                slugify(
+                    "Un \xe9l\xe9phant \xe0 l'or\xe9e du bois",
+                    allow_unicode=True,
+                ),
+            ),
+            "un-éléphant-à-lorée-du-bois",
+        )
+
+        self.assertEqual(slugify(123), "123")
 
 
 if __name__ == "__main__":
