@@ -6,6 +6,9 @@ Defines the common utilities objects that don't fall in any specific category.
 
 References
 ----------
+-   :cite:`DjangoSoftwareFoundation2022` : Django Software Foundation. (2022).
+    slugify. Retrieved June 1, 2022, from https://github.com/django/django/\
+blob/0dd29209091280ccf34e07c9468746c396b7778e/django/utils/text.py#L400
 -   :cite:`Kienzle2011a` : Kienzle, P., Patel, N., & Krycka, J. (2011).
     refl1d.numpyerrors - Refl1D v0.6.19 documentation. Retrieved January 30,
     2015, from
@@ -20,6 +23,7 @@ import functools
 import numpy as np
 import re
 import subprocess  # nosec
+import unicodedata
 import types
 import warnings
 from contextlib import contextmanager
@@ -86,6 +90,7 @@ __all__ = [
     "copy_definition",
     "validate_method",
     "optional",
+    "slugify",
 ]
 
 
@@ -1380,3 +1385,52 @@ def optional(value: Optional[T], default: T) -> T:
         return default
     else:
         return value
+
+
+def slugify(object_: Any, allow_unicode: Boolean = False) -> str:
+    """
+    Generate a *SEO* friendly and human-readable slug from given object.
+
+    Convert to ASCII if ``allow_unicode`` is *False*. Convert spaces or
+    repeated dashes to single dashes. Remove characters that aren't
+    alphanumerics, underscores, or hyphens. Convert to lowercase. Also strip
+    leading and trailing whitespace, dashes, and underscores.
+
+    Parameters
+    ----------
+    object_
+        Object to convert to a slug.
+    allow_unicode
+        Whether to allow unicode characters in the generated slug.
+
+    Returns
+    -------
+    :class:`str`
+        Generated slug.
+
+    References
+    ----------
+    :cite:`DjangoSoftwareFoundation2022`
+
+    Examples
+    --------
+    >>> slugify(
+    ...     " Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/"
+    ... )
+    'jack-jill-like-numbers-123-and-4-and-silly-characters'
+    """
+
+    value = str(object_)
+
+    if allow_unicode:
+        value = unicodedata.normalize("NFKC", value)
+    else:
+        value = (
+            unicodedata.normalize("NFKD", value)
+            .encode("ascii", "ignore")
+            .decode("ascii")
+        )
+
+    value = re.sub(r"[^\w\s-]", "", value.lower())
+
+    return re.sub(r"[-\s]+", "-", value).strip("-_")

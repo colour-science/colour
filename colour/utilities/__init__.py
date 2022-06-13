@@ -45,6 +45,7 @@ from .common import (
     copy_definition,
     validate_method,
     optional,
+    slugify,
 )
 from .verbose import (
     ColourWarning,
@@ -164,6 +165,7 @@ __all__ += [
     "copy_definition",
     "validate_method",
     "optional",
+    "slugify",
 ]
 __all__ += [
     "ColourWarning",
