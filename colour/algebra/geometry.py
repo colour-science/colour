@@ -53,7 +53,7 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     ones,
@@ -603,7 +603,7 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArray:
     return A
 
 
-ELLIPSE_FITTING_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+ELLIPSE_FITTING_METHODS: CanonicalMapping = CanonicalMapping(
     {"Halir 1998": ellipse_fitting_Halir1998}
 )
 ELLIPSE_FITTING_METHODS.__doc__ = """

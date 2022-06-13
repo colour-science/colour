@@ -28,7 +28,7 @@ from __future__ import annotations
 
 from colour.hints import Any, ArrayLike, Literal, NDArray, Union
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     get_domain_range_scale,
     as_float_array,
@@ -101,7 +101,7 @@ __all__ += [
     "chromatic_adaptation_Zhai2018",
 ]
 
-CHROMATIC_ADAPTATION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CHROMATIC_ADAPTATION_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "CIE 1994": chromatic_adaptation_CIE1994,
         "CMCCAT2000": chromatic_adaptation_CMCCAT2000,

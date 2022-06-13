@@ -59,7 +59,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -122,7 +122,7 @@ class InductionFactors_CAM16(
     """
 
 
-VIEWING_CONDITIONS_CAM16: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_CAM16: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_CAM16.__doc__ = """

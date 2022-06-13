@@ -16,7 +16,7 @@ from __future__ import annotations
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -117,7 +117,7 @@ DATA_SMITS1999: Dict = {
     },
 }
 
-SDS_SMITS1999: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SDS_SMITS1999: CanonicalMapping = CanonicalMapping(
     {
         "white": SpectralDistribution(DATA_SMITS1999["white"], name="white"),
         "cyan": SpectralDistribution(DATA_SMITS1999["cyan"], name="cyan"),

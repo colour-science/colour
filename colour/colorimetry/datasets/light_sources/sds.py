@@ -55,7 +55,7 @@ from functools import partial
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -745,9 +745,7 @@ DATA_LIGHT_SOURCES_RIT: Dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_RIT: (
-    LazyCaseInsensitiveMapping
-) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_RIT: (LazyCanonicalMapping) = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -1608,8 +1606,8 @@ DATA_LIGHT_SOURCES_NIST_TRADITIONAL: Dict = {
 }
 
 SDS_LIGHT_SOURCES_NIST_TRADITIONAL: (
-    LazyCaseInsensitiveMapping
-) = LazyCaseInsensitiveMapping(
+    LazyCanonicalMapping
+) = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -2878,9 +2876,7 @@ DATA_LIGHT_SOURCES_NIST_LED: Dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_NIST_LED: (
-    LazyCaseInsensitiveMapping
-) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_NIST_LED: (LazyCanonicalMapping) = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -4726,9 +4722,7 @@ DATA_LIGHT_SOURCES_NIST_PHILIPS: Dict = {
     },
 }
 
-SDS_LIGHT_SOURCES_NIST_PHILIPS: (
-    LazyCaseInsensitiveMapping
-) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_NIST_PHILIPS: (LazyCanonicalMapping) = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -4951,9 +4945,7 @@ DATA_LIGHT_SOURCES_COMMON: Dict = {
     }
 }
 
-SDS_LIGHT_SOURCES_COMMON: (
-    LazyCaseInsensitiveMapping
-) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES_COMMON: (LazyCanonicalMapping) = LazyCanonicalMapping(
     {
         "Kinoton 75P": partial(
             SpectralDistribution,
@@ -4971,7 +4963,7 @@ References
 :cite:`Houston2015a`
 """
 
-SDS_LIGHT_SOURCES: (LazyCaseInsensitiveMapping) = LazyCaseInsensitiveMapping(
+SDS_LIGHT_SOURCES: (LazyCanonicalMapping) = LazyCanonicalMapping(
     SDS_LIGHT_SOURCES_RIT
 )
 SDS_LIGHT_SOURCES.__doc__ = """

@@ -294,8 +294,8 @@ The various sub-packages also expose their public API:
     Utilities
     ['Lookup',
      'Structure',
-     'CaseInsensitiveMapping',
-     'LazyCaseInsensitiveMapping',
+     'CanonicalMapping',
+     'LazyCanonicalMapping',
      'Node',
      '...']
 

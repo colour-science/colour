@@ -76,7 +76,7 @@ from __future__ import annotations
 import numpy as np
 
 from colour.hints import NDArray
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -281,23 +281,21 @@ Notes
 -   This chromatic adaptation transform has no negative lobes.
 """
 
-CHROMATIC_ADAPTATION_TRANSFORMS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "XYZ Scaling": CAT_XYZ_SCALING,
-            "Von Kries": CAT_VON_KRIES,
-            "Bradford": CAT_BRADFORD,
-            "Sharp": CAT_SHARP,
-            "Fairchild": CAT_FAIRCHILD,
-            "CMCCAT97": CAT_CMCCAT97,
-            "CMCCAT2000": CAT_CMCCAT2000,
-            "CAT02": CAT_CAT02,
-            "CAT02 Brill 2008": CAT_CAT02_BRILL2008,
-            "CAT16": CAT_CAT16,
-            "Bianco 2010": CAT_BIANCO2010,
-            "Bianco PC 2010": CAT_PC_BIANCO2010,
-        }
-    )
+CHROMATIC_ADAPTATION_TRANSFORMS: CanonicalMapping = CanonicalMapping(
+    {
+        "XYZ Scaling": CAT_XYZ_SCALING,
+        "Von Kries": CAT_VON_KRIES,
+        "Bradford": CAT_BRADFORD,
+        "Sharp": CAT_SHARP,
+        "Fairchild": CAT_FAIRCHILD,
+        "CMCCAT97": CAT_CMCCAT97,
+        "CMCCAT2000": CAT_CMCCAT2000,
+        "CAT02": CAT_CAT02,
+        "CAT02 Brill 2008": CAT_CAT02_BRILL2008,
+        "CAT16": CAT_CAT16,
+        "Bianco 2010": CAT_BIANCO2010,
+        "Bianco PC 2010": CAT_PC_BIANCO2010,
+    }
 )
 CHROMATIC_ADAPTATION_TRANSFORMS.__doc__ = """
 Chromatic adaptation transforms.

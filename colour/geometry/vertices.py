@@ -31,7 +31,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     filter_kwargs,
     full,
@@ -471,7 +471,7 @@ def primitive_vertices_sphere(
     return vertices
 
 
-PRIMITIVE_VERTICES_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+PRIMITIVE_VERTICES_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Quad MPL": primitive_vertices_quad_mpl,
         "Grid MPL": primitive_vertices_grid_mpl,

@@ -49,7 +49,7 @@ from functools import partial
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import CaseInsensitiveMapping, LazyCaseInsensitiveMapping
+from colour.utilities import CanonicalMapping, LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -1060,11 +1060,9 @@ DATA_BABELCOLOR_AVERAGE: Dict = dict(
     ]
 )
 
-SDS_BABELCOLOR_AVERAGE: LazyCaseInsensitiveMapping = (
-    LazyCaseInsensitiveMapping(
-        (key, partial(SpectralDistribution, value, name=key))
-        for key, value in DATA_BABELCOLOR_AVERAGE.items()
-    )
+SDS_BABELCOLOR_AVERAGE: LazyCanonicalMapping = LazyCanonicalMapping(
+    (key, partial(SpectralDistribution, value, name=key))
+    for key, value in DATA_BABELCOLOR_AVERAGE.items()
 )
 """
 Average data derived from measurements of 30 *ColorChecker Classic* charts.
@@ -3143,11 +3141,9 @@ DATA_COLORCHECKER_N_OHTA = dict(
     ]
 )
 
-SDS_COLORCHECKER_N_OHTA: LazyCaseInsensitiveMapping = (
-    LazyCaseInsensitiveMapping(
-        (key, partial(SpectralDistribution, value, name=key))
-        for key, value in DATA_COLORCHECKER_N_OHTA.items()
-    )
+SDS_COLORCHECKER_N_OHTA: LazyCanonicalMapping = LazyCanonicalMapping(
+    (key, partial(SpectralDistribution, value, name=key))
+    for key, value in DATA_COLORCHECKER_N_OHTA.items()
 )
 """
 *ColorChecker Classic* data Measured by *Ohta (1997)*.
@@ -3157,7 +3153,7 @@ References
 :cite:`Ohta1997a`, :cite:`MunsellColorScienceb`
 """
 
-SDS_COLOURCHECKERS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+SDS_COLOURCHECKERS: CanonicalMapping = CanonicalMapping(
     {
         "BabelColor Average": SDS_BABELCOLOR_AVERAGE,
         "ColorChecker N Ohta": SDS_COLORCHECKER_N_OHTA,

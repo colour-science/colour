@@ -9,8 +9,8 @@ import unittest
 from colour.utilities import (
     Structure,
     Lookup,
-    CaseInsensitiveMapping,
-    LazyCaseInsensitiveMapping,
+    CanonicalMapping,
+    LazyCanonicalMapping,
     Node,
 )
 
@@ -24,8 +24,8 @@ __status__ = "Production"
 __all__ = [
     "TestStructure",
     "TestLookup",
-    "TestCaseInsensitiveMapping",
-    "TestLazyCaseInsensitiveMapping",
+    "TestCanonicalMapping",
+    "TestLazyCanonicalMapping",
     "TestNode",
 ]
 
@@ -143,10 +143,10 @@ Lookup.first_key_from_value` method raised exception.
         self.assertRaises(IndexError, Lookup().first_key_from_value, "John")
 
 
-class TestCaseInsensitiveMapping(unittest.TestCase):
+class TestCanonicalMapping(unittest.TestCase):
     """
-    Define :class:`colour.utilities.data_structures.CaseInsensitiveMapping`
-    class unit tests methods.
+    Define :class:`colour.utilities.data_structures.CanonicalMapping` class
+    unit tests methods.
     """
 
     def test_required_attributes(self):
@@ -155,7 +155,7 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         required_attributes = ("data",)
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(CaseInsensitiveMapping))
+            self.assertIn(attribute, dir(CanonicalMapping))
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -179,39 +179,37 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         )
 
         for method in required_methods:
-            self.assertIn(method, dir(CaseInsensitiveMapping))
+            self.assertIn(method, dir(CanonicalMapping))
 
     def test_data(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.data` property.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.data`
+        property.
         """
 
         self.assertDictEqual(
-            CaseInsensitiveMapping({"John": "Doe", "Jane": "Doe"}).data,
+            CanonicalMapping({"John": "Doe", "Jane": "Doe"}).data,
             {"jane": ("Jane", "Doe"), "john": ("John", "Doe")},
         )
 
     def test__repr__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__repr__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__repr__`
+        method.
         """
 
-        mapping = CaseInsensitiveMapping()
+        mapping = CanonicalMapping()
 
         mapping["John"] = "Doe"
-        self.assertEqual(
-            repr(mapping), "CaseInsensitiveMapping({'John': 'Doe'})"
-        )
+        self.assertEqual(repr(mapping), "CanonicalMapping({'John': 'Doe'})")
 
     def test__setitem__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__setitem__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+__setitem__` method.
         """
 
-        mapping = CaseInsensitiveMapping()
+        mapping = CanonicalMapping()
 
         mapping["John"] = "Doe"
         self.assertEqual(mapping["John"], "Doe")
@@ -219,35 +217,33 @@ CaseInsensitiveMapping.__setitem__` method.
 
     def test__getitem__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__getitem__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+__getitem__` method.
         """
 
-        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
         self.assertEqual(mapping["John"], "Doe")
         self.assertEqual(mapping["john"], "Doe")
         self.assertEqual(mapping["Jane"], "Doe")
         self.assertEqual(mapping["jane"], "Doe")
 
-        mapping = CaseInsensitiveMapping({1: "Foo", 2: "Bar"})
+        mapping = CanonicalMapping({1: "Foo", 2: "Bar"})
 
         self.assertEqual(mapping[1], "Foo")
 
-        mapping = CaseInsensitiveMapping(
-            {"McCamy 1992": 1, "Hernandez 1999": 2}
-        )
+        mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
         self.assertEqual(mapping["mccamy-1992"], 1)
         self.assertEqual(mapping["hernandez-1999"], 2)
 
     def test__delitem__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__delitem__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+__delitem__` method.
         """
 
-        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
         del mapping["john"]
         self.assertNotIn("John", mapping)
@@ -256,9 +252,7 @@ CaseInsensitiveMapping.__delitem__` method.
         self.assertNotIn("jane", mapping)
         self.assertEqual(len(mapping), 0)
 
-        mapping = CaseInsensitiveMapping(
-            {"McCamy 1992": 1, "Hernandez 1999": 2}
-        )
+        mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
         del mapping["mccamy-1992"]
         self.assertNotIn("McCamy 1992", mapping)
@@ -270,56 +264,52 @@ CaseInsensitiveMapping.__delitem__` method.
 
     def test__contains__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__contains__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+__contains__` method.
         """
 
-        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
         self.assertIn("John", mapping)
         self.assertIn("john", mapping)
         self.assertIn("Jane", mapping)
         self.assertIn("jane", mapping)
 
-        mapping = CaseInsensitiveMapping(
-            {"McCamy 1992": 1, "Hernandez 1999": 2}
-        )
+        mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
         self.assertIn("mccamy-1992", mapping)
         self.assertIn("hernandez-1999", mapping)
 
     def test__iter__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__iter__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__iter__`
+        method.
         """
 
-        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping = CanonicalMapping(John="Doe", Jane="Doe")
         self.assertListEqual(
             sorted(item for item in mapping), ["Jane", "John"]
         )
 
     def test__len__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__len__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__len__`
+        method.
         """
 
-        self.assertEqual(len(CaseInsensitiveMapping()), 0)
+        self.assertEqual(len(CanonicalMapping()), 0)
 
-        self.assertEqual(
-            len(CaseInsensitiveMapping(John="Doe", Jane="Doe")), 2
-        )
+        self.assertEqual(len(CanonicalMapping(John="Doe", Jane="Doe")), 2)
 
     def test__eq__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__eq__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__eq__`
+        method.
         """
 
-        mapping1 = CaseInsensitiveMapping(John="Doe", Jane="Doe")
-        mapping2 = CaseInsensitiveMapping(John="Doe", Jane="Doe")
-        mapping3 = CaseInsensitiveMapping(john="Doe", jane="Doe")
+        mapping1 = CanonicalMapping(John="Doe", Jane="Doe")
+        mapping2 = CanonicalMapping(John="Doe", Jane="Doe")
+        mapping3 = CanonicalMapping(john="Doe", jane="Doe")
 
         self.assertEqual(mapping1, mapping2)
 
@@ -327,48 +317,48 @@ CaseInsensitiveMapping.__eq__` method.
 
     def test_raise_exception__eq__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__eq__` method raised exception.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__eq__`
+        method raised exception.
         """
 
         self.assertRaises(
             ValueError,
             operator.eq,
-            CaseInsensitiveMapping(John="Doe", Jane="Doe"),
+            CanonicalMapping(John="Doe", Jane="Doe"),
             ["John", "Doe", "Jane", "Doe"],
         )
 
     def test__ne__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__ne__` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__ne__`
+        method.
         """
 
-        mapping1 = CaseInsensitiveMapping(John="Doe", Jane="Doe")
-        mapping2 = CaseInsensitiveMapping(Gi="Doe", Jane="Doe")
+        mapping1 = CanonicalMapping(John="Doe", Jane="Doe")
+        mapping2 = CanonicalMapping(Gi="Doe", Jane="Doe")
 
         self.assertNotEqual(mapping1, mapping2)
 
     def test_raise_exception__ne__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.__ne__` method raised exception.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.__ne__`
+        method raised exception.
         """
 
         self.assertRaises(
             ValueError,
             operator.ne,
-            CaseInsensitiveMapping(John="Doe", Jane="Doe"),
+            CanonicalMapping(John="Doe", Jane="Doe"),
             ["John", "Doe", "Jane", "Doe"],
         )
 
     def test_copy(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.copy` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.copy`
+        method.
         """
 
-        mapping1 = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping1 = CanonicalMapping(John="Doe", Jane="Doe")
         mapping2 = mapping1.copy()
 
         self.assertEqual(mapping1, mapping2)
@@ -377,11 +367,11 @@ CaseInsensitiveMapping.copy` method.
 
     def test_lower_keys(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.lower_keys` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+lower_keys` method.
         """
 
-        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
         self.assertListEqual(
             sorted(item for item in mapping.lower_keys()),
@@ -390,11 +380,11 @@ CaseInsensitiveMapping.lower_keys` method.
 
     def test_lower_items(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.lower_items` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+lower_items` method.
         """
 
-        mapping = CaseInsensitiveMapping(John="Doe", Jane="Doe")
+        mapping = CanonicalMapping(John="Doe", Jane="Doe")
 
         self.assertListEqual(
             sorted(item for item in mapping.lower_items()),
@@ -403,13 +393,11 @@ CaseInsensitiveMapping.lower_items` method.
 
     def test_slugified_keys(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.slugified_keys` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+slugified_keys` method.
         """
 
-        mapping = CaseInsensitiveMapping(
-            {"McCamy 1992": 1, "Hernandez 1999": 2}
-        )
+        mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
 
         self.assertListEqual(
             sorted(item for item in mapping.slugified_keys()),
@@ -418,23 +406,21 @@ CaseInsensitiveMapping.slugified_keys` method.
 
     def test_slugified_items(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-CaseInsensitiveMapping.slugified_items` method.
+        Test :meth:`colour.utilities.data_structures.CanonicalMapping.\
+slugified_items` method.
         """
 
-        mapping = CaseInsensitiveMapping(
-            {"McCamy 1992": 1, "Hernandez 1999": 2}
-        )
+        mapping = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
         self.assertListEqual(
             sorted(item for item in mapping.slugified_items()),
             [("hernandez-1999", 2), ("mccamy-1992", 1)],
         )
 
 
-class TestLazyCaseInsensitiveMapping(unittest.TestCase):
+class TestLazyCanonicalMapping(unittest.TestCase):
     """
-    Define :class:`colour.utilities.data_structures.\
-LazyCaseInsensitiveMapping` class unit tests methods.
+    Define :class:`colour.utilities.data_structures.LazyCanonicalMapping` class
+    unit tests methods.
     """
 
     def test_required_attributes(self):
@@ -443,7 +429,7 @@ LazyCaseInsensitiveMapping` class unit tests methods.
         required_attributes = ()
 
         for attribute in required_attributes:  # pragma: no cover
-            self.assertIn(attribute, dir(LazyCaseInsensitiveMapping))
+            self.assertIn(attribute, dir(LazyCanonicalMapping))
 
     def test_required_methods(self):
         """Test the presence of required methods."""
@@ -451,15 +437,15 @@ LazyCaseInsensitiveMapping` class unit tests methods.
         required_methods = ("__getitem__",)
 
         for method in required_methods:
-            self.assertIn(method, dir(LazyCaseInsensitiveMapping))
+            self.assertIn(method, dir(LazyCanonicalMapping))
 
     def test__getitem__(self):
         """
-        Test :meth:`colour.utilities.data_structures.\
-LazyCaseInsensitiveMapping.__getitem__` method.
+        Test :meth:`colour.utilities.data_structures.LazyCanonicalMapping.\
+__getitem__` method.
         """
 
-        mapping = LazyCaseInsensitiveMapping(John="Doe", Jane=lambda: "Doe")
+        mapping = LazyCanonicalMapping(John="Doe", Jane=lambda: "Doe")
 
         self.assertEqual(mapping["John"], "Doe")
         self.assertEqual(mapping["john"], "Doe")

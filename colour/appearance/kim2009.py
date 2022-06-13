@@ -47,7 +47,7 @@ from colour.hints import (
     Optional,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -110,7 +110,7 @@ class InductionFactors_Kim2009(
     """
 
 
-VIEWING_CONDITIONS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_KIM2009: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_KIM2009.__doc__ = """
@@ -146,7 +146,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
         return super().__new__(cls, E)
 
 
-MEDIA_PARAMETERS_KIM2009: CaseInsensitiveMapping = CaseInsensitiveMapping(
+MEDIA_PARAMETERS_KIM2009: CanonicalMapping = CanonicalMapping(
     {
         "High-luminance LCD Display": MediaParameters_Kim2009(1),
         "Transparent Advertising Media": MediaParameters_Kim2009(1.2175),

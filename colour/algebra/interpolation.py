@@ -86,7 +86,7 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_array,
     as_float_array,
     as_float,
@@ -1948,7 +1948,7 @@ def table_interpolation_tetrahedral(
     return xyz_o
 
 
-TABLE_INTERPOLATION_METHODS = CaseInsensitiveMapping(
+TABLE_INTERPOLATION_METHODS = CanonicalMapping(
     {
         "Trilinear": table_interpolation_trilinear,
         "Tetrahedral": table_interpolation_tetrahedral,

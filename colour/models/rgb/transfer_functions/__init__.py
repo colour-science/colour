@@ -10,7 +10,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     usage_warning,
     validate_method,
@@ -313,7 +313,7 @@ __all__ += [
     "log_decoding_ViperLog",
 ]
 
-LOG_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
     {
         "ACEScc": log_encoding_ACEScc,
         "ACEScct": log_encoding_ACEScct,
@@ -460,7 +460,7 @@ def log_encoding(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-LOG_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LOG_DECODINGS: CanonicalMapping = CanonicalMapping(
     {
         "ACEScc": log_decoding_ACEScc,
         "ACEScct": log_decoding_ACEScct,
@@ -618,7 +618,7 @@ __all__ += [
     "log_decoding",
 ]
 
-OETFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+OETFS: CanonicalMapping = CanonicalMapping(
     {
         "ARIB STD-B67": oetf_ARIBSTDB67,
         "Blackmagic Film Generation 5": oetf_BlackmagicFilmGeneration5,
@@ -702,7 +702,7 @@ def oetf(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-OETF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+OETF_INVERSES: CanonicalMapping = CanonicalMapping(
     {
         "ARIB STD-B67": oetf_inverse_ARIBSTDB67,
         "Blackmagic Film Generation 5": oetf_inverse_BlackmagicFilmGeneration5,
@@ -787,7 +787,7 @@ def oetf_inverse(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-EOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+EOTFS: CanonicalMapping = CanonicalMapping(
     {
         "DCDM": eotf_DCDM,
         "DICOM GSDF": eotf_DICOMGSDF,
@@ -868,7 +868,7 @@ def eotf(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-EOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+EOTF_INVERSES: CanonicalMapping = CanonicalMapping(
     {
         "DCDM": eotf_inverse_DCDM,
         "DICOM GSDF": eotf_inverse_DICOMGSDF,
@@ -962,7 +962,7 @@ __all__ += [
     "eotf_inverse",
 ]
 
-CCTF_ENCODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCTF_ENCODINGS: CanonicalMapping = CanonicalMapping(
     {
         "Gamma 2.2": partial(gamma_function, exponent=1 / 2.2),
         "Gamma 2.4": partial(gamma_function, exponent=1 / 2.4),
@@ -1111,7 +1111,7 @@ def cctf_encoding(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-CCTF_DECODINGS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCTF_DECODINGS: CanonicalMapping = CanonicalMapping(
     {
         "Gamma 2.2": partial(gamma_function, exponent=2.2),
         "Gamma 2.4": partial(gamma_function, exponent=2.4),
@@ -1274,7 +1274,7 @@ __all__ += [
     "cctf_decoding",
 ]
 
-OOTFS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+OOTFS: CanonicalMapping = CanonicalMapping(
     {
         "ITU-R BT.2100 HLG": ootf_BT2100_HLG,
         "ITU-R BT.2100 PQ": ootf_BT2100_PQ,
@@ -1332,7 +1332,7 @@ def ootf(
     return callable_(value, **filter_kwargs(callable_, **kwargs))
 
 
-OOTF_INVERSES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+OOTF_INVERSES: CanonicalMapping = CanonicalMapping(
     {
         "ITU-R BT.2100 HLG": ootf_inverse_BT2100_HLG,
         "ITU-R BT.2100 PQ": ootf_inverse_BT2100_PQ,

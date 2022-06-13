@@ -32,7 +32,7 @@ from functools import partial
 
 from colour.characterisation import RGB_CameraSensitivities
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -603,7 +603,7 @@ DATA_CAMERA_SENSITIVITIES_DSLR: Dict = {
     },
 }
 
-MSDS_CAMERA_SENSITIVITIES_DSLR = LazyCaseInsensitiveMapping(
+MSDS_CAMERA_SENSITIVITIES_DSLR = LazyCanonicalMapping(
     {
         "Nikon 5100 (NPL)": partial(
             RGB_CameraSensitivities,

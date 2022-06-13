@@ -67,7 +67,7 @@ from colour.hints import (
 )
 from colour.models import RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     Structure,
     as_float_array,
     attest,
@@ -925,7 +925,7 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
     for filterer in object_filterers:
         # TODO: Consider using "MutableMapping" here.
-        if isinstance(filterer, (dict, CaseInsensitiveMapping)):
+        if isinstance(filterer, (dict, CanonicalMapping)):
             for key, value in filterer.items():
                 filtered_mapping[key] = value
         else:

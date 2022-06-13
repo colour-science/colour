@@ -47,7 +47,7 @@ from colour.hints import (
     TypeVar,
     Union,
 )
-from colour.utilities import CaseInsensitiveMapping, Lookup
+from colour.utilities import CanonicalMapping, Lookup
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -898,7 +898,7 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-_REQUIREMENTS_TO_CALLABLE: CaseInsensitiveMapping = CaseInsensitiveMapping(
+_REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
     {
         "ctlrender": is_ctlrender_installed,
         "Matplotlib": is_matplotlib_installed,

@@ -51,7 +51,7 @@ from collections import namedtuple
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import Dict, NDArray, Tuple
 from colour.models import Lab_to_XYZ, XYZ_to_xyY
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers, Danny Pascale "
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -388,7 +388,7 @@ Reference *ColorChecker Classic* data from *X-Rite (2015)* and matching the
 *ColorChecker Classic* edition after November 2014.
 """
 
-CCS_COLOURCHECKERS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+CCS_COLOURCHECKERS: CanonicalMapping = CanonicalMapping(
     {
         "ColorChecker 1976": CCS_COLORCHECKER1976,
         "ColorChecker 2005": CCS_COLORCHECKER2005,

@@ -939,5 +939,5 @@ colour.__disable_lazy_load__ = True  # type: ignore[attr-defined]
 __disable_lazy_load__ = colour.__disable_lazy_load__  # type: ignore[attr-defined]
 """
 Ensures that the lazy loaded datasets are not transformed during import.
-See :class:`colour.utilities.LazyCaseInsensitiveMapping` for more information.
+See :class:`colour.utilities.LazyCanonicalMapping` for more information.
 """

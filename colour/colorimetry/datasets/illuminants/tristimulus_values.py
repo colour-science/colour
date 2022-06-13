@@ -34,7 +34,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -50,8 +50,8 @@ __all__ = [
 ]
 
 TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "A": np.array([109.85, 100.00, 35.58]),
         "C": np.array([98.07, 100.00, 118.22]),
@@ -71,8 +71,8 @@ References
 """
 
 TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "A": np.array([111.14, 100.00, 35.20]),
         "C": np.array([97.29, 100.00, 116.14]),
@@ -91,15 +91,15 @@ References
 :cite:`Carter2018`
 
 TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964 : \
-CaseInsensitiveMapping
+CanonicalMapping
 """
 
-TVS_ILLUMINANTS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+TVS_ILLUMINANTS: CanonicalMapping = CanonicalMapping(
     {
-        "CIE 1931 2 Degree Standard Observer": CaseInsensitiveMapping(
+        "CIE 1931 2 Degree Standard Observer": CanonicalMapping(
             TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_2_DEGREE_CIE1931
         ),
-        "CIE 1964 10 Degree Standard Observer": CaseInsensitiveMapping(
+        "CIE 1964 10 Degree Standard Observer": CanonicalMapping(
             TVS_ILLUMINANTS_CIE_STANDARD_OBSERVER_10_DEGREE_CIE1964
         ),
     }

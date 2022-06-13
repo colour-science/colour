@@ -27,7 +27,7 @@ from functools import partial
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -82,7 +82,7 @@ DATA_LENSES_ISO: Dict = {
     }
 }
 
-SDS_LENSES_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+SDS_LENSES_ISO: LazyCanonicalMapping = LazyCanonicalMapping(
     {
         "ISO Standard Lens": partial(
             SpectralDistribution,
@@ -99,9 +99,7 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_LENSES: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
-    SDS_LENSES_ISO
-)
+SDS_LENSES: LazyCanonicalMapping = LazyCanonicalMapping(SDS_LENSES_ISO)
 SDS_LENSES.__doc__ = """
 Spectral distributions of lenses.
 

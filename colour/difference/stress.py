@@ -25,7 +25,7 @@ import numpy as np
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     validate_method,
@@ -90,7 +90,7 @@ def index_stress_Garcia2007(
     return as_float(stress)
 
 
-INDEX_STRESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+INDEX_STRESS_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Garcia 2007": index_stress_Garcia2007,
     }

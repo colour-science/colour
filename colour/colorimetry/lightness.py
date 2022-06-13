@@ -77,7 +77,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     filter_kwargs,
@@ -534,7 +534,7 @@ def lightness_Abebe2017(
     return as_float(L)
 
 
-LIGHTNESS_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LIGHTNESS_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Glasser 1958": lightness_Glasser1958,
         "Wyszecki 1963": lightness_Wyszecki1963,

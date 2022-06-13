@@ -39,7 +39,7 @@ from __future__ import annotations
 
 from colour.hints import Any, ArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     filter_kwargs,
     validate_method,
 )
@@ -88,7 +88,7 @@ __all__ += [
     "index_stress",
 ]
 
-DELTA_E_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+DELTA_E_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "CIE 1976": delta_E_CIE1976,
         "CIE 1994": delta_E_CIE1994,

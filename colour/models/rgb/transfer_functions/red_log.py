@@ -49,7 +49,7 @@ from colour.models.rgb.transfer_functions import (
     log_decoding_Cineon,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     from_range_1,
@@ -580,7 +580,7 @@ def log_decoding_Log3G10_v3(y: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_1(x))
 
 
-LOG3G10_ENCODING_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LOG3G10_ENCODING_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "v1": log_encoding_Log3G10_v1,
         "v2": log_encoding_Log3G10_v2,
@@ -678,7 +678,7 @@ def log_encoding_Log3G10(
     return LOG3G10_ENCODING_METHODS[method](x)
 
 
-LOG3G10_DECODING_METHODS = CaseInsensitiveMapping(
+LOG3G10_DECODING_METHODS = CanonicalMapping(
     {
         "v1": log_decoding_Log3G10_v1,
         "v2": log_decoding_Log3G10_v2,

@@ -30,7 +30,7 @@ import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.hints import Floating, Literal, Union
-from colour.utilities import CaseInsensitiveMapping, validate_method
+from colour.utilities import CanonicalMapping, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -115,7 +115,7 @@ def bandpass_correction_Stearns1988(
     return sd
 
 
-BANDPASS_CORRECTION_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+BANDPASS_CORRECTION_METHODS: CanonicalMapping = CanonicalMapping(
     {"Stearns 1988": bandpass_correction_Stearns1988}
 )
 BANDPASS_CORRECTION_METHODS.__doc__ = """

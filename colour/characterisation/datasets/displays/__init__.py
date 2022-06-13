@@ -13,9 +13,9 @@ context=article
 
 from .crt import MSDS_DISPLAY_PRIMARIES_CRT
 from .lcd import MSDS_DISPLAY_PRIMARIES_LCD
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
-MSDS_DISPLAY_PRIMARIES = LazyCaseInsensitiveMapping(MSDS_DISPLAY_PRIMARIES_CRT)
+MSDS_DISPLAY_PRIMARIES = LazyCanonicalMapping(MSDS_DISPLAY_PRIMARIES_CRT)
 MSDS_DISPLAY_PRIMARIES.update(MSDS_DISPLAY_PRIMARIES_LCD)
 MSDS_DISPLAY_PRIMARIES.__doc__ = """
 Primaries multi-spectral distributions of displays.

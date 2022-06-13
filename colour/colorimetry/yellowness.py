@@ -42,7 +42,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     filter_kwargs,
     from_range_100,
@@ -184,23 +184,21 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> FloatingOrNDArray:
     return as_float(from_range_100(WI))
 
 
-YELLOWNESS_COEFFICIENTS_ASTME313: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "CIE 1931 2 Degree Standard Observer": CaseInsensitiveMapping(
-                {
-                    "C": np.array([1.2769, 1.0592]),
-                    "D65": np.array([1.2985, 1.1335]),
-                }
-            ),
-            "CIE 1964 10 Degree Standard Observer": CaseInsensitiveMapping(
-                {
-                    "C": np.array([1.2871, 1.0781]),
-                    "D65": np.array([1.3013, 1.1498]),
-                }
-            ),
-        }
-    )
+YELLOWNESS_COEFFICIENTS_ASTME313: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1931 2 Degree Standard Observer": CanonicalMapping(
+            {
+                "C": np.array([1.2769, 1.0592]),
+                "D65": np.array([1.2985, 1.1335]),
+            }
+        ),
+        "CIE 1964 10 Degree Standard Observer": CanonicalMapping(
+            {
+                "C": np.array([1.2871, 1.0781]),
+                "D65": np.array([1.3013, 1.1498]),
+            }
+        ),
+    }
 )
 YELLOWNESS_COEFFICIENTS_ASTME313.__doc__ = """
 Coefficients :math:`C_X` and :math:`C_Z` for the *ASTM E313* *yellowness* index
@@ -285,7 +283,7 @@ def yellowness_ASTME313(
     return as_float(from_range_100(WI))
 
 
-YELLOWNESS_METHODS = CaseInsensitiveMapping(
+YELLOWNESS_METHODS = CanonicalMapping(
     {
         "ASTM D1925": yellowness_ASTMD1925,
         "ASTM E313 Alternative": yellowness_ASTME313_alternative,

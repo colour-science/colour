@@ -63,7 +63,7 @@ from functools import partial
 from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralDistribution
 from colour.hints import Dict
-from colour.utilities import LazyCaseInsensitiveMapping
+from colour.utilities import LazyCanonicalMapping
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -4579,7 +4579,7 @@ DATA_ILLUMINANTS_CIE: Dict = {
     },
 }
 
-SDS_ILLUMINANTS_CIE: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+SDS_ILLUMINANTS_CIE: LazyCanonicalMapping = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -4859,7 +4859,7 @@ DATA_ILLUMINANTS_ISO: Dict = {
     },
 }
 
-SDS_ILLUMINANTS_ISO: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+SDS_ILLUMINANTS_ISO: LazyCanonicalMapping = LazyCanonicalMapping(
     (
         key,
         partial(
@@ -4896,7 +4896,7 @@ References
 :cite:`InternationalOrganizationforStandardization2002`
 """
 
-SDS_ILLUMINANTS: LazyCaseInsensitiveMapping = LazyCaseInsensitiveMapping(
+SDS_ILLUMINANTS: LazyCanonicalMapping = LazyCanonicalMapping(
     SDS_ILLUMINANTS_CIE
 )
 SDS_ILLUMINANTS.__doc__ = """

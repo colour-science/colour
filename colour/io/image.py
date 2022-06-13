@@ -26,7 +26,7 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     as_int_array,
     attest,
@@ -107,7 +107,7 @@ class ImageAttribute_Specification:
 if is_openimageio_installed():  # pragma: no cover
     from OpenImageIO import UINT8, UINT16, HALF, FLOAT, DOUBLE
 
-    MAPPING_BIT_DEPTH: CaseInsensitiveMapping = CaseInsensitiveMapping(
+    MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
             "uint8": BitDepth_Specification("uint8", np.uint8, UINT8),
             "uint16": BitDepth_Specification("uint16", np.uint16, UINT16),
@@ -121,8 +121,8 @@ if is_openimageio_installed():  # pragma: no cover
             "float128", np.float128, DOUBLE  # type: ignore[arg-type]
         )
 else:  # pragma: no cover
-    MAPPING_BIT_DEPTH: CaseInsensitiveMapping = (  # type: ignore[no-redef]
-        CaseInsensitiveMapping(
+    MAPPING_BIT_DEPTH: CanonicalMapping = (  # type: ignore[no-redef]
+        CanonicalMapping(
             {
                 "uint8": BitDepth_Specification("uint8", np.uint8, None),
                 "uint16": BitDepth_Specification("uint16", np.uint16, None),
@@ -346,7 +346,7 @@ def read_image_Imageio(
     return convert_bit_depth(image, bit_depth)
 
 
-READ_IMAGE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+READ_IMAGE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Imageio": read_image_Imageio,
         "OpenImageIO": read_image_OpenImageIO,
@@ -597,7 +597,7 @@ def write_image_Imageio(
     return imwrite(path, image, **kwargs)
 
 
-WRITE_IMAGE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+WRITE_IMAGE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Imageio": write_image_Imageio,
         "OpenImageIO": write_image_OpenImageIO,

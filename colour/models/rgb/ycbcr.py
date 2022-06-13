@@ -56,7 +56,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_inverse_BT2020,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     as_int_array,
     domain_range_scale,
@@ -84,7 +84,7 @@ __all__ = [
     "YcCbcCrc_to_RGB",
 ]
 
-WEIGHTS_YCBCR: CaseInsensitiveMapping = CaseInsensitiveMapping(
+WEIGHTS_YCBCR: CanonicalMapping = CanonicalMapping(
     {
         "ITU-R BT.601": np.array([0.2990, 0.1140]),
         "ITU-R BT.709": np.array([0.2126, 0.0722]),

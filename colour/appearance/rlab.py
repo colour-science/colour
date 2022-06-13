@@ -33,7 +33,7 @@ from colour.hints import (
     Optional,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArray,
     as_float,
     as_float_array,
@@ -68,7 +68,7 @@ MATRIX_R: NDArray = np.array(
 )
 """*RLAB* colour appearance model precomputed helper matrix."""
 
-VIEWING_CONDITIONS_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_RLAB: CanonicalMapping = CanonicalMapping(
     {"Average": 1 / 2.3, "Dim": 1 / 2.9, "Dark": 1 / 3.5}
 )
 VIEWING_CONDITIONS_RLAB.__doc__ = """
@@ -79,7 +79,7 @@ References
 :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 """
 
-D_FACTOR_RLAB: CaseInsensitiveMapping = CaseInsensitiveMapping(
+D_FACTOR_RLAB: CanonicalMapping = CanonicalMapping(
     {
         "Hard Copy Images": 1,
         "Soft Copy Images": 0,

@@ -27,7 +27,7 @@ from colour.hints import Any, ArrayLike, Literal, Union
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float_array,
     filter_kwargs,
     validate_method,
@@ -73,7 +73,7 @@ __all__ += [
     "RGB_to_sd_Smits1999",
 ]
 
-XYZ_TO_SD_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+XYZ_TO_SD_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Jakob 2019": XYZ_to_sd_Jakob2019,
         "Mallett 2019": RGB_to_sd_Mallett2019,

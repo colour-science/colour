@@ -78,7 +78,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     filter_kwargs,
@@ -550,7 +550,7 @@ def luminance_Abebe2017(
     return as_float(Y)
 
 
-LUMINANCE_METHODS: CaseInsensitiveMapping = CaseInsensitiveMapping(
+LUMINANCE_METHODS: CanonicalMapping = CanonicalMapping(
     {
         "Newhall 1943": luminance_Newhall1943,
         "ASTM D1535": luminance_ASTMD1535,

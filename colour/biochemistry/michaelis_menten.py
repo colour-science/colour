@@ -35,7 +35,7 @@ from colour.hints import (
     Union,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     as_float,
     as_float_array,
     filter_kwargs,
@@ -157,13 +157,11 @@ def reaction_rate_MichaelisMenten_Abebe2017(
     return as_float(v)
 
 
-REACTION_RATE_MICHAELISMENTEN_METHODS: CaseInsensitiveMapping = (
-    CaseInsensitiveMapping(
-        {
-            "Michaelis 1913": reaction_rate_MichaelisMenten_Michaelis1913,
-            "Abebe 2017": reaction_rate_MichaelisMenten_Abebe2017,
-        }
-    )
+REACTION_RATE_MICHAELISMENTEN_METHODS: CanonicalMapping = CanonicalMapping(
+    {
+        "Michaelis 1913": reaction_rate_MichaelisMenten_Michaelis1913,
+        "Abebe 2017": reaction_rate_MichaelisMenten_Abebe2017,
+    }
 )
 REACTION_RATE_MICHAELISMENTEN_METHODS.__doc__ = """
 Supported *Michaelis-Menten* kinetics reaction rate equation computation
@@ -330,8 +328,8 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
 
 
 SUBSTRATE_CONCENTRATION_MICHAELISMENTEN_METHODS: (
-    CaseInsensitiveMapping
-) = CaseInsensitiveMapping(
+    CanonicalMapping
+) = CanonicalMapping(
     {
         "Michaelis 1913": substrate_concentration_MichaelisMenten_Michaelis1913,
         "Abebe 2017": substrate_concentration_MichaelisMenten_Abebe2017,

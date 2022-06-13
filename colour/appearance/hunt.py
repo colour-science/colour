@@ -35,7 +35,7 @@ from colour.hints import (
     cast,
 )
 from colour.utilities import (
-    CaseInsensitiveMapping,
+    CanonicalMapping,
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
@@ -122,7 +122,7 @@ class InductionFactors_Hunt(
         return super().__new__(cls, N_c, N_b, N_cb, N_bb)
 
 
-VIEWING_CONDITIONS_HUNT: CaseInsensitiveMapping = CaseInsensitiveMapping(
+VIEWING_CONDITIONS_HUNT: CanonicalMapping = CanonicalMapping(
     {
         "Small Areas, Uniform Background & Surrounds": InductionFactors_Hunt(
             1, 300

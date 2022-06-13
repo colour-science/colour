@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CanonicalMapping
 from .aces import (
     RGB_COLOURSPACE_ACES2065_1,
     RGB_COLOURSPACE_ACESCC,
@@ -69,7 +69,7 @@ from .xtreme_rgb import RGB_COLOURSPACE_XTREME_RGB
 
 from colour.models.rgb import RGB_Colourspace
 
-RGB_COLOURSPACES: CaseInsensitiveMapping = CaseInsensitiveMapping(
+RGB_COLOURSPACES: CanonicalMapping = CanonicalMapping(
     dict(
         sorted(
             (colourspace.name, colourspace)
