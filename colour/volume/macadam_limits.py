@@ -22,7 +22,7 @@ from colour.colorimetry import (
     MSDS_CMFS,
     MultiSpectralDistributions,
     reshape_sd,
-    SpectralDistributions,
+    SpectralDistribution,
     SpectralShape,
     SDS_ILLUMINANTS,
 )
@@ -55,10 +55,10 @@ _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = (
 def _XYZ_optimal_colour_stimuli(
     illuminant: Union[Literal["A", "C", "D65"], str] = "D65"
 ) -> NDArray:
-
     """
     Return given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
+    
     Parameters
     ----------
     illuminant
@@ -99,10 +99,10 @@ def is_within_macadam_limits(
     illuminant: Union[Literal["A", "C", "D65"], str] = "D65",
     tolerance: Optional[Floating] = None,
 ) -> NDArray:
-
     """
     Return whether given *CIE xyY* colourspace array is within MacAdam limits
     of given illuminant.
+    
     Parameters
     ----------
     xyY
@@ -111,10 +111,12 @@ def is_within_macadam_limits(
         Illuminant name.
     tolerance
         Tolerance allowed in the inside-triangle check.
+    
     Returns
     -------
     :class:`numpy.ndarray`
         Whether given *CIE xyY* colourspace array is within MacAdam limits.
+    
     Notes
     -----
     +------------+-----------------------+---------------+
@@ -122,6 +124,7 @@ def is_within_macadam_limits(
     +============+=======================+===============+
     | ``xyY``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
+    
     Examples
     --------
     >>> is_within_macadam_limits(np.array([0.3205, 0.4131, 0.51]), 'A')
@@ -156,7 +159,6 @@ def macadam_limits(
         "CIE 1931 2 Degree Standard Observer"
     ],
 ) -> NDArray:
-
     """
     Return an array of CIE -X,Y,Z - Triples containing colour-coordinates
     of the MacAdam-limit for the defined luminance for every
@@ -192,6 +194,8 @@ def macadam_limits(
        ...
        [  4.44310989e-01,   5.00000000e-01,   3.55056751e-01],
        [  4.13165551e-01,   5.00000000e-01,   3.55118668e-01]])
+    
+    References
     ----------
     -   cite: Wyszecki, G., & Stiles, W. S. (2000).
         In Color Science: Concepts and Methods,
@@ -205,7 +209,8 @@ def macadam_limits(
         Opt. Soc. Am. A 24, 1501-1515 (2007)
     -   cite: Kenichiro Masaoka. In OPTICS LETTERS, June 15, 2010
         / Vol. 35, No. 1 (pp. 2031 - 2033)
-    Example
+    
+    Examples
     --------
     from matplotlib import pyplot as plt
     import numpy as np
@@ -231,6 +236,7 @@ def macadam_limits(
         plot_Narrowband_Spectra (Yxy_Narrowband_Spectra)
     plt.show()
     """
+    
     target_bright = luminance
     if target_bright > 1 or target_bright < 0:
         raise TypeError(
