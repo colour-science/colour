@@ -20,9 +20,9 @@ from colour.hints import (
 )
 from colour.colorimetry import (
     MSDS_CMFS,
-    MultiSpectralDistributions,
     reshape_sd,
     SpectralDistribution,
+    MultiSpectralDistributions,
     SpectralShape,
     SDS_ILLUMINANTS,
 )
@@ -153,11 +153,9 @@ def is_within_macadam_limits(
 
 def macadam_limits(
     luminance: Floating = 0.5,
-    illuminant: Optional[SpectralDistribution] = SDS_ILLUMINANTS["E"],
-    spectral_range: Optional[SpectralShape] = SpectralShape(360, 830, 1),
-    cmfs: Optional[MultiSpectralDistributions] = MSDS_CMFS[
-        "CIE 1931 2 Degree Standard Observer"
-    ],
+    illuminant: Optional[SpectralDistribution] = None,
+    spectral_range: Optional[SpectralShape] = None,
+    cmfs: Optional[SpectralDistribution] = None,
 ) -> NDArray:
     """
     Return an array of CIE -X,Y,Z - Triples containing colour-coordinates
@@ -237,6 +235,12 @@ def macadam_limits(
     plt.show()
     """
 
+    if cmfs is None:
+        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]        
+    if illuminant is None:
+        illuminant = SDS_ILLUMINANTS["E"]        
+    if spectral_range is None:
+        spectral_range = SpectralShape(360, 830, 1)
     target_bright = luminance
     if target_bright > 1 or target_bright < 0:
         raise TypeError(
