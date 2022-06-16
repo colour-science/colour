@@ -21,6 +21,7 @@ from colour.hints import (
 from colour.colorimetry import (
     MSDS_CMFS,
     reshape_sd,
+    SpectralDistribution,
     SpectralShape,
     SDS_ILLUMINANTS,
 )
