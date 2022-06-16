@@ -22,7 +22,7 @@ from colour.colorimetry import (
     MSDS_CMFS,
     reshape_sd,
     SpectralShape,
-    SDS_ILLUMINANTS
+    SDS_ILLUMINANTS,
 )
 from colour.models import xyY_to_XYZ
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
@@ -147,8 +147,9 @@ def macadam_limits(
     luminance: Floating = 0.5,
     illuminant: Optional[SpectralDistribution] = SDS_ILLUMINANTS["E"],
     spectral_range: Optional[SpectralShape] = SpectralShape(360, 830, 1),
-    cmfs: Optional[MultiSpectralDistributions] =
-        MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+    cmfs: Optional[MultiSpectralDistributions] = MSDS_CMFS[
+        "CIE 1931 2 Degree Standard Observer"
+    ],
 ) -> NDArray:
     """
     Returns an array of CIE -X,Y,Z - Triples containing colour-coordinates
@@ -159,7 +160,7 @@ def macadam_limits(
     more effectively targeted by steps of power of two. The wavelengths
     left and right of a rough optimum are fitted by a rule of proportion,
     so that the wished brightness will be reached exactly.
-    
+
     Parameters
     ----------
     luminance
@@ -172,7 +173,7 @@ def macadam_limits(
     cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
-        
+
     Returns
     -------
     :class:`numpy.ndarray`
@@ -231,7 +232,7 @@ def macadam_limits(
             "has to be between 0 and 1"
         )
     # workarround because illuminant and cmfs are rounded
-    # in a different way. 
+    # in a different way.
     illuminant = reshape_sd(illuminant, cmfs.shape)
     cmfs = reshape_sd(cmfs, spectral_range)
     illuminant = reshape_sd(illuminant, spectral_range)
@@ -242,19 +243,19 @@ def macadam_limits(
     Z_illuminated = cmfs.values[..., 2] * illuminant.values
     # Generate empty output-array
     out_limits = np.zeros_like(cmfs.values)
-    # For examle a SpectralShape(360, 830, 1) has 471 entries 
+    # For examle a SpectralShape(360, 830, 1) has 471 entries
     opti_colour = np.zeros_like(Y_illuminated)
-    # The array of optimal colours has the same dimensions 
+    # The array of optimal colours has the same dimensions
     # like Y_illuminated, in our example: 471
     colour_range = illuminant.values.shape[0]
     a = np.arange(12)
-    a = np.ceil(colour_range/2**(a+1)).astype(int)
+    a = np.ceil(colour_range / 2 ** (a + 1)).astype(int)
     step_sizes = np.append(np.flip(np.unique(a)), 1)
-    middle_opti_colour = step_sizes[0] -1
+    middle_opti_colour = step_sizes[0] - 1
     # in our example: 235
-    width = step_sizes[1] -1
+    width = step_sizes[1] - 1
     # in our example: 117
-    step_sizes = np.delete(step_sizes,[0,1])
+    step_sizes = np.delete(step_sizes, [0, 1])
     # in our example: np.array([59 30 15  8  4  2  1])
     # The first optimum color has its center initially at zero
     maximum_brightness = np.sum(Y_illuminated)
@@ -267,7 +268,8 @@ def macadam_limits(
         center_opti_colour = center
         opti_colour[
             middle_opti_colour
-            - half_width : middle_opti_colour + 1
+            - half_width : middle_opti_colour
+            + 1
             + half_width
         ] = 1
         # we start the construction of the optimum color
@@ -298,7 +300,7 @@ def macadam_limits(
                 width += n
 
         brightness = bright_opti_colour(width, wavelength, Y_illuminated)
-        if brightness < target_bright :
+        if brightness < target_bright:
             width += 1
 
         rough_optimum = optimum_colour(width, wavelength)
