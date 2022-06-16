@@ -160,11 +160,11 @@ def macadam_limits(
     Return an array of CIE -X,Y,Z - Triples containing colour-coordinates
     of the MacAdam-limit for the defined luminance for every
     whavelength defined in spectral_range.
-    Target ist a fast running codey, by
-    not simply testing the possible optimums step by step but
-    more effectively targeted by steps of power of two. The wavelengths
-    left and right of a rough optimum are fitted by a rule of proportion,
-    so that the wished brightness will be reached exactly.
+    Target ist a fast running codey, by not simply testing the possible
+    optimums step by step but more effectively targeted by steps of
+    power of two. The wavelengths left and right of a rough optimum are
+    fitted by a rule of proportion, so that the wished brightness will be
+    reached exactly.
 
     Parameters
     ----------
