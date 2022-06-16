@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -243,9 +243,8 @@ class TestIsWithinVisibleSpectrum(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            is_within_visible_spectrum(case)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        is_within_visible_spectrum(cases)
 
 
 if __name__ == "__main__":

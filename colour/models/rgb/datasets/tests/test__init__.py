@@ -159,9 +159,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         for colourspace in RGB_COLOURSPACES.values():
-            for case in cases:
-                colourspace.cctf_encoding(case)
-                colourspace.cctf_decoding(case)
+            colourspace.cctf_encoding(cases)
+            colourspace.cctf_decoding(cases)
 
     def test_pickle(self):
         """Test the "pickle-ability" of the *RGB* colourspaces."""

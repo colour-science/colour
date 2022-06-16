@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -112,7 +112,7 @@ closest_spectral_locus_wavelength` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             try:
                 closest_spectral_locus_wavelength(case, case, self._xy_s)
@@ -208,7 +208,7 @@ class TestDominantWavelength(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             try:
                 dominant_wavelength(case, case)
@@ -304,7 +304,7 @@ class TestComplementaryWavelength(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             try:
                 complementary_wavelength(case, case)
@@ -372,7 +372,7 @@ class TestExcitationPurity(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             try:
                 excitation_purity(case, case)
@@ -443,7 +443,7 @@ class TestColorimetricPurity(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
+        cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
             try:
                 colorimetric_purity(case, case)

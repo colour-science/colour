@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import (
     XYZ_to_Izazbz,
@@ -115,10 +115,8 @@ class TestXYZ_to_Izazbz(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_Izazbz(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Izazbz(cases)
 
 
 class TestIzazbz_to_XYZ(unittest.TestCase):
@@ -225,10 +223,8 @@ class TestIzazbz_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Izazbz = np.array(case)
-            Izazbz_to_XYZ(Izazbz)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Izazbz_to_XYZ(cases)
 
 
 class TestXYZ_to_Jzazbz(unittest.TestCase):
@@ -299,10 +295,8 @@ class TestXYZ_to_Jzazbz(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_Jzazbz(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Jzazbz(cases)
 
 
 class TestJzazbz_to_XYZ(unittest.TestCase):
@@ -383,10 +377,8 @@ class TestJzazbz_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Jzazbz = np.array(case)
-            Jzazbz_to_XYZ(Jzazbz)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Jzazbz_to_XYZ(cases)
 
 
 if __name__ == "__main__":

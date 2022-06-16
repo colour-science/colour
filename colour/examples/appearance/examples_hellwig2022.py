@@ -13,7 +13,7 @@ XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
 L_A = 318.31
 Y_b = 20.0
-surround = colour.VIEWING_CONDITIONS_Hellwig2022["Average"]
+surround = colour.VIEWING_CONDITIONS_HELLWIG2022["Average"]
 message_box(
     f'Converting to the "Hellwig and Fairchild (2022)" colour appearance '
     f"model specification "

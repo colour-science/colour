@@ -39,6 +39,8 @@ Common Models
 
     Jab_to_JCh
     JCh_to_Jab
+    XYZ_to_Iab
+    Iab_to_XYZ
 
 CIE L*a*b* Colourspace
 ----------------------
@@ -231,6 +233,19 @@ IPT Colourspace
     XYZ_to_IPT
     IPT_to_XYZ
     IPT_hue_angle
+
+Munish Ragoo and Farup (2021) Optimised IPT Colourspace
+-------------------------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_IPT_Munish2021
+    IPT_Munish2021_to_XYZ
 
 hdr-CIELAB Colourspace
 ----------------------

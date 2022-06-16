@@ -78,7 +78,7 @@ jobs:
       shell: bash
     - name: Test with Pytest
       run: |
-        poetry run python -W ignore -m py.test --disable-warnings --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
+        poetry run python -W ignore -m pytest --disable-warnings --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
       shell: bash
     - name: Upload Coverage to coveralls.io
       if: matrix.os == 'ubuntu-20.04' && matrix.python-version == '3.8'

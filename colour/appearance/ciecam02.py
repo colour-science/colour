@@ -96,7 +96,7 @@ __all__ = [
     "CIECAM02_to_XYZ",
     "chromatic_induction_factors",
     "base_exponential_non_linearity",
-    "viewing_condition_dependent_parameters",
+    "viewing_conditions_dependent_parameters",
     "degree_of_adaptation",
     "full_chromatic_adaptation_forward",
     "full_chromatic_adaptation_inverse",
@@ -341,7 +341,7 @@ H=278.0607358..., HC=None)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
         Y_b, Y_w, L_A
     )
 
@@ -537,7 +537,7 @@ def CIECAM02_to_XYZ(
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = viewing_condition_dependent_parameters(
+    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(
         Y_b, Y_w, L_A
     )
 
@@ -669,7 +669,7 @@ def base_exponential_non_linearity(
     return z
 
 
-def viewing_condition_dependent_parameters(
+def viewing_conditions_dependent_parameters(
     Y_b: FloatingOrArrayLike,
     Y_w: FloatingOrArrayLike,
     L_A: FloatingOrArrayLike,
@@ -699,7 +699,7 @@ def viewing_condition_dependent_parameters(
 
     Examples
     --------
-    >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
+    >>> viewing_conditions_dependent_parameters(20.0, 100.0, 318.31)
     ... # doctest: +ELLIPSIS
     (0.2000000..., 1.1675444..., 1.0003040..., 1.0003040..., 1.9272135...)
     """

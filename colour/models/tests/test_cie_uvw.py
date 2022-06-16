@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import UVW_to_XYZ, XYZ_to_UVW
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -127,11 +127,8 @@ class TestXYZ_to_UVW(unittest.TestCase):
         """Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            illuminant = np.array(case[0:2])
-            XYZ_to_UVW(XYZ, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_UVW(cases, cases[..., 0:2])
 
 
 class TestUVW_to_XYZ(unittest.TestCase):
@@ -240,11 +237,8 @@ class TestUVW_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            UVW = np.array(case)
-            illuminant = np.array(case[0:2])
-            UVW_to_XYZ(UVW, illuminant)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        UVW_to_XYZ(cases, cases[..., 0:2])
 
 
 if __name__ == "__main__":

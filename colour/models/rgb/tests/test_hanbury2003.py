@@ -2,7 +2,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb import RGB_to_IHLS, IHLS_to_RGB
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -88,10 +88,8 @@ class TestRGB_to_IHLS(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_IHLS(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_IHLS(cases)
 
 
 class TestIHLS_to_RGB(unittest.TestCase):
@@ -162,10 +160,8 @@ class TestIHLS_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            HYS = np.array(case)
-            IHLS_to_RGB(HYS)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        IHLS_to_RGB(cases)
 
 
 if __name__ == "__main__":

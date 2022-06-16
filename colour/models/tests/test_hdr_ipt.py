@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from colour.models.hdr_ipt import exponent_hdr_IPT
@@ -208,12 +208,8 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            Y_s = case[0]
-            Y_abs = case[0]
-            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_hdr_IPT(cases, cases[..., 0], cases[..., 0])
 
 
 class TestHdr_IPT_to_XYZ(unittest.TestCase):
@@ -315,12 +311,8 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            IPT_hdr = np.array(case)
-            Y_s = case[0]
-            Y_abs = case[0]
-            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        hdr_IPT_to_XYZ(cases, cases[..., 0], cases[..., 0])
 
 
 if __name__ == "__main__":

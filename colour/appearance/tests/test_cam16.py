@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
     VIEWING_CONDITIONS_CAM16,
@@ -234,14 +234,11 @@ class TestXYZ_to_CAM16(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            L_A = case[0]
-            Y_b = case[0]
-            surround = InductionFactors_CAM16(case[0], case[0], case[0])
-            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        surround = InductionFactors_CAM16(
+            cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        XYZ_to_CAM16(cases, cases, cases[..., 0], cases[..., 0], surround)
 
 
 class TestCAM16_to_XYZ(unittest.TestCase):
@@ -430,19 +427,20 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            J = case[0]
-            C = case[0]
-            h = case[0]
-            XYZ_w = np.array(case)
-            L_A = case[0]
-            Y_b = case[0]
-            surround = InductionFactors_CAM16(case[0], case[0], case[0])
-            CAM16_to_XYZ(
-                CAM_Specification_CAM16(J, C, h, M=50),
-                XYZ_w,
-                L_A,
-                Y_b,
-                surround,
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        surround = InductionFactors_CAM16(
+            cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        CAM16_to_XYZ(
+            CAM_Specification_CAM16(
+                cases[..., 0], cases[..., 0], cases[..., 0], M=50
+            ),
+            cases,
+            cases[..., 0],
+            cases[..., 0],
+            surround,
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

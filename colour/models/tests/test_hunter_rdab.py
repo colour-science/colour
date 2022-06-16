@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
 from colour.models import XYZ_to_Hunter_Rdab, Hunter_Rdab_to_XYZ
@@ -154,12 +154,8 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_n = np.array(case[0:3])
-            K_ab = np.array(case[0:2])
-            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_Hunter_Rdab(cases, cases, cases[..., 0:2])
 
 
 class TestHunter_Rdab_to_XYZ(unittest.TestCase):
@@ -293,12 +289,8 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            R_d_ab = np.array(case)
-            XYZ_n = np.array(case[0:3])
-            K_ab = np.array(case[0:2])
-            Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        Hunter_Rdab_to_XYZ(cases, cases, cases[..., 0:2])
 
 
 if __name__ == "__main__":

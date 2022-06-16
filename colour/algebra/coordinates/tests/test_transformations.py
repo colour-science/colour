@@ -5,7 +5,7 @@ Define the unit tests for the
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.algebra import (
     cartesian_to_spherical,
@@ -93,10 +93,8 @@ cartesian_to_spherical` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            a_i = np.array(case)
-            cartesian_to_spherical(a_i)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        cartesian_to_spherical(cases)
 
 
 class TestSphericalToCartesian(unittest.TestCase):
@@ -164,10 +162,8 @@ spherical_to_cartesian` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            a_i = np.array(case)
-            spherical_to_cartesian(a_i)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        spherical_to_cartesian(cases)
 
 
 class TestCartesianToPolar(unittest.TestCase):
@@ -225,10 +221,8 @@ cartesian_to_polar` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            a_i = np.array(case)
-            cartesian_to_polar(a_i)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        cartesian_to_polar(cases)
 
 
 class TestPolarToCartesian(unittest.TestCase):
@@ -286,10 +280,8 @@ polar_to_cartesian` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            a_i = np.array(case)
-            polar_to_cartesian(a_i)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        polar_to_cartesian(cases)
 
 
 class TestCartesianToCylindrical(unittest.TestCase):
@@ -351,10 +343,8 @@ cartesian_to_cylindrical` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            a_i = np.array(case)
-            cartesian_to_cylindrical(a_i)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        cartesian_to_cylindrical(cases)
 
 
 class TestCylindricalToCartesian(unittest.TestCase):
@@ -422,10 +412,8 @@ cylindrical_to_cartesian` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            a_i = np.array(case)
-            cylindrical_to_cartesian(a_i)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        cylindrical_to_cartesian(cases)
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models.rgb.ycbcr import (
     matrix_YCbCr,
@@ -236,10 +236,8 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_YCbCr(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_YCbCr(cases)
 
 
 class TestYCbCr_to_RGB(unittest.TestCase):
@@ -333,10 +331,8 @@ class TestYCbCr_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            YCbCr = np.array(case)
-            YCbCr_to_RGB(YCbCr)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        YCbCr_to_RGB(cases)
 
 
 class TestRGB_to_YcCbcCrc(unittest.TestCase):
@@ -423,10 +419,8 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            RGB = np.array(case)
-            RGB_to_YcCbcCrc(RGB)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        RGB_to_YcCbcCrc(cases)
 
 
 class TestYcCbcCrc_to_RGB(unittest.TestCase):
@@ -513,10 +507,8 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            YcCbcCrc = np.array(case)
-            YcCbcCrc_to_RGB(YcCbcCrc)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        YcCbcCrc_to_RGB(cases)
 
 
 if __name__ == "__main__":

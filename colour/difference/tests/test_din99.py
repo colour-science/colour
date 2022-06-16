@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.difference import delta_E_DIN99
 
@@ -138,11 +138,8 @@ class TestDelta_E_DIN99(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab_1 = np.array(case)
-            Lab_2 = np.array(case)
-            delta_E_DIN99(Lab_1, Lab_2)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        delta_E_DIN99(cases, cases)
 
 
 if __name__ == "__main__":

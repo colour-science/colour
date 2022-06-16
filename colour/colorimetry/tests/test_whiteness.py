@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import (
     whiteness_Berger1959,
@@ -124,11 +124,8 @@ class TestWhitenessBerger1959(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_0 = np.array(case)
-            whiteness_Berger1959(XYZ, XYZ_0)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        whiteness_Berger1959(cases, cases)
 
 
 class TestWhitenessTaube1960(unittest.TestCase):
@@ -221,11 +218,8 @@ class TestWhitenessTaube1960(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_0 = np.array(case)
-            whiteness_Berger1959(XYZ, XYZ_0)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        whiteness_Berger1959(cases, cases)
 
 
 class TestWhitenessStensby1968(unittest.TestCase):
@@ -305,10 +299,8 @@ class TestWhitenessStensby1968(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab = np.array(case)
-            whiteness_Stensby1968(Lab)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        whiteness_Stensby1968(cases)
 
 
 class TestWhitenessASTM313(unittest.TestCase):
@@ -388,10 +380,8 @@ class TestWhitenessASTM313(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            whiteness_ASTME313(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        whiteness_ASTME313(cases)
 
 
 class TestWhitenessGanz1979(unittest.TestCase):
@@ -477,11 +467,8 @@ class TestWhitenessGanz1979(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            xy = np.array(case[0:2])
-            Y = np.array(case[0])
-            whiteness_Ganz1979(xy, Y)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        whiteness_Ganz1979(cases[..., 0:2], cases[..., 0])
 
 
 class TestWhitenessCIE2004(unittest.TestCase):
@@ -579,12 +566,8 @@ class TestWhitenessCIE2004(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            xy = np.array(case[0:2])
-            Y = np.array(case[0])
-            xy_n = np.array(case[0:2])
-            whiteness_CIE2004(xy, Y, xy_n)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        whiteness_CIE2004(cases[..., 0:2], cases[..., 0], cases[..., 0:2])
 
 
 class TestWhiteness(unittest.TestCase):

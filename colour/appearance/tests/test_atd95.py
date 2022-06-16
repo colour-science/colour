@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import XYZ_to_ATD95
 from colour.utilities import (
@@ -205,11 +205,9 @@ class TestXYZ_to_ATD95(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_0 = np.array(case)
-            Y_0 = np.array(case[0])
-            k_1 = np.array(case[0])
-            k_2 = np.array(case[0])
-            XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_ATD95(cases, cases, cases[..., 0], cases[..., 0], cases[..., 0])
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -10,10 +10,10 @@ References
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.appearance import (
-    VIEWING_CONDITIONS_Hellwig2022,
+    VIEWING_CONDITIONS_HELLWIG2022,
     InductionFactors_Hellwig2022,
     CAM_Specification_Hellwig2022,
     XYZ_to_Hellwig2022,
@@ -55,7 +55,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         np.testing.assert_allclose(
             XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround),
             np.array(
@@ -146,7 +146,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         specification = XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
 
         XYZ = np.tile(XYZ, (6, 1))
@@ -184,7 +184,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         specification = XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
 
         d_r = (
@@ -229,14 +229,13 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            L_A = case[0]
-            Y_b = case[0]
-            surround = InductionFactors_Hellwig2022(case[0], case[0], case[0])
-            XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        surround = InductionFactors_Hellwig2022(
+            cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        XYZ_to_Hellwig2022(
+            cases, cases, cases[..., 0], cases[..., 0], surround
+        )
 
 
 class TestHellwig2022_to_XYZ(unittest.TestCase):
@@ -257,7 +256,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         np.testing.assert_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([19.01, 20.00, 21.78]),
@@ -305,7 +304,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         specification = XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
         XYZ = Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
@@ -348,7 +347,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         XYZ_w = np.array([95.05, 100.00, 108.88])
         L_A = 318.31
         Y_b = 20
-        surround = VIEWING_CONDITIONS_Hellwig2022["Average"]
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
         specification = XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
         XYZ = Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
 
@@ -406,7 +405,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
             np.array([95.05, 100.00, 108.88]),
             318.31,
             20.0,
-            VIEWING_CONDITIONS_Hellwig2022["Average"],
+            VIEWING_CONDITIONS_HELLWIG2022["Average"],
         )
 
     @ignore_numpy_errors
@@ -417,19 +416,20 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            J = case[0]
-            C = case[0]
-            h = case[0]
-            XYZ_w = np.array(case)
-            L_A = case[0]
-            Y_b = case[0]
-            surround = InductionFactors_Hellwig2022(case[0], case[0], case[0])
-            Hellwig2022_to_XYZ(
-                CAM_Specification_Hellwig2022(J, C, h, M=50),
-                XYZ_w,
-                L_A,
-                Y_b,
-                surround,
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        surround = InductionFactors_Hellwig2022(
+            cases[0, 0], cases[0, 0], cases[0, 0]
+        )
+        Hellwig2022_to_XYZ(
+            CAM_Specification_Hellwig2022(
+                cases[..., 0], cases[..., 0], cases[..., 0], M=50
+            ),
+            cases,
+            cases[..., 0],
+            cases[..., 0],
+            surround,
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

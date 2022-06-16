@@ -17,10 +17,9 @@ References
 from __future__ import annotations
 
 import numpy as np
-
-from colour.algebra import spow, vector_dot
-from colour.hints import ArrayLike, NDArray
-from colour.utilities import from_range_1, to_domain_1
+from colour.algebra import spow
+from colour.models import Iab_to_XYZ, XYZ_to_Iab
+from colour.hints import ArrayLike, NDArray, cast
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -112,13 +111,22 @@ def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArray:
     array([ 0.4242125...,  0.1863249...,  0.1068922...])
     """
 
-    XYZ = to_domain_1(XYZ)
+    def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArray:
+        """
+        Callable applying the forward non-linearity to the :math:`LMS`
+        colourspace array.
+        """
 
-    LMS = vector_dot(MATRIX_IGPGTG_XYZ_TO_LMS, XYZ)
-    LMS_prime = spow(LMS / np.array([18.36, 21.46, 19435]), 0.427)
-    IgPgTg = vector_dot(MATRIX_IGPGTG_LMS_P_TO_IGPGTG, LMS_prime)
+        return cast(
+            NDArray, spow(LMS / np.array([18.36, 21.46, 19435]), 0.427)
+        )
 
-    return from_range_1(IgPgTg)
+    return XYZ_to_Iab(
+        XYZ,
+        LMS_to_LMS_p_callable,
+        MATRIX_IGPGTG_XYZ_TO_LMS,
+        MATRIX_IGPGTG_LMS_P_TO_IGPGTG,
+    )
 
 
 def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArray:
@@ -165,10 +173,19 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArray:
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    IgPgTg = to_domain_1(IgPgTg)
+    def LMS_p_to_LMS_callable(LMS_p: ArrayLike) -> NDArray:
+        """
+        Callable applying the reverse non-linearity to the :math:`LMS_p`
+        colourspace array.
+        """
 
-    LMS = vector_dot(MATRIX_IGPGTG_IGPGTG_TO_LMS_P, IgPgTg)
-    LMS_prime = spow(LMS, 1 / 0.427) * np.array([18.36, 21.46, 19435])
-    XYZ = vector_dot(MATRIX_IGPGTG_LMS_TO_XYZ, LMS_prime)
+        return cast(
+            NDArray, spow(LMS_p, 1 / 0.427) * np.array([18.36, 21.46, 19435])
+        )
 
-    return from_range_1(XYZ)
+    return Iab_to_XYZ(
+        IgPgTg,
+        LMS_p_to_LMS_callable,
+        MATRIX_IGPGTG_IGPGTG_TO_LMS_P,
+        MATRIX_IGPGTG_LMS_TO_XYZ,
+    )

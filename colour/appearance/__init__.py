@@ -22,7 +22,7 @@ from .cam16 import (
 )
 from .hellwig2022 import (
     InductionFactors_Hellwig2022,
-    VIEWING_CONDITIONS_Hellwig2022,
+    VIEWING_CONDITIONS_HELLWIG2022,
     CAM_Specification_Hellwig2022,
     XYZ_to_Hellwig2022,
     Hellwig2022_to_XYZ,
@@ -90,7 +90,7 @@ __all__ += [
 ]
 __all__ += [
     "InductionFactors_Hellwig2022",
-    "VIEWING_CONDITIONS_Hellwig2022",
+    "VIEWING_CONDITIONS_HELLWIG2022",
     "CAM_Specification_Hellwig2022",
     "XYZ_to_Hellwig2022",
     "Hellwig2022_to_XYZ",

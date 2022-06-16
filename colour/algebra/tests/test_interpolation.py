@@ -13,7 +13,7 @@ from __future__ import annotations
 import numpy as np
 import os
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.algebra.interpolation import vertices_and_relative_coordinates
 from colour.hints import NDArray, Tuple
@@ -1288,12 +1288,10 @@ class TestLinearInterpolator(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
-                linear_interpolator = LinearInterpolator(
-                    np.array(case), np.array(case)
-                )
+                linear_interpolator = LinearInterpolator(case, case)
                 linear_interpolator(case[0])
             except ValueError:
                 pass
@@ -1377,12 +1375,10 @@ class TestSpragueInterpolator(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
-                sprague_interpolator = SpragueInterpolator(
-                    np.array(case), np.array(case)
-                )
+                sprague_interpolator = SpragueInterpolator(case, case)
                 sprague_interpolator(case[0])  # pragma: no cover
             except AssertionError:
                 pass
@@ -1562,12 +1558,10 @@ default` property.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             try:
-                null_interpolator = NullInterpolator(
-                    np.array(case), np.array(case)
-                )
+                null_interpolator = NullInterpolator(case, case)
                 null_interpolator(case[0])
             except ValueError:
                 pass

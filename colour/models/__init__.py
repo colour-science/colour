@@ -6,11 +6,13 @@ from colour.utilities.documentation import is_documentation_building
 from colour.hints import Any
 
 from .common import (
-    Jab_to_JCh,
-    JCh_to_Jab,
     COLOURSPACE_MODELS,
     COLOURSPACE_MODELS_AXIS_LABELS,
     COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
+    Jab_to_JCh,
+    JCh_to_Jab,
+    XYZ_to_Iab,
+    Iab_to_XYZ,
 )
 from .cam02_ucs import (
     JMh_CIECAM02_to_CAM02LCD,
@@ -90,6 +92,7 @@ from .jzazbz import (
     Izazbz_to_XYZ,
     Jzazbz_to_XYZ,
 )
+from .munish2021 import XYZ_to_IPT_Munish2021, IPT_Munish2021_to_XYZ
 from .hdr_ipt import HDR_IPT_METHODS, XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .oklab import XYZ_to_Oklab, Oklab_to_XYZ
 from .osa_ucs import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
@@ -337,11 +340,13 @@ from .rgb import RGB_to_YCoCg, YCoCg_to_RGB
 from .rgb import RGB_to_ICtCp, ICtCp_to_RGB, XYZ_to_ICtCp, ICtCp_to_XYZ
 
 __all__ = [
-    "Jab_to_JCh",
-    "JCh_to_Jab",
     "COLOURSPACE_MODELS",
     "COLOURSPACE_MODELS_AXIS_LABELS",
     "COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE",
+    "Jab_to_JCh",
+    "JCh_to_Jab",
+    "XYZ_to_Iab",
+    "Iab_to_XYZ",
 ]
 __all__ += [
     "JMh_CIECAM02_to_CAM02LCD",
@@ -447,6 +452,10 @@ __all__ += [
     "XYZ_to_Jzazbz",
     "Izazbz_to_XYZ",
     "Jzazbz_to_XYZ",
+]
+__all__ += [
+    "XYZ_to_IPT_Munish2021",
+    "IPT_Munish2021_to_XYZ",
 ]
 __all__ += [
     "HDR_IPT_METHODS",

@@ -56,31 +56,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "attest",
     "Structure",
     "Lookup",
     "CaseInsensitiveMapping",
     "LazyCaseInsensitiveMapping",
     "Node",
 ]
-
-
-def attest(condition: Boolean, message: str = ""):
-    """
-    Provide the `assert` statement functionality without being disabled by
-    optimised Python execution.
-
-    See :func:`colour.utilities.assert` for more information.
-
-    Notes
-    -----
-    -   This definition is duplicated to avoid import circular dependency.
-    """
-
-    # Avoiding circular dependency.
-    import colour.utilities
-
-    colour.utilities.attest(condition, message)
 
 
 class Structure(dict):
@@ -266,7 +247,7 @@ class CaseInsensitiveMapping(MutableMapping):
     """
     Implement a case-insensitive :class:`dict`-like object.
 
-    Allows values retrieving from keys while ignoring the key case.
+    Allows value retrieving from key while ignoring the key case.
     The keys are expected to be str or :class:`str`-like objects supporting the
     :meth:`str.lower` method.
 
@@ -298,6 +279,7 @@ class CaseInsensitiveMapping(MutableMapping):
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__eq__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.__ne__`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.copy`
+    -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_keys`
     -   :meth:`~colour.utilities.CaseInsensitiveMapping.lower_items`
 
     References
@@ -548,6 +530,19 @@ class CaseInsensitiveMapping(MutableMapping):
 
         return CaseInsensitiveMapping(dict(self._data.values()))
 
+    def lower_keys(self) -> Generator:
+        """
+        Iterate over the lower-case keys of the case-insensitive
+        :class:`dict`-like object.
+
+        Yields
+        ------
+        Generator
+            Item generator.
+        """
+
+        yield from self._data.keys()
+
     def lower_items(self) -> Generator:
         """
         Iterate over the lower-case items of the case-insensitive
@@ -563,7 +558,7 @@ class CaseInsensitiveMapping(MutableMapping):
         -   The iterated items are the lower-case items.
         """
 
-        return ((item, value[1]) for (item, value) in self._data.items())
+        yield from ((item, value[1]) for (item, value) in self._data.items())
 
 
 class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
@@ -571,7 +566,7 @@ class LazyCaseInsensitiveMapping(CaseInsensitiveMapping):
     Implement a lazy case-insensitive :class:`dict`-like object inheriting
     from :class:`CaseInsensitiveMapping` class.
 
-    Allows lay values retrieving from keys while ignoring the key case.
+    Allows lazy value retrieving from key while ignoring the key case.
     The keys are expected to be str or :class:`str`-like objects supporting the
     :meth:`str.lower` method.
 
@@ -759,6 +754,8 @@ class Node:
     def name(self, value: str):
         """Setter for the **self.name** property."""
 
+        from colour.utilities import attest
+
         attest(
             isinstance(value, str),
             f'"name" property: "{value}" type is not "str"!',
@@ -787,6 +784,8 @@ class Node:
     @parent.setter
     def parent(self, value: Optional[Node]):
         """Setter for the **self.parent** property."""
+
+        from colour.utilities import attest
 
         if value is not None:
             attest(
@@ -820,6 +819,8 @@ class Node:
     @children.setter
     def children(self, value: List[Node]):
         """Setter for the **self.children** property."""
+
+        from colour.utilities import attest
 
         attest(
             isinstance(value, list),

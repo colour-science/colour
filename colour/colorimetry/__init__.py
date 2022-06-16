@@ -12,6 +12,8 @@ from .blackbody import (
     planck_law,
     blackbody_spectral_radiance,
     sd_blackbody,
+    rayleigh_jeans_law,
+    sd_rayleigh_jeans,
 )
 from .cmfs import (
     LMS_ConeFundamentals,
@@ -137,6 +139,8 @@ __all__ += [
     "planck_law",
     "blackbody_spectral_radiance",
     "sd_blackbody",
+    "rayleigh_jeans_law",
+    "sd_rayleigh_jeans",
 ]
 __all__ += [
     "LMS_ConeFundamentals",

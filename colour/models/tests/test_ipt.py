@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -84,10 +84,8 @@ class TestXYZ_to_IPT(unittest.TestCase):
         """Test :func:`colour.models.ipt.XYZ_to_IPT` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_IPT(XYZ)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_IPT(cases)
 
 
 class TestIPT_to_XYZ(unittest.TestCase):
@@ -155,10 +153,8 @@ class TestIPT_to_XYZ(unittest.TestCase):
         """Test :func:`colour.models.ipt.IPT_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            IPT = np.array(case)
-            IPT_to_XYZ(IPT)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        IPT_to_XYZ(cases)
 
 
 class TestIPTHueAngle(unittest.TestCase):
@@ -226,10 +222,8 @@ class TestIPTHueAngle(unittest.TestCase):
         """Test :func:`colour.models.ipt.IPT_hue_angle` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            IPT = np.array(case)
-            IPT_hue_angle(IPT)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        IPT_hue_angle(cases)
 
 
 if __name__ == "__main__":

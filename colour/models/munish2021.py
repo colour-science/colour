@@ -1,17 +1,19 @@
 """
-Oklab Colourspace
-=================
+Munish Ragoo and Farup (2021) Optimised IPT Colourspace
+=======================================================
 
-Defines the *Oklab* colourspace transformations:
+Defines the *Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace
+transformations:
 
--   :func:`colour.XYZ_to_Oklab`
--   :func:`colour.Oklab_to_XYZ`
+-   :func:`colour.XYZ_to_IPT_Munish2021`
+-   :func:`colour.IPT_Munish2021_to_XYZ`
 
 References
 ----------
--   :cite:`Ottosson2020` : Ottosson, B. (2020). A perceptual color space for
-    image processing. Retrieved December 24, 2020, from
-    https://bottosson.github.io/posts/oklab/
+-   :cite:`Munish2021` : Munish Ragoo, L., & Farup, I. (2021). Optimising
+    a Euclidean Colour Space Transform for Colour Order and Perceptual
+    Uniformity. Color and Imaging Conference, 29(1), 282-287.
+    doi:10.2352/issn.2169-2629.2021.29.282
 """
 
 from __future__ import annotations
@@ -31,42 +33,49 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "MATRIX_1_XYZ_TO_LMS",
-    "MATRIX_1_LMS_TO_XYZ",
-    "MATRIX_2_LMS_TO_LAB",
-    "MATRIX_2_LAB_TO_LMS",
-    "XYZ_to_Oklab",
-    "Oklab_to_XYZ",
+    "MATRIX_IPT_XYZ_TO_LMS",
+    "MATRIX_IPT_LMS_TO_XYZ",
+    "MATRIX_IPT_LMS_P_TO_IPT",
+    "MATRIX_IPT_IPT_TO_LMS_P",
+    "XYZ_to_IPT_Munish2021",
+    "IPT_Munish2021_to_XYZ",
 ]
 
-MATRIX_1_XYZ_TO_LMS: NDArray = np.array(
+MATRIX_IPT_XYZ_TO_LMS: NDArray = np.array(
     [
-        [0.8189330101, 0.3618667424, -0.1288597137],
-        [0.0329845436, 0.9293118715, 0.0361456387],
-        [0.0482003018, 0.2643662691, 0.6338517070],
+        [0.4321, 0.6906, -0.0930],
+        [-0.1793, 1.1458, 0.0226],
+        [0.0631, 0.1532, 0.7226],
     ]
 )
 """*CIE XYZ* tristimulus values to normalised cone responses matrix."""
 
-MATRIX_1_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_1_XYZ_TO_LMS)
+MATRIX_IPT_LMS_TO_XYZ: NDArray = np.linalg.inv(MATRIX_IPT_XYZ_TO_LMS)
 """Normalised cone responses to *CIE XYZ* tristimulus values matrix."""
 
-MATRIX_2_LMS_TO_LAB: NDArray = np.array(
+MATRIX_IPT_LMS_P_TO_IPT: NDArray = np.array(
     [
-        [0.2104542553, 0.7936177850, -0.0040720468],
-        [1.9779984951, -2.4285922050, 0.4505937099],
-        [0.0259040371, 0.7827717662, -0.8086757660],
+        [0.3037, 0.6688, 0.0276],
+        [3.9247, -4.7339, 0.8093],
+        [1.5932, -0.5205, -1.0727],
     ]
 )
-"""Normalised cone responses to *Oklab* colourspace matrix."""
+"""
+Normalised non-linear cone responses to *Munish Ragoo and Farup (2021)*
+*Optimised IPT* colourspace matrix.
+"""
 
-MATRIX_2_LAB_TO_LMS: NDArray = np.linalg.inv(MATRIX_2_LMS_TO_LAB)
-"""*Oklab* colourspace to normalised cone responses matrix."""
+MATRIX_IPT_IPT_TO_LMS_P: NDArray = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
+"""
+*Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace to normalised
+non-linear cone responses matrix.
+"""
 
 
-def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
+def XYZ_to_IPT_Munish2021(XYZ: ArrayLike) -> NDArray:
     """
-    Convert from *CIE XYZ* tristimulus values to *Oklab* colourspace.
+    Convert from *CIE XYZ* tristimulus values to
+    *Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace.
 
     Parameters
     ----------
@@ -76,7 +85,7 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
     Returns
     -------
     :class:`numpy.ndarray`
-        *Oklab* colourspace array.
+        *Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace array.
 
     Notes
     -----
@@ -89,11 +98,11 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 1]        | ``L`` : [0, 1]  |
+    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
     |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
+    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
     |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
     +------------+-----------------------+-----------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -101,31 +110,32 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArray:
 
     References
     ----------
-    :cite:`Ottosson2020`
+    :cite:`Munish2021`
 
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_Oklab(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.5163401...,  0.154695 ...,  0.0628957...])
+    >>> XYZ_to_IPT_Munish2021(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.4224824...,  0.2910514...,  0.2041066...])
     """
 
     return XYZ_to_Iab(
         XYZ,
-        partial(spow, p=1 / 3),
-        MATRIX_1_XYZ_TO_LMS,
-        MATRIX_2_LMS_TO_LAB,
+        partial(spow, p=0.4071),
+        MATRIX_IPT_XYZ_TO_LMS,
+        MATRIX_IPT_LMS_P_TO_IPT,
     )
 
 
-def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
+def IPT_Munish2021_to_XYZ(IPT: ArrayLike) -> NDArray:
     """
-    Convert from *Oklab* colourspace to *CIE XYZ* tristimulus values.
+    Convert from *Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace to
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
-    Lab
-        *Oklab* colourspace array.
+    IPT
+        *Munish Ragoo and Farup (2021)* *Optimised IPT* colourspace array.
 
     Returns
     -------
@@ -137,11 +147,11 @@ def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 1]        | ``L`` : [0, 1]  |
+    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
     |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
+    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
     |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
@@ -152,18 +162,18 @@ def Oklab_to_XYZ(Lab: ArrayLike) -> NDArray:
 
     References
     ----------
-    :cite:`Ottosson2020`
+    :cite:`Munish2021`
 
     Examples
     --------
-    >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
-    >>> Oklab_to_XYZ(Lab)  # doctest: +ELLIPSIS
+    >>> IPT = np.array([0.42248243, 0.2910514, 0.20410663])
+    >>> IPT_Munish2021_to_XYZ(IPT)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     return Iab_to_XYZ(
-        Lab,
-        partial(spow, p=3),
-        MATRIX_2_LAB_TO_LMS,
-        MATRIX_1_LMS_TO_XYZ,
+        IPT,
+        partial(spow, p=1 / 0.4071),
+        MATRIX_IPT_IPT_TO_LMS_P,
+        MATRIX_IPT_LMS_TO_XYZ,
     )

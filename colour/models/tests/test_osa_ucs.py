@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.models import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
 from colour.utilities import domain_range_scale, ignore_numpy_errors
@@ -95,9 +95,8 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ_to_OSA_UCS(np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        XYZ_to_OSA_UCS(cases)
 
 
 class TestOSA_UCS_to_XYZ(unittest.TestCase):
@@ -184,9 +183,8 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            OSA_UCS_to_XYZ(np.array(case))
+        cases = np.array(list(set(product(cases, repeat=3))))
+        OSA_UCS_to_XYZ(cases)
 
 
 if __name__ == "__main__":

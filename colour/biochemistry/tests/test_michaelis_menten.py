@@ -5,7 +5,7 @@ module.
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.biochemistry import (
     reaction_rate_MichaelisMenten_Michaelis1913,
@@ -106,12 +106,8 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            v = np.array(case)
-            V_max = np.array(case)
-            K_m = np.array(case)
-            reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        reaction_rate_MichaelisMenten_Michaelis1913(cases, cases, cases)
 
 
 class TestSubstrateConcentrationMichaelisMentenMichaelis1913(
@@ -208,14 +204,10 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            s = np.array(case)
-            V_max = np.array(case)
-            K_m = np.array(case)
-            substrate_concentration_MichaelisMenten_Michaelis1913(
-                s, V_max, K_m
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        substrate_concentration_MichaelisMenten_Michaelis1913(
+            cases, cases, cases
+        )
 
 
 class TestReactionRateMichaelisMentenAbebe2017(unittest.TestCase):
@@ -297,13 +289,8 @@ reaction_rate_MichaelisMenten_Abebe2017` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            v = np.array(case)
-            V_max = np.array(case)
-            K_m = np.array(case)
-            b_m = np.array(case)
-            reaction_rate_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m)
+        cases = np.array(list(set(product(cases, repeat=3))))
+        reaction_rate_MichaelisMenten_Abebe2017(cases, cases, cases, cases)
 
 
 class TestSubstrateConcentrationMichaelisMentenAbebe2017(unittest.TestCase):
@@ -401,15 +388,10 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            s = np.array(case)
-            V_max = np.array(case)
-            K_m = np.array(case)
-            b_m = np.array(case)
-            substrate_concentration_MichaelisMenten_Abebe2017(
-                s, V_max, K_m, b_m
-            )
+        cases = np.array(list(set(product(cases, repeat=3))))
+        substrate_concentration_MichaelisMenten_Abebe2017(
+            cases, cases, cases, cases
+        )
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 from numpy.linalg import LinAlgError
 
 from colour.adaptation import chromatic_adaptation_Fairchild1990
@@ -137,11 +137,11 @@ chromatic_adaptation_Fairchild1990` definition nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
+        cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
-            XYZ_1 = np.array(case)
-            XYZ_n = np.array(case)
-            XYZ_r = np.array(case)
+            XYZ_1 = case
+            XYZ_n = case
+            XYZ_r = case
             Y_n = case[0]
             try:
                 chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)

@@ -3,7 +3,7 @@
 
 import numpy as np
 import unittest
-from itertools import permutations
+from itertools import product
 
 from colour.colorimetry import MSDS_CMFS
 from colour.temperature import CCT_to_uv_Ohno2013, uv_to_CCT_Ohno2013
@@ -169,10 +169,8 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            uv = np.array(case)
-            uv_to_CCT_Ohno2013(uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        uv_to_CCT_Ohno2013(cases)
 
 
 class TestCCT_to_uv_Ohno2013(unittest.TestCase):
@@ -234,10 +232,8 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=2))
-        for case in cases:
-            CCT_D_uv = np.array(case)
-            CCT_to_uv_Ohno2013(CCT_D_uv)
+        cases = np.array(list(set(product(cases, repeat=2))))
+        CCT_to_uv_Ohno2013(cases)
 
 
 if __name__ == "__main__":

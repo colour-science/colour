@@ -116,10 +116,8 @@ logarithmic_function_basic` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         styles = ["log10", "antiLog10", "log2", "antiLog2", "logB", "antiLogB"]
-
-        for case in cases:
-            for style in styles:
-                logarithmic_function_basic(case, style)
+        for style in styles:
+            logarithmic_function_basic(cases, style)
 
 
 class TestLogarithmFunction_Quasilog(unittest.TestCase):
@@ -255,10 +253,8 @@ logarithmic_function_quasilog` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         styles = ["lintolog", "logtolin"]
-
-        for case in cases:
-            for style in styles:
-                logarithmic_function_quasilog(case, style)
+        for style in styles:
+            logarithmic_function_quasilog(cases, style)
 
 
 class TestLogarithmFunction_Camera(unittest.TestCase):
@@ -471,10 +467,8 @@ logarithmic_function_camera` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         styles = ["cameraLinToLog", "cameraLogToLin"]
-
-        for case in cases:
-            for style in styles:
-                logarithmic_function_camera(case, style)
+        for style in styles:
+            logarithmic_function_camera(cases, style)
 
 
 class TestLogEncoding_Log2(unittest.TestCase):

@@ -515,8 +515,8 @@ class SpectralShape:
         if interval_effective != self._interval:
             self._interval = interval_effective
             runtime_warning(
-                f'"{(self._start, self._end, self._interval)}" shape could '
-                f'not be honoured, using "{self}"!'
+                f'"{(start, end, interval)}" shape could not be honoured, '
+                f'using "{self}"!'
             )
 
         return range_
@@ -569,6 +569,11 @@ class SpectralDistribution(Signal):
     strict_name
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.
+
+    Warnings
+    --------
+    The *Cubic Spline* method might produce unexpected results with
+    exceptionally noisy or non-uniformly spaced data.
 
     Attributes
     ----------
@@ -1624,6 +1629,11 @@ class MultiSpectralDistributions(MultiSignals):
     strict_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.MultiSpectralDistributions.labels` property value.
+
+    Warnings
+    --------
+    The *Cubic Spline* method might produce unexpected results with
+    exceptionally noisy or non-uniformly spaced data.
 
     Attributes
     ----------
