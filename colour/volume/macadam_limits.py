@@ -20,7 +20,9 @@ from colour.hints import (
 )
 from colour.colorimetry import (
     MSDS_CMFS,
+    MultiSpectralDistributions,
     reshape_sd,
+    SpectralDistributions
     SpectralShape,
     SDS_ILLUMINANTS,
 )
@@ -53,6 +55,7 @@ _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS: Dict = (
 def _XYZ_optimal_colour_stimuli(
     illuminant: Union[Literal["A", "C", "D65"], str] = "D65"
 ) -> NDArray:
+
     """
     Return given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
@@ -60,6 +63,7 @@ def _XYZ_optimal_colour_stimuli(
     ----------
     illuminant
         Illuminant name.
+
     Returns
     -------
     :class:`numpy.ndarray`
@@ -95,6 +99,7 @@ def is_within_macadam_limits(
     illuminant: Union[Literal["A", "C", "D65"], str] = "D65",
     tolerance: Optional[Floating] = None,
 ) -> NDArray:
+
     """
     Return whether given *CIE xyY* colourspace array is within MacAdam limits
     of given illuminant.
@@ -150,9 +155,10 @@ def macadam_limits(
     cmfs: Optional[MultiSpectralDistributions] = MSDS_CMFS[
         "CIE 1931 2 Degree Standard Observer"
     ],
-) -> NDArray:
+    ) -> NDArray:
+
     """
-    Returns an array of CIE -X,Y,Z - Triples containing colour-coordinates
+    Return an array of CIE -X,Y,Z - Triples containing colour-coordinates
     of the MacAdam-limit for the defined luminance for every
     whavelength defined in spectral_range.
     Target ist a fast running codey, by
