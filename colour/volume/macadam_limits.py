@@ -236,9 +236,9 @@ def macadam_limits(
     """
 
     if cmfs is None:
-        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]        
+        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     if illuminant is None:
-        illuminant = SDS_ILLUMINANTS["E"]        
+        illuminant = SDS_ILLUMINANTS["E"]
     if spectral_range is None:
         spectral_range = SpectralShape(360, 830, 1)
     target_bright = luminance
