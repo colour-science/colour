@@ -22,7 +22,7 @@ from colour.colorimetry import (
     MSDS_CMFS,
     MultiSpectralDistributions,
     reshape_sd,
-    SpectralDistributions
+    SpectralDistributions,
     SpectralShape,
     SDS_ILLUMINANTS,
 )
@@ -152,10 +152,9 @@ def macadam_limits(
     luminance: Floating = 0.5,
     illuminant: Optional[SpectralDistribution] = SDS_ILLUMINANTS["E"],
     spectral_range: Optional[SpectralShape] = SpectralShape(360, 830, 1),
-    cmfs: Optional[MultiSpectralDistributions] = MSDS_CMFS[
-        "CIE 1931 2 Degree Standard Observer"
-    ],
-    ) -> NDArray:
+    cmfs: Optional[MultiSpectralDistributions] =
+        MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+) -> NDArray:
 
     """
     Return an array of CIE -X,Y,Z - Triples containing colour-coordinates
