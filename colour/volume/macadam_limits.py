@@ -153,7 +153,7 @@ def is_within_macadam_limits(
 def macadam_limits(
     luminance: Floating = 0.5,
     illuminant: Optional[SpectralDistribution] = SDS_ILLUMINANTS["E"],
-    spectral_range: Optional[SpectralShape()] = SpectralShape(360, 830, 1),
+    spectral_range: Optional[SpectralShape] = SpectralShape(360, 830, 1),
     cmfs: Optional[SpectralDistribution] = MSDS_CMFS[
         "CIE 1931 2 Degree Standard Observer"
     ],
