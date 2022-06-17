@@ -577,6 +577,14 @@ def write_image_Imageio(
     :class:`bool`
         Definition success.
 
+    Notes
+    -----
+    -   It is possible to control how the image are saved by the *Freeimage*
+        backend by using the ``flags`` keyword argument and passing a desired
+        value. See the *Load / Save flag constants* section in
+        https://sourceforge.net/p/freeimage/svn/HEAD/tree/FreeImage/trunk/\
+Source/FreeImage.h
+
     Examples
     --------
     >>> import os
@@ -591,6 +599,16 @@ def write_image_Imageio(
     """
 
     from imageio import imwrite
+
+    if all(
+        [
+            path.lower().endswith(".exr"),
+            bit_depth in ("float32", "float64", "float128"),
+        ]
+    ):
+        # Ensures that "OpenEXR" images are saved as "Float32" according to the
+        # image bit-depth.
+        kwargs["flags"] = 0x0001
 
     image = convert_bit_depth(image, bit_depth)
 
@@ -651,6 +669,11 @@ def write_image(
         writing will be performed by *Imageio*.
     -   If the given method is *Imageio*, ``kwargs`` is passed directly to the
         wrapped definition.
+    -   It is possible to control how the image are saved by the *Freeimage*
+        backend by using the ``flags`` keyword argument and passing a desired
+        value. See the *Load / Save flag constants* section in
+        https://sourceforge.net/p/freeimage/svn/HEAD/tree/FreeImage/trunk/\
+Source/FreeImage.h
 
     Examples
     --------

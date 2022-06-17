@@ -15,7 +15,7 @@ from colour.io import read_image_Imageio, write_image_Imageio
 from colour.io import read_image, write_image
 from colour.io import as_3_channels_image
 from colour.io import ImageAttribute_Specification
-from colour.utilities import attest, is_openimageio_installed
+from colour.utilities import attest, full, is_openimageio_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -509,6 +509,19 @@ class TestWriteImageImageio(unittest.TestCase):
         image = read_image_Imageio(target_image_path)
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float32"))
+
+        target_image_path = os.path.join(
+            self._temporary_directory, "Full_White.exr"
+        )
+        image = full((32, 16, 3), 1e6, dtype=np.float16)
+        write_image_Imageio(image, target_image_path)
+        image = read_image_Imageio(target_image_path)
+        self.assertEqual(np.max(image), np.inf)
+
+        image = full((32, 16, 3), 1e6)
+        write_image_Imageio(image, target_image_path)
+        image = read_image_Imageio(target_image_path)
+        self.assertEqual(np.max(image), 1e6)
 
 
 class TestReadImage(unittest.TestCase):
