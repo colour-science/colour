@@ -70,6 +70,7 @@ __all__ = [
     "disable_multiprocessing",
     "multiprocessing_pool",
     "is_ctlrender_installed",
+    "is_graphviz_installed",
     "is_matplotlib_installed",
     "is_networkx_installed",
     "is_opencolorio_installed",
@@ -608,6 +609,42 @@ def is_ctlrender_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
+def is_graphviz_installed(raise_exception: Boolean = False) -> Boolean:
+    """
+    Return whether *Graphviz* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *Graphviz* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *Graphviz* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *Graphviz* is not installed.
+    """
+
+    try:  # pragma: no cover
+        # pylint: disable=W0612
+        import pygraphviz  # noqa
+
+        return True
+    except ImportError as error:  # pragma: no cover
+        if raise_exception:
+            raise ImportError(
+                '"Graphviz" related API features are not available: '
+                f'"{error}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+        return False
+
+
 def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     """
     Return whether *Matplotlib* is installed and available.
@@ -901,6 +938,7 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
 _REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
     {
         "ctlrender": is_ctlrender_installed,
+        "Graphviz": is_graphviz_installed,
         "Matplotlib": is_matplotlib_installed,
         "NetworkX": is_networkx_installed,
         "OpenColorIO": is_opencolorio_installed,
@@ -919,6 +957,7 @@ Mapping of requirements to their respective callables.
 def required(
     *requirements: Literal[
         "ctlrender",
+        "Graphviz",
         "Matplotlib",
         "NetworkX",
         "OpenColorIO",
