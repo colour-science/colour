@@ -29,6 +29,7 @@ __all__ = [
 ]
 
 
+@required("Graphviz")
 @required("NetworkX")
 def plot_automatic_colour_conversion_graph(
     filename: str,

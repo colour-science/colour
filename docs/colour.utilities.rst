@@ -43,6 +43,7 @@ Common
     disable_multiprocessing
     multiprocessing_pool
     is_ctlrender_installed
+    is_graphviz_installed
     is_matplotlib_installed
     is_networkx_installed
     is_opencolorio_installed
