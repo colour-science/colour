@@ -163,3 +163,4 @@ Common
     smoothstep_function
     smooth
     is_identity
+    eigen_decomposition

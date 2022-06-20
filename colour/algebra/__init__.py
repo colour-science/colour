@@ -16,6 +16,7 @@ from .common import (
     smoothstep_function,
     smooth,
     is_identity,
+    eigen_decomposition,
 )
 from .coordinates import *  # noqa
 from . import coordinates
@@ -75,6 +76,7 @@ __all__ += [
     "smoothstep_function",
     "smooth",
     "is_identity",
+    "eigen_decomposition",
 ]
 __all__ += coordinates.__all__
 __all__ += [
