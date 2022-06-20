@@ -21,6 +21,7 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass
 
+from colour.algebra import eigen_decomposition
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
@@ -853,10 +854,12 @@ class Data_Otsu2018:
                 msds_to_XYZ_integration(self._mean, **settings) / 100
             )
 
-            matrix_data = self.reflectances - self._mean
-            matrix_covariance = np.dot(np.transpose(matrix_data), matrix_data)
-            _eigenvalues, eigenvectors = np.linalg.eigh(matrix_covariance)
-            self._basis_functions = np.transpose(eigenvectors[:, -3:])
+            _w, w = eigen_decomposition(
+                self.reflectances - self._mean,
+                descending_order=False,
+                covariance_matrix=True,
+            )
+            self._basis_functions = np.transpose(w[:, -3:])
 
             self._M = np.transpose(
                 msds_to_XYZ_integration(self._basis_functions, **settings)
