@@ -20,6 +20,7 @@ from colour.algebra import (
     linear_conversion,
     linstep_function,
     is_identity,
+    eigen_decomposition,
 )
 
 __author__ = "Colour Developers"
@@ -45,6 +46,7 @@ __all__ = [
     "TestLinearConversion",
     "TestLinstepFunction",
     "TestIsIdentity",
+    "TestEigenDecomposition",
 ]
 
 
@@ -597,6 +599,48 @@ class TestIsIdentity(unittest.TestCase):
         self.assertTrue(is_identity(np.array([1, 0, 0, 1]).reshape([2, 2])))
 
         self.assertFalse(is_identity(np.array([1, 2, 0, 1]).reshape([2, 2])))
+
+
+class TestEigenDecomposition(unittest.TestCase):
+    """
+    Define :func:`colour.algebra.common.eigen_decomposition` definition unit
+    tests methods.
+    """
+
+    def test_is_identity(self):
+        """Test :func:`colour.algebra.common.eigen_decomposition` definition."""
+
+        a = np.diag([1, 2, 3])
+
+        w, v = eigen_decomposition(a)
+        np.testing.assert_equal(w, np.array([3.0, 2.0, 1.0]))
+        np.testing.assert_equal(
+            v, np.array([[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])
+        )
+
+        w, v = eigen_decomposition(a, 1)
+        np.testing.assert_equal(w, np.array([3.0]))
+        np.testing.assert_equal(v, np.array([[0.0], [0.0], [1.0]]))
+
+        w, v = eigen_decomposition(a, descending_order=False)
+        np.testing.assert_equal(w, np.array([1.0, 2.0, 3.0]))
+        np.testing.assert_equal(
+            v, np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+        )
+
+        w, v = eigen_decomposition(a, covariance_matrix=True)
+        np.testing.assert_equal(w, np.array([9.0, 4.0, 1.0]))
+        np.testing.assert_equal(
+            v, np.array([[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])
+        )
+
+        w, v = eigen_decomposition(
+            a, descending_order=False, covariance_matrix=True
+        )
+        np.testing.assert_equal(w, np.array([1.0, 4.0, 9.0]))
+        np.testing.assert_equal(
+            v, np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+        )
 
 
 if __name__ == "__main__":

@@ -23,6 +23,7 @@ from colour.hints import (
     Literal,
     NDArray,
     Optional,
+    Tuple,
     Union,
     cast,
 )
@@ -59,6 +60,7 @@ __all__ = [
     "smoothstep_function",
     "smooth",
     "is_identity",
+    "eigen_decomposition",
 ]
 
 _SDIV_MODE: Literal[
@@ -778,3 +780,83 @@ def is_identity(a: ArrayLike) -> Boolean:
     """
 
     return np.array_equal(np.identity(len(np.diag(a))), a)
+
+
+def eigen_decomposition(
+    a: ArrayLike,
+    eigen_w_v_count: Optional[Integer] = None,
+    descending_order: Boolean = True,
+    covariance_matrix: Boolean = False,
+) -> Tuple[NDArray, NDArray]:
+    """
+    Return the eigen-values :math:`w` and eigen-vectors :math:`v` of given
+    array :math:`a` in given order.
+
+    Parameters
+    ----------
+    a
+        Array to return the eigen-values :math:`w` and eigen-vectors :math:`v`
+        for
+    eigen_w_v_count
+        Eigen-values :math:`w` and eigen-vectors :math:`v` count.
+    descending_order
+        Whether to return the eigen-values :math:`w` and eigen-vectors :math:`v`
+        in descending order.
+    covariance_matrix
+        Whether to compute the eigen-values :math:`w` and eigen-vectors
+        :math:`v` of the array :math:`a` covariance matrix
+        :math:`A =a^T\\cdot a`.
+
+    Returns
+    -------
+    :class:`tuple`
+        Tuple of eigen-values :math:`w` and eigen-vectors :math:`v`. The
+        eigenv-alues are in given order, each repeated according to
+        its multiplicity. The column ``v[:, i]`` is the normalized eigen-vector
+        corresponding to the eige-nvalue ``w[i]``.
+
+    Examples
+    --------
+    >>> a = np.diag([1, 2, 3])
+    >>> w,v = eigen_decomposition(a)
+    >>> w; v
+    array([ 3.,  2.,  1.])
+    array([[ 0.,  0.,  1.],
+           [ 0.,  1.,  0.],
+           [ 1.,  0.,  0.]])
+    >>> w,v = eigen_decomposition(a, 1)
+    >>> w; v
+    array([ 3.])
+    array([[ 0.],
+           [ 0.],
+           [ 1.]])
+    >>> w,v = eigen_decomposition(a, descending_order=False)
+    >>> w; v
+    array([ 1.,  2.,  3.])
+    array([[ 1.,  0.,  0.],
+           [ 0.,  1.,  0.],
+           [ 0.,  0.,  1.]])
+    >>> w,v = eigen_decomposition(a, covariance_matrix=True)
+    >>> w; v
+    array([ 9.,  4.,  1.])
+    array([[ 0.,  0.,  1.],
+           [ 0.,  1.,  0.],
+           [ 1.,  0.,  0.]])
+    """
+
+    A = as_float_array(a)
+
+    if covariance_matrix:
+        A = np.dot(np.transpose(A), A)
+
+    w, v = np.linalg.eigh(A)
+
+    if eigen_w_v_count is not None:
+        w = w[-eigen_w_v_count:]
+        v = v[..., -eigen_w_v_count:]
+
+    if descending_order:
+        w = np.flipud(w)
+        v = np.fliplr(v)
+
+    return w, v
