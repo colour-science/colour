@@ -151,9 +151,9 @@ def is_within_macadam_limits(
 
 def macadam_limits(
     luminance: Floating = 0.5,
-    illuminant: [SDS_ILLUMINANTS] = SDS_ILLUMINANTS["E"],
-    spectral_range: SpectralShape = SpectralShape(360, 830, 1),
-    cmfs: [MSDS_CMFS] = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+    illuminant = SDS_ILLUMINANTS["E"],
+    spectral_range = SpectralShape(360, 830, 1),
+    cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
 ) -> NDArray:
     """
     Return an array of CIE -X,Y,Z - Triples containing colour-coordinates
