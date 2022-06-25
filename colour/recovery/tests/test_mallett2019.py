@@ -105,8 +105,8 @@ class TestSpectralPrimaryDecompositionMallett2019(
     unittest.TestCase, TestMixinMallett2019
 ):
     """
-    Define :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`
-    definition unit tests methods.
+    Define :func:`colour.recovery.mallett2019.\
+spectral_primary_decomposition_Mallett2019` definition unit tests methods.
     """
 
     def setUp(self):
@@ -118,7 +118,7 @@ class TestSpectralPrimaryDecompositionMallett2019(
 
     def test_spectral_primary_decomposition_Mallett2019(self):
         """
-        Test :func:`colour.recovery.\
+        Test :func:`colour.recovery.mallett2019.\
 test_spectral_primary_decomposition_Mallett2019` definition.
         """
 
@@ -131,8 +131,8 @@ test_spectral_primary_decomposition_Mallett2019` definition.
 
 class TestRGB_to_sd_Mallett2019(unittest.TestCase, TestMixinMallett2019):
     """
-    Define :func:`colour.recovery.RGB_to_sd_Mallett2019` definition unit
-    tests methods.
+    Define :func:`colour.recovery.mallett2019.RGB_to_sd_Mallett2019` definition
+    unit tests methods.
     """
 
     def setUp(self):
@@ -144,7 +144,10 @@ class TestRGB_to_sd_Mallett2019(unittest.TestCase, TestMixinMallett2019):
         self._basis = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 
     def test_RGB_to_sd_Mallett2019(self):
-        """Test :func:`colour.recovery.RGB_to_sd_Mallett2019` definition."""
+        """
+        Test :func:`colour.recovery.mallett2019.RGB_to_sd_Mallett2019`
+        definition.
+        """
 
         self.check_basis_functions()
 

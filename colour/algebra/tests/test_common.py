@@ -579,12 +579,12 @@ class TestSmoothstepFunction(unittest.TestCase):
 
 class TestIsIdentity(unittest.TestCase):
     """
-    Define :func:`colour.algebra.matrix.is_identity` definition unit tests
+    Define :func:`colour.algebra.common.is_identity` definition unit tests
     methods.
     """
 
     def test_is_identity(self):
-        """Test :func:`colour.algebra.matrix.is_identity` definition."""
+        """Test :func:`colour.algebra.common.is_identity` definition."""
 
         self.assertTrue(
             is_identity(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]).reshape([3, 3]))
