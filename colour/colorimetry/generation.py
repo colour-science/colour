@@ -407,7 +407,7 @@ def sd_gaussian_normal(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1.0000000...
+    1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
     """
@@ -464,8 +464,8 @@ def sd_gaussian_fwhm(
     >>> sd = sd_gaussian_fwhm(555, 25)
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> sd[555]
-    1.0
+    >>> sd[555]  # doctest: +ELLIPSIS
+    1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.3678794...
     """
@@ -537,14 +537,14 @@ def sd_gaussian(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1.0000000...
+    1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
     >>> sd = sd_gaussian(555, 25, method='FWHM')
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> sd[555]
-    1.0
+    >>> sd[555]  # doctest: +ELLIPSIS
+    1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.3678794...
     """
@@ -604,7 +604,7 @@ def sd_single_led_Ohno2005(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1.0000000...
+    1...
     """
 
     settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM LED - Ohno (2005)"}
@@ -678,7 +678,7 @@ def sd_single_led(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1.0000000...
+    1...
     """
 
     method = validate_method(method, SD_SINGLE_LED_METHODS)
