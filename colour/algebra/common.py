@@ -283,8 +283,8 @@ def sdiv(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
     ...     with sdiv_mode("Raise"):
     ...         sdiv(a, b)
     ... except Exception as error:
-    ...     error
-    FloatingPointError('divide by zero encountered in true_divide')
+    ...     error  # doctest: +ELLIPSIS
+    FloatingPointError('divide by zero encountered in...divide')
     >>> with sdiv_mode("Ignore Zero Conversion"):
     ...     sdiv(a, b)
     array([ 0.,  1.,  0.])
