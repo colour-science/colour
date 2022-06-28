@@ -950,25 +950,73 @@ Academy Spectral Similarity Index (SSI)
     >>> colour.spectral_similarity_index(colour.SDS_ILLUMINANTS['C'], colour.SDS_ILLUMINANTS['D65'])
     94.0
 
-Spectral Up-Sampling & Reflectance Recovery - ``colour.recovery``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Spectral Up-Sampling & Recovery - ``colour.recovery``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Reflectance Recovery
+********************
 
 .. code-block:: python
 
     >>> colour.XYZ_to_sd([0.20654008, 0.12197225, 0.05136952])
-    SpectralDistribution([[  3.60000000e+02,   8.37868873e-02],
-                          [  3.65000000e+02,   8.39337988e-02],
+    SpectralDistribution([[  3.60000000e+02,   8.40144095e-02],
+                          [  3.65000000e+02,   8.41264236e-02],
+                          [  3.70000000e+02,   8.40057597e-02],
                           ...
-                          [  7.70000000e+02,   4.46793405e-01],
-                          [  7.75000000e+02,   4.46872853e-01],
-                          [  7.80000000e+02,   4.46914431e-01]],
-                         interpolator=SpragueInterpolator,
-                         interpolator_kwargs={},
-                         extrapolator=Extrapolator,
-                         extrapolator_kwargs={'method': 'Constant', 'left': None, 'right': None})
+                          [  7.70000000e+02,   4.46743012e-01],
+                          [  7.75000000e+02,   4.46817187e-01],
+                          [  7.80000000e+02,   4.46857696e-01]],
+                         SpragueInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
 
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS)
     ['Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
+
+Camera RGB Sensitivities Recovery
+*********************************
+
+    >>> illuminant = colour.colorimetry.SDS_ILLUMINANTS["D65"]
+    >>> sensitivities = colour.characterisation.MSDS_CAMERA_SENSITIVITIES["Nikon 5100 (NPL)"]
+    >>> reflectances = [
+    ...     sd.copy().align(colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017)
+    ...    for sd in colour.characterisation.SDS_COLOURCHECKERS["BabelColor Average"].values()
+    ... ]
+    >>> reflectances = colour.colorimetry.sds_and_msds_to_msds(reflectances)
+    >>> RGB = colour.colorimetry.msds_to_XYZ(
+    ...     reflectances,
+    ...     method="Integration",
+    ...     cmfs=sensitivities,
+    ...     illuminant=illuminant,
+    ...     k=0.01,
+    ...     shape=colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    ... )
+    >>> colour.recovery.RGB_to_msds_camera_sensitivities_Jiang2013(
+    ...     RGB,
+    ...     illuminant,
+    ...     reflectances,
+    ...     colour.recovery.BASIS_FUNCTIONS_DYER2017,
+    ...     colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
+    ... )
+    RGB_CameraSensitivities([[  4.00000000e+02,   7.22815777e-03,   9.22506480e-03,
+                               -9.88368972e-03],
+                             [  4.10000000e+02,  -8.50457609e-03,   1.12777480e-02,
+                                3.86248655e-03],
+                             [  4.20000000e+02,   4.58191132e-02,   7.15520948e-02,
+                                4.04068293e-01],
+                             ...
+                             [  6.80000000e+02,   4.08276173e-02,   5.55290476e-03,
+                                1.39907862e-03],
+                             [  6.90000000e+02,  -3.71437574e-03,   2.50935640e-03,
+                                3.97652622e-04],
+                             [  7.00000000e+02,  -5.62256563e-03,   1.56433970e-03,
+                                5.84726936e-04]],
+                            ['red', 'green', 'blue'],
+                            SpragueInterpolator,
+                            {},
+                            Extrapolator,
+                            {'method': 'Constant', 'left': None, 'right': None})
 
 Correlated Colour Temperature Computation Methods - ``colour.temperature``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
