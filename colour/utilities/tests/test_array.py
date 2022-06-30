@@ -1536,6 +1536,8 @@ class TestOrient(unittest.TestCase):
             decimal=7,
         )
 
+        np.testing.assert_almost_equal(orient(a), a, decimal=7)
+
 
 class TestCentroid(unittest.TestCase):
     """

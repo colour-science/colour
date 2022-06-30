@@ -2106,8 +2106,10 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
 
 def orient(
     a: ArrayLike,
-    orientation: Union[Literal["Flip", "Flop", "90 CW", "90 CCW", "180"], str],
-) -> Union[NDArray, None]:
+    orientation: Union[
+        Literal["Ignore", "Flip", "Flop", "90 CW", "90 CCW", "180"], str
+    ] = "Ignore",
+) -> NDArray:
     """
     Orient given array :math:`a` according to given orientation.
 
@@ -2133,35 +2135,39 @@ def orient(
            [0, 1, 2, 3, 4],
            [0, 1, 2, 3, 4]])
     >>> orient(a, '90 CW')
-    array([[0, 0, 0, 0, 0],
-           [1, 1, 1, 1, 1],
-           [2, 2, 2, 2, 2],
-           [3, 3, 3, 3, 3],
-           [4, 4, 4, 4, 4]])
+    array([[ 0.,  0.,  0.,  0.,  0.],
+           [ 1.,  1.,  1.,  1.,  1.],
+           [ 2.,  2.,  2.,  2.,  2.],
+           [ 3.,  3.,  3.,  3.,  3.],
+           [ 4.,  4.,  4.,  4.,  4.]])
     >>> orient(a, 'Flip')
-    array([[4, 3, 2, 1, 0],
-           [4, 3, 2, 1, 0],
-           [4, 3, 2, 1, 0],
-           [4, 3, 2, 1, 0],
-           [4, 3, 2, 1, 0]])
+    array([[ 4.,  3.,  2.,  1.,  0.],
+           [ 4.,  3.,  2.,  1.,  0.],
+           [ 4.,  3.,  2.,  1.,  0.],
+           [ 4.,  3.,  2.,  1.,  0.],
+           [ 4.,  3.,  2.,  1.,  0.]])
     """
 
+    a = as_float_array(a)
+
     orientation = validate_method(
-        orientation, ["Flip", "Flop", "90 CW", "90 CCW", "180"]
+        orientation, ["Ignore", "Flip", "Flop", "90 CW", "90 CCW", "180"]
     )
 
-    if orientation == "flip":
-        return np.fliplr(a)
+    if orientation == "ignore":
+        oriented = a
+    elif orientation == "flip":
+        oriented = np.fliplr(a)
     elif orientation == "flop":
-        return np.flipud(a)
+        oriented = np.flipud(a)
     elif orientation == "90 cw":
-        return np.rot90(a, 3)
+        oriented = np.rot90(a, 3)
     elif orientation == "90 ccw":
-        return np.rot90(a)
+        oriented = np.rot90(a)
     elif orientation == "180":
-        return np.rot90(a, 2)
-    else:  # pragma: no cover
-        return None
+        oriented = np.rot90(a, 2)
+
+    return oriented
 
 
 def centroid(a: ArrayLike) -> NDArray:
