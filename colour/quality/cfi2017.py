@@ -457,7 +457,13 @@ def tcs_colorimetry_data(
     for sd_tcs in sds_tcs.to_sds():
         XYZ = sd_to_XYZ(sd_tcs, cmfs, sd_irradiance)
         CAM = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
-        JMh = tstack([CAM.J, CAM.M, CAM.h])
+        JMh = tstack(
+            [
+                cast(FloatingOrNDArray, CAM.J),
+                cast(FloatingOrNDArray, CAM.M),
+                cast(FloatingOrNDArray, CAM.h),
+            ]
+        )
         Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
 
         tcs_data.append(

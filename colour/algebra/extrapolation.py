@@ -151,10 +151,7 @@ class Extrapolator:
         )
         self.interpolator = optional(interpolator, self._interpolator)
         self._method: Union[Literal["Linear", "Constant"], str] = "Linear"
-        self.method = cast(
-            Union[Literal["Linear", "Constant"], str],
-            optional(method, self._method),
-        )
+        self.method = optional(method, self._method)
         self._right: Optional[Number] = None
         self.right = right
         self._left: Optional[Number] = None

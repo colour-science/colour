@@ -388,8 +388,14 @@ class SpectralShape:
         return bool(
             np.all(
                 np.in1d(
-                    np.around(wavelength, decimals),
-                    np.around(self.range(), decimals),
+                    np.around(
+                        wavelength,  # type: ignore[arg-type]
+                        decimals,
+                    ),
+                    np.around(
+                        self.range(),
+                        decimals,
+                    ),
                 )
             )
         )

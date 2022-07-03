@@ -31,7 +31,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.hints import Any, ArrayLike, NDArray
+from colour.hints import Any, ArrayLike, FloatingOrNDArray, NDArray, cast
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -688,7 +688,13 @@ def XYZ_to_UCS_Luo2006(
         XYZ = as_float_array(XYZ) * 100
 
     specification = XYZ_to_CIECAM02(XYZ, **settings)
-    JMh = tstack([specification.J, specification.M, specification.h])
+    JMh = tstack(
+        [
+            cast(FloatingOrNDArray, specification.J),
+            cast(FloatingOrNDArray, specification.M),
+            cast(FloatingOrNDArray, specification.h),
+        ]
+    )
 
     return JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients)
 

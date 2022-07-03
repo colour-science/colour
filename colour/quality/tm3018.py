@@ -37,7 +37,7 @@ from colour.quality.cfi2017 import (
     TCS_ColorimetryData_CIE2017,
     delta_E_to_R_f,
 )
-from colour.utilities import as_float_array, as_int_scalar
+from colour.utilities import as_float_array, as_float_scalar, as_int_scalar
 
 
 @dataclass
@@ -244,4 +244,4 @@ def averages_area(averages: ArrayLike) -> Floating:
         v = averages[(i + 1) % N, :]
         triangle_areas[i] = (u[0] * v[1] - u[1] * v[0]) / 2
 
-    return np.sum(triangle_areas)
+    return as_float_scalar(np.sum(triangle_areas))

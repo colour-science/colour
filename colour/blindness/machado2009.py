@@ -39,7 +39,13 @@ from colour.colorimetry import (
     reshape_msds,
 )
 from colour.hints import ArrayLike, Floating, Literal, NDArray, Union, cast
-from colour.utilities import as_float_array, tsplit, tstack, usage_warning
+from colour.utilities import (
+    as_float_array,
+    as_int_scalar,
+    tsplit,
+    tstack,
+    usage_warning,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -364,7 +370,9 @@ def matrix_cvd_Machado2009(
 
     matrices = CVD_MATRICES_MACHADO2010[deficiency]
     samples = np.array(sorted(matrices.keys()))
-    index = np.clip(np.searchsorted(samples, severity), 0, len(samples) - 1)
+    index = as_int_scalar(
+        np.clip(np.searchsorted(samples, severity), 0, len(samples) - 1)
+    )
 
     a = samples[index]
     b = samples[min(index + 1, len(samples) - 1)]
