@@ -74,13 +74,13 @@ class TestUv_to_CCT_Planck1900(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT = np.tile(CCT, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Planck1900(uv), CCT, decimal=7
         )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT = np.reshape(CCT, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Planck1900(uv), CCT, decimal=7
         )
 
@@ -108,19 +108,19 @@ class TestCCT_to_uv_Planck1900(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Planck1900(4000),
             np.array([0.225109670227493, 0.334387366663923]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Planck1900(7000),
             np.array([0.198126929048352, 0.307025980523306]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Planck1900(25000),
             np.array([0.182932683590136, 0.274073232217536]),
             decimal=7,
@@ -137,13 +137,13 @@ class TestCCT_to_uv_Planck1900(unittest.TestCase):
 
         CCT = np.tile(CCT, 6)
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Planck1900(CCT), uv, decimal=7
         )
 
         CCT = np.reshape(CCT, (2, 3))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Planck1900(CCT), uv, decimal=7
         )
 

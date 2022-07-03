@@ -151,14 +151,14 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
             decimal=7,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
             decimal=7,
@@ -167,7 +167,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 8))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
             decimal=7,
@@ -213,7 +213,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Hellwig2022(
                         XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b, surround
                     ),
@@ -257,7 +257,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         L_A = 318.31
         Y_b = 20
         surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([19.01, 20.00, 21.78]),
             decimal=7,
@@ -267,7 +267,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
             65.428280687118473, 31.330032520870901, 17.486592427576902
         )
         L_A = 31.83
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([57.06, 43.06, 31.96]),
             decimal=7,
@@ -278,7 +278,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         )
         XYZ_w = np.array([109.85, 100, 35.58])
         L_A = 318.31
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([3.53, 6.56, 2.14]),
             decimal=7,
@@ -288,7 +288,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
             41.064050542871215, 31.939561618552826, 259.03405661643671
         )
         L_A = 31.38
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([19.01, 20.00, 21.78]),
             decimal=7,
@@ -312,14 +312,14 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
             *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
         )
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
             decimal=7,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
             decimal=7,
@@ -330,7 +330,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
             decimal=7,
@@ -377,7 +377,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Hellwig2022_to_XYZ(
                         specification * factor_a,
                         XYZ_w * factor_b,

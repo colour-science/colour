@@ -111,7 +111,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
             specification,
             decimal=7,
@@ -119,7 +119,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
         XYZ_b = np.tile(XYZ_b, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
             specification,
             decimal=7,
@@ -129,7 +129,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ_b = np.reshape(XYZ_b, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 8))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w),
             specification,
             decimal=7,
@@ -158,7 +158,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Hunt(
                         XYZ * factor_a,
                         XYZ_w * factor_a,
@@ -215,7 +215,7 @@ class TestXYZ_to_Hunt(unittest.TestCase):
         surround = VIEWING_CONDITIONS_HUNT["Normal Scenes"]
         CCT_w = 6504.0
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Hunt(
                 XYZ,
                 XYZ_w,

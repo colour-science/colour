@@ -34,7 +34,7 @@ least_square_mapping_MoorePenrose` definition.
         y = prng.random_sample((24, 3))
         x = y + (prng.random_sample((24, 3)) - 0.5) * 0.5
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             least_square_mapping_MoorePenrose(y, x),
             np.array(
                 [
@@ -48,7 +48,7 @@ least_square_mapping_MoorePenrose` definition.
 
         y = prng.random_sample((4, 3, 2))
         x = y + (prng.random_sample((4, 3, 2)) - 0.5) * 0.5
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             least_square_mapping_MoorePenrose(y, x),
             np.array(
                 [

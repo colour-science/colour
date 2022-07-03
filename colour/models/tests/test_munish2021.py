@@ -33,7 +33,7 @@ class TestXYZ_to_IPT_Munish2021(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_IPT_Munish2021(
                 np.array([0.20654008, 0.12197225, 0.05136952])
             ),
@@ -41,7 +41,7 @@ class TestXYZ_to_IPT_Munish2021(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_IPT_Munish2021(
                 np.array([0.14222010, 0.23042768, 0.10495772])
             ),
@@ -49,7 +49,7 @@ class TestXYZ_to_IPT_Munish2021(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_IPT_Munish2021(
                 np.array([0.07818780, 0.06157201, 0.28099326])
             ),
@@ -68,13 +68,13 @@ class TestXYZ_to_IPT_Munish2021(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         IPT = np.tile(IPT, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_IPT_Munish2021(XYZ), IPT, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         IPT = np.reshape(IPT, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_IPT_Munish2021(XYZ), IPT, decimal=7
         )
 
@@ -90,7 +90,7 @@ class TestXYZ_to_IPT_Munish2021(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_IPT_Munish2021(XYZ * factor),
                     IPT * factor,
                     decimal=7,
@@ -120,7 +120,7 @@ class TestIPT_Munish2021_to_XYZ(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IPT_Munish2021_to_XYZ(
                 np.array([0.42248243, 0.29105140, 0.20410663])
             ),
@@ -128,7 +128,7 @@ class TestIPT_Munish2021_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IPT_Munish2021_to_XYZ(
                 np.array([0.54745257, -0.22795249, 0.10109646])
             ),
@@ -136,7 +136,7 @@ class TestIPT_Munish2021_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IPT_Munish2021_to_XYZ(
                 np.array([0.32151337, 0.06071424, -0.27388774])
             ),
@@ -155,13 +155,13 @@ class TestIPT_Munish2021_to_XYZ(unittest.TestCase):
 
         IPT = np.tile(IPT, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IPT_Munish2021_to_XYZ(IPT), XYZ, decimal=7
         )
 
         IPT = np.reshape(IPT, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IPT_Munish2021_to_XYZ(IPT), XYZ, decimal=7
         )
 
@@ -177,7 +177,7 @@ class TestIPT_Munish2021_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     IPT_Munish2021_to_XYZ(IPT * factor),
                     XYZ * factor,
                     decimal=7,

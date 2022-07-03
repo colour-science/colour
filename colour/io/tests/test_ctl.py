@@ -91,7 +91,7 @@ class TestCtlRender(unittest.TestCase):
             "-force",
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             read_image(path_output)[..., 0:3],
             read_image(path_input) * [1, 2, 4],
             decimal=7,
@@ -110,7 +110,7 @@ class TestCtlRender(unittest.TestCase):
             env=dict(os.environ, CTL_MODULE_PATH=RESOURCES_DIRECTORY),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             read_image(path_output)[..., 0:3],
             read_image(path_input) * 2,
             decimal=7,

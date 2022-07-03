@@ -74,15 +74,21 @@ log_encoding_LLog` definition n-dimensional arrays support.
 
         y = np.tile(y, 6)
         x = np.tile(x, 6)
-        np.testing.assert_almost_equal(log_encoding_LLog(y), x, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_encoding_LLog(y), x, decimal=7
+        )
 
         y = np.reshape(y, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_almost_equal(log_encoding_LLog(y), x, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_encoding_LLog(y), x, decimal=7
+        )
 
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_LLog(y), x, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_encoding_LLog(y), x, decimal=7
+        )
 
     def test_domain_range_scale_log_encoding_LLog(self):
         """
@@ -96,7 +102,7 @@ log_encoding_LLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_LLog(y * factor), x * factor, decimal=7
                 )
 
@@ -159,15 +165,21 @@ log_decoding_LLog` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         y = np.tile(y, 6)
-        np.testing.assert_almost_equal(log_decoding_LLog(x), y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_decoding_LLog(x), y, decimal=7
+        )
 
         x = np.reshape(x, (2, 3))
         y = np.reshape(y, (2, 3))
-        np.testing.assert_almost_equal(log_decoding_LLog(x), y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_decoding_LLog(x), y, decimal=7
+        )
 
         x = np.reshape(x, (2, 3, 1))
         y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_almost_equal(log_decoding_LLog(x), y, decimal=7)
+        np.testing.assert_array_almost_equal(
+            log_decoding_LLog(x), y, decimal=7
+        )
 
     def test_domain_range_scale_log_decoding_LLog(self):
         """
@@ -181,7 +193,7 @@ log_decoding_LLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_LLog(x * factor), y * factor, decimal=7
                 )
 

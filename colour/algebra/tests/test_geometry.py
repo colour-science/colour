@@ -47,19 +47,19 @@ class TestNormaliseVector(unittest.TestCase):
     def test_normalise_vector(self):
         """Test :func:`colour.algebra.geometry.normalise_vector` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_vector(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.84197033, 0.49722560, 0.20941026]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_vector(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.48971705, 0.79344877, 0.36140872]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_vector(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.26229003, 0.20655044, 0.94262445]),
             decimal=7,
@@ -115,14 +115,14 @@ class TestEuclideanDistance(unittest.TestCase):
         a = np.tile(a, (6, 1))
         b = np.tile(b, (6, 1))
         distance = np.tile(distance, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             euclidean_distance(a, b), distance, decimal=7
         )
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             euclidean_distance(a, b), distance, decimal=7
         )
 
@@ -187,14 +187,14 @@ class TestManhattanDistance(unittest.TestCase):
         a = np.tile(a, (6, 1))
         b = np.tile(b, (6, 1))
         distance = np.tile(distance, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             manhattan_distance(a, b), distance, decimal=7
         )
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             manhattan_distance(a, b), distance, decimal=7
         )
 
@@ -219,7 +219,7 @@ class TestExtendLineSegment(unittest.TestCase):
     def test_extend_line_segment(self):
         """Test :func:`colour.algebra.geometry.extend_line_segment` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             extend_line_segment(
                 np.array([0.95694934, 0.13720932]),
                 np.array([0.28382835, 0.60608318]),
@@ -228,7 +228,7 @@ class TestExtendLineSegment(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             extend_line_segment(
                 np.array([0.95694934, 0.13720932]),
                 np.array([0.28382835, 0.60608318]),
@@ -238,7 +238,7 @@ class TestExtendLineSegment(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             extend_line_segment(
                 np.array([0.95694934, 0.13720932]),
                 np.array([0.28382835, 0.60608318]),
@@ -278,7 +278,7 @@ class TestIntersectLineSegments(unittest.TestCase):
 
         s = intersect_line_segments(l_1, l_2)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             s.xy,
             np.array(
                 [
@@ -331,7 +331,7 @@ class TestEllipseCoefficientsCanonicalForm(unittest.TestCase):
 ellipse_coefficients_canonical_form` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ellipse_coefficients_canonical_form(
                 np.array([2.5, -3.0, 2.5, -1.0, -1.0, -3.5])
             ),
@@ -339,7 +339,7 @@ ellipse_coefficients_canonical_form` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ellipse_coefficients_canonical_form(
                 np.array([1.0, 0.0, 1.0, 0.0, 0.0, -1.0])
             ),
@@ -360,13 +360,13 @@ class TestEllipseCoefficientsGeneralForm(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ellipse_coefficients_general_form(np.array([0.5, 0.5, 2, 1, 45])),
             np.array([2.5, -3.0, 2.5, -1.0, -1.0, -3.5]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ellipse_coefficients_general_form(np.array([0.0, 0.0, 1, 1, 0])),
             np.array([1.0, 0.0, 1.0, 0.0, 0.0, -1.0]),
             decimal=7,
@@ -385,7 +385,7 @@ class TestPointAtAngleOnEllipse(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             point_at_angle_on_ellipse(
                 np.array([0, 90, 180, 270]), np.array([0.0, 0.0, 2, 1, 0])
             ),
@@ -393,7 +393,7 @@ class TestPointAtAngleOnEllipse(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             point_at_angle_on_ellipse(
                 np.linspace(0, 360, 10), np.array([0.5, 0.5, 2, 1, 45])
             ),
@@ -427,7 +427,7 @@ class TestEllipseFittingHalir1998(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ellipse_fitting_Halir1998(
                 np.array([[2, 0], [0, 1], [-2, 0], [0, -1]])
             ),

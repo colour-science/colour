@@ -47,7 +47,7 @@ class TestReadLUTCinespace(unittest.TestCase):
             os.path.join(LUTS_DIRECTORY, "ACES_Proxy_10_to_ACES.csp")
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array(
                 [
@@ -203,8 +203,10 @@ class TestWriteLUTCinespace(unittest.TestCase):
         LUT_4_r = read_LUT_Cinespace(
             os.path.join(LUTS_DIRECTORY, "Ragged_Domain.csp")
         )
-        np.testing.assert_almost_equal(LUT_4_t.domain, LUT_4_r.domain)
-        np.testing.assert_almost_equal(LUT_4_t.table, LUT_4_r.table, decimal=6)
+        np.testing.assert_array_almost_equal(LUT_4_t.domain, LUT_4_r.domain)
+        np.testing.assert_array_almost_equal(
+            LUT_4_t.table, LUT_4_r.table, decimal=6
+        )
 
         LUT_5_r = read_LUT_Cinespace(
             os.path.join(

@@ -97,28 +97,28 @@ sd_to_aces_relative_exposure_values` definition.
 
         shape = MSDS_ACES_RICD.shape
         grey_reflector = sd_constant(0.18, shape)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(grey_reflector),
             np.array([0.18, 0.18, 0.18]),
             decimal=7,
         )
 
         perfect_reflector = sd_ones(shape)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(perfect_reflector),
             np.array([0.97783784, 0.97783784, 0.97783784]),
             decimal=7,
         )
 
         dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11718149, 0.08663609, 0.05897268]),
             decimal=7,
         )
 
         dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin, SDS_ILLUMINANTS["A"]
             ),
@@ -127,14 +127,14 @@ sd_to_aces_relative_exposure_values` definition.
         )
 
         dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11807796, 0.08690312, 0.05891252]),
             decimal=7,
         )
 
         dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(
                 dark_skin,
                 chromatic_adaptation_transform="Bradford",
@@ -159,7 +159,7 @@ sd_to_aces_relative_exposure_values` definition.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     sd_to_aces_relative_exposure_values(grey_reflector),
                     RGB * factor,
                     decimal=7,
@@ -262,7 +262,7 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             white_balance_multipliers(
                 MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"]
             ),
@@ -270,7 +270,7 @@ class TestWhiteBalanceMultipliers(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             white_balance_multipliers(
                 MSDS_CANON_EOS_5DMARK_II,
                 SDS_ILLUMINANTS["ISO 7589 Studio Tungsten"],
@@ -355,7 +355,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
             MSDS_CANON_EOS_5DMARK_II,
             SDS_ILLUMINANTS["D55"],
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB,
             np.array(
                 [
@@ -554,7 +554,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_w, np.array([2.34141541, 1.00000000, 1.51633759]), decimal=7
         )
 
@@ -564,7 +564,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
         RGB, RGB_w = training_data_sds_to_RGB(
             training_data, MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"]
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB,
             np.array(
                 [
@@ -597,7 +597,7 @@ class TestTrainingDataSdsToRGB(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_w, np.array([2.34141541, 1.00000000, 1.51633759]), decimal=7
         )
 
@@ -614,7 +614,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             training_data_sds_to_XYZ(
                 read_training_data_rawtoaces_v1(),
                 MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
@@ -821,7 +821,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
             SDS_COLOURCHECKERS["BabelColor Average"].values()
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             training_data_sds_to_XYZ(
                 training_data,
                 MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
@@ -858,7 +858,7 @@ class TestTrainingDataSdsToXYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             training_data_sds_to_XYZ(
                 training_data,
                 MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
@@ -1075,11 +1075,11 @@ class TestMatrixIdt(unittest.TestCase):
             additional_data=True,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_w, np.array([2.34141541, 1.00000000, 1.51633759])
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ[:5, ...],
             np.array(
                 [
@@ -1092,7 +1092,7 @@ class TestMatrixIdt(unittest.TestCase):
             ),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB[:5, ...],
             np.array(
                 [
@@ -1119,17 +1119,17 @@ camera_RGB_to_ACES2065_1` definition.
         """
 
         B, b = matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"])
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             camera_RGB_to_ACES2065_1(np.array([0.1, 0.2, 0.3]), B, b),
             np.array([0.26468115, 0.15288980, 0.49443355]),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             camera_RGB_to_ACES2065_1(np.array([1.5, 1.5, 1.5]), B, b),
             np.array([3.30542136, 1.44643555, 2.42192985]),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             camera_RGB_to_ACES2065_1(np.array([1.0, 1.0, 1.0]), B, b, True),
             np.array([2.20361424, 0.96429036, 1.61461990]),
         )

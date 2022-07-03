@@ -41,7 +41,7 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
         """
 
         cmfs = MSDS_CMFS_LMS.get("Smith & Pokorny 1975 Normal Trichromats")
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
                 np.array(
@@ -52,7 +52,7 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
                 np.array(
@@ -63,7 +63,7 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
                 np.array(
@@ -74,7 +74,7 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
                 np.array(
@@ -85,7 +85,7 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
                 np.array(
@@ -96,7 +96,7 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
                 np.array(
@@ -107,7 +107,7 @@ msds_cmfs_anomalous_trichromacy_Machado2009` definition.
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
                 np.array(
@@ -133,7 +133,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
 
         cmfs = MSDS_CMFS_LMS.get("Smith & Pokorny 1975 Normal Trichromats")
         primaries = MSDS_DISPLAY_PRIMARIES["Typical CRT Brainard 1997"]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([0, 0, 0])
             ),
@@ -208,7 +208,7 @@ class TestMatrixCvdMachado2009(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_cvd_Machado2009("Protanomaly", 0.0),
             np.array(
                 [
@@ -220,7 +220,7 @@ class TestMatrixCvdMachado2009(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_cvd_Machado2009("Deuteranomaly", 0.1),
             np.array(
                 [
@@ -232,7 +232,7 @@ class TestMatrixCvdMachado2009(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_cvd_Machado2009("Tritanomaly", 1.0),
             np.array(
                 [
@@ -244,7 +244,7 @@ class TestMatrixCvdMachado2009(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_cvd_Machado2009("Tritanomaly", 0.55),
             np.array(
                 [

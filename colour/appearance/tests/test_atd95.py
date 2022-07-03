@@ -146,14 +146,14 @@ class TestXYZ_to_ATD95(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ATD95(XYZ, XYZ_0, Y_02, K_1, K_2, sigma),
             specification,
             decimal=7,
         )
 
         XYZ_0 = np.tile(XYZ_0, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ATD95(XYZ, XYZ_0, Y_02, K_1, K_2, sigma),
             specification,
             decimal=7,
@@ -162,7 +162,7 @@ class TestXYZ_to_ATD95(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 9))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ATD95(XYZ, XYZ_0, Y_02, K_1, K_2, sigma),
             specification,
             decimal=7,
@@ -189,7 +189,7 @@ class TestXYZ_to_ATD95(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_ATD95(
                         XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1, k_2
                     ),

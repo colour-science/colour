@@ -101,14 +101,14 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
             decimal=7,
         )
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
             decimal=7,
@@ -117,7 +117,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 9))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
             specification,
             decimal=7,
@@ -147,7 +147,7 @@ class TestXYZ_to_Nayatani95(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Nayatani95(
                         XYZ * factor_a, XYZ_n * factor_a, Y_o, E_o, E_or
                     ),

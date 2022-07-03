@@ -70,15 +70,21 @@ class TestLightnessGlasser1958(unittest.TestCase):
 
         Y = np.tile(Y, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(lightness_Glasser1958(Y), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Glasser1958(Y), L, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(lightness_Glasser1958(Y), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Glasser1958(Y), L, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(lightness_Glasser1958(Y), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Glasser1958(Y), L, decimal=7
+        )
 
     def test_domain_range_scale_lightness_Glasser1958(self):
         """
@@ -91,7 +97,7 @@ class TestLightnessGlasser1958(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     lightness_Glasser1958(12.19722535 * factor),
                     L * factor,
                     decimal=7,
@@ -144,15 +150,21 @@ class TestLightnessWyszecki1963(unittest.TestCase):
 
         Y = np.tile(Y, 6)
         W = np.tile(W, 6)
-        np.testing.assert_almost_equal(lightness_Wyszecki1963(Y), W, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Wyszecki1963(Y), W, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3))
         W = np.reshape(W, (2, 3))
-        np.testing.assert_almost_equal(lightness_Wyszecki1963(Y), W, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Wyszecki1963(Y), W, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3, 1))
         W = np.reshape(W, (2, 3, 1))
-        np.testing.assert_almost_equal(lightness_Wyszecki1963(Y), W, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Wyszecki1963(Y), W, decimal=7
+        )
 
     def test_domain_range_scale_lightness_Wyszecki1963(self):
         """
@@ -165,7 +177,7 @@ class TestLightnessWyszecki1963(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     lightness_Wyszecki1963(12.19722535 * factor),
                     W * factor,
                     decimal=7,
@@ -225,19 +237,19 @@ intermediate_lightness_function_CIE1976` definition n-dimensional arrays
 
         Y = np.tile(Y, 6)
         f_Y_Y_n = np.tile(f_Y_Y_n, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             intermediate_lightness_function_CIE1976(Y), f_Y_Y_n, decimal=7
         )
 
         Y = np.reshape(Y, (2, 3))
         f_Y_Y_n = np.reshape(f_Y_Y_n, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             intermediate_lightness_function_CIE1976(Y), f_Y_Y_n, decimal=7
         )
 
         Y = np.reshape(Y, (2, 3, 1))
         f_Y_Y_n = np.reshape(f_Y_Y_n, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             intermediate_lightness_function_CIE1976(Y), f_Y_Y_n, decimal=7
         )
 
@@ -252,7 +264,7 @@ intermediate_lightness_function_CIE1976` definition domain and range scale
 
         for scale in ("reference", "1", "100"):
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     intermediate_lightness_function_CIE1976(12.19722535, 100),
                     f_Y_Y_n,
                     decimal=7,
@@ -317,15 +329,21 @@ class TestLightnessCIE1976(unittest.TestCase):
 
         Y = np.tile(Y, 6)
         L_star = np.tile(L_star, 6)
-        np.testing.assert_almost_equal(lightness_CIE1976(Y), L_star, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_CIE1976(Y), L_star, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3))
         L_star = np.reshape(L_star, (2, 3))
-        np.testing.assert_almost_equal(lightness_CIE1976(Y), L_star, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_CIE1976(Y), L_star, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3, 1))
         L_star = np.reshape(L_star, (2, 3, 1))
-        np.testing.assert_almost_equal(lightness_CIE1976(Y), L_star, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_CIE1976(Y), L_star, decimal=7
+        )
 
     def test_domain_range_scale_lightness_CIE1976(self):
         """
@@ -338,7 +356,7 @@ class TestLightnessCIE1976(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     lightness_CIE1976(12.19722535 * factor, 100),
                     L_star * factor,
                     decimal=7,
@@ -409,19 +427,19 @@ class TestLightnessFairchild2010(unittest.TestCase):
 
         Y = np.tile(Y, 6)
         L_hdr = np.tile(L_hdr, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             lightness_Fairchild2010(Y), L_hdr, decimal=7
         )
 
         Y = np.reshape(Y, (2, 3))
         L_hdr = np.reshape(L_hdr, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             lightness_Fairchild2010(Y), L_hdr, decimal=7
         )
 
         Y = np.reshape(Y, (2, 3, 1))
         L_hdr = np.reshape(L_hdr, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             lightness_Fairchild2010(Y), L_hdr, decimal=7
         )
 
@@ -436,7 +454,7 @@ class TestLightnessFairchild2010(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     lightness_Fairchild2010(12.19722535 / 100 * factor_a),
                     L_hdr * factor_b,
                     decimal=7,
@@ -509,19 +527,19 @@ class TestLightnessFairchild2011(unittest.TestCase):
 
         Y = np.tile(Y, 6)
         L_hdr = np.tile(L_hdr, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             lightness_Fairchild2011(Y), L_hdr, decimal=7
         )
 
         Y = np.reshape(Y, (2, 3))
         L_hdr = np.reshape(L_hdr, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             lightness_Fairchild2011(Y), L_hdr, decimal=7
         )
 
         Y = np.reshape(Y, (2, 3, 1))
         L_hdr = np.reshape(L_hdr, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             lightness_Fairchild2011(Y), L_hdr, decimal=7
         )
 
@@ -536,7 +554,7 @@ class TestLightnessFairchild2011(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     lightness_Fairchild2011(12.19722535 / 100 * factor_a),
                     L_hdr * factor_b,
                     decimal=7,
@@ -601,15 +619,21 @@ class TestLightnessAbebe2017(unittest.TestCase):
 
         Y = np.tile(Y, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(lightness_Abebe2017(Y), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Abebe2017(Y), L, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(lightness_Abebe2017(Y), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Abebe2017(Y), L, decimal=7
+        )
 
         Y = np.reshape(Y, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(lightness_Abebe2017(Y), L, decimal=7)
+        np.testing.assert_array_almost_equal(
+            lightness_Abebe2017(Y), L, decimal=7
+        )
 
     def test_domain_range_scale_lightness_Abebe2017(self):
         """
@@ -622,7 +646,7 @@ class TestLightnessAbebe2017(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     lightness_Abebe2017(12.19722535 * factor, 100 * factor),
                     L * factor,
                     decimal=7,
@@ -666,7 +690,7 @@ class TestLightness(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_almost_equal(
+                    np.testing.assert_array_almost_equal(
                         lightness(12.19722535 * factor, method, Y_n=100),
                         value * factor,
                         decimal=7,

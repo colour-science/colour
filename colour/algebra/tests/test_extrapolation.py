@@ -108,14 +108,14 @@ class TestExtrapolator(unittest.TestCase):
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7]))
         )
-        np.testing.assert_almost_equal(extrapolator((4, 8)), (4, 8))
+        np.testing.assert_array_almost_equal(extrapolator((4, 8)), (4, 8))
         self.assertEqual(extrapolator(4), 4)
 
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
             method="Constant",
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             extrapolator((0.1, 0.2, 8, 9)), (1, 1, 3, 3)
         )
         self.assertEqual(extrapolator(0.1), 1.0)
@@ -125,7 +125,7 @@ class TestExtrapolator(unittest.TestCase):
             method="Constant",
             left=0,
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             extrapolator((0.1, 0.2, 8, 9)), (0, 0, 3, 3)
         )
         self.assertEqual(extrapolator(0.1), 0)
@@ -135,7 +135,7 @@ class TestExtrapolator(unittest.TestCase):
             method="Constant",
             right=0,
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             extrapolator((0.1, 0.2, 8, 9)), (1, 1, 0, 0)
         )
         self.assertEqual(extrapolator(9), 0)
@@ -145,7 +145,7 @@ class TestExtrapolator(unittest.TestCase):
                 np.array([3, 4, 5, 6]), np.array([1, 2, 3, 4])
             )
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             extrapolator((0.1, 0.2, 8.0, 9.0)), (-1.9, -1.8, 6.0, 7.0)
         )
         self.assertEqual(extrapolator(9), 7)
@@ -153,7 +153,7 @@ class TestExtrapolator(unittest.TestCase):
         extrapolator = Extrapolator(
             PchipInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3]))
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             extrapolator((0.1, 0.2, 8.0, 9.0)), (-1.9, -1.8, 6.0, 7.0)
         )
         self.assertEqual(extrapolator(9), 7.0)

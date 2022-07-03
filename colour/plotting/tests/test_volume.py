@@ -34,7 +34,7 @@ class TestNadirGrid(unittest.TestCase):
 
         quads, faces_colours, edges_colours = nadir_grid(segments=1)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             quads,
             np.array(
                 [
@@ -85,7 +85,7 @@ class TestNadirGrid(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             faces_colours,
             np.array(
                 [
@@ -101,7 +101,7 @@ class TestNadirGrid(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             edges_colours,
             np.array(
                 [
@@ -129,7 +129,7 @@ class TestRGBIdentityCube(unittest.TestCase):
 
         vertices, RGB = RGB_identity_cube(1, 1, 1)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vertices,
             np.array(
                 [
@@ -174,7 +174,7 @@ class TestRGBIdentityCube(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB,
             np.array(
                 [

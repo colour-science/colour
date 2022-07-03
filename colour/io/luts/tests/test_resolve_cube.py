@@ -45,7 +45,7 @@ class TestReadLUTResolveCube(unittest.TestCase):
             os.path.join(LUTS_DIRECTORY, "ACES_Proxy_10_to_ACES.cube")
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array(
                 [
@@ -107,7 +107,7 @@ class TestReadLUTResolveCube(unittest.TestCase):
         LUT_4 = read_LUT_ResolveCube(
             os.path.join(LUTS_DIRECTORY, "LogC_Video.cube")
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_4[0].table,
             np.array(
                 [

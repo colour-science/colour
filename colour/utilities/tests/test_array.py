@@ -345,83 +345,83 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
 arithmetical_operation` method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data.arithmetical_operation(10, "+", False)),
             self._array + 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data.arithmetical_operation(10, "-", False)),
             self._array - 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data.arithmetical_operation(10, "*", False)),
             self._array * 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data.arithmetical_operation(10, "/", False)),
             self._array / 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data.arithmetical_operation(10, "**", False)),
             self._array**10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data + 10), self._array + 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data - 10), self._array - 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data * 10), self._array * 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data / 10), self._array / 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(self._data**10), self._array**10, decimal=7
         )
 
         data = deepcopy(self._data)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(data.arithmetical_operation(10, "+", True)),
             self._array + 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(data.arithmetical_operation(10, "-", True)),
             self._array,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(data.arithmetical_operation(10, "*", True)),
             self._array * 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(data.arithmetical_operation(10, "/", True)),
             self._array,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(data.arithmetical_operation(10, "**", True)),
             self._array**10,
             decimal=7,
@@ -429,13 +429,13 @@ arithmetical_operation` method.
 
         data = deepcopy(self._data)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(data.arithmetical_operation(self._array, "+", False)),
             data + self._array,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(data.arithmetical_operation(data, "+", False)),
             data + data,
             decimal=7,
@@ -496,7 +496,7 @@ class TestAsInt(unittest.TestCase):
 
         self.assertEqual(as_int(np.array([1])), 1)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3])
         )
 
@@ -520,7 +520,7 @@ class TestAsFloat(unittest.TestCase):
 
         self.assertEqual(as_float(np.array([1])), 1.0)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             as_float(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0])
         )
 
@@ -1167,7 +1167,7 @@ class TestClosest(unittest.TestCase):
 
         self.assertEqual(closest(a, 24.90), 25.40026416)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             closest(a, np.array([63.05, 51.15, 24.90])),
             np.array([62.70988028, 46.84480573, 25.40026416]),
             decimal=7,
@@ -1183,19 +1183,19 @@ class TestInterval(unittest.TestCase):
     def test_interval(self):
         """Test :func:`colour.utilities.array.interval` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             interval(range(0, 10, 2)), np.array([2])
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             interval(range(0, 10, 2), False), np.array([2, 2, 2, 2])
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             interval([1, 2, 3, 4, 6, 6.5]), np.array([0.5, 1.0, 2.0])
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             interval([1, 2, 3, 4, 6, 6.5], False),
             np.array([1.0, 1.0, 1.0, 2.0, 0.5]),
         )
@@ -1251,17 +1251,17 @@ class TestInArray(unittest.TestCase):
         support.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             in_array(np.array([0.50, 0.60]), np.linspace(0, 10, 101)).shape,
             np.array([2]),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             in_array(np.array([[0.50, 0.60]]), np.linspace(0, 10, 101)).shape,
             np.array([1, 2]),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             in_array(
                 np.array([[0.50], [0.60]]), np.linspace(0, 10, 101)
             ).shape,
@@ -1279,10 +1279,12 @@ class TestTstack(unittest.TestCase):
         """Test :func:`colour.utilities.array.tstack` definition."""
 
         a = 0
-        np.testing.assert_almost_equal(tstack([a, a, a]), np.array([0, 0, 0]))
+        np.testing.assert_array_almost_equal(
+            tstack([a, a, a]), np.array([0, 0, 0])
+        )
 
         a = np.arange(0, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             tstack([a, a, a]),
             np.array(
                 [
@@ -1297,7 +1299,7 @@ class TestTstack(unittest.TestCase):
         )
 
         a = np.reshape(a, (1, 6))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             tstack([a, a, a]),
             np.array(
                 [
@@ -1314,7 +1316,7 @@ class TestTstack(unittest.TestCase):
         )
 
         a = np.reshape(a, (1, 2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             tstack([a, a, a]),
             np.array(
                 [
@@ -1337,7 +1339,7 @@ class TestTsplit(unittest.TestCase):
         """Test :func:`colour.utilities.array.tsplit` definition."""
 
         a = np.array([0, 0, 0])
-        np.testing.assert_almost_equal(tsplit(a), np.array([0, 0, 0]))
+        np.testing.assert_array_almost_equal(tsplit(a), np.array([0, 0, 0]))
         a = np.array(
             [
                 [0, 0, 0],
@@ -1348,7 +1350,7 @@ class TestTsplit(unittest.TestCase):
                 [5, 5, 5],
             ]
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             tsplit(a),
             np.array(
                 [
@@ -1371,7 +1373,7 @@ class TestTsplit(unittest.TestCase):
                 ],
             ]
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             tsplit(a),
             np.array(
                 [
@@ -1390,7 +1392,7 @@ class TestTsplit(unittest.TestCase):
                 ]
             ]
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             tsplit(a),
             np.array(
                 [
@@ -1411,7 +1413,7 @@ class TestRowAsDiagonal(unittest.TestCase):
     def test_row_as_diagonal(self):
         """Test :func:`colour.utilities.array.row_as_diagonal` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             row_as_diagonal(
                 np.array(
                     [
@@ -1466,7 +1468,7 @@ class TestOrient(unittest.TestCase):
 
         a = np.tile(np.arange(5), (5, 1))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             orient(a, "Flip"),
             np.array(
                 [
@@ -1480,7 +1482,7 @@ class TestOrient(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             orient(a, "Flop"),
             np.array(
                 [
@@ -1494,7 +1496,7 @@ class TestOrient(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             orient(a, "90 CW"),
             np.array(
                 [
@@ -1508,7 +1510,7 @@ class TestOrient(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             orient(a, "90 CCW"),
             np.array(
                 [
@@ -1522,7 +1524,7 @@ class TestOrient(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             orient(a, "180"),
             np.array(
                 [
@@ -1536,7 +1538,7 @@ class TestOrient(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(orient(a), a, decimal=7)
+        np.testing.assert_array_almost_equal(orient(a), a, decimal=7)
 
 
 class TestCentroid(unittest.TestCase):
@@ -1571,11 +1573,11 @@ class TestFillNan(unittest.TestCase):
         """Test :func:`colour.utilities.array.fill_nan` definition."""
 
         a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             fill_nan(a), np.array([0.1, 0.2, 0.3, 0.4, 0.5]), decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             fill_nan(a, method="Constant", default=8.0),
             np.array([0.1, 0.2, 8.0, 0.4, 0.5]),
             decimal=7,

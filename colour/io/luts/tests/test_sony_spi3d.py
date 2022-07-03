@@ -48,7 +48,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
             os.path.join(LUTS_DIRECTORY, "Colour_Correct.spi3d")
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.table,
             np.array(
                 [

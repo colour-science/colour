@@ -63,12 +63,12 @@ class TestConvert(unittest.TestCase):
             "Spectral Distribution",
             "sRGB",
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_a, np.array([0.45675795, 0.30986982, 0.24861924]), decimal=7
         )
 
         Jpapbp = convert(RGB_a, "Output-Referred RGB", "CAM16UCS")
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Jpapbp, np.array([0.39994810, 0.09206557, 0.08127526]), decimal=7
         )
 
@@ -80,7 +80,7 @@ class TestConvert(unittest.TestCase):
         # exact roundtrip.
         np.testing.assert_allclose(RGB_a, RGB_b, rtol=1e-5, atol=1e-5)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert("#808080", "Hexadecimal", "Scene-Referred RGB"),
             np.array([0.21586050, 0.21586050, 0.21586050]),
             decimal=7,
@@ -92,7 +92,7 @@ class TestConvert(unittest.TestCase):
             places=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert(
                 convert(
                     np.array([0.5, 0.5, 0.5]),
@@ -106,7 +106,7 @@ class TestConvert(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert(
                 RGB_a,
                 "RGB",
@@ -136,7 +136,7 @@ class TestConvert(unittest.TestCase):
         illuminant = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
             "D50"
         ]
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert(
                 a, "CIE XYZ", "CIE xyY", XYZ_to_xyY={"illuminant": illuminant}
             ),

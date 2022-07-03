@@ -87,19 +87,19 @@ log_encoding_CanonLog` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         clog = np.tile(clog, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog(x), clog, decimal=7
         )
 
         x = np.reshape(x, (2, 3))
         clog = np.reshape(clog, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog(x), clog, decimal=7
         )
 
         x = np.reshape(x, (2, 3, 1))
         clog = np.reshape(clog, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog(x), clog, decimal=7
         )
 
@@ -115,7 +115,7 @@ log_encoding_CanonLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_CanonLog(x * factor), clog * factor, decimal=7
                 )
 
@@ -184,19 +184,19 @@ log_decoding_CanonLog` definition n-dimensional arrays support.
 
         clog = np.tile(clog, 6)
         x = np.tile(x, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog(clog), x, decimal=7
         )
 
         clog = np.reshape(clog, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog(clog), x, decimal=7
         )
 
         clog = np.reshape(clog, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog(clog), x, decimal=7
         )
 
@@ -212,7 +212,7 @@ log_decoding_CanonLog` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_CanonLog(clog * factor), x * factor, decimal=7
                 )
 
@@ -283,19 +283,19 @@ log_encoding_CanonLog2` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         clog2 = np.tile(clog2, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog2(x), clog2, decimal=7
         )
 
         x = np.reshape(x, (2, 3))
         clog2 = np.reshape(clog2, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog2(x), clog2, decimal=7
         )
 
         x = np.reshape(x, (2, 3, 1))
         clog2 = np.reshape(clog2, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog2(x), clog2, decimal=7
         )
 
@@ -311,7 +311,7 @@ log_encoding_CanonLog2` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_CanonLog2(x * factor),
                     clog2 * factor,
                     decimal=7,
@@ -384,19 +384,19 @@ log_decoding_CanonLog2` definition n-dimensional arrays support.
 
         clog2 = np.tile(clog2, 6)
         x = np.tile(x, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog2(clog2), x, decimal=7
         )
 
         clog2 = np.reshape(clog2, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog2(clog2), x, decimal=7
         )
 
         clog2 = np.reshape(clog2, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog2(clog2), x, decimal=7
         )
 
@@ -412,7 +412,7 @@ log_decoding_CanonLog2` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_CanonLog2(clog * factor),
                     x * factor,
                     decimal=7,
@@ -485,19 +485,19 @@ log_encoding_CanonLog3` definition n-dimensional arrays support.
 
         x = np.tile(x, 6)
         clog3 = np.tile(clog3, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog3(x), clog3, decimal=7
         )
 
         x = np.reshape(x, (2, 3))
         clog3 = np.reshape(clog3, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog3(x), clog3, decimal=7
         )
 
         x = np.reshape(x, (2, 3, 1))
         clog3 = np.reshape(clog3, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_encoding_CanonLog3(x), clog3, decimal=7
         )
 
@@ -513,7 +513,7 @@ log_encoding_CanonLog3` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_encoding_CanonLog3(x * factor),
                     clog3 * factor,
                     decimal=7,
@@ -586,19 +586,19 @@ log_decoding_CanonLog3` definition n-dimensional arrays support.
 
         clog3 = np.tile(clog3, 6)
         x = np.tile(x, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog3(clog3), x, decimal=7
         )
 
         clog3 = np.reshape(clog3, (2, 3))
         x = np.reshape(x, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog3(clog3), x, decimal=7
         )
 
         clog3 = np.reshape(clog3, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             log_decoding_CanonLog3(clog3), x, decimal=7
         )
 
@@ -614,7 +614,7 @@ log_decoding_CanonLog3` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     log_decoding_CanonLog3(clog * factor),
                     x * factor,
                     decimal=7,

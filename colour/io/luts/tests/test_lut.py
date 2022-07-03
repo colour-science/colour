@@ -186,7 +186,9 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT = self._LUT_factory(self._table_1)
 
-        np.testing.assert_almost_equal(LUT.table, self._table_1, decimal=7)
+        np.testing.assert_array_almost_equal(
+            LUT.table, self._table_1, decimal=7
+        )
 
         self.assertEqual(str(id(LUT)), LUT.name)
 
@@ -216,7 +218,7 @@ class AbstractLUTTest(unittest.TestCase):
 
         table_1 = self._table_1 * 0.8 + 0.1
         LUT.table = table_1
-        np.testing.assert_almost_equal(LUT.table, table_1, decimal=7)
+        np.testing.assert_array_almost_equal(LUT.table, table_1, decimal=7)
 
     def test_name(self):
         """
@@ -419,81 +421,81 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "+", False).table,
             self._table_1 + 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "-", False).table,
             self._table_1 - 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "*", False).table,
             self._table_1 * 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "/", False).table,
             self._table_1 / 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.arithmetical_operation(10, "**", False).table,
             self._table_1**10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1 + 10).table, self._table_1 + 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1 - 10).table, self._table_1 - 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1 * 10).table, self._table_1 * 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1 / 10).table, self._table_1 / 10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             (LUT_1**10).table, self._table_1**10, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "+", True).table,
             self._table_1 + 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "-", True).table,
             self._table_1,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "*", True).table,
             self._table_1 * 10,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "/", True).table,
             self._table_1,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(10, "**", True).table,
             self._table_1**10,
             decimal=7,
@@ -502,13 +504,13 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT_2 = self._LUT_factory()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(self._table_1, "+", False).table,
             LUT_2.table + self._table_1,
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.arithmetical_operation(LUT_2, "+", False).table,
             LUT_2.table + LUT_2.table,
             decimal=7,
@@ -527,11 +529,11 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT_1 = self._LUT_factory()
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.linear_table(self._size), self._table_1, decimal=7
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             spow(
                 self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6
             ),
@@ -570,7 +572,7 @@ class AbstractLUTTest(unittest.TestCase):
             interpolator=self._interpolator_1, **self._invert_kwargs_1
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_1, decimal=7
         )
 
@@ -579,7 +581,7 @@ class AbstractLUTTest(unittest.TestCase):
             interpolator=self._interpolator_2, **self._invert_kwargs_2
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_i.apply(RANDOM_TRIPLETS), self._inverted_apply_2, decimal=7
         )
 
@@ -596,7 +598,7 @@ class AbstractLUTTest(unittest.TestCase):
         # pylint: disable=E1102
         LUT_1 = self._LUT_factory(self._table_2)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_1.apply(RANDOM_TRIPLETS), self._applied_1, decimal=7
         )
 
@@ -604,21 +606,21 @@ class AbstractLUTTest(unittest.TestCase):
         LUT_2 = self._LUT_factory(domain=self._domain_2)
         LUT_2.table = spow(LUT_2.table, 1 / 2.2)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_2.apply(RANDOM_TRIPLETS), self._applied_2, decimal=7
         )
 
         # pylint: disable=E1102
         LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_3.apply(RANDOM_TRIPLETS), self._applied_3, decimal=7
         )
 
         # pylint: disable=E1102
         LUT_4 = self._LUT_factory(self._table_2)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_4.apply(
                 RANDOM_TRIPLETS,
                 direction="Inverse",
@@ -1171,7 +1173,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_1, LUT3D, force_conversion=True, size=5)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [
@@ -1405,7 +1407,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_2, LUT3D, force_conversion=True, size=5)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [
@@ -1611,7 +1613,7 @@ class TestLUT_to_LUT(unittest.TestCase):
             channel_weights=channel_weights,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [
@@ -1644,7 +1646,7 @@ class TestLUT_to_LUT(unittest.TestCase):
             channel_weights=channel_weights,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [
@@ -1673,7 +1675,7 @@ class TestLUT_to_LUT(unittest.TestCase):
 
         LUT = LUT_to_LUT(self._LUT_3, LUT3x1D, force_conversion=True, size=16)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT.table,
             np.array(
                 [

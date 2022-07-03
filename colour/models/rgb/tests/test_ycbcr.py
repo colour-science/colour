@@ -42,7 +42,7 @@ class TestMatrixYCbCr(unittest.TestCase):
     def test_matrix_YCbCr(self):
         """Test :func:`colour.models.rgb.ycbcr.matrix_YCbCr` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_YCbCr(),
             np.array(
                 [
@@ -54,7 +54,7 @@ class TestMatrixYCbCr(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_YCbCr(K=WEIGHTS_YCBCR["ITU-R BT.601"]),
             np.array(
                 [
@@ -66,7 +66,7 @@ class TestMatrixYCbCr(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_YCbCr(is_legal=True),
             np.array(
                 [
@@ -78,7 +78,7 @@ class TestMatrixYCbCr(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_YCbCr(bits=10),
             np.array(
                 [
@@ -90,7 +90,7 @@ class TestMatrixYCbCr(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_YCbCr(bits=10, is_int=True),
             np.array(
                 [
@@ -112,25 +112,25 @@ class TestOffsetYCbCr(unittest.TestCase):
     def test_offset_YCbCr(self):
         """Test :func:`colour.models.rgb.ycbcr.offset_YCbCr` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             offset_YCbCr(),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             offset_YCbCr(is_legal=True),
             np.array([0.06274510, 0.50196078, 0.50196078]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             offset_YCbCr(bits=10),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             offset_YCbCr(bits=10, is_int=True),
             np.array([0.00000000, 512.00000000, 512.00000000]),
             decimal=7,
@@ -146,13 +146,13 @@ class TestRGB_to_YCbCr(unittest.TestCase):
     def test_RGB_to_YCbCr(self):
         """Test :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YCbCr(np.array([0.75, 0.75, 0.0])),
             np.array([0.66035745, 0.17254902, 0.53216593]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YCbCr(
                 np.array([0.25, 0.5, 0.75]),
                 K=WEIGHTS_YCBCR["ITU-R BT.601"],
@@ -164,7 +164,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YCbCr(
                 np.array([0.0, 0.75, 0.75]),
                 K=WEIGHTS_YCBCR["ITU-R BT.2020"],
@@ -175,7 +175,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YCbCr(
                 np.array([0.75, 0.0, 0.75]),
                 K=WEIGHTS_YCBCR["ITU-R BT.709"],
@@ -198,19 +198,19 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 3))
-        np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
+        np.testing.assert_array_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 4, 3))
-        np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
+        np.testing.assert_array_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
+        np.testing.assert_array_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
 
     def test_domain_range_scale_RGB_to_YCbCr(self):
         """
@@ -224,7 +224,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_YCbCr(RGB * factor), YCbCr * factor, decimal=7
                 )
 
@@ -249,13 +249,13 @@ class TestYCbCr_to_RGB(unittest.TestCase):
     def test_YCbCr_to_RGB(self):
         """Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             YCbCr_to_RGB(np.array([0.66035745, 0.17254902, 0.53216593])),
             np.array([0.75, 0.75, 0.0]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             YCbCr_to_RGB(
                 np.array([471, 650, 390]),
                 in_bits=10,
@@ -266,7 +266,7 @@ class TestYCbCr_to_RGB(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             YCbCr_to_RGB(
                 np.array([150, 99, 175]),
                 in_bits=8,
@@ -293,19 +293,19 @@ class TestYCbCr_to_RGB(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 3))
-        np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
+        np.testing.assert_array_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 4, 3))
-        np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
+        np.testing.assert_array_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
+        np.testing.assert_array_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
 
     def test_domain_range_scale_YCbCr_to_RGB(self):
         """
@@ -319,7 +319,7 @@ class TestYCbCr_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     YCbCr_to_RGB(YCbCr * factor), RGB * factor, decimal=7
                 )
 
@@ -344,13 +344,13 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
     def test_RGB_to_YcCbcCrc(self):
         """Test :func:`colour.models.rgb.ycbcr.RGB_to_YcCbcCrc` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YcCbcCrc(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([0.37020379, 0.41137200, 0.77704674]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YcCbcCrc(
                 np.array([0.18, 0.18, 0.18]),
                 out_bits=10,
@@ -375,7 +375,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
         )
 
@@ -383,7 +383,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
         )
 
@@ -391,7 +391,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7
         )
 
@@ -407,7 +407,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_YcCbcCrc(RGB * factor), YcCbcCrc * factor, decimal=7
                 )
 
@@ -432,13 +432,13 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
     def test_YcCbcCrc_to_RGB(self):
         """Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             YcCbcCrc_to_RGB(np.array([0.37020379, 0.41137200, 0.77704674])),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             YcCbcCrc_to_RGB(
                 np.array([1689, 2048, 2048]),
                 in_bits=12,
@@ -463,7 +463,7 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
         )
 
@@ -471,7 +471,7 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
         )
 
@@ -479,7 +479,7 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7
         )
 
@@ -495,7 +495,7 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     YcCbcCrc_to_RGB(YcCbcCrc * factor), RGB * factor, decimal=7
                 )
 

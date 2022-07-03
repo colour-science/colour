@@ -131,14 +131,14 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
             decimal=7,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
             decimal=7,
@@ -147,7 +147,7 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 8))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
             decimal=7,
@@ -193,7 +193,7 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_CIECAM02(
                         XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b, surround
                     ),
@@ -310,14 +310,14 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
             *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
         )
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
             decimal=7,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
             decimal=7,
@@ -328,7 +328,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             XYZ,
             decimal=7,
@@ -375,7 +375,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     CIECAM02_to_XYZ(
                         specification * factor_a,
                         XYZ_w * factor_b,

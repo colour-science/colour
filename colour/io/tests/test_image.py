@@ -72,7 +72,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float16").dtype, np.dtype("float16")
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, "float16"),
             np.array(
                 [
@@ -94,7 +94,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float32").dtype, np.dtype("float32")
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, "float32"),
             np.array(
                 [
@@ -135,7 +135,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float16").dtype, np.dtype("float16")
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, "float16"),
             np.array(
                 [
@@ -157,7 +157,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float32").dtype, np.dtype("float32")
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, "float32"),
             np.array(
                 [
@@ -214,7 +214,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float16").dtype, np.dtype("float16")
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, "float16"),
             np.array(
                 [
@@ -236,7 +236,7 @@ class TestConvertBitDepth(unittest.TestCase):
         self.assertIs(
             convert_bit_depth(a, "float32").dtype, np.dtype("float32")
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             convert_bit_depth(a, "float32"), a, decimal=7
         )
 
@@ -394,7 +394,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
                 if write_attribute.name == read_attribute.name:
                     attribute_exists = True
                     if isinstance(write_attribute.value, tuple):
-                        np.testing.assert_almost_equal(
+                        np.testing.assert_array_almost_equal(
                             write_attribute.value,
                             read_attribute.value,
                             decimal=5,
