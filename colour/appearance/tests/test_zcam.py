@@ -182,14 +182,14 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
             specification,
             decimal=7,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
             specification,
             decimal=7,
@@ -198,7 +198,7 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 11))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_ZCAM(XYZ, XYZ_w, L_a, Y_b, surround),
             specification,
             decimal=7,
@@ -247,7 +247,7 @@ class TestXYZ_to_ZCAM(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_ZCAM(
                         XYZ * factor_a, XYZ_w * factor_a, L_a, Y_b, surround
                     ),
@@ -406,14 +406,14 @@ class TestZCAM_to_XYZ(unittest.TestCase):
             *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
         )
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             XYZ,
             decimal=7,
         )
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             XYZ,
             decimal=7,
@@ -424,7 +424,7 @@ class TestZCAM_to_XYZ(unittest.TestCase):
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             XYZ,
             decimal=7,
@@ -474,7 +474,7 @@ class TestZCAM_to_XYZ(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     ZCAM_to_XYZ(
                         specification * factor_a,
                         XYZ_w * factor_b,

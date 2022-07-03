@@ -74,7 +74,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition n-dimensional arrays
 
         v = np.tile(v, (6, 1))
         S = np.tile(S, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m),
             S,
             decimal=7,
@@ -82,7 +82,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition n-dimensional arrays
 
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m),
             S,
             decimal=7,
@@ -92,7 +92,7 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition n-dimensional arrays
         V_max = np.reshape(V_max, (2, 3, 1))
         K_m = np.reshape(K_m, (2, 3, 1))
         S = np.reshape(S, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Michaelis1913(v, V_max, K_m),
             S,
             decimal=7,
@@ -166,7 +166,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 S, V_max, K_m
             ),
@@ -176,7 +176,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
 
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 S, V_max, K_m
             ),
@@ -188,7 +188,7 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition n-dimensional
         V_max = np.reshape(V_max, (2, 3, 1))
         K_m = np.reshape(K_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 S, V_max, K_m
             ),
@@ -255,7 +255,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition n-dimensional arrays
 
         v = np.tile(v, (6, 1))
         S = np.tile(S, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m),
             S,
             decimal=7,
@@ -264,7 +264,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition n-dimensional arrays
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
         b_m = np.tile(b_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m),
             S,
             decimal=7,
@@ -275,7 +275,7 @@ reaction_rate_MichaelisMenten_Abebe2017` definition n-dimensional arrays
         K_m = np.reshape(K_m, (2, 3, 1))
         b_m = np.reshape(b_m, (2, 3, 1))
         S = np.reshape(S, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reaction_rate_MichaelisMenten_Abebe2017(v, V_max, K_m, b_m),
             S,
             decimal=7,
@@ -348,7 +348,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
 
         S = np.tile(S, (6, 1))
         v = np.tile(v, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 S, V_max, K_m, b_m
             ),
@@ -359,7 +359,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
         b_m = np.tile(b_m, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 S, V_max, K_m, b_m
             ),
@@ -372,7 +372,7 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition n-dimensional
         K_m = np.reshape(K_m, (2, 3, 1))
         b_m = np.reshape(b_m, (2, 3, 1))
         v = np.reshape(v, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             substrate_concentration_MichaelisMenten_Abebe2017(
                 S, V_max, K_m, b_m
             ),

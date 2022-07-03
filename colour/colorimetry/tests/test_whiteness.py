@@ -86,14 +86,14 @@ class TestWhitenessBerger1959(unittest.TestCase):
         XYZ = np.tile(XYZ, (6, 1))
         XYZ_0 = np.tile(XYZ_0, (6, 1))
         W = np.tile(W, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Berger1959(XYZ, XYZ_0), W, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
         W = np.reshape(W, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Berger1959(XYZ, XYZ_0), W, decimal=7
         )
 
@@ -110,7 +110,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     whiteness_Berger1959(XYZ * factor, XYZ_0 * factor),
                     W * factor,
                     decimal=7,
@@ -180,14 +180,14 @@ class TestWhitenessTaube1960(unittest.TestCase):
         XYZ = np.tile(XYZ, (6, 1))
         XYZ_0 = np.tile(XYZ_0, (6, 1))
         WI = np.tile(WI, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Taube1960(XYZ, XYZ_0), WI, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
         WI = np.reshape(WI, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Taube1960(XYZ, XYZ_0), WI, decimal=7
         )
 
@@ -204,7 +204,7 @@ class TestWhitenessTaube1960(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     whiteness_Taube1960(XYZ * factor, XYZ_0 * factor),
                     WI * factor,
                     decimal=7,
@@ -265,13 +265,13 @@ class TestWhitenessStensby1968(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         WI = np.tile(WI, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Stensby1968(Lab), WI, decimal=7
         )
 
         Lab = np.reshape(Lab, (2, 3, 3))
         WI = np.reshape(WI, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Stensby1968(Lab), WI, decimal=7
         )
 
@@ -287,7 +287,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     whiteness_Stensby1968(Lab * factor), WI * factor, decimal=7
                 )
 
@@ -350,11 +350,15 @@ class TestWhitenessASTM313(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         WI = np.tile(WI, 6)
-        np.testing.assert_almost_equal(whiteness_ASTME313(XYZ), WI, decimal=7)
+        np.testing.assert_array_almost_equal(
+            whiteness_ASTME313(XYZ), WI, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         WI = np.reshape(WI, (2, 3))
-        np.testing.assert_almost_equal(whiteness_ASTME313(XYZ), WI, decimal=7)
+        np.testing.assert_array_almost_equal(
+            whiteness_ASTME313(XYZ), WI, decimal=7
+        )
 
     def test_domain_range_scale_whiteness_ASTME313(self):
         """
@@ -368,7 +372,7 @@ class TestWhitenessASTM313(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     whiteness_ASTME313(XYZ * factor), WI * factor, decimal=7
                 )
 
@@ -396,19 +400,19 @@ class TestWhitenessGanz1979(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Ganz1979(np.array([0.3139, 0.3311]), 100),
             np.array([99.33176520, 1.76108290]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Ganz1979(np.array([0.3500, 0.3334]), 100),
             np.array([23.38525400, -32.66182560]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Ganz1979(np.array([0.3334, 0.3334]), 100),
             np.array([54.39939920, -16.04152380]),
             decimal=7,
@@ -426,19 +430,19 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         WT = np.tile(WT, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Ganz1979(xy, Y), WT, decimal=7
         )
 
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Ganz1979(xy, Y), WT, decimal=7
         )
 
         xy = np.reshape(xy, (2, 3, 2))
         Y = np.reshape(Y, (2, 3))
         WT = np.reshape(WT, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_Ganz1979(xy, Y), WT, decimal=7
         )
 
@@ -455,7 +459,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     whiteness_Ganz1979(xy, Y * factor), WT * factor, decimal=7
                 )
 
@@ -483,7 +487,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_CIE2004(
                 np.array([0.3139, 0.3311]), 100, np.array([0.3139, 0.3311])
             ),
@@ -491,7 +495,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_CIE2004(
                 np.array([0.3500, 0.3334]), 100, np.array([0.3139, 0.3311])
             ),
@@ -499,7 +503,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_CIE2004(
                 np.array([0.3334, 0.3334]), 100, np.array([0.3139, 0.3311])
             ),
@@ -520,13 +524,13 @@ class TestWhitenessCIE2004(unittest.TestCase):
 
         xy = np.tile(xy, (6, 1))
         WT = np.tile(WT, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_CIE2004(xy, Y, xy_n), WT, decimal=7
         )
 
         Y = np.tile(Y, 6)
         xy_n = np.tile(xy_n, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_CIE2004(xy, Y, xy_n), WT, decimal=7
         )
 
@@ -534,7 +538,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
         Y = np.reshape(Y, (2, 3))
         xy_n = np.reshape(xy_n, (2, 3, 2))
         WT = np.reshape(WT, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             whiteness_CIE2004(xy, Y, xy_n), WT, decimal=7
         )
 
@@ -552,7 +556,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     whiteness_CIE2004(xy, Y * factor, xy_n),
                     WT * factor,
                     decimal=7,
@@ -599,7 +603,7 @@ class TestWhiteness(unittest.TestCase):
         for method, value in zip(m, v):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_almost_equal(
+                    np.testing.assert_array_almost_equal(
                         whiteness(XYZ * factor, XYZ_0 * factor, method),
                         value * factor,
                         decimal=7,

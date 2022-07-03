@@ -58,7 +58,7 @@ class TestPCA_Jiang2013(unittest.TestCase):
 
         # TODO: Last eigen value seems to be very sensitive and produce
         # differences on ARM.
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(w)[..., 0:2],
             np.array(
                 [
@@ -165,7 +165,7 @@ class TestPCA_Jiang2013(unittest.TestCase):
             )[..., 0:2],
             decimal=7,
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             np.array(v)[..., 0:2],
             np.array(
                 [
@@ -228,7 +228,7 @@ RGB_to_sd_camera_sensitivity_Jiang2013` definition.
 
         R_w, _G_w, _B_w = tsplit(np.moveaxis(BASIS_FUNCTIONS_DYER2017, 0, 1))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_sd_camera_sensitivity_Jiang2013(
                 self._RGB[..., 0],
                 self._sd_D65,
@@ -294,7 +294,7 @@ RGB_to_msds_camera_sensitivities_Jiang2013` definition unit tests methods.
 RGB_to_msds_camera_sensitivities_Jiang2013` definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_msds_camera_sensitivities_Jiang2013(
                 self._RGB,
                 self._sd_D65,

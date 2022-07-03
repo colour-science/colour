@@ -274,14 +274,14 @@ class TestSpow(unittest.TestCase):
 
         self.assertEqual(spow(-2, 2), -4.0)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             spow([2, -2, -2, 0], [2, 2, 0.15, 0]),
             np.array([4.00000000, -4.00000000, -1.10956947, 0.00000000]),
             decimal=7,
         )
 
         with spow_enable(True):
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 spow(-2, 0.15), -1.10956947, decimal=7
             )
 
@@ -298,13 +298,13 @@ class TestNormaliseMaximum(unittest.TestCase):
     def test_normalise_maximum(self):
         """Test :func:`colour.utilities.array.normalise_maximum` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([1.00000000, 0.59055003, 0.24871454]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array(
                     [
@@ -324,7 +324,7 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array(
                     [
@@ -345,7 +345,7 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array([0.20654008, 0.12197225, 0.05136952]), factor=10
             ),
@@ -353,7 +353,7 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array([-0.11518475, -0.10080000, 0.05089373])
             ),
@@ -361,7 +361,7 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             normalise_maximum(
                 np.array([-0.20654008, -0.12197225, 0.05136952]), clip=False
             ),
@@ -391,7 +391,7 @@ class TestVectorDot(unittest.TestCase):
         v = np.array([0.20654008, 0.12197225, 0.05136952])
         v = np.tile(v, (6, 1))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             vector_dot(m, v),
             np.array(
                 [
@@ -427,7 +427,7 @@ class TestMatrixDot(unittest.TestCase):
 
         b = a
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             matrix_dot(a, b),
             np.array(
                 [
@@ -476,7 +476,7 @@ class TestLinearConversion(unittest.TestCase):
     def test_linear_conversion(self):
         """Test :func:`colour.utilities.array.linear_conversion` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             linear_conversion(
                 np.linspace(0, 1, 10), np.array([0, 1]), np.array([1, np.pi])
             ),
@@ -507,7 +507,7 @@ class TestLinstepFunction(unittest.TestCase):
     def test_linstep_function(self):
         """Test :func:`colour.utilities.array.linstep_function` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             linstep_function(
                 np.linspace(0, 1, 10),
                 np.linspace(0, 1, 10),
@@ -530,7 +530,7 @@ class TestLinstepFunction(unittest.TestCase):
             decimal=8,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             linstep_function(
                 np.linspace(0, 2, 10),
                 np.linspace(0.25, 0.5, 10),
@@ -569,11 +569,11 @@ class TestSmoothstepFunction(unittest.TestCase):
         self.assertEqual(smoothstep_function(0.75), 0.84375)
 
         x = np.linspace(-2, 2, 5)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             smoothstep_function(x),
             np.array([28.00000, 5.00000, 0.00000, 1.00000, -4.00000]),
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             smoothstep_function(x, -2, 2, clip=True),
             np.array([0.00000, 0.15625, 0.50000, 0.84375, 1.00000]),
         )

@@ -104,37 +104,37 @@ exponent_function_basic` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicPassThruFwd"), a_p, decimal=7
         )
 
@@ -143,37 +143,37 @@ exponent_function_basic` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
         )
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicRev"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicMirrorRev"), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_basic(a, 2.2, "basicPassThruRev"), a_p, decimal=7
         )
 
@@ -272,10 +272,10 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorFwd"
             ),
@@ -285,10 +285,10 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorFwd"
             ),
@@ -298,10 +298,10 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(a, 2.2, 0.001), a_p, decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorFwd"
             ),
@@ -314,12 +314,12 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
             decimal=7,
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorRev"
             ),
@@ -329,12 +329,12 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
             decimal=7,
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorRev"
             ),
@@ -344,12 +344,12 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
             decimal=7,
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             exponent_function_monitor_curve(
                 a, 2.2, 0.001, "monCurveMirrorRev"
             ),

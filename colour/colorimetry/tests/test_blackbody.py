@@ -1225,25 +1225,27 @@ class TestPlanckLaw(unittest.TestCase):
 
         wl = np.tile(wl, 6)
         p = np.tile(p, 6)
-        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3))
         # The "colour.colorimetry.planck_law" definition behaviour with
         # n-dimensional arrays is unusual.
         # p = np.np.reshape(p, (2, 3))
-        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3, 1))
         # The "colour.colorimetry.planck_law" definition behaviour with
         # n-dimensional arrays is unusual.
         # p = np.reshape(p, (2, 3, 1))
-        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(planck_law(wl, 5500), p)
 
         # The "colour.colorimetry.planck_law" definition behaviour with
         # n-dimensional arrays is unusual.
         p = planck_law(500 * 1e-9, [5000, 5500, 6000])
         p = np.tile(p, (6, 1))
-        np.testing.assert_almost_equal(planck_law(wl, [5000, 5500, 6000]), p)
+        np.testing.assert_array_almost_equal(
+            planck_law(wl, [5000, 5500, 6000]), p
+        )
 
     @ignore_numpy_errors
     def test_nan_planck_law(self):
@@ -1307,25 +1309,25 @@ class TestRayleighJeansLaw(unittest.TestCase):
 
         wl = np.tile(wl, 6)
         p = np.tile(p, 6)
-        np.testing.assert_almost_equal(rayleigh_jeans_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(rayleigh_jeans_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3))
         # The "colour.colorimetry.rayleigh_jeans_law" definition behaviour with
         # n-dimensional arrays is unusual.
         # p = np.np.reshape(p, (2, 3))
-        np.testing.assert_almost_equal(rayleigh_jeans_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(rayleigh_jeans_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3, 1))
         # The "colour.colorimetry.rayleigh_jeans_law" definition behaviour with
         # n-dimensional arrays is unusual.
         # p = np.reshape(p, (2, 3, 1))
-        np.testing.assert_almost_equal(rayleigh_jeans_law(wl, 5500), p)
+        np.testing.assert_array_almost_equal(rayleigh_jeans_law(wl, 5500), p)
 
         # The "colour.colorimetry.rayleigh_jeans_law" definition behaviour with
         # n-dimensional arrays is unusual.
         p = rayleigh_jeans_law(500 * 1e-9, [5000, 5500, 6000])
         p = np.tile(p, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             rayleigh_jeans_law(wl, [5000, 5500, 6000]), p
         )
 

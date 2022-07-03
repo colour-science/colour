@@ -30,19 +30,19 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
     def test_XYZ_to_IgPgTg(self):
         """Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_IgPgTg(np.array([0.20654008, 0.12197225, 0.05136952])),
             np.array([0.42421258, 0.18632491, 0.10689223]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_IgPgTg(np.array([0.14222010, 0.23042768, 0.10495772])),
             np.array([0.50912820, -0.14804331, 0.11921472]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_IgPgTg(np.array([0.07818780, 0.06157201, 0.28099326])),
             np.array([0.29095152, -0.04057508, -0.18220795]),
             decimal=7,
@@ -59,11 +59,15 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         IgPgTg = np.tile(IgPgTg, (6, 1))
-        np.testing.assert_almost_equal(XYZ_to_IgPgTg(XYZ), IgPgTg, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_IgPgTg(XYZ), IgPgTg, decimal=7
+        )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         IgPgTg = np.reshape(IgPgTg, (2, 3, 3))
-        np.testing.assert_almost_equal(XYZ_to_IgPgTg(XYZ), IgPgTg, decimal=7)
+        np.testing.assert_array_almost_equal(
+            XYZ_to_IgPgTg(XYZ), IgPgTg, decimal=7
+        )
 
     def test_domain_range_scale_XYZ_to_IgPgTg(self):
         """
@@ -77,7 +81,7 @@ class TestXYZ_to_IgPgTg(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_IgPgTg(XYZ * factor), IgPgTg * factor, decimal=7
                 )
 
@@ -102,19 +106,19 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
     def test_IgPgTg_to_XYZ(self):
         """Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IgPgTg_to_XYZ(np.array([0.42421258, 0.18632491, 0.10689223])),
             np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IgPgTg_to_XYZ(np.array([0.50912820, -0.14804331, 0.11921472])),
             np.array([0.14222010, 0.23042768, 0.10495772]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             IgPgTg_to_XYZ(np.array([0.29095152, -0.04057508, -0.18220795])),
             np.array([0.07818780, 0.06157201, 0.28099326]),
             decimal=7,
@@ -131,11 +135,15 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
 
         IgPgTg = np.tile(IgPgTg, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(IgPgTg_to_XYZ(IgPgTg), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(
+            IgPgTg_to_XYZ(IgPgTg), XYZ, decimal=7
+        )
 
         IgPgTg = np.reshape(IgPgTg, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(IgPgTg_to_XYZ(IgPgTg), XYZ, decimal=7)
+        np.testing.assert_array_almost_equal(
+            IgPgTg_to_XYZ(IgPgTg), XYZ, decimal=7
+        )
 
     def test_domain_range_scale_IgPgTg_to_XYZ(self):
         """
@@ -149,7 +157,7 @@ class TestIgPgTg_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     IgPgTg_to_XYZ(IgPgTg * factor), XYZ * factor, decimal=7
                 )
 

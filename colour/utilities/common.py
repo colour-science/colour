@@ -1338,10 +1338,10 @@ def copy_definition(
 
     copy = types.FunctionType(
         definition.__code__,
-        definition.__globals__,  # type: ignore[attr-defined]
+        definition.__globals__,
         str(name or definition.__name__),
-        definition.__defaults__,  # type: ignore[attr-defined]
-        definition.__closure__,  # type: ignore[attr-defined]
+        definition.__defaults__,
+        definition.__closure__,
     )
     copy.__dict__.update(definition.__dict__)
 

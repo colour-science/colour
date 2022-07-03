@@ -32,19 +32,19 @@ class TestJab_to_JCh(unittest.TestCase):
     def test_Jab_to_JCh(self):
         """Test :func:`colour.models.common.Jab_to_JCh` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Jab_to_JCh(np.array([41.52787529, 52.63858304, 26.92317922])),
             np.array([41.52787529, 59.12425901, 27.08848784]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Jab_to_JCh(np.array([55.11636304, -41.08791787, 30.91825778])),
             np.array([55.11636304, 51.42135412, 143.03889556]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Jab_to_JCh(np.array([29.80565520, 20.01830466, -48.34913874])),
             np.array([29.80565520, 52.32945383, 292.49133666]),
             decimal=7,
@@ -61,11 +61,11 @@ class TestJab_to_JCh(unittest.TestCase):
 
         Lab = np.tile(Lab, (6, 1))
         LCHab = np.tile(LCHab, (6, 1))
-        np.testing.assert_almost_equal(Jab_to_JCh(Lab), LCHab, decimal=7)
+        np.testing.assert_array_almost_equal(Jab_to_JCh(Lab), LCHab, decimal=7)
 
         Lab = np.reshape(Lab, (2, 3, 3))
         LCHab = np.reshape(LCHab, (2, 3, 3))
-        np.testing.assert_almost_equal(Jab_to_JCh(Lab), LCHab, decimal=7)
+        np.testing.assert_array_almost_equal(Jab_to_JCh(Lab), LCHab, decimal=7)
 
     def test_domain_range_scale_Jab_to_JCh(self):
         """
@@ -83,7 +83,7 @@ class TestJab_to_JCh(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Jab_to_JCh(Lab * factor_a), LCHab * factor_b, decimal=7
                 )
 
@@ -105,19 +105,19 @@ class TestJCh_to_Jab(unittest.TestCase):
     def test_JCh_to_Jab(self):
         """Test :func:`colour.models.common.JCh_to_Jab` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JCh_to_Jab(np.array([41.52787529, 59.12425901, 27.08848784])),
             np.array([41.52787529, 52.63858304, 26.92317922]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JCh_to_Jab(np.array([55.11636304, 51.42135412, 143.03889556])),
             np.array([55.11636304, -41.08791787, 30.91825778]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JCh_to_Jab(np.array([29.80565520, 52.32945383, 292.49133666])),
             np.array([29.80565520, 20.01830466, -48.34913874]),
             decimal=7,
@@ -134,11 +134,11 @@ class TestJCh_to_Jab(unittest.TestCase):
 
         LCHab = np.tile(LCHab, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_almost_equal(JCh_to_Jab(LCHab), Lab, decimal=7)
+        np.testing.assert_array_almost_equal(JCh_to_Jab(LCHab), Lab, decimal=7)
 
         LCHab = np.reshape(LCHab, (2, 3, 3))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_almost_equal(JCh_to_Jab(LCHab), Lab, decimal=7)
+        np.testing.assert_array_almost_equal(JCh_to_Jab(LCHab), Lab, decimal=7)
 
     def test_domain_range_scale_JCh_to_Jab(self):
         """
@@ -156,7 +156,7 @@ class TestJCh_to_Jab(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     JCh_to_Jab(LCHab * factor_a), Lab * factor_b, decimal=7
                 )
 
@@ -194,7 +194,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
     def test_XYZ_to_Iab(self):
         """Test :func:`colour.models.common.XYZ_to_Iab` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Iab(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 self.LMS_to_LMS_p,
@@ -205,7 +205,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Iab(
                 np.array([0.14222010, 0.23042768, 0.10495772]),
                 self.LMS_to_LMS_p,
@@ -216,7 +216,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Iab(
                 np.array([0.07818780, 0.06157201, 0.28099326]),
                 self.LMS_to_LMS_p,
@@ -240,7 +240,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Iab = np.tile(Iab, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Iab(
                 XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
             ),
@@ -250,7 +250,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Iab = np.reshape(Iab, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_Iab(
                 XYZ, self.LMS_to_LMS_p, self.M_XYZ_to_LMS, self.M_LMS_p_to_Iab
             ),
@@ -272,7 +272,7 @@ class TestXYZ_to_Iab(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_Iab(
                         XYZ * factor,
                         self.LMS_to_LMS_p,
@@ -326,7 +326,7 @@ class TestIab_to_XYZ(unittest.TestCase):
     def test_Iab_to_XYZ(self):
         """Test :func:`colour.models.common.Iab_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Iab_to_XYZ(
                 np.array([0.38426191, 0.38487306, 0.18886838]),
                 self.LMS_p_to_LMS,
@@ -337,7 +337,7 @@ class TestIab_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Iab_to_XYZ(
                 np.array([0.49437481, -0.19251742, 0.18080304]),
                 self.LMS_p_to_LMS,
@@ -348,7 +348,7 @@ class TestIab_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Iab_to_XYZ(
                 np.array([0.35167774, -0.07525627, -0.30921279]),
                 self.LMS_p_to_LMS,
@@ -372,7 +372,7 @@ class TestIab_to_XYZ(unittest.TestCase):
 
         Iab = np.tile(Iab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Iab_to_XYZ(
                 Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
             ),
@@ -382,7 +382,7 @@ class TestIab_to_XYZ(unittest.TestCase):
 
         Iab = np.reshape(Iab, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             Iab_to_XYZ(
                 Iab, self.LMS_p_to_LMS, self.M_Iab_to_LMS_p, self.M_LMS_to_XYZ
             ),
@@ -404,7 +404,7 @@ class TestIab_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     Iab_to_XYZ(
                         Iab * factor,
                         self.LMS_p_to_LMS,

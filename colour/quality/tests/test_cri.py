@@ -378,7 +378,7 @@ class TestColourRenderingIndex(unittest.TestCase):
             SDS_ILLUMINANTS["FL1"], additional_data=True
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             [
                 data.Q_a
                 for _index, data in sorted(specification_r.Q_as.items())

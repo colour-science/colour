@@ -122,19 +122,19 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122])),
             np.array([6507.47380460, 0.00322335]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.4328, 0.2883])),
             np.array([1041.68315360, -0.06737802]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.2927, 0.2722]), iterations=4),
             np.array([2452.15316417, -0.08437064]),
             decimal=7,
@@ -151,13 +151,13 @@ class TestUv_to_CCT_Ohno2013(unittest.TestCase):
 
         uv = np.tile(uv, (6, 1))
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7
         )
 
         uv = np.reshape(uv, (2, 3, 2))
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             uv_to_CCT_Ohno2013(uv), CCT_D_uv, decimal=7
         )
 
@@ -185,19 +185,19 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([6507.47380460, 0.00322335])),
             np.array([0.19779997, 0.31219997]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([1041.68315360, -0.06737802])),
             np.array([0.43279885, 0.28830013]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(np.array([2452.15316417, -0.08437064])),
             np.array([0.29247364, 0.27215157]),
             decimal=7,
@@ -214,13 +214,13 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         CCT_D_uv = np.tile(CCT_D_uv, (6, 1))
         uv = np.tile(uv, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
         )
 
         CCT_D_uv = np.reshape(CCT_D_uv, (2, 3, 2))
         uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CCT_to_uv_Ohno2013(CCT_D_uv), uv, decimal=7
         )
 

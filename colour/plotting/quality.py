@@ -50,7 +50,7 @@ from colour.quality import (
     colour_quality_scale,
     colour_rendering_index,
 )
-from colour.utilities import as_float_array, validate_method
+from colour.utilities import as_float_array, ones, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -146,7 +146,7 @@ def plot_colour_quality_bars(
         )
 
         count_Q_as = len(Q_as)
-        RGB = [[1] * 3] + [
+        RGB = [ones(3)] + [
             np.clip(XYZ_to_plotting_colourspace(x.XYZ), 0, 1)
             for x in colorimetry_data[0]
         ]

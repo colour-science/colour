@@ -18,7 +18,7 @@ import tempfile
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.hints import Any, Boolean, Dict, NDArray
+from colour.hints import Any, Boolean, Dict, NDArray, cast
 from colour.utilities import filter_kwargs
 
 __author__ = "Colour Developers"
@@ -123,7 +123,7 @@ def read_spectral_data_from_csv_file(
 
     transpose = settings.get("transpose")
     if transpose:
-        delimiter = settings.get("delimiter", ",")
+        delimiter = cast(str, settings.get("delimiter", ","))
         if settings.get("delimiter") is not None:
             del settings["delimiter"]
 

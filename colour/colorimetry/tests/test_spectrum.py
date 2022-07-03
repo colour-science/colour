@@ -1336,7 +1336,7 @@ class TestSpectralShape(unittest.TestCase):
         method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
             np.arange(0, 10 + 0.1, 0.1),
         )
@@ -1385,7 +1385,7 @@ class TestSpectralShape(unittest.TestCase):
     def test_range(self):
         """Test :func:`colour.colorimetry.spectrum.SpectralShape.range` method."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             [wavelength for wavelength in SpectralShape(0, 10, 0.1)],
             np.arange(0, 10 + 0.1, 0.1),
         )
@@ -1482,7 +1482,7 @@ class TestSpectralDistribution(unittest.TestCase):
         method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             SpectralDistribution(DATA_SAMPLE).wavelengths,
             SpectralDistribution(
                 DATA_SAMPLE.values(),
@@ -1496,7 +1496,7 @@ class TestSpectralDistribution(unittest.TestCase):
 SpectralDistribution.interpolate` method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             reshape_sd(
                 self._sd,
                 SpectralShape(self._sd.shape.start, self._sd.shape.end, 1),
@@ -1585,7 +1585,7 @@ SpectralDistribution.trim` method.
 SpectralDistribution.normalise` method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._sd.copy().normalise(100).values, DATA_SAMPLE_NORMALISED
         )
 
@@ -1732,7 +1732,7 @@ strict_labels` property.
 MultiSpectralDistributions.__init__` method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             MultiSpectralDistributions(DATA_CMFS).wavelengths,
             MultiSpectralDistributions(
                 DATA_CMFS.values(),
@@ -1755,7 +1755,7 @@ MultiSpectralDistributions.interpolate` method.
             "Interpolate",
         )
         for signal in msds.signals.values():
-            np.testing.assert_almost_equal(
+            np.testing.assert_array_almost_equal(
                 signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7
             )
 
@@ -1793,10 +1793,10 @@ MultiSpectralDistributions.extrapolate` method.
         msds = MultiSpectralDistributions(data)
         msds.extrapolate(SpectralShape(10, 50, 5))
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[10], np.array([0.0, 0.0, 0.0]), decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[50], np.array([1.0, 1.0, 1.0]), decimal=7
         )
 
@@ -1811,10 +1811,10 @@ MultiSpectralDistributions.extrapolate` method.
                 "right": None,
             },
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[10], np.array([-1.5, -1.5, -1.5]), decimal=7
         )
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             msds[50], np.array([2.5, 2.5, 2.5]), decimal=7
         )
 
@@ -1850,7 +1850,7 @@ MultiSpectralDistributions.trim` method.
         MultiSpectralDistributions.normalise` method.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._sample_msds.copy().normalise(100).values,
             tstack([DATA_SAMPLE_NORMALISED] * 3),
         )
@@ -1989,7 +1989,7 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
             shape,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sds_and_msds_to_msds(
                 [sd_1, sd_2, multi_sds_1, multi_sds_2]
             ).wavelengths,
@@ -1997,7 +1997,7 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             sds_and_msds_to_msds(
                 [sd_1, sd_2, multi_sds_1, multi_sds_2]
             ).values,

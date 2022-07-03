@@ -47,7 +47,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
 
         a = full([4, 2, 3], 0.18)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             process_image_OpenColorIO(
                 a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
             ),
@@ -74,7 +74,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
             decimal=5,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             process_image_OpenColorIO(
                 a,
                 "ACES - ACES2065-1",

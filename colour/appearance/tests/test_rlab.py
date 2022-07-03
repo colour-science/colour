@@ -98,19 +98,19 @@ class TestXYZ_to_RLAB(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
         )
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
         )
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 7))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma), specification, decimal=7
         )
 
@@ -134,7 +134,7 @@ class TestXYZ_to_RLAB(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_RLAB(
                         XYZ * factor_a, XYZ_n * factor_a, Y_n, sigma, D
                     ),

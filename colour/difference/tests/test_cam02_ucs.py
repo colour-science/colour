@@ -99,7 +99,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_1 = np.tile(Jpapbp_1, (6, 1))
         Jpapbp_2 = np.tile(Jpapbp_2, (6, 1))
         delta_E_p = np.tile(delta_E_p, 6)
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             delta_E_Luo2006(
                 Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -110,7 +110,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_1 = np.reshape(Jpapbp_1, (2, 3, 3))
         Jpapbp_2 = np.reshape(Jpapbp_2, (2, 3, 3))
         delta_E_p = np.reshape(delta_E_p, (2, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             delta_E_Luo2006(
                 Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),

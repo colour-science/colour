@@ -49,7 +49,7 @@ class TestEdgesToChord(unittest.TestCase):
             ]
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             edges_to_chord(edges),
             np.array(
                 [
@@ -73,7 +73,7 @@ class TestEdgesToChord(unittest.TestCase):
             ),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             edges_to_chord(edges, 5),
             np.array(
                 [
@@ -107,7 +107,7 @@ class TestCloseChord(unittest.TestCase):
     def test_close_chord(self):
         """Test :func:`colour.geometry.section.close_chord` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             close_chord(np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]])),
             np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]]),
         )
@@ -122,14 +122,14 @@ class TestUniqueVertices(unittest.TestCase):
     def test_unique_vertices(self):
         """Test :func:`colour.geometry.section.unique_vertices` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             unique_vertices(
                 np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]])
             ),
             np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             unique_vertices(
                 np.array(
                     [[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]
@@ -157,7 +157,7 @@ class TestHullSection(unittest.TestCase):
         vertices, faces, _outline = primitive_cube(1, 1, 1, 2, 2, 2)
         hull = trimesh.Trimesh(vertices["position"], faces, process=False)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hull_section(hull, origin=0),
             np.array(
                 [
@@ -174,7 +174,7 @@ class TestHullSection(unittest.TestCase):
             ),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hull_section(hull, axis="+x", origin=0),
             np.array(
                 [
@@ -191,7 +191,7 @@ class TestHullSection(unittest.TestCase):
             ),
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hull_section(hull, axis="+y", origin=0),
             np.array(
                 [
@@ -209,7 +209,7 @@ class TestHullSection(unittest.TestCase):
         )
 
         hull.vertices = (hull.vertices + 0.5) * 2
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             hull_section(hull, origin=0.5, normalise=True),
             np.array(
                 [

@@ -184,7 +184,7 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     sd_to_XYZ(
                         XYZ_to_sd_Jakob2019(
                             XYZ_i * factor_a, self._cmfs, self._sd_D65
@@ -269,7 +269,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         property.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             self._LUT.lightness_scale,
             np.array(
                 [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]

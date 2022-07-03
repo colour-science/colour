@@ -316,7 +316,13 @@ def CIECAM02_to_JMh_CIECAM02(
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
 
-    return tstack([specification.J, specification.M, specification.h])
+    return tstack(
+        [
+            cast(FloatingOrNDArray, specification.J),
+            cast(FloatingOrNDArray, specification.M),
+            cast(FloatingOrNDArray, specification.h),
+        ]
+    )
 
 
 def JMh_CIECAM02_to_CIECAM02(JMh: ArrayLike) -> CAM_Specification_CIECAM02:

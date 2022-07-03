@@ -37,19 +37,19 @@ class TestRGB_to_CMY(unittest.TestCase):
     def test_RGB_to_CMY(self):
         """Test :func:`colour.models.rgb.cmyk.RGB_to_CMY` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_CMY(np.array([0.45620519, 0.03081071, 0.04091952])),
             np.array([0.54379481, 0.96918929, 0.95908048]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_CMY(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([1.00000000, 1.00000000, 1.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             RGB_to_CMY(np.array([1.00000000, 1.00000000, 1.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
@@ -66,11 +66,11 @@ class TestRGB_to_CMY(unittest.TestCase):
 
         RGB = np.tile(RGB, (6, 1))
         CMY = np.tile(CMY, (6, 1))
-        np.testing.assert_almost_equal(RGB_to_CMY(RGB), CMY, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_CMY(RGB), CMY, decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         CMY = np.reshape(CMY, (2, 3, 3))
-        np.testing.assert_almost_equal(RGB_to_CMY(RGB), CMY, decimal=7)
+        np.testing.assert_array_almost_equal(RGB_to_CMY(RGB), CMY, decimal=7)
 
     def test_domain_range_scale_RGB_to_CMY(self):
         """
@@ -84,7 +84,7 @@ class TestRGB_to_CMY(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     RGB_to_CMY(RGB * factor), CMY * factor, decimal=7
                 )
 
@@ -109,19 +109,19 @@ class TestCMY_to_RGB(unittest.TestCase):
     def test_CMY_to_RGB(self):
         """Test :func:`colour.models.rgb.cmyk.CMY_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMY_to_RGB(np.array([0.54379481, 0.96918929, 0.95908048])),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMY_to_RGB(np.array([1.00000000, 1.00000000, 1.00000000])),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMY_to_RGB(np.array([0.00000000, 0.00000000, 0.00000000])),
             np.array([1.00000000, 1.00000000, 1.00000000]),
             decimal=7,
@@ -138,11 +138,11 @@ class TestCMY_to_RGB(unittest.TestCase):
 
         CMY = np.tile(CMY, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(CMY_to_RGB(CMY), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(CMY_to_RGB(CMY), RGB, decimal=7)
 
         CMY = np.reshape(CMY, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(CMY_to_RGB(CMY), RGB, decimal=7)
+        np.testing.assert_array_almost_equal(CMY_to_RGB(CMY), RGB, decimal=7)
 
     def test_domain_range_scale_CMY_to_RGB(self):
         """
@@ -156,7 +156,7 @@ class TestCMY_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     CMY_to_RGB(CMY * factor), RGB * factor, decimal=7
                 )
 
@@ -178,19 +178,19 @@ class TestCMY_to_CMYK(unittest.TestCase):
     def test_CMY_to_CMYK(self):
         """Test :func:`colour.models.rgb.cmyk.CMY_to_CMYK` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMY_to_CMYK(np.array([0.54379481, 0.96918929, 0.95908048])),
             np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMY_to_CMYK(np.array([0.15000000, 1.00000000, 1.00000000])),
             np.array([0.00000000, 1.00000000, 1.00000000, 0.15000000]),
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMY_to_CMYK(np.array([0.15000000, 0.00000000, 0.00000000])),
             np.array([0.15000000, 0.00000000, 0.00000000, 0.00000000]),
             decimal=7,
@@ -207,11 +207,11 @@ class TestCMY_to_CMYK(unittest.TestCase):
 
         CMY = np.tile(CMY, (6, 1))
         CMYK = np.tile(CMYK, (6, 1))
-        np.testing.assert_almost_equal(CMY_to_CMYK(CMY), CMYK, decimal=7)
+        np.testing.assert_array_almost_equal(CMY_to_CMYK(CMY), CMYK, decimal=7)
 
         CMY = np.reshape(CMY, (2, 3, 3))
         CMYK = np.reshape(CMYK, (2, 3, 4))
-        np.testing.assert_almost_equal(CMY_to_CMYK(CMY), CMYK, decimal=7)
+        np.testing.assert_array_almost_equal(CMY_to_CMYK(CMY), CMYK, decimal=7)
 
     def test_domain_range_scale_CMY_to_CMYK(self):
         """
@@ -225,7 +225,7 @@ class TestCMY_to_CMYK(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     CMY_to_CMYK(CMY * factor), CMYK * factor, decimal=7
                 )
 
@@ -250,7 +250,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
     def test_CMYK_to_CMY(self):
         """Test :func:`colour.models.rgb.cmyk.CMYK_to_CMY` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMYK_to_CMY(
                 np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
             ),
@@ -258,7 +258,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMYK_to_CMY(
                 np.array([0.00000000, 1.00000000, 1.00000000, 0.15000000])
             ),
@@ -266,7 +266,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             CMYK_to_CMY(
                 np.array([0.15000000, 0.00000000, 0.00000000, 0.00000000])
             ),
@@ -285,11 +285,11 @@ class TestCMYK_to_CMY(unittest.TestCase):
 
         CMYK = np.tile(CMYK, (6, 1))
         CMY = np.tile(CMY, (6, 1))
-        np.testing.assert_almost_equal(CMYK_to_CMY(CMYK), CMY, decimal=7)
+        np.testing.assert_array_almost_equal(CMYK_to_CMY(CMYK), CMY, decimal=7)
 
         CMYK = np.reshape(CMYK, (2, 3, 4))
         CMY = np.reshape(CMY, (2, 3, 3))
-        np.testing.assert_almost_equal(CMYK_to_CMY(CMYK), CMY, decimal=7)
+        np.testing.assert_array_almost_equal(CMYK_to_CMY(CMYK), CMY, decimal=7)
 
     def test_domain_range_scale_CMYK_to_CMY(self):
         """
@@ -303,7 +303,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     CMYK_to_CMY(CMYK * factor), CMY * factor, decimal=7
                 )
 

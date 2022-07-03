@@ -31,7 +31,14 @@ from __future__ import annotations
 import re
 from functools import partial
 
-from colour.hints import Callable, Any, ArrayLike, NDArray
+from colour.hints import (
+    Callable,
+    Any,
+    ArrayLike,
+    FloatingOrNDArray,
+    NDArray,
+    cast,
+)
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
     JMh_CIECAM02_to_UCS_Luo2006,
@@ -257,7 +264,13 @@ def XYZ_to_UCS_Li2017(
         XYZ = as_float_array(XYZ) * 100
 
     specification = XYZ_to_CAM16(XYZ, **settings)
-    JMh = tstack([specification.J, specification.M, specification.h])
+    JMh = tstack(
+        [
+            cast(FloatingOrNDArray, specification.J),
+            cast(FloatingOrNDArray, specification.M),
+            cast(FloatingOrNDArray, specification.h),
+        ]
+    )
 
     return JMh_CAM16_to_UCS_Li2017(JMh, coefficients)
 

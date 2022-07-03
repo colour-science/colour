@@ -74,7 +74,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JMh_CIECAM02_to_UCS_Luo2006(
                 self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -82,7 +82,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JMh_CIECAM02_to_UCS_Luo2006(
                 self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -90,7 +90,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JMh_CIECAM02_to_UCS_Luo2006(
                 self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
             ),
@@ -98,7 +98,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JMh_CIECAM02_to_UCS_Luo2006(
                 self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
             ),
@@ -106,7 +106,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JMh_CIECAM02_to_UCS_Luo2006(
                 self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
             ),
@@ -114,7 +114,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JMh_CIECAM02_to_UCS_Luo2006(
                 self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
             ),
@@ -135,7 +135,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
 
         JMh = np.tile(JMh, (6, 1))
         Jpapbp = np.tile(Jpapbp, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JMh_CIECAM02_to_UCS_Luo2006(
                 JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -145,7 +145,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
 
         JMh = np.reshape(JMh, (2, 3, 3))
         Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             JMh_CIECAM02_to_UCS_Luo2006(
                 JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -171,7 +171,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     JMh_CIECAM02_to_UCS_Luo2006(
                         JMh * factor_a, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
                     ),
@@ -205,7 +205,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         definition.
         """
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_JMh_CIECAM02(
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -214,7 +214,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_JMh_CIECAM02(
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -225,7 +225,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_JMh_CIECAM02(
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
@@ -234,7 +234,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_JMh_CIECAM02(
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
@@ -245,7 +245,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_JMh_CIECAM02(
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
@@ -254,7 +254,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_JMh_CIECAM02(
                 np.array([54.90433134, -0.08442362, -0.06848314]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
@@ -278,7 +278,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
 
         Jpapbp = np.tile(Jpapbp, (6, 1))
         JMh = np.tile(JMh, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_JMh_CIECAM02(
                 Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -288,7 +288,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
 
         Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
         JMh = np.reshape(JMh, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_JMh_CIECAM02(
                 Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
             ),
@@ -314,7 +314,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     UCS_Luo2006_to_JMh_CIECAM02(
                         Jpapbp * factor_a,
                         COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -346,7 +346,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
     def test_XYZ_to_UCS_Luo2006(self):
         """Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS_Luo2006(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -355,7 +355,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS_Luo2006(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -364,7 +364,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS_Luo2006(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
@@ -373,7 +373,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS_Luo2006(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
@@ -382,7 +382,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS_Luo2006(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
@@ -391,7 +391,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS_Luo2006(
                 np.array([0.20654008, 0.12197225, 0.05136952]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
@@ -411,7 +411,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
 
         XYZ = np.tile(XYZ, (6, 1))
         Jpapbp = np.tile(Jpapbp, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             Jpapbp,
             decimal=7,
@@ -419,7 +419,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             Jpapbp,
             decimal=7,
@@ -438,7 +438,7 @@ class TestXYZ_to_UCS_Luo2006(unittest.TestCase):
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     XYZ_to_UCS_Luo2006(
                         XYZ * factor_a,
                         COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -469,7 +469,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
     def test_UCS_Luo2006_to_XYZ(self):
         """Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_XYZ(
                 np.array([46.61386154, 39.35760236, 15.96730435]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -478,7 +478,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_XYZ(
                 np.array([46.61386154, 39.35760236, 15.96730435]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -487,7 +487,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_XYZ(
                 np.array([46.61386154, 39.35760236, 15.96730435]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
@@ -496,7 +496,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_XYZ(
                 np.array([46.61386154, 39.35760236, 15.96730435]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
@@ -505,7 +505,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_XYZ(
                 np.array([46.61386154, 39.35760236, 15.96730435]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
@@ -514,7 +514,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_XYZ(
                 np.array([46.61386154, 39.35760236, 15.96730435]),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
@@ -534,7 +534,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
 
         Jpapbp = np.tile(Jpapbp, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             XYZ,
             decimal=7,
@@ -542,7 +542,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
 
         Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             XYZ,
             decimal=7,
@@ -561,7 +561,7 @@ class TestUCS_Luo2006_to_XYZ(unittest.TestCase):
         d_r = (("reference", 1, 1, 1), ("1", 0.01, 1, 1), ("100", 1, 100, 100))
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     UCS_Luo2006_to_XYZ(
                         Jpapbp * factor_a,
                         COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],

@@ -450,7 +450,7 @@ LUTSequence(
         samples = np.linspace(0, 1, 5)
         RGB = tstack([samples, samples, samples])
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             LUT_sequence.apply(RGB, GammaOperator={"direction": "Inverse"}),
             np.array(
                 [

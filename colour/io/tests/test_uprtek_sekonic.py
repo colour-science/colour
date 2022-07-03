@@ -113,7 +113,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         sd_r = SpectralDistribution(self._spectral_data)
 
         np.testing.assert_array_equal(sd_r.domain, sd.domain)
-        np.testing.assert_almost_equal(sd_r.values, sd.values, decimal=6)
+        np.testing.assert_array_almost_equal(sd_r.values, sd.values, decimal=6)
 
         for key, value in self._header.items():
             for specification in sd.header.mapping.elements:

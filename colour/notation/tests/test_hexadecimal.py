@@ -113,19 +113,19 @@ class TestHEX_to_RGB(unittest.TestCase):
     def test_HEX_to_RGB(self):
         """Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition."""
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HEX_to_RGB("#74070a"),
             np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=2,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HEX_to_RGB("#000000"),
             np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=2,
         )
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             HEX_to_RGB("#ffffff"),
             np.array([1.00000000, 1.00000000, 1.00000000]),
             decimal=2,
@@ -142,11 +142,11 @@ class TestHEX_to_RGB(unittest.TestCase):
 
         HEX = np.tile(HEX, 6)
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
+        np.testing.assert_array_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
 
         HEX = np.reshape(HEX, (2, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
+        np.testing.assert_array_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
 
     def test_domain_range_scale_HEX_to_RGB(self):
         """
@@ -160,7 +160,7 @@ class TestHEX_to_RGB(unittest.TestCase):
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
+                np.testing.assert_array_almost_equal(
                     HEX_to_RGB(HEX), RGB * factor, decimal=2
                 )
 

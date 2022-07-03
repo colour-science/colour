@@ -830,7 +830,7 @@ def optimisation_factory_Jzazbz() -> Tuple[Callable, Callable]:
         )
         Jab_t = XYZ_to_Jzazbz(XYZ_t)
 
-        return np.sum(euclidean_distance(Jab, Jab_t))
+        return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
 
     def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArray:
         """*CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function."""

@@ -32,7 +32,7 @@ class TestPowerFunctionHuang2015(unittest.TestCase):
 
         d_E = np.array([2.0425, 2.8615, 3.4412])
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             power_function_Huang2015(d_E),
             np.array([2.35748796, 2.98505036, 3.39651062]),
             decimal=7,
