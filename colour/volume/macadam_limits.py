@@ -7,10 +7,6 @@ Defines the objects related to *Optimal Colour Stimuli* computations.
 from __future__ import annotations
 
 import numpy as np
-from colour import (
-    MultiSpectralDistributions,
-    SpectralDistribution,
-)
 from scipy.spatial import Delaunay
 from colour.hints import (
     ArrayLike,
@@ -18,7 +14,6 @@ from colour.hints import (
     Floating,
     Literal,
     NDArray,
-    Sequence,
     Optional,
     Union,
 )
