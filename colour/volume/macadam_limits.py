@@ -11,7 +11,7 @@ from colour import (
     SDS_ILLUMINANTS,
     MSDS_CMFS,
     MultiSpectralDistributions,
-    SpectralDistribution
+    SpectralDistribution,
 )
 from scipy.spatial import Delaunay
 from colour.hints import (
@@ -32,12 +32,7 @@ from colour.colorimetry import (
 )
 from colour.models import xyY_to_XYZ
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
-from colour.utilities import (
-    CACHE_REGISTRY,
-    tsplit,
-    zeros,
-    validate_method
-)
+from colour.utilities import CACHE_REGISTRY, tsplit, zeros, validate_method
 
 __author__ = "Colour Developers", "Christian Greim"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -164,11 +159,13 @@ def macadam_limits(
     luminance: Floating = 0.5,
     illuminant: Optional[SpectralDistribution] = SDS_ILLUMINANTS["E"],
     spectral_range: Optional[SpectralShape] = SpectralShape(360, 830, 1),
-    cmfs: Optional[Union[
-        MultiSpectralDistributions,
-        str,
-        Sequence[Union[MultiSpectralDistributions, str]],
-    ]] = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+    cmfs: Optional[
+        Union[
+            MultiSpectralDistributions,
+            str,
+            Sequence[Union[MultiSpectralDistributions, str]],
+        ]
+    ] = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
 ) -> NDArray:
     """
     Return an array of CIE -X,Y,Z - Triples containing colour-coordinates
@@ -247,7 +244,7 @@ def macadam_limits(
         plot_Narrowband_Spectra (Yxy_Narrowband_Spectra)
     plt.show()
     """
-   
+
     target_bright = luminance
     if target_bright > 1 or target_bright < 0:
         raise TypeError(
@@ -261,7 +258,7 @@ def macadam_limits(
     illuminant = reshape_sd(illuminant, spectral_range)
 
     # The cmfs are convolved with the given illuminant
-    X_illuminated,Y_illuminated,Z_illuminated = (
+    X_illuminated, Y_illuminated, Z_illuminated = (
         tsplit(cmfs.values) * illuminant.values
     )
     # Generate empty output-array
