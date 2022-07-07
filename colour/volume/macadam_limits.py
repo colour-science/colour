@@ -8,8 +8,6 @@ from __future__ import annotations
 
 import numpy as np
 from colour import (
-    SDS_ILLUMINANTS,
-    MSDS_CMFS,
     MultiSpectralDistributions,
     SpectralDistribution,
 )
