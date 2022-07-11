@@ -215,7 +215,7 @@ class NestedSequence(Protocol[_T_co]):
 
     """
 
-    def __len__(self, /) -> int:
+    def __len__(self) -> int:
         """Implement ``len(self)``."""
         raise NotImplementedError
 
