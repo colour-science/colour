@@ -221,37 +221,35 @@ class NestedSequence(Protocol[_T_co]):
 
     @overload
     def __getitem__(
-        self, index: int, /
+        self, index: int
     ) -> _T_co | NestedSequence[_T_co]:  # noqa: D105
         ...
 
     @overload
-    def __getitem__(
-        self, index: slice, /
-    ) -> NestedSequence[_T_co]:  # noqa: D105
+    def __getitem__(self, index: slice) -> NestedSequence[_T_co]:  # noqa: D105
         ...
 
-    def __getitem__(self, index, /):
+    def __getitem__(self, index):
         """Implement ``self[x]``."""
         raise NotImplementedError
 
-    def __contains__(self, x: object, /) -> bool:
+    def __contains__(self, x: object) -> bool:
         """Implement ``x in self``."""
         raise NotImplementedError
 
-    def __iter__(self, /) -> Iterator[_T_co | NestedSequence[_T_co]]:
+    def __iter__(self) -> Iterator[_T_co | NestedSequence[_T_co]]:
         """Implement ``iter(self)``."""
         raise NotImplementedError
 
-    def __reversed__(self, /) -> Iterator[_T_co | NestedSequence[_T_co]]:
+    def __reversed__(self) -> Iterator[_T_co | NestedSequence[_T_co]]:
         """Implement ``reversed(self)``."""
         raise NotImplementedError
 
-    def count(self, value: Any, /) -> int:
+    def count(self, value: Any) -> int:
         """Return the number of occurrences of `value`."""
         raise NotImplementedError
 
-    def index(self, value: Any, /) -> int:
+    def index(self, value: Any) -> int:
         """Return the first index of `value`."""
         raise NotImplementedError
 
