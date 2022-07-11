@@ -41,7 +41,7 @@ from typing import (
     cast,
     overload,
 )
-from typing_extensions import runtime_checkable
+from typing import runtime_checkable
 
 try:
     from typing import (
@@ -52,7 +52,7 @@ try:
     )
 # TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
 except ImportError:  # pragma: no cover
-    from typing_extensions import (  # type: ignore[misc]
+    from typing import (  # type: ignore[misc]
         Literal,
         Protocol,
         SupportsIndex,
