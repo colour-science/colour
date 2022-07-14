@@ -114,6 +114,7 @@ def plot_automatic_colour_conversion_graph(
         "ATD95",
         "CAM16",
         "CIECAM02",
+        "Hellwig 2022",
         "Hunt",
         "Kim 2009",
         "LLAB",
