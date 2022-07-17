@@ -4,6 +4,7 @@ repos:
     hooks:
     -   id: pyupgrade
         args: [--py38-plus]
+        exclude: ^(colour/hints/__init__.py)
 -   repo: https://github.com/ikamensh/flynt/
     rev: '0.76'
     hooks:
