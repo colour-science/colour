@@ -41,7 +41,6 @@ from typing import (
     cast,
     overload,
 )
-from typing import runtime_checkable
 
 try:
     from typing import (
@@ -49,6 +48,7 @@ try:
         Protocol,
         SupportsIndex,
         TypedDict,
+        runtime_checkable,
     )
 # TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
 except ImportError:  # pragma: no cover
@@ -57,6 +57,7 @@ except ImportError:  # pragma: no cover
         Protocol,
         SupportsIndex,
         TypedDict,
+        runtime_checkable,
     )
 
 __author__ = "Colour Developers"
