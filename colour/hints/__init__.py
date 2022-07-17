@@ -51,6 +51,7 @@ try:
         runtime_checkable,
     )
 # TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
+# Remove exclusion in ".pre-commit-config.yaml" file for "pyupgrade".
 except ImportError:  # pragma: no cover
     from typing_extensions import (  # type: ignore[misc]
         Literal,
