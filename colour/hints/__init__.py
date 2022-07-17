@@ -52,7 +52,7 @@ try:
     )
 # TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
 except ImportError:  # pragma: no cover
-    from typing import (  # type: ignore[misc]
+    from typing_extensions import (  # type: ignore[misc]
         Literal,
         Protocol,
         SupportsIndex,
