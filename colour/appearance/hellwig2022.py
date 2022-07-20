@@ -31,6 +31,8 @@ from colour.appearance.ciecam02 import (
     InductionFactors_CIECAM02,
     VIEWING_CONDITIONS_CIECAM02,
     hue_quadrature,
+    post_adaptation_non_linear_response_compression_forward,
+    post_adaptation_non_linear_response_compression_inverse,
 )
 from colour.hints import (
     ArrayLike,
@@ -48,6 +50,7 @@ from colour.utilities import (
     as_float_array,
     from_range_100,
     from_range_degrees,
+    full,
     has_only_nan,
     ones,
     to_domain_100,
@@ -151,6 +154,21 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
+def d_post_adaptation_non_linear_response_compression_forward(
+    RGB: ArrayLike, F_L: FloatingOrArrayLike
+) -> NDArray:
+    F_L_RGB = spow(F_L[..., np.newaxis] * RGB / 100, 0.42)
+    F_L_100 = spow(F_L[..., np.newaxis] / 100, 0.42)
+
+    d_RGB_a = (
+        400
+        * ((0.42 * 27.13) * spow(RGB, -0.58) * F_L_100)
+        / (F_L_RGB + 27.13) ** 2
+    )
+
+    return d_RGB_a
+
+
 def XYZ_to_Hellwig2022(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
@@ -159,6 +177,7 @@ def XYZ_to_Hellwig2022(
     surround: Union[
         InductionFactors_CIECAM02, InductionFactors_Hellwig2022
     ] = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    L_B: FloatingOrArrayLike = 0.01,
     discount_illuminant: Boolean = False,
 ) -> CAM_Specification_Hellwig2022:
     """
@@ -183,6 +202,9 @@ def XYZ_to_Hellwig2022(
         approximate an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
+    L_B
+        Breaking point for the linear extension of the post-adaptation
+        non-linear response compression.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
@@ -302,8 +324,15 @@ H=275.5949861..., HC=None)
 
     # Step 3
     # Applying forward post-adaptation non-linear response compression.
-    F_L_RGB = spow(F_L[..., np.newaxis] * np.absolute(RGB_c) / 100, 0.42)
-    RGB_a = (400 * np.sign(RGB_c) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
+    RGB_a = post_adaptation_non_linear_response_compression_forward(RGB_c, F_L)
+    RGB_a_l = d_post_adaptation_non_linear_response_compression_forward(
+        full(3, L_B), F_L
+    ) * (
+        RGB_c - L_B
+    ) + post_adaptation_non_linear_response_compression_forward(
+        full(3, L_B), F_L
+    )
+    RGB_a = np.where(RGB_c < L_B, RGB_a_l, RGB_a)
 
     # Step 4
     # Converting to preliminary cartesian coordinates.
@@ -386,6 +415,7 @@ def Hellwig2022_to_XYZ(
     surround: Union[
         InductionFactors_CIECAM02, InductionFactors_Hellwig2022
     ] = VIEWING_CONDITIONS_HELLWIG2022["Average"],
+    L_B: FloatingOrArrayLike = 0.01,
     discount_illuminant: Boolean = False,
 ) -> NDArray:
     """
@@ -413,6 +443,9 @@ def Hellwig2022_to_XYZ(
         approximate an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions.
+    L_B
+        Breaking point for the linear extension of the post-adaptation
+        non-linear response compression.
     discount_illuminant
         Discount the illuminant.
 
@@ -595,15 +628,18 @@ def Hellwig2022_to_XYZ(
 
     # Step 5
     # Applying inverse post-adaptation non-linear response compression.
-    RGB_c = (
-        np.sign(RGB_a)
-        * 100
-        / F_L[..., np.newaxis]
-        * spow(
-            (27.13 * np.absolute(RGB_a)) / (400 - np.absolute(RGB_a)),
-            1 / 0.42,
+    RGB_c = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
+    RGB_c_l = (
+        RGB_a
+        - post_adaptation_non_linear_response_compression_forward(
+            full(3, L_B), F_L
         )
-    )
+    ) / (
+        d_post_adaptation_non_linear_response_compression_forward(
+            full(3, L_B), F_L
+        )
+    ) + L_B
+    RGB_c = np.where(RGB_c < L_B, RGB_c_l, RGB_c)
 
     # Step 6
     RGB = RGB_c / D_RGB
