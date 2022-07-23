@@ -796,9 +796,7 @@ def full_chromatic_adaptation_forward(
 
     with sdiv_mode():
         RGB_c = (
-            Y_w[..., np.newaxis] * sdiv(D[..., np.newaxis], RGB_w)
-            + 1
-            - D[..., np.newaxis]
+            Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
         ) * RGB
 
     return RGB_c
@@ -848,9 +846,7 @@ def full_chromatic_adaptation_inverse(
 
     with sdiv_mode():
         RGB_c = RGB / (
-            Y_w[..., np.newaxis] * sdiv(D[..., np.newaxis], RGB_w)
-            + 1
-            - D[..., np.newaxis]
+            Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
         )
 
     return cast(NDArray, RGB_c)
@@ -946,7 +942,7 @@ def post_adaptation_non_linear_response_compression_forward(
     RGB = as_float_array(RGB)
     F_L = as_float_array(F_L)
 
-    F_L_RGB = spow(F_L[..., np.newaxis] * np.absolute(RGB) / 100, 0.42)
+    F_L_RGB = spow(F_L[..., None] * np.absolute(RGB) / 100, 0.42)
     RGB_c = (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
     return RGB_c
@@ -986,7 +982,7 @@ def post_adaptation_non_linear_response_compression_inverse(
     RGB_p = (
         np.sign(RGB - 0.1)
         * 100
-        / F_L[..., np.newaxis]
+        / F_L[..., None]
         * spow(
             (27.13 * np.absolute(RGB - 0.1)) / (400 - np.absolute(RGB - 0.1)),
             1 / 0.42,

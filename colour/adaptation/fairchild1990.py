@@ -263,14 +263,14 @@ def degrees_of_adaptation(
     def m_E(x: FloatingOrNDArray, y: FloatingOrNDArray) -> FloatingOrNDArray:
         """Compute the :math:`m_E` term."""
 
-        return (3 * x / y) / np.sum(x / y, axis=-1)[..., np.newaxis]
+        return (3 * x / y) / np.sum(x / y, axis=-1)[..., None]
 
     def P_c(x: FloatingOrNDArray) -> FloatingOrNDArray:
         """Compute the :math:`P_L`, :math:`P_M` or :math:`P_S` terms."""
 
         return sdiv(
-            1 + Ye_n[..., np.newaxis] + x,
-            1 + Ye_n[..., np.newaxis] + sdiv(1, x),
+            1 + Ye_n[..., None] + x,
+            1 + Ye_n[..., None] + sdiv(1, x),
         )
 
     with sdiv_mode():

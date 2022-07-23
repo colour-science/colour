@@ -271,15 +271,11 @@ def error_function(
 
     XYZ_f = intermediate_lightness_function_CIE1976(XYZ, XYZ_n)
     dXYZ_f = np.where(
-        XYZ_XYZ_n[..., np.newaxis] > (24 / 116) ** 3,
+        XYZ_XYZ_n[..., None] > (24 / 116) ** 3,
         1
-        / (
-            3
-            * spow(XYZ_n[..., np.newaxis], 1 / 3)
-            * spow(XYZ[..., np.newaxis], 2 / 3)
-        )
+        / (3 * spow(XYZ_n[..., None], 1 / 3) * spow(XYZ[..., None], 2 / 3))
         * dXYZ,
-        (841 / 108) * dXYZ / XYZ_n[..., np.newaxis],
+        (841 / 108) * dXYZ / XYZ_n[..., None],
     )
 
     def intermediate_XYZ_to_Lab(
@@ -306,10 +302,7 @@ def error_function(
         raise StopMinimizationEarly(coefficients, error)
 
     derror = (
-        np.sum(
-            dLab_i * (Lab_i[..., np.newaxis] - target[..., np.newaxis]), axis=0
-        )
-        / error
+        np.sum(dLab_i * (Lab_i[..., None] - target[..., None]), axis=0) / error
     )
 
     if additional_data:
@@ -1007,7 +1000,7 @@ class LUT3D_Jakob2019:
             RGB = as_float_array(RGB)
 
             value_max = np.max(RGB, axis=-1)
-            chroma = RGB / (value_max[..., np.newaxis] + 1e-10)
+            chroma = RGB / (value_max[..., None] + 1e-10)
 
             i_m = np.argmax(RGB, axis=-1)
             i_1 = index_along_last_axis(RGB, i_m)

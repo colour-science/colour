@@ -291,9 +291,7 @@ def effective_adapting_responses(
     Y_o = as_float_array(Y_o)
     E_o = as_float_array(E_o)
 
-    RGB_o = (
-        (Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)
-    ) * xez
+    RGB_o = ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
 
     return RGB_o
 

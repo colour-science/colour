@@ -241,7 +241,7 @@ def dominant_wavelength(
     wl_r = -cmfs.wavelengths[i_wl_r]
 
     wl = np.where(intersect, wl_r, wl)
-    xy_cwl = np.where(intersect[..., np.newaxis], xy_cwl_r, xy_cwl)
+    xy_cwl = np.where(intersect[..., None], xy_cwl_r, xy_cwl)
 
     return wl, np.squeeze(xy_wl), np.squeeze(xy_cwl)
 

@@ -524,7 +524,7 @@ def normalise_maximum(
     maximum = np.max(a, axis=axis)
 
     with sdiv_mode():
-        a = a * sdiv(1, maximum[..., np.newaxis]) * factor
+        a = a * sdiv(1, maximum[..., None]) * factor
 
     return np.clip(a, 0, factor) if clip else a
 

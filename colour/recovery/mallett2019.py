@@ -165,7 +165,7 @@ def spectral_primary_decomposition_Mallett2019(
     N = len(cmfs.shape)
 
     R_to_XYZ = np.transpose(
-        illuminant.values[..., np.newaxis]
+        illuminant.values[..., None]
         * cmfs.values
         / (np.sum(cmfs.values[:, 1] * illuminant.values))
     )

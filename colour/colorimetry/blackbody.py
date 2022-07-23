@@ -130,8 +130,8 @@ def planck_law(
     l = as_float_array(wavelength)  # noqa
     t = as_float_array(temperature)
 
-    l = np.ravel(l)[..., np.newaxis]  # noqa
-    t = np.ravel(t)[np.newaxis, ...]
+    l = np.ravel(l)[..., None]  # noqa
+    t = np.ravel(t)[None, ...]
 
     with sdiv_mode():
         d = cast(NDArray, sdiv(c2, (n * l * t)))
@@ -279,8 +279,8 @@ def rayleigh_jeans_law(
     l = as_float_array(wavelength)  # noqa
     t = as_float_array(temperature)
 
-    l = np.ravel(l)[..., np.newaxis]  # noqa
-    t = np.ravel(t)[np.newaxis, ...]
+    l = np.ravel(l)[..., None]  # noqa
+    t = np.ravel(t)[None, ...]
 
     c = CONSTANT_LIGHT_SPEED
     k_B = CONSTANT_BOLTZMANN

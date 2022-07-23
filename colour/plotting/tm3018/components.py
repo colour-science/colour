@@ -420,7 +420,7 @@ def plot_colour_vector_graphic(
     # Arrow offsets as defined by the standard.
     offsets = (
         specification.averages_test - specification.averages_reference
-    ) / specification.average_norms[:, np.newaxis]
+    ) / specification.average_norms[:, None]
     xy_test = xy_reference + offsets
 
     # Arrows.
@@ -439,7 +439,7 @@ def plot_colour_vector_graphic(
         )
 
     # Red (test) gamut shape.
-    loop = np.append(xy_test, xy_test[0, np.newaxis], axis=0)
+    loop = np.append(xy_test, xy_test[0, None], axis=0)
     axes.plot(
         loop[:, 0],
         loop[:, 1],

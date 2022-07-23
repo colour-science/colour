@@ -79,7 +79,7 @@ def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArray:
     M[..., :-1] = a
 
     homography = np.dot(M, np.transpose(Q))
-    homography[..., 0:-1] /= homography[..., -1][..., np.newaxis]
+    homography[..., 0:-1] /= homography[..., -1][..., None]
 
     return homography[..., 0:-1]
 

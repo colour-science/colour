@@ -291,7 +291,7 @@ def uv_to_CCT_Ohno2013(
     D_uv_p = (a * T_p**2 + b * T_p + c) * sign
 
     CCT_D_uv = np.where(
-        (np.abs(D_uv_t) >= 0.002)[..., np.newaxis],
+        (np.abs(D_uv_t) >= 0.002)[..., None],
         tstack([T_p, D_uv_p]),
         tstack([T_t, D_uv_t]),
     )

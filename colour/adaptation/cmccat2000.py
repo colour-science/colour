@@ -189,9 +189,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB_c = RGB * (
-        a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]
-    )
+    RGB_c = RGB * (a[..., None] * (RGB_wr / RGB_w) + 1 - D[..., None])
     XYZ_c = vector_dot(CAT_INVERSE_CMCCAT2000, RGB_c)
 
     return from_range_100(XYZ_c)
@@ -287,9 +285,7 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB = RGB_c / (
-        a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]
-    )
+    RGB = RGB_c / (a[..., None] * (RGB_wr / RGB_w) + 1 - D[..., None])
     XYZ = vector_dot(CAT_INVERSE_CMCCAT2000, RGB)
 
     return from_range_100(XYZ)

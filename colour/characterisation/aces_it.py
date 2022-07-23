@@ -461,7 +461,7 @@ def white_balance_multipliers(
         illuminant = reshape_sd(illuminant, shape)
 
     RGB_w = 1 / np.sum(
-        sensitivities.values * illuminant.values[..., np.newaxis], axis=0
+        sensitivities.values * illuminant.values[..., None], axis=0
     )
     RGB_w *= 1 / np.min(RGB_w)
 
@@ -632,9 +632,7 @@ def training_data_sds_to_RGB(
     RGB_w = white_balance_multipliers(sensitivities, illuminant)
 
     RGB = np.dot(
-        np.transpose(
-            illuminant.values[..., np.newaxis] * training_data.values
-        ),
+        np.transpose(illuminant.values[..., None] * training_data.values),
         sensitivities.values,
     )
 
@@ -724,9 +722,7 @@ def training_data_sds_to_XYZ(
         training_data = reshape_msds(training_data, shape)
 
     XYZ = np.dot(
-        np.transpose(
-            illuminant.values[..., np.newaxis] * training_data.values
-        ),
+        np.transpose(illuminant.values[..., None] * training_data.values),
         cmfs.values,
     )
 

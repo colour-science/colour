@@ -394,7 +394,7 @@ def tristimulus_weighting_factors_ASTME2022(
     S = illuminant.values
 
     interval_i = int(shape.interval)
-    W = S[::interval_i, np.newaxis] * Y[::interval_i, :]
+    W = S[::interval_i, None] * Y[::interval_i, :]
 
     # First and last measurement intervals *Lagrange Coefficients*.
     c_c = lagrange_coefficients_ASTME2022(interval_i, "boundary")
@@ -820,7 +820,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     )
     R = sd.values
 
-    XYZ = np.sum(W * R[..., np.newaxis], axis=0)
+    XYZ = np.sum(W * R[..., None], axis=0)
 
     return from_range_100(XYZ)
 

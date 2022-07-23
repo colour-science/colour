@@ -120,7 +120,7 @@ def normalised_primary_matrix(
 
     primaries = np.reshape(primaries, (3, 2))
 
-    z = as_float_array(xy_to_z(primaries))[..., np.newaxis]
+    z = as_float_array(xy_to_z(primaries))[..., None]
     primaries = np.transpose(np.hstack([primaries, z]))
 
     whitepoint = xy_to_XYZ(whitepoint)

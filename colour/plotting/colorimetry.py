@@ -214,7 +214,7 @@ def plot_single_sd(
 
     if modulate_colours_with_sd_amplitude:
         with sdiv_mode():
-            RGB *= cast(NDArray, sdiv(values, np.max(values)))[..., np.newaxis]
+            RGB *= cast(NDArray, sdiv(values, np.max(values)))[..., None]
 
     RGB = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(RGB)
 

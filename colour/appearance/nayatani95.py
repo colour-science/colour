@@ -271,9 +271,7 @@ H=None, HC=None, L_star_N=50.0039154...)
     xi, eta, _zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
-    RGB_o = (
-        (Y_o[..., np.newaxis] * E_o[..., np.newaxis]) / (100 * np.pi)
-    ) * xez
+    RGB_o = ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
 
     # Computing stimulus cone responses.
     RGB = XYZ_to_RGB_Nayatani95(XYZ)

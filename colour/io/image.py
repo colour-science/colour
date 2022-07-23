@@ -751,8 +751,8 @@ def as_3_channels_image(a: ArrayLike) -> NDArray:
         a = tstack([a, a, a])
 
     if len(a.shape) == 1:
-        a = a[np.newaxis, np.newaxis, ...]
+        a = a[None, None, ...]
     elif len(a.shape) == 2:
-        a = a[np.newaxis, ...]
+        a = a[None, ...]
 
     return a

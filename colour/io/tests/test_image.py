@@ -349,7 +349,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         target_image_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
         )
-        RGB = np.arange(0, 256, 1, dtype=np.uint8)[np.newaxis] * 2
+        RGB = np.arange(0, 256, 1, dtype=np.uint8)[None] * 2
         write_image_OpenImageIO(RGB, target_image_path, bit_depth="uint8")
         image = read_image_OpenImageIO(source_image_path, bit_depth="uint8")
         np.testing.assert_equal(np.squeeze(RGB), image)
@@ -494,7 +494,7 @@ class TestWriteImageImageio(unittest.TestCase):
         target_image_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
         )
-        RGB = np.arange(0, 256, 1, dtype=np.uint8)[np.newaxis] * 2
+        RGB = np.arange(0, 256, 1, dtype=np.uint8)[None] * 2
         write_image_Imageio(RGB, target_image_path, bit_depth="uint8")
         image = read_image_Imageio(source_image_path, bit_depth="uint8")
         np.testing.assert_equal(np.squeeze(RGB), image)

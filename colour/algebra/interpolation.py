@@ -693,9 +693,7 @@ class KernelInterpolator:
         x_interval = interval(self._x)[0]
         x_f = np.floor(x / x_interval)
 
-        windows = x_f[:, np.newaxis] + np.arange(
-            -self._window + 1, self._window + 1
-        )
+        windows = x_f[:, None] + np.arange(-self._window + 1, self._window + 1)
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
@@ -704,7 +702,7 @@ class KernelInterpolator:
         return np.sum(
             self._y_p[windows]
             * self._kernel(
-                x[:, np.newaxis] / x_interval
+                x[:, None] / x_interval
                 - windows
                 - min(self._x_p) / x_interval,
                 **self._kernel_kwargs,
@@ -1848,7 +1846,7 @@ def table_interpolation_trilinear(
     vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
 
     vertices = np.moveaxis(vertices, 0, 1)
-    x, y, z = (f[:, np.newaxis] for f in tsplit(V_xyzr))
+    x, y, z = (f[:, None] for f in tsplit(V_xyzr))
 
     weights = np.moveaxis(
         np.transpose(
@@ -1922,7 +1920,7 @@ def table_interpolation_tetrahedral(
 
     vertices = np.moveaxis(vertices, 0, -1)
     V000, V001, V010, V011, V100, V101, V110, V111 = tsplit(vertices)
-    x, y, z = (r[:, np.newaxis] for r in tsplit(V_xyzr))
+    x, y, z = (r[:, None] for r in tsplit(V_xyzr))
 
     xyz_o = np.select(
         [

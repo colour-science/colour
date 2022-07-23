@@ -323,7 +323,7 @@ function` property raised exception.
         multi_signals.signals = self._range_1
         np.testing.assert_array_equal(multi_signals.domain, self._domain_1)
         np.testing.assert_array_equal(
-            multi_signals.range, self._range_1[:, np.newaxis]
+            multi_signals.range, self._range_1[:, None]
         )
 
     def test_labels(self):
@@ -359,13 +359,13 @@ function` property raised exception.
         multi_signals = MultiSignals(self._range_1)
         np.testing.assert_array_equal(multi_signals.domain, self._domain_1)
         np.testing.assert_array_equal(
-            multi_signals.range, self._range_1[:, np.newaxis]
+            multi_signals.range, self._range_1[:, None]
         )
 
         multi_signals = MultiSignals(self._range_1, self._domain_2)
         np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
         np.testing.assert_array_equal(
-            multi_signals.range, self._range_1[:, np.newaxis]
+            multi_signals.range, self._range_1[:, None]
         )
 
         multi_signals = MultiSignals(self._range_2, self._domain_2)
@@ -389,7 +389,7 @@ function` property raised exception.
         self.assertIsInstance(multi_signals.signals["0"], NotSignal)
         np.testing.assert_array_equal(multi_signals.domain, self._domain_1)
         np.testing.assert_array_equal(
-            multi_signals.range, self._range_1[:, np.newaxis]
+            multi_signals.range, self._range_1[:, None]
         )
 
         if is_pandas_installed():
@@ -400,7 +400,7 @@ function` property raised exception.
             )
             np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
             np.testing.assert_array_equal(
-                multi_signals.range, self._range_1[:, np.newaxis]
+                multi_signals.range, self._range_1[:, None]
             )
 
             data = dict(zip(["a", "b", "c"], tsplit(self._range_2)))

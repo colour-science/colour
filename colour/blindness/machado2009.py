@@ -145,7 +145,7 @@ def matrix_RGB_to_WSYBRG(
     PYB = 1 / (YB_R + YB_G + YB_B)
     PRG = 1 / (RG_R + RG_G + RG_B)
 
-    M_G *= np.array([PWS, PYB, PRG])[:, np.newaxis]
+    M_G *= np.array([PWS, PYB, PRG])[:, None]
 
     return M_G
 

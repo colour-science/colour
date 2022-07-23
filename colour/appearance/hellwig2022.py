@@ -284,11 +284,7 @@ H=275.5949861..., HC=None)
 
     F_L, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
-    D_RGB = (
-        D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
-        + 1
-        - D[..., np.newaxis]
-    )
+    D_RGB = D[..., None] * Y_w[..., None] / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
@@ -495,11 +491,7 @@ def Hellwig2022_to_XYZ(
 
     F_L, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
 
-    D_RGB = (
-        D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
-        + 1
-        - D[..., np.newaxis]
-    )
+    D_RGB = D[..., None] * Y_w[..., None] / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.

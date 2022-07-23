@@ -221,7 +221,7 @@ def XYZ_to_hdr_IPT(
     else:
         lightness_callable = lightness_Fairchild2011
 
-    e = as_float_array(exponent_hdr_IPT(Y_s, Y_abs, method))[..., np.newaxis]
+    e = as_float_array(exponent_hdr_IPT(Y_s, Y_abs, method))[..., None]
 
     LMS = vector_dot(MATRIX_IPT_XYZ_TO_LMS, XYZ)
 
@@ -305,7 +305,7 @@ def hdr_IPT_to_XYZ(
     else:
         luminance_callable = luminance_Fairchild2011
 
-    e = as_float_array(exponent_hdr_IPT(Y_s, Y_abs, method))[..., np.newaxis]
+    e = as_float_array(exponent_hdr_IPT(Y_s, Y_abs, method))[..., None]
 
     LMS = vector_dot(MATRIX_IPT_IPT_TO_LMS_P, IPT_hdr)
 

@@ -750,7 +750,7 @@ def chromatic_adaptation(
     Y_w = XYZ_w[..., 1]
     Y_b = XYZ_b[..., 1]
 
-    h_rgb = 3 * rgb_w / np.sum(rgb_w, axis=-1)[..., np.newaxis]
+    h_rgb = 3 * rgb_w / np.sum(rgb_w, axis=-1)[..., None]
 
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
@@ -767,7 +767,7 @@ def chromatic_adaptation(
         D_rgb = zeros(F_rgb.shape)
 
     # Computing cone bleach factors.
-    B_rgb = 10**7 / (10**7 + 5 * L_A[..., np.newaxis] * (rgb_w / 100))
+    B_rgb = 10**7 / (10**7 + 5 * L_A[..., None] * (rgb_w / 100))
 
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
@@ -775,9 +775,7 @@ def chromatic_adaptation(
         rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
 
     # Computing adapted cone responses.
-    rgb_a = 1 + B_rgb * (
-        f_n(F_L[..., np.newaxis] * F_rgb * rgb / rgb_w) + D_rgb
-    )
+    rgb_a = 1 + B_rgb * (f_n(F_L[..., None] * F_rgb * rgb / rgb_w) + D_rgb)
 
     return rgb_a
 
