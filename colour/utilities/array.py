@@ -1758,8 +1758,8 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
     [3 5]
     """
 
-    a = np.ravel(a)[:, np.newaxis]
-    b = np.ravel(b)[np.newaxis, :]
+    a = np.ravel(a)[:, None]
+    b = np.ravel(b)[None, :]
 
     return np.abs(a - b).argmin(axis=0)
 
@@ -1915,7 +1915,7 @@ def in_array(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    d = np.abs(np.ravel(a) - b[..., np.newaxis])
+    d = np.abs(np.ravel(a) - b[..., None])
 
     return np.reshape(np.any(d <= tolerance, axis=0), a.shape)
 
@@ -1980,7 +1980,7 @@ def tstack(
 
     a = as_array(a, dtype)
 
-    return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
+    return np.concatenate([x[..., None] for x in a], axis=-1)
 
 
 def tsplit(
@@ -2531,6 +2531,4 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
             f"Array and indexes have incompatible shapes: {a.shape} and {indexes.shape}"
         )
 
-    return np.take_along_axis(a, indexes[..., np.newaxis], axis=-1).squeeze(
-        axis=-1
-    )
+    return np.take_along_axis(a, indexes[..., None], axis=-1).squeeze(axis=-1)

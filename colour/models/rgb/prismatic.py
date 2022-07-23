@@ -87,7 +87,7 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArray:
     s = np.sum(RGB, axis=-1)
 
     with sdiv_mode():
-        one_s = sdiv(1, s[..., np.newaxis])
+        one_s = sdiv(1, s[..., None])
 
     r, g, b = tsplit(one_s * RGB)
 
@@ -142,7 +142,7 @@ def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArray:
     m = np.max(rgb, axis=-1)
 
     with sdiv_mode():
-        RGB = sdiv(Lrgb[..., 0][..., np.newaxis], m[..., np.newaxis])
+        RGB = sdiv(Lrgb[..., 0][..., None], m[..., None])
 
     RGB = RGB * rgb
 

@@ -16,8 +16,6 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import ArrayLike, NDArray, cast
@@ -108,7 +106,7 @@ def XYZ_to_UVW(
     uv_0 = xy_to_UCS_uv(xy_n)
 
     W = 25 * cast(NDArray, spow(Y, 1 / 3)) - 17
-    U, V = tsplit(13 * W[..., np.newaxis] * (uv - uv_0))
+    U, V = tsplit(13 * W[..., None] * (uv - uv_0))
 
     UVW = tstack([U, V, W])
 

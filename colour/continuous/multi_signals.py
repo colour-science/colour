@@ -661,7 +661,7 @@ class MultiSignals(AbstractContinuousFunction):
         """
 
         try:
-            return str(np.hstack([self.domain[:, np.newaxis], self.range]))
+            return str(np.hstack([self.domain[:, None], self.range]))
         except TypeError:
             return super().__str__()
 
@@ -707,7 +707,7 @@ class MultiSignals(AbstractContinuousFunction):
                 [
                     {
                         "formatter": lambda x: repr(
-                            np.hstack([self.domain[:, np.newaxis], self.range])
+                            np.hstack([self.domain[:, None], self.range])
                         ),
                     },
                     {"name": "labels"},
@@ -725,7 +725,7 @@ class MultiSignals(AbstractContinuousFunction):
             )
 
             representation = repr(
-                np.hstack([self.domain[:, np.newaxis], self.range])
+                np.hstack([self.domain[:, None], self.range])
             )
             representation = representation.replace(
                 "array", self.__class__.__name__
@@ -969,7 +969,7 @@ class MultiSignals(AbstractContinuousFunction):
         if y.ndim == 0:
             y = np.tile(y, len(self._signals))
         elif y.ndim == 1:
-            y = y[np.newaxis, :]
+            y = y[None, :]
 
         attest(
             y.shape[-1] == len(self._signals),
@@ -1501,7 +1501,7 @@ class MultiSignals(AbstractContinuousFunction):
                 )
 
                 if data_array.ndim == 1:
-                    data_array = data_array[np.newaxis, :]
+                    data_array = data_array[None, :]
 
                 for i, range_unpacked in enumerate(data_array):
                     signals[str(i)] = signal_type(

@@ -279,11 +279,7 @@ H=275.5949861..., HC=None)
         Y_b, Y_w, L_A
     )
 
-    D_RGB = (
-        D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
-        + 1
-        - D[..., np.newaxis]
-    )
+    D_RGB = D[..., None] * Y_w[..., None] / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.
@@ -471,11 +467,7 @@ def CAM16_to_XYZ(
         Y_b, Y_w, L_A
     )
 
-    D_RGB = (
-        D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w
-        + 1
-        - D[..., np.newaxis]
-    )
+    D_RGB = D[..., None] * Y_w[..., None] / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non-linear response compression.

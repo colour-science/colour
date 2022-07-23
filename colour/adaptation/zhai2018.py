@@ -149,9 +149,9 @@ def chromatic_adaptation_Zhai2018(
     D_b = as_float_array(D_b)
     D_d = as_float_array(D_d)
 
-    Y_wb = XYZ_wb[..., 1][..., np.newaxis]
-    Y_wd = XYZ_wd[..., 1][..., np.newaxis]
-    Y_wo = XYZ_wo[..., 1][..., np.newaxis]
+    Y_wb = XYZ_wb[..., 1][..., None]
+    Y_wd = XYZ_wd[..., 1][..., None]
+    Y_wo = XYZ_wo[..., 1][..., None]
 
     transform = validate_method(transform, ["CAT02", "CAT16"])
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]

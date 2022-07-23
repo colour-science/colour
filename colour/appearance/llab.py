@@ -409,9 +409,7 @@ def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArray:
     XYZ = as_float_array(XYZ)
 
     with sdiv_mode():
-        return vector_dot(
-            MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, np.newaxis])
-        )
+        return vector_dot(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, None]))
 
 
 def chromatic_adaptation(

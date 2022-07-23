@@ -562,7 +562,7 @@ MUNSELL_SPECIFICATIONS: NDArray = np.array(
 MUNSELL_GREYS_SPECIFICATIONS: NDArray = np.array(
     list(
         zip(
-            np.linspace(0, 10, 25)[:, np.newaxis],
+            np.linspace(0, 10, 25)[:, None],
             (
                 [0.31006, 0.31616, 0.00000000],
                 [0.31006, 0.31616, 0.00473582],
