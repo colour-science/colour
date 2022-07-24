@@ -650,6 +650,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
         from colour.appearance import (
             CAM_Specification_CAM16,
             CAM_Specification_CIECAM02,
+            CAM_Specification_CIECAM16,
             CAM_Specification_Hellwig2022,
             CAM_Specification_Kim2009,
             CAM_Specification_ZCAM,
@@ -682,6 +683,9 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
 
             if source == "CIECAM02":
                 a = CAM_Specification_CIECAM02(J=0.25, M=0.5, h=0.25)
+
+            if source == "CIECAM16":
+                a = CAM_Specification_CIECAM16(J=0.25, M=0.5, h=0.25)
 
             if source == "Hellwig 2022":
                 a = CAM_Specification_Hellwig2022(J=0.25, M=0.5, h=0.25)
