@@ -20,7 +20,7 @@ RGB = colour.msds_to_XYZ(
     method="Integration",
     cmfs=sensitivities,
     illuminant=illuminant,
-    k=0.01,
+    k=1,
     shape=colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
 )
 msds_camera_sensitivities = (

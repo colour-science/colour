@@ -584,6 +584,9 @@ def sd_to_XYZ_integration(
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
+    -   When :math:`k` is set to a value other than *None*, the computed
+        *CIE XYZ* tristimulus values are assumed to be absolute and are thus
+        converted from percentages by a final division by 100.
     -   The code path using the `ArrayLike` spectral distribution produces
         results different to the code path using a
         :class:`colour.SpectralDistribution` class instance: the former
@@ -621,6 +624,8 @@ def sd_to_XYZ_integration(
     ... # doctest: +ELLIPSIS
     array([ 11.7786939...,   9.9583972...,   5.7371816...])
     """
+
+    as_percentage = k is not None
 
     # NOTE: The "illuminant" argument is reshaped by the
     # `handle_spectral_arguments` definition, but, in this case, it is not
@@ -697,7 +702,12 @@ def sd_to_XYZ_integration(
 
     XYZ = k * np.dot(R * S, XYZ_b) * d_w
 
-    return from_range_100(np.reshape(XYZ, list(shape_R[:-1]) + [3]))
+    XYZ = from_range_100(np.reshape(XYZ, list(shape_R[:-1]) + [3]))
+
+    if as_percentage:
+        XYZ /= 100
+
+    return XYZ
 
 
 def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
@@ -889,6 +899,10 @@ def sd_to_XYZ_ASTME308(
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
+    -   When :math:`k` is set to a value other than *None*, the computed
+        *CIE XYZ* tristimulus values are assumed to be absolute and are thus
+        converted from percentages by a final division by 100.
+
     References
     ----------
     :cite:`ASTMInternational2015b`
@@ -915,6 +929,8 @@ def sd_to_XYZ_ASTME308(
     ... # doctest: +ELLIPSIS
     array([ 11.7781589...,   9.9585580...,   5.7408602...])
     """
+
+    as_percentage = k is not None
 
     cmfs, illuminant = handle_spectral_arguments(
         cmfs,
@@ -983,6 +999,9 @@ def sd_to_XYZ_ASTME308(
         sd.trim(SpectralShape(sd.shape.start + 20, sd.shape.end - 20, 10))
 
     XYZ = method(sd, cmfs, illuminant, k=k)
+
+    if as_percentage and method is not sd_to_XYZ_integration:
+        XYZ /= 100
 
     return XYZ
 
@@ -1086,6 +1105,9 @@ def sd_to_XYZ(
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
+    -   When :math:`k` is set to a value other than *None*, the computed
+        *CIE XYZ* tristimulus values are assumed to be absolute and are thus
+        converted from percentages by a final division by 100.
     -   The code path using the `ArrayLike` spectral distribution produces
         results different to the code path using a
         :class:`colour.SpectralDistribution` class instance: the former
@@ -1230,6 +1252,9 @@ def msds_to_XYZ_integration(
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
+    -   When :math:`k` is set to a value other than *None*, the computed
+        *CIE XYZ* tristimulus values are assumed to be absolute and are thus
+        converted from percentages by a final division by 100.
     -   The code path using the `ArrayLike` multi-spectral distributions
         produces results different to the code path using a
         :class:`colour.MultiSpectralDistributions` class instance: the former
@@ -1380,13 +1405,9 @@ def msds_to_XYZ_ASTME308(
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
-    -   The code path using the `ArrayLike` multi-spectral distributions
-        produces results different to the code path using a
-        :class:`colour.MultiSpectralDistributions` class instance: the former
-        favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
-        precision by aligning the multi-spectral distributions to the colour
-        matching functions.
+    -   When :math:`k` is set to a value other than *None*, the computed
+        *CIE XYZ* tristimulus values are assumed to be absolute and are thus
+        converted from percentages by a final division by 100.
 
     References
     ----------
@@ -1577,6 +1598,9 @@ def msds_to_XYZ(
     | ``XYZ``   | [0, 100]              | [0, 1]        |
     +-----------+-----------------------+---------------+
 
+    -   When :math:`k` is set to a value other than *None*, the computed
+        *CIE XYZ* tristimulus values are assumed to be absolute and are thus
+        converted from percentages by a final division by 100.
     -   The code path using the `ArrayLike` multi-spectral distributions
         produces results different to the code path using a
         :class:`colour.MultiSpectralDistributions` class instance: the former

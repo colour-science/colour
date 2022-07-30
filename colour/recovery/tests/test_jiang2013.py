@@ -202,7 +202,7 @@ class TestMixinJiang2013:
             method="Integration",
             cmfs=self._sensitivities,
             illuminant=self._sd_D65,
-            k=0.01,
+            k=1,
             shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
         )
 

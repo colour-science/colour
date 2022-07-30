@@ -195,7 +195,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     ...         method="Integration",
     ...         cmfs=sensitivities,
     ...         illuminant=illuminant,
-    ...         k=0.01,
+    ...         k=1,
     ...         shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
     ...     )
     ... )
@@ -331,7 +331,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     ...     method="Integration",
     ...     cmfs=sensitivities,
     ...     illuminant=illuminant,
-    ...     k=0.01,
+    ...     k=1,
     ...     shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
     ... )
     >>> RGB_to_msds_camera_sensitivities_Jiang2013(
