@@ -379,7 +379,7 @@ def log_encoding_CanonLog3(
     -----
     -   Introspection of the grafting points by Shaw, N. (2018) shows that the
         *Canon Log 3* IDT was likely derived from its encoding curve as the
-        later is grafted at *+/-0.014*::
+        latter is grafted at *+/-0.014*::
 
             >>> clog3 = 0.04076162
             >>> (clog3 - 0.073059361) / 2.3069815
