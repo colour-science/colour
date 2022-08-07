@@ -235,7 +235,7 @@ def oetf_inverse_log(V):
     Lc = np.where(
         V >= 0.0,
         # Lc in [0.01, 1] range
-        spow(10, (V-1.0)*2.0),
+        spow(10, (V - 1.0) * 2.0),
         # Lc in [0, 0.01] range
         0.01,
     )
@@ -349,7 +349,7 @@ def oetf_inverse_log_sqrt(V):
     Lc = np.where(
         V >= 0.0,
         # Lc in [sqrt(10)/1000, 1] range
-        spow(10, (V-1.0)*2.5),
+        spow(10, (V - 1.0) * 2.5),
         # Lc in [0, sqrt(10)/1000] range
         np.sqrt(10) / 1000,
     )
