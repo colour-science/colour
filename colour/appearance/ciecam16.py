@@ -14,7 +14,7 @@ References
 ----------
 -   :cite:`CIEDivision12022` : CIE Division 1 & CIE Division 8. (2022).
     CIE 248:2022 The CIE 2016 Colour Appearance Model for Colour Management
-    Systems: CIECAM16. Commission Internationale de l’Eclairage.
+    Systems: CIECAM16. Commission Internationale de l'Eclairage.
     ISBN:978-3-902842-94-7
 """
 

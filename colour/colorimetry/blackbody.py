@@ -10,8 +10,8 @@ References
 -   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON
     THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
--   :cite:`Wikipedia2003f` : Wikipedia. (2003). Rayleigh–Jeans law. Retrieved
-    February 12, 2022, from https://en.wikipedia.org/wiki/Rayleigh–Jeans_law
+-   :cite:`Wikipedia2003f` : Wikipedia. (2003). Rayleigh-Jeans law. Retrieved
+    February 12, 2022, from https://en.wikipedia.org/wiki/Rayleigh-Jeans_law
 """
 
 from __future__ import annotations
@@ -229,7 +229,7 @@ def rayleigh_jeans_law(
     """
     Return the approximation of the spectral radiance of a blackbody as a
     function of wavelength at thermodynamic temperature :math:`T[K]` according
-    to *Rayleigh–Jeans* law.
+    to *Rayleigh-Jeans* law.
 
     Parameters
     ----------
@@ -254,7 +254,7 @@ def rayleigh_jeans_law(
 
     Notes
     -----
-    -   The *Rayleigh–Jeans* law agrees with experimental results at large
+    -   The *Rayleigh-Jeans* law agrees with experimental results at large
         wavelengths (low frequencies) but strongly disagrees at short
         wavelengths (high frequencies). This inconsistency between observations
         and the predictions of classical physics is commonly known as the
@@ -298,7 +298,7 @@ def sd_rayleigh_jeans(
     Return the spectral distribution of the planckian radiator for given
     temperature :math:`T[K]` with values in
     *watts per steradian per square metre per nanometer* (:math:`W/sr/m^2/nm`)
-    according to *Rayleigh–Jeans* law.
+    according to *Rayleigh-Jeans* law.
 
     Parameters
     ----------
@@ -317,7 +317,7 @@ def sd_rayleigh_jeans(
 
     Notes
     -----
-    -   The *Rayleigh–Jeans* law agrees with experimental results at large
+    -   The *Rayleigh-Jeans* law agrees with experimental results at large
         wavelengths (low frequencies) but strongly disagrees at short
         wavelengths (high frequencies). This inconsistency between observations
         and the predictions of classical physics is commonly known as the

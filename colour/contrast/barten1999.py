@@ -21,6 +21,9 @@ References
     state of ultra-high definition television BT Series Broadcasting service
     (Vol. 5, pp. 1-92).
     https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf
+-   :cite:`Watson2012` : Watson, A. B., & Yellott, J. I. (2012). A unified
+    formula for light-adapted pupil size. Journal of Vision, 12(10), 12.
+    doi:10.1167/12.10.12
 """
 
 from __future__ import annotations
@@ -116,19 +119,23 @@ def pupil_diameter_Barten1999(
     References
     ----------
     :cite:`Barten1999`, :cite:`Barten2003`, :cite:`Cowan2004`,
-    :cite:`InternationalTelecommunicationUnion2015`,
+    :cite:`InternationalTelecommunicationUnion2015`, :cite:`Watson2012`
+
+    Notes
+    -----
+    -   The *Log* function is using base 10 as indicated by :cite:`Watson2012`.
 
     Examples
     --------
     >>> pupil_diameter_Barten1999(100, 60, 60)  # doctest: +ELLIPSIS
-    2.0777571...
+    2.7931307...
     """
 
     L = as_float_array(L)
     X_0 = as_float_array(X_0)
     Y_0 = X_0 if Y_0 is None else as_float_array(Y_0)
 
-    return as_float(5 - 3 * np.tanh(0.4 * np.log(L * X_0 * Y_0 / 40**2)))
+    return as_float(5 - 3 * np.tanh(0.4 * np.log10(L * X_0 * Y_0 / 40**2)))
 
 
 def sigma_Barten1999(
@@ -457,10 +464,10 @@ def contrast_sensitivity_function_Barten1999(
     ...     u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246)
     ...  * 2 * (1/ 1.27))
     ... # doctest: +ELLIPSIS
-    array([ 0.0207396...,  0.0133019...,  0.0089256...,  0.0064202...,  \
-0.0050275...,
-            0.0041933...,  0.0035573...,  0.0030095...,  0.0025803...,  \
-0.0022897...])
+    array([ 0.0218764...,  0.0141848...,  0.0095244...,  0.0066805...,  \
+0.0049246...,
+            0.0038228...,  0.0031188...,  0.0026627...,  0.0023674...,  \
+0.0021814...])
     """
 
     u = as_float_array(u)

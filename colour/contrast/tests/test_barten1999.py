@@ -105,15 +105,15 @@ class TestPupilDiameterBarten1999(unittest.TestCase):
         """
 
         np.testing.assert_array_almost_equal(
-            pupil_diameter_Barten1999(20, 60), 2.272517118855717, decimal=7
+            pupil_diameter_Barten1999(20, 60), 3.262346170373243, decimal=7
         )
 
         np.testing.assert_array_almost_equal(
-            pupil_diameter_Barten1999(0.2, 600), 2.272517118855717, decimal=7
+            pupil_diameter_Barten1999(0.2, 600), 3.262346170373243, decimal=7
         )
 
         np.testing.assert_array_almost_equal(
-            pupil_diameter_Barten1999(20, 60, 30), 2.459028745178825, decimal=7
+            pupil_diameter_Barten1999(20, 60, 30), 3.519054451149336, decimal=7
         )
 
     def test_n_dimensional_pupil_diameter_Barten1999(self):

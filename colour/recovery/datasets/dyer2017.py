@@ -3,7 +3,7 @@ Dyer et al. (2017) - Camera Sensitivities Basis Functions
 =========================================================
 
 Defines the datasets for camera sensitivities recovery using
-*Jiang, Liu, Gu and Süsstrunk (2013)* method.
+*Jiang, Liu, Gu and Süsstrunk (2013)* method.
 
 References
 ----------
@@ -241,7 +241,7 @@ BASIS_FUNCTIONS_DYER2017: NDArray = np.array(
     ]
 )
 """
-*Dyer et al. (2017)* basis functions for *Jiang, Liu, Gu and Süsstrunk (2013)*
+*Dyer et al. (2017)* basis functions for *Jiang, Liu, Gu and Süsstrunk (2013)*
 method.
 
 Notes
