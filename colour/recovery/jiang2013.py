@@ -3,7 +3,7 @@ Jiang et al. (2013) - Camera RGB Sensitivities Recovery
 =======================================================
 
 Defines the objects for camera *RGB* sensitivities recovery using
-*Jiang, Liu, Gu and Süsstrunk (2013)* method:
+*Jiang, Liu, Gu and Süsstrunk (2013)* method:
 
 -   :func:`colour.recovery.PCA_Jiang2013`
 -   :func:`colour.recovery.RGB_to_sd_camera_sensitivity_Jiang2013`
