@@ -97,8 +97,7 @@ def oetf_BT1361_extended(L):
         np.where(
             L <= L_LINEAR_THRESHOLD_NEGATIVE,
             # L in [-0.25, -0.0045] range
-            -(1.099 * spow(-4 * L, 0.45) - 0.099)
-            / 4,
+            -(1.099 * spow(-4 * L, 0.45) - 0.099) / 4,
             # L in [-0.0045, 0] range
             4.500 * L,
         ),
@@ -158,14 +157,14 @@ def oetf_inverse_BT1361_extended(Ep):
         np.where(
             Ep >= EP_LINEAR_THRESHOLD_POSITIVE,
             # L in [0.018, 1.33] range
-            spow((Ep + 0.099)/1.099, 1/0.45),
+            spow((Ep + 0.099) / 1.099, 1 / 0.45),
             # L in [0, 0.018] range
             Ep / 4.500,
         ),
         np.where(
             Ep <= EP_LINEAR_THRESHOLD_NEGATIVE,
             # L in [-0.25, -0.0045] range
-            -spow((-4*Ep + 0.099)/1.099, 1/0.45)/4,
+            -spow((-4 * Ep + 0.099) / 1.099, 1 / 0.45) / 4,
             # L in [-0.0045, 0] range
             Ep / 4.500,
         ),
