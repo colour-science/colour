@@ -18,6 +18,7 @@ References
 import numpy as np
 
 from colour.models.rgb.transfer_functions.srgb import eotf_inverse_sRGB
+from colour.models.rgb.transfer_functions.srgb import eotf_sRGB
 
 from colour.utilities import (
     as_float,
@@ -71,6 +72,8 @@ def oetf_iec_61966_2_unbounded(Lc):
     --------
     >>> oetf_iec_61966_2_unbounded(0.18)  # doctest: +ELLIPSIS
     0.4613561295004...
+    >>> oetf_iec_61966_2_unbounded(-0.18)  # doctest: +ELLIPSIS
+    -0.4613561295004...
     """
 
     Lc = to_domain_1(Lc)
@@ -82,3 +85,64 @@ def oetf_iec_61966_2_unbounded(Lc):
     )
 
     return as_float(from_range_1(V))
+
+
+def oetf_inverse_iec_61966_2_unbounded(V):
+    """
+    Define the unbounded inverse-opto-electronic transfer functions (OETF) for
+    *IEC 61966-2* family of transfer functions (*2-1 sRGB*, *2-1 sYCC*, *2-4
+    xvYCC*).
+
+    Parameters
+    ----------
+    V
+        Electrical signal :math:`V`.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Corresponding scene luminance :math:`Lc`.
+
+    Notes
+    -----
+    Usage in :cite:`ITU2021` is as follows:
+
+    - For IEC 61966-2-1 sRGB (MatrixCoefficients=0), function is only defined
+      for Lc in [0-1] range.
+
+    - For IEC 61966-2-1 sYCC (MatrixCoefficients=5) and IEC 61966-2-4 xvYCC,
+      function is defined for any real-valued Lc.
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [-inf, inf]           | [-inf, inf]   |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Lc``     | [-inf, inf]           | [-inf, inf]   |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    -   :cite:`ITU2021`
+
+    Examples
+    --------
+    >>> oetf_inverse_iec_61966_2_unbounded(0.461356129500)  # doctest: +ELLIPSIS
+    0.1799999999...
+    >>> oetf_inverse_iec_61966_2_unbounded(-0.461356129500)  # doctest: +ELLIPSIS
+    -0.1799999999...
+    """
+
+    V = to_domain_1(V)
+
+    Lc = np.where(
+        V >= 0,
+        eotf_sRGB(V),
+        -eotf_sRGB(-V),
+    )
+
+    return as_float(from_range_1(Lc))
