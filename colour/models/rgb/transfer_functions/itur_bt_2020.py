@@ -1,9 +1,9 @@
 """
-ITU-R BT.2020
-=============
+Recommendation ITU-R BT.2020
+============================
 
-Defines the *ITU-R BT.2020* opto-electrical transfer function (OETF) and its
-inverse:
+Defines the *Recommendation ITU-R BT.2020* opto-electrical transfer function
+(OETF) and its inverse:
 
 -   :func:`colour.models.oetf_BT2020`
 -   :func:`colour.models.oetf_inverse_BT2020`

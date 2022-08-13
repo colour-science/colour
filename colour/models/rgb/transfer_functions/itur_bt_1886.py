@@ -1,6 +1,6 @@
 """
-ITU-R BT.1886
-=============
+Recommendation ITU-R BT.1886
+============================
 
 Defines the *Recommendation ITU-R BT.1886* electro-optical transfer function
 (EOTF) and its inverse:
