@@ -1,14 +1,18 @@
 """
-ITU-T H.273 video primaries and whitepoints
-===========================================
+Recommendation ITU-T H.273 Colour Primaries (and Colourspaces)
+==============================================================
 
-Contains several primaries and whitepoints that are defined in ITU-T H.273
-(:cite:`ITU2021`) but don't belong in another specification or standard.
+Defines the *Recommendation ITU-T H.273* colourspaces that do not belong in
+another specification or standard, or have been modified for inclusion:
+
+-   :attr:`colour.models.RGB_COLOURSPACE_H273_GENERIC_FILM`.
+-   :attr:`colour.models.RGB_COLOURSPACE_H273_22_UNSPECIFIED`.
 
 References
 ----------
--   :cite:`ITU2021` : International Telecommunication Union. (2021). Recommendation
-    ITU-T H.273 - Coding-independent code points for video signal type identification.
+-   :cite:`InternationalTelecommunicationUnion2021` : International
+    Telecommunication Union. (2021). Recommendation ITU-T H.273 -
+    Coding-independent code points for video signal type identification.
     https://www.itu.int/rec/T-REC-H.273-202107-I/en
 """
 
@@ -17,7 +21,11 @@ from __future__ import annotations
 import numpy as np
 
 from colour.hints import NDArray
-from colour.models.rgb import normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    linear_function,
+    normalised_primary_matrix,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -27,70 +35,180 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "PRIMARIES_FILM_C",
-    "WHITEPOINT_NAME_FILM_C",
-    "CCS_WHITEPOINT_FILM_C",
-    "MATRIX_FILM_C_RGB_TO_XYZ",
-    "MATRIX_XYZ_TO_FILM_C_RGB",
-    "PRIMARIES_ITUT_H273_22",
-    "WHITEPOINT_NAME_ITUT_H273_22",
-    "CCS_WHITEPOINT_ITUT_H273_22",
-    "MATRIX_ITUT_H273_22_RGB_TO_XYZ",
-    "MATRIX_XYZ_TO_ITUT_H273_22_RGB",
+    "PRIMARIES_H273_GENERIC_FILM",
+    "WHITEPOINT_NAME_H273_GENERIC_FILM",
+    "CCS_WHITEPOINT_H273_GENERIC_FILM",
+    "MATRIX_H273_GENERIC_FILM_RGB_TO_XYZ",
+    "MATRIX_XYZ_TO_H273_GENERIC_FILM_RGB",
+    "RGB_COLOURSPACE_H273_GENERIC_FILM",
+    "PRIMARIES_H273_22_UNSPECIFIED",
+    "WHITEPOINT_NAME_H273_22_UNSPECIFIED",
+    "CCS_WHITEPOINT_H273_22_UNSPECIFIED",
+    "MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ",
+    "MATRIX_XYZ_TO_H273_22_UNSPECIFIED_RGB",
+    "RGB_COLOURSPACE_H273_22_UNSPECIFIED",
 ]
 
-PRIMARIES_FILM_C: NDArray = np.array(
+PRIMARIES_H273_GENERIC_FILM: NDArray = np.array(
     [
-        [0.681, 0.319],
-        [0.243, 0.692],
-        [0.145, 0.049],
+        [0.681, 0.319],  # Wratten 25
+        [0.243, 0.692],  # Wratten 58
+        [0.145, 0.049],  # Wratten 47
     ]
 )
-"""Colourspace primaries for "colour filters using illuminant C", as defined in
-:cite:`ITU2021`."""
+"""
+Colourspace primaries for *Generic Film* (colour filters using Illuminant C).
 
-WHITEPOINT_NAME_FILM_C: str = "C"
-"""Whitepoint name for "colour filters using illuminant C", as defined in
-:cite:`ITU2021`."""
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
 
-# Note: ITU-T H.273 defines white point C as [0.310, 0.316], while colour
-# has a slightly higher precision.
-CCS_WHITEPOINT_FILM_C: NDArray = np.array([0.310, 0.316])
-"""Whitepoint chromaticity coordinates for "colour filters using illuminant C", as
-defined in :cite:`ITU2021`."""
+WHITEPOINT_NAME_H273_GENERIC_FILM: str = "C"
+"""
+Whitepoint name for *Generic Film* (colour filters using Illuminant C).
 
-MATRIX_FILM_C_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_FILM_C, CCS_WHITEPOINT_FILM_C
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
+
+CCS_WHITEPOINT_H273_GENERIC_FILM: NDArray = np.array([0.310, 0.316])
+"""
+Whitepoint chromaticity coordinates for *Generic Film* (colour filters using
+Illuminant C).
+
+Notes
+-----
+
+-   *Recommendation ITU-T H.273* defines whitepoint *C* as [0.310, 0.316],
+    while *Colour* has a slightly higher precision.
+
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
+
+MATRIX_H273_GENERIC_FILM_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
+    PRIMARIES_H273_GENERIC_FILM, CCS_WHITEPOINT_H273_GENERIC_FILM
 )
-"""'Colour filters using Illuminant C' colourspace to *CIE XYZ* tristimulus values
-matrix."""
+"""
+*Generic Film* (colour filters using Illuminant C) colourspace to *CIE XYZ*
+tristimulus values matrix.
 
-MATRIX_XYZ_TO_FILM_C_RGB: NDArray = np.linalg.inv(MATRIX_FILM_C_RGB_TO_XYZ)
-"""*CIE XYZ* tristimulus values to 'Colour filters using Illuminant C' colourspace
-matrix."""
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
 
-PRIMARIES_ITUT_H273_22: NDArray = np.array(
+MATRIX_XYZ_TO_H273_GENERIC_FILM_RGB: NDArray = np.linalg.inv(
+    MATRIX_H273_GENERIC_FILM_RGB_TO_XYZ
+)
+"""
+*CIE XYZ* tristimulus values to *Generic Film* (colour filters using
+Illuminant C) colourspace matrix.
+
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
+
+RGB_COLOURSPACE_H273_GENERIC_FILM: RGB_Colourspace = RGB_Colourspace(
+    "ITU-T H.273 - Generic Film",
+    PRIMARIES_H273_GENERIC_FILM,
+    CCS_WHITEPOINT_H273_GENERIC_FILM,
+    WHITEPOINT_NAME_H273_GENERIC_FILM,
+    MATRIX_H273_GENERIC_FILM_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_H273_GENERIC_FILM_RGB,
+    linear_function,
+    linear_function,
+)
+RGB_COLOURSPACE_H273_GENERIC_FILM.__doc__ = """
+*Recommendation ITU-T H.273* *Generic Film* (colour filters using Illuminant C)
+colourspace.
+
+References
+----------
+:cite:`InternationalTelecommunicationUnion2021`
+"""
+
+
+PRIMARIES_H273_22_UNSPECIFIED: NDArray = np.array(
     [
         [0.630, 0.340],
         [0.295, 0.605],
         [0.155, 0.077],
     ]
 )
-"""Colourspace primaries for ColourPrimaries number 22 defined in :cite:`ITU2021`."""
+"""
+Colourspace primaries for row *22* as given in
+*Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
 
-WHITEPOINT_NAME_ITUT_H273_22: str = "D65"
-"""Whitepoint name for ColourPrimaries number 22 defined in :cite:`ITU2021`."""
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
 
-CCS_WHITEPOINT_ITUT_H273_22: NDArray = np.array([0.3127, 0.3290])
-"""Whitepoint chromaticity coordinates for ColourPrimaries number 22, as defined in
-:cite:`ITU2021`."""
+WHITEPOINT_NAME_H273_22_UNSPECIFIED: str = "D65"
+"""
+Whitepoint name for row *22* as given in
+*Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
 
-MATRIX_ITUT_H273_22_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
-    PRIMARIES_ITUT_H273_22, CCS_WHITEPOINT_ITUT_H273_22
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
+
+CCS_WHITEPOINT_H273_22_UNSPECIFIED: NDArray = np.array([0.3127, 0.3290])
+"""
+Whitepoint chromaticity coordinates for row *22* as given in
+*Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
+
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
+
+MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ: NDArray = normalised_primary_matrix(
+    PRIMARIES_H273_22_UNSPECIFIED, CCS_WHITEPOINT_H273_22_UNSPECIFIED
 )
-"""ITU-T H.273 ColourPrimaries number 22 to *CIE XYZ* tristimulus values matrix."""
+"""
+Row *22* colourspace as given in
+*Table 2 - Interpretation of colour primaries (ColourPrimaries) value* to
+*CIE XYZ* tristimulus values matrix.
 
-MATRIX_XYZ_TO_ITUT_H273_22_RGB: NDArray = np.linalg.inv(
-    MATRIX_ITUT_H273_22_RGB_TO_XYZ
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
+
+MATRIX_XYZ_TO_H273_22_UNSPECIFIED_RGB: NDArray = np.linalg.inv(
+    MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ
 )
-"""*CIE XYZ* tristimulus values to ITU-T H.273 ColourPrimaries number 22 matrix."""
+"""
+*CIE XYZ* tristimulus values to row *22* colourspace as given in
+*Table 2 - Interpretation of colour primaries (ColourPrimaries) value* matrix.
+
+References
+----------
+- :cite:`InternationalTelecommunicationUnion2021`
+"""
+
+RGB_COLOURSPACE_H273_22_UNSPECIFIED: RGB_Colourspace = RGB_Colourspace(
+    "ITU-T H.273 - 22 Unspecified",
+    PRIMARIES_H273_22_UNSPECIFIED,
+    CCS_WHITEPOINT_H273_22_UNSPECIFIED,
+    WHITEPOINT_NAME_H273_22_UNSPECIFIED,
+    MATRIX_H273_22_UNSPECIFIED_RGB_TO_XYZ,
+    MATRIX_XYZ_TO_H273_22_UNSPECIFIED_RGB,
+    linear_function,
+    linear_function,
+)
+RGB_COLOURSPACE_H273_22_UNSPECIFIED.__doc__ = """
+*Recommendation ITU-T H.273* row *22* colourspace as given in
+*Table 2 - Interpretation of colour primaries (ColourPrimaries) value*.
+
+References
+----------
+:cite:`InternationalTelecommunicationUnion2021`
+"""

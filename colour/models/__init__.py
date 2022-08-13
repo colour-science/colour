@@ -160,6 +160,8 @@ from .rgb import (
     oetf_inverse_BT601,
     oetf_BT709,
     oetf_inverse_BT709,
+    oetf_BT1361,
+    oetf_inverse_BT1361,
     eotf_inverse_BT1886,
     eotf_BT1886,
     eotf_inverse_ST2084,
@@ -180,6 +182,14 @@ from .rgb import (
     ootf_BT2100_HLG,
     BT2100_HLG_OOTF_INVERSE_METHODS,
     ootf_inverse_BT2100_HLG,
+    oetf_H273_Log,
+    oetf_inverse_H273_Log,
+    oetf_H273_LogSqrt,
+    oetf_inverse_H273_LogSqrt,
+    oetf_H273_IEC61966_2,
+    oetf_inverse_H273_IEC61966_2,
+    eotf_H273_ST428_1,
+    eotf_inverse_H273_ST428_1,
     linear_function,
     logarithmic_function_basic,
     logarithmic_function_quasilog,
@@ -279,9 +289,12 @@ from .rgb import (
     RGB_COLOURSPACE_DISPLAY_P3,
     RGB_COLOURSPACE_DJI_D_GAMUT,
     RGB_COLOURSPACE_DON_RGB_4,
+    RGB_COLOURSPACE_EBU_3213_E,
     RGB_COLOURSPACE_ECI_RGB_V2,
     RGB_COLOURSPACE_EKTA_SPACE_PS_5,
     RGB_COLOURSPACE_FILMLIGHT_E_GAMUT,
+    RGB_COLOURSPACE_H273_GENERIC_FILM,
+    RGB_COLOURSPACE_H273_22_UNSPECIFIED,
     RGB_COLOURSPACE_PROTUNE_NATIVE,
     RGB_COLOURSPACE_MAX_RGB,
     RGB_COLOURSPACE_N_GAMUT,
@@ -338,6 +351,14 @@ from .rgb import (
 )
 from .rgb import RGB_to_YCoCg, YCoCg_to_RGB
 from .rgb import RGB_to_ICtCp, ICtCp_to_RGB, XYZ_to_ICtCp, ICtCp_to_XYZ
+from .rgb import (
+    COLOUR_PRIMARIES_ITUTH273,
+    TRANSFER_CHARACTERISTICS_ITUTH273,
+    MATRIX_COEFFICIENTS_ITUTH273,
+    describe_video_signal_colour_primaries,
+    describe_video_signal_transfer_characteristics,
+    describe_video_signal_matrix_coefficients,
+)
 
 __all__ = [
     "COLOURSPACE_MODELS",
@@ -537,6 +558,8 @@ __all__ += [
     "oetf_inverse_BT601",
     "oetf_BT709",
     "oetf_inverse_BT709",
+    "oetf_BT1361",
+    "oetf_inverse_BT1361",
     "eotf_inverse_BT1886",
     "eotf_BT1886",
     "eotf_inverse_ST2084",
@@ -557,6 +580,14 @@ __all__ += [
     "ootf_BT2100_HLG",
     "BT2100_HLG_OOTF_INVERSE_METHODS",
     "ootf_inverse_BT2100_HLG",
+    "oetf_H273_Log",
+    "oetf_inverse_H273_Log",
+    "oetf_H273_LogSqrt",
+    "oetf_inverse_H273_LogSqrt",
+    "oetf_H273_IEC61966_2",
+    "oetf_inverse_H273_IEC61966_2",
+    "eotf_H273_ST428_1",
+    "eotf_inverse_H273_ST428_1",
     "linear_function",
     "logarithmic_function_basic",
     "logarithmic_function_quasilog",
@@ -656,9 +687,12 @@ __all__ += [
     "RGB_COLOURSPACE_DISPLAY_P3",
     "RGB_COLOURSPACE_DJI_D_GAMUT",
     "RGB_COLOURSPACE_DON_RGB_4",
+    "RGB_COLOURSPACE_EBU_3213_E",
     "RGB_COLOURSPACE_ECI_RGB_V2",
     "RGB_COLOURSPACE_EKTA_SPACE_PS_5",
     "RGB_COLOURSPACE_FILMLIGHT_E_GAMUT",
+    "RGB_COLOURSPACE_H273_GENERIC_FILM",
+    "RGB_COLOURSPACE_H273_22_UNSPECIFIED",
     "RGB_COLOURSPACE_PROTUNE_NATIVE",
     "RGB_COLOURSPACE_MAX_RGB",
     "RGB_COLOURSPACE_N_GAMUT",
@@ -715,6 +749,14 @@ __all__ += [
 ]
 __all__ += ["RGB_to_YCoCg", "YCoCg_to_RGB"]
 __all__ += ["RGB_to_ICtCp", "ICtCp_to_RGB", "XYZ_to_ICtCp", "ICtCp_to_XYZ"]
+__all__ += [
+    "COLOUR_PRIMARIES_ITUTH273",
+    "TRANSFER_CHARACTERISTICS_ITUTH273",
+    "MATRIX_COEFFICIENTS_ITUTH273",
+    "describe_video_signal_colour_primaries",
+    "describe_video_signal_transfer_characteristics",
+    "describe_video_signal_matrix_coefficients",
+]
 
 
 # ----------------------------------------------------------------------------#

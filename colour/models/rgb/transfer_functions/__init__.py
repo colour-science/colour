@@ -57,17 +57,10 @@ from .filmlight_tlog import (
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_inverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_inverse_BT709
+from .itur_bt_1361 import oetf_BT1361, oetf_inverse_BT1361
 from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
 from .itur_bt_2020 import oetf_BT2020, oetf_inverse_BT2020
-from .itur_bt_1361 import oetf_BT1361_extended
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
-from .st_428 import eotf_inverse_ST428_1
-from .itut_h_273 import (
-    oetf_linear,
-    oetf_log,
-    oetf_log_sqrt,
-)
-from .iec_61966_2 import oetf_iec_61966_2_unbounded
 from .itur_bt_2100 import (
     oetf_BT2100_PQ,
     oetf_inverse_BT2100_PQ,
@@ -133,6 +126,16 @@ from .sony_slog import (
 )
 from .srgb import eotf_inverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
+from .itut_h_273 import (
+    oetf_H273_Log,
+    oetf_inverse_H273_Log,
+    oetf_H273_LogSqrt,
+    oetf_inverse_H273_LogSqrt,
+    oetf_H273_IEC61966_2,
+    oetf_inverse_H273_IEC61966_2,
+    eotf_inverse_H273_ST428_1,
+    eotf_H273_ST428_1,
+)
 
 __all__ = [
     "CV_range",
@@ -213,6 +216,10 @@ __all__ += [
 __all__ += [
     "oetf_BT709",
     "oetf_inverse_BT709",
+]
+__all__ += [
+    "oetf_BT1361",
+    "oetf_inverse_BT1361",
 ]
 __all__ += [
     "eotf_inverse_BT1886",
@@ -317,22 +324,18 @@ __all__ += [
     "eotf_sRGB",
 ]
 __all__ += [
-    "oetf_linear",
-    "oetf_log",
-    "oetf_log_sqrt",
-]
-__all__ += [
-    "oetf_iec_61966_2_unbounded",
-]
-__all__ += [
-    "eotf_inverse_ST428_1",
-]
-__all__ += [
-    "oetf_BT1361_extended",
-]
-__all__ += [
     "log_encoding_ViperLog",
     "log_decoding_ViperLog",
+]
+__all__ += [
+    "oetf_H273_Log",
+    "oetf_inverse_H273_Log",
+    "oetf_H273_LogSqrt",
+    "oetf_inverse_H273_LogSqrt",
+    "oetf_H273_IEC61966_2",
+    "oetf_inverse_H273_IEC61966_2",
+    "eotf_inverse_H273_ST428_1",
+    "eotf_H273_ST428_1",
 ]
 
 LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
@@ -650,6 +653,9 @@ OETFS: CanonicalMapping = CanonicalMapping(
         "ITU-R BT.2100 PQ": oetf_BT2100_PQ,
         "ITU-R BT.601": oetf_BT601,
         "ITU-R BT.709": oetf_BT709,
+        "ITU-T H.273 Log": oetf_H273_Log,
+        "ITU-T H.273 Log Sqrt": oetf_H273_LogSqrt,
+        "ITU-T H.273 IEC 61966-2": oetf_H273_IEC61966_2,
         "SMPTE 240M": oetf_SMPTE240M,
     }
 )
@@ -670,6 +676,9 @@ def oetf(
             "ITU-R BT.2100 PQ",
             "ITU-R BT.601",
             "ITU-R BT.709",
+            "ITU-T H.273 Log",
+            "ITU-T H.273 Log Sqrt",
+            "ITU-T H.273 IEC 61966-2",
             "SMPTE 240M",
         ],
         str,
@@ -734,6 +743,9 @@ OETF_INVERSES: CanonicalMapping = CanonicalMapping(
         "ITU-R BT.2100 PQ": oetf_inverse_BT2100_PQ,
         "ITU-R BT.601": oetf_inverse_BT601,
         "ITU-R BT.709": oetf_inverse_BT709,
+        "ITU-T H.273 Log": oetf_inverse_H273_Log,
+        "ITU-T H.273 Log Sqrt": oetf_inverse_H273_LogSqrt,
+        "ITU-T H.273 IEC 61966-2": oetf_inverse_H273_IEC61966_2,
     }
 )
 OETF_INVERSES.__doc__ = """
@@ -753,6 +765,9 @@ def oetf_inverse(
             "ITU-R BT.2100 PQ",
             "ITU-R BT.601",
             "ITU-R BT.709",
+            "ITU-T H.273 Log",
+            "ITU-T H.273 Log Sqrt",
+            "ITU-T H.273 IEC 61966-2",
         ],
         str,
     ] = "ITU-R BT.709",
@@ -816,6 +831,7 @@ EOTFS: CanonicalMapping = CanonicalMapping(
         "ITU-R BT.1886": eotf_BT1886,
         "ITU-R BT.2100 HLG": eotf_BT2100_HLG,
         "ITU-R BT.2100 PQ": eotf_BT2100_PQ,
+        "ITU-T H.273 ST.428-1": eotf_H273_ST428_1,
         "SMPTE 240M": eotf_SMPTE240M,
         "ST 2084": eotf_ST2084,
         "sRGB": eotf_sRGB,
@@ -835,6 +851,7 @@ def eotf(
             "ITU-R BT.1886",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
+            "ITU-T H.273 ST.428-1",
             "SMPTE 240M",
             "ST 2084",
             "sRGB",
@@ -897,6 +914,7 @@ EOTF_INVERSES: CanonicalMapping = CanonicalMapping(
         "ITU-R BT.1886": eotf_inverse_BT1886,
         "ITU-R BT.2100 HLG": eotf_inverse_BT2100_HLG,
         "ITU-R BT.2100 PQ": eotf_inverse_BT2100_PQ,
+        "ITU-T H.273 ST.428-1": eotf_inverse_H273_ST428_1,
         "ST 2084": eotf_inverse_ST2084,
         "sRGB": eotf_inverse_sRGB,
     }
@@ -915,6 +933,7 @@ def eotf_inverse(
             "ITU-R BT.1886",
             "ITU-R BT.2100 HLG",
             "ITU-R BT.2100 PQ",
+            "ITU-T H.273 ST.428-1",
             "ST 2084",
             "sRGB",
         ],
