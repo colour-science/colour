@@ -1,24 +1,31 @@
 """
-ITU-R BT.1361
-=============
+Recommendation ITU-R BT.1361
+============================
 
-Define transfer functions from *ITU-R BT.1361*.
+Defines the *Recommendation ITU-R BT.1361* opto-electrical transfer function
+(OETF) and its inverse:
+
+-   :func:`colour.models.oetf_BT1361`
+-   :func:`colour.models.oetf_inverse_BT1361`
 
 References
 ----------
 -   :cite:`InternationalTelecommunicationUnion1998` : International
-    Telecommunication Union. (1998). Recommendation ITU-R BT.1361 -
-    Worldwide unified colorimetry and related characteristics of
-    future television and imaging systems
-    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+    Telecommunication Union. (1998). Recommendation ITU-R BT.1361 - Worldwide
+    unified colorimetry and related characteristics of future television and
+    imaging systems (pp. 1-32). https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.1361-0-199802-W!!PDF-E.pdf
 """
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.models.rgb.transfer_functions import oetf_BT709, oetf_inverse_BT709
 from colour.utilities import (
-    as_float_array,
     as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
 )
 
 __author__ = "Colour Developers"
@@ -29,21 +36,15 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "oetf_BT1361_extended",
-    "oetf_inverse_BT1361_extended",
+    "oetf_BT1361",
+    "oetf_inverse_BT1361",
 ]
 
 
-L_LINEAR_THRESHOLD_POSITIVE = 0.018
-L_LINEAR_THRESHOLD_NEGATIVE = -0.0045
-EP_LINEAR_THRESHOLD_POSITIVE = 4.500 * L_LINEAR_THRESHOLD_POSITIVE
-EP_LINEAR_THRESHOLD_NEGATIVE = 4.500 * L_LINEAR_THRESHOLD_NEGATIVE
-
-
-def oetf_BT1361_extended(L):
+def oetf_BT1361(L):
     """
-    Define the opto-electronic transfer functions (OETF) for *ITU-R BT.1361* extended
-    color gamut.
+    Define *Recommendation ITU-R BT.1361* extended color gamut system
+    opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -60,13 +61,13 @@ def oetf_BT1361_extended(L):
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [-0.25, 1.33]         | [-0.25, 1.33] |
+    | ``L``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+-------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
-    | ``Ep'``    | [-0.25, 1.152...]     | [-0.25, 1.152...] |
+    | ``E_p'``   | [0, 1]                | [0, 1]            |
     +------------+-----------------------+-------------------+
 
     References
@@ -75,45 +76,40 @@ def oetf_BT1361_extended(L):
 
     Examples
     --------
-    >>> oetf_BT1361_extended(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_BT1361(0.18)  # doctest: +ELLIPSIS
     0.4090077288641...
-    >>> oetf_BT1361_extended(-0.25)  # doctest: +ELLIPSIS
+    >>> oetf_BT1361(-0.25)  # doctest: +ELLIPSIS
     -0.25
-    >>> oetf_BT1361_extended(1.33)  # doctest: +ELLIPSIS
+    >>> oetf_BT1361(1.33)  # doctest: +ELLIPSIS
     1.1504846663972...
     """
 
-    L = as_float_array(L)
+    L = to_domain_1(L)
 
-    Ep = np.where(
-        L >= 0,
-        np.where(
-            L >= L_LINEAR_THRESHOLD_POSITIVE,
-            # L in [0.018, 1.33] range
-            1.099 * spow(L, 0.45) - 0.099,
-            # L in [0, 0.018] range
-            4.500 * L,
-        ),
-        np.where(
-            L <= L_LINEAR_THRESHOLD_NEGATIVE,
-            # L in [-0.25, -0.0045] range
-            -(1.099 * spow(-4 * L, 0.45) - 0.099) / 4,
-            # L in [-0.0045, 0] range
-            4.500 * L,
-        ),
-    )
+    with domain_range_scale("ignore"):
+        E_p = np.where(
+            L >= 0,
+            oetf_BT709(L),
+            np.where(
+                L <= -0.0045,
+                # L in [-0.25, -0.0045] range
+                -(1.099 * spow(-4 * L, 0.45) - 0.099) / 4,
+                # L in [-0.0045, 0] range
+                4.500 * L,
+            ),
+        )
 
-    return as_float(Ep)
+    return as_float(from_range_1(E_p))
 
 
-def oetf_inverse_BT1361_extended(Ep):
+def oetf_inverse_BT1361(E_p):
     """
-    Define the inverse-opto-electronic transfer functions (OETF) for *ITU-R
-    BT.1361* extended color gamut.
+    Define *Recommendation ITU-R BT.1361* extended color gamut system inverse
+    opto-electronic transfer functions (OETF).
 
     Parameters
     ----------
-    Ep
+    E_p
         Non-linear primary signal :math:`E'`.
 
     Returns
@@ -126,13 +122,13 @@ def oetf_inverse_BT1361_extended(Ep):
     +------------+-----------------------+-------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
-    | ``Ep'``    | [-0.25, 1.152...]     | [-0.25, 1.152...] |
+    | ``E_p``    | [0, 1]                | [0, 1]            |
     +------------+-----------------------+-------------------+
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [-0.25, 1.33]         | [-0.25, 1.33] |
+    | ``L``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
 
@@ -142,32 +138,27 @@ def oetf_inverse_BT1361_extended(Ep):
 
     Examples
     --------
-    >>> oetf_inverse_BT1361_extended(0.4090077288641)  # doctest: +ELLIPSIS
+    >>> oetf_inverse_BT1361(0.4090077288641)  # doctest: +ELLIPSIS
     0.1799999...
-    >>> oetf_inverse_BT1361_extended(-0.25)  # doctest: +ELLIPSIS
+    >>> oetf_inverse_BT1361(-0.25)  # doctest: +ELLIPSIS
     -0.25
-    >>> oetf_inverse_BT1361_extended(1.1504846663972)  # doctest: +ELLIPSIS
+    >>> oetf_inverse_BT1361(1.1504846663972)  # doctest: +ELLIPSIS
     1.3299999...
     """
 
-    Ep = as_float_array(Ep)
+    E_p = to_domain_1(E_p)
 
-    L = np.where(
-        Ep >= 0,
-        np.where(
-            Ep >= EP_LINEAR_THRESHOLD_POSITIVE,
-            # L in [0.018, 1.33] range
-            spow((Ep + 0.099) / 1.099, 1 / 0.45),
-            # L in [0, 0.018] range
-            Ep / 4.500,
-        ),
-        np.where(
-            Ep <= EP_LINEAR_THRESHOLD_NEGATIVE,
-            # L in [-0.25, -0.0045] range
-            -spow((-4 * Ep + 0.099) / 1.099, 1 / 0.45) / 4,
-            # L in [-0.0045, 0] range
-            Ep / 4.500,
-        ),
-    )
+    with domain_range_scale("ignore"):
+        L = np.where(
+            E_p >= 0,
+            oetf_inverse_BT709(E_p),
+            np.where(
+                E_p <= 4.500 * -0.0045,
+                # L in [-0.25, -0.0045] range
+                -spow((-4 * E_p + 0.099) / 1.099, 1 / 0.45) / 4,
+                # L in [-0.0045, 0] range
+                E_p / 4.500,
+            ),
+        )
 
-    return as_float(L)
+    return as_float(from_range_1(L))
