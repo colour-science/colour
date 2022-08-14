@@ -953,7 +953,9 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                     Element_Specification_IESTM2714(
                         "BandwidthFWHM",
                         "bandwidth_FWHM",
-                        read_conversion=as_float_scalar,
+                        read_conversion=(
+                            lambda x: None if x == "None" else as_float_scalar(x)
+                        ),
                     ),
                     Element_Specification_IESTM2714(
                         "BandwidthCorrected",
@@ -962,7 +964,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                             lambda x: True if x == "true" else False
                         ),
                         write_conversion=(
-                            lambda x: "true" if x is True else "False"
+                            lambda x: "true" if x is True else "false"
                         ),
                     ),
                 ),
