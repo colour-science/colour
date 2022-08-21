@@ -2,11 +2,11 @@
 SMPTE ST 2084:2014
 ==================
 
-Defines the *SMPTE ST 2084:2014* opto-electrical transfer function
-(OETF) and electro-optical transfer function (EOTF):
+Defines the *SMPTE ST 2084:2014* electro-optical transfer function (EOTF) and
+its inverse:
 
--   :func:`colour.models.eotf_ST2084`
 -   :func:`colour.models.eotf_inverse_ST2084`
+-   :func:`colour.models.eotf_ST2084`
 
 References
 ----------
