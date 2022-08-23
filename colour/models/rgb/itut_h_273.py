@@ -3,11 +3,15 @@ Recommendation ITU-T H.273 Code points for Video Signal Type Identification
 ===========================================================================
 
 Defines a set of standard video signal colour primaries, transfer functions and
-matrix coefficients used in deriving luma and chroma signals:
+matrix coefficients used in deriving luma and chroma signals along with
+related definitions:
 
 -   :attr:`colour.COLOUR_PRIMARIES_ITUTH273`
 -   :attr:`colour.TRANSFER_CHARACTERISTICS_ITUTH273`
 -   :attr:`colour.MATRIX_COEFFICIENTS_ITUTH273`
+-   :attr:`colour.models.describe_video_signal_colour_primaries`
+-   :attr:`colour.models.describe_video_signal_transfer_characteristics`
+-   :attr:`colour.models.describe_video_signal_matrix_coefficients`
 
 These values were historically defined in
 :cite:`InternationalOrganizationforStandardization2013` then
