@@ -487,7 +487,7 @@ def plot_RGB_colourspaces_gamuts(
     colourspaces
         *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
         can be of any type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     reference_colourspace
         Reference colourspace model to plot the gamuts into, see
         :attr:`colour.COLOURSPACE_MODELS` attribute for the list of supported
@@ -505,7 +505,7 @@ def plot_RGB_colourspaces_gamuts(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.
@@ -772,7 +772,7 @@ def plot_RGB_scatter(
     colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     reference_colourspace
         Reference colourspace model to plot the gamuts into, see
         :attr:`colour.COLOURSPACE_MODELS` attribute for the list of supported
@@ -780,7 +780,7 @@ def plot_RGB_scatter(
     colourspaces
         *RGB* colourspaces to plot the gamuts. ``colourspaces`` elements
         can be of any type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     segments
         Edge segments count for each *RGB* colourspace cubes.
     show_grid
@@ -796,7 +796,7 @@ def plot_RGB_scatter(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces given in
         ``colourspaces`` to the whitepoint of the default plotting colourspace.

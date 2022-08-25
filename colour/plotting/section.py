@@ -528,11 +528,12 @@ def plot_visible_spectrum_section(
     cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.  ``cmfs`` can be of any type or
-        form supported by the :func:`colour.plotting.filter_cmfs` definition.
+        form supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant D65*.
         ``illuminant`` can be of any type or form supported by the
-        :func:`colour.plotting.filter_illuminants` definition.
+        :func:`colour.plotting.common.filter_illuminants` definition.
     model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.
@@ -696,7 +697,7 @@ def plot_RGB_colourspace_section(
     colourspace
         *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_RGB_colourspaces` definition.
+        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     model
         Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
         the list of supported colourspace models.

@@ -45,7 +45,7 @@ def plot_single_munsell_value_function(
     ----------
     function
         *Munsell* value function to plot. ``function`` can be of any type or
-        form supported by the :func:`colour.plotting.filter_passthrough`
+        form supported by the :func:`colour.plotting.common.filter_passthrough`
         definition.
 
     Other Parameters
@@ -92,7 +92,7 @@ def plot_multi_munsell_value_functions(
     functions
         *Munsell* value functions to plot. ``functions`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------

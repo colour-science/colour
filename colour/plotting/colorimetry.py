@@ -133,7 +133,7 @@ def plot_single_sd(
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     out_of_gamut_clipping
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
@@ -303,11 +303,11 @@ def plot_multi_sds(
             distributions colours. The default is the illuminant associated
             with the whitepoint of the default plotting colourspace.
             ``illuminant`` can be of any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``cmfs`` : The standard observer colour matching functions used for
             computing the spectral distributions colours. ``cmfs`` can be of
             any type or form supported by the
-            :func:`colour.plotting.filter_cmfs` definition.
+            :func:`colour.plotting.common.filter_cmfs` definition.
         -   ``normalise_sd_colours`` : Whether to normalise the computed
             spectral distributions colours. The default is *True*.
         -   ``use_sd_colours`` : Whether to use the computed spectral
@@ -458,7 +458,7 @@ def plot_single_cmfs(
     ----------
     cmfs
         Colour matching functions to plot. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -512,7 +512,7 @@ def plot_multi_cmfs(
     ----------
     cmfs
         Colour matching functions to plot. ``cmfs`` elements can be of any
-        type or form supported by the :func:`colour.plotting.filter_cmfs`
+        type or form supported by the :func:`colour.plotting.common.filter_cmfs`
         definition.
 
     Other Parameters
@@ -613,11 +613,11 @@ def plot_single_illuminant_sd(
     ----------
     illuminant
         Illuminant to plot. ``illuminant`` can be of any type or form supported
-        by the :func:`colour.plotting.filter_illuminants` definition.
+        by the :func:`colour.plotting.common.filter_illuminants` definition.
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -674,7 +674,7 @@ def plot_multi_illuminant_sds(
     ----------
     illuminants
         Illuminants to plot. ``illuminants`` elements can be of any type or
-        form supported by the :func:`colour.plotting.filter_illuminants`
+        form supported by the :func:`colour.plotting.common.filter_illuminants`
         definition.
 
     Other Parameters
@@ -750,7 +750,7 @@ def plot_visible_spectrum(
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     out_of_gamut_clipping
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
@@ -825,7 +825,7 @@ def plot_single_lightness_function(
     ----------
     function
         *Lightness* function to plot. ``function`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_passthrough` definition.
+        supported by the :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -869,7 +869,7 @@ def plot_multi_lightness_functions(
     functions
         *Lightness* functions to plot. ``functions`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -964,7 +964,7 @@ def plot_multi_luminance_functions(
     functions
         *Luminance* functions to plot. ``functions`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
 
     Other Parameters
     ----------------
@@ -1026,7 +1026,7 @@ def plot_blackbody_spectral_radiance(
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
     blackbody
         Blackbody name.
 
@@ -1127,7 +1127,7 @@ def plot_blackbody_colours(
     cmfs
         Standard observer colour matching functions used for computing the
         blackbody colours. ``cmfs`` can be of any type or form supported by the
-        :func:`colour.plotting.filter_cmfs` definition.
+        :func:`colour.plotting.common.filter_cmfs` definition.
 
     Other Parameters
     ----------------
