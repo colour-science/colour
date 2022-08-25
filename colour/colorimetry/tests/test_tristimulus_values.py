@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import numpy as np
 import unittest
+from pytest import approx
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
@@ -25,6 +26,7 @@ from colour.colorimetry import (
     reshape_sd,
     sd_CIE_standard_illuminant_A,
     sd_ones,
+    msds_to_XYZ,
 )
 from colour.colorimetry import (
     handle_spectral_arguments,
@@ -1318,6 +1320,87 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
             sd_to_XYZ_ASTME308,
             reshape_sd(self._sd, SpectralShape(360, 820, 2)),
         )
+
+
+class Test_Absolute_spd_to_XYZ(unittest.TestCase):
+    """
+    Tests methods for absolute colorimetry using k=683
+    """
+
+    def test_sd_to_XYZ_absolute_1nm(self):
+        shape = SpectralShape(380, 780, 1)
+        spd = SpectralDistribution(np.zeros((401)), domain=shape)
+
+        v = spd.values
+        v[555 - 380] = 1  # SPD is 1W at 555nm, 0 everywhere else.
+        spd.values = v
+
+        methods = [
+            sd_to_XYZ,
+            sd_to_XYZ_ASTME308,
+            sd_to_XYZ_integration,
+            msds_to_XYZ,
+            msds_to_XYZ_ASTME308,
+            msds_to_XYZ_integration,
+        ]
+
+        # Test single spd methods
+        for method in methods[0:3]:
+            xyz: np.ndarray = method(spd, k=683)
+            if len(xyz.shape) > 1:
+                xyz = xyz.reshape((3))
+            assert xyz[1] == approx(
+                683, 0.000005
+            ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
+
+        # Test multi spd methods
+        spd = MultiSpectralDistributions(spd)
+        for method in methods[3:6]:
+            xyz: np.ndarray = method(spd, k=683)
+            if len(xyz.shape) > 1:
+                xyz = xyz.reshape((3))
+            assert xyz[1] == approx(
+                683, 0.000005
+            ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
+
+    def test_sd_to_XYZ_absolute_5nm(self):
+        shape = SpectralShape(380, 780, 5)
+        spd = SpectralDistribution(np.zeros((81)), domain=shape)
+
+        # SPD is 1W from 555nm, 0 everywhere else.
+        # In 5nm average sampling this would result in a reading of .2.
+        # This will test if the integration is correctly multiplying by ∆wl
+        v = spd.values
+        v[int((555 - 380) / 5)] = 0.2
+        spd.values = v
+
+        methods = [
+            sd_to_XYZ,
+            sd_to_XYZ_ASTME308,
+            sd_to_XYZ_integration,
+            msds_to_XYZ,
+            msds_to_XYZ_ASTME308,
+            msds_to_XYZ_integration,
+        ]
+
+        # Test single spd methods
+        for method in methods[0:3]:
+            xyz: np.ndarray = method(spd, k=683)
+            if len(xyz.shape) > 1:
+                xyz = xyz.reshape((3))
+            assert xyz[1] == approx(
+                683, 0.1
+            ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
+
+        # Test multi spd methods
+        spd = MultiSpectralDistributions(spd)
+        for method in methods[3:6]:
+            xyz: np.ndarray = method(spd, k=683)
+            if len(xyz.shape) > 1:
+                xyz = xyz.reshape((3))
+            assert xyz[1] == approx(
+                683, 0.1
+            ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
 
 
 class TestSd_to_XYZ(unittest.TestCase):

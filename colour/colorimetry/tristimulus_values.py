@@ -1345,10 +1345,10 @@ def msds_to_XYZ_ASTME308(
     msds: MultiSpectralDistributions,
     cmfs: Optional[MultiSpectralDistributions] = None,
     illuminant: Optional[SpectralDistribution] = None,
+    k: Optional[Number] = None,
     use_practice_range: Boolean = True,
     mi_5nm_omission_method: Boolean = True,
     mi_20nm_interpolation_method: Boolean = True,
-    k: Optional[Number] = None,
 ) -> NDArray:
     """
     Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
