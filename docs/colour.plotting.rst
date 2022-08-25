@@ -36,6 +36,11 @@ Common
     KwargsArtist
     KwargsCamera
     KwargsRender
+    filter_passthrough
+    filter_RGB_colourspaces
+    filter_cmfs
+    filter_illuminants
+    filter_colour_checkers
 
 Colorimetry
 -----------
