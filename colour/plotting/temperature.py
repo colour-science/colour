@@ -269,7 +269,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable
         Callable responsible for drawing the *Chromaticity Diagram*.
     method
@@ -478,7 +478,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
     illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable_CIE1931
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     annotate_kwargs
@@ -557,7 +557,7 @@ def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
     illuminants
         Illuminants to plot. ``illuminants`` elements can be of any
         type or form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     chromaticity_diagram_callable_CIE1960UCS
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.

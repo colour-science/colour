@@ -959,7 +959,7 @@ def filter_RGB_colourspaces(
         Filterer or :class:`colour.RGB_Colourspace` class instance (which is
         passed through directly if its type is one of the mapping element
         types) or list of filterers. ``filterers`` elements can also be of any
-        form supported by the :func:`colour.plotting.filter_passthrough`
+        form supported by the :func:`colour.plotting.common.filter_passthrough`
         definition.
     anchors
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
@@ -1001,7 +1001,7 @@ def filter_cmfs(
         :class:`colour.XYZ_ColourMatchingFunctions` class instance (which is
         passed through directly if its type is one of the mapping element
         types) or list of filterers. ``filterers`` elements can also be of any
-        form supported by the :func:`colour.plotting.filter_passthrough`
+        form supported by the :func:`colour.plotting.common.filter_passthrough`
         definition.
     anchors
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
@@ -1039,8 +1039,8 @@ def filter_illuminants(
         Filterer or :class:`colour.SpectralDistribution` class instance
         (which is passed through directly if its type is one of the mapping
         element types) or list of filterers. ``filterers`` elements can also be
-        of any form supported by the :func:`colour.plotting.filter_passthrough`
-        definition.
+        of any form supported by the
+        :func:`colour.plotting.common.filter_passthrough` definition.
     anchors
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
@@ -1088,7 +1088,7 @@ def filter_colour_checkers(
         instance (which is passed through directly if its type is one of the
         mapping element types) or list of filterers. ``filterers`` elements
         can also be of any form supported by the
-        :func:`colour.plotting.filter_passthrough` definition.
+        :func:`colour.plotting.common.filter_passthrough` definition.
     anchors
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.

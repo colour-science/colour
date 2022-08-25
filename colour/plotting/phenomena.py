@@ -93,7 +93,7 @@ def plot_single_sd_rayleigh_scattering(
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
 
     Other Parameters
     ----------------
@@ -156,7 +156,7 @@ def plot_the_blue_sky(
     cmfs
         Standard observer colour matching functions used for computing the
         spectrum domain and colours. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
 
     Other Parameters
     ----------------

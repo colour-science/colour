@@ -64,7 +64,7 @@ def plot_single_colour_checker(
     colour_checker
         Color checker to plot. ``colour_checker`` can be of any type or form
         supported by the
-        :func:`colour.plotting.filter_colour_checkers` definition.
+        :func:`colour.plotting.common.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
@@ -115,7 +115,7 @@ def plot_multi_colour_checkers(
     colour_checkers
         Color checker to plot, count must be less than or equal to 2.
         ``colour_checkers`` elements can be of any type or form supported by
-        the :func:`colour.plotting.filter_colour_checkers` definition.
+        the :func:`colour.plotting.common.filter_colour_checkers` definition.
 
     Other Parameters
     ----------------
