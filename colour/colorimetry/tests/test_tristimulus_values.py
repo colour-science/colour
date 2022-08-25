@@ -1329,7 +1329,7 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
 
     def test_sd_to_XYZ_absolute_1nm(self):
         shape = SpectralShape(380, 780, 1)
-        spd = SpectralDistribution(np.zeros((401)), domain=shape)
+        spd = SpectralDistribution(np.zeros(401), domain=shape)
 
         v = spd.values
         v[555 - 380] = 1  # SPD is 1W at 555nm, 0 everywhere else.
@@ -1348,7 +1348,7 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
         for method in methods[0:3]:
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
-                xyz = xyz.reshape((3))
+                xyz = xyz.reshape(3)
             assert xyz[1] == approx(
                 683, 0.000005
             ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
@@ -1358,14 +1358,14 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
         for method in methods[3:6]:
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
-                xyz = xyz.reshape((3))
+                xyz = xyz.reshape(3)
             assert xyz[1] == approx(
                 683, 0.000005
             ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
 
     def test_sd_to_XYZ_absolute_5nm(self):
         shape = SpectralShape(380, 780, 5)
-        spd = SpectralDistribution(np.zeros((81)), domain=shape)
+        spd = SpectralDistribution(np.zeros(81), domain=shape)
 
         # SPD is 1W from 555nm, 0 everywhere else.
         # In 5nm average sampling this would result in a reading of .2.
@@ -1387,7 +1387,7 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
         for method in methods[0:3]:
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
-                xyz = xyz.reshape((3))
+                xyz = xyz.reshape(3)
             assert xyz[1] == approx(
                 683, 0.1
             ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
@@ -1397,7 +1397,7 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
         for method in methods[3:6]:
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
-                xyz = xyz.reshape((3))
+                xyz = xyz.reshape(3)
             assert xyz[1] == approx(
                 683, 0.1
             ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
