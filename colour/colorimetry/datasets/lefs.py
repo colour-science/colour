@@ -2373,7 +2373,7 @@ SDS_LEFS_PHOTOPIC: LazyCanonicalMapping = LazyCanonicalMapping(
                 "CIE 1964 Photopic 10 Degree Standard Observer"
             ],
             name="CIE 1964 Photopic 10 Degree Standard Observer",
-            strict_name="CIE 1964 Photopic 10$^\\circ$ Standard Observer",
+            display_name="CIE 1964 Photopic 10$^\\circ$ Standard Observer",
         ),
         "CIE 2008 2 Degree Physiologically Relevant LEF": partial(
             SpectralDistribution,
@@ -2381,7 +2381,7 @@ SDS_LEFS_PHOTOPIC: LazyCanonicalMapping = LazyCanonicalMapping(
                 "CIE 2008 2 Degree Physiologically Relevant LEF"
             ],
             name="CIE 2008 2 Degree Physiologically Relevant LEF",
-            strict_name="CIE 2008 2$^\\circ$ Physiologically Relevant LEF",
+            display_name="CIE 2008 2$^\\circ$ Physiologically Relevant LEF",
         ),
         "CIE 2008 10 Degree Physiologically Relevant LEF": partial(
             SpectralDistribution,
@@ -2389,7 +2389,7 @@ SDS_LEFS_PHOTOPIC: LazyCanonicalMapping = LazyCanonicalMapping(
                 "CIE 2008 10 Degree Physiologically Relevant LEF"
             ],
             name="CIE 2008 10 Degree Physiologically Relevant LEF",
-            strict_name="CIE 2008 10$^\\circ$ Physiologically Relevant LEF",
+            display_name="CIE 2008 10$^\\circ$ Physiologically Relevant LEF",
         ),
     }
 )

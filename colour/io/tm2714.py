@@ -823,7 +823,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Arguments to use when instantiating the interpolating function.
     name
         Spectral distribution name.
-    strict_name
+    display_name
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.
 

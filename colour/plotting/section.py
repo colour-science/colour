@@ -623,7 +623,7 @@ def plot_visible_spectrum_section(
         f"Visible Spectrum Section - "
         f"{f'{origin * 100}%' if normalise else origin} - "
         f"{model} - "
-        f"{cmfs.strict_name}"
+        f"{cmfs.display_name}"
     )
 
     plane = MAPPING_AXIS_TO_PLANE[axis]
