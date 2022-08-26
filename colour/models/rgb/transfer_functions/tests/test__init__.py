@@ -119,11 +119,19 @@ class TestTransferFunctions(unittest.TestCase):
                 if name in ignored_transfer_functions:
                     continue
 
-                encoded_s = CCTF_ENCODINGS[name](samples)
-                decoded_s = CCTF_DECODINGS[name](encoded_s)
+                samples_r = np.copy(samples)
+
+                if name == "ITU-T H.273 Log":
+                    samples_r = np.clip(samples_r, 0.1, np.inf)
+
+                if name == "ITU-T H.273 Log Sqrt":
+                    samples_r = np.clip(samples_r, np.sqrt(10) / 1000, np.inf)
+
+                samples_e = CCTF_ENCODINGS[name](samples_r)
+                samples_d = CCTF_DECODINGS[name](samples_e)
 
                 np.testing.assert_array_almost_equal(
-                    samples, decoded_s, decimal=decimals.get(name, 7)
+                    samples_r, samples_d, decimal=decimals.get(name, 7)
                 )
 
 

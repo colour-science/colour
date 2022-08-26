@@ -65,3 +65,32 @@ print(
         colour.RGB_COLOURSPACES["ACEScg"],
     )
 )
+
+print("\n")
+
+message_box(
+    '"Recommendation ITU-T H.273" '
+    "Code points for Video Signal Type Identification"
+)
+
+message_box(
+    f"Colour Primaries: {list(colour.COLOUR_PRIMARIES_ITUTH273.keys())}"
+)
+colour.models.describe_video_signal_colour_primaries(1)
+
+print("\n")
+
+message_box(
+    f"Transfer Characteristics: "
+    f"{list(colour.TRANSFER_CHARACTERISTICS_ITUTH273.keys())}"
+)
+colour.models.describe_video_signal_transfer_characteristics(1)
+
+print("\n")
+
+message_box(
+    f"Matrix Coefficients: "
+    f"{list(colour.MATRIX_COEFFICIENTS_ITUTH273.keys())}"
+)
+
+colour.models.describe_video_signal_matrix_coefficients(1)

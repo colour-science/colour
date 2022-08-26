@@ -432,9 +432,12 @@ RGB Colourspaces
     RGB_COLOURSPACE_DCI_P3_P
     RGB_COLOURSPACE_DISPLAY_P3
     RGB_COLOURSPACE_DON_RGB_4
+    RGB_COLOURSPACE_EBU_3213_E
     RGB_COLOURSPACE_ECI_RGB_V2
     RGB_COLOURSPACE_EKTA_SPACE_PS_5
     RGB_COLOURSPACE_F_GAMUT
+    RGB_COLOURSPACE_H273_GENERIC_FILM
+    RGB_COLOURSPACE_H273_22_UNSPECIFIED
     RGB_COLOURSPACE_PROTUNE_NATIVE
     RGB_COLOURSPACE_MAX_RGB
     RGB_COLOURSPACE_NTSC1953
@@ -558,6 +561,12 @@ Opto-Electronic Transfer Functions
     oetf_inverse_BT601
     oetf_BT709
     oetf_inverse_BT709
+    oetf_H273_Log
+    oetf_inverse_H273_Log
+    oetf_H273_LogSqrt
+    oetf_inverse_H273_LogSqrt
+    oetf_H273_IEC61966_2
+    oetf_inverse_H273_IEC61966_2
     oetf_SMPTE240M
 
 Electro-Optical Transfer Functions
@@ -594,6 +603,8 @@ Electro-Optical Transfer Functions
     eotf_inverse_BT2100_HLG
     eotf_BT2100_PQ
     eotf_inverse_BT2100_PQ
+    eotf_H273_ST428_1
+    eotf_inverse_H273_ST428_1
     eotf_SMPTE240M
     eotf_ST2084
     eotf_inverse_ST2084
@@ -849,6 +860,33 @@ IHLS - Hanbury (2003)
 
     RGB_to_IHLS
     IHLS_to_RGB
+
+Recommendation ITU-T H.273 Code points for Video Signal Type Identification
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    COLOUR_PRIMARIES_ITUTH273
+    TRANSFER_CHARACTERISTICS_ITUTH273
+    MATRIX_COEFFICIENTS_ITUTH273
+
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    describe_video_signal_colour_primaries
+    describe_video_signal_transfer_characteristics
+    describe_video_signal_matrix_coefficients
 
 Pointer's Gamut
 ---------------
