@@ -42,7 +42,6 @@ from colour.hints import (
     Literal,
     Mapping,
     Optional,
-    RegexFlag,
     Sequence,
     TypeVar,
     Union,
@@ -1185,26 +1184,16 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     return kwargs
 
 
-def filter_mapping(
-    mapping: Mapping,
-    filterers: Union[str, Sequence[str]],
-    anchors: Boolean = True,
-    flags: Union[Integer, RegexFlag] = re.IGNORECASE,
-) -> Dict:
+def filter_mapping(mapping: Mapping, names: Union[str, Sequence[str]]) -> Dict:
     """
-    Filter given mapping with given filterers.
+    Filter given mapping with given names.
 
     Parameters
     ----------
     mapping
         Mapping to filter.
-    filterers
-        Filterer pattern for given mapping elements or a list of filterers.
-    anchors
-        Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterer pattern.
-    flags
-        Regex flags.
+    names
+        Name for given mapping elements or a list of names.
 
     Returns
     -------
@@ -1213,8 +1202,11 @@ def filter_mapping(
 
     Notes
     -----
-    -   To honour the filterers ordering, the return value is an
-        :class:`dict` class instance.
+    -   If the mapping passed is a :class:`colour.utilities.CanonicalMapping`
+        class instance, then the lower, slugified and canonical keys are also
+        used for matching.
+    -   To honour the filterers ordering, the return value is a :class:`dict`
+        class instance.
 
     Examples
     --------
@@ -1226,32 +1218,20 @@ def filter_mapping(
     ...     'Element C': Element(),
     ...     'Not Element C': Element(),
     ... }
-    >>> filter_mapping(mapping, '\\w+\\s+A')  # doctest: +ELLIPSIS
+    >>> filter_mapping(mapping, 'Element A')  # doctest: +ELLIPSIS
     {'Element A': <colour.utilities.common.Element object at 0x...>}
-    >>> sorted(filter_mapping(mapping, 'Element.*'))
-    ['Element A', 'Element B', 'Element C']
     """
 
-    def filter_mapping_with_filter(
-        mapping: Mapping,
-        filterer: str,
-        anchors: Boolean = True,
-        flags: Union[Integer, RegexFlag] = re.IGNORECASE,
-    ) -> Dict:
+    def filter_mapping_with_name(mapping: Mapping, name: str) -> Dict:
         """
-        Filter given mapping with given filterer.
+        Filter given mapping with given name.
 
         Parameters
         ----------
         mapping
             Mapping to filter.
-        filterer
-            Filterer pattern for given mapping elements.
-        anchors
-            Whether to use Regex line anchors, i.e. *^* and *$* are added,
-            surrounding the filterer pattern.
-        flags
-            Regex flags.
+        name
+            Name for given mapping elements.
 
         Returns
         -------
@@ -1259,15 +1239,14 @@ def filter_mapping(
             Filtered mapping elements.
         """
 
-        if anchors:
-            filterer = f"^{filterer}$"
-            filterer = filterer.replace("^^", "^").replace("$$", "$")
+        keys = list(mapping.keys())
 
-        elements = [
-            mapping[element]
-            for element in mapping
-            if re.match(filterer, element, flags)
-        ]
+        if isinstance(mapping, CanonicalMapping):
+            keys += list(mapping.lower_keys())
+            keys += list(mapping.slugified_keys())
+            keys += list(mapping.canonical_keys())
+
+        elements = [mapping[key] for key in keys if name == key]
 
         lookup = Lookup(mapping)
 
@@ -1276,14 +1255,12 @@ def filter_mapping(
             for element in elements
         }
 
-    filterers = [str(filterers)] if is_string(filterers) else filterers
+    names = [str(names)] if is_string(names) else names
 
     filtered_mapping = {}
 
-    for filterer in filterers:
-        filtered_mapping.update(
-            filter_mapping_with_filter(mapping, filterer, anchors, flags)
-        )
+    for filterer in names:
+        filtered_mapping.update(filter_mapping_with_name(mapping, filterer))
 
     return filtered_mapping
 
