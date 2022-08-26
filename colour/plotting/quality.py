@@ -371,7 +371,7 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
 
     title = (
         f"Colour Rendering Index - "
-        f"{', '.join([sd.strict_name for sd in sds_converted])}"
+        f"{', '.join([sd.display_name for sd in sds_converted])}"
     )
 
     settings = {"axes": axes, "title": title}
@@ -503,7 +503,7 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
 
     title = (
         f"Colour Quality Scale - "
-        f"{', '.join([sd.strict_name for sd in sds_converted])}"
+        f"{', '.join([sd.display_name for sd in sds_converted])}"
     )
 
     settings = {"axes": axes, "title": title}

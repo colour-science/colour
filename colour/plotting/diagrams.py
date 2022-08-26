@@ -619,7 +619,7 @@ def plot_chromaticity_diagram(
             "CIE v'",
         )
 
-    title = f"{method.upper()} Chromaticity Diagram - {cmfs.strict_name}"
+    title = f"{method.upper()} Chromaticity Diagram - {cmfs.display_name}"
 
     settings.update(
         {
@@ -995,7 +995,7 @@ def plot_sds_in_chromaticity_diagram(
     plot_settings_collection = [
         {
             "color": CONSTANTS_COLOUR_STYLE.colour.brightest,
-            "label": f"{sd.strict_name}",
+            "label": f"{sd.display_name}",
             "marker": "o",
             "markeredgecolor": CONSTANTS_COLOUR_STYLE.colour.dark,
             "markeredgewidth": CONSTANTS_COLOUR_STYLE.geometry.short * 0.75,
