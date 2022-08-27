@@ -299,20 +299,22 @@ class TestFilterPassthrough(unittest.TestCase):
             sorted(
                 colourspace.name
                 for colourspace in filter_passthrough(
-                    RGB_COLOURSPACES, ["^ACES.*"]
+                    RGB_COLOURSPACES, ["ACES2065-1"]
                 ).values()
             ),
-            ["ACES2065-1", "ACEScc", "ACEScct", "ACEScg", "ACESproxy"],
+            ["ACES2065-1"],
         )
 
         self.assertListEqual(
-            sorted(filter_passthrough(RGB_COLOURSPACES, ["^ACEScc$"]).keys()),
-            ["ACEScc"],
+            sorted(
+                filter_passthrough(RGB_COLOURSPACES, ["aces2065-1"]).keys()
+            ),
+            ["ACES2065-1"],
         )
 
         self.assertListEqual(
-            sorted(filter_passthrough(RGB_COLOURSPACES, ["^acescc$"]).keys()),
-            ["ACEScc"],
+            sorted(filter_passthrough(RGB_COLOURSPACES, ["aces20651"]).keys()),
+            ["ACES2065-1"],
         )
 
         self.assertDictEqual(
@@ -360,10 +362,10 @@ class TestFilterRgbColourspaces(unittest.TestCase):
             sorted(
                 colourspace.name
                 for colourspace in filter_RGB_colourspaces(
-                    ["^ACES.*"]
+                    ["ACES2065-1"]
                 ).values()
             ),
-            ["ACES2065-1", "ACEScc", "ACEScct", "ACEScg", "ACESproxy"],
+            ["ACES2065-1"],
         )
 
 
@@ -378,14 +380,13 @@ class TestFilterCmfs(unittest.TestCase):
 
         self.assertListEqual(
             sorted(
-                cmfs.name for cmfs in filter_cmfs([".*2 Degree.*"]).values()
+                cmfs.name
+                for cmfs in filter_cmfs(
+                    ["CIE 1931 2 Degree Standard Observer"]
+                ).values()
             ),
             [
                 "CIE 1931 2 Degree Standard Observer",
-                "CIE 2015 2 Degree Standard Observer",
-                "Stiles & Burch 1955 2 Degree RGB CMFs",
-                "Stockman & Sharpe 2 Degree Cone Fundamentals",
-                "Wright & Guild 1931 2 Degree RGB CMFs",
             ],
         )
 
@@ -400,8 +401,8 @@ class TestFilterIlluminants(unittest.TestCase):
         """Test :func:`colour.plotting.common.filter_illuminants` definition."""
 
         self.assertListEqual(
-            sorted(filter_illuminants(["^D.*"]).keys()),
-            ["D50", "D55", "D60", "D65", "D75", "Daylight FL"],
+            sorted(filter_illuminants(["D50"]).keys()),
+            ["D50"],
         )
 
 
@@ -418,12 +419,11 @@ class TestFilterColourCheckers(unittest.TestCase):
             sorted(
                 colour_checker.name
                 for colour_checker in filter_colour_checkers(
-                    [".*24.*"]
+                    ["ColorChecker24 - After November 2014"]
                 ).values()
             ),
             [
                 "ColorChecker24 - After November 2014",
-                "ColorChecker24 - Before November 2014",
             ],
         )
 
