@@ -1349,9 +1349,10 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
-            assert xyz[1] == approx(
-                683, 0.000005
-            ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
+            assert xyz[1] == approx(683, 0.000005), (
+                f"1 W @ 555nm should be approximately 683 candela."
+                " Failed method: {method}"
+            )
 
         # Test multi spd methods
         spd = MultiSpectralDistributions(spd)
@@ -1359,9 +1360,10 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
-            assert xyz[1] == approx(
-                683, 0.000005
-            ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
+            assert xyz[1] == approx(683, 0.000005), (
+                f"1 W @ 555nm should be approximately 683 candela."
+                " Failed method: {method}"
+            )
 
     def test_sd_to_XYZ_absolute_5nm(self):
         shape = SpectralShape(380, 780, 5)
@@ -1388,9 +1390,10 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
-            assert xyz[1] == approx(
-                683, 0.1
-            ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
+            assert xyz[1] == approx(683, 0.1), (
+                f"1 W @ 555nm should be approximately 683 candela. "
+                "Failed method: {method}"
+            )
 
         # Test multi spd methods
         spd = MultiSpectralDistributions(spd)
@@ -1398,9 +1401,10 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
-            assert xyz[1] == approx(
-                683, 0.1
-            ), f"1 W @ 555nm should be approximately 683 candela. Failed method: {method}"
+            assert xyz[1] == approx(683, 0.1), (
+                f"1 W @ 555nm should be approximately 683 candela."
+                "Failed method: {method}"
+            )
 
 
 class TestSd_to_XYZ(unittest.TestCase):
