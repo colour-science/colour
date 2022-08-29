@@ -1350,8 +1350,8 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
             assert xyz[1] == approx(683, 0.000005), (
-                f"1 W @ 555nm should be approximately 683 candela."
-                " Failed method: {method}"
+                "1 W @ 555nm should be approximately 683 candela."
+                f" Failed method: {method}"
             )
 
         # Test multi spd methods
@@ -1361,8 +1361,8 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
             assert xyz[1] == approx(683, 0.000005), (
-                f"1 W @ 555nm should be approximately 683 candela."
-                " Failed method: {method}"
+                "1 W @ 555nm should be approximately 683 candela."
+                f" Failed method: {method}"
             )
 
     def test_sd_to_XYZ_absolute_5nm(self):
@@ -1391,8 +1391,8 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
             assert xyz[1] == approx(683, 0.1), (
-                f"1 W @ 555nm should be approximately 683 candela. "
-                "Failed method: {method}"
+                "1 W @ 555nm should be approximately 683 candela. "
+                f"Failed method: {method}"
             )
 
         # Test multi spd methods
@@ -1402,8 +1402,8 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
             assert xyz[1] == approx(683, 0.1), (
-                f"1 W @ 555nm should be approximately 683 candela."
-                "Failed method: {method}"
+                "1 W @ 555nm should be approximately 683 candela."
+                f"Failed method: {method}"
             )
 
 
