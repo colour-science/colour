@@ -617,8 +617,8 @@ def sd_to_XYZ_integration(
     ... # doctest: +ELLIPSIS
     array([ 10.8993917...,   9.6986145...,   6.2540301...])
 
-    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
-    # default illuminant is "CIE Illuminant E":
+    The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
+    default illuminant is *CIE Illuminant E*:
 
     >>> sd_to_XYZ_integration(sd)
     ... # doctest: +ELLIPSIS
@@ -778,8 +778,8 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     ...     sd, cmfs, illuminant)  # doctest: +ELLIPSIS
     array([ 10.8405832...,   9.6844909...,   6.2155622...])
 
-    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
-    # default illuminant is "CIE Illuminant E":
+    The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
+    default illuminant is *CIE Illuminant E*:
 
     >>> sd_to_XYZ_tristimulus_weighting_factors_ASTME308(sd)
     ... # doctest: +ELLIPSIS
@@ -922,8 +922,8 @@ def sd_to_XYZ_ASTME308(
     ... # doctest: +ELLIPSIS
     array([ 10.8401953...,   9.6841740...,   6.2158913...])
 
-    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
-    # default illuminant is "CIE Illuminant E":
+    The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
+    default illuminant is *CIE Illuminant E*:
 
     >>> sd_to_XYZ_ASTME308(sd)
     ... # doctest: +ELLIPSIS
@@ -1147,8 +1147,8 @@ def sd_to_XYZ(
     ... # doctest: +ELLIPSIS
     array([ 10.8993917...,   9.6986145...,   6.2540301...])
 
-    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
-    # default illuminant is "CIE Illuminant E":
+    The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
+    default illuminant is *CIE Illuminant E*:
 
     >>> sd_to_XYZ(sd)
     ... # doctest: +ELLIPSIS
@@ -1262,6 +1262,16 @@ def msds_to_XYZ_integration(
         illuminant to the given spectral shape while the latter favours
         precision by aligning the multi-spectral distributions to the colour
         matching functions.
+    -   If precision is required, it is possible to interpolate the
+        multi-spectral distributions with :py:class:`scipy.interpolate.interp1d`
+        class on the last / tail axis as follows:
+
+        .. code-block:: python
+
+            >>> interpolator = scipy.interpolate.interp1d(
+            ...     wavelengths, _values, axis=-1, kind="linear",
+            ...     fill_value="extrapolate")  # doctest: +SKIP
+            >>> values_i = interpolator(wavelengths_i)  # doctest: +SKIP
 
     References
     ----------
@@ -1319,8 +1329,8 @@ def msds_to_XYZ_integration(
             [ 14.4749229...,  20.5011495...,   6.6228107...],
             [ 33.6001365...,  36.3242617...,   2.8254217...]]])
 
-    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
-    # default illuminant is "CIE Illuminant E":
+    The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
+    default illuminant is *CIE Illuminant E*:
 
     >>> msds_to_XYZ_integration(msds)
     ... # doctest: +ELLIPSIS
@@ -1450,8 +1460,8 @@ def msds_to_XYZ_ASTME308(
            [  8.5496209...,  19.6913570...,  17.7400079...],
            [ 23.8866733...,  26.2147704...,  30.6297684...]])
 
-    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
-    # default illuminant is "CIE Illuminant E":
+    The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
+    default illuminant is *CIE Illuminant E*:
 
     >>> msds_to_XYZ_ASTME308(msds)
     ... # doctest: +ELLIPSIS
@@ -1608,6 +1618,16 @@ def msds_to_XYZ(
         illuminant to the given spectral shape while the latter favours
         precision by aligning the multi-spectral distributions to the colour
         matching functions.
+    -   If precision is required, it is possible to interpolate the
+        multi-spectral distributions with :py:class:`scipy.interpolate.interp1d`
+        class on the last / tail axis as follows:
+
+        .. code-block:: python
+
+            >>> interpolator = scipy.interpolate.interp1d(
+            ...     wavelengths, _values, axis=-1, kind="linear",
+            ...     fill_value="extrapolate")  # doctest: +SKIP
+            >>> values_i = interpolator(wavelengths_i)  # doctest: +SKIP
 
     References
     ----------
@@ -1666,8 +1686,8 @@ def msds_to_XYZ(
             [ 14.4749229...,  20.5011495...,   6.6228107...],
             [ 33.6001365...,  36.3242617...,   2.8254217...]]])
 
-    # The default CMFS are the "CIE 1931 2 Degree Standard Observer", and the
-    # default illuminant is "CIE Illuminant E":
+    The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
+    default illuminant is *CIE Illuminant E*:
 
     >>> msds_to_XYZ(msds, method='Integration')
     ... # doctest: +ELLIPSIS
