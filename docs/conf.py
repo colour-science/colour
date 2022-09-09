@@ -55,10 +55,7 @@ intersphinx_mapping = {
     "matplotlib": ("https://matplotlib.org/stable", None),
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/dev", None),
-    "scipy": (
-        "https://docs.scipy.org/doc/scipy-1.8.0/html-scipyorg",
-        None,
-    ),
+    "scipy": ("https://docs.scipy.org/doc/scipy-1.8.0/", None),
 }
 
 autodoc_member_order = "bysource"
