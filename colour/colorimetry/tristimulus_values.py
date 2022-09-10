@@ -1269,7 +1269,7 @@ def msds_to_XYZ_integration(
         .. code-block:: python
 
             >>> interpolator = scipy.interpolate.interp1d(
-            ...     wavelengths, _values, axis=-1, kind="linear",
+            ...     wavelengths, values, axis=-1, kind="linear",
             ...     fill_value="extrapolate")  # doctest: +SKIP
             >>> values_i = interpolator(wavelengths_i)  # doctest: +SKIP
 
@@ -1625,7 +1625,7 @@ def msds_to_XYZ(
         .. code-block:: python
 
             >>> interpolator = scipy.interpolate.interp1d(
-            ...     wavelengths, _values, axis=-1, kind="linear",
+            ...     wavelengths, values, axis=-1, kind="linear",
             ...     fill_value="extrapolate")  # doctest: +SKIP
             >>> values_i = interpolator(wavelengths_i)  # doctest: +SKIP
 
