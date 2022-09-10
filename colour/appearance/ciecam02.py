@@ -460,8 +460,8 @@ def CIECAM02_to_XYZ(
     Raises
     ------
     ValueError
-        If neither *C* or *M* correlates have been defined in the
-        ``CAM_Specification_CIECAM02`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in the
+        ``specification`` argument.
 
     Notes
     -----
@@ -517,9 +517,10 @@ def CIECAM02_to_XYZ(
 
     Examples
     --------
-    >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
-    ...                                            C=0.104707757171031,
-    ...                                            h=219.048432658311780)
+    >>> specification = CAM_Specification_CIECAM02(
+    ...     J=41.731091132513917,
+    ...     C=0.104707757171031,
+    ...     h=219.048432658311780)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
