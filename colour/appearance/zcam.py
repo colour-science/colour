@@ -564,8 +564,8 @@ def ZCAM_to_XYZ(
     Raises
     ------
     ValueError
-        If neither *C* or *M* correlates have been defined in the
-        ``CAM_Specification_ZCAM`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in the
+        ``specification`` argument.
 
     Warnings
     --------
@@ -635,9 +635,10 @@ def ZCAM_to_XYZ(
 
     Examples
     --------
-    >>> specification = CAM_Specification_ZCAM(J=92.250443780723629,
-    ...                                        C=3.0216926733329013,
-    ...                                        h=196.32457375575581)
+    >>> specification = CAM_Specification_ZCAM(
+    ...     J=92.250443780723629,
+    ...     C=3.0216926733329013,
+    ...     h=196.32457375575581)
     >>> XYZ_w = np.array([256, 264, 202])
     >>> L_A = 264
     >>> Y_b = 100
