@@ -10,6 +10,8 @@ from .ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02,
     CAM_KWARGS_CIECAM02_sRGB,
     CAM_Specification_CIECAM02,
+    CAM_Specification_CIECAM02_Hellwig2022,
+    CIECAM02_METHODS,
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ,
 )
@@ -17,6 +19,8 @@ from .cam16 import (
     InductionFactors_CAM16,
     VIEWING_CONDITIONS_CAM16,
     CAM_Specification_CAM16,
+    CAM_Specification_CAM16_Hellwig2022,
+    CAM16_METHODS,
     XYZ_to_CAM16,
     CAM16_to_XYZ,
 )
@@ -85,6 +89,8 @@ __all__ += [
     "VIEWING_CONDITIONS_CIECAM02",
     "CAM_KWARGS_CIECAM02_sRGB",
     "CAM_Specification_CIECAM02",
+    "CAM_Specification_CIECAM02_Hellwig2022",
+    "CIECAM02_METHODS",
     "XYZ_to_CIECAM02",
     "CIECAM02_to_XYZ",
 ]
@@ -92,6 +98,8 @@ __all__ += [
     "InductionFactors_CAM16",
     "VIEWING_CONDITIONS_CAM16",
     "CAM_Specification_CAM16",
+    "CAM_Specification_CAM16_Hellwig2022",
+    "CAM16_METHODS",
     "XYZ_to_CAM16",
     "CAM16_to_XYZ",
 ]
