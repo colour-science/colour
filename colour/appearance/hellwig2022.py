@@ -17,6 +17,9 @@ References
 -   :cite:`Hellwig2022` : Hellwig, L., & Fairchild, M. D. (2022). Brightness,
     lightness, colorfulness, and chroma in CIECAM02 and CAM16. Color Research
     & Application, col.22792. doi:10.1002/col.22792
+-   :cite:`Hellwig2022a` : Hellwig, L., Stolitzka, D., & Fairchild, M. D.
+    (2022). Extending CIECAM02 and CAM16 for the Helmholtz–Kohlrausch effect.
+    Color Research & Application, col.22793. doi:10.1002/col.22793
 """
 
 from __future__ import annotations
@@ -25,8 +28,12 @@ import numpy as np
 from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
-from colour.algebra import sdiv, sdiv_mode, vector_dot
-from colour.appearance.cam16 import MATRIX_16, MATRIX_INVERSE_16
+from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
+from colour.appearance.cam16 import (
+    MATRIX_16,
+    MATRIX_INVERSE_16,
+    hue_angle_dependency_Hellwig2022,
+)
 from colour.appearance.ciecam02 import (
     InductionFactors_CIECAM02,
     VIEWING_CONDITIONS_CIECAM02,
@@ -36,12 +43,12 @@ from colour.appearance.ciecam02 import (
     hue_angle,
     hue_quadrature,
     lightness_correlate,
-    luminance_level_adaptation_factor,
     opponent_colour_dimensions_forward,
     post_adaptation_non_linear_response_compression_forward,
     post_adaptation_non_linear_response_compression_inverse,
     matrix_post_adaptation_non_linear_response_compression,
 )
+from colour.appearance.hunt import luminance_level_adaptation_factor
 from colour.hints import (
     ArrayLike,
     Boolean,
@@ -128,6 +135,9 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     Define the *Hellwig and Fairchild (2022)* colour appearance model
     specification.
 
+    This specification supports the *Helmholtz–Kohlrausch* effect extension
+    from :cite:`Hellwig2022a`.
+
     Parameters
     ----------
     J
@@ -146,10 +156,16 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
         *Hue* :math:`h` quadrature :math:`H`.
     HC
         *Hue* :math:`h` composition :math:`H^C`.
+    J_HK
+        Correlate of *Lightness* :math:`J_{HK}` accounting for
+        *Helmholtz–Kohlrausch* effect.
+    Q_HK
+        Correlate of *brightness* :math:`Q_{HK}` accounting for
+        *Helmholtz–Kohlrausch* effect.
 
     References
     ----------
-    :cite:`Fairchild2022`, :cite:`Hellwig2022`
+    :cite:`Fairchild2022`, :cite:`Hellwig2022`, :cite:`Hellwig2022a`
     """
 
     J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
@@ -160,6 +176,8 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
     H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
     HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    J_HK: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
+    Q_HK: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
 def XYZ_to_Hellwig2022(
@@ -175,6 +193,9 @@ def XYZ_to_Hellwig2022(
     """
     Compute the *Hellwig and Fairchild (2022)* colour appearance model
     correlates from given *CIE XYZ* tristimulus values.
+
+    This implementation supports the *Helmholtz–Kohlrausch* effect extension
+    from :cite:`Hellwig2022a`.
 
     Parameters
     ----------
@@ -212,44 +233,52 @@ def XYZ_to_Hellwig2022(
     | ``XYZ_w``  | [0, 100]              | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | **Range**                           | **Scale - Reference** | **Scale - \
-1** |
-    +=====================================+=======================+===========\
-====+
-    | ``CAM_Specification_Hellwig2022.J`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.C`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.h`` | [0, 360]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.s`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.Q`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.M`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.H`` | [0, 400]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
+    +----------------------------------------+-----------------------\
++---------------+
+    | **Range**                              | **Scale - Reference** \
+| **Scale - 1** |
+    +========================================+=======================\
++===============+
+    | ``CAM_Specification_Hellwig2022.J``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.C``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.h``    | [0, 360]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.s``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.Q``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.M``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.H``    | [0, 400]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.J_HK`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.Q_HK`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
 
     References
     ----------
-    :cite:`Fairchild2022`, :cite:`Hellwig2022`
+    :cite:`Fairchild2022`, :cite:`Hellwig2022`, :cite:`Hellwig2022a`
 
     Examples
     --------
@@ -262,7 +291,7 @@ def XYZ_to_Hellwig2022(
     ... # doctest: +ELLIPSIS
     CAM_Specification_Hellwig2022(J=41.7312079..., C=0.0257636..., \
 h=217.0679597..., s=0.0608550..., Q=55.8523226..., M=0.0339889..., \
-H=275.5949861..., HC=None)
+H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -343,6 +372,10 @@ H=275.5949861..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
+    # *Helmholtz–Kohlrausch* Effect Extension.
+    J_HK = J + hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
+    Q_HK = (2 / surround.c) * (J_HK / 100) * A_w
+
     return CAM_Specification_Hellwig2022(
         as_float(from_range_100(J)),
         as_float(from_range_100(C)),
@@ -352,6 +385,8 @@ H=275.5949861..., HC=None)
         as_float(from_range_100(M)),
         as_float(from_range_degrees(H, 400)),
         None,
+        as_float(from_range_100(J_HK)),
+        as_float(from_range_100(Q_HK)),
     )
 
 
@@ -368,6 +403,9 @@ def Hellwig2022_to_XYZ(
     """
     Convert from *Hellwig and Fairchild (2022)* specification to *CIE XYZ*
     tristimulus values.
+
+    This implementation supports the *Helmholtz–Kohlrausch* effect extension
+    from :cite:`Hellwig2022a`.
 
     Parameters
     ----------
@@ -406,44 +444,52 @@ def Hellwig2022_to_XYZ(
 
     Notes
     -----
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | **Domain**                          | **Scale - Reference** | **Scale - \
-1** |
-    +=====================================+=======================+===========\
-====+
-    | ``CAM_Specification_Hellwig2022.J`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.C`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.h`` | [0, 360]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.s`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.Q`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.M`` | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``CAM_Specification_Hellwig2022.H`` | [0, 360]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
-    | ``XYZ_w``                           | [0, 100]              | [0, 1]    \
-    |
-    +-------------------------------------+-----------------------+-----------\
-----+
+    +----------------------------------------+-----------------------\
++---------------+
+    | **Domain**                             | **Scale - Reference** \
+| **Scale - 1** |
+    +========================================+=======================\
++===============+
+    | ``CAM_Specification_Hellwig2022.J``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.C``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.h``    | [0, 360]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.s``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.Q``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.M``    | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.H``    | [0, 400]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.J_HK`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``CAM_Specification_Hellwig2022.Q_HK`` | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
+    | ``XYZ_w``                              | [0, 100]              \
+| [0, 1]        |
+    +----------------------------------------+-----------------------\
++---------------+
 
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
@@ -453,7 +499,7 @@ def Hellwig2022_to_XYZ(
 
     References
     ----------
-    :cite:`Fairchild2022`, :cite:`Hellwig2022`
+    :cite:`Fairchild2022`, :cite:`Hellwig2022`, :cite:`Hellwig2022a`
 
     Examples
     --------
@@ -467,14 +513,33 @@ def Hellwig2022_to_XYZ(
     >>> Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b)
     ... # doctest: +ELLIPSIS
     array([ 19.01...,  20...  ,  21.78...])
+    >>> specification = CAM_Specification_Hellwig2022(
+    ...     J_HK=41.880278283880095,
+    ...     C=0.025763615829912909,
+    ...     h=217.06795976739301)
+    >>> Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b)
+    ... # doctest: +ELLIPSIS
+    array([ 19.01...,  20...  ,  21.78...])
     """
 
-    J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
+    J, C, h, _s, _Q, M, _H, _HC, J_HK, _Q_HK = astuple(specification)
 
-    J = to_domain_100(J)
     C = to_domain_100(C)
     h = to_domain_degrees(h)
     M = to_domain_100(M)
+
+    if has_only_nan(J) and not has_only_nan(J_HK):
+        J_HK = to_domain_100(J_HK)
+
+        J = J_HK - hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
+    elif has_only_nan(J):
+        raise ValueError(
+            'Either "J" or "J_HK" correlate must be defined in '
+            'the "CAM_Specification_Hellwig2022" argument!'
+        )
+    else:
+        J = to_domain_100(J)
+
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)

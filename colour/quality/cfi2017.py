@@ -456,18 +456,23 @@ def tcs_colorimetry_data(
     tcs_data = []
     for sd_tcs in sds_tcs.to_sds():
         XYZ = sd_to_XYZ(sd_tcs, cmfs, sd_irradiance)
-        CAM = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
+        specification = cast(
+            CAM_Specification_CIECAM02,
+            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True),
+        )
         JMh = tstack(
             [
-                cast(FloatingOrNDArray, CAM.J),
-                cast(FloatingOrNDArray, CAM.M),
-                cast(FloatingOrNDArray, CAM.h),
+                cast(FloatingOrNDArray, specification.J),
+                cast(FloatingOrNDArray, specification.M),
+                cast(FloatingOrNDArray, specification.h),
             ]
         )
         Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
 
         tcs_data.append(
-            TCS_ColorimetryData_CIE2017(sd_tcs.name, XYZ, CAM, JMh, Jpapbp)
+            TCS_ColorimetryData_CIE2017(
+                sd_tcs.name, XYZ, specification, JMh, Jpapbp
+            )
         )
 
     return tuple(tcs_data)
