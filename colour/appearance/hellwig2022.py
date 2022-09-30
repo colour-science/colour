@@ -628,9 +628,12 @@ def Hellwig2022_to_XYZ(
 
     # Step 5
     # Applying inverse post-adaptation non-linear response compression.
-    RGB_c = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
+    RGB_c = post_adaptation_non_linear_response_compression_inverse(
+        RGB_a + 0.1, F_L
+    )
     RGB_c_l = (
         RGB_a
+        + 0.1
         - post_adaptation_non_linear_response_compression_forward(
             full(3, L_B), F_L
         )
