@@ -120,7 +120,6 @@ IES TM-27-14 Data
 
     SpectralDistribution_IESTM2714
 
-
 UPRTek and Sekonic Spectral Data
 --------------------------------
 

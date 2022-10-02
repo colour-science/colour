@@ -117,9 +117,11 @@ __all__ = [
     "ComplexOrNDArray",
     "BooleanOrNDArray",
     "StrOrNDArray",
+    "Protocol",
     "ProtocolInterpolator",
     "ProtocolExtrapolator",
     "ProtocolLUTSequenceItem",
+    "ProtocolSignal",
     "LiteralWarning",
     "cast",
 ]
@@ -298,6 +300,8 @@ else:
 
     StrOrNDArray = Union[str, NDArray]
 
+Protocol = Protocol
+
 
 class ProtocolInterpolator(Protocol):  # noqa: D101
     x: NDArray
@@ -328,6 +332,86 @@ class ProtocolExtrapolator(Protocol):  # noqa: D101
 class ProtocolLUTSequenceItem(Protocol):  # noqa: D101
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
+
+
+class ProtocolSignal(Protocol):  # noqa: D101
+    @property
+    def dtype(self) -> Type[DTypeFloating]:  # noqa: D102
+        ...
+
+    @property
+    def domain(self) -> NDArray:  # noqa: D102
+        ...
+
+    @property
+    def range(self) -> NDArray:  # noqa: D102
+        ...
+
+    @property
+    def interpolator(self) -> Type[ProtocolInterpolator]:  # noqa: D102
+        ...
+
+    @property
+    def interpolator_kwargs(self) -> Dict:  # noqa: D102
+        ...
+
+    @property
+    def extrapolator(self) -> Type[ProtocolExtrapolator]:  # noqa: D102
+        ...
+
+    @property
+    def extrapolator_kwargs(self) -> Dict:  # noqa: D102
+        ...
+
+    @property
+    def function(self) -> Callable:  # noqa: D102
+        ...
+
+
+class ProtocolMultiSignals(Protocol):  # noqa: D101
+    @property
+    def dtype(self) -> Type[DTypeFloating]:
+        ...
+
+    @property
+    def domain(self) -> NDArray:
+        ...
+
+    @property
+    def range(self) -> NDArray:
+        ...
+
+    @property
+    def interpolator(self) -> Type[ProtocolInterpolator]:
+        ...
+
+    @property
+    def interpolator_kwargs(self) -> Dict:
+        ...
+
+    @property
+    def extrapolator(self) -> Type[ProtocolExtrapolator]:
+        ...
+
+    @property
+    def extrapolator_kwargs(self) -> Dict:
+        ...
+
+    @property
+    def function(self) -> Callable:
+        ...
+
+    @property
+    def signals(self) -> Dict[str, ProtocolSignal]:
+        ...
+
+    @property
+    def labels(self) -> List[str]:
+        ...
+
+    @property
+    def signal_type(self) -> Type[ProtocolSignal]:
+        ...
 
 
 LiteralWarning = Literal[

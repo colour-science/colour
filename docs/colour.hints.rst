@@ -56,9 +56,11 @@ Annotation Type Hints
     ComplexOrNDArray
     BooleanOrNDArray
     StrOrNDArray
+    Protocol
     ProtocolInterpolator
     ProtocolExtrapolator
     ProtocolLUTSequenceItem
+    ProtocolSignal
     LiteralWarning
     cast
 

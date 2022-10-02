@@ -31,6 +31,8 @@ from colour.hints import (
     Integer,
     Literal,
     Optional,
+    Protocol,
+    ProtocolSignal,
     cast,
 )
 from colour.utilities import (
@@ -58,6 +60,7 @@ __all__ = [
     "NAMESPACE_IESTM2714",
     "Element_Specification_IESTM2714",
     "Header_IESTM2714",
+    "Mixin_IESTM2714",
     "SpectralDistribution_IESTM2714",
 ]
 
@@ -778,11 +781,14 @@ class Header_IESTM2714:
         return not (self == other)
 
 
-class SpectralDistribution_IESTM2714(SpectralDistribution):
-    """
-    Define a *IES TM-27-14* spectral distribution.
+class ProtocolMixin_IESTM2714(ProtocolSignal, Protocol):
+    header: Header_IESTM2714
 
-    This class can read and write *IES TM-27-14* spectral data *XML* files.
+
+class Mixin_IESTM2714:
+    """
+    Define the mixin for a *IES TM-27-14* spectral distribution or
+    *IES TM-27-14* multi-spectral distributions.
 
     Parameters
     ----------
@@ -802,92 +808,26 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Specifies if bandwidth correction has been applied to the measured
         data.
 
-    Other Parameters
-    ----------------
-    data
-        Data to be stored in the spectral distribution.
-    domain
-        Values to initialise the
-        :attr:`colour.SpectralDistribution.wavelength` property with.
-        If both ``data`` and ``domain`` arguments are defined, the latter will
-        be used to initialise the
-        :attr:`colour.SpectralDistribution.wavelength` property.
-    extrapolator
-        Extrapolator class type to use as extrapolating function.
-    extrapolator_kwargs
-        Arguments to use when instantiating the extrapolating function.
-    interpolator
-        Interpolator class type to use as interpolating function.
-    interpolator_kwargs
-        Arguments to use when instantiating the interpolating function.
-    name
-        Spectral distribution name.
-    display_name
-        Spectral distribution name for figures, default to
-        :attr:`colour.SpectralDistribution.name` property value.
-
-    Notes
-    -----
-    *Reflection Geometry*
-
-    -   di:8: Diffuse / eight-degree, specular component included.
-    -   de:8: Diffuse / eight-degree, specular component excluded.
-    -   8:di: Eight-degree / diffuse, specular component included.
-    -   8:de: Eight-degree / diffuse, specular component excluded.
-    -   d:d: Diffuse / diffuse.
-    -   d:0: Alternative diffuse.
-    -   45a:0: Forty-five degree annular / normal.
-    -   45c:0: Forty-five degree circumferential / normal.
-    -   0:45a: Normal / forty-five degree annular.
-    -   45x:0: Forty-five degree directional / normal.
-    -   0:45x: Normal / forty-five degree directional.
-    -   other: User-specified in comments.
-
-    *Transmission Geometry*
-
-    -   0:0: Normal / normal.
-    -   di:0: Diffuse / normal, regular component included.
-    -   de:0: Diffuse / normal, regular component excluded.
-    -   0:di: Normal / diffuse, regular component included.
-    -   0:de: Normal / diffuse, regular component excluded.
-    -   d:d: Diffuse / diffuse.
-    -   other: User-specified in comments.
-
     Attributes
     ----------
-    -   :attr:`~colour.SpectralDistribution_IESTM2714.mapping`
-    -   :attr:`~colour.SpectralDistribution_IESTM2714.path`
-    -   :attr:`~colour.SpectralDistribution_IESTM2714.header`
-    -   :attr:`~colour.SpectralDistribution_IESTM2714.spectral_quantity`
-    -   :attr:`~colour.SpectralDistribution_IESTM2714.reflection_geometry`
-    -   :attr:`~colour.SpectralDistribution_IESTM2714.transmission_geometry`
-    -   :attr:`~colour.SpectralDistribution_IESTM2714.bandwidth_FWHM`
-    -   :attr:`~colour.SpectralDistribution_IESTM2714.bandwidth_corrected`
+    -   :attr:`~colour.io.tm2714.Mixin_IESTM2714.mapping`
+    -   :attr:`~colour.io.tm2714.Mixin_IESTM2714.path`
+    -   :attr:`~colour.io.tm2714.Mixin_IESTM2714.header`
+    -   :attr:`~colour.io.tm2714.Mixin_IESTM2714.spectral_quantity`
+    -   :attr:`~colour.io.tm2714.Mixin_IESTM2714.reflection_geometry`
+    -   :attr:`~colour.io.tm2714.Mixin_IESTM2714.transmission_geometry`
+    -   :attr:`~colour.io.tm2714.Mixin_IESTM2714.bandwidth_FWHM`
+    -   :attr:`~colour.io.tm2714.Mixin_IESTM2714.bandwidth_corrected`
 
     Methods
     -------
-    -   :meth:`~colour.SpectralDistribution_IESTM2714.__init__`
-    -   :meth:`~colour.SpectralDistribution_IESTM2714.__str__`
-    -   :meth:`~colour.SpectralDistribution_IESTM2714.__repr__`
-    -   :meth:`~colour.SpectralDistribution_IESTM2714.read`
-    -   :meth:`~colour.SpectralDistribution_IESTM2714.write`
+    -   :meth:`~colour.io.tm2714.Mixin_IESTM2714.__init__`
+    -   :meth:`~colour.io.tm2714.Mixin_IESTM2714.__str__`
+    -   :meth:`~colour.io.tm2714.Mixin_IESTM2714.__repr__`
 
     References
     ----------
     :cite:`IESComputerCommittee2014a`
-
-    Examples
-    --------
-    >>> from os.path import dirname, join
-    >>> directory = join(dirname(__file__), 'tests', 'resources')
-    >>> sd = SpectralDistribution_IESTM2714(
-    ...     join(directory, 'Fluorescent.spdx')).read()
-    >>> sd.name  # doctest: +SKIP
-    'Unknown - N/A - Rare earth fluorescent lamp'
-    >>> sd.header.comments
-    'Ambient temperature 25 degrees C.'
-    >>> sd[501.7]  # doctest: +ELLIPSIS
-    0.0950000...
     """
 
     def __init__(
@@ -931,9 +871,8 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         ] = None,
         bandwidth_FWHM: Optional[Floating] = None,
         bandwidth_corrected: Optional[Boolean] = None,
-        **kwargs,
+        **kwargs: Any,
     ):
-
         super().__init__(**kwargs)
 
         self._mapping: Structure = Structure(
@@ -1326,140 +1265,19 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
 
         self._bandwidth_corrected = value
 
-    def __str__(self) -> str:
+    def __str__(self: ProtocolMixin_IESTM2714) -> str:
         """
-        Return a formatted string representation of the *IES TM-27-14*
-        spectral distribution.
+        Return a formatted string representation of a *IES TM-27-14*
+        spectral distribution or *IES TM-27-14* multi-spectral distributions.
 
         Returns
         -------
         :class:`str`
             Formatted string representation.
-
-        Examples
-        --------
-        >>> from os.path import dirname, join
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
-        >>> print(SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx')).read())
-        ...     # doctest: +ELLIPSIS
-        IES TM-27-14 Spectral Distribution
-        ==================================
-        <BLANKLINE>
-        Path                  : ...
-        Spectral Quantity     : relative
-        Reflection Geometry   : other
-        Transmission Geometry : other
-        Bandwidth (FWHM)      : 2.0
-        Bandwidth Corrected   : True
-        <BLANKLINE>
-        Header
-        ------
-        <BLANKLINE>
-        Manufacturer           : Unknown
-        Catalog Number         : N/A
-        Description            : Rare earth fluorescent lamp
-        Document Creator       : byHeart Consultants
-        Unique Identifier      : C3567553-C75B-4354-961E-35CEB9FEB42C
-        Measurement Equipment  : None
-        Laboratory             : N/A
-        Report Number          : N/A
-        Report Date            : N/A
-        Document Creation Date : 2014-06-23
-        Comments               : Ambient temperature 25 degrees C.
-        <BLANKLINE>
-        Spectral Data
-        -------------
-        <BLANKLINE>
-        [[  4.00000000e+02   3.40000000e-02]
-         [  4.03100000e+02   3.70000000e-02]
-         [  4.05500000e+02   6.90000000e-02]
-         [  4.07500000e+02   3.70000000e-02]
-         [  4.20600000e+02   4.20000000e-02]
-         [  4.31000000e+02   4.90000000e-02]
-         [  4.33700000e+02   6.00000000e-02]
-         [  4.37000000e+02   3.57000000e-01]
-         [  4.38900000e+02   6.00000000e-02]
-         [  4.60000000e+02   6.80000000e-02]
-         [  4.77000000e+02   7.50000000e-02]
-         [  4.81000000e+02   8.50000000e-02]
-         [  4.88200000e+02   2.04000000e-01]
-         [  4.92600000e+02   1.66000000e-01]
-         [  5.01700000e+02   9.50000000e-02]
-         [  5.07600000e+02   7.80000000e-02]
-         [  5.17600000e+02   7.10000000e-02]
-         [  5.29900000e+02   7.60000000e-02]
-         [  5.35400000e+02   9.90000000e-02]
-         [  5.39900000e+02   4.23000000e-01]
-         [  5.43200000e+02   8.02000000e-01]
-         [  5.44400000e+02   7.13000000e-01]
-         [  5.47200000e+02   9.99000000e-01]
-         [  5.48700000e+02   5.73000000e-01]
-         [  5.50200000e+02   3.40000000e-01]
-         [  5.53800000e+02   2.08000000e-01]
-         [  5.57300000e+02   1.39000000e-01]
-         [  5.63700000e+02   1.29000000e-01]
-         [  5.74800000e+02   1.31000000e-01]
-         [  5.78000000e+02   1.98000000e-01]
-         [  5.79200000e+02   1.90000000e-01]
-         [  5.80400000e+02   2.05000000e-01]
-         [  5.84800000e+02   2.44000000e-01]
-         [  5.85900000e+02   2.36000000e-01]
-         [  5.87500000e+02   2.56000000e-01]
-         [  5.90300000e+02   1.80000000e-01]
-         [  5.93500000e+02   2.18000000e-01]
-         [  5.95500000e+02   1.59000000e-01]
-         [  5.97000000e+02   1.47000000e-01]
-         [  5.99400000e+02   1.70000000e-01]
-         [  6.02200000e+02   1.34000000e-01]
-         [  6.04600000e+02   1.21000000e-01]
-         [  6.07400000e+02   1.40000000e-01]
-         [  6.09400000e+02   2.29000000e-01]
-         [  6.10200000e+02   4.65000000e-01]
-         [  6.12000000e+02   9.52000000e-01]
-         [  6.14600000e+02   4.77000000e-01]
-         [  6.16900000e+02   2.08000000e-01]
-         [  6.18500000e+02   1.35000000e-01]
-         [  6.22100000e+02   1.50000000e-01]
-         [  6.25600000e+02   1.55000000e-01]
-         [  6.28400000e+02   1.34000000e-01]
-         [  6.31200000e+02   1.68000000e-01]
-         [  6.33200000e+02   8.70000000e-02]
-         [  6.35600000e+02   6.80000000e-02]
-         [  6.42700000e+02   5.80000000e-02]
-         [  6.48700000e+02   5.80000000e-02]
-         [  6.50700000e+02   7.40000000e-02]
-         [  6.52600000e+02   6.30000000e-02]
-         [  6.56200000e+02   5.30000000e-02]
-         [  6.57000000e+02   5.60000000e-02]
-         [  6.60600000e+02   4.90000000e-02]
-         [  6.62600000e+02   5.90000000e-02]
-         [  6.64200000e+02   4.80000000e-02]
-         [  6.86000000e+02   4.10000000e-02]
-         [  6.87600000e+02   4.80000000e-02]
-         [  6.89200000e+02   3.90000000e-02]
-         [  6.92400000e+02   3.80000000e-02]
-         [  6.93500000e+02   4.40000000e-02]
-         [  6.95500000e+02   3.40000000e-02]
-         [  7.02300000e+02   3.60000000e-02]
-         [  7.06700000e+02   4.20000000e-02]
-         [  7.07100000e+02   6.10000000e-02]
-         [  7.10200000e+02   6.10000000e-02]
-         [  7.11000000e+02   4.10000000e-02]
-         [  7.12200000e+02   5.20000000e-02]
-         [  7.14200000e+02   3.30000000e-02]
-         [  7.48400000e+02   3.40000000e-02]
-         [  7.57900000e+02   3.10000000e-02]
-         [  7.60700000e+02   3.90000000e-02]
-         [  7.63900000e+02   2.90000000e-02]
-         [  8.08800000e+02   2.90000000e-02]
-         [  8.10700000e+02   3.90000000e-02]
-         [  8.12700000e+02   3.00000000e-02]
-         [  8.50100000e+02   3.00000000e-02]]
         """
 
         try:
-            str_parent = super().__str__()
+            str_parent = super().__str__()  # type: ignore [misc]
 
             return multiline_str(
                 self,
@@ -1498,131 +1316,17 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 ],
             )
         except TypeError:
-            return super().__str__()
+            return super().__str__()  # type: ignore [misc]
 
-    def __repr__(self) -> str:
+    def __repr__(self: ProtocolMixin_IESTM2714) -> str:
         """
-        Return an evaluable string representation of the *IES TM-27-14*
-        spectral distribution.
+        Return an evaluable string representation of a *IES TM-27-14*
+        spectral distribution or *IES TM-27-14* multi-spectral distributions.
 
         Returns
         -------
         :class:`str`
             Evaluable string representation.
-
-        Examples
-        --------
-        >>> from os.path import dirname, join
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
-        >>> SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx')).read()
-        ...     # doctest: +ELLIPSIS
-        SpectralDistribution_IESTM2714('...',
-                                       Header_IESTM2714('Unknown',
-                                                        'N/A',
-                                                        'Rare earth ...',
-                                                        'byHeart Consultants',
-                                                        'C3567553-C75B-...',
-                                                        None,
-                                                        'N/A',
-                                                        'N/A',
-                                                        'N/A',
-                                                        '2014-06-23',
-                                                        'Ambient ...'),
-                                       'relative',
-                                       'other',
-                                       'other',
-                                       2.0,
-                                       True,
-                                       [[  4.00000000e+02,   3.40000000e-02],
-                                        [  4.03100000e+02,   3.70000000e-02],
-                                        [  4.05500000e+02,   6.90000000e-02],
-                                        [  4.07500000e+02,   3.70000000e-02],
-                                        [  4.20600000e+02,   4.20000000e-02],
-                                        [  4.31000000e+02,   4.90000000e-02],
-                                        [  4.33700000e+02,   6.00000000e-02],
-                                        [  4.37000000e+02,   3.57000000e-01],
-                                        [  4.38900000e+02,   6.00000000e-02],
-                                        [  4.60000000e+02,   6.80000000e-02],
-                                        [  4.77000000e+02,   7.50000000e-02],
-                                        [  4.81000000e+02,   8.50000000e-02],
-                                        [  4.88200000e+02,   2.04000000e-01],
-                                        [  4.92600000e+02,   1.66000000e-01],
-                                        [  5.01700000e+02,   9.50000000e-02],
-                                        [  5.07600000e+02,   7.80000000e-02],
-                                        [  5.17600000e+02,   7.10000000e-02],
-                                        [  5.29900000e+02,   7.60000000e-02],
-                                        [  5.35400000e+02,   9.90000000e-02],
-                                        [  5.39900000e+02,   4.23000000e-01],
-                                        [  5.43200000e+02,   8.02000000e-01],
-                                        [  5.44400000e+02,   7.13000000e-01],
-                                        [  5.47200000e+02,   9.99000000e-01],
-                                        [  5.48700000e+02,   5.73000000e-01],
-                                        [  5.50200000e+02,   3.40000000e-01],
-                                        [  5.53800000e+02,   2.08000000e-01],
-                                        [  5.57300000e+02,   1.39000000e-01],
-                                        [  5.63700000e+02,   1.29000000e-01],
-                                        [  5.74800000e+02,   1.31000000e-01],
-                                        [  5.78000000e+02,   1.98000000e-01],
-                                        [  5.79200000e+02,   1.90000000e-01],
-                                        [  5.80400000e+02,   2.05000000e-01],
-                                        [  5.84800000e+02,   2.44000000e-01],
-                                        [  5.85900000e+02,   2.36000000e-01],
-                                        [  5.87500000e+02,   2.56000000e-01],
-                                        [  5.90300000e+02,   1.80000000e-01],
-                                        [  5.93500000e+02,   2.18000000e-01],
-                                        [  5.95500000e+02,   1.59000000e-01],
-                                        [  5.97000000e+02,   1.47000000e-01],
-                                        [  5.99400000e+02,   1.70000000e-01],
-                                        [  6.02200000e+02,   1.34000000e-01],
-                                        [  6.04600000e+02,   1.21000000e-01],
-                                        [  6.07400000e+02,   1.40000000e-01],
-                                        [  6.09400000e+02,   2.29000000e-01],
-                                        [  6.10200000e+02,   4.65000000e-01],
-                                        [  6.12000000e+02,   9.52000000e-01],
-                                        [  6.14600000e+02,   4.77000000e-01],
-                                        [  6.16900000e+02,   2.08000000e-01],
-                                        [  6.18500000e+02,   1.35000000e-01],
-                                        [  6.22100000e+02,   1.50000000e-01],
-                                        [  6.25600000e+02,   1.55000000e-01],
-                                        [  6.28400000e+02,   1.34000000e-01],
-                                        [  6.31200000e+02,   1.68000000e-01],
-                                        [  6.33200000e+02,   8.70000000e-02],
-                                        [  6.35600000e+02,   6.80000000e-02],
-                                        [  6.42700000e+02,   5.80000000e-02],
-                                        [  6.48700000e+02,   5.80000000e-02],
-                                        [  6.50700000e+02,   7.40000000e-02],
-                                        [  6.52600000e+02,   6.30000000e-02],
-                                        [  6.56200000e+02,   5.30000000e-02],
-                                        [  6.57000000e+02,   5.60000000e-02],
-                                        [  6.60600000e+02,   4.90000000e-02],
-                                        [  6.62600000e+02,   5.90000000e-02],
-                                        [  6.64200000e+02,   4.80000000e-02],
-                                        [  6.86000000e+02,   4.10000000e-02],
-                                        [  6.87600000e+02,   4.80000000e-02],
-                                        [  6.89200000e+02,   3.90000000e-02],
-                                        [  6.92400000e+02,   3.80000000e-02],
-                                        [  6.93500000e+02,   4.40000000e-02],
-                                        [  6.95500000e+02,   3.40000000e-02],
-                                        [  7.02300000e+02,   3.60000000e-02],
-                                        [  7.06700000e+02,   4.20000000e-02],
-                                        [  7.07100000e+02,   6.10000000e-02],
-                                        [  7.10200000e+02,   6.10000000e-02],
-                                        [  7.11000000e+02,   4.10000000e-02],
-                                        [  7.12200000e+02,   5.20000000e-02],
-                                        [  7.14200000e+02,   3.30000000e-02],
-                                        [  7.48400000e+02,   3.40000000e-02],
-                                        [  7.57900000e+02,   3.10000000e-02],
-                                        [  7.60700000e+02,   3.90000000e-02],
-                                        [  7.63900000e+02,   2.90000000e-02],
-                                        [  8.08800000e+02,   2.90000000e-02],
-                                        [  8.10700000e+02,   3.90000000e-02],
-                                        [  8.12700000e+02,   3.00000000e-02],
-                                        [  8.50100000e+02,   3.00000000e-02]],
-                                       CubicSplineInterpolator,
-                                       {},
-                                       Extrapolator,
-                                       {...})
         """
 
         try:
@@ -1654,7 +1358,120 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
                 ],
             )
         except TypeError:
-            return super().__repr__()
+            return super().__repr__()  # type: ignore [misc]
+
+
+class SpectralDistribution_IESTM2714(Mixin_IESTM2714, SpectralDistribution):
+    """
+    Define a *IES TM-27-14* spectral distribution.
+
+    This class can read and write *IES TM-27-14* spectral data *XML* files.
+
+    Other Parameters
+    ----------------
+    path
+        Spectral data *XML* file path.
+    header
+        *IES TM-27-14* spectral distribution header.
+    spectral_quantity
+        Quantity of measurement for each element of the spectral data.
+    reflection_geometry
+        Spectral reflectance factors geometric conditions.
+    transmission_geometry
+        Spectral transmittance factors geometric conditions.
+    bandwidth_FWHM
+        Spectroradiometer full-width half-maximum bandwidth in nanometers.
+    bandwidth_corrected
+        Specifies if bandwidth correction has been applied to the measured
+        data.
+    data
+        Data to be stored in the spectral distribution.
+    domain
+        Values to initialise the
+        :attr:`colour.SpectralDistribution.wavelength` property with.
+        If both ``data`` and ``domain`` arguments are defined, the latter will
+        be used to initialise the
+        :attr:`colour.SpectralDistribution.wavelength` property.
+    extrapolator
+        Extrapolator class type to use as extrapolating function.
+    extrapolator_kwargs
+        Arguments to use when instantiating the extrapolating function.
+    interpolator
+        Interpolator class type to use as interpolating function.
+    interpolator_kwargs
+        Arguments to use when instantiating the interpolating function.
+    name
+        Spectral distribution name.
+    display_name
+        Spectral distribution name for figures, default to
+        :attr:`colour.SpectralDistribution.name` property value.
+
+    Notes
+    -----
+    *Reflection Geometry*
+
+    -   di:8: Diffuse / eight-degree, specular component included.
+    -   de:8: Diffuse / eight-degree, specular component excluded.
+    -   8:di: Eight-degree / diffuse, specular component included.
+    -   8:de: Eight-degree / diffuse, specular component excluded.
+    -   d:d: Diffuse / diffuse.
+    -   d:0: Alternative diffuse.
+    -   45a:0: Forty-five degree annular / normal.
+    -   45c:0: Forty-five degree circumferential / normal.
+    -   0:45a: Normal / forty-five degree annular.
+    -   45x:0: Forty-five degree directional / normal.
+    -   0:45x: Normal / forty-five degree directional.
+    -   other: User-specified in comments.
+
+    *Transmission Geometry*
+
+    -   0:0: Normal / normal.
+    -   di:0: Diffuse / normal, regular component included.
+    -   de:0: Diffuse / normal, regular component excluded.
+    -   0:di: Normal / diffuse, regular component included.
+    -   0:de: Normal / diffuse, regular component excluded.
+    -   d:d: Diffuse / diffuse.
+    -   other: User-specified in comments.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.mapping`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.path`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.header`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.spectral_quantity`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.reflection_geometry`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.transmission_geometry`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.bandwidth_FWHM`
+    -   :attr:`~colour.SpectralDistribution_IESTM2714.bandwidth_corrected`
+
+    Methods
+    -------
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.__init__`
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.__str__`
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.__repr__`
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.read`
+    -   :meth:`~colour.SpectralDistribution_IESTM2714.write`
+
+    References
+    ----------
+    :cite:`IESComputerCommittee2014a`
+
+    Examples
+    --------
+    >>> from os.path import dirname, join
+    >>> directory = join(dirname(__file__), 'tests', 'resources')
+    >>> sd = SpectralDistribution_IESTM2714(
+    ...     join(directory, 'Fluorescent.spdx')).read()
+    >>> sd.name  # doctest: +SKIP
+    'Unknown - N/A - Rare earth fluorescent lamp'
+    >>> sd.header.comments
+    'Ambient temperature 25 degrees C.'
+    >>> sd[501.7]  # doctest: +ELLIPSIS
+    0.0950000...
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any):
+        super().__init__(*args, **kwargs)
 
     def read(self) -> SpectralDistribution_IESTM2714:
         """
