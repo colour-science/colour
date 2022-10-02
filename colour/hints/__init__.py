@@ -117,9 +117,9 @@ __all__ = [
     "ComplexOrNDArray",
     "BooleanOrNDArray",
     "StrOrNDArray",
-    "TypeInterpolator",
-    "TypeExtrapolator",
-    "TypeLUTSequenceItem",
+    "ProtocolInterpolator",
+    "ProtocolExtrapolator",
+    "ProtocolLUTSequenceItem",
     "LiteralWarning",
     "cast",
 ]
@@ -299,7 +299,7 @@ else:
     StrOrNDArray = Union[str, NDArray]
 
 
-class TypeInterpolator(Protocol):  # noqa: D101
+class ProtocolInterpolator(Protocol):  # noqa: D101
     x: NDArray
     y: NDArray
 
@@ -312,8 +312,8 @@ class TypeInterpolator(Protocol):  # noqa: D101
         ...  # pragma: no cover
 
 
-class TypeExtrapolator(Protocol):  # noqa: D101
-    interpolator: TypeInterpolator
+class ProtocolExtrapolator(Protocol):  # noqa: D101
+    interpolator: ProtocolInterpolator
 
     def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
         ...  # pragma: no cover
@@ -325,7 +325,7 @@ class TypeExtrapolator(Protocol):  # noqa: D101
 
 
 @runtime_checkable
-class TypeLUTSequenceItem(Protocol):  # noqa: D101
+class ProtocolLUTSequenceItem(Protocol):  # noqa: D101
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 

@@ -25,8 +25,8 @@ from colour.hints import (
     Integer,
     NDArray,
     Optional,
+    ProtocolInterpolator,
     Type,
-    TypeInterpolator,
     Union,
 )
 from colour.utilities import as_float_array, tsplit, tstack
@@ -139,11 +139,11 @@ class AbstractLUTTest(unittest.TestCase):
         self._table_2_kwargs: Optional[Dict] = None
         self._table_3_kwargs: Optional[Dict] = None
         self._interpolator_1: Optional[
-            Union[Callable, Type[TypeInterpolator]]
+            Union[Callable, Type[ProtocolInterpolator]]
         ] = None
         self._interpolator_kwargs_1: Dict = {}
         self._interpolator_2: Optional[
-            Union[Callable, Type[TypeInterpolator]]
+            Union[Callable, Type[ProtocolInterpolator]]
         ] = None
         self._interpolator_kwargs_2: Dict = {}
         self._invert_kwargs_1: Dict = {}

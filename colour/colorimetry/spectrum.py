@@ -52,11 +52,11 @@ from colour.hints import (
     NDArray,
     Number,
     Optional,
+    ProtocolExtrapolator,
+    ProtocolInterpolator,
     Sequence,
     Tuple,
     Type,
-    TypeExtrapolator,
-    TypeInterpolator,
     Union,
     cast,
 )
@@ -833,7 +833,7 @@ class SpectralDistribution(Signal):
     def interpolate(
         self,
         shape: SpectralShape,
-        interpolator: Optional[Type[TypeInterpolator]] = None,
+        interpolator: Optional[Type[ProtocolInterpolator]] = None,
         interpolator_kwargs: Optional[Dict] = None,
     ) -> SpectralDistribution:
         """
@@ -1197,7 +1197,7 @@ class SpectralDistribution(Signal):
     def extrapolate(
         self,
         shape: SpectralShape,
-        extrapolator: Optional[Type[TypeExtrapolator]] = None,
+        extrapolator: Optional[Type[ProtocolExtrapolator]] = None,
         extrapolator_kwargs: Optional[Dict] = None,
     ) -> SpectralDistribution:
         """
@@ -1297,9 +1297,9 @@ class SpectralDistribution(Signal):
     def align(
         self,
         shape: SpectralShape,
-        interpolator: Optional[Type[TypeInterpolator]] = None,
+        interpolator: Optional[Type[ProtocolInterpolator]] = None,
         interpolator_kwargs: Optional[Dict] = None,
-        extrapolator: Optional[Type[TypeExtrapolator]] = None,
+        extrapolator: Optional[Type[ProtocolExtrapolator]] = None,
         extrapolator_kwargs: Optional[Dict] = None,
     ) -> SpectralDistribution:
         """
@@ -2004,7 +2004,7 @@ class MultiSpectralDistributions(MultiSignals):
     def interpolate(
         self,
         shape: SpectralShape,
-        interpolator: Optional[Type[TypeInterpolator]] = None,
+        interpolator: Optional[Type[ProtocolInterpolator]] = None,
         interpolator_kwargs: Optional[Dict] = None,
     ) -> MultiSpectralDistributions:
         """
@@ -2226,7 +2226,7 @@ class MultiSpectralDistributions(MultiSignals):
     def extrapolate(
         self,
         shape: SpectralShape,
-        extrapolator: Optional[Type[TypeExtrapolator]] = None,
+        extrapolator: Optional[Type[ProtocolExtrapolator]] = None,
         extrapolator_kwargs: Optional[Dict] = None,
     ) -> MultiSpectralDistributions:
         """
@@ -2312,9 +2312,9 @@ class MultiSpectralDistributions(MultiSignals):
     def align(
         self,
         shape: SpectralShape,
-        interpolator: Optional[Type[TypeInterpolator]] = None,
+        interpolator: Optional[Type[ProtocolInterpolator]] = None,
         interpolator_kwargs: Optional[Dict] = None,
-        extrapolator: Optional[Type[TypeExtrapolator]] = None,
+        extrapolator: Optional[Type[ProtocolExtrapolator]] = None,
         extrapolator_kwargs: Optional[Dict] = None,
     ) -> MultiSpectralDistributions:
         """

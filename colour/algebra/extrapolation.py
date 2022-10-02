@@ -30,8 +30,8 @@ from colour.hints import (
     NDArray,
     Number,
     Optional,
+    ProtocolInterpolator,
     Type,
-    TypeInterpolator,
     Union,
     cast,
 )
@@ -138,7 +138,7 @@ class Extrapolator:
 
     def __init__(
         self,
-        interpolator: Optional[TypeInterpolator] = None,
+        interpolator: Optional[ProtocolInterpolator] = None,
         method: Union[Literal["Linear", "Constant"], str] = "Linear",
         left: Optional[Number] = None,
         right: Optional[Number] = None,
@@ -146,7 +146,7 @@ class Extrapolator:
     ):
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
-        self._interpolator: TypeInterpolator = NullInterpolator(
+        self._interpolator: ProtocolInterpolator = NullInterpolator(
             np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf])
         )
         self.interpolator = optional(interpolator, self._interpolator)
@@ -160,7 +160,7 @@ class Extrapolator:
         self._dtype: Type[DTypeNumber] = dtype
 
     @property
-    def interpolator(self) -> TypeInterpolator:
+    def interpolator(self) -> ProtocolInterpolator:
         """
         Getter and setter property for the *Colour* or *scipy* interpolator
         class instance.
@@ -173,14 +173,14 @@ class Extrapolator:
 
         Returns
         -------
-        TypeInterpolator
+        ProtocolInterpolator
             *Colour* or *scipy* interpolator class instance.
         """
 
         return self._interpolator
 
     @interpolator.setter
-    def interpolator(self, value: TypeInterpolator):
+    def interpolator(self, value: ProtocolInterpolator):
         """Setter for the **self.interpolator** property."""
 
         attest(

@@ -56,9 +56,9 @@ Annotation Type Hints
     ComplexOrNDArray
     BooleanOrNDArray
     StrOrNDArray
-    TypeInterpolator
-    TypeExtrapolator
-    TypeLUTSequenceItem
+    ProtocolInterpolator
+    ProtocolExtrapolator
+    ProtocolLUTSequenceItem
     LiteralWarning
     cast
 
