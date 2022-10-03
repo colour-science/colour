@@ -456,10 +456,7 @@ def tcs_colorimetry_data(
     tcs_data = []
     for sd_tcs in sds_tcs.to_sds():
         XYZ = sd_to_XYZ(sd_tcs, cmfs, sd_irradiance)
-        specification = cast(
-            CAM_Specification_CIECAM02,
-            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True),
-        )
+        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, True)
         JMh = tstack(
             [
                 cast(FloatingOrNDArray, specification.J),

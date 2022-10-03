@@ -7,8 +7,6 @@ Defines the *CIECAM02* colour appearance model objects:
 -   :class:`colour.appearance.InductionFactors_CIECAM02`
 -   :attr:`colour.VIEWING_CONDITIONS_CIECAM02`
 -   :class:`colour.CAM_Specification_CIECAM02`
--   :class:`colour.CAM_Specification_CIECAM02_Hellwig2022`
--   :func:`colour.CIECAM02_METHODS`
 -   :func:`colour.XYZ_to_CIECAM02`
 -   :func:`colour.CIECAM02_to_XYZ`
 
@@ -16,9 +14,6 @@ References
 ----------
 -   :cite:`Fairchild2004c` : Fairchild, M. D. (2004). CIECAM02. In Color
     Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0-470-01216-1
--   :cite:`Hellwig2022a` : Hellwig, L., Stolitzka, D., & Fairchild, M. D.
-    (2022). Extending CIECAM02 and CAM16 for the Helmholtz–Kohlrausch effect.
-    Color Research & Application, col.22793. doi:10.1002/col.22793
 -   :cite:`InternationalElectrotechnicalCommission1999a` : International
     Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
     systems and equipment - Colour measurement and management - Part 2-1:
@@ -56,11 +51,9 @@ from colour.hints import (
     Dict,
     FloatingOrArrayLike,
     FloatingOrNDArray,
-    Literal,
     NDArray,
     Optional,
     Tuple,
-    Union,
     cast,
 )
 from colour.models import xy_to_XYZ
@@ -78,12 +71,10 @@ from colour.utilities import (
     to_domain_degrees,
     tsplit,
     tstack,
-    validate_method,
     zeros,
 )
 from colour.utilities.documentation import (
     DocstringDict,
-    DocstringTuple,
     is_documentation_building,
 )
 
@@ -101,8 +92,6 @@ __all__ = [
     "HUE_DATA_FOR_HUE_QUADRATURE",
     "CAM_KWARGS_CIECAM02_sRGB",
     "CAM_Specification_CIECAM02",
-    "CAM_Specification_CIECAM02_Hellwig2022",
-    "CIECAM02_METHODS",
     "XYZ_to_CIECAM02",
     "CIECAM02_to_XYZ",
     "chromatic_induction_factors",
@@ -131,7 +120,6 @@ __all__ = [
     "saturation_correlate",
     "P",
     "matrix_post_adaptation_non_linear_response_compression",
-    "hue_angle_dependency_Hellwig2022",
 ]
 
 CAT_INVERSE_CAT02: NDArray = np.linalg.inv(CAT_CAT02)
@@ -244,67 +232,6 @@ class CAM_Specification_CIECAM02(MixinDataclassArithmetic):
     HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
 
 
-@dataclass
-class CAM_Specification_CIECAM02_Hellwig2022(MixinDataclassArithmetic):
-    """
-    Define the *CIECAM02* colour appearance model specification with the
-    *Helmholtz–Kohlrausch* effect extension from :cite:`Hellwig2022a`.
-
-    Parameters
-    ----------
-    J
-        Correlate of *Lightness* :math:`J`.
-    C
-        Correlate of *chroma* :math:`C`.
-    h
-        *Hue* angle :math:`h` in degrees.
-    s
-        Correlate of *saturation* :math:`s`.
-    Q
-        Correlate of *brightness* :math:`Q`.
-    M
-        Correlate of *colourfulness* :math:`M`.
-    H
-        *Hue* :math:`h` quadrature :math:`H`.
-    HC
-        *Hue* :math:`h` composition :math:`H^C`.
-    J_HK
-        Correlate of *Lightness* :math:`J_{HK}` accounting for
-        *Helmholtz–Kohlrausch* effect.
-    Q_HK
-        Correlate of *brightness* :math:`Q_{HK}` accounting for
-        *Helmholtz–Kohlrausch* effect.
-
-    References
-    ----------
-    :cite:`Hellwig2022a`
-    """
-
-    J: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    C: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    h: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    s: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    M: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    H: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    HC: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    J_HK: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-    Q_HK: Optional[FloatingOrNDArray] = field(default_factory=lambda: None)
-
-
-CIECAM02_METHODS: Tuple = ("CIE", "Hellwig 2022")
-if is_documentation_building():  # pragma: no cover
-    CIECAM02_METHODS = DocstringTuple(CIECAM02_METHODS)
-    CIECAM02_METHODS.__doc__ = """
-Supported *CIECAM02* colour appearance model computation methods.
-
-References
-----------
-:cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
-:cite:`Wikipedia2007a`, :cite:`Hellwig2022a`
-"""
-
-
 def XYZ_to_CIECAM02(
     XYZ: ArrayLike,
     XYZ_w: ArrayLike,
@@ -314,14 +241,10 @@ def XYZ_to_CIECAM02(
         "Average"
     ],
     discount_illuminant: Boolean = False,
-    method: Union[Literal["CIE", "Hellwig 2022"], str] = "CIE",
-) -> Union[CAM_Specification_CIECAM02, CAM_Specification_CIECAM02_Hellwig2022]:
+) -> CAM_Specification_CIECAM02:
     """
     Compute the *CIECAM02* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
-
-    This implementation supports the *Helmholtz–Kohlrausch* effect extension
-    from :cite:`Hellwig2022a`.
 
     Parameters
     ----------
@@ -343,13 +266,10 @@ def XYZ_to_CIECAM02(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
-    method
-        Computation method.
 
     Returns
     -------
-    :class:`colour.CAM_Specification_CIECAM02` or \
-:class:`colour.CAM_Specification_CIECAM02_Hellwig2022`
+    :class:`colour.CAM_Specification_CIECAM02`
         *CIECAM02* colour appearance model specification.
 
     Notes
@@ -362,53 +282,45 @@ def XYZ_to_CIECAM02(
     | ``XYZ_w``  | [0, 100]              | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | **Range**                           | **Scale - Reference** \
+    | **Range**                        | **Scale - Reference** \
 | **Scale - 1** |
-    +=====================================+=======================\
+    +==================================+=======================\
 +===============+
-    | ``CAM_Specification_CIECAM02.J``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.J`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.C``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.C`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.h``    | [0, 360]              \
+    | ``CAM_Specification_CIECAM02.h`` | [0, 360]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.s``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.s`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.Q``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.Q`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.M``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.M`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.H``    | [0, 400]              \
+    | ``CAM_Specification_CIECAM02.H`` | [0, 400]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.J_HK`` | [0, 100]              \
-| [0, 1]        |
-    +-------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.Q_HK`` | [0, 100]              \
-| [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
 
     References
     ----------
     :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
-    :cite:`Wikipedia2007a`, :cite:`Hellwig2022a`
+    :cite:`Wikipedia2007a`
 
     Examples
     --------
@@ -421,14 +333,7 @@ def XYZ_to_CIECAM02(
     CAM_Specification_CIECAM02(J=41.7310911..., C=0.1047077..., \
 h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., \
 H=278.0607358..., HC=None)
-    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022")
-    ... # doctest: +ELLIPSIS
-    CAM_Specification_CIECAM02_Hellwig2022(J=41.7310911..., C=0.1047077..., \
-h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., \
-H=278.0607358..., HC=None, J_HK=42.1326591..., Q_HK=56.4067263...)
     """
-
-    method = validate_method(method, CIECAM02_METHODS)
 
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
@@ -498,39 +403,20 @@ H=278.0607358..., HC=None, J_HK=42.1326591..., Q_HK=56.4067263...)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    if method == "cie":
-        return CAM_Specification_CIECAM02(
-            as_float(from_range_100(J)),
-            as_float(from_range_100(C)),
-            as_float(from_range_degrees(h)),
-            as_float(from_range_100(s)),
-            as_float(from_range_100(Q)),
-            as_float(from_range_100(M)),
-            as_float(from_range_degrees(H, 400)),
-            None,
-        )
-    else:  # method == "hellwig 2022"
-        J_HK = J + hue_angle_dependency_Hellwig2022(h) * spow(C, 0.565)
-        Q_HK = (2 / surround.c) * (J_HK / 100) * A_w
-
-        return CAM_Specification_CIECAM02_Hellwig2022(
-            as_float(from_range_100(J)),
-            as_float(from_range_100(C)),
-            as_float(from_range_degrees(h)),
-            as_float(from_range_100(s)),
-            as_float(from_range_100(Q)),
-            as_float(from_range_100(M)),
-            as_float(from_range_degrees(H, 400)),
-            None,
-            as_float(from_range_100(J_HK)),
-            as_float(from_range_100(Q_HK)),
-        )
+    return CAM_Specification_CIECAM02(
+        as_float(from_range_100(J)),
+        as_float(from_range_100(C)),
+        as_float(from_range_degrees(h)),
+        as_float(from_range_100(s)),
+        as_float(from_range_100(Q)),
+        as_float(from_range_100(M)),
+        as_float(from_range_degrees(H, 400)),
+        None,
+    )
 
 
 def CIECAM02_to_XYZ(
-    specification: Union[
-        CAM_Specification_CIECAM02, CAM_Specification_CIECAM02_Hellwig2022
-    ],
+    specification: CAM_Specification_CIECAM02,
     XYZ_w: ArrayLike,
     L_A: FloatingOrArrayLike,
     Y_b: FloatingOrArrayLike,
@@ -538,13 +424,9 @@ def CIECAM02_to_XYZ(
         "Average"
     ],
     discount_illuminant: Boolean = False,
-    method: Union[Literal["CIE", "Hellwig 2022"], str] = "CIE",
 ) -> NDArray:
     """
     Convert from *CIECAM02* specification to *CIE XYZ* tristimulus values.
-
-    This implementation supports the *Helmholtz–Kohlrausch* effect extension
-    from :cite:`Hellwig2022a`.
 
     Parameters
     ----------
@@ -569,8 +451,6 @@ def CIECAM02_to_XYZ(
         Surround viewing conditions.
     discount_illuminant
         Discount the illuminant.
-    method
-        Computation method.
 
     Returns
     -------
@@ -585,51 +465,43 @@ def CIECAM02_to_XYZ(
 
     Notes
     -----
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | **Domain**                          | **Scale - Reference** \
+    | **Domain**                       | **Scale - Reference** \
 | **Scale - 1** |
-    +=====================================+=======================\
+    +==================================+=======================\
 +===============+
-    | ``CAM_Specification_CIECAM02.J``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.J`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.C``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.C`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.h``    | [0, 360]              \
+    | ``CAM_Specification_CIECAM02.h`` | [0, 360]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.s``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.s`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.Q``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.Q`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.M``    | [0, 100]              \
+    | ``CAM_Specification_CIECAM02.M`` | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.H``    | [0, 400]              \
+    | ``CAM_Specification_CIECAM02.H`` | [0, 360]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
-    | ``CAM_Specification_CIECAM02.J_HK`` | [0, 100]              \
+    | ``XYZ_w``                        | [0, 100]              \
 | [0, 1]        |
-    +-------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.Q_HK`` | [0, 100]              \
-| [0, 1]        |
-    +-------------------------------------+-----------------------\
-+---------------+
-    | ``XYZ_w``                           | [0, 100]              \
-| [0, 1]        |
-    +-------------------------------------+-----------------------\
+    +----------------------------------+-----------------------\
 +---------------+
 
     +-----------+-----------------------+---------------+
@@ -641,7 +513,7 @@ def CIECAM02_to_XYZ(
     References
     ----------
     :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
-    :cite:`Wikipedia2007a`,  :cite:`Hellwig2022a`
+    :cite:`Wikipedia2007a`
 
     Examples
     --------
@@ -654,42 +526,14 @@ def CIECAM02_to_XYZ(
     >>> Y_b = 20.0
     >>> CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
     array([ 19.01...,  20...  ,  21.78...])
-    >>> specification = CAM_Specification_CIECAM02_Hellwig2022(
-    ...     J_HK=42.132659151487516,
-    ...     C=0.104707757171031,
-    ...     h=219.048432658311780)
-    >>> CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, method="Hellwig 2022")
-    ... # doctest: +ELLIPSIS
-    array([ 19.01...,  20...  ,  21.78...])
     """
 
-    method = validate_method(method, CIECAM02_METHODS)
+    J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
 
-    if method == "cie" and isinstance(
-        specification, CAM_Specification_CIECAM02
-    ):
-        J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
-
-        J = to_domain_100(J)
-        C = to_domain_100(C)
-        h = to_domain_degrees(h)
-        M = to_domain_100(M)
-    else:  # method == "hellwig 2022"
-        _J, C, h, _s, _Q, M, _H, _HC, J_HK, _Q_HK = astuple(specification)
-
-        if has_only_nan(J_HK):
-            raise ValueError(
-                '"J_HK" correlate must be defined in the '
-                '"CAM_Specification_CIECAM02_Hellwig2022" argument!'
-            )
-
-        C = to_domain_100(C)
-        h = to_domain_degrees(h)
-        M = to_domain_100(M)
-        J_HK = to_domain_100(J_HK)
-
-        J = J_HK - hue_angle_dependency_Hellwig2022(h) * spow(C, 0.565)
-
+    J = to_domain_100(J)
+    C = to_domain_100(C)
+    h = to_domain_degrees(h)
+    M = to_domain_100(M)
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
@@ -703,8 +547,7 @@ def CIECAM02_to_XYZ(
     elif has_only_nan(C):
         raise ValueError(
             'Either "C" or "M" correlate must be defined in '
-            'the "CAM_Specification_CIECAM02" or '
-            '"CAM_Specification_CIECAM02_Hellwig2022" argument!'
+            'the "CAM_Specification_CIECAM02" argument!'
         )
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
@@ -1900,43 +1743,3 @@ def matrix_post_adaptation_non_linear_response_compression(
     )
 
     return RGB_a
-
-
-def hue_angle_dependency_Hellwig2022(
-    h: FloatingOrArrayLike,
-) -> FloatingOrNDArray:
-    """
-    Compute the hue angle dependency of the *Helmholtz–Kohlrausch* effect.
-
-    Parameters
-    ----------
-    h
-        Hue :math:`h` angle in degrees.
-
-    Returns
-    -------
-    :class:`numpy.floating` or :class:`numpy.ndarray`
-        Hue angle dependency.
-
-    References
-    ----------
-    :cite:`Hellwig2022a`
-
-    Examples
-    --------
-    >>> hue_angle_dependency_Hellwig2022(219.0484326582719)
-    ... # doctest: +ELLIPSIS
-    1.4370473...
-    """
-
-    h = as_float_array(h)
-
-    h_r = np.radians(h)
-
-    return as_float(
-        -0.218 * np.cos(h_r)
-        + 0.167 * np.cos(2 * h_r)
-        - 0.500 * np.sin(h_r)
-        + 0.032 * np.sin(2 * h_r)
-        + 0.887
-    )

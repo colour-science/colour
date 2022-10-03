@@ -26,9 +26,7 @@ CIECAM02
 
     XYZ_to_CIECAM02
     CIECAM02_to_XYZ
-    CIECAM02_METHODS
     CAM_Specification_CIECAM02
-    CAM_Specification_CIECAM02_Hellwig2022
     VIEWING_CONDITIONS_CIECAM02
 
 **Ancillary Objects**
@@ -81,9 +79,7 @@ CAM16
 
     XYZ_to_CAM16
     CAM16_to_XYZ
-    CAM16_METHODS
     CAM_Specification_CAM16
-    CAM_Specification_CAM16_Hellwig2022
     VIEWING_CONDITIONS_CAM16
 
 **Ancillary Objects**
