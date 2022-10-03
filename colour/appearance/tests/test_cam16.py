@@ -9,7 +9,6 @@ from colour.appearance import (
     VIEWING_CONDITIONS_CAM16,
     InductionFactors_CAM16,
     CAM_Specification_CAM16,
-    CAM_Specification_CAM16_Hellwig2022,
     XYZ_to_CAM16,
     CAM16_to_XYZ,
 )
@@ -142,32 +141,6 @@ class TestXYZ_to_CAM16(unittest.TestCase):
             decimal=7,
         )
 
-        XYZ = np.array([19.01, 20.00, 21.78])
-        XYZ_w = np.array([95.05, 100.00, 108.88])
-        L_A = 318.31
-        Y_b = 20
-        surround = VIEWING_CONDITIONS_CAM16["Average"]
-        np.testing.assert_array_almost_equal(
-            XYZ_to_CAM16(
-                XYZ, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-            ),
-            np.array(
-                [
-                    41.73120791,
-                    0.10335574,
-                    217.06795977,
-                    2.34501507,
-                    195.37170899,
-                    0.10743677,
-                    275.59498615,
-                    np.nan,
-                    42.0681418,
-                    56.3203856,
-                ]
-            ),
-            decimal=7,
-        )
-
     def test_n_dimensional_XYZ_to_CAM16(self):
         """
         Test :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
@@ -253,51 +226,6 @@ class TestXYZ_to_CAM16(unittest.TestCase):
                     decimal=7,
                 )
 
-        specification = XYZ_to_CAM16(
-            XYZ, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-        )
-
-        d_r = (
-            ("reference", 1, 1),
-            (
-                "1",
-                0.01,
-                np.array(
-                    [
-                        1 / 100,
-                        1 / 100,
-                        1 / 360,
-                        1 / 100,
-                        1 / 100,
-                        1 / 100,
-                        1 / 400,
-                        np.nan,
-                        1 / 100,
-                        1 / 100,
-                    ]
-                ),
-            ),
-            (
-                "100",
-                1,
-                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan, 1, 1]),
-            ),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_CAM16(
-                        XYZ * factor_a,
-                        XYZ_w * factor_a,
-                        L_A,
-                        Y_b,
-                        surround,
-                        method="Hellwig 2022",
-                    ),
-                    as_float_array(specification) * factor_b,
-                    decimal=7,
-                )
-
     @ignore_numpy_errors
     def test_nan_XYZ_to_CAM16(self):
         """
@@ -374,21 +302,6 @@ class TestCAM16_to_XYZ(unittest.TestCase):
         np.testing.assert_array_almost_equal(
             CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             np.array([61.45276998, 7.00421901, 82.2406738]),
-            decimal=7,
-        )
-
-        specification = CAM_Specification_CAM16_Hellwig2022(
-            J_HK=42.0681418, C=0.10335574, h=217.06795977
-        )
-        XYZ_w = np.array([95.05, 100.00, 108.88])
-        L_A = 318.31
-        Y_b = 20
-        surround = VIEWING_CONDITIONS_CAM16["Average"]
-        np.testing.assert_array_almost_equal(
-            CAM16_to_XYZ(
-                specification, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-            ),
-            np.array([19.01, 20.00, 21.78]),
             decimal=7,
         )
 
@@ -487,73 +400,12 @@ class TestCAM16_to_XYZ(unittest.TestCase):
                     decimal=7,
                 )
 
-        specification = XYZ_to_CAM16(
-            XYZ, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-        )
-        XYZ = CAM16_to_XYZ(
-            specification, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-        )
-
-        d_r = (
-            ("reference", 1, 1),
-            (
-                "1",
-                np.array(
-                    [
-                        1 / 100,
-                        1 / 100,
-                        1 / 360,
-                        1 / 100,
-                        1 / 100,
-                        1 / 100,
-                        1 / 400,
-                        np.nan,
-                        1 / 100,
-                        1 / 100,
-                    ]
-                ),
-                0.01,
-            ),
-            (
-                "100",
-                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan, 1, 1]),
-                1,
-            ),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    CAM16_to_XYZ(
-                        specification * factor_a,
-                        XYZ_w * factor_b,
-                        L_A,
-                        Y_b,
-                        surround,
-                        method="Hellwig 2022",
-                    ),
-                    XYZ * factor_b,
-                    decimal=7,
-                )
-
     @ignore_numpy_errors
     def test_raise_exception_CAM16_to_XYZ(self):
         """
         Test :func:`colour.appearance.cam16.CAM16_to_XYZ` definition raised
         exception.
         """
-
-        self.assertRaises(
-            ValueError,
-            CAM16_to_XYZ,
-            CAM_Specification_CAM16_Hellwig2022(
-                J_HK=None, C=0.103355738709070, h=217.06795976739301
-            ),
-            np.array([95.05, 100.00, 108.88]),
-            318.31,
-            20.0,
-            VIEWING_CONDITIONS_CAM16["Average"],
-            method="Hellwig 2022",
-        )
 
         self.assertRaises(
             ValueError,

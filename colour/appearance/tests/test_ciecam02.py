@@ -9,7 +9,6 @@ from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02,
     InductionFactors_CIECAM02,
     CAM_Specification_CIECAM02,
-    CAM_Specification_CIECAM02_Hellwig2022,
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ,
 )
@@ -117,32 +116,6 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
             atol=0.01,
         )
 
-        XYZ = np.array([19.01, 20.00, 21.78])
-        XYZ_w = np.array([95.05, 100.00, 108.88])
-        L_A = 318.31
-        Y_b = 20
-        surround = InductionFactors_CIECAM02(1, 0.69, 1)
-        np.testing.assert_array_almost_equal(
-            XYZ_to_CIECAM02(
-                XYZ, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-            ),
-            np.array(
-                [
-                    41.73109113,
-                    0.10470776,
-                    219.04843266,
-                    2.36030537,
-                    195.37132597,
-                    0.10884218,
-                    278.06073586,
-                    np.nan,
-                    42.13265915,
-                    56.40672631,
-                ]
-            ),
-            decimal=7,
-        )
-
     def test_n_dimensional_XYZ_to_CIECAM02(self):
         """
         Test :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition
@@ -228,51 +201,6 @@ class TestXYZ_to_CIECAM02(unittest.TestCase):
                     decimal=7,
                 )
 
-        specification = XYZ_to_CIECAM02(
-            XYZ, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-        )
-
-        d_r = (
-            ("reference", 1, 1),
-            (
-                "1",
-                0.01,
-                np.array(
-                    [
-                        1 / 100,
-                        1 / 100,
-                        1 / 360,
-                        1 / 100,
-                        1 / 100,
-                        1 / 100,
-                        1 / 400,
-                        np.nan,
-                        1 / 100,
-                        1 / 100,
-                    ]
-                ),
-            ),
-            (
-                "100",
-                1,
-                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan, 1, 1]),
-            ),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    XYZ_to_CIECAM02(
-                        XYZ * factor_a,
-                        XYZ_w * factor_a,
-                        L_A,
-                        Y_b,
-                        surround,
-                        method="Hellwig 2022",
-                    ),
-                    as_float_array(specification) * factor_b,
-                    decimal=7,
-                )
-
     @ignore_numpy_errors
     def test_nan_XYZ_to_CIECAM02(self):
         """
@@ -295,9 +223,7 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
     """
 
     def test_CIECAM02_to_XYZ(self):
-        """
-        Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition.
-        """
+        """Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition."""
 
         specification = CAM_Specification_CIECAM02(
             41.73, 0.1, 219, 2.36, 195.37, 0.11, 278.1
@@ -364,30 +290,6 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
             np.array([61.45276998, 7.00421901, 82.24067384]),
             rtol=0.01,
             atol=0.01,
-        )
-
-        specification = CAM_Specification_CIECAM02_Hellwig2022(
-            41.73109113,
-            0.10470776,
-            219.04843266,
-            2.36030537,
-            195.37132597,
-            0.10884218,
-            278.06073586,
-            np.nan,
-            42.13265915,
-            56.40672631,
-        )
-        XYZ_w = np.array([95.05, 100.00, 108.88])
-        L_A = 318.31
-        Y_b = 20
-        surround = InductionFactors_CIECAM02(1, 0.69, 1)
-        np.testing.assert_array_almost_equal(
-            CIECAM02_to_XYZ(
-                specification, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-            ),
-            np.array([19.01, 20.00, 21.78]),
-            decimal=7,
         )
 
     def test_n_dimensional_CIECAM02_to_XYZ(self):
@@ -485,73 +387,12 @@ class TestCIECAM02_to_XYZ(unittest.TestCase):
                     decimal=7,
                 )
 
-        specification = XYZ_to_CIECAM02(
-            XYZ_i, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-        )
-        XYZ = CIECAM02_to_XYZ(
-            specification, XYZ_w, L_A, Y_b, surround, method="Hellwig 2022"
-        )
-
-        d_r = (
-            ("reference", 1, 1),
-            (
-                "1",
-                np.array(
-                    [
-                        1 / 100,
-                        1 / 100,
-                        1 / 360,
-                        1 / 100,
-                        1 / 100,
-                        1 / 100,
-                        1 / 400,
-                        np.nan,
-                        1 / 100,
-                        1 / 100,
-                    ]
-                ),
-                0.01,
-            ),
-            (
-                "100",
-                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan, 1, 1]),
-                1,
-            ),
-        )
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_array_almost_equal(
-                    CIECAM02_to_XYZ(
-                        specification * factor_a,
-                        XYZ_w * factor_b,
-                        L_A,
-                        Y_b,
-                        surround,
-                        method="Hellwig 2022",
-                    ),
-                    XYZ * factor_b,
-                    decimal=7,
-                )
-
     @ignore_numpy_errors
     def test_raise_exception_CIECAM02_to_XYZ(self):
         """
         Test :func:`colour.appearance.ciecam02.CIECAM02_to_XYZ` definition
         raised exception.
         """
-
-        self.assertRaises(
-            ValueError,
-            CIECAM02_to_XYZ,
-            CAM_Specification_CIECAM02_Hellwig2022(
-                J_HK=None, C=0.1047077571711053, h=219.04843265831178
-            ),
-            np.array([95.05, 100.00, 108.88]),
-            318.31,
-            20.0,
-            VIEWING_CONDITIONS_CIECAM02["Average"],
-            method="Hellwig 2022",
-        )
 
         self.assertRaises(
             ValueError,

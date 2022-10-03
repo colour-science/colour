@@ -32,7 +32,6 @@ from colour.algebra import sdiv, sdiv_mode, spow, vector_dot
 from colour.appearance.cam16 import (
     MATRIX_16,
     MATRIX_INVERSE_16,
-    hue_angle_dependency_Hellwig2022,
 )
 from colour.appearance.ciecam02 import (
     InductionFactors_CIECAM02,
@@ -87,6 +86,16 @@ __all__ = [
     "CAM_Specification_Hellwig2022",
     "XYZ_to_Hellwig2022",
     "Hellwig2022_to_XYZ",
+    "viewing_conditions_dependent_parameters",
+    "achromatic_response_forward",
+    "opponent_colour_dimensions_inverse",
+    "eccentricity_factor",
+    "brightness_correlate",
+    "colourfulness_correlate",
+    "chroma_correlate",
+    "saturation_correlate",
+    "P_p",
+    "hue_angle_dependency_Hellwig2022",
 ]
 
 
@@ -973,3 +982,43 @@ def P_p(
     P_p_n = tstack([P_p_1, P_p_2])
 
     return P_p_n
+
+
+def hue_angle_dependency_Hellwig2022(
+    h: FloatingOrArrayLike,
+) -> FloatingOrNDArray:
+    """
+    Compute the hue angle dependency of the *Helmholtz–Kohlrausch* effect.
+
+    Parameters
+    ----------
+    h
+        Hue :math:`h` angle in degrees.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Hue angle dependency.
+
+    References
+    ----------
+    :cite:`Hellwig2022a`
+
+    Examples
+    --------
+    >>> hue_angle_dependency_Hellwig2022(217.06795976739301)
+    ... # doctest: +ELLIPSIS
+    1.2768219...
+    """
+
+    h = as_float_array(h)
+
+    h_r = np.radians(h)
+
+    return as_float(
+        -0.160 * np.cos(h_r)
+        + 0.132 * np.cos(2 * h_r)
+        - 0.405 * np.sin(h_r)
+        + 0.080 * np.sin(2 * h_r)
+        + 0.792
+    )

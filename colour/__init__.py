@@ -144,12 +144,10 @@ from .blindness import (
     msds_cmfs_anomalous_trichromacy_Machado2009,
 )
 from .appearance import (
-    CAM16_METHODS,
     CAM_Specification_ATD95,
     CAM_Specification_CAM16,
     CAM_Specification_CIECAM02,
     CAM_Specification_CIECAM16,
-    CAM_Specification_CAM16_Hellwig2022,
     CAM_Specification_Hellwig2022,
     CAM_Specification_Hunt,
     CAM_Specification_Kim2009,
@@ -568,12 +566,9 @@ __all__ += [
     "msds_cmfs_anomalous_trichromacy_Machado2009",
 ]
 __all__ += [
-    "CAM16_METHODS",
     "CAM_Specification_ATD95",
     "CAM_Specification_CAM16",
-    "CAM_Specification_CAM16_Hellwig2022",
     "CAM_Specification_CIECAM02",
-    "CAM_Specification_CIECAM02_Hellwig2022",
     "CAM_Specification_CIECAM16",
     "CAM_Specification_Hellwig2022",
     "CAM_Specification_Hunt",
@@ -583,7 +578,6 @@ __all__ += [
     "CAM_Specification_RLAB",
     "CAM_Specification_ZCAM",
     "CAM16_to_XYZ",
-    "CIECAM02_METHODS",
     "CIECAM02_to_XYZ",
     "CIECAM16_to_XYZ",
     "HKE_NAYATANI1997_METHODS",
