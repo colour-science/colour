@@ -75,7 +75,8 @@ __all__ = [
     "TestSd_to_XYZ",
     "TestMsds_to_XYZ_integration",
     "TestMsds_to_XYZ_ASTME308",
-    "TestWavelength_to_XYZ" "Test_Absolute_spd_to_XYZ",
+    "TestWavelength_to_XYZ",
+    "Test_Absolute_spd_to_XYZ",
 ]
 
 SD_SAMPLE: SpectralDistribution = SpectralDistribution(
