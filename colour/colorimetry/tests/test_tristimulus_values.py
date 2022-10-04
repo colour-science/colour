@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import numpy as np
 import unittest
-from pytest import approx
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
@@ -1349,7 +1348,7 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
-            assert xyz[1] == approx(683, 0.000005), (
+            assert self.assertAlmostEqual(xyz[1], 683, 5), (
                 "1 W @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
             )
@@ -1360,7 +1359,7 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
-            assert xyz[1] == approx(683, 0.000005), (
+            assert self.assertAlmostEqual(xyz[1], 683, places=5), (
                 "1 W @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
             )
@@ -1390,7 +1389,7 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
-            assert xyz[1] == approx(683, 0.1), (
+            assert self.assertAlmostEqual(xyz[1], 683, places=1), (
                 "1 W @ 555nm should be approximately 683 candela. "
                 f"Failed method: {method}"
             )
@@ -1401,7 +1400,7 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             xyz: np.ndarray = method(spd, k=683)
             if len(xyz.shape) > 1:
                 xyz = xyz.reshape(3)
-            assert xyz[1] == approx(683, 0.1), (
+            assert self.assertAlmostEqual(xyz[1], 683, places=1), (
                 "1 W @ 555nm should be approximately 683 candela."
                 f"Failed method: {method}"
             )
