@@ -11,6 +11,7 @@ from functools import partial
 from colour.hints import Any, Floating, Number, Tuple
 from colour.utilities import (
     CacheRegistry,
+    CanonicalMapping,
     attest,
     batch,
     multiprocessing_pool,
@@ -415,46 +416,30 @@ class TestFilterMapping(unittest.TestCase):
         }
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, "\\w+\\s+A")), ["Element A"]
+            sorted(filter_mapping(mapping, "Element A")), ["Element A"]
+        )
+
+        self.assertDictEqual(filter_mapping(mapping, "Element"), {})
+
+        mapping = CanonicalMapping(
+            {
+                "Element A": Element("A"),
+                "Element B": Element("B"),
+                "Element C": Element("C"),
+                "Not Element C": Element("Not C"),
+            }
         )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, "Element.*")),
-            [
-                "Element A",
-                "Element B",
-                "Element C",
-            ],
+            sorted(filter_mapping(mapping, "element a")), ["Element A"]
         )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, "^Element.*")),
-            [
-                "Element A",
-                "Element B",
-                "Element C",
-            ],
+            sorted(filter_mapping(mapping, "element-a")), ["Element A"]
         )
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, "^Element.*", False)),
-            [
-                "Element A",
-                "Element B",
-                "Element C",
-            ],
-        )
-
-        self.assertListEqual(
-            sorted(filter_mapping(mapping, [".*A", ".*B"])),
-            [
-                "Element A",
-                "Element B",
-            ],
-        )
-
-        self.assertIsInstance(
-            filter_mapping(mapping, "^Element.*", False), type(mapping)
+            sorted(filter_mapping(mapping, "elementa")), ["Element A"]
         )
 
 

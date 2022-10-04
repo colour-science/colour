@@ -194,7 +194,7 @@ def XYZ_to_Izazbz(
     constants
         :math:`J_za_zb_z` colourspace constants.
     method
-        Computation methods, *Safdar 2021* and *ZCAM* methods are equivalent.
+        Computation method, *Safdar 2021* and *ZCAM* methods are equivalent.
 
     Returns
     -------
@@ -294,7 +294,7 @@ def Izazbz_to_XYZ(
     constants
         :math:`J_za_zb_z` colourspace constants.
     method
-        Computation methods, *Safdar 2021* and *ZCAM* methods are equivalent.
+        Computation method, *Safdar 2021* and *ZCAM* methods are equivalent.
 
     Returns
     -------

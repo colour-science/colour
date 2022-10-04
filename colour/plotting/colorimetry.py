@@ -261,7 +261,7 @@ def plot_single_sd(
     settings: Dict[str, Any] = {
         "axes": axes,
         "bounding_box": (x_min, x_max, y_min, y_max),
-        "title": f"{sd.strict_name} - {cmfs.strict_name}",
+        "title": f"{sd.display_name} - {cmfs.display_name}",
         "x_label": "Wavelength $\\lambda$ (nm)",
         "y_label": "Spectral Distribution",
     }
@@ -369,7 +369,7 @@ def plot_multi_sds(
 
     plot_settings_collection = [
         {
-            "label": f"{sd.strict_name}",
+            "label": f"{sd.display_name}",
             "zorder": CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             "cmfs": "CIE 1931 2 Degree Standard Observer",
             "illuminant": SDS_ILLUMINANTS[
@@ -489,7 +489,7 @@ def plot_single_cmfs(
     )
 
     settings: Dict[str, Any] = {
-        "title": f"{cmfs.strict_name} - Colour Matching Functions"
+        "title": f"{cmfs.display_name} - Colour Matching Functions"
     }
     settings.update(kwargs)
 
@@ -570,7 +570,7 @@ def plot_multi_cmfs(
                 cmfs_i.wavelengths,
                 values,
                 color=RGB,
-                label=f"{cmfs_i.strict_labels[j]} - {cmfs_i.strict_name}",
+                label=f"{cmfs_i.display_labels[j]} - {cmfs_i.display_name}",
                 zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
             )
 
@@ -580,8 +580,8 @@ def plot_multi_cmfs(
         min(y_limit_min) - np.abs(np.min(y_limit_min)) * 0.05,
         max(y_limit_max) + np.abs(np.max(y_limit_max)) * 0.05,
     )
-    cmfs_strict_names = ", ".join([cmfs_i.strict_name for cmfs_i in cmfs])
-    title = f"{cmfs_strict_names} - Colour Matching Functions"
+    cmfs_display_names = ", ".join([cmfs_i.display_name for cmfs_i in cmfs])
+    title = f"{cmfs_display_names} - Colour Matching Functions"
 
     settings: Dict[str, Any] = {
         "axes": axes,
@@ -650,7 +650,7 @@ def plot_single_illuminant_sd(
         MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values())
     )
 
-    title = f"Illuminant {illuminant} - {cmfs.strict_name}"
+    title = f"Illuminant {illuminant} - {cmfs.display_name}"
 
     illuminant = first_item(filter_illuminants(illuminant).values())
 
@@ -715,10 +715,10 @@ def plot_multi_illuminant_sds(
         list(filter_illuminants(illuminants).values()),
     )
 
-    illuminant_strict_names = ", ".join(
-        [illuminant.strict_name for illuminant in illuminants]
+    illuminant_display_names = ", ".join(
+        [illuminant.display_name for illuminant in illuminants]
     )
-    title = f"{illuminant_strict_names} - Illuminants Spectral Distributions"
+    title = f"{illuminant_display_names} - Illuminants Spectral Distributions"
 
     settings: Dict[str, Any] = {"title": title, "y_label": "Relative Power"}
     settings.update(kwargs)
@@ -806,7 +806,7 @@ def plot_visible_spectrum(
     settings = {
         "axes": axes,
         "standalone": True,
-        "title": f"The Visible Spectrum - {cmfs.strict_name}",
+        "title": f"The Visible Spectrum - {cmfs.display_name}",
         "x_label": "Wavelength $\\lambda$ (nm)",
     }
     settings.update(kwargs)

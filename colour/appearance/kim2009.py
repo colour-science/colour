@@ -429,8 +429,8 @@ def Kim2009_to_XYZ(
     Raises
     ------
     ValueError
-        If neither *C* or *M* correlates have been defined in the
-        ``CAM_Specification_Kim2009`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in the
+        ``specification`` argument.
 
     Notes
     -----
@@ -466,9 +466,10 @@ def Kim2009_to_XYZ(
 
     Examples
     --------
-    >>> specification = CAM_Specification_Kim2009(J=28.861908975839647,
-    ...                                           C=0.5592455924373706,
-    ...                                           h=219.04806677662953)
+    >>> specification = CAM_Specification_Kim2009(
+    ...     J=28.861908975839647,
+    ...     C=0.5592455924373706,
+    ...     h=219.04806677662953)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> media = MEDIA_PARAMETERS_KIM2009['CRT Displays']

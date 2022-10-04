@@ -522,7 +522,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
     axes_CRI.text(
         0.5,
         1 / 5,
-        f"$R_9$ {float(CRI_spec.Q_as[8].Q_a):.0f}",
+        f"$R_9$ {float(CRI_spec.Q_as[9].Q_a):.0f}",
         ha="center",
         va="center",
         size="medium",

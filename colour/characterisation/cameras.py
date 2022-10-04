@@ -74,7 +74,7 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
         of the :class:`colour.SpectralDistribution` class instances.
     name
        Multi-spectral distributions name.
-    strict_labels
+    display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.colorimetry.RGB_CameraSensitivities.labels` property
         value.

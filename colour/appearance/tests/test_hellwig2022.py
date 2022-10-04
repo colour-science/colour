@@ -68,6 +68,8 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
                     0.034,
                     275.59498615,
                     np.nan,
+                    41.88027828,
+                    56.05183586,
                 ]
             ),
             rtol=0.01,
@@ -88,6 +90,8 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
                     30.245,
                     398.03047943,
                     np.nan,
+                    70.50187436,
+                    69.04574688,
                 ]
             ),
             rtol=0.01,
@@ -109,6 +113,8 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
                     40.376,
                     223.01823806,
                     np.nan,
+                    29.35191711,
+                    39.28664523,
                 ]
             ),
             rtol=0.01,
@@ -122,14 +128,16 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
             XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround),
             np.array(
                 [
-                    41.0640505428712,
-                    31.9395616185528,
-                    259.034056616437,
-                    76.6687205734622,
-                    40.1967835654994,
-                    30.8183596713521,
-                    311.32937131,
+                    41.064050542871215,
+                    31.939561618552826,
+                    259.034056616436715,
+                    76.668720573462167,
+                    40.196783565499423,
+                    30.818359671352116,
+                    311.329371306428470,
                     np.nan,
+                    49.676917719967385,
+                    48.627748198047854,
                 ]
             ),
             rtol=0.01,
@@ -166,7 +174,7 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
-        specification = np.reshape(specification, (2, 3, 8))
+        specification = np.reshape(specification, (2, 3, 10))
         np.testing.assert_array_almost_equal(
             XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround),
             specification,
@@ -202,13 +210,15 @@ class TestXYZ_to_Hellwig2022(unittest.TestCase):
                         1 / 100,
                         1 / 400,
                         np.nan,
+                        1 / 100,
+                        1 / 100,
                     ]
                 ),
             ),
             (
                 "100",
                 1,
-                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]),
+                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan, 1, 1]),
             ),
         )
         for scale, factor_a, factor_b in d_r:
@@ -294,6 +304,19 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
             decimal=7,
         )
 
+        specification = CAM_Specification_Hellwig2022(
+            J_HK=41.880278283880095, C=0.025763615829913, h=217.067959767393010
+        )
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20
+        surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
+        np.testing.assert_array_almost_equal(
+            Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            np.array([19.01, 20.00, 21.78]),
+            decimal=7,
+        )
+
     def test_n_dimensional_Hellwig2022_to_XYZ(self):
         """
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
@@ -326,7 +349,7 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         )
 
         specification = CAM_Specification_Hellwig2022(
-            *tsplit(np.reshape(specification, (2, 3, 8))).tolist()
+            *tsplit(np.reshape(specification, (2, 3, 10))).tolist()
         )
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
@@ -365,13 +388,15 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
                         1 / 100,
                         1 / 400,
                         np.nan,
+                        1 / 100,
+                        1 / 100,
                     ]
                 ),
                 0.01,
             ),
             (
                 "100",
-                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan]),
+                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan, 1, 1]),
                 1,
             ),
         )
@@ -395,6 +420,17 @@ class TestHellwig2022_to_XYZ(unittest.TestCase):
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
         definition raised exception.
         """
+        self.assertRaises(
+            ValueError,
+            Hellwig2022_to_XYZ,
+            CAM_Specification_Hellwig2022(
+                J_HK=None, C=0.025763615829912909, h=217.06795976739301
+            ),
+            np.array([95.05, 100.00, 108.88]),
+            318.31,
+            20.0,
+            VIEWING_CONDITIONS_HELLWIG2022["Average"],
+        )
 
         self.assertRaises(
             ValueError,

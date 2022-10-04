@@ -243,7 +243,7 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     severity = f"{d_L}, {d_M}, {d_S}"
     template = "{0} - Anomalous Trichromacy ({1})"
     cmfs.name = template.format(cmfs.name, severity)
-    cmfs.strict_name = template.format(cmfs.strict_name, severity)
+    cmfs.display_name = template.format(cmfs.display_name, severity)
 
     return cmfs
 

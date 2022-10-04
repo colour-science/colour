@@ -1070,19 +1070,19 @@ MSDS_CMFS_LMS: LazyCanonicalMapping = LazyCanonicalMapping(
             LMS_ConeFundamentals,
             DATA_CMFS_LMS["Stockman & Sharpe 2 Degree Cone Fundamentals"],
             name="Stockman & Sharpe 2 Degree Cone Fundamentals",
-            strict_name="Stockman & Sharpe 2$^\\circ$ Cone Fundamentals",
+            display_name="Stockman & Sharpe 2$^\\circ$ Cone Fundamentals",
         ),
         "Stockman & Sharpe 10 Degree Cone Fundamentals": partial(
             LMS_ConeFundamentals,
             DATA_CMFS_LMS["Stockman & Sharpe 10 Degree Cone Fundamentals"],
             name="Stockman & Sharpe 10 Degree Cone Fundamentals",
-            strict_name="Stockman & Sharpe 10$^\\circ$ Cone Fundamentals",
+            display_name="Stockman & Sharpe 10$^\\circ$ Cone Fundamentals",
         ),
         "Smith & Pokorny 1975 Normal Trichromats": partial(
             LMS_ConeFundamentals,
             DATA_CMFS_LMS["Smith & Pokorny 1975 Normal Trichromats"],
             name="Smith & Pokorny 1975 Normal Trichromats",
-            strict_name="Smith & Pokorny (1975) Normal Trichromats",
+            display_name="Smith & Pokorny (1975) Normal Trichromats",
         ),
     }
 )
@@ -1348,19 +1348,19 @@ MSDS_CMFS_RGB: LazyCanonicalMapping = LazyCanonicalMapping(
             RGB_ColourMatchingFunctions,
             DATA_CMFS_RGB["Wright & Guild 1931 2 Degree RGB CMFs"],
             name="Wright & Guild 1931 2 Degree RGB CMFs",
-            strict_name="Wright & Guild (1931) 2$^\\circ$ RGB CMFs",
+            display_name="Wright & Guild (1931) 2$^\\circ$ RGB CMFs",
         ),
         "Stiles & Burch 1955 2 Degree RGB CMFs": partial(
             RGB_ColourMatchingFunctions,
             DATA_CMFS_RGB["Stiles & Burch 1955 2 Degree RGB CMFs"],
             name="Stiles & Burch 1955 2 Degree RGB CMFs",
-            strict_name="Stiles & Burch (1955) 2$^\\circ$ RGB CMFs",
+            display_name="Stiles & Burch (1955) 2$^\\circ$ RGB CMFs",
         ),
         "Stiles & Burch 1959 10 Degree RGB CMFs": partial(
             RGB_ColourMatchingFunctions,
             DATA_CMFS_RGB["Stiles & Burch 1959 10 Degree RGB CMFs"],
             name="Stiles & Burch 1959 10 Degree RGB CMFs",
-            strict_name="Stiles & Burch (1959) 10$^\\circ$ RGB CMFs",
+            display_name="Stiles & Burch (1959) 10$^\\circ$ RGB CMFs",
         ),
     }
 )
@@ -3218,7 +3218,7 @@ def _CIE_2012_2_Degree_Standard_Observer():
     return XYZ_ColourMatchingFunctions(
         DATA_CMFS_STANDARD_OBSERVER["CIE 2015 2 Degree Standard Observer"],
         name="CIE 2015 2 Degree Standard Observer",
-        strict_name="CIE 2015 2$^\\circ$ Standard Observer",
+        display_name="CIE 2015 2$^\\circ$ Standard Observer",
     )
 
 
@@ -3232,7 +3232,7 @@ def _CIE_2012_10_Degree_Standard_Observer():
     return XYZ_ColourMatchingFunctions(
         DATA_CMFS_STANDARD_OBSERVER["CIE 2015 2 Degree Standard Observer"],
         name="CIE 2015 2 Degree Standard Observer",
-        strict_name="CIE 2015 2$^\\circ$ Standard Observer",
+        display_name="CIE 2015 2$^\\circ$ Standard Observer",
     )
 
 
@@ -3242,7 +3242,7 @@ MSDS_CMFS_STANDARD_OBSERVER: (LazyCanonicalMapping) = LazyCanonicalMapping(
             XYZ_ColourMatchingFunctions,
             DATA_CMFS_STANDARD_OBSERVER["CIE 1931 2 Degree Standard Observer"],
             name="CIE 1931 2 Degree Standard Observer",
-            strict_name="CIE 1931 2$^\\circ$ Standard Observer",
+            display_name="CIE 1931 2$^\\circ$ Standard Observer",
         ),
         "CIE 1964 10 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
@@ -3250,7 +3250,7 @@ MSDS_CMFS_STANDARD_OBSERVER: (LazyCanonicalMapping) = LazyCanonicalMapping(
                 "CIE 1964 10 Degree Standard Observer"
             ],
             name="CIE 1964 10 Degree Standard Observer",
-            strict_name="CIE 1964 10$^\\circ$ Standard Observer",
+            display_name="CIE 1964 10$^\\circ$ Standard Observer",
         ),
         "CIE 2012 2 Degree Standard Observer": (
             _CIE_2012_2_Degree_Standard_Observer
@@ -3262,7 +3262,7 @@ MSDS_CMFS_STANDARD_OBSERVER: (LazyCanonicalMapping) = LazyCanonicalMapping(
             XYZ_ColourMatchingFunctions,
             DATA_CMFS_STANDARD_OBSERVER["CIE 2015 2 Degree Standard Observer"],
             name="CIE 2015 2 Degree Standard Observer",
-            strict_name="CIE 2015 2$^\\circ$ Standard Observer",
+            display_name="CIE 2015 2$^\\circ$ Standard Observer",
         ),
         "CIE 2015 10 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
@@ -3270,7 +3270,7 @@ MSDS_CMFS_STANDARD_OBSERVER: (LazyCanonicalMapping) = LazyCanonicalMapping(
                 "CIE 2015 10 Degree Standard Observer"
             ],
             name="CIE 2015 10 Degree Standard Observer",
-            strict_name="CIE 2015 10$^\\circ$ Standard Observer",
+            display_name="CIE 2015 10$^\\circ$ Standard Observer",
         ),
     }
 )

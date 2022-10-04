@@ -1405,7 +1405,7 @@ class TestSpectralDistribution(unittest.TestCase):
         self._non_uniform_sd = SpectralDistribution(
             DATA_SAMPLE_NON_UNIFORM,
             name="Non Uniform Sample",
-            strict_name="Strict Non Uniform Sample",
+            display_name="Display Non Uniform Sample",
         )
 
         self._phi = (1 + np.sqrt(5)) / 2
@@ -1413,7 +1413,12 @@ class TestSpectralDistribution(unittest.TestCase):
     def test_required_attributes(self):
         """Test the presence of required attributes."""
 
-        required_attributes = ("strict_name", "wavelengths", "values", "shape")
+        required_attributes = (
+            "display_name",
+            "wavelengths",
+            "values",
+            "shape",
+        )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralDistribution))
@@ -1433,15 +1438,15 @@ class TestSpectralDistribution(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(SpectralDistribution))
 
-    def test_strict_name(self):
+    def test_display_name(self):
         """
-        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.strict_name`
+        Test :attr:`colour.colorimetry.spectrum.SpectralDistribution.display_name`
         property.
         """
 
-        self.assertEqual(self._sd.strict_name, "Sample")
+        self.assertEqual(self._sd.display_name, "Sample")
         self.assertEqual(
-            self._non_uniform_sd.strict_name, "Strict Non Uniform Sample"
+            self._non_uniform_sd.display_name, "Display Non Uniform Sample"
         )
 
     def test_wavelengths(self):
@@ -1600,10 +1605,10 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         """Initialise the common tests attributes."""
 
         self._labels = ("x_bar", "y_bar", "z_bar")
-        self._strict_labels = (
-            "Strict x_bar",
-            "Strict  y_bar",
-            "Strict  z_bar",
+        self._display_labels = (
+            "Display x_bar",
+            "Display y_bar",
+            "Display z_bar",
         )
 
         self._msds = MultiSpectralDistributions(
@@ -1629,9 +1634,9 @@ class TestMultiSpectralDistributions(unittest.TestCase):
             range_,
             domain,
             name="Non Uniform Sample Observer",
-            strict_name="Strict Non Uniform Sample Observer",
+            display_name="Display Non Uniform Sample Observer",
             labels=self._labels,
-            strict_labels=("Strict x_bar", "Strict  y_bar", "Strict  z_bar"),
+            display_labels=("Display x_bar", "Display y_bar", "Display z_bar"),
         )
 
         self._phi = (1 + np.sqrt(5)) / 2
@@ -1640,8 +1645,8 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         """Test the presence of required attributes."""
 
         required_attributes = (
-            "strict_name",
-            "strict_labels",
+            "display_name",
+            "display_labels",
             "wavelengths",
             "values",
             "shape",
@@ -1666,16 +1671,16 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         for method in required_methods:
             self.assertIn(method, dir(MultiSpectralDistributions))
 
-    def test_strict_name(self):
+    def test_display_name(self):
         """
-        Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.strict_name`
+        Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.display_name`
         property.
         """
 
-        self.assertEqual(self._sample_msds.strict_name, "Sample Observer")
+        self.assertEqual(self._sample_msds.display_name, "Sample Observer")
         self.assertEqual(
-            self._non_uniform_sample_msds.strict_name,
-            "Strict Non Uniform Sample Observer",
+            self._non_uniform_sample_msds.display_name,
+            "Display Non Uniform Sample Observer",
         )
 
     def test_wavelengths(self):
@@ -1704,18 +1709,18 @@ class TestMultiSpectralDistributions(unittest.TestCase):
         msds.values = msds.values + 10
         np.testing.assert_array_equal(msds.values, msds.range)
 
-    def test_strict_labels(self):
+    def test_display_labels(self):
         """
         Test :attr:`colour.colorimetry.spectrum.MultiSpectralDistributions.\
-strict_labels` property.
+display_labels` property.
         """
 
         self.assertTupleEqual(
-            tuple(self._sample_msds.strict_labels), self._labels
+            tuple(self._sample_msds.display_labels), self._labels
         )
         self.assertEqual(
-            tuple(self._non_uniform_sample_msds.strict_labels),
-            ("Strict x_bar", "Strict  y_bar", "Strict  z_bar"),
+            tuple(self._non_uniform_sample_msds.display_labels),
+            ("Display x_bar", "Display y_bar", "Display z_bar"),
         )
 
     def test_shape(self):
@@ -1866,7 +1871,7 @@ MultiSpectralDistributions.to_sds` method.
 
         for i, sd in enumerate(sds):
             self.assertEqual(sd.name, self._labels[i])
-            self.assertEqual(sd.strict_name, self._strict_labels[i])
+            self.assertEqual(sd.display_name, self._display_labels[i])
 
 
 class TestReshapeSd(unittest.TestCase):

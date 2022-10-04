@@ -377,7 +377,7 @@ def CIECAM16_to_XYZ(
 
     Parameters
     ----------
-    specification : CAM_Specification_CIECAM16
+    specification
         *CIECAM16* colour appearance model specification. Correlate of
         *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
         *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
@@ -407,8 +407,8 @@ def CIECAM16_to_XYZ(
     Raises
     ------
     ValueError
-        If neither *C* or *M* correlates have been defined in the
-        ``CAM_Specification_CIECAM16`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in the
+        ``specification`` argument.
 
     Notes
     -----
@@ -463,9 +463,10 @@ def CIECAM16_to_XYZ(
 
     Examples
     --------
-    >>> specification = CAM_Specification_CIECAM16(J=41.731207905126638,
-    ...                                            C=0.103355738709070,
-    ...                                            h=217.067959767393010)
+    >>> specification = CAM_Specification_CIECAM16(
+    ...     J=41.731207905126638,
+    ...     C=0.103355738709070,
+    ...     h=217.067959767393010)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0

@@ -76,8 +76,10 @@ from colour.utilities import (
     optional,
     runtime_warning,
     tstack,
+    usage_warning,
     validate_method,
 )
+from colour.utilities.deprecation import ObjectRenamed
 
 if is_pandas_installed():
     from pandas import DataFrame, Series
@@ -572,7 +574,7 @@ class SpectralDistribution(Signal):
         Arguments to use when instantiating the interpolating function.
     name
         Spectral distribution name.
-    strict_name
+    display_name
         Spectral distribution name for figures, default to
         :attr:`colour.SpectralDistribution.name` property value.
 
@@ -583,7 +585,7 @@ class SpectralDistribution(Signal):
 
     Attributes
     ----------
-    -   :attr:`~colour.SpectralDistribution.strict_name`
+    -   :attr:`~colour.SpectralDistribution.display_name`
     -   :attr:`~colour.SpectralDistribution.wavelengths`
     -   :attr:`~colour.SpectralDistribution.values`
     -   :attr:`~colour.SpectralDistribution.shape`
@@ -692,37 +694,37 @@ class SpectralDistribution(Signal):
 
         super().__init__(range_unpacked, domain_unpacked, **kwargs)
 
-        self._strict_name: str = self.name
-        self.strict_name = kwargs.get("strict_name", self._strict_name)
+        self._display_name: str = self.name
+        self.display_name = kwargs.get("display_name", self._display_name)
 
     @property
-    def strict_name(self) -> str:
+    def display_name(self) -> str:
         """
-        Getter and setter property for the spectral distribution strict name.
+        Getter and setter property for the spectral distribution display name.
 
         Parameters
         ----------
         value
-            Value to set the spectral distribution strict name with.
+            Value to set the spectral distribution display name with.
 
         Returns
         -------
         :class:`str`
-            Spectral distribution strict name.
+            Spectral distribution display name.
         """
 
-        return self._strict_name
+        return self._display_name
 
-    @strict_name.setter
-    def strict_name(self, value: str):
-        """Setter for the **self.strict_name** property."""
+    @display_name.setter
+    def display_name(self, value: str):
+        """Setter for the **self.display_name** property."""
 
         attest(
             is_string(value),
-            f'"strict_name" property: "{value}" type is not "str"!',
+            f'"display_name" property: "{value}" type is not "str"!',
         )
 
-        self._strict_name = value
+        self._display_name = value
 
     @property
     def wavelengths(self) -> NDArray:
@@ -1582,6 +1584,37 @@ class SpectralDistribution(Signal):
 
         return self
 
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    @property
+    def strict_name(self):  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "SpectralDistribution.strict_name",
+                    "SpectralDistribution.display_name",
+                )
+            )
+        )
+
+        return self.display_name
+
+    @strict_name.setter
+    def strict_name(self, value):  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "SpectralDistribution.strict_name",
+                    "SpectralDistribution.display_name",
+                )
+            )
+        )
+
+        self.display_name = value
+
 
 class MultiSpectralDistributions(MultiSignals):
     """
@@ -1632,7 +1665,7 @@ class MultiSpectralDistributions(MultiSignals):
         :class:`colour.SpectralDistribution` class instances.
     name
        Multi-spectral distributions name.
-    strict_labels
+    display_labels
         Multi-spectral distributions labels for figures, default to
         :attr:`colour.MultiSpectralDistributions.labels` property value.
 
@@ -1643,8 +1676,8 @@ class MultiSpectralDistributions(MultiSignals):
 
     Attributes
     ----------
-    -   :attr:`~colour.MultiSpectralDistributions.strict_name`
-    -   :attr:`~colour.MultiSpectralDistributions.strict_labels`
+    -   :attr:`~colour.MultiSpectralDistributions.display_name`
+    -   :attr:`~colour.MultiSpectralDistributions.display_labels`
     -   :attr:`~colour.MultiSpectralDistributions.wavelengths`
     -   :attr:`~colour.MultiSpectralDistributions.values`
     -   :attr:`~colour.MultiSpectralDistributions.shape`
@@ -1790,84 +1823,87 @@ class MultiSpectralDistributions(MultiSignals):
             signals, domain, signal_type=SpectralDistribution, **kwargs
         )
 
-        self._strict_name: str = self.name
-        self.strict_name = kwargs.get("strict_name", self._strict_name)
-        self._strict_labels: List = list(self.signals.keys())
-        self.strict_labels = kwargs.get("strict_labels", self._strict_labels)
+        self._display_name: str = self.name
+        self.display_name = kwargs.get("display_name", self._display_name)
+        self._display_labels: List = list(self.signals.keys())
+        self.display_labels = kwargs.get(
+            "display_labels", self._display_labels
+        )
 
     @property
-    def strict_name(self) -> str:
+    def display_name(self) -> str:
         """
-        Getter and setter property for the multi-spectral distributions strict
+        Getter and setter property for the multi-spectral distributions display
         name.
 
         Parameters
         ----------
         value
-            Value to set the multi-spectral distributions strict name with.
+            Value to set the multi-spectral distributions display name with.
 
         Returns
         -------
         :class:`str`
-            Multi-spectral distributions strict name.
+            Multi-spectral distributions display name.
         """
 
-        return self._strict_name
+        return self._display_name
 
-    @strict_name.setter
-    def strict_name(self, value: str):
-        """Setter for the **self.strict_name** property."""
+    @display_name.setter
+    def display_name(self, value: str):
+        """Setter for the **self.display_name** property."""
 
         attest(
             is_string(value),
-            f'"strict_name" property: "{value}" type is not "str"!',
+            f'"display_name" property: "{value}" type is not "str"!',
         )
 
-        self._strict_name = value
+        self._display_name = value
 
     @property
-    def strict_labels(self) -> List[str]:
+    def display_labels(self) -> List[str]:
         """
-        Getter and setter property for the multi-spectral distributions strict
+        Getter and setter property for the multi-spectral distributions display
         labels.
 
         Parameters
         ----------
         value
-            Value to set the multi-spectral distributions strict labels with.
+            Value to set the multi-spectral distributions display labels with.
 
         Returns
         -------
         :class:`list`
-            Multi-spectral distributions strict labels.
+            Multi-spectral distributions display labels.
         """
 
-        return self._strict_labels
+        return self._display_labels
 
-    @strict_labels.setter
-    def strict_labels(self, value: Sequence):
-        """Setter for the **self.strict_labels** property."""
+    @display_labels.setter
+    def display_labels(self, value: Sequence):
+        """Setter for the **self.display_labels** property."""
 
         attest(
             is_iterable(value),
-            f'"strict_labels" property: "{value}" is not an "iterable" like object!',
+            f'"display_labels" property: "{value}" is not an "iterable" like '
+            f"object!",
         )
 
         attest(
             len(set(value)) == len(value),
-            '"strict_labels" property: values must be unique!',
+            '"display_labels" property: values must be unique!',
         )
 
         attest(
             len(value) == len(self.labels),
-            f'"strict_labels" property: length must be "{len(self.labels)}"!',
+            f'"display_labels" property: length must be "{len(self.labels)}"!',
         )
 
-        self._strict_labels = [str(label) for label in value]
+        self._display_labels = [str(label) for label in value]
         for i, signal in enumerate(self.signals.values()):
             cast(
                 SpectralDistribution, signal
-            ).strict_name = self._strict_labels[i]
+            ).display_name = self._display_labels[i]
 
     @property
     def wavelengths(self) -> NDArray:
@@ -2603,6 +2639,65 @@ class MultiSpectralDistributions(MultiSignals):
             for signal in self.signals.values()
         ]
 
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    @property
+    def strict_name(self):  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "MultiSpectralDistributions.strict_name",
+                    "MultiSpectralDistributions.display_name",
+                )
+            )
+        )
+
+        return self.display_name
+
+    @strict_name.setter
+    def strict_name(self, value):  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "MultiSpectralDistributions.strict_name",
+                    "MultiSpectralDistributions.display_name",
+                )
+            )
+        )
+
+        self.display_name = value
+
+    @property
+    def strict_labels(self):  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "MultiSpectralDistributions.strict_labels",
+                    "MultiSpectralDistributions.display_labels",
+                )
+            )
+        )
+
+        return self.display_labels
+
+    @strict_labels.setter
+    def strict_labels(self, value):  # pragma: no cover  # noqa: D102
+        # Docstrings are omitted for documentation purposes.
+        usage_warning(
+            str(
+                ObjectRenamed(
+                    "MultiSpectralDistributions.strict_labels",
+                    "MultiSpectralDistributions.display_labels",
+                )
+            )
+        )
+
+        self.display_labels = value
+
 
 _CACHE_RESHAPED_SDS_AND_MSDS: Dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_RESHAPED_SDS_AND_MSDS"
@@ -2883,7 +2978,7 @@ def sds_and_msds_to_msds(
 
         values = []
         labels = []
-        strict_labels = []
+        display_labels = []
         for sd in sds_converted:
             if sd.shape != shape:
                 sd = sd.align(shape)
@@ -2892,14 +2987,17 @@ def sds_and_msds_to_msds(
             labels.append(
                 sd.name if sd.name not in labels else f"{sd.name} ({id(sd)})"
             )
-            strict_labels.append(
-                sd.strict_name
-                if sd.strict_name not in strict_labels
-                else f"{sd.strict_name} ({id(sd)})"
+            display_labels.append(
+                sd.display_name
+                if sd.display_name not in display_labels
+                else f"{sd.display_name} ({id(sd)})"
             )
 
         msds_converted = MultiSpectralDistributions(
-            tstack(values), shape.range(), labels, strict_labels=strict_labels
+            tstack(values),
+            shape.range(),
+            labels,
+            display_labels=display_labels,
         )
 
     return msds_converted

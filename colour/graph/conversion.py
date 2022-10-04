@@ -515,7 +515,7 @@ def JMh_Hellwig2022_to_Hellwig2022(
     >>> JMh = np.array([4.17312079e+01,  2.93828695e-02, 2.17067960e+02])
     >>> JMh_Hellwig2022_to_Hellwig2022(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_Hellwig2022(J=41.7312079..., C=None, h=217.06796, \
-s=None, Q=None, M=0.0293828..., H=None, HC=None)
+s=None, Q=None, M=0.0293828..., H=None, HC=None, J_HK=None, Q_HK=None)
     """
 
     J, M, h = tsplit(JMh)
