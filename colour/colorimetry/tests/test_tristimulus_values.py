@@ -75,7 +75,7 @@ __all__ = [
     "TestSd_to_XYZ",
     "TestMsds_to_XYZ_integration",
     "TestMsds_to_XYZ_ASTME308",
-    "TestWavelength_to_XYZ",
+    "TestWavelength_to_XYZ" "Test_Absolute_spd_to_XYZ",
 ]
 
 SD_SAMPLE: SpectralDistribution = SpectralDistribution(
@@ -1321,91 +1321,6 @@ class TestSd_to_XYZ_ASTME308(unittest.TestCase):
         )
 
 
-class Test_Absolute_spd_to_XYZ(unittest.TestCase):
-    """
-    Tests methods for absolute colorimetry using k=683
-    """
-
-    def test_sd_to_XYZ_absolute_1nm(self):
-        shape = SpectralShape(380, 780, 1)
-        spd = SpectralDistribution(np.zeros(401), domain=shape)
-
-        v = spd.values
-        v[555 - 380] = 1  # SPD is 1W at 555nm, 0 everywhere else.
-        spd.values = v
-
-        methods = [
-            sd_to_XYZ,
-            sd_to_XYZ_ASTME308,
-            sd_to_XYZ_integration,
-            msds_to_XYZ,
-            msds_to_XYZ_ASTME308,
-            msds_to_XYZ_integration,
-        ]
-
-        # Test single spd methods
-        for method in methods[0:3]:
-            xyz: np.ndarray = method(spd, k=683)
-            if len(xyz.shape) > 1:
-                xyz = xyz.reshape(3)
-            assert self.assertAlmostEqual(xyz[1], 683, 5), (
-                "1 W @ 555nm should be approximately 683 candela."
-                f" Failed method: {method}"
-            )
-
-        # Test multi spd methods
-        spd = MultiSpectralDistributions(spd)
-        for method in methods[3:6]:
-            xyz: np.ndarray = method(spd, k=683)
-            if len(xyz.shape) > 1:
-                xyz = xyz.reshape(3)
-            assert self.assertAlmostEqual(xyz[1], 683, places=5), (
-                "1 W @ 555nm should be approximately 683 candela."
-                f" Failed method: {method}"
-            )
-
-    def test_sd_to_XYZ_absolute_5nm(self):
-        shape = SpectralShape(380, 780, 5)
-        spd = SpectralDistribution(np.zeros(81), domain=shape)
-
-        # SPD is 1W from 555nm, 0 everywhere else.
-        # In 5nm average sampling this would result in a reading of .2.
-        # This will test if the integration is correctly multiplying by ∆wl
-        v = spd.values
-        v[int((555 - 380) / 5)] = 0.2
-        spd.values = v
-
-        methods = [
-            sd_to_XYZ,
-            sd_to_XYZ_ASTME308,
-            sd_to_XYZ_integration,
-            msds_to_XYZ,
-            msds_to_XYZ_ASTME308,
-            msds_to_XYZ_integration,
-        ]
-
-        # Test single spd methods
-        for method in methods[0:3]:
-            xyz: np.ndarray = method(spd, k=683)
-            if len(xyz.shape) > 1:
-                xyz = xyz.reshape(3)
-            assert self.assertAlmostEqual(xyz[1], 683, places=1), (
-                "1 W @ 555nm should be approximately 683 candela. "
-                f"Failed method: {method}"
-            )
-
-        # Test multi spd methods
-        spd = MultiSpectralDistributions(spd)
-        for method in methods[3:6]:
-            xyz: np.ndarray = method(spd, k=683)
-            if len(xyz.shape) > 1:
-                xyz = xyz.reshape(3)
-            assert self.assertAlmostEqual(xyz[1], 683, places=1), (
-                "1 W @ 555nm should be approximately 683 candela."
-                f"Failed method: {method}"
-            )
-
-
 class TestSd_to_XYZ(unittest.TestCase):
     """
     Define :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ` definition
@@ -1560,6 +1475,100 @@ msds_to_XYZ_ASTME308` definition raise exception.
         """
 
         self.assertRaises(ValueError, msds_to_XYZ_ASTME308, DATA_TWO)
+
+
+class Test_Absolute_spd_to_XYZ(unittest.TestCase):
+    """
+    Tests methods for absolute colorimetry using k=683
+    """
+
+    def test_sd_to_XYZ_absolute_1nm(self):
+        """
+        Check that spd to XYZ is correctly scaled in absolute mode (user
+        supplied k value)
+        """
+        shape = SpectralShape(380, 780, 1)
+        spd = SpectralDistribution(np.zeros(401), domain=shape)
+
+        v = spd.values
+        v[555 - 380] = 1  # SPD is 1W at 555nm, 0 everywhere else.
+        spd.values = v
+
+        methods = [
+            sd_to_XYZ,
+            sd_to_XYZ_ASTME308,
+            sd_to_XYZ_integration,
+            msds_to_XYZ,
+            msds_to_XYZ_ASTME308,
+            msds_to_XYZ_integration,
+        ]
+
+        # Test single spd methods
+        for method in methods[0:3]:
+            xyz: np.ndarray = method(spd, k=683)
+            if len(xyz.shape) > 1:
+                xyz = xyz.reshape(3)
+            assert self.assertAlmostEqual(xyz[1], 683, 5), (
+                "1 W @ 555nm should be approximately 683 candela."
+                f" Failed method: {method}"
+            )
+
+        # Test multi spd methods
+        spd = MultiSpectralDistributions(spd)
+        for method in methods[3:6]:
+            xyz: np.ndarray = method(spd, k=683)
+            if len(xyz.shape) > 1:
+                xyz = xyz.reshape(3)
+            assert self.assertAlmostEqual(xyz[1], 683, places=5), (
+                "1 W @ 555nm should be approximately 683 candela."
+                f" Failed method: {method}"
+            )
+
+    def test_sd_to_XYZ_absolute_5nm(self):
+        """
+        Check that spd to XYZ is correctly scaled in absolute mode (user
+        supplied k value). Use 5nm spacing to check that the  Riemann sum /
+        integration also correctly includes the delta nm term.
+        """
+        shape = SpectralShape(380, 780, 5)
+        spd = SpectralDistribution(np.zeros(81), domain=shape)
+
+        # SPD is 1W from 555nm, 0 everywhere else.
+        # In 5nm average sampling this would result in a reading of .2.
+        # This will test if the integration is correctly multiplying by ∆wl
+        v = spd.values
+        v[int((555 - 380) / 5)] = 0.2
+        spd.values = v
+
+        methods = [
+            sd_to_XYZ,
+            sd_to_XYZ_ASTME308,
+            sd_to_XYZ_integration,
+            msds_to_XYZ,
+            msds_to_XYZ_ASTME308,
+            msds_to_XYZ_integration,
+        ]
+
+        # Test single spd methods
+        for method in methods[0:3]:
+            xyz: np.ndarray = method(spd, k=683)
+            if len(xyz.shape) > 1:
+                xyz = xyz.reshape(3)
+            assert self.assertAlmostEqual(xyz[1], 683, places=1), (
+                "1 W @ 555nm should be approximately 683 candela. "
+                f"Failed method: {method}"
+            )
+
+        # Test multi spd methods
+        spd = MultiSpectralDistributions(spd)
+        for method in methods[3:6]:
+            xyz: np.ndarray = method(spd, k=683)
+            if len(xyz.shape) > 1:
+                xyz = xyz.reshape(3)
+            assert self.assertAlmostEqual(xyz[1], 683, places=1), (
+                "1 W @ 555nm should be approximately 683 candela."
+                f"Failed method: {method}"
+            )
 
 
 class TestWavelength_to_XYZ(unittest.TestCase):
