@@ -201,7 +201,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
     """
 
     @classmethod
-    def get_cls_lut(self):
+    def get_cached_lut(self):
         """Initialise the common tests attributes."""
         if not hasattr(self, "_LUT"):
             self._shape = SPECTRAL_SHAPE_JAKOB2019
@@ -251,7 +251,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
     def test_size(self):
         """Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property."""
 
-        self.assertEqual(TestLUT3D_Jakob2019.get_cls_lut().size, 5)
+        self.assertEqual(TestLUT3D_Jakob2019.get_cached_lut().size, 5)
 
     def test_lightness_scale(self):
         """
@@ -260,7 +260,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         """
 
         np.testing.assert_array_almost_equal(
-            TestLUT3D_Jakob2019.get_cls_lut().lightness_scale,
+            TestLUT3D_Jakob2019.get_cached_lut().lightness_scale,
             np.array(
                 [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]
             ),
@@ -274,7 +274,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         """
 
         self.assertTupleEqual(
-            TestLUT3D_Jakob2019.get_cls_lut().coefficients.shape,
+            TestLUT3D_Jakob2019.get_cached_lut().coefficients.shape,
             (3, 5, 5, 5, 3),
         )
 
@@ -284,7 +284,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`class.
         """
 
-        LUT = TestLUT3D_Jakob2019.get_cls_lut()
+        LUT = TestLUT3D_Jakob2019.get_cached_lut()
 
         for RGB in [
             np.array([1, 0, 0]),
