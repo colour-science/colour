@@ -43,7 +43,7 @@ FLUORESCENT_FILE_HEADER: Dict = {
     "Laboratory": "N/A",
     "UniqueIdentifier": "C3567553-C75B-4354-961E-35CEB9FEB42C",
     "ReportNumber": "N/A",
-    "ReportDate": "N/A",
+    "ReportDate": "2014-06-22",
     "DocumentCreationDate": "2014-06-23",
     "Comments": "Ambient temperature 25 degrees C.",
 }
@@ -349,7 +349,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
                 Measurement Equipment  : None
                 Laboratory             : N/A
                 Report Number          : N/A
-                Report Date            : N/A
+                Report Date            : 2014-06-22
                 Document Creation Date : 2014-06-23
                 Comments               : Ambient temperature 25 degrees C.
 
@@ -468,7 +468,7 @@ SpectralDistribution_IESTM2714(...,
                                                 None,
                                                 'N/A',
                                                 'N/A',
-                                                'N/A',
+                                                '2014-06-22',
                                                 '2014-06-23',
                                                 'Ambient temperature 25 degrees C.'),
                                'relative',
