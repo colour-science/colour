@@ -1355,10 +1355,10 @@ def msds_to_XYZ_ASTME308(
     msds: MultiSpectralDistributions,
     cmfs: Optional[MultiSpectralDistributions] = None,
     illuminant: Optional[SpectralDistribution] = None,
+    k: Optional[Number] = None,
     use_practice_range: Boolean = True,
     mi_5nm_omission_method: Boolean = True,
     mi_20nm_interpolation_method: Boolean = True,
-    k: Optional[Number] = None,
 ) -> NDArray:
     """
     Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
@@ -1374,18 +1374,6 @@ def msds_to_XYZ_ASTME308(
         *CIE 1931 2 Degree Standard Observer*.
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
-    use_practice_range
-        Practise *ASTM E308-15* working wavelengths range is [360, 780],
-        if *True* this argument will trim the colour matching functions
-        appropriately.
-    mi_5nm_omission_method
-        5 nm measurement intervals multi-spectral distributions conversion to
-        tristimulus values will use a 5 nm version of the colour matching
-        functions instead of a table of tristimulus weighting factors.
-    mi_20nm_interpolation_method
-        20 nm measurement intervals multi-spectral distributions conversion to
-        tristimulus values will use a dedicated interpolation method instead
-        of a table of tristimulus weighting factors.
     k
         Normalisation constant :math:`k`. For reflecting or transmitting object
         colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
@@ -1401,6 +1389,18 @@ def msds_to_XYZ_ASTME308(
         683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
         be the spectral concentration of the radiometric quantity corresponding
         to the photometric quantity required.
+    use_practice_range
+        Practise *ASTM E308-15* working wavelengths range is [360, 780],
+        if *True* this argument will trim the colour matching functions
+        appropriately.
+    mi_5nm_omission_method
+        5 nm measurement intervals multi-spectral distributions conversion to
+        tristimulus values will use a 5 nm version of the colour matching
+        functions instead of a table of tristimulus weighting factors.
+    mi_20nm_interpolation_method
+        20 nm measurement intervals multi-spectral distributions conversion to
+        tristimulus values will use a dedicated interpolation method instead
+        of a table of tristimulus weighting factors.
 
     Returns
     -------
