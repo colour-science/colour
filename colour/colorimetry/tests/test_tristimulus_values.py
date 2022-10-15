@@ -26,6 +26,7 @@ from colour.colorimetry import (
     sd_CIE_standard_illuminant_A,
     sd_ones,
     msds_to_XYZ,
+    sd_zeros,
 )
 from colour.colorimetry import (
     handle_spectral_arguments,
@@ -75,8 +76,8 @@ __all__ = [
     "TestSd_to_XYZ",
     "TestMsds_to_XYZ_integration",
     "TestMsds_to_XYZ_ASTME308",
+    "TestAbsoluteIntegrationToXYZ",
     "TestWavelength_to_XYZ",
-    "Test_Absolute_spd_to_XYZ",
 ]
 
 SD_SAMPLE: SpectralDistribution = SpectralDistribution(
@@ -1478,22 +1479,21 @@ msds_to_XYZ_ASTME308` definition raise exception.
         self.assertRaises(ValueError, msds_to_XYZ_ASTME308, DATA_TWO)
 
 
-class Test_Absolute_spd_to_XYZ(unittest.TestCase):
+class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
     """
-    Tests methods for absolute colorimetry using k=683
+    Test the absolute integration to tristimulus values for :math:`k = 683`
     """
 
-    def test_sd_to_XYZ_absolute_1nm(self):
+    def test_absolute_integration_to_TVS_1nm(self):
         """
-        Check that spd to XYZ is correctly scaled in absolute mode (user
-        supplied k value)
+        Test the absolute, i.e. user given :math:`k` value, integration to
+        tristimulus values for 1nm interval.
         """
-        shape = SpectralShape(380, 780, 1)
-        spd = SpectralDistribution(np.zeros(401), domain=shape)
 
-        v = spd.values
-        v[555 - 380] = 1  # SPD is 1W at 555nm, 0 everywhere else.
-        spd.values = v
+        sd = sd_zeros(SpectralShape(380, 780, 1))
+
+        k = 683
+        sd[555] = 1  # 1 watt at 555nm, 0 watt everywhere else.
 
         methods = [
             sd_to_XYZ,
@@ -1504,42 +1504,40 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             msds_to_XYZ_integration,
         ]
 
-        # Test single spd methods
+        # Test single spectral distribution integration methods.
         for method in methods[0:3]:
-            xyz: np.ndarray = method(spd, k=683)
-            if len(xyz.shape) > 1:
-                xyz = xyz.reshape(3)
-            self.assertAlmostEqual(xyz[1], 683, delta=5e-5), (
-                "1 W @ 555nm should be approximately 683 candela."
+            XYZ: np.ndarray = method(sd, k=k)
+            if len(XYZ.shape) > 1:
+                XYZ = XYZ.reshape(3)
+            self.assertAlmostEqual(XYZ[1], k, delta=5e-5), (
+                "1 watt @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
             )
 
-        # Test multi spd methods
-        spd = MultiSpectralDistributions(spd)
+        # Test multi-spectral distributions integration methods.
+        msds = MultiSpectralDistributions(sd)
         for method in methods[3:6]:
-            xyz: np.ndarray = method(spd, k=683)
-            if len(xyz.shape) > 1:
-                xyz = xyz.reshape(3)
-            self.assertAlmostEqual(xyz[1], 683, delta=5e-5), (
-                "1 W @ 555nm should be approximately 683 candela."
+            XYZ: np.ndarray = method(msds, k=k)
+            if len(XYZ.shape) > 1:
+                XYZ = XYZ.reshape(3)
+            self.assertAlmostEqual(XYZ[1], k, delta=5e-5), (
+                "1 watt @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
             )
 
-    def test_sd_to_XYZ_absolute_5nm(self):
+    def test_absolute_integration_to_TVS_5nm(self):
         """
-        Check that spd to XYZ is correctly scaled in absolute mode (user
-        supplied k value). Use 5nm spacing to check that the  Riemann sum /
-        integration also correctly includes the delta nm term.
+        Test the absolute, i.e. user given :math:`k` value, integration to
+        tristimulus values for 5nm interval by ensuring that the *Riemann Sum*
+        accounts for the :math:`\\delta w` term.
         """
-        shape = SpectralShape(380, 780, 5)
-        spd = SpectralDistribution(np.zeros(81), domain=shape)
 
-        # SPD is 1W from 555nm, 0 everywhere else.
-        # In 5nm average sampling this would result in a reading of .2.
-        # This will test if the integration is correctly multiplying by ∆wl
-        v = spd.values
-        v[int((555 - 380) / 5)] = 0.2
-        spd.values = v
+        sd = sd_zeros(SpectralShape(380, 780, 5))
+
+        # 1 watt at 555nm, 0 watt everywhere else.
+        # For 5nm average sampling, this corresponds to 0.2 watt at 555nm.
+        k = 683
+        sd[555] = 0.2
 
         methods = [
             sd_to_XYZ,
@@ -1550,24 +1548,24 @@ class Test_Absolute_spd_to_XYZ(unittest.TestCase):
             msds_to_XYZ_integration,
         ]
 
-        # Test single spd methods
+        # Test single spectral distribution integration methods.
         for method in methods[0:3]:
-            xyz: np.ndarray = method(spd, k=683)
-            if len(xyz.shape) > 1:
-                xyz = xyz.reshape(3)
-            self.assertAlmostEqual(xyz[1], 683, delta=5e-2), (
-                "1 W @ 555nm should be approximately 683 candela. "
+            XYZ: np.ndarray = method(sd, k=k)
+            if len(XYZ.shape) > 1:
+                XYZ = XYZ.reshape(3)
+            self.assertAlmostEqual(XYZ[1], k, delta=5e-2), (
+                "1 watt @ 555nm should be approximately 683 candela. "
                 f"Failed method: {method}"
             )
 
-        # Test multi spd methods
-        spd = MultiSpectralDistributions(spd)
+        # Test multi-spectral distributions integration methods.
+        msds = MultiSpectralDistributions(sd)
         for method in methods[3:6]:
-            xyz: np.ndarray = method(spd, k=683)
-            if len(xyz.shape) > 1:
-                xyz = xyz.reshape(3)
-            self.assertAlmostEqual(xyz[1], 683, delta=5e-2), (
-                "1 W @ 555nm should be approximately 683 candela."
+            XYZ: np.ndarray = method(msds, k=k)
+            if len(XYZ.shape) > 1:
+                XYZ = XYZ.reshape(3)
+            self.assertAlmostEqual(XYZ[1], k, delta=5e-2), (
+                "1 watt @ 555nm should be approximately 683 candela."
                 f"Failed method: {method}"
             )
 
