@@ -162,7 +162,7 @@ convention = "numpy"
 add-ignore = "D104,D200,D202,D205,D301,D400"
 
 [tool.pytest.ini_options]
-addopts = "-n auto --durations=5"
+addopts = "-n auto --dist=loadscope --durations=5"
 
 [build-system]
 requires = [ "poetry_core>=1.0.0" ]
