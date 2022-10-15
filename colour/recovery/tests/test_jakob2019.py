@@ -2,9 +2,6 @@
 """Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
 import numpy as np
-import os
-import shutil
-import tempfile
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
@@ -199,36 +196,38 @@ class TestXYZ_to_sd_Jakob2019(unittest.TestCase):
 
 class TestLUT3D_Jakob2019(unittest.TestCase):
     """
-    Define :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`
-    definition unit tests methods.
+    Define :class:`colour.recovery.jakob2019.LUT3D_Jakob2019` definition unit
+    tests methods.
     """
 
-    def setUp(self):
-        """Initialise the common tests attributes."""
+    @classmethod
+    def generate_LUT(self):
+        """
+        Generate the *LUT* used for the unit tests.
 
-        self._shape = SPECTRAL_SHAPE_JAKOB2019
-        self._cmfs, self._sd_D65 = handle_spectral_arguments(
-            shape_default=self._shape
-        )
-        self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
-        self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
+        Notes
+        -----
+        -   This method is used to define the slow common tests attributes once
+            rather than using the typical :meth:`unittest.TestCase.setUp` that
+            is invoked once per-test.
+        """
 
-        self._RGB_colourspace = RGB_COLOURSPACE_sRGB
+        if not hasattr(self, "_LUT"):
+            self._shape = SPECTRAL_SHAPE_JAKOB2019
+            self._cmfs, self._sd_D65 = handle_spectral_arguments(
+                shape_default=self._shape
+            )
+            self._XYZ_D65 = sd_to_XYZ(self._sd_D65)
+            self._xy_D65 = XYZ_to_xy(self._XYZ_D65)
 
-        self._temporary_directory = tempfile.mkdtemp()
+            self._RGB_colourspace = RGB_COLOURSPACE_sRGB
 
-        self._LUT = LUT3D_Jakob2019()
-        self._LUT.generate(self._RGB_colourspace, self._cmfs, self._sd_D65, 5)
+            self._LUT = LUT3D_Jakob2019()
+            self._LUT.generate(
+                self._RGB_colourspace, self._cmfs, self._sd_D65, 5
+            )
 
-        self._path = os.path.join(
-            self._temporary_directory, "Test_Jakob2019.coeff"
-        )
-        self._LUT.write(self._path)
-
-    def tearDown(self):
-        """After tests actions."""
-
-        shutil.rmtree(self._temporary_directory)
+        return self._LUT
 
     def test_required_attributes(self):
         """Test the presence of required attributes."""
@@ -261,7 +260,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
     def test_size(self):
         """Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property."""
 
-        self.assertEqual(self._LUT.size, 5)
+        self.assertEqual(TestLUT3D_Jakob2019.generate_LUT().size, 5)
 
     def test_lightness_scale(self):
         """
@@ -270,7 +269,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         """
 
         np.testing.assert_array_almost_equal(
-            self._LUT.lightness_scale,
+            TestLUT3D_Jakob2019.generate_LUT().lightness_scale,
             np.array(
                 [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]
             ),
@@ -283,7 +282,10 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         property.
         """
 
-        self.assertTupleEqual(self._LUT.coefficients.shape, (3, 5, 5, 5, 3))
+        self.assertTupleEqual(
+            TestLUT3D_Jakob2019.generate_LUT().coefficients.shape,
+            (3, 5, 5, 5, 3),
+        )
 
     def test_LUT3D_Jakob2019(self):
         """
@@ -291,8 +293,7 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
         :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`class.
         """
 
-        LUT = LUT3D_Jakob2019()
-        LUT.read(self._path)
+        LUT = TestLUT3D_Jakob2019.generate_LUT()
 
         for RGB in [
             np.array([1, 0, 0]),
@@ -339,8 +340,8 @@ RGB_to_coefficients` method raised exception.
         Test :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.read` method
         raised exception.
         """
-
-        self.assertRaises(ValueError, self._LUT.read, __file__)
+        LUT = LUT3D_Jakob2019()
+        self.assertRaises(ValueError, LUT.read, __file__)
 
 
 if __name__ == "__main__":
