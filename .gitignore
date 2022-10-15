@@ -4,8 +4,11 @@
 .DS_Store
 .coverage
 .dmypy.json
+.fleet
 .idea
+.ipynb_checkpoints
 .mypy_cache
+.vs
 .vscode
 .sandbox
 
