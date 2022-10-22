@@ -84,8 +84,8 @@ __status__ = "Production"
 
 __all__ = [
     "GAMUT_AREA_D65",
-    "VS_ColorimetryData",
-    "VS_ColourQualityScaleData",
+    "DataColorimetry_VS",
+    "DataColourQualityScale_VS",
     "ColourRendering_Specification_CQS",
     "COLOUR_QUALITY_SCALE_METHODS",
     "colour_quality_scale",
@@ -102,7 +102,7 @@ GAMUT_AREA_D65: Integer = 8210
 
 
 @dataclass
-class VS_ColorimetryData:
+class DataColorimetry_VS:
     """Define the class storing *VS test colour samples* colorimetry data."""
 
     name: str
@@ -112,7 +112,7 @@ class VS_ColorimetryData:
 
 
 @dataclass
-class VS_ColourQualityScaleData:
+class DataColourQualityScale_VS:
     """
     Define the class storing *VS test colour samples* colour quality scale
     data.
@@ -171,9 +171,9 @@ class ColourRendering_Specification_CQS:
     Q_p: Optional[Floating]
     Q_g: Floating
     Q_d: Optional[Floating]
-    Q_as: Dict[Integer, VS_ColourQualityScaleData]
+    Q_as: Dict[Integer, DataColourQualityScale_VS]
     colorimetry_data: Tuple[
-        Tuple[VS_ColorimetryData, ...], Tuple[VS_ColorimetryData, ...]
+        Tuple[DataColorimetry_VS, ...], Tuple[DataColorimetry_VS, ...]
     ]
 
 
@@ -384,7 +384,7 @@ def vs_colorimetry_data(
     sds_vs: Dict[str, SpectralDistribution],
     cmfs: MultiSpectralDistributions,
     chromatic_adaptation: Boolean = False,
-) -> Tuple[VS_ColorimetryData, ...]:
+) -> Tuple[DataColorimetry_VS, ...]:
     """
     Return the *VS test colour samples* colorimetry data.
 
@@ -434,13 +434,13 @@ def vs_colorimetry_data(
         Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
         _L_vs, C_vs, _Hab = Lab_to_LCHab(Lab_vs)
 
-        vs_data.append(VS_ColorimetryData(sd_vs.name, XYZ_vs, Lab_vs, C_vs))
+        vs_data.append(DataColorimetry_VS(sd_vs.name, XYZ_vs, Lab_vs, C_vs))
 
     return tuple(vs_data)
 
 
 def CCT_factor(
-    reference_data: Tuple[VS_ColorimetryData, ...], XYZ_r: ArrayLike
+    reference_data: Tuple[DataColorimetry_VS, ...], XYZ_r: ArrayLike
 ) -> Floating:
     """
     Return the correlated colour temperature factor penalizing lamps with
@@ -506,7 +506,7 @@ def scale_conversion(
 
 
 def delta_E_RMS(
-    CQS_data: Dict[Integer, VS_ColourQualityScaleData], attribute: str
+    CQS_data: Dict[Integer, DataColourQualityScale_VS], attribute: str
 ) -> Floating:
     """
     Compute the root-mean-square average for given *Colour Quality Scale*
@@ -539,11 +539,11 @@ def delta_E_RMS(
 
 
 def colour_quality_scales(
-    test_data: Tuple[VS_ColorimetryData, ...],
-    reference_data: Tuple[VS_ColorimetryData, ...],
+    test_data: Tuple[DataColorimetry_VS, ...],
+    reference_data: Tuple[DataColorimetry_VS, ...],
     scaling_f: Floating,
     CCT_f: Floating,
-) -> Dict[Integer, VS_ColourQualityScaleData]:
+) -> Dict[Integer, DataColourQualityScale_VS]:
     """
     Return the *VS test colour samples* rendering scales.
 
@@ -579,7 +579,7 @@ def colour_quality_scales(
 
         Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
 
-        Q_as[i + 1] = VS_ColourQualityScaleData(
+        Q_as[i + 1] = DataColourQualityScale_VS(
             test_data[i].name, Q_a, D_C_ab, D_E_ab, D_Ep_ab
         )
     return Q_as
