@@ -47,10 +47,10 @@ from .davinci_intermediate import (
 )
 from .dcdm import eotf_inverse_DCDM, eotf_DCDM
 from .dicom_gsdf import eotf_inverse_DICOMGSDF, eotf_DICOMGSDF
-from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
+from .dji_d_log import log_encoding_DJIDLog, log_decoding_DJIDLog
 from .exponent import exponent_function_basic, exponent_function_monitor_curve
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
-from .filmlight_tlog import (
+from .filmlight_t_log import (
     log_encoding_FilmLightTLog,
     log_decoding_FilmLightTLog,
 )
@@ -79,7 +79,7 @@ from .itur_bt_2100 import (
     BT2100_HLG_OOTF_INVERSE_METHODS,
     ootf_inverse_BT2100_HLG,
 )
-from .leica_llog import log_encoding_LLog, log_decoding_LLog
+from .leica_l_log import log_encoding_LLog, log_decoding_LLog
 from .linear import linear_function
 from .log import (
     logarithmic_function_basic,
@@ -89,9 +89,9 @@ from .log import (
     log_decoding_Log2,
 )
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
-from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
-from .fujifilm_flog import log_encoding_FLog, log_decoding_FLog
-from .nikon_nlog import log_encoding_NLog, log_decoding_NLog
+from .panasonic_v_log import log_encoding_VLog, log_decoding_VLog
+from .fujifilm_f_log import log_encoding_FLog, log_decoding_FLog
+from .nikon_n_log import log_encoding_NLog, log_decoding_NLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
 from .red_log import (
     log_encoding_REDLog,
@@ -116,7 +116,7 @@ from .rimm_romm_rgb import (
     log_decoding_ERIMMRGB,
 )
 from .smpte_240m import oetf_SMPTE240M, eotf_SMPTE240M
-from .sony_slog import (
+from .sony_s_log import (
     log_encoding_SLog,
     log_decoding_SLog,
     log_encoding_SLog2,

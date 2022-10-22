@@ -34,7 +34,7 @@ from colour.hints import (
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
     ColourRendering_Specification_CIE2017,
-    TCS_ColorimetryData_CIE2017,
+    DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
 from colour.utilities import as_float_array, as_float_scalar, as_int_scalar
@@ -92,8 +92,8 @@ class ColourQuality_Specification_ANSIIESTM3018:
     CCT: Floating
     D_uv: Floating
     colorimetry_data: Tuple[
-        Tuple[TCS_ColorimetryData_CIE2017, ...],
-        Tuple[TCS_ColorimetryData_CIE2017, ...],
+        Tuple[DataColorimetry_TCS_CIE2017, ...],
+        Tuple[DataColorimetry_TCS_CIE2017, ...],
     ]
     R_g: Floating
     bins: List[List[int]]

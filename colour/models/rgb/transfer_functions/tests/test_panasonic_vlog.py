@@ -1,6 +1,6 @@
 """
 Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
-panasonic_vlog` module.
+panasonic_v_log` module.
 """
 
 import numpy as np
@@ -27,13 +27,13 @@ __all__ = [
 
 class TestLogEncoding_VLog(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+    Define :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition unit tests methods.
     """
 
     def test_log_encoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition.
         """
 
@@ -63,7 +63,7 @@ log_encoding_VLog` definition.
 
     def test_n_dimensional_log_encoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition n-dimensional arrays support.
         """
 
@@ -90,7 +90,7 @@ log_encoding_VLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition domain and range scale support.
         """
 
@@ -107,7 +107,7 @@ log_encoding_VLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition nan support.
         """
 
@@ -116,13 +116,13 @@ log_encoding_VLog` definition nan support.
 
 class TestLogDecoding_VLog(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+    Define :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition unit tests methods.
     """
 
     def test_log_decoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition.
         """
 
@@ -152,7 +152,7 @@ log_decoding_VLog` definition.
 
     def test_n_dimensional_log_decoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition n-dimensional arrays support.
         """
 
@@ -179,7 +179,7 @@ log_decoding_VLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition domain and range scale support.
         """
 
@@ -196,7 +196,7 @@ log_decoding_VLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_VLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.panasonic_vlog.\
+        Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition nan support.
         """
 

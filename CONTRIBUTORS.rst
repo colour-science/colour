@@ -180,6 +180,18 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **François-Xavier Thomas**, *Senior Image Science Engineer @ DXOMARK*
+
+    Support for Recommendation ITU-T H.273 / INTERNATIONAL STANDARD ISO/IEC 23091-2.
+
+-   **Sabarish Srinivasan**, *SWE Intern @ SmallHD*
+
+    Support for Recommendation ITU-R BT.2124-0.
+
+-   **Tucker Downs**, *R&D Manager & Color Scientist @ ROE Visual*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -243,6 +255,7 @@ Issues & Discussions
 -   @Alt-Shivam
 -   @Ampersandme
 -   @AndersAtEndian
+-   @andurilhuang
 -   @anshulxyz
 -   @Apoorva-13
 -   @aurelienbl
@@ -250,6 +263,7 @@ Issues & Discussions
 -   @baileyji
 -   @beckstev
 -   @bersbersbers
+-   @blue-j
 -   @brandondube
 -   @briend
 -   @bsdis
@@ -260,37 +274,50 @@ Issues & Discussions
 -   @codycuellar
 -   @daviesj
 -   @dfoxfranke
+-   @digital-prepress
+-   @diuming
 -   @dtbulmerJRs
 -   @Edwardlin-zlt
+-   @ems1111
 -   @eyeforcolor
 -   @fangjy88
 -   @Floschoe
 -   @foutoucour
+-   @fxthomas
 -   @goofy2k
 -   @gutenzwerg
 -   @habemus-papadum
 -   @hajimen
+-   @hakanai
 -   @heinemannj
 -   @henczati
 -   @hminle
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
+-   @JarrettR
 -   @Jerry2001
+-   @JopdeBoo
 -   @JoshuaEbenezer
+-   @kljumat
 -   @KOLANICH
 -   @KrisKennaway
 -   @kunal9922
 -   @Kunkka1988
+-   @LandonSwartz
+-   @LaughingMaann
 -   @lavrovd
 -   @LeCyberDucky
 -   @Legendin
 -   @leklbk
 -   @lensz
 -   @lishichengyan
+-   @luoww1992
 -   @MarcusCalhoun-Lopez
+-   @matt-roberts
 -   @matthiasbirkich
 -   @meshing
+-   @mforbes
 -   @MMehdiMousavi
 -   @mokincha
 -   @monkeywithacupcake
@@ -307,9 +334,11 @@ Issues & Discussions
 -   @Paul-Sims
 -   @peteroupc
 -   @pfk-beta
+-   @pjaesung2
 -   @priikone
 -   @Queuecumber
 -   @ramparvathaneni
+-   @richardstardust
 -   @Rob-Welch
 -   @robbuckley
 -   @romanovar
@@ -319,17 +348,22 @@ Issues & Discussions
 -   @sdbbs
 -   @senyai
 -   @shanest
+-   @sherlockedlee
 -   @shirubana
 -   @shpurdikhub
+-   @sliedes
+-   @soldivelot
 -   @spicymatt
 -   @ssh4net
 -   @stakemura
 -   @starkcolour
 -   @starkfan007
+-   @stereomatchingkiss
 -   @tashdor
 -   @TFiFiE
 -   @thunders82
 -   @tingeman
+-   @TomFryers
 -   @tospe
 -   @totyped
 -   @ujjayants
@@ -338,12 +372,15 @@ Issues & Discussions
 -   @volkerjaenisch
 -   @vvclin-git
 -   @Wagyx
+-   @Wangld5
 -   @whornsby
 -   @Willingo
 -   @willSmallHD
 -   @wuuawu
+-   @xeggbee
 -   @xjossy
 -   @yuhao
+-   @yulincoder
 
 About
 -----

@@ -71,7 +71,7 @@ __status__ = "Production"
 __all__ = [
     "SPECTRAL_SHAPE_CIE2017",
     "RESOURCES_DIRECTORY_CIE2017",
-    "TCS_ColorimetryData_CIE2017",
+    "DataColorimetry_TCS_CIE2017",
     "ColourRendering_Specification_CIE2017",
     "colour_fidelity_index_CIE2017",
     "load_TCS_CIE2017",
@@ -98,7 +98,7 @@ _CACHE_TCS_CIE2017: Dict = CACHE_REGISTRY.register_cache(
 
 
 @dataclass
-class TCS_ColorimetryData_CIE2017:
+class DataColorimetry_TCS_CIE2017:
     """Define the class storing *test colour samples* colorimetry data."""
 
     name: str
@@ -141,8 +141,8 @@ class ColourRendering_Specification_CIE2017:
     CCT: Floating
     D_uv: Floating
     colorimetry_data: Tuple[
-        Tuple[TCS_ColorimetryData_CIE2017, ...],
-        Tuple[TCS_ColorimetryData_CIE2017, ...],
+        Tuple[DataColorimetry_TCS_CIE2017, ...],
+        Tuple[DataColorimetry_TCS_CIE2017, ...],
     ]
     delta_E_s: NDArray
 
@@ -420,7 +420,7 @@ def tcs_colorimetry_data(
     sd_irradiance: SpectralDistribution,
     sds_tcs: MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions,
-) -> Tuple[TCS_ColorimetryData_CIE2017, ...]:
+) -> Tuple[DataColorimetry_TCS_CIE2017, ...]:
     """
     Return the *test colour samples* colorimetry data under given test light
     source or reference illuminant spectral distribution for the
@@ -432,7 +432,7 @@ def tcs_colorimetry_data(
         Test light source or reference illuminant spectral distribution, i.e.
         the irradiance emitter.
     sds_tcs
-        *Test colour samples* spectral distributions.
+        *Test colour samples* spectral reflectance distributions.
     cmfs
         Standard observer colour matching functions.
 
@@ -467,7 +467,7 @@ def tcs_colorimetry_data(
         Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
 
         tcs_data.append(
-            TCS_ColorimetryData_CIE2017(
+            DataColorimetry_TCS_CIE2017(
                 sd_tcs.name, XYZ, specification, JMh, Jpapbp
             )
         )
