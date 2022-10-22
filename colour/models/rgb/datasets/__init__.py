@@ -22,13 +22,13 @@ from .davinci_wide_gamut import RGB_COLOURSPACE_DAVINCI_WIDE_GAMUT
 from .dcdm_xyz import RGB_COLOURSPACE_DCDM_XYZ
 from .dci_p3 import RGB_COLOURSPACE_DCI_P3, RGB_COLOURSPACE_DCI_P3_P
 from .display_p3 import RGB_COLOURSPACE_DISPLAY_P3
-from .dji_dgamut import RGB_COLOURSPACE_DJI_D_GAMUT
+from .dji_d_gamut import RGB_COLOURSPACE_DJI_D_GAMUT
 from .don_rgb_4 import RGB_COLOURSPACE_DON_RGB_4
 from .ebu_3213_e import RGB_COLOURSPACE_EBU_3213_E
 from .eci_rgb_v2 import RGB_COLOURSPACE_ECI_RGB_V2
 from .ekta_space_ps5 import RGB_COLOURSPACE_EKTA_SPACE_PS_5
 from .fujifilm_f_gamut import RGB_COLOURSPACE_F_GAMUT
-from .filmlight_egamut import RGB_COLOURSPACE_FILMLIGHT_E_GAMUT
+from .filmlight_e_gamut import RGB_COLOURSPACE_FILMLIGHT_E_GAMUT
 from .gopro import RGB_COLOURSPACE_PROTUNE_NATIVE
 from .itur_bt_470 import RGB_COLOURSPACE_BT470_525, RGB_COLOURSPACE_BT470_625
 from .itur_bt_709 import RGB_COLOURSPACE_BT709
