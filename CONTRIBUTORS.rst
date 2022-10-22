@@ -180,6 +180,18 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **François-Xavier Thomas**, *Senior Image Science Engineer @ DXOMARK*
+
+    Support for Recommendation ITU-T H.273 / INTERNATIONAL STANDARD ISO/IEC 23091-2.
+
+-   **Sabarish Srinivasan**, *SWE Intern @ SmallHD*
+
+    Support for Recommendation ITU-R BT.2124-0.
+
+-   **Tucker Downs**, *R&D Manager & Color Scientist @ ROE Visual*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
