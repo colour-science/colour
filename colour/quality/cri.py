@@ -214,7 +214,7 @@ def tcs_colorimetry_data(
     sd_r
         Reference spectral distribution.
     sds_tcs
-        *Test colour samples* spectral distributions.
+        *Test colour samples* spectral reflectance distributions.
     cmfs
         Standard observer colour matching functions.
     chromatic_adaptation

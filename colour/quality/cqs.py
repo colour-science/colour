@@ -395,7 +395,7 @@ def vs_colorimetry_data(
     sd_reference
         Reference spectral distribution.
     sds_vs
-        *VS test colour samples* spectral distributions.
+        *VS test colour samples* spectral reflectance distributions.
     cmfs
         Standard observer colour matching functions.
     chromatic_adaptation

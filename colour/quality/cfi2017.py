@@ -432,7 +432,7 @@ def tcs_colorimetry_data(
         Test light source or reference illuminant spectral distribution, i.e.
         the irradiance emitter.
     sds_tcs
-        *Test colour samples* spectral distributions.
+        *Test colour samples* spectral reflectance distributions.
     cmfs
         Standard observer colour matching functions.
 
