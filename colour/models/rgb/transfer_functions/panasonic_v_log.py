@@ -43,7 +43,7 @@ __all__ = [
 CONSTANTS_VLOG: Structure = Structure(
     cut1=0.01, cut2=0.181, b=0.00873, c=0.241514, d=0.598206
 )
-"""*Panasonic V-Log* colourspace constants."""
+"""*Panasonic V-Log* constants."""
 
 
 def log_encoding_VLog(

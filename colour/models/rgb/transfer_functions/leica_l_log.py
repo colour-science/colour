@@ -51,7 +51,7 @@ CONSTANTS_LLOG: Structure = Structure(
     e=0.0115,
     f=0.6,
 )
-"""*Leica L-Log* colourspace constants."""
+"""*Leica L-Log* constants."""
 
 
 def log_encoding_LLog(

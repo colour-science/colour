@@ -50,14 +50,14 @@ CONSTANTS_BT2020: Structure = Structure(
     alpha=lambda x: 1.0993 if x else 1.099,
     beta=lambda x: 0.0181 if x else 0.018,
 )
-"""*BT.2020* colourspace constants."""
+"""*BT.2020* constants."""
 
 CONSTANTS_BT2020_PRECISE: Structure = Structure(
     alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807
 )
 """
-*BT.2020* colourspace constants at double precision to connect the two curve
-segments smoothly.
+*BT.2020* constants at double precision to connect the two curve segments
+smoothly.
 
 References
 ----------
