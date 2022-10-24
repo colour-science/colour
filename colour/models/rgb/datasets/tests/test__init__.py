@@ -39,7 +39,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         tolerances = {
             "Adobe RGB (1998)": 1e-5,
-            "ALEXA Wide Gamut": 1e-6,
+            "ARRI Wide Gamut 3": 1e-6,
             "DJI D-Gamut": 1e-4,
             "ERIMM RGB": 1e-3,
             "ProPhoto RGB": 1e-3,

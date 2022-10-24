@@ -42,7 +42,7 @@ Similarly, all the RGB colourspaces can be individually accessed from the
                              RGB_COLOURSPACE_ACES2065_1           RGB_COLOURSPACE_ACESPROXY            RGB_COLOURSPACE_APPLE_RGB            RGB_COLOURSPACE_BT470_525
                              RGB_COLOURSPACE_ACESCC               RGB_COLOURSPACE_ADOBE_RGB1998        RGB_COLOURSPACE_BEST_RGB             RGB_COLOURSPACE_BT470_625
                              RGB_COLOURSPACE_ACESCCT              RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB RGB_COLOURSPACE_BETA_RGB             RGB_COLOURSPACE_BT709                >
-                             RGB_COLOURSPACE_ACESCG               RGB_COLOURSPACE_ALEXA_WIDE_GAMUT     RGB_COLOURSPACE_BT2020               RGB_COLOURSPACE_CIE_RGB
+                             RGB_COLOURSPACE_ACESCG               RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3    RGB_COLOURSPACE_BT2020               RGB_COLOURSPACE_CIE_RGB
 
 Abbreviations
 -------------
