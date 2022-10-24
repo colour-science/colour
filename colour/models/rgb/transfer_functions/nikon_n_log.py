@@ -50,7 +50,7 @@ CONSTANTS_NLOG: Structure = Structure(
     c=(150 / 1023),
     d=(619 / 1023),
 )
-"""*Nikon N-Log* colourspace constants."""
+"""*Nikon N-Log* constants."""
 
 
 def log_encoding_NLog(

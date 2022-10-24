@@ -50,7 +50,7 @@ CONSTANTS_FLOG: Structure = Structure(
     e=8.735631,
     f=0.092864,
 )
-"""*Fujifilm F-Log* colourspace constants."""
+"""*Fujifilm F-Log* constants."""
 
 
 def log_encoding_FLog(

@@ -32,7 +32,7 @@ from .blackmagic_design import (
     oetf_BlackmagicFilmGeneration5,
     oetf_inverse_BlackmagicFilmGeneration5,
 )
-from .canon_log import (
+from .canon import (
     log_encoding_CanonLog,
     log_decoding_CanonLog,
     log_encoding_CanonLog2,
@@ -93,7 +93,7 @@ from .panasonic_v_log import log_encoding_VLog, log_decoding_VLog
 from .fujifilm_f_log import log_encoding_FLog, log_decoding_FLog
 from .nikon_n_log import log_encoding_NLog, log_decoding_NLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
-from .red_log import (
+from .red import (
     log_encoding_REDLog,
     log_decoding_REDLog,
     log_encoding_REDLogFilm,
@@ -116,7 +116,7 @@ from .rimm_romm_rgb import (
     log_decoding_ERIMMRGB,
 )
 from .smpte_240m import oetf_SMPTE240M, eotf_SMPTE240M
-from .sony_s_log import (
+from .sony import (
     log_encoding_SLog,
     log_decoding_SLog,
     log_encoding_SLog2,
