@@ -311,10 +311,10 @@ class TestSignal(unittest.TestCase):
                         [   7.,   80.],
                         [   8.,   90.],
                         [   9.,  100.]],
-                       KernelInterpolator,
-                       {},
-                       Extrapolator,
-                       {'method': 'Constant', 'left': nan, 'right': nan})
+                       interpolator=KernelInterpolator,
+                       interpolator_kwargs={},
+                       extrapolator=Extrapolator,
+                       extrapolator_kwargs={'method': 'Constant', 'left': nan, 'right': nan})
                 """
             ).strip(),
         )

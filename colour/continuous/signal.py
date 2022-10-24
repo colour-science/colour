@@ -301,7 +301,8 @@ class Signal(AbstractContinuousFunction):
 
         attest(
             value in np.sctypes["float"],
-            f'"dtype" must be one of the following types: ' f"{np.sctypes['float']}",
+            f'"dtype" must be one of the following types: '
+            f"{np.sctypes['float']}",
         )
 
         self._dtype = value
@@ -447,6 +448,7 @@ class Signal(AbstractContinuousFunction):
         )
 
         self._interpolator_kwargs = value
+        self._function = None
 
     @property
     def extrapolator(self) -> Type[TypeExtrapolator]:
@@ -588,7 +590,9 @@ class Signal(AbstractContinuousFunction):
 
         try:
             representation = repr(tstack([self.domain, self.range]))
-            representation = representation.replace("array", self.__class__.__name__)
+            representation = representation.replace(
+                "array", self.__class__.__name__
+            )
             representation = representation.replace(
                 "       [",
                 f"{' ' * (len(self.__class__.__name__) + 2)}[",
@@ -629,7 +633,9 @@ class Signal(AbstractContinuousFunction):
             )
         )
 
-    def __getitem__(self, x: Union[FloatingOrArrayLike, slice]) -> FloatingOrNDArray:
+    def __getitem__(
+        self, x: Union[FloatingOrArrayLike, slice]
+    ) -> FloatingOrNDArray:
         """
         Return the corresponding range variable :math:`y` for independent
         domain variable :math:`x`.
@@ -675,7 +681,9 @@ class Signal(AbstractContinuousFunction):
         else:
             return self.function(x)
 
-    def __setitem__(self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike):
+    def __setitem__(
+        self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
+    ):
         """
         Set the corresponding range variable :math:`y` for independent domain
         variable :math:`x`.
@@ -925,7 +933,9 @@ class Signal(AbstractContinuousFunction):
 
     def _fill_domain_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ):
         """
@@ -951,7 +961,9 @@ class Signal(AbstractContinuousFunction):
 
     def _fill_range_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ):
         """
@@ -1202,7 +1214,9 @@ class Signal(AbstractContinuousFunction):
 
     def fill_nan(
         self,
-        method: Union[Literal["Constant", "Interpolation"], str] = "Interpolation",
+        method: Union[
+            Literal["Constant", "Interpolation"], str
+        ] = "Interpolation",
         default: Number = 0,
     ) -> AbstractContinuousFunction:
         """
