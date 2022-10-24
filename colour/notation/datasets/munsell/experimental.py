@@ -1011,7 +1011,6 @@ MUNSELL_COLOURS_1929: Tuple = (
     (("7.5RP", 8.0, 4.0), np.array([0.3360, 0.3092, 59.1000])),
     (("7.5RP", 8.0, 6.0), np.array([0.3521, 0.3042, 59.1000])),
 )
-# yapf: enable
 """
 *1929* published *Munsell* colours as a *tuple* as follows::
 
