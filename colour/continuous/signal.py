@@ -276,7 +276,7 @@ class Signal(AbstractContinuousFunction):
             "extrapolator_kwargs", self._extrapolator_kwargs
         )
 
-        self._create_function()
+        self._function = None
 
     @property
     def dtype(self) -> Type[DTypeFloating]:
@@ -349,7 +349,7 @@ class Signal(AbstractContinuousFunction):
             self._range = np.resize(self._range, value.shape)
 
         self._domain = value
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     @property
     def range(self) -> NDArray:
@@ -389,7 +389,7 @@ class Signal(AbstractContinuousFunction):
         )
 
         self._range = value
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     @property
     def interpolator(self) -> Type[TypeInterpolator]:
@@ -416,7 +416,7 @@ class Signal(AbstractContinuousFunction):
 
         # TODO: Check for interpolator compatibility.
         self._interpolator = value
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     @property
     def interpolator_kwargs(self) -> Dict:
@@ -449,7 +449,7 @@ class Signal(AbstractContinuousFunction):
         )
 
         self._interpolator_kwargs = value
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     @property
     def extrapolator(self) -> Type[TypeExtrapolator]:
@@ -476,7 +476,7 @@ class Signal(AbstractContinuousFunction):
 
         # TODO: Check for extrapolator compatibility.
         self._extrapolator = value
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     @property
     def extrapolator_kwargs(self) -> Dict:
@@ -509,7 +509,7 @@ class Signal(AbstractContinuousFunction):
         )
 
         self._extrapolator_kwargs = value
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     @property
     def function(self) -> Callable:
@@ -522,6 +522,8 @@ class Signal(AbstractContinuousFunction):
             Continuous signal callable.
         """
 
+        if self._function is None:
+            self._create_function()
         return self._function
 
     def __str__(self) -> str:
@@ -677,7 +679,7 @@ class Signal(AbstractContinuousFunction):
         if isinstance(x, slice):
             return self._range[x]
         else:
-            return self._function(x)
+            return self.function(x)
 
     def __setitem__(
         self, x: Union[FloatingOrArrayLike, slice], y: FloatingOrArrayLike
@@ -769,7 +771,7 @@ class Signal(AbstractContinuousFunction):
                 self._domain = np.insert(self._domain, indexes, x_nm)
                 self._range = np.insert(self._range, indexes, y[~mask])
 
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     def __contains__(self, x: Union[FloatingOrArrayLike, slice]) -> bool:
         """
@@ -955,7 +957,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         self._domain = fill_nan(self._domain, method, default)
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     def _fill_range_nan(
         self,
@@ -983,7 +985,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         self._range = fill_nan(self._range, method, default)
-        self._create_function()
+        self._function = None  # Invalidate internal _function
 
     def arithmetical_operation(
         self,
