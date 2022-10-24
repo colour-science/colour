@@ -297,10 +297,12 @@ class TestSignal(unittest.TestCase):
     def test__repr__(self):
         """Test :func:`colour.continuous.signal.Signal.__repr__` method."""
 
+        # Workaround for flake8 line length
+        s = "extrapolator_kwargs={'method': 'Constant', 'left': nan, 'right': nan})"
         self.assertEqual(
             repr(self._signal),
             textwrap.dedent(
-                """
+                f"""
                 Signal([[   0.,   10.],
                         [   1.,   20.],
                         [   2.,   30.],
@@ -312,9 +314,9 @@ class TestSignal(unittest.TestCase):
                         [   8.,   90.],
                         [   9.,  100.]],
                        interpolator=KernelInterpolator,
-                       interpolator_kwargs={},
+                       interpolator_kwargs={{}},
                        extrapolator=Extrapolator,
-                       extrapolator_kwargs={'method': 'Constant', 'left': nan, 'right': nan})
+                       {s}
                 """
             ).strip(),
         )
