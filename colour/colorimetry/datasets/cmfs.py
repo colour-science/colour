@@ -3207,36 +3207,7 @@ DATA_CMFS_STANDARD_OBSERVER: Dict = {
     },
 }
 
-
-def _CIE_2012_2_Degree_Standard_Observer():
-    usage_warning(
-        'The "CIE 2012 2 Degree Standard Observer" has been renamed to '
-        '"CIE 2015 2 Degree Standard Observer" for consistency with the '
-        "official CIE name which was adopted in 2015."
-    )
-
-    return XYZ_ColourMatchingFunctions(
-        DATA_CMFS_STANDARD_OBSERVER["CIE 2015 2 Degree Standard Observer"],
-        name="CIE 2015 2 Degree Standard Observer",
-        display_name="CIE 2015 2$^\\circ$ Standard Observer",
-    )
-
-
-def _CIE_2012_10_Degree_Standard_Observer():
-    usage_warning(
-        'The "CIE 2012 10 Degree Standard Observer" has been renamed to '
-        '"CIE 2015 10 Degree Standard Observer" for consistency with the '
-        "official CIE name which was adopted in 2015."
-    )
-
-    return XYZ_ColourMatchingFunctions(
-        DATA_CMFS_STANDARD_OBSERVER["CIE 2015 2 Degree Standard Observer"],
-        name="CIE 2015 2 Degree Standard Observer",
-        display_name="CIE 2015 2$^\\circ$ Standard Observer",
-    )
-
-
-MSDS_CMFS_STANDARD_OBSERVER: (LazyCanonicalMapping) = LazyCanonicalMapping(
+MSDS_CMFS_STANDARD_OBSERVER: LazyCanonicalMapping = LazyCanonicalMapping(
     {
         "CIE 1931 2 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
@@ -3251,12 +3222,6 @@ MSDS_CMFS_STANDARD_OBSERVER: (LazyCanonicalMapping) = LazyCanonicalMapping(
             ],
             name="CIE 1964 10 Degree Standard Observer",
             display_name="CIE 1964 10$^\\circ$ Standard Observer",
-        ),
-        "CIE 2012 2 Degree Standard Observer": (
-            _CIE_2012_2_Degree_Standard_Observer
-        ),
-        "CIE 2012 10 Degree Standard Observer": (
-            _CIE_2012_10_Degree_Standard_Observer
         ),
         "CIE 2015 2 Degree Standard Observer": partial(
             XYZ_ColourMatchingFunctions,
@@ -3293,6 +3258,47 @@ MSDS_CMFS_STANDARD_OBSERVER["cie_2_1931"] = MSDS_CMFS_STANDARD_OBSERVER[
 MSDS_CMFS_STANDARD_OBSERVER["cie_10_1964"] = MSDS_CMFS_STANDARD_OBSERVER[
     "CIE 1964 10 Degree Standard Observer"
 ]
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+# v0.4.2
+def _CIE_2012_2_Degree_Standard_Observer():
+    usage_warning(
+        'The "CIE 2012 2 Degree Standard Observer" has been renamed to '
+        '"CIE 2015 2 Degree Standard Observer" for consistency with the '
+        "official CIE name which was adopted in 2015."
+    )
+
+    return XYZ_ColourMatchingFunctions(
+        DATA_CMFS_STANDARD_OBSERVER["CIE 2015 2 Degree Standard Observer"],
+        name="CIE 2015 2 Degree Standard Observer",
+        display_name="CIE 2015 2$^\\circ$ Standard Observer",
+    )
+
+
+def _CIE_2012_10_Degree_Standard_Observer():
+    usage_warning(
+        'The "CIE 2012 10 Degree Standard Observer" has been renamed to '
+        '"CIE 2015 10 Degree Standard Observer" for consistency with the '
+        "official CIE name which was adopted in 2015."
+    )
+
+    return XYZ_ColourMatchingFunctions(
+        DATA_CMFS_STANDARD_OBSERVER["CIE 2015 2 Degree Standard Observer"],
+        name="CIE 2015 2 Degree Standard Observer",
+        display_name="CIE 2015 2$^\\circ$ Standard Observer",
+    )
+
+
+MSDS_CMFS_STANDARD_OBSERVER[
+    "CIE 2012 2 Degree Standard Observer"
+] = _CIE_2012_2_Degree_Standard_Observer
+MSDS_CMFS_STANDARD_OBSERVER[
+    "CIE 2012 10 Degree Standard Observer"
+] = _CIE_2012_10_Degree_Standard_Observer
+# ----------------------------------------------------------------------------#
 
 MSDS_CMFS = LazyCanonicalMapping(MSDS_CMFS_LMS)
 MSDS_CMFS.__doc__ = """
