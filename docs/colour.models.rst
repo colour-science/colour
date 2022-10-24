@@ -669,8 +669,8 @@ Log Encoding and Decoding
     log_decoding_ACEScct
     log_encoding_ACESproxy
     log_decoding_ACESproxy
-    log_encoding_ALEXALogC
-    log_decoding_ALEXALogC
+    log_encoding_ARRILogC3
+    log_decoding_ARRILogC3
     log_encoding_CanonLog2
     log_decoding_CanonLog2
     log_encoding_CanonLog3

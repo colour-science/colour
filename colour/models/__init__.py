@@ -126,8 +126,8 @@ from .rgb import (
     log_decoding_ACEScct,
     oetf_ARIBSTDB67,
     oetf_inverse_ARIBSTDB67,
-    log_encoding_ALEXALogC,
-    log_decoding_ALEXALogC,
+    log_encoding_ARRILogC3,
+    log_decoding_ARRILogC3,
     oetf_BlackmagicFilmGeneration5,
     oetf_inverse_BlackmagicFilmGeneration5,
     log_encoding_CanonLog,
@@ -524,8 +524,8 @@ __all__ += [
     "log_decoding_ACEScct",
     "oetf_ARIBSTDB67",
     "oetf_inverse_ARIBSTDB67",
-    "log_encoding_ALEXALogC",
-    "log_decoding_ALEXALogC",
+    "log_encoding_ARRILogC3",
+    "log_decoding_ARRILogC3",
     "oetf_BlackmagicFilmGeneration5",
     "oetf_inverse_BlackmagicFilmGeneration5",
     "log_encoding_CanonLog",
@@ -863,6 +863,14 @@ API_CHANGES["ObjectRenamed"].extend(
         [
             "colour.models.ootf_inverse_HLG_BT2100",
             "colour.models.ootf_inverse_BT2100_HLG",
+        ],
+        [
+            "colour.models.log_decoding_ALEXALogC",
+            "colour.models.log_decoding_ARRILogC3",
+        ],
+        [
+            "colour.models.log_encoding_ALEXALogC",
+            "colour.models.log_encoding_ARRILogC3",
         ],
     ]
 )

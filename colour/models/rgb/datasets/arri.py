@@ -20,8 +20,8 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.hints import NDArray
 from colour.models.rgb import (
     RGB_Colourspace,
-    log_encoding_ALEXALogC,
-    log_decoding_ALEXALogC,
+    log_encoding_ARRILogC3,
+    log_decoding_ARRILogC3,
 )
 
 __author__ = "Colour Developers"
@@ -82,8 +82,8 @@ RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3: RGB_Colourspace = RGB_Colourspace(
     WHITEPOINT_NAME_ARRI_WIDE_GAMUT_3,
     MATRIX_ARRI_WIDE_GAMUT_3_TO_XYZ,
     MATRIX_XYZ_TO_ARRI_WIDE_GAMUT_3,
-    log_encoding_ALEXALogC,
-    log_decoding_ALEXALogC,
+    log_encoding_ARRILogC3,
+    log_decoding_ARRILogC3,
 )
 RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3.__doc__ = """
 *ARRI Wide Gamut 3* colourspace.

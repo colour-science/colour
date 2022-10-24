@@ -27,7 +27,7 @@ from .aces import (
     log_decoding_ACEScct,
 )
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_inverse_ARIBSTDB67
-from .arri_alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
+from .arri import log_encoding_ARRILogC3, log_decoding_ARRILogC3
 from .blackmagic_design import (
     oetf_BlackmagicFilmGeneration5,
     oetf_inverse_BlackmagicFilmGeneration5,
@@ -158,8 +158,8 @@ __all__ += [
     "oetf_inverse_ARIBSTDB67",
 ]
 __all__ += [
-    "log_encoding_ALEXALogC",
-    "log_decoding_ALEXALogC",
+    "log_encoding_ARRILogC3",
+    "log_decoding_ARRILogC3",
 ]
 __all__ += [
     "oetf_BlackmagicFilmGeneration5",
@@ -343,7 +343,7 @@ LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
         "ACEScc": log_encoding_ACEScc,
         "ACEScct": log_encoding_ACEScct,
         "ACESproxy": log_encoding_ACESproxy,
-        "ALEXA Log C": log_encoding_ALEXALogC,
+        "ARRI LogC3": log_encoding_ARRILogC3,
         "Canon Log 2": log_encoding_CanonLog2,
         "Canon Log 3": log_encoding_CanonLog3,
         "Canon Log": log_encoding_CanonLog,
@@ -382,7 +382,7 @@ def log_encoding(
             "ACEScc",
             "ACEScct",
             "ACESproxy",
-            "ALEXA Log C",
+            "ARRI LogC3",
             "Canon Log 2",
             "Canon Log 3",
             "Canon Log",
@@ -429,7 +429,7 @@ def log_encoding(
         {:func:`colour.models.log_encoding_ACEScc`,
         :func:`colour.models.log_encoding_ACEScct`,
         :func:`colour.models.log_encoding_ACESproxy`,
-        :func:`colour.models.log_encoding_ALEXALogC`,
+        :func:`colour.models.log_encoding_ARRILogC3`,
         :func:`colour.models.log_encoding_CanonLog2`,
         :func:`colour.models.log_encoding_CanonLog3`,
         :func:`colour.models.log_encoding_CanonLog`,
@@ -490,7 +490,7 @@ LOG_DECODINGS: CanonicalMapping = CanonicalMapping(
         "ACEScc": log_decoding_ACEScc,
         "ACEScct": log_decoding_ACEScct,
         "ACESproxy": log_decoding_ACESproxy,
-        "ALEXA Log C": log_decoding_ALEXALogC,
+        "ARRI LogC3": log_decoding_ARRILogC3,
         "Canon Log 2": log_decoding_CanonLog2,
         "Canon Log 3": log_decoding_CanonLog3,
         "Canon Log": log_decoding_CanonLog,
@@ -529,7 +529,7 @@ def log_decoding(
             "ACEScc",
             "ACEScct",
             "ACESproxy",
-            "ALEXA Log C",
+            "ARRI LogC3",
             "Canon Log 2",
             "Canon Log 3",
             "Canon Log",
@@ -576,7 +576,7 @@ def log_decoding(
         {:func:`colour.models.log_decoding_ACEScc`,
         :func:`colour.models.log_decoding_ACEScct`,
         :func:`colour.models.log_decoding_ACESproxy`,
-        :func:`colour.models.log_decoding_ALEXALogC`,
+        :func:`colour.models.log_decoding_ARRILogC3`,
         :func:`colour.models.log_decoding_CanonLog2`,
         :func:`colour.models.log_decoding_CanonLog3`,
         :func:`colour.models.log_decoding_CanonLog`,
@@ -1041,7 +1041,7 @@ def cctf_encoding(
             "ACEScc",
             "ACEScct",
             "ACESproxy",
-            "ALEXA Log C",
+            "ARRI LogC3",
             "ARIB STD-B67",
             "Blackmagic Film Generation 5",
             "Canon Log 2",
@@ -1195,7 +1195,7 @@ def cctf_decoding(
             "ACEScc",
             "ACEScct",
             "ACESproxy",
-            "ALEXA Log C",
+            "ARRI LogC3",
             "ARIB STD-B67",
             "Blackmagic Film Generation 5",
             "Canon Log 2",
