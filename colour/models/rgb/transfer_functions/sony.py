@@ -1,8 +1,8 @@
 """
-Sony S-Log Encodings
-====================
+Sony Encodings
+==============
 
-Defines the *Sony S-Log* log encodings:
+Defines the *Sony* log encodings:
 
 -   :func:`colour.models.log_encoding_SLog`
 -   :func:`colour.models.log_decoding_SLog`

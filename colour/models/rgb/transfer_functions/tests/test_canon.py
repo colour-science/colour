@@ -1,6 +1,6 @@
 """
 Define the unit tests for the
-:mod:`colour.models.rgb.transfer_functions.canon_log` module.
+:mod:`colour.models.rgb.transfer_functions.canon` module.
 """
 
 import numpy as np
@@ -36,13 +36,13 @@ __all__ = [
 
 class TestLogEncoding_CanonLog(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.canon_log.\
+    Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog` definition unit tests methods.
     """
 
     def test_log_encoding_CanonLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog` definition.
         """
 
@@ -78,7 +78,7 @@ log_encoding_CanonLog` definition.
 
     def test_n_dimensional_log_encoding_CanonLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog` definition n-dimensional arrays support.
         """
 
@@ -105,7 +105,7 @@ log_encoding_CanonLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_CanonLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog` definition domain and range scale support.
         """
 
@@ -122,7 +122,7 @@ log_encoding_CanonLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_CanonLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog` definition nan support.
         """
 
@@ -133,13 +133,13 @@ log_encoding_CanonLog` definition nan support.
 
 class TestLogDecoding_CanonLog(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.canon_log.\
+    Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog` definition unit tests methods.
     """
 
     def test_log_decoding_CanonLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog` definition.
         """
 
@@ -175,7 +175,7 @@ log_decoding_CanonLog` definition.
 
     def test_n_dimensional_log_decoding_CanonLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog` definition n-dimensional arrays support.
         """
 
@@ -202,7 +202,7 @@ log_decoding_CanonLog` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_CanonLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog` definition domain and range scale support.
         """
 
@@ -219,7 +219,7 @@ log_decoding_CanonLog` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_CanonLog(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog` definition nan support.
         """
 
@@ -230,13 +230,13 @@ log_decoding_CanonLog` definition nan support.
 
 class TestLogEncoding_CanonLog2(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.canon_log.\
+    Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2` definition unit tests methods.
     """
 
     def test_log_encoding_CanonLog2(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2` definition.
         """
 
@@ -274,7 +274,7 @@ log_encoding_CanonLog2` definition.
 
     def test_n_dimensional_log_encoding_CanonLog2(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2` definition n-dimensional arrays support.
         """
 
@@ -301,7 +301,7 @@ log_encoding_CanonLog2` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_CanonLog2(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2` definition domain and range scale support.
         """
 
@@ -320,7 +320,7 @@ log_encoding_CanonLog2` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_CanonLog2(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog2` definition nan support.
         """
 
@@ -331,13 +331,13 @@ log_encoding_CanonLog2` definition nan support.
 
 class TestLogDecoding_CanonLog2(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.canon_log.\
+    Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2` definition unit tests methods.
     """
 
     def test_log_decoding_CanonLog2(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2` definition.
         """
 
@@ -375,7 +375,7 @@ log_decoding_CanonLog2` definition.
 
     def test_n_dimensional_log_decoding_CanonLog2(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2` definition n-dimensional arrays support.
         """
 
@@ -402,7 +402,7 @@ log_decoding_CanonLog2` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_CanonLog2(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2` definition domain and range scale support.
         """
 
@@ -421,7 +421,7 @@ log_decoding_CanonLog2` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_CanonLog2(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog2` definition nan support.
         """
 
@@ -432,13 +432,13 @@ log_decoding_CanonLog2` definition nan support.
 
 class TestLogEncoding_CanonLog3(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.canon_log.\
+    Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3` definition unit tests methods.
     """
 
     def test_log_encoding_CanonLog3(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3` definition.
         """
 
@@ -476,7 +476,7 @@ log_encoding_CanonLog3` definition.
 
     def test_n_dimensional_log_encoding_CanonLog3(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3` definition n-dimensional arrays support.
         """
 
@@ -503,7 +503,7 @@ log_encoding_CanonLog3` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_encoding_CanonLog3(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3` definition domain and range scale support.
         """
 
@@ -522,7 +522,7 @@ log_encoding_CanonLog3` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_encoding_CanonLog3(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_encoding_CanonLog3` definition nan support.
         """
 
@@ -533,13 +533,13 @@ log_encoding_CanonLog3` definition nan support.
 
 class TestLogDecoding_CanonLog3(unittest.TestCase):
     """
-    Define :func:`colour.models.rgb.transfer_functions.canon_log.\
+    Define :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3` definition unit tests methods.
     """
 
     def test_log_decoding_CanonLog3(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3` definition.
         """
 
@@ -577,7 +577,7 @@ log_decoding_CanonLog3` definition.
 
     def test_n_dimensional_log_decoding_CanonLog3(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3` definition n-dimensional arrays support.
         """
 
@@ -604,7 +604,7 @@ log_decoding_CanonLog3` definition n-dimensional arrays support.
 
     def test_domain_range_scale_log_decoding_CanonLog3(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3` definition domain and range scale support.
         """
 
@@ -623,7 +623,7 @@ log_decoding_CanonLog3` definition domain and range scale support.
     @ignore_numpy_errors
     def test_nan_log_decoding_CanonLog3(self):
         """
-        Test :func:`colour.models.rgb.transfer_functions.canon_log.\
+        Test :func:`colour.models.rgb.transfer_functions.canon.\
 log_decoding_CanonLog3` definition nan support.
         """
 
