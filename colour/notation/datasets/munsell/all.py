@@ -5049,7 +5049,6 @@ MUNSELL_COLOURS_ALL: Tuple = (
     (("7.5Y", 10.0, 20.0), np.array([0.4670, 0.5210, 102.5700])),
     (("7.5Y", 10.0, 22.0), np.array([0.4720, 0.5280, 102.5700])),
 )
-# yapf: enable
 """
 *All* published *Munsell* colours, including the extrapolated colors as a
 *tuple* as follows::
