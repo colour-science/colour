@@ -11,6 +11,10 @@ References
 ----------
 -   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
     https://drive.google.com/open?id=1t73fAG_QpV7hJxoQPYZDWvOojYkYDgvn
+-   :cite:`Cooper2022` : Cooper, S., & Brendel, H. (2022). ARRI LogC4
+    Logarithmic Color Space SPECIFICATION. Retrieved October 24, 2022, from
+    https://www.arri.com/resource/blob/278790/bea879ac0d041a925bed27a096ab3ec2/\
+2022-05-arri-logc4-specification-data.pdf
 """
 
 from __future__ import annotations
@@ -20,6 +24,7 @@ import numpy as np
 from colour.hints import FloatingOrArrayLike, FloatingOrNDArray, Literal, Union
 from colour.utilities import (
     CanonicalMapping,
+    Structure,
     as_float,
     from_range_1,
     to_domain_1,
@@ -38,6 +43,9 @@ __all__ = [
     "DATA_ALEXA_LOG_C_CURVE_CONVERSION",
     "log_encoding_ARRILogC3",
     "log_decoding_ARRILogC3",
+    "CONSTANTS_ARRILOGC4",
+    "log_encoding_ARRILogC4",
+    "log_decoding_ARRILogC4",
 ]
 
 DATA_ALEXA_LOG_C_CURVE_BCL: CanonicalMapping = CanonicalMapping(
@@ -679,3 +687,142 @@ def log_decoding_ARRILogC3(
     x = np.where(t > e * cut + f, (10 ** ((t - d) / c) - b) / a, (t - f) / e)
 
     return as_float(from_range_1(x))
+
+
+CONSTANTS_ARRILOGC4: Structure = Structure(
+    a=(2**18 - 16) / 117.45,
+    b=(1023 - 95) / 1023,
+    c=95 / 1023,
+)
+"""*ARRI LogC4* constants."""
+
+_a = CONSTANTS_ARRILOGC4.a
+_b = CONSTANTS_ARRILOGC4.b
+_c = CONSTANTS_ARRILOGC4.c
+
+CONSTANTS_ARRILOGC4.s = (7 * np.log(2) * 2 ** (7 - 14 * _c / _b)) / (_a * _b)
+CONSTANTS_ARRILOGC4.t = (2 ** (14 * (-_c / _b) + 6) - 64) / _a
+
+del _a, _b, _c
+
+
+def log_encoding_ARRILogC4(
+    E_scene: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_ARRILOGC4,
+) -> FloatingOrNDArray:
+    """
+    Define the *ARRI LogC4* log encoding curve / opto-electronic transfer
+    function.
+
+    Parameters
+    ----------
+    E_scene
+        Relative scene linear signal :math:`E_{scene}`.
+    constants
+        *ARRI LogC4* constants.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        *ARRI LogC4* encoded signal :math:`E'`.
+
+    References
+    ----------
+    :cite:`Cooper2022`
+
+    Notes
+    -----
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``E_scene`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    Examples
+    --------
+    >>> log_encoding_ARRILogC4(0.18)  # doctest: +ELLIPSIS
+    0.2783958...
+    """
+
+    E_scene = to_domain_1(E_scene)
+
+    a = constants.a
+    b = constants.b
+    c = constants.c
+    s = constants.s
+    t = constants.t
+
+    E_p = np.where(
+        E_scene >= t,
+        (np.log2(a * E_scene + 64) - 6) / 14 * b + c,
+        (E_scene - t) / s,
+    )
+
+    return as_float(from_range_1(E_p))
+
+
+def log_decoding_ARRILogC4(
+    E_p: FloatingOrArrayLike,
+    constants: Structure = CONSTANTS_ARRILOGC4,
+) -> FloatingOrNDArray:
+    """
+    Define the *ARRI LogC4* log decoding curve / electro-optical transfer
+    function.
+
+    Parameters
+    ----------
+    E_p
+        *ARRI LogC4* encoded signal :math:`E'`.
+    constants
+        *ARRI LogC4* constants.
+
+    Returns
+    -------
+    :class:`numpy.floating` or :class:`numpy.ndarray`
+        Linear data :math:`E_{scene}`.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``E_scene`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Cooper2022`
+
+    Examples
+    --------
+    >>> log_decoding_ARRILogC4(0.27839583654826527)  # doctest: +ELLIPSIS
+    0.18...
+    """
+
+    E_p = to_domain_1(E_p)
+
+    a = constants.a
+    b = constants.b
+    c = constants.c
+    s = constants.s
+    t = constants.t
+
+    E_scene = np.where(
+        E_p >= 0,
+        (2 ** (14 * ((E_p - c) / b) + 6) - 64) / a,
+        E_p * s + t,
+    )
+
+    return as_float(from_range_1(E_scene))
