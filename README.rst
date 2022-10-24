@@ -901,7 +901,7 @@ RGB Colourspaces
      'ACEScct',
      'ACEScg',
      'ACESproxy',
-     'ALEXA Wide Gamut',
+     'ARRI Wide Gamut 3',
      'Adobe RGB (1998)',
      'Adobe Wide Gamut RGB',
      'Apple RGB',

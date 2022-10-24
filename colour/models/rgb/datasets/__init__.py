@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from colour.utilities import CanonicalMapping
+from colour.utilities import LazyCanonicalMapping, usage_warning
 from .aces import (
     RGB_COLOURSPACE_ACES2065_1,
     RGB_COLOURSPACE_ACESCC,
@@ -11,7 +11,7 @@ from .aces import (
 from .adobe_rgb_1998 import RGB_COLOURSPACE_ADOBE_RGB1998
 from .adobe_wide_gamut_rgb import RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB
 from .apple_rgb import RGB_COLOURSPACE_APPLE_RGB
-from .arri_alexa_wide_gamut import RGB_COLOURSPACE_ALEXA_WIDE_GAMUT
+from .arri import RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3
 from .best_rgb import RGB_COLOURSPACE_BEST_RGB
 from .beta_rgb import RGB_COLOURSPACE_BETA_RGB
 from .blackmagic_design import RGB_COLOURSPACE_BLACKMAGIC_WIDE_GAMUT
@@ -74,7 +74,7 @@ from .xtreme_rgb import RGB_COLOURSPACE_XTREME_RGB
 
 from colour.models.rgb import RGB_Colourspace
 
-RGB_COLOURSPACES: CanonicalMapping = CanonicalMapping(
+RGB_COLOURSPACES: LazyCanonicalMapping = LazyCanonicalMapping(
     dict(
         sorted(
             (colourspace.name, colourspace)
@@ -112,7 +112,7 @@ __all__ += [
     "RGB_COLOURSPACE_ACESCG",
     "RGB_COLOURSPACE_ADOBE_RGB1998",
     "RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB",
-    "RGB_COLOURSPACE_ALEXA_WIDE_GAMUT",
+    "RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3",
     "RGB_COLOURSPACE_APPLE_RGB",
     "RGB_COLOURSPACE_BEST_RGB",
     "RGB_COLOURSPACE_BETA_RGB",
@@ -169,3 +169,20 @@ __all__ += [
     "RGB_COLOURSPACE_XTREME_RGB",
     "RGB_COLOURSPACE_F_GAMUT",
 ]
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+# v0.4.2
+def _alexa_wide_gamut():
+    usage_warning(
+        'The "ALEXA Wide Gamut" RGB colourspace has been renamed to '
+        '"ARRI Wide Gamut 3" for consistency with "ARRI" new naming '
+        "convention."
+    )
+
+    return RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3
+
+
+RGB_COLOURSPACES["ALEXA Wide Gamut"] = _alexa_wide_gamut
