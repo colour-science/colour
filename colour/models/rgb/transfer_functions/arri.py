@@ -1,11 +1,11 @@
 """
-ARRI ALEXA Log C Log Encoding
-=============================
+ARRI Log Encodings
+==================
 
-Defines the *ARRI ALEXA Log C* log encoding:
+Defines the *ARRI LogC3* log encoding:
 
--   :func:`colour.models.log_encoding_ALEXALogC`
--   :func:`colour.models.log_decoding_ALEXALogC`
+-   :func:`colour.models.log_encoding_ARRILogC3`
+-   :func:`colour.models.log_decoding_ARRILogC3`
 
 References
 ----------
@@ -36,8 +36,8 @@ __status__ = "Production"
 __all__ = [
     "DATA_ALEXA_LOG_C_CURVE_BCL",
     "DATA_ALEXA_LOG_C_CURVE_CONVERSION",
-    "log_encoding_ALEXALogC",
-    "log_decoding_ALEXALogC",
+    "log_encoding_ARRILogC3",
+    "log_decoding_ARRILogC3",
 ]
 
 DATA_ALEXA_LOG_C_CURVE_BCL: CanonicalMapping = CanonicalMapping(
@@ -73,7 +73,7 @@ DATA_ALEXA_LOG_C_CURVE_BCL: CanonicalMapping = CanonicalMapping(
         },
     }
 )
-"""*ARRI ALEXA Log C* curve *Ei, Black, Clipping Level* data."""
+"""*ARRI LogC3* curve *Ei, Black, Clipping Level* data."""
 
 DATA_ALEXA_LOG_C_CURVE_CONVERSION: CanonicalMapping = CanonicalMapping(
     {
@@ -536,13 +536,13 @@ DATA_ALEXA_LOG_C_CURVE_CONVERSION: CanonicalMapping = CanonicalMapping(
     }
 )
 """
-*ARRI ALEXA Log C* curve conversion data between signal and linear scene
+*ARRI LogC3* curve conversion data between signal and linear scene
 exposure factor for *SUP 3.x* and signal and normalised sensor signal for
 *SUP 2.x*.
 """
 
 
-def log_encoding_ALEXALogC(
+def log_encoding_ARRILogC3(
     x: FloatingOrArrayLike,
     firmware: Union[Literal["SUP 2.x", "SUP 3.x"], str] = "SUP 3.x",
     method: Union[
@@ -554,8 +554,8 @@ def log_encoding_ALEXALogC(
     ] = 800,
 ) -> FloatingOrNDArray:
     """
-    Define the *ARRI ALEXA Log C* log encoding curve / opto-electronic
-    transfer function.
+    Define the *ARRI LogC3* log encoding curve / opto-electronic transfer
+    function.
 
     Parameters
     ----------
@@ -571,7 +571,7 @@ def log_encoding_ALEXALogC(
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
-        *ARRI ALEXA Log C* encoded data :math:`t`.
+        *ARRI LogC3* encoded data :math:`t`.
 
     References
     ----------
@@ -593,7 +593,7 @@ def log_encoding_ALEXALogC(
 
     Examples
     --------
-    >>> log_encoding_ALEXALogC(0.18)  # doctest: +ELLIPSIS
+    >>> log_encoding_ARRILogC3(0.18)  # doctest: +ELLIPSIS
     0.3910068...
     """
 
@@ -612,7 +612,7 @@ def log_encoding_ALEXALogC(
     return as_float(from_range_1(t))
 
 
-def log_decoding_ALEXALogC(
+def log_decoding_ARRILogC3(
     t: FloatingOrArrayLike,
     firmware: Union[Literal["SUP 2.x", "SUP 3.x"], str] = "SUP 3.x",
     method: Union[
@@ -624,13 +624,13 @@ def log_decoding_ALEXALogC(
     ] = 800,
 ) -> FloatingOrNDArray:
     """
-    Define the *ARRI ALEXA Log C* log decoding curve / electro-optical
-    transfer function.
+    Define the *ARRI LogC3* log decoding curve / electro-optical transfer
+    function.
 
     Parameters
     ----------
     t
-        *ARRI ALEXA Log C* encoded data :math:`t`.
+        *ARRI LogC3* encoded data :math:`t`.
     firmware
         Alexa firmware version.
     method
@@ -663,7 +663,7 @@ def log_decoding_ALEXALogC(
 
     Examples
     --------
-    >>> log_decoding_ALEXALogC(0.391006832034084)  # doctest: +ELLIPSIS
+    >>> log_decoding_ARRILogC3(0.391006832034084)  # doctest: +ELLIPSIS
     0.18...
     """
 
