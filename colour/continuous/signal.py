@@ -523,8 +523,42 @@ class Signal(AbstractContinuousFunction):
         """
 
         if self._function is None:
-            self._create_function()
-        return self._function
+            ## Create the underlying continuous function
+
+            if self._domain.size != 0 and self._range.size != 0:
+                self._function = self._extrapolator(
+                    self._interpolator(
+                        self.domain, self.range, **self._interpolator_kwargs
+                    ),
+                    **self._extrapolator_kwargs,
+                )
+            else:
+
+                def _undefined_function(*args: Any, **kwargs: Any):
+                    """
+                    Raise a :class:`ValueError` exception.
+
+                    Other Parameters
+                    ----------------
+                    args
+                        Arguments.
+                    kwargs
+                        Keywords arguments.
+
+                    Raises
+                    ------
+                    ValueError
+                    """
+
+                    raise ValueError(
+                        "Underlying signal interpolator function does not exists, "
+                        "please ensure you defined both "
+                        '"domain" and "range" variables!'
+                    )
+
+                self._function = _undefined_function
+
+        return cast(Callable, self._function)
 
     def __str__(self) -> str:
         """
@@ -894,42 +928,6 @@ class Signal(AbstractContinuousFunction):
         """
 
         return not (self == other)
-
-    def _create_function(self):
-        """Create the continuous signal underlying function."""
-
-        if self._domain.size != 0 and self._range.size != 0:
-            self._function = self._extrapolator(
-                self._interpolator(
-                    self.domain, self.range, **self._interpolator_kwargs
-                ),
-                **self._extrapolator_kwargs,
-            )
-        else:
-
-            def _undefined_function(*args: Any, **kwargs: Any):
-                """
-                Raise a :class:`ValueError` exception.
-
-                Other Parameters
-                ----------------
-                args
-                    Arguments.
-                kwargs
-                    Keywords arguments.
-
-                Raises
-                ------
-                ValueError
-                """
-
-                raise ValueError(
-                    "Underlying signal interpolator function does not exists, "
-                    "please ensure you defined both "
-                    '"domain" and "range" variables!'
-                )
-
-            self._function = _undefined_function
 
     def _fill_domain_nan(
         self,
