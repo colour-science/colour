@@ -523,7 +523,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         if self._function is None:
-            ## Create the underlying continuous function
+            # Create the underlying continuous function
 
             if self._domain.size != 0 and self._range.size != 0:
                 self._function = self._extrapolator(
