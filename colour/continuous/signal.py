@@ -276,7 +276,7 @@ class Signal(AbstractContinuousFunction):
             "extrapolator_kwargs", self._extrapolator_kwargs
         )
 
-        self._function = None
+        self._function: Callable | None = None
 
     @property
     def dtype(self) -> Type[DTypeFloating]:
@@ -556,7 +556,7 @@ class Signal(AbstractContinuousFunction):
                         '"domain" and "range" variables!'
                     )
 
-                self._function = _undefined_function
+                self._function = cast(Callable, _undefined_function)
 
         return cast(Callable, self._function)
 
