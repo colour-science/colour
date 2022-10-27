@@ -276,7 +276,7 @@ class Signal(AbstractContinuousFunction):
             "extrapolator_kwargs", self._extrapolator_kwargs
         )
 
-        self._function: Callable | None = None
+        self._function: Union[Callable, None] = None
 
     @property
     def dtype(self) -> Type[DTypeFloating]:
