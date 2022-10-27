@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v2.37.3
+    rev: v3.1.0
     hooks:
     -   id: pyupgrade
         args: [--py38-plus]
@@ -10,12 +10,12 @@ repos:
     hooks:
     -   id: flynt
 -   repo: https://github.com/psf/black
-    rev: 22.6.0
+    rev: 22.10.0
     hooks:
     - id: black
       language_version: python3.8
 -   repo: https://github.com/PyCQA/flake8
-    rev: 5.0.3
+    rev: 5.0.4
     hooks:
     -   id: flake8
 -   repo: https://github.com/pycqa/pydocstyle
