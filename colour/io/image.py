@@ -552,7 +552,7 @@ def write_image_Imageio(
         "uint8", "uint16", "float16", "float32", "float64", "float128"
     ] = "float32",
     **kwargs: Any,
-) -> Boolean:
+) -> Optional[bytes]:
     """
     Write given image data at given path using *Imageio*.
 
