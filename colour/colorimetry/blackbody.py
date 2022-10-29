@@ -215,10 +215,9 @@ def sd_blackbody(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    wavelengths = shape.range()
     return SpectralDistribution(
-        planck_law(wavelengths * 1e-9, temperature, c1, c2, n) * 1e-9,
-        wavelengths,
+        planck_law(shape.wavelengths * 1e-9, temperature, c1, c2, n) * 1e-9,
+        shape.wavelengths,
         name=f"{temperature}K Blackbody",
     )
 
@@ -351,9 +350,8 @@ def sd_rayleigh_jeans(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    wavelengths = shape.range()
     return SpectralDistribution(
-        rayleigh_jeans_law(wavelengths * 1e-9, temperature) * 1e-9,
-        wavelengths,
+        rayleigh_jeans_law(shape.wavelengths * 1e-9, temperature) * 1e-9,
+        shape.wavelengths,
         name=f"{temperature}K Rayleigh-Jeans",
     )

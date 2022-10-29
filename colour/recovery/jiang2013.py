@@ -269,7 +269,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     X = np.linalg.lstsq(A, RGB, rcond=None)[0]
     X = np.dot(eigen_w, X)
 
-    return SpectralDistribution(X, shape.range())
+    return SpectralDistribution(X, shape.wavelengths)
 
 
 def RGB_to_msds_camera_sensitivities_Jiang2013(

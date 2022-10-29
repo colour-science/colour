@@ -722,9 +722,10 @@ spectral dimensions and is instantiated as follows:
     for wavelength in shape:
         print(wavelength)
 
-    # *colour.SpectralShape.range* method is providing the complete range of values.
+    # *colour.SpectralShape.wavelengths* property is providing the complete
+    # range of wavelengths.
     shape = colour.SpectralShape(0, 10, 0.5)
-    shape.range()
+    shape.wavelengths
 
 .. code-block:: text
 

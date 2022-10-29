@@ -190,7 +190,7 @@ def sd_Jakob2019(
     """
 
     c_0, c_1, c_2 = as_float_array(coefficients)
-    wl = shape.range()
+    wl = shape.wavelengths
     U = c_0 * wl**2 + c_1 * wl + c_2
     R = 1 / 2 + U / (2 * np.sqrt(1 + U**2))
 

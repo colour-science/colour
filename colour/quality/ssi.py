@@ -80,8 +80,8 @@ def spectral_similarity_index(
     if _MATRIX_INTEGRATION is None:
         _MATRIX_INTEGRATION = zeros(
             (
-                len(_SPECTRAL_SHAPE_SSI_LARGE.range()),
-                len(SPECTRAL_SHAPE_SSI.range()),
+                len(_SPECTRAL_SHAPE_SSI_LARGE.wavelengths),
+                len(SPECTRAL_SHAPE_SSI.wavelengths),
             )
         )
 

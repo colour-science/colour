@@ -129,10 +129,9 @@ def sd_constant(
     settings = {"name": f"{k} Constant"}
     settings.update(kwargs)
 
-    wavelengths = shape.range()
-    values = full(len(wavelengths), k)
+    values = full(len(shape.wavelengths), k)
 
-    return SpectralDistribution(values, wavelengths, **settings)
+    return SpectralDistribution(values, shape.wavelengths, **settings)
 
 
 def sd_zeros(
@@ -263,7 +262,7 @@ def msds_constant(
     settings = {"name": f"{k} Constant"}
     settings.update(kwargs)
 
-    wavelengths = shape.range()
+    wavelengths = shape.wavelengths
     values = full((len(wavelengths), len(labels)), k)
 
     return MultiSpectralDistributions(
@@ -415,11 +414,9 @@ def sd_gaussian_normal(
     settings = {"name": f"{mu}nm - {sigma} Sigma - Gaussian"}
     settings.update(kwargs)
 
-    wavelengths = shape.range()
+    values = np.exp(-((shape.wavelengths - mu) ** 2) / (2 * sigma**2))
 
-    values = np.exp(-((wavelengths - mu) ** 2) / (2 * sigma**2))
-
-    return SpectralDistribution(values, wavelengths, **settings)
+    return SpectralDistribution(values, shape.wavelengths, **settings)
 
 
 def sd_gaussian_fwhm(
@@ -473,11 +470,9 @@ def sd_gaussian_fwhm(
     settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Gaussian"}
     settings.update(kwargs)
 
-    wavelengths = shape.range()
+    values = np.exp(-(((shape.wavelengths - peak_wavelength) / fwhm) ** 2))
 
-    values = np.exp(-(((wavelengths - peak_wavelength) / fwhm) ** 2))
-
-    return SpectralDistribution(values, wavelengths, **settings)
+    return SpectralDistribution(values, shape.wavelengths, **settings)
 
 
 SD_GAUSSIAN_METHODS: CanonicalMapping = CanonicalMapping(

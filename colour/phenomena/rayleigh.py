@@ -1183,10 +1183,9 @@ def sd_rayleigh_scattering(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    wavelengths = shape.range()
     return SpectralDistribution(
         rayleigh_optical_depth(
-            wavelengths * 10e-8,
+            shape.wavelengths * 10e-8,
             CO2_concentration,
             temperature,
             pressure,
@@ -1196,7 +1195,7 @@ def sd_rayleigh_scattering(
             n_s_function,
             F_air_function,
         ),
-        wavelengths,
+        shape.wavelengths,
         name=(
             "Rayleigh Scattering - "
             f"{CO2_concentration!r} ppm, "

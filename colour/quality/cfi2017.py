@@ -409,7 +409,9 @@ def sd_reference_illuminant(
             f"Blackbody & CIE Illuminant D Series Mixture - "
             f"{as_float_scalar(100 * m):.1f}%"
         )
-        sd_reference = SpectralDistribution(values, shape.range(), name=name)
+        sd_reference = SpectralDistribution(
+            values, shape.wavelengths, name=name
+        )
     elif CCT > 5000:
         sd_reference = sd_daylight
 

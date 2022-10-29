@@ -131,7 +131,7 @@ DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019: NDArray = np.array(
 MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019: MultiSpectralDistributions = (
     MultiSpectralDistributions(
         DATA_BASIS_FUNCTIONS_sRGB_MALLETT2019,
-        SPECTRAL_SHAPE_sRGB_MALLETT2019.range(),
+        SPECTRAL_SHAPE_sRGB_MALLETT2019.wavelengths,
         name="Basis Functions - sRGB - Mallett 2019",
         labels=("red", "green", "blue"),
     )
