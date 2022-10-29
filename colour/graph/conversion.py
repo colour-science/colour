@@ -21,9 +21,6 @@ from pprint import pformat
 import colour
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
-    MultiSpectralDistributions,
-    SDS_ILLUMINANTS,
-    SpectralDistribution,
     TVS_ILLUMINANTS_HUNTERLAB,
 )
 from colour.colorimetry import (
@@ -36,6 +33,7 @@ from colour.colorimetry import (
     luminous_efficacy,
     luminous_efficiency,
     luminous_flux,
+    sd_to_XYZ,
     whiteness,
     yellowness,
     wavelength_to_XYZ,
@@ -51,7 +49,6 @@ from colour.hints import (
     List,
     Literal,
     NDArray,
-    Number,
     Optional,
     Union,
     cast,
@@ -193,7 +190,6 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     message_box,
-    optional,
     required,
     tsplit,
     tstack,
@@ -210,7 +206,6 @@ __status__ = "Production"
 
 __all__ = [
     "Conversion_Specification",
-    "sd_to_XYZ",
     "CIECAM02_to_JMh_CIECAM02",
     "JMh_CIECAM02_to_CIECAM02",
     "CAM16_to_JMh_CAM16",
@@ -256,41 +251,6 @@ class Conversion_Specification(
         return super().__new__(
             cls, source.lower(), target.lower(), conversion_function
         )
-
-
-def sd_to_XYZ(
-    sd: Union[ArrayLike, SpectralDistribution, MultiSpectralDistributions],
-    cmfs: Optional[MultiSpectralDistributions] = None,
-    illuminant: Optional[SpectralDistribution] = None,
-    k: Optional[Number] = None,
-    method: Union[Literal["ASTM E308", "Integration"], str] = "ASTM E308",
-    **kwargs: Any,
-) -> NDArray:
-    """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values using
-    given colour matching functions, illuminant and method.
-
-    This placeholder docstring is replaced with the modified
-    :func:`colour.sd_to_XYZ` definition docstring.
-    """
-
-    illuminant = cast(
-        SpectralDistribution,
-        optional(illuminant, SDS_ILLUMINANTS[_ILLUMINANT_DEFAULT]),
-    )
-
-    return colour.sd_to_XYZ(sd, cmfs, illuminant, k, method, **kwargs)
-
-
-# If-clause required for optimised python launch.
-if colour.sd_to_XYZ.__doc__ is not None:
-    sd_to_XYZ.__doc__ = colour.sd_to_XYZ.__doc__.replace(
-        "CIE Illuminant E",
-        "CIE Standard Illuminant D65",
-    ).replace(
-        "sd_to_XYZ(sd)",
-        "sd_to_XYZ(sd)  # doctest: +SKIP",
-    )
 
 
 def CIECAM02_to_JMh_CIECAM02(
@@ -1334,15 +1294,16 @@ verbose={'mode': 'Long'})
 
             convert(RGB, 'Output-Referred RGB', 'Scene-Referred RGB')
 
-    -   Various defaults have been adopted compared to the low-level *Colour*
-        API:
+    -   The following defaults have been adopted:
 
         -   The default illuminant for the computation is
             *CIE Standard Illuminant D Series* *D65*. It can be changed on a
-            per-definition basis along the conversion path.
+            per-definition basis along the conversion path. Note that the
+            conversion from spectral to *CIE XYZ* tristimulus values remains
+            unchanged.
         -   The default *RGB* colourspace primaries and whitepoint are that of
-            the *BT.709*/*sRGB* colourspace. They can be changed on a per
-            definition basis along the conversion path.
+            the *BT.709*/*sRGB* colourspace. They can be changed on a
+            per-definition basis along the conversion path.
         -   When using **sRGB** as a source or target colour representation,
             the convenient :func:`colour.sRGB_to_XYZ` and
             :func:`colour.XYZ_to_sRGB` definitions are used, respectively.
@@ -1356,7 +1317,7 @@ verbose={'mode': 'Long'})
     Examples
     --------
     >>> import numpy as np
-    >>> from colour import SDS_COLOURCHECKERS
+    >>> from colour import SDS_COLOURCHECKERS, SDS_ILLUMINANTS
     >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     verbose={'mode': 'Short', 'width': 75})
@@ -1368,7 +1329,7 @@ verbose={'mode': 'Long'})
     *   "sd_to_XYZ" --> "XYZ_to_sRGB"                                         *
     *                                                                         *
     ===========================================================================
-    array([ 0.4567579...,  0.3098698...,  0.2486192...])
+    array([ 0.4903477...,  0.3018587...,  0.2358768...])
     >>> illuminant = SDS_ILLUMINANTS['FL2']
     >>> convert(sd, 'Spectral Distribution', 'sRGB',
     ...     sd_to_XYZ={'illuminant': illuminant})

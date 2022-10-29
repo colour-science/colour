@@ -131,6 +131,7 @@ class SpectralShape:
     -   :attr:`~colour.SpectralShape.end`
     -   :attr:`~colour.SpectralShape.interval`
     -   :attr:`~colour.SpectralShape.boundaries`
+    -   :attr:`~colour.SpectralShape.wavelengths`
 
     Methods
     -------
@@ -290,6 +291,19 @@ class SpectralShape:
 
         self.start, self.end = value
 
+    @property
+    def wavelengths(self) -> NDArray:
+        """
+        Getter property for the spectral shape wavelengths.
+
+        Returns
+        -------
+        :class:`numpy.ndarray`
+            Spectral shape wavelengths.
+        """
+
+        return self.range()
+
     def __str__(self) -> str:
         """
         Return a formatted string representation of the spectral shape.
@@ -353,7 +367,7 @@ class SpectralShape:
         10.0
         """
 
-        yield from self.range()
+        yield from self.wavelengths
 
     def __contains__(self, wavelength: FloatingOrArrayLike) -> bool:
         """
@@ -395,7 +409,7 @@ class SpectralShape:
                         decimals,
                     ),
                     np.around(
-                        self.range(),
+                        self.wavelengths,
                         decimals,
                     ),
                 )
@@ -417,7 +431,7 @@ class SpectralShape:
         101
         """
 
-        return len(self.range())
+        return len(self.wavelengths)
 
     def __eq__(self, other: Any) -> bool:
         """
@@ -442,7 +456,7 @@ class SpectralShape:
         """
 
         if isinstance(other, SpectralShape):
-            return np.array_equal(self.range(), other.range())
+            return np.array_equal(self.wavelengths, other.wavelengths)
         else:
             return False
 
@@ -486,7 +500,7 @@ class SpectralShape:
 
         Examples
         --------
-        >>> SpectralShape(0, 10, 0.1).range()
+        >>> SpectralShape(0, 10, 0.1).wavelengths
         array([  0. ,   0.1,   0.2,   0.3,   0.4,   0.5,   0.6,   0.7,   0.8,
                  0.9,   1. ,   1.1,   1.2,   1.3,   1.4,   1.5,   1.6,   1.7,
                  1.8,   1.9,   2. ,   2.1,   2.2,   2.3,   2.4,   2.5,   2.6,
@@ -672,7 +686,7 @@ class SpectralDistribution(Signal):
         **kwargs: Any,
     ):
         domain = (
-            domain.range() if isinstance(domain, SpectralShape) else domain
+            domain.wavelengths if isinstance(domain, SpectralShape) else domain
         )
         domain_unpacked, range_unpacked = self.signal_unpack_data(data, domain)
 
@@ -1185,7 +1199,7 @@ class SpectralDistribution(Signal):
 
         wavelengths, values = self.wavelengths, self.values
 
-        self.domain = shape.range()
+        self.domain = shape.wavelengths
         self.range = as_float_array(
             interpolator(wavelengths, values, **interpolator_kwargs)(
                 self.domain
@@ -1798,7 +1812,7 @@ class MultiSpectralDistributions(MultiSignals):
         **kwargs: Any,
     ):
         domain = (
-            domain.range() if isinstance(domain, SpectralShape) else domain
+            domain.wavelengths if isinstance(domain, SpectralShape) else domain
         )
         signals = self.multi_signals_unpack_data(data, domain, labels)
 
@@ -2995,7 +3009,7 @@ def sds_and_msds_to_msds(
 
         msds_converted = MultiSpectralDistributions(
             tstack(values),
-            shape.range(),
+            shape.wavelengths,
             labels,
             display_labels=display_labels,
         )

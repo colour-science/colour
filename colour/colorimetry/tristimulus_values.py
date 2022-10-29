@@ -670,7 +670,7 @@ def sd_to_XYZ_integration(
         R = as_float_array(sd)
         shape_R = R.shape
         wl_c_r = R.shape[-1]
-        wl_c = len(shape.range())
+        wl_c = len(shape.wavelengths)
 
         attest(
             wl_c_r == wl_c,

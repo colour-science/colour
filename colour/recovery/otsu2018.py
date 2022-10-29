@@ -527,14 +527,14 @@ def XYZ_to_sd_Otsu2018(
 
         M = np.empty((3, 3))
         for i in range(3):
-            sd = SpectralDistribution(basis_functions[i, :], shape.range())
+            sd = SpectralDistribution(basis_functions[i, :], shape.wavelengths)
 
             with domain_range_scale("ignore"):
                 M[:, i] = sd_to_XYZ(sd, cmfs, illuminant) / 100
 
         M_inverse = np.linalg.inv(M)
 
-        sd = SpectralDistribution(mean, shape.range())
+        sd = SpectralDistribution(mean, shape.wavelengths)
 
         with domain_range_scale("ignore"):
             XYZ_mu = sd_to_XYZ(sd, cmfs, illuminant) / 100
@@ -544,7 +544,7 @@ def XYZ_to_sd_Otsu2018(
 
         recovered_sd = np.clip(recovered_sd, 0, 1) if clip else recovered_sd
 
-        return SpectralDistribution(recovered_sd, shape.range())
+        return SpectralDistribution(recovered_sd, shape.wavelengths)
     else:
         raise ValueError('The dataset "shape" is undefined!')
 

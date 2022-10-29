@@ -593,13 +593,11 @@ def sd_mesopic_luminous_efficiency_function(
         max([photopic_lef.shape.interval, scotopic_lef.shape.interval]),
     )
 
-    wavelengths = shape.range()
-
     sd = SpectralDistribution(
         mesopic_weighting_function(
-            wavelengths, L_p, source, method, photopic_lef, scotopic_lef
+            shape.wavelengths, L_p, source, method, photopic_lef, scotopic_lef
         ),
-        wavelengths,
+        shape.wavelengths,
         name=f"{L_p} Lp Mesopic Luminous Efficiency Function",
     )
 

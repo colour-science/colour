@@ -480,7 +480,7 @@ DATA_TWO: NDArray = np.array(
 
 MSDS_TWO: MultiSpectralDistributions = MultiSpectralDistributions(
     np.transpose(np.reshape(DATA_TWO, [-1, 6])),
-    SpectralShape(400, 700, 60).range(),
+    SpectralShape(400, 700, 60).wavelengths,
 )
 
 TVS_D65_INTEGRATION_MSDS: NDArray = np.array(

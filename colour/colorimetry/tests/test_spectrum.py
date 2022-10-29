@@ -1257,7 +1257,13 @@ class TestSpectralShape(unittest.TestCase):
     def test_required_attributes(self):
         """Test the presence of required attributes."""
 
-        required_attributes = ("start", "end", "interval", "boundaries")
+        required_attributes = (
+            "start",
+            "end",
+            "interval",
+            "boundaries",
+            "wavelengths",
+        )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralShape))
@@ -1321,6 +1327,17 @@ class TestSpectralShape(unittest.TestCase):
 
         self.assertEqual(shape.start, 360)
         self.assertEqual(shape.end, 830)
+
+    def test_wavelengths(self):
+        """
+        Test :attr:`colour.colorimetry.spectrum.SpectralShape.wavelengths`
+        property.
+        """
+
+        np.testing.assert_array_almost_equal(
+            SpectralShape(0, 10, 0.1).wavelengths,
+            np.arange(0, 10 + 0.1, 0.1),
+        )
 
     def test__hash__(self):
         """
@@ -1998,7 +2015,7 @@ class TestSdsAndMsdsToMsds(unittest.TestCase):
             sds_and_msds_to_msds(
                 [sd_1, sd_2, multi_sds_1, multi_sds_2]
             ).wavelengths,
-            shape.range(),
+            shape.wavelengths,
             decimal=7,
         )
 

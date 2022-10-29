@@ -126,18 +126,17 @@ def sd_CIE_standard_illuminant_A(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    wavelengths = shape.range()
     values = (
         100
-        * (560 / wavelengths) ** 5
+        * (560 / shape.wavelengths) ** 5
         * (
             np.expm1((1.435 * 10**7) / (2848 * 560))
-            / np.expm1((1.435 * 10**7) / (2848 * wavelengths))
+            / np.expm1((1.435 * 10**7) / (2848 * shape.wavelengths))
         )
     )
 
     return SpectralDistribution(
-        values, wavelengths, name="CIE Standard Illuminant A"
+        values, shape.wavelengths, name="CIE Standard Illuminant A"
     )
 
 

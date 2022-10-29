@@ -204,7 +204,7 @@ def spectral_primary_decomposition_Mallett2019(
 
     return MultiSpectralDistributions(
         basis_functions,
-        cmfs.shape.range(),
+        cmfs.shape.wavelengths,
         name=f"Basis Functions - {colourspace.name} - Mallett (2019)",
         labels=("red", "green", "blue"),
     )
