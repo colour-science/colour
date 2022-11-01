@@ -229,7 +229,7 @@ def RGB_to_ICtCp(
     >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_ICtCp(RGB)  # doctest: +ELLIPSIS
     array([ 0.0735136...,  0.0047525...,  0.0935159...])
-    >>> RGB_to_ICtCp(RGB, method='ITU-R BT.2100-2 HLG')  # doctest: +ELLIPSIS
+    >>> RGB_to_ICtCp(RGB, method="ITU-R BT.2100-2 HLG")  # doctest: +ELLIPSIS
     array([ 0.6256789..., -0.0198449...,  0.3591125...])
     """
 
@@ -364,7 +364,7 @@ def ICtCp_to_RGB(
     >>> ICtCp_to_RGB(ICtCp)  # doctest: +ELLIPSIS
     array([ 0.4562052...,  0.0308107...,  0.0409195...])
     >>> ICtCp = np.array([0.62567899, -0.01984490, 0.35911259])
-    >>> ICtCp_to_RGB(ICtCp, method='ITU-R BT.2100-2 HLG')  # doctest: +ELLIPSIS
+    >>> ICtCp_to_RGB(ICtCp, method="ITU-R BT.2100-2 HLG")  # doctest: +ELLIPSIS
     array([ 0.4562052...,  0.0308107...,  0.0409195...])
     """
 
@@ -524,7 +524,7 @@ def XYZ_to_ICtCp(
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_ICtCp(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0685809..., -0.0028384...,  0.0602098...])
-    >>> XYZ_to_ICtCp(XYZ, method='ITU-R BT.2100-2 HLG')  # doctest: +ELLIPSIS
+    >>> XYZ_to_ICtCp(XYZ, method="ITU-R BT.2100-2 HLG")  # doctest: +ELLIPSIS
     array([ 0.5924279..., -0.0374073...,  0.2512267...])
     """
 
@@ -663,7 +663,7 @@ def ICtCp_to_XYZ(
     >>> ICtCp_to_XYZ(ICtCp)  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     >>> ICtCp = np.array([0.59242792, -0.03740730, 0.25122675])
-    >>> ICtCp_to_XYZ(ICtCp, method='ITU-R BT.2100-2 HLG')  # doctest: +ELLIPSIS
+    >>> ICtCp_to_XYZ(ICtCp, method="ITU-R BT.2100-2 HLG")  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 

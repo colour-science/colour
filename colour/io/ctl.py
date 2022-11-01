@@ -116,14 +116,17 @@ def ctl_render(
     ...     parameters=["input float exposure = 0.0"],
     ... )
     >>> TESTS_RESOURCES_DIRECTORY = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources')
-    >>> print(ctl_render(
+    ...     os.path.dirname(__file__), "tests", "resources"
+    ... )
+    >>> print(
+    ...     ctl_render(
     ...         f"{TESTS_RESOURCES_DIRECTORY}/CMS_Test_Pattern.exr",
     ...         f"{TESTS_RESOURCES_DIRECTORY}/CMS_Test_Pattern_Float.exr",
     ...         {ctl_adjust_exposure_float: ["-param1 exposure 3.0"]},
     ...         "-verbose",
     ...         "-force",
-    ...     ).stderr.decode("utf-8"))  # doctest: +SKIP
+    ...     ).stderr.decode("utf-8")
+    ... )  # doctest: +SKIP
     global ctl parameters:
     <BLANKLINE>
     destination format: exr
@@ -330,7 +333,8 @@ def template_ctl_transform_float(
 
     Examples
     --------
-    >>> print(template_ctl_transform_float(
+    >>> print(
+    ...     template_ctl_transform_float(
     ...         "rIn * pow(2, exposure)",
     ...         description="Adjust Exposure",
     ...         parameters=["input float exposure = 0.0"],
@@ -358,7 +362,9 @@ def template_ctl_transform_float(
     }
     >>> def format_imports(imports):
     ...     return [f'import "{i}";' for i in imports]
-    >>> print(template_ctl_transform_float(
+    ...
+    >>> print(
+    ...     template_ctl_transform_float(
     ...         "Y_2_linCV(rIn, CINEMA_WHITE, CINEMA_BLACK)",
     ...         "Y_2_linCV(gIn, CINEMA_WHITE, CINEMA_BLACK)",
     ...         "Y_2_linCV(bIn, CINEMA_WHITE, CINEMA_BLACK)",
@@ -479,7 +485,9 @@ def template_ctl_transform_float3(
     --------
     >>> def format_imports(imports):
     ...     return [f'import "{i}";' for i in imports]
-    >>> print(template_ctl_transform_float3(
+    ...
+    >>> print(
+    ...     template_ctl_transform_float3(
     ...         "darkSurround_to_dimSurround(rgbIn)",
     ...         imports=format_imports(
     ...             [

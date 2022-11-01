@@ -434,7 +434,7 @@ def luminance_Fairchild2011(
     --------
     >>> luminance_Fairchild2011(51.852958445912506)  # doctest: +ELLIPSIS
     0.1219722...
-    >>> luminance_Fairchild2011(51.643108411718522, method='hdr-IPT')
+    >>> luminance_Fairchild2011(51.643108411718522, method="hdr-IPT")
     ... # doctest: +ELLIPSIS
     0.1219722...
     """
@@ -514,7 +514,7 @@ def luminance_Abebe2017(
     --------
     >>> luminance_Abebe2017(0.486955571109229)  # doctest: +ELLIPSIS
     12.1972253...
-    >>> luminance_Abebe2017(0.474544792145434, method='Stevens')
+    >>> luminance_Abebe2017(0.474544792145434, method="Stevens")
     ... # doctest: +ELLIPSIS
     12.1972253...
     """
@@ -647,13 +647,13 @@ def luminance(
     12.1972253...
     >>> luminance(42.51993072812094, Y_n=95)  # doctest: +ELLIPSIS
     12.1972253...
-    >>> luminance(4.08244375 * 10, method='Newhall 1943')
+    >>> luminance(4.08244375 * 10, method="Newhall 1943")
     ... # doctest: +ELLIPSIS
     12.5500788...
-    >>> luminance(4.08244375 * 10, method='ASTM D1535')
+    >>> luminance(4.08244375 * 10, method="ASTM D1535")
     ... # doctest: +ELLIPSIS
     12.2363426...
-    >>> luminance(29.829510892279330, epsilon=0.710, method='Fairchild 2011')
+    >>> luminance(29.829510892279330, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
     12.1972253...
     """

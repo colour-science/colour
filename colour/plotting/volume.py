@@ -534,7 +534,7 @@ def plot_RGB_colourspaces_gamuts(
 
     Examples
     --------
-    >>> plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    >>> plot_RGB_colourspaces_gamuts(["ITU-R BT.709", "ACEScg", "S-Gamut"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
 
@@ -820,7 +820,7 @@ def plot_RGB_scatter(
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> plot_RGB_scatter(RGB, 'ITU-R BT.709')  # doctest: +ELLIPSIS
+    >>> plot_RGB_scatter(RGB, "ITU-R BT.709")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...Axes3DSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Scatter.png

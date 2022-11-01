@@ -156,7 +156,7 @@ class Header_IESTM2714:
 
     Examples
     --------
-    >>> Header_IESTM2714('colour-science')  # doctest: +ELLIPSIS
+    >>> Header_IESTM2714("colour-science")  # doctest: +ELLIPSIS
     Header_IESTM2714('colour-science',
                      None,
                      None,
@@ -168,7 +168,7 @@ class Header_IESTM2714:
                      None,
                      None,
                      None)
-    >>> Header_IESTM2714('colour-science').manufacturer  # doctest: +SKIP
+    >>> Header_IESTM2714("colour-science").manufacturer  # doctest: +SKIP
     'colour-science'
     """
 
@@ -728,9 +728,9 @@ class Header_IESTM2714:
 
         Examples
         --------
-        >>> Header_IESTM2714('Foo') == Header_IESTM2714('Foo')
+        >>> Header_IESTM2714("Foo") == Header_IESTM2714("Foo")
         True
-        >>> Header_IESTM2714('Foo') == Header_IESTM2714('Bar')
+        >>> Header_IESTM2714("Foo") == Header_IESTM2714("Bar")
         False
         """
 
@@ -769,9 +769,9 @@ class Header_IESTM2714:
 
         Examples
         --------
-        >>> Header_IESTM2714('Foo') != Header_IESTM2714('Foo')
+        >>> Header_IESTM2714("Foo") != Header_IESTM2714("Foo")
         False
-        >>> Header_IESTM2714('Foo') != Header_IESTM2714('Bar')
+        >>> Header_IESTM2714("Foo") != Header_IESTM2714("Bar")
         True
         """
 
@@ -879,9 +879,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
     Examples
     --------
     >>> from os.path import dirname, join
-    >>> directory = join(dirname(__file__), 'tests', 'resources')
+    >>> directory = join(dirname(__file__), "tests", "resources")
     >>> sd = SpectralDistribution_IESTM2714(
-    ...     join(directory, 'Fluorescent.spdx')).read()
+    ...     join(directory, "Fluorescent.spdx")
+    ... ).read()
     >>> sd.name  # doctest: +SKIP
     'Unknown - N/A - Rare earth fluorescent lamp'
     >>> sd.header.comments
@@ -1339,10 +1340,13 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Examples
         --------
         >>> from os.path import dirname, join
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
-        >>> print(SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx')).read())
-        ...     # doctest: +ELLIPSIS
+        >>> directory = join(dirname(__file__), "tests", "resources")
+        >>> print(
+        ...     SpectralDistribution_IESTM2714(
+        ...         join(directory, "Fluorescent.spdx")
+        ...     ).read()
+        ... )
+        ... # doctest: +ELLIPSIS
         IES TM-27-14 Spectral Distribution
         ==================================
         <BLANKLINE>
@@ -1513,10 +1517,11 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Examples
         --------
         >>> from os.path import dirname, join
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx')).read()
-        ...     # doctest: +ELLIPSIS
+        ...     join(directory, "Fluorescent.spdx")
+        ... ).read()
+        ... # doctest: +ELLIPSIS
         SpectralDistribution_IESTM2714('...',
                                        Header_IESTM2714('Unknown',
                                                         'N/A',
@@ -1673,9 +1678,10 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         Examples
         --------
         >>> from os.path import dirname, join
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx')).read()
+        ...     join(directory, "Fluorescent.spdx")
+        ... ).read()
         >>> sd.name  # doctest: +SKIP
         'Unknown - N/A - Rare earth fluorescent lamp'
         >>> sd.header.comments
@@ -1765,11 +1771,12 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         >>> from os.path import dirname, join
         >>> from shutil import rmtree
         >>> from tempfile import mkdtemp
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_IESTM2714(
-        ...     join(directory, 'Fluorescent.spdx')).read()
+        ...     join(directory, "Fluorescent.spdx")
+        ... ).read()
         >>> temporary_directory = mkdtemp()
-        >>> sd.path = join(temporary_directory, 'Fluorescent.spdx')
+        >>> sd.path = join(temporary_directory, "Fluorescent.spdx")
         >>> sd.write()
         True
         >>> rmtree(temporary_directory)

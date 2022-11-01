@@ -49,8 +49,12 @@ def read_LUT_SonySPImtx(path: str) -> LUTOperatorMatrix:
     --------
     >>> import os
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spimtx',
-    ...     'dt.spimtx')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "sony_spimtx",
+    ...     "dt.spimtx",
+    ... )
     >>> print(read_LUT_SonySPImtx(path))
     LUTOperatorMatrix - dt
     ----------------------
@@ -95,11 +99,15 @@ def write_LUT_SonySPImtx(
 
     Examples
     --------
-    >>> matrix = np.array([[ 1.45143932, -0.23651075, -0.21492857],
-    ...                    [-0.07655377,  1.1762297 , -0.09967593],
-    ...                    [ 0.00831615, -0.00603245,  0.9977163 ]])
+    >>> matrix = np.array(
+    ...     [
+    ...         [1.45143932, -0.23651075, -0.21492857],
+    ...         [-0.07655377, 1.1762297, -0.09967593],
+    ...         [0.00831615, -0.00603245, 0.9977163],
+    ...     ]
+    ... )
     >>> M = LUTOperatorMatrix(matrix)
-    >>> write_LUT_SonySPI1D(M, 'My_LUT.spimtx')  # doctest: +SKIP
+    >>> write_LUT_SonySPI1D(M, "My_LUT.spimtx")  # doctest: +SKIP
     """
 
     matrix, offset = LUT.matrix, LUT.offset

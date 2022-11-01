@@ -172,9 +172,9 @@ def plot_single_sd(
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
-    >>> sd = SpectralDistribution(data, name='Custom')
+    >>> sd = SpectralDistribution(data, name="Custom")
     >>> plot_single_sd(sd)  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -337,7 +337,7 @@ def plot_multi_sds(
     ...     530: 0.165500,
     ...     540: 0.290400,
     ...     550: 0.433450,
-    ...     560: 0.594500
+    ...     560: 0.594500,
     ... }
     >>> data_2 = {
     ...     500: 0.323000,
@@ -346,13 +346,13 @@ def plot_multi_sds(
     ...     530: 0.862000,
     ...     540: 0.954000,
     ...     550: 0.994950,
-    ...     560: 0.995000
+    ...     560: 0.995000,
     ... }
-    >>> sd_1 = SpectralDistribution(data_1, name='Custom 1')
-    >>> sd_2 = SpectralDistribution(data_2, name='Custom 2')
+    >>> sd_1 = SpectralDistribution(data_1, name="Custom 1")
+    >>> sd_2 = SpectralDistribution(data_2, name="Custom 2")
     >>> plot_kwargs = [
-    ...     {'use_sd_colours': True},
-    ...     {'use_sd_colours': True, 'linestyle': 'dashed'},
+    ...     {"use_sd_colours": True},
+    ...     {"use_sd_colours": True, "linestyle": "dashed"},
     ... ]
     >>> plot_multi_sds([sd_1, sd_2], plot_kwargs=plot_kwargs)
     ... # doctest: +ELLIPSIS
@@ -475,7 +475,7 @@ def plot_single_cmfs(
 
     Examples
     --------
-    >>> plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
+    >>> plot_single_cmfs("CIE 1931 2 Degree Standard Observer")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -529,8 +529,8 @@ def plot_multi_cmfs(
     Examples
     --------
     >>> cmfs = [
-    ...     'CIE 1931 2 Degree Standard Observer',
-    ...     'CIE 1964 10 Degree Standard Observer',
+    ...     "CIE 1931 2 Degree Standard Observer",
+    ...     "CIE 1964 10 Degree Standard Observer",
     ... ]
     >>> plot_multi_cmfs(cmfs)  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -638,7 +638,7 @@ def plot_single_illuminant_sd(
 
     Examples
     --------
-    >>> plot_single_illuminant_sd('A')  # doctest: +ELLIPSIS
+    >>> plot_single_illuminant_sd("A")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Illuminant_SD.png
@@ -692,7 +692,7 @@ def plot_multi_illuminant_sds(
 
     Examples
     --------
-    >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +ELLIPSIS
+    >>> plot_multi_illuminant_sds(["A", "B", "C"])  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDS.png
@@ -842,7 +842,7 @@ def plot_single_lightness_function(
 
     Examples
     --------
-    >>> plot_single_lightness_function('CIE 1976')  # doctest: +ELLIPSIS
+    >>> plot_single_lightness_function("CIE 1976")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Lightness_Function.png
@@ -886,7 +886,7 @@ def plot_multi_lightness_functions(
 
     Examples
     --------
-    >>> plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'])
+    >>> plot_multi_lightness_functions(["CIE 1976", "Wyszecki 1963"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -937,7 +937,7 @@ def plot_single_luminance_function(
 
     Examples
     --------
-    >>> plot_single_luminance_function('CIE 1976')  # doctest: +ELLIPSIS
+    >>> plot_single_luminance_function("CIE 1976")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Luminance_Function.png
@@ -981,7 +981,7 @@ def plot_multi_luminance_functions(
 
     Examples
     --------
-    >>> plot_multi_luminance_functions(['CIE 1976', 'Newhall 1943'])
+    >>> plot_multi_luminance_functions(["CIE 1976", "Newhall 1943"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1045,7 +1045,7 @@ def plot_blackbody_spectral_radiance(
 
     Examples
     --------
-    >>> plot_blackbody_spectral_radiance(3500, blackbody='VY Canis Major')
+    >>> plot_blackbody_spectral_radiance(3500, blackbody="VY Canis Major")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 2 Axes>, <...AxesSubplot...>)
 

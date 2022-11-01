@@ -353,9 +353,9 @@ def yellowness(
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness(XYZ)  # doctest: +ELLIPSIS
     4.3400000...
-    >>> yellowness(XYZ, method='ASTM E313 Alternative')  # doctest: +ELLIPSIS
+    >>> yellowness(XYZ, method="ASTM E313 Alternative")  # doctest: +ELLIPSIS
     11.0650000...
-    >>> yellowness(XYZ, method='ASTM D1925')  # doctest: +ELLIPSIS
+    >>> yellowness(XYZ, method="ASTM D1925")  # doctest: +ELLIPSIS
     10.2999999...
     """
 

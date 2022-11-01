@@ -205,7 +205,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     --------
     Instantiating an identity matrix:
 
-    >>> print(LUTOperatorMatrix(name='Identity'))
+    >>> print(LUTOperatorMatrix(name="Identity"))
     LUTOperatorMatrix - Identity
     ----------------------------
     <BLANKLINE>
@@ -217,13 +217,20 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
     Instantiating a matrix with comments:
 
-    >>> matrix = np.array([[ 1.45143932, -0.23651075, -0.21492857],
-    ...                    [-0.07655377,  1.1762297 , -0.09967593],
-    ...                    [ 0.00831615, -0.00603245,  0.9977163 ]])
-    >>> print(LUTOperatorMatrix(
+    >>> matrix = np.array(
+    ...     [
+    ...         [1.45143932, -0.23651075, -0.21492857],
+    ...         [-0.07655377, 1.1762297, -0.09967593],
+    ...         [0.00831615, -0.00603245, 0.9977163],
+    ...     ]
+    ... )
+    >>> print(
+    ...     LUTOperatorMatrix(
     ...         matrix,
-    ...         name='AP0 to AP1',
-    ...         comments=['A first comment.', 'A second comment.']))
+    ...         name="AP0 to AP1",
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
     LUTOperatorMatrix - AP0 to AP1
     ------------------------------
     <BLANKLINE>
@@ -385,7 +392,8 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Examples
         --------
         >>> LUTOperatorMatrix(
-        ...     comments=['A first comment.', 'A second comment.'])
+        ...     comments=["A first comment.", "A second comment."]
+        ... )
         ... # doctest: +ELLIPSIS
         LUTOperatorMatrix([[ 1.,  0.,  0.,  0.],
                            [ 0.,  1.,  0.,  0.],
@@ -469,7 +477,8 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         Examples
         --------
         >>> LUTOperatorMatrix() != LUTOperatorMatrix(
-        ...     np.linspace(0, 1, 16).reshape([4, 4]))
+        ...     np.linspace(0, 1, 16).reshape([4, 4])
+        ... )
         True
         """
 
@@ -496,9 +505,13 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
 
         Examples
         --------
-        >>> matrix = np.array([[ 1.45143932, -0.23651075, -0.21492857],
-        ...                    [-0.07655377,  1.1762297 , -0.09967593],
-        ...                    [ 0.00831615, -0.00603245,  0.9977163 ]])
+        >>> matrix = np.array(
+        ...     [
+        ...         [1.45143932, -0.23651075, -0.21492857],
+        ...         [-0.07655377, 1.1762297, -0.09967593],
+        ...         [0.00831615, -0.00603245, 0.9977163],
+        ...     ]
+        ... )
         >>> M = LUTOperatorMatrix(matrix)
         >>> RGB = np.array([0.3, 0.4, 0.5])
         >>> M.apply(RGB)  # doctest: +ELLIPSIS

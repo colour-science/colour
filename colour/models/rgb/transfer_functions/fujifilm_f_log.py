@@ -112,7 +112,7 @@ def log_encoding_FLog(
     >>> x = np.array([0, 18, 90]) / 100
     >>> np.around(log_encoding_FLog(x, 10, False) * 100, 1)
     array([  3.5,  46.3,  73.2])
-    >>> np.around(log_encoding_FLog(x) * (2 ** 10 - 1)).astype(np.int)
+    >>> np.around(log_encoding_FLog(x) * (2**10 - 1)).astype(np.int)
     array([ 95, 470, 705])
     """
 

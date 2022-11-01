@@ -122,13 +122,15 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> RGB = XYZ_to_RGB_Smits1999(XYZ)
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['E'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Smits1999(RGB)
     >>> with numpy_print_options(suppress=True):
-    ...     sd # doctest: +ELLIPSIS
+    ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.0787830...],
                           [ 417.7778    ,    0.0622018...],
                           [ 455.5556    ,    0.0446206...],

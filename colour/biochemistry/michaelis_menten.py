@@ -220,7 +220,8 @@ def reaction_rate_MichaelisMenten(
     >>> reaction_rate_MichaelisMenten(0.5, 2.5, 0.8)  # doctest: +ELLIPSIS
     0.9615384...
     >>> reaction_rate_MichaelisMenten(
-    ... 0.5, 2.5, 0.8, method='Abebe 2017', b_m=0.813)  # doctest: +ELLIPSIS
+    ...     0.5, 2.5, 0.8, method="Abebe 2017", b_m=0.813
+    ... )  # doctest: +ELLIPSIS
     1.0360547...
     """
 
@@ -313,7 +314,8 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
     Examples
     --------
     >>> substrate_concentration_MichaelisMenten_Abebe2017(
-    ...     0.695151224195871, 1.448, 0.635, 0.813)  # doctest: +ELLIPSIS
+    ...     0.695151224195871, 1.448, 0.635, 0.813
+    ... )  # doctest: +ELLIPSIS
     0.4999999...
     """
 
@@ -393,7 +395,8 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
     ... # doctest: +ELLIPSIS
     0.4999999...
     >>> substrate_concentration_MichaelisMenten(
-    ... 1.036054703688355, 2.5, 0.8, method='Abebe 2017', b_m=0.813)
+    ...     1.036054703688355, 2.5, 0.8, method="Abebe 2017", b_m=0.813
+    ... )
     ... # doctest: +ELLIPSIS
     0.5000000...
     """

@@ -68,8 +68,8 @@ def plot_automatic_colour_conversion_graph(
     >>> import colour
     >>> from colour import read_image
     >>> from colour.plotting import plot_image
-    >>> filename = '{0}.png'.format(tempfile.mkstemp()[-1])
-    >>> _ = plot_automatic_colour_conversion_graph(filename, 'dot')
+    >>> filename = "{0}.png".format(tempfile.mkstemp()[-1])
+    >>> _ = plot_automatic_colour_conversion_graph(filename, "dot")
     ... # doctest: +SKIP
     >>> plot_image(read_image(filename))  # doctest: +SKIP
 

@@ -176,7 +176,8 @@ def handle_spectral_arguments(
     ('CIE 1931 2 Degree Standard Observer', SpectralShape(360.0, 780.0, 1.0), \
 'D65', SpectralShape(360.0, 780.0, 1.0))
     >>> cmfs, illuminant = handle_spectral_arguments(
-    ...     shape_default=SpectralShape(400, 700, 20))
+    ...     shape_default=SpectralShape(400, 700, 20)
+    ... )
     >>> cmfs.name, cmfs.shape, illuminant.name, illuminant.shape
     ('CIE 1931 2 Degree Standard Observer', \
 SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
@@ -227,7 +228,7 @@ def lagrange_coefficients_ASTME2022(
 
     Examples
     --------
-    >>> lagrange_coefficients_ASTME2022(10, 'inner')
+    >>> lagrange_coefficients_ASTME2022(10, "inner")
     ... # doctest: +ELLIPSIS
     array([[-0.028...,  0.940...,  0.104..., -0.016...],
            [-0.048...,  0.864...,  0.216..., -0.032...],
@@ -238,7 +239,7 @@ def lagrange_coefficients_ASTME2022(
            [-0.045...,  0.331...,  0.773..., -0.059...],
            [-0.032...,  0.216...,  0.864..., -0.048...],
            [-0.016...,  0.104...,  0.940..., -0.028...]])
-    >>> lagrange_coefficients_ASTME2022(10, 'boundary')
+    >>> lagrange_coefficients_ASTME2022(10, "boundary")
     ... # doctest: +ELLIPSIS
     array([[ 0.85...,  0.19..., -0.04...],
            [ 0.72...,  0.36..., -0.08...],
@@ -340,15 +341,21 @@ def tristimulus_weighting_factors_ASTME2022(
 
     Examples
     --------
-    >>> from colour import (MSDS_CMFS, SpectralDistribution, SpectralShape,
-    ...     sd_CIE_standard_illuminant_A)
+    >>> from colour import (
+    ...     MSDS_CMFS,
+    ...     SpectralDistribution,
+    ...     SpectralShape,
+    ...     sd_CIE_standard_illuminant_A,
+    ... )
     >>> from colour.utilities import numpy_print_options
-    >>> cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
     >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
     >>> with numpy_print_options(suppress=True):
     ...     tristimulus_weighting_factors_ASTME2022(
-    ...         cmfs, A, SpectralShape(360, 830, 20))
+    ...         cmfs, A, SpectralShape(360, 830, 20)
+    ...     )
     ... # doctest: +ELLIPSIS
+    ...
     array([[ -0.0002981...,  -0.0000317...,  -0.0013301...],
            [ -0.0087155...,  -0.0008915...,  -0.0407436...],
            [  0.0599679...,   0.0050203...,   0.2565018...],
@@ -483,17 +490,24 @@ def adjust_tristimulus_weighting_factors_ASTME308(
 
     Examples
     --------
-    >>> from colour import (MSDS_CMFS, SpectralDistribution, SpectralShape,
-    ...     sd_CIE_standard_illuminant_A)
+    >>> from colour import (
+    ...     MSDS_CMFS,
+    ...     SpectralDistribution,
+    ...     SpectralShape,
+    ...     sd_CIE_standard_illuminant_A,
+    ... )
     >>> from colour.utilities import numpy_print_options
-    >>> cmfs = MSDS_CMFS['CIE 1964 10 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
     >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
     >>> W = tristimulus_weighting_factors_ASTME2022(
-    ...     cmfs, A, SpectralShape(360, 830, 20))
+    ...     cmfs, A, SpectralShape(360, 830, 20)
+    ... )
     >>> with numpy_print_options(suppress=True):
     ...     adjust_tristimulus_weighting_factors_ASTME308(
-    ...         W,  SpectralShape(360, 830, 20), SpectralShape(400, 700, 20))
+    ...         W, SpectralShape(360, 830, 20), SpectralShape(400, 700, 20)
+    ...     )
     ... # doctest: +ELLIPSIS
+    ...
     array([[  0.0509543...,   0.0040971...,   0.2144280...],
            [  0.7734225...,   0.0779839...,   3.6965732...],
            [  1.9000905...,   0.3037005...,   9.7554195...],
@@ -602,13 +616,29 @@ def sd_to_XYZ_integration(
     Examples
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
-    >>> data = np.array([
-    ...     0.0641, 0.0645, 0.0562, 0.0537, 0.0559, 0.0651, 0.0705, 0.0772,
-    ...     0.0870, 0.1128, 0.1360, 0.1511, 0.1688, 0.1996, 0.2397, 0.2852
-    ... ])
+    >>> data = np.array(
+    ...     [
+    ...         0.0641,
+    ...         0.0645,
+    ...         0.0562,
+    ...         0.0537,
+    ...         0.0559,
+    ...         0.0651,
+    ...         0.0705,
+    ...         0.0772,
+    ...         0.0870,
+    ...         0.1128,
+    ...         0.1360,
+    ...         0.1511,
+    ...         0.1688,
+    ...         0.1996,
+    ...         0.2397,
+    ...         0.2852,
+    ...     ]
+    ... )
     >>> sd = SpectralDistribution(data, shape)
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
@@ -766,16 +796,33 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     Examples
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
-    >>> data = np.array([
-    ...     0.0641, 0.0645, 0.0562, 0.0537, 0.0559, 0.0651, 0.0705, 0.0772,
-    ...     0.0870, 0.1128, 0.1360, 0.1511, 0.1688, 0.1996, 0.2397, 0.2852
-    ... ])
+    >>> data = np.array(
+    ...     [
+    ...         0.0641,
+    ...         0.0645,
+    ...         0.0562,
+    ...         0.0537,
+    ...         0.0559,
+    ...         0.0651,
+    ...         0.0705,
+    ...         0.0772,
+    ...         0.0870,
+    ...         0.1128,
+    ...         0.1360,
+    ...         0.1511,
+    ...         0.1688,
+    ...         0.1996,
+    ...         0.2397,
+    ...         0.2852,
+    ...     ]
+    ... )
     >>> sd = SpectralDistribution(data, shape)
     >>> sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
-    ...     sd, cmfs, illuminant)  # doctest: +ELLIPSIS
+    ...     sd, cmfs, illuminant
+    ... )  # doctest: +ELLIPSIS
     array([ 10.8405832...,   9.6844909...,   6.2155622...])
 
     The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
@@ -910,13 +957,29 @@ def sd_to_XYZ_ASTME308(
     Examples
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
-    >>> data = np.array([
-    ...     0.0641, 0.0645, 0.0562, 0.0537, 0.0559, 0.0651, 0.0705, 0.0772,
-    ...     0.0870, 0.1128, 0.1360, 0.1511, 0.1688, 0.1996, 0.2397, 0.2852
-    ... ])
+    >>> data = np.array(
+    ...     [
+    ...         0.0641,
+    ...         0.0645,
+    ...         0.0562,
+    ...         0.0537,
+    ...         0.0559,
+    ...         0.0651,
+    ...         0.0705,
+    ...         0.0772,
+    ...         0.0870,
+    ...         0.1128,
+    ...         0.1360,
+    ...         0.1511,
+    ...         0.1688,
+    ...         0.1996,
+    ...         0.2397,
+    ...         0.2852,
+    ...     ]
+    ... )
     >>> sd = SpectralDistribution(data, shape)
     >>> sd_to_XYZ_ASTME308(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
@@ -1125,14 +1188,34 @@ def sd_to_XYZ(
     --------
     >>> import numpy as np
     >>> from colour import (
-    ...     MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution, SpectralShape)
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> illuminant = SDS_ILLUMINANTS['D65']
+    ...     MSDS_CMFS,
+    ...     SDS_ILLUMINANTS,
+    ...     SpectralDistribution,
+    ...     SpectralShape,
+    ... )
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
-    >>> data = np.array([
-    ...     0.0641, 0.0645, 0.0562, 0.0537, 0.0559, 0.0651, 0.0705, 0.0772,
-    ...     0.0870, 0.1128, 0.1360, 0.1511, 0.1688, 0.1996, 0.2397, 0.2852
-    ... ])
+    >>> data = np.array(
+    ...     [
+    ...         0.0641,
+    ...         0.0645,
+    ...         0.0562,
+    ...         0.0537,
+    ...         0.0559,
+    ...         0.0651,
+    ...         0.0705,
+    ...         0.0772,
+    ...         0.0870,
+    ...         0.1128,
+    ...         0.1360,
+    ...         0.1511,
+    ...         0.1688,
+    ...         0.1996,
+    ...         0.2397,
+    ...         0.2852,
+    ...     ]
+    ... )
     >>> sd = SpectralDistribution(data, shape)
     >>> sd_to_XYZ(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
@@ -1140,10 +1223,10 @@ def sd_to_XYZ(
     >>> sd_to_XYZ(sd, cmfs, illuminant, use_practice_range=False)
     ... # doctest: +ELLIPSIS
     array([ 10.8402774...,   9.6841967...,   6.2158838...])
-    >>> sd_to_XYZ(sd, cmfs, illuminant, method='Integration')
+    >>> sd_to_XYZ(sd, cmfs, illuminant, method="Integration")
     ... # doctest: +ELLIPSIS
     array([ 10.8404805...,   9.6838697...,   6.2115722...])
-    >>> sd_to_XYZ(data, cmfs, illuminant, method='Integration', shape=shape)
+    >>> sd_to_XYZ(data, cmfs, illuminant, method="Integration", shape=shape)
     ... # doctest: +ELLIPSIS
     array([ 10.8993917...,   9.6986145...,   6.2540301...])
 
@@ -1268,10 +1351,14 @@ def msds_to_XYZ_integration(
 
         .. code-block:: python
 
-            >>> interpolator = scipy.interpolate.interp1d(
-            ...     wavelengths, values, axis=-1, kind="linear",
-            ...     fill_value="extrapolate")  # doctest: +SKIP
-            >>> values_i = interpolator(wavelengths_i)  # doctest: +SKIP
+            interpolator = scipy.interpolate.interp1d(
+                wavelengths,
+                values,
+                axis=-1,
+                kind="linear",
+                fill_value="extrapolate",
+            )
+            values_i = interpolator(wavelengths_i)
 
     References
     ----------
@@ -1280,23 +1367,97 @@ def msds_to_XYZ_integration(
     Examples
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 60)
-    >>> data = np.array([
-    ...     [0.0137, 0.0159, 0.0096, 0.0111, 0.0179, 0.1057, 0.0433,
-    ...      0.0258, 0.0248, 0.0186, 0.0310, 0.0473],
-    ...     [0.0913, 0.3145, 0.2582, 0.0709, 0.2971, 0.4620, 0.2683,
-    ...      0.0831, 0.1203, 0.1292, 0.1682, 0.3221],
-    ...     [0.0152, 0.0842, 0.4139, 0.0220, 0.5630, 0.1918, 0.2373,
-    ...      0.0430, 0.0054, 0.0079, 0.3719, 0.2268],
-    ...     [0.0281, 0.0907, 0.2228, 0.1249, 0.2375, 0.5625, 0.0518,
-    ...      0.3230, 0.0065, 0.4006, 0.0861, 0.3161],
-    ...     [0.1918, 0.7103, 0.0041, 0.1817, 0.0024, 0.4209, 0.0118,
-    ...      0.2302, 0.1860, 0.9404, 0.0041, 0.1124],
-    ...     [0.0430, 0.0437, 0.3744, 0.0020, 0.5819, 0.0027, 0.0823,
-    ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
-    ... ])
+    >>> data = np.array(
+    ...     [
+    ...         [
+    ...             0.0137,
+    ...             0.0159,
+    ...             0.0096,
+    ...             0.0111,
+    ...             0.0179,
+    ...             0.1057,
+    ...             0.0433,
+    ...             0.0258,
+    ...             0.0248,
+    ...             0.0186,
+    ...             0.0310,
+    ...             0.0473,
+    ...         ],
+    ...         [
+    ...             0.0913,
+    ...             0.3145,
+    ...             0.2582,
+    ...             0.0709,
+    ...             0.2971,
+    ...             0.4620,
+    ...             0.2683,
+    ...             0.0831,
+    ...             0.1203,
+    ...             0.1292,
+    ...             0.1682,
+    ...             0.3221,
+    ...         ],
+    ...         [
+    ...             0.0152,
+    ...             0.0842,
+    ...             0.4139,
+    ...             0.0220,
+    ...             0.5630,
+    ...             0.1918,
+    ...             0.2373,
+    ...             0.0430,
+    ...             0.0054,
+    ...             0.0079,
+    ...             0.3719,
+    ...             0.2268,
+    ...         ],
+    ...         [
+    ...             0.0281,
+    ...             0.0907,
+    ...             0.2228,
+    ...             0.1249,
+    ...             0.2375,
+    ...             0.5625,
+    ...             0.0518,
+    ...             0.3230,
+    ...             0.0065,
+    ...             0.4006,
+    ...             0.0861,
+    ...             0.3161,
+    ...         ],
+    ...         [
+    ...             0.1918,
+    ...             0.7103,
+    ...             0.0041,
+    ...             0.1817,
+    ...             0.0024,
+    ...             0.4209,
+    ...             0.0118,
+    ...             0.2302,
+    ...             0.1860,
+    ...             0.9404,
+    ...             0.0041,
+    ...             0.1124,
+    ...         ],
+    ...         [
+    ...             0.0430,
+    ...             0.0437,
+    ...             0.3744,
+    ...             0.0020,
+    ...             0.5819,
+    ...             0.0027,
+    ...             0.0823,
+    ...             0.0081,
+    ...             0.3625,
+    ...             0.3213,
+    ...             0.7849,
+    ...             0.0024,
+    ...         ],
+    ...     ]
+    ... )
     >>> msds = MultiSpectralDistributions(data, shape)
     >>> msds_to_XYZ_integration(msds, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
@@ -1426,23 +1587,97 @@ def msds_to_XYZ_ASTME308(
     Examples
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 60)
-    >>> data = np.array([
-    ...     [0.0137, 0.0159, 0.0096, 0.0111, 0.0179, 0.1057, 0.0433,
-    ...      0.0258, 0.0248, 0.0186, 0.0310, 0.0473],
-    ...     [0.0913, 0.3145, 0.2582, 0.0709, 0.2971, 0.4620, 0.2683,
-    ...      0.0831, 0.1203, 0.1292, 0.1682, 0.3221],
-    ...     [0.0152, 0.0842, 0.4139, 0.0220, 0.5630, 0.1918, 0.2373,
-    ...      0.0430, 0.0054, 0.0079, 0.3719, 0.2268],
-    ...     [0.0281, 0.0907, 0.2228, 0.1249, 0.2375, 0.5625, 0.0518,
-    ...      0.3230, 0.0065, 0.4006, 0.0861, 0.3161],
-    ...     [0.1918, 0.7103, 0.0041, 0.1817, 0.0024, 0.4209, 0.0118,
-    ...      0.2302, 0.1860, 0.9404, 0.0041, 0.1124],
-    ...     [0.0430, 0.0437, 0.3744, 0.0020, 0.5819, 0.0027, 0.0823,
-    ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
-    ... ])
+    >>> data = np.array(
+    ...     [
+    ...         [
+    ...             0.0137,
+    ...             0.0159,
+    ...             0.0096,
+    ...             0.0111,
+    ...             0.0179,
+    ...             0.1057,
+    ...             0.0433,
+    ...             0.0258,
+    ...             0.0248,
+    ...             0.0186,
+    ...             0.0310,
+    ...             0.0473,
+    ...         ],
+    ...         [
+    ...             0.0913,
+    ...             0.3145,
+    ...             0.2582,
+    ...             0.0709,
+    ...             0.2971,
+    ...             0.4620,
+    ...             0.2683,
+    ...             0.0831,
+    ...             0.1203,
+    ...             0.1292,
+    ...             0.1682,
+    ...             0.3221,
+    ...         ],
+    ...         [
+    ...             0.0152,
+    ...             0.0842,
+    ...             0.4139,
+    ...             0.0220,
+    ...             0.5630,
+    ...             0.1918,
+    ...             0.2373,
+    ...             0.0430,
+    ...             0.0054,
+    ...             0.0079,
+    ...             0.3719,
+    ...             0.2268,
+    ...         ],
+    ...         [
+    ...             0.0281,
+    ...             0.0907,
+    ...             0.2228,
+    ...             0.1249,
+    ...             0.2375,
+    ...             0.5625,
+    ...             0.0518,
+    ...             0.3230,
+    ...             0.0065,
+    ...             0.4006,
+    ...             0.0861,
+    ...             0.3161,
+    ...         ],
+    ...         [
+    ...             0.1918,
+    ...             0.7103,
+    ...             0.0041,
+    ...             0.1817,
+    ...             0.0024,
+    ...             0.4209,
+    ...             0.0118,
+    ...             0.2302,
+    ...             0.1860,
+    ...             0.9404,
+    ...             0.0041,
+    ...             0.1124,
+    ...         ],
+    ...         [
+    ...             0.0430,
+    ...             0.0437,
+    ...             0.3744,
+    ...             0.0020,
+    ...             0.5819,
+    ...             0.0027,
+    ...             0.0823,
+    ...             0.0081,
+    ...             0.3625,
+    ...             0.3213,
+    ...             0.7849,
+    ...             0.0024,
+    ...         ],
+    ...     ]
+    ... )
     >>> msds = MultiSpectralDistributions(data, shape)
     >>> msds = msds.align(SpectralShape(400, 700, 20))
     >>> msds_to_XYZ_ASTME308(msds, cmfs, illuminant)
@@ -1624,10 +1859,14 @@ def msds_to_XYZ(
 
         .. code-block:: python
 
-            >>> interpolator = scipy.interpolate.interp1d(
-            ...     wavelengths, values, axis=-1, kind="linear",
-            ...     fill_value="extrapolate")  # doctest: +SKIP
-            >>> values_i = interpolator(wavelengths_i)  # doctest: +SKIP
+            interpolator = scipy.interpolate.interp1d(
+                wavelengths,
+                values,
+                axis=-1,
+                kind="linear",
+                fill_value="extrapolate",
+            )
+            values_i = interpolator(wavelengths_i)
 
     References
     ----------
@@ -1637,25 +1876,99 @@ def msds_to_XYZ(
     Examples
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralDistribution
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> illuminant = SDS_ILLUMINANTS['D65']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 60)
-    >>> data = np.array([
-    ...     [0.0137, 0.0159, 0.0096, 0.0111, 0.0179, 0.1057, 0.0433,
-    ...      0.0258, 0.0248, 0.0186, 0.0310, 0.0473],
-    ...     [0.0913, 0.3145, 0.2582, 0.0709, 0.2971, 0.4620, 0.2683,
-    ...      0.0831, 0.1203, 0.1292, 0.1682, 0.3221],
-    ...     [0.0152, 0.0842, 0.4139, 0.0220, 0.5630, 0.1918, 0.2373,
-    ...      0.0430, 0.0054, 0.0079, 0.3719, 0.2268],
-    ...     [0.0281, 0.0907, 0.2228, 0.1249, 0.2375, 0.5625, 0.0518,
-    ...      0.3230, 0.0065, 0.4006, 0.0861, 0.3161],
-    ...     [0.1918, 0.7103, 0.0041, 0.1817, 0.0024, 0.4209, 0.0118,
-    ...      0.2302, 0.1860, 0.9404, 0.0041, 0.1124],
-    ...     [0.0430, 0.0437, 0.3744, 0.0020, 0.5819, 0.0027, 0.0823,
-    ...      0.0081, 0.3625, 0.3213, 0.7849, 0.0024],
-    ... ])
+    >>> data = np.array(
+    ...     [
+    ...         [
+    ...             0.0137,
+    ...             0.0159,
+    ...             0.0096,
+    ...             0.0111,
+    ...             0.0179,
+    ...             0.1057,
+    ...             0.0433,
+    ...             0.0258,
+    ...             0.0248,
+    ...             0.0186,
+    ...             0.0310,
+    ...             0.0473,
+    ...         ],
+    ...         [
+    ...             0.0913,
+    ...             0.3145,
+    ...             0.2582,
+    ...             0.0709,
+    ...             0.2971,
+    ...             0.4620,
+    ...             0.2683,
+    ...             0.0831,
+    ...             0.1203,
+    ...             0.1292,
+    ...             0.1682,
+    ...             0.3221,
+    ...         ],
+    ...         [
+    ...             0.0152,
+    ...             0.0842,
+    ...             0.4139,
+    ...             0.0220,
+    ...             0.5630,
+    ...             0.1918,
+    ...             0.2373,
+    ...             0.0430,
+    ...             0.0054,
+    ...             0.0079,
+    ...             0.3719,
+    ...             0.2268,
+    ...         ],
+    ...         [
+    ...             0.0281,
+    ...             0.0907,
+    ...             0.2228,
+    ...             0.1249,
+    ...             0.2375,
+    ...             0.5625,
+    ...             0.0518,
+    ...             0.3230,
+    ...             0.0065,
+    ...             0.4006,
+    ...             0.0861,
+    ...             0.3161,
+    ...         ],
+    ...         [
+    ...             0.1918,
+    ...             0.7103,
+    ...             0.0041,
+    ...             0.1817,
+    ...             0.0024,
+    ...             0.4209,
+    ...             0.0118,
+    ...             0.2302,
+    ...             0.1860,
+    ...             0.9404,
+    ...             0.0041,
+    ...             0.1124,
+    ...         ],
+    ...         [
+    ...             0.0430,
+    ...             0.0437,
+    ...             0.3744,
+    ...             0.0020,
+    ...             0.5819,
+    ...             0.0027,
+    ...             0.0823,
+    ...             0.0081,
+    ...             0.3625,
+    ...             0.3213,
+    ...             0.7849,
+    ...             0.0024,
+    ...         ],
+    ...     ]
+    ... )
     >>> msds = MultiSpectralDistributions(data, shape)
-    >>> msds_to_XYZ(msds, cmfs, illuminant, method='Integration')
+    >>> msds_to_XYZ(msds, cmfs, illuminant, method="Integration")
     ... # doctest: +ELLIPSIS
     array([[  7.5029704...,   3.9487844...,   8.4034669...],
            [ 26.9259681...,  15.0724609...,  28.7057807...],
@@ -1670,7 +1983,7 @@ def msds_to_XYZ(
            [  8.5365923...,  19.7030166...,  17.7050933...],
            [ 23.9088250...,  26.2129529...,  30.6763148...]])
     >>> data = np.reshape(data, (2, 6, 6))
-    >>> msds_to_XYZ(data, cmfs, illuminant, method='Integration', shape=shape)
+    >>> msds_to_XYZ(data, cmfs, illuminant, method="Integration", shape=shape)
     ... # doctest: +ELLIPSIS
     array([[[  1.3104332...,   1.1377026...,   1.8267926...],
             [  2.1875548...,   2.2510619...,   3.0721540...],
@@ -1689,7 +2002,7 @@ def msds_to_XYZ(
     The default CMFS are the *CIE 1931 2 Degree Standard Observer*, and the
     default illuminant is *CIE Illuminant E*:
 
-    >>> msds_to_XYZ(msds, method='Integration')
+    >>> msds_to_XYZ(msds, method="Integration")
     ... # doctest: +ELLIPSIS
     array([[  8.2415862...,   4.2543993...,   7.6100842...],
            [ 29.6144619...,  16.1158465...,  25.9015472...],
@@ -1758,7 +2071,7 @@ def wavelength_to_XYZ(
     Examples
     --------
     >>> from colour import MSDS_CMFS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> wavelength_to_XYZ(480, cmfs)  # doctest: +ELLIPSIS
     array([ 0.09564  ,  0.13902  ,  0.8129501...])
     >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS

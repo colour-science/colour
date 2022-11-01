@@ -374,7 +374,7 @@ def XYZ_to_Hunt(
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> XYZ_b = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
-    >>> surround = VIEWING_CONDITIONS_HUNT['Normal Scenes']
+    >>> surround = VIEWING_CONDITIONS_HUNT["Normal Scenes"]
     >>> CCT_w = 6504
     >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
     ... # doctest: +ELLIPSIS
@@ -728,14 +728,17 @@ def chromatic_adaptation(
 
     # Coverage Doctests
 
-    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L,
-    ...                      discount_illuminant=False)  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation(
+    ...     XYZ, XYZ_w, XYZ_b, L_A, F_L, discount_illuminant=False
+    ... )  # doctest: +ELLIPSIS
     array([ 6.8525880...,  6.8874417...,  6.9461478...])
-    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L,
-    ...                      helson_judd_effect=True)  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation(
+    ...     XYZ, XYZ_w, XYZ_b, L_A, F_L, helson_judd_effect=True
+    ... )  # doctest: +ELLIPSIS
     array([ 6.8959454...,  6.8959991...,  6.8965708...])
-    >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L,
-    ...                      XYZ_p=XYZ_b, p=0.5)  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation(
+    ...     XYZ, XYZ_w, XYZ_b, L_A, F_L, XYZ_p=XYZ_b, p=0.5
+    ... )  # doctest: +ELLIPSIS
     array([ 9.2069020...,  9.2070219...,  9.2078373...])
     """
 
@@ -917,11 +920,9 @@ def hue_angle(C: FloatingOrArrayLike) -> FloatingOrNDArray:
 
     Examples
     --------
-    >>> C = np.array([
-    ...     -5.365865581996587e-05,
-    ...     -0.000571699383647,
-    ...     0.000625358039467
-    ... ])
+    >>> C = np.array(
+    ...     [-5.365865581996587e-05, -0.000571699383647, 0.000625358039467]
+    ... )
     >>> hue_angle(C)  # doctest: +ELLIPSIS
     269.2737594...
     """
@@ -1027,11 +1028,9 @@ def yellowness_blueness_response(
 
     Examples
     --------
-    >>> C = np.array([
-    ...     -5.365865581996587e-05,
-    ...     -0.000571699383647,
-    ...     0.000625358039467
-    ... ])
+    >>> C = np.array(
+    ...     [-5.365865581996587e-05, -0.000571699383647, 0.000625358039467]
+    ... )
     >>> e_s = 1.110836504862630
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000
@@ -1081,11 +1080,9 @@ def redness_greenness_response(
 
     Examples
     --------
-    >>> C = np.array([
-    ...     -5.365865581996587e-05,
-    ...     -0.000571699383647,
-    ...     0.000625358039467
-    ... ])
+    >>> C = np.array(
+    ...     [-5.365865581996587e-05, -0.000571699383647, 0.000625358039467]
+    ... )
     >>> e_s = 1.110836504862630
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000

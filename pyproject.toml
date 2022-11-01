@@ -59,6 +59,7 @@ trimesh = { version = ">= 3, < 4", optional = true }
 
 biblib-simple = { version = "*", optional = true }  # Development dependency.
 black = { version = "*", optional = true }  # Development dependency.
+blackdoc = { version = "*", optional = true }  # Development dependency.
 coverage = { version = "!= 6.3", optional = true }  # Development dependency.
 coveralls = { version = "*", optional = true }  # Development dependency.
 flake8 = { version = "*", optional = true }  # Development dependency.
@@ -82,6 +83,7 @@ twine = { version = "*", optional = true }  # Development dependency.
 [tool.poetry.dev-dependencies]
 biblib-simple = "*"
 black = "*"
+blackdoc = "*"
 coverage = "!= 6.3"
 coveralls = "*"
 flake8 = "*"
@@ -106,6 +108,7 @@ twine = "*"
 development = [
     "biblib-simple",
     "black",
+    "blackdoc",
     "coverage",
     "coveralls",
     "flake8",

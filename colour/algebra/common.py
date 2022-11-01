@@ -101,9 +101,11 @@ def get_sdiv_mode() -> Literal[
     --------
     >>> with sdiv_mode("Numpy"):
     ...     get_sdiv_mode()
+    ...
     'numpy'
     >>> with sdiv_mode("Ignore Zero Conversion"):
     ...     get_sdiv_mode()
+    ...
     'ignore zero conversion'
     """
 
@@ -140,6 +142,7 @@ def set_sdiv_mode(
     ...     print(get_sdiv_mode())
     ...     set_sdiv_mode("Raise")
     ...     print(get_sdiv_mode())
+    ...
     ignore zero conversion
     raise
     """
@@ -284,18 +287,23 @@ def sdiv(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
     ...         sdiv(a, b)
     ... except Exception as error:
     ...     error  # doctest: +ELLIPSIS
+    ...
     FloatingPointError('divide by zero encountered in...divide')
     >>> with sdiv_mode("Ignore Zero Conversion"):
     ...     sdiv(a, b)
+    ...
     array([ 0.,  1.,  0.])
     >>> with sdiv_mode("Warning Zero Conversion"):
     ...     sdiv(a, b)
+    ...
     array([ 0.,  1.,  0.])
     >>> with sdiv_mode("Ignore Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
+    ...
     array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
     >>> with sdiv_mode("Warning Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
+    ...
     array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
     """
 
@@ -363,9 +371,11 @@ def is_spow_enabled() -> Boolean:
     --------
     >>> with spow_enable(False):
     ...     is_spow_enabled()
+    ...
     False
     >>> with spow_enable(True):
     ...     is_spow_enabled()
+    ...
     True
     """
 
@@ -387,6 +397,7 @@ def set_spow_enable(enable: Boolean):
     ...     print(is_spow_enabled())
     ...     set_spow_enable(False)
     ...     print(is_spow_enabled())
+    ...
     True
     False
     """
@@ -552,9 +563,11 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
     Examples
     --------
     >>> m = np.array(
-    ...     [[0.7328, 0.4296, -0.1624],
-    ...      [-0.7036, 1.6975, 0.0061],
-    ...      [0.0030, 0.0136, 0.9834]]
+    ...     [
+    ...         [0.7328, 0.4296, -0.1624],
+    ...         [-0.7036, 1.6975, 0.0061],
+    ...         [0.0030, 0.0136, 0.9834],
+    ...     ]
     ... )
     >>> m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
     >>> v = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -593,9 +606,11 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
     Examples
     --------
     >>> a = np.array(
-    ...     [[0.7328, 0.4296, -0.1624],
-    ...      [-0.7036, 1.6975, 0.0061],
-    ...      [0.0030, 0.0136, 0.9834]]
+    ...     [
+    ...         [0.7328, 0.4296, -0.1624],
+    ...         [-0.7036, 1.6975, 0.0061],
+    ...         [0.0030, 0.0136, 0.9834],
+    ...     ]
     ... )
     >>> a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
     >>> b = a
@@ -818,27 +833,31 @@ def eigen_decomposition(
     Examples
     --------
     >>> a = np.diag([1, 2, 3])
-    >>> w,v = eigen_decomposition(a)
-    >>> w; v
+    >>> w, v = eigen_decomposition(a)
+    >>> w
     array([ 3.,  2.,  1.])
+    >>> v
     array([[ 0.,  0.,  1.],
            [ 0.,  1.,  0.],
            [ 1.,  0.,  0.]])
-    >>> w,v = eigen_decomposition(a, 1)
-    >>> w; v
+    >>> w, v = eigen_decomposition(a, 1)
+    >>> w
     array([ 3.])
+    >>> v
     array([[ 0.],
            [ 0.],
            [ 1.]])
-    >>> w,v = eigen_decomposition(a, descending_order=False)
-    >>> w; v
+    >>> w, v = eigen_decomposition(a, descending_order=False)
+    >>> w
     array([ 1.,  2.,  3.])
+    >>> v
     array([[ 1.,  0.,  0.],
            [ 0.,  1.,  0.],
            [ 0.,  0.,  1.]])
-    >>> w,v = eigen_decomposition(a, covariance_matrix=True)
-    >>> w; v
+    >>> w, v = eigen_decomposition(a, covariance_matrix=True)
+    >>> w
     array([ 9.,  4.,  1.])
+    >>> v
     array([[ 0.,  0.,  1.],
            [ 0.,  1.,  0.],
            [ 1.,  0.,  0.]])

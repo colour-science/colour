@@ -149,7 +149,7 @@ def plot_spectral_locus(
 
     Examples
     --------
-    >>> plot_spectral_locus(spectral_locus_colours='RGB')  # doctest: +ELLIPSIS
+    >>> plot_spectral_locus(spectral_locus_colours="RGB")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Spectral_Locus.png
@@ -435,7 +435,7 @@ def plot_chromaticity_diagram_colours(
 
     Examples
     --------
-    >>> plot_chromaticity_diagram_colours(diagram_colours='RGB')
+    >>> plot_chromaticity_diagram_colours(diagram_colours="RGB")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -894,23 +894,24 @@ def plot_sds_in_chromaticity_diagram(
 
     Examples
     --------
-    >>> A = SDS_ILLUMINANTS['A']
-    >>> D65 = SDS_ILLUMINANTS['D65']
+    >>> A = SDS_ILLUMINANTS["A"]
+    >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> annotate_kwargs = [
-    ...     {'xytext': (-25, 15), 'arrowprops':{'arrowstyle':'-'}},
-    ...     {}
+    ...     {"xytext": (-25, 15), "arrowprops": {"arrowstyle": "-"}},
+    ...     {},
     ... ]
     >>> plot_kwargs = [
     ...     {
-    ...         'illuminant': SDS_ILLUMINANTS['E'],
-    ...         'markersize' : 15,
-    ...         'normalise_sd_colours': True,
-    ...         'use_sd_colours': True
+    ...         "illuminant": SDS_ILLUMINANTS["E"],
+    ...         "markersize": 15,
+    ...         "normalise_sd_colours": True,
+    ...         "use_sd_colours": True,
     ...     },
-    ...     {'illuminant': SDS_ILLUMINANTS['E']},
+    ...     {"illuminant": SDS_ILLUMINANTS["E"]},
     ... ]
     >>> plot_sds_in_chromaticity_diagram(
-    ...     [A, D65], annotate_kwargs=annotate_kwargs, plot_kwargs=plot_kwargs)
+    ...     [A, D65], annotate_kwargs=annotate_kwargs, plot_kwargs=plot_kwargs
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1149,8 +1150,8 @@ def plot_sds_in_chromaticity_diagram_CIE1931(
 
     Examples
     --------
-    >>> A = SDS_ILLUMINANTS['A']
-    >>> D65 = SDS_ILLUMINANTS['D65']
+    >>> A = SDS_ILLUMINANTS["A"]
+    >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -1262,8 +1263,8 @@ def plot_sds_in_chromaticity_diagram_CIE1960UCS(
 
     Examples
     --------
-    >>> A = SDS_ILLUMINANTS['A']
-    >>> D65 = SDS_ILLUMINANTS['D65']
+    >>> A = SDS_ILLUMINANTS["A"]
+    >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
@@ -1375,8 +1376,8 @@ def plot_sds_in_chromaticity_diagram_CIE1976UCS(
 
     Examples
     --------
-    >>> A = SDS_ILLUMINANTS['A']
-    >>> D65 = SDS_ILLUMINANTS['D65']
+    >>> A = SDS_ILLUMINANTS["A"]
+    >>> D65 = SDS_ILLUMINANTS["D65"]
     >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)

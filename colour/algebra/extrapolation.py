@@ -114,7 +114,7 @@ class Extrapolator:
 
     Extrapolating an `ArrayLike` variable:
 
-    >>> extrapolator(np.array([6, 7 , 8]))
+    >>> extrapolator(np.array([6, 7, 8]))
     array([ 4.,  5.,  6.])
 
     Using the *Constant* extrapolation method:
@@ -122,7 +122,7 @@ class Extrapolator:
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator(interpolator, method='Constant')
+    >>> extrapolator = Extrapolator(interpolator, method="Constant")
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 1.,  1.,  3.,  3.])
 
@@ -131,7 +131,7 @@ class Extrapolator:
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
     >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator(interpolator, method='Constant', left=0)
+    >>> extrapolator = Extrapolator(interpolator, method="Constant", left=0)
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([ 0.,  0.,  3.,  3.])
     """

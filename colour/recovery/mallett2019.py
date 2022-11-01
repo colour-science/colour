@@ -104,17 +104,20 @@ def spectral_primary_decomposition_Mallett2019(
     >>> from colour.models import RGB_COLOURSPACE_PAL_SECAM
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> msds = spectral_primary_decomposition_Mallett2019(
-    ...     RGB_COLOURSPACE_PAL_SECAM, cmfs, illuminant, optimisation_kwargs={
-    ...         'options': {'ftol': 1e-5}
-    ...     }
+    ...     RGB_COLOURSPACE_PAL_SECAM,
+    ...     cmfs,
+    ...     illuminant,
+    ...     optimisation_kwargs={"options": {"ftol": 1e-5}},
     ... )
     >>> with numpy_print_options(suppress=True):
     ...     print(msds)  # doctest: +SKIP
+    ...
     [[ 360.            0.3395134...    0.3400214...    0.3204650...]
      [ 370.            0.3355246...    0.3338028...    0.3306724...]
      [ 380.            0.3376707...    0.3185578...    0.3437715...]
@@ -250,19 +253,21 @@ def RGB_to_sd_Mallett2019(
     Examples
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, XYZ_to_sRGB
-    >>> from colour.colorimetry import  sd_to_XYZ_integration
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.recovery import SPECTRAL_SHAPE_sRGB_MALLETT2019
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> RGB = XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Mallett2019(RGB)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.1735531...],
                           [ 385.        ,    0.1720357...],
                           [ 390.        ,    0.1677721...],

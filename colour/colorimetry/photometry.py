@@ -71,7 +71,7 @@ def luminous_flux(
     Examples
     --------
     >>> from colour import SDS_LIGHT_SOURCES
-    >>> sd = SDS_LIGHT_SOURCES['Neodimium Incandescent']
+    >>> sd = SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> luminous_flux(sd)  # doctest: +ELLIPSIS
     23807.6555273...
     """
@@ -121,7 +121,7 @@ def luminous_efficiency(
     Examples
     --------
     >>> from colour import SDS_LIGHT_SOURCES
-    >>> sd = SDS_LIGHT_SOURCES['Neodimium Incandescent']
+    >>> sd = SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> luminous_efficiency(sd)  # doctest: +ELLIPSIS
     0.1994393...
     """
@@ -173,7 +173,7 @@ def luminous_efficacy(
     Examples
     --------
     >>> from colour import SDS_LIGHT_SOURCES
-    >>> sd = SDS_LIGHT_SOURCES['Neodimium Incandescent']
+    >>> sd = SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> luminous_efficacy(sd)  # doctest: +ELLIPSIS
     136.2170803...
     """

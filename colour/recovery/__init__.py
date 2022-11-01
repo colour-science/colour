@@ -203,14 +203,17 @@ def XYZ_to_sd(
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd(
-    ...     XYZ, method='Jakob 2019', cmfs=cmfs, illuminant=illuminant)
+    ...     XYZ, method="Jakob 2019", cmfs=cmfs, illuminant=illuminant
+    ... )
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 360.        ,    0.4893773...],
                           [ 370.        ,    0.3258214...],
                           [ 380.        ,    0.2147792...],
@@ -264,13 +267,15 @@ def XYZ_to_sd(
     *Mallett and Yuksel (2019)* reflectance recovery:
 
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_sRGB_MALLETT2019)
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(XYZ, method='Mallett 2019')
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
+    >>> sd = XYZ_to_sd(XYZ, method="Mallett 2019")
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.1735531...],
                           [ 385.        ,    0.1720357...],
                           [ 390.        ,    0.1677721...],
@@ -363,14 +368,17 @@ def XYZ_to_sd(
     *Meng (2015)* reflectance recovery:
 
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd(
-    ...     XYZ, method='Meng 2015', cmfs=cmfs, illuminant=illuminant)
+    ...     XYZ, method="Meng 2015", cmfs=cmfs, illuminant=illuminant
+    ... )
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +SKIP
+    ...
     SpectralDistribution([[ 360.        ,    0.0762005...],
                           [ 370.        ,    0.0761792...],
                           [ 380.        ,    0.0761363...],
@@ -424,14 +432,17 @@ def XYZ_to_sd(
     *Otsu, Yamamoto and Hachisuka (2018)* reflectance recovery:
 
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SPECTRAL_SHAPE_OTSU2018)
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_OTSU2018)
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd(
-    ...     XYZ, method='Otsu 2018', cmfs=cmfs, illuminant=illuminant)
+    ...     XYZ, method="Otsu 2018", cmfs=cmfs, illuminant=illuminant
+    ... )
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.0601939...],
                           [ 390.        ,    0.0568063...],
                           [ 400.        ,    0.0517429...],
@@ -478,13 +489,15 @@ def XYZ_to_sd(
     *Smits (1999)* reflectance recovery:
 
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['E'].copy().align(cmfs.shape)
-    >>> sd = XYZ_to_sd(XYZ, method='Smits 1999')
+    >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
+    >>> sd = XYZ_to_sd(XYZ, method="Smits 1999")
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.0787830...],
                           [ 417.7778    ,    0.0622018...],
                           [ 455.5556    ,    0.0446206...],

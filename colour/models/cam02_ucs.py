@@ -148,16 +148,16 @@ def JMh_CIECAM02_to_UCS_Luo2006(
     --------
     >>> from colour.appearance import (
     ...     VIEWING_CONDITIONS_CIECAM02,
-    ...     XYZ_to_CIECAM02)
+    ...     XYZ_to_CIECAM02,
+    ... )
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
-    >>> specification = XYZ_to_CIECAM02(
-    ...     XYZ, XYZ_w, L_A, Y_b, surround)
+    >>> surround = VIEWING_CONDITIONS_CIECAM02["Average"]
+    >>> specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
-    >>> JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    >>> JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     array([ 54.9043313...,  -0.0845039...,  -0.0685483...])
     """
@@ -227,7 +227,8 @@ def UCS_Luo2006_to_JMh_CIECAM02(
     --------
     >>> Jpapbp = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> UCS_Luo2006_to_JMh_CIECAM02(
-    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+    ... )
     ... # doctest: +ELLIPSIS
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
@@ -299,14 +300,14 @@ def JMh_CIECAM02_to_CAM02LCD(JMh: ArrayLike) -> NDArray:
     --------
     >>> from colour.appearance import (
     ...     VIEWING_CONDITIONS_CIECAM02,
-    ...     XYZ_to_CIECAM02)
+    ...     XYZ_to_CIECAM02,
+    ... )
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
-    >>> specification = XYZ_to_CIECAM02(
-    ...     XYZ, XYZ_w, L_A, Y_b, surround)
+    >>> surround = VIEWING_CONDITIONS_CIECAM02["Average"]
+    >>> specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> JMh_CIECAM02_to_CAM02LCD(JMh)  # doctest: +ELLIPSIS
     array([ 54.9043313...,  -0.0845039...,  -0.0685483...])
@@ -419,14 +420,14 @@ def JMh_CIECAM02_to_CAM02SCD(JMh: ArrayLike) -> NDArray:
     --------
     >>> from colour.appearance import (
     ...     VIEWING_CONDITIONS_CIECAM02,
-    ...     XYZ_to_CIECAM02)
+    ...     XYZ_to_CIECAM02,
+    ... )
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
-    >>> specification = XYZ_to_CIECAM02(
-    ...     XYZ, XYZ_w, L_A, Y_b, surround)
+    >>> surround = VIEWING_CONDITIONS_CIECAM02["Average"]
+    >>> specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> JMh_CIECAM02_to_CAM02SCD(JMh)  # doctest: +ELLIPSIS
     array([ 54.9043313...,  -0.0843617...,  -0.0684329...])
@@ -539,14 +540,14 @@ def JMh_CIECAM02_to_CAM02UCS(JMh: ArrayLike) -> NDArray:
     --------
     >>> from colour.appearance import (
     ...     VIEWING_CONDITIONS_CIECAM02,
-    ...     XYZ_to_CIECAM02)
+    ...     XYZ_to_CIECAM02,
+    ... )
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
-    >>> specification = XYZ_to_CIECAM02(
-    ...     XYZ, XYZ_w, L_A, Y_b, surround)
+    >>> surround = VIEWING_CONDITIONS_CIECAM02["Average"]
+    >>> specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> JMh_CIECAM02_to_CAM02UCS(JMh)  # doctest: +ELLIPSIS
     array([ 54.9043313...,  -0.0844236...,  -0.0684831...])
@@ -669,7 +670,7 @@ def XYZ_to_UCS_Luo2006(
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    >>> XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     array([ 46.6138615...,  39.3576023...,  15.9673043...])
     """
@@ -756,8 +757,7 @@ def UCS_Luo2006_to_XYZ(
     Examples
     --------
     >>> Jpapbp = np.array([46.61386154, 39.35760236, 15.96730435])
-    >>> UCS_Luo2006_to_XYZ(
-    ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    >>> UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """

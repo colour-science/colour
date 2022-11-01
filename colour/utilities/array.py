@@ -992,29 +992,35 @@ class domain_range_scale:
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
+    ...
     array(1.0)
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     from_range_1(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
+    ...
     array(1.0)
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     from_range_1(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     to_domain_1(1)
+    ...
     array(0.01)
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     from_range_1(1)
+    ...
     array(100.0)
     """
 
@@ -1086,20 +1092,23 @@ def to_domain_1(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     to_domain_1(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     to_domain_1(1)
+    ...
     array(0.01)
     """
 
@@ -1150,20 +1159,23 @@ def to_domain_10(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     to_domain_10(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     to_domain_10(1)
+    ...
     array(10.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     to_domain_10(1)
+    ...
     array(0.1)
     """
 
@@ -1215,20 +1227,23 @@ def to_domain_100(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     to_domain_100(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     to_domain_100(1)
+    ...
     array(100.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     to_domain_100(1)
+    ...
     array(1.0)
     """
 
@@ -1279,20 +1294,23 @@ def to_domain_degrees(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     to_domain_degrees(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     to_domain_degrees(1)
+    ...
     array(360.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     to_domain_degrees(1)
+    ...
     array(3.6)
     """
 
@@ -1350,20 +1368,23 @@ def to_domain_int(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     to_domain_int(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     to_domain_int(1)
+    ...
     array(255.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     to_domain_int(1)
+    ...
     array(2.55)
     """
 
@@ -1420,20 +1441,23 @@ def from_range_1(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     from_range_1(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     from_range_1(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     from_range_1(1)
+    ...
     array(100.0)
     """
 
@@ -1488,20 +1512,23 @@ def from_range_10(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     from_range_10(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     from_range_10(1)
+    ...
     array(0.1)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     from_range_10(1)
+    ...
     array(10.0)
     """
 
@@ -1557,20 +1584,23 @@ def from_range_100(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     from_range_100(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     from_range_100(1)
+    ...
     array(0.01)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     from_range_100(1)
+    ...
     array(1.0)
     """
 
@@ -1625,20 +1655,23 @@ def from_range_degrees(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     from_range_degrees(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     from_range_degrees(1)  # doctest: +ELLIPSIS
+    ...
     array(0.0027777...)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     from_range_degrees(1)  # doctest: +ELLIPSIS
+    ...
     array(0.2777777...)
     """
 
@@ -1700,20 +1733,23 @@ def from_range_int(
     --------
     With *Colour* domain-range scale set to **'Reference'**:
 
-    >>> with domain_range_scale('Reference'):
+    >>> with domain_range_scale("Reference"):
     ...     from_range_int(1)
+    ...
     array(1.0)
 
     With *Colour* domain-range scale set to **'1'**:
 
-    >>> with domain_range_scale('1'):
+    >>> with domain_range_scale("1"):
     ...     from_range_int(1)  # doctest: +ELLIPSIS
+    ...
     array(0.0039215...)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
-    >>> with domain_range_scale('100'):
+    >>> with domain_range_scale("100"):
     ...     from_range_int(1)  # doctest: +ELLIPSIS
+    ...
     array(0.3921568...)
     """
 
@@ -1750,8 +1786,16 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> a = np.array([24.31357115, 63.62396289, 55.71528816,
-    ...               62.70988028, 46.84480573, 25.40026416])
+    >>> a = np.array(
+    ...     [
+    ...         24.31357115,
+    ...         63.62396289,
+    ...         55.71528816,
+    ...         62.70988028,
+    ...         46.84480573,
+    ...         25.40026416,
+    ...     ]
+    ... )
     >>> print(closest_indexes(a, 63))
     [3]
     >>> print(closest_indexes(a, [63, 25]))
@@ -1783,8 +1827,16 @@ def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> a = np.array([24.31357115, 63.62396289, 55.71528816,
-    ...               62.70988028, 46.84480573, 25.40026416])
+    >>> a = np.array(
+    ...     [
+    ...         24.31357115,
+    ...         63.62396289,
+    ...         55.71528816,
+    ...         62.70988028,
+    ...         46.84480573,
+    ...         25.40026416,
+    ...     ]
+    ... )
     >>> closest(a, 63)
     array([ 62.70988028])
     >>> closest(a, [63, 25])
@@ -2014,24 +2066,23 @@ def tsplit(
     >>> tsplit(a)
     array([ 0.,  0.,  0.])
     >>> a = np.array(
-    ...     [[0, 0, 0],
-    ...      [1, 1, 1],
-    ...      [2, 2, 2],
-    ...      [3, 3, 3],
-    ...      [4, 4, 4],
-    ...      [5, 5, 5]]
+    ...     [[0, 0, 0], [1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4], [5, 5, 5]]
     ... )
     >>> tsplit(a)
     array([[ 0.,  1.,  2.,  3.,  4.,  5.],
            [ 0.,  1.,  2.,  3.,  4.,  5.],
            [ 0.,  1.,  2.,  3.,  4.,  5.]])
     >>> a = np.array(
-    ...     [[[0, 0, 0],
-    ...       [1, 1, 1],
-    ...       [2, 2, 2],
-    ...       [3, 3, 3],
-    ...       [4, 4, 4],
-    ...       [5, 5, 5]]]
+    ...     [
+    ...         [
+    ...             [0, 0, 0],
+    ...             [1, 1, 1],
+    ...             [2, 2, 2],
+    ...             [3, 3, 3],
+    ...             [4, 4, 4],
+    ...             [5, 5, 5],
+    ...         ]
+    ...     ]
     ... )
     >>> tsplit(a)
     array([[[ 0.,  1.,  2.,  3.,  4.,  5.]],
@@ -2069,11 +2120,13 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
     Examples
     --------
     >>> a = np.array(
-    ...     [[0.25891593, 0.07299478, 0.36586996],
-    ...       [0.30851087, 0.37131459, 0.16274825],
-    ...       [0.71061831, 0.67718718, 0.09562581],
-    ...       [0.71588836, 0.76772047, 0.15476079],
-    ...       [0.92985142, 0.22263399, 0.88027331]]
+    ...     [
+    ...         [0.25891593, 0.07299478, 0.36586996],
+    ...         [0.30851087, 0.37131459, 0.16274825],
+    ...         [0.71061831, 0.67718718, 0.09562581],
+    ...         [0.71588836, 0.76772047, 0.15476079],
+    ...         [0.92985142, 0.22263399, 0.88027331],
+    ...     ]
     ... )
     >>> row_as_diagonal(a)
     array([[[ 0.25891593,  0.        ,  0.        ],
@@ -2134,13 +2187,13 @@ def orient(
            [0, 1, 2, 3, 4],
            [0, 1, 2, 3, 4],
            [0, 1, 2, 3, 4]])
-    >>> orient(a, '90 CW')
+    >>> orient(a, "90 CW")
     array([[ 0.,  0.,  0.,  0.,  0.],
            [ 1.,  1.,  1.,  1.,  1.],
            [ 2.,  2.,  2.,  2.,  2.],
            [ 3.,  3.,  3.,  3.,  3.],
            [ 4.,  4.,  4.,  4.,  4.]])
-    >>> orient(a, 'Flip')
+    >>> orient(a, "Flip")
     array([[ 4.,  3.,  2.,  1.,  0.],
            [ 4.,  3.,  2.,  1.,  0.],
            [ 4.,  3.,  2.,  1.,  0.],
@@ -2239,7 +2292,7 @@ def fill_nan(
     >>> a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
     >>> fill_nan(a)
     array([ 0.1,  0.2,  0.3,  0.4,  0.5])
-    >>> fill_nan(a, method='Constant')
+    >>> fill_nan(a, method="Constant")
     array([ 0.1,  0.2,  0. ,  0.4,  0.5])
     """
 
@@ -2313,8 +2366,10 @@ def ndarray_write(a: ArrayLike) -> Generator:
     ...     a += 1
     ... except ValueError:
     ...     pass
+    ...
     >>> with ndarray_write(a):
-    ...     a +=1
+    ...     a += 1
+    ...
     """
 
     a = as_float_array(a)
@@ -2473,28 +2528,35 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     Examples
     --------
     >>> a = np.array(
-    ...     [[[0.3, 0.5, 6.9],
-    ...       [3.3, 4.4, 1.6],
-    ...       [4.4, 7.5, 2.3],
-    ...       [2.3, 1.6, 7.4]],
-    ...      [[2. , 5.9, 2.8],
-    ...       [6.2, 4.9, 8.6],
-    ...       [3.7, 9.7, 7.3],
-    ...       [6.3, 4.3, 3.2]],
-    ...      [[0.8, 1.9, 0.7],
-    ...       [5.6, 4. , 1.7],
-    ...       [6.7, 8.2, 1.7],
-    ...       [1.2, 7.1, 1.4]],
-    ...      [[4. , 4.8, 8.9],
-    ...       [4. , 0.3, 6.9],
-    ...       [3.5, 7.1, 4.5],
-    ...       [1.4, 1.9, 1.6]]]
+    ...     [
+    ...         [
+    ...             [0.3, 0.5, 6.9],
+    ...             [3.3, 4.4, 1.6],
+    ...             [4.4, 7.5, 2.3],
+    ...             [2.3, 1.6, 7.4],
+    ...         ],
+    ...         [
+    ...             [2.0, 5.9, 2.8],
+    ...             [6.2, 4.9, 8.6],
+    ...             [3.7, 9.7, 7.3],
+    ...             [6.3, 4.3, 3.2],
+    ...         ],
+    ...         [
+    ...             [0.8, 1.9, 0.7],
+    ...             [5.6, 4.0, 1.7],
+    ...             [6.7, 8.2, 1.7],
+    ...             [1.2, 7.1, 1.4],
+    ...         ],
+    ...         [
+    ...             [4.0, 4.8, 8.9],
+    ...             [4.0, 0.3, 6.9],
+    ...             [3.5, 7.1, 4.5],
+    ...             [1.4, 1.9, 1.6],
+    ...         ],
+    ...     ]
     ... )
     >>> indexes = np.array(
-    ...     [[2, 0, 1, 1],
-    ...      [2, 1, 1, 0],
-    ...      [0, 0, 1, 2],
-    ...      [0, 0, 1, 2]]
+    ...     [[2, 0, 1, 1], [2, 1, 1, 0], [0, 0, 1, 2], [0, 0, 1, 2]]
     ... )
     >>> index_along_last_axis(a, indexes)
     array([[ 6.9,  3.3,  7.5,  1.6],
@@ -2506,10 +2568,7 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     the last axis given the corresponding :func:`np.argmin` indexes.
 
     >>> indexes = np.argmin(a, axis=-1)
-    >>> np.array_equal(
-    ...     index_along_last_axis(a, indexes),
-    ...     np.min(a, axis=-1)
-    ... )
+    >>> np.array_equal(index_along_last_axis(a, indexes), np.min(a, axis=-1))
     True
 
     In particular, this can be used to manipulate the indexes given by

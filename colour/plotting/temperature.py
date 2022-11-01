@@ -120,7 +120,7 @@ def plot_planckian_locus(
 
     Examples
     --------
-    >>> plot_planckian_locus(planckian_locus_colours='RGB')
+    >>> plot_planckian_locus(planckian_locus_colours="RGB")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -308,21 +308,21 @@ def plot_planckian_locus_in_chromaticity_diagram(
     Examples
     --------
     >>> annotate_kwargs = [
-    ...     {'xytext': (-25, 15), 'arrowprops':{'arrowstyle':'-'}},
-    ...     {'arrowprops':{'arrowstyle':'-['}},
+    ...     {"xytext": (-25, 15), "arrowprops": {"arrowstyle": "-"}},
+    ...     {"arrowprops": {"arrowstyle": "-["}},
     ...     {},
     ... ]
     >>> plot_kwargs = [
     ...     {
-    ...         'markersize' : 15,
+    ...         "markersize": 15,
     ...     },
-    ...     {   'color': 'r'},
+    ...     {"color": "r"},
     ...     {},
     ... ]
     >>> plot_planckian_locus_in_chromaticity_diagram(
-    ...     ['A', 'B', 'C'],
+    ...     ["A", "B", "C"],
     ...     annotate_kwargs=annotate_kwargs,
-    ...     plot_kwargs=plot_kwargs
+    ...     plot_kwargs=plot_kwargs,
     ... )  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -516,7 +516,7 @@ plot_planckian_locus_in_chromaticity_diagram`,
 
     Examples
     --------
-    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'])
+    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1931(["A", "B", "C"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -597,7 +597,8 @@ plot_planckian_locus_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
-    ...     ['A', 'C', 'E'])  # doctest: +ELLIPSIS
+    ...     ["A", "C", "E"]
+    ... )  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_\

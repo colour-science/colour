@@ -372,8 +372,9 @@ class KernelInterpolator:
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
-    ...               69.5900, 27.8007, 86.0500])
+    >>> y = np.array(
+    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
+    ... )
     >>> x = np.arange(len(y))
     >>> f = KernelInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -393,11 +394,8 @@ class KernelInterpolator:
     Using a different window size:
 
     >>> f = KernelInterpolator(
-    ...     x,
-    ...     y,
-    ...     window=16,
-    ...     kernel=kernel_lanczos,
-    ...     kernel_kwargs={'a': 16})
+    ...     x, y, window=16, kernel=kernel_lanczos, kernel_kwargs={"a": 16}
+    ... )
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
     array([ 5.3961792...,  5.6521093...])
     """
@@ -798,8 +796,9 @@ class LinearInterpolator:
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
-    ...               69.5900, 27.8007, 86.0500])
+    >>> y = np.array(
+    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
+    ... )
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -1000,8 +999,9 @@ class SpragueInterpolator:
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
-    ...               69.5900, 27.8007, 86.0500])
+    >>> y = np.array(
+    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
+    ... )
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -1388,8 +1388,9 @@ class NullInterpolator:
 
     Examples
     --------
-    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
-    ...               69.5900, 27.8007, 86.0500])
+    >>> y = np.array(
+    ...     [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
+    ... )
     >>> x = np.arange(len(y))
     >>> f = NullInterpolator(x, y)
     >>> f(0.5)
@@ -1715,8 +1716,15 @@ def vertices_and_relative_coordinates(
     >>> import os
     >>> import colour
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'Colour_Correct.cube')
+    ...     os.path.dirname(__file__),
+    ...     "..",
+    ...     "io",
+    ...     "luts",
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "Colour_Correct.cube",
+    ... )
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1825,8 +1833,15 @@ def table_interpolation_trilinear(
     >>> import os
     >>> import colour
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'Colour_Correct.cube')
+    ...     os.path.dirname(__file__),
+    ...     "..",
+    ...     "io",
+    ...     "luts",
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "Colour_Correct.cube",
+    ... )
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1898,8 +1913,15 @@ def table_interpolation_tetrahedral(
     >>> import os
     >>> import colour
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'Colour_Correct.cube')
+    ...     os.path.dirname(__file__),
+    ...     "..",
+    ...     "io",
+    ...     "luts",
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "Colour_Correct.cube",
+    ... )
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -1993,8 +2015,15 @@ def table_interpolation(
     >>> import os
     >>> import colour
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
-    ...     'iridas_cube', 'Colour_Correct.cube')
+    ...     os.path.dirname(__file__),
+    ...     "..",
+    ...     "io",
+    ...     "luts",
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "Colour_Correct.cube",
+    ... )
     >>> LUT = colour.read_LUT(path)
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
@@ -2007,7 +2036,7 @@ def table_interpolation(
     array([[ 1.0120664...,  0.7539146...,  1.0228540...],
            [ 0.5075794...,  0.6479459...,  0.1066404...],
            [ 1.0976519...,  0.1785998...,  0.2299897...]])
-    >>> table_interpolation(V_xyz, table, method='Tetrahedral')
+    >>> table_interpolation(V_xyz, table, method="Tetrahedral")
     ... # doctest: +ELLIPSIS
     array([[ 1.0196197...,  0.7674062...,  1.0311751...],
            [ 0.5105603...,  0.6466722...,  0.1077296...],

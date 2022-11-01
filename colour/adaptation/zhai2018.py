@@ -134,11 +134,13 @@ def chromatic_adaptation_Zhai2018(
     >>> D_d = 0.9800
     >>> XYZ_wo = np.array([100, 100, 100])
     >>> chromatic_adaptation_Zhai2018(
-    ...     XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo)  # doctest: +ELLIPSIS
+    ...     XYZ_b, XYZ_wb, XYZ_wd, D_b, D_d, XYZ_wo
+    ... )  # doctest: +ELLIPSIS
     array([ 39.1856164...,  42.1546179...,  19.2367203...])
     >>> XYZ_d = np.array([39.18561644, 42.15461798, 19.23672036])
     >>> chromatic_adaptation_Zhai2018(
-    ...     XYZ_d, XYZ_wd, XYZ_wb, D_d, D_b, XYZ_wo)  # doctest: +ELLIPSIS
+    ...     XYZ_d, XYZ_wd, XYZ_wb, D_d, D_b, XYZ_wo
+    ... )  # doctest: +ELLIPSIS
     array([ 48.9 ,  43.62,   6.25])
     """
 

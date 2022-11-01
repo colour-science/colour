@@ -248,8 +248,8 @@ def XYZ_to_RLAB(
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_n = np.array([109.85, 100, 35.58])
     >>> Y_n = 31.83
-    >>> sigma = VIEWING_CONDITIONS_RLAB['Average']
-    >>> D = D_FACTOR_RLAB['Hard Copy Images']
+    >>> sigma = VIEWING_CONDITIONS_RLAB["Average"]
+    >>> D = D_FACTOR_RLAB["Hard Copy Images"]
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
     CAM_Specification_RLAB(J=49.8347069..., C=54.8700585..., \
 h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., \

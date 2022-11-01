@@ -192,7 +192,7 @@ def matrix_YCbCr(
     array([[  1.0000000...e+00,  ...,   1.5748000...e+00],
            [  1.0000000...e+00,  -1.8732427...e-01,  -4.6812427...e-01],
            [  1.0000000...e+00,   1.8556000...e+00,  ...]])
-    >>> matrix_YCbCr(K=WEIGHTS_YCBCR['ITU-R BT.601'])  # doctest: +ELLIPSIS
+    >>> matrix_YCbCr(K=WEIGHTS_YCBCR["ITU-R BT.601"])  # doctest: +ELLIPSIS
     array([[  1.0000000...e+00,  ...,   1.4020000...e+00],
            [  1.0000000...e+00,  -3.4413628...e-01,  -7.1413628...e-01],
            [  1.0000000...e+00,   1.7720000...e+00,  ...]])
@@ -392,8 +392,9 @@ def RGB_to_YCbCr(
     Matching the float output of *The Foundry Nuke*'s *Colorspace* node set to
     *YCbCr*:
 
-    >>> RGB_to_YCbCr(RGB,
-    ...              out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255))
+    >>> RGB_to_YCbCr(
+    ...     RGB, out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255)
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5       ,  0.5       ])
 
@@ -413,8 +414,13 @@ def RGB_to_YCbCr(
     For *JFIF JPEG* conversion as per *Recommendation ITU-T T.871*
 
     >>> RGB = np.array([102, 0, 51])
-    >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_range=(0, 255),
-    ...              out_range=(0, 255, 0, 256), out_int=True)
+    >>> RGB_to_YCbCr(
+    ...     RGB,
+    ...     K=WEIGHTS_YCBCR["ITU-R BT.601"],
+    ...     in_range=(0, 255),
+    ...     out_range=(0, 255, 0, 256),
+    ...     out_int=True,
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 36, 136, 175]...)
 
@@ -428,8 +434,14 @@ def RGB_to_YCbCr(
 
     These *JFIF JPEG* ranges are also obtained as follows:
 
-    >>> RGB_to_YCbCr(RGB, K=WEIGHTS_YCBCR['ITU-R BT.601'], in_bits=8,
-    ...              in_int=True, out_legal=False, out_int=True)
+    >>> RGB_to_YCbCr(
+    ...     RGB,
+    ...     K=WEIGHTS_YCBCR["ITU-R BT.601"],
+    ...     in_bits=8,
+    ...     in_int=True,
+    ...     out_legal=False,
+    ...     out_int=True,
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 36, 136, 175]...)
     """
@@ -674,8 +686,13 @@ def RGB_to_YcCbcCrc(
     Examples
     --------
     >>> RGB = np.array([0.18, 0.18, 0.18])
-    >>> RGB_to_YcCbcCrc(RGB, out_legal=True, out_bits=10, out_int=True,
-    ...                 is_12_bits_system=False)
+    >>> RGB_to_YcCbcCrc(
+    ...     RGB,
+    ...     out_legal=True,
+    ...     out_bits=10,
+    ...     out_int=True,
+    ...     is_12_bits_system=False,
+    ... )
     ... # doctest: +ELLIPSIS
     array([422, 512, 512]...)
     """
@@ -782,8 +799,13 @@ def YcCbcCrc_to_RGB(
     Examples
     --------
     >>> YcCbcCrc = np.array([1689, 2048, 2048])
-    >>> YcCbcCrc_to_RGB(YcCbcCrc, in_legal=True, in_bits=12, in_int=True,
-    ...                 is_12_bits_system=True)
+    >>> YcCbcCrc_to_RGB(
+    ...     YcCbcCrc,
+    ...     in_legal=True,
+    ...     in_bits=12,
+    ...     in_int=True,
+    ...     is_12_bits_system=True,
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """

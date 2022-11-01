@@ -203,8 +203,9 @@ class Signal(AbstractContinuousFunction):
 
     >>> if is_pandas_installed():
     ...     from pandas import Series
-    ...     print(Signal(  # doctest: +SKIP
-    ...         Series(dict(zip(domain, range_)))))
+    ...
+    ...     print(Signal(Series(dict(zip(domain, range_)))))  # doctest: +SKIP
+    ...
     [[  100.    10.]
      [  200.    20.]
      [  300.    30.]
@@ -230,16 +231,14 @@ class Signal(AbstractContinuousFunction):
 
     >>> x = 150
     >>> from colour.algebra import CubicSplineInterpolator
-    >>> Signal(
-    ...     range_,
-    ...     domain,
-    ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
+    >>> Signal(range_, domain, interpolator=CubicSplineInterpolator)[
+    ...     x
+    ... ]  # doctest: +ELLIPSIS
     0.0555274...
     >>> x = np.linspace(100, 1000, 3)
-    >>> Signal(
-    ...     range_,
-    ...     domain,
-    ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
+    >>> Signal(range_, domain, interpolator=CubicSplineInterpolator)[
+    ...     x
+    ... ]  # doctest: +ELLIPSIS
     array([ 0.        ,  0.4794253...,  0.8414709...])
     """
 
@@ -1026,7 +1025,7 @@ class Signal(AbstractContinuousFunction):
          [   7.   80.]
          [   8.   90.]
          [   9.  100.]]
-        >>> print(signal_1.arithmetical_operation(10, '+', True))
+        >>> print(signal_1.arithmetical_operation(10, "+", True))
         [[   0.   20.]
          [   1.   30.]
          [   2.   40.]
@@ -1041,7 +1040,7 @@ class Signal(AbstractContinuousFunction):
         Adding an `ArrayLike` variable:
 
         >>> a = np.linspace(10, 100, 10)
-        >>> print(signal_1.arithmetical_operation(a, '+', True))
+        >>> print(signal_1.arithmetical_operation(a, "+", True))
         [[   0.   30.]
          [   1.   50.]
          [   2.   70.]
@@ -1056,7 +1055,7 @@ class Signal(AbstractContinuousFunction):
         Adding a :class:`colour.continuous.Signal` class:
 
         >>> signal_2 = Signal(range_)
-        >>> print(signal_1.arithmetical_operation(signal_2, '+', True))
+        >>> print(signal_1.arithmetical_operation(signal_2, "+", True))
         [[   0.   40.]
          [   1.   70.]
          [   2.  100.]
@@ -1141,7 +1140,8 @@ class Signal(AbstractContinuousFunction):
         Unpacking using a *dict*:
 
         >>> domain, range_ = Signal.signal_unpack_data(
-        ...     dict(zip(domain, range_)))
+        ...     dict(zip(domain, range_))
+        ... )
         >>> print(domain)
         [  100.   200.   300.   400.   500.   600.   700.   800.   900.  1000.]
         >>> print(range_)
@@ -1151,9 +1151,12 @@ class Signal(AbstractContinuousFunction):
 
         >>> if is_pandas_installed():
         ...     from pandas import Series
+        ...
         ...     domain, range = Signal.signal_unpack_data(
-        ...         Series(dict(zip(domain, range_))))
+        ...         Series(dict(zip(domain, range_)))
+        ...     )
         ... # doctest: +ELLIPSIS
+        ...
         >>> print(domain)  # doctest: +SKIP
         [  100.   200.   300.   400.   500.   600.   700.   800.   900.  1000.]
         >>> print(range_)  # doctest: +SKIP
@@ -1161,8 +1164,7 @@ class Signal(AbstractContinuousFunction):
 
         Unpacking using a :class:`colour.continuous.Signal` class:
 
-        >>> domain, range_ = Signal.signal_unpack_data(
-        ...     Signal(range_, domain))
+        >>> domain, range_ = Signal.signal_unpack_data(Signal(range_, domain))
         >>> print(domain)
         [  100.   200.   300.   400.   500.   600.   700.   800.   900.  1000.]
         >>> print(range_)
@@ -1262,7 +1264,7 @@ class Signal(AbstractContinuousFunction):
          [   8.   90.]
          [   9.  100.]]
         >>> signal[3:7] = np.nan
-        >>> print(signal.fill_nan(method='Constant'))
+        >>> print(signal.fill_nan(method="Constant"))
         [[   0.   10.]
          [   1.   20.]
          [   2.   30.]
@@ -1300,6 +1302,7 @@ class Signal(AbstractContinuousFunction):
         ...     range_ = np.linspace(10, 100, 10)
         ...     signal = Signal(range_)
         ...     print(signal.to_series())  # doctest: +SKIP
+        ...
         0.0     10.0
         1.0     20.0
         2.0     30.0

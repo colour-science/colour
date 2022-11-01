@@ -65,31 +65,40 @@ def process_image_OpenColorIO(
     >>> import PyOpenColorIO as ocio  # doctest: +SKIP
     >>> from colour.utilities import full
     >>> config = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources',
-    ...     'config-aces-reference.ocio.yaml')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "config-aces-reference.ocio.yaml",
+    ... )
     >>> a = 0.18
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
     0.4135884...
     >>> a = np.array([0.18])
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
     array([ 0.4135884...])
     >>> a = np.array([0.18, 0.18, 0.18])
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
     array([ 0.4135884...,  0.4135884...,  0.4135884...])
     >>> a = np.array([[0.18, 0.18, 0.18]])
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
     array([[ 0.4135884...,  0.4135884...,  0.4135884...]])
     >>> a = np.array([[[0.18, 0.18, 0.18]]])
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
     array([[[ 0.4135884...,  0.4135884...,  0.4135884...]]])
     >>> a = full([4, 2, 3], 0.18)
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'ACES - ACEScct', config=config)
+    ...     a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+    ... )
     array([[[ 0.4135884...,  0.4135884...,  0.4135884...],
             [ 0.4135884...,  0.4135884...,  0.4135884...]],
     <BLANKLINE>
@@ -102,9 +111,13 @@ def process_image_OpenColorIO(
            [[ 0.4135884...,  0.4135884...,  0.4135884...],
             [ 0.4135884...,  0.4135884...,  0.4135884...]]])
     >>> process_image_OpenColorIO(  # doctest: +SKIP
-    ...     a, 'ACES - ACES2065-1', 'Display - sRGB',
-    ...     'Output - SDR Video - ACES 1.0', ocio.TRANSFORM_DIR_FORWARD,
-    ...     config=config)
+    ...     a,
+    ...     "ACES - ACES2065-1",
+    ...     "Display - sRGB",
+    ...     "Output - SDR Video - ACES 1.0",
+    ...     ocio.TRANSFORM_DIR_FORWARD,
+    ...     config=config,
+    ... )
     array([[[ 0.3559542...,  0.3559542...,  0.3559542...],
             [ 0.3559542...,  0.3559542...,  0.3559542...]],
     <BLANKLINE>

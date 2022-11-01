@@ -915,11 +915,14 @@ class LUT1D(AbstractLUT):
 
     >>> from colour.algebra import spow
     >>> domain = np.array([-0.1, 1.5])
-    >>> print(LUT1D(
-    ...     spow(LUT1D.linear_table(16, domain), 1 / 2.2),
-    ...     'My LUT',
-    ...     domain,
-    ...     comments=['A first comment.', 'A second comment.']))
+    >>> print(
+    ...     LUT1D(
+    ...         spow(LUT1D.linear_table(16, domain), 1 / 2.2),
+    ...         "My LUT",
+    ...         domain,
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
     LUT1D - My LUT
     --------------
     <BLANKLINE>
@@ -1155,7 +1158,7 @@ class LUT1D(AbstractLUT):
         *LUT* applied to the modified *RGB* colourspace in the inverse
         direction:
 
-        >>> LUT.apply(LUT.apply(RGB), direction='Inverse')
+        >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS
         array([ 0.18...,  0.18...,  0.18...])
         """
@@ -1335,11 +1338,14 @@ class LUT3x1D(AbstractLUT):
 
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
-    >>> print(LUT3x1D(
-    ...     spow(LUT3x1D.linear_table(16), 1 / 2.2),
-    ...     'My LUT',
-    ...     domain,
-    ...     comments=['A first comment.', 'A second comment.']))
+    >>> print(
+    ...     LUT3x1D(
+    ...         spow(LUT3x1D.linear_table(16), 1 / 2.2),
+    ...         "My LUT",
+    ...         domain,
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
     LUT3x1D - My LUT
     ----------------
     <BLANKLINE>
@@ -1484,7 +1490,8 @@ class LUT3x1D(AbstractLUT):
         Examples
         --------
         >>> LUT3x1D.linear_table(
-        ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
+        ... )
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  0.6,  1.2],
                [ 0.7,  1.4,  2.8],
@@ -1492,17 +1499,22 @@ class LUT3x1D(AbstractLUT):
                [ 1.5,  3. ,  6. ]])
         >>> LUT3x1D.linear_table(
         ...     np.array([5, 3, 2]),
-        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+        ... )
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  1.4,  6. ],
                [ 0.7,  3. ,  nan],
                [ 1.1,  nan,  nan],
                [ 1.5,  nan,  nan]])
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.3, 1.4, 6.0],
-        ...                    [0.7, 3.0, np.nan],
-        ...                    [1.1, np.nan, np.nan],
-        ...                    [1.5, np.nan, np.nan]])
+        >>> domain = np.array(
+        ...     [
+        ...         [-0.1, -0.2, -0.4],
+        ...         [0.3, 1.4, 6.0],
+        ...         [0.7, 3.0, np.nan],
+        ...         [1.1, np.nan, np.nan],
+        ...         [1.5, np.nan, np.nan],
+        ...     ]
+        ... )
         >>> LUT3x1D.linear_table(domain=domain)
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  1.4,  6. ],
@@ -1663,7 +1675,7 @@ class LUT3x1D(AbstractLUT):
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
-        >>> LUT.apply(LUT.apply(RGB), direction='Inverse')
+        >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS
         array([ 0.18...,  0.18...,  0.18...])
         >>> from colour.algebra import spow
@@ -1673,11 +1685,15 @@ class LUT3x1D(AbstractLUT):
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4423903...,  0.4503801...,  0.3581625...])
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.3, 1.4, 6.0],
-        ...                    [0.7, 3.0, np.nan],
-        ...                    [1.1, np.nan, np.nan],
-        ...                    [1.5, np.nan, np.nan]])
+        >>> domain = np.array(
+        ...     [
+        ...         [-0.1, -0.2, -0.4],
+        ...         [0.3, 1.4, 6.0],
+        ...         [0.7, 3.0, np.nan],
+        ...         [1.1, np.nan, np.nan],
+        ...         [1.5, np.nan, np.nan],
+        ...     ]
+        ... )
         >>> table = spow(LUT3x1D.linear_table(domain=domain), 1 / 2.2)
         >>> LUT = LUT3x1D(table, domain=domain)
         >>> RGB = np.array([0.18, 0.18, 0.18])
@@ -1878,11 +1894,14 @@ class LUT3D(AbstractLUT):
 
     >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
-    >>> print(LUT3D(
-    ...     spow(LUT3D.linear_table(16), 1 / 2.2),
-    ...     'My LUT',
-    ...     domain,
-    ...     comments=['A first comment.', 'A second comment.']))
+    >>> print(
+    ...     LUT3D(
+    ...         spow(LUT3D.linear_table(16), 1 / 2.2),
+    ...         "My LUT",
+    ...         domain,
+    ...         comments=["A first comment.", "A second comment."],
+    ...     )
+    ... )
     LUT3D - My LUT
     --------------
     <BLANKLINE>
@@ -1992,9 +2011,9 @@ class LUT3D(AbstractLUT):
         --------
         >>> LUT3D().is_domain_explicit()
         False
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.7, 1.4, 6.0],
-        ...                    [1.5, 3.0, np.nan]])
+        >>> domain = np.array(
+        ...     [[-0.1, -0.2, -0.4], [0.7, 1.4, 6.0], [1.5, 3.0, np.nan]]
+        ... )
         >>> LUT3D(domain=domain).is_domain_explicit()
         True
         """
@@ -2026,7 +2045,8 @@ class LUT3D(AbstractLUT):
         Examples
         --------
         >>> LUT3D.linear_table(
-        ...     3, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     3, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
+        ... )
         array([[[[-0.1, -0.2, -0.4],
                  [-0.1, -0.2,  2.8],
                  [-0.1, -0.2,  6. ]],
@@ -2066,7 +2086,8 @@ class LUT3D(AbstractLUT):
                  [ 1.5,  3. ,  6. ]]]])
         >>> LUT3D.linear_table(
         ...     np.array([3, 3, 2]),
-        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+        ... )
         array([[[[-0.1, -0.2, -0.4],
                  [-0.1, -0.2,  6. ]],
         <BLANKLINE>
@@ -2095,9 +2116,9 @@ class LUT3D(AbstractLUT):
         <BLANKLINE>
                 [[ 1.5,  3. , -0.4],
                  [ 1.5,  3. ,  6. ]]]])
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.7, 1.4, 6.0],
-        ...                    [1.5, 3.0, np.nan]])
+        >>> domain = np.array(
+        ...     [[-0.1, -0.2, -0.4], [0.7, 1.4, 6.0], [1.5, 3.0, np.nan]]
+        ... )
         >>> LUT3D.linear_table(domain=domain)
         array([[[[-0.1, -0.2, -0.4],
                  [-0.1, -0.2,  6. ]],
@@ -2316,15 +2337,19 @@ class LUT3D(AbstractLUT):
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4583277...,  0.4583277...,  0.4583277...])
-        >>> LUT.apply(LUT.apply(RGB), direction='Inverse')
+        >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS
         array([ 0.1781995...,  0.1809414...,  0.1809513...])
         >>> from colour.algebra import spow
-        >>> domain = np.array([[-0.1, -0.2, -0.4],
-        ...                    [0.3, 1.4, 6.0],
-        ...                    [0.7, 3.0, np.nan],
-        ...                    [1.1, np.nan, np.nan],
-        ...                    [1.5, np.nan, np.nan]])
+        >>> domain = np.array(
+        ...     [
+        ...         [-0.1, -0.2, -0.4],
+        ...         [0.3, 1.4, 6.0],
+        ...         [0.7, 3.0, np.nan],
+        ...         [1.1, np.nan, np.nan],
+        ...         [1.5, np.nan, np.nan],
+        ...     ]
+        ... )
         >>> table = spow(LUT3D.linear_table(domain=domain), 1 / 2.2)
         >>> LUT = LUT3D(table, domain=domain)
         >>> RGB = np.array([0.18, 0.18, 0.18])

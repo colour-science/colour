@@ -567,7 +567,7 @@ def corresponding_chromaticities_prediction_VonKries(
     Examples
     --------
     >>> from pprint import pprint
-    >>> pr = corresponding_chromaticities_prediction_VonKries(2, 'Bradford')
+    >>> pr = corresponding_chromaticities_prediction_VonKries(2, "Bradford")
     >>> pr = [(p.uv_m, p.uv_p) for p in pr]
     >>> pprint(pr)  # doctest: +ELLIPSIS
     [(array([ 0.207,  0.486]), array([ 0.2082014...,  0.4722922...])),
@@ -792,7 +792,7 @@ corresponding_chromaticities_prediction_Zhai2018`},
     Examples
     --------
     >>> from pprint import pprint
-    >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
+    >>> pr = corresponding_chromaticities_prediction(2, "CMCCAT2000")
     >>> pr = [(p.uv_m, p.uv_p) for p in pr]
     >>> pprint(pr)  # doctest: +SKIP
     [((0.207, 0.486), (0.2083210..., 0.4727168...)),

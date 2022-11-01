@@ -596,12 +596,12 @@ def primitive_vertices(
             [ 1.,  1.,  0.],
             [ 1.,  1.,  1.],
             [ 1.,  0.,  1.]]])
-    >>> primitive_vertices('Quad MPL')
+    >>> primitive_vertices("Quad MPL")
     array([[ 0.,  0.,  0.],
            [ 1.,  0.,  0.],
            [ 1.,  1.,  0.],
            [ 0.,  1.,  0.]])
-    >>> primitive_vertices('Sphere', segments=4)  # doctest: +ELLIPSIS
+    >>> primitive_vertices("Sphere", segments=4)  # doctest: +ELLIPSIS
     array([[[  0.0000000...e+00,   0.0000000...e+00,   5.0000000...e-01],
             [ -3.5355339...e-01,  -4.3297802...e-17,   3.5355339...e-01],
             [ -5.0000000...e-01,  -6.1232340...e-17,   3.0616170...e-17],

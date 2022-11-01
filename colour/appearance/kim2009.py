@@ -294,8 +294,8 @@ def XYZ_to_Kim2009(
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
-    >>> media = MEDIA_PARAMETERS_KIM2009['CRT Displays']
-    >>> surround = VIEWING_CONDITIONS_KIM2009['Average']
+    >>> media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+    >>> surround = VIEWING_CONDITIONS_KIM2009["Average"]
     >>> XYZ_to_Kim2009(XYZ, XYZ_w, L_A, media, surround)
     ... # doctest: +ELLIPSIS
     CAM_Specification_Kim2009(J=28.8619089..., C=0.5592455..., \
@@ -467,13 +467,12 @@ def Kim2009_to_XYZ(
     Examples
     --------
     >>> specification = CAM_Specification_Kim2009(
-    ...     J=28.861908975839647,
-    ...     C=0.5592455924373706,
-    ...     h=219.04806677662953)
+    ...     J=28.861908975839647, C=0.5592455924373706, h=219.04806677662953
+    ... )
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
-    >>> media = MEDIA_PARAMETERS_KIM2009['CRT Displays']
-    >>> surround = VIEWING_CONDITIONS_KIM2009['Average']
+    >>> media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
+    >>> surround = VIEWING_CONDITIONS_KIM2009["Average"]
     >>> Kim2009_to_XYZ(specification, XYZ_w, L_A, media, surround)
     ... # doctest: +ELLIPSIS
     array([ 19.0099995...,  19.9999999...,  21.7800000...])

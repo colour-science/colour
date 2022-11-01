@@ -112,9 +112,10 @@ def message_box(
     Examples
     --------
     >>> message = (
-    ...     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
-    ...     'sed do eiusmod tempor incididunt ut labore et dolore magna '
-    ...     'aliqua.')
+    ...     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
+    ...     "sed do eiusmod tempor incididunt ut labore et dolore magna "
+    ...     "aliqua."
+    ... )
     >>> message_box(message, width=75)
     ===========================================================================
     *                                                                         *
@@ -257,7 +258,7 @@ def warning(*args: Any, **kwargs: Any):
 
     Examples
     --------
-    >>> warning('This is a warning!')  # doctest: +SKIP
+    >>> warning("This is a warning!")  # doctest: +SKIP
     """
 
     kwargs["category"] = kwargs.get("category", ColourWarning)
@@ -278,7 +279,7 @@ def runtime_warning(*args: Any, **kwargs: Any):
 
     Examples
     --------
-    >>> usage_warning('This is a runtime warning!')  # doctest: +SKIP
+    >>> usage_warning("This is a runtime warning!")  # doctest: +SKIP
     """
 
     kwargs["category"] = ColourRuntimeWarning
@@ -299,7 +300,7 @@ def usage_warning(*args: Any, **kwargs: Any):
 
     Examples
     --------
-    >>> usage_warning('This is an usage warning!')  # doctest: +SKIP
+    >>> usage_warning("This is an usage warning!")  # doctest: +SKIP
     """
 
     kwargs["category"] = ColourUsageWarning
@@ -367,7 +368,7 @@ def filter_warnings(
 
     Enabling all the *Colour* and Python warnings using the *default* action:
 
-    >>> filter_warnings(*['default'] * 4)
+    >>> filter_warnings(*["default"] * 4)
 
     Setting back the default state:
 
@@ -468,8 +469,8 @@ def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     --------
     >>> np.array([np.pi])  # doctest: +ELLIPSIS
     array([ 3.1415926...])
-    >>> with numpy_print_options(formatter={'float': '{:0.1f}'.format}):
-    ...      np.array([np.pi])
+    >>> with numpy_print_options(formatter={"float": "{:0.1f}".format}):
+    ...     np.array([np.pi])
     array([3.1])
     """
 
@@ -832,8 +833,9 @@ def multiline_str(
     ...                     "label": 'List "c"',
     ...                     "formatter": lambda x: "; ".join(x),
     ...                 },
-    ...             ]
+    ...             ],
     ...         )
+    ...
     >>> print(Data("Foo", 1, ["John", "Doe"]))
     Object - Data
     =============
@@ -964,11 +966,13 @@ def multiline_repr(
     ...                 {"name": "_b"},
     ...                 {
     ...                     "name": "_c",
-    ...                     "formatter": lambda x: repr(x).replace(
-    ...                         "[", "(").replace("]", ")"),
+    ...                     "formatter": lambda x: repr(x)
+    ...                     .replace("[", "(")
+    ...                     .replace("]", ")"),
     ...                 },
-    ...             ]
+    ...             ],
     ...         )
+    ...
     >>> Data("Foo", 1, ["John", "Doe"])
     Data('Foo',
          1,

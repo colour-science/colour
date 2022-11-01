@@ -117,19 +117,21 @@ def logarithmic_function_basic(
 
     >>> logarithmic_function_basic(0.18)  # doctest: +ELLIPSIS
     -2.4739311...
-    >>> logarithmic_function_basic(0.18, 'log10')  # doctest: +ELLIPSIS
+    >>> logarithmic_function_basic(0.18, "log10")  # doctest: +ELLIPSIS
     -0.7447274...
-    >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
-    ...    0.18, 'logB', 3)
+    >>> logarithmic_function_basic(0.18, "logB", 3)  # doctest: +ELLIPSIS
     -1.5608767...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
-    ...    -2.473931188332412, 'antiLog2')
+    ...     -2.473931188332412, "antiLog2"
+    ... )
     0.18000000...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
-    ...    -0.7447274948966939, 'antiLog10')
+    ...     -0.7447274948966939, "antiLog10"
+    ... )
     0.18000000...
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
-    ...    -1.5608767950073117, 'antiLogB', 3)
+    ...     -1.5608767950073117, "antiLogB", 3
+    ... )
     0.18000000...
     """
 
@@ -199,11 +201,11 @@ def logarithmic_function_quasilog(
 
     Examples
     --------
-    >>> logarithmic_function_quasilog(  # doctest: +ELLIPSIS
-    ...    0.18, 'linToLog')
+    >>> logarithmic_function_quasilog(0.18, "linToLog")  # doctest: +ELLIPSIS
     -2.4739311...
     >>> logarithmic_function_quasilog(  # doctest: +ELLIPSIS
-    ...    -2.473931188332412, 'logToLin')
+    ...     -2.473931188332412, "logToLin"
+    ... )
     0.18000000...
     """
 
@@ -293,10 +295,12 @@ def logarithmic_function_camera(
     Examples
     --------
     >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
-    ...    0.18, 'cameraLinToLog')
+    ...     0.18, "cameraLinToLog"
+    ... )
     -2.4739311...
     >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
-    ...    -2.4739311883324122, 'cameraLogToLin')
+    ...     -2.4739311883324122, "cameraLogToLin"
+    ... )
     0.1800000...
     """
 

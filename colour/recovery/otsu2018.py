@@ -136,16 +136,21 @@ class Dataset_Otsu2018:
     >>> from colour.characterisation import SDS_COLOURCHECKERS
     >>> from colour.colorimetry import sds_and_msds_to_msds
     >>> reflectances = sds_and_msds_to_msds(
-    ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+    ...     SDS_COLOURCHECKERS["ColorChecker N Ohta"].values()
     ... )
     >>> node_tree = Tree_Otsu2018(reflectances)
     >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
     >>> dataset = node_tree.to_dataset()
-    >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
-    ...                     'resources', 'ColorChecker_Otsu2018.npz')
-    >>> dataset.write(path) # doctest: +SKIP
-    >>> dataset = Dataset_Otsu2018() # doctest: +SKIP
-    >>> dataset.read(path) # doctest: +SKIP
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "recovery",
+    ...     "tests",
+    ...     "resources",
+    ...     "ColorChecker_Otsu2018.npz",
+    ... )
+    >>> dataset.write(path)  # doctest: +SKIP
+    >>> dataset = Dataset_Otsu2018()  # doctest: +SKIP
+    >>> dataset.read(path)  # doctest: +SKIP
     """
 
     def __init__(
@@ -327,16 +332,21 @@ class Dataset_Otsu2018:
         >>> from colour.characterisation import SDS_COLOURCHECKERS
         >>> from colour.colorimetry import sds_and_msds_to_msds
         >>> reflectances = sds_and_msds_to_msds(
-        ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+        ...     SDS_COLOURCHECKERS["ColorChecker N Ohta"].values()
         ... )
         >>> node_tree = Tree_Otsu2018(reflectances)
         >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
         >>> dataset = node_tree.to_dataset()
-        >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
-        ...                     'resources', 'ColorChecker_Otsu2018.npz')
-        >>> dataset.write(path) # doctest: +SKIP
-        >>> dataset = Dataset_Otsu2018() # doctest: +SKIP
-        >>> dataset.read(path) # doctest: +SKIP
+        >>> path = os.path.join(
+        ...     colour.__path__[0],
+        ...     "recovery",
+        ...     "tests",
+        ...     "resources",
+        ...     "ColorChecker_Otsu2018.npz",
+        ... )
+        >>> dataset.write(path)  # doctest: +SKIP
+        >>> dataset = Dataset_Otsu2018()  # doctest: +SKIP
+        >>> dataset.read(path)  # doctest: +SKIP
         """
 
         data = np.load(path)
@@ -368,14 +378,19 @@ class Dataset_Otsu2018:
         >>> from colour.characterisation import SDS_COLOURCHECKERS
         >>> from colour.colorimetry import sds_and_msds_to_msds
         >>> reflectances = sds_and_msds_to_msds(
-        ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+        ...     SDS_COLOURCHECKERS["ColorChecker N Ohta"].values()
         ... )
         >>> node_tree = Tree_Otsu2018(reflectances)
         >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
         >>> dataset = node_tree.to_dataset()
-        >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
-        ...                     'resources', 'ColorChecker_Otsu2018.npz')
-        >>> dataset.write(path) # doctest: +SKIP
+        >>> path = os.path.join(
+        ...     colour.__path__[0],
+        ...     "recovery",
+        ...     "tests",
+        ...     "resources",
+        ...     "ColorChecker_Otsu2018.npz",
+        ... )
+        >>> dataset.write(path)  # doctest: +SKIP
         """
 
         if self._shape is not None:
@@ -457,18 +472,24 @@ def XYZ_to_sd_Otsu2018(
     Examples
     --------
     >>> from colour import (
-    ...     CCS_ILLUMINANTS, SDS_ILLUMINANTS, MSDS_CMFS, XYZ_to_sRGB)
+    ...     CCS_ILLUMINANTS,
+    ...     SDS_ILLUMINANTS,
+    ...     MSDS_CMFS,
+    ...     XYZ_to_sRGB,
+    ... )
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SPECTRAL_SHAPE_OTSU2018)
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_OTSU2018)
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd_Otsu2018(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.0601939...],
                           [ 390.        ,    0.0568063...],
                           [ 400.        ,    0.0517429...],
@@ -1217,24 +1238,31 @@ class Tree_Otsu2018(Node_Otsu2018):
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> reflectances = sds_and_msds_to_msds(
-    ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+    ...     SDS_COLOURCHECKERS["ColorChecker N Ohta"].values()
     ... )
     >>> node_tree = Tree_Otsu2018(reflectances, cmfs, illuminant)
     >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)
     >>> dataset = node_tree.to_dataset()
-    >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
-    ...                     'resources', 'ColorChecker_Otsu2018.npz')
-    >>> dataset.write(path) # doctest: +SKIP
-    >>> dataset = Dataset_Otsu2018() # doctest: +SKIP
-    >>> dataset.read(path) # doctest: +SKIP
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "recovery",
+    ...     "tests",
+    ...     "resources",
+    ...     "ColorChecker_Otsu2018.npz",
+    ... )
+    >>> dataset.write(path)  # doctest: +SKIP
+    >>> dataset = Dataset_Otsu2018()  # doctest: +SKIP
+    >>> dataset.read(path)  # doctest: +SKIP
     >>> sd = XYZ_to_sd_Otsu2018(XYZ, cmfs, illuminant, dataset)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 360.        ,    0.0651341...],
                           [ 370.        ,    0.0651341...],
                           [ 380.        ,    0.0651341...],
@@ -1375,12 +1403,13 @@ class Tree_Otsu2018(Node_Otsu2018):
         >>> from colour.colorimetry import sds_and_msds_to_msds
         >>> from colour import MSDS_CMFS, SDS_COLOURCHECKERS, SDS_ILLUMINANTS
         >>> cmfs = (
-        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
-        ...     .copy().align(SpectralShape(360, 780, 10))
+        ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        ...     .copy()
+        ...     .align(SpectralShape(360, 780, 10))
         ... )
-        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> reflectances = sds_and_msds_to_msds(
-        ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+        ...     SDS_COLOURCHECKERS["ColorChecker N Ohta"].values()
         ... )
         >>> node_tree = Tree_Otsu2018(reflectances, cmfs, illuminant)
         >>> node_tree.optimise(iterations=2)  # doctest: +ELLIPSIS
@@ -1523,7 +1552,7 @@ the initial error.
         >>> from colour.colorimetry import sds_and_msds_to_msds
         >>> from colour.characterisation import SDS_COLOURCHECKERS
         >>> reflectances = sds_and_msds_to_msds(
-        ...     SDS_COLOURCHECKERS['ColorChecker N Ohta'].values()
+        ...     SDS_COLOURCHECKERS["ColorChecker N Ohta"].values()
         ... )
         >>> node_tree = Tree_Otsu2018(reflectances)
         >>> node_tree.optimise(iterations=2, print_callable=lambda x: x)

@@ -99,14 +99,14 @@ def closest_spectral_locus_wavelength(
     Examples
     --------
     >>> from colour.colorimetry import MSDS_CMFS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> xy_s = XYZ_to_xy(cmfs.values)
     >>> ix, intersect = closest_spectral_locus_wavelength(xy, xy_n, xy_s)
-    >>> print(ix) #
+    >>> print(ix)  #
     256
-    >>> print(intersect) # doctest: +ELLIPSIS
+    >>> print(intersect)  # doctest: +ELLIPSIS
     [ 0.6835474...  0.3162840...]
     """
 
@@ -196,7 +196,7 @@ def dominant_wavelength(
 
     >>> from colour.colorimetry import MSDS_CMFS
     >>> from pprint import pprint
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
@@ -293,7 +293,7 @@ def complementary_wavelength(
 
     >>> from colour.colorimetry import MSDS_CMFS
     >>> from pprint import pprint
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.37605506, 0.24452225])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
@@ -345,7 +345,7 @@ def excitation_purity(
     Examples
     --------
     >>> from colour.colorimetry import MSDS_CMFS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> excitation_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
@@ -394,7 +394,7 @@ def colorimetric_purity(
     Examples
     --------
     >>> from colour.colorimetry import MSDS_CMFS
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> colorimetric_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS

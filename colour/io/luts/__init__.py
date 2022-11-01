@@ -147,8 +147,12 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Reading a 3x1D *Iridas* *.cube* *LUT*:
 
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources', 'iridas_cube',
-    ...     'ACES_Proxy_10_to_ACES.cube')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "iridas_cube",
+    ...     "ACES_Proxy_10_to_ACES.cube",
+    ... )
     >>> print(read_LUT(path))
     LUT3x1D - ACES Proxy 10 to ACES
     -------------------------------
@@ -161,8 +165,12 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Reading a 1D *Sony* *.spi1d* *LUT*:
 
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spi1d',
-    ...     'eotf_sRGB_1D.spi1d')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "sony_spi1d",
+    ...     "eotf_sRGB_1D.spi1d",
+    ... )
     >>> print(read_LUT(path))
     LUT1D - eotf sRGB 1D
     --------------------
@@ -176,8 +184,12 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Reading a 3D *Sony* *.spi3d* *LUT*:
 
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spi3d',
-    ...     'Colour_Correct.spi3d')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "sony_spi3d",
+    ...     "Colour_Correct.spi3d",
+    ... )
     >>> print(read_LUT(path))
     LUT3D - Colour Correct
     ----------------------
@@ -191,8 +203,12 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
     Reading a *Sony* *.spimtx* *LUT*:
 
     >>> path = os.path.join(
-    ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spimtx',
-    ...     'dt.spimtx')
+    ...     os.path.dirname(__file__),
+    ...     "tests",
+    ...     "resources",
+    ...     "sony_spimtx",
+    ...     "dt.spimtx",
+    ... )
     >>> print(read_LUT(path))
     LUTOperatorMatrix - dt
     ----------------------
@@ -302,29 +318,32 @@ def write_LUT(
     >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
     >>> LUT = LUT3x1D(
     ...     spow(LUT3x1D.linear_table(16, domain), 1 / 2.2),
-    ...     'My LUT',
+    ...     "My LUT",
     ...     domain,
-    ...     comments=['A first comment.', 'A second comment.'])
-    >>> write_LUT(LUT, 'My_LUT.cube')  # doctest: +SKIP
+    ...     comments=["A first comment.", "A second comment."],
+    ... )
+    >>> write_LUT(LUT, "My_LUT.cube")  # doctest: +SKIP
 
     Writing a 1D *Sony* *.spi1d* *LUT*:
 
     >>> domain = np.array([-0.1, 1.5])
     >>> LUT = LUT1D(
     ...     spow(LUT1D.linear_table(16, domain), 1 / 2.2),
-    ...     'My LUT',
+    ...     "My LUT",
     ...     domain,
-    ...     comments=['A first comment.', 'A second comment.'])
-    >>> write_LUT(LUT, 'My_LUT.spi1d')  # doctest: +SKIP
+    ...     comments=["A first comment.", "A second comment."],
+    ... )
+    >>> write_LUT(LUT, "My_LUT.spi1d")  # doctest: +SKIP
 
     Writing a 3D *Sony* *.spi3d* *LUT*:
 
     >>> LUT = LUT3D(
     ...     LUT3D.linear_table(16) ** (1 / 2.2),
-    ...     'My LUT',
+    ...     "My LUT",
     ...     np.array([[0, 0, 0], [1, 1, 1]]),
-    ...     comments=['A first comment.', 'A second comment.'])
-    >>> write_LUT(LUT, 'My_LUT.cube')  # doctest: +SKIP
+    ...     comments=["A first comment.", "A second comment."],
+    ... )
+    >>> write_LUT(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
 
     method = cast(

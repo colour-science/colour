@@ -426,7 +426,7 @@ def lightness_Fairchild2011(
     --------
     >>> lightness_Fairchild2011(12.19722535 / 100)  # doctest: +ELLIPSIS
     51.8529584...
-    >>> lightness_Fairchild2011(12.19722535 / 100, method='hdr-IPT')
+    >>> lightness_Fairchild2011(12.19722535 / 100, method="hdr-IPT")
     ... # doctest: +ELLIPSIS
     51.6431084...
     """
@@ -504,7 +504,7 @@ def lightness_Abebe2017(
     --------
     >>> lightness_Abebe2017(12.19722535)  # doctest: +ELLIPSIS
     0.4869555...
-    >>> lightness_Abebe2017(12.19722535, method='Stevens')
+    >>> lightness_Abebe2017(12.19722535, method="Stevens")
     ... # doctest: +ELLIPSIS
     0.4745447...
     """
@@ -629,17 +629,17 @@ def lightness(
     41.5278758...
     >>> lightness(12.19722535, Y_n=95)  # doctest: +ELLIPSIS
     42.5199307...
-    >>> lightness(12.19722535, method='Glasser 1958')  # doctest: +ELLIPSIS
+    >>> lightness(12.19722535, method="Glasser 1958")  # doctest: +ELLIPSIS
     39.8351264...
-    >>> lightness(12.19722535, method='Wyszecki 1963')  # doctest: +ELLIPSIS
+    >>> lightness(12.19722535, method="Wyszecki 1963")  # doctest: +ELLIPSIS
     40.5475745...
-    >>> lightness(12.19722535, epsilon=0.710, method='Fairchild 2011')
+    >>> lightness(12.19722535, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
     29.8295108...
-    >>> lightness(12.19722535, epsilon=0.710, method='Fairchild 2011')
+    >>> lightness(12.19722535, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
     29.8295108...
-    >>> lightness(12.19722535, method='Abebe 2017')
+    >>> lightness(12.19722535, method="Abebe 2017")
     ... # doctest: +ELLIPSIS
     48.6955571...
     """
