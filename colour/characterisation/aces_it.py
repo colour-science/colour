@@ -119,7 +119,7 @@ __all__ = [
     "sd_to_aces_relative_exposure_values",
     "sd_to_ACES2065_1",
     "SPECTRAL_SHAPE_RAWTOACES",
-    "RESOURCES_DIRECTORY_RAWTOACES",
+    "ROOT_RESOURCES_RAWTOACES",
     "read_training_data_rawtoaces_v1",
     "generate_illuminants_rawtoaces_v1",
     "white_balance_multipliers",
@@ -295,7 +295,7 @@ sd_to_ACES2065_1 = sd_to_aces_relative_exposure_values
 SPECTRAL_SHAPE_RAWTOACES: SpectralShape = SpectralShape(380, 780, 5)
 """Default spectral shape according to *RAW to ACES* v1."""
 
-RESOURCES_DIRECTORY_RAWTOACES: str = os.path.join(
+ROOT_RESOURCES_RAWTOACES: str = os.path.join(
     os.path.dirname(__file__), "datasets", "rawtoaces"
 )
 """
@@ -335,7 +335,7 @@ def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     if _TRAINING_DATA_RAWTOACES_V1 is not None:
         training_data = _TRAINING_DATA_RAWTOACES_V1
     else:
-        path = os.path.join(RESOURCES_DIRECTORY_RAWTOACES, "190_Patches.csv")
+        path = os.path.join(ROOT_RESOURCES_RAWTOACES, "190_Patches.csv")
         training_data = sds_and_msds_to_msds(
             list(read_sds_from_csv_file(path).values())
         )
@@ -410,7 +410,7 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.
         sd = read_sds_from_csv_file(
             os.path.join(
-                RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv"
+                ROOT_RESOURCES_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv"
             )
         )["iso7589"]
         illuminants.update({sd.name: sd})
@@ -446,7 +446,7 @@ def white_balance_multipliers(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
+    ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
     ... )
     >>> sensitivities = sds_and_msds_to_msds(
@@ -499,7 +499,7 @@ def best_illuminant(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
+    ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
     ... )
     >>> sensitivities = sds_and_msds_to_msds(
@@ -552,7 +552,7 @@ def normalise_illuminant(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
+    ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
     ... )
     >>> sensitivities = sds_and_msds_to_msds(
@@ -606,7 +606,7 @@ def training_data_sds_to_RGB(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
+    ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
     ... )
     >>> sensitivities = sds_and_msds_to_msds(
@@ -704,7 +704,7 @@ def training_data_sds_to_XYZ(
     --------
     >>> from colour import MSDS_CMFS
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
+    ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
     ... )
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -928,7 +928,7 @@ def matrix_idt(
     the method given in *RAW to ACES* v1:
 
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
+    ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
     ... )
     >>> sensitivities = sds_and_msds_to_msds(
@@ -1059,7 +1059,7 @@ def camera_RGB_to_ACES2065_1(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
+    ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
     ... )
     >>> sensitivities = sds_and_msds_to_msds(

@@ -53,7 +53,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY_ANSIIESTM3018",
+    "ROOT_RESOURCES_ANSIIESTM3018",
     "plot_spectra_ANSIIESTM3018",
     "plot_colour_vector_graphic",
     "plot_16_bin_bars",
@@ -63,7 +63,7 @@ __all__ = [
     "plot_colour_fidelity_indexes",
 ]
 
-RESOURCES_DIRECTORY_ANSIIESTM3018: str = os.path.join(
+ROOT_RESOURCES_ANSIIESTM3018: str = os.path.join(
     os.path.dirname(__file__), "resources"
 )
 """Resources directory."""
@@ -323,7 +323,7 @@ def plot_colour_vector_graphic(
 
     # Background
     background_image = read_image(
-        os.path.join(RESOURCES_DIRECTORY_ANSIIESTM3018, "CVG_Background.jpg")
+        os.path.join(ROOT_RESOURCES_ANSIIESTM3018, "CVG_Background.jpg")
     )
     _figure, axes = plot_image(
         background_image,

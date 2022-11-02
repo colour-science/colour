@@ -115,13 +115,13 @@ def ctl_render(
     ...     description="Adjust Exposure",
     ...     parameters=["input float exposure = 0.0"],
     ... )
-    >>> TESTS_RESOURCES_DIRECTORY = os.path.join(
+    >>> TESTS_ROOT_RESOURCES = os.path.join(
     ...     os.path.dirname(__file__), "tests", "resources"
     ... )
     >>> print(
     ...     ctl_render(
-    ...         f"{TESTS_RESOURCES_DIRECTORY}/CMS_Test_Pattern.exr",
-    ...         f"{TESTS_RESOURCES_DIRECTORY}/CMS_Test_Pattern_Float.exr",
+    ...         f"{TESTS_ROOT_RESOURCES}/CMS_Test_Pattern.exr",
+    ...         f"{TESTS_ROOT_RESOURCES}/CMS_Test_Pattern_Float.exr",
     ...         {ctl_adjust_exposure_float: ["-param1 exposure 3.0"]},
     ...         "-verbose",
     ...         "-force",

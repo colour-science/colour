@@ -21,13 +21,13 @@ __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "AbstractSpectralDistributionTest",
     "TestSpectralDistributionUprTek",
     "TestSpectralDistributionSekonic",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
 class AbstractSpectralDistributionTest(unittest.TestCase):
@@ -92,7 +92,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         self.assertTrue(
             str(
                 self._sd_factory(
-                    os.path.join(RESOURCES_DIRECTORY, self._path)
+                    os.path.join(ROOT_RESOURCES, self._path)
                 ).read()
             ).startswith(self._prefix)
         )
@@ -106,9 +106,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         if self._sd_factory is None:
             return
 
-        sd = self._sd_factory(
-            os.path.join(RESOURCES_DIRECTORY, self._path)
-        ).read()
+        sd = self._sd_factory(os.path.join(ROOT_RESOURCES, self._path)).read()
 
         sd_r = SpectralDistribution(self._spectral_data)
 

@@ -18,11 +18,11 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "TestProcessImageOpenColorIO",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
 class TestProcessImageOpenColorIO(unittest.TestCase):
@@ -42,7 +42,7 @@ class TestProcessImageOpenColorIO(unittest.TestCase):
         import PyOpenColorIO as ocio
 
         config = os.path.join(
-            RESOURCES_DIRECTORY, "config-aces-reference.ocio.yaml"
+            ROOT_RESOURCES, "config-aces-reference.ocio.yaml"
         )
 
         a = full([4, 2, 3], 0.18)

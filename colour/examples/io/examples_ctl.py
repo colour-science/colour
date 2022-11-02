@@ -6,7 +6,7 @@ import tempfile
 import colour
 from colour.utilities import message_box
 
-RESOURCES_DIRECTORY = os.path.join(
+ROOT_RESOURCES = os.path.join(
     os.path.dirname(__file__), "..", "..", "io", "tests", "resources"
 )
 
@@ -24,7 +24,7 @@ ctl_adjust_exposure_float = colour.io.template_ctl_transform_float(
     parameters=["input float exposure = 0.0"],
 )
 print(ctl_adjust_exposure_float)
-path_input = os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
+path_input = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
 _descriptor, path_output = tempfile.mkstemp(suffix=".exr")
 colour.io.ctl_render(
     path_input,
@@ -41,12 +41,12 @@ message_box(
     'Using a "CTL" "float" template based transform file to transform an image.'
 )
 
-path_input = os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
+path_input = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
 colour.io.ctl_render(
     path_input,
     path_output,
     {
-        os.path.join(RESOURCES_DIRECTORY, "Adjust_Exposure_Float.ctl"): [
+        os.path.join(ROOT_RESOURCES, "Adjust_Exposure_Float.ctl"): [
             "-param1 exposure 3.0"
         ]
     },
@@ -61,13 +61,13 @@ message_box(
     'Using a "CTL" "float" template based transform file to transform an array.'
 )
 
-print(os.path.join(RESOURCES_DIRECTORY, "Adjust_Exposure_Float.ctl"))
+print(os.path.join(ROOT_RESOURCES, "Adjust_Exposure_Float.ctl"))
 a = colour.utilities.full([4, 2, 3], 0.18)
 print(
     colour.io.process_image_ctl(
         a,
         {
-            os.path.join(RESOURCES_DIRECTORY, "Adjust_Exposure_Float.ctl"): [
+            os.path.join(ROOT_RESOURCES, "Adjust_Exposure_Float.ctl"): [
                 "-param1 exposure 3.0"
             ]
         },
@@ -103,7 +103,7 @@ float[3] adjust_exposure(float rgbIn[3], float exposureIn)
     parameters=["input float exposure = 0.0"],
 )
 print(ctl_adjust_exposure_float3)
-path_input = os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
+path_input = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
 colour.io.ctl_render(
     path_input,
     path_output,
@@ -119,13 +119,13 @@ message_box(
     'Using a "CTL" "float3" template based transform file to transform an image.'
 )
 
-path_input = os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
+path_input = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
 _descriptor, path_output = tempfile.mkstemp(suffix=".exr")
 colour.io.ctl_render(
     path_input,
     path_output,
     {
-        os.path.join(RESOURCES_DIRECTORY, "Adjust_Exposure_Float3.ctl"): [
+        os.path.join(ROOT_RESOURCES, "Adjust_Exposure_Float3.ctl"): [
             "-param1 exposure 3.0"
         ]
     },
@@ -145,7 +145,7 @@ print(
     colour.io.process_image_ctl(
         a,
         {
-            os.path.join(RESOURCES_DIRECTORY, "Adjust_Exposure_Float3.ctl"): [
+            os.path.join(ROOT_RESOURCES, "Adjust_Exposure_Float3.ctl"): [
                 "-param1 exposure 3.0"
             ]
         },

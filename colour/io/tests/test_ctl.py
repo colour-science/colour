@@ -27,14 +27,14 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "TestCtlRender",
     "TestProcessImageCtl",
     "TestTemplateCtlTransformFloat",
     "TestTemplateCtlTransformFloat3",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 # TODO: Reinstate coverage when "ctlrender" is tivially available
 # cross-platform.
@@ -75,7 +75,7 @@ class TestCtlRender(unittest.TestCase):
             parameters=["input float exposure = 0.0"],
         )
 
-        path_input = os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
+        path_input = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         path_output = os.path.join(
             self._temporary_directory, "CMS_Test_Pattern_Float.exr"
         )
@@ -101,13 +101,13 @@ class TestCtlRender(unittest.TestCase):
             path_input,
             path_output,
             {
-                os.path.join(
-                    RESOURCES_DIRECTORY, "Adjust_Exposure_Float3.ctl"
-                ): ["-param1 exposure 1.0"],
+                os.path.join(ROOT_RESOURCES, "Adjust_Exposure_Float3.ctl"): [
+                    "-param1 exposure 1.0"
+                ],
             },
             "-verbose",
             "-force",
-            env=dict(os.environ, CTL_MODULE_PATH=RESOURCES_DIRECTORY),
+            env=dict(os.environ, CTL_MODULE_PATH=ROOT_RESOURCES),
         )
 
         np.testing.assert_array_almost_equal(

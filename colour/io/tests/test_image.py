@@ -26,7 +26,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "TestReadImageOpenImageIO",
     "TestWriteImageOpenImageIO",
     "TestReadImageImageio",
@@ -35,7 +35,7 @@ __all__ = [
     "TestWriteImage",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
 class TestConvertBitDepth(unittest.TestCase):
@@ -264,19 +264,19 @@ class TestReadImageOpenImageIO(unittest.TestCase):
             return
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         )
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float32"))
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr"),
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             "float16",
         )
         self.assertIs(image.dtype, np.dtype("float16"))
 
         image, attributes = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr"),
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             attributes=True,
         )
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
@@ -284,12 +284,12 @@ class TestReadImageOpenImageIO(unittest.TestCase):
         self.assertEqual(attributes[0].value, "Linear")
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, "Single_Channel.exr")
+            os.path.join(ROOT_RESOURCES, "Single_Channel.exr")
         )
         self.assertTupleEqual(image.shape, (256, 256))
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, "Colour_Logo.png"), "uint8"
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint8"
         )
         self.assertTupleEqual(image.shape, (128, 256, 4))
         self.assertIs(image.dtype, np.dtype("uint8"))
@@ -297,7 +297,7 @@ class TestReadImageOpenImageIO(unittest.TestCase):
         self.assertEqual(np.max(image), 255)
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, "Colour_Logo.png"), "uint16"
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint16"
         )
         self.assertTupleEqual(image.shape, (128, 256, 4))
         self.assertIs(image.dtype, np.dtype("uint16"))
@@ -306,13 +306,13 @@ class TestReadImageOpenImageIO(unittest.TestCase):
 
         # TODO: Investigate "OIIO" behaviour here: 1.0 != 15360.0
         # image = read_image_OpenImageIO(
-        #     os.path.join(RESOURCES_DIRECTORY, 'Colour_Logo.png'), 'float16')
+        #     os.path.join(ROOT_RESOURCES, 'Colour_Logo.png'), 'float16')
         # self.assertIs(image.dtype, np.dtype('float16'))
         # self.assertEqual(np.min(image), 0.0)
         # self.assertEqual(np.max(image), 1.0)
 
         image = read_image_OpenImageIO(
-            os.path.join(RESOURCES_DIRECTORY, "Colour_Logo.png"), "float32"
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float32"
         )
         self.assertIs(image.dtype, np.dtype("float32"))
         self.assertEqual(np.min(image), 0.0)
@@ -344,7 +344,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         from OpenImageIO import TypeDesc
 
         source_image_path = os.path.join(
-            RESOURCES_DIRECTORY, "Overflowing_Gradient.png"
+            ROOT_RESOURCES, "Overflowing_Gradient.png"
         )
         target_image_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
@@ -355,7 +355,7 @@ class TestWriteImageOpenImageIO(unittest.TestCase):
         np.testing.assert_equal(np.squeeze(RGB), image)
 
         source_image_path = os.path.join(
-            RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr"
+            ROOT_RESOURCES, "CMS_Test_Pattern.exr"
         )
         target_image_path = os.path.join(
             self._temporary_directory, "CMS_Test_Pattern.exr"
@@ -421,25 +421,25 @@ class TestReadImageImageio(unittest.TestCase):
         """Test :func:`colour.io.image.read_image_Imageio` definition."""
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         )
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float32"))
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr"),
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             "float16",
         )
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float16"))
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, "Single_Channel.exr")
+            os.path.join(ROOT_RESOURCES, "Single_Channel.exr")
         )
         self.assertTupleEqual(image.shape, (256, 256))
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, "Colour_Logo.png"), "uint8"
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint8"
         )
         self.assertTupleEqual(image.shape, (128, 256, 4))
         self.assertIs(image.dtype, np.dtype("uint8"))
@@ -447,7 +447,7 @@ class TestReadImageImageio(unittest.TestCase):
         self.assertEqual(np.max(image), 255)
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, "Colour_Logo.png"), "uint16"
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "uint16"
         )
         self.assertTupleEqual(image.shape, (128, 256, 4))
         self.assertIs(image.dtype, np.dtype("uint16"))
@@ -455,14 +455,14 @@ class TestReadImageImageio(unittest.TestCase):
         self.assertEqual(np.max(image), 65535)
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, "Colour_Logo.png"), "float16"
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float16"
         )
         self.assertIs(image.dtype, np.dtype("float16"))
         self.assertEqual(np.min(image), 0.0)
         self.assertEqual(np.max(image), 1.0)
 
         image = read_image_Imageio(
-            os.path.join(RESOURCES_DIRECTORY, "Colour_Logo.png"), "float32"
+            os.path.join(ROOT_RESOURCES, "Colour_Logo.png"), "float32"
         )
         self.assertIs(image.dtype, np.dtype("float32"))
         self.assertEqual(np.min(image), 0.0)
@@ -489,7 +489,7 @@ class TestWriteImageImageio(unittest.TestCase):
         """Test :func:`colour.io.image.write_image_Imageio` definition."""
 
         source_image_path = os.path.join(
-            RESOURCES_DIRECTORY, "Overflowing_Gradient.png"
+            ROOT_RESOURCES, "Overflowing_Gradient.png"
         )
         target_image_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
@@ -500,7 +500,7 @@ class TestWriteImageImageio(unittest.TestCase):
         np.testing.assert_equal(np.squeeze(RGB), image)
 
         source_image_path = os.path.join(
-            RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr"
+            ROOT_RESOURCES, "CMS_Test_Pattern.exr"
         )
         target_image_path = os.path.join(
             self._temporary_directory, "CMS_Test_Pattern.exr"
@@ -538,14 +538,12 @@ class TestReadImage(unittest.TestCase):
         """Test :func:`colour.io.image.read_image` definition."""
 
         image = read_image(
-            os.path.join(RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr")
+            os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         )
         self.assertTupleEqual(image.shape, (1267, 1274, 3))
         self.assertIs(image.dtype, np.dtype("float32"))
 
-        image = read_image(
-            os.path.join(RESOURCES_DIRECTORY, "Single_Channel.exr")
-        )
+        image = read_image(os.path.join(ROOT_RESOURCES, "Single_Channel.exr"))
         self.assertTupleEqual(image.shape, (256, 256))
 
 
@@ -566,7 +564,7 @@ class TestWriteImage(unittest.TestCase):
         """Test :func:`colour.io.image.write_image` definition."""
 
         source_image_path = os.path.join(
-            RESOURCES_DIRECTORY, "CMS_Test_Pattern.exr"
+            ROOT_RESOURCES, "CMS_Test_Pattern.exr"
         )
         target_image_path = os.path.join(
             self._temporary_directory, "CMS_Test_Pattern.exr"

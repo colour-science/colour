@@ -18,12 +18,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "COLOURCHECKER_XRITE_1",
     "TestReadSdsFromXRiteFile",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 COLOURCHECKER_XRITE_1: Dict = {
     380.0: 0.0069,
@@ -75,7 +75,7 @@ class TestReadSdsFromXRiteFile(unittest.TestCase):
         """Test :func:`colour.io.xrite.read_sds_from_xrite_file` definition."""
 
         colour_checker_xrite = os.path.join(
-            RESOURCES_DIRECTORY, "X-Rite_Digital_Colour_Checker.txt"
+            ROOT_RESOURCES, "X-Rite_Digital_Colour_Checker.txt"
         )
         sds = read_sds_from_xrite_file(colour_checker_xrite)
         for sd in sds.values():

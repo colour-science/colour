@@ -70,7 +70,7 @@ __status__ = "Production"
 
 __all__ = [
     "SPECTRAL_SHAPE_CIE2017",
-    "RESOURCES_DIRECTORY_CIE2017",
+    "ROOT_RESOURCES_CIE2017",
     "DataColorimetry_TCS_CIE2017",
     "ColourRendering_Specification_CIE2017",
     "colour_fidelity_index_CIE2017",
@@ -87,7 +87,7 @@ Spectral shape for *CIE 2017 Colour Fidelity Index* (CFI)
 standard.
 """
 
-RESOURCES_DIRECTORY_CIE2017: str = os.path.join(
+ROOT_RESOURCES_CIE2017: str = os.path.join(
     os.path.dirname(__file__), "datasets"
 )
 """*CIE 2017 Colour Fidelity Index* resources directory."""
@@ -292,7 +292,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
         return _CACHE_TCS_CIE2017[filename]
 
     data = np.genfromtxt(
-        str(os.path.join(RESOURCES_DIRECTORY_CIE2017, filename)), delimiter=","
+        str(os.path.join(ROOT_RESOURCES_CIE2017, filename)), delimiter=","
     )
     labels = [f"TCS{i} (CIE 2017)" for i in range(99)]
 
