@@ -309,6 +309,7 @@ def override_style(**kwargs: Any) -> Callable:
     ... def f():
     ...     plt.text(0.5, 0.5, "This is a text!")
     ...     plt.show()
+    ...
     >>> f()  # doctest: +SKIP
     """
 

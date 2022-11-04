@@ -306,6 +306,7 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     >>> @handle_numpy_errors(all="ignore")
     ... def f():
     ...     1 / numpy.zeros(3)
+    ...
     >>> f()
     """
 
@@ -350,6 +351,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
     >>> @ignore_python_warnings
     ... def f():
     ...     warnings.warn("This is an ignored warning!")
+    ...
     >>> f()
     """
 
