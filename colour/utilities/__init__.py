@@ -113,13 +113,6 @@ from .array import (
     full,
     index_along_last_axis,
 )
-from ..algebra.common import (
-    normalise_maximum,
-    vector_dot,
-    matrix_dot,
-    linear_conversion,
-    linstep_function,
-)
 from .metrics import metric_mse, metric_psnr
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes

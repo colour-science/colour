@@ -51,9 +51,12 @@ __all__ = [
     "set_spow_enable",
     "spow_enable",
     "spow",
+    "normalise_vector",
     "normalise_maximum",
     "vector_dot",
     "matrix_dot",
+    "euclidean_distance",
+    "manhattan_distance",
     "linear_conversion",
     "linstep_function",
     "lerp",
@@ -497,6 +500,33 @@ def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(a_p)
 
 
+def normalise_vector(a: FloatingOrArrayLike) -> FloatingOrNDArray:
+    """
+    Normalise given vector :math:`a`.
+
+    Parameters
+    ----------
+    a
+        Vector :math:`a` to normalise.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Normalised vector :math:`a`.
+
+    Examples
+    --------
+    >>> a = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> normalise_vector(a)  # doctest: +ELLIPSIS
+    array([ 0.8419703...,  0.4972256...,  0.2094102...])
+    """
+
+    a = as_float_array(a)
+
+    with sdiv_mode():
+        return sdiv(a, np.linalg.norm(a))
+
+
 def normalise_maximum(
     a: ArrayLike,
     axis: Optional[Integer] = None,
@@ -642,6 +672,74 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
 
     return np.einsum(
         "...ij,...jk->...ik", as_float_array(a), as_float_array(b)
+    )
+
+
+def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
+    """
+    Return the *Euclidean* distance between point array :math:`a` and point
+    array :math:`b`.
+
+    For a two-dimensional space, the metric is as follows:
+
+    :math:`E_D = [(x_a - x_b)^2 + (y_a - y_b)^2]^{1/2}`
+
+    Parameters
+    ----------
+    a
+        Point array :math:`a`.
+    b
+        Point array :math:`b`.
+
+    Returns
+    -------
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Euclidean* distance.
+
+    Examples
+    --------
+    >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> euclidean_distance(a, b)  # doctest: +ELLIPSIS
+    451.7133019...
+    """
+
+    return as_float(
+        np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
+    )
+
+
+def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
+    """
+    Return the *Manhattan* (or *City-Block*) distance between point array
+    :math:`a` and point array :math:`b`.
+
+    For a two-dimensional space, the metric is as follows:
+
+    :math:`M_D = |x_a - x_b| + |y_a - y_b|`
+
+    Parameters
+    ----------
+    a
+        Point array :math:`a`.
+    b
+        Point array :math:`b`.
+
+    Returns
+    -------
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Manhattan* distance.
+
+    Examples
+    --------
+    >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> manhattan_distance(a, b)  # doctest: +ELLIPSIS
+    604.9396351...
+    """
+
+    return as_float(
+        np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1)
     )
 
 

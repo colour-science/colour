@@ -50,7 +50,7 @@ from matplotlib.path import Path
 
 from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import EPSILON
-from colour.algebra import (
+from colour.geometry import (
     point_at_angle_on_ellipse,
     ellipse_coefficients_canonical_form,
     ellipse_fitting,

@@ -28,14 +28,16 @@ import scipy.spatial.distance
 
 from colour.algebra import (
     euclidean_distance,
-    extend_line_segment,
-    intersect_line_segments,
     sdiv,
     sdiv_mode,
 )
 from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
+)
+from colour.geometry import (
+    extend_line_segment,
+    intersect_line_segments,
 )
 from colour.hints import (
     ArrayLike,

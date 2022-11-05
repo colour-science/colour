@@ -81,37 +81,6 @@ Coordinates
     cartesian_to_cylindrical
     cylindrical_to_cartesian
 
-Geometry
---------
-
-``colour.algebra``
-
-.. currentmodule:: colour.algebra
-
-.. autosummary::
-    :toctree: generated/
-
-    normalise_vector
-    euclidean_distance
-    manhattan_distance
-    extend_line_segment
-    intersect_line_segments
-    ellipse_coefficients_general_form
-    ellipse_coefficients_canonical_form
-    point_at_angle_on_ellipse
-    ELLIPSE_FITTING_METHODS
-    ellipse_fitting
-
-**Ancillary Objects**
-
-``colour.algebra``
-
-.. autosummary::
-    :toctree: generated/
-
-    LineSegmentsIntersections_Specification
-    ellipse_fitting_Halir1998
-
 Random
 ------
 
@@ -154,9 +123,12 @@ Common
     set_spow_enable
     spow_enable
     spow
+    normalise_vector
     normalise_maximum
     vector_dot
     matrix_dot
+    euclidean_distance
+    manhattan_distance
     linear_conversion
     linstep_function
     lerp
