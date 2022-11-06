@@ -295,7 +295,7 @@ def XYZ_to_Hellwig2022(
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_HELLWIG2022['Average']
+    >>> surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
     >>> XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
     ... # doctest: +ELLIPSIS
     CAM_Specification_Hellwig2022(J=41.7312079..., C=0.0257636..., \
@@ -513,9 +513,8 @@ def Hellwig2022_to_XYZ(
     Examples
     --------
     >>> specification = CAM_Specification_Hellwig2022(
-    ...     J=41.731207905126638,
-    ...     C=0.025763615829912909,
-    ...     h=217.06795976739301)
+    ...     J=41.731207905126638, C=0.025763615829912909, h=217.06795976739301
+    ... )
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -525,7 +524,8 @@ def Hellwig2022_to_XYZ(
     >>> specification = CAM_Specification_Hellwig2022(
     ...     J_HK=41.880278283880095,
     ...     C=0.025763615829912909,
-    ...     h=217.06795976739301)
+    ...     h=217.06795976739301,
+    ... )
     >>> Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b)
     ... # doctest: +ELLIPSIS
     array([ 19.01...,  20...  ,  21.78...])

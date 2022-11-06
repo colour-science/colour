@@ -250,7 +250,7 @@ def msds_constant(
 
     Examples
     --------
-    >>> msds = msds_constant(100, labels=['a', 'b', 'c'])
+    >>> msds = msds_constant(100, labels=["a", "b", "c"])
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
@@ -305,7 +305,7 @@ def msds_zeros(
 
     Examples
     --------
-    >>> msds = msds_zeros(labels=['a', 'b', 'c'])
+    >>> msds = msds_zeros(labels=["a", "b", "c"])
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
@@ -352,7 +352,7 @@ def msds_ones(
 
     Examples
     --------
-    >>> msds = msds_ones(labels=['a', 'b', 'c'])
+    >>> msds = msds_ones(labels=["a", "b", "c"])
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
@@ -535,7 +535,7 @@ def sd_gaussian(
     1...
     >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
-    >>> sd = sd_gaussian(555, 25, method='FWHM')
+    >>> sd = sd_gaussian(555, 25, method="FWHM")
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS

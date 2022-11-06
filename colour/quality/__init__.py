@@ -96,7 +96,7 @@ def colour_fidelity_index(
     Examples
     --------
     >>> from colour.colorimetry import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index(sd)  # doctest: +ELLIPSIS
     70.1208254...
     """

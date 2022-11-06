@@ -669,7 +669,7 @@ def log_encoding_Log3G10(
     --------
     >>> log_encoding_Log3G10(0.0)  # doctest: +ELLIPSIS
     0.09155148...
-    >>> log_encoding_Log3G10(0.18, method='v1')  # doctest: +ELLIPSIS
+    >>> log_encoding_Log3G10(0.18, method="v1")  # doctest: +ELLIPSIS
     0.3333336...
     """
 
@@ -736,7 +736,7 @@ def log_decoding_Log3G10(
     --------
     >>> log_decoding_Log3G10(1.0)  # doctest: +ELLIPSIS
     184.3223476...
-    >>> log_decoding_Log3G10(1.0 / 3, method='v1')  # doctest: +ELLIPSIS
+    >>> log_decoding_Log3G10(1.0 / 3, method="v1")  # doctest: +ELLIPSIS
     0.1799994...
     """
 

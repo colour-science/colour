@@ -354,6 +354,7 @@ class SpectralShape:
         >>> shape = SpectralShape(0, 10, 1)
         >>> for wavelength in shape:
         ...     print(wavelength)
+        ...
         0.0
         1.0
         2.0
@@ -629,10 +630,11 @@ class SpectralDistribution(Signal):
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
     >>> with numpy_print_options(suppress=True):
     ...     SpectralDistribution(data)  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 500.    ,    0.0651],
                           [ 520.    ,    0.0705],
                           [ 540.    ,    0.0772],
@@ -650,6 +652,7 @@ class SpectralDistribution(Signal):
     >>> data[510] = 0.31416
     >>> with numpy_print_options(suppress=True):
     ...     SpectralDistribution(data)  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 500.     ,    0.0651 ],
                           [ 510.     ,    0.31416],
                           [ 520.     ,    0.0705 ],
@@ -667,7 +670,9 @@ class SpectralDistribution(Signal):
     >>> from colour.utilities import is_pandas_installed
     >>> if is_pandas_installed():
     ...     from pandas import Series
+    ...
     ...     print(SpectralDistribution(Series(data)))  # doctest: +SKIP
+    ...
     [[  5.0000000...e+02   6.5100000...e-02]
      [  5.2000000...e+02   7.0500000...e-02]
      [  5.4000000...e+02   7.7200000...e-02]
@@ -818,7 +823,7 @@ class SpectralDistribution(Signal):
         ...     540: 0.0772,
         ...     560: 0.0870,
         ...     580: 0.1128,
-        ...     600: 0.1360
+        ...     600: 0.1360,
         ... }
         >>> SpectralDistribution(data).shape
         SpectralShape(500.0, 600.0, 20.0)
@@ -860,8 +865,10 @@ class SpectralDistribution(Signal):
 
         .. code-block:: python
 
-            if self.interpolator not in (SpragueInterpolator,
-                                         CubicSplineInterpolator):
+            if self.interpolator not in (
+                SpragueInterpolator,
+                CubicSplineInterpolator,
+            ):
                 interpolator = self.interpolator
             elif self.is_uniform():
                 interpolator = SpragueInterpolator
@@ -873,8 +880,10 @@ class SpectralDistribution(Signal):
 
         .. code-block:: python
 
-            if self.interpolator not in (SpragueInterpolator,
-                                         CubicSplineInterpolator):
+            if self.interpolator not in (
+                SpragueInterpolator,
+                CubicSplineInterpolator,
+            ):
                 interpolator_kwargs = self.interpolator_kwargs
             else:
                 interpolator_kwargs = {}
@@ -923,12 +932,13 @@ class SpectralDistribution(Signal):
         ...     540: 0.0772,
         ...     560: 0.0870,
         ...     580: 0.1128,
-        ...     600: 0.1360
+        ...     600: 0.1360,
         ... }
         >>> sd = SpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
         ...     print(sd.interpolate(SpectralShape(500, 600, 1)))
         ... # doctest: +ELLIPSIS
+        ...
         [[ 500.            0.0651   ...]
          [ 501.            0.0653522...]
          [ 502.            0.0656105...]
@@ -1039,6 +1049,7 @@ class SpectralDistribution(Signal):
         >>> with numpy_print_options(suppress=True):
         ...     print(sd.interpolate(SpectralShape(500, 600, 1)))
         ... # doctest: +ELLIPSIS
+        ...
         [[ 500.            0.0651   ...]
          [ 501.            0.1365202...]
          [ 502.            0.1953263...]
@@ -1246,13 +1257,14 @@ class SpectralDistribution(Signal):
         ...     540: 0.0772,
         ...     560: 0.0870,
         ...     580: 0.1128,
-        ...     600: 0.1360
+        ...     600: 0.1360,
         ... }
         >>> sd = SpectralDistribution(data)
         >>> sd.extrapolate(SpectralShape(400, 700, 20)).shape
         SpectralShape(400.0, 700.0, 20.0)
         >>> with numpy_print_options(suppress=True):
         ...     print(sd)
+        ...
         [[ 400.        0.0651]
          [ 420.        0.0651]
          [ 440.        0.0651]
@@ -1329,8 +1341,10 @@ class SpectralDistribution(Signal):
 
         .. code-block:: python
 
-            if self.interpolator not in (SpragueInterpolator,
-                                         CubicSplineInterpolator):
+            if self.interpolator not in (
+                SpragueInterpolator,
+                CubicSplineInterpolator,
+            ):
                 interpolator = self.interpolator
             elif self.is_uniform():
                 interpolator = SpragueInterpolator
@@ -1342,8 +1356,10 @@ class SpectralDistribution(Signal):
 
         .. code-block:: python
 
-            if self.interpolator not in (SpragueInterpolator,
-                                         CubicSplineInterpolator):
+            if self.interpolator not in (
+                SpragueInterpolator,
+                CubicSplineInterpolator,
+            ):
                 interpolator_kwargs = self.interpolator_kwargs
             else:
                 interpolator_kwargs = {}
@@ -1375,12 +1391,13 @@ class SpectralDistribution(Signal):
         ...     540: 0.0772,
         ...     560: 0.0870,
         ...     580: 0.1128,
-        ...     600: 0.1360
+        ...     600: 0.1360,
         ... }
         >>> sd = SpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
         ...     print(sd.align(SpectralShape(505, 565, 1)))
         ... # doctest: +ELLIPSIS
+        ...
         [[ 505.            0.0663929...]
          [ 506.            0.0666509...]
          [ 507.            0.0669069...]
@@ -1472,13 +1489,14 @@ class SpectralDistribution(Signal):
         ...     540: 0.0772,
         ...     560: 0.0870,
         ...     580: 0.1128,
-        ...     600: 0.1360
+        ...     600: 0.1360,
         ... }
         >>> sd = SpectralDistribution(data)
         >>> sd = sd.interpolate(SpectralShape(500, 600, 1))
         >>> with numpy_print_options(suppress=True):
         ...     print(sd.trim(SpectralShape(520, 580, 5)))
         ... # doctest: +ELLIPSIS
+        ...
         [[ 520.            0.0705   ...]
          [ 521.            0.0708155...]
          [ 522.            0.0711336...]
@@ -1580,11 +1598,12 @@ class SpectralDistribution(Signal):
         ...     540: 0.0772,
         ...     560: 0.0870,
         ...     580: 0.1128,
-        ...     600: 0.1360
+        ...     600: 0.1360,
         ... }
         >>> sd = SpectralDistribution(data)
         >>> with numpy_print_options(suppress=True):
         ...     print(sd.normalise())  # doctest: +ELLIPSIS
+        ...
         [[ 500.            0.4786764...]
          [ 520.            0.5183823...]
          [ 540.            0.5676470...]
@@ -1723,12 +1742,13 @@ class MultiSpectralDistributions(MultiSignals):
     ...     530: (0.165500, 0.862000, 0.042160),
     ...     540: (0.290400, 0.954000, 0.020300),
     ...     550: (0.433450, 0.994950, 0.008750),
-    ...     560: (0.594500, 0.995000, 0.003900)
+    ...     560: (0.594500, 0.995000, 0.003900),
     ... }
-    >>> labels = ('x_bar', 'y_bar', 'z_bar')
+    >>> labels = ("x_bar", "y_bar", "z_bar")
     >>> with numpy_print_options(suppress=True):
     ...     MultiSpectralDistributions(data, labels=labels)
     ... # doctest: +ELLIPSIS
+    ...
     MultiSpectral...([[ 500.     ,    0.0049 ,    0.323  ,    0.272  ],
                  ...  [ 510.     ,    0.0093 ,    0.503  ,    0.1582 ],
                  ...  [ 520.     ,    0.06327,    0.71   ,    0.07825],
@@ -1749,6 +1769,7 @@ class MultiSpectralDistributions(MultiSignals):
     >>> with numpy_print_options(suppress=True):
     ...     MultiSpectralDistributions(data, labels=labels)
     ... # doctest: +ELLIPSIS
+    ...
     MultiSpectral...([[ 500.     ,    0.0049 ,    0.323  ,    0.272  ],
                  ...  [ 510.     ,    0.0093 ,    0.503  ,    0.1582 ],
                  ...  [ 511.     ,    0.00314,    0.31416,    0.03142],
@@ -1768,12 +1789,18 @@ class MultiSpectralDistributions(MultiSignals):
     >>> from colour.utilities import is_pandas_installed
     >>> if is_pandas_installed():
     ...     from pandas import DataFrame
+    ...
     ...     x_bar = [data[key][0] for key in sorted(data.keys())]
     ...     y_bar = [data[key][1] for key in sorted(data.keys())]
     ...     z_bar = [data[key][2] for key in sorted(data.keys())]
-    ...     print(MultiSignals(  # doctest: +SKIP
-    ...         DataFrame(
-    ...             dict(zip(labels, [x_bar, y_bar, z_bar])), data.keys())))
+    ...     print(
+    ...         MultiSignals(  # doctest: +SKIP
+    ...             DataFrame(
+    ...                 dict(zip(labels, [x_bar, y_bar, z_bar])), data.keys()
+    ...             )
+    ...         )
+    ...     )
+    ...
     [[  5.0000000...e+02   4.9000000...e-03   3.2300000...e-01   \
 2.7200000...e-01]
      [  5.1000000...e+02   9.3000000...e-03   5.0300000...e-01   \
@@ -2000,7 +2027,7 @@ class MultiSpectralDistributions(MultiSignals):
         ...     530: (0.165500, 0.862000, 0.042160),
         ...     540: (0.290400, 0.954000, 0.020300),
         ...     550: (0.433450, 0.994950, 0.008750),
-        ...     560: (0.594500, 0.995000, 0.003900)
+        ...     560: (0.594500, 0.995000, 0.003900),
         ... }
         >>> MultiSpectralDistributions(data).shape
         SpectralShape(500.0, 560.0, 10.0)
@@ -2031,8 +2058,10 @@ class MultiSpectralDistributions(MultiSignals):
 
         .. code-block:: python
 
-            if self.interpolator not in (SpragueInterpolator,
-                                         CubicSplineInterpolator):
+            if self.interpolator not in (
+                SpragueInterpolator,
+                CubicSplineInterpolator,
+            ):
                 interpolator = self.interpolator
             elif self.is_uniform():
                 interpolator = SpragueInterpolator
@@ -2044,8 +2073,10 @@ class MultiSpectralDistributions(MultiSignals):
 
         .. code-block:: python
 
-            if self.interpolator not in (SpragueInterpolator,
-                                         CubicSplineInterpolator):
+            if self.interpolator not in (
+                SpragueInterpolator,
+                CubicSplineInterpolator,
+            ):
                 interpolator_kwargs = self.interpolator_kwargs
             else:
                 interpolator_kwargs = {}
@@ -2091,12 +2122,13 @@ class MultiSpectralDistributions(MultiSignals):
         ...     530: (0.165500, 0.862000, 0.042160),
         ...     540: (0.290400, 0.954000, 0.020300),
         ...     550: (0.433450, 0.994950, 0.008750),
-        ...     560: (0.594500, 0.995000, 0.003900)
+        ...     560: (0.594500, 0.995000, 0.003900),
         ... }
         >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
         ...     print(msds.interpolate(SpectralShape(500, 560, 1)))
         ... # doctest: +ELLIPSIS
+        ...
         [[ 500.            0.0049   ...    0.323    ...    0.272    ...]
          [ 501.            0.0043252...    0.3400642...    0.2599848...]
          [ 502.            0.0037950...    0.3572165...    0.2479849...]
@@ -2167,6 +2199,7 @@ class MultiSpectralDistributions(MultiSignals):
         >>> with numpy_print_options(suppress=True):
         ...     print(msds.interpolate(SpectralShape(500, 560, 1)))
         ... # doctest: +ELLIPSIS
+        ...
         [[ 500.            0.0049   ...    0.323    ...    0.272    ...]
          [ 501.            0.0300110...    0.9455153...    0.5985102...]
          [ 502.            0.0462136...    1.3563103...    0.8066498...]
@@ -2276,13 +2309,14 @@ class MultiSpectralDistributions(MultiSignals):
         ...     530: (0.165500, 0.862000, 0.042160),
         ...     540: (0.290400, 0.954000, 0.020300),
         ...     550: (0.433450, 0.994950, 0.008750),
-        ...     560: (0.594500, 0.995000, 0.003900)
+        ...     560: (0.594500, 0.995000, 0.003900),
         ... }
         >>> msds = MultiSpectralDistributions(data)
         >>> msds.extrapolate(SpectralShape(400, 700, 10)).shape
         SpectralShape(400.0, 700.0, 10.0)
         >>> with numpy_print_options(suppress=True):
         ...     print(msds)
+        ...
         [[ 400.         0.0049     0.323      0.272  ]
          [ 410.         0.0049     0.323      0.272  ]
          [ 420.         0.0049     0.323      0.272  ]
@@ -2344,8 +2378,10 @@ class MultiSpectralDistributions(MultiSignals):
 
         .. code-block:: python
 
-            if self.interpolator not in (SpragueInterpolator,
-                                         CubicSplineInterpolator):
+            if self.interpolator not in (
+                SpragueInterpolator,
+                CubicSplineInterpolator,
+            ):
                 interpolator = self.interpolator
             elif self.is_uniform():
                 interpolator = SpragueInterpolator
@@ -2357,8 +2393,10 @@ class MultiSpectralDistributions(MultiSignals):
 
         .. code-block:: python
 
-            if self.interpolator not in (SpragueInterpolator,
-                                         CubicSplineInterpolator):
+            if self.interpolator not in (
+                SpragueInterpolator,
+                CubicSplineInterpolator,
+            ):
                 interpolator_kwargs = self.interpolator_kwargs
             else:
                 interpolator_kwargs = {}
@@ -2391,12 +2429,13 @@ class MultiSpectralDistributions(MultiSignals):
         ...     530: (0.165500, 0.862000, 0.042160),
         ...     540: (0.290400, 0.954000, 0.020300),
         ...     550: (0.433450, 0.994950, 0.008750),
-        ...     560: (0.594500, 0.995000, 0.003900)
+        ...     560: (0.594500, 0.995000, 0.003900),
         ... }
         >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
         ...     print(msds.align(SpectralShape(505, 565, 1)))
         ... # doctest: +ELLIPSIS
+        ...
         [[ 505.            0.0031582...    0.4091067...    0.2126801...]
          [ 506.            0.0035019...    0.4268629...    0.2012748...]
          [ 507.            0.0042365...    0.4450668...    0.1900968...]
@@ -2495,13 +2534,14 @@ class MultiSpectralDistributions(MultiSignals):
         ...     530: (0.165500, 0.862000, 0.042160),
         ...     540: (0.290400, 0.954000, 0.020300),
         ...     550: (0.433450, 0.994950, 0.008750),
-        ...     560: (0.594500, 0.995000, 0.003900)
+        ...     560: (0.594500, 0.995000, 0.003900),
         ... }
         >>> msds = MultiSpectralDistributions(data)
         >>> msds = msds.interpolate(SpectralShape(500, 560, 1))
         >>> with numpy_print_options(suppress=True):
         ...     print(msds.trim(SpectralShape(520, 580, 5)))
         ... # doctest: +ELLIPSIS
+        ...
         [[ 520.            0.06327  ...    0.71     ...    0.07825  ...]
          [ 521.            0.0715642...    0.7283456...    0.0728614...]
          [ 522.            0.0803970...    0.7459679...    0.0680051...]
@@ -2580,11 +2620,12 @@ class MultiSpectralDistributions(MultiSignals):
         ...     530: (0.165500, 0.862000, 0.042160),
         ...     540: (0.290400, 0.954000, 0.020300),
         ...     550: (0.433450, 0.994950, 0.008750),
-        ...     560: (0.594500, 0.995000, 0.003900)
+        ...     560: (0.594500, 0.995000, 0.003900),
         ... }
         >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
         ...     print(msds.normalise())  # doctest: +ELLIPSIS
+        ...
         [[ 500.            0.0082422...    0.3246231...    1.       ...]
          [ 510.            0.0156434...    0.5055276...    0.5816176...]
          [ 520.            0.1064255...    0.7135678...    0.2876838...]
@@ -2619,12 +2660,13 @@ class MultiSpectralDistributions(MultiSignals):
         ...     530: (0.165500, 0.862000, 0.042160),
         ...     540: (0.290400, 0.954000, 0.020300),
         ...     550: (0.433450, 0.994950, 0.008750),
-        ...     560: (0.594500, 0.995000, 0.003900)
+        ...     560: (0.594500, 0.995000, 0.003900),
         ... }
         >>> msds = MultiSpectralDistributions(data)
         >>> with numpy_print_options(suppress=True):
         ...     for sd in msds.to_sds():
         ...         print(sd)  # doctest: +ELLIPSIS
+        ...
         [[ 500.         0.0049 ...]
          [ 510.         0.0093 ...]
          [ 520.         0.06327...]
@@ -2862,7 +2904,7 @@ def sds_and_msds_to_sds(
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
     >>> sd_1 = SpectralDistribution(data)
     >>> sd_2 = SpectralDistribution(data)
@@ -2873,7 +2915,7 @@ def sds_and_msds_to_sds(
     ...     530: (0.165500, 0.862000, 0.042160),
     ...     540: (0.290400, 0.954000, 0.020300),
     ...     550: (0.433450, 0.994950, 0.008750),
-    ...     560: (0.594500, 0.995000, 0.003900)
+    ...     560: (0.594500, 0.995000, 0.003900),
     ... }
     >>> multi_sds_1 = MultiSpectralDistributions(data)
     >>> multi_sds_2 = MultiSpectralDistributions(data)
@@ -2927,7 +2969,7 @@ def sds_and_msds_to_msds(
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
     >>> sd_1 = SpectralDistribution(data)
     >>> sd_2 = SpectralDistribution(data)
@@ -2938,14 +2980,16 @@ def sds_and_msds_to_msds(
     ...     530: (0.165500, 0.862000, 0.042160),
     ...     540: (0.290400, 0.954000, 0.020300),
     ...     550: (0.433450, 0.994950, 0.008750),
-    ...     560: (0.594500, 0.995000, 0.003900)
+    ...     560: (0.594500, 0.995000, 0.003900),
     ... }
     >>> multi_sds_1 = MultiSpectralDistributions(data)
     >>> multi_sds_2 = MultiSpectralDistributions(data)
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True, linewidth=160):
     ...     sds_and_msds_to_msds(  # doctest: +SKIP
-    ...         [sd_1, sd_2, multi_sds_1, multi_sds_2])
+    ...         [sd_1, sd_2, multi_sds_1, multi_sds_2]
+    ...     )
+    ...
     MultiSpectralDistributions([[ 500.        ,    0.0651   ...,\
 0.0651   ...,    0.0049   ...,    0.323    ...,    0.272    ...,\
 0.0049   ...,    0.323    ...,    0.272    ...],

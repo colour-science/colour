@@ -235,6 +235,7 @@ def _reserved(*args: Any):
     ...     _reserved()
     ... except RuntimeError:
     ...     pass
+    ...
     """
 
     raise RuntimeError("Reserved; For future use by ITU-T | ISO/IEC.")
@@ -250,6 +251,7 @@ def _unspecified(*args: Any):
     ...     _unspecified()
     ... except RuntimeError:
     ...     pass
+    ...
     """
 
     raise RuntimeError(
@@ -1098,7 +1100,9 @@ def describe_video_signal_transfer_characteristics(
 
     Examples
     --------
-    >>> description = describe_video_signal_transfer_characteristics(1, width=75)
+    >>> description = describe_video_signal_transfer_characteristics(
+    ...     1, width=75
+    ... )
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *
@@ -1109,7 +1113,9 @@ def describe_video_signal_transfer_characteristics(
     *   FFmpeg Constants : ['AVCOL_TRC_BT709', 'BT709']                       *
     *                                                                         *
     ===========================================================================
-    >>> description = describe_video_signal_transfer_characteristics(2, width=75)
+    >>> description = describe_video_signal_transfer_characteristics(
+    ...     2, width=75
+    ... )
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *

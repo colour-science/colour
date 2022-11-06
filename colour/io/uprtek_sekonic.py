@@ -58,9 +58,10 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     --------
     >>> from os.path import dirname, join
     >>> from colour import SpectralShape
-    >>> directory = join(dirname(__file__), 'tests', 'resources')
+    >>> directory = join(dirname(__file__), "tests", "resources")
     >>> sd = SpectralDistribution_UPRTek(
-    ...     join(directory, 'ESPD2021_0104_231446.xls'))
+    ...     join(directory, "ESPD2021_0104_231446.xls")
+    ... )
     >>> print(sd.read().align(SpectralShape(380, 780, 10)))
     ... # doctest: +ELLIPSIS
     UPRTek
@@ -151,7 +152,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 'LambdaPValue', 'CRI', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', \
 'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'TLCI', 'TLMF-A', 'SSI-A', 'Rf', \
 'Rg', 'IRR'])
-    >>> sd.write(join(directory, 'ESPD2021_0104_231446.spdx'))
+    >>> sd.write(join(directory, "ESPD2021_0104_231446.spdx"))
     ... # doctest: +SKIP
     """
 
@@ -191,9 +192,10 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         --------
         >>> from os.path import dirname, join
         >>> from colour import SpectralShape
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_UPRTek(
-        ...     join(directory, 'ESPD2021_0104_231446.xls'))
+        ...     join(directory, "ESPD2021_0104_231446.xls")
+        ... )
         >>> print(sd.read().align(SpectralShape(380, 780, 10)))
         ... # doctest: +ELLIPSIS
         UPRTek
@@ -288,9 +290,10 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         --------
         >>> from os.path import dirname, join
         >>> from colour import SpectralShape
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_UPRTek(
-        ...     join(directory, 'ESPD2021_0104_231446.xls'))
+        ...     join(directory, "ESPD2021_0104_231446.xls")
+        ... )
         >>> print(sd.read().align(SpectralShape(380, 780, 10)))
         ... # doctest: +ELLIPSIS
         UPRTek
@@ -448,9 +451,10 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     --------
     >>> from os.path import dirname, join
     >>> from colour import SpectralShape
-    >>> directory = join(dirname(__file__), 'tests', 'resources')
+    >>> directory = join(dirname(__file__), "tests", "resources")
     >>> sd = SpectralDistribution_Sekonic(
-    ...     join(directory, 'RANDOM_001_02._3262K.csv'))
+    ...     join(directory, "RANDOM_001_02._3262K.csv")
+    ... )
     >>> print(sd.read().align(SpectralShape(380, 780, 10)))
     ... # doctest: +ELLIPSIS
     Sekonic
@@ -522,9 +526,9 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
      [  7.60000000e+02   3.72199210e-05]
      [  7.70000000e+02   3.63058860e-05]
      [  7.80000000e+02   3.55755470e-05]]
-    >>> sd.header.comments # doctest: +SKIP
-    >>> sd.metadata.keys() # doctest: +SKIP
-    >>> sd.write(join(directory, 'RANDOM_001_02._3262K.spdx')
+    >>> sd.header.comments  # doctest: +SKIP
+    >>> sd.metadata.keys()  # doctest: +SKIP
+    >>> sd.write(join(directory, "RANDOM_001_02._3262K.spdx"))
     ... # doctest: +SKIP
     """
 
@@ -549,9 +553,10 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
         --------
         >>> from os.path import dirname, join
         >>> from colour import SpectralShape
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_UPRTek(
-        ...     join(directory, 'ESPD2021_0104_231446.xls'))
+        ...     join(directory, "ESPD2021_0104_231446.xls")
+        ... )
         >>> print(sd.read().align(SpectralShape(380, 780, 10)))
         ... # doctest: +ELLIPSIS
         UPRTek
@@ -646,9 +651,10 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
         --------
         >>> from os.path import dirname, join
         >>> from colour import SpectralShape
-        >>> directory = join(dirname(__file__), 'tests', 'resources')
+        >>> directory = join(dirname(__file__), "tests", "resources")
         >>> sd = SpectralDistribution_Sekonic(
-        ...     join(directory, 'RANDOM_001_02._3262K.csv'))
+        ...     join(directory, "RANDOM_001_02._3262K.csv")
+        ... )
         >>> print(sd.read().align(SpectralShape(380, 780, 10)))
         ... # doctest: +ELLIPSIS
         Sekonic

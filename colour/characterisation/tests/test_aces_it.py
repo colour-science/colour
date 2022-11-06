@@ -24,7 +24,7 @@ from colour.characterisation import (
     matrix_idt,
     camera_RGB_to_ACES2065_1,
 )
-from colour.characterisation.aces_it import RESOURCES_DIRECTORY_RAWTOACES
+from colour.characterisation.aces_it import ROOT_RESOURCES_RAWTOACES
 from colour.colorimetry import (
     MSDS_CMFS,
     MultiSpectralDistributions,
@@ -67,7 +67,7 @@ MSDS_CANON_EOS_5DMARK_II: MultiSpectralDistributions = sds_and_msds_to_msds(
     list(
         read_sds_from_csv_file(
             os.path.join(
-                RESOURCES_DIRECTORY_RAWTOACES,
+                ROOT_RESOURCES_RAWTOACES,
                 "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
             )
         ).values()
@@ -76,9 +76,7 @@ MSDS_CANON_EOS_5DMARK_II: MultiSpectralDistributions = sds_and_msds_to_msds(
 
 SD_AMPAS_ISO7589_STUDIO_TUNGSTEN: SpectralDistribution = (
     read_sds_from_csv_file(
-        os.path.join(
-            RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv"
-        )
+        os.path.join(ROOT_RESOURCES_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv")
     )["iso7589"]
 )
 

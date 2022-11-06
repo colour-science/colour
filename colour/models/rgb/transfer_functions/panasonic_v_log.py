@@ -105,9 +105,9 @@ def log_encoding_VLog(
     >>> L_in = np.array([0, 18, 90]) / 100
     >>> np.around(log_encoding_VLog(L_in, 10, False) * 100).astype(np.int)
     array([ 7, 42, 61])
-    >>> np.around(log_encoding_VLog(L_in) * (2 ** 10 - 1)).astype(np.int)
+    >>> np.around(log_encoding_VLog(L_in) * (2**10 - 1)).astype(np.int)
     array([128, 433, 602])
-    >>> np.around(log_encoding_VLog(L_in) * (2 ** 12 - 1)).astype(np.int)
+    >>> np.around(log_encoding_VLog(L_in) * (2**12 - 1)).astype(np.int)
     array([ 512, 1733, 2409])
 
     Note that some values in the last column values of

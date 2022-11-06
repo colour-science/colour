@@ -179,16 +179,18 @@ def plot_hull_section_colours(
     >>> from colour.utilities import is_trimesh_installed
     >>> vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     >>> XYZ_vertices = RGB_to_XYZ(
-    ...     vertices['position'] + 0.5,
+    ...     vertices["position"] + 0.5,
     ...     RGB_COLOURSPACE_sRGB.whitepoint,
     ...     RGB_COLOURSPACE_sRGB.whitepoint,
     ...     RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
     ... )
     >>> if is_trimesh_installed:
     ...     import trimesh
+    ...
     ...     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
-    ...     plot_hull_section_colours(hull, section_colours='RGB')
+    ...     plot_hull_section_colours(hull, section_colours="RGB")
     ...     # doctest: +ELLIPSIS
+    ...
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Colours.png
@@ -386,16 +388,18 @@ def plot_hull_section_contour(
     >>> from colour.utilities import is_trimesh_installed
     >>> vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
     >>> XYZ_vertices = RGB_to_XYZ(
-    ...     vertices['position'] + 0.5,
+    ...     vertices["position"] + 0.5,
     ...     RGB_COLOURSPACE_sRGB.whitepoint,
     ...     RGB_COLOURSPACE_sRGB.whitepoint,
     ...     RGB_COLOURSPACE_sRGB.matrix_RGB_to_XYZ,
     ... )
     >>> if is_trimesh_installed:
     ...     import trimesh
+    ...
     ...     hull = trimesh.Trimesh(XYZ_vertices, faces, process=False)
-    ...     plot_hull_section_contour(hull, contour_colours='RGB')
+    ...     plot_hull_section_contour(hull, contour_colours="RGB")
     ...     # doctest: +ELLIPSIS
+    ...
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Hull_Section_Contour.png
@@ -567,8 +571,10 @@ def plot_visible_spectrum_section(
     >>> from colour.utilities import is_trimesh_installed
     >>> if is_trimesh_installed:
     ...     plot_visible_spectrum_section(
-    ...         section_colours='RGB', section_opacity=0.15)
+    ...         section_colours="RGB", section_opacity=0.15
+    ...     )
     ...     # doctest: +ELLIPSIS
+    ...
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Visible_Spectrum_Section.png
@@ -731,8 +737,10 @@ def plot_RGB_colourspace_section(
     >>> from colour.utilities import is_trimesh_installed
     >>> if is_trimesh_installed:
     ...     plot_RGB_colourspace_section(
-    ...         'sRGB', section_colours='RGB', section_opacity=0.15)
+    ...         "sRGB", section_colours="RGB", section_opacity=0.15
+    ...     )
     ...     # doctest: +ELLIPSIS
+    ...
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_RGB_Colourspace_Section.png

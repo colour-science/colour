@@ -756,6 +756,7 @@ def sd_rayleigh_scattering(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     sd_rayleigh_scattering()  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 360.        ,    0.5991013...],
                           [ 361.        ,    0.5921706...],
                           [ 362.        ,    0.5853410...],

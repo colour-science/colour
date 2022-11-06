@@ -180,9 +180,10 @@ def chromatically_adapted_primaries(
     >>> p = np.array([0.64, 0.33, 0.30, 0.60, 0.15, 0.06])
     >>> w_t = np.array([0.31270, 0.32900])
     >>> w_r = np.array([0.34570, 0.35850])
-    >>> chromatic_adaptation_transform = 'Bradford'
-    >>> chromatically_adapted_primaries(p, w_t, w_r,
-    ...                                 chromatic_adaptation_transform)
+    >>> chromatic_adaptation_transform = "Bradford"
+    >>> chromatically_adapted_primaries(
+    ...     p, w_t, w_r, chromatic_adaptation_transform
+    ... )
     ... # doctest: +ELLIPSIS
     array([[ 0.6484414...,  0.3308533...],
            [ 0.3211951...,  0.5978443...],
@@ -224,15 +225,19 @@ def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArray, NDArray]:
 
     Examples
     --------
-    >>> npm = np.array([[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
-    ...                 [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
-    ...                 [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]])
+    >>> npm = np.array(
+    ...     [
+    ...         [9.52552396e-01, 0.00000000e00, 9.36786317e-05],
+    ...         [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
+    ...         [0.00000000e00, 0.00000000e00, 1.00882518e00],
+    ...     ]
+    ... )
     >>> p, w = primaries_whitepoint(npm)
     >>> p  # doctest: +ELLIPSIS
     array([[  7.3470000...e-01,   2.6530000...e-01],
            [  0.0000000...e+00,   1.0000000...e+00],
            [  1.0000000...e-04,  -7.7000000...e-02]])
-    >>> w # doctest: +ELLIPSIS
+    >>> w  # doctest: +ELLIPSIS
     array([ 0.32168,  0.33767])
     """
 

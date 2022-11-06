@@ -829,7 +829,7 @@ def eotf_BT2100_HLG(
     --------
     >>> eotf_BT2100_HLG(0.212132034355964)  # doctest: +ELLIPSIS
     6.4760398...
-    >>> eotf_BT2100_HLG(0.212132034355964, method='ITU-R BT.2100-1')
+    >>> eotf_BT2100_HLG(0.212132034355964, method="ITU-R BT.2100-1")
     ... # doctest: +ELLIPSIS
     6.4760398...
     >>> eotf_BT2100_HLG(0.212132034355964, 0.01)
@@ -1062,7 +1062,7 @@ def eotf_inverse_BT2100_HLG(
     --------
     >>> eotf_inverse_BT2100_HLG(6.476039825649814)  # doctest: +ELLIPSIS
     0.2121320...
-    >>> eotf_inverse_BT2100_HLG(6.476039825649814, method='ITU-R BT.2100-1')
+    >>> eotf_inverse_BT2100_HLG(6.476039825649814, method="ITU-R BT.2100-1")
     ... # doctest: +ELLIPSIS
     0.2121320...
     >>> eotf_inverse_BT2100_HLG(7.332197528353875, 0.01)  # doctest: +ELLIPSIS
@@ -1330,7 +1330,7 @@ def ootf_BT2100_HLG(
     --------
     >>> ootf_BT2100_HLG(0.1)  # doctest: +ELLIPSIS
     63.0957344...
-    >>> ootf_BT2100_HLG(0.1, 0.01, method='ITU-R BT.2100-1')
+    >>> ootf_BT2100_HLG(0.1, 0.01, method="ITU-R BT.2100-1")
     ... # doctest: +ELLIPSIS
     63.1051034...
     """
@@ -1623,7 +1623,8 @@ def ootf_inverse_BT2100_HLG(
     >>> ootf_inverse_BT2100_HLG(63.095734448019336)  # doctest: +ELLIPSIS
     0.1000000...
     >>> ootf_inverse_BT2100_HLG(
-    ...     63.105103490674857, 0.01, method='ITU-R BT.2100-1')
+    ...     63.105103490674857, 0.01, method="ITU-R BT.2100-1"
+    ... )
     ... # doctest: +ELLIPSIS
     0.0999999...
     """

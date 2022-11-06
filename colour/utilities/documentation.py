@@ -88,19 +88,19 @@ def is_documentation_building() -> Boolean:
     --------
     >>> is_documentation_building()
     False
-    >>> os.environ['READTHEDOCS'] = 'True'
+    >>> os.environ["READTHEDOCS"] = "True"
     >>> is_documentation_building()
     True
-    >>> os.environ['READTHEDOCS'] = 'False'
+    >>> os.environ["READTHEDOCS"] = "False"
     >>> is_documentation_building()
     True
-    >>> del os.environ['READTHEDOCS']
+    >>> del os.environ["READTHEDOCS"]
     >>> is_documentation_building()
     False
-    >>> os.environ['COLOUR_SCIENCE__DOCUMENTATION_BUILD'] = 'Yes'
+    >>> os.environ["COLOUR_SCIENCE__DOCUMENTATION_BUILD"] = "Yes"
     >>> is_documentation_building()
     True
-    >>> del os.environ['COLOUR_SCIENCE__DOCUMENTATION_BUILD']
+    >>> del os.environ["COLOUR_SCIENCE__DOCUMENTATION_BUILD"]
     """
 
     return bool(

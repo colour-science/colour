@@ -272,9 +272,9 @@ def CIECAM02_to_JMh_CIECAM02(
 
     Examples
     --------
-    >>> specification = CAM_Specification_CIECAM02(J=41.731091132513917,
-    ...                                            M=0.108842175669226,
-    ...                                            h=219.048432658311780)
+    >>> specification = CAM_Specification_CIECAM02(
+    ...     J=41.731091132513917, M=0.108842175669226, h=219.048432658311780
+    ... )
     >>> CIECAM02_to_JMh_CIECAM02(specification)  # doctest: +ELLIPSIS
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
@@ -306,7 +306,7 @@ def JMh_CIECAM02_to_CIECAM02(JMh: ArrayLike) -> CAM_Specification_CIECAM02:
     Examples
     --------
     >>> import numpy as np
-    >>> JMh = np.array([4.17310911e+01, 1.08842176e-01, 2.19048433e+02])
+    >>> JMh = np.array([4.17310911e01, 1.08842176e-01, 2.19048433e02])
     >>> JMh_CIECAM02_to_CIECAM02(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=None, h=219.0484329..., \
 s=None, Q=None, M=0.1088421..., H=None, HC=None)
@@ -333,9 +333,9 @@ def CAM16_to_JMh_CAM16(specification) -> NDArray:
 
     Examples
     --------
-    >>> specification = CAM_Specification_CAM16(J=41.731207905126638,
-    ...                                         M=0.107436772335905,
-    ...                                         h=217.067959767393010)
+    >>> specification = CAM_Specification_CAM16(
+    ...     J=41.731207905126638, M=0.107436772335905, h=217.067959767393010
+    ... )
     >>> CAM16_to_JMh_CAM16(specification)  # doctest: +ELLIPSIS
     array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
     """
@@ -360,7 +360,7 @@ def JMh_CAM16_to_CAM16(JMh: ArrayLike) -> CAM_Specification_CAM16:
     Examples
     --------
     >>> import numpy as np
-    >>> JMh = np.array([4.17312079e+01, 1.07436772e-01, 2.17067960e+02])
+    >>> JMh = np.array([4.17312079e01, 1.07436772e-01, 2.17067960e02])
     >>> JMh_CAM16_to_CAM16(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CAM16(J=41.7312079..., C=None, h=217.06796..., s=None, \
 Q=None, M=0.1074367..., H=None, HC=None)
@@ -387,9 +387,9 @@ def CIECAM16_to_JMh_CIECAM16(specification) -> NDArray:
 
     Examples
     --------
-    >>> specification = CAM_Specification_CIECAM16(J=41.731207905126638,
-    ...                                            M=0.107436772335905,
-    ...                                            h=217.067959767393010)
+    >>> specification = CAM_Specification_CIECAM16(
+    ...     J=41.731207905126638, M=0.107436772335905, h=217.067959767393010
+    ... )
     >>> CIECAM16_to_JMh_CIECAM16(specification)  # doctest: +ELLIPSIS
     array([  4.1731207...e+01,   1.0743677...e-01,   2.1706796...e+02])
     """
@@ -414,7 +414,7 @@ def JMh_CIECAM16_to_CIECAM16(JMh: ArrayLike) -> CAM_Specification_CIECAM16:
     Examples
     --------
     >>> import numpy as np
-    >>> JMh = np.array([4.17312079e+01, 1.07436772e-01, 2.17067960e+02])
+    >>> JMh = np.array([4.17312079e01, 1.07436772e-01, 2.17067960e02])
     >>> JMh_CIECAM16_to_CIECAM16(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM16(J=41.7312079..., C=None, h=217.06796..., \
 s=None, Q=None, M=0.1074367..., H=None, HC=None)
@@ -442,9 +442,9 @@ def Hellwig2022_to_JMh_Hellwig2022(specification) -> NDArray:
 
     Examples
     --------
-    >>> specification = CAM_Specification_Hellwig2022(J=41.731207905126638,
-    ...                                               M=0.029382869535427687,
-    ...                                               h=217.06795976739301)
+    >>> specification = CAM_Specification_Hellwig2022(
+    ...     J=41.731207905126638, M=0.029382869535427687, h=217.06795976739301
+    ... )
     >>> Hellwig2022_to_JMh_Hellwig2022(specification)  # doctest: +ELLIPSIS
     array([  4.1731207...e+01,   2.9382869...e-02,   2.1706796...e+02])
     """
@@ -472,7 +472,7 @@ def JMh_Hellwig2022_to_Hellwig2022(
     Examples
     --------
     >>> import numpy as np
-    >>> JMh = np.array([4.17312079e+01,  2.93828695e-02, 2.17067960e+02])
+    >>> JMh = np.array([4.17312079e01, 2.93828695e-02, 2.17067960e02])
     >>> JMh_Hellwig2022_to_Hellwig2022(JMh)  # doctest: +ELLIPSIS
     CAM_Specification_Hellwig2022(J=41.7312079..., C=None, h=217.06796, \
 s=None, Q=None, M=0.0293828..., H=None, HC=None, J_HK=None, Q_HK=None)
@@ -997,7 +997,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
     Examples
     --------
-    >>> _conversion_path('cie lab', 'cct')
+    >>> _conversion_path("cie lab", "cct")
     ... # doctest: +ELLIPSIS
     [<function Lab_to_XYZ at 0x...>, <function XYZ_to_xy at 0x...>, \
 <function xy_to_UCS_uv at 0x...>, <function uv_to_CCT at 0x...>]
@@ -1079,7 +1079,7 @@ def describe_conversion_path(
 
     Examples
     --------
-    >>> describe_conversion_path('Spectral Distribution', 'sRGB', width=75)
+    >>> describe_conversion_path("Spectral Distribution", "sRGB", width=75)
     ===========================================================================
     *                                                                         *
     *   [ Conversion Path ]                                                   *
@@ -1318,9 +1318,13 @@ verbose={'mode': 'Long'})
     --------
     >>> import numpy as np
     >>> from colour import SDS_COLOURCHECKERS, SDS_ILLUMINANTS
-    >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
-    >>> convert(sd, 'Spectral Distribution', 'sRGB',
-    ...     verbose={'mode': 'Short', 'width': 75})
+    >>> sd = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
+    >>> convert(
+    ...     sd,
+    ...     "Spectral Distribution",
+    ...     "sRGB",
+    ...     verbose={"mode": "Short", "width": 75},
+    ... )
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *
@@ -1330,17 +1334,21 @@ verbose={'mode': 'Long'})
     *                                                                         *
     ===========================================================================
     array([ 0.4903477...,  0.3018587...,  0.2358768...])
-    >>> illuminant = SDS_ILLUMINANTS['FL2']
-    >>> convert(sd, 'Spectral Distribution', 'sRGB',
-    ...     sd_to_XYZ={'illuminant': illuminant})
+    >>> illuminant = SDS_ILLUMINANTS["FL2"]
+    >>> convert(
+    ...     sd,
+    ...     "Spectral Distribution",
+    ...     "sRGB",
+    ...     sd_to_XYZ={"illuminant": illuminant},
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 0.4792457...,  0.3167696...,  0.1736272...])
     >>> a = np.array([0.45675795, 0.30986982, 0.24861924])
-    >>> convert(a, 'Output-Referred RGB', 'CAM16UCS')
+    >>> convert(a, "Output-Referred RGB", "CAM16UCS")
     ... # doctest: +ELLIPSIS
     array([ 0.3999481...,  0.0920655...,  0.0812752...])
     >>> a = np.array([0.39994811, 0.09206558, 0.08127526])
-    >>> convert(a, 'CAM16UCS', 'sRGB', verbose={'mode': 'Short', 'width': 75})
+    >>> convert(a, "CAM16UCS", "sRGB", verbose={"mode": "Short", "width": 75})
     ... # doctest: +ELLIPSIS
     ===========================================================================
     *                                                                         *

@@ -175,7 +175,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     >>> from colour.colorimetry import (
     ...     SDS_ILLUMINANTS,
     ...     msds_to_XYZ,
-    ...     sds_and_msds_to_msds
+    ...     sds_and_msds_to_msds,
     ... )
     >>> from colour.characterisation import (
     ...     MSDS_CAMERA_SENSITIVITIES,
@@ -205,7 +205,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     ...     illuminant,
     ...     reflectances,
     ...     R_w,
-    ...     SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
+    ...     SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
     ... )  # doctest: +ELLIPSIS
     SpectralDistribution([[  4.00000000e+02,   7.3976716...e-04],
                           [  4.10000000e+02,  -8.7040243...e-04],
@@ -312,7 +312,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     >>> from colour.colorimetry import (
     ...     SDS_ILLUMINANTS,
     ...     msds_to_XYZ,
-    ...     sds_and_msds_to_msds
+    ...     sds_and_msds_to_msds,
     ... )
     >>> from colour.characterisation import (
     ...     MSDS_CAMERA_SENSITIVITIES,
@@ -339,7 +339,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     ...     illuminant,
     ...     reflectances,
     ...     BASIS_FUNCTIONS_DYER2017,
-    ...     SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
+    ...     SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
     ... ).values  # doctest: +ELLIPSIS
     array([[  7.2281577...e-03,   9.2250648...e-03,  -9.8836897...e-03],
            [ -8.5045760...e-03,   1.1277748...e-02,   3.8624865...e-03],

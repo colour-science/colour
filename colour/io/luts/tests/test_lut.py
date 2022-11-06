@@ -39,7 +39,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "RANDOM_TRIPLETS",
     "TestAbstractLUT",
     "AbstractLUTTest",
@@ -48,7 +48,7 @@ __all__ = [
     "TestLUT3D",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 RANDOM_TRIPLETS: NDArray = np.reshape(
     random_triplet_generator(8, random_state=np.random.RandomState(4)),

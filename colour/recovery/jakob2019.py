@@ -167,6 +167,7 @@ def sd_Jakob2019(
     >>> with numpy_print_options(suppress=True):
     ...     sd_Jakob2019([-9e-05, 8.5e-02, -20], SpectralShape(400, 700, 20))
     ...     # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 400.        ,    0.3143046...],
                           [ 420.        ,    0.4133320...],
                           [ 440.        ,    0.4880034...],
@@ -535,18 +536,24 @@ def XYZ_to_sd_Jakob2019(
     Examples
     --------
     >>> from colour import (
-    ...     CCS_ILLUMINANTS, MSDS_CMFS, SDS_ILLUMINANTS, XYZ_to_sRGB)
+    ...     CCS_ILLUMINANTS,
+    ...     MSDS_CMFS,
+    ...     SDS_ILLUMINANTS,
+    ...     XYZ_to_sRGB,
+    ... )
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> sd = XYZ_to_sd_Jakob2019(XYZ, cmfs, illuminant)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 360.        ,    0.4893773...],
                           [ 370.        ,    0.3258214...],
                           [ 380.        ,    0.2147792...],
@@ -662,19 +669,26 @@ class LUT3D_Jakob2019:
     >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SpectralShape(360, 780, 10))
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
     ... )
-    >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+    >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
     >>> LUT = LUT3D_Jakob2019()
     >>> LUT.generate(RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
-    >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
-    ...                     'resources', 'sRGB_Jakob2019.coeff')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "recovery",
+    ...     "tests",
+    ...     "resources",
+    ...     "sRGB_Jakob2019.coeff",
+    ... )
     >>> LUT.write(path)  # doctest: +SKIP
     >>> LUT.read(path)  # doctest: +SKIP
     >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
     >>> with numpy_print_options(suppress=True):
     ...     LUT.RGB_to_sd(RGB, cmfs.shape)  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 360.        ,    0.7666803...],
                           [ 370.        ,    0.6251547...],
                           [ 380.        ,    0.4584310...],
@@ -833,10 +847,11 @@ class LUT3D_Jakob2019:
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> from colour.utilities import numpy_print_options
         >>> cmfs = (
-        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        ...     copy().align(SpectralShape(360, 780, 10))
+        ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        ...     .copy()
+        ...     .align(SpectralShape(360, 780, 10))
         ... )
-        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> print(LUT.interpolator)
         None
@@ -984,13 +999,15 @@ class LUT3D_Jakob2019:
         >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> cmfs = (
-        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        ...     copy().align(SpectralShape(360, 780, 10))
+        ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        ...     .copy()
+        ...     .align(SpectralShape(360, 780, 10))
         ... )
-        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
+        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
+        ... )
         >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
         >>> LUT.RGB_to_coefficients(RGB)  # doctest: +ELLIPSIS
         array([  1.5013448...e-04,  -1.4679754...e-01,   3.4020219...e+01])
@@ -1041,16 +1058,19 @@ class LUT3D_Jakob2019:
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> from colour.utilities import numpy_print_options
         >>> cmfs = (
-        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        ...     copy().align(SpectralShape(360, 780, 10))
+        ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        ...     .copy()
+        ...     .align(SpectralShape(360, 780, 10))
         ... )
-        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
+        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
+        ... )
         >>> RGB = np.array([0.70573936, 0.19248266, 0.22354169])
         >>> with numpy_print_options(suppress=True):
         ...     LUT.RGB_to_sd(RGB, cmfs.shape)  # doctest: +ELLIPSIS
+        ...
         SpectralDistribution([[ 360.        ,    0.7666803...],
                               [ 370.        ,    0.6251547...],
                               [ 380.        ,    0.4584310...],
@@ -1122,15 +1142,22 @@ class LUT3D_Jakob2019:
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> from colour.utilities import numpy_print_options
         >>> cmfs = (
-        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        ...     copy().align(SpectralShape(360, 780, 10))
+        ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        ...     .copy()
+        ...     .align(SpectralShape(360, 780, 10))
         ... )
-        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
-        >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
-        ...                     'resources', 'sRGB_Jakob2019.coeff')
+        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
+        ... )
+        >>> path = os.path.join(
+        ...     colour.__path__[0],
+        ...     "recovery",
+        ...     "tests",
+        ...     "resources",
+        ...     "sRGB_Jakob2019.coeff",
+        ... )
         >>> LUT.write(path)  # doctest: +SKIP
         >>> LUT.read(path)  # doctest: +SKIP
         """
@@ -1171,15 +1198,22 @@ class LUT3D_Jakob2019:
         >>> from colour.models import RGB_COLOURSPACE_sRGB
         >>> from colour.utilities import numpy_print_options
         >>> cmfs = (
-        ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-        ...     copy().align(SpectralShape(360, 780, 10))
+        ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        ...     .copy()
+        ...     .align(SpectralShape(360, 780, 10))
         ... )
-        >>> illuminant = SDS_ILLUMINANTS['D65'].copy().align(cmfs.shape)
+        >>> illuminant = SDS_ILLUMINANTS["D65"].copy().align(cmfs.shape)
         >>> LUT = LUT3D_Jakob2019()
         >>> LUT.generate(
-        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x)
-        >>> path = os.path.join(colour.__path__[0], 'recovery', 'tests',
-        ...                     'resources', 'sRGB_Jakob2019.coeff')
+        ...     RGB_COLOURSPACE_sRGB, cmfs, illuminant, 3, lambda x: x
+        ... )
+        >>> path = os.path.join(
+        ...     colour.__path__[0],
+        ...     "recovery",
+        ...     "tests",
+        ...     "resources",
+        ...     "sRGB_Jakob2019.coeff",
+        ... )
         >>> LUT.write(path)  # doctest: +SKIP
         >>> LUT.read(path)  # doctest: +SKIP
         """

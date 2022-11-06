@@ -119,7 +119,7 @@ __all__ = [
     "sd_to_aces_relative_exposure_values",
     "sd_to_ACES2065_1",
     "SPECTRAL_SHAPE_RAWTOACES",
-    "RESOURCES_DIRECTORY_RAWTOACES",
+    "ROOT_RESOURCES_RAWTOACES",
     "read_training_data_rawtoaces_v1",
     "generate_illuminants_rawtoaces_v1",
     "white_balance_multipliers",
@@ -206,11 +206,14 @@ def sd_to_aces_relative_exposure_values(
     Examples
     --------
     >>> from colour import SDS_COLOURCHECKERS
-    >>> sd = SDS_COLOURCHECKERS['ColorChecker N Ohta']['dark skin']
+    >>> sd = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
     >>> sd_to_aces_relative_exposure_values(
-    ...     sd, chromatic_adaptation_transform=None)  # doctest: +ELLIPSIS
+    ...     sd, chromatic_adaptation_transform=None
+    ... )  # doctest: +ELLIPSIS
     array([ 0.1171814...,  0.0866360...,  0.0589726...])
-    >>> sd_to_aces_relative_exposure_values(sd, apply_chromatic_adaptation=True)
+    >>> sd_to_aces_relative_exposure_values(
+    ...     sd, apply_chromatic_adaptation=True
+    ... )
     ... # doctest: +ELLIPSIS
     array([ 0.1180779...,  0.0869031...,  0.0589125...])
     """
@@ -292,7 +295,7 @@ sd_to_ACES2065_1 = sd_to_aces_relative_exposure_values
 SPECTRAL_SHAPE_RAWTOACES: SpectralShape = SpectralShape(380, 780, 5)
 """Default spectral shape according to *RAW to ACES* v1."""
 
-RESOURCES_DIRECTORY_RAWTOACES: str = os.path.join(
+ROOT_RESOURCES_RAWTOACES: str = os.path.join(
     os.path.dirname(__file__), "datasets", "rawtoaces"
 )
 """
@@ -332,7 +335,7 @@ def read_training_data_rawtoaces_v1() -> MultiSpectralDistributions:
     if _TRAINING_DATA_RAWTOACES_V1 is not None:
         training_data = _TRAINING_DATA_RAWTOACES_V1
     else:
-        path = os.path.join(RESOURCES_DIRECTORY_RAWTOACES, "190_Patches.csv")
+        path = os.path.join(ROOT_RESOURCES_RAWTOACES, "190_Patches.csv")
         training_data = sds_and_msds_to_msds(
             list(read_sds_from_csv_file(path).values())
         )
@@ -407,7 +410,7 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
         # A.M.P.A.S. variant of ISO 7589 Studio Tungsten.
         sd = read_sds_from_csv_file(
             os.path.join(
-                RESOURCES_DIRECTORY_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv"
+                ROOT_RESOURCES_RAWTOACES, "AMPAS_ISO_7589_Tungsten.csv"
             )
         )["iso7589"]
         illuminants.update({sd.name: sd})
@@ -443,11 +446,13 @@ def white_balance_multipliers(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
-    ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
+    ...     ROOT_RESOURCES_RAWTOACES,
+    ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
+    ... )
     >>> sensitivities = sds_and_msds_to_msds(
-    ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = SDS_ILLUMINANTS['D55']
+    ...     read_sds_from_csv_file(path).values()
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS["D55"]
     >>> white_balance_multipliers(sensitivities, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
@@ -494,13 +499,16 @@ def best_illuminant(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
-    ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
+    ...     ROOT_RESOURCES_RAWTOACES,
+    ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
+    ... )
     >>> sensitivities = sds_and_msds_to_msds(
-    ...     read_sds_from_csv_file(path).values())
+    ...     read_sds_from_csv_file(path).values()
+    ... )
     >>> illuminants = generate_illuminants_rawtoaces_v1()
     >>> RGB_w = white_balance_multipliers(
-    ...     sensitivities, SDS_ILLUMINANTS['FL2'])
+    ...     sensitivities, SDS_ILLUMINANTS["FL2"]
+    ... )
     >>> best_illuminant(RGB_w, sensitivities, illuminants).name
     'D40'
     """
@@ -544,11 +552,13 @@ def normalise_illuminant(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
-    ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
+    ...     ROOT_RESOURCES_RAWTOACES,
+    ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
+    ... )
     >>> sensitivities = sds_and_msds_to_msds(
-    ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = SDS_ILLUMINANTS['D55']
+    ...     read_sds_from_csv_file(path).values()
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS["D55"]
     >>> np.sum(illuminant.values)  # doctest: +ELLIPSIS
     7276.1490000...
     >>> np.sum(normalise_illuminant(illuminant, sensitivities).values)
@@ -596,15 +606,19 @@ def training_data_sds_to_RGB(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
-    ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
+    ...     ROOT_RESOURCES_RAWTOACES,
+    ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
+    ... )
     >>> sensitivities = sds_and_msds_to_msds(
-    ...     read_sds_from_csv_file(path).values())
+    ...     read_sds_from_csv_file(path).values()
+    ... )
     >>> illuminant = normalise_illuminant(
-    ...     SDS_ILLUMINANTS['D55'], sensitivities)
+    ...     SDS_ILLUMINANTS["D55"], sensitivities
+    ... )
     >>> training_data = read_training_data_rawtoaces_v1()
     >>> RGB, RGB_w = training_data_sds_to_RGB(
-    ...     training_data, sensitivities, illuminant)
+    ...     training_data, sensitivities, illuminant
+    ... )
     >>> RGB[:5]  # doctest: +ELLIPSIS
     array([[ 0.0207582...,  0.0196857...,  0.0213935...],
            [ 0.0895775...,  0.0891922...,  0.0891091...],
@@ -690,13 +704,16 @@ def training_data_sds_to_XYZ(
     --------
     >>> from colour import MSDS_CMFS
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
-    ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
-    >>> cmfs = MSDS_CMFS['CIE 1931 2 Degree Standard Observer']
+    ...     ROOT_RESOURCES_RAWTOACES,
+    ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
+    ... )
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> sensitivities = sds_and_msds_to_msds(
-    ...     read_sds_from_csv_file(path).values())
+    ...     read_sds_from_csv_file(path).values()
+    ... )
     >>> illuminant = normalise_illuminant(
-    ...     SDS_ILLUMINANTS['D55'], sensitivities)
+    ...     SDS_ILLUMINANTS["D55"], sensitivities
+    ... )
     >>> training_data = read_training_data_rawtoaces_v1()
     >>> training_data_sds_to_XYZ(training_data, cmfs, illuminant)[:5]
     ... # doctest: +ELLIPSIS
@@ -911,11 +928,13 @@ def matrix_idt(
     the method given in *RAW to ACES* v1:
 
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
-    ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
+    ...     ROOT_RESOURCES_RAWTOACES,
+    ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
+    ... )
     >>> sensitivities = sds_and_msds_to_msds(
-    ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = SDS_ILLUMINANTS['D55']
+    ...     read_sds_from_csv_file(path).values()
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS["D55"]
     >>> M, RGB_w = matrix_idt(sensitivities, illuminant)
     >>> np.around(M, 3)
     array([[ 0.85 , -0.016,  0.151],
@@ -932,8 +951,10 @@ def matrix_idt(
         0.023683 -0.202547 1.178864
 
     >>> M, RGB_w = matrix_idt(
-    ...     sensitivities, illuminant,
-    ...     optimisation_factory=optimisation_factory_Jzazbz)
+    ...     sensitivities,
+    ...     illuminant,
+    ...     optimisation_factory=optimisation_factory_Jzazbz,
+    ... )
     >>> np.around(M, 3)
     array([[ 0.848, -0.016,  0.158],
            [ 0.053,  1.114, -0.175],
@@ -1038,11 +1059,13 @@ def camera_RGB_to_ACES2065_1(
     Examples
     --------
     >>> path = os.path.join(
-    ...     RESOURCES_DIRECTORY_RAWTOACES,
-    ...     'CANON_EOS_5DMark_II_RGB_Sensitivities.csv')
+    ...     ROOT_RESOURCES_RAWTOACES,
+    ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
+    ... )
     >>> sensitivities = sds_and_msds_to_msds(
-    ...     read_sds_from_csv_file(path).values())
-    >>> illuminant = SDS_ILLUMINANTS['D55']
+    ...     read_sds_from_csv_file(path).values()
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS["D55"]
     >>> B, b = matrix_idt(sensitivities, illuminant)
     >>> camera_RGB_to_ACES2065_1(np.array([0.1, 0.2, 0.3]), B, b)
     ... # doctest: +ELLIPSIS

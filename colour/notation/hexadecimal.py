@@ -115,7 +115,7 @@ def HEX_to_RGB(HEX: StrOrArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> HEX = '#aaddff'
+    >>> HEX = "#aaddff"
     >>> HEX_to_RGB(HEX)  # doctest: +ELLIPSIS
     array([ 0.6666666...,  0.8666666...,  1.        ])
     """

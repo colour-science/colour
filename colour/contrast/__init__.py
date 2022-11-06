@@ -138,7 +138,7 @@ def contrast_sensitivity_function(
     --------
     >>> contrast_sensitivity_function(u=4)  # doctest: +ELLIPSIS
     360.8691122...
-    >>> contrast_sensitivity_function('Barten 1999', u=4)  # doctest: +ELLIPSIS
+    >>> contrast_sensitivity_function("Barten 1999", u=4)  # doctest: +ELLIPSIS
     360.8691122...
     """
 

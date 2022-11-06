@@ -222,7 +222,7 @@ def colour_quality_scale(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
     64.1117031...
     """
@@ -357,7 +357,7 @@ def gamut_area(Lab: ArrayLike) -> Floating:
     ...     np.array([69.63154351, 28.24532497, 59.45609803]),
     ...     np.array([61.26281449, 40.87950839, 44.97606172]),
     ...     np.array([41.62567821, 57.34129516, 27.46718170]),
-    ...     np.array([40.52565174, 48.87449192, 3.45121680])
+    ...     np.array([40.52565174, 48.87449192, 3.45121680]),
     ... ]
     >>> gamut_area(Lab)  # doctest: +ELLIPSIS
     8335.9482018...

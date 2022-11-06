@@ -73,7 +73,7 @@ class LUTSequence(MutableSequence):
 
     Examples
     --------
-    >>> from colour.io.luts import  LUT1D, LUT3x1D, LUT3D
+    >>> from colour.io.luts import LUT1D, LUT3x1D, LUT3D
     >>> LUT_1 = LUT1D()
     >>> LUT_2 = LUT3D(size=3)
     >>> LUT_3 = LUT3x1D()
@@ -359,7 +359,7 @@ class LUTSequence(MutableSequence):
         Examples
         --------
         >>> import numpy as np
-        >>> from colour.io.luts import  LUT1D, LUT3x1D, LUT3D
+        >>> from colour.io.luts import LUT1D, LUT3x1D, LUT3D
         >>> from colour.utilities import tstack
         >>> LUT_1 = LUT1D(LUT1D.linear_table(16) + 0.125)
         >>> LUT_2 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2))
@@ -367,7 +367,7 @@ class LUTSequence(MutableSequence):
         >>> LUT_sequence = LUTSequence(LUT_1, LUT_2, LUT_3)
         >>> samples = np.linspace(0, 1, 5)
         >>> RGB = tstack([samples, samples, samples])
-        >>> LUT_sequence.apply(RGB, LUT1D={'direction': 'Inverse'})
+        >>> LUT_sequence.apply(RGB, LUT1D={"direction": "Inverse"})
         ... # doctest: +ELLIPSIS
         array([[ 0.       ...,  0.       ...,  0.       ...],
                [ 0.2899886...,  0.2899886...,  0.2899886...],

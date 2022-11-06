@@ -140,7 +140,7 @@ def colour_rendering_index(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_rendering_index(sd)  # doctest: +ELLIPSIS
     64.2337241...
     """

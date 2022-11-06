@@ -163,16 +163,16 @@ def convert_bit_depth(
     Examples
     --------
     >>> a = np.array([0.0, 0.5, 1.0])
-    >>> convert_bit_depth(a, 'uint8')
+    >>> convert_bit_depth(a, "uint8")
     array([  0, 128, 255], dtype=uint8)
-    >>> convert_bit_depth(a, 'uint16')
+    >>> convert_bit_depth(a, "uint16")
     array([    0, 32768, 65535], dtype=uint16)
-    >>> convert_bit_depth(a, 'float16')
+    >>> convert_bit_depth(a, "float16")
     array([ 0. ,  0.5,  1. ], dtype=float16)
     >>> a = np.array([0, 128, 255], dtype=np.uint8)
-    >>> convert_bit_depth(a, 'uint16')
+    >>> convert_bit_depth(a, "uint16")
     array([    0, 32896, 65535], dtype=uint16)
-    >>> convert_bit_depth(a, 'float32')  # doctest: +ELLIPSIS
+    >>> convert_bit_depth(a, "float32")  # doctest: +ELLIPSIS
     array([ 0.       ,  0.501960...,  1.       ], dtype=float32)
     """
 
@@ -250,8 +250,13 @@ def read_image_OpenImageIO(
     --------
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
     """
 
@@ -330,8 +335,13 @@ def read_image_Imageio(
     --------
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image_Imageio(path)
     >>> image.shape  # doctest: +SKIP
     (1267, 1274, 3)
@@ -404,8 +414,13 @@ def read_image(
     --------
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image(path)
     >>> image.shape  # doctest: +SKIP
     (1267, 1274, 3)
@@ -467,18 +482,28 @@ def write_image_OpenImageIO(
 
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image(path)  # doctest: +SKIP
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.tif')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMSTestPattern.tif",
+    ... )
     >>> write_image_OpenImageIO(image, path)  # doctest: +SKIP
     True
 
     Advanced image writing while setting attributes:
 
-    >>> compression = ImageAttribute_Specification('Compression', 'none')
-    >>> write_image_OpenImageIO(image, path, 'uint8', [compression])
+    >>> compression = ImageAttribute_Specification("Compression", "none")
+    >>> write_image_OpenImageIO(image, path, "uint8", [compression])
     ... # doctest: +SKIP
     True
 
@@ -486,14 +511,26 @@ def write_image_OpenImageIO(
 
     >>> if is_openimageio_installed():  # doctest: +SKIP
     ...     from OpenImageIO import TypeDesc
+    ...
     ...     chromaticities = (
-    ...         0.7347, 0.2653, 0.0, 1.0, 0.0001, -0.077, 0.32168, 0.33767)
+    ...         0.7347,
+    ...         0.2653,
+    ...         0.0,
+    ...         1.0,
+    ...         0.0001,
+    ...         -0.077,
+    ...         0.32168,
+    ...         0.33767,
+    ...     )
     ...     attributes = [
-    ...         ImageAttribute_Specification('acesImageContainerFlag', True),
+    ...         ImageAttribute_Specification("acesImageContainerFlag", True),
     ...         ImageAttribute_Specification(
-    ...             'chromaticities', chromaticities, TypeDesc('float[8]')),
-    ...         ImageAttribute_Specification('compression', 'none')]
+    ...             "chromaticities", chromaticities, TypeDesc("float[8]")
+    ...         ),
+    ...         ImageAttribute_Specification("compression", "none"),
+    ...     ]
     ...     write_image_OpenImageIO(image, path, attributes=attributes)
+    ...
     """
 
     from OpenImageIO import ImageOutput, ImageSpec
@@ -589,11 +626,21 @@ Source/FreeImage.h
     --------
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image(path)  # doctest: +SKIP
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.tif')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMSTestPattern.tif",
+    ... )
     >>> write_image_Imageio(image, path)  # doctest: +SKIP
     True
     """
@@ -681,18 +728,28 @@ Source/FreeImage.h
 
     >>> import os
     >>> import colour
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMS_Test_Pattern.exr')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMS_Test_Pattern.exr",
+    ... )
     >>> image = read_image(path)  # doctest: +SKIP
-    >>> path = os.path.join(colour.__path__[0], 'io', 'tests', 'resources',
-    ...                     'CMSTestPattern.tif')
+    >>> path = os.path.join(
+    ...     colour.__path__[0],
+    ...     "io",
+    ...     "tests",
+    ...     "resources",
+    ...     "CMSTestPattern.tif",
+    ... )
     >>> write_image(image, path)  # doctest: +SKIP
     True
 
     Advanced image writing while setting attributes using *OpenImageIO*:
 
-    >>> compression = ImageAttribute_Specification('Compression', 'none')
-    >>> write_image(image, path, bit_depth='uint8', attributes=[compression])
+    >>> compression = ImageAttribute_Specification("Compression", "none")
+    >>> write_image(image, path, bit_depth="uint8", attributes=[compression])
     ... # doctest: +SKIP
     True
     """

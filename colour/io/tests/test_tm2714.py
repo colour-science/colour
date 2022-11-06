@@ -25,7 +25,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "RESOURCES_DIRECTORY",
+    "ROOT_RESOURCES",
     "FLUORESCENT_FILE_HEADER",
     "FLUORESCENT_FILE_SPECTRAL_DESCRIPTION",
     "FLUORESCENT_FILE_SPECTRAL_DATA",
@@ -33,7 +33,7 @@ __all__ = [
     "TestIES_TM2714_Sd",
 ]
 
-RESOURCES_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 FLUORESCENT_FILE_HEADER: Dict = {
     "Manufacturer": "Unknown",
@@ -281,7 +281,7 @@ class TestIES_TM2714_Sd(unittest.TestCase):
         self._temporary_directory = tempfile.mkdtemp()
 
         self._sd = SpectralDistribution_IESTM2714(
-            os.path.join(RESOURCES_DIRECTORY, "Fluorescent.spdx")
+            os.path.join(ROOT_RESOURCES, "Fluorescent.spdx")
         ).read()
 
     def tearDown(self):
@@ -585,7 +585,7 @@ SpectralDistribution_IESTM2714(...,
             optional(
                 sd,
                 SpectralDistribution_IESTM2714(
-                    os.path.join(RESOURCES_DIRECTORY, "Fluorescent.spdx")
+                    os.path.join(ROOT_RESOURCES, "Fluorescent.spdx")
                 ).read(),
             ),
         )
@@ -621,7 +621,7 @@ SpectralDistribution_IESTM2714(...,
         self.assertRaises(ValueError, sd.read)
 
         sd = SpectralDistribution_IESTM2714(
-            os.path.join(RESOURCES_DIRECTORY, "Invalid.spdx")
+            os.path.join(ROOT_RESOURCES, "Invalid.spdx")
         )
         self.assertRaises(ValueError, sd.read)
 

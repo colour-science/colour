@@ -179,9 +179,9 @@ def cctf_decoding_ROMMRGB(
 
     Examples
     --------
-    >>> cctf_decoding_ROMMRGB(0.385711424751138) # doctest: +ELLIPSIS
+    >>> cctf_decoding_ROMMRGB(0.385711424751138)  # doctest: +ELLIPSIS
     0.1...
-    >>> cctf_decoding_ROMMRGB(98, in_int=True) # doctest: +ELLIPSIS
+    >>> cctf_decoding_ROMMRGB(98, in_int=True)  # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -522,9 +522,9 @@ def log_decoding_ERIMMRGB(
 
     Examples
     --------
-    >>> log_decoding_ERIMMRGB(0.410052389492129) # doctest: +ELLIPSIS
+    >>> log_decoding_ERIMMRGB(0.410052389492129)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_ERIMMRGB(105, in_int=True) # doctest: +ELLIPSIS
+    >>> log_decoding_ERIMMRGB(105, in_int=True)  # doctest: +ELLIPSIS
     0.1...
     """
 

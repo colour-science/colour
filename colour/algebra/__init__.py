@@ -1,3 +1,10 @@
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, build_API_changes
+from colour.utilities.documentation import is_documentation_building
+
+from colour.hints import Any
+
 from .common import (
     get_sdiv_mode,
     set_sdiv_mode,
@@ -7,9 +14,12 @@ from .common import (
     set_spow_enable,
     spow_enable,
     spow,
+    normalise_vector,
     normalise_maximum,
     vector_dot,
     matrix_dot,
+    euclidean_distance,
+    manhattan_distance,
     linear_conversion,
     linstep_function,
     lerp,
@@ -20,20 +30,6 @@ from .common import (
 )
 from .coordinates import *  # noqa
 from . import coordinates
-from .geometry import (
-    normalise_vector,
-    euclidean_distance,
-    manhattan_distance,
-    extend_line_segment,
-    LineSegmentsIntersections_Specification,
-    intersect_line_segments,
-    ellipse_coefficients_general_form,
-    ellipse_coefficients_canonical_form,
-    point_at_angle_on_ellipse,
-    ellipse_fitting_Halir1998,
-    ELLIPSE_FITTING_METHODS,
-    ellipse_fitting,
-)
 from .interpolation import (
     kernel_nearest_neighbour,
     kernel_linear,
@@ -67,9 +63,12 @@ __all__ += [
     "set_spow_enable",
     "spow_enable",
     "spow",
+    "normalise_vector",
     "normalise_maximum",
     "vector_dot",
     "matrix_dot",
+    "euclidean_distance",
+    "manhattan_distance",
     "linear_conversion",
     "linstep_function",
     "lerp",
@@ -79,20 +78,6 @@ __all__ += [
     "eigen_decomposition",
 ]
 __all__ += coordinates.__all__
-__all__ += [
-    "normalise_vector",
-    "euclidean_distance",
-    "manhattan_distance",
-    "extend_line_segment",
-    "LineSegmentsIntersections_Specification",
-    "intersect_line_segments",
-    "ellipse_coefficients_general_form",
-    "ellipse_coefficients_canonical_form",
-    "point_at_angle_on_ellipse",
-    "ellipse_fitting_Halir1998",
-    "ELLIPSE_FITTING_METHODS",
-    "ellipse_fitting",
-]
 __all__ += [
     "kernel_nearest_neighbour",
     "kernel_linear",
@@ -121,3 +106,66 @@ __all__ += [
 __all__ += [
     "least_square_mapping_MoorePenrose",
 ]
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class algebra(ModuleAPI):
+    """Define a class acting like the *algebra* module."""
+
+    def __getattr__(self, attribute) -> Any:
+        """Return the value from the attribute with given name."""
+
+        return super().__getattr__(attribute)
+
+
+# v0.4.2
+API_CHANGES = {
+    "ObjectFutureAccessChange": [
+        [
+            "colour.algebra.ellipse_coefficients_general_form",
+            "colour.geometry.ellipse_coefficients_general_form",
+        ],
+        [
+            "colour.algebra.ellipse_coefficients_canonical_form",
+            "colour.geometry.ellipse_coefficients_canonical_form",
+        ],
+        [
+            "colour.algebra.point_at_angle_on_ellipse",
+            "colour.geometry.point_at_angle_on_ellipse",
+        ],
+        [
+            "colour.algebra.ellipse_fitting_Halir1998",
+            "colour.geometry.ellipse_fitting_Halir1998",
+        ],
+        [
+            "colour.algebra.ELLIPSE_FITTING_METHODS",
+            "colour.geometry.ELLIPSE_FITTING_METHODS",
+        ],
+        [
+            "colour.algebra.ellipse_fitting",
+            "colour.geometry.ellipse_fitting",
+        ],
+        [
+            "colour.algebra.extend_line_segment",
+            "colour.geometry.extend_line_segment",
+        ],
+        [
+            "colour.algebra.extend_line_segment",
+            "colour.geometry.intersect_line_segments",
+        ],
+        [
+            "colour.algebra.extend_line_segment",
+            "colour.geometry.LineSegmentsIntersections_Specification",
+        ],
+    ]
+}
+"""Defines the *colour.algebra* sub-package API changes."""
+
+if not is_documentation_building():
+    sys.modules["colour.algebra"] = algebra(  # type: ignore[assignment]
+        sys.modules["colour.algebra"], build_API_changes(API_CHANGES)
+    )
+
+    del ModuleAPI, is_documentation_building, build_API_changes, sys

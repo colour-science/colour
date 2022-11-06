@@ -110,33 +110,41 @@ def exponent_function_basic(
     0.0229932...
     >>> exponent_function_basic(-0.18, 2.2)
     0.0
-    >>> exponent_function_basic(0.18, 2.2, 'basicRev')  # doctest: +ELLIPSIS
+    >>> exponent_function_basic(0.18, 2.2, "basicRev")  # doctest: +ELLIPSIS
     0.4586564...
-    >>> exponent_function_basic(-0.18, 2.2, 'basicRev')
+    >>> exponent_function_basic(-0.18, 2.2, "basicRev")
     0.0
     >>> exponent_function_basic(  # doctest: +ELLIPSIS
-    ...     0.18, 2.2, 'basicMirrorFwd')
+    ...     0.18, 2.2, "basicMirrorFwd"
+    ... )
     0.0229932...
     >>> exponent_function_basic(  # doctest: +ELLIPSIS
-    ...     -0.18, 2.2, 'basicMirrorFwd')
+    ...     -0.18, 2.2, "basicMirrorFwd"
+    ... )
     -0.0229932...
     >>> exponent_function_basic(  # doctest: +ELLIPSIS
-    ...     0.18, 2.2, 'basicMirrorRev')
+    ...     0.18, 2.2, "basicMirrorRev"
+    ... )
     0.4586564...
     >>> exponent_function_basic(  # doctest: +ELLIPSIS
-    ...     -0.18, 2.2, 'basicMirrorRev')
+    ...     -0.18, 2.2, "basicMirrorRev"
+    ... )
     -0.4586564...
     >>> exponent_function_basic(  # doctest: +ELLIPSIS
-    ...     0.18, 2.2, 'basicPassThruFwd')
+    ...     0.18, 2.2, "basicPassThruFwd"
+    ... )
     0.0229932...
     >>> exponent_function_basic(  # doctest: +ELLIPSIS
-    ...     -0.18, 2.2, 'basicPassThruFwd')
+    ...     -0.18, 2.2, "basicPassThruFwd"
+    ... )
     -0.1799999...
     >>> exponent_function_basic(  # doctest: +ELLIPSIS
-    ...     0.18, 2.2, 'basicPassThruRev')
+    ...     0.18, 2.2, "basicPassThruRev"
+    ... )
     0.4586564...
     >>> exponent_function_basic(  # doctest: +ELLIPSIS
-    ...     -0.18, 2.2, 'basicPassThruRev')
+    ...     -0.18, 2.2, "basicPassThruRev"
+    ... )
     -0.1799999...
     """
 
@@ -237,29 +245,35 @@ def exponent_function_monitor_curve(
 
     Examples
     --------
-    >>> exponent_function_monitor_curve(  # doctest: +ELLIPSIS
-    ...     0.18, 2.2, 0.001)
+    >>> exponent_function_monitor_curve(0.18, 2.2, 0.001)  # doctest: +ELLIPSIS
     0.0232240...
     >>> exponent_function_monitor_curve(  # doctest: +ELLIPSIS
-    ...     -0.18, 2.2, 0.001)
+    ...     -0.18, 2.2, 0.001
+    ... )
     -0.0002054...
     >>> exponent_function_monitor_curve(  # doctest: +ELLIPSIS
-    ...     0.18, 2.2, 0.001, 'monCurveRev')
+    ...     0.18, 2.2, 0.001, "monCurveRev"
+    ... )
     0.4581151...
     >>> exponent_function_monitor_curve(  # doctest: +ELLIPSIS
-    ...     -0.18, 2.2, 0.001, 'monCurveRev')
+    ...     -0.18, 2.2, 0.001, "monCurveRev"
+    ... )
     -157.7302795...
     >>> exponent_function_monitor_curve(  # doctest: +ELLIPSIS
-    ...     0.18, 2.2, 2, 'monCurveMirrorFwd')
+    ...     0.18, 2.2, 2, "monCurveMirrorFwd"
+    ... )
     0.1679399...
     >>> exponent_function_monitor_curve(  # doctest: +ELLIPSIS
-    ...     -0.18, 2.2, 0.001, 'monCurveMirrorFwd')
+    ...     -0.18, 2.2, 0.001, "monCurveMirrorFwd"
+    ... )
     -0.0232240...
     >>> exponent_function_monitor_curve(  # doctest: +ELLIPSIS
-    ...     0.18, 2.2, 0.001, 'monCurveMirrorRev')
+    ...     0.18, 2.2, 0.001, "monCurveMirrorRev"
+    ... )
     0.4581151...
     >>> exponent_function_monitor_curve(  # doctest: +ELLIPSIS
-    ...     -0.18, 2.2, 0.001, 'monCurveMirrorRev')
+    ...     -0.18, 2.2, 0.001, "monCurveMirrorRev"
+    ... )
     -0.4581151...
     """
 

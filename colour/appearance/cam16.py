@@ -251,7 +251,7 @@ def XYZ_to_CAM16(
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_CAM16['Average']
+    >>> surround = VIEWING_CONDITIONS_CAM16["Average"]
     >>> XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CAM16(J=41.7312079..., C=0.1033557..., \
 h=217.0679597..., s=2.3450150..., Q=195.3717089..., M=0.1074367..., \
@@ -433,9 +433,8 @@ def CAM16_to_XYZ(
     Examples
     --------
     >>> specification = CAM_Specification_CAM16(
-    ...     J=41.731207905126638,
-    ...     C=0.103355738709070,
-    ...     h=217.067959767393010)
+    ...     J=41.731207905126638, C=0.103355738709070, h=217.067959767393010
+    ... )
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0

@@ -192,28 +192,27 @@ class NestedSequence(Protocol[_T_co]):
 
     Examples
     --------
-    .. code-block:: python
+    >>> from __future__ import annotations
 
-        >>> from __future__ import annotations
+    >>> from typing import TYPE_CHECKING
+    >>> import numpy as np
 
-        >>> from typing import TYPE_CHECKING
-        >>> import numpy as np
+    >>> def get_dtype(seq: NestedSequence[float]) -> np.dtype[np.float64]:
+    ...     return np.asarray(seq).dtype
 
-        >>> def get_dtype(seq: NestedSequence[float]) -> np.dtype[np.float64]:
-        ...     return np.asarray(seq).dtype
+    >>> a = get_dtype([1.0])
+    >>> b = get_dtype([[1.0]])
+    >>> c = get_dtype([[[1.0]]])
+    >>> d = get_dtype([[[[1.0]]]])
 
-        >>> a = get_dtype([1.0])
-        >>> b = get_dtype([[1.0]])
-        >>> c = get_dtype([[[1.0]]])
-        >>> d = get_dtype([[[[1.0]]]])
-
-        >>> if TYPE_CHECKING:
-        ...     reveal_locals()
-        ...     # note: Revealed local types are:
-        ...     # note:     a: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
-        ...     # note:     b: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
-        ...     # note:     c: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
-        ...     # note:     d: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    >>> if TYPE_CHECKING:
+    ...     reveal_locals()
+    ...     # note: Revealed local types are:
+    ...     # note:     a: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    ...     # note:     b: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    ...     # note:     c: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    ...     # note:     d: numpy.dtype[numpy.floating[numpy._typing._64Bit]]
+    ...
 
     """
 

@@ -328,7 +328,7 @@ def XYZ_to_CIECAM02(
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> surround = VIEWING_CONDITIONS_CIECAM02['Average']
+    >>> surround = VIEWING_CONDITIONS_CIECAM02["Average"]
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=41.7310911..., C=0.1047077..., \
 h=219.0484326..., s=2.3603053..., Q=195.3713259..., M=0.1088421..., \
@@ -518,9 +518,8 @@ def CIECAM02_to_XYZ(
     Examples
     --------
     >>> specification = CAM_Specification_CIECAM02(
-    ...     J=41.731091132513917,
-    ...     C=0.104707757171031,
-    ...     h=219.048432658311780)
+    ...     J=41.731091132513917, C=0.104707757171031, h=219.048432658311780
+    ... )
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0

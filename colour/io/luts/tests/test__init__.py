@@ -19,12 +19,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "LUTS_DIRECTORY",
+    "ROOT_LUTS",
     "TestReadLUT",
     "TestWriteLUT",
 ]
 
-LUTS_DIRECTORY: str = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_LUTS: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
 class TestReadLUT(unittest.TestCase):
@@ -37,7 +37,7 @@ class TestReadLUT(unittest.TestCase):
         """Test :func:`colour.io.luts.__init__.read_LUT` definition."""
 
         LUT_1 = read_LUT(
-            os.path.join(LUTS_DIRECTORY, "sony_spi1d", "eotf_sRGB_1D.spi1d")
+            os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d")
         )
 
         np.testing.assert_array_almost_equal(
@@ -73,7 +73,7 @@ class TestReadLUT(unittest.TestCase):
         )
 
         LUT_2 = read_LUT(
-            os.path.join(LUTS_DIRECTORY, "resolve_cube", "LogC_Video.cube")
+            os.path.join(ROOT_LUTS, "resolve_cube", "LogC_Video.cube")
         )
         np.testing.assert_array_almost_equal(
             LUT_2[0].table,
@@ -109,9 +109,7 @@ class TestReadLUT(unittest.TestCase):
         self.assertRaises(
             ValueError,
             read_LUT,
-            os.path.join(
-                LUTS_DIRECTORY, "sony_spi1d", "Exception_Raising.spi1d"
-            ),
+            os.path.join(ROOT_LUTS, "sony_spi1d", "Exception_Raising.spi1d"),
         )
 
 
@@ -135,7 +133,7 @@ class TestWriteLUT(unittest.TestCase):
         """Test :func:`colour.io.luts.__init__.write_LUT` definition."""
 
         LUT_1_r = read_LUT(
-            os.path.join(LUTS_DIRECTORY, "sony_spi1d", "eotf_sRGB_1D.spi1d")
+            os.path.join(ROOT_LUTS, "sony_spi1d", "eotf_sRGB_1D.spi1d")
         )
 
         write_LUT(
@@ -158,7 +156,7 @@ class TestWriteLUT(unittest.TestCase):
 
         LUT_2_r = read_LUT(
             os.path.join(
-                LUTS_DIRECTORY,
+                ROOT_LUTS,
                 "resolve_cube",
                 "Three_Dimensional_Table_With_Shaper.cube",
             )

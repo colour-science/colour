@@ -90,12 +90,12 @@ class Structure(dict):
 
     Examples
     --------
-    >>> person = Structure(first_name='John', last_name='Doe', gender='male')
+    >>> person = Structure(first_name="John", last_name="Doe", gender="male")
     >>> person.first_name
     'John'
     >>> sorted(person.keys())
     ['first_name', 'gender', 'last_name']
-    >>> person['gender']
+    >>> person["gender"]
     'male'
     """
 
@@ -187,11 +187,11 @@ class Lookup(dict):
 
     Examples
     --------
-    >>> person = Lookup(first_name='John', last_name='Doe', gender='male')
-    >>> person.first_key_from_value('John')
+    >>> person = Lookup(first_name="John", last_name="Doe", gender="male")
+    >>> person.first_key_from_value("John")
     'first_name'
-    >>> persons = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
-    >>> sorted(persons.keys_from_value('Doe'))
+    >>> persons = Lookup(John="Doe", Jane="Doe", Luke="Skywalker")
+    >>> sorted(persons.keys_from_value("Doe"))
     ['Jane', 'John']
     """
 
@@ -302,14 +302,14 @@ class CanonicalMapping(MutableMapping):
 
     Examples
     --------
-    >>> methods = CanonicalMapping({'McCamy 1992': 1, 'Hernandez 1999': 2})
-    >>> methods['mccamy 1992']
+    >>> methods = CanonicalMapping({"McCamy 1992": 1, "Hernandez 1999": 2})
+    >>> methods["mccamy 1992"]
     1
-    >>> methods['MCCAMY 1992']
+    >>> methods["MCCAMY 1992"]
     1
-    >>> methods['mccamy-1992']
+    >>> methods["mccamy-1992"]
     1
-    >>> methods['mccamy1992']
+    >>> methods["mccamy1992"]
     1
     """
 
@@ -725,11 +725,11 @@ class LazyCanonicalMapping(CanonicalMapping):
     >>> def callable_a():
     ...     print(2)
     ...     return 2
-    >>> methods = LazyCanonicalMapping(
-    ...     {'McCamy': 1, 'Hernandez': callable_a})
-    >>> methods['mccamy']
+    ...
+    >>> methods = LazyCanonicalMapping({"McCamy": 1, "Hernandez": callable_a})
+    >>> methods["mccamy"]
     1
-    >>> methods['hernandez']
+    >>> methods["hernandez"]
     2
     2
     """
@@ -802,14 +802,14 @@ class Node:
 
     Examples
     --------
-    >>> node_a = Node('Node A')
-    >>> node_b = Node('Node B', node_a)
-    >>> node_c = Node('Node C', node_a)
-    >>> node_d = Node('Node D', node_b)
-    >>> node_e = Node('Node E', node_b)
-    >>> node_f = Node('Node F', node_d)
-    >>> node_g = Node('Node G', node_f)
-    >>> node_h = Node('Node H', node_g)
+    >>> node_a = Node("Node A")
+    >>> node_b = Node("Node B", node_a)
+    >>> node_c = Node("Node C", node_a)
+    >>> node_d = Node("Node D", node_b)
+    >>> node_e = Node("Node E", node_b)
+    >>> node_f = Node("Node F", node_d)
+    >>> node_g = Node("Node G", node_f)
+    >>> node_h = Node("Node H", node_g)
     >>> [node.name for node in node_a.leaves]
     ['Node H', 'Node E', 'Node C']
     >>> print(node_h.root.name)
@@ -1085,9 +1085,9 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_b)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_b)
         >>> node_a.is_root()
         True
         >>> node_b.is_root()
@@ -1107,9 +1107,9 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_b)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_b)
         >>> node_a.is_inner()
         False
         >>> node_b.is_inner()
@@ -1129,9 +1129,9 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_b)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_b)
         >>> node_a.is_leaf()
         False
         >>> node_c.is_leaf()
@@ -1157,16 +1157,17 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_a)
-        >>> node_d = Node('Node D', node_b)
-        >>> node_e = Node('Node E', node_b)
-        >>> node_f = Node('Node F', node_d)
-        >>> node_g = Node('Node G', node_f)
-        >>> node_h = Node('Node H', node_g)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_a)
+        >>> node_d = Node("Node D", node_b)
+        >>> node_e = Node("Node E", node_b)
+        >>> node_f = Node("Node F", node_d)
+        >>> node_g = Node("Node G", node_f)
+        >>> node_h = Node("Node H", node_g)
         >>> for node in node_a.walk():
         ...     print(node.name)
+        ...
         Node B
         Node D
         Node F
@@ -1205,9 +1206,9 @@ class Node:
 
         Examples
         --------
-        >>> node_a = Node('Node A')
-        >>> node_b = Node('Node B', node_a)
-        >>> node_c = Node('Node C', node_a)
+        >>> node_a = Node("Node A")
+        >>> node_b = Node("Node B", node_a)
+        >>> node_c = Node("Node C", node_a)
         >>> print(node_a.render())
         |----"Node A"
             |----"Node B"

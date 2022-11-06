@@ -214,6 +214,7 @@ class MultiSignals(AbstractContinuousFunction):
 
     >>> class NotSignal(Signal):
     ...     pass
+    ...
 
     >>> multi_signals = MultiSignals(range_, domain, signal_type=NotSignal)
     >>> print(multi_signals)
@@ -234,8 +235,13 @@ class MultiSignals(AbstractContinuousFunction):
 
     >>> if is_pandas_installed():
     ...     from pandas import Series
-    ...     print(MultiSignals(  # doctest: +SKIP
-    ...         Series(dict(zip(domain, np.linspace(10, 100, 10))))))
+    ...
+    ...     print(
+    ...         MultiSignals(  # doctest: +SKIP
+    ...             Series(dict(zip(domain, np.linspace(10, 100, 10))))
+    ...         )
+    ...     )
+    ...
     [[  100.    10.]
      [  200.    20.]
      [  300.    30.]
@@ -251,9 +257,10 @@ class MultiSignals(AbstractContinuousFunction):
 
     >>> if is_pandas_installed():
     ...     from pandas import DataFrame
-    ...     data = dict(zip(['a', 'b', 'c'], tsplit(range_)))
-    ...     print(MultiSignals(  # doctest: +SKIP
-    ...         DataFrame(data, domain)))
+    ...
+    ...     data = dict(zip(["a", "b", "c"], tsplit(range_)))
+    ...     print(MultiSignals(DataFrame(data, domain)))  # doctest: +SKIP
+    ...
     [[  100.    10.    20.    30.]
      [  200.    20.    30.    40.]
      [  300.    30.    40.    50.]
@@ -282,16 +289,14 @@ class MultiSignals(AbstractContinuousFunction):
 
     >>> x = 150
     >>> from colour.algebra import CubicSplineInterpolator
-    >>> MultiSignals(
-    ...     range_,
-    ...     domain,
-    ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
+    >>> MultiSignals(range_, domain, interpolator=CubicSplineInterpolator)[
+    ...     x
+    ... ]  # doctest: +ELLIPSIS
     array([ 0.0555274...,  0.3055274...,  0.5555274...])
     >>> x = np.linspace(100, 1000, 3)
-    >>> MultiSignals(
-    ...     range_,
-    ...     domain,
-    ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
+    >>> MultiSignals(range_, domain, interpolator=CubicSplineInterpolator)[
+    ...     x
+    ... ]  # doctest: +ELLIPSIS
     array([[ 0.       ...,  0.25     ...,  0.5      ...],
            [ 0.4794253...,  0.7294253...,  0.9794253...],
            [ 0.8414709...,  1.0914709...,  1.3414709...]])
@@ -1138,7 +1143,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   7.   80.   90.  100.]
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
-        >>> print(multi_signals_1.arithmetical_operation(10, '+', True))
+        >>> print(multi_signals_1.arithmetical_operation(10, "+", True))
         [[   0.   20.   30.   40.]
          [   1.   30.   40.   50.]
          [   2.   40.   50.   60.]
@@ -1153,7 +1158,7 @@ class MultiSignals(AbstractContinuousFunction):
         Adding an `ArrayLike` variable:
 
         >>> a = np.linspace(10, 100, 10)
-        >>> print(multi_signals_1.arithmetical_operation(a, '+', True))
+        >>> print(multi_signals_1.arithmetical_operation(a, "+", True))
         [[   0.   30.   40.   50.]
          [   1.   50.   60.   70.]
          [   2.   70.   80.   90.]
@@ -1166,7 +1171,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   9.  210.  220.  230.]]
 
         >>> a = np.array([[10, 20, 30]])
-        >>> print(multi_signals_1.arithmetical_operation(a, '+', True))
+        >>> print(multi_signals_1.arithmetical_operation(a, "+", True))
         [[   0.   40.   60.   80.]
          [   1.   60.   80.  100.]
          [   2.   80.  100.  120.]
@@ -1179,7 +1184,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   9.  220.  240.  260.]]
 
         >>> a = np.arange(0, 30, 1).reshape([10, 3])
-        >>> print(multi_signals_1.arithmetical_operation(a, '+', True))
+        >>> print(multi_signals_1.arithmetical_operation(a, "+", True))
         [[   0.   40.   61.   82.]
          [   1.   63.   84.  105.]
          [   2.   86.  107.  128.]
@@ -1194,8 +1199,11 @@ class MultiSignals(AbstractContinuousFunction):
         Adding a :class:`colour.continuous.Signal` sub-class:
 
         >>> multi_signals_2 = MultiSignals(range_)
-        >>> print(multi_signals_1.arithmetical_operation(
-        ...     multi_signals_2, '+', True))
+        >>> print(
+        ...     multi_signals_1.arithmetical_operation(
+        ...         multi_signals_2, "+", True
+        ...     )
+        ... )
         [[   0.   50.   81.  112.]
          [   1.   83.  114.  145.]
          [   2.  116.  147.  178.]
@@ -1318,7 +1326,7 @@ class MultiSignals(AbstractContinuousFunction):
         >>> signals = MultiSignals.multi_signals_unpack_data(range_)
         >>> list(signals.keys())
         ['0']
-        >>> print(signals['0'])
+        >>> print(signals["0"])
         [[   0.   10.]
          [   1.   20.]
          [   2.   30.]
@@ -1336,7 +1344,7 @@ class MultiSignals(AbstractContinuousFunction):
         >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
         >>> list(signals.keys())
         ['0']
-        >>> print(signals['0'])
+        >>> print(signals["0"])
         [[  100.    10.]
          [  200.    20.]
          [  300.    30.]
@@ -1355,7 +1363,7 @@ class MultiSignals(AbstractContinuousFunction):
         >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
         >>> list(signals.keys())
         ['0', '1', '2']
-        >>> print(signals['2'])
+        >>> print(signals["2"])
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1370,10 +1378,11 @@ class MultiSignals(AbstractContinuousFunction):
         Unpacking using a *dict*:
 
         >>> signals = MultiSignals.multi_signals_unpack_data(
-        ...     dict(zip(domain, range_)))
+        ...     dict(zip(domain, range_))
+        ... )
         >>> list(signals.keys())
         ['0', '1', '2']
-        >>> print(signals['2'])
+        >>> print(signals["2"])
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1389,11 +1398,12 @@ class MultiSignals(AbstractContinuousFunction):
         are :class:`str` instances because the *Signal* names are used:
 
         >>> signals = MultiSignals.multi_signals_unpack_data(
-        ...     dict(zip(domain, range_))).values()
+        ...     dict(zip(domain, range_))
+        ... ).values()
         >>> signals = MultiSignals.multi_signals_unpack_data(signals)
         >>> list(signals.keys())
         ['0', '1', '2']
-        >>> print(signals['2'])
+        >>> print(signals["2"])
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1408,11 +1418,12 @@ class MultiSignals(AbstractContinuousFunction):
         Unpacking using *MultiSignals.multi_signals_unpack_data* method output:
 
         >>> signals = MultiSignals.multi_signals_unpack_data(
-        ...     dict(zip(domain, range_)))
+        ...     dict(zip(domain, range_))
+        ... )
         >>> signals = MultiSignals.multi_signals_unpack_data(signals)
         >>> list(signals.keys())
         ['0', '1', '2']
-        >>> print(signals['2'])
+        >>> print(signals["2"])
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1428,9 +1439,12 @@ class MultiSignals(AbstractContinuousFunction):
 
         >>> if is_pandas_installed():
         ...     from pandas import Series
+        ...
         ...     signals = MultiSignals.multi_signals_unpack_data(
-        ...         Series(dict(zip(domain, np.linspace(10, 100, 10)))))
+        ...         Series(dict(zip(domain, np.linspace(10, 100, 10))))
+        ...     )
         ...     print(signals[0])  # doctest: +SKIP
+        ...
         [[  100.    10.]
          [  200.    20.]
          [  300.    30.]
@@ -1446,10 +1460,13 @@ class MultiSignals(AbstractContinuousFunction):
 
         >>> if is_pandas_installed():
         ...     from pandas import DataFrame
-        ...     data = dict(zip(['a', 'b', 'c'], tsplit(range_)))
+        ...
+        ...     data = dict(zip(["a", "b", "c"], tsplit(range_)))
         ...     signals = MultiSignals.multi_signals_unpack_data(
-        ...         DataFrame(data, domain))
-        ...     print(signals['c'])  # doctest: +SKIP
+        ...         DataFrame(data, domain)
+        ...     )
+        ...     print(signals["c"])  # doctest: +SKIP
+        ...
         [[  100.    30.]
          [  200.    40.]
          [  300.    50.]
@@ -1631,7 +1648,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   8.   90.  100.  110.]
          [   9.  100.  110.  120.]]
         >>> multi_signals[3:7] = np.nan
-        >>> print(multi_signals.fill_nan(method='Constant'))
+        >>> print(multi_signals.fill_nan(method="Constant"))
         [[   0.   10.   20.   30.]
          [   1.   20.   30.   40.]
          [   2.   30.   40.   50.]
@@ -1671,6 +1688,7 @@ class MultiSignals(AbstractContinuousFunction):
         ...     range_ += np.array([0, 10, 20])
         ...     multi_signals = MultiSignals(range_)
         ...     print(multi_signals.to_dataframe())  # doctest: +SKIP
+        ...
                  0      1      2
         0.0   10.0   20.0   30.0
         1.0   20.0   30.0   40.0

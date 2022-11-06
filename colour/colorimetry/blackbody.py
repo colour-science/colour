@@ -193,6 +193,7 @@ def sd_blackbody(
     >>> with numpy_print_options(suppress=True):
     ...     sd_blackbody(5000, shape=SpectralShape(400, 700, 20))
     ...     # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[   400.        ,   8742.5713329...],
                           [   420.        ,   9651.6810212...],
                           [   440.        ,  10447.3423137...],
@@ -328,6 +329,7 @@ def sd_rayleigh_jeans(
     >>> with numpy_print_options(suppress=True):
     ...     sd_rayleigh_jeans(5000, shape=SpectralShape(400, 700, 20))
     ...     # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[     400.        ,  1616829.9106941...],
                           [     420.        ,  1330169.9688456...],
                           [     440.        ,  1104316.5840408...],

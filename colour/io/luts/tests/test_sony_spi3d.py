@@ -25,12 +25,12 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "LUTS_DIRECTORY",
+    "ROOT_LUTS",
     "TestReadLUTSonySPI3D",
     "TestWriteLUTSonySPI3D",
 ]
 
-LUTS_DIRECTORY: str = os.path.join(
+ROOT_LUTS: str = os.path.join(
     os.path.dirname(__file__), "resources", "sony_spi3d"
 )
 
@@ -45,7 +45,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
         """Test :func:`colour.io.luts.sony_spi3d.read_LUT_SonySPI3D` definition."""
 
         LUT_1 = read_LUT_SonySPI3D(
-            os.path.join(LUTS_DIRECTORY, "Colour_Correct.spi3d")
+            os.path.join(ROOT_LUTS, "Colour_Correct.spi3d")
         )
 
         np.testing.assert_array_almost_equal(
@@ -170,7 +170,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
         )
 
         LUT_2 = read_LUT_SonySPI3D(
-            os.path.join(LUTS_DIRECTORY, "Colour_Correct_Unordered.spi3d")
+            os.path.join(ROOT_LUTS, "Colour_Correct_Unordered.spi3d")
         )
 
         self.assertEqual(LUT_2, LUT_1)
@@ -202,7 +202,7 @@ class TestWriteLUTSonySPI3D(unittest.TestCase):
         """Test :func:`colour.io.luts.sony_spi3d.write_LUT_SonySPI3D` definition."""
 
         LUT_r = read_LUT_SonySPI3D(
-            os.path.join(LUTS_DIRECTORY, "Colour_Correct.spi3d")
+            os.path.join(ROOT_LUTS, "Colour_Correct.spi3d")
         )
 
         write_LUT_SonySPI3D(

@@ -70,7 +70,7 @@ __status__ = "Production"
 
 __all__ = [
     "SPECTRAL_SHAPE_CIE2017",
-    "RESOURCES_DIRECTORY_CIE2017",
+    "ROOT_RESOURCES_CIE2017",
     "DataColorimetry_TCS_CIE2017",
     "ColourRendering_Specification_CIE2017",
     "colour_fidelity_index_CIE2017",
@@ -87,7 +87,7 @@ Spectral shape for *CIE 2017 Colour Fidelity Index* (CFI)
 standard.
 """
 
-RESOURCES_DIRECTORY_CIE2017: str = os.path.join(
+ROOT_RESOURCES_CIE2017: str = os.path.join(
     os.path.dirname(__file__), "datasets"
 )
 """*CIE 2017 Colour Fidelity Index* resources directory."""
@@ -174,7 +174,7 @@ def colour_fidelity_index_CIE2017(
     Examples
     --------
     >>> from colour.colorimetry import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index_CIE2017(sd)  # doctest: +ELLIPSIS
     70.1208254...
     """
@@ -292,7 +292,7 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
         return _CACHE_TCS_CIE2017[filename]
 
     data = np.genfromtxt(
-        str(os.path.join(RESOURCES_DIRECTORY_CIE2017, filename)), delimiter=","
+        str(os.path.join(ROOT_RESOURCES_CIE2017, filename)), delimiter=","
     )
     labels = [f"TCS{i} (CIE 2017)" for i in range(99)]
 
@@ -322,7 +322,7 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArray:
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> CCT_reference_illuminant(sd)  # doctest: +ELLIPSIS
     array([  4.2244697...e+03,   1.7871111...e-03])
     """
@@ -358,7 +358,9 @@ def sd_reference_illuminant(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     sd_reference_illuminant(  # doctest: +ELLIPSIS
-    ...         4224.469705295263300, SpectralShape(380, 780, 20))
+    ...         4224.469705295263300, SpectralShape(380, 780, 20)
+    ...     )
+    ...
     SpectralDistribution([[ 380.        ,    0.0034089...],
                           [ 400.        ,    0.0044208...],
                           [ 420.        ,    0.0053260...],

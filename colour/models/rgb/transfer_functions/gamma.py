@@ -76,11 +76,11 @@ def gamma_function(
     0.0323999...
     >>> gamma_function(-0.18, 2.2)
     nan
-    >>> gamma_function(-0.18, 2.2, 'Mirror')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, "Mirror")  # doctest: +ELLIPSIS
     -0.0229932...
-    >>> gamma_function(-0.18, 2.2, 'Preserve')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, "Preserve")  # doctest: +ELLIPSIS
     -0.1...
-    >>> gamma_function(-0.18, 2.2, 'Clamp')  # doctest: +ELLIPSIS
+    >>> gamma_function(-0.18, 2.2, "Clamp")  # doctest: +ELLIPSIS
     0.0
     """
 

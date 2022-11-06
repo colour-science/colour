@@ -305,10 +305,11 @@ def override_style(**kwargs: Any) -> Callable:
 
     Examples
     --------
-    >>> @override_style(**{'text.color': 'red'})
+    >>> @override_style(**{"text.color": "red"})
     ... def f():
-    ...     plt.text(0.5, 0.5, 'This is a text!')
+    ...     plt.text(0.5, 0.5, "This is a text!")
     ...     plt.show()
+    ...
     >>> f()  # doctest: +SKIP
     """
 
@@ -828,7 +829,7 @@ def filter_passthrough(
 plot_multi_illuminant_sds` definition is as follows:
 
     >>> import colour
-    >>> colour.plotting.plot_multi_illuminant_sds(['A'])
+    >>> colour.plotting.plot_multi_illuminant_sds(["A"])
     ... # doctest: +SKIP
 
     With the previous example, it is also possible to pass a custom spectral
@@ -840,23 +841,26 @@ plot_multi_illuminant_sds` definition is as follows:
     ...     540: 0.0772,
     ...     560: 0.0870,
     ...     580: 0.1128,
-    ...     600: 0.1360
+    ...     600: 0.1360,
     ... }
     >>> colour.plotting.plot_multi_illuminant_sds(
-    ...     ['A', colour.SpectralDistribution(data)])
+    ...     ["A", colour.SpectralDistribution(data)]
+    ... )
     ... # doctest: +SKIP
 
     Similarly, a typical call to :func:`colour.plotting.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
 
     >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    ...     ['A'])
+    ...     ["A"]
+    ... )
     ... # doctest: +SKIP
 
     But it is also possible to pass a custom whitepoint as follows:
 
     >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    ...     ['A', {'Custom': np.array([1 / 3 + 0.05, 1 / 3 + 0.05])}])
+    ...     ["A", {"Custom": np.array([1 / 3 + 0.05, 1 / 3 + 0.05])}]
+    ... )
     ... # doctest: +SKIP
 
     Parameters
@@ -1082,12 +1086,12 @@ def update_settings_collection(
     Examples
     --------
     >>> settings_collection = [{1: 2}, {3: 4}]
-    >>> keyword_arguments = {5 : 6}
+    >>> keyword_arguments = {5: 6}
     >>> update_settings_collection(settings_collection, keyword_arguments, 2)
     >>> print(settings_collection)
     [{1: 2, 5: 6}, {3: 4, 5: 6}]
     >>> settings_collection = [{1: 2}, {3: 4}]
-    >>> keyword_arguments = [{5 : 6}, {7: 8}]
+    >>> keyword_arguments = [{5: 6}, {7: 8}]
     >>> update_settings_collection(settings_collection, keyword_arguments, 2)
     >>> print(settings_collection)
     [{1: 2, 5: 6}, {3: 4, 7: 8}]
@@ -1489,9 +1493,9 @@ def plot_multi_functions(
     Examples
     --------
     >>> functions = {
-    ...     'Gamma 2.2' : lambda x: x ** (1 / 2.2),
-    ...     'Gamma 2.4' : lambda x: x ** (1 / 2.4),
-    ...     'Gamma 2.6' : lambda x: x ** (1 / 2.6),
+    ...     "Gamma 2.2": lambda x: x ** (1 / 2.2),
+    ...     "Gamma 2.4": lambda x: x ** (1 / 2.4),
+    ...     "Gamma 2.6": lambda x: x ** (1 / 2.6),
     ... }
     >>> plot_multi_functions(functions)
     ... # doctest: +ELLIPSIS
@@ -1619,8 +1623,12 @@ def plot_image(
     >>> import colour
     >>> from colour import read_image
     >>> path = os.path.join(
-    ...     colour.__path__[0], 'examples', 'plotting', 'resources',
-    ...     'Ishihara_Colour_Blindness_Test_Plate_3.png')
+    ...     colour.__path__[0],
+    ...     "examples",
+    ...     "plotting",
+    ...     "resources",
+    ...     "Ishihara_Colour_Blindness_Test_Plate_3.png",
+    ... )
     >>> plot_image(read_image(path))  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 

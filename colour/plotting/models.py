@@ -50,7 +50,7 @@ from matplotlib.path import Path
 
 from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import EPSILON
-from colour.algebra import (
+from colour.geometry import (
     point_at_angle_on_ellipse,
     ellipse_coefficients_canonical_form,
     ellipse_fitting,
@@ -245,14 +245,14 @@ def colourspace_model_axis_reorder(
     Examples
     --------
     >>> a = np.array([0, 1, 2])
-    >>> colourspace_model_axis_reorder(a, 'CIE Lab')
+    >>> colourspace_model_axis_reorder(a, "CIE Lab")
     array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'IPT')
+    >>> colourspace_model_axis_reorder(a, "IPT")
     array([ 1.,  2.,  0.])
-    >>> colourspace_model_axis_reorder(a, 'OSA UCS')
+    >>> colourspace_model_axis_reorder(a, "OSA UCS")
     array([ 1.,  2.,  0.])
     >>> b = np.array([1, 2, 0])
-    >>> colourspace_model_axis_reorder(b, 'OSA UCS', 'Inverse')
+    >>> colourspace_model_axis_reorder(b, "OSA UCS", "Inverse")
     array([ 0.,  1.,  2.])
     """
 
@@ -500,12 +500,13 @@ def plot_RGB_colourspaces_in_chromaticity_diagram(
     Examples
     --------
     >>> plot_kwargs = [
-    ...     {'color': 'r'},
-    ...     {'linestyle': 'dashed'},
-    ...     {'marker': None}
+    ...     {"color": "r"},
+    ...     {"linestyle": "dashed"},
+    ...     {"marker": None},
     ... ]
     >>> plot_RGB_colourspaces_in_chromaticity_diagram(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], plot_kwargs=plot_kwargs)
+    ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"], plot_kwargs=plot_kwargs
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -736,7 +737,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -830,7 +832,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -924,7 +927,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     Examples
     --------
     >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
-    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    ...     ["ITU-R BT.709", "ACEScg", "S-Gamut"]
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1005,8 +1009,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> plot_RGB_chromaticities_in_chromaticity_diagram(
-    ...     RGB, 'ITU-R BT.709')
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram(RGB, "ITU-R BT.709")
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1142,7 +1145,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
-    ...     RGB, 'ITU-R BT.709')
+    ...     RGB, "ITU-R BT.709"
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1217,7 +1221,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
-    ...     RGB, 'ITU-R BT.709')
+    ...     RGB, "ITU-R BT.709"
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1292,7 +1297,8 @@ plot_RGB_colourspaces_in_chromaticity_diagram`,
     --------
     >>> RGB = np.random.random((128, 128, 3))
     >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
-    ...     RGB, 'ITU-R BT.709')
+    ...     RGB, "ITU-R BT.709"
+    ... )
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
@@ -1739,7 +1745,7 @@ def plot_single_cctf(
 
     Examples
     --------
-    >>> plot_single_cctf('ITU-R BT.709')  # doctest: +ELLIPSIS
+    >>> plot_single_cctf("ITU-R BT.709")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_CCTF.png
@@ -1788,7 +1794,7 @@ def plot_multi_cctfs(
 
     Examples
     --------
-    >>> plot_multi_cctfs(['ITU-R BT.709', 'sRGB'])  # doctest: +ELLIPSIS
+    >>> plot_multi_cctfs(["ITU-R BT.709", "sRGB"])  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Multi_CCTFs.png
@@ -1911,70 +1917,82 @@ def plot_constant_hue_loci(
 
     Examples
     --------
-    >>> data = np.array([
+    >>> data = np.array(
     ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.40920000, 0.28120000, 0.30600000]),
-    ...         np.array([
-    ...             [0.02495100, 0.01908600, 0.02032900],
-    ...             [0.10944300, 0.06235900, 0.06788100],
-    ...             [0.27186500, 0.18418700, 0.19565300],
-    ...             [0.48898900, 0.40749400, 0.44854600],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.30760000, 0.48280000, 0.42770000]),
-    ...         np.array([
-    ...             [0.02108000, 0.02989100, 0.02790400],
-    ...             [0.06194700, 0.11251000, 0.09334400],
-    ...             [0.15255800, 0.28123300, 0.23234900],
-    ...             [0.34157700, 0.56681300, 0.47035300],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.39530000, 0.28120000, 0.18450000]),
-    ...         np.array([
-    ...             [0.02436400, 0.01908600, 0.01468800],
-    ...             [0.10331200, 0.06235900, 0.02854600],
-    ...             [0.26311900, 0.18418700, 0.12109700],
-    ...             [0.43158700, 0.40749400, 0.39008600],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.20510000, 0.18420000, 0.57130000]),
-    ...         np.array([
-    ...             [0.03039800, 0.02989100, 0.06123300],
-    ...             [0.08870000, 0.08498400, 0.21843500],
-    ...             [0.18405800, 0.18418700, 0.40111400],
-    ...             [0.32550100, 0.34047200, 0.50296900],
-    ...             [0.53826100, 0.56681300, 0.80010400],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ...     [
-    ...         None,
-    ...         np.array([0.95010000, 1.00000000, 1.08810000]),
-    ...         np.array([0.35770000, 0.28120000, 0.11250000]),
-    ...         np.array([
-    ...             [0.03678100, 0.02989100, 0.01481100],
-    ...             [0.17127700, 0.11251000, 0.01229900],
-    ...             [0.30080900, 0.28123300, 0.21229800],
-    ...             [0.52976000, 0.40749400, 0.11720000],
-    ...         ]),
-    ...         None,
-    ...     ],
-    ... ])
-    >>> plot_constant_hue_loci(data, 'CIE Lab')  # doctest: +ELLIPSIS
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.40920000, 0.28120000, 0.30600000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.02495100, 0.01908600, 0.02032900],
+    ...                     [0.10944300, 0.06235900, 0.06788100],
+    ...                     [0.27186500, 0.18418700, 0.19565300],
+    ...                     [0.48898900, 0.40749400, 0.44854600],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.30760000, 0.48280000, 0.42770000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.02108000, 0.02989100, 0.02790400],
+    ...                     [0.06194700, 0.11251000, 0.09334400],
+    ...                     [0.15255800, 0.28123300, 0.23234900],
+    ...                     [0.34157700, 0.56681300, 0.47035300],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.39530000, 0.28120000, 0.18450000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.02436400, 0.01908600, 0.01468800],
+    ...                     [0.10331200, 0.06235900, 0.02854600],
+    ...                     [0.26311900, 0.18418700, 0.12109700],
+    ...                     [0.43158700, 0.40749400, 0.39008600],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.20510000, 0.18420000, 0.57130000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.03039800, 0.02989100, 0.06123300],
+    ...                     [0.08870000, 0.08498400, 0.21843500],
+    ...                     [0.18405800, 0.18418700, 0.40111400],
+    ...                     [0.32550100, 0.34047200, 0.50296900],
+    ...                     [0.53826100, 0.56681300, 0.80010400],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...         [
+    ...             None,
+    ...             np.array([0.95010000, 1.00000000, 1.08810000]),
+    ...             np.array([0.35770000, 0.28120000, 0.11250000]),
+    ...             np.array(
+    ...                 [
+    ...                     [0.03678100, 0.02989100, 0.01481100],
+    ...                     [0.17127700, 0.11251000, 0.01229900],
+    ...                     [0.30080900, 0.28123300, 0.21229800],
+    ...                     [0.52976000, 0.40749400, 0.11720000],
+    ...                 ]
+    ...             ),
+    ...             None,
+    ...         ],
+    ...     ]
+    ... )
+    >>> plot_constant_hue_loci(data, "CIE Lab")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Constant_Hue_Loci.png

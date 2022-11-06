@@ -354,7 +354,7 @@ def xy_to_CCT(
     >>> import numpy as np
     >>> xy_to_CCT(np.array([0.31270, 0.32900]))  # doctest: +ELLIPSIS
     6508.1175148...
-    >>> xy_to_CCT(np.array([0.31270, 0.32900]), 'Hernandez 1999')
+    >>> xy_to_CCT(np.array([0.31270, 0.32900]), "Hernandez 1999")
     ... # doctest: +ELLIPSIS
     6500.7420431...
     """
@@ -438,7 +438,7 @@ def CCT_to_xy(
     --------
     >>> CCT_to_xy(6504.38938305)  # doctest: +ELLIPSIS
     array([ 0.3127077...,  0.3291128...])
-    >>> CCT_to_xy(6504.38938305, 'Kang 2002')
+    >>> CCT_to_xy(6504.38938305, "Kang 2002")
     ... # doctest: +ELLIPSIS
     array([ 0.313426 ...,  0.3235959...])
     """

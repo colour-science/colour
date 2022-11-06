@@ -817,18 +817,18 @@ def munsell_value(
     --------
     >>> munsell_value(12.23634268)  # doctest: +ELLIPSIS
     4.0824437...
-    >>> munsell_value(12.23634268, method='Priest 1920') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="Priest 1920")  # doctest: +ELLIPSIS
     3.4980484...
-    >>> munsell_value(12.23634268, method='Munsell 1933') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="Munsell 1933")  # doctest: +ELLIPSIS
     4.1627702...
-    >>> munsell_value(12.23634268, method='Moon 1943') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="Moon 1943")  # doctest: +ELLIPSIS
     4.0688120...
-    >>> munsell_value(12.23634268, method='Saunderson 1944')
+    >>> munsell_value(12.23634268, method="Saunderson 1944")
     ... # doctest: +ELLIPSIS
     4.0444736...
-    >>> munsell_value(12.23634268, method='Ladd 1955') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="Ladd 1955")  # doctest: +ELLIPSIS
     4.0511633...
-    >>> munsell_value(12.23634268, method='McCamy 1987') # doctest: +ELLIPSIS
+    >>> munsell_value(12.23634268, method="McCamy 1987")  # doctest: +ELLIPSIS
     4.0814348...
     """
 
@@ -1017,9 +1017,9 @@ def munsell_colour_to_xyY(munsell_colour: StrOrArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> munsell_colour_to_xyY('4.2YR 8.1/5.3')  # doctest: +ELLIPSIS
+    >>> munsell_colour_to_xyY("4.2YR 8.1/5.3")  # doctest: +ELLIPSIS
     array([ 0.3873694...,  0.3575165...,  0.59362   ])
-    >>> munsell_colour_to_xyY('N8.9')  # doctest: +ELLIPSIS
+    >>> munsell_colour_to_xyY("N8.9")  # doctest: +ELLIPSIS
     array([ 0.31006  ,  0.31616  ,  0.7461345...])
     """
 
@@ -1498,9 +1498,9 @@ def parse_munsell_colour(munsell_colour: str) -> NDArray:
 
     Examples
     --------
-    >>> parse_munsell_colour('N5.2')
+    >>> parse_munsell_colour("N5.2")
     array([ nan,  5.2,  nan,  nan])
-    >>> parse_munsell_colour('0YR 2.0/4.0')
+    >>> parse_munsell_colour("0YR 2.0/4.0")
     array([ 0.,  2.,  4.,  6.])
     """
 
@@ -1579,11 +1579,11 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArray:
 
     Examples
     --------
-    >>> normalise_munsell_specification(
-    ...     np.array([0.0, 2.0, 4.0, 6]))
+    >>> normalise_munsell_specification(np.array([0.0, 2.0, 4.0, 6]))
     array([ 10.,   2.,   4.,   7.])
     >>> normalise_munsell_specification(
-    ...     np.array([np.nan, 0.5, np.nan, np.nan]))
+    ...     np.array([np.nan, 0.5, np.nan, np.nan])
+    ... )
     array([ nan,  0.5,  nan,  nan])
     """
 
@@ -1621,9 +1621,9 @@ def munsell_colour_to_munsell_specification(munsell_colour: str) -> NDArray:
 
     Examples
     --------
-    >>> munsell_colour_to_munsell_specification('N5.2')
+    >>> munsell_colour_to_munsell_specification("N5.2")
     array([ nan,  5.2,  nan,  nan])
-    >>> munsell_colour_to_munsell_specification('0YR 2.0/4.0')
+    >>> munsell_colour_to_munsell_specification("0YR 2.0/4.0")
     array([ 10.,   2.,   4.,   7.])
     """
 
@@ -1660,10 +1660,10 @@ def munsell_specification_to_munsell_colour(
     Examples
     --------
     >>> munsell_specification_to_munsell_colour(
-    ...     np.array([np.nan, 5.2, np.nan, np.nan]))
+    ...     np.array([np.nan, 5.2, np.nan, np.nan])
+    ... )
     'N5.2'
-    >>> munsell_specification_to_munsell_colour(
-    ...     np.array([10, 2.0, 4.0, 7]))
+    >>> munsell_specification_to_munsell_colour(np.array([10, 2.0, 4.0, 7]))
     '10.0R 2.0/4.0'
     """
 

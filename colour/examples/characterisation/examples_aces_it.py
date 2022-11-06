@@ -52,7 +52,7 @@ message_box(
 )
 
 path = os.path.join(
-    colour.characterisation.aces_it.RESOURCES_DIRECTORY_RAWTOACES,
+    colour.characterisation.aces_it.ROOT_RESOURCES,
     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
 )
 sensitivities = colour.colorimetry.sds_and_msds_to_msds(

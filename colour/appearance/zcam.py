@@ -419,7 +419,7 @@ def XYZ_to_ZCAM(
     >>> XYZ_w = np.array([256, 264, 202])
     >>> L_A = 264
     >>> Y_b = 100
-    >>> surround = VIEWING_CONDITIONS_ZCAM['Average']
+    >>> surround = VIEWING_CONDITIONS_ZCAM["Average"]
     >>> XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b, surround)
     ... # doctest: +ELLIPSIS
     CAM_Specification_ZCAM(J=92.2504437..., C=3.0216926..., h=196.3245737..., \
@@ -636,13 +636,12 @@ def ZCAM_to_XYZ(
     Examples
     --------
     >>> specification = CAM_Specification_ZCAM(
-    ...     J=92.250443780723629,
-    ...     C=3.0216926733329013,
-    ...     h=196.32457375575581)
+    ...     J=92.250443780723629, C=3.0216926733329013, h=196.32457375575581
+    ... )
     >>> XYZ_w = np.array([256, 264, 202])
     >>> L_A = 264
     >>> Y_b = 100
-    >>> surround = VIEWING_CONDITIONS_ZCAM['Average']
+    >>> surround = VIEWING_CONDITIONS_ZCAM["Average"]
     >>> ZCAM_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
     ... # doctest: +ELLIPSIS
     array([ 185.,  206.,  163.])

@@ -51,9 +51,12 @@ __all__ = [
     "set_spow_enable",
     "spow_enable",
     "spow",
+    "normalise_vector",
     "normalise_maximum",
     "vector_dot",
     "matrix_dot",
+    "euclidean_distance",
+    "manhattan_distance",
     "linear_conversion",
     "linstep_function",
     "lerp",
@@ -101,9 +104,11 @@ def get_sdiv_mode() -> Literal[
     --------
     >>> with sdiv_mode("Numpy"):
     ...     get_sdiv_mode()
+    ...
     'numpy'
     >>> with sdiv_mode("Ignore Zero Conversion"):
     ...     get_sdiv_mode()
+    ...
     'ignore zero conversion'
     """
 
@@ -140,6 +145,7 @@ def set_sdiv_mode(
     ...     print(get_sdiv_mode())
     ...     set_sdiv_mode("Raise")
     ...     print(get_sdiv_mode())
+    ...
     ignore zero conversion
     raise
     """
@@ -284,18 +290,23 @@ def sdiv(a: FloatingOrArrayLike, b: FloatingOrArrayLike) -> FloatingOrNDArray:
     ...         sdiv(a, b)
     ... except Exception as error:
     ...     error  # doctest: +ELLIPSIS
+    ...
     FloatingPointError('divide by zero encountered in...divide')
     >>> with sdiv_mode("Ignore Zero Conversion"):
     ...     sdiv(a, b)
+    ...
     array([ 0.,  1.,  0.])
     >>> with sdiv_mode("Warning Zero Conversion"):
     ...     sdiv(a, b)
+    ...
     array([ 0.,  1.,  0.])
     >>> with sdiv_mode("Ignore Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
+    ...
     array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
     >>> with sdiv_mode("Warning Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
+    ...
     array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
     """
 
@@ -363,9 +374,11 @@ def is_spow_enabled() -> Boolean:
     --------
     >>> with spow_enable(False):
     ...     is_spow_enabled()
+    ...
     False
     >>> with spow_enable(True):
     ...     is_spow_enabled()
+    ...
     True
     """
 
@@ -387,6 +400,7 @@ def set_spow_enable(enable: Boolean):
     ...     print(is_spow_enabled())
     ...     set_spow_enable(False)
     ...     print(is_spow_enabled())
+    ...
     True
     False
     """
@@ -486,6 +500,33 @@ def spow(a: FloatingOrArrayLike, p: FloatingOrArrayLike) -> FloatingOrNDArray:
     return as_float(a_p)
 
 
+def normalise_vector(a: FloatingOrArrayLike) -> FloatingOrNDArray:
+    """
+    Normalise given vector :math:`a`.
+
+    Parameters
+    ----------
+    a
+        Vector :math:`a` to normalise.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Normalised vector :math:`a`.
+
+    Examples
+    --------
+    >>> a = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> normalise_vector(a)  # doctest: +ELLIPSIS
+    array([ 0.8419703...,  0.4972256...,  0.2094102...])
+    """
+
+    a = as_float_array(a)
+
+    with sdiv_mode():
+        return sdiv(a, np.linalg.norm(a))
+
+
 def normalise_maximum(
     a: ArrayLike,
     axis: Optional[Integer] = None,
@@ -552,9 +593,11 @@ def vector_dot(m: ArrayLike, v: ArrayLike) -> NDArray:
     Examples
     --------
     >>> m = np.array(
-    ...     [[0.7328, 0.4296, -0.1624],
-    ...      [-0.7036, 1.6975, 0.0061],
-    ...      [0.0030, 0.0136, 0.9834]]
+    ...     [
+    ...         [0.7328, 0.4296, -0.1624],
+    ...         [-0.7036, 1.6975, 0.0061],
+    ...         [0.0030, 0.0136, 0.9834],
+    ...     ]
     ... )
     >>> m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
     >>> v = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -593,9 +636,11 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
     Examples
     --------
     >>> a = np.array(
-    ...     [[0.7328, 0.4296, -0.1624],
-    ...      [-0.7036, 1.6975, 0.0061],
-    ...      [0.0030, 0.0136, 0.9834]]
+    ...     [
+    ...         [0.7328, 0.4296, -0.1624],
+    ...         [-0.7036, 1.6975, 0.0061],
+    ...         [0.0030, 0.0136, 0.9834],
+    ...     ]
     ... )
     >>> a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
     >>> b = a
@@ -627,6 +672,74 @@ def matrix_dot(a: ArrayLike, b: ArrayLike) -> NDArray:
 
     return np.einsum(
         "...ij,...jk->...ik", as_float_array(a), as_float_array(b)
+    )
+
+
+def euclidean_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
+    """
+    Return the *Euclidean* distance between point array :math:`a` and point
+    array :math:`b`.
+
+    For a two-dimensional space, the metric is as follows:
+
+    :math:`E_D = [(x_a - x_b)^2 + (y_a - y_b)^2]^{1/2}`
+
+    Parameters
+    ----------
+    a
+        Point array :math:`a`.
+    b
+        Point array :math:`b`.
+
+    Returns
+    -------
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Euclidean* distance.
+
+    Examples
+    --------
+    >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> euclidean_distance(a, b)  # doctest: +ELLIPSIS
+    451.7133019...
+    """
+
+    return as_float(
+        np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1)
+    )
+
+
+def manhattan_distance(a: ArrayLike, b: ArrayLike) -> FloatingOrNDArray:
+    """
+    Return the *Manhattan* (or *City-Block*) distance between point array
+    :math:`a` and point array :math:`b`.
+
+    For a two-dimensional space, the metric is as follows:
+
+    :math:`M_D = |x_a - x_b| + |y_a - y_b|`
+
+    Parameters
+    ----------
+    a
+        Point array :math:`a`.
+    b
+        Point array :math:`b`.
+
+    Returns
+    -------
+    :class:`np.floating` or :class:`numpy.ndarray`
+        *Manhattan* distance.
+
+    Examples
+    --------
+    >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> manhattan_distance(a, b)  # doctest: +ELLIPSIS
+    604.9396351...
+    """
+
+    return as_float(
+        np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1)
     )
 
 
@@ -818,27 +931,31 @@ def eigen_decomposition(
     Examples
     --------
     >>> a = np.diag([1, 2, 3])
-    >>> w,v = eigen_decomposition(a)
-    >>> w; v
+    >>> w, v = eigen_decomposition(a)
+    >>> w
     array([ 3.,  2.,  1.])
+    >>> v
     array([[ 0.,  0.,  1.],
            [ 0.,  1.,  0.],
            [ 1.,  0.,  0.]])
-    >>> w,v = eigen_decomposition(a, 1)
-    >>> w; v
+    >>> w, v = eigen_decomposition(a, 1)
+    >>> w
     array([ 3.])
+    >>> v
     array([[ 0.],
            [ 0.],
            [ 1.]])
-    >>> w,v = eigen_decomposition(a, descending_order=False)
-    >>> w; v
+    >>> w, v = eigen_decomposition(a, descending_order=False)
+    >>> w
     array([ 1.,  2.,  3.])
+    >>> v
     array([[ 1.,  0.,  0.],
            [ 0.,  1.,  0.],
            [ 0.,  0.,  1.]])
-    >>> w,v = eigen_decomposition(a, covariance_matrix=True)
-    >>> w; v
+    >>> w, v = eigen_decomposition(a, covariance_matrix=True)
+    >>> w
     array([ 9.,  4.,  1.])
+    >>> v
     array([[ 0.,  0.,  1.],
            [ 0.,  1.,  0.],
            [ 1.,  0.,  0.]])

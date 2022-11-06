@@ -164,6 +164,7 @@ def sd_mesopic_luminous_efficiency_function(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     sd_mesopic_luminous_efficiency_function(0.2)  # doctest: +ELLIPSIS
+    ...
     SpectralDistribution([[ 380.        ,    0.000424 ...],
                           [ 381.        ,    0.0004781...],
                           [ 382.        ,    0.0005399...],

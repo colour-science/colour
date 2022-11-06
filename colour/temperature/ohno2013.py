@@ -108,8 +108,9 @@ def planckian_table(
     --------
     >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> planckian_table(uv, cmfs, 1000, 1010, 10)
@@ -202,8 +203,9 @@ def uv_to_CCT_Ohno2013(
     >>> from pprint import pprint
     >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
@@ -329,8 +331,9 @@ def CCT_to_uv_Ohno2013(
     >>> from pprint import pprint
     >>> from colour import MSDS_CMFS, SPECTRAL_SHAPE_DEFAULT
     >>> cmfs = (
-    ...     MSDS_CMFS['CIE 1931 2 Degree Standard Observer'].
-    ...     copy().align(SPECTRAL_SHAPE_DEFAULT)
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SPECTRAL_SHAPE_DEFAULT)
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
     >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS

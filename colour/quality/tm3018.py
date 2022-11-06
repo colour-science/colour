@@ -136,7 +136,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     Examples
     --------
     >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS['FL2']
+    >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index_ANSIIESTM3018(sd)  # doctest: +ELLIPSIS
     70.1208254...
     """

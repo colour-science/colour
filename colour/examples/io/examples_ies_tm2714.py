@@ -5,13 +5,13 @@ import os
 import colour
 from colour.utilities import message_box
 
-RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), "resources")
+ROOT_RESOURCES = os.path.join(os.path.dirname(__file__), "resources")
 
 message_box('"IES TM-27-14" Spectral Data "XML" File IO')
 
 message_box('Reading spectral data from "IES TM-27-14" "XML" file.')
 sd_tm2714 = colour.SpectralDistribution_IESTM2714(
-    os.path.join(RESOURCES_DIRECTORY, "TM27 Sample Spectral Data.spdx")
+    os.path.join(ROOT_RESOURCES, "TM27 Sample Spectral Data.spdx")
 ).read()
 print(sd_tm2714)
 

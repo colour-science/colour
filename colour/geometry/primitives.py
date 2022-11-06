@@ -599,7 +599,7 @@ def primitive(
      [22 23]
      [23 21]
      [21 20]]
-    >>> vertices, faces, outline = primitive('Grid')
+    >>> vertices, faces, outline = primitive("Grid")
     >>> print(vertices)
     [([-0.5,  0.5,  0. ], [ 0.,  1.], [ 0.,  0.,  1.], [ 0.,  1.,  0.,  1.])
      ([ 0.5,  0.5,  0. ], [ 1.,  1.], [ 0.,  0.,  1.], [ 1.,  1.,  0.,  1.])

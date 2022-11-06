@@ -28,7 +28,7 @@ Sub-packages
 -   corresponding: Corresponding colour chromaticities computations.
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
--   geometry: Geometry primitives generation.
+-   geometry: Geometry computations.
 -   graph: Graph for automatic colour conversions.
 -   hints: Type hints for annotations.
 -   io: Input / output objects for reading and writing data.

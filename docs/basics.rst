@@ -148,10 +148,10 @@ Which enables image processing:
 
 .. code:: python
 
-    RGB = colour.read_image('_static/Logo_Small_001.png')
+    RGB = colour.read_image("_static/Logo_Small_001.png")
     RGB = RGB[..., 0:3]  # Discarding alpha channel.
     XYZ = colour.sRGB_to_XYZ(RGB)
-    colour.plotting.plot_image(XYZ, text_kwargs={'text': 'sRGB to XYZ'})
+    colour.plotting.plot_image(XYZ, text_kwargs={"text": "sRGB to XYZ"})
 
 .. image:: _static/Basics_Logo_Small_001_CIE_XYZ.png
 
@@ -190,7 +190,7 @@ spectrometer is typically saved with 3 digits decimal precision:
     Baseline correction enabled: true
     XAxis mode: Wavelengths
     Number of Pixels in Spectrum: 1024
-    >>>>>Begin Spectral Data<<<<<
+    # >>>>>Begin Spectral Data<<<<<
     338.028	279.71
     338.482	285.43
     338.936	291.33
@@ -206,7 +206,7 @@ which was allowing to retrieve decimal keys within a given precision:
 
 .. code:: python
 
-    data_1 = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
+    data_1 = {0.1999999998: "Nemo", 0.2000000000: "John"}
     apm_1 = ArbitraryPrecisionMapping(data_1, key_decimals=10)
     tuple(apm_1.keys())
 
@@ -270,7 +270,7 @@ given wavelength:
         540: 0.0772,
         560: 0.0870,
         580: 0.1128,
-        600: 0.1360
+        600: 0.1360,
     }
     sd = colour.SpectralDistribution(data)
     sd[555.5]
@@ -318,7 +318,7 @@ follows:
         540: 0.0772,
         560: 0.0870,
         580: 0.1128,
-        600: 0.1360
+        600: 0.1360,
     }
     sd = colour.SpectralDistribution(data)
     sd[555]
@@ -382,7 +382,7 @@ be changed directly via the properties or slicing:
         540: 0.0772,
         560: 0.0870,
         580: 0.1128,
-        600: 0.1360
+        600: 0.1360,
     }
     sd = colour.SpectralDistribution(data)
     # Note: The wavelength 500nm is at index 0.
@@ -529,7 +529,9 @@ with the :func:`colour.set_domain_range_scale` definition:
     Y_o = 20
     E_o1 = 1000
     E_o2 = 1000
-    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    colour.adaptation.chromatic_adaptation_CIE1994(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
+    )
 
 .. code-block:: text
 
@@ -537,11 +539,13 @@ with the :func:`colour.set_domain_range_scale` definition:
 
 .. code:: python
 
-    colour.set_domain_range_scale('1')
+    colour.set_domain_range_scale("1")
 
     XYZ_1 = [0.2800, 0.2126, 0.0527]
     Y_o = 0.2
-    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    colour.adaptation.chromatic_adaptation_CIE1994(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
+    )
 
 .. code-block:: text
 
@@ -556,9 +560,11 @@ would result in unexpected values and a warning in that case:
 
 .. code:: python
 
-    colour.set_domain_range_scale('Reference')
+    colour.set_domain_range_scale("Reference")
 
-    colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    colour.adaptation.chromatic_adaptation_CIE1994(
+        XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
+    )
 
 .. code-block:: text
 
@@ -587,8 +593,10 @@ scale value:
 
 .. code:: python
 
-    with colour.domain_range_scale('1'):
-        colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    with colour.domain_range_scale("1"):
+        colour.adaptation.chromatic_adaptation_CIE1994(
+            XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2
+        )
 
 .. code-block:: text
 

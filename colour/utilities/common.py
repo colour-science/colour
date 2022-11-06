@@ -114,17 +114,17 @@ class CacheRegistry:
     Examples
     --------
     >>> cache_registry = CacheRegistry()
-    >>> cache_a = cache_registry.register_cache('Cache A')
-    >>> cache_a['Foo'] = 'Bar'
-    >>> cache_b = cache_registry.register_cache('Cache B')
-    >>> cache_b['John'] = 'Doe'
-    >>> cache_b['Luke'] = 'Skywalker'
+    >>> cache_a = cache_registry.register_cache("Cache A")
+    >>> cache_a["Foo"] = "Bar"
+    >>> cache_b = cache_registry.register_cache("Cache B")
+    >>> cache_b["John"] = "Doe"
+    >>> cache_b["Luke"] = "Skywalker"
     >>> print(cache_registry)
     {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
-    >>> cache_registry.clear_cache('Cache A')
+    >>> cache_registry.clear_cache("Cache A")
     >>> print(cache_registry)
     {'Cache A': '0 item(s)', 'Cache B': '2 item(s)'}
-    >>> cache_registry.unregister_cache('Cache B')
+    >>> cache_registry.unregister_cache("Cache B")
     >>> print(cache_registry)
     {'Cache A': '0 item(s)'}
     >>> print(cache_b)
@@ -181,11 +181,11 @@ class CacheRegistry:
         Examples
         --------
         >>> cache_registry = CacheRegistry()
-        >>> cache_a = cache_registry.register_cache('Cache A')
-        >>> cache_a['Foo'] = 'Bar'
-        >>> cache_b = cache_registry.register_cache('Cache B')
-        >>> cache_b['John'] = 'Doe'
-        >>> cache_b['Luke'] = 'Skywalker'
+        >>> cache_a = cache_registry.register_cache("Cache A")
+        >>> cache_a["Foo"] = "Bar"
+        >>> cache_b = cache_registry.register_cache("Cache B")
+        >>> cache_b["John"] = "Doe"
+        >>> cache_b["Luke"] = "Skywalker"
         >>> print(cache_registry)
         {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
         """
@@ -210,14 +210,14 @@ class CacheRegistry:
         Examples
         --------
         >>> cache_registry = CacheRegistry()
-        >>> cache_a = cache_registry.register_cache('Cache A')
-        >>> cache_a['Foo'] = 'Bar'
-        >>> cache_b = cache_registry.register_cache('Cache B')
-        >>> cache_b['John'] = 'Doe'
-        >>> cache_b['Luke'] = 'Skywalker'
+        >>> cache_a = cache_registry.register_cache("Cache A")
+        >>> cache_a["Foo"] = "Bar"
+        >>> cache_b = cache_registry.register_cache("Cache B")
+        >>> cache_b["John"] = "Doe"
+        >>> cache_b["Luke"] = "Skywalker"
         >>> print(cache_registry)
         {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
-        >>> cache_registry.unregister_cache('Cache B')
+        >>> cache_registry.unregister_cache("Cache B")
         >>> print(cache_registry)
         {'Cache A': '1 item(s)'}
         >>> print(cache_b)
@@ -240,11 +240,11 @@ class CacheRegistry:
         Examples
         --------
         >>> cache_registry = CacheRegistry()
-        >>> cache_a = cache_registry.register_cache('Cache A')
-        >>> cache_a['Foo'] = 'Bar'
+        >>> cache_a = cache_registry.register_cache("Cache A")
+        >>> cache_a["Foo"] = "Bar"
         >>> print(cache_registry)
         {'Cache A': '1 item(s)'}
-        >>> cache_registry.clear_cache('Cache A')
+        >>> cache_registry.clear_cache("Cache A")
         >>> print(cache_registry)
         {'Cache A': '0 item(s)'}
         """
@@ -258,11 +258,11 @@ class CacheRegistry:
         Examples
         --------
         >>> cache_registry = CacheRegistry()
-        >>> cache_a = cache_registry.register_cache('Cache A')
-        >>> cache_a['Foo'] = 'Bar'
-        >>> cache_b = cache_registry.register_cache('Cache B')
-        >>> cache_b['John'] = 'Doe'
-        >>> cache_b['Luke'] = 'Skywalker'
+        >>> cache_a = cache_registry.register_cache("Cache A")
+        >>> cache_a["Foo"] = "Bar"
+        >>> cache_b = cache_registry.register_cache("Cache B")
+        >>> cache_b["John"] = "Doe"
+        >>> cache_b["Luke"] = "Skywalker"
         >>> print(cache_registry)
         {'Cache A': '1 item(s)', 'Cache B': '2 item(s)'}
         >>> cache_registry.clear_all_caches()
@@ -303,9 +303,10 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     Examples
     --------
     >>> import numpy
-    >>> @handle_numpy_errors(all='ignore')
+    >>> @handle_numpy_errors(all="ignore")
     ... def f():
     ...     1 / numpy.zeros(3)
+    ...
     >>> f()
     """
 
@@ -349,7 +350,8 @@ def ignore_python_warnings(function: Callable) -> Callable:
     --------
     >>> @ignore_python_warnings
     ... def f():
-    ...     warnings.warn('This is an ignored warning!')
+    ...     warnings.warn("This is an ignored warning!")
+    ...
     >>> f()
     """
 
@@ -507,9 +509,11 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     >>> from functools import partial
     >>> def _add(a, b):
     ...     return a + b
+    ...
     >>> with multiprocessing_pool() as pool:
     ...     pool.map(partial(_add, b=2), range(10))
     ... # doctest: +SKIP
+    ...
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
@@ -1159,10 +1163,13 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> Dict:
     --------
     >>> def fn_a(a):
     ...     return a
+    ...
     >>> def fn_b(a, b=0):
     ...     return a, b
+    ...
     >>> def fn_c(a, b=0, c=0):
     ...     return a, b, c
+    ...
     >>> fn_a(1, **filter_kwargs(fn_a, b=2, c=3))
     1
     >>> fn_b(1, **filter_kwargs(fn_b, b=2, c=3))
@@ -1212,13 +1219,14 @@ def filter_mapping(mapping: Mapping, names: Union[str, Sequence[str]]) -> Dict:
     --------
     >>> class Element:
     ...     pass
+    ...
     >>> mapping = {
-    ...     'Element A': Element(),
-    ...     'Element B': Element(),
-    ...     'Element C': Element(),
-    ...     'Not Element C': Element(),
+    ...     "Element A": Element(),
+    ...     "Element B": Element(),
+    ...     "Element C": Element(),
+    ...     "Not Element C": Element(),
     ... }
-    >>> filter_mapping(mapping, 'Element A')  # doctest: +ELLIPSIS
+    >>> filter_mapping(mapping, "Element A")  # doctest: +ELLIPSIS
     {'Element A': <colour.utilities.common.Element object at 0x...>}
     """
 
@@ -1355,7 +1363,7 @@ def validate_method(
 
     Examples
     --------
-    >>> validate_method('Valid', ['Valid', 'Yes', 'Ok'])
+    >>> validate_method("Valid", ["Valid", "Yes", "Ok"])
     'valid'
     """
 
@@ -1391,9 +1399,9 @@ def optional(value: Optional[T], default: T) -> T:
 
     Examples
     --------
-    >>> optional('Foo', 'Bar')
+    >>> optional("Foo", "Bar")
     'Foo'
-    >>> optional(None, 'Bar')
+    >>> optional(None, "Bar")
     'Bar'
     """
 

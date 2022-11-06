@@ -81,7 +81,7 @@ def plot_single_colour_checker(
 
     Examples
     --------
-    >>> plot_single_colour_checker('ColorChecker 2005')  # doctest: +ELLIPSIS
+    >>> plot_single_colour_checker("ColorChecker 2005")  # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
     .. image:: ../_static/Plotting_Plot_Single_Colour_Checker.png
@@ -132,7 +132,7 @@ def plot_multi_colour_checkers(
 
     Examples
     --------
-    >>> plot_multi_colour_checkers(['ColorChecker 1976', 'ColorChecker 2005'])
+    >>> plot_multi_colour_checkers(["ColorChecker 1976", "ColorChecker 2005"])
     ... # doctest: +ELLIPSIS
     (<Figure size ... with 1 Axes>, <...AxesSubplot...>)
 
