@@ -36,6 +36,12 @@ R-REC-BT.2020-2-201510-I!!PDF-E.pdf
     exchange BT Series Broadcasting service (pp. 1-32).
     https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
+-   :cite:`InternationalTelecommunicationUnion2018` : International
+    Telecommunication Union. (2018). Recommendation ITU-R BT.2100-2 - Image
+    parameter values for high dynamic range television for use in production
+    and international programme exchange.
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of
     Motion Picture and Television Engineers. (1999). ANSI/SMPTE 240M-1995 -
     Signal Parameters - 1125-Line High-Definition Production Systems (pp. 1-7).
@@ -75,6 +81,7 @@ __status__ = "Development"
 
 __all__ = [
     "WEIGHTS_YCBCR",
+    "round_ITU",
     "ranges_YCbCr",
     "matrix_YCbCr",
     "offset_YCbCr",
@@ -103,6 +110,24 @@ References
 :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
 :cite:`Wikipedia2004d`
 """
+
+
+def round_ITU(x):
+    """
+    Return *x* rounded to the nearest integer using the method defined as
+    *Round* in ITU-R BT.2100.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *x* rounded.
+    
+    References
+    ----------
+    :cite:`InternationalTelecommunicationUnion2018`
+    """
+
+    return np.sign(x) * np.floor(np.abs(x) + 0.5)
 
 
 def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
@@ -145,7 +170,9 @@ def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
         ranges = as_int_array(ranges) / (2**bits - 1)
 
     if is_int and not is_legal:
-        ranges[3] = 2**bits
+        ranges = as_float_array(ranges)
+        ranges[2] = 0.5
+        ranges[3] = 2**bits - 0.5
 
     if not is_int and not is_legal:
         ranges[2] = -0.5
@@ -291,6 +318,7 @@ def RGB_to_YCbCr(
     out_bits: Integer = 8,
     out_legal: Boolean = True,
     out_int: Boolean = False,
+    clamp_int: Boolean = True,
     **kwargs: Any,
 ) -> NDArray:
     """
@@ -324,6 +352,9 @@ def RGB_to_YCbCr(
     out_int
         Whether to return values as ``out_bits`` integer code values. Default
         is *False*.
+    clamp_int
+        Whether to clamp integer output to allowable range for ``out_bits``.
+        Default is *True*.
 
     Other Parameters
     ----------------
@@ -418,19 +449,19 @@ def RGB_to_YCbCr(
     ...     RGB,
     ...     K=WEIGHTS_YCBCR["ITU-R BT.601"],
     ...     in_range=(0, 255),
-    ...     out_range=(0, 255, 0, 256),
+    ...     out_range=(0, 255, 0.5, 255.5),
     ...     out_int=True,
     ... )
     ... # doctest: +ELLIPSIS
     array([ 36, 136, 175]...)
 
-    Note the use of 256 for the max *Cb / Cr* value, which is required so that
-    the *Cb* and *Cr* output is centered about 128. Using 255 centres it
+    Note the use of [0.5, 255.5] for the *Cb / Cr* range, which is required so
+    that the *Cb* and *Cr* output is centered about 128. Using 255 centres it
     about 127.5, meaning that there is no integer code value to represent
     achromatic colours. This does however create the possibility of output
     integer codes with value of 256, which cannot be stored in 8-bit integer
     representation. *Recommendation ITU-T T.871* specifies these should be
-    clamped to 255.
+    clamped to 255, which is applied with the default ``clamp_int=True``.
 
     These *JFIF JPEG* ranges are also obtained as follows:
 
@@ -476,7 +507,8 @@ def RGB_to_YCbCr(
     YCbCr = tstack([Y, Cb, Cr])
 
     if out_int:
-        return as_int_array(np.round(YCbCr))
+        return as_int_array(round_ITU(np.clip(YCbCr, 0, 2**out_bits - 1)
+                                      if clamp_int else YCbCr))
     else:
         return from_range_1(YCbCr)
 
@@ -490,6 +522,7 @@ def YCbCr_to_RGB(
     out_bits: Integer = 10,
     out_legal: Boolean = False,
     out_int: Boolean = False,
+    clamp_int: Boolean = True,
     **kwargs: Any,
 ) -> NDArray:
     """
@@ -523,6 +556,9 @@ def YCbCr_to_RGB(
     out_int
         Whether to return values as ``out_bits`` integer code values. Default
         is *False*.
+    clamp_int
+        Whether to clamp integer output to allowable range for ``out_bits``.
+        Default is *True*.
 
     Other Parameters
     ----------------
@@ -608,7 +644,8 @@ def YCbCr_to_RGB(
     RGB *= RGB_max - RGB_min
     RGB += RGB_min
 
-    RGB = as_int_array(np.round(RGB)) if out_int else from_range_1(RGB)
+    RGB = as_int_array(round_ITU(np.clip(RGB, 0, 2**out_bits - 1) if clamp_int
+                                 else RGB)) if out_int else from_range_1(RGB)
 
     return RGB
 
