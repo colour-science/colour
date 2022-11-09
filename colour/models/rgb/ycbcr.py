@@ -121,7 +121,7 @@ def round_ITU(x):
     -------
     :class:`numpy.ndarray`
         *x* rounded.
-    
+
     References
     ----------
     :cite:`InternationalTelecommunicationUnion2018`
@@ -507,8 +507,11 @@ def RGB_to_YCbCr(
     YCbCr = tstack([Y, Cb, Cr])
 
     if out_int:
-        return as_int_array(round_ITU(np.clip(YCbCr, 0, 2**out_bits - 1)
-                                      if clamp_int else YCbCr))
+        return as_int_array(
+            round_ITU(
+                np.clip(YCbCr, 0, 2**out_bits - 1) if clamp_int else YCbCr
+            )
+        )
     else:
         return from_range_1(YCbCr)
 
@@ -644,8 +647,13 @@ def YCbCr_to_RGB(
     RGB *= RGB_max - RGB_min
     RGB += RGB_min
 
-    RGB = as_int_array(round_ITU(np.clip(RGB, 0, 2**out_bits - 1) if clamp_int
-                                 else RGB)) if out_int else from_range_1(RGB)
+    RGB = (
+        as_int_array(
+            round_ITU(np.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB)
+        )
+        if out_int
+        else from_range_1(RGB)
+    )
 
     return RGB
 
