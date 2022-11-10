@@ -161,7 +161,7 @@ def matrix_YCbCr(
     is_int: Boolean = False,
 ) -> NDArray:
     """
-    Compute the *R'G'B'* to *Y'CbCr* matrix for given weights, bit depth,
+    Compute the *Y'CbCr* to *R'G'B'* matrix for given weights, bit depth,
     range legality and representation.
 
     The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed with
