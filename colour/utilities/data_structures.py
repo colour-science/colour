@@ -99,7 +99,7 @@ class Structure(dict):
     'male'
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
     def __setattr__(self, name: str, value: Any):
@@ -315,7 +315,7 @@ class CanonicalMapping(MutableMapping):
 
     def __init__(
         self, data: Optional[Union[Generator, Mapping]] = None, **kwargs: Any
-    ):
+    ) -> None:
         self._data: Dict = dict()
 
         self.update({} if data is None else data, **kwargs)
@@ -850,7 +850,7 @@ class Node:
         parent: Optional[Node] = None,
         children: Optional[List[Node]] = None,
         data: Optional[Any] = None,
-    ):
+    ) -> None:
         self._name: str = f"{self.__class__.__name__}#{self.id}"
         self.name = self._name if name is None else name
         self._parent: Optional[Node] = None

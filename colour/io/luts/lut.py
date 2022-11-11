@@ -157,7 +157,7 @@ class AbstractLUT(ABC):
         domain: Optional[ArrayLike] = None,
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
-    ):
+    ) -> None:
         self._name: str = f"Unity {size!r}" if table is None else f"{id(self)}"
         self.name = optional(name, self._name)
         self._dimensions = optional(dimensions, 0)
@@ -940,7 +940,7 @@ class LUT1D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
-    ):
+    ) -> None:
 
         domain = as_float_array(
             cast(ArrayLike, optional(domain, np.array([0, 1])))
@@ -1364,7 +1364,7 @@ class LUT3x1D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
-    ):
+    ) -> None:
         domain = cast(
             ArrayLike, optional(domain, np.array([[0, 0, 0], [1, 1, 1]]))
         )
@@ -1920,7 +1920,7 @@ class LUT3D(AbstractLUT):
         domain: Optional[ArrayLike] = None,
         size: Optional[IntegerOrArrayLike] = None,
         comments: Optional[Sequence] = None,
-    ):
+    ) -> None:
         domain = cast(
             ArrayLike, optional(domain, np.array([[0, 0, 0], [1, 1, 1]]))
         )

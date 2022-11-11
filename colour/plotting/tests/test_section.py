@@ -43,7 +43,7 @@ class TestPlotHullSectionColours(unittest.TestCase):
         definition.
         """
 
-        if not is_trimesh_installed:  # pragma: no cover
+        if not is_trimesh_installed():  # pragma: no cover
             return
 
         import trimesh
@@ -85,7 +85,7 @@ class TestPlotHullSectionContour(unittest.TestCase):
         definition.
         """
 
-        if not is_trimesh_installed:  # pragma: no cover
+        if not is_trimesh_installed():  # pragma: no cover
             return
 
         import trimesh
@@ -117,7 +117,7 @@ class TestPlotVisibleSpectrumSection(unittest.TestCase):
         definition.
         """
 
-        if not is_trimesh_installed:  # pragma: no cover
+        if not is_trimesh_installed():  # pragma: no cover
             return
 
         figure, axes = plot_visible_spectrum_section()
@@ -138,7 +138,7 @@ class TestPlotRGBColourspaceSection(unittest.TestCase):
         definition.
         """
 
-        if not is_trimesh_installed:  # pragma: no cover
+        if not is_trimesh_installed():  # pragma: no cover
             return
 
         figure, axes = plot_RGB_colourspace_section("sRGB")

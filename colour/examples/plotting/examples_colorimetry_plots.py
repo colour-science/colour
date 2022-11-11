@@ -3,6 +3,7 @@
 from pprint import pprint
 
 import colour
+from colour.hints import cast
 from colour.plotting import (
     SD_ASTMG173_ETR,
     plot_blackbody_colours,
@@ -833,7 +834,9 @@ sd_street_light = colour.SpectralDistribution(
     data_street_light, name="Street Light"
 )
 
-sd_bandpass_corrected_street_light = sd_street_light.copy()
+sd_bandpass_corrected_street_light = cast(
+    colour.SpectralDistribution, sd_street_light.copy()
+)
 sd_bandpass_corrected_street_light.name = "Street Light (Bandpass Corrected)"
 sd_bandpass_corrected_street_light = colour.bandpass_correction(
     sd_bandpass_corrected_street_light, method="Stearns 1988"
@@ -976,7 +979,7 @@ plot_blackbody_spectral_radiance(temperature=12130, blackbody="Rigel")
 print("\n")
 
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
-sd_ASTMG173 = SD_ASTMG173_ETR.copy()
+sd_ASTMG173 = cast(colour.SpectralDistribution, SD_ASTMG173_ETR.copy())
 
 sd_ASTMG173.interpolate(
     colour.SpectralShape(sd_ASTMG173.shape.start, sd_ASTMG173.shape.end, 5),
@@ -986,8 +989,8 @@ sd_ASTMG173.interpolate(
 sd_blackbody = colour.sd_blackbody(5778, sd_ASTMG173.shape)
 sd_blackbody.name = "The Sun - 5778K"
 
-sd_blackbody /= colour.sd_to_XYZ(sd_blackbody)[1]
-sd_blackbody *= colour.sd_to_XYZ(sd_ASTMG173)[1]
+sd_blackbody /= colour.sd_to_XYZ(sd_blackbody)[1]  # type: ignore[misc]
+sd_blackbody *= colour.sd_to_XYZ(sd_ASTMG173)[1]  # type: ignore[misc]
 
 plot_multi_sds([sd_ASTMG173, sd_blackbody], y_label="W / (sr m$^2$) / m")
 

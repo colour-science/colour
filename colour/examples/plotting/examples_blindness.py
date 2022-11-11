@@ -11,9 +11,7 @@ from colour.plotting import (
 )
 from colour.utilities.verbose import message_box
 
-ROOT_RESOURCES = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "resources"
-)
+ROOT_RESOURCES = os.path.join(os.path.dirname(__file__), "resources")
 
 colour_style()
 

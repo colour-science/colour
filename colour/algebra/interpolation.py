@@ -409,7 +409,7 @@ class KernelInterpolator:
         kernel_kwargs: Optional[Dict] = None,
         padding_kwargs: Optional[Dict] = None,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._x_p: NDArray = np.array([])
@@ -755,7 +755,7 @@ class NearestNeighbourInterpolator(KernelInterpolator):
     -   :meth:`~colour.NearestNeighbourInterpolator.__init__`
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         kwargs["kernel"] = kernel_nearest_neighbour
         if "kernel_kwargs" in kwargs:
             del kwargs["kernel_kwargs"]
@@ -815,7 +815,7 @@ class LinearInterpolator:
         x: ArrayLike,
         y: ArrayLike,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._x: NDArray = np.array([])
@@ -1037,7 +1037,7 @@ class SpragueInterpolator:
         x: ArrayLike,
         y: ArrayLike,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._xp: NDArray = np.array([])
@@ -1307,7 +1307,7 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     -   This class is a wrapper around *scipy.interpolate.interp1d* class.
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(kind="cubic", *args, **kwargs)
 
 
@@ -1330,7 +1330,9 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         class.
     """
 
-    def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any):
+    def __init__(
+        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
+    ) -> None:
         super().__init__(x, y, *args, **kwargs)
 
         self._y: NDArray = as_float_array(y)
@@ -1410,7 +1412,7 @@ class NullInterpolator:
         relative_tolerance: Floating = 10e-7,
         default: Floating = np.nan,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._x: NDArray = np.array([])

@@ -59,6 +59,8 @@ def maximise_spatial_frequency(L: FloatingOrArrayLike) -> FloatingOrNDArray:
         Maximised spatial frequency :math:`u`.
     """
 
+    L = colour.utilities.as_float_array(L)
+
     maximised_spatial_frequency = []
     for L_v in L:
         X_0 = 60
@@ -90,7 +92,12 @@ u = maximise_spatial_frequency(L)
 pprint(
     1
     / colour.contrast_sensitivity_function(
-        u=u, sigma=sigma, E=E, X_0=X_0, Y_0=Y_0, **settings_BT2246
+        u=u,
+        sigma=sigma,
+        E=E,
+        X_0=X_0,
+        Y_0=Y_0,
+        **settings_BT2246  # type: ignore[arg-type]
     )
     * 2
     * (1 / 1.27)

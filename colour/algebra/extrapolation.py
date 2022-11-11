@@ -143,7 +143,7 @@ class Extrapolator:
         left: Optional[Number] = None,
         right: Optional[Number] = None,
         dtype: Optional[Type[DTypeNumber]] = None,
-    ):
+    ) -> None:
         dtype = cast(Type[DTypeNumber], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
         self._interpolator: TypeInterpolator = NullInterpolator(

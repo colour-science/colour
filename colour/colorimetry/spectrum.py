@@ -152,7 +152,7 @@ class SpectralShape:
     SpectralShape(360, 830, 1)
     """
 
-    def __init__(self, start: Number, end: Number, interval: Number):
+    def __init__(self, start: Number, end: Number, interval: Number) -> None:
         self._start: Number = 360
         self._end: Number = 780
         self._interval: Number = 1
@@ -689,7 +689,7 @@ class SpectralDistribution(Signal):
         ] = None,
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         domain = (
             domain.wavelengths if isinstance(domain, SpectralShape) else domain
         )
@@ -1837,7 +1837,7 @@ class MultiSpectralDistributions(MultiSignals):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         domain = (
             domain.wavelengths if isinstance(domain, SpectralShape) else domain
         )

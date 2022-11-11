@@ -1506,7 +1506,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
 
         # Test single spectral distribution integration methods.
         for method in methods[0:3]:
-            XYZ: np.ndarray = method(sd, k=k)
+            XYZ = method(sd, k=k)
             if len(XYZ.shape) > 1:
                 XYZ = XYZ.reshape(3)
             self.assertAlmostEqual(XYZ[1], k, delta=5e-5), (

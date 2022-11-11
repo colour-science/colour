@@ -3,7 +3,7 @@ repos:
     rev: v3.1.0
     hooks:
     -   id: pyupgrade
-        args: [--py38-plus]
+        args: [--py39-plus]
         exclude: ^(colour/hints/__init__.py)
 -   repo: https://github.com/ikamensh/flynt/
     rev: '0.76'
@@ -13,12 +13,12 @@ repos:
     rev: 22.10.0
     hooks:
     - id: black
-      language_version: python3.8
+      language_version: python3.9
 -   repo: https://github.com/keewis/blackdoc
     rev: v0.3.8
     hooks:
     - id: blackdoc
-      language_version: python3.8
+      language_version: python3.9
 -   repo: https://github.com/PyCQA/flake8
     rev: 5.0.4
     hooks:

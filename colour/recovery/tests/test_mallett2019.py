@@ -44,7 +44,7 @@ __all__ = [
 class TestMixinMallett2019:
     """A mixin for testing the :mod:`colour.recovery.mallett2019` module."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialise common tests attributes for the mixin."""
 
         # pylint: disable=E1102

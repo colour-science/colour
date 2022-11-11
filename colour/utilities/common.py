@@ -131,8 +131,8 @@ class CacheRegistry:
     {}
     """
 
-    def __init__(self):
-        self._registry = {}
+    def __init__(self) -> None:
+        self._registry: Dict = {}
 
     @property
     def registry(self) -> Dict:
@@ -532,7 +532,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
             Keywords arguments.
         """
 
-        def __init__(self, *args: Any, **kwargs: Any):
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
 
         def map(self, func, iterable, chunksize=None):

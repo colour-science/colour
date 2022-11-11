@@ -1030,7 +1030,7 @@ class domain_range_scale:
             Literal["ignore", "reference" "Ignore", "Reference", "1", "100"],
             str,
         ],
-    ):
+    ) -> None:
         self._scale = scale
         self._previous_scale = get_domain_range_scale()
 

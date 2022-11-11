@@ -111,7 +111,7 @@ class LUTSequence(MutableSequence):
         Size       : (10, 3)
     """
 
-    def __init__(self, *args: TypeLUTSequenceItem):
+    def __init__(self, *args: TypeLUTSequenceItem) -> None:
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
         # is resolved.
         self._sequence: List[TypeLUTSequenceItem] = []

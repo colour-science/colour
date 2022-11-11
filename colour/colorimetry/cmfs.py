@@ -106,7 +106,7 @@ class LMS_ConeFundamentals(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data,
             domain,
@@ -174,7 +174,7 @@ class RGB_ColourMatchingFunctions(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data,
             domain,
@@ -243,7 +243,7 @@ class XYZ_ColourMatchingFunctions(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data,
             domain,

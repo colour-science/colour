@@ -4,6 +4,7 @@ import numpy as np
 import warnings
 
 import colour
+from colour.hints import ArrayLike
 from colour.utilities import (
     filter_warnings,
     message_box,
@@ -146,17 +147,17 @@ message_box(
 XYZ_1 = np.array([28.00, 21.26, 5.27])
 xy_o1 = np.array([0.4476, 0.4074])
 xy_o2 = np.array([0.3127, 0.3290])
-Y_o = 20
-E_o1 = 1000
-E_o2 = 1000
+Y_o: ArrayLike = 20
+E_o1: ArrayLike = 1000
+E_o2: ArrayLike = 1000
 message_box(
     f"Parameters:\n\n"
     f"\tXYZ_1: {XYZ_1}\n"
     f"\txy_o1: {xy_o1}\n"
     f"\txy_o2: {xy_o2}\n"
-    f"\tY_o: {Y_o}\n"
-    f"\tE_o1: {E_o1}\n"
-    f"\tE_o2: {E_o2}"
+    f"\tY_o: {Y_o!r}\n"
+    f"\tE_o1: {E_o1!r}\n"
+    f"\tE_o2: {E_o2!r}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(
@@ -172,9 +173,9 @@ message_box(
     f"\tXYZ_1: {XYZ_1}\n"
     f"\txy_o1: {xy_o1}\n"
     f"\txy_o2: {xy_o2}\n"
-    f"\tY_o: {Y_o}\n"
-    f"\tE_o1: {E_o1}\n"
-    f"\tE_o2: {E_o2}"
+    f"\tY_o: {Y_o!r}\n"
+    f"\tE_o1: {E_o1!r}\n"
+    f"\tE_o2: {E_o2!r}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(
@@ -194,9 +195,9 @@ message_box(
     f"\tXYZ_1: {XYZ_1}\n"
     f"\txy_o1: {xy_o1}\n"
     f"\txy_o2: {xy_o2}\n"
-    f"\tY_o: {Y_o}\n"
-    f"\tE_o1: {E_o1}\n"
-    f"\tE_o2: {E_o2}"
+    f"\tY_o: {Y_o!r}\n"
+    f"\tE_o1: {E_o1!r}\n"
+    f"\tE_o2: {E_o2!r}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(
@@ -217,9 +218,9 @@ message_box(
     f"\tXYZ_1: {XYZ_1}\n"
     f"\txy_o1: {xy_o1}\n"
     f"\txy_o2: {xy_o2}\n"
-    f"\tY_o: {Y_o}\n"
-    f"\tE_o1: {E_o1}\n"
-    f"\tE_o2: {E_o2}"
+    f"\tY_o: {Y_o!r}\n"
+    f"\tE_o1: {E_o1!r}\n"
+    f"\tE_o2: {E_o2!r}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(
@@ -260,9 +261,9 @@ message_box(
     f"\tXYZ_1: {XYZ_1}\n"
     f"\txy_o1: {xy_o1}\n"
     f"\txy_o2: {xy_o2}\n"
-    f"\tY_o: {Y_o}\n"
-    f"\tE_o1: {E_o1}\n"
-    f"\tE_o2: {E_o2}"
+    f"\tY_o: {Y_o!r}\n"
+    f"\tE_o1: {E_o1!r}\n"
+    f"\tE_o2: {E_o2!r}"
 )
 print(
     colour.adaptation.chromatic_adaptation_CIE1994(

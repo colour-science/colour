@@ -121,7 +121,7 @@ arithmetical_operation`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.copy`
     """
 
-    def __init__(self, name: Optional[str] = None):
+    def __init__(self, name: Optional[str] = None) -> None:
         self._name: str = f"{self.__class__.__name__} ({id(self)})"
         self.name = optional(name, self._name)
 
@@ -406,7 +406,7 @@ arithmetical_operation`
             Formatted string representation.
         """
 
-        ...  # pragma: no cover
+        return super().__repr__()  # pragma: no cover
 
     @abstractmethod
     def __repr__(self) -> str:
@@ -420,7 +420,7 @@ arithmetical_operation`
             Evaluable string representation.
         """
 
-        ...  # pragma: no cover
+        return super().__repr__()  # pragma: no cover
 
     @abstractmethod
     def __hash__(self) -> Integer:

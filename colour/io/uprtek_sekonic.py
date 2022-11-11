@@ -156,7 +156,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     ... # doctest: +SKIP
     """
 
-    def __init__(self, path: str, **kwargs: Any):
+    def __init__(self, path: str, **kwargs: Any) -> None:
         super().__init__(path, **kwargs)
 
         self._delimiter: str = "\t"
@@ -532,7 +532,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     ... # doctest: +SKIP
     """
 
-    def __init__(self, path: str, **kwargs: Any):
+    def __init__(self, path: str, **kwargs: Any) -> None:
         super().__init__(path, **kwargs)
 
         self._delimiter: str = ","

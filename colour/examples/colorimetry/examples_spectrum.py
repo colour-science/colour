@@ -3,6 +3,7 @@
 import numpy as np
 
 import colour
+from colour.hints import cast
 from colour.utilities import message_box
 
 message_box("Spectrum Computations")
@@ -110,7 +111,7 @@ message_box(
     "distribution, this an important feature because some operations happen "
     "in place."
 )
-sd_clone = sd_sample.copy()
+sd_clone = cast(colour.SpectralDistribution, sd_sample.copy())
 print(id(sd_sample), id(sd_clone))
 
 print("\n")
@@ -123,25 +124,30 @@ print(sd_clone[380], sd_clone_alternate[380])
 print("\n")
 
 message_box("Regular arithmetical operation: adding an array.")
-print((sd_clone + np.linspace(0, 1, len(sd_clone.wavelengths))).values)
+print(
+    cast(
+        colour.SpectralDistribution,
+        sd_clone + np.linspace(0, 1, len(sd_clone.wavelengths)),
+    ).values
+)
 
 print("\n")
 
 message_box(
     "Regular arithmetical operation: adding a spectral " "distribution."
 )
-print((sd_clone + sd_clone).values)
+print(cast(colour.SpectralDistribution, sd_clone + sd_clone).values)
 
 print("\n")
 
 message_box("In-place arithmetical operation: adding a constant.")
-sd_clone += 10
+sd_clone += 10  # type: ignore[misc]
 print(sd_clone[380])
 
 print("\n")
 
 message_box("In-place arithmetical operation: adding an array.")
-sd_clone += np.linspace(0, 1, len(sd_clone.wavelengths))
+sd_clone += np.linspace(0, 1, len(sd_clone.wavelengths))  # type: ignore[misc]
 print(sd_clone.values)
 
 print("\n")
@@ -149,7 +155,7 @@ print("\n")
 message_box(
     "In-place arithmetical operation: adding a spectral " "distribution."
 )
-sd_clone += sd_clone
+sd_clone += sd_clone  # type: ignore[misc]
 print(sd_clone.values)
 
 print("\n")
