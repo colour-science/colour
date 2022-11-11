@@ -113,7 +113,7 @@ class AbstractLUTTest(unittest.TestCase):
     :class:`colour.io.luts.lut.LUT3D` classes common unit tests methods.
     """
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -636,7 +636,7 @@ class AbstractLUTTest(unittest.TestCase):
 class TestLUT1D(AbstractLUTTest):
     """Define :class:`colour.io.luts.lut.LUT1D` class unit tests methods."""
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -775,7 +775,7 @@ class TestLUT1D(AbstractLUTTest):
 class TestLUT3x1D(AbstractLUTTest):
     """Define :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods."""
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -945,7 +945,7 @@ class TestLUT3x1D(AbstractLUTTest):
 class TestLUT3D(AbstractLUTTest):
     """Define :class:`colour.io.luts.lut.LUT3D` class unit tests methods."""
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 

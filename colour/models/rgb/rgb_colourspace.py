@@ -251,7 +251,7 @@ class RGB_Colourspace:
         cctf_decoding: Optional[Callable] = None,
         use_derived_matrix_RGB_to_XYZ: Boolean = False,
         use_derived_matrix_XYZ_to_RGB: Boolean = False,
-    ):
+    ) -> None:
         self._derived_matrix_RGB_to_XYZ: NDArray = np.array([])
         self._derived_matrix_XYZ_to_RGB: NDArray = np.array([])
 

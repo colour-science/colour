@@ -37,7 +37,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
     methods.
     """
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -132,7 +132,7 @@ class TestSpectralDistributionUprTek(AbstractSpectralDistributionTest):
     methods.
     """
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 
@@ -613,7 +613,7 @@ class TestSpectralDistributionSekonic(AbstractSpectralDistributionTest):
     methods.
     """
 
-    def __init__(self, *args: Any):
+    def __init__(self, *args: Any) -> None:
         """
         Create an instance of the class.
 

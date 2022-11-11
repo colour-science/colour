@@ -104,7 +104,7 @@ class StopMinimizationEarly(Exception):
     -   :attr:`~colour.recovery.jakob2019.StopMinimizationEarly.error`
     """
 
-    def __init__(self, coefficients: ArrayLike, error: Floating):
+    def __init__(self, coefficients: ArrayLike, error: Floating) -> None:
         self._coefficients = as_float_array(coefficients)
         self._error = as_float_scalar(error)
 
@@ -738,7 +738,7 @@ class LUT3D_Jakob2019:
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._interpolator: Optional[RegularGridInterpolator] = None
         self._size: Integer = 0
         self._lightness_scale: NDArray = np.array([])

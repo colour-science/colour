@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest, ubuntu-20.04, windows-latest]
-        python-version: [3.8, 3.9, '3.10']
+        python-version: [3.9, '3.10', 3.11]
         exclude:
           - os: windows-latest
             python-version: 3.8
@@ -26,6 +26,10 @@ jobs:
         echo "COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}" >> $GITHUB_ENV
         echo "MPLBACKEND=AGG" >> $GITHUB_ENV
       shell: bash
+    - name: Set up Python 3.9 for Pre-Commit
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.9
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:

@@ -1092,7 +1092,7 @@ def describe_conversion_path(
     try:  # pragma: no cover
         signature_inspection = inspect.signature
     except AttributeError:  # pragma: no cover
-        signature_inspection = inspect.getargspec  # type: ignore[assignment]
+        signature_inspection = inspect.getfullargspec  # type: ignore[assignment]
 
     source, target = source.lower(), target.lower()
     mode = validate_method(

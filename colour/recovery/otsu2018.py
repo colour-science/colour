@@ -32,6 +32,7 @@ from colour.colorimetry import (
     sd_to_XYZ,
 )
 from colour.hints import (
+    Any,
     ArrayLike,
     Boolean,
     Callable,
@@ -159,7 +160,7 @@ class Dataset_Otsu2018:
         basis_functions: Optional[NDArray] = None,
         means: Optional[NDArray] = None,
         selector_array: Optional[NDArray] = None,
-    ):
+    ) -> None:
         self._shape: Optional[SpectralShape] = shape
         self._basis_functions: Optional[NDArray] = (
             basis_functions
@@ -653,7 +654,7 @@ class Data_Otsu2018:
         reflectances: Optional[ArrayLike],
         cmfs: MultiSpectralDistributions,
         illuminant: SpectralDistribution,
-    ):
+    ) -> None:
         self._cmfs: MultiSpectralDistributions = cmfs
         self._illuminant: SpectralDistribution = illuminant
 
@@ -665,7 +666,7 @@ class Data_Otsu2018:
         self.reflectances = reflectances  # type: ignore[assignment]
 
         self._basis_functions: Optional[NDArray] = None
-        self._mean: Optional[Floating] = None
+        self._mean: Optional[NDArray] = None
         self._M: Optional[NDArray] = None
         self._XYZ_mu: Optional[NDArray] = None
 
@@ -748,7 +749,7 @@ class Data_Otsu2018:
         return self._basis_functions
 
     @property
-    def mean(self) -> Optional[Floating]:
+    def mean(self) -> Optional[NDArray]:
         """
         Getter property for the mean distribution.
 
@@ -857,14 +858,14 @@ class Data_Otsu2018:
                 "undefined!"
             )
 
-    def PCA(self):
+    def PCA(self) -> None:
         """
         Perform the *Principal Component Analysis* (PCA) on the data and sets
         the relevant attributes accordingly.
         """
 
         if self._M is None:
-            settings = {
+            settings: Dict[str, Any] = {
                 "cmfs": self._cmfs,
                 "illuminant": self._illuminant,
                 "shape": self._cmfs.shape,
@@ -872,7 +873,8 @@ class Data_Otsu2018:
 
             self._mean = np.mean(self.reflectances, axis=0)
             self._XYZ_mu = (
-                msds_to_XYZ_integration(self._mean, **settings) / 100
+                msds_to_XYZ_integration(cast(NDArray, self._mean), **settings)
+                / 100
             )
 
             _w, w = eigen_decomposition(
@@ -1004,7 +1006,7 @@ class Node_Otsu2018(Node):
         parent: Optional[Node_Otsu2018] = None,
         children: Optional[List] = None,
         data: Optional[Data_Otsu2018] = None,
-    ):
+    ) -> None:
         super().__init__(parent=parent, children=children, data=data)
 
         self._partition_axis: Optional[PartitionAxis] = None
@@ -1317,7 +1319,7 @@ class Tree_Otsu2018(Node_Otsu2018):
         reflectances: MultiSpectralDistributions,
         cmfs: Optional[MultiSpectralDistributions] = None,
         illuminant: Optional[SpectralDistribution] = None,
-    ):
+    ) -> None:
         super().__init__()
 
         cmfs, illuminant = handle_spectral_arguments(

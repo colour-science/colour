@@ -247,7 +247,7 @@ class Signal(AbstractContinuousFunction):
         data: Optional[Union[ArrayLike, dict, Series, Signal]] = None,
         domain: Optional[ArrayLike] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(kwargs.get("name"))
 
         self._dtype: Type[DTypeFloating] = DEFAULT_FLOAT_DTYPE

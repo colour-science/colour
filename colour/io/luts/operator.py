@@ -74,7 +74,7 @@ class AbstractLUTSequenceOperator(ABC):
         self,
         name: Optional[str] = None,
         comments: Optional[Sequence[str]] = None,
-    ):
+    ) -> None:
         self._name = f"LUT Sequence Operator {id(self)}"
         self.name = optional(name, self._name)
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004
@@ -250,7 +250,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         offset: Optional[ArrayLike] = None,
         *args: Any,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(*args, **kwargs)
 
         # TODO: Remove pragma when https://github.com/python/mypy/issues/3004

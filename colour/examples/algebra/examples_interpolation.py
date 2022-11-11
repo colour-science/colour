@@ -5,6 +5,7 @@ import numpy as np
 import os
 
 import colour
+from colour.hints import cast
 from colour.plotting import render
 from colour.utilities import message_box
 
@@ -171,7 +172,7 @@ path = os.path.join(
     "iridas_cube",
     "Colour_Correct.cube",
 )
-table = colour.read_LUT(path).table
+table = cast(colour.LUT3D, colour.read_LUT(path)).table
 print(colour.table_interpolation(V_xyz, table, method="Trilinear"))
 print(colour.algebra.table_interpolation_trilinear(V_xyz, table))
 

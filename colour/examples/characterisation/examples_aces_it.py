@@ -6,6 +6,7 @@ computations.
 import os
 
 import colour
+from colour.hints import cast
 from colour.utilities import message_box
 
 message_box('"ACES" "Input Transform" Computations')
@@ -52,12 +53,17 @@ message_box(
 )
 
 path = os.path.join(
-    colour.characterisation.aces_it.ROOT_RESOURCES,
+    colour.characterisation.aces_it.ROOT_RESOURCES_RAWTOACES,
     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
 )
 sensitivities = colour.colorimetry.sds_and_msds_to_msds(
-    colour.io.read_sds_from_csv_file(path).values()
+    list(colour.io.read_sds_from_csv_file(path).values())
 )
 illuminant = colour.SDS_ILLUMINANTS["D55"]
 
-print(colour.matrix_idt(sensitivities, illuminant))
+print(
+    colour.matrix_idt(
+        cast(colour.characterisation.RGB_CameraSensitivities, sensitivities),
+        illuminant,
+    )
+)

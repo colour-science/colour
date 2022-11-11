@@ -8,13 +8,16 @@ from colour.utilities import message_box
 
 message_box('"Jiang et al. (2013)" -  Camera Sensitivities Recovery')
 
+shape = colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
+
 illuminant = colour.SDS_ILLUMINANTS["D65"]
 sensitivities = colour.MSDS_CAMERA_SENSITIVITIES["Nikon 5100 (NPL)"]
-reflectances = [
-    sd.copy().align(colour.recovery.SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017)
-    for sd in colour.SDS_COLOURCHECKERS["BabelColor Average"].values()
-]
-reflectances = colour.colorimetry.sds_and_msds_to_msds(reflectances)
+reflectances = colour.colorimetry.sds_and_msds_to_msds(
+    [
+        sd.copy().align(shape)
+        for sd in colour.SDS_COLOURCHECKERS["BabelColor Average"].values()
+    ]
+)
 RGB = colour.msds_to_XYZ(
     reflectances,
     method="Integration",

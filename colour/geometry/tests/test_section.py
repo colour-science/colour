@@ -149,7 +149,7 @@ class TestHullSection(unittest.TestCase):
     def test_hull_section(self):
         """Test :func:`colour.geometry.section.hull_section` definition."""
 
-        if not is_trimesh_installed:  # pragma: no cover
+        if not is_trimesh_installed():  # pragma: no cover
             return
 
         import trimesh

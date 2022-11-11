@@ -98,7 +98,7 @@ class RGB_CameraSensitivities(MultiSpectralDistributions):
         domain: Optional[Union[ArrayLike, SpectralShape]] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(
             data, domain, labels=("red", "green", "blue"), **kwargs
         )

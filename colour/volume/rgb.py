@@ -103,7 +103,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         ]
     ] = "CAT02",
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Integer:
     """
     Randomly sample the *CIE L\\*a\\*b\\** colourspace volume and returns the
@@ -253,7 +253,7 @@ def RGB_colourspace_volume_MonteCarlo(
         ]
     ] = "CAT02",
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Floating:
     """
     Perform given *RGB* colourspace volume computation using *Monte Carlo*
@@ -339,7 +339,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     coverage_sampler: Callable,
     samples: Integer = 1000000,
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Floating:
     """
     Return given *RGB* colourspace percentage coverage of an arbitrary volume.
@@ -401,7 +401,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: Integer = 1000000,
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Floating:
     """
     Return given *RGB* colourspace percentage coverage of Pointer's Gamut
@@ -447,7 +447,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     colourspace: RGB_Colourspace,
     samples: Integer = 1000000,
     random_generator: Callable = random_triplet_generator,
-    random_state: np.random.RandomState = None,
+    random_state: Optional[np.random.RandomState] = None,
 ) -> Floating:
     """
     Return given *RGB* colourspace percentage coverage of visible spectrum

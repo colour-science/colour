@@ -62,7 +62,7 @@ message_box(
 )
 
 print(os.path.join(ROOT_RESOURCES, "Adjust_Exposure_Float.ctl"))
-a = colour.utilities.full([4, 2, 3], 0.18)
+a = colour.utilities.full((4, 2, 3), 0.18)
 print(
     colour.io.process_image_ctl(
         a,

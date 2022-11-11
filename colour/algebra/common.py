@@ -205,7 +205,7 @@ class sdiv_mode:
                 "Warning Limit Conversion",
             ]
         ] = None,
-    ):
+    ) -> None:
         self._mode = optional(mode, get_sdiv_mode())
         self._previous_mode = get_sdiv_mode()
 
@@ -422,7 +422,7 @@ class spow_enable:
         function.
     """
 
-    def __init__(self, enable: Boolean):
+    def __init__(self, enable: Boolean) -> None:
         self._enable = enable
         self._previous_state = is_spow_enabled()
 

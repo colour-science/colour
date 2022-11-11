@@ -318,7 +318,7 @@ class MultiSignals(AbstractContinuousFunction):
         domain: Optional[ArrayLike] = None,
         labels: Optional[Sequence] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(kwargs.get("name"))
 
         self._signal_type: Type[Signal] = kwargs.get("signal_type", Signal)

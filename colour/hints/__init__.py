@@ -10,14 +10,7 @@ imports.
 from __future__ import annotations
 
 import numpy as np
-
-# TODO: Drop mocking when minimal "Numpy" version is 1.20.x.
-try:
-    import numpy.typing as npt
-except ImportError:  # pragma: no cover
-    from unittest import mock
-
-    npt = mock.MagicMock()
+import numpy.typing as npt
 import re
 from types import ModuleType
 from typing import (
@@ -53,7 +46,7 @@ try:
 # TODO: Drop "typing_extensions" when "Google Colab" uses Python >= 3.8.
 # Remove exclusion in ".pre-commit-config.yaml" file for "pyupgrade".
 except ImportError:  # pragma: no cover
-    from typing_extensions import (  # type: ignore[misc]
+    from typing_extensions import (  # type: ignore[assignment]
         Literal,
         Protocol,
         SupportsIndex,
@@ -302,7 +295,7 @@ class TypeInterpolator(Protocol):  # noqa: D101
     x: NDArray
     y: NDArray
 
-    def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
         ...  # pragma: no cover
 
     def __call__(
@@ -314,7 +307,7 @@ class TypeInterpolator(Protocol):  # noqa: D101
 class TypeExtrapolator(Protocol):  # noqa: D101
     interpolator: TypeInterpolator
 
-    def __init__(self, *args: Any, **kwargs: Any):  # noqa: D102
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # noqa: D102
         ...  # pragma: no cover
 
     def __call__(
@@ -336,11 +329,13 @@ LiteralWarning = Literal[
 cast = cast
 
 
-def arraylike(a: ArrayLike | NestedSequence[ArrayLike]) -> NDArray:
+def arraylike(  # type: ignore[empty-body]
+    a: ArrayLike | NestedSequence[ArrayLike],
+) -> NDArray:
     ...
 
 
-def number_or_arraylike(
+def number_or_arraylike(  # type: ignore[empty-body]
     a: NumberOrArrayLike | NestedSequence[ArrayLike],
 ) -> NDArray:
     ...

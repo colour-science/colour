@@ -11,7 +11,7 @@ message_box(
     'Computing the spectral uniformity of the "CRI" test colour samples.'
 )
 
-print(colour.spectral_uniformity(SDS_TCS.values()))
+print(colour.spectral_uniformity(list(SDS_TCS.values())))
 
 print("\n")
 

@@ -6,12 +6,14 @@ import unittest
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
+    SpectralDistribution,
     SpectralShape,
     msds_to_XYZ,
     reshape_msds,
     reshape_sd,
     sds_and_msds_to_msds,
 )
+from colour.hints import cast
 from colour.characterisation import (
     MSDS_CAMERA_SENSITIVITIES,
     SDS_COLOURCHECKERS,
@@ -181,7 +183,7 @@ class TestPCA_Jiang2013(unittest.TestCase):
 class TestMixinJiang2013:
     """A mixin for testing the :mod:`colour.recovery.jiang2013` module."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialise common tests attributes for the mixin."""
 
         # pylint: disable=E1102
@@ -196,7 +198,7 @@ class TestMixinJiang2013:
         reflectances = list(SDS_COLOURCHECKERS["BabelColor Average"].values())
         self._reflectances = sds_and_msds_to_msds(reflectances)
         self._RGB = msds_to_XYZ(
-            self._reflectances.copy().align(
+            cast(SpectralDistribution, self._reflectances.copy()).align(
                 SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
             ),
             method="Integration",

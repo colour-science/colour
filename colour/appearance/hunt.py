@@ -678,7 +678,7 @@ def chromatic_adaptation(
     XYZ_b: ArrayLike,
     L_A,
     F_L,
-    XYZ_p: ArrayLike = None,
+    XYZ_p: Optional[ArrayLike] = None,
     p: Optional[FloatingOrArrayLike] = None,
     helson_judd_effect: Boolean = False,
     discount_illuminant: Boolean = True,

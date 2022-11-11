@@ -336,13 +336,13 @@ class TestIsSibling(unittest.TestCase):
         class Element:
             """:func:`is_sibling` unit tests :class:`Element` class."""
 
-            def __init__(self, name):
+            def __init__(self, name: str) -> None:
                 self.name = name
 
         class NotElement:
             """:func:`is_sibling` unit tests :class:`NotElement` class."""
 
-            def __init__(self, name):
+            def __init__(self, name: str) -> None:
                 self.name = name
 
         mapping = {
@@ -405,7 +405,7 @@ class TestFilterMapping(unittest.TestCase):
         class Element:
             """:func:`filter_mapping` unit tests :class:`Element` class."""
 
-            def __init__(self, name):
+            def __init__(self, name: str) -> None:
                 self.name = name
 
         mapping = {

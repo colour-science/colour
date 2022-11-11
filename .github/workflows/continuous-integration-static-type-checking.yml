@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest]
-        python-version: [3.9]
+        python-version: [3.11]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -27,7 +27,9 @@ jobs:
         brew install graphviz
         export GRAPHVIZ_DIR="/usr/local/Cellar/graphviz/<VERSION>"
         pip install pygraphviz --global-option=build_ext --global-option="-I$GRAPHVIZ_DIR/include" --global-option="-L$GRAPHVIZ_DIR/lib"
-    - name: Static Type Checking
+    - name: Install Package Dependencies
       run: |
         pip install -r requirements.txt
-        mypy --install-types --non-interactive --show-error-codes --warn-unused-ignores --warn-redundant-casts -p $CI_PACKAGE
+    - name: Static Type Checking
+      run: |
+        mypy --install-types --non-interactive --show-error-codes --warn-unused-ignores --warn-redundant-casts $CI_PACKAGE

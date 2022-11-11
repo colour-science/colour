@@ -470,9 +470,16 @@ XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
 L_A = 318.31
 Y_b = 20.0
-surround = colour.VIEWING_CONDITIONS_CIECAM02["Average"]
-specification = colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
-JMh = (specification.J, specification.M, specification.h)
+specification_CIECAM02 = colour.XYZ_to_CIECAM02(
+    XYZ, XYZ_w, L_A, Y_b, colour.VIEWING_CONDITIONS_CIECAM02["Average"]
+)
+JMh = np.array(
+    [
+        specification_CIECAM02.J,
+        specification_CIECAM02.M,
+        specification_CIECAM02.h,
+    ]
+)
 message_box(
     f'Converting to "CAM02-UCS" colourspace from given "CIECAM02" colour '
     f'appearance model "JMh" correlates:\n\n\t{JMh}'
@@ -489,8 +496,12 @@ print(colour.XYZ_to_CAM02UCS(XYZ / 100, XYZ_w=XYZ_w / 100, L_A=L_A, Y_b=Y_b))
 
 print("\n")
 
-specification = colour.XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
-JMh = (specification.J, specification.M, specification.h)
+specification_CAM16 = colour.XYZ_to_CAM16(
+    XYZ, XYZ_w, L_A, Y_b, colour.VIEWING_CONDITIONS_CAM16["Average"]
+)
+JMh = np.array(
+    [specification_CAM16.J, specification_CAM16.M, specification_CAM16.h]
+)
 message_box(
     f'Converting to "CAM16-UCS" colourspace from given "CAM16" colour '
     f'appearance model "JMh" correlates:\n\n\t{JMh}'

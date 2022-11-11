@@ -415,7 +415,7 @@ LUTSequence(
                 Gamma value.
             """
 
-            def __init__(self, gamma: FloatingOrNDArray = 1.0):
+            def __init__(self, gamma: FloatingOrNDArray = 1) -> None:
                 self._gamma = gamma
 
             def apply(

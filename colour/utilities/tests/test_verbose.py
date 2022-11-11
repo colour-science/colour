@@ -115,7 +115,7 @@ class TestMultilineStr(unittest.TestCase):
         """Test :func:`colour.utilities.verbose.multiline_str` definition."""
 
         class Data:
-            def __init__(self, a: str, b: int, c: list):
+            def __init__(self, a: str, b: int, c: list) -> None:
                 self._a = a
                 self._b = b
                 self._c = c
@@ -184,7 +184,7 @@ class TestMultilineRepr(unittest.TestCase):
         """Test :func:`colour.utilities.verbose.multiline_repr` definition."""
 
         class Data:
-            def __init__(self, a: str, b: int, c: list):
+            def __init__(self, a: str, b: int, c: list) -> None:
                 self._a = a
                 self._b = b
                 self._c = c

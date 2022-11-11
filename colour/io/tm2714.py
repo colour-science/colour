@@ -185,7 +185,7 @@ class Header_IESTM2714:
         report_date: Optional[str] = None,
         document_creation_date: Optional[str] = None,
         comments: Optional[str] = None,
-    ):
+    ) -> None:
 
         self._mapping: Structure = Structure(
             **{
@@ -933,7 +933,7 @@ class SpectralDistribution_IESTM2714(SpectralDistribution):
         bandwidth_FWHM: Optional[Floating] = None,
         bandwidth_corrected: Optional[Boolean] = None,
         **kwargs,
-    ):
+    ) -> None:
 
         super().__init__(**kwargs)
 
