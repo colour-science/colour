@@ -81,7 +81,7 @@ __status__ = "Development"
 
 __all__ = [
     "WEIGHTS_YCBCR",
-    "round_ITU",
+    "round_BT2100",
     "ranges_YCbCr",
     "matrix_YCbCr",
     "offset_YCbCr",
@@ -112,22 +112,32 @@ References
 """
 
 
-def round_ITU(x):
+def round_BT2100(a: ArrayLike) -> NDArray:
     """
-    Return *x* rounded to the nearest integer using the method defined as
-    *Round* in ITU-R BT.2100.
+    Round given array :math:`a` to the nearest integer using the method define
+    as `Round` in *RecommendationITU-R BT.2100*.
+
+    Parameters
+    ----------
+    a
+        Array :math:`a` to round.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *x* rounded.
+        Rounded array :math:`a`.
 
     References
     ----------
     :cite:`InternationalTelecommunicationUnion2018`
+
+    Examples
+    --------
+    >>> round_BT2100(np.array([0.4, 0.5, 0.6]))
+    array([ 0.,  1.,  1.])
     """
 
-    return np.sign(x) * np.floor(np.abs(x) + 0.5)
+    return as_float_array(np.sign(a) * np.floor(np.abs(a) + 0.5))
 
 
 def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
@@ -153,18 +163,21 @@ def ranges_YCbCr(bits: Integer, is_legal: Boolean, is_int: Boolean) -> NDArray:
     Examples
     --------
     >>> ranges_YCbCr(8, True, True)
-    array([ 16, 235,  16, 240])
+    array([  16.,  235.,   16.,  240.])
     >>> ranges_YCbCr(8, True, False)  # doctest: +ELLIPSIS
     array([ 0.0627451...,  0.9215686...,  0.0627451...,  0.9411764...])
     >>> ranges_YCbCr(10, False, False)
     array([ 0. ,  1. , -0.5,  0.5])
+    >>> ranges_YCbCr(10, False, True)
+    array([  0.0000000...e+00,   1.0230000...e+03,   5.0000000...e-01,
+             1.0235000...e+03])
     """
 
     if is_legal:
-        ranges = np.array([16, 235, 16, 240])
+        ranges = as_float_array([16, 235, 16, 240])
         ranges *= 2 ** (bits - 8)
     else:
-        ranges = np.array([0, 2**bits - 1, 0, 2**bits - 1])
+        ranges = as_float_array([0, 2**bits - 1, 0, 2**bits - 1])
 
     if not is_int:
         ranges = as_int_array(ranges) / (2**bits - 1)
@@ -508,7 +521,7 @@ def RGB_to_YCbCr(
 
     if out_int:
         return as_int_array(
-            round_ITU(
+            round_BT2100(
                 np.clip(YCbCr, 0, 2**out_bits - 1) if clamp_int else YCbCr
             )
         )
@@ -649,7 +662,9 @@ def YCbCr_to_RGB(
 
     RGB = (
         as_int_array(
-            round_ITU(np.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB)
+            round_BT2100(
+                np.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB
+            )
         )
         if out_int
         else from_range_1(RGB)
