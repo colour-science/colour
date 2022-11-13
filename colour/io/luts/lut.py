@@ -27,6 +27,7 @@ from operator import (
     isub,
     itruediv,
 )
+from scipy.spatial import KDTree
 
 from colour.algebra import (
     Extrapolator,
@@ -64,7 +65,6 @@ from colour.utilities import (
     multiline_str,
     multiline_repr,
     optional,
-    required,
     runtime_warning,
     tsplit,
     tstack,
@@ -2189,7 +2189,6 @@ class LUT3D(AbstractLUT):
 
         return table
 
-    @required("Scikit-Learn")
     def invert(self, **kwargs: Any) -> LUT3D:
         """
         Compute and returns an inverse copy of the *LUT*.
@@ -2237,10 +2236,6 @@ class LUT3D(AbstractLUT):
                       [ 1.  1.  1.]]
         Size       : (108, 108, 108, 3)
         """
-
-        # TODO: Drop "sklearn" requirement whenever "Scipy" 1.7 can be
-        # defined as the minimal version.
-        from sklearn.neighbors import KDTree
 
         interpolator = kwargs.get(
             "interpolator", table_interpolation_trilinear
