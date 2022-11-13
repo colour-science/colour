@@ -154,8 +154,6 @@ arithmetical_operation`
 
         self._name = value
 
-    # TODO: Remove pragma when https://github.com/python/mypy/issues/4165 is
-    # resolved.
     @property
     @abstractmethod
     def dtype(self) -> Type[DTypeFloating]:

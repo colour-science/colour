@@ -63,7 +63,7 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: Tuple = ("-verbose", "-force")
 *ctlrender* invocation default arguments.
 """
 
-# TODO: Reinstate coverage when "ctlrender" is tivially available
+# TODO: Reinstate coverage when "ctlrender" is trivially available
 # cross-platform.
 
 
