@@ -928,7 +928,7 @@ def get_domain_range_scale() -> Union[
 
 def set_domain_range_scale(
     scale: Union[
-        Literal["ignore", "reference" "Ignore", "Reference", "1", "100"], str
+        Literal["ignore", "reference", "Ignore", "Reference", "1", "100"], str
     ] = "reference"
 ):
     """
@@ -1027,7 +1027,7 @@ class domain_range_scale:
     def __init__(
         self,
         scale: Union[
-            Literal["ignore", "reference" "Ignore", "Reference", "1", "100"],
+            Literal["ignore", "reference", "Ignore", "Reference", "1", "100"],
             str,
         ],
     ) -> None:
@@ -2096,7 +2096,13 @@ def tsplit(
 
     a = as_array(a, dtype)
 
-    return np.array([a[..., x] for x in range(a.shape[-1])])
+    if a.ndim <= 2:
+        return a.T
+
+    return np.transpose(
+        a,
+        np.concatenate((np.array([a.ndim - 1]), np.arange(0, a.ndim - 1))),
+    )
 
 
 def row_as_diagonal(a: ArrayLike) -> NDArray:
