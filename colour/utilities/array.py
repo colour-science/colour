@@ -1885,9 +1885,9 @@ def interval(distribution: ArrayLike, unique: Boolean = True) -> NDArray:
     """
 
     distribution = as_float_array(distribution)
-    i = np.arange(distribution.size - 1)
 
     differences = np.abs(distribution[1:] - distribution[:-1])
+
     if unique:
         return np.unique(differences)
     else:
@@ -2031,6 +2031,8 @@ def tstack(
     dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
     a = as_array(a, dtype)
+    if a.ndim <= 2:
+        return a.T
 
     return np.concatenate([x[..., None] for x in a], axis=-1)
 
@@ -2101,7 +2103,7 @@ def tsplit(
 
     return np.transpose(
         a,
-        np.concatenate((np.array([a.ndim - 1]), np.arange(0, a.ndim - 1))),
+        np.concatenate(([a.ndim - 1], np.arange(0, a.ndim - 1))),
     )
 
 
