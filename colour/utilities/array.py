@@ -1902,7 +1902,6 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     distribution = as_float_array(distribution)
 
     differences = np.abs(distribution[1:] - distribution[:-1])
-
     if unique:
         return np.unique(differences)
     else:
