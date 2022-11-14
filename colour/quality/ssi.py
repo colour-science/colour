@@ -44,7 +44,9 @@ _MATRIX_INTEGRATION: Optional[NDArray] = None
 
 
 def spectral_similarity_index(
-    sd_test: SpectralDistribution, sd_reference: SpectralDistribution
+    sd_test: SpectralDistribution,
+    sd_reference: SpectralDistribution,
+    continuous: bool = False,
 ) -> NDArray:
     """
     Return the *Academy Spectral Similarity Index* (SSI) of given test
@@ -56,6 +58,8 @@ def spectral_similarity_index(
         Test spectral distribution.
     sd_reference
         Reference spectral distribution.
+    continuous
+        Weather or not to round to the nearest integeteger. Default false.
 
     Returns
     -------
@@ -146,6 +150,8 @@ def spectral_similarity_index(
     c_wdr_i = convolve1d(np.hstack([0, wdr_i, 0]), [0.22, 0.56, 0.22])
     m_v = np.sum(c_wdr_i**2)
 
-    SSI = np.around(100 - 32 * np.sqrt(m_v))
+    SSI = 100 - 32 * np.sqrt(m_v)
 
-    return SSI
+    if continuous:
+        return SSI
+    return np.around(SSI)
