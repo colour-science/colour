@@ -2103,7 +2103,7 @@ def tsplit(
 
     return np.transpose(
         a,
-        np.concatenate(([a.ndim - 1], np.arange(0, a.ndim - 1))),
+        np.concatenate([[a.ndim - 1], np.arange(0, a.ndim - 1)]),
     )
 
 
