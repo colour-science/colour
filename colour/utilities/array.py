@@ -2031,8 +2031,9 @@ def tstack(
     dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
     a = as_array(a, dtype)
+
     if a.ndim <= 2:
-        return a.T
+        return np.transpose(a)
 
     return np.concatenate([x[..., None] for x in a], axis=-1)
 
@@ -2099,7 +2100,7 @@ def tsplit(
     a = as_array(a, dtype)
 
     if a.ndim <= 2:
-        return a.T
+        return np.transpose(a)
 
     return np.transpose(
         a,
