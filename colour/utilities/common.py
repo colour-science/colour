@@ -36,6 +36,7 @@ from colour.hints import (
     Boolean,
     Callable,
     Dict,
+    DTypeBoolean,
     Generator,
     Integer,
     Iterable,
@@ -366,7 +367,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
     return wrapper
 
 
-def attest(condition: Boolean, message: str = ""):
+def attest(condition: Union[Boolean, DTypeBoolean], message: str = ""):
     """
     Provide the `assert` statement functionality without being disabled by
     optimised Python execution.

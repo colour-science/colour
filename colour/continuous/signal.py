@@ -343,6 +343,11 @@ class Signal(AbstractContinuousFunction):
                 f'"{self.name}" new "domain" variable is not finite: {value}, '
                 f"unpredictable results may occur!"
             )
+        else:
+            attest(
+                np.all(value[:-1] <= value[1:]),
+                "The new domain value is not monotonic! ",
+            )
 
         if value.size != self._range.size:
             self._range = np.resize(self._range, value.shape)
