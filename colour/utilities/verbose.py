@@ -656,7 +656,6 @@ def describe_environment(
             "pygraphviz",
             "PyOpenColorIO",
             "scipy",
-            "sklearn",
             "tqdm",
             "trimesh",
         ]:

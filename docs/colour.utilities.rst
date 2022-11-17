@@ -49,7 +49,6 @@ Common
     is_opencolorio_installed
     is_openimageio_installed
     is_pandas_installed
-    is_sklearn_installed
     is_tqdm_installed
     is_trimesh_installed
     required

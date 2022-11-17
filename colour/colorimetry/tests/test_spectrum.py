@@ -4,8 +4,6 @@
 import colour
 import numpy as np
 import unittest
-import scipy
-from distutils.version import LooseVersion
 
 from colour.algebra import CubicSplineInterpolator
 from colour.colorimetry.spectrum import SPECTRAL_SHAPE_DEFAULT
@@ -1528,12 +1526,6 @@ SpectralDistribution.interpolate` method.
             decimal=7,
         )
 
-        # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
-        # version.
-        # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-        if LooseVersion(scipy.__version__) < LooseVersion("0.19.0"):
-            return  # pragma: no cover
-
         np.testing.assert_allclose(
             reshape_sd(
                 self._non_uniform_sd,
@@ -1780,12 +1772,6 @@ MultiSpectralDistributions.interpolate` method.
             np.testing.assert_array_almost_equal(
                 signal.values, DATA_SAMPLE_INTERPOLATED, decimal=7
             )
-
-        # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
-        # version.
-        # Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
-        if LooseVersion(scipy.__version__) < LooseVersion("0.19.0"):
-            return  # pragma: no cover
 
         # pylint: disable=E1102
         msds = reshape_msds(

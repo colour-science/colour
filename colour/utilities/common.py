@@ -36,6 +36,7 @@ from colour.hints import (
     Boolean,
     Callable,
     Dict,
+    DTypeBoolean,
     Generator,
     Integer,
     Iterable,
@@ -75,7 +76,6 @@ __all__ = [
     "is_opencolorio_installed",
     "is_openimageio_installed",
     "is_pandas_installed",
-    "is_sklearn_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
     "required",
@@ -367,7 +367,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
     return wrapper
 
 
-def attest(condition: Boolean, message: str = ""):
+def attest(condition: Union[Boolean, DTypeBoolean], message: str = ""):
     """
     Provide the `assert` statement functionality without being disabled by
     optimised Python execution.
@@ -829,43 +829,6 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
         return False
 
 
-def is_sklearn_installed(raise_exception: Boolean = False) -> Boolean:
-    """
-    Return whether *Scikit-Learn* (sklearn) is installed and available.
-
-    Parameters
-    ----------
-    raise_exception
-        Whether to raise an exception if *Scikit-Learn* (sklearn) is
-        unavailable.
-
-    Returns
-    -------
-    :class:`bool`
-        Whether *Scikit- isLearn* (sklearn) installed.
-
-    Raises
-    ------
-    :class:`ImportError`
-        If *Scikit-Learn* (sklearn) is not installed.
-    """
-
-    try:  # pragma: no cover
-        # pylint: disable=W0612
-        import sklearn  # noqa
-
-        return True
-    except ImportError as error:  # pragma: no cover
-        if raise_exception:
-            raise ImportError(
-                '"Scikit-Learn" related API features are not available: '
-                f'"{error}".\nSee the installation guide for more information: '
-                "https://www.colour-science.org/installation-guide/"
-            )
-
-        return False
-
-
 def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
     """
     Return whether *tqdm* is installed and available.
@@ -947,7 +910,6 @@ _REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
         "OpenColorIO": is_opencolorio_installed,
         "OpenImageIO": is_openimageio_installed,
         "Pandas": is_pandas_installed,
-        "Scikit-Learn": is_sklearn_installed,
         "tqdm": is_tqdm_installed,
         "trimesh": is_trimesh_installed,
     }
@@ -966,7 +928,6 @@ def required(
         "OpenColorIO",
         "OpenImageIO",
         "Pandas",
-        "Scikit-Learn",
         "tqdm",
         "trimesh",
     ]
