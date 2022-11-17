@@ -843,11 +843,19 @@ class SpectralDistribution(Signal):
                 f"minimum interval!"
             )
 
-        return SpectralShape(
-            min(self.wavelengths),
-            max(self.wavelengths),
-            min(wavelengths_interval),
-        )
+        # If wavelengths is sorted, then go fast. Otherwise compute the shape.
+        if np.all(self.domain[:-1] <= self.domain[1:]):
+            return SpectralShape(
+                self.domain[0],
+                self.domain[-1],
+                min(wavelengths_interval),
+            )
+        else:
+            return SpectralShape(
+                min(self.domain),
+                max(self.domain),
+                min(wavelengths_interval),
+            )
 
     def interpolate(
         self,

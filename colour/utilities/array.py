@@ -928,7 +928,7 @@ def get_domain_range_scale() -> Union[
 
 def set_domain_range_scale(
     scale: Union[
-        Literal["ignore", "reference" "Ignore", "Reference", "1", "100"], str
+        Literal["ignore", "reference", "Ignore", "Reference", "1", "100"], str
     ] = "reference"
 ):
     """
@@ -1027,7 +1027,7 @@ class domain_range_scale:
     def __init__(
         self,
         scale: Union[
-            Literal["ignore", "reference" "Ignore", "Reference", "1", "100"],
+            Literal["ignore", "reference", "Ignore", "Reference", "1", "100"],
             str,
         ],
     ) -> None:
@@ -1885,9 +1885,9 @@ def interval(distribution: ArrayLike, unique: Boolean = True) -> NDArray:
     """
 
     distribution = as_float_array(distribution)
-    i = np.arange(distribution.size - 1)
 
-    differences = np.abs(distribution[i + 1] - distribution[i])
+    differences = np.abs(distribution[1:] - distribution[:-1])
+
     if unique:
         return np.unique(differences)
     else:
@@ -2031,6 +2031,8 @@ def tstack(
     dtype = cast(Type[DTypeFloating], optional(dtype, DEFAULT_FLOAT_DTYPE))
 
     a = as_array(a, dtype)
+    if a.ndim <= 2:
+        return a.T
 
     return np.concatenate([x[..., None] for x in a], axis=-1)
 
@@ -2096,7 +2098,13 @@ def tsplit(
 
     a = as_array(a, dtype)
 
-    return np.array([a[..., x] for x in range(a.shape[-1])])
+    if a.ndim <= 2:
+        return a.T
+
+    return np.transpose(
+        a,
+        np.concatenate([[a.ndim - 1], np.arange(0, a.ndim - 1)]),
+    )
 
 
 def row_as_diagonal(a: ArrayLike) -> NDArray:
