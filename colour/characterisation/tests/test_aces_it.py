@@ -87,7 +87,7 @@ class TestSdToAcesRelativeExposureValues(unittest.TestCase):
 sd_to_aces_relative_exposure_values` definition unit tests methods.
     """
 
-    def sd_to_aces_relative_exposure_values(self):
+    def test_sd_to_aces_relative_exposure_values(self):
         """
         Test :func:`colour.characterisation.aces_it.\
 sd_to_aces_relative_exposure_values` definition.
@@ -111,7 +111,7 @@ sd_to_aces_relative_exposure_values` definition.
         dark_skin = SDS_COLOURCHECKERS["ColorChecker N Ohta"]["dark skin"]
         np.testing.assert_array_almost_equal(
             sd_to_aces_relative_exposure_values(dark_skin),
-            np.array([0.11718149, 0.08663609, 0.05897268]),
+            np.array([0.11807796, 0.08690312, 0.05891252]),
             decimal=7,
         )
 
@@ -120,7 +120,7 @@ sd_to_aces_relative_exposure_values` definition.
             sd_to_aces_relative_exposure_values(
                 dark_skin, SDS_ILLUMINANTS["A"]
             ),
-            np.array([0.13583991, 0.09431845, 0.05928214]),
+            np.array([0.12937082, 0.09120875, 0.06110636]),
             decimal=7,
         )
 

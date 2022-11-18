@@ -69,13 +69,7 @@ def _XYZ_optimal_colour_stimuli(
         '"{0}" illuminant is invalid, it must be one of {1}!',
     )
 
-    optimal_colour_stimuli = OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.get(illuminant)
-
-    if optimal_colour_stimuli is None:
-        raise KeyError(
-            f'"{illuminant}" not found in factory "Optimal Colour Stimuli": '
-            f'"{sorted(OPTIMAL_COLOUR_STIMULI_ILLUMINANTS.keys())}".'
-        )
+    optimal_colour_stimuli = OPTIMAL_COLOUR_STIMULI_ILLUMINANTS[illuminant]
 
     vertices = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ.get(illuminant)
 

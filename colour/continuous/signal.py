@@ -589,10 +589,7 @@ class Signal(AbstractContinuousFunction):
          [   9.  100.]]
         """
 
-        try:
-            return str(tstack([self.domain, self.range]))
-        except TypeError:
-            return super().__str__()
+        return str(tstack([self.domain, self.range]))
 
     def __repr__(self) -> str:
         """
@@ -626,29 +623,26 @@ class Signal(AbstractContinuousFunction):
         if is_documentation_building():  # pragma: no cover
             return f"{self.__class__.__name__}(name='{self.name}', ...)"
 
-        try:
-            return multiline_repr(
-                self,
-                [
-                    {
-                        "formatter": lambda x: repr(
-                            tstack([self.domain, self.range])
-                        ),
-                    },
-                    {
-                        "name": "interpolator",
-                        "formatter": lambda x: self.interpolator.__name__,
-                    },
-                    {"name": "interpolator_kwargs"},
-                    {
-                        "name": "extrapolator",
-                        "formatter": lambda x: self.extrapolator.__name__,
-                    },
-                    {"name": "extrapolator_kwargs"},
-                ],
-            )
-        except TypeError:
-            return super().__repr__()
+        return multiline_repr(
+            self,
+            [
+                {
+                    "formatter": lambda x: repr(
+                        tstack([self.domain, self.range])
+                    ),
+                },
+                {
+                    "name": "interpolator",
+                    "formatter": lambda x: self.interpolator.__name__,
+                },
+                {"name": "interpolator_kwargs"},
+                {
+                    "name": "extrapolator",
+                    "formatter": lambda x: self.extrapolator.__name__,
+                },
+                {"name": "extrapolator_kwargs"},
+            ],
+        )
 
     def __hash__(self) -> Integer:
         """

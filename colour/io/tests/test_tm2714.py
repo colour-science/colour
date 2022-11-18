@@ -252,6 +252,8 @@ class TestIES_TM2714_Header(unittest.TestCase):
         header = deepcopy(self._header)
         self.assertEqual(self._header, header)
 
+        self.assertNotEqual(self._header, None)
+
     def test__ne__(self):
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__ne__` method."""
 

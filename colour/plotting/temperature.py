@@ -332,6 +332,8 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """
 
+    method = validate_method(method, ["CIE 1931", "CIE 1960 UCS"])
+
     cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 
     illuminants_filtered = filter_passthrough(
@@ -375,11 +377,6 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram.png
             return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
 
         bounding_box = (-0.1, 0.7, -0.2, 0.6)
-    else:
-        raise ValueError(
-            f'Invalid method: "{method}", must be one of '
-            f'["CIE 1931", "CIE 1960 UCS"]'
-        )
 
     annotate_settings_collection = [
         {
