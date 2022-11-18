@@ -164,7 +164,7 @@ def dominant_wavelength(
 
     The *complementary wavelength* is indicated by a negative sign and the
     :math:`xy_{cw}` second intersection coordinates which are set by default to
-    the same value than :math:`xy_wl` first intersection coordinates will be
+    the same value as :math:`xy_wl` first intersection coordinates will be
     set to the *complementary dominant wavelength* intersection coordinates
     with the spectral locus.
 
