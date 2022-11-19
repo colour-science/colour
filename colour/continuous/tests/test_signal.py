@@ -138,6 +138,13 @@ class TestSignal(unittest.TestCase):
             decimal=7,
         )
 
+        def assert_warns():
+            """Help to test the runtime warning."""
+
+            signal.range = self._range * np.inf
+
+        self.assertWarns(ColourRuntimeWarning, assert_warns)
+
     def test_interpolator(self):
         """Test :func:`colour.continuous.signal.Signal.interpolator` property."""
 

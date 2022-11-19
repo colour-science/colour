@@ -114,10 +114,7 @@ closest_spectral_locus_wavelength` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
-            try:
-                closest_spectral_locus_wavelength(case, case, self._xy_s)
-            except ValueError:
-                pass
+            closest_spectral_locus_wavelength(case, case, self._xy_s)
 
 
 class TestDominantWavelength(unittest.TestCase):
@@ -210,10 +207,7 @@ class TestDominantWavelength(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
-            try:
-                dominant_wavelength(case, case)
-            except ValueError:
-                pass
+            dominant_wavelength(case, case)
 
 
 class TestComplementaryWavelength(unittest.TestCase):
@@ -306,10 +300,7 @@ class TestComplementaryWavelength(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
-            try:
-                complementary_wavelength(case, case)
-            except ValueError:
-                pass
+            complementary_wavelength(case, case)
 
 
 class TestExcitationPurity(unittest.TestCase):
@@ -374,10 +365,7 @@ class TestExcitationPurity(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
-            try:
-                excitation_purity(case, case)
-            except ValueError:
-                pass
+            excitation_purity(case, case)
 
 
 class TestColorimetricPurity(unittest.TestCase):
@@ -445,10 +433,7 @@ class TestColorimetricPurity(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
-            try:
-                colorimetric_purity(case, case)
-            except ValueError:
-                pass
+            colorimetric_purity(case, case)
 
 
 if __name__ == "__main__":

@@ -132,13 +132,6 @@ def closest_spectral_locus_wavelength(
     # Extracting the first intersection per-wavelength.
     xy_wl = np.sort(xy_wl, 1)[:, 0, :]
 
-    if not len(xy_wl):
-        raise ValueError(
-            f"No closest spectral locus wavelength index and coordinates "
-            f'found for "{xy}" colour stimulus and "{xy_n}" achromatic '
-            f'stimulus "xy" chromaticity coordinates!'
-        )
-
     i_wl = np.argmin(scipy.spatial.distance.cdist(xy_wl, xy_s), axis=-1)
 
     i_wl = np.reshape(i_wl, xy.shape[0:-1])

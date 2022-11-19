@@ -1125,7 +1125,7 @@ class LUT3D_Jakob2019:
 
         return sd
 
-    def read(self, path: str):
+    def read(self, path: str) -> LUT3D_Jakob2019:
         """
         Load a lookup table from a *\\*.coeff* file.
 
@@ -1133,6 +1133,11 @@ class LUT3D_Jakob2019:
         ----------
         path
             Path to the file.
+
+        Returns
+        -------
+        LUT3D_Jakob2019
+            *Jakob and Hanika (2019)* lookup table.
 
         Examples
         --------
@@ -1181,7 +1186,9 @@ class LUT3D_Jakob2019:
 
         self._create_interpolator()
 
-    def write(self, path: str):
+        return self
+
+    def write(self, path: str) -> Boolean:
         """
         Write the lookup table to a *\\*.coeff* file.
 
@@ -1189,6 +1196,11 @@ class LUT3D_Jakob2019:
         ----------
         path
             Path to the file.
+
+        Returns
+        -------
+        :class:`bool`
+            Definition success.
 
         Examples
         --------
@@ -1223,3 +1235,5 @@ class LUT3D_Jakob2019:
             coeff_file.write(struct.pack("i", self._coefficients.shape[1]))
             np.float32(self._lightness_scale).tofile(coeff_file)
             np.float32(self._coefficients).tofile(coeff_file)
+
+        return True

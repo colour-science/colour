@@ -665,10 +665,7 @@ class MultiSignals(AbstractContinuousFunction):
          [   9.  100.  110.  120.]]
         """
 
-        try:
-            return str(np.hstack([self.domain[:, None], self.range]))
-        except TypeError:
-            return super().__str__()
+        return str(np.hstack([self.domain[:, None], self.range]))
 
     def __repr__(self) -> str:
         """
@@ -706,64 +703,27 @@ class MultiSignals(AbstractContinuousFunction):
         if is_documentation_building():  # pragma: no cover
             return f"{self.__class__.__name__}(name='{self.name}', ...)"
 
-        try:
-            return multiline_repr(
-                self,
-                [
-                    {
-                        "formatter": lambda x: repr(
-                            np.hstack([self.domain[:, None], self.range])
-                        ),
-                    },
-                    {"name": "labels"},
-                    {
-                        "name": "interpolator",
-                        "formatter": lambda x: self.interpolator.__name__,
-                    },
-                    {"name": "interpolator_kwargs"},
-                    {
-                        "name": "extrapolator",
-                        "formatter": lambda x: self.extrapolator.__name__,
-                    },
-                    {"name": "extrapolator_kwargs"},
-                ],
-            )
-
-            representation = repr(
-                np.hstack([self.domain[:, None], self.range])
-            )
-            representation = representation.replace(
-                "array", self.__class__.__name__
-            )
-            representation = representation.replace(
-                "       [",
-                f"{' ' * (len(self.__class__.__name__) + 2)}[",
-            )
-            indentation = " " * (len(self.__class__.__name__) + 1)
-            interpolator = (
-                self.interpolator.__name__
-                if self.interpolator is not None
-                else self.interpolator
-            )
-            extrapolator = (
-                self.extrapolator.__name__
-                if self.extrapolator is not None
-                else self.extrapolator
-            )
-            representation = (
-                f"{representation[:-1]},\n"
-                f"{indentation}labels={repr(self.labels)},\n"
-                f"{indentation}interpolator={interpolator},\n"
-                f"{indentation}interpolator_kwargs="
-                f"{repr(self.interpolator_kwargs)},\n"
-                f"{indentation}extrapolator={extrapolator},\n"
-                f"{indentation}extrapolator_kwargs="
-                f"{repr(self.extrapolator_kwargs)})"
-            )
-
-            return representation
-        except TypeError:
-            return super().__repr__()
+        return multiline_repr(
+            self,
+            [
+                {
+                    "formatter": lambda x: repr(
+                        np.hstack([self.domain[:, None], self.range])
+                    ),
+                },
+                {"name": "labels"},
+                {
+                    "name": "interpolator",
+                    "formatter": lambda x: self.interpolator.__name__,
+                },
+                {"name": "interpolator_kwargs"},
+                {
+                    "name": "extrapolator",
+                    "formatter": lambda x: self.extrapolator.__name__,
+                },
+                {"name": "extrapolator_kwargs"},
+            ],
+        )
 
     def __hash__(self) -> Integer:
         """

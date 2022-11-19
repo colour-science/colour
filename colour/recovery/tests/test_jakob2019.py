@@ -2,6 +2,9 @@
 """Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
 import numpy as np
+import os
+import shutil
+import tempfile
 import unittest
 
 from colour.characterisation import SDS_COLOURCHECKERS
@@ -295,6 +298,25 @@ class TestLUT3D_Jakob2019(unittest.TestCase):
 
         LUT = TestLUT3D_Jakob2019.generate_LUT()
 
+        temporary_directory = tempfile.mkdtemp()
+        path = os.path.join(temporary_directory, "Test_Jakob2019.coeff")
+
+        try:
+            LUT.write(path)
+            LUT_t = LUT3D_Jakob2019().read(path)
+
+            np.testing.assert_array_almost_equal(
+                LUT.lightness_scale, LUT_t.lightness_scale, decimal=7
+            )
+            np.testing.assert_allclose(
+                LUT.coefficients,
+                LUT_t.coefficients,
+                atol=0.000001,
+                rtol=0.000001,
+            )
+        finally:
+            shutil.rmtree(temporary_directory)
+
         for RGB in [
             np.array([1, 0, 0]),
             np.array([0, 1, 0]),
@@ -340,6 +362,7 @@ RGB_to_coefficients` method raised exception.
         Test :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.read` method
         raised exception.
         """
+
         LUT = LUT3D_Jakob2019()
         self.assertRaises(ValueError, LUT.read, __file__)
 
