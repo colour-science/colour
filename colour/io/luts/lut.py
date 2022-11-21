@@ -2237,6 +2237,12 @@ class LUT3D(AbstractLUT):
         Size       : (108, 108, 108, 3)
         """
 
+        if self.is_domain_explicit():
+            raise NotImplementedError(
+                'Inverting a "LUT3D" with an explicit domain is not '
+                "implemented!"
+            )
+
         interpolator = kwargs.get(
             "interpolator", table_interpolation_trilinear
         )
@@ -2249,7 +2255,7 @@ class LUT3D(AbstractLUT):
             "size", (as_int(2 ** (np.sqrt(source_size) + 1) + 1))
         )
 
-        if target_size > 129:
+        if target_size > 129:  # pragma: no cover
             usage_warning("LUT3D inverse computation time could be excessive!")
 
         if extrapolate:
