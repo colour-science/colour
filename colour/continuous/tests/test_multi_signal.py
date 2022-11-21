@@ -1004,6 +1004,11 @@ multi_signals_unpack_data` method.
         np.testing.assert_array_equal(signals["1"].range, self._range_1 + 10)
         np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
 
+        signals = MultiSignals.multi_signals_unpack_data(
+            dict(zip(self._domain_2, self._range_2)), labels=["0", "0", "0"]
+        )
+        self.assertListEqual(list(signals.keys()), ["0 - 0", "0 - 1", "0 - 2"])
+
         if is_pandas_installed():
             from pandas import DataFrame, Series
 

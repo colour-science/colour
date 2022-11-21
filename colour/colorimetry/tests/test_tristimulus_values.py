@@ -1507,8 +1507,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         # Test single spectral distribution integration methods.
         for method in methods[0:3]:
             XYZ = method(sd, k=k)
-            if len(XYZ.shape) > 1:
-                XYZ = XYZ.reshape(3)
+            XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
             self.assertAlmostEqual(XYZ[1], k, delta=5e-5), (
                 "1 watt @ 555nm should be approximately 683 candela."
                 f" Failed method: {method}"
@@ -1551,8 +1550,7 @@ class TestAbsoluteIntegrationToXYZ(unittest.TestCase):
         # Test single spectral distribution integration methods.
         for method in methods[0:3]:
             XYZ: np.ndarray = method(sd, k=k)
-            if len(XYZ.shape) > 1:
-                XYZ = XYZ.reshape(3)
+            XYZ = XYZ.reshape(3) if len(XYZ.shape) > 1 else XYZ
             self.assertAlmostEqual(XYZ[1], k, delta=5e-2), (
                 "1 watt @ 555nm should be approximately 683 candela. "
                 f"Failed method: {method}"
