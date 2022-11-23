@@ -393,6 +393,5 @@ log_decoding_FLog2` definition nan support.
         log_decoding_FLog2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-
 if __name__ == "__main__":
     unittest.main()

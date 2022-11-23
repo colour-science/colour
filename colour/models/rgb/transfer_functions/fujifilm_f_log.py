@@ -63,8 +63,8 @@ CONSTANTS_FLOG2: Structure = Structure(
     e=8.799461,
     f=0.092864,
 )
-
 """*Fujifilm F-Log2* colourspace constants."""
+
 
 def log_encoding_FLog(
     in_r: ArrayLike,
@@ -234,6 +234,7 @@ def log_decoding_FLog(
 
     return as_float(from_range_1(in_r))
 
+
 def log_encoding_FLog2(
     in_r: FloatingOrArrayLike,
     bit_depth: Integer = 10,
@@ -321,6 +322,7 @@ def log_encoding_FLog2(
     )
 
     return as_float(from_range_1(out_r_cv))
+
 
 def log_decoding_FLog2(
     out_r: FloatingOrArrayLike,
