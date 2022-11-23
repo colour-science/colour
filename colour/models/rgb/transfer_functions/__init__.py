@@ -94,7 +94,12 @@ from .log import (
 )
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_v_log import log_encoding_VLog, log_decoding_VLog
-from .fujifilm_f_log import log_encoding_FLog, log_decoding_FLog
+from .fujifilm_flog import (
+    log_encoding_FLog, 
+    log_decoding_FLog,
+    log_decoding_FLog2,
+    log_encoding_FLog2,
+)
 from .nikon_n_log import log_encoding_NLog, log_decoding_NLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
 from .red import (
@@ -282,6 +287,8 @@ __all__ += [
 __all__ += [
     "log_encoding_FLog",
     "log_decoding_FLog",
+    "log_encoding_FLog2",
+    "log_decoding_FLog2",
 ]
 __all__ += [
     "log_encoding_NLog",
@@ -358,6 +365,7 @@ LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
         "D-Log": log_encoding_DJIDLog,
         "ERIMM RGB": log_encoding_ERIMMRGB,
         "F-Log": log_encoding_FLog,
+        "F-Log2": log_encoding_FLog2,
         "Filmic Pro 6": log_encoding_FilmicPro6,
         "L-Log": log_encoding_LLog,
         "Log2": log_encoding_Log2,
@@ -398,6 +406,7 @@ def log_encoding(
             "D-Log",
             "ERIMM RGB",
             "F-Log",
+            "F-Log2",
             "Filmic Pro 6",
             "L-Log",
             "Log2",
@@ -446,6 +455,7 @@ def log_encoding(
         :func:`colour.models.log_encoding_DJIDLog`,
         :func:`colour.models.log_encoding_ERIMMRGB`,
         :func:`colour.models.log_encoding_FLog`,
+        :func:`colour.models.log_encoding_FLog2`,
         :func:`colour.models.log_encoding_FilmicPro6`,
         :func:`colour.models.log_encoding_LLog`,
         :func:`colour.models.log_encoding_Log2`,
@@ -508,6 +518,7 @@ LOG_DECODINGS: CanonicalMapping = CanonicalMapping(
         "D-Log": log_decoding_DJIDLog,
         "ERIMM RGB": log_decoding_ERIMMRGB,
         "F-Log": log_decoding_FLog,
+        "F-Log2": log_decoding_FLog2,
         "Filmic Pro 6": log_decoding_FilmicPro6,
         "L-Log": log_decoding_LLog,
         "Log2": log_decoding_Log2,
@@ -548,6 +559,7 @@ def log_decoding(
             "D-Log",
             "ERIMM RGB",
             "F-Log",
+            "F-Log2",
             "Filmic Pro 6",
             "L-Log",
             "Log2",
@@ -596,6 +608,7 @@ def log_decoding(
         :func:`colour.models.log_decoding_DJIDLog`,
         :func:`colour.models.log_decoding_ERIMMRGB`,
         :func:`colour.models.log_decoding_FLog`,
+        :func:`colour.models.log_decoding_FLog2`,
         :func:`colour.models.log_decoding_FilmicPro6`,
         :func:`colour.models.log_decoding_LLog`,
         :func:`colour.models.log_decoding_Log2`,
@@ -1069,6 +1082,7 @@ def cctf_encoding(
             "DaVinci Intermediate",
             "ERIMM RGB",
             "F-Log",
+            "F-Log2",
             "Filmic Pro 6",
             "Gamma 2.2",
             "Gamma 2.4",
@@ -1225,6 +1239,7 @@ def cctf_decoding(
             "DaVinci Intermediate",
             "ERIMM RGB",
             "F-Log",
+            "F-Log2",
             "Filmic Pro 6",
             "Gamma 2.2",
             "Gamma 2.4",
