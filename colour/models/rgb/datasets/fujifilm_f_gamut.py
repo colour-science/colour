@@ -8,9 +8,8 @@ Defines the *Fujifilm F-Gamut* colourspace:
 
 References
 ----------
--   :cite:`Fujifilm2016` : Fujifilm. (2016). F-Log Data Sheet Ver.1.0 (pp.
-    1-4). https://www.fujifilm.com/support/digital_cameras/software/lut/pdf/\
-F-Log_DataSheet_E_Ver.1.0.pdf
+-   :cite:`Fujifilm2022a` : Fujifilm. (2022). F-Log Data Sheet Ver.1.1 (pp.
+    1-4). https://dl.fujifilm-x.com/support/lut/F-Log_DataSheet_E_Ver.1.1.pdf
 """
 
 from __future__ import annotations
@@ -82,5 +81,5 @@ RGB_COLOURSPACE_F_GAMUT.__doc__ = """
 
 References
 ----------
-:cite:`Fujifilm2016`
+:cite:`Fujifilm2022a`
 """
