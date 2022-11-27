@@ -192,7 +192,7 @@ def quality(
             f"--show-error-codes "
             f"--warn-unused-ignores "
             f"--warn-redundant-casts "
-            f"-p {PYTHON_PACKAGE_NAME} "
+            f"{PYTHON_PACKAGE_NAME} "
             f"|| true"
         )
 
