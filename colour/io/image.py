@@ -285,8 +285,7 @@ def read_image_OpenImageIO(
 
     if attributes:
         extra_attributes = []
-        for i in range(len(specification.extra_attribs)):
-            attribute = specification.extra_attribs[i]
+        for attribute in specification.extra_attribs:
             extra_attributes.append(
                 ImageAttribute_Specification(
                     attribute.name, attribute.value, attribute.type

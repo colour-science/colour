@@ -633,7 +633,7 @@ def is_graphviz_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import pygraphviz  # noqa
 
         return True
@@ -669,7 +669,7 @@ def is_matplotlib_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import matplotlib  # noqa
 
         return True
@@ -705,7 +705,7 @@ def is_networkx_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import networkx  # noqa
 
         return True
@@ -742,7 +742,7 @@ def is_opencolorio_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import PyOpenColorIO  # noqa
 
         return True
@@ -778,7 +778,7 @@ def is_openimageio_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import OpenImageIO  # noqa
 
         return True
@@ -814,7 +814,7 @@ def is_pandas_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import pandas  # noqa
 
         return True
@@ -850,7 +850,7 @@ def is_tqdm_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import tqdm  # noqa
 
         return True
@@ -886,7 +886,7 @@ def is_trimesh_installed(raise_exception: Boolean = False) -> Boolean:
     """
 
     try:  # pragma: no cover
-        # pylint: disable=W0612
+        # pylint: disable=W0611
         import trimesh  # noqa
 
         return True

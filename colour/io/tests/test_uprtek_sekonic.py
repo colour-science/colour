@@ -91,6 +91,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
 
         self.assertTrue(
             str(
+                # pylint: disable=E1102
                 self._sd_factory(
                     os.path.join(ROOT_RESOURCES, self._path)
                 ).read()
@@ -106,6 +107,7 @@ class AbstractSpectralDistributionTest(unittest.TestCase):
         if self._sd_factory is None:
             return
 
+        # pylint: disable=E1102
         sd = self._sd_factory(os.path.join(ROOT_RESOURCES, self._path)).read()
 
         sd_r = SpectralDistribution(self._spectral_data)
