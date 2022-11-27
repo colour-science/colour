@@ -85,8 +85,8 @@ def PCA_Jiang2013(
     -------
     :class:`tuple`
         Tuple of camera *RGB* sensitivities eigen-values :math:`w` and
-        eigen-vectors :math:`v or tuple of camera *RGB* sensitivities
-        eigen-vectors :math:`v.
+        eigen-vectors :math:`v` or tuple of camera *RGB* sensitivities
+        eigen-vectors :math:`v`.
 
     Examples
     --------

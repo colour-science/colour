@@ -4,7 +4,7 @@ Contributors
 The Colour Developers
 ---------------------
 
--   **Thomas Mansencal**, *Lead Pipeline Developer @ WetaFX*
+-   **Thomas Mansencal**, *Technology Supervisor @ Wētā FX*
 
     Maintainer, project coordination, overall development.
 
@@ -229,7 +229,7 @@ Acknowledgements
 Special Mentions
 ----------------
 
--   **Aurélia Sellier**, *FX Production Coordinator @ WetaFX*
+-   **Aurélia Sellier**, *Production Manager @ Wētā FX*
 
 Issues & Discussions
 --------------------
@@ -246,18 +246,53 @@ Issues & Discussions
 -   Ryan Bass
 -   Vishal Vashistha
 -   Vlad Enache
+-   @Alt-Shivam
+-   @Ampersandme
+-   @AndersAtEndian
+-   @Apoorva-13
+-   @Chandler
+-   @ChunHsinWang
+-   @Edwardlin-zlt
+-   @Floschoe
+-   @JarrettR
+-   @JayPalm
+-   @Jerry2001
+-   @JopdeBoo
+-   @JoshuaEbenezer
+-   @KOLANICH
+-   @KrisKennaway
+-   @Kunkka1988
+-   @LandonSwartz
+-   @LaughingMaann
+-   @LeCyberDucky
+-   @Legendin
+-   @MMehdiMousavi
+-   @MarcusCalhoun-Lopez
+-   @MrColourBlind
+-   @Myndex
+-   @Naughty-Monkey
+-   @NekoAlosama
+-   @NoRoKr
+-   @Patil2099
+-   @Paul-Sims
+-   @Queuecumber
+-   @Rob-Welch
+-   @Ron024
+-   @RutNij
+-   @TFiFiE
+-   @TomFryers
+-   @ValZapod
+-   @Wagyx
+-   @Wangld5
+-   @Willingo
 -   @aarondemolder
 -   @abnormally-distributed
 -   @ademmler
 -   @ahemberger
 -   @alban-sol
 -   @alianoroozi
--   @Alt-Shivam
--   @Ampersandme
--   @AndersAtEndian
 -   @andurilhuang
 -   @anshulxyz
--   @Apoorva-13
 -   @aurelienbl
 -   @awehring
 -   @baileyji
@@ -268,20 +303,18 @@ Issues & Discussions
 -   @briend
 -   @bsdis
 -   @cclauss
--   @Chandler
 -   @chesschi
--   @ChunHsinWang
 -   @codycuellar
+-   @cuixiaofei
 -   @daviesj
 -   @dfoxfranke
 -   @digital-prepress
 -   @diuming
 -   @dtbulmerJRs
--   @Edwardlin-zlt
+-   @ema2159
 -   @ems1111
 -   @eyeforcolor
 -   @fangjy88
--   @Floschoe
 -   @foutoucour
 -   @fxthomas
 -   @goofy2k
@@ -295,56 +328,34 @@ Issues & Discussions
 -   @iCagarro
 -   @iinnovations
 -   @jaguarondi
--   @JarrettR
--   @Jerry2001
--   @JopdeBoo
--   @JoshuaEbenezer
+-   @kaihagseth
 -   @kljumat
--   @KOLANICH
--   @KrisKennaway
 -   @kunal9922
--   @Kunkka1988
--   @LandonSwartz
--   @LaughingMaann
 -   @lavrovd
--   @LeCyberDucky
--   @Legendin
 -   @leklbk
 -   @lensz
 -   @lishichengyan
 -   @luoww1992
--   @MarcusCalhoun-Lopez
 -   @matt-roberts
 -   @matthiasbirkich
 -   @meshing
 -   @mforbes
--   @MMehdiMousavi
 -   @mokincha
 -   @monkeywithacupcake
--   @MrColourBlind
--   @Myndex
 -   @naavis
 -   @nadersadoughi
--   @Naughty-Monkey
--   @NekoAlosama
--   @NoRoKr
 -   @nschloe
 -   @parthxtripathi
--   @Patil2099
--   @Paul-Sims
 -   @peteroupc
 -   @pfk-beta
 -   @pjaesung2
 -   @priikone
--   @Queuecumber
+-   @qiuboujun
 -   @ramparvathaneni
 -   @richardstardust
--   @Rob-Welch
 -   @robbuckley
 -   @romanovar
--   @Ron024
 -   @rsnitsch
--   @RutNij
 -   @sdbbs
 -   @senyai
 -   @shanest
@@ -360,21 +371,15 @@ Issues & Discussions
 -   @starkfan007
 -   @stereomatchingkiss
 -   @tashdor
--   @TFiFiE
 -   @thunders82
 -   @tingeman
--   @TomFryers
 -   @tospe
 -   @totyped
 -   @ujjayants
--   @ValZapod
 -   @vidakDK
 -   @volkerjaenisch
 -   @vvclin-git
--   @Wagyx
--   @Wangld5
 -   @whornsby
--   @Willingo
 -   @willSmallHD
 -   @wuuawu
 -   @xeggbee

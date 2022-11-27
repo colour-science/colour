@@ -17,7 +17,7 @@ substrate_concentration_MichaelisMenten_Abebe2017`
 
 References
 ----------
--   :cite:`Abebe2017a` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
+-   :cite:`Abebe2017` : Abebe, M. A., Pouli, T., Larabi, M.-C., & Reinhard,
     E. (2017). Perceptual Lightness Modeling for High-Dynamic-Range Imaging.
     ACM Transactions on Applied Perception, 15(1), 1-19. doi:10.1145/3086577
 -   :cite:`Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.
@@ -138,7 +138,7 @@ def reaction_rate_MichaelisMenten_Abebe2017(
 
     References
     ----------
-    :cite:`Abebe2017a`
+    :cite:`Abebe2017`
 
     Examples
     --------
@@ -169,7 +169,7 @@ methods.
 
 References
 ----------
-:cite:`Wikipedia2003d`, :cite:`Abebe2017a`
+:cite:`Wikipedia2003d`, :cite:`Abebe2017`
 """
 
 
@@ -213,7 +213,7 @@ def reaction_rate_MichaelisMenten(
 
     References
     ----------
-    :cite:`Wikipedia2003d`, :cite:`Abebe2017a`
+    :cite:`Wikipedia2003d`, :cite:`Abebe2017`
 
     Examples
     --------
@@ -309,7 +309,7 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
 
     References
     ----------
-    :cite:`Abebe2017a`
+    :cite:`Abebe2017`
 
     Examples
     --------
@@ -343,7 +343,7 @@ computation methods.
 
 References
 ----------
-:cite:`Wikipedia2003d`, :cite:`Abebe2017a`
+:cite:`Wikipedia2003d`, :cite:`Abebe2017`
 """
 
 
@@ -387,7 +387,7 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
 
     References
     ----------
-    :cite:`Wikipedia2003d`, :cite:`Abebe2017a`
+    :cite:`Wikipedia2003d`, :cite:`Abebe2017`
 
     Examples
     --------

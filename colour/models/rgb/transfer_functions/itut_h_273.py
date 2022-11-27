@@ -63,7 +63,7 @@ __all__ = [
 def oetf_H273_Log(L_c):
     """
     Define *Recommendation ITU-T H.273* opto-electronic transfer function
-    (OETF) for L_ogarithmic encoding (100:1 range).
+    (OETF) for logarithmic encoding (100:1 range).
 
     Parameters
     ----------
@@ -125,7 +125,7 @@ def oetf_H273_Log(L_c):
 def oetf_inverse_H273_Log(V):
     """
     Define *Recommendation ITU-T H.273* inverse-opto-electronic transfer
-    function (OETF) for L_ogarithmic encoding (100:1 range).
+    function (OETF) for logarithmic encoding (100:1 range).
 
     Parameters
     ----------
@@ -158,7 +158,7 @@ def oetf_inverse_H273_Log(V):
     Warnings
     --------
     -   The function is clamped to domain
-        [:func:`colour.models.oetf_H273_Log`(0.01), np.inf].
+        [:func:`colour.models.oetf_H273_Log` (0.01), np.inf].
 
     Examples
     --------
@@ -186,7 +186,7 @@ def oetf_inverse_H273_Log(V):
 def oetf_H273_LogSqrt(L_c):
     """
     Define *Recommendation ITU-T H.273* opto-electronic transfer function
-    (OETF) for L_ogarithmic encoding (100*Sqrt(10):1 range.
+    (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
 
     Parameters
     ----------
@@ -219,7 +219,7 @@ def oetf_H273_LogSqrt(L_c):
     Warnings
     --------
     -   The function is clamped to domain
-        [:func:`colour.models.oetf_H273_LogSqrt`(sqrt(10) / 1000), np.inf].
+        [:func:`colour.models.oetf_H273_LogSqrt` (sqrt(10) / 1000), np.inf].
 
     Examples
     --------
@@ -249,7 +249,7 @@ def oetf_H273_LogSqrt(L_c):
 def oetf_inverse_H273_LogSqrt(V):
     """
     Define *Recommendation ITU-T H.273* inverse-opto-electronic transfer
-    function (OETF) for L_ogarithmic encoding (100*Sqrt(10):1 range).
+    function (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
 
     Parameters
     ----------

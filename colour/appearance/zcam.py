@@ -433,13 +433,13 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    F_s, _F, _c, _N_c = surround
+    F_s, F, _c, _N_c = surround
 
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
     # Computing degree of adaptation :math:`D`.
     D = (
-        degree_of_adaptation(surround.F, L_A)
+        degree_of_adaptation(F, L_A)
         if not discount_illuminant
         else ones(L_A.shape)
     )
@@ -460,7 +460,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     # and yellowness-blueness (:math:`b_z`, :math:`b_{z,w}`).
     with domain_range_scale("ignore"):
         I_z, a_z, b_z = tsplit(XYZ_to_Izazbz(XYZ_D65, method="Safdar 2021"))
-        I_z_w, _a_z_w, b_z_w = tsplit(
+        I_z_w, _a_z_w, _b_z_w = tsplit(
             XYZ_to_Izazbz(XYZ_w, method="Safdar 2021")
         )
 
@@ -667,7 +667,7 @@ def ZCAM_to_XYZ(
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
     # Computing degree of adaptation :math:`D`.
     D = (
-        degree_of_adaptation(surround.F, L_A)
+        degree_of_adaptation(F, L_A)
         if not discount_illuminant
         else ones(L_A.shape)
     )

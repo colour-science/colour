@@ -35,6 +35,7 @@ __all__ = [
     "APPLICATION_NAME",
     "APPLICATION_VERSION",
     "PYTHON_PACKAGE_NAME",
+    "PYPI_ARCHIVE_NAME",
     "PYPI_PACKAGE_NAME",
     "BIBLIOGRAPHY_NAME",
     "clean",
@@ -61,6 +62,7 @@ APPLICATION_VERSION: str = colour.__version__
 PYTHON_PACKAGE_NAME: str = colour.__name__
 
 PYPI_PACKAGE_NAME: str = "colour-science"
+PYPI_ARCHIVE_NAME: str = PYPI_PACKAGE_NAME.replace("-", "_")
 
 BIBLIOGRAPHY_NAME: str = "BIBLIOGRAPHY.bib"
 
@@ -407,10 +409,10 @@ def build(ctx: Context):
     ctx.run("git checkout -- README.rst")
 
     with ctx.cd("dist"):
-        ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
-        ctx.run(f"cp {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}/setup.py ../")
+        ctx.run(f"tar -xvf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}.tar.gz")
+        ctx.run(f"cp {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}/setup.py ../")
 
-        ctx.run(f"rm -rf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}")
+        ctx.run(f"rm -rf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}")
 
     with open("setup.py") as setup_file:
         source = setup_file.read()
@@ -480,8 +482,8 @@ def virtualise(ctx: Context, tests: Boolean = True):
 
     unique_name = f"{PYPI_PACKAGE_NAME}-{uuid.uuid1()}"
     with ctx.cd("dist"):
-        ctx.run(f"tar -xvf {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION}.tar.gz")
-        ctx.run(f"mv {PYPI_PACKAGE_NAME}-{APPLICATION_VERSION} {unique_name}")
+        ctx.run(f"tar -xvf {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION}.tar.gz")
+        ctx.run(f"mv {PYPI_ARCHIVE_NAME}-{APPLICATION_VERSION} {unique_name}")
         with ctx.cd(unique_name):
             ctx.run(
                 'poetry install --extras "graphviz meshing optional plotting"'
@@ -587,4 +589,4 @@ def sha256(ctx: Context):
 
     message_box('Computing "sha256"...')
     with ctx.cd("dist"):
-        ctx.run(f"openssl sha256 {PYPI_PACKAGE_NAME}-*.tar.gz")
+        ctx.run(f"openssl sha256 {PYPI_ARCHIVE_NAME}-*.tar.gz")

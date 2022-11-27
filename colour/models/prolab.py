@@ -9,7 +9,7 @@ Defines the *ProLab* colourspace transformations:
 
 References
 ----------
--   :cite:`Ivan2021` : Ivan A. Konovalenko, Anna A. Smagina, Dmitry P.
+-   :cite:`Konovalenko2021` : Ivan A. Konovalenko, Anna A. Smagina, Dmitry P.
     Nikolaev, Petr P. Nikolaev. ProLab: perceptually uniform projective colour
     coordinate system. doi:10.1109/ACCESS.2017
 """
@@ -126,7 +126,7 @@ def XYZ_to_ProLab(
 
     References
     ----------
-    :cite:`Ivan2021`
+    :cite:`Konovalenko2021`
 
     Examples
     --------
@@ -185,7 +185,7 @@ def ProLab_to_XYZ(
 
     References
     ----------
-    :cite:`Ivan2021`
+    :cite:`Konovalenko2021`
 
     Examples
     --------

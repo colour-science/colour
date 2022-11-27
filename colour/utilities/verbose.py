@@ -928,7 +928,7 @@ def multiline_str(
 
 
 def multiline_repr(
-    object: Any,
+    object_: Any,
     attributes: List[Dict],
     reduce_array_representation: Boolean = True,
 ) -> str:  # noqa: D405,D410,D407,D411
@@ -980,13 +980,13 @@ def multiline_repr(
 
     attribute_defaults = {"name": None, "formatter": repr}
 
-    justify = len(f"{object.__class__.__name__}") + 1
+    justify = len(f"{object_.__class__.__name__}") + 1
 
     def _format(attribute: Dict) -> str:
         """Format given attribute and its value."""
 
         if attribute["name"] is not None:
-            value = attribute["formatter"](getattr(object, attribute["name"]))
+            value = attribute["formatter"](getattr(object_, attribute["name"]))
         else:
             value = attribute["formatter"](None)
 
@@ -1007,7 +1007,7 @@ def multiline_repr(
 
     attribute = dict(attribute_defaults, **attributes.pop(0))
 
-    representation = [f"{object.__class__.__name__}({_format(attribute)}"]
+    representation = [f"{object_.__class__.__name__}({_format(attribute)}"]
 
     for attribute in attributes:
         attribute = dict(attribute_defaults, **attribute)

@@ -1097,7 +1097,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArray:
 
     XYZ = xyY_to_XYZ(xyY)
 
-    X, Y, Z = tsplit(XYZ)
+    _X, Y, _Z = tsplit(XYZ)
     x_i, y_i = CCS_ILLUMINANT_MUNSELL
     X_r, Y_r, Z_r = xyY_to_XYZ([x_i, y_i, Y])
 
