@@ -181,8 +181,8 @@ def colour_fidelity_index_CIE2017(
 
     if sd_test.shape.start > 380 or sd_test.shape.end < 780:
         usage_warning(
-            "Test spectral distribution shape does not span the"
-            "recommended 380-780nm range, missing values will be"
+            "Test spectral distribution shape does not span the "
+            "recommended 380-780nm range, missing values will be "
             "filled with zeros!"
         )
 
