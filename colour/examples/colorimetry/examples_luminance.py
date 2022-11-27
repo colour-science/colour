@@ -11,7 +11,7 @@ message_box(
     f'Computing "luminance" using "Newhall, Nickerson, and Judd (1943)" '
     f'method for given "Munsell" value:\n\n\t{V}'
 )
-print(colour.luminance(V, method="Newhall 1943"))
+print(colour.luminance(V * 10, method="Newhall 1943"))
 print(colour.colorimetry.luminance_Newhall1943(V))
 
 print("\n")
@@ -41,7 +41,7 @@ message_box(
     f'Computing "luminance" using "Fairchild and Chen (2011)" method for '
     f'given "Lightness":\n\n\t{L}'
 )
-print(colour.luminance(L, method="Fairchild 2011") * 100)
+print(colour.luminance(L, method="Fairchild 2011"))
 print(colour.colorimetry.luminance_Fairchild2011(L) * 100)
 
 print("\n")
@@ -50,5 +50,5 @@ message_box(
     f'Computing "luminance" using "ASTM D1535-08e1" method for given '
     f'"Munsell" value:\n\n\t{V}'
 )
-print(colour.luminance(V, method="ASTM D1535"))
+print(colour.luminance(V * 10, method="ASTM D1535"))
 print(colour.colorimetry.luminance_ASTMD1535(V))
