@@ -10,7 +10,7 @@ transformations:
 
 References
 ----------
--   :cite:`Munish2021` : Munish Ragoo, L., & Farup, I. (2021). Optimising
+-   :cite:`MunishRagoo2021` : Munish Ragoo, L., & Farup, I. (2021). Optimising
     a Euclidean Colour Space Transform for Colour Order and Perceptual
     Uniformity. Color and Imaging Conference, 29(1), 282-287.
     doi:10.2352/issn.2169-2629.2021.29.282
@@ -110,7 +110,7 @@ def XYZ_to_IPT_Munish2021(XYZ: ArrayLike) -> NDArray:
 
     References
     ----------
-    :cite:`Munish2021`
+    :cite:`MunishRagoo2021`
 
     Examples
     --------
@@ -162,7 +162,7 @@ def IPT_Munish2021_to_XYZ(IPT: ArrayLike) -> NDArray:
 
     References
     ----------
-    :cite:`Munish2021`
+    :cite:`MunishRagoo2021`
 
     Examples
     --------

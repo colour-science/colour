@@ -22,9 +22,9 @@ References
 -   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup.
     https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
 data_structures.py
--   :cite:`Rakotoarison2017` : Rakotoarison, H. (2017). Bunch. Retrieved
-    December 4, 2021, from https://github.com/scikit-learn/scikit-learn/blob/\
-0d378913b/sklearn/utils/__init__.py#L83
+-   :cite:`Rakotoarison2017` : Rakotoarison, H. (2017). Bunch.
+    https://github.com/scikit-learn/scikit-learn/blob/\
+fb5a498d0bd00fc2b42fbd19b6ef18e1dfeee47e/sklearn/utils/__init__.py#L65
 """
 
 from __future__ import annotations

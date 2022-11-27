@@ -18,7 +18,7 @@ References
     lightness, colorfulness, and chroma in CIECAM02 and CAM16. Color Research
     & Application, col.22792. doi:10.1002/col.22792
 -   :cite:`Hellwig2022a` : Hellwig, L., Stolitzka, D., & Fairchild, M. D.
-    (2022). Extending CIECAM02 and CAM16 for the Helmholtz–Kohlrausch effect.
+    (2022). Extending CIECAM02 and CAM16 for the Helmholtz-Kohlrausch effect.
     Color Research & Application, col.22793. doi:10.1002/col.22793
 """
 
@@ -144,7 +144,7 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     Define the *Hellwig and Fairchild (2022)* colour appearance model
     specification.
 
-    This specification supports the *Helmholtz–Kohlrausch* effect extension
+    This specification supports the *Helmholtz-Kohlrausch* effect extension
     from :cite:`Hellwig2022a`.
 
     Parameters
@@ -167,10 +167,10 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
         *Hue* :math:`h` composition :math:`H^C`.
     J_HK
         Correlate of *Lightness* :math:`J_{HK}` accounting for
-        *Helmholtz–Kohlrausch* effect.
+        *Helmholtz-Kohlrausch* effect.
     Q_HK
         Correlate of *brightness* :math:`Q_{HK}` accounting for
-        *Helmholtz–Kohlrausch* effect.
+        *Helmholtz-Kohlrausch* effect.
 
     References
     ----------
@@ -203,7 +203,7 @@ def XYZ_to_Hellwig2022(
     Compute the *Hellwig and Fairchild (2022)* colour appearance model
     correlates from given *CIE XYZ* tristimulus values.
 
-    This implementation supports the *Helmholtz–Kohlrausch* effect extension
+    This implementation supports the *Helmholtz-Kohlrausch* effect extension
     from :cite:`Hellwig2022a`.
 
     Parameters
@@ -381,7 +381,7 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    # *Helmholtz–Kohlrausch* Effect Extension.
+    # *Helmholtz-Kohlrausch* Effect Extension.
     J_HK = J + hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
     Q_HK = (2 / surround.c) * (J_HK / 100) * A_w
 
@@ -413,7 +413,7 @@ def Hellwig2022_to_XYZ(
     Convert from *Hellwig and Fairchild (2022)* specification to *CIE XYZ*
     tristimulus values.
 
-    This implementation supports the *Helmholtz–Kohlrausch* effect extension
+    This implementation supports the *Helmholtz-Kohlrausch* effect extension
     from :cite:`Hellwig2022a`.
 
     Parameters
@@ -988,7 +988,7 @@ def hue_angle_dependency_Hellwig2022(
     h: FloatingOrArrayLike,
 ) -> FloatingOrNDArray:
     """
-    Compute the hue angle dependency of the *Helmholtz–Kohlrausch* effect.
+    Compute the hue angle dependency of the *Helmholtz-Kohlrausch* effect.
 
     Parameters
     ----------
